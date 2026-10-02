@@ -24,6 +24,11 @@ The system SHALL make scope approval, requirement-measurement decisions, review 
 - WHEN la etapa se muestra
 - THEN el control visual se detiene y presenta opciones de inspeccionar, editar, rechazar, aceptar o pausar según corresponda
 
+#### Scenario: visitante usa una decisión de la demostración
+- GIVEN la escena muestra una aprobación humana
+- WHEN la persona interactúa con el control
+- THEN sólo cambia el recorrido visual, sin aprobar una spec real ni modificar tareas o código
+
 ### Requirement: ofrecer una animación accesible y controlable
 The system SHALL provide pixel-art animation with keyboard-operable controls to play, pause, advance, and reverse the flow, with a reduced-motion mode and an equivalent textual explanation.
 

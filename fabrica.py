@@ -8,7 +8,6 @@ import getpass
 import hashlib
 import json
 import re
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -138,39 +137,101 @@ The system SHALL TODO: write one testable promise.
     return identificador
 
 
-def aprobar_spec(identificador: str) -> None:
+def abierto(identificador: str) -> tuple[Path, dict]:
     carpeta, estado = leer(identificador)
+    if estado.get("fase") == "cerrada":
+        raise FactoryError("el cambio ya está cerrado; creá una nueva tarea")
+    return carpeta, estado
+
+
+def documentos(carpeta: Path, estado: dict) -> dict[str, str]:
+    return {str(p.relative_to(ROOT)): sha256(p.read_bytes())
+            for p in (carpeta / "proposal.md", ROOT / estado["spec"])}
+
+
+def exigir_spec(carpeta: Path, estado: dict) -> None:
+    aprobacion = estado.get("spec_aprobada") or {}
+    if not aprobacion:
+        raise FactoryError("primero una persona debe aprobar la propuesta y la spec")
+    if aprobacion.get("documentos") != documentos(carpeta, estado):
+        raise FactoryError("la propuesta/spec cambió o su aprobación es antigua; renová la aprobación humana")
+
+
+def contexto_producto() -> dict:
+    """Vincula revisión y juicio con HEAD y archivos no ignorados, incluidos los nuevos.
+
+    Los registros generados del flujo no son código del producto; las specs y las
+    medidas Oracle sí forman parte de lo revisado. No sigue enlaces simbólicos.
+    """
+    head = ejecutar(["git", "rev-parse", "--verify", "HEAD"])
+    lista = ejecutar(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"])
+    if head.returncode or lista.returncode:
+        raise FactoryError("la revisión necesita un repositorio Git con al menos un commit")
+    archivos = []
+    for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
+        partes = Path(nombre).parts
+        if partes[0] == "tareas" or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+                and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}):
+            continue
+        p = ROOT / nombre
+        if p.is_symlink():
+            dato = ["enlace", str(p.readlink())]
+        elif p.is_file():
+            dato = ["archivo", sha256(p.read_bytes()), bool(p.stat().st_mode & 0o111)]
+        elif p.is_dir():
+            raise FactoryError("los submódulos/directorios Git requieren revisión externa explícita: " + nombre)
+        else:
+            dato = ["ausente"]
+        archivos.append([nombre, dato])
+    return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
+
+
+def requisitos_verdes(salida: str, requisitos: list[str]) -> bool:
+    # Oracle 0.38.1 puede salir con 0 ante «sin juicio» o fallas en sombra.
+    # Exigimos la fila exacta de cada requisito con marca ✓; no coincidencias parciales.
+    filas = {}
+    for linea in salida.splitlines():
+        m = re.match(r"^([✓◐·✗?])\s+([a-z][a-z0-9_.]*)\s+", linea)
+        if m:
+            filas.setdefault(m[2], []).append(m[1])
+    return bool(requisitos) and all(filas.get(rid) == ["✓"] for rid in requisitos)
+
+
+def aprobar_spec(identificador: str) -> None:
+    carpeta, estado = abierto(identificador)
     spec = ROOT / estado["spec"]
-    propuesta = carpeta / "proposal.md"
-    tareas = carpeta / "tasks.md"
-    for archivo in (propuesta, spec, tareas):
+    for archivo in (carpeta / "proposal.md", spec, carpeta / "tasks.md"):
         if not archivo.is_file() or "TODO:" in archivo.read_text(encoding="utf-8"):
             raise FactoryError(f"hay que completar y revisar primero: {archivo.relative_to(ROOT)}")
     contenido = spec.read_text(encoding="utf-8")
     if not re.search(r"(?m)^### Requirement:", contenido) or not re.search(r"(?m)^#### Scenario:", contenido):
         raise FactoryError("la spec debe tener al menos un Requirement y un Scenario de OpenSpec")
-    huella = sha256(spec.read_bytes())
-    print(f"Vas a aceptar esta spec: {spec.relative_to(ROOT)}")
-    print(f"SHA-256: {huella}")
+    huellas = documentos(carpeta, estado)
+    for archivo, huella in huellas.items():
+        print(f"{archivo} (SHA-256 {huella})\n{(ROOT / archivo).read_text(encoding='utf-8')}")
+    print("Aceptar reinicia importación, revisión y veredicto de este cambio.")
     if input(f"Escribí APROBAR ESPECIFICACION {identificador}: ").strip() != f"APROBAR ESPECIFICACION {identificador}":
         raise FactoryError("aprobación cancelada; no cambié el estado")
-    estado["spec_sha256"] = huella
-    estado["spec_aprobada"] = {"por": getpass.getuser(), "cuando": ahora(), "sha256": huella}
-    estado["fase"] = "spec_aprobada"
-    evento(estado, "spec_aprobada", sha256=huella)
+    if documentos(carpeta, estado) != huellas:
+        raise FactoryError("los documentos cambiaron durante la aprobación; volvé a revisarlos")
+    estado["spec_sha256"] = huellas[estado["spec"]]
+    estado["spec_aprobada"] = {"por": getpass.getuser(), "cuando": ahora(), "documentos": huellas}
+    estado.update(requisitos=[], revision=None, oracle=None, fase="spec_aprobada")
+    evento(estado, "spec_aprobada", documentos=huellas)
     guardar(carpeta, estado)
-    nota_tarea(identificador, f"Persona aprobó la spec OpenSpec {estado['spec']} (sha256 {huella}).")
-    print("Spec aprobada por la persona; todavía no implica que sus requisitos estén medidos.")
-
+    nota_tarea(identificador, f"Persona aprobó propuesta y spec {estado['spec']}; se reiniciaron las validaciones dependientes.")
+    print("Alcance aprobado; sus requisitos todavía deben importarse y medirse.")
 
 def importar(identificador: str) -> None:
-    carpeta, estado = leer(identificador)
-    if not estado.get("spec_aprobada"):
-        raise FactoryError("primero una persona debe aprobar la propuesta y la spec")
+    carpeta, estado = abierto(identificador)
+    exigir_spec(carpeta, estado)
     spec = ROOT / estado["spec"]
-    if sha256(spec.read_bytes()) != estado.get("spec_sha256"):
-        raise FactoryError("la spec cambió después de aprobarse; pedí una nueva aprobación humana")
-    dominio = estado["capacidad"].replace("-", "_")
+    # Oracle preserva requisitos existentes. Aislamos cada tarea y versión de spec
+    # para que una promesa nueva no herede medidas de una promesa anterior.
+    version = sha256((identificador + ":" + estado["spec_sha256"]).encode())[:16]
+    dominio = estado["capacidad"].replace("-", "_") + "_c" + version
+    estado.update(requisitos=[], revision=None, oracle=None, fase="importacion_pendiente")
+    guardar(carpeta, estado)
     p = ejecutar(["oracle", "requisito", "importar", str(spec), "--dominio", dominio, "--escribir", "--proyecto", str(ROOT)])
     sys.stdout.write(p.stdout)
     if p.returncode:
@@ -178,74 +239,85 @@ def importar(identificador: str) -> None:
     ids = sorted(set(re.findall(r"(?m)^[+=]\s+([a-z][a-z0-9_.]*)", p.stdout)))
     if not ids:
         raise FactoryError("Oracle no devolvió ids; no doy la importación por confirmada")
+    exigir_spec(carpeta, estado)
     estado["requisitos"] = ids
-    estado["fase"] = "requisitos_importados_sin_medicion"
+    estado["fase"] = "requisitos_importados"
     evento(estado, "requisitos_importados", ids=ids)
     guardar(carpeta, estado)
-    nota_tarea(identificador, "Oracle importó requisitos como SIN MEDIR: " + ", ".join(ids) + ". Falta decisión humana sobre medidas y límites.")
-    print("La persona debe decidir cómo medir cada requisito; no se inventó cobertura.")
-
+    nota_tarea(identificador, "Requisitos importados: " + ", ".join(ids) + ". Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.")
+    print("La persona debe revisar medidas y límites de cada requisito.")
 
 def revisar(identificador: str, informe: Path, revisor: str, decision: str, abiertos: int) -> None:
-    carpeta, estado = leer(identificador)
-    if not estado.get("spec_aprobada"):
-        raise FactoryError("no se registra revisión de código antes de aceptar la spec")
+    carpeta, estado = abierto(identificador)
+    exigir_spec(carpeta, estado)
     if not informe.is_file():
         raise FactoryError(f"no encuentro el informe: {informe}")
+    if decision not in {"aprobar", "cambios"} or not revisor.strip():
+        raise FactoryError("indicá revisor y una decisión válida")
     if abiertos < 0 or (decision == "aprobar" and abiertos):
         raise FactoryError("una revisión aprobada exige cero hallazgos abiertos")
     contenido = informe.read_bytes()
-    destino = carpeta / "review.md"
-    if informe.resolve() != destino.resolve():
-        shutil.copyfile(informe, destino)
+    if not contenido.strip():
+        raise FactoryError("el informe de revisión está vacío")
+    contexto = contexto_producto()
     huella = sha256(contenido)
-    print(f"Revisor: {revisor}; decisión humana: {decision}; hallazgos abiertos: {abiertos}")
+    destino = carpeta / "review.md"
+    print(f"Revisor: {revisor}; decisión: {decision}; abiertos: {abiertos}; commit: {contexto['head']}")
     if input(f"Escribí REGISTRAR REVISION {identificador}: ").strip() != f"REGISTRAR REVISION {identificador}":
         raise FactoryError("registro de revisión cancelado")
+    exigir_spec(carpeta, estado)
+    if contexto_producto() != contexto:
+        raise FactoryError("el producto cambió durante la confirmación; repetí la revisión")
+    destino.write_bytes(contenido)
     estado["revision"] = {
         "revisor": revisor, "decision": decision, "hallazgos_abiertos": abiertos,
         "informe": str(destino.relative_to(ROOT)), "sha256": huella,
-        "por": getpass.getuser(), "cuando": ahora(),
+        "por": getpass.getuser(), "cuando": ahora(), "contexto": contexto,
     }
+    estado["oracle"] = None
     estado["fase"] = "revision_aprobada" if decision == "aprobar" else "cambios_pedidos"
     evento(estado, "revision_registrada", revisor=revisor, decision=decision, abiertos=abiertos, sha256=huella)
     guardar(carpeta, estado)
-    nota_tarea(identificador, f"Revisión {revisor}: {decision}; {abiertos} hallazgos abiertos; informe {destino.relative_to(ROOT)}.")
-
+    nota_tarea(identificador, f"Revisión {revisor}: {decision}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(ROOT)}.")
 
 def juzgar(identificador: str, hechos: Path) -> None:
-    carpeta, estado = leer(identificador)
+    carpeta, estado = abierto(identificador)
+    # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
+    estado.update(oracle=None, fase="juicio_pendiente")
+    guardar(carpeta, estado)
+    exigir_spec(carpeta, estado)
     if not estado.get("requisitos"):
         raise FactoryError("importá primero los requisitos de la spec aprobada")
+    hechos = hechos.resolve()
     if not hechos.is_file():
         raise FactoryError(f"no encuentro los hechos del sensor: {hechos}")
+    contexto = contexto_producto()
+    huella = sha256(hechos.read_bytes())
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(ROOT)])
-    if cobertura.returncode:
-        raise FactoryError(cobertura.stderr.strip() or "Oracle no pudo leer la cobertura")
-    faltan = [rid for rid in estado["requisitos"] if any(
-        rid in linea and ("SIN MEDIR" in linea or "EN PARTE" in linea)
-        for linea in cobertura.stdout.splitlines())]
-    ausentes = [rid for rid in estado["requisitos"] if not any(rid in linea for linea in cobertura.stdout.splitlines())]
-    if faltan or ausentes:
-        raise FactoryError("Oracle todavía no tiene cobertura completa: " + ", ".join(faltan + ausentes))
+    if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
+        raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado")
     p = ejecutar(["oracle", "cobertura", "--con", str(hechos), "--proyecto", str(ROOT)])
     sys.stdout.write(p.stdout)
     if p.stderr:
         sys.stderr.write(p.stderr)
+    if contexto_producto() != contexto or sha256(hechos.read_bytes()) != huella:
+        raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
+    exigir_spec(carpeta, estado)
     informe = carpeta / "oracle-veredicto.txt"
     informe.write_text(p.stdout + p.stderr, encoding="utf-8")
+    ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
     estado["oracle"] = {
-        "codigo": p.returncode, "hechos": str(hechos.resolve()),
-        "hechos_sha256": sha256(hechos.read_bytes()), "informe": str(informe.relative_to(ROOT)),
-        "cuando": ahora(),
+        "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
+        "hechos": str(hechos), "hechos_sha256": huella,
+        "informe": str(informe.relative_to(ROOT)), "informe_sha256": sha256(informe.read_bytes()),
+        "cuando": ahora(), "contexto": contexto,
     }
-    estado["fase"] = "oracle_verde" if p.returncode == 0 else "oracle_rojo"
-    evento(estado, "oracle_ejecutado", codigo=p.returncode, hechos_sha256=estado["oracle"]["hechos_sha256"])
+    estado["fase"] = "oracle_verde" if ok else "oracle_rojo"
+    evento(estado, "oracle_ejecutado", codigo=estado["oracle"]["codigo"], codigo_oracle=p.returncode, hechos_sha256=huella)
     guardar(carpeta, estado)
-    nota_tarea(identificador, f"Oracle cobertura con hechos {hechos.resolve()} terminó con código {p.returncode}; informe {informe.relative_to(ROOT)}.")
-    if p.returncode:
-        raise FactoryError("Oracle no dio verde; la persona ve el informe y decide cómo seguir")
-
+    nota_tarea(identificador, f"Juicio Factory: {'verde' if ok else 'incompleto/rojo'}; salida Oracle {p.returncode}; informe {informe.relative_to(ROOT)}.")
+    if not ok:
+        raise FactoryError("Oracle no confirmó cada requisito: puede faltar evidencia o haber fallas en sombra")
 
 def pendientes(estado: dict) -> list[str]:
     faltan = []
@@ -262,14 +334,54 @@ def pendientes(estado: dict) -> list[str]:
     return faltan
 
 
+def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
+    faltan = pendientes(estado)
+    try:
+        exigir_spec(carpeta, estado)
+    except (FactoryError, OSError) as e:
+        faltan.append(str(e))
+    if estado.get("revision") or estado.get("oracle"):
+        try:
+            contexto = contexto_producto()
+            for nombre in ("revision", "oracle"):
+                registro = estado.get(nombre)
+                if registro and registro.get("contexto") != contexto:
+                    faltan.append(nombre + " desactualizado respecto del producto")
+        except (FactoryError, OSError) as e:
+            faltan.append(str(e))
+    rev = estado.get("revision") or {}
+    oracle = estado.get("oracle") or {}
+    for etiqueta, ruta, huella in (
+        ("informe de revisión", rev.get("informe"), rev.get("sha256")),
+        ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
+        ("hechos", oracle.get("hechos"), oracle.get("hechos_sha256")),
+    ):
+        if not ruta and not huella:
+            continue
+        try:
+            if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
+                faltan.append(etiqueta + " cambiado o sin huella")
+        except OSError:
+            faltan.append(etiqueta + " ausente")
+    # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
+    if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
+        faltan.append("revisión sin evidencia vinculada")
+    if oracle and not all(oracle.get(k) for k in ("informe", "informe_sha256", "hechos", "hechos_sha256", "contexto")):
+        faltan.append("juicio sin evidencia vinculada")
+    return faltan
+
+
 def cerrar(identificador: str) -> None:
-    carpeta, estado = leer(identificador)
-    falta = pendientes(estado)
+    carpeta, estado = abierto(identificador)
+    falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
     print(f"Se cerrará la tarea {identificador}; Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
     if input(f"Escribí CERRAR {identificador}: ").strip() != f"CERRAR {identificador}":
         raise FactoryError("cierre cancelado; la tarea sigue abierta")
+    falta = pendientes_actuales(carpeta, estado)
+    if falta:
+        raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
     nota_tarea(identificador, "Persona autorizó el cierre tras revisar el informe de código y el veredicto Oracle.")
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
     if p.returncode:
@@ -281,10 +393,10 @@ def cerrar(identificador: str) -> None:
 
 
 def mostrar(identificador: str) -> None:
-    _, estado = leer(identificador)
+    carpeta, estado = leer(identificador)
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
-    print("Pendiente: " + ("; ".join(pendientes(estado)) or "ninguno"))
+    print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
     print("Aprobación spec: " + ("sí" if estado.get("spec_aprobada") else "esperando a la persona"))
     rev = estado.get("revision")
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
@@ -320,7 +432,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "estado": mostrar(args.id)
         return 0
-    except (FactoryError, OSError, json.JSONDecodeError) as e:
+    except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:
         print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
         return 1
 
