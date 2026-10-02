@@ -1,0 +1,20 @@
+{
+  "id": "20261002-204916-validar-el-flujo",
+  "titulo": "Validar el flujo humano de Oracle Factory",
+  "capacidad": "software-factory",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261002-204916-validar-el-flujo/specs/software-factory/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-02T20:49:16+00:00",
+      "capacidad": "software-factory"
+    }
+  ]
+}

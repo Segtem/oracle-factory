@@ -1,0 +1,15 @@
+schema: spec-driven
+context: |
+  Este proyecto coordina OpenSpec, trackertast, Oracle y revisión de código con decisiones humanas explícitas.
+  La persona dueña del cambio acepta alcance, resuelve hallazgos y aprueba el cierre.
+  Un requisito sin medida debe seguir visible como SIN MEDIR; nunca se marca como cubierto por inferencia.
+  Oracle juzga la evidencia del sensor, no la calidad general del código ni la verdad de una spec.
+
+operations:
+  apply:
+    guidance:
+      - Antes de implementar, pedir aceptación humana de proposal.md y spec.md.
+      - Importar requisitos con `fabrica.py importar`; acordar cada mapeo requisito-medida con una persona.
+      - Guardar el informe del revisor del diff y registrar qué hallazgos quedan abiertos.
+      - Antes del cierre, ejecutar Oracle sobre hechos del producto y mostrar el informe a la persona.
+      - No cerrar el tracker sin revisión aprobada, cero hallazgos abiertos y veredicto Oracle exitoso.
