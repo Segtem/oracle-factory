@@ -1,0 +1,20 @@
+{
+  "id": "20261002-222858-explicar-oracle",
+  "titulo": "Explicar Oracle Factory como flujo humano de producción de software",
+  "capacidad": "landing-page",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-02T22:28:58+00:00",
+      "capacidad": "landing-page"
+    }
+  ]
+}
