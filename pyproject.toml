@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "oracle-factory"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Coordina acuerdos, tareas, revisión y evidencia con decisiones humanas"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["oracle-metalenguaje==0.38.1", "trackertast==0.1.0"]
+dependencies = ["oracle-metalenguaje==0.38.1", "oracle-task==0.2.0"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",

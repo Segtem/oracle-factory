@@ -1,4 +1,4 @@
-"""Flujo con Oracle y Trackertast instalados; aprobaciones simuladas sólo en /tmp."""
+"""Flujo con Oracle y Oracle Task instalados; aprobaciones simuladas sólo en /tmp."""
 import contextlib
 import io
 import json
@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 import fabrica as f
 
-@unittest.skipUnless(shutil.which('oracle') and shutil.which('tasks'), 'requiere Oracle y Trackertast instalados')
+@unittest.skipUnless(shutil.which('oracle') and shutil.which('tasks'), 'requiere Oracle y Oracle Task instalados')
 class IntegracionReal(unittest.TestCase):
     def test_importacion_juicio_y_cierre_con_herramientas_reales(self):
         with tempfile.TemporaryDirectory() as temp:

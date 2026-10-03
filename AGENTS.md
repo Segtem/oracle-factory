@@ -4,7 +4,7 @@ La persona conserva autoridad sobre alcance, aprobación de la spec, decisiones 
 
 ## Protocolo de trabajo
 
-- Cada cambio tiene una tarea `trackertast` y un paquete OpenSpec bajo `openspec/changes/<id>/`.
+- Cada cambio tiene una tarea `oracle-task` y un paquete OpenSpec bajo `openspec/changes/<id>/`.
 - No implementar antes de que una persona acepte `proposal.md` y `spec.md`.
 - Importar requisitos con `fabrica.py importar`; cada requisito queda sin medir hasta que alguien elija una medida.
 - Implementar en una rama y registrar el commit revisado.

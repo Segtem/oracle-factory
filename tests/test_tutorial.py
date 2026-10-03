@@ -13,7 +13,7 @@ import fabrica as f
 
 SOURCE=Path(__file__).resolve().parents[1]
 
-@unittest.skipUnless(shutil.which('oracle') and shutil.which('tasks'), 'requiere Oracle y Trackertast')
+@unittest.skipUnless(shutil.which('oracle') and shutil.which('tasks'), 'requiere Oracle y Oracle Task')
 class GuiaDesdeCero(unittest.TestCase):
     def test_ejemplo_de_la_guia_hasta_el_cierre(self):
         with tempfile.TemporaryDirectory() as temp:

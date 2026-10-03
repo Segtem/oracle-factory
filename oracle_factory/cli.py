@@ -35,7 +35,7 @@ def sha256(datos: bytes) -> str:
 
 def ruta_cambio(identificador: str) -> Path:
     if not ID_RE.fullmatch(identificador):
-        raise FactoryError("id inválido; usá el id completo que imprimió trackertast")
+        raise FactoryError("id inválido; usá el id completo que imprimió oracle-task")
     ruta = (CHANGES / identificador).resolve()
     if not ruta.is_relative_to(CHANGES.resolve()):
         raise FactoryError("ruta de cambio fuera de openspec/changes")
@@ -63,7 +63,7 @@ def evento(estado: dict, accion: str, **datos) -> None:
 def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
     # uv tool install no expone los ejecutables de dependencias en el PATH global.
     # Usar los entry points del mismo intérprete evita depender de otra instalación.
-    paquetes = {"oracle": "oracle-metalenguaje", "tasks": "trackertast"}
+    paquetes = {"oracle": "oracle-metalenguaje", "tasks": "oracle-task"}
     if args[0] in paquetes:
         paquete = paquetes[args[0]]
         try:
@@ -82,7 +82,7 @@ def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
 def nota_tarea(identificador: str, texto: str) -> None:
     p = ejecutar(["tasks", "note", identificador, texto, "--proyecto", str(ROOT)])
     if p.returncode:
-        raise FactoryError(f"trackertast no pudo registrar la nota: {p.stderr.strip()}")
+        raise FactoryError(f"oracle-task no pudo registrar la nota: {p.stderr.strip()}")
 
 
 def nuevo(titulo: str, capacidad: str) -> str:
@@ -90,11 +90,11 @@ def nuevo(titulo: str, capacidad: str) -> str:
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
     p = ejecutar(["tasks", "new", titulo, "--json", "--proyecto", str(ROOT)])
     if p.returncode:
-        raise FactoryError(f"trackertast no pudo crear la tarea: {p.stderr.strip()}")
+        raise FactoryError(f"oracle-task no pudo crear la tarea: {p.stderr.strip()}")
     try:
         identificador = json.loads(p.stdout)["id"]
     except (json.JSONDecodeError, KeyError) as e:
-        raise FactoryError("trackertast no devolvió el id completo de la tarea") from e
+        raise FactoryError("oracle-task no devolvió el id completo de la tarea") from e
     carpeta = ruta_cambio(identificador)
     spec = carpeta / "specs" / capacidad / "spec.md"
     spec.parent.mkdir(parents=True, exist_ok=False)
@@ -403,7 +403,7 @@ def cerrar(identificador: str) -> None:
     nota_tarea(identificador, "Persona autorizó el cierre tras revisar el informe de código y el veredicto Oracle.")
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
     if p.returncode:
-        raise FactoryError(p.stderr.strip() or "trackertast no pudo cerrar la tarea")
+        raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
     estado["fase"] = "cerrada"
     evento(estado, "cierre_humano", oracle=estado["oracle"]["informe"], revision=estado["revision"]["informe"])
     guardar(carpeta, estado)
@@ -457,7 +457,7 @@ def copiar_ejemplo(destino: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     global ROOT, CHANGES
-    parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, trackertast y Oracle")
+    parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
     parser.add_argument("--proyecto", type=Path, default=Path.cwd(), help="carpeta de trabajo (por defecto, la actual); colocar antes del subcomando")
     sub = parser.add_subparsers(dest="comando", required=True)

@@ -1,3 +1,17 @@
+# Oracle Factory 0.1.0a2
+
+- Migra la dependencia a `oracle-task==0.2.0` y resuelve el comando `tasks` desde esa distribución.
+- Conserva IDs, carpetas de tareas y decisiones humanas. Actualiza la portada y la guía desde cero.
+- Oracle continúa fijado en 0.38.1; no hace falta esperar otro paquete para instalar este corte.
+- Publicación en PyPI pendiente. Factory 0.1.0a1 depende del paquete antiguo y no podrá
+  instalarse desde PyPI después de borrar trackertast; usar 0.1.0a2.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a2-py3-none-any.whl dist/oracle_factory-0.1.0a2.tar.gz
+```
+
+La tarea `20261003-185925-migrar-task` registra la validación del corte.
+
 # Oracle Factory 0.1.0a1
 
 Primer corte alpha instalable, preparado para publicación manual en PyPI.

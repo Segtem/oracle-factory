@@ -1,6 +1,6 @@
 schema: spec-driven
 context: |
-  Este proyecto coordina OpenSpec, trackertast, Oracle y revisión de código con decisiones humanas explícitas.
+  Este proyecto coordina OpenSpec, oracle-task, Oracle y revisión de código con decisiones humanas explícitas.
   La persona dueña del cambio acepta alcance, resuelve hallazgos y aprueba el cierre.
   Un requisito sin medida debe seguir visible como SIN MEDIR; nunca se marca como cubierto por inferencia.
   Oracle juzga la evidencia del sensor, no la calidad general del código ni la verdad de una spec.
