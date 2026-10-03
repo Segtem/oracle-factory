@@ -1,0 +1,4 @@
+requisito distribution_c01af4be8811ed3bb.entregar_artefactos_verificables:
+    texto "The system SHALL provide a versioned prerelease with wheel, source distribution, checksums and instructions for manual PyPI publication."
+    fuente "/tmp/oracle-release-work/factory/openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md#entregar artefactos verificables"
+    sin_medir "sin medida todavía; escenarios: «usuario publica el corte»"

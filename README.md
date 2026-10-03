@@ -1,10 +1,34 @@
-# Oracle Factory — prueba de concepto
+# Oracle Factory — 0.1.0a1 (alpha)
 
 La visión de Oracle Factory es coordinar agentes y herramientas para producir software completo: desde una necesidad aceptada hasta código, pruebas, revisión y entrega. La persona decide el alcance, resuelve hallazgos y acepta la entrega.
 
-Hoy existe una POC de CLI: genera documentos con formato **OpenSpec**, usa **trackertast** para tareas e importa requisitos y evalúa evidencia con **Oracle**. La implementación del producto y las pruebas se ejecutan por fuera de la CLI. Recibe informes manuales de revisión; **Oracle Clue** todavía es un esbozo y CodeRabbit es una alternativa externa.
+Hoy existe una POC de CLI: genera documentos con formato **OpenSpec**, usa **trackertast** para tareas e importa requisitos y evalúa evidencia con **Oracle**. La implementación del producto y las pruebas se ejecutan por fuera de la CLI. Recibe informes manuales de revisión; **Oracle Clue** prepara contexto y valida informes externos en su primer alpha; el análisis con IA sigue pendiente y CodeRabbit es una alternativa externa.
 
 Es una CLI local y un flujo visible en Git. No hace commits ni publica ramas por cuenta propia. La aprobación de alcance, la resolución de hallazgos y el cierre son acciones humanas.
+
+
+## Instalación del corte alpha
+
+La publicación en PyPI queda a cargo del mantenedor. Mientras tanto, el release de GitHub incluye el wheel probado:
+
+```bash
+uv tool install https://github.com/Segtem/oracle-factory/releases/download/v0.1.0a1/oracle_factory-0.1.0a1-py3-none-any.whl
+oracle-factory --version
+oracle-factory --proyecto ./mi-proyecto init
+oracle-factory --proyecto ./mi-proyecto nuevo --capacidad notas "Rechazar títulos vacíos"
+```
+
+`--proyecto` se coloca antes del subcomando. Sin esa opción se usa la carpeta actual. `init` crea la estructura de Oracle, Trackertast y OpenSpec, conserva la configuración existente y no crea commits ni aprobaciones. Git debe estar instalado. Python 3.11 o posterior; Oracle 0.38.1 y Trackertast 0.1.0 se instalan como dependencias y se invocan desde el mismo entorno aislado. No necesitás exponer sus ejecutables globalmente para usar Factory.
+
+Los archivos indicados con `--informe` y `--con` se interpretan desde el proyecto seleccionado; también aceptan rutas absolutas. Para copiar el ejemplo completo incluido en la distribución:
+
+```bash
+oracle-factory --proyecto ./mi-proyecto ejemplo notas
+```
+
+Copia en `examples/notas` y rechaza sobrescribir una carpeta existente. La [guía](https://segtem.github.io/oracle-factory/desde-cero.html) conserva el camino desde el checkout para recorrer y editar el ejemplo. `python3 fabrica.py` sigue disponible para desarrollo y ahora también usa la carpeta actual o `--proyecto`.
+
+Después de que el mantenedor publique esta versión en PyPI, la instalación equivalente será `uv tool install oracle-factory==0.1.0a1`. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
 
 ## Flujo de la POC
 
@@ -59,7 +83,7 @@ La suite incluye regresiones con Git real y una integración temporal de creaci�
 
 La [portada interactiva](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y Oracle Factory con un mismo ejemplo. El recorrido pixel art muestra las decisiones humanas y una vuelta de revisión, corrección y nuevas pruebas. Es una demostración visual; no ejecuta agentes ni registra aprobaciones reales.
 
-La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory todavía se ejecuta desde este checkout; su distribución instalable y la selección de otro proyecto se siguen en la tarea `20261002-234439-dist-uv`.
+La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory también se distribuye como CLI instalable con selección de proyecto; la tarea `20261002-234439-dist-uv` conserva la evidencia del primer corte y la publicación PyPI pendiente.
 
 Para ver ambas páginas:
 

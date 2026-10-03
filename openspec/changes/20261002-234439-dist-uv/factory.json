@@ -1,0 +1,47 @@
+{
+  "id": "20261002-234439-dist-uv",
+  "titulo": "Preparar distribución de Factory con uv y selección de proyecto",
+  "capacidad": "distribution",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md",
+  "requisitos": [
+    "distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado",
+    "distribution_c01af4be8811ed3bb.entregar_artefactos_verificables",
+    "distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto"
+  ],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "alcance_autorizado_en_conversacion",
+      "por": "workstation",
+      "cuando": "2026-10-03T12:56:50+00:00",
+      "documentos": {
+        "openspec/changes/20261002-234439-dist-uv/proposal.md": "22124811edad5b571eee3859b39d2d9609e7bf7d3b221fa427d8b7d487506141",
+        "openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md": "5965c857b2460068d1f847294d705fefdfd789dc469f1870baa94f14af49e657"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-03T12:56:50+00:00",
+      "ids": [
+        "distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado",
+        "distribution_c01af4be8811ed3bb.entregar_artefactos_verificables",
+        "distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto"
+      ]
+    }
+  ],
+  "spec_sha256": "5965c857b2460068d1f847294d705fefdfd789dc469f1870baa94f14af49e657",
+  "spec_aprobada": {
+    "por": "usuario",
+    "cuando": "2026-10-03T12:56:50+00:00",
+    "documentos": {
+      "openspec/changes/20261002-234439-dist-uv/proposal.md": "22124811edad5b571eee3859b39d2d9609e7bf7d3b221fa427d8b7d487506141",
+      "openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md": "5965c857b2460068d1f847294d705fefdfd789dc469f1870baa94f14af49e657"
+    },
+    "origen": "conversación",
+    "mensaje": "dale no te olvides del release.",
+    "contexto": "Aceptación de preparar ambos paquetes, probarlos, commit, push, tag y release; PyPI lo publica el usuario. Documentos transcritos por el agente para registrar ese alcance."
+  }
+}

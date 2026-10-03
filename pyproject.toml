@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oracle-factory"
+version = "0.1.0a1"
+description = "Coordina acuerdos, tareas, revisión y evidencia con decisiones humanas"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["oracle-metalenguaje==0.38.1", "trackertast==0.1.0"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Natural Language :: Spanish",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.scripts]
+oracle-factory = "oracle_factory.cli:main"
+
+[project.urls]
+Repositorio = "https://github.com/Segtem/oracle-factory"
+Sitio = "https://segtem.github.io/oracle-factory/"
+Issues = "https://github.com/Segtem/oracle-factory/issues"
+
+[tool.setuptools.packages.find]
+include = ["oracle_factory*"]
+namespaces = true
+
+[tool.setuptools.package-data]
+oracle_factory = ["data/notas/*", "data/notas/catalogos/*"]

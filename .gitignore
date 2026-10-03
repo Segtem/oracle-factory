@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 .factory-demo/
 node_modules/
+dist/
+build/
+*.egg-info/
+uv.lock

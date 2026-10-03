@@ -1,0 +1,6 @@
+include fabrica.py
+include NOTAS-DE-RELEASE.md
+recursive-include tests *.py *.cjs
+recursive-include examples *.py *.md *.oracle
+recursive-include site *.html *.css *.js *.svg
+recursive-include tools *.py
