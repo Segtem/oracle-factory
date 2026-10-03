@@ -41,6 +41,11 @@ Requisitos importados: landing_page_c27184b22c91734e3.comparar_enfoques_para_vis
 
 Verificación integrada: 21 tests Python OK (incluye integración real del ejemplo con Oracle/Trackertast de PyPI); 11 comprobaciones Chromium OK, sin errores JS ni peticiones externas. Evidencia y límites en verificacion-web.json. GitHub Pages habilitado con build_type workflow; queda integrar/push main y verificar el despliegue. Los 7 requisitos de la web siguen SIN MEDIR; no se simula verde ni aprobación humana final.
 
+
+### Nota (2026-10-03 12:20:52 UTC)
+
+Web integrada y empujada a main: fdde6d1. GitHub Pages publicado: https://segtem.github.io/oracle-factory/ y desde-cero.html. Workflow 37122464122 success. Se verificaron HTTP 200 y coincidencia byte a byte de las dos páginas y los cuatro recursos locales. Tarea permanece abierta para evaluación humana de claridad y acuerdo de medidas; no se registra cierre ni revisión humana ficticia.
+
 ## Próximo paso
 
-Integrar y empujar el sitio a main; comprobar el despliegue de GitHub Pages y la portada/guía públicas. Después, recoger la evaluación humana de claridad y elegir medidas para los requisitos del sitio antes del cierre formal de Factory. La distribución instalable se sigue en 20261002-234439-dist-uv.
+Recoger la evaluación humana de la web publicada y hacer que una persona sin experiencia siga la guía; registrar sus trabas y acordar medidas defendibles para los 7 requisitos antes del cierre formal de Factory. La distribución instalable y el selector de proyecto se siguen en 20261002-234439-dist-uv.

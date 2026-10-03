@@ -50,5 +50,43 @@
     "site/guide.js": "54505f682c31f60bd868a21abc5215e1b4f6cf1d899359053ae2b2682626b44c",
     "site/index.html": "7a40a50ea83fe05be4a772d666ba2671f513881eb3aa248ea98500662541eb3c",
     "site/style.css": "c2b1f1583a233d400ca3696443076f451bd6e3d107056c479d1eb6eff8f96d0e"
+  },
+  "publicacion": {
+    "commit": "fdde6d159e501aab67b9040d3bf94ac6cd7a9f12",
+    "rama": "main",
+    "workflow": "https://github.com/Segtem/oracle-factory/actions/runs/37122464122",
+    "resultado": "success",
+    "archivos_http": [
+      {
+        "url": "https://segtem.github.io/oracle-factory/index.html",
+        "status": 200,
+        "sha256": "7a40a50ea83fe05be4a772d666ba2671f513881eb3aa248ea98500662541eb3c"
+      },
+      {
+        "url": "https://segtem.github.io/oracle-factory/desde-cero.html",
+        "status": 200,
+        "sha256": "625347458cd56c848ede7a4f1e09659460077545d4fdb16399cfd064f4801152"
+      },
+      {
+        "url": "https://segtem.github.io/oracle-factory/factory.js",
+        "status": 200,
+        "sha256": "93e0ed2eebe1f3347841420b497382168e772c970994675b1717d894775c6727"
+      },
+      {
+        "url": "https://segtem.github.io/oracle-factory/guide.js",
+        "status": 200,
+        "sha256": "54505f682c31f60bd868a21abc5215e1b4f6cf1d899359053ae2b2682626b44c"
+      },
+      {
+        "url": "https://segtem.github.io/oracle-factory/style.css",
+        "status": 200,
+        "sha256": "c2b1f1583a233d400ca3696443076f451bd6e3d107056c479d1eb6eff8f96d0e"
+      },
+      {
+        "url": "https://segtem.github.io/oracle-factory/favicon.svg",
+        "status": 200,
+        "sha256": "64d74692eaeb047001346d68e593f57dd025a40622c10a25f3538e27fc2b7786"
+      }
+    ]
   }
 }

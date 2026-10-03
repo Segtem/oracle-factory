@@ -7,5 +7,5 @@
 - [x] Agente: añadir teclado, pausa y movimiento reducido.
 - [x] Agente: escribir guía desde cero con herramientas reales y ejemplo incluido.
 - [x] Agente: verificar el sitio y el recorrido completo sobre los archivos integrados.
-- [ ] Agente: integrar en main y comprobar publicación.
+- [x] Agente: integrar en main y comprobar publicación.
 - [ ] Persona: evaluar si la explicación resulta clara y elegir medidas defendibles para los requisitos del sitio antes del cierre formal de Factory.

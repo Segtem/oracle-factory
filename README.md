@@ -55,6 +55,8 @@ La suite incluye regresiones con Git real y una integración temporal de creaci�
 
 ## Web y guía desde cero
 
+**[Abrir la web](https://segtem.github.io/oracle-factory/) · [Guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html)**
+
 La [portada interactiva](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y Oracle Factory con un mismo ejemplo. El recorrido pixel art muestra las decisiones humanas y una vuelta de revisión, corrección y nuevas pruebas. Es una demostración visual; no ejecuta agentes ni registra aprobaciones reales.
 
 La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory todavía se ejecuta desde este checkout; su distribución instalable y la selección de otro proyecto se siguen en la tarea `20261002-234439-dist-uv`.
