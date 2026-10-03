@@ -6,7 +6,7 @@
 
 ## Alcance
 
-Preparar Factory como paquete instalable con uv tool install/uvx, con selección explícita de la carpeta del proyecto. Hoy fabrica.py fija ROOT a su propio checkout: instalarlo sin resolver eso escribiría las tareas y acuerdos dentro de la herramienta. La guía actual instala Oracle y Trackertast desde PyPI y descarga Factory con Git.
+Preparar Factory como paquete instalable con uv tool install/uvx, con selección explícita de la carpeta del proyecto. Problema original, resuelto en 0.1.0a1: fabrica.py fijaba ROOT a su propio checkout. La versión publicada usa la carpeta actual o --proyecto; la guía instala desde PyPI y exporta el ejemplo incluido.
 
 ## Criterios
 
@@ -33,6 +33,11 @@ Factory: 23 tests Python y 11 comprobaciones Chromium OK. Wheel instalado con uv
 
 Release alpha publicado y verificado: https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a1. Tag v0.1.0a1 sobre 400dce8110c672089c4da58340a9107272601294; main empujado. Wheel, sdist y SHA256SUMS remotos coinciden con los artefactos probados. PyPI queda pendiente del usuario.
 
+
+### Nota (2026-10-03 17:28:20 UTC)
+
+Publicación PyPI confirmada por el usuario y verificada: 0.1.0a1. Wheel/sdist del índice coinciden por SHA-256 con el release. Instalación con uv, Python 3.13 y cache nueva; prueba funcional del ejecutable instalado OK. Evidencia en verificacion-pypi.json. README actualizado para usar el índice. La guía ahora crea un proyecto vacío, inicializa Factory y exporta el ejemplo del paquete sin clonar el repositorio; 11 comprobaciones Chromium OK.
+
 ## Próximo paso
 
-El usuario publica en PyPI los artefactos probados del release v0.1.0a1 (también en dist/), siguiendo NOTAS-DE-RELEASE.md. Tras su aviso, verificar instalación desde PyPI con uv en un entorno limpio y actualizar la guía para usar el índice. El cierre formal del cambio queda sujeto a revisión humana y medidas acordadas; no se simula un veredicto Oracle.
+Revisión humana del flujo instalado y elección de medidas para los requisitos de distribución antes del cierre formal. La publicación PyPI y su verificación están terminadas. La guía de la tarea 20261002-222858-explicar-oracle queda lista para la prueba con una persona sin experiencia.

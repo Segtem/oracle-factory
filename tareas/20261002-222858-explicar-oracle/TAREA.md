@@ -46,6 +46,11 @@ Verificación integrada: 21 tests Python OK (incluye integración real del ejemp
 
 Web integrada y empujada a main: fdde6d1. GitHub Pages publicado: https://segtem.github.io/oracle-factory/ y desde-cero.html. Workflow 37122464122 success. Se verificaron HTTP 200 y coincidencia byte a byte de las dos páginas y los cuatro recursos locales. Tarea permanece abierta para evaluación humana de claridad y acuerdo de medidas; no se registra cierre ni revisión humana ficticia.
 
+
+### Nota (2026-10-03 17:28:20 UTC)
+
+Guía actualizada tras publicación real de Factory en PyPI: instalación única del kit con uv, proyecto vacío con git init/oracle-factory init y ejemplo exportado desde el paquete. Sin clone ni fabrica.py en los pasos del usuario. Validada instalación aislada y 11 comprobaciones Chromium.
+
 ## Próximo paso
 
-Recoger la evaluación humana de la web publicada y hacer que una persona sin experiencia siga la guía; registrar sus trabas y acordar medidas defendibles para los 7 requisitos antes del cierre formal de Factory. La distribución instalable y el selector de proyecto se siguen en 20261002-234439-dist-uv.
+Una persona sin experiencia sigue la guía publicada desde PyPI; registrar trabas y acordar medidas defendibles para los requisitos de claridad antes del cierre formal.

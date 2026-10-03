@@ -9,10 +9,11 @@ Es una CLI local y un flujo visible en Git. No hace commits ni publica ramas por
 
 ## Instalación del corte alpha
 
-La publicación en PyPI queda a cargo del mantenedor. Mientras tanto, el release de GitHub incluye el wheel probado:
+La versión alpha 0.1.0a1 está [publicada en PyPI](https://pypi.org/project/oracle-factory/0.1.0a1/). Instalá la herramienta una vez y elegí la carpeta de cada proyecto:
 
 ```bash
-uv tool install https://github.com/Segtem/oracle-factory/releases/download/v0.1.0a1/oracle_factory-0.1.0a1-py3-none-any.whl
+uv tool install --python 3.13 oracle-factory==0.1.0a1
+uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
 oracle-factory --proyecto ./mi-proyecto nuevo --capacidad notas "Rechazar títulos vacíos"
@@ -26,33 +27,33 @@ Los archivos indicados con `--informe` y `--con` se interpretan desde el proyect
 oracle-factory --proyecto ./mi-proyecto ejemplo notas
 ```
 
-Copia en `examples/notas` y rechaza sobrescribir una carpeta existente. La [guía](https://segtem.github.io/oracle-factory/desde-cero.html) conserva el camino desde el checkout para recorrer y editar el ejemplo. `python3 fabrica.py` sigue disponible para desarrollo y ahora también usa la carpeta actual o `--proyecto`.
+Copia en `examples/notas` y rechaza sobrescribir una carpeta existente. La [guía](https://segtem.github.io/oracle-factory/desde-cero.html) recorre este ejemplo en un proyecto vacío usando los paquetes publicados, sin clonar Factory. Para desarrollo desde el checkout, `python3 fabrica.py` conserva la misma interfaz y selección de proyecto.
 
-Después de que el mantenedor publique esta versión en PyPI, la instalación equivalente será `uv tool install oracle-factory==0.1.0a1`. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
+También podés probarlo sin instalación persistente: `uvx --from oracle-factory==0.1.0a1 oracle-factory --help`. El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a1) conserva los artefactos y sus hashes. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
 
 ## Flujo de la POC
 
-1. `python3 fabrica.py nuevo --capacidad <slug> "<pedido>"` crea una tarea y el paquete OpenSpec enlazado. La persona edita la propuesta, la spec y las tareas.
-2. `python3 fabrica.py aprobar-spec <id>` muestra la propuesta y la spec que se aprueban y exige escribir `APROBAR ESPECIFICACION <id>`. El agente espera; no puede aceptar por la persona.
-3. `python3 fabrica.py importar <id>` llama al importador real de Oracle. Los requisitos nuevos nacen **sin medir**; cada tarea y versión de spec usa su propio dominio para no heredar medidas de otra promesa. Persona y agente acuerdan qué se puede medir; la persona crea o revisa las medidas.
-4. Implementar y probar. Abrir el PR; CodeRabbit u otro revisor comenta el diff. Guardar su informe en el paquete OpenSpec. Una persona registra decisión, hallazgos pendientes y revisor con `fabrica.py revision`.
-5. `python3 fabrica.py juzgar <id> --con <hechos.json>` exige cobertura completa de los requisitos importados y corre `oracle cobertura --con`. Un requisito parcialmente medido bloquea el paso. Cada requisito importado debe tener juicio explícito de cumplimiento: un exit code 0 con «sin juicio» o fallas en sombra no habilita el cierre.
-6. `python3 fabrica.py cerrar <id>` sólo ofrece cerrar si la revisión fue aprobada, no quedan hallazgos abiertos y todos los requisitos importados se cumplen con evidencia vigente. La persona confirma escribiendo `CERRAR <id>`. Trackertast queda cerrado con referencia a la evidencia.
+1. `oracle-factory nuevo --capacidad <slug> "<pedido>"` crea una tarea y el paquete OpenSpec enlazado. La persona edita la propuesta, la spec y las tareas.
+2. `oracle-factory aprobar-spec <id>` muestra la propuesta y la spec que se aprueban y exige escribir `APROBAR ESPECIFICACION <id>`. El agente espera; no puede aceptar por la persona.
+3. `oracle-factory importar <id>` llama al importador real de Oracle. Los requisitos nuevos nacen **sin medir**; cada tarea y versión de spec usa su propio dominio para no heredar medidas de otra promesa. Persona y agente acuerdan qué se puede medir; la persona crea o revisa las medidas.
+4. Implementar y probar. Abrir el PR; CodeRabbit u otro revisor comenta el diff. Guardar su informe en el paquete OpenSpec. Una persona registra decisión, hallazgos pendientes y revisor con `oracle-factory revision`.
+5. `oracle-factory juzgar <id> --con <hechos.json>` exige cobertura completa de los requisitos importados y corre `oracle cobertura --con`. Un requisito parcialmente medido bloquea el paso. Cada requisito importado debe tener juicio explícito de cumplimiento: un exit code 0 con «sin juicio» o fallas en sombra no habilita el cierre.
+6. `oracle-factory cerrar <id>` sólo ofrece cerrar si la revisión fue aprobada, no quedan hallazgos abiertos y todos los requisitos importados se cumplen con evidencia vigente. La persona confirma escribiendo `CERRAR <id>`. Trackertast queda cerrado con referencia a la evidencia.
 
-En todo momento se puede ver el estado con `python3 fabrica.py estado <id>`. Los documentos OpenSpec son archivos comunes editables por una persona.
+En todo momento se puede ver el estado con `oracle-factory estado <id>`. Los documentos OpenSpec son archivos comunes editables por una persona.
 
 ## Ejemplo mínimo
 
-El repositorio incluye una tarea de demostración (`20261002-204916-validar-el-flujo`) detenida antes de la aprobación. Completá sus TODO y usá el id impreso por Trackertast; no hay aprobación ni medición simulada.
+En tu proyecto inicializado, creá un cambio y usá el id que imprima Trackertast. Completá la propuesta y la spec antes de aprobarlas; no hay aprobación ni medición simulada.
 
 ```bash
-python3 fabrica.py nuevo --capacidad gestor-de-notas "Rechazar títulos vacíos"
+oracle-factory nuevo --capacidad gestor-de-notas "Rechazar títulos vacíos"
 # Editar proposal.md, specs/gestor-de-notas/spec.md y tasks.md
-python3 fabrica.py aprobar-spec <id-impreso>
-python3 fabrica.py importar <id-impreso>
+oracle-factory aprobar-spec <id-impreso>
+oracle-factory importar <id-impreso>
 ```
 
-Luego crear medidas desde cada escenario con `oracle medida nueva <id-medida> --escenario-de <spec.md> "<escenario>" --requisito <requisito>`. Revisar `oracle cobertura`: hasta mapear todos los requisitos, la factory no acepta evidencia ni deja cerrar.
+Si necesitás los comandos independientes `oracle` y `tasks`, usá la instalación de la guía con `--with-executables-from oracle-metalenguaje,trackertast`. Luego crear medidas desde cada escenario con `oracle medida nueva <id-medida> --escenario-de <spec.md> "<escenario>" --requisito <requisito>`. Revisar `oracle cobertura`: hasta mapear todos los requisitos, la factory no acepta evidencia ni deja cerrar.
 
 ## Alcance y límites de esta POC
 
@@ -83,7 +84,7 @@ La suite incluye regresiones con Git real y una integración temporal de creaci�
 
 La [portada interactiva](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y Oracle Factory con un mismo ejemplo. El recorrido pixel art muestra las decisiones humanas y una vuelta de revisión, corrección y nuevas pruebas. Es una demostración visual; no ejecuta agentes ni registra aprobaciones reales.
 
-La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory también se distribuye como CLI instalable con selección de proyecto; la tarea `20261002-234439-dist-uv` conserva la evidencia del primer corte y la publicación PyPI pendiente.
+La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory también se distribuye como CLI instalable con selección de proyecto; la tarea `20261002-234439-dist-uv` conserva la evidencia del primer corte y su verificación desde PyPI.
 
 Para ver ambas páginas:
 

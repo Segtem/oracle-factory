@@ -1,0 +1,19 @@
+{
+  "paquete": "oracle-factory",
+  "version": "0.1.0a1",
+  "origen": "https://pypi.org/simple",
+  "archivos": [
+    {
+      "archivo": "oracle_factory-0.1.0a1-py3-none-any.whl",
+      "sha256": "132caf048884525bc2c0635a73dc15b8b169300669ea7667bc7dca317a31712e",
+      "coincide_release": true
+    },
+    {
+      "archivo": "oracle_factory-0.1.0a1.tar.gz",
+      "sha256": "21f2b5a46ab8bc06b19c7382429c3e3f56cc67d6b1786e2c3b554013d040a302",
+      "coincide_release": true
+    }
+  ],
+  "prueba_instalada": "OK: wheel instalado, dependencias aisladas, ejemplo, importación, revisión, juicio y cierre fixture.",
+  "entorno": "Linux, Python 3.13, uv tool install con cache y entorno nuevos"
+}
