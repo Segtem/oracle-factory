@@ -1,0 +1,8 @@
+medida notas.resultados:
+    de comprobacion c
+    donde c.codigo != 0
+    resumen contar(1)
+    umbral <= 0 segun contrato porque "los tres casos deben coincidir con lo esperado"
+    requiere comprobacion
+    ambito universal
+    alcance "compara los resultados de los casos emitidos por el sensor del ejemplo"

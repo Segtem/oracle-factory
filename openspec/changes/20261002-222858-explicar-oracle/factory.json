@@ -2,11 +2,29 @@
   "id": "20261002-222858-explicar-oracle",
   "titulo": "Explicar Oracle Factory como flujo humano de producción de software",
   "capacidad": "landing-page",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "af8683111d462d445455d4ae0e42654e79b4a0488a2b7b96fca76c3591f0c433",
+  "spec_aprobada": {
+    "por": "usuario",
+    "cuando": "2026-10-03T12:11:16+00:00",
+    "documentos": {
+      "openspec/changes/20261002-222858-explicar-oracle/proposal.md": "69f9f0cb629e64a9c537e0b749795dd515048c9a41775f320d336c3ec4f83b02",
+      "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md": "af8683111d462d445455d4ae0e42654e79b4a0488a2b7b96fca76c3591f0c433"
+    },
+    "origen": "conversación",
+    "mensaje": "La web con pixel art, en el main. Dame propuestas para que sea facil de trabajar con factory.",
+    "contexto": "El usuario agregó explicar las distintas formas de crear software para personas sin experiencia y una página de implementación desde cero con PyPI/uv; luego indicó Sigue. El agente transcribe esas instrucciones al alcance, sin afirmar aprobación interactiva de estos archivos."
+  },
+  "requisitos": [
+    "landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia",
+    "landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas",
+    "landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory",
+    "landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo",
+    "landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles",
+    "landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos",
+    "landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable"
+  ],
   "revision": null,
   "oracle": null,
   "eventos": [
@@ -15,6 +33,52 @@
       "por": "workstation",
       "cuando": "2026-10-02T22:28:58+00:00",
       "capacidad": "landing-page"
+    },
+    {
+      "accion": "alcance_autorizado_en_conversacion",
+      "por": "workstation",
+      "cuando": "2026-10-02T23:19:26+00:00",
+      "documentos": {
+        "openspec/changes/20261002-222858-explicar-oracle/proposal.md": "9d603e84037fd1819f669dacf820f31c611963f415b5761ecca170a2f660b7f1",
+        "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md": "3797d7a29c21a0c7f72a72bad2889a6b60f219045370bdac02692363987ab5f1"
+      },
+      "origen": "indicación del usuario tras revisión del alcance"
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-02T23:19:26+00:00",
+      "ids": [
+        "landing_page_c9060e010b9653288.distinguir_responsabilidades_y_madurez_de_herramientas",
+        "landing_page_c9060e010b9653288.explicar_la_produccion_de_software_con_oracle_factory",
+        "landing_page_c9060e010b9653288.funcionar_como_sitio_estatico_autonomo",
+        "landing_page_c9060e010b9653288.mostrar_puntos_de_control_humanos",
+        "landing_page_c9060e010b9653288.ofrecer_una_animacion_accesible_y_controlable"
+      ]
+    },
+    {
+      "accion": "alcance_ampliado_en_conversacion",
+      "por": "workstation",
+      "cuando": "2026-10-03T12:11:16+00:00",
+      "documentos": {
+        "openspec/changes/20261002-222858-explicar-oracle/proposal.md": "69f9f0cb629e64a9c537e0b749795dd515048c9a41775f320d336c3ec4f83b02",
+        "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md": "af8683111d462d445455d4ae0e42654e79b4a0488a2b7b96fca76c3591f0c433"
+      },
+      "origen": "instrucciones explícitas del usuario"
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-03T12:11:16+00:00",
+      "ids": [
+        "landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia",
+        "landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas",
+        "landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory",
+        "landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo",
+        "landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles",
+        "landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos",
+        "landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable"
+      ]
     }
   ]
 }

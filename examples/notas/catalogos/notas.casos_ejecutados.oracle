@@ -1,0 +1,7 @@
+medida notas.casos_ejecutados:
+    de comprobacion c
+    resumen contar(1)
+    umbral == 3 segun contrato porque "este ejemplo observa exactamente tres casos"
+    requiere comprobacion
+    ambito universal
+    alcance "comprueba la cantidad de observaciones; su elección e identidad se revisan en el sensor"

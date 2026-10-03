@@ -52,3 +52,26 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
 ```
 
 La suite incluye regresiones con Git real y una integración temporal de creación de tarea, importación Oracle, rechazo de evidencia insuficiente, juicio y cierre. Las aprobaciones de esa prueba son fixtures; no aprueban ningún cambio real.
+
+## Web y guía desde cero
+
+La [portada interactiva](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y Oracle Factory con un mismo ejemplo. El recorrido pixel art muestra las decisiones humanas y una vuelta de revisión, corrección y nuevas pruebas. Es una demostración visual; no ejecuta agentes ni registra aprobaciones reales.
+
+La [guía desde cero](site/desde-cero.html) instala Oracle 0.38.1 y Trackertast 0.1.0 desde PyPI con uv y recorre el [ejemplo de notas](examples/notas) hasta el cierre local. Factory todavía se ejecuta desde este checkout; su distribución instalable y la selección de otro proyecto se siguen en la tarea `20261002-234439-dist-uv`.
+
+Para ver ambas páginas:
+
+```bash
+python3 -m http.server 8765 --directory site
+```
+
+Abrir <http://localhost:8765>. También funcionan abriendo `site/index.html` sin conexión. El sitio no tiene dependencias externas en tiempo de ejecución. GitHub Actions publica `site/` en GitHub Pages desde `main`.
+
+Para comprobar la web en Chromium, instalar la dependencia de desarrollo Playwright y ejecutar:
+
+```bash
+npm install --no-save --package-lock=false playwright@1.62.1
+node tests/test_site.cjs
+```
+
+La prueba usa `/usr/bin/chromium` por defecto; se puede indicar otro ejecutable con la variable `CHROMIUM`. Comprueba los controles, las decisiones, el teclado, movimiento reducido, adaptación móvil, enlaces y funcionamiento sin red. La suite de Python incluye el ejemplo de la guía con Oracle, Trackertast y Git reales, aislado en una carpeta temporal. Requiere los comandos `oracle` y `tasks` disponibles; sin ellos esa integración se omite.

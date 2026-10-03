@@ -1,0 +1,4 @@
+requisito landing_page_c9060e010b9653288.distinguir_responsabilidades_y_madurez_de_herramientas:
+    texto "The system SHALL distinguish the coordinating role of Factory, the requirement-evidence judgment of Oracle, and the code-risk review role of Oracle Clue, and SHALL label capabilities that remain planned."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#distinguir responsabilidades y madurez de herramientas"
+    sin_medir "sin medida todavía; escenarios: «visitante consulta una herramienta aún en desarrollo»"

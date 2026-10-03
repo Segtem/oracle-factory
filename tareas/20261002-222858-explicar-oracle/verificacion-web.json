@@ -1,0 +1,54 @@
+{
+  "fecha": "2026-10-03",
+  "entorno": "Linux, Python 3, Chromium headless; Oracle 0.38.1 y Trackertast 0.1.0 instalados de PyPI con uv en directorio aislado",
+  "python": {
+    "comando": "python3 -m unittest discover -s tests -v",
+    "tests": 21,
+    "resultado": "OK",
+    "integracion_guia": "Crea tarea temporal, importa acuerdo, mide tres casos, detecta regresión real de espacios, restaura programa y recorre revisión/juicio/cierre con confirmaciones fixture."
+  },
+  "navegador": {
+    "comando": "node tests/test_site.cjs",
+    "comprobaciones": 11,
+    "resultado": "OK",
+    "errores_js": [],
+    "peticiones_externas": [],
+    "anchos": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "incluye": [
+      "decisiones humanas de demo",
+      "vuelta de corrección",
+      "teclado",
+      "movimiento reducido",
+      "sin red",
+      "enlaces locales",
+      "sustitución segura de id en guía"
+    ]
+  },
+  "revision_visual": "Portada escritorio y móvil, comparación y guía revisadas en capturas.",
+  "limites": [
+    "No certifica comprensión por personas sin experiencia.",
+    "Instalación ejecutada en Linux; instrucciones Windows/macOS referencian los instaladores oficiales, sin ejecución en esos sistemas.",
+    "No constituye aprobación humana de revisión/cierre ni veredicto Oracle de los requisitos de la web."
+  ],
+  "sha256": {
+    "examples/notas/README.md": "56d35a1b5bfab1fd24d3aeab356a7a3c35d98f03e19bb4a694bb4d7c31938177",
+    "examples/notas/catalogos/notas.casos_ejecutados.oracle": "7d03091493abdde5f0dbd6aff44dd785665828aab22859640dc5e694f746188e",
+    "examples/notas/catalogos/notas.resultados.oracle": "5dbd8c4809b43a4485c5c04257cfd85ccfb52022daa50e9d878fb0aba8033c80",
+    "examples/notas/notas.py": "dcbd0f5ea93a795832adcc5286135a36e0bbda65384521a46664afe978a6de68",
+    "examples/notas/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+    "examples/notas/sensor.py": "a1370a47080ca1aabb714771f838d3e6cee8864c2bcc172529aaaabc1ec772d0",
+    "examples/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+    "examples/notas/test_notas.py": "12c5edef513f7df9b492fdde1f3b758eb65dd72b14213eb8c1b79f6c1209ba21",
+    "site/desde-cero.html": "625347458cd56c848ede7a4f1e09659460077545d4fdb16399cfd064f4801152",
+    "site/factory.js": "93e0ed2eebe1f3347841420b497382168e772c970994675b1717d894775c6727",
+    "site/favicon.svg": "64d74692eaeb047001346d68e593f57dd025a40622c10a25f3538e27fc2b7786",
+    "site/guide.js": "54505f682c31f60bd868a21abc5215e1b4f6cf1d899359053ae2b2682626b44c",
+    "site/index.html": "7a40a50ea83fe05be4a772d666ba2671f513881eb3aa248ea98500662541eb3c",
+    "site/style.css": "c2b1f1583a233d400ca3696443076f451bd6e3d107056c479d1eb6eff8f96d0e"
+  }
+}

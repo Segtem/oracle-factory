@@ -1,0 +1,4 @@
+requisito landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos:
+    texto "The system SHALL make scope approval, requirement-measurement decisions, review triage, and delivery approval visible as human-controlled gates."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#mostrar puntos de control humanos"
+    sin_medir "sin medida todavía; escenarios: «agente llega a una decisión humana», «visitante usa una decisión de la demostración»"

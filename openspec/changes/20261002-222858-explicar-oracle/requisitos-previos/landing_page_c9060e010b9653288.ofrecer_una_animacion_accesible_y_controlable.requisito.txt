@@ -1,0 +1,4 @@
+requisito landing_page_c9060e010b9653288.ofrecer_una_animacion_accesible_y_controlable:
+    texto "The system SHALL provide pixel-art animation with keyboard-operable controls to play, pause, advance, and reverse the flow, with a reduced-motion mode and an equivalent textual explanation."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#ofrecer una animación accesible y controlable"
+    sin_medir "sin medida todavía; escenarios: «visitante prefiere movimiento reducido»"

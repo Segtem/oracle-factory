@@ -44,3 +44,20 @@ The system SHALL render the explanation without a backend, account, analytics, o
 - GIVEN los archivos del sitio están servidos localmente
 - WHEN el navegador carga la portada sin acceso a servicios de terceros
 - THEN el texto, controles y animación propia siguen disponibles
+
+### Requirement: comparar enfoques para visitantes sin experiencia
+The system SHALL explain vibe coding, the software development lifecycle, specification-driven development and Oracle Factory using the same notes example, plain language, human responsibilities and verification methods, without presenting these approaches as mutually exclusive.
+
+#### Scenario: visitante compara cuatro formas de crear software
+- GIVEN una persona sin experiencia consulta la portada
+- WHEN recorre los cuatro enfoques por ratón o teclado
+- THEN encuentra el mismo pedido, los pasos, el papel humano y cómo se comprueba cada resultado
+
+### Requirement: guiar desde cero con herramientas disponibles
+The system SHALL provide a separate Spanish onboarding page covering installation with uv and published PyPI tools, the current Factory checkout and a bundled reproducible example through local human-confirmed closure, clearly separating available capabilities from planned distribution.
+
+#### Scenario: persona sigue la guía desde cero
+- GIVEN una persona dispone de una terminal y un editor de texto
+- WHEN sigue la instalación y los pasos con el id real de su cambio
+- THEN puede importar el acuerdo, elegir medidas, ejecutar pruebas y un sensor, registrar una revisión real, evaluar evidencia y decidir el cierre
+- AND la guía no inventa un paquete Factory publicado ni aprobaciones de la persona

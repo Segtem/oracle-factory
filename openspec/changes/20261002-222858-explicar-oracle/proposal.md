@@ -16,4 +16,10 @@ No construir automatización real de agentes, integrar APIs ni presentar las her
 
 ## Human decisions
 
-La persona puede aceptar, editar, rechazar o pausar la spec; la web debe mostrar estas decisiones como parte del flujo, no como un paso ceremonial. La implementación se limita a una página estática demostrativa con controles accesibles.
+La persona puede aceptar, editar, rechazar o pausar la spec; la web debe mostrar estas decisiones como parte del flujo, no como un paso ceremonial. La implementación se limita a un sitio estático demostrativo con controles accesibles.
+
+## Alcance ampliado por la persona
+
+Comparar vibe coding, ciclo de desarrollo (SDLC), desarrollo guiado por especificaciones y Oracle Factory con el mismo ejemplo, explicando sus diferencias para visitantes sin conocimientos del tema y que pueden combinarse. Añadir una página independiente “Desde cero” con instalación real por uv/PyPI de las herramientas publicadas y un recorrido local reproducible hasta el cierre. Publicar el sitio desde la rama main. Presentar propuestas para facilitar el uso: una entrada de pedidos, decisiones pendientes y una vista del cambio.
+
+La instalación de Factory como paquete queda en una tarea posterior; esta entrega documenta el checkout actual y sus límites.
