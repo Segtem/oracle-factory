@@ -28,6 +28,11 @@ Requisitos importados: distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_
 
 Factory: 23 tests Python y 11 comprobaciones Chromium OK. Wheel instalado con uv/Python 3.11.16: flujo completo en otro proyecto, con PATH sin oracle/tasks globales; dependencias del entorno verificadas. Se probaron rechazo de aprobación fixture y conservación de configuración. Twine valida wheel y sdist.
 
+
+### Nota (2026-10-03 13:12:20 UTC)
+
+Release alpha publicado y verificado: https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a1. Tag v0.1.0a1 sobre 400dce8110c672089c4da58340a9107272601294; main empujado. Wheel, sdist y SHA256SUMS remotos coinciden con los artefactos probados. PyPI queda pendiente del usuario.
+
 ## Próximo paso
 
-Integrar el corte alpha 0.1.0a1 en main, construir los artefactos definitivos y publicar tag/GitHub Release con wheel, sdist y SHA256SUMS. Después el usuario publica en PyPI; verificar instalación desde el índice tras su aviso. El cierre formal no se simula; los requisitos importados siguen sin medidas acordadas.
+El usuario publica en PyPI los artefactos probados del release v0.1.0a1 (también en dist/), siguiendo NOTAS-DE-RELEASE.md. Tras su aviso, verificar instalación desde PyPI con uv en un entorno limpio y actualizar la guía para usar el índice. El cierre formal del cambio queda sujeto a revisión humana y medidas acordadas; no se simula un veredicto Oracle.

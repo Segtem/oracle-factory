@@ -33,5 +33,12 @@
     "oracle_factory/data/notas/test_notas.py": "12c5edef513f7df9b492fdde1f3b758eb65dd72b14213eb8c1b79f6c1209ba21",
     "oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle": "7d03091493abdde5f0dbd6aff44dd785665828aab22859640dc5e694f746188e",
     "oracle_factory/data/notas/catalogos/notas.resultados.oracle": "5dbd8c4809b43a4485c5c04257cfd85ccfb52022daa50e9d878fb0aba8033c80"
+  },
+  "github_release": {
+    "url": "https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a1",
+    "tag": "v0.1.0a1",
+    "commit": "400dce8110c672089c4da58340a9107272601294",
+    "prerelease": true,
+    "verificacion": "Los tres assets remotos coinciden en tamaño y SHA-256 con los locales probados."
   }
 }
