@@ -1,0 +1,76 @@
+{
+  "id": "20261004-005956-inicio-guiado",
+  "titulo": "Inicio guiado",
+  "capacidad": "onboarding",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md",
+  "spec_sha256": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f",
+  "spec_aprobada": {
+    "por": "usuario de esta conversación",
+    "cuando": "2026-10-04T02:26:52.929753+00:00",
+    "documentos": {
+      "openspec/changes/20261004-005956-inicio-guiado/proposal.md": "a8db8e927f8a0590d2a620d2c76be76c048b10b75458b20a391f79baecdcbe65",
+      "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f"
+    },
+    "canal": "conversación",
+    "texto": "Dale para el inicio guiado y elección de medidas"
+  },
+  "requisitos": [
+    "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+    "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+    "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso"
+  ],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "spec_aceptada_en_conversacion",
+      "por": "usuario de esta conversación",
+      "cuando": "2026-10-04T02:26:52.929766+00:00",
+      "documentos": {
+        "openspec/changes/20261004-005956-inicio-guiado/proposal.md": "a8db8e927f8a0590d2a620d2c76be76c048b10b75458b20a391f79baecdcbe65",
+        "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:31:41+00:00",
+      "ids": [
+        "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+        "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+        "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+      "medidas": [
+        "factory_guiada.preparar_ejemplo_sin_aprobacion"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "medidas": [
+        "factory_guiada.preservar_archivos_existentes"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso",
+      "medidas": [
+        "factory_guiada.recuperar_cambios_y_siguiente_paso"
+      ],
+      "sin_medir": ""
+    }
+  ]
+}

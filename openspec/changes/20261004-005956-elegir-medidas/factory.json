@@ -1,0 +1,76 @@
+{
+  "id": "20261004-005956-elegir-medidas",
+  "titulo": "Elección de medidas",
+  "capacidad": "measurement_choice",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md",
+  "spec_sha256": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1",
+  "spec_aprobada": {
+    "por": "usuario de esta conversación",
+    "cuando": "2026-10-04T02:26:52.962295+00:00",
+    "documentos": {
+      "openspec/changes/20261004-005956-elegir-medidas/proposal.md": "db4b959e41d223cfe22f4ce3e96508094150d22bccaca15558efbe934e12a6f9",
+      "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1"
+    },
+    "canal": "conversación",
+    "texto": "Dale para el inicio guiado y elección de medidas"
+  },
+  "requisitos": [
+    "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+    "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+    "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error"
+  ],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "spec_aceptada_en_conversacion",
+      "por": "usuario de esta conversación",
+      "cuando": "2026-10-04T02:26:52.962305+00:00",
+      "documentos": {
+        "openspec/changes/20261004-005956-elegir-medidas/proposal.md": "db4b959e41d223cfe22f4ce3e96508094150d22bccaca15558efbe934e12a6f9",
+        "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:31:41+00:00",
+      "ids": [
+        "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+        "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+        "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "medidas": [
+        "factory_guiada.asociacion_explicita_y_valida"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+      "medidas": [
+        "factory_guiada.invalidar_evidencia_anterior"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-04T02:58:05+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "medidas": [
+        "factory_guiada.preservar_requisito_ante_error"
+      ],
+      "sin_medir": ""
+    }
+  ]
+}

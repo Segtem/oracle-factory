@@ -7,6 +7,9 @@ import datetime as dt
 import getpass
 import hashlib
 import json
+import os
+import tempfile
+from contextlib import contextmanager
 import re
 import subprocess
 import sys
@@ -39,12 +42,12 @@ def ruta_cambio(identificador: str) -> Path:
     ruta = (CHANGES / identificador).resolve()
     if not ruta.is_relative_to(CHANGES.resolve()):
         raise FactoryError("ruta de cambio fuera de openspec/changes")
-    return ruta
+    return ruta_segura(CHANGES / identificador)
 
 
 def leer(identificador: str) -> tuple[Path, dict]:
     carpeta = ruta_cambio(identificador)
-    archivo = carpeta / "factory.json"
+    archivo = ruta_segura(carpeta / "factory.json")
     if not archivo.is_file():
         raise FactoryError(f"no encuentro el registro de factory: {archivo}")
     return carpeta, json.loads(archivo.read_text(encoding="utf-8"))
@@ -85,21 +88,32 @@ def nota_tarea(identificador: str, texto: str) -> None:
         raise FactoryError(f"oracle-task no pudo registrar la nota: {p.stderr.strip()}")
 
 
-def nuevo(titulo: str, capacidad: str) -> str:
+def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None) -> str:
+    if con_ejemplo and (con_ejemplo != 'notas' or capacidad not in (None, 'notas')):
+        raise FactoryError('--con-ejemplo notas requiere capacidad notas, o no indicar --capacidad')
+    capacidad = capacidad or ('notas' if con_ejemplo else None)
+    if capacidad is None:
+        raise FactoryError('indicá --capacidad o --con-ejemplo notas')
+    ruta_segura(CHANGES)
+    ruta_segura(ROOT / "tareas")
     if not SLUG_RE.fullmatch(capacidad):
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
+    plan = plan_ejemplo() if con_ejemplo else {}
+    if plan:
+        preparar_ejemplo(plan)
     p = ejecutar(["tasks", "new", titulo, "--json", "--proyecto", str(ROOT)])
     if p.returncode:
-        raise FactoryError(f"oracle-task no pudo crear la tarea: {p.stderr.strip()}")
+        raise FactoryError(f"oracle-task no pudo crear la tarea: {p.stderr.strip()}. No reintentes con otro título sin revisar los archivos del ejemplo que ya se copiaron; no hubo una tarea confirmada.")
     try:
         identificador = json.loads(p.stdout)["id"]
     except (json.JSONDecodeError, KeyError) as e:
         raise FactoryError("oracle-task no devolvió el id completo de la tarea") from e
     carpeta = ruta_cambio(identificador)
-    spec = carpeta / "specs" / capacidad / "spec.md"
-    spec.parent.mkdir(parents=True, exist_ok=False)
-    carpeta.mkdir(parents=True, exist_ok=True)
-    (carpeta / "proposal.md").write_text(f"""# {titulo}
+    try:
+        spec = carpeta / "specs" / capacidad / "spec.md"
+        spec.parent.mkdir(parents=True, exist_ok=False)
+        carpeta.mkdir(parents=True, exist_ok=True)
+        (carpeta / "proposal.md").write_text(f"""# {titulo}
 
 ## Why
 
@@ -117,7 +131,7 @@ TODO: qué queda explícitamente fuera.
 
 TODO: preguntas que requieren una decisión de Brian/equipo.
 """, encoding="utf-8")
-    spec.write_text(f"""# Capability: {capacidad}
+        spec.write_text(f"""# Capability: {capacidad}
 
 ### Requirement: comportamiento principal
 The system SHALL TODO: write one testable promise.
@@ -127,8 +141,8 @@ The system SHALL TODO: write one testable promise.
 - WHEN TODO: the user performs an action
 - THEN TODO: an observable result follows
 """, encoding="utf-8")
-    (carpeta / "design.md").write_text("# Design\n\nTODO: completar si la solución necesita una decisión técnica.\n", encoding="utf-8")
-    (carpeta / "tasks.md").write_text("""# Tasks
+        (carpeta / "design.md").write_text("# Design\n\nTODO: completar si la solución necesita una decisión técnica.\n", encoding="utf-8")
+        (carpeta / "tasks.md").write_text("""# Tasks
 
 - [ ] Persona: revisar y aceptar proposal.md + spec.md.
 - [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.
@@ -138,20 +152,33 @@ The system SHALL TODO: write one testable promise.
 - [ ] Agente: correr Oracle sobre hechos observados.
 - [ ] Persona: revisar el informe y decidir si se cierra.
 """, encoding="utf-8")
-    estado = {
-        "id": identificador, "titulo": titulo, "capacidad": capacidad,
-        "fase": "espera_aprobacion_spec",
-        "spec": str(spec.relative_to(ROOT)), "spec_sha256": None,
-        "spec_aprobada": None, "requisitos": [], "revision": None, "oracle": None,
-        "eventos": [],
-    }
-    evento(estado, "cambio_creado", capacidad=capacidad)
-    guardar(carpeta, estado)
+        estado = {
+            "id": identificador, "titulo": titulo, "capacidad": capacidad,
+            "fase": "espera_aprobacion_spec",
+            "spec": str(spec.relative_to(ROOT)), "spec_sha256": None,
+            "spec_aprobada": None, "requisitos": [], "revision": None, "oracle": None,
+            "eventos": [],
+        }
+        evento(estado, "cambio_creado", capacidad=capacidad)
+        if con_ejemplo:
+            (carpeta / 'proposal.md').write_bytes((ROOT / 'examples/notas/proposal.md').read_bytes())
+            spec.write_bytes((ROOT / 'examples/notas/spec.md').read_bytes())
+            estado['ejemplo'] = con_ejemplo
+        guardar(carpeta, estado)
+    except OSError as e:
+        raise FactoryError(f'preparación incompleta de la tarea {identificador}: {e}. '
+                           f'No crees otra tarea: recuperá este ID con tasks show {identificador}; '
+                           f'revisá y completá los archivos en {carpeta}. Los destinos existentes no se sobrescriben al reintentar nuevo.') from e
     nota_tarea(identificador, f"OpenSpec: {carpeta.relative_to(ROOT)}. Estado de factory: espera aprobación humana de proposal.md y spec.md.")
     print(f"Cambio creado: {identificador}")
     print(f"Tarea: {ROOT / 'tareas' / identificador / 'TAREA.md'}")
     print(f"Propuesta/spec/tasks: {carpeta}")
-    print(f"Próximo paso humano: editar los TODO y revisar {carpeta / 'proposal.md'} y {spec}")
+    if con_ejemplo:
+        print(f'Ejemplo y catálogos preparados en {ROOT / "examples/notas"} y {ROOT / "catalogos"}. No se ejecutó el programa.')
+    else:
+        print('Completá los TODO antes de pedir aceptación.')
+    print(f"Próximo paso humano: revisar {carpeta / 'proposal.md'} y {spec}")
+    siguiente(identificador, 'espera_aprobacion_spec')
     return identificador
 
 
@@ -239,6 +266,7 @@ def aprobar_spec(identificador: str) -> None:
     guardar(carpeta, estado)
     nota_tarea(identificador, f"Persona aprobó propuesta y spec {estado['spec']}; se reiniciaron las validaciones dependientes.")
     print("Alcance aprobado; sus requisitos todavía deben importarse y medirse.")
+    siguiente(identificador, estado["fase"])
 
 def importar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
@@ -264,6 +292,7 @@ def importar(identificador: str) -> None:
     guardar(carpeta, estado)
     nota_tarea(identificador, "Requisitos importados: " + ", ".join(ids) + ". Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.")
     print("La persona debe revisar medidas y límites de cada requisito.")
+    siguiente(identificador, estado["fase"])
 
 def revisar(identificador: str, informe: Path, revisor: str, decision: str, abiertos: int) -> None:
     carpeta, estado = abierto(identificador)
@@ -297,6 +326,8 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     evento(estado, "revision_registrada", revisor=revisor, decision=decision, abiertos=abiertos, sha256=huella)
     guardar(carpeta, estado)
     nota_tarea(identificador, f"Revisión {revisor}: {decision}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(ROOT)}.")
+    print(f"Informe registrado: {destino}")
+    siguiente(identificador, estado["fase"])
 
 def juzgar(identificador: str, hechos: Path) -> None:
     carpeta, estado = abierto(identificador)
@@ -334,6 +365,8 @@ def juzgar(identificador: str, hechos: Path) -> None:
     evento(estado, "oracle_ejecutado", codigo=estado["oracle"]["codigo"], codigo_oracle=p.returncode, hechos_sha256=huella)
     guardar(carpeta, estado)
     nota_tarea(identificador, f"Juicio Factory: {'verde' if ok else 'incompleto/rojo'}; salida Oracle {p.returncode}; informe {informe.relative_to(ROOT)}.")
+    print(f"Informe Oracle: {informe}")
+    siguiente(identificador, estado["fase"])
     if not ok:
         raise FactoryError("Oracle no confirmó cada requisito: puede faltar evidencia o haber fallas en sombra")
 
@@ -420,22 +453,30 @@ def mostrar(identificador: str) -> None:
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
     oracle = estado.get("oracle")
     print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
+    siguiente(identificador, estado["fase"])
 
 
 def inicializar() -> None:
     ROOT.mkdir(parents=True, exist_ok=True)
+    for nombre in ("tareas", "catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json", ".gitignore", "openspec/changes"):
+        ruta_segura(ROOT / nombre)
     for comando in (["tasks", "init", str(ROOT), "--sin-readme"], ["oracle", "init", str(ROOT)]):
         resultado = ejecutar(comando)
         if resultado.returncode:
             raise FactoryError(resultado.stderr or resultado.stdout)
-        print(resultado.stdout, end="")
-    CHANGES.mkdir(parents=True, exist_ok=True)
-    ignore = ROOT / ".gitignore"
-    contenido = ignore.read_text(encoding="utf-8") if ignore.exists() else ""
-    if ".factory-demo/" not in contenido.splitlines():
-        with ignore.open("a", encoding="utf-8") as archivo:
-            archivo.write(("\n" if contenido and not contenido.endswith("\n") else "") + ".factory-demo/\n")
-    print(f"Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.")
+    ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
+    ignore = ruta_segura(ROOT / '.gitignore')
+    contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
+    pendientes = [line for line in ('.factory-demo/', '__pycache__/', '*.py[cod]') if line not in contenido.splitlines()]
+    if pendientes:
+        with ignore.open('a', encoding='utf-8') as archivo:
+            archivo.write(('\n' if contenido and not contenido.endswith('\n') else '') + '\n'.join(pendientes) + '\n')
+    print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
+    print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; configuración: {ROOT / "oracle.json"}.')
+    print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
+    print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
+    print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
+    print('Para recuperar cambios existentes: oracle-factory listar')
 
 
 def copiar_ejemplo(destino: Path) -> None:
@@ -455,6 +496,265 @@ def copiar_ejemplo(destino: Path) -> None:
     print(f"Ejemplo copiado en {destino}")
 
 
+def ruta_segura(ruta: Path) -> Path:
+    """Rechaza enlaces y salidas del proyecto antes de leer o escribir."""
+    ruta = Path(ruta)
+    try:
+        relativa = ruta.relative_to(ROOT)
+    except ValueError as e:
+        raise FactoryError(f"ruta fuera del proyecto: {ruta}") from e
+    actual = ROOT
+    for parte in relativa.parts:
+        if parte in {'.', '..'}:
+            raise FactoryError(f"ruta insegura: {ruta}")
+        actual /= parte
+        if actual.is_symlink():
+            raise FactoryError(f"no se siguen enlaces simbólicos: {actual}")
+    return ruta
+
+
+def escribir_atomico(ruta: Path, datos: bytes, *, esperado: bytes | None = None) -> None:
+    ruta_segura(ruta)
+    temporal = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=ruta.parent, prefix='.factory-', delete=False) as archivo:
+            temporal = Path(archivo.name)
+            archivo.write(datos)
+            archivo.flush()
+            os.fsync(archivo.fileno())
+        if ruta.exists():
+            os.chmod(temporal, ruta.stat().st_mode & 0o777)
+        ruta_segura(ruta)
+        if esperado is not None and ruta.read_bytes() != esperado:
+            raise FactoryError(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
+        os.replace(temporal, ruta)
+    finally:
+        if temporal is not None and temporal.exists():
+            temporal.unlink()
+
+
+def plan_ejemplo() -> dict[Path, bytes]:
+    destino = ruta_segura(ROOT / 'examples' / 'notas')
+    if destino.exists():
+        raise FactoryError(f"el destino del ejemplo ya existe: {destino}; usá nuevo --capacidad notas para otro cambio")
+    if not (ROOT / 'catalogos').is_dir() or not (ROOT / 'oracle.json').is_file():
+        raise FactoryError('primero inicializá el proyecto con oracle-factory init')
+    origen = resources.files('oracle_factory').joinpath('data/notas')
+    plan = {}
+    def recorrer(carpeta, relativa):
+        for item in sorted(carpeta.iterdir(), key=lambda x: x.name):
+            nombre = relativa / item.name
+            if item.is_dir():
+                recorrer(item, nombre)
+            else:
+                plan[destino / nombre] = item.read_bytes()
+                if relativa == Path('catalogos'):
+                    plan[ROOT / 'catalogos' / item.name] = item.read_bytes()
+    recorrer(origen, Path())
+    for ruta in plan:
+        ruta_segura(ruta)
+        if ruta.exists():
+            raise FactoryError(f"destino existente; no se creó ninguna tarea ni se sobrescribió: {ruta}")
+        for padre in ruta.parents:
+            if padre == ROOT:
+                break
+            if padre.exists() and not padre.is_dir():
+                raise FactoryError(f"el directorio destino es un archivo: {padre}")
+    return plan
+
+
+def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
+    copiados = []
+    try:
+        for ruta, datos in plan.items():
+            ruta_segura(ruta)
+            ruta.parent.mkdir(parents=True, exist_ok=True)
+            with ruta.open('xb') as archivo:
+                archivo.write(datos)
+            copiados.append(str(ruta.relative_to(ROOT)))
+    except OSError as e:
+        # No borrar archivos que otra sesión podría haber adoptado/modificado.
+        raise FactoryError('copia incompleta; todavía no se creó una tarea. '
+                           f'Destino fallido: {ruta}. Archivos copiados: {", ".join(copiados) or "ninguno"}. '
+                           'Revisá esos destinos antes de reintentar; no se sobrescriben. ' + str(e)) from e
+
+
+def siguiente(identificador: str, fase: str) -> None:
+    acciones = {
+        'espera_aprobacion_spec': f'oracle-factory aprobar-spec {identificador}',
+        'spec_aprobada': f'oracle-factory importar {identificador}',
+        'requisitos_importados': f'oracle-factory medir {identificador} --listar',
+        'revision_aprobada': f'oracle-factory juzgar {identificador} --con RUTA_DE_HECHOS',
+        'cambios_pedidos': f'oracle-factory estado {identificador}',
+        'oracle_verde': f'oracle-factory estado {identificador}',
+        'oracle_rojo': f'oracle-factory estado {identificador}',
+    }
+    if fase in acciones:
+        print('Próximo paso: ' + acciones[fase])
+
+
+def listar() -> None:
+    ruta_segura(CHANGES)
+    if not CHANGES.exists():
+        print('No hay cambios Factory. Empezá con oracle-factory init.')
+        return
+    encontrados = 0
+    for carpeta in sorted(CHANGES.iterdir()):
+        if not ID_RE.fullmatch(carpeta.name):
+            continue
+        ruta_segura(carpeta)
+        if not (carpeta / 'factory.json').exists():
+            continue
+        _, estado = leer(carpeta.name)
+        print(f"{carpeta.name}  {estado['fase']}  {estado['titulo']}")
+        encontrados += 1
+    if not encontrados:
+        print('No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.')
+    print(f'Acuerdos: {CHANGES}')
+
+
+@contextmanager
+def bloqueo_medidas(identificador: str):
+    ruta = ruta_segura(ROOT / '.factory-demo' / 'locks' / (identificador + '.medir.lock'))
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        descriptor = os.open(ruta, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    except FileExistsError as e:
+        raise FactoryError(f'otra operación medir está en curso: {ruta}; si fue interrumpida, comprobá que terminó antes de retirar ese bloqueo') from e
+    try:
+        os.close(descriptor)
+        yield
+    finally:
+        ruta.unlink()
+
+
+def inventario_medidas(estado: dict):
+    # Oracle es quien valida la sintaxis, forma única, ids y catálogo efectivo.
+    from oracle_metalenguaje.nucleo import requisito
+    from oracle_metalenguaje.nucleo.proyecto import resolver, catalogo_efectivo
+    ruta_segura(ROOT / 'requisitos')
+    requisitos = {}
+    for rid in estado.get('requisitos', []):
+        if not requisito.ID_RE.fullmatch(rid):
+            raise FactoryError(f'id de requisito inválido en el registro: {rid}')
+        ruta = ruta_segura(ROOT / 'requisitos' / f'{rid}.requisito')
+        requisitos[rid] = requisito.cargar(ruta)
+    proyecto = resolver(['--proyecto', str(ROOT)])
+    catalogo = catalogo_efectivo(proyecto)
+    huella = sha256(json.dumps([
+        [mid, str(catalogo.entradas[mid].ruta), sha256(catalogo.entradas[mid].ruta.read_bytes()), repr(m)]
+        for mid, m in sorted(catalogo.items())
+    ], ensure_ascii=False).encode())
+    return requisitos, catalogo, huella
+
+
+def medir(identificador: str, *, requisito_id: str | None = None,
+          medidas: list[str] | None = None, listar_opciones: bool = False,
+          sin_medir: str | None = None, quitar_sin_medir: bool = False) -> None:
+    carpeta, estado = abierto(identificador)
+    ruta_segura(carpeta / 'factory.json')
+    ruta_segura(ROOT / estado['spec'])
+    ruta_segura(carpeta / 'proposal.md')
+    exigir_spec(carpeta, estado)
+    if not estado.get('requisitos'):
+        raise FactoryError(f'primero importá los requisitos: oracle-factory importar {identificador}')
+    try:
+        requisitos, catalogo, catalogo_sha = inventario_medidas(estado)
+    except ValueError as e:
+        raise FactoryError(f'Oracle rechazó requisito o catálogo: {e}') from e
+    if listar_opciones:
+        if requisito_id is not None or medidas or sin_medir is not None or quitar_sin_medir:
+            raise FactoryError('--listar no acepta opciones de edición')
+        print('Requisitos de este cambio (sin evaluar cumplimiento):')
+        for rid, r in requisitos.items():
+            print(f"{rid}\n  Archivo: {ROOT / 'requisitos' / (rid + '.requisito')}\n  Texto: {r.texto}\n  Fuente: {r.fuente}")
+            print('  Medidas: ' + (', '.join(r.medido_por) or 'ninguna'))
+            print('  SIN MEDIR: ' + (r.sin_medir or 'sin límite adicional declarado; no prueba cobertura semántica'))
+        print('Medidas efectivas disponibles:')
+        for mid, m in sorted(catalogo.items()):
+            print(f'{mid}\n  Archivo: {catalogo.entradas[mid].ruta}\n  Umbral: {m.op} {m.limite} · según {m.segun}\n  Ámbito: {m.ambito}\n  Alcance: {m.alcance}')
+        print('La persona elige y justifica la pertinencia. No se ejecutaron pruebas ni un juicio.')
+        return
+    if requisito_id not in requisitos:
+        raise FactoryError('usá el id completo de un requisito importado por este cambio; recuperalo con medir ID --listar')
+    if not medidas:
+        raise FactoryError('indicá al menos una --medida con su id completo')
+    if len(set(medidas)) != len(medidas):
+        raise FactoryError('no repitas una medida')
+    desconocidas = sorted(set(medidas) - set(catalogo))
+    if desconocidas:
+        raise FactoryError('medidas inexistentes o no efectivas en este proyecto: ' + ', '.join(desconocidas))
+    if sin_medir is not None and (not sin_medir.strip() or quitar_sin_medir):
+        raise FactoryError('--sin-medir necesita un límite no vacío y no se combina con --quitar-sin-medir')
+    from dataclasses import replace
+    from oracle_metalenguaje.nucleo import requisito
+    from oracle_metalenguaje.nucleo.forma import error_forma
+    ruta = ROOT / 'requisitos' / f'{requisito_id}.requisito'
+    original = ruta.read_bytes()
+    registro_original = (carpeta / 'factory.json').read_bytes()
+    doc_original = documentos(carpeta, estado)
+    r = requisitos[requisito_id]
+    if (requisito.Requisito.de_datos(requisito.leer(original.decode('utf-8'))) != r
+            or json.loads(registro_original) != estado
+            or doc_original != estado['spec_aprobada']['documentos']):
+        raise FactoryError('las entradas cambiaron durante la lectura; volvé a listar')
+    limite = '' if quitar_sin_medir else (sin_medir if sin_medir is not None else r.sin_medir)
+    nuevo_r = replace(r, medido_por=tuple(medidas), sin_medir=limite)
+    if nuevo_r == r:
+        print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
+        return
+    # Sólo modificar cláusulas de asociación/límite; conservar prosa, fuente y comentarios.
+    lineas = original.decode('utf-8').splitlines(keepends=True)
+    destino = []
+    insertada = False
+    for linea in lineas:
+        if linea.startswith('    medido_por '):
+            if not insertada:
+                destino.append('    medido_por ' + ', '.join(medidas) + '\n')
+                insertada = True
+        elif linea.startswith('    sin_medir '):
+            if not insertada:
+                destino.append('    medido_por ' + ', '.join(medidas) + '\n')
+                insertada = True
+            if limite:
+                destino.append('    sin_medir ' + json.dumps(limite, ensure_ascii=False) + '\n')
+        else:
+            destino.append(linea)
+    if not insertada:
+        destino.append('    medido_por ' + ', '.join(medidas) + '\n')
+    if limite and not r.sin_medir:
+        destino.append('    sin_medir ' + json.dumps(limite, ensure_ascii=False) + '\n')
+    datos = ''.join(destino).encode('utf-8')
+    try:
+        arbol = requisito.leer(datos.decode('utf-8'))
+        error = error_forma(ruta, datos.decode('utf-8'), requisito.imprimir(arbol))
+        if error:
+            raise FactoryError(error)
+    except ValueError as e:
+        raise FactoryError(f'Oracle rechazó la asociación propuesta: {e}') from e
+    with bloqueo_medidas(identificador):
+        ruta_segura(ruta)
+        ruta_segura(carpeta / 'factory.json')
+        if (ruta.read_bytes() != original or (carpeta / 'factory.json').read_bytes() != registro_original
+                or documentos(carpeta, estado) != doc_original):
+            raise FactoryError('requisito, registro o spec cambió durante la operación; volvé a listar')
+        try:
+            _, _, actual_sha = inventario_medidas(estado)
+        except (ValueError, OSError) as e:
+            raise FactoryError(f'el catálogo cambió durante la operación: {e}') from e
+        if actual_sha != catalogo_sha:
+            raise FactoryError('el catálogo cambió durante la operación; volvé a listar')
+        # Invalidar primero: si falla después la escritura, nunca queda un verde anterior vigente.
+        estado.update(revision=None, oracle=None, fase='requisitos_importados')
+        evento(estado, 'medidas_elegidas', requisito=requisito_id, medidas=medidas, sin_medir=limite)
+        escribir_atomico(carpeta / 'factory.json', (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
+        escribir_atomico(ruta, datos, esperado=original)
+    nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
+    print(f'Asociación guardada: {ruta}')
+    print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
+    print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')
+
+
 def main(argv: list[str] | None = None) -> int:
     global ROOT, CHANGES
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
@@ -466,8 +766,18 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("nombre", choices=["notas"])
     p.add_argument("--destino", type=Path, default=Path("examples/notas"))
     p = sub.add_parser("nuevo", help="crear tarea y paquete OpenSpec")
-    p.add_argument("--capacidad", required=True)
+    p.add_argument("--capacidad")
+    p.add_argument("--con-ejemplo", choices=["notas"], help="preparar documentos y catálogos del ejemplo en destinos nuevos")
     p.add_argument("titulo")
+    sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
+    q = sub.add_parser('medir', help='listar y asociar medidas explícitas sin editar requisitos a mano')
+    q.add_argument('id')
+    q.add_argument('--listar', action='store_true')
+    q.add_argument('--requisito', help='id completo importado por este cambio')
+    q.add_argument('--medida', action='append', help='id completo de una medida efectiva; repetible')
+    limites = q.add_mutually_exclusive_group()
+    limites.add_argument('--sin-medir', help='declarar el límite que permanece sin medir')
+    limites.add_argument('--quitar-sin-medir', action='store_true', help='eliminar explícitamente ese límite; no prueba pertinencia ni cumplimiento')
     for nombre, ayuda in (("aprobar-spec", "aceptación humana explícita de la propuesta/spec"),
                           ("importar", "importar requisitos de la spec aceptada a Oracle"),
                           ("estado", "mostrar estado y gates pendientes"),
@@ -488,7 +798,9 @@ def main(argv: list[str] | None = None) -> int:
             raise FactoryError("el proyecto no existe; ejecutá primero init")
         if args.comando == "init": inicializar()
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
-        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad)
+        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo)
+        elif args.comando == "listar": listar()
+        elif args.comando == "medir": medir(args.id, requisito_id=args.requisito, medidas=args.medida, listar_opciones=args.listar, sin_medir=args.sin_medir, quitar_sin_medir=args.quitar_sin_medir)
         elif args.comando == "aprobar-spec": aprobar_spec(args.id)
         elif args.comando == "importar": importar(args.id)
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos)

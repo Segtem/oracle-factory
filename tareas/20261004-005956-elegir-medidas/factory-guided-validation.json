@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0a3",
+  "python_tests": 43,
+  "browser_checks": 11,
+  "guia_comandos": 22,
+  "wheel_instalado": "OK: entorno aislado, flujo completo de fixture",
+  "twine": "wheel y sdist PASSED",
+  "artefactos_sha256": {
+    "oracle_factory-0.1.0a3-py3-none-any.whl": "28723e87ae284a89bdc86b045b244bc8e3d656a1caa95b6d923d6c63c96a3fb6",
+    "oracle_factory-0.1.0a3.tar.gz": "a57260df2b79cba5dc61f612a5a7d30957d5fc60b2cf75d4d4610a00d9bbd1ee"
+  },
+  "oracle": "6 requisitos nuevos cumplen las medidas de los casos enumerados; 13 previos sin medir",
+  "limites": "Linux; sin piloto humano ni ejecución Windows/macOS. Las confirmaciones en /tmp son fixtures. Revisión humana y cierre real pendientes."
+}

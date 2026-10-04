@@ -1,0 +1,11 @@
+{
+  "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]",
+  "tests": 43,
+  "exitoso": true,
+  "limites": "Casos enumerados en este sensor, Linux. No es aprobación humana ni prueba de propiedades no observadas.",
+  "sha256": {
+    "oracle_factory/cli.py": "73536611beeec255441c7d28b411c0ddd61bc4e3e2902147154e4804121486c5",
+    "tests/test_guided.py": "83d09b34b68ad8769f9c1b6b5055a1d61faf9b7414d6c7cdc23676ae975cc13a",
+    "tools/verify_contracts.py": "1aa0ac308009fa9891c2677bde9cb93af8352c4a3c38e7326ccadf1cdfee403a"
+  }
+}

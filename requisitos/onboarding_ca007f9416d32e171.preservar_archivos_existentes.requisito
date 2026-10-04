@@ -1,0 +1,4 @@
+requisito onboarding_ca007f9416d32e171.preservar_archivos_existentes:
+    texto "The system SHALL reject conflicting example destinations before creating a new task, without overwriting existing files."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md#preservar archivos existentes"
+    medido_por factory_guiada.preservar_archivos_existentes

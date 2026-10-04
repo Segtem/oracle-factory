@@ -1,5 +1,6 @@
 - [x] Preparar contrato concreto para revisión.
-- [ ] Aceptación humana del contrato.
-- [ ] Implementar en rama sin autoaprobaciones.
-- [ ] Verificar errores, conservación de archivos y ejemplo desde wheel.
-- [ ] Actualizar guía y preparar nuevo corte si se acepta.
+- [x] Aceptación humana del contrato: usuario en conversación, “Dale para el inicio guiado y elección de medidas”.
+- [x] Implementar en rama sin autoaprobaciones.
+- [x] Verificar errores, conservación de archivos y ejemplo desde wheel.
+- [x] Actualizar guía y preparar wheel/sdist 0.1.0a3 del contrato aceptado.
+- [ ] Decisión humana sobre revisión y cierre del cambio real.

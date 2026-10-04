@@ -1,0 +1,8 @@
+medida factory_guiada.preservar_requisito_ante_error:
+    de verificacion_factory v
+    donde v.requisito == "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error" y v.codigo == 0
+    resumen contar(1)
+    umbral == 6 segun contrato porque "deben pasar los 6 casos enumerados para este requisito en tools/verify_contracts.py"
+    requiere verificacion_factory
+    ambito universal
+    alcance "resultados de los casos enumerados del sensor en Linux; el conteo no autentica la identidad de casos, no cubre otras plataformas ni reemplaza revisión humana"

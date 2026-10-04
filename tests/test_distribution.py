@@ -17,7 +17,7 @@ class SeleccionProyecto(unittest.TestCase):
             with patch.object(f,'ROOT',root),patch.object(f,'CHANGES',root/'openspec/changes'),contextlib.redirect_stdout(io.StringIO()):
                 f.inicializar();f.inicializar()
             self.assertIn('false',(root/'oracle.json').read_text())
-            self.assertEqual((root/'.gitignore').read_text(),'mis-salidas/\n.factory-demo/\n')
+            self.assertEqual((root/'.gitignore').read_text(),'mis-salidas/\n.factory-demo/\n__pycache__/\n*.py[cod]\n')
             self.assertEqual(original,module.read_bytes())
             self.assertTrue((root/'tareas').is_dir())
 

@@ -23,20 +23,20 @@ def main():
             if not ok:assert r.returncode,r.stdout+r.stderr
             return r
         def factory(*cmd,**kw):return run(executable,'--proyecto',str(root),*cmd,**kw)
-        factory('init');factory('init');factory('ejemplo','notas')
-        output=factory('nuevo','--capacidad','notas','Prueba instalada').stdout
+        factory('init');factory('init')
+        output=factory('nuevo','--con-ejemplo','notas','Prueba instalada').stdout
         ident=re.search(r'Cambio creado: (\S+)',output)[1]
         change=root/'openspec/changes'/ident
-        shutil.copyfile(root/'examples/notas/proposal.md',change/'proposal.md')
-        shutil.copyfile(root/'examples/notas/spec.md',change/'specs/notas/spec.md')
+        assert 'espera_aprobacion_spec' in factory('listar').stdout
+        factory('nuevo','--con-ejemplo','notas','No duplicar tarea',ok=False)
         factory('aprobar-spec',ident,answer='NO\n',ok=False)
         factory('aprobar-spec',ident,answer=f'APROBAR ESPECIFICACION {ident}\n')
         factory('importar',ident)
         state=json.loads((change/'factory.json').read_text())
+        factory('medir',ident,'--listar')
         for rid in state['requisitos']:
-            req=root/'requisitos'/f'{rid}.requisito'
-            req.write_text('\n'.join('    medido_por notas.casos_ejecutados, notas.resultados' if line.strip().startswith('sin_medir ') else line for line in req.read_text().splitlines())+'\n')
-        for file in (root/'examples/notas/catalogos').iterdir():shutil.copyfile(file,root/'catalogos'/file.name)
+            factory('medir',ident,'--requisito',rid,'--medida','notas.no_existe',ok=False)
+            factory('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir')
         run(python,'-m','unittest','discover','-s','examples/notas','-v',cwd=root)
         run(python,'examples/notas/sensor.py','--salida','.factory-demo/hechos.json',cwd=root)
         run('git','init','-q',cwd=root);run('git','add','.',cwd=root)
@@ -47,7 +47,7 @@ def main():
         factory('cerrar',ident,answer=f'CERRAR {ident}\n')
         assert 'ESTADO: CERRADA' in (root/'tareas'/ident/'TAREA.md').read_text()
         assert not (work/'tareas').exists()
-    print('OK: wheel instalado, dependencias aisladas, ejemplo, importación, revisión, juicio y cierre fixture.')
+    print('OK: wheel instalado, dependencias aisladas, inicio guiado, listado, medidas, importación, revisión, juicio y cierre fixture.')
 
 
 if __name__=='__main__':main()

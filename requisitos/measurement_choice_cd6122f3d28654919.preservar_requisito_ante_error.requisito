@@ -1,0 +1,4 @@
+requisito measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error:
+    texto "The system SHALL preserve the original requirement when a selected measurement is missing, the requirement is invalid or writing fails."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md#preservar requisito ante error"
+    medido_por factory_guiada.preservar_requisito_ante_error

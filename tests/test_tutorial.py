@@ -18,21 +18,17 @@ class GuiaDesdeCero(unittest.TestCase):
     def test_ejemplo_de_la_guia_hasta_el_cierre(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)
-            shutil.copytree(SOURCE/'examples',root/'examples')
             (root/'.gitignore').write_text('.factory-demo/\n__pycache__/\n')
             def run(*args,check=True):
                 return subprocess.run(args,cwd=root,capture_output=True,text=True,check=check)
             run('tasks','init',str(root),'--sin-readme');run('oracle','init',str(root))
             (root/'oracle.json').write_text(json.dumps({'esquema':'oracle.proyecto/v1','catalogo_base':False,'perfiles':[]}))
             with patch.object(f,'ROOT',root),patch.object(f,'CHANGES',root/'openspec/changes'),contextlib.redirect_stdout(io.StringIO()):
-                ident=f.nuevo('Ejemplo de guía','notas');folder,state=f.leer(ident)
-                shutil.copyfile(root/'examples/notas/proposal.md',folder/'proposal.md')
-                shutil.copyfile(root/'examples/notas/spec.md',root/state['spec'])
+                ident=f.nuevo('Ejemplo de guía', con_ejemplo='notas');folder,state=f.leer(ident)
                 with patch('builtins.input',return_value=f'APROBAR ESPECIFICACION {ident}'):f.aprobar_spec(ident)
                 f.importar(ident)
-                for file in (root/'examples/notas/catalogos').iterdir():shutil.copyfile(file,root/'catalogos'/file.name)
-                rid=f.leer(ident)[1]['requisitos'][0];req=root/'requisitos'/f'{rid}.requisito'
-                req.write_text('\n'.join('    medido_por notas.casos_ejecutados, notas.resultados' if line.strip().startswith('sin_medir ') else line for line in req.read_text().splitlines())+'\n')
+                rid=f.leer(ident)[1]['requisitos'][0]
+                f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados','notas.resultados'], quitar_sin_medir=True)
                 run(sys.executable,'-m','unittest','discover','-s','examples/notas','-p','test_*.py','-v')
                 run('git','init','-q','-b','demo/notas');run('git','add','.')
                 run('git','-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','ejemplo')

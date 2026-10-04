@@ -1,0 +1,4 @@
+requisito measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior:
+    texto "The system SHALL invalidate the change review and judgement when its measurement associations change, while retaining requirement identity, source and text."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md#invalidar evidencia anterior"
+    medido_por factory_guiada.invalidar_evidencia_anterior

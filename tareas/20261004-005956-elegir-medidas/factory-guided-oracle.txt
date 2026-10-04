@@ -1,0 +1,21 @@
+· distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado   sin medir · SIN MEDIR: sin medida todavía; escenarios: «instalación aislada»
+· distribution_c01af4be8811ed3bb.entregar_artefactos_verificables   sin medir · SIN MEDIR: sin medida todavía; escenarios: «usuario publica el corte»
+· distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona inicia otro proyecto»
+· documentacion_c3d226d369499e32e.correspondencia_con_el_producto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «conocer el alcance»
+· documentacion_c3d226d369499e32e.guia_reproducible   sin medir · SIN MEDIR: sin medida todavía; escenarios: «proyecto vacío»
+· documentacion_c3d226d369499e32e.limites_de_la_evidencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «interpretación del verde»
+· landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante compara cuatro formas de crear software»
+· landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante consulta una herramienta aún en desarrollo»
+· landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante recorre el flujo»
+· landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante abre la página sin red externa»
+· landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona sigue la guía desde cero»
+· landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos   sin medir · SIN MEDIR: sin medida todavía; escenarios: «agente llega a una decisión humana», «visitante usa una decisión de la demostración»
+· landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante prefiere movimiento reducido»
+✓ measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida   cumple · factory_guiada.asociacion_explicita_y_valida cumple
+✓ measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior   cumple · factory_guiada.invalidar_evidencia_anterior cumple
+✓ measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error   cumple · factory_guiada.preservar_requisito_ante_error cumple
+✓ onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion   cumple · factory_guiada.preparar_ejemplo_sin_aprobacion cumple
+✓ onboarding_ca007f9416d32e171.preservar_archivos_existentes   cumple · factory_guiada.preservar_archivos_existentes cumple
+✓ onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso   cumple · factory_guiada.recuperar_cambios_y_siguiente_paso cumple
+
+19 requisitos: 6 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 13 sin medir · 0 con medidas inexistentes

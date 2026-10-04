@@ -1,0 +1,8 @@
+medida factory_guiada.preparar_ejemplo_sin_aprobacion:
+    de verificacion_factory v
+    donde v.requisito == "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion" y v.codigo == 0
+    resumen contar(1)
+    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_contracts.py"
+    requiere verificacion_factory
+    ambito universal
+    alcance "resultados de los casos enumerados del sensor en Linux; el conteo no autentica la identidad de casos, no cubre otras plataformas ni reemplaza revisión humana"
