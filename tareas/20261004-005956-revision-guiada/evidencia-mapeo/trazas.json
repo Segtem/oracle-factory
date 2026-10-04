@@ -1,0 +1,1284 @@
+{
+  "test_review_guided.RevisionGuiada.test_g1_cambio_durante_preparacion_identifica_salida_obsoleta": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g1_error_parcial_y_enlace_no_modifican_gates": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g1_preparar_repetido_deja_pendientes_y_conserva_gates": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpliax0w7x/tareas/20260101-120000-revision/revisiones/preparacion-jhzb41ao/informe.json\nDecisiones pendientes: /tmp/tmpliax0w7x/tareas/20260101-120000-revision/revisiones/preparacion-jhzb41ao/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nInforme pendiente: /tmp/tmpliax0w7x/tareas/20260101-120000-revision/revisiones/preparacion-_zlcpu2t/informe.json\nDecisiones pendientes: /tmp/tmpliax0w7x/tareas/20260101-120000-revision/revisiones/preparacion-_zlcpu2t/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g1_sin_aceptacion_o_cambio_cerrado_no_prepara": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g2_plantilla_y_entradas_invalidas_no_piden_confirmacion": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmp90nysew4/tareas/20260101-120000-revision/revisiones/preparacion-p755l78y/informe.json\nDecisiones pendientes: /tmp/tmp90nysew4/tareas/20260101-120000-revision/revisiones/preparacion-p755l78y/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nInforme pendiente: /tmp/tmp90nysew4/tareas/20260101-120000-revision/revisiones/preparacion-988kxnwd/informe.json\nDecisiones pendientes: /tmp/tmp90nysew4/tareas/20260101-120000-revision/revisiones/preparacion-988kxnwd/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g2_schema_contexto_campos_y_rutas_se_validan": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmphot_zb9c/tareas/20260101-120000-revision/revisiones/preparacion-980ox_x6/informe.json\nDecisiones pendientes: /tmp/tmphot_zb9c/tareas/20260101-120000-revision/revisiones/preparacion-980ox_x6/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g3_incompleta_falla_o_no_ejecutada_solo_permite_cambios": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/preparacion-4klv2g4x/informe.json\nDecisiones pendientes: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/preparacion-4klv2g4x/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: False; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: cambios; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: False; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-xgcyreuf/informe.json\nDecisiones registradas: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-xgcyreuf/decisiones.json\nPróximo paso: oracle-factory estado 20260101-120000-revision\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación falla: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: cambios; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación falla: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-o_tculyi/informe.json\nDecisiones registradas: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-o_tculyi/decisiones.json\nPróximo paso: oracle-factory estado 20260101-120000-revision\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación no_ejecutada: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: cambios; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación no_ejecutada: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-fzd19unw/informe.json\nDecisiones registradas: /tmp/tmp2hpq_0ui/tareas/20260101-120000-revision/revisiones/registro-fzd19unw/decisiones.json\nPróximo paso: oracle-factory estado 20260101-120000-revision\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g3_sin_hallazgos_exige_motivo_y_confirmacion": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpi61022ft/tareas/20260101-120000-revision/revisiones/preparacion-emojdg4u/informe.json\nDecisiones pendientes: /tmp/tmpi61022ft/tareas/20260101-120000-revision/revisiones/preparacion-emojdg4u/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Casos inspeccionados sin hallazgos fixture\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Casos inspeccionados sin hallazgos fixture\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmpi61022ft/tareas/20260101-120000-revision/revisiones/registro-mf3cjtto/informe.json\nDecisiones registradas: /tmp/tmpi61022ft/tareas/20260101-120000-revision/revisiones/registro-mf3cjtto/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g4_hash_ids_y_decisiones_invalidas_se_rechazan": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpgyhlhacd/tareas/20260101-120000-revision/revisiones/preparacion-ijses38x/informe.json\nDecisiones pendientes: /tmp/tmpgyhlhacd/tareas/20260101-120000-revision/revisiones/preparacion-ijses38x/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g4_resoluciones_derivan_abiertos_y_muestran_motivos": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/preparacion-xmvn8i5u/informe.json\nDecisiones pendientes: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/preparacion-xmvn8i5u/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nHallazgo H1: Defecto fixture H1 · producto.py:1 · Caso sembrado\nHallazgo H2: Defecto fixture H2 · producto.py:1 · Caso sembrado\nResolución H1: corregido · Persona fixture · 2026-01-01T12:00:00Z · Decisión fixture motivada\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 1; IDs: H2\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: cambios; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nHallazgo H1: Defecto fixture H1 · producto.py:1 · Caso sembrado\nHallazgo H2: Defecto fixture H2 · producto.py:1 · Caso sembrado\nResolución H1: corregido · Persona fixture · 2026-01-01T12:00:00Z · Decisión fixture motivada\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 1; IDs: H2\nInforme registrado: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/registro-azp1up10/informe.json\nDecisiones registradas: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/registro-azp1up10/decisiones.json\nPróximo paso: oracle-factory estado 20260101-120000-revision\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nHallazgo H1: Defecto fixture H1 · producto.py:1 · Caso sembrado\nHallazgo H2: Defecto fixture H2 · producto.py:1 · Caso sembrado\nResolución H1: corregido · Persona fixture · 2026-01-01T12:00:00Z · Decisión fixture motivada\nResolución H2: riesgo_aceptado · Persona fixture · 2026-01-01T12:00:00Z · Decisión fixture motivada\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/registro-qme51f3n/informe.json\nDecisiones registradas: /tmp/tmps_yrkijr/tareas/20260101-120000-revision/revisiones/registro-qme51f3n/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g5_cambio_entre_lectura_y_snapshot_no_se_sobrescribe": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpv2h0nj4l/tareas/20260101-120000-revision/revisiones/preparacion-s1072_i5/informe.json\nDecisiones pendientes: /tmp/tmpv2h0nj4l/tareas/20260101-120000-revision/revisiones/preparacion-s1072_i5/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g5_cancelar_preserva_y_nueva_revision_invalida_juicio": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/preparacion-sc5yjr0p/informe.json\nDecisiones pendientes: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/preparacion-sc5yjr0p/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/registro-hbxy072h/informe.json\nDecisiones registradas: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/registro-hbxy072h/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/registro-swna5i0x/informe.json\nDecisiones registradas: /tmp/tmpaioe3d22/tareas/20260101-120000-revision/revisiones/registro-swna5i0x/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g5_edicion_durante_confirmacion_preserva_revision": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpznspo_jx/tareas/20260101-120000-revision/revisiones/preparacion-mr3mef7q/informe.json\nDecisiones pendientes: /tmp/tmpznspo_jx/tareas/20260101-120000-revision/revisiones/preparacion-mr3mef7q/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmpznspo_jx/tareas/20260101-120000-revision/revisiones/registro-rdaz0sqm/informe.json\nDecisiones registradas: /tmp/tmpznspo_jx/tareas/20260101-120000-revision/revisiones/registro-rdaz0sqm/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g6_archivos_archivados_y_contexto_se_verifican": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "--allow-empty",
+          "-qm",
+          "nuevo candidato"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmp7ntgpnt9/tareas/20260101-120000-revision/revisiones/preparacion-jrj4uecu/informe.json\nDecisiones pendientes: /tmp/tmp7ntgpnt9/tareas/20260101-120000-revision/revisiones/preparacion-jrj4uecu/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmp7ntgpnt9/tareas/20260101-120000-revision/revisiones/registro-iobx7963/informe.json\nDecisiones registradas: /tmp/tmp7ntgpnt9/tareas/20260101-120000-revision/revisiones/registro-iobx7963/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g6_fallas_de_archivo_y_estado_conservan_anterior": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmpo5l3a82j/tareas/20260101-120000-revision/revisiones/preparacion-7wjkbu78/informe.json\nDecisiones pendientes: /tmp/tmpo5l3a82j/tareas/20260101-120000-revision/revisiones/preparacion-7wjkbu78/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nInforme registrado: /tmp/tmpo5l3a82j/tareas/20260101-120000-revision/revisiones/registro-wi1s021i/informe.json\nDecisiones registradas: /tmp/tmpo5l3a82j/tareas/20260101-120000-revision/revisiones/registro-wi1s021i/decisiones.json\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g6_nota_fallida_no_finge_revertir_registro": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nInforme pendiente: /tmp/tmp_wpldtc6/tareas/20260101-120000-revision/revisiones/preparacion-38gjo1n3/informe.json\nDecisiones pendientes: /tmp/tmp_wpldtc6/tareas/20260101-120000-revision/revisiones/preparacion-38gjo1n3/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\nFormato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Revisor fixture; decisión solicitada: aprobar; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nRevisión declarada completa: True; archivos: producto.py\nLímites: Sólo fixture; no análisis humano real\nComprobación cumple: Inspección fixture · valor = 1\nAusencia de hallazgos declarada: Caso sin defectos sembrados para comprobar registro.\nActor de decisión: Persona fixture; motivo: Ensayo de registro, sin aprobación real.\nAbiertos derivados: 0; IDs: ninguno\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g7_libre_compatible_historico_y_opciones_explicitas": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\nFormato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.\nRevisor: Persona; decisión: aprobar; abiertos: 0; commit: 06797bf6348ab05c1be88dba6b4ea0f731451747\nInforme registrado: /tmp/tmp16u5198t/openspec/changes/20260101-120000-revision/review.md\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\n20260101-120000-revision — Fixture\nFase: revision_aprobada\nRequisitos Oracle: todavía no importados\nPendiente: importación OpenSpec → requisitos Oracle; veredicto Oracle exitoso con evidencia\nAprobación spec: sí\nRevisión: Persona / aprobar / 0 abiertos\nFormato de revisión: libre histórico; declaración humana sin validación estructural\nOracle: pendiente\nPróximo paso: oracle-factory juzgar 20260101-120000-revision --con RUTA_DE_HECHOS\nInforme pendiente: /tmp/tmp16u5198t/tareas/20260101-120000-revision/revisiones/preparacion-qn6y6mc1/informe.json\nDecisiones pendientes: /tmp/tmp16u5198t/tareas/20260101-120000-revision/revisiones/preparacion-qn6y6mc1/decisiones.json\nCambio: 20260101-120000-revision; HEAD: 06797bf6348ab05c1be88dba6b4ea0f731451747; huella de archivos: b77a4fed0ecc8b552cd29a9d507f728a7544c589cb142aaad7526700e07f2d7f\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20260101-120000-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n"
+  },
+  "test_review_guided.RevisionGuiada.test_g8_cli_completo_y_oracle_real_en_fixture": {
+    "comandos": [
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "add",
+          "."
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "base fixture"
+        ],
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "init"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "Factory inicializada en /tmp/tmpxabwkt8u/cli. No se crearon commits ni aprobaciones.\nAcuerdos: /tmp/tmpxabwkt8u/cli/openspec/changes; tareas: /tmp/tmpxabwkt8u/cli/tareas; configuración: /tmp/tmpxabwkt8u/cli/oracle.json.\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "init",
+          "-q",
+          "-b",
+          "main"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "nuevo",
+          "--con-ejemplo",
+          "notas",
+          "Fixture revisión guiada"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "Cambio creado: 20261004-175514-fixture-revision\nTarea: /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/TAREA.md\nPropuesta/spec/tasks: /tmp/tmpxabwkt8u/cli/openspec/changes/20261004-175514-fixture-revision\nEjemplo y catálogos preparados en /tmp/tmpxabwkt8u/cli/examples/notas y /tmp/tmpxabwkt8u/cli/catalogos. No se ejecutó el programa.\nPróximo paso humano: revisar /tmp/tmpxabwkt8u/cli/openspec/changes/20261004-175514-fixture-revision/proposal.md y /tmp/tmpxabwkt8u/cli/openspec/changes/20261004-175514-fixture-revision/specs/notas/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261004-175514-fixture-revision\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "aprobar-spec",
+          "20261004-175514-fixture-revision"
+        ],
+        "stdin_fixture": "APROBAR ESPECIFICACION 20261004-175514-fixture-revision\n",
+        "codigo": 0,
+        "stdout": "openspec/changes/20261004-175514-fixture-revision/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261004-175514-fixture-revision/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nEscribí APROBAR ESPECIFICACION 20261004-175514-fixture-revision: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261004-175514-fixture-revision\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "importar",
+          "20261004-175514-fixture-revision"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "+ notas_c7304b5d113a591fa.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /tmp/tmpxabwkt8u/cli/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261004-175514-fixture-revision --listar\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "medir",
+          "20261004-175514-fixture-revision",
+          "--requisito",
+          "notas_c7304b5d113a591fa.titulo_valido",
+          "--medida",
+          "notas.casos_ejecutados",
+          "--medida",
+          "notas.resultados",
+          "--quitar-sin-medir"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "Asociación guardada: /tmp/tmpxabwkt8u/cli/requisitos/notas_c7304b5d113a591fa.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "add",
+          "."
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "git",
+          "-c",
+          "core.hooksPath=/dev/null",
+          "-c",
+          "user.name=Fixture",
+          "-c",
+          "user.email=fixture@example.invalid",
+          "commit",
+          "-qm",
+          "producto fixture"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "examples/notas/sensor.py",
+          "--salida",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/hechos.json"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "Hechos de 3 casos escritos en /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/hechos.json\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "revision-preparar",
+          "20261004-175514-fixture-revision"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "Informe pendiente: /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/informe.json\nDecisiones pendientes: /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/decisiones.json\nCambio: 20261004-175514-fixture-revision; HEAD: ab7e659d245b558b35ebfde25474f0d609815986; huella de archivos: 038ce3f6a4999fc67687c6ef2e39896704ac4f9166b4f327bec5fdb19ad28ecb\nLa huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.\nCompletá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.\nPróximo paso: oracle-factory revision 20261004-175514-fixture-revision --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION\nDECISION debe ser aprobar o cambios, elegida por la persona después de revisar.\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "revision",
+          "20261004-175514-fixture-revision",
+          "--informe",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/informe.json",
+          "--revisor",
+          "Persona fixture",
+          "--decision",
+          "aprobar"
+        ],
+        "stdin_fixture": null,
+        "codigo": 1,
+        "stdout": "",
+        "stderr": "FACTORY BLOQUEADA: modo libre requiere --hallazgos-abiertos N explícito, entero no negativo\n"
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "revision",
+          "20261004-175514-fixture-revision",
+          "--formato",
+          "desconocido",
+          "--informe",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/informe.json",
+          "--revisor",
+          "Persona fixture",
+          "--decision",
+          "aprobar"
+        ],
+        "stdin_fixture": null,
+        "codigo": 2,
+        "stdout": "",
+        "stderr": "usage: oracle-factory revision [-h] --informe INFORME --revisor REVISOR\n                               --decision {aprobar,cambios}\n                               [--formato {libre,guiado}]\n                               [--decisiones DECISIONES]\n                               [--hallazgos-abiertos HALLAZGOS_ABIERTOS]\n                               id\noracle-factory revision: error: argument --formato: invalid choice: 'desconocido' (choose from 'libre', 'guiado')\n"
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "revision",
+          "20261004-175514-fixture-revision",
+          "--formato",
+          "guiado",
+          "--informe",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/informe.json",
+          "--decisiones",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/preparacion-ofmkpad_/decisiones.json",
+          "--revisor",
+          "Persona fixture",
+          "--decision",
+          "aprobar"
+        ],
+        "stdin_fixture": "REGISTRAR REVISION 20261004-175514-fixture-revision\n",
+        "codigo": 0,
+        "stdout": "Formato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.\nRevisor: Persona fixture; decisión solicitada: aprobar; commit: ab7e659d245b558b35ebfde25474f0d609815986; huella: 038ce3f6a4999fc67687c6ef2e39896704ac4f9166b4f327bec5fdb19ad28ecb\nRevisión declarada completa: True; archivos: examples/notas/notas.py\nLímites: Simulación temporal, no revisión humana\nComprobación cumple: Tres casos del sensor · hechos.json sha256 82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916\nAusencia de hallazgos declarada: Sin defectos sembrados en este fixture\nActor de decisión: Persona fixture; motivo: Ensayo de CLI\nAbiertos derivados: 0; IDs: ninguno\nEscribí REGISTRAR REVISION 20261004-175514-fixture-revision: Informe registrado: /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/registro-n6e100hm/informe.json\nDecisiones registradas: /tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/revisiones/registro-n6e100hm/decisiones.json\nPróximo paso: oracle-factory juzgar 20261004-175514-fixture-revision --con RUTA_DE_HECHOS\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "juzgar",
+          "20261004-175514-fixture-revision",
+          "--con",
+          "/tmp/tmpxabwkt8u/cli/tareas/20261004-175514-fixture-revision/hechos.json"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "✓ notas_c7304b5d113a591fa.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /tmp/tmpxabwkt8u/cli/openspec/changes/20261004-175514-fixture-revision/oracle-veredicto.txt\nPróximo paso: oracle-factory estado 20261004-175514-fixture-revision\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "estado",
+          "20261004-175514-fixture-revision"
+        ],
+        "stdin_fixture": null,
+        "codigo": 0,
+        "stdout": "20261004-175514-fixture-revision — Fixture revisión guiada\nFase: oracle_verde\nRequisitos Oracle: notas_c7304b5d113a591fa.titulo_valido\nPendiente: ninguno\nAprobación spec: sí\nRevisión: Persona fixture / aprobar / 0 abiertos\nFormato de revisión: guiado; consistencia estructural, no calidad del análisis\nOracle: código 0 (openspec/changes/20261004-175514-fixture-revision/oracle-veredicto.txt)\nPróximo paso: oracle-factory estado 20261004-175514-fixture-revision\n",
+        "stderr": ""
+      },
+      {
+        "argv": [
+          "/tmp/factory-guided-env/bin/python",
+          "/home/workstation/Dev/factory/fabrica.py",
+          "--proyecto",
+          "/tmp/tmpxabwkt8u/cli",
+          "cerrar",
+          "20261004-175514-fixture-revision"
+        ],
+        "stdin_fixture": "CERRAR 20261004-175514-fixture-revision\n",
+        "codigo": 0,
+        "stdout": "Se cerrará la tarea 20261004-175514-fixture-revision; Oracle openspec/changes/20261004-175514-fixture-revision/oracle-veredicto.txt; revisión tareas/20261004-175514-fixture-revision/revisiones/registro-n6e100hm/informe.json.\nEscribí CERRAR 20261004-175514-fixture-revision: Tarea cerrada: 20261004-175514-fixture-revision\n",
+        "stderr": ""
+      }
+    ],
+    "salida_factory": "openspec/changes/20260101-120000-revision/proposal.md (SHA-256 eba75c2ad67a158c2482866118ed2c8dfb8004bf2620c7552e01c4f262fab9c5)\nContrato fixture.\n\nopenspec/changes/20260101-120000-revision/specs/demo/spec.md (SHA-256 4c872905031331142f762a440eedc09a7ed256dbd86e1973a872ad9edd14df07)\n### Requirement: promesa\nThe system SHALL cumplir.\n#### Scenario: caso\n- THEN cumple\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nAlcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20260101-120000-revision\n"
+  }
+}

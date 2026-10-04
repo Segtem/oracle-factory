@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "/tmp/factory-guided-env/bin/oracle",
+    "cobertura",
+    "--proyecto",
+    "/home/workstation/Dev/factory",
+    "--con",
+    "/home/workstation/Dev/factory/tareas/20261004-005956-revision-guiada/evidencia-mapeo/hechos.json"
+  ],
+  "codigo": 0,
+  "alcance": "Cobertura parcial; no registra juicio Factory, aprobación humana ni cierre."
+}

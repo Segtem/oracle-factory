@@ -1,0 +1,15 @@
+{
+  "requisitos/revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia.requisito": "54f1f8447068f95e0c2beef3f2c33a54198674ab6e58d0c95bffad6beef71b95",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas.requisito": "a22f6f88403ca9f97ddbe4f1688af7f2101db76b58c5ef780a7f6be2c93f5863",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido.requisito": "4d70aa5288c77d50014fbd7f23c78043f50522f7b728e7f68ce75dc10cc5a7c4",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita.requisito": "a4d5ff469c11add1af426c3d24741e28eaf634cacd7b2552915d180d84af3d6a",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar.requisito": "f569e03f6b3e9afb6ad04639615f1a3e56e1036475b668dc56151c53106611b2",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada.requisito": "2ff94f4ff5895caac274e3a66dec9561a1446e5e7673cd1032bfb5ccd8da0972",
+  "requisitos/revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado.requisito": "a7de76094b6019727814d8aa4c1447c3774a01182f9393ffc77e6719b55d4b90",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/hechos.json": "8d3f505ca6c3c675bee86b765b04ff1d25b11adc4b695ab6ab240246d59aa67a",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/oracle-cobertura.txt": "333e7890cbc241836eec2e38f773a2d02ec83589e9903373e9c4ee0bcbd5a55a",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/oracle-ejecucion.json": "77e82f784c9660da46521f87c2b6397f45ad84a34872c89fff91455d2fab2a30",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/resultado.json": "b0504cff07fbc3dd115e531b25f552b825c5cdf43ef71385b674ba75817fd04c",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/suite.txt": "e8b03b39c64ff96d0be55b0f106db79a37c707f747dac05d5721fe8ee1280ef9",
+  "tareas/20261004-005956-revision-guiada/evidencia-mapeo/trazas.json": "14856b108f8654736637bb8fb87d49231a583959ace5c66e11ea1983fc702a63"
+}

@@ -35,6 +35,10 @@ Después de presentar el contrato, el usuario respondió «Se acepta la propuest
 
 Próximo paso: revisar el candidato actualizado con una persona/revisor competente. Registrar informe, decisiones y commit revisado; juzgar y cerrar sólo si corresponde. Los siete requisitos ya tienen medidas asociadas y conservan `sin_medir` para propiedades fuera de los casos seleccionados.
 
+## Entrega actual con mapeo
+
+Candidato `5b54dc88fc5d6d4bf1e3768d9ba423032eb0f1e8`: [dossier actualizado](revision-mapeo-pendiente.md), documentos pendientes y contexto de Clue. Las 66 pruebas y los 18 casos pasan sobre fuentes estables; Oracle confirma medidas cumplidas para los siete requisitos con cobertura parcial. Revisión humana y cierre pendientes.
+
 ## Entrega histórica previa al mapeo
 
 - Candidato: `109e2b579ec29c3bc87ba30c92599f81c9a6a79f`.

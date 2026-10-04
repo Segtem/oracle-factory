@@ -18,3 +18,5 @@
 - [ ] Persona: confirmar por escrito el cierre si corresponde.
 
 Implementación lista para revisión. El mapeo está aplicado con cobertura parcial; la revisión humana y el cierre siguen pendientes. Las ejecuciones y candidatos anteriores que se enumeran arriba conservan su alcance histórico. La claridad del recorrido no se mide con fixtures.
+
+- [x] Continuación: mapeo aplicado en `5b54dc8`, nueva ejecución estable de 66 pruebas/18 casos, cobertura parcial de los siete requisitos y dossier actualizado con documentos pendientes. Clue dividido en implementación y mapeo por su límite de tamaño; alcance explicado en el dossier.
