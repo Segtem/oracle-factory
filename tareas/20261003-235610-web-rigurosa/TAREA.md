@@ -36,6 +36,14 @@ Requisitos documentales importados directamente con Oracle desde el alcance auto
 
 - Adjunto: [revision-mobile.png](revision-mobile.png)
 
+### Nota (2026-10-04 01:16:28 UTC)
+
+Web integrada y empujada en f4d4f59. Pages 37167107976 success. HTTP 200 y coincidencia byte por byte con main para ambas páginas y los cuatro recursos. Segunda verificación Chromium sobre textos finales: 11 comprobaciones OK, sin errores ni peticiones externas. Captura final adjunta. Correcciones y despliegue terminados; queda evaluación humana de claridad en la tarea original, sin verde formal de requisitos documentales fabricado.
+
+- Adjunto: [factory-web-rigurosa-publicacion.json](factory-web-rigurosa-publicacion.json)
+
+- Adjunto: [factory-portada-final.png](factory-portada-final.png)
+
 ## Próximo paso
 
-Comprobar el despliegue de esta revisión en Pages. Después, coordinar el piloto y acuerdo de medidas de claridad con 20261002-222858-explicar-oracle. Las correcciones de web y verificaciones técnicas están terminadas; no hay cierre humano formal simulado. Las cuatro mejoras de CLI registradas requieren revisar su propuesta antes de implementación.
+Coordinar el piloto con una persona sin experiencia y acordar medidas defendibles de claridad con 20261002-222858-explicar-oracle. Correcciones, verificaciones técnicas y publicación web terminadas. No hay cierre humano formal simulado; los requisitos documentales siguen sin medir. Revisar las cuatro propuestas de CLI antes de implementarlas.

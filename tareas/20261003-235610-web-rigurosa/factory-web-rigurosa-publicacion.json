@@ -1,0 +1,43 @@
+{
+  "resultado": "OK",
+  "commit_web": "f4d4f5932450c153635e42ba647f62d32e0cedb7",
+  "workflow": "https://github.com/Segtem/oracle-factory/actions/runs/37167107976",
+  "archivos": [
+    {
+      "archivo": "index.html",
+      "http": 200,
+      "sha256": "51c0a7d99676588fe2fe65d97e2b3e4e3fc107bb6b42694eb8e2835df07ead3e",
+      "coincide_con_main": true
+    },
+    {
+      "archivo": "desde-cero.html",
+      "http": 200,
+      "sha256": "267731102ee270650e610f139900b0cb922c3e68c31bd7b2d56bb45cccb87f5c",
+      "coincide_con_main": true
+    },
+    {
+      "archivo": "factory.js",
+      "http": 200,
+      "sha256": "87697f62251f84ca410a44ca89619995bfb79c96199220e8c748ff8208a743b9",
+      "coincide_con_main": true
+    },
+    {
+      "archivo": "guide.js",
+      "http": 200,
+      "sha256": "54505f682c31f60bd868a21abc5215e1b4f6cf1d899359053ae2b2682626b44c",
+      "coincide_con_main": true
+    },
+    {
+      "archivo": "style.css",
+      "http": 200,
+      "sha256": "c2b1f1583a233d400ca3696443076f451bd6e3d107056c479d1eb6eff8f96d0e",
+      "coincide_con_main": true
+    },
+    {
+      "archivo": "favicon.svg",
+      "http": 200,
+      "sha256": "64d74692eaeb047001346d68e593f57dd025a40622c10a25f3538e27fc2b7786",
+      "coincide_con_main": true
+    }
+  ]
+}
