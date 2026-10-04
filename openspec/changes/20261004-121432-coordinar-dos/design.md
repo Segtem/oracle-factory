@@ -10,7 +10,7 @@ Lectura local el 2026-10-04, sin cambios pendientes en los repositorios fuente a
 | Oracle Task 0.2.0 | `a44fa45a954e59d4fc657b36aecea0eea65431dd` | `../trackertast/oracle_task/tasks.py`: guardar_documento_atomico, crear_carpeta_tarea_atomica; `docs/tareas.md` |
 | Oracle Clue 0.1.0a1 | `6b93a9b3f85b2a79d50f4b72f6d418019753dc89` | `../oracle-clue/oracle_clue/cli.py`: prepare, validate_report, validate_triage, write_bundle; README |
 
-Diagnóstico basado en código/documentación; no se ejecutaron todavía pruebas de concurrencia ni el piloto.
+El diagnóstico inicial se basó en código/documentación. Tras la aceptación se ejecutaron los casos descritos abajo; el piloto humano sigue pendiente.
 
 ## Qué resuelve cada pieza
 
@@ -53,7 +53,18 @@ No se proponen comandos `claim`, `assign`, `handoff` ni locks distribuidos en es
 | C8: falta aprobación/cobertura | Cierre rechazado y tareas reales abiertas; fixtures de aprobación aislados | integracion serializada y evidencia vigente |
 | C9: arnés y piloto | Casos declarados = ejecutados, artefactos/errores registrados; informe humano separado | demostracion reproducible con limites |
 
-Las medidas son candidatas a diseñar y elegir después de la aceptación, no asociaciones ya decididas. Una medida que cuente casos debe comprobar además identidad y completitud del conjunto esperado. El arnés podrá comprobar conservación, aislamiento y rechazos; que dos personas entiendan el protocolo requiere el piloto. Hasta entonces ese alcance permanece sin medir.
+Tras la aceptación se asociaron medidas parciales del catálogo `factory_colaboracion`, elegidas por el agente para los casos observados. Cada requisito enlaza su medida de casos y `corrida_completa`; el sensor comprueba identidad, unicidad, completitud, hashes y estabilidad de sus fuentes. La pertinencia y suficiencia requieren revisión humana. Los seis requisitos conservan `sin_medir`, porque el arnés no observa acuerdos reales, criterio humano ni experiencia de uso.
+
+## Entregable implementado
+
+- `docs/colaboracion.md`, enlazada desde README, y cuatro plantillas bajo `docs/plantillas/colaboracion/`.
+- `tools/verify_collaboration.py`: nueve casos con comandos reales y repositorios temporales, versiones fijadas, artefactos y hashes. Se ejecuta con Python que tenga Oracle 0.38.1 y Task 0.2.0; Clue 0.1.0a1 se selecciona con `--clue`.
+- `tests/test_collaboration_sensor.py`: regresiones ante caso omitido/duplicado/desconocido/fallido, artefactos alterados/ausentes/externos y relevo incompleto.
+- Catálogos y requisitos con asociaciones parciales mediante la CLI `medir`. El resultado Oracle se conserva como observación parcial, sin registrar un gate verde.
+
+C4 observa clones locales que divergen sobre la misma tarea y la conciliación de ambos aportes. No simula ni declara probada la migración completa de dos cambios Factory nuevos con IDs colisionados; esa parte está explicitada como sin medir. C3 controla un proceso fixture que ya terminó, nunca identifica ni mata sesiones reales. Los acuerdos y triage de los casos son fixtures; no sustituyen el piloto.
+
+Los artefactos se guardan bajo la tarea, separados del candidato del producto. El commit candidato y el de archivo posterior se registrarán por separado. Se prepara contexto de Clue para una revisión humana posterior; no se registra como informe ni aprobación.
 
 ## Relación con trabajo existente
 

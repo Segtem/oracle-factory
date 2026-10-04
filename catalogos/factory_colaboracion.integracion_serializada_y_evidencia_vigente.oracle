@@ -1,0 +1,8 @@
+medida factory_colaboracion.integracion_serializada_y_evidencia_vigente:
+    de colaboracion_caso c
+    donde (c.caso == "C6" o c.caso == "C7" o c.caso == "C8") y c.codigo == 0
+    resumen contar(1)
+    umbral == 3 segun contrato porque "deben pasar exactamente C6, C7, C8 de tools/verify_collaboration.py; asociar junto a corrida_completa"
+    requiere colaboracion_caso
+    ambito universal
+    alcance "casos observados en Linux; el sensor comprueba identidad, unicidad y completitud; no autentica hechos ni mide decisiones o experiencia humanas"

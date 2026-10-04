@@ -1,0 +1,5 @@
+requisito colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente:
+    texto "El protocolo SHALL designar un integrador humano por candidato, serializar sus mutaciones de Factory y verificar el producto resultante antes del cierre."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#integracion serializada y evidencia vigente"
+    medido_por factory_colaboracion.integracion_serializada_y_evidencia_vigente, factory_colaboracion.corrida_completa
+    sin_medir "Autoridad del integrador, resolución humana de conflictos y suficiencia del sensor del producto sin medir; aprobaciones fixture sólo en temporales."

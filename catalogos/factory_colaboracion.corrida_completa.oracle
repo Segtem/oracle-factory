@@ -1,0 +1,8 @@
+medida factory_colaboracion.corrida_completa:
+    de colaboracion_corrida c
+    donde c.completa == 1 y c.casos == 9
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige C1 a C9 sin omisiones, duplicados ni fallas, verifica artefactos y estabilidad de sus fuentes durante la corrida"
+    requiere colaboracion_corrida
+    ambito universal
+    alcance "integridad comprobada por el sensor local, no autenticidad ni cobertura semantica de la spec; piloto y revision humana pendientes"
