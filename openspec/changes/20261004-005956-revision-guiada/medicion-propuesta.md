@@ -1,8 +1,8 @@
-# Mapeo propuesto, pendiente de elección humana
+# Mapeo aplicado con límites explícitos
 
-Los siete requisitos se importaron mediante Factory y conservan `sin_medir`. Las reglas siguientes están preparadas y comprobadas con Oracle 0.38.1; todavía no se asociaron a los requisitos. Se consultó en la conversación si se desea aplicar este mapeo conservando los límites.
+Los siete requisitos se importaron mediante Factory y ahora tienen medidas asociadas, conservando `sin_medir` para los límites de cobertura. Se aplicó el mapeo propuesto con `fabrica.py medir`, tras la respuesta del usuario «Bien, sigamos entonces.» al paso pendiente de elegir medidas y revisar. Se interpreta como continuación con el mapeo presentado; no como aprobación de revisión ni confirmación de cierre.
 
-Todas las reglas están bajo `factory_revision_guiada`. Cada requisito se asociaría a la medida de su mismo sufijo y a `factory_revision_guiada.corrida_completa`.
+Todas las reglas están bajo `factory_revision_guiada`. Cada requisito se asoció a la medida de su mismo sufijo y a `factory_revision_guiada.corrida_completa`.
 
 | Requisito (sufijo del ID importado) | Casos del sensor | Cantidad |
 | --- | --- | --- |
@@ -16,6 +16,6 @@ Todas las reglas están bajo `factory_revision_guiada`. Cada requisito se asocia
 
 `tools/verify_review_guided.py` enumera los 18 nombres exactos de pruebas, exige que ocurran una sola vez y pasen, y también requiere que la suite completa no falle y las fuentes permanezcan estables. El conteo de una regla no identifica los casos por sí mismo: esa comprobación corresponde al sensor, cuyo código y suficiencia debe evaluar quien revisa.
 
-Los límites propuestos para conservar con `--sin-medir` son: casos seleccionados en Linux, sin prueba de calidad del análisis ni autenticación/competencia de los actores. Para el recorrido se agrega claridad para principiantes pendiente de observación humana. No convertir la ejecución fixture en decisión humana ni en aprobación de cierre.
+Los límites conservados con `--sin-medir` son: casos seleccionados en Linux, sin prueba de calidad del análisis ni autenticación/competencia de los actores. Para el recorrido se agrega claridad para principiantes pendiente de observación humana. No convertir la ejecución fixture en decisión humana ni en aprobación de cierre.
 
-Las reglas pueden evaluarse con los hechos del sensor sin asociar todavía requisitos. Ese verde de reglas no es cobertura del cambio; Factory debe continuar mostrando requisitos sin medir hasta elegir el mapeo.
+La cobertura debe reevaluarse con los hechos del sensor y estas asociaciones. Un resultado favorable de las medidas sólo cubre los casos declarados: los siete requisitos mantienen cobertura parcial y no habilitan por sí solos el cierre de Factory.
