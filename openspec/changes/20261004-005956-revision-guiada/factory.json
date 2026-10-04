@@ -1,0 +1,21 @@
+{
+  "id": "20261004-005956-revision-guiada",
+  "titulo": "Guiar la revisión con un informe pendiente y decisiones explícitas",
+  "capacidad": "revision-guiada",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "paquete_preparado_para_tarea_existente",
+      "por": "workstation",
+      "cuando": "2026-10-04T13:01:14+00:00",
+      "origen": "Usuario: Bien vamos con la 1.; selección de tarea y preparación del contrato",
+      "base": "6af15e4"
+    }
+  ]
+}
