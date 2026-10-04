@@ -1,0 +1,44 @@
+{
+  "base": "abf3439e85b606c26342b10b683c285b6d033a4a",
+  "context_sha256": "cebd8da8f42637ac1f840e042fa50287277b2c4c4ed98798cae3f2df08542a00",
+  "contexts": [
+    {
+      "file": "contrato.md",
+      "sha256": "0016cd3f01649d69a7ab12298a579c94c5d8597f502b95e55d33b5dc8e6dc5e6",
+      "text": "sumar devuelve la suma\n"
+    }
+  ],
+  "diff_sha256": "a39614bfa3fa198974dde5482b5475069f812c1fde1840edfb584b82f9623a84",
+  "files": [
+    {
+      "base_text": "def sumar(a, b):\n    return a+b\n",
+      "file": "calc.py",
+      "head_text": "def sumar(a, b):\n    return a-b\n",
+      "patch": "diff --git a/calc.py b/calc.py\nindex 93dafa9..0590e40 100644\n--- a/calc.py\n+++ b/calc.py\n@@ -1,2 +1,2 @@\n def sumar(a, b):\n-    return a+b\n+    return a-b\n",
+      "ranges": {
+        "base": [
+          [
+            1,
+            2
+          ]
+        ],
+        "head": [
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      "status": "M"
+    }
+  ],
+  "head": "91274237142aba106464ea8bcc399ea8f839d743",
+  "limitations": [
+    "Solo se revisa la diferencia entre commits; archivos no versionados no forman parte del diff.",
+    "Preparar contexto no ejecuta revisión de IA, pruebas ni aprobación humana.",
+    "El filtro de rutas conocidas no garantiza ausencia de secretos en otros archivos."
+  ],
+  "omissions": [],
+  "repo": "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+  "schema_version": "oracle-clue.bundle/v1"
+}

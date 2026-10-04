@@ -1,0 +1,492 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "f2d9bfc28a48c20d308527ea85c6ebecfd9dbd44\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "init",
+        "--sin-readme",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C4/origen"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Tracker de tareas inicializado en /tmp/factory-colaboracion-xamug3em/C4/origen/tareas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "new",
+        "Relevo compartido fixture",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C4/origen"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261004-123602-relevo\", \"ruta\": \"/tmp/factory-colaboracion-xamug3em/C4/origen/tareas/20261004-123602-relevo/TAREA.md\"}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "tarea común"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "94c72eabf7e127bea225172761e9e5d277257db4\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-xamug3em/C4/origen",
+        "/tmp/factory-colaboracion-xamug3em/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-xamug3em/C4/a'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-xamug3em/C4/origen",
+        "/tmp/factory-colaboracion-xamug3em/C4/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-xamug3em/C4/b'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "note",
+        "20261004-123602-relevo",
+        "Aporte independiente A",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Nota agregada a la tarea 20261004-123602-relevo\nDocumento: /tmp/factory-colaboracion-xamug3em/C4/a/tareas/20261004-123602-relevo/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "nota A"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e0f3af3ef7d3c6177982ffb1a5e3e51d8660e486\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/b",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "note",
+        "20261004-123602-relevo",
+        "Aporte independiente B",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C4/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Nota agregada a la tarea 20261004-123602-relevo\nDocumento: /tmp/factory-colaboracion-xamug3em/C4/b/tareas/20261004-123602-relevo/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "nota B"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "8159058ad6bd30d237bdf874865f4965ac04d3b0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "fetch",
+        "/tmp/factory-colaboracion-xamug3em/C4/b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "From /tmp/factory-colaboracion-xamug3em/C4/b\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e0f3af3ef7d3c6177982ffb1a5e3e51d8660e486\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "merge",
+        "FETCH_HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "Auto-merging tareas/20261004-123602-relevo/TAREA.md\nCONFLICT (content): Merge conflict in tareas/20261004-123602-relevo/TAREA.md\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e0f3af3ef7d3c6177982ffb1a5e3e51d8660e486\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "diff"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "diff --cc tareas/20261004-123602-relevo/TAREA.md\nindex c25abaf,d936baa..0000000\n--- a/tareas/20261004-123602-relevo/TAREA.md\n+++ b/tareas/20261004-123602-relevo/TAREA.md\n@@@ -6,4 -6,4 +6,8 @@@\n  \n  ### Nota (2026-10-04 12:36:02 UTC)\n  \n++<<<<<<< HEAD\n +Aporte independiente A\n++=======\n+ Aporte independiente B\n++>>>>>>> 8159058ad6bd30d237bdf874865f4965ac04d3b0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "show",
+        "HEAD:tareas/20261004-123602-relevo/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Relevo compartido fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-04 12:36:02 UTC)\n\nAporte independiente A\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "show",
+        "FETCH_HEAD:tareas/20261004-123602-relevo/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Relevo compartido fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-04 12:36:02 UTC)\n\nAporte independiente B\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "conciliación fixture: mismo ID y misma identidad; conservar ambas notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "591ee11e48b894b3aaa86df47bfda3e4ec4cf3f8\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C4/a",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "review",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"ok\": true, \"tareas_validas\": 1, \"problemas\": []}\n",
+      "stderr": ""
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "divergencia no avanza HEAD sin resolución",
+      "cumple": true
+    },
+    {
+      "comprobacion": "ambos registros conservan el antecedente común",
+      "cumple": true
+    },
+    {
+      "comprobacion": "conciliación conserva aportes de la misma tarea",
+      "cumple": true
+    }
+  ]
+}

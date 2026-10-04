@@ -1,0 +1,283 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "init"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Factory inicializada en /tmp/factory-colaboracion-xamug3em/C3/producto. No se crearon commits ni aprobaciones.\nAcuerdos: /tmp/factory-colaboracion-xamug3em/C3/producto/openspec/changes; tareas: /tmp/factory-colaboracion-xamug3em/C3/producto/tareas; configuración: /tmp/factory-colaboracion-xamug3em/C3/producto/oracle.json.\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "nuevo",
+        "--con-ejemplo",
+        "notas",
+        "Fixture colaboración C3"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Cambio creado: 20261004-123601-fixture\nTarea: /tmp/factory-colaboracion-xamug3em/C3/producto/tareas/20261004-123601-fixture/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-colaboracion-xamug3em/C3/producto/openspec/changes/20261004-123601-fixture\nEjemplo y catálogos preparados en /tmp/factory-colaboracion-xamug3em/C3/producto/examples/notas y /tmp/factory-colaboracion-xamug3em/C3/producto/catalogos. No se ejecutó el programa.\nPróximo paso humano: revisar /tmp/factory-colaboracion-xamug3em/C3/producto/openspec/changes/20261004-123601-fixture/proposal.md y /tmp/factory-colaboracion-xamug3em/C3/producto/openspec/changes/20261004-123601-fixture/specs/notas/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261004-123601-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "aprobar-spec",
+        "20261004-123601-fixture"
+      ],
+      "stdin_fixture": "APROBAR ESPECIFICACION 20261004-123601-fixture\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "openspec/changes/20261004-123601-fixture/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261004-123601-fixture/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nEscribí APROBAR ESPECIFICACION 20261004-123601-fixture: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261004-123601-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "importar",
+        "20261004-123601-fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "+ notas_c0eb7630f6addd693.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /tmp/factory-colaboracion-xamug3em/C3/producto/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261004-123601-fixture --listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "medir",
+        "20261004-123601-fixture",
+        "--requisito",
+        "notas_c0eb7630f6addd693.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-xamug3em/C3/producto/requisitos/notas_c0eb7630f6addd693.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "20261004-123601-fixture: base fixture aceptada sólo para el arnés"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "32928c7d9bdec48374ec1f8b3eac4ce68d3ed4ce\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "32928c7d9bdec48374ec1f8b3eac4ce68d3ed4ce\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "trabajo-pendiente.txt"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "write-tree"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "5817acea6bb2ab77da681fa435bfb90646ff8bf8\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "import os,sys; os.close(os.open(sys.argv[1],os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600))",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto/.factory-demo/locks/20261004-123601-fixture.medir.lock"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "medir",
+        "20261004-123601-fixture",
+        "--requisito",
+        "notas_c0eb7630f6addd693.titulo_valido",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: otra operación medir está en curso: /tmp/factory-colaboracion-xamug3em/C3/producto/.factory-demo/locks/20261004-123601-fixture.medir.lock; si fue interrumpida, comprobá que terminó antes de retirar ese bloqueo\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xamug3em/C3/producto",
+        "medir",
+        "20261004-123601-fixture",
+        "--requisito",
+        "notas_c0eb7630f6addd693.titulo_valido",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-xamug3em/C3/producto/requisitos/notas_c0eb7630f6addd693.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C3/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "write-tree"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "5817acea6bb2ab77da681fa435bfb90646ff8bf8\n",
+      "stderr": ""
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "lock existente rechaza medir sin cambiar estado ni retirarlo",
+      "cumple": true
+    },
+    {
+      "comprobacion": "proceso propietario fixture terminó y fue esperado explícitamente",
+      "cumple": true
+    },
+    {
+      "comprobacion": "recuperación conserva trabajo pendiente e índice",
+      "cumple": true
+    }
+  ]
+}

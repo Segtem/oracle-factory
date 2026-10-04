@@ -1,0 +1,32 @@
+{
+  "cuando": "2026-10-04T12:36:44.267807+00:00",
+  "candidato": "4ceb4b075a50290d014e3d7ec4714774c4417d81",
+  "suite": {
+    "comando": "PYTHONDONTWRITEBYTECODE=1 /tmp/factory-guided-env/bin/python -m unittest discover -s tests -v",
+    "tests": 48,
+    "codigo": 0,
+    "duracion_reportada_segundos": 5.606,
+    "origen": "salida del runner observada en esta sesión; no se capturó log completo"
+  },
+  "arnes": {
+    "casos": 9,
+    "codigo": 0,
+    "resultado": "resultado.json",
+    "hechos": "hechos.json"
+  },
+  "oracle": {
+    "codigo": 0,
+    "requisitos_del_cambio": 6,
+    "cumplen_solo_en_lo_medido": 6,
+    "cobertura_completa": false,
+    "informe": "oracle-cobertura.txt"
+  },
+  "revision_humana": "pendiente",
+  "piloto_humano": "pendiente",
+  "cierre": "no autorizado ni ejecutado",
+  "sha256": {
+    "resultado.json": "2c07d1dbe6b5d81c219840beefb1447285d0647d2053135252e3f83f38d13deb",
+    "hechos.json": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5",
+    "oracle-cobertura.txt": "3b6b0cde0855b02a3f8c88178037b4b90704a6039550f3c014baa2a0ae11a335"
+  }
+}

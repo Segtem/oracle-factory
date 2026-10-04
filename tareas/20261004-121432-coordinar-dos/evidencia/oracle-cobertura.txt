@@ -1,0 +1,27 @@
+◐ colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos   cumple · factory_colaboracion.aislamiento_y_sincronizacion_explicitos cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Pilotaje en máquinas distintas y migración de dos tareas nuevas con ID colisionado sin medir; el arnés observa worktrees y clones locales divergentes.
+◐ colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites   cumple · factory_colaboracion.demostracion_reproducible_con_limites cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Piloto con dos personas y sus agentes pendiente; usabilidad y productividad no medidas por el arnés.
+◐ colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente   cumple · factory_colaboracion.integracion_serializada_y_evidencia_vigente cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Autoridad del integrador, resolución humana de conflictos y suficiencia del sensor del producto sin medir; aprobaciones fixture sólo en temporales.
+◐ colaboracion_c20a7f5e3d414985d.relevo_recuperable   cumple · factory_colaboracion.relevo_recuperable cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Recepción y recuperación reales por personas sin medir; el arnés sólo simula responsables y un proceso fixture terminado.
+◐ colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo   cumple · factory_colaboracion.reparto_explicito_del_trabajo cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Acuerdo real de reparto, confirmación de ambas personas y aplicación de escritor único pendientes de piloto humano.
+◐ colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version   cumple · factory_colaboracion.revision_vinculada_a_una_version cumple, factory_colaboracion.corrida_completa cumple · SIN MEDIR: Calidad y suficiencia de la revisión cruzada y de decisiones humanas sin medir; Clue valida integridad con informe fixture.
+· distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado   sin medir · SIN MEDIR: sin medida todavía; escenarios: «instalación aislada»
+· distribution_c01af4be8811ed3bb.entregar_artefactos_verificables   sin medir · SIN MEDIR: sin medida todavía; escenarios: «usuario publica el corte»
+· distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona inicia otro proyecto»
+· documentacion_c3d226d369499e32e.correspondencia_con_el_producto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «conocer el alcance»
+· documentacion_c3d226d369499e32e.guia_reproducible   sin medir · SIN MEDIR: sin medida todavía; escenarios: «proyecto vacío»
+· documentacion_c3d226d369499e32e.limites_de_la_evidencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «interpretación del verde»
+· landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante compara cuatro formas de crear software»
+· landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante consulta una herramienta aún en desarrollo»
+· landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante recorre el flujo»
+· landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante abre la página sin red externa»
+· landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona sigue la guía desde cero»
+· landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos   sin medir · SIN MEDIR: sin medida todavía; escenarios: «agente llega a una decisión humana», «visitante usa una decisión de la demostración»
+· landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante prefiere movimiento reducido»
+? measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida   sin juicio · factory_guiada.asociacion_explicita_y_valida no aplicada
+? measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior   sin juicio · factory_guiada.invalidar_evidencia_anterior no aplicada
+? measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error   sin juicio · factory_guiada.preservar_requisito_ante_error no aplicada
+? onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion   sin juicio · factory_guiada.preparar_ejemplo_sin_aprobacion no aplicada
+? onboarding_ca007f9416d32e171.preservar_archivos_existentes   sin juicio · factory_guiada.preservar_archivos_existentes no aplicada
+? onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso   sin juicio · factory_guiada.recuperar_cambios_y_siguiente_paso no aplicada
+
+25 requisitos: 6 se cumplen (6 sólo en lo medido) · 0 no se cumplen · 6 sin juicio · 13 sin medir · 0 con medidas inexistentes

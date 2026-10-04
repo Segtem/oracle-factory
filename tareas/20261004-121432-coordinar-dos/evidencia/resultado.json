@@ -1,0 +1,128 @@
+{
+  "exitoso": true,
+  "casos": [
+    {
+      "caso": "C1",
+      "descripcion": "aislamiento y dos entregas",
+      "codigo": 0
+    },
+    {
+      "caso": "C2",
+      "descripcion": "solapamiento textual y semántico",
+      "codigo": 0
+    },
+    {
+      "caso": "C3",
+      "descripcion": "relevo e interrupción",
+      "codigo": 0
+    },
+    {
+      "caso": "C4",
+      "descripcion": "clones y registros divergentes",
+      "codigo": 0
+    },
+    {
+      "caso": "C5",
+      "descripcion": "revisión de versión y checkout",
+      "codigo": 0
+    },
+    {
+      "caso": "C6",
+      "descripcion": "integración y renovación de evidencia",
+      "codigo": 0
+    },
+    {
+      "caso": "C7",
+      "descripcion": "spec y medidas cambiadas",
+      "codigo": 0
+    },
+    {
+      "caso": "C8",
+      "descripcion": "gates y cierre rechazado",
+      "codigo": 0
+    },
+    {
+      "caso": "C9",
+      "descripcion": "integridad de evidencia y piloto pendiente",
+      "codigo": 0
+    }
+  ],
+  "origen": {
+    "head": "4ceb4b075a50290d014e3d7ec4714774c4417d81",
+    "sha256": {
+      "MANIFEST.in": "7ee468861c453dfd7ff7cf791dcf0b3d9b6fcedc5ab3378291bce003ea88f7c6",
+      "README.md": "424c3d1af2c6fe6f2db7fb87d8f87d0f0725650a012d92431ca776c68363d552",
+      "catalogos/factory_colaboracion.aislamiento_y_sincronizacion_explicitos.oracle": "44873d5eb16bf15b85c0193b77f4840175d01f8a7b7416e817785c767ba647a3",
+      "catalogos/factory_colaboracion.corrida_completa.oracle": "4fe21255a8a433ea4b2dd7808d398af925f15eb33e2738e7f71c5159cc9bb2fc",
+      "catalogos/factory_colaboracion.demostracion_reproducible_con_limites.oracle": "39c9dcc9bbd998601a0e4776fab8ed5f588e3e69c2f0b001bc131819b7a10d8b",
+      "catalogos/factory_colaboracion.integracion_serializada_y_evidencia_vigente.oracle": "3931518d2ecc2e354b2f73d51d61d8178359862860fe341cd6da3d2182cfcc3e",
+      "catalogos/factory_colaboracion.relevo_recuperable.oracle": "ad92949493b5b8d4fc765cdd07d8b20f76e65b27c1344da1584fed7433c23f12",
+      "catalogos/factory_colaboracion.reparto_explicito_del_trabajo.oracle": "a0695cbb5686c67d1a7b92a48643d2deee48ae2f1e34d78bc253ff9148741c37",
+      "catalogos/factory_colaboracion.revision_vinculada_a_una_version.oracle": "911954eeb917d0fcafd6a170d7f36bc8cb10c720f056d1adb5ed98fd1a6f699d",
+      "docs/colaboracion.md": "3feff8c30d3c3a6c606b8f81bde492607efde835f548f9af258d4f957fa1b8e3",
+      "docs/plantillas/colaboracion/integracion.md": "b3c324ebcd99fb4339061764cee7b70f778977a4c30c4b77d9dfcdf9b3058677",
+      "docs/plantillas/colaboracion/piloto.md": "2b77716cabd6ea0a40af3e912bf587a18e6c42e576223619953ca62ae73b4bf4",
+      "docs/plantillas/colaboracion/relevo.md": "25b8a3e06831dbe366c57d70b5aa24b483c6ee5c4fd16e19811c2381dbb318cb",
+      "docs/plantillas/colaboracion/reparto.md": "c7ad220758086f48d071473b79ca2bf66424978d1849b89b4622256bbc49879d",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "73536611beeec255441c7d28b411c0ddd61bc4e3e2902147154e4804121486c5",
+      "oracle_factory/data/notas/README.md": "d72b6639d36f96ac621c3dc0d567396ddfdfb15c2bd93e248f3a3512cb6c37d8",
+      "oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle": "7d03091493abdde5f0dbd6aff44dd785665828aab22859640dc5e694f746188e",
+      "oracle_factory/data/notas/catalogos/notas.resultados.oracle": "5dbd8c4809b43a4485c5c04257cfd85ccfb52022daa50e9d878fb0aba8033c80",
+      "oracle_factory/data/notas/notas.py": "dcbd0f5ea93a795832adcc5286135a36e0bbda65384521a46664afe978a6de68",
+      "oracle_factory/data/notas/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "oracle_factory/data/notas/sensor.py": "a1370a47080ca1aabb714771f838d3e6cee8864c2bcc172529aaaabc1ec772d0",
+      "oracle_factory/data/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+      "oracle_factory/data/notas/test_notas.py": "12c5edef513f7df9b492fdde1f3b758eb65dd72b14213eb8c1b79f6c1209ba21",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "e4a4f34af71b7bad806d6fc02a2bba462b3ddddf3b4fcc3168a89d6325414c80",
+      "tools/verify_collaboration.py": "1468bc17842e38506a9e1a94ce096ef983d3815be857914b0ba0923488c79f07"
+    }
+  },
+  "origen_sin_cambios_durante_corrida": true,
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "clue": "oracle-clue 0.1.0a1",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]",
+    "plataforma": "linux"
+  },
+  "limites": "Casos C1–C9 en repositorios temporales, Linux. Reparto, recepción, triage y aprobaciones son fixtures. No mide usabilidad, productividad, autoridad humana, locks distribuidos ni ausencia universal de conflictos.",
+  "piloto_humano": "pendiente",
+  "artefactos_sha256": {
+    "C1/entregas.json": "fc9bf87203bbd3d74377b338477580f6891558e3016da1e034ad4a589a3ed82b",
+    "C1/reparto.md": "b83110b964c645e68eae9ea95b227cf1b957c327b91171ea418bd8fde66eb557",
+    "C1/ejecucion.json": "239c28c0f7afb4ef8b4414cecd4c9b4c1c177bdf56cad9fc45c00970a0efadb0",
+    "C2/conflicto.patch": "ff566418d3648a93969e50eab41173844451856be4ee19d2c81349df575e8093",
+    "C2/decision-fixture.json": "f763c6f438c6f2ff236e0bfa95a0f1cfc06fbf730eae61a8f119aaa3310882c9",
+    "C2/ejecucion.json": "e8456cf3b2dd0b758c80c8ae79bb3f169e85e2bf35d79788d75a84557e93bfa8",
+    "C3/pendiente.txt": "afb4cc4a6f0fca026167760c02b7c997914762b93a1cb66e9e8f554b30ce5bc3",
+    "C3/relevo-propuesto.md": "1839235293e694a6ce17bc4256054b4ebfe91d782f0b3eb8462f54f1cacffa38",
+    "C3/relevo-recibido-fixture.md": "e6ba8e2b582f61d8511662ad73f27d87d5e97d8cc2f34e1a6151446ee7d2ef53",
+    "C3/ejecucion.json": "c162874e84680dc2a774bfd88722c0070cf78556a6b8576e8e0e82899804eabd",
+    "C4/divergencia.patch": "46de75c0f03f2ef1129285e2316b197994c0bbb6f73558e93106265f1b335d42",
+    "C4/original-a.md": "aeb1e192aaeedb0215957fd22a3b728228050426f916514d688f932eac658853",
+    "C4/original-b.md": "9dec741df4d6032b8bf88892fc78e5d83ec035d7e84adeda15a1911643d102b9",
+    "C4/conciliado.md": "1eca69881a11ae29542f86971d4aff1fef4645d83ed7c8b14915c3668682172a",
+    "C4/identidad.json": "1bdc2569f0c058f33f451b712fb25de5f272d9bba6e833301ab460355f73b28a",
+    "C4/ejecucion.json": "2269b3773c36f74566c61f7a636ff896edb1db38e4228054f0a9f6271ade0dfe",
+    "C5/paquete.json": "fd8e5407881ccc693e2998d158f73d7db7fab6f5d797cc98ad990853fd8c4ad0",
+    "C5/informe.json": "419c7d7a3db9c8e9d276238dcfbdaf923b072edfeacc13becbc97e05de76087a",
+    "C5/triage.json": "c6cdee13aae68c76f6a9bb1eba6bd9b0e88c9fe95d66a81063fbf670ae46f8bb",
+    "C5/nuevo-paquete.json": "1ed7c9c599eac298a72e7c9c152dac12323754a0a1f13dc2e28ac06be211607e",
+    "C5/nuevo-informe.json": "4622be4fb1b5a721c6f67096ce2a9e5234f0ba5f148e50fdea8c27444d11e601",
+    "C5/ejecucion.json": "608e2b2044e17f4aeb135dafcbb9b0424c9648f9036a124bdd071baeb34def72",
+    "C6/estado-revisado.json": "7d078308726d60d596d4fe189b85928a5040a55b0e7d6ecde858977926f37487",
+    "C6/estado-renovado.json": "dc3557b75777325ff6864578db9a2f3a8c629e1d9db2ee767ebdf706966acbad",
+    "C6/integracion.md": "0c12a05d3195a99b1c35c1f8d57a4d370b78901fedf738e8f3b15ffc2564e0db",
+    "C6/ejecucion.json": "a107e5e530d8477ad6b9eeae0528e46e6c7a025d6476cbedc255ff89725139e4",
+    "C7/estado-nueva-spec.json": "80ffea0f75230e8936e329caa75190c83abd3a7851207ca9c01c64fff4cdf5f1",
+    "C7/ejecucion.json": "606c88b2fc3176e93319532617ead89f520fc8d8b3d471485369667794a828a8",
+    "C8/estado-abierto.json": "209e41d8f0d30cf8af7e57c3fbe3630d74e15c27c002f395ddc6790f6e1062e4",
+    "C8/ejecucion.json": "0c6c2fe2778f860e16f129195b6d78e43b965bee260b0a7faac10120e7aac336",
+    "C9/piloto-pendiente.md": "59484a0e0779fce8c679e8752cc827df736417d0352743bdfe8dbf89d1947cea",
+    "C9/ejecucion.json": "95d0958acf0580fc6d0c26b62754abfb59ba4c3555fecf407aa4a0752580f82c"
+  },
+  "hechos_sha256": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5"
+}

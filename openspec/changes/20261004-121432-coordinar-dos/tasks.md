@@ -11,7 +11,9 @@
 - [x] Agente: implementar guía enlazada desde README y plantillas de reparto, relevo, integración y piloto en la rama.
 - [x] Agente: crear y ejecutar arnés aislado para C1–C9, documentando qué pasos humanos sólo simula.
 - [ ] Dos personas con sus agentes: realizar piloto; registrar recepción de relevos, superposiciones, decisiones y dificultades.
-- [ ] Agente: adjuntar evidencia con comandos, versiones, commits, resultados y límites; registrar el commit revisado.
+- [x] Agente: adjuntar evidencia con comandos, versiones, commits, resultados y límites; candidato `4ceb4b075a50290d014e3d7ec4714774c4417d81`.
+- [x] Agente: preparar contexto de Clue sin omisiones en checkout separado, conservando el candidato para revisión.
+- [ ] Revisor/persona: revisar ese candidato o su sucesor y registrar el commit efectivamente revisado.
 - [ ] Revisor: guardar informe; persona: resolver hallazgos y registrar decisión sobre el candidato vigente.
 - [x] Agente: correr Oracle sobre evidencia del arnés; las medidas cumplen en lo observado y los seis requisitos conservan cobertura parcial.
 - [ ] Persona: revisar resultados y confirmar por escrito el cierre mediante Factory.

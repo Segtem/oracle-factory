@@ -25,6 +25,15 @@ Propuesta/spec aceptadas en conversación mediante «Bien, continuemos.» y sus 
 
 Relacionadas: `20261004-005956-evidencia-origen` y `20261004-005956-revision-guiada`. Las referencias no implican dependencias verificadas por Task.
 
+## Candidato y evidencia
+
+- Candidato de implementación: `4ceb4b075a50290d014e3d7ec4714774c4417d81`.
+- [Revisión preparada, pendiente de persona](revision-pendiente.md); contexto de Clue conservado en checkout separado.
+- [Validación](evidencia/validacion.json): 48 pruebas de la suite; C1–C9 exitosos; seis requisitos cumplen sólo en lo medido.
+- [Piloto pendiente](piloto-pendiente.md): participantes e integrador aún sin asignar.
+
+Los documentos aceptados permanecen intactos. Las medidas parciales fueron elegidas por el agente y asociadas con la CLI; su pertinencia/suficiencia humana sigue pendiente. No se ejecutó revisión aprobada ni cierre del cambio real.
+
 ### Nota (2026-10-04 12:14:32 UTC)
 
 OpenSpec: openspec/changes/20261004-121432-coordinar-dos. Estado de factory: espera aprobación humana de proposal.md y spec.md.

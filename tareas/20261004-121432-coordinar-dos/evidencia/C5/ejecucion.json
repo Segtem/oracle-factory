@@ -1,0 +1,416 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "f2d9bfc28a48c20d308527ea85c6ebecfd9dbd44\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "suma correcta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "abf3439e85b606c26342b10b683c285b6d033a4a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "defecto sembrado"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "91274237142aba106464ea8bcc399ea8f839d743\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "/tmp/factory-guided-env/bin/python",
+        "-c",
+        "from calc import sumar; assert sumar(2,1)==3"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    from calc import sumar; assert sumar(2,1)==3\n                                   ^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/producto",
+        "--base",
+        "abf3439e85b606c26342b10b683c285b6d033a4a",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-xamug3em/C5/paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-xamug3em/C5/paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-xamug3em/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-xamug3em/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-xamug3em/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-xamug3em/C5/producto",
+        "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-xamug3em/C5/otra-ruta'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "91274237142aba106464ea8bcc399ea8f839d743\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "91274237142aba106464ea8bcc399ea8f839d743\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-xamug3em/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-xamug3em/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+        "--triage",
+        "/tmp/factory-colaboracion-xamug3em/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+        "--base",
+        "abf3439e85b606c26342b10b683c285b6d033a4a",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-xamug3em/C5/nuevo-paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-xamug3em/C5/nuevo-paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-xamug3em/C5/nuevo-informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-xamug3em/C5/nuevo-paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-xamug3em/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-xamug3em/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-xamug3em/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: hay cambios versionados sin commit; confirmalos o usá un checkout limpio\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "corrección cambia candidato"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "7cbbfa2b6edac10b6d2a7cd76fa19c2c6faee7fa\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xamug3em/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/oracle-clue/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-xamug3em/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-xamug3em/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-xamug3em/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-xamug3em/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "mismo HEAD en otra ruta para aislar el rechazo de portabilidad",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza paquete de otro checkout",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza contexto versionado modificado",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza informe de HEAD anterior",
+      "cumple": true
+    }
+  ]
+}
