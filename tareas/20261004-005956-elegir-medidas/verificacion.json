@@ -1,0 +1,22 @@
+{
+  "version": "0.1.0a3",
+  "artefactos": [
+    {
+      "nombre": "oracle_factory-0.1.0a3-py3-none-any.whl",
+      "sha256": "28723e87ae284a89bdc86b045b244bc8e3d656a1caa95b6d923d6c63c96a3fb6",
+      "coincide": true
+    },
+    {
+      "nombre": "oracle_factory-0.1.0a3.tar.gz",
+      "sha256": "a57260df2b79cba5dc61f612a5a7d30957d5fc60b2cf75d4d4610a00d9bbd1ee",
+      "coincide": true
+    },
+    {
+      "nombre": "SHA256SUMS",
+      "sha256": "aaf783c668fc313100a2448915e6bacfb27d1737dde72ab4e9c715efdbba8773",
+      "coincide": true
+    }
+  ],
+  "pypi_version": "0.1.0a2",
+  "a3_en_pypi": false
+}

@@ -1,0 +1,42 @@
+{
+  "version": "0.1.0a3",
+  "url": "https://segtem.github.io/oracle-factory/",
+  "archivos": [
+    {
+      "archivo": "index.html",
+      "status": 200,
+      "coincide": true,
+      "sha256": "51c0a7d99676588fe2fe65d97e2b3e4e3fc107bb6b42694eb8e2835df07ead3e"
+    },
+    {
+      "archivo": "desde-cero.html",
+      "status": 200,
+      "coincide": true,
+      "sha256": "6dc20d01739f20e60d70ecc6125832bda14585953477062a26c5471e0bce5bc1"
+    },
+    {
+      "archivo": "style.css",
+      "status": 200,
+      "coincide": true,
+      "sha256": "c2b1f1583a233d400ca3696443076f451bd6e3d107056c479d1eb6eff8f96d0e"
+    },
+    {
+      "archivo": "factory.js",
+      "status": 200,
+      "coincide": true,
+      "sha256": "87697f62251f84ca410a44ca89619995bfb79c96199220e8c748ff8208a743b9"
+    },
+    {
+      "archivo": "guide.js",
+      "status": 200,
+      "coincide": true,
+      "sha256": "85344ca6cc8974d120d8339b2b092f6d3123e7a6aaeb07d6cae03c4f21a5281d"
+    },
+    {
+      "archivo": "favicon.svg",
+      "status": 200,
+      "coincide": true,
+      "sha256": "64d74692eaeb047001346d68e593f57dd025a40622c10a25f3538e27fc2b7786"
+    }
+  ]
+}
