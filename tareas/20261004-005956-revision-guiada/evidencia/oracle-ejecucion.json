@@ -1,0 +1,27 @@
+{
+  "medidas": {
+    "argv": [
+      "/tmp/factory-guided-env/bin/oracle",
+      "juzgar",
+      "--proyecto",
+      "/tmp/revision-guiada-catalogo-03gt06g6",
+      "--con",
+      "/home/workstation/Dev/factory/tareas/20261004-005956-revision-guiada/evidencia/hechos.json"
+    ],
+    "codigo": 0,
+    "resultado": "8 medidas propuestas verdes; no asociadas"
+  },
+  "cobertura": {
+    "argv": [
+      "/tmp/factory-guided-env/bin/oracle",
+      "cobertura",
+      "--proyecto",
+      "/home/workstation/Dev/factory",
+      "--con",
+      "/home/workstation/Dev/factory/tareas/20261004-005956-revision-guiada/evidencia/hechos.json"
+    ],
+    "codigo": 0,
+    "resultado": "7 requisitos del cambio sin medir"
+  },
+  "limite": "Se evaluó el catálogo candidato aislado; no se registró juicio Factory ni aprobación de revisión."
+}

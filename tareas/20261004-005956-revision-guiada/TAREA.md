@@ -35,6 +35,15 @@ Después de presentar el contrato, el usuario respondió «Se acepta la propuest
 
 Próximo paso: elegir el mapeo y revisar el candidato con una persona/revisor competente. Registrar informe, decisiones y commit revisado; juzgar y cerrar sólo si corresponde. Los siete requisitos conservan `sin_medir` mientras no se elijan las medidas.
 
+## Entrega verificable
+
+- Candidato: `109e2b579ec29c3bc87ba30c92599f81c9a6a79f`.
+- [Revisión preparada y pendientes](revision-pendiente.md).
+- [Evidencia del candidato](evidencia/resultado.json): 66 pruebas y 18 casos específicos, sin fallas ni omisiones.
+- [Cobertura Oracle](evidencia/oracle-cobertura.txt): siete requisitos sin medir; [ocho reglas propuestas](evidencia/oracle-medidas-propuestas.txt) cumplen sobre los hechos, sin asociación ni aprobación implícita.
+
+El informe y las decisiones de la revisión real quedaron pendientes mediante `revision-preparar` en un checkout del candidato. Clue preparó un paquete sin omisiones; no generó un análisis ni decisiones. Este archivo y sus adjuntos se archivan después del commit del producto, sin atribuirles una revisión humana.
+
 ### Nota (2026-10-04 13:01:14 UTC)
 
 Propuesta, spec y diseño preparados: revision-preparar, informe guiado y decisiones separadas; modo libre compatible con conteo explícito. Pendiente aceptación humana de los documentos antes de implementar. OpenSpec: openspec/changes/20261004-005956-revision-guiada

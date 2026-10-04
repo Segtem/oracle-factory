@@ -11,8 +11,10 @@
 - [x] Agente: separar decisiones, derivar abiertos y mejorar confirmación/archivo/vigencia.
 - [x] Agente: mantener modo libre e históricos rotulados y exigir conteo explícito para nuevos registros libres.
 - [x] Agente: documentar recorrido de checkout y compatibilidad de versiones; 66 pruebas, incluidos 18 casos de G1–G8, pasan.
-- [ ] Agente: registrar candidato; revisor: guardar informe; persona: resolver hallazgos y registrar decisión.
-- [ ] Agente: ejecutar Oracle sobre evidencia del producto sin ocultar alcances no medidos.
+- [x] Agente: registrar candidato `109e2b579ec29c3bc87ba30c92599f81c9a6a79f`; guardar evidencia y contexto de Clue en checkout estable, sin omisiones.
+- [x] Agente: preparar informe/decisiones pendientes sobre ese candidato mediante la nueva CLI, sin completar campos humanos.
+- [ ] Revisor: guardar informe; persona: resolver hallazgos y registrar decisión sobre el commit efectivamente revisado.
+- [x] Agente: ejecutar Oracle sobre evidencia: ocho reglas propuestas pasan; siete requisitos reales continúan sin medir, sin gate verde de Factory.
 - [ ] Persona: confirmar por escrito el cierre si corresponde.
 
 Implementación lista para revisión. La elección del mapeo propuesto sigue pendiente; no hay medidas asociadas, revisión humana aprobada ni cierre de esta tarea. La claridad del recorrido no se mide con fixtures.

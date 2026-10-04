@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261004-005956-revision-guiada",
+  "contexto": {
+    "head": "109e2b579ec29c3bc87ba30c92599f81c9a6a79f",
+    "archivos_sha256": "a7ed5c984b819a03f5931d31d90473d74a5830ec2b1bd4bf91135469149e7ce1"
+  },
+  "documentos": {
+    "openspec/changes/20261004-005956-revision-guiada/proposal.md": "eb2e2a6c34c9dcc81a125cfa1a173074437dd4d47a9c522d20535b226ea137ac",
+    "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": null,
+  "comprobaciones": null,
+  "limites": null,
+  "hallazgos": null,
+  "sin_hallazgos_motivo": null
+}
