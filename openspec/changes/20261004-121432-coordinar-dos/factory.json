@@ -1,0 +1,20 @@
+{
+  "id": "20261004-121432-coordinar-dos",
+  "titulo": "Coordinar dos personas con sus agentes sin interferencias",
+  "capacidad": "colaboracion",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-04T12:14:32+00:00",
+      "capacidad": "colaboracion"
+    }
+  ]
+}
