@@ -2,11 +2,29 @@
   "id": "20261004-005956-revision-guiada",
   "titulo": "Guiar la revisión con un informe pendiente y decisiones explícitas",
   "capacidad": "revision-guiada",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25",
+  "spec_aprobada": {
+    "por": "usuario de esta conversación",
+    "cuando": "2026-10-04T13:04:46+00:00",
+    "documentos": {
+      "openspec/changes/20261004-005956-revision-guiada/proposal.md": "eb2e2a6c34c9dcc81a125cfa1a173074437dd4d47a9c522d20535b226ea137ac",
+      "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25"
+    },
+    "canal": "conversación",
+    "texto": "Se acepta la propuesta.",
+    "contexto": "Respuesta a la solicitud de aceptar propuesta y spec presentadas en el commit 65e6815."
+  },
+  "requisitos": [
+    "revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia",
+    "revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas",
+    "revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido",
+    "revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita",
+    "revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar",
+    "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada",
+    "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado"
+  ],
   "revision": null,
   "oracle": null,
   "eventos": [
@@ -16,6 +34,32 @@
       "cuando": "2026-10-04T13:01:14+00:00",
       "origen": "Usuario: Bien vamos con la 1.; selección de tarea y preparación del contrato",
       "base": "6af15e4"
+    },
+    {
+      "accion": "spec_aceptada_en_conversacion",
+      "por": "usuario de esta conversación",
+      "cuando": "2026-10-04T13:04:46+00:00",
+      "documentos": {
+        "openspec/changes/20261004-005956-revision-guiada/proposal.md": "eb2e2a6c34c9dcc81a125cfa1a173074437dd4d47a9c522d20535b226ea137ac",
+        "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25"
+      },
+      "canal": "conversación",
+      "texto": "Se acepta la propuesta.",
+      "contexto": "Respuesta a la solicitud de aceptar propuesta y spec presentadas en el commit 65e6815."
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-04T13:04:46+00:00",
+      "ids": [
+        "revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia",
+        "revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas",
+        "revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido",
+        "revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita",
+        "revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar",
+        "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada",
+        "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado"
+      ]
     }
   ]
 }

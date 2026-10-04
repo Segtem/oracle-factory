@@ -8,7 +8,7 @@
 
 Factory acepta cualquier informe no vacío y el número de hallazgos declarado. Para un principiante eso puede dar una falsa sensación de revisión. Proponer una plantilla estructurada con campos pendientes, versión, archivos/casos comprobados, hallazgos y decisiones motivadas, límites y responsable. Sin hallazgos inventados, cero por defecto ni autoaprobación. Mejorar feedback de confirmación. El análisis exige revisor competente; no presentar el registro como verificación del contenido.
 
-Origen: auditoría 20261003-235610-web-rigurosa, informes agy1/agy2 y lectura directa de la CLI. Esta tarea es una propuesta pendiente, no autorización para implementar una funcionalidad nueva.
+Origen: auditoría 20261003-235610-web-rigurosa, informes agy1/agy2 y lectura directa de la CLI. El contrato concreto fue aceptado después por el usuario y se implementó en rama; ver registro de aceptación y evidencia. La revisión y el cierre humanos permanecen pendientes.
 
 ### Nota (2026-10-04 00:59:56 UTC)
 
@@ -16,7 +16,7 @@ Registrada como mejora necesaria/propuesta a partir del pedido de revisar la web
 
 ## Próximo paso
 
-Revisar y aceptar el contrato concreto antes de implementar:
+Documentos del contrato aceptado:
 
 - [Propuesta](../../openspec/changes/20261004-005956-revision-guiada/proposal.md).
 - [Spec](../../openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md).
@@ -25,6 +25,24 @@ Revisar y aceptar el contrato concreto antes de implementar:
 
 El usuario seleccionó esta tarea con «Bien vamos con la 1.». Se preparó el contrato en `tarea/20261004-005956-revision-guiada`, partiendo de `6af15e4` (incluye el protocolo de colaboración anterior). El pedido no se registra como aceptación de documentos que todavía no habían sido presentados. No se duplicó la tarea ni se implementó la CLI.
 
+## Implementación y siguiente paso actual
+
+Después de presentar el contrato, el usuario respondió «Se acepta la propuesta.». Esa aceptación está registrada sobre las huellas de proposal/spec. Se implementaron `revision-preparar`, formato guiado, decisiones separadas, abiertos derivados y conservación/vigencia de ambas copias; el modo libre exige ahora conteo explícito.
+
+- [Guía de uso desde el checkout](../../docs/revision-guiada.md).
+- [Mapeo de medidas propuesto](../../openspec/changes/20261004-005956-revision-guiada/medicion-propuesta.md), todavía sin asociar; elección consultada al usuario.
+- Validación: 66 pruebas de la suite, incluidos 18 casos del contrato G1–G8, pasan. No es una revisión humana del producto.
+
+Próximo paso: elegir el mapeo y revisar el candidato con una persona/revisor competente. Registrar informe, decisiones y commit revisado; juzgar y cerrar sólo si corresponde. Los siete requisitos conservan `sin_medir` mientras no se elijan las medidas.
+
 ### Nota (2026-10-04 13:01:14 UTC)
 
 Propuesta, spec y diseño preparados: revision-preparar, informe guiado y decisiones separadas; modo libre compatible con conteo explícito. Pendiente aceptación humana de los documentos antes de implementar. OpenSpec: openspec/changes/20261004-005956-revision-guiada
+
+### Nota (2026-10-04 13:04:46 UTC)
+
+Contrato presentado aceptado por el usuario: «Se acepta la propuesta.», en respuesta a la aceptación de proposal.md y spec.md. Huellas registradas; no implica revisión aprobada ni cierre del producto.
+
+### Nota (2026-10-04 13:04:46 UTC)
+
+Requisitos importados: revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia, revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas, revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido, revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita, revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar, revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada, revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado. Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

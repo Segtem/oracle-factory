@@ -1,0 +1,4 @@
+requisito revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido:
+    texto "El entregable SHALL documentar preparación, completado, decisión y renovación con ejemplos pendientes y casos reproducibles, distinguiendo validación estructural de análisis del código y decisiones humanas."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md#explicar y verificar los limites del recorrido"
+    sin_medir "sin medida todavía; escenarios: «usar el recorrido guiado», «validar la implementacion»"
