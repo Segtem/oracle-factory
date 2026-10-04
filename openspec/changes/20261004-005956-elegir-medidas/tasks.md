@@ -1,0 +1,5 @@
+- [x] Preparar contrato concreto para revisión.
+- [ ] Aceptación humana del contrato.
+- [ ] Implementar en rama sin autoaprobaciones.
+- [ ] Verificar errores, conservación de archivos y ejemplo desde wheel.
+- [ ] Actualizar guía y preparar nuevo corte si se acepta.
