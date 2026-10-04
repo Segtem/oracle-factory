@@ -31,11 +31,11 @@ const root=path.resolve(__dirname,'../site');
  await page.locator('#next').click();await page.locator('#next').click();
  await page.getByRole('button',{name:'Aceptar la revisión',exact:true}).click();
  assert.match(await page.locator('#decision-title').innerText(),/Lo medido se cumple/);
- await page.locator('#next').click();await page.getByRole('button',{name:'Aceptar la entrega',exact:true}).click();
- assert.match(await page.locator('#motion-status').innerText(),/Entrega aceptada/);checks++;
+ await page.locator('#next').click();await page.getByRole('button',{name:'Aceptar el cierre',exact:true}).click();
+ assert.match(await page.locator('#motion-status').innerText(),/Cierre aceptado/);checks++;
  // Explorar una estación no equivale a aprobar sus requisitos.
  await page.locator('#restart').click();await page.locator('[data-stage="7"]').click();
- assert.equal(await page.getByRole('button',{name:'Aceptar la entrega',exact:true}).count(),0);checks++;
+ assert.equal(await page.getByRole('button',{name:'Aceptar el cierre',exact:true}).count(),0);checks++;
  // Los cuatro métodos se recorren también por teclado, y cada uno explica rol y comprobación.
  await page.locator('#method-vibe').focus();
  for(const key of ['lifecycle','spec','factory','vibe']){

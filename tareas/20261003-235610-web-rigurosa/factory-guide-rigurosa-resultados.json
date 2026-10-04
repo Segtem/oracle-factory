@@ -1,0 +1,159 @@
+{
+  "resultado": "OK",
+  "proyecto_fixture": "/tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto",
+  "id_fixture": "20261004-005750-comprobar-el",
+  "plataforma": "Linux",
+  "confirmaciones": "fixtures exclusivamente temporales",
+  "comandos": [
+    {
+      "comando": "git init",
+      "codigo": 0,
+      "salida": "Initialized empty Git repository in /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/.git/\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory init",
+      "codigo": 0,
+      "salida": "Tracker de tareas inicializado en /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/tareas\nProyecto Oracle inicializado en /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto:\n  · catalogos/\n  · corpus/\n  · diferencial/\n  · relaciones/\n  · oracle.json\n\nPróximos pasos:\n  1. Creá un caso:     oracle caso <grupo/id>\n  2. Creá una medida:  oracle nueva <dominio.nombre>\n  3. Verificá todo:    oracle test\nFactory inicializada en /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto. No se crearon commits ni aprobaciones.\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory ejemplo notas",
+      "codigo": 0,
+      "salida": "Ejemplo copiado en /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/examples/notas\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory --help",
+      "codigo": 0,
+      "salida": "usage: oracle-factory [-h] [--version] [--proyecto PROYECTO]\n                      {init,ejemplo,nuevo,aprobar-spec,importar,estado,cerrar,revision,juzgar} ...\n\nFactory local con gates humanos, OpenSpec, oracle-task y Oracle\n\npositional arguments:\n  {init,ejemplo,nuevo,aprobar-spec,importar,estado,cerrar,revision,juzgar}\n    init                inicializar Oracle, tareas y acuerdos sin sobrescribir\n                        configuración\n    ejemplo             copiar el ejemplo incluido a una carpeta nueva\n    nuevo               crear tarea y paquete OpenSpec\n    aprobar-spec        aceptación humana explícita de la propuesta/spec\n    importar            importar requisitos de la spec aceptada a Oracle\n    estado              mostrar estado y gates pendientes\n    cerrar              cierre humano si todos los gates pasaron\n    revision            registrar un informe de CodeRabbit/revisor y decisión\n                        humana\n    juzgar              correr Oracle sobre evidencia del sensor\n\noptions:\n  -h, --help            show this help message and exit\n  --version             show program's version number and exit\n  --proyecto PROYECTO   carpeta de trabajo (por defecto, la actual); colocar\n                        antes del subcomando\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory nuevo --capacidad notas \"Comprobar el título de una nota\"",
+      "codigo": 0,
+      "salida": "Cambio creado: 20261004-005750-comprobar-el\nTarea: /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/tareas/20261004-005750-comprobar-el/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/openspec/changes/20261004-005750-comprobar-el\nPróximo paso humano: editar los TODO y revisar /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/openspec/changes/20261004-005750-comprobar-el/proposal.md y /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/openspec/changes/20261004-005750-comprobar-el/specs/notas/spec.md\n",
+      "stderr": ""
+    },
+    {
+      "comando": "cp examples/notas/proposal.md openspec/changes/20261004-005750-comprobar-el/proposal.md",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "cp examples/notas/spec.md openspec/changes/20261004-005750-comprobar-el/specs/notas/spec.md",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory aprobar-spec 20261004-005750-comprobar-el",
+      "codigo": 0,
+      "salida": "openspec/changes/20261004-005750-comprobar-el/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261004-005750-comprobar-el/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nEscribí APROBAR ESPECIFICACION 20261004-005750-comprobar-el: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory importar 20261004-005750-comprobar-el",
+      "codigo": 0,
+      "salida": "+ notas_c4dddbd6ac9d5de25.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /tmp/factory-guide-rigurosa-zkoxsnb4/mi-primer-proyecto/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\n",
+      "stderr": ""
+    },
+    {
+      "comando": "cp examples/notas/catalogos/notas.casos_ejecutados.oracle catalogos/",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "cp examples/notas/catalogos/notas.resultados.oracle catalogos/",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle cobertura --proyecto .",
+      "codigo": 0,
+      "salida": "✓ notas_c4dddbd6ac9d5de25.titulo_valido   notas.casos_ejecutados, notas.resultados\n\n1 requisitos: 1 medidos · 0 en parte · 0 sin medir · 0 con medidas inexistentes\n",
+      "stderr": ""
+    },
+    {
+      "comando": "uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p \"test_*.py\" -v",
+      "codigo": 0,
+      "salida": "",
+      "stderr": "test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "comando": "uv run --no-project --python 3.13 python examples/notas/sensor.py --salida .factory-demo/hechos.json",
+      "codigo": 0,
+      "salida": "Hechos de 3 casos escritos en .factory-demo/hechos.json\n",
+      "stderr": ""
+    },
+    {
+      "comando": "git config user.name \"Fixture guía\"",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "git config user.email \"fixture@example.invalid\"",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "git add .",
+      "codigo": 0,
+      "salida": "",
+      "stderr": ""
+    },
+    {
+      "comando": "git commit -m \"20261004-005750-comprobar-el: ejemplo de notas\"",
+      "codigo": 0,
+      "salida": "[main (root-commit) ddf4a89] 20261004-005750-comprobar-el: ejemplo de notas\n 19 files changed, 239 insertions(+)\n create mode 100644 .gitignore\n create mode 100644 catalogos/notas.casos_ejecutados.oracle\n create mode 100644 catalogos/notas.resultados.oracle\n create mode 100644 examples/notas/README.md\n create mode 100644 examples/notas/catalogos/notas.casos_ejecutados.oracle\n create mode 100644 examples/notas/catalogos/notas.resultados.oracle\n create mode 100644 examples/notas/notas.py\n create mode 100644 examples/notas/proposal.md\n create mode 100644 examples/notas/sensor.py\n create mode 100644 examples/notas/spec.md\n create mode 100644 examples/notas/test_notas.py\n create mode 100644 openspec/changes/20261004-005750-comprobar-el/design.md\n create mode 100644 openspec/changes/20261004-005750-comprobar-el/factory.json\n create mode 100644 openspec/changes/20261004-005750-comprobar-el/proposal.md\n create mode 100644 openspec/changes/20261004-005750-comprobar-el/specs/notas/spec.md\n create mode 100644 openspec/changes/20261004-005750-comprobar-el/tasks.md\n create mode 100644 oracle.json\n create mode 100644 requisitos/notas_c4dddbd6ac9d5de25.titulo_valido.requisito\n create mode 100644 tareas/20261004-005750-comprobar-el/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "comando": "git rev-parse HEAD",
+      "codigo": 0,
+      "salida": "ddf4a8959db69cb108583ef793c8520b946cbd76\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory revision 20261004-005750-comprobar-el --informe .factory-demo/review.md --revisor \"Fixture guía\" --decision aprobar --hallazgos-abiertos 0",
+      "codigo": 0,
+      "salida": "Revisor: Fixture guía; decisión: aprobar; abiertos: 0; commit: ddf4a8959db69cb108583ef793c8520b946cbd76\nEscribí REGISTRAR REVISION 20261004-005750-comprobar-el: ",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory juzgar 20261004-005750-comprobar-el --con .factory-demo/hechos.json",
+      "codigo": 0,
+      "salida": "✓ notas_c4dddbd6ac9d5de25.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory estado 20261004-005750-comprobar-el",
+      "codigo": 0,
+      "salida": "20261004-005750-comprobar-el — Comprobar el título de una nota\nFase: oracle_verde\nRequisitos Oracle: notas_c4dddbd6ac9d5de25.titulo_valido\nPendiente: ninguno\nAprobación spec: sí\nRevisión: Fixture guía / aprobar / 0 abiertos\nOracle: código 0 (openspec/changes/20261004-005750-comprobar-el/oracle-veredicto.txt)\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory cerrar 20261004-005750-comprobar-el",
+      "codigo": 0,
+      "salida": "Se cerrará la tarea 20261004-005750-comprobar-el; Oracle openspec/changes/20261004-005750-comprobar-el/oracle-veredicto.txt; revisión openspec/changes/20261004-005750-comprobar-el/review.md.\nEscribí CERRAR 20261004-005750-comprobar-el: Tarea cerrada: 20261004-005750-comprobar-el\n",
+      "stderr": ""
+    },
+    {
+      "comando": "oracle-factory estado 20261004-005750-comprobar-el",
+      "codigo": 0,
+      "salida": "20261004-005750-comprobar-el — Comprobar el título de una nota\nFase: cerrada\nRequisitos Oracle: notas_c4dddbd6ac9d5de25.titulo_valido\nPendiente: ninguno\nAprobación spec: sí\nRevisión: Fixture guía / aprobar / 0 abiertos\nOracle: código 0 (openspec/changes/20261004-005750-comprobar-el/oracle-veredicto.txt)\n",
+      "stderr": ""
+    },
+    {
+      "comando": "git ls-files",
+      "codigo": 0,
+      "salida": ".gitignore\ncatalogos/notas.casos_ejecutados.oracle\ncatalogos/notas.resultados.oracle\nexamples/notas/README.md\nexamples/notas/catalogos/notas.casos_ejecutados.oracle\nexamples/notas/catalogos/notas.resultados.oracle\nexamples/notas/notas.py\nexamples/notas/proposal.md\nexamples/notas/sensor.py\nexamples/notas/spec.md\nexamples/notas/test_notas.py\nopenspec/changes/20261004-005750-comprobar-el/design.md\nopenspec/changes/20261004-005750-comprobar-el/factory.json\nopenspec/changes/20261004-005750-comprobar-el/proposal.md\nopenspec/changes/20261004-005750-comprobar-el/specs/notas/spec.md\nopenspec/changes/20261004-005750-comprobar-el/tasks.md\noracle.json\nrequisitos/notas_c4dddbd6ac9d5de25.titulo_valido.requisito\ntareas/20261004-005750-comprobar-el/TAREA.md\n",
+      "stderr": ""
+    }
+  ]
+}

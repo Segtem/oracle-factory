@@ -1,0 +1,4 @@
+requisito documentacion_c3d226d369499e32e.correspondencia_con_el_producto:
+    texto "La web MUST distinguir el flujo disponible en Factory 0.1.0a2 de las capacidades previstas."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261003-235610-web-rigurosa/specs/documentacion/spec.md#Correspondencia con el producto"
+    sin_medir "sin medida todavía; escenarios: «conocer el alcance»"

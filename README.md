@@ -9,7 +9,7 @@ Es una CLI local y un flujo visible en Git. No hace commits ni publica ramas por
 
 ## Instalación del corte alpha
 
-La versión alpha 0.1.0a2 migra a Oracle Task. Su publicación en PyPI está pendiente; los comandos siguientes se usan después de publicarla. Instalá la herramienta una vez y elegí la carpeta de cada proyecto:
+La versión alpha 0.1.0a2 migra a Oracle Task. Está publicada en PyPI; wheel y sdist se verificaron contra los hashes del release. Instalá la herramienta una vez y elegí la carpeta de cada proyecto:
 
 ```bash
 uv tool install --python 3.13 oracle-factory==0.1.0a2
@@ -59,7 +59,7 @@ Si necesitás los comandos independientes `oracle` y `tasks`, usá la instalaci�
 
 - Usa los comandos instalados de Oracle y oracle-task; no implementa copias de sus reglas.
 - No instala ni invoca CodeRabbit. Recibe su informe exportado o pegado y hace explícita la decisión humana. El siguiente paso sería conectar el estado del PR y sus checks en una futura integración. El remoto ya existe; la integración automática todavía no.
-- Oracle evalúa hechos que produce un sensor; no lee el código para demostrar cualquier afirmación. La cobertura completa de una spec requiere criterio humano y medidas defendibles.
+- Oracle evalúa los hechos aportados; Factory no ejecuta el sensor ni certifica que ese JSON provenga de la versión actual. No lee el código para demostrar cualquier afirmación. La cobertura completa de una spec requiere criterio humano y medidas defendibles.
 - No archiva automáticamente el cambio OpenSpec ni modifica código del producto.
 
 ## Preparación y vigencia de la evidencia

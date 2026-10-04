@@ -1,0 +1,5 @@
+- [x] Auditar con agy1 y agy2.
+- [x] Verificar citas y reproducir los comandos.
+- [x] Corregir web y actualizar publicación PyPI.
+- [x] Verificar navegador y desplegar.
+- [x] Registrar mejoras de producto para principiantes.

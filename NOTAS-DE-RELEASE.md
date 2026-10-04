@@ -3,7 +3,7 @@
 - Migra la dependencia a `oracle-task==0.2.0` y resuelve el comando `tasks` desde esa distribución.
 - Conserva IDs, carpetas de tareas y decisiones humanas. Actualiza la portada y la guía desde cero.
 - Oracle continúa fijado en 0.38.1; no hace falta esperar otro paquete para instalar este corte.
-- Publicación en PyPI pendiente. Factory 0.1.0a1 depende del paquete antiguo y no podrá
+- Publicado en PyPI; hashes wheel/sdist verificados contra el release y ejemplo completo probado desde una instalación nueva. Factory 0.1.0a1 depende del paquete antiguo y no podrá
   instalarse desde PyPI después de borrar trackertast; usar 0.1.0a2.
 
 ```bash

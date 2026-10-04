@@ -38,6 +38,10 @@ Release alpha publicado y verificado: https://github.com/Segtem/oracle-factory/r
 
 Publicación PyPI confirmada por el usuario y verificada: 0.1.0a1. Wheel/sdist del índice coinciden por SHA-256 con el release. Instalación con uv, Python 3.13 y cache nueva; prueba funcional del ejecutable instalado OK. Evidencia en verificacion-pypi.json. README actualizado para usar el índice. La guía ahora crea un proyecto vacío, inicializa Factory y exporta el ejemplo del paquete sin clonar el repositorio; 11 comprobaciones Chromium OK.
 
+### Nota (2026-10-04 01:03:17 UTC)
+
+Sucesor 0.1.0a2 publicado y verificado desde PyPI; wheel/sdist iguales al release, instalación aislada y ejemplo completo hasta cierre fixture. Se conserva el pendiente formal de medidas y revisión humana de esta tarea.
+
 ## Próximo paso
 
-Revisión humana del flujo instalado y elección de medidas para los requisitos de distribución antes del cierre formal. La publicación PyPI y su verificación están terminadas. La guía de la tarea 20261002-222858-explicar-oracle queda lista para la prueba con una persona sin experiencia.
+Revisión humana del flujo instalado y elección de medidas para los requisitos de distribución antes del cierre formal. PyPI 0.1.0a2 y su instalación están verificados.

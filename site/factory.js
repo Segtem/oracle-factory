@@ -3,15 +3,99 @@
   const $ = id => document.getElementById(id);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const stages = [
-    {tool:'PERSONA + FACTORY', maturity:'Visión del flujo', title:'Todo empieza por una necesidad.', copy:'“Quiero guardar notas y que ninguna tenga el título vacío.” La persona trae el problema; Factory reúne el contexto y abre un cambio que se puede seguir.', input:'Una idea y su contexto', output:'Un pedido con responsable', decision:'Primero, entender el problema.', why:'Todavía no se escribe código. Acordar para quién construimos evita producir algo que nadie necesita.', tracker:'Pedido recibido'},
-    {tool:'OPENSPEC + PERSONA', maturity:'Formato integrado', title:'La idea se convierte en un acuerdo.', copy:'Una especificación es una lista clara de lo que la app debe hacer. Por ejemplo: si el título está vacío, no guardar la nota y explicar cómo corregirlo. OpenSpec organiza ese acuerdo.', input:'El pedido y las dudas resueltas', output:'Comportamientos y ejemplos aceptados', decision:'¿Esto es lo que necesitás?', why:'Leé el comportamiento esperado. Podés aceptar la propuesta o volver a definir el pedido antes de que se escriba código.', tracker:'Esperando acuerdo de alcance', gate:true},
-    {tool:'ORACLE + PERSONA', maturity:'Medidas en el prototipo', title:'Acordamos cómo comprobarlo.', copy:'Elegimos qué observar: intentar guardar una nota sin título y registrar si se rechazó. Una medida es la regla que evalúa ese hecho. La persona decide si esa evidencia alcanza.', input:'El acuerdo sobre la app', output:'Reglas de comprobación y sus límites', decision:'¿Qué evidencia te daría confianza?', why:'La prueba puede mostrar que el dato se rechaza. Saber si el mensaje resulta claro para una persona requiere además mirarlo y probarlo con ella.', tracker:'Esperando criterio de medición', gate:true},
-    {tool:'AGENTES DE CÓDIGO', maturity:'Orquestación prevista', title:'Los agentes construyen la app.', copy:'Con el acuerdo como guía, los agentes escriben el código: la pantalla, el guardado de notas y la validación del título. Factory coordinará el trabajo y conservará el vínculo con el pedido.', input:'Un acuerdo y un plan de trabajo', output:'Código de la app y sus pruebas', decision:'La intención acompaña al código.', why:'En la POC actual, la implementación se hace fuera de la CLI. La visión de Factory es coordinar también a los agentes que la realizan.', tracker:'Construyendo el cambio'},
-    {tool:'PRUEBAS + OBSERVACIONES', maturity:'Ejecución externa hoy', title:'Probamos lo que se construyó.', copy:'Las pruebas son comprobaciones repetibles. Intentamos guardar una nota válida, una vacía y una con espacios. Registramos lo ocurrido para que la revisión y Oracle puedan evaluarlo.', input:'Una versión de la app', output:'Resultados de pruebas y hechos observados', decision:'Probar también lo que podría fallar.', why:'Que una prueba pase solo habla de lo que comprobó. Necesitamos revisar los casos que elegimos y los que quedaron afuera.', tracker:'Reuniendo resultados'},
-    {tool:'ORACLE CLUE + PERSONA', maturity:'Análisis IA pendiente', title:'Otra mirada busca problemas.', copy:'Clue revisará los cambios de código y señalará posibles defectos con evidencia. En nuestro ejemplo detecta que un título hecho solo de espacios se acepta. La persona decide cómo resolverlo.', input:'Los cambios y el acuerdo original', output:'Hallazgos con una decisión documentada', decision:'Hay un caso que debemos corregir.', why:'“   ” parece un título vacío, pero el código lo permite. Pedí la corrección y seguí el cambio de vuelta por código y pruebas.', tracker:'Esperando resolver un hallazgo', gate:true},
-    {tool:'ORACLE', maturity:'Integrado en la POC', title:'Contrastamos lo prometido con lo observado.', copy:'Oracle compara los hechos con las reglas acordadas. Si falta evidencia o algo no se cumple, queda visible. El resultado se refiere a las propiedades medidas, con sus límites.', input:'Hechos observados y reglas acordadas', output:'Un veredicto sobre cada requisito medido', decision:'El resultado tiene una explicación.', why:'La regla “rechazar un título vacío” se evalúa con hechos. Oracle no deduce que toda la app es perfecta por comprobar ese caso.', tracker:'Evaluando evidencia'},
-    {tool:'PERSONA + FACTORY', maturity:'Cierre humano en la POC', title:'La entrega vuelve a tus manos.', copy:'La persona ve la app construida, las pruebas, los hallazgos resueltos y el veredicto. Decide si acepta el cambio o necesita otra vuelta. El trabajo queda registrado para poder retomarlo.', input:'Software, revisión y evidencia', output:'Una entrega aceptada y trazable', decision:'¿Está listo para entregar?', why:'Aceptar la entrega es una decisión humana. La demo reúne el recorrido; una entrega real exige revisar los artefactos del producto.', tracker:'Esperando decisión de entrega', gate:true}
-  ];
+  {
+    "tool": "PERSONA + FACTORY",
+    "maturity": "Disponible hoy",
+    "title": "Todo empieza por una necesidad.",
+    "copy": "“Quiero que ninguna nota tenga el título vacío.” Vos aportás el contexto y Factory crea una tarea y documentos iniciales para el cambio.",
+    "input": "Una idea y su contexto",
+    "output": "Una tarea y plantillas por completar",
+    "decision": "Primero, entender el problema.",
+    "why": "Acordar para quién construimos evita producir algo que nadie necesita. Factory no redacta el acuerdo por vos.",
+    "tracker": "Pedido recibido"
+  },
+  {
+    "tool": "DOCUMENTOS OPENSPEC + PERSONA",
+    "maturity": "Formato integrado",
+    "title": "La idea se convierte en un acuerdo.",
+    "copy": "Una especificación describe lo que el programa debe hacer. En la guía acordamos rechazar títulos vacíos o con espacios y aceptar texto. Vos escribís el documento; Factory pide una confirmación antes de importarlo.",
+    "input": "El pedido y las dudas resueltas",
+    "output": "Propuesta y escenarios aceptados",
+    "decision": "¿Esto es lo que necesitás?",
+    "why": "Leé el comportamiento esperado. Aceptá la propuesta o redefiní el pedido. Usamos el formato OpenSpec, sin instalar su CLI.",
+    "tracker": "Esperando acuerdo de alcance",
+    "gate": true
+  },
+  {
+    "tool": "ORACLE + PERSONA",
+    "maturity": "Elección manual de medidas",
+    "title": "Acordamos cómo comprobarlo.",
+    "copy": "Elegís reglas que evalúen resultados observados. En la guía se cuentan tres observaciones y se exige que ninguna falle. La persona revisa si los casos y el sensor representan el acuerdo.",
+    "input": "Un requisito importado sin medir",
+    "output": "Requisito enlazado a medidas elegidas",
+    "decision": "¿Qué evidencia te daría confianza?",
+    "why": "Esta pausa representa tu elección manual. No es una aprobación de medidas en la CLI de Factory. Contar tres filas no demuestra que sean tres casos distintos.",
+    "tracker": "Eligiendo cómo medir",
+    "gate": true
+  },
+  {
+    "tool": "PERSONA O IA EXTERNA",
+    "maturity": "Trabajo fuera de Factory",
+    "title": "Construís el comportamiento acordado.",
+    "copy": "Una persona o una IA escribe el código y sus pruebas por fuera de Factory. La guía trae una función de validación ya escrita; no genera una app ni implementa pantalla o guardado.",
+    "input": "El acuerdo y las medidas elegidas",
+    "output": "Código y pruebas revisables",
+    "decision": "La intención acompaña al código.",
+    "why": "La coordinación automática de agentes es una capacidad prevista. Hoy Factory no escribe ni ejecuta ese código.",
+    "tracker": "Construyendo el cambio"
+  },
+  {
+    "tool": "PRUEBAS + SENSOR EXTERNOS",
+    "maturity": "Ejecución manual hoy",
+    "title": "Probamos lo que se construyó.",
+    "copy": "Ejecutás pruebas para título vacío, espacios y texto válido. Después ejecutás el sensor: llama al programa y escribe observaciones en un archivo JSON para Oracle.",
+    "input": "Una versión del programa",
+    "output": "Resultados de pruebas y hechos observados",
+    "decision": "Probar también lo que podría fallar.",
+    "why": "Los tests y las observaciones son comprobaciones separadas. Factory no los ejecuta; tenés que renovarlos sobre la versión que vas a revisar.",
+    "tracker": "Reuniendo resultados"
+  },
+  {
+    "tool": "REVISOR EXTERNO + PERSONA",
+    "maturity": "Informe registrado manualmente",
+    "title": "Otra mirada busca problemas.",
+    "copy": "En esta simulación, un revisor encuentra que el código acepta títulos con espacios. Pedimos corregirlo. Es un defecto ilustrativo: el ejemplo publicado ya lo rechaza. Factory registra el informe externo, no realiza la revisión.",
+    "input": "Código, pruebas, sensor y acuerdo",
+    "output": "Informe y decisiones documentadas",
+    "decision": "Hay un caso que debemos corregir.",
+    "why": "La aprobación exige declarar cero hallazgos abiertos. Factory verifica la existencia y huella del informe, pero no comprueba la calidad del análisis ni cuenta sus hallazgos.",
+    "tracker": "Esperando resolver un hallazgo",
+    "gate": true
+  },
+  {
+    "tool": "ORACLE",
+    "maturity": "Integrado en el alpha",
+    "title": "Contrastamos lo prometido con lo observado.",
+    "copy": "Oracle evalúa el JSON que le entregás contra las medidas elegidas. Un verde describe esas reglas y esos hechos. No certifica toda la aplicación ni demuestra de dónde salió la evidencia.",
+    "input": "Hechos, medidas y requisitos asociados",
+    "output": "Juicio de los requisitos medidos",
+    "decision": "El resultado tiene límites.",
+    "why": "Factory registra huellas y detecta cambios posteriores. No ejecuta el sensor ni garantiza que el JSON provenga del código actual: esa comprobación sigue siendo responsabilidad humana.",
+    "tracker": "Evaluando evidencia"
+  },
+  {
+    "tool": "PERSONA + FACTORY",
+    "maturity": "Cierre local disponible",
+    "title": "Vos decidís el cierre.",
+    "copy": "Revisás el acuerdo, el informe y el juicio. Si están vigentes y no quedan pendientes bloqueantes, confirmás el cierre. Factory marca la tarea como cerrada; no publica, despliega ni envía commits.",
+    "input": "Revisión aprobada y evidencia vigente",
+    "output": "Tarea local cerrada y trazable",
+    "decision": "¿Está listo para cerrar?",
+    "why": "Cerrar el ejemplo demuestra este flujo sobre una regla pequeña. Entregar y mantener un producto completo requiere otros trabajos.",
+    "tracker": "Esperando decisión de cierre",
+    "gate": true
+  }
+];
   let current = 0, playing = false, timer = null, frame = null, elapsed = 0, lastTime = null;
   let fixed = false, delivered = false;
   const accepted = new Set();
@@ -33,7 +117,7 @@
     $('previous').disabled = current === 0;
     $('next').disabled = gate || current === 7;
     $('counter').textContent = `${String(current + 1).padStart(2,'0')} / 08`;
-    $('motion-status').textContent = delivered ? 'Entrega aceptada en la demostración.' : gate ? 'Pausa: esta etapa necesita una decisión humana.' : reduced.matches ? 'Movimiento reducido: avanzá con los controles.' : playing ? 'Recorriendo el flujo. Se detendrá en cada decisión humana.' : 'Avanzá a tu ritmo o reproducí el recorrido.';
+    $('motion-status').textContent = delivered ? 'Cierre aceptado en la demostración.' : gate ? 'Pausa: esta etapa necesita una decisión humana.' : reduced.matches ? 'Movimiento reducido: avanzá con los controles.' : playing ? 'Recorriendo el flujo. Se detendrá en cada decisión humana.' : 'Avanzá a tu ritmo o reproducí el recorrido.';
   }
   function action(text, handler) {
     const button = document.createElement('button'); button.type = 'button'; button.textContent = text;
@@ -58,7 +142,7 @@
       action('Revisar el alcance',()=>{accepted.clear();fixed=false;delivered=false;show(1,true);});
     }
     if (current===3 && fixed) {
-      $('stage-copy').textContent='Los agentes ajustan la validación para rechazar también títulos que solo contienen espacios. Se agrega una prueba para ese caso y el cambio vuelve a recorrer los controles.';
+      $('stage-copy').textContent='En esta simulación, la persona o su IA ajusta la validación y agrega una prueba. Después vuelve a ejecutar pruebas y sensor. La corrección se realiza fuera de Factory.';
       $('tracker-status').textContent='Corrigiendo el caso encontrado';
     }
     if (current===4 && fixed) $('decision-copy').textContent='Ahora comprobamos también el caso señalado en la revisión. La corrección vuelve a pasar por pruebas; no saltea el resto del recorrido.';
@@ -77,16 +161,16 @@
     }
     if (current===7) {
       if (delivered) {
-        $('decision-title').textContent='Una entrega con historia.';
+        $('decision-title').textContent='Un cierre con historia.';
         $('decision-copy').textContent='El pedido, las decisiones y la evidencia quedan unidos. Un cambio futuro puede empezar desde lo que ya sabemos.';
-        $('tracker-status').textContent='Entrega aceptada en la demo';
+        $('tracker-status').textContent='Cierre aceptado en la demo';
         action('Volver a recorrer',reset);
       } else if (artifactReady()) {
-        action('Aceptar la entrega',()=>{accepted.add(7);delivered=true;show(7,true);});
+        action('Aceptar el cierre',()=>{accepted.add(7);delivered=true;show(7,true);});
         action('Pedir un cambio',()=>{accepted.delete(5);fixed=true;show(3,true);});
       } else {
         $('decision-title').textContent='Primero completá el recorrido.';
-        $('decision-copy').textContent='La entrega necesita los acuerdos y la revisión previos. Explorar una etapa sirve para entenderla; no reemplaza esas decisiones.';
+        $('decision-copy').textContent='El cierre necesita los acuerdos y la revisión previos. Explorar una etapa sirve para entenderla; no reemplaza esas decisiones.';
         action('Volver al acuerdo',()=>show(1,true));
       }
     }
@@ -201,7 +285,7 @@
     paper(itemX,270,palette.gold);rect(itemX-7,280,35,6,'#bd9d61');
     const humanX=85+current*137;
     person(humanX,243,playing&&Math.floor(t/260)%2===0);
-    for(let i=0;i<8;i++){const x=28+i*137;const labels=['PEDIDO','SPEC','MEDIDAS','CÓDIGO','PRUEBAS','REVISIÓN','ORACLE','ENTREGA'];
+    for(let i=0;i<8;i++){const x=28+i*137;const labels=['PEDIDO','SPEC','MEDIDAS','CÓDIGO','PRUEBAS','REVISIÓN','EVIDENCIA','CIERRE'];
       rect(x+5,329,117,26,current===i?'#335539':'#1c3126');
       text(labels[i],x+64,346,current===i?palette.light:'#93aa82',9,'center');
       if(current===i)rect(x+5,354,117,2,palette.light);
@@ -212,7 +296,7 @@
     vibe: {name:'Vibe coding', subtitle:'Conversar, probar y ajustar.', steps:['Una idea','Pedir a la IA','Probar la app','Ajustar el pedido'], how:'Le contás a una IA qué querés y vas ajustando el resultado mientras lo probás. Es una forma directa de explorar una idea y aprender qué necesitás.', person:'Describe el pedido, prueba el resultado y pide cambios.', check:'La confianza suele empezar por lo que ves al usar la app. Podés agregar pruebas y acuerdos escritos para comprobar más casos.', example:'“Hacé una app de notas.” La probás y luego pedís: “No dejes guardar un título vacío”.', contribution:'Sirve para explorar rápido. Si los acuerdos y las comprobaciones no quedan registrados, cuesta saber qué se verificó y por qué se cambió algo.'},
     lifecycle: {name:'Ciclo de desarrollo (SDLC)', subtitle:'Organizar todo el trabajo.', steps:['Entender y diseñar','Construir','Probar y entregar','Mantener'], how:'El ciclo de vida del software, también llamado SDLC, organiza el trabajo desde entender la necesidad hasta mantener el producto. Puede ser iterativo: se vuelve a etapas anteriores cuando hace falta.', person:'Acuerda necesidades, organiza responsabilidades y revisa entregas. Puede trabajar con otras personas y con IA.', check:'Se definen revisiones y pruebas durante el proceso. La calidad depende de cómo se realizan, se mantienen y se documentan.', example:'El equipo acuerda cómo serán las notas, diseña la pantalla, construye el guardado, prueba casos y mantiene la app.', contribution:'Aporta organización para todo el ciclo. Es compatible con los demás enfoques: también una factory necesita planificar, construir, probar y mantener.'},
     spec: {name:'Desarrollo guiado por especificaciones', subtitle:'Acordar antes de construir.', steps:['Escribir el acuerdo','Revisarlo juntos','Construir con él','Comprobar los casos'], how:'Primero se escribe lo que el programa debe hacer, con ejemplos concretos. Ese documento —la especificación o spec— guía el código y sus pruebas.', person:'Revisa y acepta el acuerdo. Cuando cambia la necesidad, actualiza lo acordado.', check:'Se comparan la app y sus pruebas con los comportamientos esperados. Pueden usarse herramientas automáticas y revisión humana.', example:'“Si el título está vacío o solo tiene espacios, no guardar la nota y mostrar un mensaje”. Este caso se acuerda antes de programar.', contribution:'Da una referencia compartida y facilita comprobar el alcance. Todavía hay que decidir quién construye, cómo se revisa y qué evidencia demuestra cada promesa.'},
-    factory: {name:'Oracle Factory', subtitle:'Coordinar el ciclo y conservar la evidencia.', steps:['Acordar y medir','Construir y probar','Revisar y evaluar','Decidir la entrega'], how:'Combina el acuerdo escrito, tareas, agentes de código, revisión y reglas de evaluación en un flujo que se puede seguir. La persona participa en los puntos donde hace falta criterio.', person:'Acepta el alcance, acuerda cómo comprobarlo, resuelve hallazgos y decide la entrega.', check:'Clue revisará riesgos del cambio. Oracle evalúa hechos contra reglas acordadas. Factory reúne los resultados y deja visibles los límites y pendientes.', example:'El acuerdo, la prueba del título vacío, la corrección de un hallazgo y la decisión de entrega quedan ligados al mismo cambio.', contribution:'Esa es la visión del producto. Hoy la POC conecta tareas, documentos, importación de requisitos, informes manuales y Oracle; la coordinación automática de agentes y el análisis automático de Clue siguen en desarrollo.'}
+    factory: {name:'Oracle Factory', subtitle:'Conservar acuerdos, decisiones y evidencia.', steps:['Acordar y medir','Construir por fuera','Registrar y evaluar','Decidir el cierre'], how:'El alpha conecta documentos con formato OpenSpec, tareas, informes externos y reglas de Oracle. La persona construye, prueba y revisa por fuera, y registra esos resultados en el cambio.', person:'Acepta el alcance, elige medidas, resuelve hallazgos y confirma el cierre local.', check:'Un revisor externo analiza el código. Oracle evalúa los hechos aportados. Factory registra sus huellas y bloquea el cierre si faltan requisitos medidos, revisión aprobada o juicio vigente.', example:'El acuerdo del título, el requisito medido, un informe externo y el juicio quedan ligados a una tarea. Cerrarla no despliega el programa.', contribution:'Aporta trazabilidad y comprobaciones explícitas sobre lo medido. No garantiza la calidad del informe ni el origen de los hechos. La coordinación automática de agentes y la revisión con IA de Clue son capacidades previstas.'}
   };
   const methodTabs=[...document.querySelectorAll('[data-method]')];
   function selectMethod(key,focus=false){

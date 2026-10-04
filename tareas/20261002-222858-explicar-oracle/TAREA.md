@@ -51,6 +51,10 @@ Web integrada y empujada a main: fdde6d1. GitHub Pages publicado: https://segtem
 
 Guía actualizada tras publicación real de Factory en PyPI: instalación única del kit con uv, proyecto vacío con git init/oracle-factory init y ejemplo exportado desde el paquete. Sin clone ni fabrica.py en los pasos del usuario. Validada instalación aislada y 11 comprobaciones Chromium.
 
+### Nota (2026-10-04 01:03:17 UTC)
+
+Nueva revisión de web 20261003-235610-web-rigurosa con agy1/agy2 y reproducción del ejemplo PyPI en Linux. Guía precisa y recuperación documentada. Sigue pendiente un piloto humano; modelos/fixtures no lo sustituyen. Windows/macOS inspeccionados, no ejecutados. No se simula aprobación/medición de claridad.
+
 ## Próximo paso
 
-Una persona sin experiencia sigue la guía publicada desde PyPI; registrar trabas y acordar medidas defendibles para los requisitos de claridad antes del cierre formal.
+Una persona sin experiencia sigue la guía publicada desde PyPI; registrar trabas y acordar medidas defendibles para claridad antes del cierre formal. Windows/macOS requieren además ejecución real en esos sistemas.
