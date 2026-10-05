@@ -322,6 +322,15 @@ class RevisionGuiada(unittest.TestCase):
             with self.subTest(kw=kw),self.assertRaises(f.FactoryError):
                 f.revisar(ID,self.report,'Revisor fixture','aprobar',**kw)
 
+    def test_g8_guia_documenta_el_recorrido(self):
+        # La spec pide documentar preparación, completado, decisión y renovación; la prueba de CLI no lee la guía.
+        guia = (SOURCE / 'docs/revision-guiada.md').read_text(encoding='utf-8')
+        marcas = ('## Preparar el entorno y el candidato', 'revision-preparar',
+                  '## Completar lo que realmente se revisó', '## Registrar decisiones humanas',
+                  '## Registrar el resultado con confirmación', '--formato guiado',
+                  '## Recuperación y revisión libre')
+        self.assertEqual([m for m in marcas if m not in guia], [])
+
     def test_g8_cli_completo_y_oracle_real_en_fixture(self):
         root=self.root/'cli';root.mkdir()
         def run(*args, stdin=None, expected=0):

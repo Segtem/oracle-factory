@@ -2,7 +2,7 @@ medida factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido:
     de revision_guiada_caso c
     donde c.requisito == "explicar_y_verificar_los_limites_del_recorrido" y c.codigo == 0
     resumen contar(1)
-    umbral == 1 segun contrato porque "deben pasar los 1 casos enumerados para este requisito en tools/verify_review_guided.py; asociar junto a corrida_completa"
+    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_review_guided.py; asociar junto a corrida_completa"
     requiere revision_guiada_caso
     ambito universal
     alcance "casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes"

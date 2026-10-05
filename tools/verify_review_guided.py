@@ -38,7 +38,8 @@ CONTRACTS = {
     'mantener_formato_libre_con_declaracion_explicita': [
         'g7_libre_compatible_historico_y_opciones_explicitas'],
     'explicar_y_verificar_los_limites_del_recorrido': [
-        'g8_cli_completo_y_oracle_real_en_fixture'],
+        'g8_cli_completo_y_oracle_real_en_fixture',
+        'g8_guia_documenta_el_recorrido'],
 }
 PREFIX = 'test_review_guided.RevisionGuiada.test_'
 LIMITES = ('Casos enumerados del contrato y regresiones existentes en Linux. Confirmaciones, '

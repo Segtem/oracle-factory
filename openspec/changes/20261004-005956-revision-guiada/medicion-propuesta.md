@@ -12,9 +12,9 @@ Todas las reglas están bajo `factory_revision_guiada`. Cada requisito se asoci�
 | registrar_confirmacion_humana_informada | G5 | 3 |
 | conservar_evidencia_y_comprobar_vigencia | G6 | 3 |
 | mantener_formato_libre_con_declaracion_explicita | G7 | 1 |
-| explicar_y_verificar_los_limites_del_recorrido | G8 | 1 |
+| explicar_y_verificar_los_limites_del_recorrido | G8 (CLI de punta a punta y contenido de la guía) | 2 |
 
-`tools/verify_review_guided.py` enumera los 18 nombres exactos de pruebas, exige que ocurran una sola vez y pasen, y también requiere que la suite completa no falle y las fuentes permanezcan estables. El conteo de una regla no identifica los casos por sí mismo: esa comprobación corresponde al sensor, cuyo código y suficiencia debe evaluar quien revisa.
+`tools/verify_review_guided.py` enumera los 19 nombres exactos de pruebas, exige que ocurran una sola vez y pasen, y también requiere que la suite completa no falle y las fuentes permanezcan estables. El conteo de una regla no identifica los casos por sí mismo: esa comprobación corresponde al sensor, cuyo código y suficiencia debe evaluar quien revisa.
 
 Los límites conservados con `--sin-medir` son: casos seleccionados en Linux, sin prueba de calidad del análisis ni autenticación/competencia de los actores. Para el recorrido se agrega claridad para principiantes pendiente de observación humana. No convertir la ejecución fixture en decisión humana ni en aprobación de cierre.
 
