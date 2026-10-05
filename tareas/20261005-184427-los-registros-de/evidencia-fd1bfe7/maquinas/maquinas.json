@@ -1,0 +1,393 @@
+{
+  "observaciones": [
+    {
+      "caso": "M1",
+      "descripcion": "la huella del producto es la misma en las dos máquinas",
+      "cumple": true,
+      "detalle": "A be69ab9db73b · B be69ab9db73b"
+    },
+    {
+      "caso": "M2",
+      "descripcion": "estado en la otra máquina no tiene pendientes",
+      "cumple": true,
+      "detalle": "Pendiente en B: ninguno"
+    },
+    {
+      "caso": "M3",
+      "descripcion": "nada versionado contiene la ruta privada de la primera máquina",
+      "cumple": true,
+      "detalle": "archivos con la ruta de Ana: ninguno"
+    },
+    {
+      "caso": "M5",
+      "descripcion": "la otra máquina ve que el HEAD cambió con el producto idéntico",
+      "cumple": true,
+      "detalle": "aviso de HEAD distinto con producto idéntico"
+    },
+    {
+      "caso": "M4",
+      "descripcion": "la otra persona cierra el cambio desde su máquina",
+      "cumple": true,
+      "detalle": "código 0; fase cerrada; cerró Bruno; Escribí CERRAR 20261005-193435-comprobar-el: Tarea cerrada: 20261005-193435-comprobar-el"
+    }
+  ],
+  "comandos": [
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "config",
+        "--global",
+        "user.name",
+        "Ana"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "config",
+        "--global",
+        "user.email",
+        "ana@fma951711.invalid"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "git",
+        "config",
+        "--global",
+        "user.name",
+        "Bruno"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "git",
+        "config",
+        "--global",
+        "user.email",
+        "bruno@fmb951711.invalid"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "mkdir",
+        "-p",
+        "/home/ana/producto"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "remote",
+        "add",
+        "origin",
+        "git://fmr951711/producto.git"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "init"
+      ],
+      "codigo": 0,
+      "salida": "Factory inicializada en /home/ana/producto. No se crearon commits ni aprobaciones.\nAcuerdos: /home/ana/producto/openspec/changes; tareas: /home/ana/producto/tareas; configuración: /home/ana/producto/oracle.json.\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "nuevo",
+        "--con-ejemplo",
+        "notas",
+        "Comprobar el título de una nota"
+      ],
+      "codigo": 0,
+      "salida": "Cambio creado: 20261005-193435-comprobar-el\nModo de trabajo: confirmacion\nTarea: /home/ana/producto/tareas/20261005-193435-comprobar-el/TAREA.md\nPropuesta/spec/tasks: /home/ana/producto/openspec/changes/20261005-193435-comprobar-el\nEjemplo y catálogos preparados en /home/ana/producto/examples/notas y /home/ana/producto/catalogos. No se ejecutó el programa.\nPróximo paso humano: revisar /home/ana/producto/openspec/changes/20261005-193435-comprobar-el/proposal.md y /home/ana/producto/openspec/changes/20261005-193435-comprobar-el/specs/notas/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261005-193435-comprobar-el\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "aprobar-spec",
+        "20261005-193435-comprobar-el"
+      ],
+      "codigo": 0,
+      "salida": "BAR ESPECIFICACION 20261005-193435-comprobar-el\n^@openspec/changes/20261005-193435-comprobar-el/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261005-193435-comprobar-el/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nModo de trabajo: confirmacion. Aceptar reinicia importación, revisión y veredicto de este cambio.\nEscribí APROBAR ESPECIFICACION 20261005-193435-comprobar-el: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261005-193435-comprobar-el\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "importar",
+        "20261005-193435-comprobar-el"
+      ],
+      "codigo": 0,
+      "salida": "+ notas_c1d7af61d712402df.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /home/ana/producto/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261005-193435-comprobar-el --listar\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "medir",
+        "20261005-193435-comprobar-el",
+        "--requisito",
+        "notas_c1d7af61d712402df.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "codigo": 0,
+      "salida": "^@Asociación guardada: /home/ana/producto/requisitos/notas_c1d7af61d712402df.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "python",
+        "examples/notas/sensor.py",
+        "--salida",
+        "tareas/20261005-193435-comprobar-el/hechos.json"
+      ],
+      "codigo": 0,
+      "salida": "Hechos de 3 casos escritos en tareas/20261005-193435-comprobar-el/hechos.json\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "sh",
+        "-c",
+        "echo \"Informe fixture de Ana\" > tareas/20261005-193435-comprobar-el/informe.md"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "add",
+        "."
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "commit",
+        "-qm",
+        "producto de Ana"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "revision",
+        "20261005-193435-comprobar-el",
+        "--informe",
+        "tareas/20261005-193435-comprobar-el/informe.md",
+        "--revisor",
+        "Ana",
+        "--decision",
+        "aprobar",
+        "--hallazgos-abiertos",
+        "0"
+      ],
+      "codigo": 0,
+      "salida": "REGISTRAR REVISION 20261005-193435-comprobar-el\n^@Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.\nRevisor: Ana; decisión: aprobar; abiertos: 0; commit: 6f12de09e7b01935e2bebc2195c4d49fb65a4018\nEscribí REGISTRAR REVISION 20261005-193435-comprobar-el: Informe registrado: /home/ana/producto/openspec/changes/20261005-193435-comprobar-el/review.md\nPróximo paso: oracle-factory juzgar 20261005-193435-comprobar-el --con RUTA_DE_HECHOS\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "oracle-factory",
+        "juzgar",
+        "20261005-193435-comprobar-el",
+        "--con",
+        "tareas/20261005-193435-comprobar-el/hechos.json"
+      ],
+      "codigo": 0,
+      "salida": "✓ notas_c1d7af61d712402df.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /home/ana/producto/openspec/changes/20261005-193435-comprobar-el/oracle-veredicto.txt\nPróximo paso: oracle-factory estado 20261005-193435-comprobar-el\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "add",
+        "."
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "commit",
+        "-qm",
+        "registros de Ana"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "git",
+        "push",
+        "-q",
+        "origin",
+        "main"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "git",
+        "clone",
+        "-q",
+        "git://fmr951711/producto.git",
+        "/srv/trabajo/bruno/producto"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "oracle-factory",
+        "estado",
+        "20261005-193435-comprobar-el"
+      ],
+      "codigo": 0,
+      "salida": "20261005-193435-comprobar-el — Comprobar el título de una nota\nFase: oracle_verde\nModo de trabajo: confirmacion\nRequisitos Oracle: notas_c1d7af61d712402df.titulo_valido\nPendiente: ninguno\nrevisión registrada sobre el commit 6f12de0.\nveredicto Oracle registrado sobre el commit 6f12de0.\nAviso: revisión registrada en 6f12de0; HEAD actual d46ee1d con el producto idéntico.\nAviso: veredicto Oracle registrado en 6f12de0; HEAD actual d46ee1d con el producto idéntico.\nAprobación spec: sí, Ana (persona, decidio, modo confirmacion)\nRevisión: Ana / aprobar / 0 abiertos\nFormato de revisión: libre; declaración humana sin validación estructural\nOracle: código 0 (openspec/changes/20261005-193435-comprobar-el/oracle-veredicto.txt)\nRevisión registrada por: Ana (persona, decidio, modo confirmacion)\nMedidas de notas_c1d7af61d712402df.titulo_valido: Ana (persona, decidio, modo confirmacion)\nPróximo paso: oracle-factory estado 20261005-193435-comprobar-el\n",
+      "error": ""
+    },
+    {
+      "maquina": "ana",
+      "comando": [
+        "python",
+        "-c",
+        "from oracle_factory import cli; print(cli.contexto_producto()['archivos_sha256'])"
+      ],
+      "codigo": 0,
+      "salida": "be69ab9db73b02b6043ee5d3a4b185e48443bb0afc45c31db67493d662eae5ab\n",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "python",
+        "-c",
+        "from oracle_factory import cli; print(cli.contexto_producto()['archivos_sha256'])"
+      ],
+      "codigo": 0,
+      "salida": "be69ab9db73b02b6043ee5d3a4b185e48443bb0afc45c31db67493d662eae5ab\n",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "sh",
+        "-c",
+        "grep -rIl '/home/ana' . --exclude-dir=.git | sort"
+      ],
+      "codigo": 0,
+      "salida": "",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "oracle-factory",
+        "cerrar",
+        "20261005-193435-comprobar-el"
+      ],
+      "codigo": 0,
+      "salida": "CERRAR 20261005-193435-comprobar-el\n^@Se cerrará la tarea 20261005-193435-comprobar-el (modo confirmacion); Oracle openspec/changes/20261005-193435-comprobar-el/oracle-veredicto.txt; revisión openspec/changes/20261005-193435-comprobar-el/review.md.\nSpec aceptada por Ana (persona, decidio, modo confirmacion); revisión registrada por Ana (persona, decidio, modo confirmacion).\nrevisión registrada sobre el commit 6f12de0.\nveredicto Oracle registrado sobre el commit 6f12de0.\nAviso: revisión registrada en 6f12de0; HEAD actual d46ee1d con el producto idéntico.\nAviso: veredicto Oracle registrado en 6f12de0; HEAD actual d46ee1d con el producto idéntico.\nEscribí CERRAR 20261005-193435-comprobar-el: Tarea cerrada: 20261005-193435-comprobar-el\n",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "python",
+        "-c",
+        "import json; print(json.load(open('openspec/changes/20261005-193435-comprobar-el/factory.json'))['fase'])"
+      ],
+      "codigo": 0,
+      "salida": "cerrada\n",
+      "error": ""
+    },
+    {
+      "maquina": "bruno",
+      "comando": [
+        "python",
+        "-c",
+        "import json; print((json.load(open('openspec/changes/20261005-193435-comprobar-el/factory.json')).get('cierre') or {}).get('actor'))"
+      ],
+      "codigo": 0,
+      "salida": "Bruno\n",
+      "error": ""
+    }
+  ],
+  "limite": "Una estación por persona en una sola máquina real: no mide latencia de red, relojes distintos ni sistemas operativos distintos. Las personas y sus confirmaciones son fixtures."
+}
