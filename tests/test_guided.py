@@ -112,7 +112,7 @@ class InicioGuiado(ProyectoTemporal):
         ignore.write_text('mis-salidas/\n')
         f.inicializar(); f.inicializar()
         self.assertEqual(config.read_bytes(), original)
-        self.assertEqual(ignore.read_text(), 'mis-salidas/\n.factory-demo/\n__pycache__/\n*.py[cod]\n')
+        self.assertEqual(ignore.read_text(), 'mis-salidas/\n.factory-demo/\n.factory/local/\n__pycache__/\n*.py[cod]\n')
         self.assertNotIn('oracle caso nuevo', self.stdout.getvalue())
 
     def test_listar_recupera_cambio_y_no_confunde_tareas_solas(self):

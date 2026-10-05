@@ -16,6 +16,7 @@ import sys
 from importlib import metadata, resources
 
 from . import __version__
+from . import estructura
 from . import modos
 from . import revision as documentos_revision
 from pathlib import Path
@@ -318,7 +319,7 @@ def contexto_producto() -> dict:
     archivos = []
     for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
         partes = Path(nombre).parts
-        if partes[0] == "tareas" or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+        if partes[0] in ("tareas", estructura.DIR) or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
                 and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}):
             continue
         p = ROOT / nombre
@@ -932,6 +933,34 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
         print(f"Decisión de agente sobre {item}: {texto[via]}.")
 
 
+def comando_donde(identificador: str, candidato: str | None) -> None:
+    _, estado = leer(identificador)
+    print(f"{estado['id']} — {estado['titulo']}" + (f" (candidato {candidato})" if candidato else ""))
+    for fila in estructura.donde(ROOT, identificador, estado, candidato):
+        marca = "histórico" if fila["gate"] == "histórico" else ("existe" if fila["existe"] else "AUSENTE")
+        print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
+
+
+def comando_ruta(identificador: str, tipo: str) -> None:
+    leer(identificador)  # el cambio tiene que existir
+    head = ejecutar(["git", "rev-parse", "--short=7", "HEAD"])
+    if head.returncode:
+        raise FactoryError("ruta necesita un repositorio Git con al menos un commit")
+    try:
+        print(estructura.ruta_canonica(ROOT, identificador, tipo, head.stdout.strip()))
+    except ValueError as e:
+        raise FactoryError(str(e)) from e
+
+
+def comando_buscar(texto: str, maximo: int) -> None:
+    if not texto.strip():
+        raise FactoryError("indicá el texto a buscar")
+    lineas, total = estructura.buscar(ROOT, texto, maximo)
+    for linea in lineas:
+        print(linea)
+    print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
+
+
 def mostrar(identificador: str) -> None:
     carpeta, estado = leer(identificador)
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
@@ -961,21 +990,25 @@ def mostrar(identificador: str) -> None:
 
 def inicializar() -> None:
     ROOT.mkdir(parents=True, exist_ok=True)
-    for nombre in ("tareas", "catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json", ".gitignore", "openspec/changes"):
+    for nombre in ("tareas", "catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json", ".gitignore", "openspec/changes", estructura.DIR):
         ruta_segura(ROOT / nombre)
     for comando in (["tasks", "init", str(ROOT), "--sin-readme"], ["oracle", "init", str(ROOT)]):
         resultado = ejecutar(comando)
         if resultado.returncode:
             raise FactoryError(resultado.stderr or resultado.stdout)
     ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
+    for sub in ('cambios', 'local'):
+        ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
     ignore = ruta_segura(ROOT / '.gitignore')
     contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
-    pendientes = [line for line in ('.factory-demo/', '__pycache__/', '*.py[cod]') if line not in contenido.splitlines()]
+    pendientes = [line for line in ('.factory-demo/', estructura.IGNORAR_LOCAL, '__pycache__/', '*.py[cod]')
+                  if line not in contenido.splitlines()]
     if pendientes:
         with ignore.open('a', encoding='utf-8') as archivo:
             archivo.write(('\n' if contenido and not contenido.endswith('\n') else '') + '\n'.join(pendientes) + '\n')
     print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
     print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; configuración: {ROOT / "oracle.json"}.')
+    print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
     print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
@@ -1096,7 +1129,7 @@ def siguiente(identificador: str, fase: str) -> None:
         print('Próximo paso: ' + acciones[fase])
 
 
-def listar() -> None:
+def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:
     ruta_segura(CHANGES)
     if not CHANGES.exists():
         print('No hay cambios Factory. Empezá con oracle-factory init.')
@@ -1109,10 +1142,14 @@ def listar() -> None:
         if not (carpeta / 'factory.json').exists():
             continue
         _, estado = leer(carpeta.name)
+        if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] == 'cerrada') \
+                or (cerrados and estado['fase'] != 'cerrada'):
+            continue
         print(f"{carpeta.name}  {estado['fase']}  {estado['titulo']}")
         encontrados += 1
     if not encontrados:
-        print('No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.')
+        print('No hay cambios que coincidan con el filtro.' if (fase or abiertos or cerrados)
+              else 'No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.')
     print(f'Acuerdos: {CHANGES}')
 
 
@@ -1310,7 +1347,7 @@ def main(argv: list[str] | None = None) -> int:
     global ROOT, CHANGES, AGENTE
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
-    parser.add_argument("--proyecto", type=Path, default=Path.cwd(), help="carpeta de trabajo (por defecto, la actual); colocar antes del subcomando")
+    parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
     parser.add_argument("--agente", default=os.environ.get("FACTORY_AGENTE"), help="actuar como agente con este nombre (o FACTORY_AGENTE); queda registrado como agente, nunca como persona")
     sub = parser.add_subparsers(dest="comando", required=True)
     sub.add_parser("init", help="inicializar Oracle, tareas y acuerdos sin sobrescribir configuración")
@@ -1322,7 +1359,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--con-ejemplo", choices=["notas"], help="preparar documentos y catálogos del ejemplo en destinos nuevos")
     p.add_argument("--modo", choices=modos.MODOS, help="modo de trabajo del cambio (por defecto, el del proyecto)")
     p.add_argument("titulo")
-    sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
+    q = sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
+    q.add_argument('--fase', help='sólo los cambios en esta fase')
+    grupo = q.add_mutually_exclusive_group()
+    grupo.add_argument('--abiertos', action='store_true', help='sólo los cambios abiertos')
+    grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
+    q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
+    q.add_argument('id'); q.add_argument('--candidato', help='limitarse a los artefactos de este commit (prefijo del SHA)')
+    q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
+    q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
+    q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
+    q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
     q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')
     q.add_argument('id'); q.add_argument('nuevo_modo', choices=modos.MODOS)
     q = sub.add_parser('medir', help='listar y asociar medidas explícitas sin editar requisitos a mano')
@@ -1349,7 +1396,13 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
     p.add_argument("id"); p.add_argument("--con", type=Path, required=True)
     args = parser.parse_args(argv)
-    ROOT = args.proyecto.expanduser().resolve()
+    if args.proyecto is not None:
+        ROOT = args.proyecto.expanduser().resolve()
+    else:
+        actual = Path.cwd().resolve()
+        ROOT = actual if args.comando == "init" else (estructura.raiz_del_proyecto(actual) or actual)
+        if ROOT != actual:
+            print(f"Proyecto: {ROOT} (encontrado desde {actual})", file=sys.stderr)
     CHANGES = ROOT / "openspec" / "changes"
     AGENTE = (args.agente or "").strip() or None
     try:
@@ -1359,7 +1412,10 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
         elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo)
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
-        elif args.comando == "listar": listar()
+        elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
+        elif args.comando == "donde": comando_donde(args.id, args.candidato)
+        elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
+        elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
         elif args.comando == "medir": medir(args.id, requisito_id=args.requisito, medidas=args.medida, listar_opciones=args.listar, sin_medir=args.sin_medir, quitar_sin_medir=args.quitar_sin_medir)
         elif args.comando == "aprobar-spec": aprobar_spec(args.id)
         elif args.comando == "importar": importar(args.id)
