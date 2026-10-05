@@ -1,0 +1,50 @@
+{
+  "exitoso": true,
+  "tests": 132,
+  "casos_contrato": 10,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "registros_con_ruta": [],
+  "tareas_tocadas": [],
+  "origen": {
+    "head": "551f9ac92c69f0faac4aad6ab9c180ec2c6d5f8f",
+    "sha256": {
+      "catalogos/factory_limpieza.corrida_completa.oracle": "c53713159b12c1668efc4c6f8d4b3ee8a95ad989530ceb033afb25265b86afca",
+      "catalogos/factory_limpieza.la_evidencia_no_se_reescribe.oracle": "59cec9680db066baf6eb0767ee11fcb6ddb9dc60177fc5dfc47fb55b014fe264",
+      "catalogos/factory_limpieza.las_decisiones_conservan_su_integridad.oracle": "60c44368e48e3acd22d6ef344a436fe3f17d8449b39066947362fa7ac163663a",
+      "catalogos/factory_limpieza.limpieza_repetible_y_verificable.oracle": "d47ff40d31c2628d85a51365f75744d8bfe978820720410fcf951e858203326d",
+      "catalogos/factory_limpieza.los_registros_no_llevan_la_ruta_privada.oracle": "f34af754803aeb64ebecc9d21be68c284708ac1d4d3f4187d7ccd4f79988b5d2",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "ccf2f291b7350efc9d2d0b3e35af03bca449f04f447a6b216097ff4606abc8bd",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "30f49365347b6bcca687202c27abb1032b0add4e90c2500f35b50853c0edb473",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "8f69f540c0d4423b86c969dff902012191cb8f30efe11c61110932eaa90e0608",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_limpieza.py": "2203260e3216ec80a4471b5a1e31c792ca3214b7610bc56f3d5d87f4a406c461",
+      "tests/test_modos.py": "3f37e69a4d513e144d456480f702216f95af960283a2e09d68d4cd3b1fa2ad4c",
+      "tests/test_portabilidad.py": "4a1542506ec9ea105b3ef9e7a64d11e31e3a7388b3c0f8ed11e3cd0b188ab827",
+      "tests/test_review_guided.py": "5feefe70d62176a04d377a48b3d756c37f920db6ed08ce14e850e696fcd8965a",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "3d35ec6fc2d1ea821cbf18e1300911af3636165ab9884c00e166a2da094707f9",
+      "tests/test_workflow.py": "f1fda58591b9e82617a738923dbf5684777b6e3cfbd57ce842cc219eaaa6dcdf",
+      "tools/limpiar_rutas.py": "6556a006b203448e3654d5c80dbe5a99e2745a7fec4a1678aa24a045bca62234",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_limpieza.py": "65d5f58c576839999137a36d98792775607e5c50cf609e880f01c769fbc3a6be"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios l1–l4 en repositorios temporales, Linux, con la ruta de «otra persona» inventada; más dos comprobaciones sobre este repositorio: ningún registro conserva una ruta absoluta y ningún archivo de tareas/ que ya existía en la base cambió. No toca el historial de Git: la ruta sigue en los commits anteriores.",
+  "artefactos_sha256": {
+    "suite.txt": "7b40387e092a8ec641e84835432d85c42688c95c864f0b59cfd96f3ef79601f6",
+    "hechos.json": "abe183cf28ae9fbda6f8c89065c9ecc49fcb7d817a112cca23619229fd40d992"
+  }
+}
