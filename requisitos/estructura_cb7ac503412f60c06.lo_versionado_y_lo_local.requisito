@@ -1,4 +1,4 @@
 requisito estructura_cb7ac503412f60c06.lo_versionado_y_lo_local:
     texto "Tipo: no funcional Lo que Factory guarda bajo `.factory/` fuera de `local/` SHALL ser versionable y portátil, sin rutas absolutas, y lo que es de una máquina SHALL ir en `.factory/local/`, ignorada por Git."
     fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#lo versionado y lo local"
-    sin_medir "sin medida todavía; escenarios: «otra máquina»"
+    medido_por factory_estructura.lo_versionado_y_lo_local, factory_estructura.corrida_completa

@@ -1,4 +1,4 @@
 requisito estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto:
     texto "Tipo: funcional Los comandos SHALL buscar `.factory/` subiendo desde la carpeta actual hasta la raíz del sistema de archivos y usar la primera que encuentren; `--proyecto` SHALL tener prioridad y, sin `.factory/` en ningún ancestro, SHALL conservarse el comportamiento actual de usar la carpeta actual. Cuando la raíz usada no es la carpeta actual, SHALL informarlo."
     fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#descubrir la raíz del proyecto"
-    sin_medir "sin medida todavía; escenarios: «comando desde una subcarpeta», «proyecto explícito», «sin carpeta de Factory»"
+    medido_por factory_estructura.descubrir_la_raiz_del_proyecto, factory_estructura.corrida_completa

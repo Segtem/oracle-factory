@@ -102,6 +102,146 @@
         "estructura_cb7ac503412f60c06.respetar_lo_existente",
         "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.estructura_documentada",
+      "medidas": [
+        "factory_estructura.estructura_documentada",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
+      "medidas": [
+        "factory_estructura.carpeta_propia_de_factory",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto",
+      "medidas": [
+        "factory_estructura.descubrir_la_raiz_del_proyecto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local",
+      "medidas": [
+        "factory_estructura.lo_versionado_y_lo_local",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce",
+      "medidas": [
+        "factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto",
+      "medidas": [
+        "factory_estructura.donde_esta_cada_artefacto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos",
+      "medidas": [
+        "factory_estructura.ruta_canonica_para_producir_artefactos",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:06+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto",
+      "medidas": [
+        "factory_estructura.buscar_en_todo_el_proyecto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:07+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.listar_con_filtros",
+      "medidas": [
+        "factory_estructura.listar_con_filtros",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T20:09:07+00:00",
+      "requisito": "estructura_cb7ac503412f60c06.respetar_lo_existente",
+      "medidas": [
+        "factory_estructura.respetar_lo_existente",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -117,5 +257,66 @@
     "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "estructura_cb7ac503412f60c06.estructura_documentada": {
+      "sha256": "ddf723992dda94a12420028137bbcb9122e12d7f04de242ff4f2956e39444962",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory": {
+      "sha256": "118bebdf1fab20841fa9ab9e2e22dd334e7b2ff2ecbbfec2e5821260bd658810",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto": {
+      "sha256": "38256a20977ad8384cffbb5447f099d72d3dedc9d3f0f430d9f8acc2db913679",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local": {
+      "sha256": "a582cb3b3f68063f270b234356396aead0f9d9a3dc6e35df42ad0980ddae1a9c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce": {
+      "sha256": "bdcb9502e792f6796e974f569298d327154718b67629fa9849bea937d5733e45",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto": {
+      "sha256": "ce44f034f22045d2a21a6c5fb84f7fa2853947985c707f384f3073314eb9ef05",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos": {
+      "sha256": "222e0f070de10cd5d6f1e6ca8fbbf4d6f1833278bb9645c6643d43769fab1859",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto": {
+      "sha256": "c537d30a0ca034291e7ae0616b332ddcc76d92d96c64633e5a50efc5fe65adfb",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:06+00:00"
+    },
+    "estructura_cb7ac503412f60c06.listar_con_filtros": {
+      "sha256": "2b8779214ca95d225a4004429d6dd7efb664375e47941f5ba93c2c16e67ef052",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:07+00:00"
+    },
+    "estructura_cb7ac503412f60c06.respetar_lo_existente": {
+      "sha256": "a3d551321279eff67d42871f50df616745307e0de2f8cc349fce1d5fbc4354e0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T20:09:07+00:00"
+    }
+  }
 }
