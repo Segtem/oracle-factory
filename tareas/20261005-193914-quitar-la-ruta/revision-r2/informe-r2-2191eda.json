@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-limpieza-2191eda",
+  "base": "cc2f95cb16806726af39c5ba16b5dd883869aef8",
+  "head": "2191eda2bb9ce450f0deff08fc1d2e0946da20a8",
+  "diff_sha256": "3effd811629fbeee384f33ffedceba2a75608467667db94e33cc66e4fbd5eea3",
+  "context_sha256": "2006855e88dd09c0edee7301e00c7027bc4ad7d068bec4e06ce52f323cb714a1",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2N-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Una fuente absoluta con comillas escapadas en la ruta sigue sin reescribirse, sin avisar y sin que `restos()` la vea",
+      "explanation": "La corrección de R2L-03 avisa las fuentes que no sabe reescribir, pero FUENTE exige que, tras (/[^\"]*), venga la comilla de cierre y el fin de línea. Oracle escribe una comilla de la ruta como \\\" : [^\"]* se detiene en esa comilla, lo que sigue no cierra la línea y FUENTE no coincide, así que la línea no es ni «reescribible» ni «avisable» ni se cuenta en restos(). Con una barra invertida en la ruta sí se avisa y restos() la ve. Es el mismo defecto de raíz que R2P-02 de portabilidad. Con los datos de este repositorio no aparece (ninguna fuente absoluta queda y verify_limpieza lo confirma).",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 23,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Requisito importado desde un proyecto cuya ruta contiene una comilla.",
+      "evidence": "Verificado a nivel de función: sondas_r2m.py (carpeta revision-r2), salida en sondas_r2m.salida.txt, test_m_01: «comilla escapada: reescrita false, avisos 0, restos la ve false»; «barra invertida: reescrita false, avisos 1, restos la ve true».",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada",
+      "status": "pendiente",
+      "verification": "Correr test_m_01. Sugerencia: detectar con ^\\s+fuente \"/ cualquier fuente absoluta y tratar la que no se sepa reescribir como aviso."
+    },
+    {
+      "id": "R2N-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "La limpieza no actualiza el hash de las propuestas pendientes (`medidas_pendientes`), sólo el de las decisiones (`medidas`)",
+      "explanation": "planear recorre estado[\"medidas\"] pero no estado[\"medidas_pendientes\"], que también guardan el sha256 del .requisito al momento de proponerse. Si un requisito con una propuesta pendiente cambia por la limpieza, el hash de la propuesta queda viejo: la persona que la confirme «tal cual» repetiendo medir quedará registrada como «decidio» y no «confirmo», porque el hash ya no coincide (pasa a ser una decisión nueva suya, no se pierde nada de lo sustantivo). Hoy no afecta a este repositorio: las 22 decisiones y propuestas con hash coinciden con su archivo en 2191eda, y las 4 propuestas pendientes del cambio de limpieza se hicieron después de aplicarla.",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 76,
+        "end_line": 80,
+        "side": "head"
+      },
+      "trigger": "Cambio con una propuesta pendiente de medidas sobre un requisito con fuente absoluta; correr la herramienta.",
+      "evidence": "Verificado: sondas_r2m.py (carpeta revision-r2), salida en sondas_r2m.salida.txt, test_m_02: tras limpiar, el hash de la propuesta pendiente no es el del archivo limpio (coincide con el hash viejo).",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+      "status": "pendiente",
+      "verification": "Correr test_m_02. Sugerencia: actualizar también medidas_pendientes con el mismo criterio, o declarar que se ignoran."
+    },
+    {
+      "id": "R2N-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Cuatro de veinte mutaciones sobreviven a las pruebas de la limpieza; la más importante es que el caso de tareas/ no incluye una fuente reescribible",
+      "explanation": "Apliqué 20 mutaciones a tools/limpiar_rutas.py (mutaciones.py, resultados en mutaciones.salida.txt) y corrí tests/test_limpieza.py. Murieron 16, incluidas todas las que apuntan a R2L-01 a R2L-05 (sin el pop del requisito, orden de escritura invertido, forma «decidio», comparación del hash relajada, evento sin actor, ABSOLUTA sin anclar, sin comprobar que la relativa exista, sin aviso, código de salida, etc.). Sobreviven: (M18) que la herramienta reescriba también tareas/*/*.txt: l3_tareas_byte_a_byte usa un archivo sin ninguna línea fuente \"…\" reescribible, así que no detecta que se toquen archivos de tareas/ con esa forma; mi sonda con un archivo así sí lo detecta y el código real pasa. (M14) que restos() ignore los requisitos previos: ninguna prueba la mira. (M19) CRLF: ninguna prueba lo cubre. (M03) escritura atómica: la prueba de interrupción simula el corte entre archivos, no uno dentro de un archivo, por lo que reemplazar os.replace por write_text no se nota.",
+      "location": {
+        "file": "tests/test_limpieza.py",
+        "start_line": 119,
+        "end_line": 131,
+        "side": "head"
+      },
+      "trigger": "Aplicar M18, M14 o M19 de mutaciones.py a una copia y correr tests.test_limpieza.",
+      "evidence": "Verificado: mutaciones.salida.txt (16 muertas, 4 sobreviven) y sondas_r2m.py test_m_03 (con la mutación M18, l3_tareas_byte_a_byte pasa y la sonda falla; sin mutar, la sonda pasa).",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe",
+      "status": "pendiente",
+      "verification": "Agregar a l3 un archivo de tareas/ con una línea fuente absoluta reconocible, una prueba de restos() sobre requisitos previos y una con CRLF."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre 2191eda: suite (134 OK); tools/verify_limpieza.py --salida revision-r2/evidencia-limpieza-2191eda --antes 3004c84 --excluir 20261005-193914-quitar-la-ruta (12 casos, éxito, registros con ruta: ninguno, tareas tocadas: ninguna, estados distintos: ninguno); oracle cobertura --con esos hechos (rc 0, los 4 requisitos limpieza_c6ac32e… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); mutaciones.py (20 mutaciones) y sondas_r2m.py. No corrí colaboración, vigencia, portabilidad, estructura ni revisión guiada, ni los arneses de release.",
+    "Estado de R2L: R2L-01 resuelto (mutación M01 muerta por la prueba l4_registro_que_no_se_reserializa…); R2L-02 resuelto (los factory.json se escriben primero y la corrida siguiente repara sin duplicar el evento: M02 y M15 mueren; no probé un corte real dentro de un archivo, M03); R2L-03 parcial (anclar en openspec/changes/<ID>/ o tareas/<ID>/ y la comprobación de existencia funcionan: M05, M06 y M07 mueren; queda R2N-01); R2L-04 resuelto (el verificador compara de verdad: con --antes 3004c84 y --excluir da «ninguno»; hace git worktree add/remove sobre el repositorio, y no dejó restos); R2L-05 resuelto (forma «migracion»; M04 muere; los 2 eventos existentes cambiaron sólo esa línea, comprobado en el diff cc2f95c..bf8d7c9).",
+    "Comprobaciones que repetí: git diff main -- tareas sólo muestra 8 archivos añadidos (los del propio cambio), ninguno modificado ni borrado; los dos factory.json cuyos hechos y hashes cambiaron en cc2f95c no se tocaron aquí salvo el evento; las 22 decisiones y propuestas con hash siguen coincidiendo con los archivos.",
+    "Observación sin hallazgo: para comparar `estado`, el verificador quita de la salida cualquier prefijo absoluto antes de openspec/ o tareas/ (segunda re.sub de estados()), lo que es más amplio que quitar la ruta de los hechos; no oculta los pendientes ni las fases, que es lo que importa, y un fallo de estado deja la salida vacía y cuenta como distinto. Contra main el verificador no sirve, como explica design.md.",
+    "Pedido extra, las mutaciones: yo mismo definí las 20 (la herramienta no trae un registro que pude usar) y están en mutaciones.py; cada una se aplica a una copia limpia y se corre tests/test_limpieza.py. Sobreviven M03, M14, M18 y M19 (ver R2N-03). M18 y M19 sobreviven por falta de un caso, M14 por falta de una prueba, y M03 es difícil de detectar sin matar el proceso a mitad de escritura."
+  ]
+}
