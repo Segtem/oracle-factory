@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-estructura-6dcbde5",
+  "base": "ed4bb7193be4699e2ef326dfdbf3011422739a8d",
+  "head": "6dcbde5d873851338fd76a04860afa61645a0ee6",
+  "diff_sha256": "a3b6101db414a3cac1d8cbe8ddc11f3c73799ab6d4ec3c653e887b31b17ae959",
+  "context_sha256": "5e16df28cb2c065d966b7c53546e9aa0e8a3d5315b4da8b9f5028d7e05a37e37",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2T-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "La guarda de «carpeta personal» compara la ruta resuelta con Path.home() sin resolver, y falla si el home es un enlace simbólico",
+      "explanation": "raiz_del_proyecto recorre carpetas ya resueltas (el CLI usa Path.cwd().resolve()) y las compara con Path.home(), que devuelve $HOME tal cual. Si $HOME es una ruta con un enlace simbólico (por ejemplo /home -> /var/home, como en distribuciones inmutables), las dos nunca coinciden y un .factory/ ajeno en el home vuelve a tomarse como raíz de proyecto. La guía dice «Tu carpeta personal nunca es la raíz» y la spec «La carpeta personal del usuario … SHALL NOT contar como raíz». La prueba e3_la_carpeta_personal_no_cuenta parchea Path.home con una ruta ya resuelta, así que no lo ve.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 32,
+        "end_line": 35,
+        "side": "head"
+      },
+      "trigger": "HOME apuntando a un enlace simbólico de la carpeta real que contiene un .factory/ ajeno; correr listar desde un subdirectorio del proyecto.",
+      "evidence": "Verificado: sondas_r2t_cli.salida.txt, caso 6 (HOME real: no se usa el home) frente al caso 7 (HOME simbólico: «Proyecto: …/h/real (encontrado desde …)»).",
+      "related_requirement": "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto",
+      "status": "pendiente",
+      "verification": "Repetir los casos 6 y 7 de sondas_r2t_cli.salida.txt. Corrección posible: comparar con Path.home().resolve() (y con la ruta sin resolver)."
+    },
+    {
+      "id": "R2T-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "`buscar` sigue leyendo a través de un enlace simbólico `.factory` (o de un padre enlazado), aunque init y el descubrimiento ya lo rechazan",
+      "explanation": "La corrección de R2S-05 hace que init rechace un .factory que sea enlace o archivo y que el descubrimiento no lo cuente como marcador, pero buscar sólo comprueba lugar.is_symlink() sobre .factory/cambios, no sobre .factory ni sobre openspec o tareas como padres. Con .factory enlazado a una carpeta externa y la carpeta del proyecto como carpeta actual (o --proyecto), buscar sigue mostrando archivos de afuera. Es sólo lectura y el usuario es quien puso el enlace; el mensaje de la guía «Un enlace simbólico llamado .factory no cuenta como marcador» es cierto, pero sólo para el descubrimiento.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 151,
+        "end_line": 152,
+        "side": "head"
+      },
+      "trigger": ".factory como enlace a una carpeta con cambios/n.md; buscar un texto de ese archivo desde la carpeta del proyecto.",
+      "evidence": "Verificado: sondas_r2t_cli.salida.txt, caso 3: «.factory/cambios/n.md:1: texto-externo  [-]».",
+      "related_requirement": "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory",
+      "status": "pendiente",
+      "verification": "Repetir el caso 3. Sugerencia: rechazar el listado si cualquier componente de la ruta bajo la raíz es un enlace simbólico (como hace ruta_segura)."
+    },
+    {
+      "id": "R2T-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "`_fragmento` puede dejar el texto buscado fuera del fragmento mostrado cuando casefold() alarga la línea antes de la coincidencia",
+      "explanation": "La posición se calcula con linea.casefold().find(aguja), pero se usa como índice de la línea original. Si antes de la coincidencia hay caracteres que casefold expande (ß se vuelve ss), la posición queda mayor que la real y el recorte arranca más a la derecha de donde está el texto. Con una línea de 120 «ß» y el texto después, el resultado se cuenta (total 1) pero el fragmento mostrado no lo contiene. Es una combinación rara; el caso común de la prueba e8 (aguja lejana en ASCII) sí funciona.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 127,
+        "end_line": 133,
+        "side": "head"
+      },
+      "trigger": "Línea con muchos caracteres que casefold alarga antes del texto buscado.",
+      "evidence": "Verificado: sondas_r2t.salida.txt, R2T-01: «total 1 | el fragmento muestra la aguja: False».",
+      "related_requirement": "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto",
+      "status": "pendiente",
+      "verification": "Correr test_t_01_fragmento_con_formas_que_se_alargan en sondas_r2t.py. Sugerencia: calcular el fragmento con casefold por caracteres, o buscar la posición en la línea original."
+    },
+    {
+      "id": "R2T-04",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "La prueba e4 sigue siendo casi trivial; el clon de init se cubre con otra prueba",
+      "explanation": "R2S-08 pedía que la prueba del clon cubriera un proyecto recién creado. test_e2_el_clon_de_un_proyecto_trae_la_carpeta_de_factory lo hace bien (clona justo tras init y descubre desde una subcarpeta). test_e4_rutas_relativas_en_otra_ruta_absoluta no cambió: las rutas relativas de las filas «candidato» las construye donde mismo y los archivos de .factory/cambios/ los escribe el sensor del ejemplo, no Factory. Como en esta fase Factory no escribe nada bajo .factory/, la regla «sin rutas absolutas» no tiene todavía nada que comprobar; el requisito lo_versionado_y_lo_local se apoya en esa prueba.",
+      "location": {
+        "file": "tests/test_estructura.py",
+        "start_line": 215,
+        "end_line": 225,
+        "side": "head"
+      },
+      "trigger": "Leer test_e4.",
+      "evidence": "Lectura de código; sin cambios respecto de la primera vuelta.",
+      "related_requirement": "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local",
+      "status": "pendiente",
+      "verification": "Aceptable en esta fase si se declara; revisarla al pasar el estado a .factory/ (fase 2)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre 6dcbde5: suite (150 OK); tools/verify_estructura.py --salida revision-r2/evidencia-estructura-6dcbde5 (28 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 10 requisitos estructura_cd7e5b6… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); y mis sondas (sondas_r2t.py y los comandos de sondas_r2t_cli.salida.txt, en carpetas temporales bajo revision-r2/). No corrí los arneses de vigencia, portabilidad, revisión guiada ni release, ni verify_guide.",
+    "Estado de R2S: R2S-01 resuelto (init deja .factory/LEEME.md; un clon lo tiene y los comandos descubren la raíz desde una subcarpeta, probado con la CLI real); R2S-02 resuelto (un proyecto anterior es una frontera: nuevo crea el cambio en el proyecto interno; init en una subcarpeta avisa; un .factory ajeno en un HOME real no se usa), con la salvedad de R2T-01; R2S-03 resuelto (0 excepciones en 14 valores × 11 campos, con y sin --candidato; los valores no válidos aparecen como «no válido»); R2S-04 resuelto (la frase nueva es cierta: git status muestra «?? .factory/local/»); R2S-05 parcial (un .factory archivo se rechaza antes de crear nada; un enlace ya no es marcador; falta R2T-02); R2S-06 parcial (casefold, aviso de archivos omitidos y fragmento corregidos, salvo R2T-03); R2S-07 resuelto (ruta usa rev-parse HEAD y toma 7 caracteres); R2S-08 parcial (R2T-04); R2S-09 aceptado: se agregó la guarda del home y la frontera, pero la exclusión total de .factory/ de la huella y la colisión de nombre con otras herramientas en un proyecto siguen como están, por decisión de spec.",
+    "Spec contra implementación y guía: los 10 requisitos y sus escenarios nuevos (clon, .factory no carpeta, init anidado, frontera, home, enlace, valores no válidos, archivos omitidos, formas equivalentes) están implementados y probados; la guía coincide con el comportamiento salvo la frase «Tu carpeta personal nunca es la raíz» en el caso de R2T-01. Observación sin hallazgo: donde falla con KeyError si factory.json no tiene «titulo», como ya hacían estado y otros comandos.",
+    "No pude probar Windows ni Python 3.11 o 3.12. Las sondas usan el fixture de tests/test_estructura.py con la terminal parcheada."
+  ]
+}

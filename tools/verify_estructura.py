@@ -21,7 +21,7 @@ CONTRACTS = {
     'descubrir_la_raiz_del_proyecto': ['e3_comando_desde_una_subcarpeta', 'e3_proyecto_explicito_manda',
                                        'e3_sin_factory_se_comporta_como_antes',
                                        'e3_proyecto_anterior_dentro_de_otro_es_frontera', 'e3_la_carpeta_personal_no_cuenta',
-                                       'e3_un_enlace_simbolico_no_cuenta'],
+                                       'e3_un_enlace_simbolico_no_cuenta', 'e3_la_carpeta_personal_enlazada_tampoco_cuenta'],
     'lo_versionado_y_lo_local': ['e4_rutas_relativas_en_otra_ruta_absoluta'],
     'la_huella_del_producto_excluye_lo_que_factory_produce': ['e5_nueva_evidencia_no_invalida_la_revision',
                                                               'e5_el_acuerdo_sigue_siendo_producto'],
@@ -30,7 +30,8 @@ CONTRACTS = {
                                   'e6_ruta_absoluta_de_un_registro_anterior', 'e6_valores_no_validos_en_el_registro'],
     'ruta_canonica_para_producir_artefactos': ['e7_evidencia_en_la_carpeta_del_candidato', 'e7_checkout_de_revision',
                                                'e7_tipo_desconocido'],
-    'buscar_en_todo_el_proyecto': ['e8_texto_en_varios_cambios', 'e8_archivos_grandes_omitidos_y_formas_equivalentes'],
+    'buscar_en_todo_el_proyecto': ['e8_texto_en_varios_cambios', 'e8_archivos_grandes_omitidos_y_formas_equivalentes',
+                                    'e8_buscar_no_lee_a_traves_de_un_factory_enlazado', 'e8_fragmento_con_formas_que_se_alargan'],
     'listar_con_filtros': ['e9_filtro_de_abiertos'],
     'respetar_lo_existente': ['e10_los_comandos_de_lectura_no_cambian_nada'],
 }

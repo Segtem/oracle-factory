@@ -213,6 +213,16 @@ class Estructura(unittest.TestCase):
         self.assertNotIn('Proyecto:', errores)  # no usó la carpeta personal como raíz
         self.assertIn('No hay cambios Factory', salida)
 
+    def test_e3_la_carpeta_personal_enlazada_tampoco_cuenta(self):
+        real = Path(self.tmp.name) / 'casa-real'
+        (real / '.factory').mkdir(parents=True)
+        enlace = Path(self.tmp.name) / 'casa-enlace'
+        enlace.symlink_to(real)
+        proyecto = real / 'trabajo' / 'p'
+        proyecto.mkdir(parents=True)
+        with patch.object(Path, 'home', return_value=enlace):  # $HOME es un enlace a la carpeta real
+            self.assertIsNone(estructura.raiz_del_proyecto(proyecto))
+
     def test_e3_un_enlace_simbolico_no_cuenta(self):
         enlace = Path(self.tmp.name) / 'con-enlace'
         enlace.mkdir()
@@ -239,6 +249,11 @@ class Estructura(unittest.TestCase):
             if archivo.is_file():
                 self.assertNotIn(str(self.root), archivo.read_text(encoding='utf-8'), archivo.name)
         self.assertTrue(all(not x['ruta'].startswith('/') for x in candidatos))
+        # todo lo que el registro nombra es relativo y existe en la otra máquina
+        registrados = [x for x in filas if x['gate'] in ('revisión', 'juicio', 'spec', 'medidas')]
+        self.assertTrue(registrados)
+        self.assertTrue(all(x['existe'] and not x['ruta'].startswith('/') for x in registrados),
+                        [x for x in registrados if not x['existe'] or x['ruta'].startswith('/')])
 
     # --- e5: la huella excluye lo que Factory produce -----------------------------------------------------------
     def test_e5_nueva_evidencia_no_invalida_la_revision(self):
@@ -362,6 +377,20 @@ class Estructura(unittest.TestCase):
         self.assertRegex(salida, rf'openspec/changes/{uno}/proposal\.md:\d+: .*\[{uno}\]')
         self.assertRegex(salida, rf'tareas/{dos}/TAREA\.md:\d+: .*\[{dos}\]')
         self.assertIn('2 coincidencia(s)', salida)
+
+    def test_e8_buscar_no_lee_a_traves_de_un_factory_enlazado(self):
+        ajena = Path(self.tmp.name) / 'ajena'
+        (ajena / 'cambios' / '20260101-000000-x').mkdir(parents=True)
+        (ajena / 'cambios' / '20260101-000000-x' / 'nota.md').write_text('aguja-ajena\n')
+        (self.root / '.factory').rename(self.root / 'factory-propia')
+        (self.root / '.factory').symlink_to(ajena)
+        self.salida()
+        f.comando_buscar('aguja-ajena', 50)
+        self.assertNotIn('nota.md', self.salida())
+
+    def test_e8_fragmento_con_formas_que_se_alargan(self):
+        linea = 'ß' * 150 + ' aguja-tardia final'  # casefold convierte cada «ß» en «ss»
+        self.assertIn('aguja-tardia', estructura._fragmento(linea, 'aguja-tardia'))
 
     def test_e8_archivos_grandes_omitidos_y_formas_equivalentes(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')

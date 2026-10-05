@@ -29,10 +29,10 @@ def raiz_del_proyecto(desde: Path) -> Path | None:
     personal del usuario nunca es la raíz (otras herramientas usan ~/.factory) y un enlace simbólico
     llamado .factory no cuenta como marcador.
     """
-    casa = Path.home()
+    casa = Path.home().resolve()
     for carpeta in (desde, *desde.parents):
         marcador = carpeta / DIR
-        if carpeta != casa and marcador.is_dir() and not marcador.is_symlink():
+        if carpeta.resolve() != casa and marcador.is_dir() and not marcador.is_symlink():
             return carpeta
         if es_proyecto_anterior(carpeta):
             return None
@@ -128,6 +128,13 @@ def _fragmento(linea: str, aguja: str) -> str:
     """Hasta 160 caracteres de la línea, empezando poco antes de la coincidencia para que se vea."""
     linea = linea.strip()
     posicion = linea.casefold().find(aguja)
+    # casefold puede alargar el texto («ß» → «ss»): se pasa la posición de la forma plegada al índice de la línea.
+    acumulado = 0
+    for indice, letra in enumerate(linea):
+        acumulado += len(letra.casefold())
+        if acumulado > posicion:
+            posicion = indice
+            break
     inicio = max(0, posicion - 60) if posicion > 100 else 0
     return ('…' if inicio else '') + linea[inicio:inicio + 160]
 
@@ -147,7 +154,9 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
                         por_requisito[rid] = carpeta.name
                 except (OSError, ValueError):
                     continue
-    lugares = [raiz / 'openspec' / 'changes', raiz / 'requisitos', raiz / 'tareas', raiz / DIR / 'cambios']
+    lugares = [raiz / 'openspec' / 'changes', raiz / 'requisitos', raiz / 'tareas']
+    if not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta: no se lee a través de él
+        lugares.append(raiz / DIR / 'cambios')
     archivos = sorted(p for lugar in lugares if lugar.is_dir() and not lugar.is_symlink() for p in lugar.rglob('*')
                       if p.is_file() and p.suffix in SUFIJOS_TEXTO and not p.is_symlink())
     lineas, total, omitidos = [], 0, 0
