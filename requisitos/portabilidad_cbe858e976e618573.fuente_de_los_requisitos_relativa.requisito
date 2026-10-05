@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa:
     texto "Tipo: funcional `importar` SHALL dejar la `fuente` de cada requisito importado relativa a la raíz del proyecto."
     fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#fuente de los requisitos relativa"
-    sin_medir "sin medida todavía; escenarios: «requisito importado»"
+    medido_por factory_portabilidad.fuente_de_los_requisitos_relativa, factory_portabilidad.corrida_completa

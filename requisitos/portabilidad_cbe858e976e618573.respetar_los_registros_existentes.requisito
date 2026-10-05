@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.respetar_los_registros_existentes:
     texto "Tipo: no funcional Factory SHALL NOT reescribir registros existentes ni exigir migración, y SHALL seguir leyendo los que tienen ruta absoluta."
     fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#respetar los registros existentes"
-    sin_medir "sin medida todavía; escenarios: «registro anterior con ruta absoluta»"
+    medido_por factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa

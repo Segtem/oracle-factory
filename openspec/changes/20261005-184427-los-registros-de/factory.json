@@ -66,6 +66,104 @@
         "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
         "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto",
+      "medidas": [
+        "factory_portabilidad.hechos_con_ruta_relativa_al_proyecto",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan",
+      "medidas": [
+        "factory_portabilidad.advertir_cuando_los_hechos_no_viajan",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa",
+      "medidas": [
+        "factory_portabilidad.fuente_de_los_requisitos_relativa",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse",
+      "medidas": [
+        "factory_portabilidad.pendiente_que_explica_como_recuperarse",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra",
+      "medidas": [
+        "factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
+      "medidas": [
+        "factory_portabilidad.sin_rutas_privadas_en_lo_versionado",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T19:12:39+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.respetar_los_registros_existentes",
+      "medidas": [
+        "factory_portabilidad.respetar_los_registros_existentes",
+        "factory_portabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -78,5 +176,48 @@
     "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto": {
+      "sha256": "58bb7087fa837d06d9901b42f9d1de4c5595fb11933c2c7ab468a9f094340f0f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan": {
+      "sha256": "4fd850dca56cec99dc8eeb0f70f1317ceef034b47420c0f1f630bb2bb679e152",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa": {
+      "sha256": "c9c6fef8dbd89a286864a90d82629cb853435dbde7215c620dc0b85c725b115d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse": {
+      "sha256": "fda5abb85e7284b7eaf5d27c4a9ffd31a57e0dcffd12d4a293bff49d25d97558",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra": {
+      "sha256": "aa0a9f12d3eafd4db90f4b7b1e944f8b41c7bf68ea504b08f335ffd8c85e8c55",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado": {
+      "sha256": "468ceda80f6fdfe40484581489f8a8561e528f7890930c55627af2fc8ef1794d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    },
+    "portabilidad_cbe858e976e618573.respetar_los_registros_existentes": {
+      "sha256": "89831a68f2826394ccbb94ff6667520a5fd3f321c0dfc25c5ce37e47363d99b5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T19:12:39+00:00"
+    }
+  }
 }

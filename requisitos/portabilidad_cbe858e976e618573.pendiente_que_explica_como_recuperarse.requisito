@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse:
     texto "Tipo: funcional Cuando faltan los hechos de un veredicto, el pendiente SHALL nombrar la ruta esperada y SHALL indicar que se recupera juzgando de nuevo con los hechos del clon."
     fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#pendiente que explica cómo recuperarse"
-    sin_medir "sin medida todavía; escenarios: «hechos ausentes»"
+    medido_por factory_portabilidad.pendiente_que_explica_como_recuperarse, factory_portabilidad.corrida_completa

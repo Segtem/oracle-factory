@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto:
     texto "Tipo: funcional `juzgar` SHALL guardar la ruta de los hechos relativa a la raíz del proyecto cuando están dentro de ella, y la verificación de los hechos SHALL resolver esa ruta desde la raíz del clon en que se ejecuta."
     fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#hechos con ruta relativa al proyecto"
-    sin_medir "sin medida todavía; escenarios: «hechos dentro del proyecto», «clon en otra ruta»"
+    medido_por factory_portabilidad.hechos_con_ruta_relativa_al_proyecto, factory_portabilidad.corrida_completa
