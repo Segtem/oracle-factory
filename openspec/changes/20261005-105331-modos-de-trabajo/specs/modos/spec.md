@@ -3,7 +3,7 @@
 ## ADDED Requirements
 
 ### Requirement: modo explicito por cambio
-Factory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto, y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea.
+Factory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto (`confirmacion` si el proyecto no define otro), y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea.
 
 #### Scenario: crear un cambio con modo
 - GIVEN un proyecto cuyo modo por defecto es `confirmacion`
@@ -16,7 +16,7 @@ Factory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` 
 - THEN Factory lo rechaza sin modificar el registro, salvo que una persona lo confirme desde una terminal interactiva
 
 ### Requirement: tipo de requisito
-La spec SHALL poder declarar `Tipo: funcional` o `Tipo: no funcional` en cada requisito; `importar` SHALL guardar ese tipo y SHALL tratar como funcional el requisito que no lo declare.
+La spec SHALL poder declarar `Tipo: funcional` o `Tipo: no funcional` en cada requisito; `importar` SHALL guardar ese tipo y SHALL tratar como funcional el requisito que no lo declare, salvo que el proyecto active `tipos_obligatorios`, en cuyo caso SHALL rechazar la importación sin modificar el registro.
 
 #### Scenario: requisito no funcional declarado
 - GIVEN una spec con un requisito que declara `Tipo: no funcional`
@@ -24,9 +24,14 @@ La spec SHALL poder declarar `Tipo: funcional` o `Tipo: no funcional` en cada re
 - THEN el requisito queda registrado como no funcional
 
 #### Scenario: requisito sin tipo
-- GIVEN una spec con un requisito sin tipo
+- GIVEN una spec con un requisito sin tipo y un proyecto sin `tipos_obligatorios`
 - WHEN se importa
 - THEN el requisito queda registrado como funcional
+
+#### Scenario: tipos obligatorios
+- GIVEN una spec con un requisito sin tipo y un proyecto con `tipos_obligatorios` activo
+- WHEN se importa
+- THEN Factory rechaza la importación, nombra el requisito sin tipo y no modifica el registro
 
 ### Requirement: decisiones segun el modo
 Para aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exigir el actor que indica la tabla del modo según el tipo de los requisitos afectados, y SHALL rechazar la decisión que llegue por una vía no permitida sin modificar el registro.
@@ -50,6 +55,11 @@ Para aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exig
 - GIVEN un cambio en modo `autonomo`
 - WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra
 - THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo
+
+#### Scenario: cierre en modo funcional
+- GIVEN un cambio en modo `funcional` con todos los gates cumplidos
+- WHEN un agente intenta cerrarlo
+- THEN Factory lo rechaza y pide la confirmación de una persona
 
 ### Requirement: actor registrado sin aparentar humanos
 Cada evento SHALL registrar actor, tipo de actor (persona o agente), modo y forma (`decidio`, `propuso` o `confirmo`). Una decisión de persona SHALL exigir una terminal interactiva y rechazar la entrada por pipe. Factory SHALL NOT presentar como humana una decisión registrada por la vía de agente.

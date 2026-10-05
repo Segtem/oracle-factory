@@ -8,7 +8,7 @@ Brian pidió tres formas de trabajar, según cuánto interviene la persona en la
 
 ## What changes
 
-**Tres modos por cambio.** Se eligen al crear el cambio (`nuevo --modo`), con un valor por defecto por proyecto:
+**Tres modos por cambio.** Se eligen al crear el cambio (`nuevo --modo`). El valor por defecto del proyecto es `confirmacion`:
 
 | Decisión | `autonomo` | `funcional` | `confirmacion` |
 | --- | --- | --- | --- |
@@ -19,7 +19,7 @@ Brian pidió tres formas de trabajar, según cuánto interviene la persona en la
 | Cierre | agente | **persona confirma** | **persona confirma** |
 
 - **«Persona decide»:** la persona da la decisión y su motivo; el agente puede preparar opciones, pero no la registra. **«Persona confirma»:** el agente registra una propuesta completa y la persona la acepta o la rechaza tal cual.
-- **Tipo de requisito.** Cada requisito de la spec declara `Tipo: funcional` o `Tipo: no funcional`. Si no lo declara, se trata como funcional (lo más estricto). `importar` lo guarda.
+- **Tipo de requisito.** Cada requisito de la spec declara `Tipo: funcional` o `Tipo: no funcional`. Si no lo declara, se trata como funcional. Con la opción de proyecto `tipos_obligatorios`, `importar` rechaza los requisitos sin tipo. `importar` guarda el tipo.
 - **Actor en cada evento.** Cada evento de `factory.json` registra `actor` (persona o agente, con nombre o sesión), `modo` y si fue `decidio`, `propuso` o `confirmo`. Ya no se registra el usuario del sistema como si fuera el autor.
 - **Gates humanos desde una terminal interactiva.** Una decisión registrada como de persona exige una terminal interactiva y rechaza la entrada por pipe. Las decisiones de agente se registran por la vía de agente, que nunca queda como humana. No es autenticación, pero hace imposible confundirlas por accidente.
 - **El modo lo elige una persona.** Elegir `autonomo` o pasar a un modo con menos intervención humana exige confirmación humana. Pasar a uno con más intervención la puede pedir cualquiera. Cambiar de modo queda como evento e invalida las decisiones pendientes que el modo nuevo exige de otra forma.
@@ -35,11 +35,11 @@ Brian pidió tres formas de trabajar, según cuánto interviene la persona en la
 
 ## Human decisions
 
-Pendiente: aceptar proposal.md y spec.md. Preguntas abiertas para Brian:
+Brian respondió en la conversación del 2026-10-05:
 
-1. **¿Lo que hace Factory hoy es `confirmacion`, o se conserva un cuarto modo, `manual`, donde la persona decide (no sólo confirma) todo?** Se recomienda conservarlo como valor por defecto, porque es el comportamiento actual y el más estricto.
-2. **En `funcional`, ¿el cierre lo confirma la persona** (lo propuesto) **o lo decide el agente cuando todos los gates funcionales ya pasaron por la persona?**
-3. **Requisito sin tipo:** ¿se trata como funcional (lo propuesto) o `importar` lo rechaza?
-4. **Orden:** este cambio toca los mismos gates que `revision-guiada`, así que se implementa después de integrar colaboración y revisión guiada.
+1. **El modo por defecto es `confirmacion`** y no hay un cuarto modo. El comportamiento actual de Factory corresponde a `confirmacion`, y los cambios existentes sin modo se leen así.
+2. **En `funcional`, el cierre lo hace la persona.**
+3. **Un requisito sin tipo se trata como funcional**, que es la opción con menos fricción. Una opción del proyecto, `tipos_obligatorios`, hace que `importar` rechace los requisitos sin tipo. Los dos comportamientos conviven según esa opción.
+4. **Se implementa después de integrar colaboración y revisión guiada.**
 
-Preparar esta propuesta no acepta el cambio ni autoriza implementarlo.
+La persona conserva la elección del modo y las decisiones que cada modo le reserva.
