@@ -1,0 +1,4 @@
+requisito estructura_cb7ac503412f60c06.estructura_documentada:
+    texto "Tipo: funcional La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: `.factory/cambios/<ID>/` con una carpeta por candidato (`candidatos/<sha7>/` con evidencia, paquete de Clue y revisión), `.factory/local/revisiones/<sha7>/` para los checkouts de revisión, el acuerdo humano en `openspec/changes/<ID>/`, y las carpetas de Task y de Oracle en la raíz."
+    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#estructura documentada"
+    sin_medir "sin medida todavía; escenarios: «una persona busca la evidencia de un candidato»"

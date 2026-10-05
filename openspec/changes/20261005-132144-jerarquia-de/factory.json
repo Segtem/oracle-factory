@@ -4,22 +4,29 @@
   "capacidad": "estructura",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
-  "spec_sha256": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a",
+  "spec_sha256": "d79c44bb7748abe28deb80e1b650d4ef71bf5d509eb704baa7ff1f80f6170b6f",
   "spec_aprobada": {
-    "por": "workstation",
-    "cuando": "2026-10-05T15:48:57+00:00",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:17:33+00:00",
     "documentos": {
-      "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "c26b7b71efa712b973fb7a9bae9086bd27179fe7dfd4e65b8a2386a93293e360",
-      "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
+      "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "1e8355262c8d351ed607d2d2fea65e334bd155da5e54c8cc80d32ed26f78ddb9",
+      "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "d79c44bb7748abe28deb80e1b650d4ef71bf5d509eb704baa7ff1f80f6170b6f"
     }
   },
   "requisitos": [
-    "estructura_c3d2e9989ed343f96.buscar_en_todo_el_proyecto",
-    "estructura_c3d2e9989ed343f96.donde_esta_cada_artefacto",
-    "estructura_c3d2e9989ed343f96.estructura_documentada",
-    "estructura_c3d2e9989ed343f96.listar_con_filtros",
-    "estructura_c3d2e9989ed343f96.respetar_lo_existente",
-    "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos"
+    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto",
+    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
+    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto",
+    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto",
+    "estructura_cb7ac503412f60c06.estructura_documentada",
+    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce",
+    "estructura_cb7ac503412f60c06.listar_con_filtros",
+    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local",
+    "estructura_cb7ac503412f60c06.respetar_lo_existente",
+    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos"
   ],
   "revision": null,
   "oracle": null,
@@ -63,15 +70,51 @@
         "estructura_c3d2e9989ed343f96.respetar_lo_existente",
         "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos"
       ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:17:33+00:00",
+      "documentos": {
+        "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "1e8355262c8d351ed607d2d2fea65e334bd155da5e54c8cc80d32ed26f78ddb9",
+        "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "d79c44bb7748abe28deb80e1b650d4ef71bf5d509eb704baa7ff1f80f6170b6f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:18:21+00:00",
+      "ids": [
+        "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto",
+        "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
+        "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto",
+        "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto",
+        "estructura_cb7ac503412f60c06.estructura_documentada",
+        "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce",
+        "estructura_cb7ac503412f60c06.listar_con_filtros",
+        "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local",
+        "estructura_cb7ac503412f60c06.respetar_lo_existente",
+        "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos"
+      ]
     }
   ],
   "tipos": {
-    "estructura_c3d2e9989ed343f96.buscar_en_todo_el_proyecto": "funcional",
-    "estructura_c3d2e9989ed343f96.donde_esta_cada_artefacto": "funcional",
-    "estructura_c3d2e9989ed343f96.estructura_documentada": "funcional",
-    "estructura_c3d2e9989ed343f96.listar_con_filtros": "funcional",
-    "estructura_c3d2e9989ed343f96.respetar_lo_existente": "no funcional",
-    "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos": "funcional"
+    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto": "funcional",
+    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory": "funcional",
+    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto": "funcional",
+    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto": "funcional",
+    "estructura_cb7ac503412f60c06.estructura_documentada": "funcional",
+    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce": "funcional",
+    "estructura_cb7ac503412f60c06.listar_con_filtros": "funcional",
+    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local": "no funcional",
+    "estructura_cb7ac503412f60c06.respetar_lo_existente": "no funcional",
+    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {}

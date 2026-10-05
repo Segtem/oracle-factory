@@ -1,0 +1,4 @@
+requisito estructura_cb7ac503412f60c06.carpeta_propia_de_factory:
+    texto "Tipo: funcional `init` SHALL crear `.factory/` en la raíz del proyecto con `cambios/` y `local/`, y SHALL agregar `.factory/local/` al `.gitignore` sin sobrescribir lo existente."
+    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#carpeta propia de Factory"
+    sin_medir "sin medida todavía; escenarios: «proyecto nuevo», «proyecto ya inicializado»"
