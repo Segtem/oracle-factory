@@ -1,0 +1,45 @@
+{
+  "exitoso": true,
+  "tests": 111,
+  "casos_contrato": 13,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "origen": {
+    "head": "2509c138191684c15080f308e6d278e249677f96",
+    "sha256": {
+      "catalogos/factory_vigencia.corrida_completa.oracle": "059cf24907b1216cfd65e860755cd113d6d47fed6caf78b8daf530f273bee47a",
+      "catalogos/factory_vigencia.el_commit_observado_se_conserva_y_se_muestra.oracle": "1b0c1f683eb6b385de0da9ccf3762daec4eb871f789a65da24ba72a2fbac37dd",
+      "catalogos/factory_vigencia.informe_guiado_vinculado_al_contenido.oracle": "b4bd9ec8dcebc29f966ea7c3ef4b8876f5fa03da334d0d86b85f82a39a7d7545",
+      "catalogos/factory_vigencia.respetar_los_registros_existentes.oracle": "62ffa96655f1006ca1bdfd3a4815121d6208e8192a54bd4e0eaa08f618c80f77",
+      "catalogos/factory_vigencia.vigencia_por_contenido_del_producto.oracle": "622647108fef8362754374b471e199fce0dab4fe86489cadd57fda8428f51562",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "79efa3967989a8ca665ae1a263da383ece25a2e1fa9b27017759e68770f3b66f",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "30f49365347b6bcca687202c27abb1032b0add4e90c2500f35b50853c0edb473",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "8f69f540c0d4423b86c969dff902012191cb8f30efe11c61110932eaa90e0608",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_modos.py": "3f37e69a4d513e144d456480f702216f95af960283a2e09d68d4cd3b1fa2ad4c",
+      "tests/test_review_guided.py": "5feefe70d62176a04d377a48b3d756c37f920db6ed08ce14e850e696fcd8965a",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "3d35ec6fc2d1ea821cbf18e1300911af3636165ab9884c00e166a2da094707f9",
+      "tests/test_workflow.py": "f1fda58591b9e82617a738923dbf5684777b6e3cfbd57ce842cc219eaaa6dcdf",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_vigencia.py": "cf14969995889ee7c6451c7d8f7488fe82cef30f9ab7f491ce0fd420dd267a75"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios v1–v4 en repositorios temporales, Linux. Las confirmaciones son fixtures con la terminal simulada; la vigencia por contenido no mide que lo revisado haya sido bueno, sólo que el producto no cambió.",
+  "artefactos_sha256": {
+    "suite.txt": "d984a1a15d81a7a5304d8dc93c103b4fa488dc3a849740ddd9b78b2a26957bc3",
+    "hechos.json": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2"
+  }
+}
