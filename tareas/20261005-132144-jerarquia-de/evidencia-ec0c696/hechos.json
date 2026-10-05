@@ -1,0 +1,165 @@
+{
+  "estructura_caso": [
+    {
+      "requisito": "estructura_documentada",
+      "caso": "e1_la_guia_describe_cada_artefacto",
+      "codigo": 0
+    },
+    {
+      "requisito": "carpeta_propia_de_factory",
+      "caso": "e2_init_crea_factory_y_ignora_local",
+      "codigo": 0
+    },
+    {
+      "requisito": "carpeta_propia_de_factory",
+      "caso": "e2_init_en_proyecto_existente_conserva_el_gitignore",
+      "codigo": 0
+    },
+    {
+      "requisito": "carpeta_propia_de_factory",
+      "caso": "e2_el_clon_de_un_proyecto_trae_la_carpeta_de_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "carpeta_propia_de_factory",
+      "caso": "e2_factory_que_no_es_una_carpeta_se_rechaza_antes_de_crear_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "carpeta_propia_de_factory",
+      "caso": "e2_init_dentro_de_otro_proyecto_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_comando_desde_una_subcarpeta",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_proyecto_explicito_manda",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_sin_factory_se_comporta_como_antes",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_proyecto_anterior_dentro_de_otro_es_frontera",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_la_carpeta_personal_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_un_enlace_simbolico_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "descubrir_la_raiz_del_proyecto",
+      "caso": "e3_la_carpeta_personal_enlazada_tampoco_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_versionado_y_lo_local",
+      "caso": "e4_rutas_relativas_en_otra_ruta_absoluta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_huella_del_producto_excluye_lo_que_factory_produce",
+      "caso": "e5_nueva_evidencia_no_invalida_la_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_huella_del_producto_excluye_lo_que_factory_produce",
+      "caso": "e5_el_acuerdo_sigue_siendo_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_cambio_con_revision_registrada",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_artefacto_ausente",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_cambio_anterior_a_la_estructura",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_candidato_limita_el_listado",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_ruta_absoluta_de_un_registro_anterior",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_esta_cada_artefacto",
+      "caso": "e6_valores_no_validos_en_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "e7_evidencia_en_la_carpeta_del_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "e7_checkout_de_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "e7_tipo_desconocido",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "e8_texto_en_varios_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "e8_archivos_grandes_omitidos_y_formas_equivalentes",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "e8_buscar_no_lee_a_traves_de_un_factory_enlazado",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "e8_fragmento_con_formas_que_se_alargan",
+      "codigo": 0
+    },
+    {
+      "requisito": "listar_con_filtros",
+      "caso": "e9_filtro_de_abiertos",
+      "codigo": 0
+    },
+    {
+      "requisito": "respetar_lo_existente",
+      "caso": "e10_los_comandos_de_lectura_no_cambian_nada",
+      "codigo": 0
+    }
+  ],
+  "estructura_corrida": [
+    {
+      "completa": 1,
+      "casos": 31
+    }
+  ]
+}

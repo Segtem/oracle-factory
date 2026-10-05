@@ -1,0 +1,54 @@
+{
+  "exitoso": true,
+  "tests": 153,
+  "casos_contrato": 31,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "origen": {
+    "head": "ec0c696a0d184028e285746badd67adc5e3805a4",
+    "sha256": {
+      "catalogos/factory_estructura.buscar_en_todo_el_proyecto.oracle": "a97a65fe55c037082eacbc67c6971391f735809ed394ff788f110a0a304f0c0f",
+      "catalogos/factory_estructura.carpeta_propia_de_factory.oracle": "71394180b8b97c84ac51fd0cbef83ccc0df416e4a49872acbcbc823ad23d6c4b",
+      "catalogos/factory_estructura.corrida_completa.oracle": "3fe3be0795ed5df09c2c786e96df353ca24345d010b9a26c8306b8d12ec18d28",
+      "catalogos/factory_estructura.descubrir_la_raiz_del_proyecto.oracle": "aacdf5f3e149810b367df7371242b5cd8e418fa978b4bc61243bde3dc5cdc76d",
+      "catalogos/factory_estructura.donde_esta_cada_artefacto.oracle": "3088ac33b8aed87ae9eca2fad47412822f7c281542a12be820467c63f7ef1e6b",
+      "catalogos/factory_estructura.estructura_documentada.oracle": "907de23285e472f591d3f63d4f29ebce8e0329a3951342c2b40d88858184b37d",
+      "catalogos/factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce.oracle": "79b12f3f3839848e12c9efccd84394b674cf984255589d9c3b2ac41bc6000a42",
+      "catalogos/factory_estructura.listar_con_filtros.oracle": "20a3525e5c82cf1afb1a357490336281961704ff10662a26c190232d81aabc54",
+      "catalogos/factory_estructura.lo_versionado_y_lo_local.oracle": "0f61e0090b5fe2675860b93d098d4f5afb0a9b7839b0cc64ff59e9de0905fa55",
+      "catalogos/factory_estructura.respetar_lo_existente.oracle": "499b43da1a363841f83785bd999a72a32c55aa8bbf50e4d69659f3facf97ca9d",
+      "catalogos/factory_estructura.ruta_canonica_para_producir_artefactos.oracle": "e652191a119187f1eb923a5dffb6c954cece077f1c3ba52ce8386b3a5d69a55d",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "330ca19598404f5852c5598aa93aeea8b10ff491b888fc2222513dfe306f1b74",
+      "oracle_factory/estructura.py": "151896160943cc2ef0baedde9b68ad19980733a663f85b5cd744ac2112c081ea",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "e18d79b10d1850e3d160f6168f26f6fc318b0a7e8f1717008e8fec4b99ba701a",
+      "tests/test_estructura.py": "5cb3bc7147975c202b0722047b2a3c590fa4cf1a4c328e37473fe01729f2af32",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "562d78c270426eeffd6b18244efb0b2ea2032d289b6d01bea0c9dcf81ea22b36",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_modos.py": "3f37e69a4d513e144d456480f702216f95af960283a2e09d68d4cd3b1fa2ad4c",
+      "tests/test_portabilidad.py": "4a1542506ec9ea105b3ef9e7a64d11e31e3a7388b3c0f8ed11e3cd0b188ab827",
+      "tests/test_review_guided.py": "5feefe70d62176a04d377a48b3d756c37f920db6ed08ce14e850e696fcd8965a",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "3d35ec6fc2d1ea821cbf18e1300911af3636165ab9884c00e166a2da094707f9",
+      "tests/test_workflow.py": "f1fda58591b9e82617a738923dbf5684777b6e3cfbd57ce842cc219eaaa6dcdf",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_estructura.py": "9940ef1293926ee553e32598706d094a2ebdef2926c45e9b1d52c60e5457ce7e"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios e1–e10 en repositorios temporales, Linux. La «otra máquina» de e4 es un clon al que se le quita el original. No mide que la guía sea clara para quien la lee, ni la fase 2 (mover el estado a .factory/).",
+  "artefactos_sha256": {
+    "suite.txt": "042bb2c082d46bad2ba6b3afe8472b6a5e3e666db8aee5fdf5cd242d6509c91c",
+    "hechos.json": "13bc1eb2b8203b94bb5f21441081abcc8bb563c4e4e6bb579caf1292498b8a37"
+  }
+}
