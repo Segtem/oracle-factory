@@ -33,10 +33,10 @@ Además, el flujo que documenta el README guarda los hechos en `.factory-demo/`,
 
 ## Human decisions
 
-Pendiente de aceptación de proposal.md y spec.md. Preguntas abiertas para Brian:
+Brian respondió en la conversación del 2026-10-05, aceptando las tres recomendaciones:
 
-1. **Hechos que no viajan:** ¿advertir y seguir (lo propuesto, compatible con lo existente) o rechazarlos?
-2. **Dónde guardar los hechos de ahora en adelante:** ¿en `tareas/<ID>/`, como hicimos hoy, o se espera a la carpeta `.factory/` de la estructura?
-3. **La prueba con Docker:** `tools/verify_maquinas.py` necesita Docker y tarda un minuto. ¿Queda como herramienta de evidencia, que se corre a pedido, y no dentro de la suite de pruebas? Se propone que sí.
+1. **Hechos que no viajan:** se advierte y se sigue; no se rechazan, por compatibilidad con lo existente.
+2. **Dónde se guardan los hechos:** en `tareas/<ID>/`, por ahora, sin esperar a la carpeta `.factory/` de la estructura, que todavía no está implementada.
+3. **La prueba con Docker:** `tools/verify_maquinas.py` queda como herramienta de evidencia que se corre a pedido y no forma parte de la suite de pruebas.
 
-La persona conserva alcance, aprobación de spec, pertinencia de medidas, resolución de hallazgos y cierre. Preparar esto no acepta el cambio.
+Pendiente: aceptación de proposal.md y spec.md. Preparar esto no la acepta ni autoriza implementarlo.
