@@ -2,7 +2,7 @@
   "id": "20261005-154433-la-vigencia-de",
   "titulo": "La vigencia de una revisión depende del contenido del producto",
   "capacidad": "vigencia",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
   "spec_sha256": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8",
   "spec_aprobada": {
@@ -22,8 +22,38 @@
     "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
     "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json",
+    "sha256": "9d39c7dcf99f24f49a4a8230058717dc5dfc9005d4e41a78f9d17cbf249e916c",
+    "decisiones": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/decisiones.json",
+    "decisiones_sha256": "6ea28ad7e89cb35f2f730180f59327c1649d2f4dfb241f2523a361c1edb4d52b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:17:58+00:00",
+    "contexto": {
+      "head": "1ed961015c45fb6314e91a5286c7c7fadbcd600a",
+      "archivos_sha256": "a068492eba660fba6b7108289117b1563435b86aa094f4447afe1acb139b5ae2"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/home/workstation/Dev/factory-vigencia/tareas/20261005-154433-la-vigencia-de/evidencia-2509c13/hechos.json",
+    "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2",
+    "informe": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+    "informe_sha256": "9d02058c6597a9fb1d7698bf4a1f186a241209a796145780f19c58cc7ac63527",
+    "cuando": "2026-10-05T18:18:21+00:00",
+    "contexto": {
+      "head": "1ed961015c45fb6314e91a5286c7c7fadbcd600a",
+      "archivos_sha256": "a068492eba660fba6b7108289117b1563435b86aa094f4447afe1acb139b5ae2"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -168,6 +198,31 @@
         "factory_vigencia.respetar_los_registros_existentes",
         "factory_vigencia.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:17:58+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "9d39c7dcf99f24f49a4a8230058717dc5dfc9005d4e41a78f9d17cbf249e916c",
+      "decisiones_sha256": "6ea28ad7e89cb35f2f730180f59327c1649d2f4dfb241f2523a361c1edb4d52b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:18:21+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2"
     }
   ],
   "tipos": {

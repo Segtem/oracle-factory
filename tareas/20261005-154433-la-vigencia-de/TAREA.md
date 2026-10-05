@@ -47,3 +47,15 @@ Medidas de vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido: Bri
 ### Nota (2026-10-05 15:56:10 UTC)
 
 Medidas de vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:17:58 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 1ed961015c45fb6314e91a5286c7c7fadbcd600a; informe tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json; decisiones tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/decisiones.json.
+
+### Nota (2026-10-05 18:18:21 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt.
+
+### Nota (2026-10-05 18:18:28 UTC)
+
+Revisión guiada registrada por Brian desde su terminal (2026-10-05), 9 hallazgos de tres vueltas de R2, 0 abiertos; veredicto Oracle verde sobre 2509c13: 4 requisitos cumplen, 13 casos. Listo para cierre.

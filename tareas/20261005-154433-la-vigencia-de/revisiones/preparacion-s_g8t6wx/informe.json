@@ -1,0 +1,125 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261005-154433-la-vigencia-de",
+  "contexto": {
+    "head": "1ed961015c45fb6314e91a5286c7c7fadbcd600a",
+    "archivos_sha256": "a068492eba660fba6b7108289117b1563435b86aa094f4447afe1acb139b5ae2"
+  },
+  "documentos": {
+    "openspec/changes/20261005-154433-la-vigencia-de/proposal.md": "7cd9cd076018e5349351f1f1c4ba4576487046a4789d93e9380230a1cfec1064",
+    "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/cli.py",
+    "oracle_factory/revision.py",
+    "tests/test_vigencia.py",
+    "tools/verify_vigencia.py",
+    "catalogos/factory_vigencia.corrida_completa.oracle",
+    "catalogos/factory_vigencia.vigencia_por_contenido_del_producto.oracle",
+    "catalogos/factory_vigencia.el_commit_observado_se_conserva_y_se_muestra.oracle",
+    "catalogos/factory_vigencia.informe_guiado_vinculado_al_contenido.oracle",
+    "catalogos/factory_vigencia.respetar_los_registros_existentes.oracle",
+    "openspec/changes/20261005-154433-la-vigencia-de/proposal.md",
+    "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
+    "tests/test_workflow.py",
+    "tests/test_review_guided.py",
+    "README.md",
+    "docs/colaboracion.md",
+    "docs/revision-guiada.md",
+    "site/desde-cero.html"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato 2509c13 (el producto de este HEAD es idéntico)",
+      "resultado": "cumple",
+      "evidencia": "111 pruebas OK; corrida por el autor y por R2"
+    },
+    {
+      "descripcion": "Sensor de vigencia: 13 casos exactos y los cuatro requisitos en Oracle",
+      "resultado": "cumple",
+      "evidencia": "evidencia-2509c13/resultado.json (éxito) y oracle-cobertura.txt: 4 requisitos cumplen; R2 lo reprodujo"
+    },
+    {
+      "descripcion": "Las pruebas nuevas de cada vuelta fallan con el código anterior y las sondas de R2 ya no reproducen los defectos",
+      "resultado": "cumple",
+      "evidencia": "corridas sobre a55b109 y 3bf20b6 en la conversación; sondas_r2v.py, sondas_r2w.py y sondas_r2x.py en revision-r2/"
+    },
+    {
+      "descripcion": "Arneses de modos (27 casos), colaboración (C1–C9) y revisión guiada (19 casos), y los dos de release contra el wheel instalado",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor sobre 2509c13; R2 reprodujo modos y colaboración"
+    },
+    {
+      "descripcion": "Revisión independiente (R2), tres vueltas",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-vigencia.json, informe-r2-vigencia2.json e informe-r2-vigencia3.json, todos validados con oracle-clue; la última vuelta no dejó hallazgos que cambien la vigencia"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia. No hay una autorrevisión separada del autor.",
+    "La vigencia por contenido mide que el producto no cambió, no que lo revisado fuera correcto. Una revisión vigente no es una revisión buena.",
+    "Factory no autentica actores: un agente que simule una terminal interactiva pasa por persona.",
+    "Los repositorios con formato de objetos SHA-256 funcionan, pero no guardan head_preparacion (R2X-01).",
+    "La regla vive en la rama tarea/vigencia-por-contenido; no está en main. Las revisiones de colaboración y de revisión guiada la usarán cuando se integre.",
+    "La revisión se registra sobre un HEAD de archivo posterior al candidato probado 2509c13; el producto es idéntico (la regla nueva lo permite)."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2V-01",
+      "descripcion": "El commit observado no se muestra en estado ni en el cierre; sólo aparece dentro del aviso, cuando difiere",
+      "ubicacion": "oracle_factory/cli.py:889",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad media. Corregido en 3bf20b6: estado y el cierre muestran siempre el commit observado."
+    },
+    {
+      "id": "R2V-02",
+      "descripcion": "Un contexto sin «head» provoca KeyError en estado, en el cierre y en el registro guiado",
+      "ubicacion": "oracle_factory/cli.py:353",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad baja. Corregido en 3bf20b6 y completado en 2509c13 (R2W-01): un registro sin head o con un valor que no es un commit ya no rompe."
+    },
+    {
+      "id": "R2V-03",
+      "descripcion": "head_preparacion es lo que el informe dice de sí mismo; no se comprueba contra Git",
+      "ubicacion": "oracle_factory/cli.py:569",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad baja. Riesgo aceptado: head_preparacion lo declara el informe y no condiciona nada; se muestra «según el propio informe»."
+    },
+    {
+      "id": "R2V-04",
+      "descripcion": "La documentación y la guía publicada siguen diciendo que un commit nuevo invalida la revisión",
+      "ubicacion": "oracle_factory/cli.py:337",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad baja. Corregido en 3bf20b6 y completado en 2509c13 (R2W-02): README, guías y sitio dicen lo que invalida una revisión."
+    },
+    {
+      "id": "R2V-05",
+      "descripcion": "Las propuestas de revisión pendientes con la firma anterior nunca se confirman como «confirmo»",
+      "ubicacion": "oracle_factory/cli.py:447",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad baja. Riesgo aceptado: una propuesta con la firma anterior se registra como decidio; la persona decide igual y es una transición corta."
+    },
+    {
+      "id": "R2V-06",
+      "descripcion": "Las pruebas no cubren el cierre, el modo ejecutable ni un registro sin huella; v3_informe_de_otro_producto no distingue la causa",
+      "ubicacion": "tests/test_vigencia.py:162",
+      "evidencia": "R2 (informe-r2-vigencia.json), severidad baja. Corregido en 3bf20b6: cuatro pruebas nuevas y la de «informe de otro producto» comprueba la causa."
+    },
+    {
+      "id": "R2W-01",
+      "descripcion": "Un head_preparacion que no es texto, declarado por el informe, rompe estado y el cierre del cambio",
+      "ubicacion": "oracle_factory/cli.py:342",
+      "evidencia": "R2 (informe-r2-vigencia2.json), severidad baja. Corregido en 2509c13: head_preparacion sólo se guarda si es un commit de 40 hexadecimales."
+    },
+    {
+      "id": "R2W-02",
+      "descripcion": "Queda una fila de la guía que sigue diciendo que cambiar el HEAD obliga a preparar un informe nuevo",
+      "ubicacion": "docs/revision-guiada.md:27",
+      "evidencia": "R2 (informe-r2-vigencia2.json), severidad baja. Corregido en 2509c13: la fila de la tabla de recuperación distingue producto de HEAD."
+    },
+    {
+      "id": "R2X-01",
+      "descripcion": "En repositorios con SHA-256 (64 hexadecimales) el HEAD de preparación se descarta siempre",
+      "ubicacion": "oracle_factory/cli.py:576",
+      "evidencia": "R2 (informe-r2-vigencia3.json), severidad informativa. Riesgo aceptado: en repositorios SHA-256 se pierde el dato de auditoría head_preparacion; la vigencia no cambia."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
