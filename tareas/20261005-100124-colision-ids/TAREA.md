@@ -1,6 +1,6 @@
 # Medir en el arnés la colisión de IDs entre clones
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: colaboracion, arnes
 

@@ -16,3 +16,7 @@
 - Si revisión-guiada necesita commits nuevos de colaboración antes de eso, se traen con merge, no con rebase.
 
 Relacionadas: `20261004-121432-coordinar-dos`, `20261004-005956-revision-guiada`.
+
+### Nota (2026-10-05 10:07:26 UTC)
+
+Decisión confirmada por Brian (2026-10-05, conversación: «1. Confirmo.»): sin rebase; colaboración entra primero a main, ya revisada y cerrada, y después revisión guiada; si hace falta traer commits, se usa merge. La tarea queda abierta hasta que se ejecute la integración.
