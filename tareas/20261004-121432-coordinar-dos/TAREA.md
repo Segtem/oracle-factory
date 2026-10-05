@@ -77,3 +77,7 @@ Medidas de colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version: fact
 ### Nota (2026-10-05 10:02:56 UTC)
 
 Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa. SIN MEDIR: Pilotaje en máquinas distintas y colisión de IDs entre dos cambios Factory nuevos (paquete OpenSpec y requisitos importados) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task con ID colisionado.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 10:04:37 UTC)
+
+Candidato vigente 17d1c00 (C4 con colisión de IDs). Revisión dividida en dos paquetes durables bajo ~/Dev/_revisiones; ver revision-pendiente.md.

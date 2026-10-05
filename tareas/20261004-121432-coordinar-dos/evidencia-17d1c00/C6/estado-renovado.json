@@ -1,0 +1,116 @@
+{
+  "id": "20261005-100324-fixture",
+  "titulo": "Fixture colaboración C6",
+  "capacidad": "notas",
+  "fase": "oracle_verde",
+  "spec": "openspec/changes/20261005-100324-fixture/specs/notas/spec.md",
+  "spec_sha256": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+  "spec_aprobada": {
+    "por": "workstation",
+    "cuando": "2026-10-05T10:03:24+00:00",
+    "documentos": {
+      "openspec/changes/20261005-100324-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "openspec/changes/20261005-100324-fixture/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+    }
+  },
+  "requisitos": [
+    "notas_c2b2fab5c66567f41.titulo_valido"
+  ],
+  "revision": {
+    "revisor": "Fixture automatizado",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "openspec/changes/20261005-100324-fixture/review.md",
+    "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437",
+    "por": "workstation",
+    "cuando": "2026-10-05T10:03:25+00:00",
+    "contexto": {
+      "head": "e33d42a804043c0ba8324a320d7a67379c691ada",
+      "archivos_sha256": "572ef3c3fe7bd5297335c4ae59299ad99052b5efc384c4ac030fc28280fb5c88"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/tmp/factory-colaboracion-96cdtxbb/C6/producto/tareas/20261005-100324-fixture/hechos-fixture.json",
+    "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916",
+    "informe": "openspec/changes/20261005-100324-fixture/oracle-veredicto.txt",
+    "informe_sha256": "3256074e5df9106afe12e309881ded431723c69df7c9dfecfbe18ca6652a1827",
+    "cuando": "2026-10-05T10:03:25+00:00",
+    "contexto": {
+      "head": "e33d42a804043c0ba8324a320d7a67379c691ada",
+      "archivos_sha256": "572ef3c3fe7bd5297335c4ae59299ad99052b5efc384c4ac030fc28280fb5c88"
+    }
+  },
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:24+00:00",
+      "capacidad": "notas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:24+00:00",
+      "documentos": {
+        "openspec/changes/20261005-100324-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+        "openspec/changes/20261005-100324-fixture/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:24+00:00",
+      "ids": [
+        "notas_c2b2fab5c66567f41.titulo_valido"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "requisito": "notas_c2b2fab5c66567f41.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    }
+  ],
+  "ejemplo": "notas"
+}

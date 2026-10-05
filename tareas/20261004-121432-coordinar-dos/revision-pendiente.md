@@ -1,5 +1,22 @@
 # Candidato preparado para revisión humana
 
+## Actualización 2026-10-05: candidato `17d1c00` y checkouts durables
+
+Estado: pendiente. Sigue sin haber informe ni decisión.
+
+- Candidato vigente: `17d1c00f7682c340e1a7ef21feb2f7b0650cd9db`. Suma a C4 la colisión de IDs Task entre clones (tarea `20261005-100124-colision-ids`) y acota el «sin medir» del requisito de aislamiento.
+- Un único paquete `a849025..17d1c00` supera el límite de Clue («contexto demasiado grande»), porque incluye el archivo de evidencia `6af15e4`. La revisión se divide en dos paquetes, que se revisan los dos:
+  - **A, producto original:** `a849025..4ceb4b0`, en el checkout `/home/workstation/Dev/_revisiones/factory-colaboracion-4ceb4b0`, con el [paquete durable](contexto-clue-4ceb4b0-durable.json). Mismo `diff_sha256` que el paquete original en `/tmp`, que queda como histórico sin editar.
+  - **B, delta:** `6af15e4..17d1c00`, en el checkout `/home/workstation/Dev/_revisiones/factory-colaboracion-17d1c00`, con su [paquete](contexto-clue-17d1c00.json).
+- Evidencia del candidato nuevo: [`evidencia-17d1c00/`](evidencia-17d1c00/validacion.json), con 48 pruebas, C1–C9 exitosos y los seis requisitos cumpliendo sólo en lo medido.
+- Los checkouts de `_revisiones/` no se editan. La evidencia copiada ahí es contexto no versionado del paquete. Si se borran, hay que regenerar los paquetes.
+
+```bash
+oracle-clue validar /ruta/informe-A.json --paquete tareas/20261004-121432-coordinar-dos/contexto-clue-4ceb4b0-durable.json --repo ~/Dev/_revisiones/factory-colaboracion-4ceb4b0 --triage /ruta/decisiones-A.json
+oracle-clue validar /ruta/informe-B.json --paquete tareas/20261004-121432-coordinar-dos/contexto-clue-17d1c00.json --repo ~/Dev/_revisiones/factory-colaboracion-17d1c00 --triage /ruta/decisiones-B.json
+```
+
+## Preparación original (2026-10-04)
 Estado: pendiente. Este documento prepara la revisión; no es un informe de CodeRabbit, de Clue ni de otra persona, y no contiene una decisión de aprobación.
 
 - Tarea: `20261004-121432-coordinar-dos`.

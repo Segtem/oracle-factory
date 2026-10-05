@@ -1,0 +1,131 @@
+{
+  "exitoso": true,
+  "casos": [
+    {
+      "caso": "C1",
+      "descripcion": "aislamiento y dos entregas",
+      "codigo": 0
+    },
+    {
+      "caso": "C2",
+      "descripcion": "solapamiento textual y semántico",
+      "codigo": 0
+    },
+    {
+      "caso": "C3",
+      "descripcion": "relevo e interrupción",
+      "codigo": 0
+    },
+    {
+      "caso": "C4",
+      "descripcion": "clones y registros divergentes",
+      "codigo": 0
+    },
+    {
+      "caso": "C5",
+      "descripcion": "revisión de versión y checkout",
+      "codigo": 0
+    },
+    {
+      "caso": "C6",
+      "descripcion": "integración y renovación de evidencia",
+      "codigo": 0
+    },
+    {
+      "caso": "C7",
+      "descripcion": "spec y medidas cambiadas",
+      "codigo": 0
+    },
+    {
+      "caso": "C8",
+      "descripcion": "gates y cierre rechazado",
+      "codigo": 0
+    },
+    {
+      "caso": "C9",
+      "descripcion": "integridad de evidencia y piloto pendiente",
+      "codigo": 0
+    }
+  ],
+  "origen": {
+    "head": "17d1c00f7682c340e1a7ef21feb2f7b0650cd9db",
+    "sha256": {
+      "MANIFEST.in": "7ee468861c453dfd7ff7cf791dcf0b3d9b6fcedc5ab3378291bce003ea88f7c6",
+      "README.md": "424c3d1af2c6fe6f2db7fb87d8f87d0f0725650a012d92431ca776c68363d552",
+      "catalogos/factory_colaboracion.aislamiento_y_sincronizacion_explicitos.oracle": "44873d5eb16bf15b85c0193b77f4840175d01f8a7b7416e817785c767ba647a3",
+      "catalogos/factory_colaboracion.corrida_completa.oracle": "4fe21255a8a433ea4b2dd7808d398af925f15eb33e2738e7f71c5159cc9bb2fc",
+      "catalogos/factory_colaboracion.demostracion_reproducible_con_limites.oracle": "39c9dcc9bbd998601a0e4776fab8ed5f588e3e69c2f0b001bc131819b7a10d8b",
+      "catalogos/factory_colaboracion.integracion_serializada_y_evidencia_vigente.oracle": "3931518d2ecc2e354b2f73d51d61d8178359862860fe341cd6da3d2182cfcc3e",
+      "catalogos/factory_colaboracion.relevo_recuperable.oracle": "ad92949493b5b8d4fc765cdd07d8b20f76e65b27c1344da1584fed7433c23f12",
+      "catalogos/factory_colaboracion.reparto_explicito_del_trabajo.oracle": "a0695cbb5686c67d1a7b92a48643d2deee48ae2f1e34d78bc253ff9148741c37",
+      "catalogos/factory_colaboracion.revision_vinculada_a_una_version.oracle": "911954eeb917d0fcafd6a170d7f36bc8cb10c720f056d1adb5ed98fd1a6f699d",
+      "docs/colaboracion.md": "c72b462594879f167eb1707940f444f9659b6beabd132d29f1c99566cafa6f3a",
+      "docs/plantillas/colaboracion/integracion.md": "b3c324ebcd99fb4339061764cee7b70f778977a4c30c4b77d9dfcdf9b3058677",
+      "docs/plantillas/colaboracion/piloto.md": "2b77716cabd6ea0a40af3e912bf587a18e6c42e576223619953ca62ae73b4bf4",
+      "docs/plantillas/colaboracion/relevo.md": "25b8a3e06831dbe366c57d70b5aa24b483c6ee5c4fd16e19811c2381dbb318cb",
+      "docs/plantillas/colaboracion/reparto.md": "c7ad220758086f48d071473b79ca2bf66424978d1849b89b4622256bbc49879d",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "73536611beeec255441c7d28b411c0ddd61bc4e3e2902147154e4804121486c5",
+      "oracle_factory/data/notas/README.md": "d72b6639d36f96ac621c3dc0d567396ddfdfb15c2bd93e248f3a3512cb6c37d8",
+      "oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle": "7d03091493abdde5f0dbd6aff44dd785665828aab22859640dc5e694f746188e",
+      "oracle_factory/data/notas/catalogos/notas.resultados.oracle": "5dbd8c4809b43a4485c5c04257cfd85ccfb52022daa50e9d878fb0aba8033c80",
+      "oracle_factory/data/notas/notas.py": "dcbd0f5ea93a795832adcc5286135a36e0bbda65384521a46664afe978a6de68",
+      "oracle_factory/data/notas/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "oracle_factory/data/notas/sensor.py": "a1370a47080ca1aabb714771f838d3e6cee8864c2bcc172529aaaabc1ec772d0",
+      "oracle_factory/data/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+      "oracle_factory/data/notas/test_notas.py": "12c5edef513f7df9b492fdde1f3b758eb65dd72b14213eb8c1b79f6c1209ba21",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "e4a4f34af71b7bad806d6fc02a2bba462b3ddddf3b4fcc3168a89d6325414c80",
+      "tools/verify_collaboration.py": "9a9ec53b83335c9da3e36124b836d99edb753b5126584785c2e1260b8557bf0d"
+    }
+  },
+  "origen_sin_cambios_durante_corrida": true,
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "clue": "oracle-clue 0.1.0a1",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]",
+    "plataforma": "linux"
+  },
+  "limites": "Casos C1–C9 en repositorios temporales, Linux. Reparto, recepción, triage y aprobaciones son fixtures. No mide usabilidad, productividad, autoridad humana, locks distribuidos ni ausencia universal de conflictos.",
+  "piloto_humano": "pendiente",
+  "artefactos_sha256": {
+    "C1/entregas.json": "5dc9eb43f5d5f3d95353f797bf8df0db45eef40eba34e9ddcc96ea4ed9c8c388",
+    "C1/reparto.md": "8daae6ec294bb1be454e0f5199b944fbd8684adeef0a01def646d3a5814429c2",
+    "C1/ejecucion.json": "36800829e183e122ec14c85883fe24261899e9aed033fe10c563a19b4e365b20",
+    "C2/conflicto.patch": "ff566418d3648a93969e50eab41173844451856be4ee19d2c81349df575e8093",
+    "C2/decision-fixture.json": "a6bd9014d2c6cb66309f09b949ad000360cd4067aad72c3ff30df3558efe1531",
+    "C2/ejecucion.json": "6a235344e61842e935239a2ff694512ea8a6984970cc5d23f497af5cd1598052",
+    "C3/pendiente.txt": "afb4cc4a6f0fca026167760c02b7c997914762b93a1cb66e9e8f554b30ce5bc3",
+    "C3/relevo-propuesto.md": "9499fc1e3ee2be85c8dfc0ec10ae26f87ab12cbb9888bf3c3eda95fd91cfad5f",
+    "C3/relevo-recibido-fixture.md": "22ee54830819a3e4e9530aadc84f674a1898af2ec0138f882431f636703ca383",
+    "C3/ejecucion.json": "aa94f5c11d106bd0c9c1f38c3ea8640b64fbb3a07368fbd086c3c56990bc3df4",
+    "C4/divergencia.patch": "22b923969886701e83eaaf402333498fb02afd0c78471869f61654ffccc6b62c",
+    "C4/original-a.md": "a29c5324b6df2fb7700b4df52ced5c20a60ff8c6879ef9b60b41c1c09e754f51",
+    "C4/original-b.md": "0b3ee99a6356bb3d8e081458c07e094cb003b85fb77127e962b0056ac9a2db83",
+    "C4/conciliado.md": "6d000cac2a7c9f973321a8ea2a0082feba4959c72aeb2d773e4fc403b79e2312",
+    "C4/colision.patch": "2d26dc0800af27947a5fe01c89b93133c44fbaa7c0254979c5a85ae0fda804bb",
+    "C4/colision-original-a.md": "a6a1161d19fb2c9e75a7d216ca60ef9f87323418f6fb8f63d81657cadc758cc3",
+    "C4/colision-original-b.md": "d85ab4cd6d54c1e3e209801b1e547be103e15e4a64c9dd9d03ac97542f1f5ac6",
+    "C4/identidad.json": "ee082e4caff10835899b10464a74de7b7c915f493bbb274cec1840dc88d65a95",
+    "C4/ejecucion.json": "7ea5db8fa2f8f06bcc45017496ff9a43d138ba075f9fec9690bc2bd29ade17f1",
+    "C5/paquete.json": "0addbc63266654992e196680bde81681f74ee2375cdfd5bd1c3e543a38ad1938",
+    "C5/informe.json": "cfcb94748da5749ec4b54d3d0ebaa7becc14e052f8b1fc7e6a47686f2d159a8f",
+    "C5/triage.json": "b665ee5f3ca4ea96625a3606a04bab7261f455205fde5661aa8148f54dea03c8",
+    "C5/nuevo-paquete.json": "4b598872b4f0476275375400d243b07fb3e0468d9e7ed1e77e9e4747dbdc0c2f",
+    "C5/nuevo-informe.json": "18d57b2111b3c43da232a58fbd5233e7b880d2ed7bbd1f7c30c70376f6e9470b",
+    "C5/ejecucion.json": "b9d5c2ba8bcc231ce6173bf750cb7ff1bddeb3c9edd4ce3f7ce490a5c3cf5560",
+    "C6/estado-revisado.json": "86aad1b0860ad328e403f159e5a687d0dc1f42f3e29382758ee2746202e59b0b",
+    "C6/estado-renovado.json": "380bbeaa75cda0630b1c9a7d7cc347d6e543594f4ee2f9a8f2b52c103eb46e38",
+    "C6/integracion.md": "0c7e9e13972a8d775a177f4f9666f75c2e73e5b9afc2d52e9ef4276f5b33511e",
+    "C6/ejecucion.json": "c693755c1f346d0301f4f6a85f65b3d2c7a61e7770c0995ba19442f7319ac2b8",
+    "C7/estado-nueva-spec.json": "52b05e224a70219226571562eacb760115714c98219a43e62b98cc34082afa92",
+    "C7/ejecucion.json": "f77a67305ea10484815140c526daf38b095d9a8103340742f3eb692322060f35",
+    "C8/estado-abierto.json": "132ba2f8968d7ab1d1f73d9a6c100e924b2cfd0eceed9d726a147a14a1522340",
+    "C8/ejecucion.json": "37a2172ae9043ab57a3c9e39611bff7e3707fbdd6d1427ecd09d5a4632d55488",
+    "C9/piloto-pendiente.md": "59484a0e0779fce8c679e8752cc827df736417d0352743bdfe8dbf89d1947cea",
+    "C9/ejecucion.json": "95d0958acf0580fc6d0c26b62754abfb59ba4c3555fecf407aa4a0752580f82c"
+  },
+  "hechos_sha256": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5"
+}
