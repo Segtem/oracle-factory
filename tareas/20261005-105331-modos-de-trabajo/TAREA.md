@@ -47,3 +47,23 @@ Medidas de modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos: facto
 ### Nota (2026-10-05 12:15:29 UTC)
 
 Medidas de modos_c45a4802846932222.cambio_de_modo_con_invalidacion: factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 12:28:06 UTC)
+
+Medidas de modos_c45a4802846932222.modo_explicito_por_cambio confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 12:28:06 UTC)
+
+Medidas de modos_c45a4802846932222.tipo_de_requisito confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 12:28:06 UTC)
+
+Medidas de modos_c45a4802846932222.decisiones_segun_el_modo confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 12:28:06 UTC)
+
+Medidas de modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 12:28:06 UTC)
+
+Medidas de modos_c45a4802846932222.cambio_de_modo_con_invalidacion confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
