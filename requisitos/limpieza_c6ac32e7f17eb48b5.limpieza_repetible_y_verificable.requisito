@@ -1,4 +1,4 @@
 requisito limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable:
     texto "Tipo: no funcional La herramienta SHALL ser idempotente, y un verificador SHALL comprobar que ningún registro conserva la ruta, que `tareas/` no cambió y que el estado de cada cambio es el mismo antes y después."
     fuente "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md#limpieza repetible y verificable"
-    sin_medir "sin medida todavía; escenarios: «segunda ejecución», «verificación del estado»"
+    medido_por factory_limpieza.limpieza_repetible_y_verificable, factory_limpieza.corrida_completa

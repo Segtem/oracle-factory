@@ -60,6 +60,62 @@
         "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
         "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:54:51+00:00",
+      "requisito": "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada",
+      "medidas": [
+        "factory_limpieza.los_registros_no_llevan_la_ruta_privada",
+        "factory_limpieza.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:54:51+00:00",
+      "requisito": "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe",
+      "medidas": [
+        "factory_limpieza.la_evidencia_no_se_reescribe",
+        "factory_limpieza.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:54:51+00:00",
+      "requisito": "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+      "medidas": [
+        "factory_limpieza.las_decisiones_conservan_su_integridad",
+        "factory_limpieza.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:54:51+00:00",
+      "requisito": "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
+      "medidas": [
+        "factory_limpieza.limpieza_repetible_y_verificable",
+        "factory_limpieza.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -69,5 +125,30 @@
     "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada": {
+      "sha256": "f78b2c7729e4fab0f2766353e6daa1395ed7b7b2fc9d89e97d15ddd089a8bd60",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T21:54:51+00:00"
+    },
+    "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe": {
+      "sha256": "bb2d47228ed39172597bda15ec38d4b2842538fc14f4773e5bdd631af1453364",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T21:54:51+00:00"
+    },
+    "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad": {
+      "sha256": "8b9c2d5e4c5c2c7ee8c314f949e28515fd842ea434d20d216f838523a59dd758",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T21:54:51+00:00"
+    },
+    "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable": {
+      "sha256": "9b39b2b7d2ab581a17610a24ce449f156a7efd709fb7edd87ccc90112e21e378",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T21:54:51+00:00"
+    }
+  }
 }
