@@ -1,0 +1,57 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-colaboracion-17d1c00",
+  "base": "6af15e47cdb4fea8105c1c7b820925ede45b586a",
+  "head": "17d1c00f7682c340e1a7ef21feb2f7b0650cd9db",
+  "diff_sha256": "c23eb1e7b5d8b7e6933d4fa157fb3009aafa7a20f3a265a40c817d46de0c74e8",
+  "context_sha256": "8474af1b2f291fc18703abe4887fc2c5d39cf31def965a107b599991ee1e0898",
+  "provider": {
+    "name": "Claude Code (Opus 5.5), agente de Brian; hallazgos pendientes de su decisión",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "AUTORREVISIÓN: el delta 6af15e4..17d1c00 lo escribió este mismo agente en esta sesión. Esta revisión no es independiente; para una revisión independiente hace falta otra sesión o una persona.",
+    "Se releyó el diff completo; el arnés se ejecutó dos veces sobre el código del delta (corrida de prueba y evidencia-17d1c00/), las dos en verde."
+  ],
+  "findings": [
+    {
+      "id": "B-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.6,
+      "title": "C4 depende de que dos ejecuciones de la CLI quepan en un segundo",
+      "explanation": "collision() espera el inicio de un segundo y crea las dos tareas una tras otra. Si cada ejecución tarda más de medio segundo (máquina cargada o CI lenta), los IDs difieren y después de tres intentos el caso falla: un rojo que no indica un defecto del protocolo.",
+      "location": {
+        "file": "tools/verify_collaboration.py",
+        "start_line": 312,
+        "end_line": 322,
+        "side": "head"
+      },
+      "trigger": "Correr el arnés en una máquina lenta o bajo carga.",
+      "evidence": "time.sleep(1 - time.time() % 1)  # mismo segundo con la CLI real",
+      "related_requirement": "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos",
+      "status": "pendiente",
+      "verification": "Medir la duración de tasks new; si hace falta, lanzar las dos creaciones en paralelo o aceptar el límite en el texto del caso."
+    },
+    {
+      "id": "B-02",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "El commit candidato mezcla producto con registros del tracker",
+      "explanation": "El candidato 17d1c00 incluye, además del arnés y la medida, tres tareas nuevas y un cambio de etiqueta. Un revisor que lee el diff del candidato revisa también registros que no son producto. Es justo la ambigüedad producto/evidencia que señaló el piloto.",
+      "location": {
+        "file": "tareas/20261005-100124-colision-ids/TAREA.md",
+        "start_line": 1,
+        "end_line": 14,
+        "side": "head"
+      },
+      "trigger": "Leer el diff 6af15e4..17d1c00.",
+      "evidence": "git show --stat 17d1c00: cuatro archivos bajo tareas/.",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Aceptar, o separar los registros en un commit aparte en próximos candidatos."
+    }
+  ]
+}

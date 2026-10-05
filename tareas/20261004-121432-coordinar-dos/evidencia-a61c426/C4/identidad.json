@@ -1,0 +1,12 @@
+{
+  "id": "20261005-113931-relevo",
+  "misma_identidad": true,
+  "colision": {
+    "id_colisionado": "20261005-113932-frente",
+    "id_migrado": "20261005-113932-frente-b",
+    "migracion": "232765ab6c7d0d3e4b52a799b783de355a7e14db",
+    "intentos": 1,
+    "candidato": "aebba4099d8d2531b16570b6ed7a577a5fc7c7c5"
+  },
+  "limite": "Clones locales en una máquina; la migración la hace B como fixture, no una persona. Las referencias se buscan con tasks refs, que sólo ve menciones textuales."
+}

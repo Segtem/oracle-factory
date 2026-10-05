@@ -85,3 +85,7 @@ Candidato vigente 17d1c00 (C4 con colisión de IDs). Revisión dividida en dos p
 ### Nota (2026-10-05 10:36:11 UTC)
 
 Piloto con agentes 01 realizado (2026-10-05): dos cambios cerrados de punta a punta, relevo sin contexto, revisiones cruzadas e integración. 11 fricciones en piloto-agentes-01/piloto.md. El piloto humano sigue pendiente.
+
+### Nota (2026-10-05 11:39:55 UTC)
+
+Revisión de Brian (2026-10-05) sobre los paquetes A y B: informes y triage en revision-brian/. A-01 corregido en a61c426 (C1 y C5 comprueban la guía); los demás hallazgos, riesgo aceptado. Paquete del delta: contexto-clue-a61c426.json, checkout ~/Dev/_revisiones/factory-colaboracion-a61c426.

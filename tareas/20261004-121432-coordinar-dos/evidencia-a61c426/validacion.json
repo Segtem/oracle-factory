@@ -1,0 +1,29 @@
+{
+  "cuando": "2026-10-05T11:39:36.718482+00:00",
+  "candidato": "a61c4265ba4790765c74d6902b6370e968233d9a",
+  "anterior": "17d1c00f7682c340e1a7ef21feb2f7b0650cd9db",
+  "suite": {
+    "comando": "PYTHONDONTWRITEBYTECODE=1 <env>/bin/python -m unittest discover -s tests",
+    "tests": 49,
+    "codigo": 0
+  },
+  "arnes": {
+    "casos": 9,
+    "codigo": 0,
+    "cambio": "C1 y C5 comprueban el contenido de la guía (A-01)"
+  },
+  "prueba_negativa": "sin la sección 2 de la guía, C1 falla y los seis requisitos quedan en no cumple (corrida en scratch, no archivada)",
+  "oracle": {
+    "comando": "oracle cobertura --con hechos.json",
+    "version": "0.38.1",
+    "cumplen_solo_en_lo_medido": 6,
+    "cobertura_completa": false
+  },
+  "revision_humana": "en curso (Brian)",
+  "piloto_humano": "pendiente",
+  "sha256": {
+    "resultado.json": "0ccc882085bdd1e2c669b0bb84eeb1811501cc68aae11a5ccb383623cde9126c",
+    "hechos.json": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5",
+    "oracle-cobertura.txt": "b9cce703e51326fc8d512286e471257bfb95a555feea635404f773bd7bdef055"
+  }
+}

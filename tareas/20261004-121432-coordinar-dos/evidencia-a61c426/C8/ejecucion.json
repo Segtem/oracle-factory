@@ -1,0 +1,455 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "init"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Factory inicializada en /tmp/factory-colaboracion-104j6nj3/C8/producto. No se crearon commits ni aprobaciones.\nAcuerdos: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes; tareas: /tmp/factory-colaboracion-104j6nj3/C8/producto/tareas; configuración: /tmp/factory-colaboracion-104j6nj3/C8/producto/oracle.json.\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "nuevo",
+        "--con-ejemplo",
+        "notas",
+        "Fixture colaboración C8"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Cambio creado: 20261005-113935-fixture\nTarea: /tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture\nEjemplo y catálogos preparados en /tmp/factory-colaboracion-104j6nj3/C8/producto/examples/notas y /tmp/factory-colaboracion-104j6nj3/C8/producto/catalogos. No se ejecutó el programa.\nPróximo paso humano: revisar /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/proposal.md y /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/specs/notas/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261005-113935-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "20261005-113935-fixture: base fixture aceptada sólo para el arnés"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c9b6636d225e751db80ef5c743d68701c08689e7\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "cerrar",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: no se puede cerrar: aprobación humana de spec; importación OpenSpec → requisitos Oracle; revisión humana aprobada y sin hallazgos abiertos; veredicto Oracle exitoso con evidencia; primero una persona debe aprobar la propuesta y la spec\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "aprobar-spec",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": "APROBAR ESPECIFICACION 20261005-113935-fixture\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "openspec/changes/20261005-113935-fixture/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261005-113935-fixture/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nAceptar reinicia importación, revisión y veredicto de este cambio.\nEscribí APROBAR ESPECIFICACION 20261005-113935-fixture: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261005-113935-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "importar",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "+ notas_cdc28ebfa22a79f23.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /tmp/factory-colaboracion-104j6nj3/C8/producto/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261005-113935-fixture --listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "examples/notas",
+        "-v"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "examples/notas/sensor.py",
+        "--salida",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Hechos de 3 casos escritos en /tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "juzgar",
+        "20261005-113935-fixture",
+        "--con",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: Oracle todavía no tiene cobertura completa de cada requisito importado\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "medir",
+        "20261005-113935-fixture",
+        "--requisito",
+        "notas_cdc28ebfa22a79f23.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--sin-medir",
+        "piloto humano pendiente (fixture)"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-104j6nj3/C8/producto/requisitos/notas_cdc28ebfa22a79f23.titulo_valido.requisito\nSIN MEDIR: piloto humano pendiente (fixture)\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "revision",
+        "20261005-113935-fixture",
+        "--informe",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/informe-fixture.md",
+        "--revisor",
+        "Fixture automatizado",
+        "--decision",
+        "aprobar",
+        "--hallazgos-abiertos",
+        "0"
+      ],
+      "stdin_fixture": "REGISTRAR REVISION 20261005-113935-fixture\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Revisor: Fixture automatizado; decisión: aprobar; abiertos: 0; commit: c9b6636d225e751db80ef5c743d68701c08689e7\nEscribí REGISTRAR REVISION 20261005-113935-fixture: Informe registrado: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/review.md\nPróximo paso: oracle-factory juzgar 20261005-113935-fixture --con RUTA_DE_HECHOS\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "juzgar",
+        "20261005-113935-fixture",
+        "--con",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: Oracle todavía no tiene cobertura completa de cada requisito importado\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "medir",
+        "20261005-113935-fixture",
+        "--requisito",
+        "notas_cdc28ebfa22a79f23.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-104j6nj3/C8/producto/requisitos/notas_cdc28ebfa22a79f23.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "juzgar",
+        "20261005-113935-fixture",
+        "--con",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "✓ notas_cdc28ebfa22a79f23.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/oracle-veredicto.txt\nPróximo paso: oracle-factory estado 20261005-113935-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "cerrar",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: no se puede cerrar: revisión humana aprobada y sin hallazgos abiertos\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "examples/notas",
+        "-v"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "examples/notas/sensor.py",
+        "--salida",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Hechos de 3 casos escritos en /tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "revision",
+        "20261005-113935-fixture",
+        "--informe",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/informe-fixture.md",
+        "--revisor",
+        "Fixture automatizado",
+        "--decision",
+        "aprobar",
+        "--hallazgos-abiertos",
+        "0"
+      ],
+      "stdin_fixture": "REGISTRAR REVISION 20261005-113935-fixture\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Revisor: Fixture automatizado; decisión: aprobar; abiertos: 0; commit: c9b6636d225e751db80ef5c743d68701c08689e7\nEscribí REGISTRAR REVISION 20261005-113935-fixture: Informe registrado: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/review.md\nPróximo paso: oracle-factory juzgar 20261005-113935-fixture --con RUTA_DE_HECHOS\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "juzgar",
+        "20261005-113935-fixture",
+        "--con",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto/tareas/20261005-113935-fixture/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "✓ notas_cdc28ebfa22a79f23.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /tmp/factory-colaboracion-104j6nj3/C8/producto/openspec/changes/20261005-113935-fixture/oracle-veredicto.txt\nPróximo paso: oracle-factory estado 20261005-113935-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "estado",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "20261005-113935-fixture — Fixture colaboración C8\nFase: oracle_verde\nRequisitos Oracle: notas_cdc28ebfa22a79f23.titulo_valido\nPendiente: ninguno\nAprobación spec: sí\nRevisión: Fixture automatizado / aprobar / 0 abiertos\nOracle: código 0 (openspec/changes/20261005-113935-fixture/oracle-veredicto.txt)\nPróximo paso: oracle-factory estado 20261005-113935-fixture\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "/home/workstation/Dev/factory/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-104j6nj3/C8/producto",
+        "cerrar",
+        "20261005-113935-fixture"
+      ],
+      "stdin_fixture": "\n",
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "Se cerrará la tarea 20261005-113935-fixture; Oracle openspec/changes/20261005-113935-fixture/oracle-veredicto.txt; revisión openspec/changes/20261005-113935-fixture/review.md.\nEscribí CERRAR 20261005-113935-fixture: ",
+      "stderr": "FACTORY BLOQUEADA: cierre cancelado; la tarea sigue abierta\n"
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "cierre sin aceptación rechazado",
+      "cumple": true
+    },
+    {
+      "comprobacion": "JSON válido sin medidas no habilita juicio completo",
+      "cumple": true
+    },
+    {
+      "comprobacion": "medidas asociadas con alcance sin medir no habilitan verde",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Oracle verde sin revisión no habilita cierre",
+      "cumple": true
+    },
+    {
+      "comprobacion": "gates completos en fixture sobre candidato vigente",
+      "cumple": true
+    },
+    {
+      "comprobacion": "confirmación de cierre vacía no es aceptación",
+      "cumple": true
+    },
+    {
+      "comprobacion": "tarea fixture permanece abierta",
+      "cumple": true
+    }
+  ]
+}

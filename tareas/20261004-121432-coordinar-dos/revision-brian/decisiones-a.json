@@ -1,0 +1,34 @@
+{
+  "schema_version": "oracle-clue.triage/v1",
+  "report_sha256": "9c2e6a5340aa0454d9ac5dbf136b2b61c43a3d8a0dd2e238a4f387d3265ef3cf",
+  "decisions": [
+    {
+      "finding_id": "A-01",
+      "status": "corregido",
+      "reason": "C1 y C5 exigen las secciones y comandos de la guía que pide la spec; candidato a61c4265ba4790765c74d6902b6370e968233d9a. Sin la sección 2, C1 falla y los seis requisitos quedan en no cumple.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    },
+    {
+      "finding_id": "A-02",
+      "status": "riesgo_aceptado",
+      "reason": "Se integra ahora y se corrige en la tarea 20261005-105254-guia-v2.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    },
+    {
+      "finding_id": "A-03",
+      "status": "riesgo_aceptado",
+      "reason": "El umbral de igualdad es deliberado: exige exactamente los casos esperados.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    },
+    {
+      "finding_id": "A-04",
+      "status": "riesgo_aceptado",
+      "reason": "Lo escribe Factory importar; se corrige en la tarea 20261005-105254-cli-piloto.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    }
+  ]
+}
