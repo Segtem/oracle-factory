@@ -1,0 +1,16 @@
+20261005-101725-crear-notas-con — Crear notas con título y cuerpo
+Fase: requisitos_importados
+Requisitos Oracle: creacion_cb8a4a12b0ffc6e4e.crear_nota_valida, creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido
+Pendiente: revisión humana aprobada y sin hallazgos abiertos; veredicto Oracle exitoso con evidencia
+Aprobación spec: sí
+Revisión: pendiente
+Oracle: pendiente
+Próximo paso: oracle-factory medir 20261005-101725-crear-notas-con --listar
+20261005-101733-listar-notas — Listar notas como texto
+Fase: requisitos_importados
+Requisitos Oracle: listado_c7296af2cde2d7c6e.lista_vacia, listado_c7296af2cde2d7c6e.una_linea_por_nota
+Pendiente: revisión humana aprobada y sin hallazgos abiertos; veredicto Oracle exitoso con evidencia
+Aprobación spec: sí
+Revisión: pendiente
+Oracle: pendiente
+Próximo paso: oracle-factory medir 20261005-101733-listar-notas --listar

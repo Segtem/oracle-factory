@@ -3,10 +3,16 @@ import tempfile
 from pathlib import Path
 import unittest
 
-from tools.verify_collaboration import CASES, digest, render_template, validate_artifacts, validate_results
+from tools.verify_collaboration import CASES, GUIDE_MARKERS, digest, missing_guide_markers, render_template, validate_artifacts, validate_results
 
 
 class EvidenciaColaboracion(unittest.TestCase):
+    def test_guia_sin_seccion_exigida_falla_su_caso(self):
+        for case, markers in GUIDE_MARKERS.items():
+            self.assertEqual(missing_guide_markers(case), [], case)
+            with self.subTest(case=case):
+                self.assertEqual(missing_guide_markers(case, 'guía vacía'), list(markers))
+
     def test_verdes_duplicados_no_reemplazan_un_caso_omitido(self):
         rows = [{'caso': case, 'codigo': 0} for case in CASES]
         validate_results(rows)

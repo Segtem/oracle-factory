@@ -1,0 +1,46 @@
+{
+  "colaboracion_caso": [
+    {
+      "caso": "C1",
+      "codigo": 0
+    },
+    {
+      "caso": "C2",
+      "codigo": 0
+    },
+    {
+      "caso": "C3",
+      "codigo": 0
+    },
+    {
+      "caso": "C4",
+      "codigo": 0
+    },
+    {
+      "caso": "C5",
+      "codigo": 0
+    },
+    {
+      "caso": "C6",
+      "codigo": 0
+    },
+    {
+      "caso": "C7",
+      "codigo": 0
+    },
+    {
+      "caso": "C8",
+      "codigo": 0
+    },
+    {
+      "caso": "C9",
+      "codigo": 0
+    }
+  ],
+  "colaboracion_corrida": [
+    {
+      "completa": 1,
+      "casos": 9
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+✓ listado_c7296af2cde2d7c6e.lista_vacia   cumple · listado.casos_ejecutados cumple, listado.resultados cumple
+✓ listado_c7296af2cde2d7c6e.una_linea_por_nota   cumple · listado.casos_ejecutados cumple, listado.resultados cumple
+? notas_c980a94ee0a8297b2.titulo_valido   sin juicio · notas.casos_ejecutados no aplicada, notas.resultados no aplicada
+
+3 requisitos: 2 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 1 sin juicio · 0 sin medir · 0 con medidas inexistentes

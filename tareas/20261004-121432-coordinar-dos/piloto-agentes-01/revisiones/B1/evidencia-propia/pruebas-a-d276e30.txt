@@ -1,0 +1,15 @@
+# checkout /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/B1/producto-a en d276e305f20de423356e540e9154c7c0c5ee4f6b
+Python 3.13.15
+test_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok
+test_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok
+test_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok
+test_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok
+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok
+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok
+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.000s
+
+OK
+salida: 0

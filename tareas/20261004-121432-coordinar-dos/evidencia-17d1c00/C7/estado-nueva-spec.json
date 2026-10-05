@@ -1,0 +1,132 @@
+{
+  "id": "20261005-100325-fixture",
+  "titulo": "Fixture colaboración C7",
+  "capacidad": "notas",
+  "fase": "requisitos_importados",
+  "spec": "openspec/changes/20261005-100325-fixture/specs/notas/spec.md",
+  "spec_sha256": "01e30345273b409d43e06e30f755e101c37f789d3e9e244fa6cd2004218fffe0",
+  "spec_aprobada": {
+    "por": "workstation",
+    "cuando": "2026-10-05T10:03:27+00:00",
+    "documentos": {
+      "openspec/changes/20261005-100325-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "openspec/changes/20261005-100325-fixture/specs/notas/spec.md": "01e30345273b409d43e06e30f755e101c37f789d3e9e244fa6cd2004218fffe0"
+    }
+  },
+  "requisitos": [
+    "notas_ca8258d586813f8b4.conservar_texto",
+    "notas_ca8258d586813f8b4.titulo_valido"
+  ],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:25+00:00",
+      "capacidad": "notas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "documentos": {
+        "openspec/changes/20261005-100325-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+        "openspec/changes/20261005-100325-fixture/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "ids": [
+        "notas_c368c1d177c9da4b0.titulo_valido"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "requisito": "notas_c368c1d177c9da4b0.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "requisito": "notas_c368c1d177c9da4b0.titulo_valido",
+      "medidas": [
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "requisito": "notas_c368c1d177c9da4b0.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:26+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "documentos": {
+        "openspec/changes/20261005-100325-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+        "openspec/changes/20261005-100325-fixture/specs/notas/spec.md": "01e30345273b409d43e06e30f755e101c37f789d3e9e244fa6cd2004218fffe0"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "ids": [
+        "notas_ca8258d586813f8b4.conservar_texto",
+        "notas_ca8258d586813f8b4.titulo_valido"
+      ]
+    }
+  ],
+  "ejemplo": "notas"
+}

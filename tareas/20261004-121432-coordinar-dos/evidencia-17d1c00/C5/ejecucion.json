@@ -1,0 +1,416 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "ad18a144e4e40a6fdff30d91670689c848c5d72a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "suma correcta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "5aed028b5c0d144fb2804b62471c6fc3dab516d6\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "defecto sembrado"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a29aebbb8aeeaa7de65388e3ce7cc68a83639e1c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python",
+        "-c",
+        "from calc import sumar; assert sumar(2,1)==3"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    from calc import sumar; assert sumar(2,1)==3\n                                   ^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+        "--base",
+        "5aed028b5c0d144fb2804b62471c6fc3dab516d6",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-96cdtxbb/C5/paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a29aebbb8aeeaa7de65388e3ce7cc68a83639e1c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a29aebbb8aeeaa7de65388e3ce7cc68a83639e1c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+        "--triage",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+        "--base",
+        "5aed028b5c0d144fb2804b62471c6fc3dab516d6",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/nuevo-paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-96cdtxbb/C5/nuevo-paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/nuevo-informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/nuevo-paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: hay cambios versionados sin commit; confirmalos o usá un checkout limpio\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "corrección cambia candidato"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "45541cc470808e9443d44fd7053140e57d738bdf\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+      "argv": [
+        "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-96cdtxbb/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "mismo HEAD en otra ruta para aislar el rechazo de portabilidad",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza paquete de otro checkout",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza contexto versionado modificado",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza informe de HEAD anterior",
+      "cumple": true
+    }
+  ]
+}

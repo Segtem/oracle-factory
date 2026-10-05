@@ -1,0 +1,8 @@
+orden y recorte: '- Ideas\n- Compras'
+título con U+2028: {'nota': {'titulo': 'Mi\u2028nota', 'cuerpo': ''}, 'notas': 2, 'lineas_splitlines': 3}
+título con U+2029: {'nota': {'titulo': 'Mi\u2029nota', 'cuerpo': ''}, 'notas': 2, 'lineas_splitlines': 3}
+título con U+0085: {'nota': {'titulo': 'Mi\x85nota', 'cuerpo': ''}, 'notas': 2, 'lineas_splitlines': 3}
+título con VT \x0b: {'nota': {'titulo': 'Mi\x0bnota', 'cuerpo': ''}, 'notas': 2, 'lineas_splitlines': 3}
+título con FF \x0c: {'nota': {'titulo': 'Mi\x0cnota', 'cuerpo': ''}, 'notas': 2, 'lineas_splitlines': 3}
+cuerpo None: {'titulo': 'Mi nota', 'cuerpo': None}
+título None: AttributeError: 'NoneType' object has no attribute 'strip'

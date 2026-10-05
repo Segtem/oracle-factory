@@ -2,7 +2,7 @@
 
 - ESTADO: ABIERTA
 - PRIORIDAD: 50
-- ETIQUETAS: colaboracion, propuesta
+- ETIQUETAS: colaboracion, implementada
 
 ## Objetivo
 
@@ -73,3 +73,23 @@ Medidas de colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo: factory
 ### Nota (2026-10-04 12:31:25 UTC)
 
 Medidas de colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version: factory_colaboracion.revision_vinculada_a_una_version, factory_colaboracion.corrida_completa. SIN MEDIR: Calidad y suficiencia de la revisión cruzada y de decisiones humanas sin medir; Clue valida integridad con informe fixture.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 10:02:56 UTC)
+
+Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa. SIN MEDIR: Pilotaje en máquinas distintas y colisión de IDs entre dos cambios Factory nuevos (paquete OpenSpec y requisitos importados) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task con ID colisionado.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 10:04:37 UTC)
+
+Candidato vigente 17d1c00 (C4 con colisión de IDs). Revisión dividida en dos paquetes durables bajo ~/Dev/_revisiones; ver revision-pendiente.md.
+
+### Nota (2026-10-05 10:36:11 UTC)
+
+Piloto con agentes 01 realizado (2026-10-05): dos cambios cerrados de punta a punta, relevo sin contexto, revisiones cruzadas e integración. 11 fricciones en piloto-agentes-01/piloto.md. El piloto humano sigue pendiente.
+
+### Nota (2026-10-05 11:39:55 UTC)
+
+Revisión de Brian (2026-10-05) sobre los paquetes A y B: informes y triage en revision-brian/. A-01 corregido en a61c426 (C1 y C5 comprueban la guía); los demás hallazgos, riesgo aceptado. Paquete del delta: contexto-clue-a61c426.json, checkout ~/Dev/_revisiones/factory-colaboracion-a61c426.
+
+### Nota (2026-10-05 11:43:39 UTC)
+
+Revisión Brian Hollweg: aprobar; 0 abiertos; commit ec52369c7305af1315959f9025932683ad7fa4e5; informe openspec/changes/20261004-121432-coordinar-dos/review.md.

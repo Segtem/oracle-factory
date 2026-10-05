@@ -1,0 +1,75 @@
+{
+  "comprobacion": [
+    {
+      "caso": "vacío",
+      "codigo": 0
+    },
+    {
+      "caso": "espacios",
+      "codigo": 0
+    },
+    {
+      "caso": "válido",
+      "codigo": 0
+    }
+  ],
+  "creacion_comprobacion": [
+    {
+      "caso": "título y cuerpo",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "cuerpo vacío",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "título con espacios en los bordes",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "título vacío",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con espacios",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con salto de línea",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con retorno de carro",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    }
+  ],
+  "listado_comprobacion": [
+    {
+      "requisito": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+      "caso": "dos notas en orden",
+      "codigo": 0
+    },
+    {
+      "requisito": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+      "caso": "orden de entrada no alfabético",
+      "codigo": 0
+    },
+    {
+      "requisito": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+      "caso": "el cuerpo no aparece",
+      "codigo": 0
+    },
+    {
+      "requisito": "listado_c7296af2cde2d7c6e.lista_vacia",
+      "caso": "sin notas",
+      "codigo": 0
+    }
+  ]
+}

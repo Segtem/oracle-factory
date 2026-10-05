@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-colaboracion-4ceb4b0",
+  "base": "a8490252ea4c288743af5622ad25e522b26cdfaa",
+  "head": "4ceb4b075a50290d014e3d7ec4714774c4417d81",
+  "diff_sha256": "59bcef99c5749b6857361e51e6367ba0c1b8dd3a6e48eab05633dc0c80b18d9c",
+  "context_sha256": "dcfa4855d7879a8bab090ec256b378abcfdd88805e23157d44996e1181a9c0c5",
+  "provider": {
+    "name": "Claude Code (Opus 5.5), agente de Brian; hallazgos pendientes de su decisión",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión de a849025..4ceb4b0 hecha por un agente de la misma familia que el que la implementó (en otra sesión); no es una revisión independiente.",
+    "Se leyó el diff completo de catálogos, requisitos, guía y plantillas; del arnés se leyeron los casos C1–C9 y las funciones de validación. No se volvió a ejecutar el arnés sobre 4ceb4b0: hay corridas archivadas (evidencia/) y una posterior sobre 17d1c00.",
+    "Los hallazgos A-02 se apoyan en el piloto con agentes del 2026-10-05 (piloto-agentes-01/), posterior al candidato."
+  ],
+  "findings": [
+    {
+      "id": "A-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Los requisitos sobre la guía se miden con casos del arnés, no con la guía",
+      "explanation": "Dos requisitos dicen «La guía SHALL…» (aislamiento: describir worktrees y clones; revisión: preparar con Clue y comprobar vigencia), pero sus medidas sólo cuentan casos C1/C4 y C5 que ejercitan Git, Task y Clue. tools/verify_collaboration.py sólo lee docs/colaboracion.md para hashearlo y comprobar que no cambie durante la corrida. Borrar la sección 2 de la guía deja verdes los seis requisitos. Las plantillas, en cambio, sí quedan fijadas: render_template exige exactamente sus campos.",
+      "location": {
+        "file": "catalogos/factory_colaboracion.aislamiento_y_sincronizacion_explicitos.oracle",
+        "start_line": 1,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "Eliminar «## 2. Aislar cada frente» de docs/colaboracion.md y volver a correr el arnés y oracle cobertura.",
+      "evidence": "grep de colaboracion.md en el arnés: sólo aparece en source_context() (línea 461), que hashea la fuente.",
+      "related_requirement": "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos",
+      "status": "pendiente",
+      "verification": "Agregar al sensor una comprobación del contenido de la guía (secciones y comandos obligatorios) o declarar en sin_medir que el contenido de la guía no se mide."
+    },
+    {
+      "id": "A-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.8,
+      "title": "La guía deja sin resolver puntos que el piloto tuvo que adivinar",
+      "explanation": "En el piloto, las sesiones que siguieron la guía tuvieron que decidir por su cuenta qué commit ofrecer y revisar (el de producto o el de evidencia), cómo repartir los archivos compartidos por diseño (sensor, catálogos, relación de hechos), cómo combinar los hechos de varios sensores para juzgar el candidato integrado y dónde registrar una integración de dos cambios. Los requisitos de revisión vinculada a una versión y de integración con evidencia vigente quedan cumplidos sólo en parte cuando el lector tiene que improvisar. Ya está la tarea 20261005-105254-guia-v2.",
+      "location": {
+        "file": "docs/colaboracion.md",
+        "start_line": 69,
+        "end_line": 119,
+        "side": "head"
+      },
+      "trigger": "Seguir la guía con dos frentes que comparten sensor y catálogos, como en el piloto.",
+      "evidence": "piloto-agentes-01/piloto.md, fricciones 1 a 5, 9 y 10.",
+      "related_requirement": "colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente",
+      "status": "pendiente",
+      "verification": "Decidir si se corrige antes de integrar o se integra y se corrige en guia-v2."
+    },
+    {
+      "id": "A-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.7,
+      "title": "Las siete medidas usan umbral de igualdad",
+      "explanation": "Todas las medidas factory_colaboracion.* usan «umbral ==», que es lo que señala meta.ningun_umbral_de_igualdad del catálogo base de Oracle. Es deliberado (exige exactamente los casos esperados), pero no queda dicho por qué se aparta de esa regla.",
+      "location": {
+        "file": "catalogos/factory_colaboracion.aislamiento_y_sincronizacion_explicitos.oracle",
+        "start_line": 5,
+        "end_line": 5,
+        "side": "head"
+      },
+      "trigger": "oracle test o un juicio con las medidas meta.",
+      "evidence": "umbral == 2 segun contrato porque \"deben pasar exactamente C1, C4…\"",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Aceptar con motivo o reescribir con >= más un conteo de casos desconocidos."
+    },
+    {
+      "id": "A-04",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "La fuente de los requisitos es una ruta absoluta de esta máquina",
+      "explanation": "Los seis .requisito guardan fuente \"/home/workstation/Dev/factory/openspec/…\". En otro clone o máquina esa ruta no existe. Lo escribe Factory importar, no este cambio; ya está en la tarea 20261005-105254-cli-piloto.",
+      "location": {
+        "file": "requisitos/colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos.requisito",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Abrir el proyecto desde otro clone.",
+      "evidence": "fuente \"/home/workstation/Dev/factory/openspec/changes/…\"",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Corregir en Factory importar (cli-piloto)."
+    }
+  ]
+}

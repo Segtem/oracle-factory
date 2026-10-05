@@ -1,0 +1,299 @@
+{
+  "base": "d704844560fe22eedde97ac0411193d144c02a35",
+  "context_sha256": "bac192c600276812ac1f15e7ffd1c23f37e82287eb6b7ccc96500c38cc0fcfe8",
+  "contexts": [
+    {
+      "file": "openspec/changes/20261005-101733-listar-notas/proposal.md",
+      "sha256": "ae798b0d100a66632c5b0003674acb685eb660d0707fca5eadf1f22b5788533e",
+      "text": "# Listar notas como texto\n\n## Why\n\nLa persona B quiere ver de un vistazo qué notas hay. Hace falta un listado de texto, una nota por línea, que se pueda mostrar tal cual en una terminal o en una pantalla simple.\n\n## What changes\n\nUna función `listar_notas(notas)` en un módulo nuevo `examples/notas/listado.py` recibe una lista de notas y devuelve un texto:\n\n- una línea por nota, con la forma `- <titulo>`, en el mismo orden en que llegan;\n- las líneas se separan con `\\n`, sin salto de línea final;\n- una lista vacía devuelve el texto vacío `\"\"`;\n- el cuerpo de la nota no aparece en el listado.\n\nLa función consume la representación de nota que define el frente «Crear notas» (persona A). Mientras no esté fijada, este cambio supone que una nota es un `dict` con las claves `\"titulo\"` (str) y `\"cuerpo\"` (str), y sólo lee `\"titulo\"`. Si A fija otra forma, esta propuesta y su spec se ajustan y se vuelven a aceptar antes de implementar.\n\n## Out of scope\n\n- Crear, validar o guardar notas (frente de A). El listado no vuelve a validar títulos: muestra lo que recibe.\n- Ordenar, filtrar, paginar o numerar.\n- Mostrar el cuerpo o un extracto.\n- Títulos con saltos de línea: se suponen imposibles porque los rechaza la creación; si A los admite, hay que decidir cómo se muestran.\n- Pantalla, base de datos o sincronización.\n\n## Human decisions\n\n1. ¿El formato `- <titulo>` por línea es el esperado, o se prefiere numerar (`1. <titulo>`) o sólo el título?\n2. ¿Basta con el título, o se quiere un extracto del cuerpo?\n3. Confirmar con la persona A la representación de nota (`dict` con `\"titulo\"` y `\"cuerpo\"`) o cambiarla antes de implementar.\n"
+    },
+    {
+      "file": "openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md",
+      "sha256": "721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670",
+      "text": "# Capability: listado\n\n## ADDED Requirements\n\n### Requirement: una linea por nota\nThe system SHALL list each note on its own line as `- <titulo>`, keeping the input order, separating lines with a newline and without a trailing newline; the note body SHALL NOT appear.\n\n#### Scenario: dos notas en orden\n- GIVEN las notas [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}, {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}]\n- WHEN se listan las notas\n- THEN el texto es \"- Compras\\n- Ideas\"\n\n#### Scenario: el cuerpo no aparece\n- GIVEN la nota [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}]\n- WHEN se listan las notas\n- THEN el texto es \"- Compras\" y no contiene \"pan\"\n\n### Requirement: lista vacia\nThe system SHALL return an empty text when there are no notes.\n\n#### Scenario: sin notas\n- GIVEN la lista de notas vacía\n- WHEN se listan las notas\n- THEN el texto es \"\"\n"
+    },
+    {
+      "file": "tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json",
+      "sha256": "8bc712fddf0599607d9425860a8c6f4f656864c8476b0ac65a603adf99a3afa5",
+      "text": "{\n  \"listado_comprobacion\": [\n    {\n      \"caso\": \"dos notas en orden\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"el cuerpo no aparece\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"sin notas\",\n      \"codigo\": 0\n    }\n  ]\n}\n"
+    },
+    {
+      "file": "tareas/20261005-101733-listar-notas/pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log",
+      "sha256": "3f66b367c278ed42527f616eba4f7cb5ddc945ccd502977392afdf31d93a7669",
+      "text": "commit observado: fcc0abbe04f441218030d2d9666ec360fa6ab0fa\nfecha: 2026-10-05T10:20:36Z\npython: Python 3.13.15\n$ uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p \"test_*.py\" -v\ntest_dos_notas_en_orden (test_listado.Listado.test_dos_notas_en_orden) ... ok\ntest_el_cuerpo_no_aparece (test_listado.Listado.test_el_cuerpo_no_aparece) ... ok\ntest_sin_notas (test_listado.Listado.test_sin_notas) ... ok\ntest_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\nsalida: 0\n$ uv run --no-project --python 3.13 python examples/notas/sensor_listado.py --salida tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\nHechos de 3 casos escritos en tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\nsalida: 0\n"
+    },
+    {
+      "file": "tareas/20261005-101733-listar-notas/reparto.md",
+      "sha256": "0f886515f403a782f009388da09c925db9796631f546263faafcf9eb68c11c2c",
+      "text": "# Reparto de trabajo\n\n- Tarea/cambio: 20261005-101733-listar-notas («Listar notas como texto», capacidad `listado`)\n- Persona responsable: persona B (frente «Listar notas»)\n- Agente y sesión: agente de la persona B, sesión B1 (Git: «Agente B1» <B1@piloto.invalid>)\n- Escritor activo de registros: sesión B1 (única que muta `tareas/20261005-101733-listar-notas/` y `openspec/changes/20261005-101733-listar-notas/`)\n- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n- Rama: trabajo/persona-b\n- Checkout absoluto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b\n- Alcance y rutas:\n  - Escribe: `openspec/changes/20261005-101733-listar-notas/`, `tareas/20261005-101733-listar-notas/`, `examples/notas/listado.py`, `examples/notas/test_listado.py`, `examples/notas/sensor_listado.py`, `catalogos/listado.*.oracle` y los requisitos que `importar`/`medir` generan para este cambio (`requisitos/listado_c7296af2cde2d7c6e.*.requisito`).\n  - No escribe (decisión 3 del coordinador): `examples/notas/notas.py`, `examples/notas/test_notas.py`, `examples/notas/sensor.py`, `oracle.json` ni los catálogos `notas.*`. No se comparten archivos con A. Las pruebas de B construyen los dicts a mano y no importan código de A; la prueba combinada la hace el integrador.\n- Interfaces compartidas y versión:\n  - «nota v1», definida por A y confirmada por el coordinador (decisión 2): `{\"titulo\": str, \"cuerpo\": str}`, título de una línea y recortado. Supuesto original de B, compatible: una nota es un `dict` de Python con las claves `\"titulo\"` (str, no vacío ni sólo espacios, sin saltos de línea) y `\"cuerpo\"` (str); el listado recibe una `list` de esas notas y sólo lee `nota[\"titulo\"]`.\n  - Expuesta por B: `listar_notas(notas: list[dict]) -> str` en `examples/notas/listado.py`.\n- Dependencias (ID completo, commit y condición; o ninguna): cambio 20261005-101725-crear-notas-con de la persona A, propuesto en e16a9f0aca9e3972f51a8edf097baee639809c56 (rama trabajo/persona-a, leído por `git fetch`; también pendiente de aceptación). Su «contrato nota v1» coincide con el supuesto de B en claves y tipos, pero no excluye saltos de línea en el título (`puede_guardar(\"a\\nb\")` es verdadero) y conserva espacios sin recortar: hay que decidir si A los rechaza o B los muestra tal cual. Los dos huecos quedaron resueltos del lado de A (decisión 2). Condición cumplida: representación confirmada antes de implementar; proposal/spec no cambiaron. Para integrar, B no necesita el commit de A (el listado no llama a la creación), pero las pruebas de compatibilidad sobre el candidato integrado sí.\n- Persona revisora: persona A\n- Persona integradora: coordinador del piloto (en representación de A y B)\n- Próximo paso: revisión de la entrega de B por la persona A; después `revision`, `juzgar` y `cerrar` (pasos humanos, no los da B1).\n- Confirmación de ambas personas (autor, fecha, canal; o pendiente): confirmado por el coordinador del piloto en representación de las personas A y B, 2026-10-05, canal del piloto (mensaje al agente B1). Las decisiones son del coordinador, no de las personas:\n  1. Formato aceptado tal como se propuso: `- <titulo>`, sólo el título, en el orden recibido, sin salto final; lista vacía → `\"\"`.\n  2. Representación «nota v1» definida por A: `crear_nota(titulo, cuerpo=\"\") -> {\"titulo\": str, \"cuerpo\": str}`. A lanza ValueError ante un título inválido o con \"\\n\" o \"\\r\" y guarda el título recortado con strip(). El listado puede suponer títulos de una línea sin espacios en los bordes; ninguno de los dos huecos queda del lado de B.\n  3. Sin archivos compartidos: rutas de B como arriba.\n  4. Revisora de la entrega: persona A. Integrador: el coordinador.\n  - Aceptación de propuesta/spec: `aprobar-spec` con la frase textual que pasó el coordinador.\n\nLa asignación es un acuerdo, no una reserva técnica. Un escritor por registro; para cambiar el reparto, registrar motivo, aceptación y nuevo alcance antes de continuar. No tomar silencio como conformidad.\n"
+    }
+  ],
+  "diff_sha256": "3201a5b8cc05e38dde4b6260ce5a8bc131321857ff02413459636f3231103e65",
+  "files": [
+    {
+      "base_text": "",
+      "file": "catalogos/listado.casos_ejecutados.oracle",
+      "head_text": "medida listado.casos_ejecutados:\n    de listado_comprobacion c\n    resumen contar(1)\n    umbral == 3 segun contrato porque \"el sensor del listado observa exactamente los tres escenarios de la spec\"\n    requiere listado_comprobacion\n    ambito universal\n    alcance \"comprueba la cantidad de observaciones; su elección e identidad se revisan en sensor_listado.py\"\n",
+      "patch": "diff --git a/catalogos/listado.casos_ejecutados.oracle b/catalogos/listado.casos_ejecutados.oracle\nnew file mode 100644\nindex 0000000..fd3a9ec\n--- /dev/null\n+++ b/catalogos/listado.casos_ejecutados.oracle\n@@ -0,0 +1,7 @@\n+medida listado.casos_ejecutados:\n+    de listado_comprobacion c\n+    resumen contar(1)\n+    umbral == 3 segun contrato porque \"el sensor del listado observa exactamente los tres escenarios de la spec\"\n+    requiere listado_comprobacion\n+    ambito universal\n+    alcance \"comprueba la cantidad de observaciones; su elección e identidad se revisan en sensor_listado.py\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            7
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "catalogos/listado.resultados.oracle",
+      "head_text": "medida listado.resultados:\n    de listado_comprobacion c\n    donde c.codigo != 0\n    resumen contar(1)\n    umbral <= 0 segun contrato porque \"los tres escenarios del listado deben coincidir con lo esperado\"\n    requiere listado_comprobacion\n    ambito universal\n    alcance \"compara los resultados de los escenarios emitidos por sensor_listado.py; no ve notas fuera de esos tres casos\"\n",
+      "patch": "diff --git a/catalogos/listado.resultados.oracle b/catalogos/listado.resultados.oracle\nnew file mode 100644\nindex 0000000..afd12c4\n--- /dev/null\n+++ b/catalogos/listado.resultados.oracle\n@@ -0,0 +1,8 @@\n+medida listado.resultados:\n+    de listado_comprobacion c\n+    donde c.codigo != 0\n+    resumen contar(1)\n+    umbral <= 0 segun contrato porque \"los tres escenarios del listado deben coincidir con lo esperado\"\n+    requiere listado_comprobacion\n+    ambito universal\n+    alcance \"compara los resultados de los escenarios emitidos por sensor_listado.py; no ve notas fuera de esos tres casos\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            8
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "examples/notas/listado.py",
+      "head_text": "\"\"\"Listado de notas como texto, una por línea.\"\"\"\n\n\ndef listar_notas(notas: list[dict]) -> str:\n    \"\"\"Devuelve `- <titulo>` por nota, en orden, sin salto final; \"\" si no hay notas.\n\n    Consume el contrato «nota v1» de crear_nota: título de una sola línea y sin\n    espacios en los bordes. El cuerpo no se muestra.\n    \"\"\"\n    return \"\\n\".join(f\"- {nota['titulo']}\" for nota in notas)\n",
+      "patch": "diff --git a/examples/notas/listado.py b/examples/notas/listado.py\nnew file mode 100644\nindex 0000000..9e9bbaa\n--- /dev/null\n+++ b/examples/notas/listado.py\n@@ -0,0 +1,10 @@\n+\"\"\"Listado de notas como texto, una por línea.\"\"\"\n+\n+\n+def listar_notas(notas: list[dict]) -> str:\n+    \"\"\"Devuelve `- <titulo>` por nota, en orden, sin salto final; \"\" si no hay notas.\n+\n+    Consume el contrato «nota v1» de crear_nota: título de una sola línea y sin\n+    espacios en los bordes. El cuerpo no se muestra.\n+    \"\"\"\n+    return \"\\n\".join(f\"- {nota['titulo']}\" for nota in notas)\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            10
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "examples/notas/sensor_listado.py",
+      "head_text": "\"\"\"Observa los tres escenarios de la spec de listado y guarda hechos para Oracle.\"\"\"\nimport argparse\nimport json\nfrom pathlib import Path\nfrom listado import listar_notas\n\nCOMPRAS = {\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}\nIDEAS = {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}\n\n\ndef observar():\n    casos = [\n        (\"dos notas en orden\", [COMPRAS, IDEAS], lambda t: t == \"- Compras\\n- Ideas\"),\n        (\"el cuerpo no aparece\", [COMPRAS], lambda t: t == \"- Compras\" and \"pan\" not in t),\n        (\"sin notas\", [], lambda t: t == \"\"),\n    ]\n    return {\"listado_comprobacion\": [\n        {\"caso\": nombre, \"codigo\": int(not cumple(listar_notas(notas)))}\n        for nombre, notas, cumple in casos\n    ]}\n\n\nif __name__ == \"__main__\":\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument(\"--salida\", type=Path, required=True)\n    args = parser.parse_args()\n    args.salida.parent.mkdir(parents=True, exist_ok=True)\n    args.salida.write_text(json.dumps(observar(), ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n    print(f\"Hechos de 3 casos escritos en {args.salida}\")\n",
+      "patch": "diff --git a/examples/notas/sensor_listado.py b/examples/notas/sensor_listado.py\nnew file mode 100644\nindex 0000000..dc6828e\n--- /dev/null\n+++ b/examples/notas/sensor_listado.py\n@@ -0,0 +1,29 @@\n+\"\"\"Observa los tres escenarios de la spec de listado y guarda hechos para Oracle.\"\"\"\n+import argparse\n+import json\n+from pathlib import Path\n+from listado import listar_notas\n+\n+COMPRAS = {\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}\n+IDEAS = {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}\n+\n+\n+def observar():\n+    casos = [\n+        (\"dos notas en orden\", [COMPRAS, IDEAS], lambda t: t == \"- Compras\\n- Ideas\"),\n+        (\"el cuerpo no aparece\", [COMPRAS], lambda t: t == \"- Compras\" and \"pan\" not in t),\n+        (\"sin notas\", [], lambda t: t == \"\"),\n+    ]\n+    return {\"listado_comprobacion\": [\n+        {\"caso\": nombre, \"codigo\": int(not cumple(listar_notas(notas)))}\n+        for nombre, notas, cumple in casos\n+    ]}\n+\n+\n+if __name__ == \"__main__\":\n+    parser = argparse.ArgumentParser(description=__doc__)\n+    parser.add_argument(\"--salida\", type=Path, required=True)\n+    args = parser.parse_args()\n+    args.salida.parent.mkdir(parents=True, exist_ok=True)\n+    args.salida.write_text(json.dumps(observar(), ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n+    print(f\"Hechos de 3 casos escritos en {args.salida}\")\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            29
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "examples/notas/test_listado.py",
+      "head_text": "import unittest\nfrom listado import listar_notas\n\n# Dicts a mano según el contrato «nota v1»; no se importa crear_nota.\nCOMPRAS = {\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}\nIDEAS = {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}\n\n\nclass Listado(unittest.TestCase):\n    def test_dos_notas_en_orden(self):\n        self.assertEqual(listar_notas([COMPRAS, IDEAS]), \"- Compras\\n- Ideas\")\n\n    def test_el_cuerpo_no_aparece(self):\n        texto = listar_notas([COMPRAS])\n        self.assertEqual(texto, \"- Compras\")\n        self.assertNotIn(\"pan\", texto)\n\n    def test_sin_notas(self):\n        self.assertEqual(listar_notas([]), \"\")\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+      "patch": "diff --git a/examples/notas/test_listado.py b/examples/notas/test_listado.py\nnew file mode 100644\nindex 0000000..62d227d\n--- /dev/null\n+++ b/examples/notas/test_listado.py\n@@ -0,0 +1,23 @@\n+import unittest\n+from listado import listar_notas\n+\n+# Dicts a mano según el contrato «nota v1»; no se importa crear_nota.\n+COMPRAS = {\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}\n+IDEAS = {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}\n+\n+\n+class Listado(unittest.TestCase):\n+    def test_dos_notas_en_orden(self):\n+        self.assertEqual(listar_notas([COMPRAS, IDEAS]), \"- Compras\\n- Ideas\")\n+\n+    def test_el_cuerpo_no_aparece(self):\n+        texto = listar_notas([COMPRAS])\n+        self.assertEqual(texto, \"- Compras\")\n+        self.assertNotIn(\"pan\", texto)\n+\n+    def test_sin_notas(self):\n+        self.assertEqual(listar_notas([]), \"\")\n+\n+\n+if __name__ == \"__main__\":\n+    unittest.main()\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            23
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101733-listar-notas/design.md",
+      "head_text": "# Design\n\nMódulo propio `examples/notas/listado.py` para no editar `examples/notas/notas.py`, que es del frente «Crear notas». La única interfaz compartida es la representación de nota (ver proposal.md y `tareas/20261005-101733-listar-notas/reparto.md`).\n",
+      "patch": "diff --git a/openspec/changes/20261005-101733-listar-notas/design.md b/openspec/changes/20261005-101733-listar-notas/design.md\nnew file mode 100644\nindex 0000000..6074f8a\n--- /dev/null\n+++ b/openspec/changes/20261005-101733-listar-notas/design.md\n@@ -0,0 +1,3 @@\n+# Design\n+\n+Módulo propio `examples/notas/listado.py` para no editar `examples/notas/notas.py`, que es del frente «Crear notas». La única interfaz compartida es la representación de nota (ver proposal.md y `tareas/20261005-101733-listar-notas/reparto.md`).\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101733-listar-notas/factory.json",
+      "head_text": "{\n  \"id\": \"20261005-101733-listar-notas\",\n  \"titulo\": \"Listar notas como texto\",\n  \"capacidad\": \"listado\",\n  \"fase\": \"requisitos_importados\",\n  \"spec\": \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\",\n  \"spec_sha256\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\",\n  \"spec_aprobada\": {\n    \"por\": \"workstation\",\n    \"cuando\": \"2026-10-05T10:19:29+00:00\",\n    \"documentos\": {\n      \"openspec/changes/20261005-101733-listar-notas/proposal.md\": \"ae798b0d100a66632c5b0003674acb685eb660d0707fca5eadf1f22b5788533e\",\n      \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\"\n    }\n  },\n  \"requisitos\": [\n    \"listado_c7296af2cde2d7c6e.lista_vacia\",\n    \"listado_c7296af2cde2d7c6e.una_linea_por_nota\"\n  ],\n  \"revision\": null,\n  \"oracle\": null,\n  \"eventos\": [\n    {\n      \"accion\": \"cambio_creado\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:17:33+00:00\",\n      \"capacidad\": \"listado\"\n    },\n    {\n      \"accion\": \"spec_aprobada\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:19:29+00:00\",\n      \"documentos\": {\n        \"openspec/changes/20261005-101733-listar-notas/proposal.md\": \"ae798b0d100a66632c5b0003674acb685eb660d0707fca5eadf1f22b5788533e\",\n        \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\"\n      }\n    },\n    {\n      \"accion\": \"requisitos_importados\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:19:33+00:00\",\n      \"ids\": [\n        \"listado_c7296af2cde2d7c6e.lista_vacia\",\n        \"listado_c7296af2cde2d7c6e.una_linea_por_nota\"\n      ]\n    },\n    {\n      \"accion\": \"medidas_elegidas\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:20:11+00:00\",\n      \"requisito\": \"listado_c7296af2cde2d7c6e.una_linea_por_nota\",\n      \"medidas\": [\n        \"listado.casos_ejecutados\",\n        \"listado.resultados\"\n      ],\n      \"sin_medir\": \"\"\n    },\n    {\n      \"accion\": \"medidas_elegidas\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:20:11+00:00\",\n      \"requisito\": \"listado_c7296af2cde2d7c6e.lista_vacia\",\n      \"medidas\": [\n        \"listado.casos_ejecutados\",\n        \"listado.resultados\"\n      ],\n      \"sin_medir\": \"\"\n    }\n  ]\n}\n",
+      "patch": "diff --git a/openspec/changes/20261005-101733-listar-notas/factory.json b/openspec/changes/20261005-101733-listar-notas/factory.json\nnew file mode 100644\nindex 0000000..6485f8f\n--- /dev/null\n+++ b/openspec/changes/20261005-101733-listar-notas/factory.json\n@@ -0,0 +1,70 @@\n+{\n+  \"id\": \"20261005-101733-listar-notas\",\n+  \"titulo\": \"Listar notas como texto\",\n+  \"capacidad\": \"listado\",\n+  \"fase\": \"requisitos_importados\",\n+  \"spec\": \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\",\n+  \"spec_sha256\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\",\n+  \"spec_aprobada\": {\n+    \"por\": \"workstation\",\n+    \"cuando\": \"2026-10-05T10:19:29+00:00\",\n+    \"documentos\": {\n+      \"openspec/changes/20261005-101733-listar-notas/proposal.md\": \"ae798b0d100a66632c5b0003674acb685eb660d0707fca5eadf1f22b5788533e\",\n+      \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\"\n+    }\n+  },\n+  \"requisitos\": [\n+    \"listado_c7296af2cde2d7c6e.lista_vacia\",\n+    \"listado_c7296af2cde2d7c6e.una_linea_por_nota\"\n+  ],\n+  \"revision\": null,\n+  \"oracle\": null,\n+  \"eventos\": [\n+    {\n+      \"accion\": \"cambio_creado\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:17:33+00:00\",\n+      \"capacidad\": \"listado\"\n+    },\n+    {\n+      \"accion\": \"spec_aprobada\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:19:29+00:00\",\n+      \"documentos\": {\n+        \"openspec/changes/20261005-101733-listar-notas/proposal.md\": \"ae798b0d100a66632c5b0003674acb685eb660d0707fca5eadf1f22b5788533e\",\n+        \"openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\": \"721c114d907c4b053d5760fd73c2419ce5bbb6dd002ca912f1ff3f307a3c8670\"\n+      }\n+    },\n+    {\n+      \"accion\": \"requisitos_importados\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:19:33+00:00\",\n+      \"ids\": [\n+        \"listado_c7296af2cde2d7c6e.lista_vacia\",\n+        \"listado_c7296af2cde2d7c6e.una_linea_por_nota\"\n+      ]\n+    },\n+    {\n+      \"accion\": \"medidas_elegidas\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:20:11+00:00\",\n+      \"requisito\": \"listado_c7296af2cde2d7c6e.una_linea_por_nota\",\n+      \"medidas\": [\n+        \"listado.casos_ejecutados\",\n+        \"listado.resultados\"\n+      ],\n+      \"sin_medir\": \"\"\n+    },\n+    {\n+      \"accion\": \"medidas_elegidas\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:20:11+00:00\",\n+      \"requisito\": \"listado_c7296af2cde2d7c6e.lista_vacia\",\n+      \"medidas\": [\n+        \"listado.casos_ejecutados\",\n+        \"listado.resultados\"\n+      ],\n+      \"sin_medir\": \"\"\n+    }\n+  ]\n+}\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            70
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101733-listar-notas/proposal.md",
+      "head_text": "# Listar notas como texto\n\n## Why\n\nLa persona B quiere ver de un vistazo qué notas hay. Hace falta un listado de texto, una nota por línea, que se pueda mostrar tal cual en una terminal o en una pantalla simple.\n\n## What changes\n\nUna función `listar_notas(notas)` en un módulo nuevo `examples/notas/listado.py` recibe una lista de notas y devuelve un texto:\n\n- una línea por nota, con la forma `- <titulo>`, en el mismo orden en que llegan;\n- las líneas se separan con `\\n`, sin salto de línea final;\n- una lista vacía devuelve el texto vacío `\"\"`;\n- el cuerpo de la nota no aparece en el listado.\n\nLa función consume la representación de nota que define el frente «Crear notas» (persona A). Mientras no esté fijada, este cambio supone que una nota es un `dict` con las claves `\"titulo\"` (str) y `\"cuerpo\"` (str), y sólo lee `\"titulo\"`. Si A fija otra forma, esta propuesta y su spec se ajustan y se vuelven a aceptar antes de implementar.\n\n## Out of scope\n\n- Crear, validar o guardar notas (frente de A). El listado no vuelve a validar títulos: muestra lo que recibe.\n- Ordenar, filtrar, paginar o numerar.\n- Mostrar el cuerpo o un extracto.\n- Títulos con saltos de línea: se suponen imposibles porque los rechaza la creación; si A los admite, hay que decidir cómo se muestran.\n- Pantalla, base de datos o sincronización.\n\n## Human decisions\n\n1. ¿El formato `- <titulo>` por línea es el esperado, o se prefiere numerar (`1. <titulo>`) o sólo el título?\n2. ¿Basta con el título, o se quiere un extracto del cuerpo?\n3. Confirmar con la persona A la representación de nota (`dict` con `\"titulo\"` y `\"cuerpo\"`) o cambiarla antes de implementar.\n",
+      "patch": "diff --git a/openspec/changes/20261005-101733-listar-notas/proposal.md b/openspec/changes/20261005-101733-listar-notas/proposal.md\nnew file mode 100644\nindex 0000000..dc06686\n--- /dev/null\n+++ b/openspec/changes/20261005-101733-listar-notas/proposal.md\n@@ -0,0 +1,30 @@\n+# Listar notas como texto\n+\n+## Why\n+\n+La persona B quiere ver de un vistazo qué notas hay. Hace falta un listado de texto, una nota por línea, que se pueda mostrar tal cual en una terminal o en una pantalla simple.\n+\n+## What changes\n+\n+Una función `listar_notas(notas)` en un módulo nuevo `examples/notas/listado.py` recibe una lista de notas y devuelve un texto:\n+\n+- una línea por nota, con la forma `- <titulo>`, en el mismo orden en que llegan;\n+- las líneas se separan con `\\n`, sin salto de línea final;\n+- una lista vacía devuelve el texto vacío `\"\"`;\n+- el cuerpo de la nota no aparece en el listado.\n+\n+La función consume la representación de nota que define el frente «Crear notas» (persona A). Mientras no esté fijada, este cambio supone que una nota es un `dict` con las claves `\"titulo\"` (str) y `\"cuerpo\"` (str), y sólo lee `\"titulo\"`. Si A fija otra forma, esta propuesta y su spec se ajustan y se vuelven a aceptar antes de implementar.\n+\n+## Out of scope\n+\n+- Crear, validar o guardar notas (frente de A). El listado no vuelve a validar títulos: muestra lo que recibe.\n+- Ordenar, filtrar, paginar o numerar.\n+- Mostrar el cuerpo o un extracto.\n+- Títulos con saltos de línea: se suponen imposibles porque los rechaza la creación; si A los admite, hay que decidir cómo se muestran.\n+- Pantalla, base de datos o sincronización.\n+\n+## Human decisions\n+\n+1. ¿El formato `- <titulo>` por línea es el esperado, o se prefiere numerar (`1. <titulo>`) o sólo el título?\n+2. ¿Basta con el título, o se quiere un extracto del cuerpo?\n+3. Confirmar con la persona A la representación de nota (`dict` con `\"titulo\"` y `\"cuerpo\"`) o cambiarla antes de implementar.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            30
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md",
+      "head_text": "# Capability: listado\n\n## ADDED Requirements\n\n### Requirement: una linea por nota\nThe system SHALL list each note on its own line as `- <titulo>`, keeping the input order, separating lines with a newline and without a trailing newline; the note body SHALL NOT appear.\n\n#### Scenario: dos notas en orden\n- GIVEN las notas [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}, {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}]\n- WHEN se listan las notas\n- THEN el texto es \"- Compras\\n- Ideas\"\n\n#### Scenario: el cuerpo no aparece\n- GIVEN la nota [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}]\n- WHEN se listan las notas\n- THEN el texto es \"- Compras\" y no contiene \"pan\"\n\n### Requirement: lista vacia\nThe system SHALL return an empty text when there are no notes.\n\n#### Scenario: sin notas\n- GIVEN la lista de notas vacía\n- WHEN se listan las notas\n- THEN el texto es \"\"\n",
+      "patch": "diff --git a/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\nnew file mode 100644\nindex 0000000..2650b65\n--- /dev/null\n+++ b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md\n@@ -0,0 +1,24 @@\n+# Capability: listado\n+\n+## ADDED Requirements\n+\n+### Requirement: una linea por nota\n+The system SHALL list each note on its own line as `- <titulo>`, keeping the input order, separating lines with a newline and without a trailing newline; the note body SHALL NOT appear.\n+\n+#### Scenario: dos notas en orden\n+- GIVEN las notas [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}, {\"titulo\": \"Ideas\", \"cuerpo\": \"viaje\"}]\n+- WHEN se listan las notas\n+- THEN el texto es \"- Compras\\n- Ideas\"\n+\n+#### Scenario: el cuerpo no aparece\n+- GIVEN la nota [{\"titulo\": \"Compras\", \"cuerpo\": \"pan\"}]\n+- WHEN se listan las notas\n+- THEN el texto es \"- Compras\" y no contiene \"pan\"\n+\n+### Requirement: lista vacia\n+The system SHALL return an empty text when there are no notes.\n+\n+#### Scenario: sin notas\n+- GIVEN la lista de notas vacía\n+- WHEN se listan las notas\n+- THEN el texto es \"\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            24
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101733-listar-notas/tasks.md",
+      "head_text": "# Tasks\n\n- [ ] Persona: revisar y aceptar proposal.md + spec.md.\n- [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.\n- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.\n- [ ] Agente: implementar y correr las pruebas del producto.\n- [ ] Revisor: revisar el diff; registrar y resolver hallazgos.\n- [ ] Agente: correr Oracle sobre hechos observados.\n- [ ] Persona: revisar el informe y decidir si se cierra.\n",
+      "patch": "diff --git a/openspec/changes/20261005-101733-listar-notas/tasks.md b/openspec/changes/20261005-101733-listar-notas/tasks.md\nnew file mode 100644\nindex 0000000..f8d7ca6\n--- /dev/null\n+++ b/openspec/changes/20261005-101733-listar-notas/tasks.md\n@@ -0,0 +1,9 @@\n+# Tasks\n+\n+- [ ] Persona: revisar y aceptar proposal.md + spec.md.\n+- [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.\n+- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.\n+- [ ] Agente: implementar y correr las pruebas del producto.\n+- [ ] Revisor: revisar el diff; registrar y resolver hallazgos.\n+- [ ] Agente: correr Oracle sobre hechos observados.\n+- [ ] Persona: revisar el informe y decidir si se cierra.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            9
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito",
+      "head_text": "requisito listado_c7296af2cde2d7c6e.lista_vacia:\n    texto \"The system SHALL return an empty text when there are no notes.\"\n    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md#lista vacia\"\n    medido_por listado.casos_ejecutados, listado.resultados\n",
+      "patch": "diff --git a/requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito b/requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito\nnew file mode 100644\nindex 0000000..10c9631\n--- /dev/null\n+++ b/requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito\n@@ -0,0 +1,4 @@\n+requisito listado_c7296af2cde2d7c6e.lista_vacia:\n+    texto \"The system SHALL return an empty text when there are no notes.\"\n+    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md#lista vacia\"\n+    medido_por listado.casos_ejecutados, listado.resultados\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "requisitos/listado_c7296af2cde2d7c6e.una_linea_por_nota.requisito",
+      "head_text": "requisito listado_c7296af2cde2d7c6e.una_linea_por_nota:\n    texto \"The system SHALL list each note on its own line as `- <titulo>`, keeping the input order, separating lines with a newline and without a trailing newline; the note body SHALL NOT appear.\"\n    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md#una linea por nota\"\n    medido_por listado.casos_ejecutados, listado.resultados\n",
+      "patch": "diff --git a/requisitos/listado_c7296af2cde2d7c6e.una_linea_por_nota.requisito b/requisitos/listado_c7296af2cde2d7c6e.una_linea_por_nota.requisito\nnew file mode 100644\nindex 0000000..41320ad\n--- /dev/null\n+++ b/requisitos/listado_c7296af2cde2d7c6e.una_linea_por_nota.requisito\n@@ -0,0 +1,4 @@\n+requisito listado_c7296af2cde2d7c6e.una_linea_por_nota:\n+    texto \"The system SHALL list each note on its own line as `- <titulo>`, keeping the input order, separating lines with a newline and without a trailing newline; the note body SHALL NOT appear.\"\n+    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b/openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md#una linea por nota\"\n+    medido_por listado.casos_ejecutados, listado.resultados\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101733-listar-notas/TAREA.md",
+      "head_text": "# Listar notas como texto\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-05 10:17:33 UTC)\n\nOpenSpec: openspec/changes/20261005-101733-listar-notas. Estado de factory: espera aprobación humana de proposal.md y spec.md.\n\n### Nota (2026-10-05 10:18:11 UTC)\n\nReparto propuesto (confirmación pendiente); ver reparto.md\n\n### Nota (2026-10-05 10:19:29 UTC)\n\nPersona aprobó propuesta y spec openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md; se reiniciaron las validaciones dependientes.\n\n### Nota (2026-10-05 10:19:33 UTC)\n\nRequisitos importados: listado_c7296af2cde2d7c6e.lista_vacia, listado_c7296af2cde2d7c6e.una_linea_por_nota. Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.\n\n### Nota (2026-10-05 10:20:11 UTC)\n\nMedidas de listado_c7296af2cde2d7c6e.una_linea_por_nota: listado.casos_ejecutados, listado.resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n\n### Nota (2026-10-05 10:20:11 UTC)\n\nMedidas de listado_c7296af2cde2d7c6e.lista_vacia: listado.casos_ejecutados, listado.resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n\n### Nota (2026-10-05 10:20:24 UTC)\n\nReparto confirmado por el coordinador (en representación de A y B), 2026-10-05; decisiones del coordinador registradas en reparto.md\n\n### Nota (2026-10-05 10:20:43 UTC)\n\nEntrega de producto: commit fcc0abbe04f441218030d2d9666ec360fa6ab0fa. Pruebas 6/6 OK y sensor_listado 3 casos con código 0 sobre ese commit limpio. Evidencia: hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json (sha256 8bc712fddf0599607d9425860a8c6f4f656864c8476b0ac65a603adf99a3afa5), pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log (sha256 3f66b367c278ed42527f616eba4f7cb5ddc945ccd502977392afdf31d93a7669). Pendiente: revisión por A, revision/juzgar/cerrar humanos.\n",
+      "patch": "diff --git a/tareas/20261005-101733-listar-notas/TAREA.md b/tareas/20261005-101733-listar-notas/TAREA.md\nnew file mode 100644\nindex 0000000..bfba9b0\n--- /dev/null\n+++ b/tareas/20261005-101733-listar-notas/TAREA.md\n@@ -0,0 +1,37 @@\n+# Listar notas como texto\n+\n+- ESTADO: ABIERTA\n+- PRIORIDAD: 50\n+- ETIQUETAS: \n+\n+### Nota (2026-10-05 10:17:33 UTC)\n+\n+OpenSpec: openspec/changes/20261005-101733-listar-notas. Estado de factory: espera aprobación humana de proposal.md y spec.md.\n+\n+### Nota (2026-10-05 10:18:11 UTC)\n+\n+Reparto propuesto (confirmación pendiente); ver reparto.md\n+\n+### Nota (2026-10-05 10:19:29 UTC)\n+\n+Persona aprobó propuesta y spec openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md; se reiniciaron las validaciones dependientes.\n+\n+### Nota (2026-10-05 10:19:33 UTC)\n+\n+Requisitos importados: listado_c7296af2cde2d7c6e.lista_vacia, listado_c7296af2cde2d7c6e.una_linea_por_nota. Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.\n+\n+### Nota (2026-10-05 10:20:11 UTC)\n+\n+Medidas de listado_c7296af2cde2d7c6e.una_linea_por_nota: listado.casos_ejecutados, listado.resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n+\n+### Nota (2026-10-05 10:20:11 UTC)\n+\n+Medidas de listado_c7296af2cde2d7c6e.lista_vacia: listado.casos_ejecutados, listado.resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n+\n+### Nota (2026-10-05 10:20:24 UTC)\n+\n+Reparto confirmado por el coordinador (en representación de A y B), 2026-10-05; decisiones del coordinador registradas en reparto.md\n+\n+### Nota (2026-10-05 10:20:43 UTC)\n+\n+Entrega de producto: commit fcc0abbe04f441218030d2d9666ec360fa6ab0fa. Pruebas 6/6 OK y sensor_listado 3 casos con código 0 sobre ese commit limpio. Evidencia: hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json (sha256 8bc712fddf0599607d9425860a8c6f4f656864c8476b0ac65a603adf99a3afa5), pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log (sha256 3f66b367c278ed42527f616eba4f7cb5ddc945ccd502977392afdf31d93a7669). Pendiente: revisión por A, revision/juzgar/cerrar humanos.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            37
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json",
+      "head_text": "{\n  \"listado_comprobacion\": [\n    {\n      \"caso\": \"dos notas en orden\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"el cuerpo no aparece\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"sin notas\",\n      \"codigo\": 0\n    }\n  ]\n}\n",
+      "patch": "diff --git a/tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json b/tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\nnew file mode 100644\nindex 0000000..3cfb717\n--- /dev/null\n+++ b/tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\n@@ -0,0 +1,16 @@\n+{\n+  \"listado_comprobacion\": [\n+    {\n+      \"caso\": \"dos notas en orden\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"el cuerpo no aparece\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"sin notas\",\n+      \"codigo\": 0\n+    }\n+  ]\n+}\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            16
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101733-listar-notas/pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log",
+      "head_text": "commit observado: fcc0abbe04f441218030d2d9666ec360fa6ab0fa\nfecha: 2026-10-05T10:20:36Z\npython: Python 3.13.15\n$ uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p \"test_*.py\" -v\ntest_dos_notas_en_orden (test_listado.Listado.test_dos_notas_en_orden) ... ok\ntest_el_cuerpo_no_aparece (test_listado.Listado.test_el_cuerpo_no_aparece) ... ok\ntest_sin_notas (test_listado.Listado.test_sin_notas) ... ok\ntest_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\nsalida: 0\n$ uv run --no-project --python 3.13 python examples/notas/sensor_listado.py --salida tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\nHechos de 3 casos escritos en tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\nsalida: 0\n",
+      "patch": "diff --git a/tareas/20261005-101733-listar-notas/pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log b/tareas/20261005-101733-listar-notas/pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log\nnew file mode 100644\nindex 0000000..6f5ee4c\n--- /dev/null\n+++ b/tareas/20261005-101733-listar-notas/pruebas-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.log\n@@ -0,0 +1,19 @@\n+commit observado: fcc0abbe04f441218030d2d9666ec360fa6ab0fa\n+fecha: 2026-10-05T10:20:36Z\n+python: Python 3.13.15\n+$ uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p \"test_*.py\" -v\n+test_dos_notas_en_orden (test_listado.Listado.test_dos_notas_en_orden) ... ok\n+test_el_cuerpo_no_aparece (test_listado.Listado.test_el_cuerpo_no_aparece) ... ok\n+test_sin_notas (test_listado.Listado.test_sin_notas) ... ok\n+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\n+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\n+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n+\n+----------------------------------------------------------------------\n+Ran 6 tests in 0.000s\n+\n+OK\n+salida: 0\n+$ uv run --no-project --python 3.13 python examples/notas/sensor_listado.py --salida tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\n+Hechos de 3 casos escritos en tareas/20261005-101733-listar-notas/hechos-fcc0abbe04f441218030d2d9666ec360fa6ab0fa.json\n+salida: 0\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            19
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101733-listar-notas/reparto.md",
+      "head_text": "# Reparto de trabajo\n\n- Tarea/cambio: 20261005-101733-listar-notas («Listar notas como texto», capacidad `listado`)\n- Persona responsable: persona B (frente «Listar notas»)\n- Agente y sesión: agente de la persona B, sesión B1 (Git: «Agente B1» <B1@piloto.invalid>)\n- Escritor activo de registros: sesión B1 (única que muta `tareas/20261005-101733-listar-notas/` y `openspec/changes/20261005-101733-listar-notas/`)\n- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n- Rama: trabajo/persona-b\n- Checkout absoluto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b\n- Alcance y rutas:\n  - Escribe: `openspec/changes/20261005-101733-listar-notas/`, `tareas/20261005-101733-listar-notas/`, `examples/notas/listado.py`, `examples/notas/test_listado.py`, `examples/notas/sensor_listado.py`, `catalogos/listado.*.oracle` y los requisitos que `importar`/`medir` generan para este cambio (`requisitos/listado_c7296af2cde2d7c6e.*.requisito`).\n  - No escribe (decisión 3 del coordinador): `examples/notas/notas.py`, `examples/notas/test_notas.py`, `examples/notas/sensor.py`, `oracle.json` ni los catálogos `notas.*`. No se comparten archivos con A. Las pruebas de B construyen los dicts a mano y no importan código de A; la prueba combinada la hace el integrador.\n- Interfaces compartidas y versión:\n  - «nota v1», definida por A y confirmada por el coordinador (decisión 2): `{\"titulo\": str, \"cuerpo\": str}`, título de una línea y recortado. Supuesto original de B, compatible: una nota es un `dict` de Python con las claves `\"titulo\"` (str, no vacío ni sólo espacios, sin saltos de línea) y `\"cuerpo\"` (str); el listado recibe una `list` de esas notas y sólo lee `nota[\"titulo\"]`.\n  - Expuesta por B: `listar_notas(notas: list[dict]) -> str` en `examples/notas/listado.py`.\n- Dependencias (ID completo, commit y condición; o ninguna): cambio 20261005-101725-crear-notas-con de la persona A, propuesto en e16a9f0aca9e3972f51a8edf097baee639809c56 (rama trabajo/persona-a, leído por `git fetch`; también pendiente de aceptación). Su «contrato nota v1» coincide con el supuesto de B en claves y tipos, pero no excluye saltos de línea en el título (`puede_guardar(\"a\\nb\")` es verdadero) y conserva espacios sin recortar: hay que decidir si A los rechaza o B los muestra tal cual. Los dos huecos quedaron resueltos del lado de A (decisión 2). Condición cumplida: representación confirmada antes de implementar; proposal/spec no cambiaron. Para integrar, B no necesita el commit de A (el listado no llama a la creación), pero las pruebas de compatibilidad sobre el candidato integrado sí.\n- Persona revisora: persona A\n- Persona integradora: coordinador del piloto (en representación de A y B)\n- Próximo paso: revisión de la entrega de B por la persona A; después `revision`, `juzgar` y `cerrar` (pasos humanos, no los da B1).\n- Confirmación de ambas personas (autor, fecha, canal; o pendiente): confirmado por el coordinador del piloto en representación de las personas A y B, 2026-10-05, canal del piloto (mensaje al agente B1). Las decisiones son del coordinador, no de las personas:\n  1. Formato aceptado tal como se propuso: `- <titulo>`, sólo el título, en el orden recibido, sin salto final; lista vacía → `\"\"`.\n  2. Representación «nota v1» definida por A: `crear_nota(titulo, cuerpo=\"\") -> {\"titulo\": str, \"cuerpo\": str}`. A lanza ValueError ante un título inválido o con \"\\n\" o \"\\r\" y guarda el título recortado con strip(). El listado puede suponer títulos de una línea sin espacios en los bordes; ninguno de los dos huecos queda del lado de B.\n  3. Sin archivos compartidos: rutas de B como arriba.\n  4. Revisora de la entrega: persona A. Integrador: el coordinador.\n  - Aceptación de propuesta/spec: `aprobar-spec` con la frase textual que pasó el coordinador.\n\nLa asignación es un acuerdo, no una reserva técnica. Un escritor por registro; para cambiar el reparto, registrar motivo, aceptación y nuevo alcance antes de continuar. No tomar silencio como conformidad.\n",
+      "patch": "diff --git a/tareas/20261005-101733-listar-notas/reparto.md b/tareas/20261005-101733-listar-notas/reparto.md\nnew file mode 100644\nindex 0000000..4f1d113\n--- /dev/null\n+++ b/tareas/20261005-101733-listar-notas/reparto.md\n@@ -0,0 +1,27 @@\n+# Reparto de trabajo\n+\n+- Tarea/cambio: 20261005-101733-listar-notas («Listar notas como texto», capacidad `listado`)\n+- Persona responsable: persona B (frente «Listar notas»)\n+- Agente y sesión: agente de la persona B, sesión B1 (Git: «Agente B1» <B1@piloto.invalid>)\n+- Escritor activo de registros: sesión B1 (única que muta `tareas/20261005-101733-listar-notas/` y `openspec/changes/20261005-101733-listar-notas/`)\n+- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n+- Rama: trabajo/persona-b\n+- Checkout absoluto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b\n+- Alcance y rutas:\n+  - Escribe: `openspec/changes/20261005-101733-listar-notas/`, `tareas/20261005-101733-listar-notas/`, `examples/notas/listado.py`, `examples/notas/test_listado.py`, `examples/notas/sensor_listado.py`, `catalogos/listado.*.oracle` y los requisitos que `importar`/`medir` generan para este cambio (`requisitos/listado_c7296af2cde2d7c6e.*.requisito`).\n+  - No escribe (decisión 3 del coordinador): `examples/notas/notas.py`, `examples/notas/test_notas.py`, `examples/notas/sensor.py`, `oracle.json` ni los catálogos `notas.*`. No se comparten archivos con A. Las pruebas de B construyen los dicts a mano y no importan código de A; la prueba combinada la hace el integrador.\n+- Interfaces compartidas y versión:\n+  - «nota v1», definida por A y confirmada por el coordinador (decisión 2): `{\"titulo\": str, \"cuerpo\": str}`, título de una línea y recortado. Supuesto original de B, compatible: una nota es un `dict` de Python con las claves `\"titulo\"` (str, no vacío ni sólo espacios, sin saltos de línea) y `\"cuerpo\"` (str); el listado recibe una `list` de esas notas y sólo lee `nota[\"titulo\"]`.\n+  - Expuesta por B: `listar_notas(notas: list[dict]) -> str` en `examples/notas/listado.py`.\n+- Dependencias (ID completo, commit y condición; o ninguna): cambio 20261005-101725-crear-notas-con de la persona A, propuesto en e16a9f0aca9e3972f51a8edf097baee639809c56 (rama trabajo/persona-a, leído por `git fetch`; también pendiente de aceptación). Su «contrato nota v1» coincide con el supuesto de B en claves y tipos, pero no excluye saltos de línea en el título (`puede_guardar(\"a\\nb\")` es verdadero) y conserva espacios sin recortar: hay que decidir si A los rechaza o B los muestra tal cual. Los dos huecos quedaron resueltos del lado de A (decisión 2). Condición cumplida: representación confirmada antes de implementar; proposal/spec no cambiaron. Para integrar, B no necesita el commit de A (el listado no llama a la creación), pero las pruebas de compatibilidad sobre el candidato integrado sí.\n+- Persona revisora: persona A\n+- Persona integradora: coordinador del piloto (en representación de A y B)\n+- Próximo paso: revisión de la entrega de B por la persona A; después `revision`, `juzgar` y `cerrar` (pasos humanos, no los da B1).\n+- Confirmación de ambas personas (autor, fecha, canal; o pendiente): confirmado por el coordinador del piloto en representación de las personas A y B, 2026-10-05, canal del piloto (mensaje al agente B1). Las decisiones son del coordinador, no de las personas:\n+  1. Formato aceptado tal como se propuso: `- <titulo>`, sólo el título, en el orden recibido, sin salto final; lista vacía → `\"\"`.\n+  2. Representación «nota v1» definida por A: `crear_nota(titulo, cuerpo=\"\") -> {\"titulo\": str, \"cuerpo\": str}`. A lanza ValueError ante un título inválido o con \"\\n\" o \"\\r\" y guarda el título recortado con strip(). El listado puede suponer títulos de una línea sin espacios en los bordes; ninguno de los dos huecos queda del lado de B.\n+  3. Sin archivos compartidos: rutas de B como arriba.\n+  4. Revisora de la entrega: persona A. Integrador: el coordinador.\n+  - Aceptación de propuesta/spec: `aprobar-spec` con la frase textual que pasó el coordinador.\n+\n+La asignación es un acuerdo, no una reserva técnica. Un escritor por registro; para cambiar el reparto, registrar motivo, aceptación y nuevo alcance antes de continuar. No tomar silencio como conformidad.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            27
+          ]
+        ]
+      },
+      "status": "A"
+    }
+  ],
+  "head": "3a3bab005f9014a800aa6915b95668b90a8a028e",
+  "limitations": [
+    "Solo se revisa la diferencia entre commits; archivos no versionados no forman parte del diff.",
+    "Preparar contexto no ejecuta revisión de IA, pruebas ni aprobación humana.",
+    "El filtro de rutas conocidas no garantiza ausencia de secretos en otros archivos."
+  ],
+  "omissions": [],
+  "repo": "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/producto-b",
+  "schema_version": "oracle-clue.bundle/v1"
+}

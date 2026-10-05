@@ -1,0 +1,35 @@
+{
+  "cuando": "2026-10-05T10:04:01.305672+00:00",
+  "candidato": "17d1c00f7682c340e1a7ef21feb2f7b0650cd9db",
+  "anterior": "4ceb4b075a50290d014e3d7ec4714774c4417d81",
+  "suite": {
+    "comando": "PYTHONDONTWRITEBYTECODE=1 <env>/bin/python -m unittest discover -s tests",
+    "tests": 48,
+    "codigo": 0
+  },
+  "arnes": {
+    "casos": 9,
+    "codigo": 0,
+    "resultado": "resultado.json",
+    "hechos": "hechos.json",
+    "cambio": "C4 suma la colisión de IDs Task entre clones (8 comprobaciones)"
+  },
+  "oracle": {
+    "comando": "oracle cobertura --con hechos.json",
+    "version": "0.38.1",
+    "codigo": 0,
+    "requisitos_del_cambio": 6,
+    "cumplen_solo_en_lo_medido": 6,
+    "cobertura_completa": false,
+    "informe": "oracle-cobertura.txt"
+  },
+  "entorno": "venv efímero: oracle-metalenguaje 0.38.1, oracle-task 0.2.0, oracle-clue 0.1.0a1",
+  "revision_humana": "pendiente",
+  "piloto_humano": "pendiente",
+  "cierre": "no autorizado ni ejecutado",
+  "sha256": {
+    "resultado.json": "4aa8b357f8ba3e881a74db716c479eb8c83eedb8213525416a23a5a9053c6b30",
+    "hechos.json": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5",
+    "oracle-cobertura.txt": "b9cce703e51326fc8d512286e471257bfb95a555feea635404f773bd7bdef055"
+  }
+}

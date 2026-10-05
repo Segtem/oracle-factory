@@ -1,0 +1,127 @@
+{
+  "id": "20261005-100327-fixture",
+  "titulo": "Fixture colaboración C8",
+  "capacidad": "notas",
+  "fase": "oracle_verde",
+  "spec": "openspec/changes/20261005-100327-fixture/specs/notas/spec.md",
+  "spec_sha256": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+  "spec_aprobada": {
+    "por": "workstation",
+    "cuando": "2026-10-05T10:03:27+00:00",
+    "documentos": {
+      "openspec/changes/20261005-100327-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "openspec/changes/20261005-100327-fixture/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+    }
+  },
+  "requisitos": [
+    "notas_c16b679543f7e5075.titulo_valido"
+  ],
+  "revision": {
+    "revisor": "Fixture automatizado",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "openspec/changes/20261005-100327-fixture/review.md",
+    "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437",
+    "por": "workstation",
+    "cuando": "2026-10-05T10:03:28+00:00",
+    "contexto": {
+      "head": "8999bb3019950b9d952ecdb047d5c047154bb924",
+      "archivos_sha256": "6ccb3174a2d92f9b84c5b3966928a0b3dd4932514aa2a6bd3a5a5f97d6d6ffe9"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/tmp/factory-colaboracion-96cdtxbb/C8/producto/tareas/20261005-100327-fixture/hechos-fixture.json",
+    "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916",
+    "informe": "openspec/changes/20261005-100327-fixture/oracle-veredicto.txt",
+    "informe_sha256": "cb6fbf3a60fbc85d91a9eba9c60ce8a514c7e80423e2ca6339a818523098cdc3",
+    "cuando": "2026-10-05T10:03:28+00:00",
+    "contexto": {
+      "head": "8999bb3019950b9d952ecdb047d5c047154bb924",
+      "archivos_sha256": "6ccb3174a2d92f9b84c5b3966928a0b3dd4932514aa2a6bd3a5a5f97d6d6ffe9"
+    }
+  },
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "capacidad": "notas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "documentos": {
+        "openspec/changes/20261005-100327-fixture/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+        "openspec/changes/20261005-100327-fixture/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "ids": [
+        "notas_c16b679543f7e5075.titulo_valido"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:27+00:00",
+      "requisito": "notas_c16b679543f7e5075.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": "piloto humano pendiente (fixture)"
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:28+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "medidas_elegidas",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:28+00:00",
+      "requisito": "notas_c16b679543f7e5075.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:28+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:28+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:03:28+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    }
+  ],
+  "ejemplo": "notas"
+}

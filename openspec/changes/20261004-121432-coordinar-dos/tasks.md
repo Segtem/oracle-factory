@@ -11,6 +11,7 @@
 - [x] Agente: implementar guía enlazada desde README y plantillas de reparto, relevo, integración y piloto en la rama.
 - [x] Agente: crear y ejecutar arnés aislado para C1–C9, documentando qué pasos humanos sólo simula.
 - [ ] Dos personas con sus agentes: realizar piloto; registrar recepción de relevos, superposiciones, decisiones y dificultades.
+- [x] Agente: piloto con agentes (A1, A2, B1, R1; coordinador por encargo de Brian) en `tareas/20261004-121432-coordinar-dos/piloto-agentes-01/`. No sustituye el piloto humano.
 - [x] Agente: adjuntar evidencia con comandos, versiones, commits, resultados y límites; candidato `4ceb4b075a50290d014e3d7ec4714774c4417d81`.
 - [x] Agente: preparar contexto de Clue sin omisiones en checkout separado, conservando el candidato para revisión.
 - [ ] Revisor/persona: revisar ese candidato o su sucesor y registrar el commit efectivamente revisado.

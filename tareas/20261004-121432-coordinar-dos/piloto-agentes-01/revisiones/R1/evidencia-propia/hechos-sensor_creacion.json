@@ -1,0 +1,39 @@
+{
+  "creacion_comprobacion": [
+    {
+      "caso": "título y cuerpo",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "cuerpo vacío",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "título con espacios en los bordes",
+      "requisito": "crear_nota_valida",
+      "codigo": 0
+    },
+    {
+      "caso": "título vacío",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con espacios",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con salto de línea",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    },
+    {
+      "caso": "título con retorno de carro",
+      "requisito": "rechazar_titulo_invalido",
+      "codigo": 0
+    }
+  ]
+}

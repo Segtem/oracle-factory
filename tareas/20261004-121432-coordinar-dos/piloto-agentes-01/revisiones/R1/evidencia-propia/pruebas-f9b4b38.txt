@@ -1,0 +1,17 @@
+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok
+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok
+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok
+test_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok
+test_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok
+test_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok
+test_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok
+test_dos_notas_en_orden (test_listado.Listado.test_dos_notas_en_orden) ... ok
+test_el_cuerpo_no_aparece (test_listado.Listado.test_el_cuerpo_no_aparece) ... ok
+test_orden_de_entrada_no_alfabetico (test_listado.Listado.test_orden_de_entrada_no_alfabetico) ... ok
+test_sin_notas (test_listado.Listado.test_sin_notas) ... ok
+test_listado_de_notas_creadas (test_integracion.Integracion.test_listado_de_notas_creadas) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.000s
+
+OK
