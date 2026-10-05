@@ -1,6 +1,6 @@
 # Jerarquía de carpetas y comandos para encontrar las cosas
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -167,3 +167,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-05 23:53:04 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-132144-jerarquia-de/oracle-veredicto.txt.
+
+### Nota (2026-10-05 23:58:12 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

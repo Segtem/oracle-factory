@@ -2,7 +2,7 @@
   "id": "20261005-132144-jerarquia-de",
   "titulo": "Jerarquía de carpetas y comandos para encontrar las cosas",
   "capacidad": "estructura",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
   "spec_sha256": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa",
   "spec_aprobada": {
@@ -612,6 +612,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "f5920a7f9a8e9516c25f685f462521a3c92f03cb32f75953100e3ec9bdf1b114"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:58:12+00:00",
+      "oracle": "openspec/changes/20261005-132144-jerarquia-de/oracle-veredicto.txt",
+      "revision": "tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/informe.json"
     }
   ],
   "tipos": {
@@ -708,5 +718,12 @@
       "sha256": "497aa5afeede8486bcdc054d90d57712a0be90a37b54eea4081e6d6410dca02e"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T23:58:12+00:00"
+  }
 }
