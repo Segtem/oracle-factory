@@ -13,7 +13,7 @@ La documentación SHALL describir dónde va cada artefacto de un proyecto Factor
 
 ### Requirement: carpeta propia de Factory
 Tipo: funcional
-`init` SHALL crear `.factory/` en la raíz del proyecto con `cambios/` y `local/`, y SHALL agregar `.factory/local/` al `.gitignore` sin sobrescribir lo existente.
+`init` SHALL crear `.factory/` en la raíz del proyecto con `cambios/` y `local/` y dejar en ella un archivo versionado que la explique (Git no versiona carpetas vacías), SHALL agregar `.factory/local/` al `.gitignore` sin sobrescribir lo existente, SHALL rechazar con un mensaje claro y antes de crear nada un `.factory` que no sea una carpeta, y SHALL avisar cuando la carpeta está dentro de otro proyecto Factory.
 
 #### Scenario: proyecto nuevo
 - GIVEN una carpeta sin `.factory/`
@@ -25,9 +25,24 @@ Tipo: funcional
 - WHEN se ejecuta init
 - THEN se agrega `.factory/` y la línea de ignore, y el resto del `.gitignore` queda intacto
 
+#### Scenario: clon de un proyecto
+- GIVEN un proyecto inicializado con `.factory/` y commiteado
+- WHEN se clona
+- THEN el clon tiene `.factory/` y los comandos la descubren desde una subcarpeta del clon
+
+#### Scenario: .factory que no es una carpeta
+- GIVEN un archivo llamado `.factory` en la raíz
+- WHEN se ejecuta init
+- THEN Factory lo rechaza con un mensaje claro y no crea ninguna otra carpeta
+
+#### Scenario: init dentro de otro proyecto
+- GIVEN una subcarpeta de un proyecto Factory
+- WHEN se ejecuta init en ella
+- THEN se crea un proyecto anidado y se avisa que los comandos usarán el más cercano
+
 ### Requirement: descubrir la raíz del proyecto
 Tipo: funcional
-Los comandos SHALL buscar `.factory/` subiendo desde la carpeta actual hasta la raíz del sistema de archivos y usar la primera que encuentren; `--proyecto` SHALL tener prioridad y, sin `.factory/` en ningún ancestro, SHALL conservarse el comportamiento actual de usar la carpeta actual. Cuando la raíz usada no es la carpeta actual, SHALL informarlo.
+Los comandos SHALL buscar `.factory/` subiendo desde la carpeta actual hasta la raíz del sistema de archivos y usar la primera que encuentren; `--proyecto` SHALL tener prioridad y, sin `.factory/` en ningún ancestro, SHALL conservarse el comportamiento actual de usar la carpeta actual. Un proyecto Factory anterior sin `.factory/` (con `oracle.json` y `openspec/changes/`) SHALL ser una frontera: no hereda el proyecto de afuera. La carpeta personal del usuario y un enlace simbólico llamado `.factory` SHALL NOT contar como raíz. Cuando la raíz usada no es la carpeta actual, SHALL informarlo.
 
 #### Scenario: comando desde una subcarpeta
 - GIVEN un proyecto con `.factory/` y una subcarpeta del producto
@@ -43,6 +58,21 @@ Los comandos SHALL buscar `.factory/` subiendo desde la carpeta actual hasta la 
 - GIVEN un proyecto anterior sin `.factory/` en ningún ancestro
 - WHEN se ejecuta un comando desde su raíz
 - THEN se comporta como hasta ahora
+
+#### Scenario: proyecto anterior dentro de otro
+- GIVEN un proyecto sin `.factory/` dentro de otro que sí la tiene
+- WHEN se ejecuta un comando desde el proyecto de adentro
+- THEN se usa el de adentro y no el de afuera
+
+#### Scenario: carpeta personal
+- GIVEN una `.factory/` en la carpeta personal del usuario y un proyecto debajo de ella sin `.factory/` propia
+- WHEN se ejecuta un comando en ese proyecto
+- THEN la carpeta personal no se usa como raíz
+
+#### Scenario: enlace simbólico
+- GIVEN un enlace simbólico llamado `.factory`
+- WHEN los comandos buscan la raíz
+- THEN no lo cuentan como marcador de proyecto
 
 ### Requirement: lo versionado y lo local
 Tipo: no funcional
@@ -86,9 +116,14 @@ Tipo: funcional
 - WHEN se ejecuta donde
 - THEN esos artefactos aparecen como históricos y no se mueven
 
+#### Scenario: registro con valores no válidos
+- GIVEN un registro de cambio con valores que no son rutas de texto
+- WHEN se ejecuta donde
+- THEN se listan los artefactos válidos y los no válidos se marcan, sin un error interno
+
 ### Requirement: ruta canonica para producir artefactos
 Tipo: funcional
-`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el HEAD actual, sin crear ni modificar archivos.
+`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el HEAD actual, nombrando la carpeta del candidato con los 7 primeros caracteres del hash completo del commit, sin crear ni modificar archivos.
 
 #### Scenario: sensor que escribe su evidencia
 - GIVEN un cambio abierto y un HEAD
@@ -113,6 +148,16 @@ Tipo: funcional
 - GIVEN un texto que aparece en la spec de un cambio y en la tarea de otro
 - WHEN se busca
 - THEN aparecen los dos resultados, cada uno con su cambio, ruta y línea
+
+#### Scenario: archivos que no se pudieron leer
+- GIVEN un archivo de texto que supera el tamaño máximo de búsqueda y contiene el texto
+- WHEN se busca
+- THEN el resultado informa cuántos archivos se omitieron por tamaño
+
+#### Scenario: mayúsculas y formas equivalentes
+- GIVEN un texto con «Straße» en un archivo
+- WHEN se busca «STRASSE»
+- THEN aparece el resultado
 
 ### Requirement: listar con filtros
 Tipo: funcional

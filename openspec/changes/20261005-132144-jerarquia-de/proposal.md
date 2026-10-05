@@ -57,4 +57,6 @@ Brian respondió en la conversación del 2026-10-05:
 4. **Comandos:** `donde`, `ruta` y `buscar`, en español.
 5. **`.factory/` y su contenido** (aceptando las cinco recomendaciones): el acuerdo humano queda visible en `openspec/`; `.factory/` es versionada con `local/` ignorada; los comandos suben carpetas como Git; la spec de estructura se reescribe antes de implementar; Factory no gestiona worktrees de desarrollo.
 
+6. **La revisión independiente (R2) encontró nueve hallazgos** y Brian aceptó (2026-10-05, «Dale») corregirlos todos y reescribir la spec con los escenarios que faltaban: el clon trae `.factory/`, la frontera de un proyecto sin `.factory/`, la carpeta personal, el enlace simbólico, los valores no válidos en `donde`, los archivos omitidos y las formas equivalentes en `buscar`.
+
 Pendiente: aceptación de proposal.md y spec.md. Preparar esta propuesta no la acepta ni autoriza implementarla.
