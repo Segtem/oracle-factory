@@ -95,3 +95,11 @@ Continuación solicitada por el usuario: «Bien, sigamos entonces.». Se aplicó
 ### Nota (2026-10-05 10:15:14 UTC)
 
 Checkouts de revisión movidos de /tmp a ~/Dev/_revisiones/factory-revision-guiada-{109e2b5,5b54dc8} (2026-10-05, pedido de Brian). Se copiaron sin cambios evidencia y revisiones/preparacion-*; los paquetes Clue *-durable.json tienen el mismo diff y los mismos contextos que los originales.
+
+### Nota (2026-10-05 11:56:51 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; 0 abiertos derivados; commit 69ccb5f1d944a7f88ecfa4411addb150b7fb6f63; informe tareas/20261004-005956-revision-guiada/revisiones/registro-w5a9l5w3/informe.json; decisiones tareas/20261004-005956-revision-guiada/revisiones/registro-w5a9l5w3/decisiones.json.
+
+### Nota (2026-10-05 11:59:06 UTC)
+
+Revisión guiada registrada por Brian desde su terminal (2026-10-05) sobre 69ccb5f: aprobar, 0 abiertos. G-01 corregido; G-02, G-03 y G-04 riesgo aceptado (cli-piloto, cli-humana). Informes de Clue en revision-brian/. Queda abierta: Oracle parcial por los límites sin medir, como colaboración.

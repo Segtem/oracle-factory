@@ -2,7 +2,7 @@
   "id": "20261004-005956-revision-guiada",
   "titulo": "Guiar la revisión con un informe pendiente y decisiones explícitas",
   "capacidad": "revision-guiada",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md",
   "spec_sha256": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25",
   "spec_aprobada": {
@@ -25,7 +25,22 @@
     "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada",
     "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261004-005956-revision-guiada/revisiones/registro-w5a9l5w3/informe.json",
+    "sha256": "e62ecb56aff90617fa2bed62d3ec9bbe40033926850be195c3e77f14f18e6a38",
+    "decisiones": "tareas/20261004-005956-revision-guiada/revisiones/registro-w5a9l5w3/decisiones.json",
+    "decisiones_sha256": "5af233fcc27efff093edd49f155901ea7d3b66e4278351d3124cede3f9d0b191",
+    "por": "workstation",
+    "cuando": "2026-10-05T11:56:51+00:00",
+    "contexto": {
+      "head": "69ccb5f1d944a7f88ecfa4411addb150b7fb6f63",
+      "archivos_sha256": "72ce0d4651b5b1030fe1aafee500a676981e04a8f8658cae9c64086fc94a29b6"
+    }
+  },
   "oracle": null,
   "eventos": [
     {
@@ -137,6 +152,17 @@
         "factory_revision_guiada.corrida_completa"
       ],
       "sin_medir": "Casos seleccionados G1–G8 en Linux; no mide calidad del análisis ni autenticación o competencia de los actores."
+    },
+    {
+      "accion": "revision_registrada",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:56:51+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "e62ecb56aff90617fa2bed62d3ec9bbe40033926850be195c3e77f14f18e6a38",
+      "decisiones_sha256": "5af233fcc27efff093edd49f155901ea7d3b66e4278351d3124cede3f9d0b191"
     }
   ]
 }

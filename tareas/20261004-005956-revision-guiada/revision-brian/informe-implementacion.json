@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-revision-guiada-109e2b5",
+  "base": "65e6815bcc8ba5600b8edf329ce87af44c50f164",
+  "head": "109e2b579ec29c3bc87ba30c92599f81c9a6a79f",
+  "diff_sha256": "dc98430e14d32fb7c0c5a11127e83dd0f456620d032b67f73ab7f768715c3110",
+  "context_sha256": "7aa26788e1d437a3aec9bbb81bb93ced893a8cfc5840a16b156660e956a0ae3f",
+  "provider": {
+    "name": "Claude Code (Opus 5.5), agente de Brian; hallazgos pendientes de su decisión",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Lo implementó otra sesión de un agente de la misma familia; no es una revisión independiente.",
+    "Se leyeron completos revision.py, el diff de cli.py, la spec, el mapeo y los casos del sensor. Los tests se leyeron por nombre y contrato, no línea por línea.",
+    "Compatibilidad: sobre el merge con main (d3a2d75) pasan las 67 pruebas, los 18 casos G1–G8 y los casos C1–C9 de colaboración."
+  ],
+  "findings": [
+    {
+      "id": "G-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El requisito de documentación se mide con una prueba de la CLI, no con la guía",
+      "explanation": "«explicar y verificar los límites del recorrido» exige documentar preparación, completado, decisión y renovación. Su medida cuenta sólo g8_cli_completo_y_oracle_real_en_fixture, una prueba de la CLI de punta a punta. tools/verify_review_guided.py lee docs/revision-guiada.md únicamente para hashearla. Borrar la sección de renovación de la guía deja verde el requisito. Es el mismo patrón que A-01 en colaboración.",
+      "location": {
+        "file": "tools/verify_review_guided.py",
+        "start_line": 40,
+        "end_line": 41,
+        "side": "head"
+      },
+      "trigger": "Eliminar de docs/revision-guiada.md la parte de renovación y volver a correr el sensor.",
+      "evidence": "docs/revision-guiada.md sólo aparece en la lista de fuentes hasheadas (línea 58).",
+      "related_requirement": "revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido",
+      "status": "pendiente",
+      "verification": "Hacer que el sensor exija las secciones y comandos que pide la spec, como en a61c426."
+    },
+    {
+      "id": "G-02",
+      "kind": "pregunta",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "El informe guiado queda atado al HEAD: no se puede commitear antes de registrarlo",
+      "explanation": "validar() exige informe.contexto == contexto_producto(), que incluye el HEAD. El informe completado vive en tareas/ y no cambia la huella de archivos, pero commitearlo cambia el HEAD y lo invalida. Lo mismo pasa con cualquier merge: los informes preparados en 109e2b5 y 5b54dc8 ya no se pueden registrar en la rama después del merge con main. En la práctica, la revisión se registra sin commitear y se commitea después, y en ese momento queda «desactualizada» (lo mismo que se observó en colaboración).",
+      "location": {
+        "file": "oracle_factory/revision.py",
+        "start_line": 75,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "Completar el informe, commitearlo y después ejecutar revision --formato guiado.",
+      "evidence": "informe['contexto'] != contexto → «informe de otro cambio o contexto/propuesta/spec desactualizados»",
+      "related_requirement": "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada",
+      "status": "pendiente",
+      "verification": "Vincular la revisión a la huella de archivos y al commit del producto, no a un HEAD que incluye registros (tarea cli-piloto)."
+    },
+    {
+      "id": "G-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "archivos_revisados es declarativo: no se contrasta con el diff",
+      "explanation": "Un informe con completa=true y un solo archivo revisado, en un cambio de veinte archivos, pasa la validación. Factory no muestra qué archivos cambiados quedaron fuera de la lista. Contrastarlo cuesta poco y ayudaría a que la persona sepa qué se revisó y qué no.",
+      "location": {
+        "file": "oracle_factory/revision.py",
+        "start_line": 81,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Registrar un informe completo que lista un solo archivo.",
+      "evidence": "archivos = lista(informe['archivos_revisados'], …, no_vacia=True): sólo forma y unicidad.",
+      "related_requirement": "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado",
+      "status": "pendiente",
+      "verification": "Mostrar antes de confirmar los archivos del diff que no figuran en archivos_revisados (tarea cli-humana)."
+    },
+    {
+      "id": "G-04",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.7,
+      "title": "Las medidas usan umbral de igualdad",
+      "explanation": "Igual que en colaboración (A-03): «umbral ==» es deliberado, porque exige exactamente los casos enumerados, pero se aparta de meta.ningun_umbral_de_igualdad sin decirlo.",
+      "location": {
+        "file": "catalogos/factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado.oracle",
+        "start_line": 5,
+        "end_line": 5,
+        "side": "head"
+      },
+      "trigger": "Juicio con medidas meta.",
+      "evidence": "umbral == 4 segun contrato",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Aceptar con motivo."
+    }
+  ]
+}
