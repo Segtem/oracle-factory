@@ -123,14 +123,29 @@ def decidir(estado: dict, decision: str, tipos: list[str], firma, frase: str, ca
             print(f"Propuesta registrada por {AGENTE} (modo {modo}): {DESCRIPCION[decision]} no cuenta hasta que una persona "
                   "la confirme repitiendo el comando desde una terminal interactiva, sin --agente.")
             return None
+        (estado.get("propuestas") or {}).pop(decision, None)  # decidir reemplaza su propuesta anterior
         return "decidio"
     confirmar_persona(frase, cancelado)
+    motivo = pedir_motivo(estado, decision, tipos)
+    if motivo:
+        estado["motivo_pendiente"] = motivo
     propuesta = (estado.get("propuestas") or {}).pop(decision, None)
     return "confirmo" if propuesta and propuesta["firma"] == firma else "decidio"
 
 
-def registro_decision(estado: dict, forma: str) -> dict:
-    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora()}
+def pedir_motivo(estado: dict, decision: str, tipos: list[str]) -> str | None:
+    """En modo funcional la persona decide lo funcional: con un motivo propio, no sólo confirmando."""
+    if modo_de(estado) != "funcional" or decision == "cierre" or "funcional" not in tipos:
+        return None
+    motivo = input("Motivo de la decisión (modo funcional: decide la persona): ").strip()
+    if not motivo:
+        raise FactoryError("en modo funcional la persona decide con un motivo; no registré nada")
+    return motivo
+
+
+def registro_decision(estado: dict, forma: str, motivo: str | None = None) -> dict:
+    motivo = motivo or estado.pop("motivo_pendiente", None)
+    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora(), **({"motivo": motivo} if motivo else {})}
 
 
 def quien(registro: dict | None) -> str:
@@ -176,13 +191,13 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     ruta_segura(ROOT / "tareas")
     if not SLUG_RE.fullmatch(capacidad):
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
-    por_defecto = config_proyecto()["modo_por_defecto"]
-    modo = modo or por_defecto
+    modo = modo or config_proyecto()["modo_por_defecto"]
     if modo not in modos.MODOS:
         raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
-    if modos.baja_intervencion(por_defecto, modo):
+    # Contra confirmacion, no contra factory.json: ese archivo también lo puede escribir un agente.
+    if modos.baja_intervencion(modos.POR_DEFECTO, modo):
         if AGENTE:
-            raise FactoryError(f"un modo con menos intervención humana que el del proyecto ({por_defecto}) lo elige una persona, sin --agente")
+            raise FactoryError(f"el modo {modo} tiene menos intervención humana que {modos.POR_DEFECTO}: lo elige una persona, sin --agente")
         confirmar_persona(f"ELEGIR MODO {modo}", "no se creó el cambio: modo no confirmado")
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
@@ -354,7 +369,9 @@ def aprobar_spec(identificador: str) -> None:
         raise FactoryError("los documentos cambiaron durante la aprobación; volvé a revisarlos")
     estado["spec_sha256"] = huellas[estado["spec"]]
     estado["spec_aprobada"] = {**registro_decision(estado, forma), "documentos": huellas}
-    estado.update(requisitos=[], revision=None, oracle=None, fase="spec_aprobada")
+    # Una spec nueva genera requisitos nuevos: lo decidido o propuesto sobre los anteriores ya no aplica.
+    estado.update(requisitos=[], tipos={}, medidas={}, medidas_pendientes={}, revision=None, oracle=None, fase="spec_aprobada")
+    (estado.get("propuestas") or {}).pop("revision", None)
     evento(estado, "spec_aprobada", forma=forma, documentos=huellas)
     guardar(carpeta, estado)
     nota_tarea(identificador, f"{quien(estado['spec_aprobada'])} aceptó propuesta y spec {estado['spec']}; se reiniciaron las validaciones dependientes.")
@@ -535,7 +552,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         raise FactoryError(f'no se publicó la nueva revisión: {e}. Copias residuales en {destino.parent}; '
                            'se conservó el registro anterior o la edición concurrente.') from e
     try:
-        nota_tarea(identificador, f'Revisión guiada {revisor}: {decision}; {abiertos} abiertos derivados; '
+        nota_tarea(identificador, f'Revisión guiada {revisor}: {decision}; registrada por {quien(estado["revision"])}; {abiertos} abiertos derivados; '
                    f"commit {contexto['head']}; informe {destino.relative_to(ROOT)}; decisiones {destino_decisiones.relative_to(ROOT)}.")
     except (FactoryError, OSError) as e:
         raise FactoryError(f'La revisión quedó registrada en {registro_ruta}; nota del tracker pendiente: {e}. '
@@ -602,12 +619,15 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     estado["fase"] = "revision_aprobada" if decision == "aprobar" else "cambios_pedidos"
     evento(estado, "revision_registrada", forma=forma, revisor=revisor, decision=decision, abiertos=abiertos, sha256=huella)
     guardar(carpeta, estado)
-    nota_tarea(identificador, f"Revisión {revisor}: {decision}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(ROOT)}.")
+    nota_tarea(identificador, f"Revisión {revisor}: {decision}; registrada por {quien(estado['revision'])}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(ROOT)}.")
     print(f"Informe registrado: {destino}")
     siguiente(identificador, estado["fase"])
 
 def juzgar(identificador: str, hechos: Path) -> None:
     carpeta, estado = abierto(identificador)
+    if estado.get("medidas_pendientes"):
+        raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
+                           + ", ".join(estado["medidas_pendientes"]))
     # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
     estado.update(oracle=None, fase="juicio_pendiente")
     guardar(carpeta, estado)
@@ -663,7 +683,9 @@ def pendientes(estado: dict) -> list[str]:
     for decision, propuesta in (estado.get("propuestas") or {}).items():
         faltan.append(f"{DESCRIPCION[decision]} propuesta por {propuesta['actor']}, sin confirmar por una persona")
     for rid, propuesta in (estado.get("medidas_pendientes") or {}).items():
-        faltan.append(f"medidas de {rid} propuestas por {propuesta['actor']}, sin confirmar por una persona")
+        faltan.append(f"medidas de {rid} elegidas por el agente {propuesta['actor']}; en modo {modo_de(estado)} las decide una persona"
+                      if propuesta.get("descartada") else
+                      f"medidas de {rid} propuestas por {propuesta['actor']}, sin confirmar por una persona")
     return faltan
 
 
@@ -720,7 +742,7 @@ def cerrar(identificador: str) -> None:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
     cierre = registro_decision(estado, forma)
     nota_tarea(identificador, f"Cierre: {quien(cierre)}, tras revisar el informe de código y el veredicto Oracle."
-               + (" Cerrado por agente en modo autónomo; no hubo decisión humana." if cierre["tipo_actor"] == "agente" else ""))
+               + (" El cierre lo decidió un agente en modo autónomo." if cierre["tipo_actor"] == "agente" else ""))
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
     if p.returncode:
         raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
@@ -730,7 +752,7 @@ def cerrar(identificador: str) -> None:
     guardar(carpeta, estado)
     print(p.stdout.strip() or "Tarea cerrada.")
     if cierre["tipo_actor"] == "agente":
-        print(f"Cerrado por agente {cierre['actor']} en modo autónomo; no hubo decisión humana.")
+        print(f"El cierre lo decidió el agente {cierre['actor']} en modo autónomo; las demás decisiones, como indica estado.")
 
 
 def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
@@ -749,37 +771,48 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
     tipos = tipos_cambio(estado)
     propuestas, invalidadas = estado.setdefault("propuestas", {}), []
 
-    def agente_ya_no_decide(registro, decision, tipos_):
-        return registro and registro.get("tipo_actor") == "agente" and modos.via_agente(nuevo_modo, decision, tipos_) != "decide"
+    def via_nueva(registro, decision, tipos_):
+        # None: sigue valiendo. 'propone': pasa a propuesta. 'rechaza': se descarta, la decide una persona.
+        if not registro or registro.get("tipo_actor") != "agente":
+            return None
+        via = modos.via_agente(nuevo_modo, decision, tipos_)
+        return None if via == "decide" else via
 
-    if agente_ya_no_decide(estado.get("spec_aprobada"), "spec", tipos):
+    via = via_nueva(estado.get("spec_aprobada"), "spec", tipos)
+    if via:
         sa = estado["spec_aprobada"]
-        propuestas["spec"] = {"firma": sa["documentos"], "actor": sa["actor"], "tipo_actor": "agente", "cuando": sa["cuando"]}
+        if via == "propone":
+            propuestas["spec"] = {"firma": sa["documentos"], "actor": sa["actor"], "tipo_actor": "agente", "cuando": sa["cuando"]}
         estado.update(spec_aprobada=None, revision=None, oracle=None, fase="espera_aprobacion_spec")
-        invalidadas.append("spec")
+        invalidadas.append(("spec", via))
     rev = estado.get("revision")
-    if agente_ya_no_decide(rev, "revision", tipos):
-        firma = firma_revision(rev["formato"], rev["sha256"], rev.get("decisiones_sha256"), rev["revisor"], rev["decision"], rev["contexto"])
-        if rev["formato"] == "libre":
-            firma["abiertos"] = rev["hallazgos_abiertos"]
-        propuestas["revision"] = {"firma": firma, "actor": rev["actor"], "tipo_actor": "agente", "cuando": rev["cuando"]}
+    via = via_nueva(rev, "revision", tipos)
+    if via:
+        if via == "propone":
+            firma = firma_revision(rev["formato"], rev["sha256"], rev.get("decisiones_sha256"), rev["revisor"], rev["decision"], rev["contexto"])
+            if rev["formato"] == "libre":
+                firma["abiertos"] = rev["hallazgos_abiertos"]
+            propuestas["revision"] = {"firma": firma, "actor": rev["actor"], "tipo_actor": "agente", "cuando": rev["cuando"]}
         estado.update(revision=None, oracle=None)
-        invalidadas.append("revision")
+        invalidadas.append(("revision", via))
     for rid, medida in list((estado.get("medidas") or {}).items()):
-        if agente_ya_no_decide(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")]):
+        via = via_nueva(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")])
+        if via:
             ruta = ROOT / "requisitos" / f"{rid}.requisito"
             estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": sha256(ruta.read_bytes()), "actor": medida["actor"],
-                                                                "tipo_actor": "agente", "cuando": medida["cuando"]}
+                                                                "tipo_actor": "agente", "cuando": medida["cuando"],
+                                                                "descartada": via == "rechaza"}
             del estado["medidas"][rid]
             estado.update(oracle=None)
-            invalidadas.append("medidas de " + rid)
-    evento(estado, "modo_cambiado", anterior=actual, nuevo=nuevo_modo, invalidadas=invalidadas)
+            invalidadas.append(("medidas de " + rid, via))
+    texto = {"propone": "pasa a propuesta: una persona la confirma", "rechaza": "se descarta: la decide una persona"}
+    evento(estado, "modo_cambiado", anterior=actual, nuevo=nuevo_modo, invalidadas=[f"{i}: {texto[v]}" for i, v in invalidadas])
     guardar(carpeta, estado)
     nota_tarea(identificador, f"Modo de trabajo: {actual} → {nuevo_modo}." + (
-        " Decisiones de agente que pasan a propuesta: " + ", ".join(invalidadas) + "." if invalidadas else ""))
+        " Decisiones de agente: " + "; ".join(f"{i} {texto[v]}" for i, v in invalidadas) + "." if invalidadas else ""))
     print(f"Modo de trabajo: {actual} → {nuevo_modo}.")
-    for item in invalidadas:
-        print(f"Ahora es una propuesta pendiente de confirmar por una persona: {item}")
+    for item, via in invalidadas:
+        print(f"Decisión de agente sobre {item}: {texto[via]}.")
 
 
 def mostrar(identificador: str) -> None:
@@ -1041,6 +1074,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         raise FactoryError(f'en modo {modo_de(estado)}, las medidas de un requisito {tipo} las elige una persona desde una terminal interactiva, sin --agente')
     if via == 'persona' and not terminal_interactiva():
         raise FactoryError('elegir medidas es una decisión de persona y se toma desde una terminal interactiva; un agente usa --agente')
+    motivo = pedir_motivo(estado, 'medidas', [tipo]) if via == 'persona' else None
     from dataclasses import replace
     from oracle_metalenguaje.nucleo import requisito
     from oracle_metalenguaje.nucleo.forma import error_forma
@@ -1057,14 +1091,18 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     nuevo_r = replace(r, medido_por=tuple(medidas), sin_medir=limite)
     if nuevo_r == r:
         pendiente = (estado.get('medidas_pendientes') or {}).get(requisito_id)
-        if via == 'persona' and pendiente and pendiente['sha256'] == sha256(original):
-            # Confirmar tal cual la propuesta de un agente: misma asociación, mismos bytes.
+        if pendiente and via in ('persona', 'decide') and (via == 'decide' or pendiente['sha256'] == sha256(original)):
+            # La persona confirma tal cual (o decide, si el modo descartó la del agente);
+            # el agente que ahora decide reemplaza su propia propuesta.
+            forma = 'decidio' if via == 'decide' or pendiente.get('descartada') else 'confirmo'
             del estado['medidas_pendientes'][requisito_id]
-            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'confirmo')
-            evento(estado, 'medidas_confirmadas', forma='confirmo', requisito=requisito_id, medidas=medidas)
+            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, forma, motivo)
+            evento(estado, 'medidas_confirmadas' if forma == 'confirmo' else 'medidas_elegidas', forma=forma,
+                   requisito=requisito_id, medidas=medidas)
             escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
-            nota_tarea(identificador, f'Medidas de {requisito_id} confirmadas por {quien(estado["medidas"][requisito_id])}.')
-            print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.')
+            nota_tarea(identificador, f'Medidas de {requisito_id}: {quien(estado["medidas"][requisito_id])}.')
+            print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.' if forma == 'confirmo'
+                  else f'Medidas de {requisito_id} registradas como decisión de {quien(estado["medidas"][requisito_id])}.')
             return
         print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
         return
@@ -1116,12 +1154,12 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             (estado.get('medidas') or {}).pop(requisito_id, None)
         else:
             (estado.get('medidas_pendientes') or {}).pop(requisito_id, None)
-            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'decidio')
+            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'decidio', motivo)
         evento(estado, 'medidas_propuestas' if via == 'propone' else 'medidas_elegidas',
                forma='propuso' if via == 'propone' else 'decidio', requisito=requisito_id, medidas=medidas, sin_medir=limite)
         escribir_atomico(carpeta / 'factory.json', (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
         escribir_atomico(ruta, datos, esperado=original)
-    nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
+    nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}; {"propuestas" if via == "propone" else "elegidas"} por {quien(registro_decision(estado, "propuso" if via == "propone" else "decidio", motivo))}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
     print(f'Asociación guardada: {ruta}')
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')

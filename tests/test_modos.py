@@ -172,13 +172,14 @@ class Modos(unittest.TestCase):
         decisiones = [e for e in estado['eventos'] if e['accion'] in ('spec_aprobada', 'medidas_elegidas', 'revision_registrada', 'cierre')]
         self.assertEqual(len(decisiones), 4)
         self.assertTrue(all(e['tipo_actor'] == 'agente' and e['modo'] == 'autonomo' for e in decisiones))
-        self.assertIn('Cerrado por agente agente-x en modo autónomo', self.stdout.getvalue())
+        self.assertIn('El cierre lo decidió el agente agente-x en modo autónomo', self.stdout.getvalue())
 
     def test_m3_cierre_en_modo_funcional(self):
         ident = self.crear('funcional')
         self.aceptar(ident)
         f.importar(ident)
-        self.medir(ident)
+        with self.escribe('Las dos medidas cubren los tres escenarios'):
+            self.medir(ident)
         hechos, informe = self.producto_y_hechos(ident)
         with self.escribe(f'REGISTRAR REVISION {ident}'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
@@ -227,6 +228,116 @@ class Modos(unittest.TestCase):
         estado = self.estado(ident)
         self.assertEqual((estado['spec_aprobada']['tipo_actor'], estado['spec_aprobada']['forma']), ('persona', 'confirmo'))
         self.assertNotIn('spec', estado['propuestas'])
+
+
+    # --- correcciones de la revisión de R2 ----------------------------------------
+    def test_m1_modo_del_proyecto_no_evita_a_la_persona(self):
+        (self.root / 'factory.json').write_text(json.dumps({'modo_por_defecto': 'autonomo'}))
+        with self.agente(), self.sin_terminal(), self.assertRaisesRegex(f.FactoryError, 'lo elige una persona'):
+            f.nuevo('Nota', con_ejemplo='notas')
+        with self.escribe('ELEGIR MODO autonomo'):
+            ident = f.nuevo('Nota', con_ejemplo='notas')
+        self.assertEqual(self.estado(ident)['modo'], 'autonomo')
+
+    def test_m3_spec_nueva_descarta_lo_anterior(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        with self.agente():
+            viejo = self.medir(ident)
+        spec = self.root / self.estado(ident)['spec']
+        spec.write_text(spec.read_text() + '\n### Requirement: conservar texto\nSHALL conservar el texto.\n#### Scenario: texto\n- THEN permanece\n')
+        self.aceptar(ident)
+        f.importar(ident)
+        estado = self.estado(ident)
+        self.assertNotIn(viejo, estado['requisitos'])
+        self.assertEqual(estado['medidas_pendientes'], {})
+        self.assertFalse([p for p in f.pendientes(estado) if viejo in p])
+
+    def test_m3_juzgar_no_cuenta_medidas_propuestas(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        with self.agente():
+            self.medir(ident)
+        hechos, _ = self.producto_y_hechos(ident)
+        with self.assertRaisesRegex(f.FactoryError, 'sin confirmar'):
+            f.juzgar(ident, hechos)
+        self.assertIsNone(self.estado(ident)['oracle'])
+
+    def test_m3_funcional_persona_decide_con_motivo(self):
+        ident = self.crear('funcional')
+        antes = self.registro(ident)
+        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', '']), \
+                self.assertRaisesRegex(f.FactoryError, 'motivo'):
+            f.aprobar_spec(ident)
+        self.assertEqual(self.registro(ident), antes)
+        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', 'Es lo que pidió el equipo']):
+            f.aprobar_spec(ident)
+        self.assertEqual(self.estado(ident)['spec_aprobada']['motivo'], 'Es lo que pidió el equipo')
+
+    def test_m4_notas_dicen_quien_decidio(self):
+        ident = self.crear('autonomo')
+        with self.agente(), self.sin_terminal():
+            f.aprobar_spec(ident)
+            f.importar(ident)
+            self.medir(ident)
+            _, informe = self.producto_y_hechos(ident)
+            f.revisar(ident, informe, 'Brian Hollweg', 'aprobar', 0)
+        notas = (self.root / 'tareas' / ident / 'TAREA.md').read_text()
+        self.assertIn('Revisión Brian Hollweg: aprobar; registrada por agente-x (agente', notas)
+        self.assertIn('elegidas por agente-x (agente', notas)
+
+    def test_m4_cierre_autonomo_no_niega_decisiones_humanas(self):
+        ident = self.crear('autonomo')
+        self.aceptar(ident)  # una persona acepta la spec
+        with self.agente(), self.sin_terminal():
+            f.importar(ident)
+            self.medir(ident)
+            hechos, informe = self.producto_y_hechos(ident)
+            f.revisar(ident, informe, 'agente-x', 'aprobar', 0)
+            f.juzgar(ident, hechos)
+            f.cerrar(ident)
+        self.assertNotIn('no hubo decisión humana', self.stdout.getvalue())
+        self.assertNotIn('no hubo decisión humana', (self.root / 'tareas' / ident / 'TAREA.md').read_text())
+        self.assertEqual(self.estado(ident)['spec_aprobada']['tipo_actor'], 'persona')
+
+    def test_m5_bajar_de_modo_el_agente_reemplaza_su_propuesta(self):
+        ident = self.crear()
+        with self.agente():
+            f.aprobar_spec(ident)
+        with self.escribe(f'CAMBIAR MODO {ident} autonomo'):
+            f.cambiar_modo(ident, 'autonomo')
+        with self.agente(), self.sin_terminal():
+            f.aprobar_spec(ident)
+        self.assertNotIn('spec', self.estado(ident)['propuestas'])
+        with self.escribe(f'CAMBIAR MODO {ident} confirmacion'):
+            f.cambiar_modo(ident, 'confirmacion')  # la spec del agente pasa a propuesta
+        self.aceptar(ident)
+        f.importar(ident)
+        with self.agente():
+            rid = self.medir(ident)
+        with self.escribe(f'CAMBIAR MODO {ident} autonomo'):
+            f.cambiar_modo(ident, 'autonomo')
+        with self.agente(), self.sin_terminal():
+            self.medir(ident)  # mismas medidas: ahora decide y retira su propuesta
+        estado = self.estado(ident)
+        self.assertEqual(estado['medidas_pendientes'], {})
+        self.assertEqual(estado['medidas'][rid]['tipo_actor'], 'agente')
+        self.assertFalse([p for p in f.pendientes(estado) if 'propuesta' in p])
+
+    def test_m5_bajar_a_funcional_descarta_decision_del_agente(self):
+        ident = self.crear('autonomo')
+        with self.agente(), self.sin_terminal():
+            f.aprobar_spec(ident)
+            f.importar(ident)
+            rid = self.medir(ident)
+            f.cambiar_modo(ident, 'funcional')  # sube la intervención: no exige persona
+        estado = self.estado(ident)
+        self.assertIsNone(estado['medidas'].get(rid))
+        self.assertTrue(estado['medidas_pendientes'][rid]['descartada'])
+        self.assertTrue(any('las decide una persona' in p for p in f.pendientes(estado)))
+        self.assertNotIn(rid, estado['medidas'])
 
 
 class Politica(unittest.TestCase):
