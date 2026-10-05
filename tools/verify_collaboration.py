@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -299,8 +300,61 @@ class Demo:
         self.check('Aporte independiente A' in merged and 'Aporte independiente B' in merged,
                    'conciliación conserva aportes de la misma tarea')
         self.save('conciliado.md', merged)
-        self.save_json('identidad.json', {'id': ident, 'misma_identidad': True,
-                    'limite': 'Este caso prueba divergencia de una tarea común; colisiones de dos tareas nuevas requieren migración humana de todas sus referencias.'})
+        collision = self.collision(base, origin)
+        self.save_json('identidad.json', {'id': ident, 'misma_identidad': True, 'colision': collision,
+                    'limite': 'Clones locales en una máquina; la migración la hace B como fixture, no una persona. '
+                              'Las referencias se buscan con tasks refs, que sólo ve menciones textuales.'})
+
+    def collision(self, base, origin):
+        # Dos tareas nuevas con el mismo ID: Task sólo evita colisiones dentro de una carpeta.
+        for attempt in range(3):
+            pair = base / f'choque{attempt}'
+            pair.mkdir()
+            a, b = pair / 'a', pair / 'b'
+            for path in [a, b]:
+                self.git(pair, 'clone', '--no-hardlinks', origin, path)
+            time.sleep(1 - time.time() % 1)  # mismo segundo con la CLI real, sin falsear el reloj
+            ids = [json.loads(self.task(path, 'new', f'Frente {who} fixture', '--sufijo', 'frente', '--json').stdout)['id']
+                   for path, who in [(a, 'A'), (b, 'B')]]
+            if ids[0] == ids[1]:
+                break
+        else:
+            raise AssertionError('tres intentos sin coincidir en el segundo: ' + repr(ids))
+        ident = ids[0]
+        (b / 'frente-b.md').write_text(f'Trabajo de B registrado en {ident}\n')
+        for path, who in [(a, 'A'), (b, 'B')]:
+            self.commit(path, f'{who} crea su tarea')
+        self.git(a, 'fetch', b, 'main')
+        before = self.git(a, 'rev-parse', 'HEAD').stdout.strip()
+        clash = self.git(a, 'merge', 'FETCH_HEAD', expected=1)
+        self.check('CONFLICT (add/add)' in clash.stdout and self.git(a, 'rev-parse', 'HEAD').stdout.strip() == before,
+                   'mismo ID en dos clones produce conflicto add/add sin avanzar HEAD')
+        self.save('colision.patch', self.git(a, 'diff').stdout)
+        self.git(a, 'merge', '--abort')
+        task_a = self.git(a, 'show', f'HEAD:tareas/{ident}/TAREA.md').stdout
+        task_b = self.git(a, 'show', f'FETCH_HEAD:tareas/{ident}/TAREA.md').stdout
+        self.check('Frente A' in task_a and 'Frente B' in task_b, 'ambos originales recuperables con identidades distintas')
+        self.save('colision-original-a.md', task_a)
+        self.save('colision-original-b.md', task_b)
+        # Migración fixture: B reserva un ID nuevo con la CLI, mueve su registro y actualiza sus referencias.
+        new = json.loads(self.task(b, 'new', 'Frente B fixture', '--sufijo', 'frente-b', '--json').stdout)['id']
+        self.check(new != ident, 'la identidad nueva difiere de la colisionada')
+        self.git(b, 'mv', '-f', f'tareas/{ident}/TAREA.md', f'tareas/{new}/TAREA.md')
+        ref = b / 'frente-b.md'
+        ref.write_text(ref.read_text().replace(ident, new))
+        migrated = self.commit(b, f'B migra su tarea de {ident} a {new}')
+        self.git(a, 'fetch', b, 'main')
+        self.git(a, 'merge', '--no-ff', '-m', 'integración tras migrar identidad', 'FETCH_HEAD')
+        self.task(a, 'review', '--json')
+        refs = json.loads(self.task(a, 'refs', ident, '--json').stdout)['coincidencias']
+        refs_new = json.loads(self.task(a, 'refs', new, '--json').stdout)['coincidencias']
+        self.check((a / 'tareas' / ident / 'TAREA.md').read_text() == task_a
+                   and (a / 'tareas' / new / 'TAREA.md').read_text() == task_b,
+                   'integración conserva ambas tareas sin fusionarlas')
+        self.check(not any(r['ruta'] == 'frente-b.md' for r in refs) and any(r['ruta'] == 'frente-b.md' for r in refs_new),
+                   'las referencias de B apuntan sólo a su identidad nueva')
+        return {'id_colisionado': ident, 'id_migrado': new, 'migracion': migrated, 'intentos': attempt + 1,
+                'candidato': self.git(a, 'rev-parse', 'HEAD').stdout.strip()}
 
     def clue_report(self, bundle):
         return {'schema_version': 'oracle-clue.review/v1',

@@ -1,0 +1,14 @@
+# Sacar de /tmp el checkout de revisión de colaboración
+
+- ESTADO: ABIERTA
+- PRIORIDAD: 40
+- ETIQUETAS: colaboracion, revision
+
+
+## Objetivo
+
+El paquete de Clue del candidato de colaboración apunta a `/tmp/factory-colaboracion-revision-4ceb4b0`, y `/tmp` se borra al reiniciar. Hay que preparar el checkout del candidato vigente en una ruta durable, regenerar ahí el contexto de Clue y conservar el paquete anterior como histórico, sin editar huellas.
+
+El entorno de la validación anterior (`/tmp/factory-guided-env`) tiene el mismo problema. Los checkouts de revisión-guiada (`/tmp/factory-revision-guiada-candidato-*`) también, pero quedan fuera de esta tarea.
+
+Relacionadas: `20261004-121432-coordinar-dos`, `20261005-100124-colision-ids` (cambia el candidato, así que va antes).

@@ -2,7 +2,7 @@
 
 - ESTADO: ABIERTA
 - PRIORIDAD: 50
-- ETIQUETAS: colaboracion, propuesta
+- ETIQUETAS: colaboracion, implementada
 
 ## Objetivo
 
@@ -73,3 +73,7 @@ Medidas de colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo: factory
 ### Nota (2026-10-04 12:31:25 UTC)
 
 Medidas de colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version: factory_colaboracion.revision_vinculada_a_una_version, factory_colaboracion.corrida_completa. SIN MEDIR: Calidad y suficiencia de la revisión cruzada y de decisiones humanas sin medir; Clue valida integridad con informe fixture.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 10:02:56 UTC)
+
+Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa. SIN MEDIR: Pilotaje en máquinas distintas y colisión de IDs entre dos cambios Factory nuevos (paquete OpenSpec y requisitos importados) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task con ID colisionado.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

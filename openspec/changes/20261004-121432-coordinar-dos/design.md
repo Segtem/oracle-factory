@@ -62,7 +62,7 @@ Tras la aceptación se asociaron medidas parciales del catálogo `factory_colabo
 - `tests/test_collaboration_sensor.py`: regresiones ante caso omitido/duplicado/desconocido/fallido, artefactos alterados/ausentes/externos y relevo incompleto.
 - Catálogos y requisitos con asociaciones parciales mediante la CLI `medir`. El resultado Oracle se conserva como observación parcial, sin registrar un gate verde.
 
-C4 observa clones locales que divergen sobre la misma tarea y la conciliación de ambos aportes. No simula ni declara probada la migración completa de dos cambios Factory nuevos con IDs colisionados; esa parte está explicitada como sin medir. C3 controla un proceso fixture que ya terminó, nunca identifica ni mata sesiones reales. Los acuerdos y triage de los casos son fixtures; no sustituyen el piloto.
+C4 observa clones locales que divergen sobre la misma tarea y la conciliación de ambos aportes. También provoca con la CLI real dos tareas Task nuevas con el mismo ID (mismo segundo y sufijo en clones distintos), comprueba el conflicto add/add y la migración de una de ellas a un ID nuevo con sus referencias, sin fusionarlas. No simula la colisión de dos cambios Factory nuevos (paquete OpenSpec y requisitos importados); esa parte está explicitada como sin medir. C3 controla un proceso fixture que ya terminó, nunca identifica ni mata sesiones reales. Los acuerdos y triage de los casos son fixtures; no sustituyen el piloto.
 
 Los artefactos se guardan bajo la tarea, separados del candidato del producto. El commit candidato y el de archivo posterior se registrarán por separado. Se prepara contexto de Clue para una revisión humana posterior; no se registra como informe ni aprobación.
 

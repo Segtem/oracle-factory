@@ -50,7 +50,7 @@ git -C producto-a switch -c trabajo/persona-a BASE_ACORDADA
 
 La otra persona usa su propia carpeta/rama. Compartan commits mediante el remoto acordado; `git fetch origin` actualiza referencias, pero no modifica el checkout ni confirma un relevo. El envío de ramas debe estar autorizado por el equipo. Los registros locales de Task no se sincronizan por sí solos.
 
-Antes de recibir una entrega, revisen `git status --short`, el ID completo y el commit ofrecido. No integren encima de trabajo pendiente. Si estuvieron desconectados, reconcilien asignaciones y referencias antes de continuar. Ante dos tareas nuevas con el mismo ID, conserven ambos originales, creen una identidad nueva para una de ellas y actualicen todas sus referencias —incluido su paquete Factory si existe— con revisión humana. No fusionen dos identidades como si fueran la misma tarea. Esa migración no tiene un comando automático en este corte.
+Antes de recibir una entrega, revisen `git status --short`, el ID completo y el commit ofrecido. No integren encima de trabajo pendiente. Si estuvieron desconectados, reconcilien asignaciones y referencias antes de continuar. Ante dos tareas nuevas con el mismo ID, conserven ambos originales, creen una identidad nueva para una de ellas y actualicen todas sus referencias —incluido su paquete Factory si existe— con revisión humana. No fusionen dos identidades como si fueran la misma tarea. Esa migración no tiene un comando automático en este corte; el caso C4 de la demostración la recorre para una tarea Task (reservar el ID nuevo con `tasks new`, mover el registro con `git mv`, actualizar referencias y comprobar con `tasks refs`).
 
 ## 3. Entregar y retomar sin perder contexto
 
