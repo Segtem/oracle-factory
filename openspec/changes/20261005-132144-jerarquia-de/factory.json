@@ -2,10 +2,17 @@
   "id": "20261005-132144-jerarquia-de",
   "titulo": "Jerarquía de carpetas y comandos para encontrar las cosas",
   "capacidad": "estructura",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a",
+  "spec_aprobada": {
+    "por": "workstation",
+    "cuando": "2026-10-05T15:48:57+00:00",
+    "documentos": {
+      "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "c26b7b71efa712b973fb7a9bae9086bd27179fe7dfd4e65b8a2386a93293e360",
+      "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -15,6 +22,24 @@
       "por": "workstation",
       "cuando": "2026-10-05T13:21:44+00:00",
       "capacidad": "estructura"
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T15:43:39+00:00",
+      "documentos": {
+        "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "c26b7b71efa712b973fb7a9bae9086bd27179fe7dfd4e65b8a2386a93293e360",
+        "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T15:48:57+00:00",
+      "documentos": {
+        "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "c26b7b71efa712b973fb7a9bae9086bd27179fe7dfd4e65b8a2386a93293e360",
+        "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
+      }
     }
   ]
 }
