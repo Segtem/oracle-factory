@@ -71,3 +71,43 @@ Medidas de portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado pr
 ### Nota (2026-10-05 19:32:36 UTC)
 
 Medidas de portabilidad_cbe858e976e618573.respetar_los_registros_existentes propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:24 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.respetar_los_registros_existentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 19:52:41 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 13656b38df36cfbdc449c0d1544383265c20aaf4; informe tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/informe.json; decisiones tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/decisiones.json.
+
+### Nota (2026-10-05 19:54:34 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-184427-los-registros-de/oracle-veredicto.txt.
+
+### Nota (2026-10-05 19:54:40 UTC)
+
+Medidas y revisión guiada registradas por Brian desde su terminal (2026-10-05); veredicto Oracle verde sobre fd1bfe7 con los hechos tareas/20261005-184427-los-registros-de/evidencia-fd1bfe7/hechos.json (11 casos, 7 requisitos cumplen). Prueba entre contenedores: M1 a M5 cumplen. Listo para cierre.

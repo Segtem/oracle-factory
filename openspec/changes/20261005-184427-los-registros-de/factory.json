@@ -2,7 +2,7 @@
   "id": "20261005-184427-los-registros-de",
   "titulo": "Los registros de Factory funcionan en otra máquina",
   "capacidad": "portabilidad",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md",
   "spec_sha256": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c",
   "spec_aprobada": {
@@ -25,8 +25,39 @@
     "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
     "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/informe.json",
+    "sha256": "298a375f0db7ab9a0f4ff35b2d2b50d44836337a92023c1dedba405fe4e114aa",
+    "decisiones": "tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/decisiones.json",
+    "decisiones_sha256": "5aa810d5fe0653b9cc547d095decddd48125e0276e52cc204bae3381ddfd6c72",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T19:52:41+00:00",
+    "contexto": {
+      "head": "13656b38df36cfbdc449c0d1544383265c20aaf4",
+      "archivos_sha256": "d5eb4fc76ad322e6f47e3b96d911b06c5bfa48b6c873cf512130524bd2abbf53"
+    },
+    "head_preparacion": "e43c4a5f7483c28726d4bab36d7bfa6ca7a624f1"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261005-184427-los-registros-de/evidencia-fd1bfe7/hechos.json",
+    "hechos_sha256": "0b443436df2deb71f1161d49975c689be7e6551f69411bcbabe6a821512dffef",
+    "informe": "openspec/changes/20261005-184427-los-registros-de/oracle-veredicto.txt",
+    "informe_sha256": "d104601aed83e53734dae0f2054f13c74ff7c9e4b29329fd48342f6cbf3ad646",
+    "cuando": "2026-10-05T19:54:34+00:00",
+    "contexto": {
+      "head": "13656b38df36cfbdc449c0d1544383265c20aaf4",
+      "archivos_sha256": "d5eb4fc76ad322e6f47e3b96d911b06c5bfa48b6c873cf512130524bd2abbf53"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -255,6 +286,122 @@
         "factory_portabilidad.respetar_los_registros_existentes",
         "factory_portabilidad.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto",
+      "medidas": [
+        "factory_portabilidad.hechos_con_ruta_relativa_al_proyecto",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan",
+      "medidas": [
+        "factory_portabilidad.advertir_cuando_los_hechos_no_viajan",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa",
+      "medidas": [
+        "factory_portabilidad.fuente_de_los_requisitos_relativa",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse",
+      "medidas": [
+        "factory_portabilidad.pendiente_que_explica_como_recuperarse",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra",
+      "medidas": [
+        "factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
+      "medidas": [
+        "factory_portabilidad.sin_rutas_privadas_en_lo_versionado",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "requisito": "portabilidad_cbe858e976e618573.respetar_los_registros_existentes",
+      "medidas": [
+        "factory_portabilidad.respetar_los_registros_existentes",
+        "factory_portabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T19:52:41+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "298a375f0db7ab9a0f4ff35b2d2b50d44836337a92023c1dedba405fe4e114aa",
+      "decisiones_sha256": "5aa810d5fe0653b9cc547d095decddd48125e0276e52cc204bae3381ddfd6c72"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T19:54:34+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "0b443436df2deb71f1161d49975c689be7e6551f69411bcbabe6a821512dffef"
     }
   ],
   "tipos": {
@@ -266,49 +413,63 @@
     "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado": "no funcional",
     "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto": {
-      "sha256": "e6ad11ee1d685f40705009a636f514456793005154c604a69ca1e2a68a8e4132",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "e6ad11ee1d685f40705009a636f514456793005154c604a69ca1e2a68a8e4132"
     },
     "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan": {
-      "sha256": "10a7e14165dac4196c80492c09ad32b477fd9818ac71ac22e77078ec948f4aba",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "10a7e14165dac4196c80492c09ad32b477fd9818ac71ac22e77078ec948f4aba"
     },
     "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa": {
-      "sha256": "fff361697b4d6584624cfbbcaed9cda02db6d331ee4d05a7016bd840c1557980",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "fff361697b4d6584624cfbbcaed9cda02db6d331ee4d05a7016bd840c1557980"
     },
     "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse": {
-      "sha256": "e8ddf44c0736a9f431002dde8e07fdc5c3cdac13a92354e3ab8dcce1c450f837",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "e8ddf44c0736a9f431002dde8e07fdc5c3cdac13a92354e3ab8dcce1c450f837"
     },
     "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra": {
-      "sha256": "ac360d794d4395e633207bb0a75c89b911bee75552b999116f3193d2dc736d4e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "ac360d794d4395e633207bb0a75c89b911bee75552b999116f3193d2dc736d4e"
     },
     "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado": {
-      "sha256": "526b840a0ff2dd6ed7378b4e607a7eeadd07a7f32e5f2f834ac87321487dfb7c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "526b840a0ff2dd6ed7378b4e607a7eeadd07a7f32e5f2f834ac87321487dfb7c"
     },
     "portabilidad_cbe858e976e618573.respetar_los_registros_existentes": {
-      "sha256": "18e4111fd8bad612f25349265883fad031232c78b9bee64493ab9c781883583d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T19:32:36+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T19:52:24+00:00",
+      "sha256": "18e4111fd8bad612f25349265883fad031232c78b9bee64493ab9c781883583d"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
