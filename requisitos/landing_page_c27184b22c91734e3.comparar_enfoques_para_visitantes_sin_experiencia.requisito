@@ -1,4 +1,4 @@
 requisito landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia:
     texto "The system SHALL explain vibe coding, the software development lifecycle, specification-driven development and Oracle Factory using the same notes example, plain language, human responsibilities and verification methods, without presenting these approaches as mutually exclusive."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#comparar enfoques para visitantes sin experiencia"
+    fuente "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#comparar enfoques para visitantes sin experiencia"
     sin_medir "sin medida todavía; escenarios: «visitante compara cuatro formas de crear software»"

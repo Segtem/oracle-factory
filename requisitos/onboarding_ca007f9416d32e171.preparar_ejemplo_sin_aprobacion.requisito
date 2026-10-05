@@ -1,4 +1,4 @@
 requisito onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion:
     texto "The system SHALL prepare an example-backed change with complete editable documents and catalogs, without approving the specification or assigning measurements."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md#preparar ejemplo sin aprobacion"
+    fuente "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md#preparar ejemplo sin aprobacion"
     medido_por factory_guiada.preparar_ejemplo_sin_aprobacion

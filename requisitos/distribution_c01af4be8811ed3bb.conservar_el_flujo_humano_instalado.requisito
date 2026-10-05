@@ -1,4 +1,4 @@
 requisito distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado:
     texto "The system SHALL use packaged dependencies and retain scope approval, evidence, review and closure gates outside its own checkout."
-    fuente "/tmp/oracle-release-work/factory/openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md#conservar el flujo humano instalado"
+    fuente "openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md#conservar el flujo humano instalado"
     sin_medir "sin medida todavía; escenarios: «instalación aislada»"

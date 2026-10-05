@@ -1,4 +1,4 @@
 requisito revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada:
     texto "El sistema SHALL mostrar la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana, revalidando contexto y documentos después de recibirla."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md#registrar confirmacion humana informada"
+    fuente "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md#registrar confirmacion humana informada"
     medido_por factory_revision_guiada.registrar_confirmacion_humana_informada, factory_revision_guiada.corrida_completa

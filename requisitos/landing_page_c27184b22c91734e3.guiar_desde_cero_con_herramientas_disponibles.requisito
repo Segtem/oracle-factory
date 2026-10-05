@@ -1,4 +1,4 @@
 requisito landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles:
     texto "The system SHALL provide a separate Spanish onboarding page covering installation with uv and published PyPI tools, the current Factory checkout and a bundled reproducible example through local human-confirmed closure, clearly separating available capabilities from planned distribution."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#guiar desde cero con herramientas disponibles"
+    fuente "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#guiar desde cero con herramientas disponibles"
     sin_medir "sin medida todavía; escenarios: «persona sigue la guía desde cero»"

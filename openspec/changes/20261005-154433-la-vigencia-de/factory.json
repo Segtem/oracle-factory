@@ -44,7 +44,7 @@
   "oracle": {
     "codigo": 0,
     "codigo_oracle": 0,
-    "hechos": "/home/workstation/Dev/factory-vigencia/tareas/20261005-154433-la-vigencia-de/evidencia-2509c13/hechos.json",
+    "hechos": "tareas/20261005-154433-la-vigencia-de/evidencia-2509c13/hechos.json",
     "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2",
     "informe": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
     "informe_sha256": "9d02058c6597a9fb1d7698bf4a1f186a241209a796145780f19c58cc7ac63527",
@@ -233,6 +233,32 @@
       "cuando": "2026-10-05T18:18:59+00:00",
       "oracle": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
       "revision": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json"
+    },
+    {
+      "accion": "rutas_limpiadas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:51:48+00:00",
+      "requisitos": {
+        "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": {
+          "anterior": "60bd88d9b2237c5bfe1d21ce1e5337d87e04c84ee5f39dff7c51dbe88812ea4d",
+          "nuevo": "82e6de02ec986fac23c1972a6e05dd2066dfdcbf4fed5bdfd33b8ad8e90ef6dd"
+        },
+        "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": {
+          "anterior": "99172deb87410a18fdfc19add2bbee9e3d521a85bad4bbe5b3ef7f8661f0e6ff",
+          "nuevo": "e92dda6d1dcbf6364dee9211be22afbf0ca915d1e9acfc82f2f165093d56c5e1"
+        },
+        "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": {
+          "anterior": "71f2757fcf90f1a61f5c04664720f78b138eba24d6fb5751914ca0ed6db5c59d",
+          "nuevo": "43f6eb6a885588ba8fa341fa9cde4e1839e691888d1cfc73e8e979c911dbb9c5"
+        },
+        "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": {
+          "anterior": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa",
+          "nuevo": "3d385468aa4c4143dec5699057f8ec9ba42700a0ee901019ec8179bfec293dc7"
+        }
+      }
     }
   ],
   "tipos": {
@@ -248,7 +274,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T15:56:09+00:00",
-      "sha256": "60bd88d9b2237c5bfe1d21ce1e5337d87e04c84ee5f39dff7c51dbe88812ea4d"
+      "sha256": "82e6de02ec986fac23c1972a6e05dd2066dfdcbf4fed5bdfd33b8ad8e90ef6dd"
     },
     "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": {
       "actor": "Brian Hollweg",
@@ -256,7 +282,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T15:56:10+00:00",
-      "sha256": "99172deb87410a18fdfc19add2bbee9e3d521a85bad4bbe5b3ef7f8661f0e6ff"
+      "sha256": "e92dda6d1dcbf6364dee9211be22afbf0ca915d1e9acfc82f2f165093d56c5e1"
     },
     "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": {
       "actor": "Brian Hollweg",
@@ -264,7 +290,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T15:56:10+00:00",
-      "sha256": "71f2757fcf90f1a61f5c04664720f78b138eba24d6fb5751914ca0ed6db5c59d"
+      "sha256": "43f6eb6a885588ba8fa341fa9cde4e1839e691888d1cfc73e8e979c911dbb9c5"
     },
     "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": {
       "actor": "Brian Hollweg",
@@ -272,7 +298,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T15:56:10+00:00",
-      "sha256": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa"
+      "sha256": "3d385468aa4c4143dec5699057f8ec9ba42700a0ee901019ec8179bfec293dc7"
     }
   },
   "medidas_pendientes": {},

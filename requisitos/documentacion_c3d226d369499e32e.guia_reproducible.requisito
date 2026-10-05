@@ -1,4 +1,4 @@
 requisito documentacion_c3d226d369499e32e.guia_reproducible:
     texto "La guía MUST describir cada comando, archivo y confirmación necesarios para el ejemplo local."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261003-235610-web-rigurosa/specs/documentacion/spec.md#Guía reproducible"
+    fuente "openspec/changes/20261003-235610-web-rigurosa/specs/documentacion/spec.md#Guía reproducible"
     sin_medir "sin medida todavía; escenarios: «proyecto vacío»"

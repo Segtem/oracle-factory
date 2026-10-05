@@ -1,4 +1,4 @@
 requisito measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida:
     texto "The system SHALL only associate explicitly selected existing measurements with a requirement imported by the current approved change."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md#asociacion explicita y valida"
+    fuente "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md#asociacion explicita y valida"
     medido_por factory_guiada.asociacion_explicita_y_valida
