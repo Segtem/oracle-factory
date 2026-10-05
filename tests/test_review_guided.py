@@ -58,7 +58,7 @@ class RevisionGuiada(unittest.TestCase):
             f.aprobar_spec(ID)
 
     def git(self, *args):
-        argv = ['git', '-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Fixture',
+        argv = ['git', '-c', 'core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false', '-c', 'user.name=Fixture',
                 '-c', 'user.email=fixture@example.invalid', *args]
         env = {k: v for k, v in os.environ.items() if not k.startswith('GIT_')}
         env.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1')
@@ -362,7 +362,7 @@ class RevisionGuiada(unittest.TestCase):
         rid=json.loads(state_path.read_text())['requisitos'][0]
         cli('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir',stdin='')
         run('git','add','.')
-        run('git','-c','core.hooksPath=/dev/null','-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','producto fixture')
+        run('git','-c','core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false','-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','producto fixture')
         facts=root/'tareas'/ident/'hechos.json'
         run(sys.executable,'examples/notas/sensor.py','--salida',facts)
         out=cli('revision-preparar',ident)

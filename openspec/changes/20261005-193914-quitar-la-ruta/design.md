@@ -15,3 +15,9 @@ Se completa después de la aceptación.
 - **Si se corta a mitad:** primero se escriben los `factory.json` (con el hash nuevo) y después los requisitos, cada archivo con reemplazo atómico; la corrida siguiente termina el trabajo sin duplicar el evento.
 - **El evento no es una decisión:** `rutas_limpiadas` lleva `forma: migracion`.
 - **El verificador compara `estado` de verdad:** de cada cambio que ya estaba en la base indicada con `--antes` (el commit justo antes de aplicar la limpieza), salvo los que se excluyen con `--excluir`. Contra `main` no sirve: el último cambio integrado figura «al día» sólo mientras ningún archivo del producto cambie, y limpiar archivos del producto lo vuelve «desactualizado», como cualquier otro commit.
+
+## Límites declarados
+
+- **Sólo Linux, probado:** las rutas de Windows (barras invertidas) no se soportan; una fuente con una ruta así se avisa y no se reescribe.
+- **Una fuente con texto después de la comilla de cierre** no es una forma que Oracle admita; no se reescribe ni se avisa.
+- **El historial de Git no se toca:** la ruta sigue en los commits anteriores y en `tareas/`, que no se reescribe.
