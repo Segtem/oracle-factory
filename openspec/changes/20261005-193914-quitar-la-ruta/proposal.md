@@ -31,11 +31,11 @@ Detalles de la limpieza de los 46 registros:
 
 ## Human decisions
 
-Pendiente de aceptación de proposal.md y spec.md. Preguntas abiertas para Brian:
+Brian respondió el 2026-10-05, eligiendo las cuatro recomendaciones:
 
-1. **La historia de Git:** ¿se deja como está (lo recomendado) o se reescribe?
-2. **La evidencia de `tareas/**`:** ¿se deja intacta por estar atada a hashes y a paquetes de Clue (lo recomendado)?
-3. **Actualizar los hashes de las decisiones** de los cambios cerrados, con un evento que lo documente: ¿de acuerdo? Es reescribir un registro de decisión, aunque sea de forma mecánica y trazable.
-4. **Orden:** este cambio modifica requisitos del producto, así que deja desactualizadas las revisiones abiertas. Se propone hacerlo cuando entre a `main` el cambio de portabilidad, que ya reescribe los suyos.
+1. **La historia de Git queda como está.** No se reescribe ni se fuerza ningún push.
+2. **La evidencia de `tareas/**` queda intacta**, por estar atada a hashes y a paquetes de Clue.
+3. **Las decisiones de medidas actualizan su hash con un evento** `rutas_limpiadas` que registra el hash anterior y el nuevo.
+4. **Se hace ahora, sobre `main`.** El cambio de portabilidad, que era la condición, ya está integrado. Sólo colaboración tiene una revisión abierta y ya estaba desactualizada.
 
-Preparar esta propuesta no acepta el cambio ni autoriza implementarlo.
+Pendiente: aceptación de proposal.md y spec.md. Preparar esto no la acepta ni autoriza implementarlo.
