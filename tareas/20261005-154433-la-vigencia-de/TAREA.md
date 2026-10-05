@@ -31,3 +31,19 @@ Medidas de vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido: fac
 ### Nota (2026-10-05 15:53:46 UTC)
 
 Medidas de vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes: factory_vigencia.respetar_los_registros_existentes, factory_vigencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 15:56:09 UTC)
+
+Medidas de vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 15:56:10 UTC)
+
+Medidas de vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 15:56:10 UTC)
+
+Medidas de vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 15:56:10 UTC)
+
+Medidas de vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes: Brian Hollweg (persona, confirmo, modo confirmacion).

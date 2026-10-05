@@ -116,6 +116,58 @@
         "factory_vigencia.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:09+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "medidas": [
+        "factory_vigencia.vigencia_por_contenido_del_producto",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+      "medidas": [
+        "factory_vigencia.el_commit_observado_se_conserva_y_se_muestra",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "medidas": [
+        "factory_vigencia.informe_guiado_vinculado_al_contenido",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+      "medidas": [
+        "factory_vigencia.respetar_los_registros_existentes",
+        "factory_vigencia.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -124,31 +176,39 @@
     "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": "no funcional",
     "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": {
-      "sha256": "60bd88d9b2237c5bfe1d21ce1e5337d87e04c84ee5f39dff7c51dbe88812ea4d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T15:53:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:09+00:00",
+      "sha256": "60bd88d9b2237c5bfe1d21ce1e5337d87e04c84ee5f39dff7c51dbe88812ea4d"
     },
     "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": {
-      "sha256": "99172deb87410a18fdfc19add2bbee9e3d521a85bad4bbe5b3ef7f8661f0e6ff",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T15:53:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "99172deb87410a18fdfc19add2bbee9e3d521a85bad4bbe5b3ef7f8661f0e6ff"
     },
     "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": {
-      "sha256": "71f2757fcf90f1a61f5c04664720f78b138eba24d6fb5751914ca0ed6db5c59d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T15:53:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "71f2757fcf90f1a61f5c04664720f78b138eba24d6fb5751914ca0ed6db5c59d"
     },
     "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": {
-      "sha256": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T15:53:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
