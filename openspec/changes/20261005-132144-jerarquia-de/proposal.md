@@ -43,9 +43,11 @@ Para encontrar la evidencia de un candidato o el informe que respalda una revisi
 
 ## Human decisions
 
-Pendiente de aceptación de proposal.md y spec.md. Preguntas abiertas para Brian:
+Brian respondió en la conversación del 2026-10-05, aceptando las recomendaciones:
 
-1. **Raíz de los checkouts de revisión.** Hoy es `~/Dev/_revisiones/`, por convención de esta máquina. ¿Factory la toma de `factory.json` del proyecto con ese valor por defecto, o usa un lugar estándar del usuario (`~/.local/share/oracle-factory/revisiones/`)?
-2. **Nombre de la carpeta de candidato:** ¿SHA de 7 caracteres, como en Git y en lo que ya hay, o de 12, que es más robusto ante colisiones?
-3. **Cambios existentes:** ¿quedan como están, marcados históricos por `donde` (lo propuesto), o se migran en un cambio aparte?
-4. **Nombres de los comandos:** ¿`donde`, `ruta` y `buscar`, en español como el resto de la CLI?
+1. **Raíz de los checkouts de revisión:** configurable en `factory.json` del proyecto con la clave `raiz_revisiones`; por defecto `~/Dev/_revisiones`. Quien trabaje en otra máquina la cambia en su `factory.json`.
+2. **Carpeta de candidato:** SHA de 7 caracteres.
+3. **Cambios existentes:** quedan como están; `donde` los marca como históricos.
+4. **Comandos:** `donde`, `ruta` y `buscar`, en español.
+
+Pendiente: aceptación de proposal.md y spec.md. Preparar esta propuesta no la acepta ni autoriza implementarla.

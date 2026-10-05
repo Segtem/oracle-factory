@@ -1,3 +1,1 @@
-# Design
-
-Se completa después de la aceptación, con las respuestas a las preguntas abiertas de la propuesta.
+# Design\n\nNotas para implementar después de la aceptación.\n\n- `raiz_revisiones` se lee como `tipos_obligatorios` y `modo_por_defecto`: en `config_proyecto()`, con validación y valor por defecto.\n- El SHA de 7 caracteres es `git rev-parse --short=7`. Si dos candidatos del mismo cambio colisionaran, `ruta` lo detecta y falla en vez de elegir.\n- Comandos de sólo lectura; `ruta` imprime y nunca crea carpetas.\n

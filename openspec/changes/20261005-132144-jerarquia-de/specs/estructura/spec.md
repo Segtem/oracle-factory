@@ -4,7 +4,12 @@
 
 ### Requirement: estructura documentada
 Tipo: funcional
-La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: la raíz, el acuerdo y los registros en `openspec/changes/<ID>/`, el trabajo en `tareas/<ID>/` con una carpeta por candidato, y los checkouts de revisión fuera del repositorio.
+La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: la raíz, el acuerdo y los registros en `openspec/changes/<ID>/`, el trabajo en `tareas/<ID>/` con una carpeta por candidato, y los checkouts de revisión fuera del repositorio, en la carpeta que indica `raiz_revisiones` del `factory.json` del proyecto (por defecto `~/Dev/_revisiones`). La carpeta de cada candidato se llama como el SHA de 7 caracteres de su commit.
+
+#### Scenario: raíz de revisiones configurada
+- GIVEN un `factory.json` con `raiz_revisiones` apuntando a otra carpeta
+- WHEN se consulta la documentación o se usa ruta con el tipo clue
+- THEN la raíz es la configurada y no la de por defecto
 
 #### Scenario: una persona busca la evidencia de un candidato
 - GIVEN un cambio con evidencia producida sobre un commit
