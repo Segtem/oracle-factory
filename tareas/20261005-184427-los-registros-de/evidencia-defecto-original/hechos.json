@@ -1,0 +1,30 @@
+{
+  "maquinas_caso": [
+    {
+      "caso": "M1",
+      "codigo": 0
+    },
+    {
+      "caso": "M2",
+      "codigo": 1
+    },
+    {
+      "caso": "M3",
+      "codigo": 1
+    },
+    {
+      "caso": "M5",
+      "codigo": 0
+    },
+    {
+      "caso": "M4",
+      "codigo": 1
+    }
+  ],
+  "maquinas_corrida": [
+    {
+      "completa": 0,
+      "casos": 5
+    }
+  ]
+}

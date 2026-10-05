@@ -1,0 +1,43 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "298a375f0db7ab9a0f4ff35b2d2b50d44836337a92023c1dedba405fe4e114aa",
+  "actor": "Brian Hollweg",
+  "motivo": "Decisiones de Brian en la conversación del 2026-10-05; cada una cita sus palabras. La pregunta fue «¿Vamos con las cuatro correcciones de R2P-01 a R2P-04 y el riesgo aceptado de R2P-05?» y la respuesta empezó con «Dale».",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2P-01",
+      "estado": "corregido",
+      "motivo": "«Dale…»; corregido en fd1bfe7.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T19:41:29+00:00"
+    },
+    {
+      "hallazgo_id": "R2P-02",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T19:41:29+00:00"
+    },
+    {
+      "hallazgo_id": "R2P-03",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T19:41:29+00:00"
+    },
+    {
+      "hallazgo_id": "R2P-04",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T19:41:29+00:00"
+    },
+    {
+      "hallazgo_id": "R2P-05",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje: el remoto de prueba no autentica, pero existe sólo en su red privada.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T19:41:29+00:00"
+    }
+  ]
+}

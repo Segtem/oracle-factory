@@ -414,6 +414,21 @@ def aprobar_spec(identificador: str) -> None:
     print("Alcance aprobado; sus requisitos todavía deben importarse y medirse.")
     siguiente(identificador, estado["fase"])
 
+def fuente_relativa(ruta: Path) -> None:
+    """Oracle escribe la fuente con la ruta de esta máquina; en el repositorio va relativa al proyecto."""
+    if not ruta.is_file():
+        return
+    texto = ruta.read_text(encoding="utf-8")
+    # Oracle escapa las comillas y las barras invertidas de la ruta: se reconocen las dos formas.
+    relativa = texto
+    for prefijo in {str(ROOT), json.dumps(str(ROOT))[1:-1]}:
+        relativa = relativa.replace(f'fuente "{prefijo}/', 'fuente "')
+    if relativa != texto:
+        ruta.write_text(relativa, encoding="utf-8")
+    if re.search(r'(?m)^\s*fuente "/', relativa):
+        print(f"Aviso: no pude hacer relativa la fuente de {ruta.name}; conserva una ruta absoluta de esta máquina.", file=sys.stderr)
+
+
 def importar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     exigir_spec(carpeta, estado)
@@ -439,6 +454,8 @@ def importar(identificador: str) -> None:
     sin_tipo = [i for i in ids if i.split(".", 1)[1] not in tipos]
     if sin_tipo:
         raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
+    for rid in ids:
+        fuente_relativa(ROOT / "requisitos" / f"{rid}.requisito")
     estado["requisitos"] = ids
     estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
     for clave in ("medidas", "medidas_pendientes"):
@@ -681,6 +698,17 @@ def juzgar(identificador: str, hechos: Path) -> None:
     hechos = hechos.resolve()
     if not hechos.is_file():
         raise FactoryError(f"no encuentro los hechos del sensor: {hechos}")
+    # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
+    try:
+        ruta_hechos = hechos.relative_to(ROOT).as_posix()
+    except ValueError:
+        ruta_hechos = str(hechos)
+        print(f"Aviso: los hechos están fuera del proyecto ({hechos}); otra máquina no podrá verificarlos. "
+              "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
+    else:
+        if ejecutar(["git", "check-ignore", "-q", str(hechos)]).returncode == 0:
+            print(f"Aviso: los hechos ({ruta_hechos}) están ignorados por Git y no viajan con el repositorio; otra máquina "
+                  "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
     contexto = contexto_producto()
     huella = sha256(hechos.read_bytes())
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(ROOT)])
@@ -698,7 +726,7 @@ def juzgar(identificador: str, hechos: Path) -> None:
     ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
     estado["oracle"] = {
         "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
-        "hechos": str(hechos), "hechos_sha256": huella,
+        "hechos": ruta_hechos, "hechos_sha256": huella,
         "informe": str(informe.relative_to(ROOT)), "informe_sha256": sha256(informe.read_bytes()),
         "cuando": ahora(), "contexto": contexto,
     }
@@ -790,7 +818,11 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
-            faltan.append(etiqueta + " ausente")
+            if etiqueta == "hechos":
+                faltan.append(f"hechos ausentes ({ruta}); en esta máquina se recuperan juzgando de nuevo con los hechos "
+                              f"del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
+            else:
+                faltan.append(etiqueta + " ausente")
     # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
     if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
         faltan.append("revisión sin evidencia vinculada")

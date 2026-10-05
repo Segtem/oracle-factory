@@ -1,0 +1,65 @@
+{
+  "portabilidad_caso": [
+    {
+      "requisito": "hechos_con_ruta_relativa_al_proyecto",
+      "caso": "p1_hechos_dentro_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "hechos_con_ruta_relativa_al_proyecto",
+      "caso": "p1_clon_en_otra_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "advertir_cuando_los_hechos_no_viajan",
+      "caso": "p2_hechos_ignorados_por_git",
+      "codigo": 0
+    },
+    {
+      "requisito": "advertir_cuando_los_hechos_no_viajan",
+      "caso": "p2_hechos_fuera_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "fuente_de_los_requisitos_relativa",
+      "caso": "p3_fuente_relativa",
+      "codigo": 0
+    },
+    {
+      "requisito": "fuente_de_los_requisitos_relativa",
+      "caso": "p3_fuente_con_comillas_en_la_ruta_se_reescribe_o_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "pendiente_que_explica_como_recuperarse",
+      "caso": "p4_pendiente_explica_como_recuperarse",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra",
+      "caso": "p5_cierre_desde_un_clon_en_otra_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_rutas_privadas_en_lo_versionado",
+      "caso": "p6_sin_rutas_privadas_en_lo_versionado",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_rutas_privadas_en_lo_versionado",
+      "caso": "p6_los_requisitos_de_este_repositorio_no_llevan_rutas_privadas",
+      "codigo": 0
+    },
+    {
+      "requisito": "respetar_los_registros_existentes",
+      "caso": "p7_registro_anterior_con_ruta_absoluta",
+      "codigo": 0
+    }
+  ],
+  "portabilidad_corrida": [
+    {
+      "completa": 1,
+      "casos": 11
+    }
+  ]
+}
