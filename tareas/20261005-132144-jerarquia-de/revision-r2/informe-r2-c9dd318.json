@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-estructura-c9dd318",
+  "base": "c3e89546618bcd6c3f9cdcc80d8a6b0730f4486f",
+  "head": "c9dd318a48a003d6a76fd001263af01590fc747a",
+  "diff_sha256": "60103068189b94495ff00ae6c28509cc7c62f25a79909538faaad1dd2d99e396",
+  "context_sha256": "daf5962103e115674c23c0cedf3226088cdb6c1b67acdbe5fe71efc19cf1cc10",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2Y-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.55,
+      "title": "Las pruebas con repositorios Git temporales pueden fallar al limpiar la carpeta temporal («Directory not empty: …/.git»)",
+      "explanation": "Una corrida de tools/verify_modos.py, mientras tools/verify_collaboration.py corría en paralelo, dejó el resultado exitoso=false con un ERROR en test_e6_cambio_anterior_a_la_estructura: TemporaryDirectory.cleanup() falló con «OSError: [Errno 39] Directory not empty: /tmp/tmp…/producto/.git». Las otras dos corridas del mismo sensor, hechas después y sin carga, dieron éxito; la suite completa (154) también. Parece una carrera entre el borrado y un proceso de Git que sigue escribiendo en .git (por ejemplo gc --auto o el mantenimiento automático lanzado por git commit), que el ayudante GIT de las pruebas no desactiva (sólo fija user, email y hooksPath). Es una sospecha: no capturé el proceso. Me pasó una vez algo parecido, sin guardar la salida, en la suite de limpieza. No es un defecto del producto, pero un sensor que falla por azar quita valor a su verde.",
+      "location": {
+        "file": "tests/test_estructura.py",
+        "start_line": 391,
+        "end_line": 398,
+        "side": "head"
+      },
+      "trigger": "Correr el sensor o la suite con la máquina cargada, por ejemplo junto con otro arnés que use Git.",
+      "evidence": "Verificado que ocurrió: revision-r2/evidencia-modos-c9dd318/suite.txt (traceback de cleanup). La causa es hipótesis. Las corridas siguientes (evidencia-modos-c9dd318-1 y -2) dan éxito.",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Ver suite.txt. Para probar la hipótesis: agregar -c gc.auto=0 -c maintenance.auto=false al ayudante GIT (y a los git init de los fixtures) y repetir la corrida con carga."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre c9dd318: suite (154 OK); tools/verify_estructura.py --salida revision-r2/evidencia-estructura-c9dd318 (32 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 10 requisitos estructura_cd7e5b6… con ✓ cumple); tools/verify_modos.py (27 casos; ver R2Y-01: una corrida con carga falló por la limpieza de una carpeta temporal y dos corridas sin carga dieron éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); mis sondas anteriores (sondas_r2t.py: 0 excepciones en donde, fragmento visible, buscar igual) y los comandos reales con un .factory enlazado.",
+    "R2U-01 resuelto: con .factory enlazado a una carpeta externa que contiene cambios/<ID>/candidatos/abc1234/evidencia, donde ID ya no lista ningún candidato (antes sí) y buscar sigue en 0 coincidencias; con un .factory real, donde sí lo lista (control), así que la guarda no oculta lo legítimo. La prueba e6_donde_no_lista_a_traves_de_un_factory_enlazado prueba lo que dice: con .factory enlazado no hay filas «candidato». Con esto R2S-05 queda resuelto.",
+    "Sin regresiones que haya visto. No probé Windows, Python 3.11 ni 3.12, y no corrí vigencia, portabilidad, limpieza ni revisión guiada, ni los arneses de release ni verify_guide."
+  ]
+}

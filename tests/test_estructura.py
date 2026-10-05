@@ -15,7 +15,7 @@ from oracle_factory import cli as f
 from oracle_factory import estructura
 
 SOURCE = Path(__file__).resolve().parents[1]
-GIT = ['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null']
+GIT = ['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false']
 
 
 class Estructura(unittest.TestCase):

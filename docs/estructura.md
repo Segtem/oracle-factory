@@ -81,3 +81,9 @@ Los cambios creados antes de esta estructura tienen su evidencia en carpetas con
 ## Lo que viene
 
 Esta es la primera fase. El estado de cada cambio (`factory.json`, `review.md`, `oracle-veredicto.txt`) y la configuración del proyecto todavía viven en `openspec/changes/<ID>/` y en la raíz; pasarlos a `.factory/` es un cambio aparte.
+
+## Límites declarados
+
+- **Sólo Linux, probado.** No se probó en Windows ni con otras versiones de Python que la del entorno de desarrollo.
+- **`.factory/` entera queda fuera de la huella del producto**, por decisión de la spec: lo que Factory produce (evidencia, paquetes, informes) no invalida una revisión. Otra herramienta que use una carpeta `.factory` en el mismo proyecto se tomaría como propia; la carpeta personal y los enlaces simbólicos nunca cuentan como raíz.
+- **`buscar` y `donde` no rechazan un enlace simbólico en otro lugar** (por ejemplo `openspec/` o `tareas/` enlazados): son de sólo lectura y el enlace lo puso quien trabaja en el proyecto. Sí rechazan que `.factory` sea un enlace.

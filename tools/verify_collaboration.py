@@ -113,7 +113,7 @@ class Demo:
         return p
 
     def git(self, cwd, *argv, **kw):
-        return self.run(cwd, 'git', '-c', 'core.hooksPath=/dev/null', *argv, **kw)
+        return self.run(cwd, 'git', '-c', 'core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false', *argv, **kw)
 
     def task(self, cwd, *argv):
         # Igual entorno instalado que Factory, sin depender del alias global.
