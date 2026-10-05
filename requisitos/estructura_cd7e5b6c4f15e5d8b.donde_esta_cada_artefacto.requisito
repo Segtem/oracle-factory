@@ -1,4 +1,4 @@
-requisito estructura_cb7ac503412f60c06.donde_esta_cada_artefacto:
+requisito estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto:
     texto "Tipo: funcional `oracle-factory donde ID` SHALL listar cada artefacto del cambio con su ruta, si existe y qué gate respalda; con `--candidato SHA` SHALL limitarse a ese candidato y SHALL marcar como históricos los artefactos con nombres anteriores a esta estructura."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#donde esta cada artefacto"
+    fuente "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#donde esta cada artefacto"
     medido_por factory_estructura.donde_esta_cada_artefacto, factory_estructura.corrida_completa

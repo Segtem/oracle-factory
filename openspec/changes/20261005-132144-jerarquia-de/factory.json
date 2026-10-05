@@ -4,29 +4,29 @@
   "capacidad": "estructura",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
-  "spec_sha256": "d79c44bb7748abe28deb80e1b650d4ef71bf5d509eb704baa7ff1f80f6170b6f",
+  "spec_sha256": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-05T18:17:33+00:00",
+    "cuando": "2026-10-05T21:46:17+00:00",
     "documentos": {
-      "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "1e8355262c8d351ed607d2d2fea65e334bd155da5e54c8cc80d32ed26f78ddb9",
-      "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "d79c44bb7748abe28deb80e1b650d4ef71bf5d509eb704baa7ff1f80f6170b6f"
+      "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "adf7a289dcced491520105c1d075c1380249f7c0001fd72dc95eeafa85e2e890",
+      "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa"
     }
   },
   "requisitos": [
-    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto",
-    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
-    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto",
-    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto",
-    "estructura_cb7ac503412f60c06.estructura_documentada",
-    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce",
-    "estructura_cb7ac503412f60c06.listar_con_filtros",
-    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local",
-    "estructura_cb7ac503412f60c06.respetar_lo_existente",
-    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos"
+    "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto",
+    "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory",
+    "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto",
+    "estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto",
+    "estructura_cd7e5b6c4f15e5d8b.estructura_documentada",
+    "estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce",
+    "estructura_cd7e5b6c4f15e5d8b.listar_con_filtros",
+    "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local",
+    "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente",
+    "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos"
   ],
   "revision": null,
   "oracle": null,
@@ -242,81 +242,265 @@
         "factory_estructura.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:30:04+00:00",
+      "documentos": {
+        "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "adf7a289dcced491520105c1d075c1380249f7c0001fd72dc95eeafa85e2e890",
+        "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:46:17+00:00",
+      "documentos": {
+        "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "adf7a289dcced491520105c1d075c1380249f7c0001fd72dc95eeafa85e2e890",
+        "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:46:43+00:00",
+      "ids": [
+        "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto",
+        "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory",
+        "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto",
+        "estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto",
+        "estructura_cd7e5b6c4f15e5d8b.estructura_documentada",
+        "estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce",
+        "estructura_cd7e5b6c4f15e5d8b.listar_con_filtros",
+        "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local",
+        "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente",
+        "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.estructura_documentada",
+      "medidas": [
+        "factory_estructura.estructura_documentada",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory",
+      "medidas": [
+        "factory_estructura.carpeta_propia_de_factory",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto",
+      "medidas": [
+        "factory_estructura.descubrir_la_raiz_del_proyecto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local",
+      "medidas": [
+        "factory_estructura.lo_versionado_y_lo_local",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce",
+      "medidas": [
+        "factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto",
+      "medidas": [
+        "factory_estructura.donde_esta_cada_artefacto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:51+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos",
+      "medidas": [
+        "factory_estructura.ruta_canonica_para_producir_artefactos",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:52+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto",
+      "medidas": [
+        "factory_estructura.buscar_en_todo_el_proyecto",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:52+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.listar_con_filtros",
+      "medidas": [
+        "factory_estructura.listar_con_filtros",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T21:46:52+00:00",
+      "requisito": "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente",
+      "medidas": [
+        "factory_estructura.respetar_lo_existente",
+        "factory_estructura.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto": "funcional",
-    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory": "funcional",
-    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto": "funcional",
-    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto": "funcional",
-    "estructura_cb7ac503412f60c06.estructura_documentada": "funcional",
-    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce": "funcional",
-    "estructura_cb7ac503412f60c06.listar_con_filtros": "funcional",
-    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local": "no funcional",
-    "estructura_cb7ac503412f60c06.respetar_lo_existente": "no funcional",
-    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos": "funcional"
+    "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.estructura_documentada": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.listar_con_filtros": "funcional",
+    "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local": "no funcional",
+    "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente": "no funcional",
+    "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {
-    "estructura_cb7ac503412f60c06.estructura_documentada": {
-      "sha256": "ddf723992dda94a12420028137bbcb9122e12d7f04de242ff4f2956e39444962",
+    "estructura_cd7e5b6c4f15e5d8b.estructura_documentada": {
+      "sha256": "3893abc2c55d41b4cbfa03f0322fc07451ef0b3616a13698e2bd39bc1c3a0849",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.carpeta_propia_de_factory": {
-      "sha256": "118bebdf1fab20841fa9ab9e2e22dd334e7b2ff2ecbbfec2e5821260bd658810",
+    "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory": {
+      "sha256": "32ea342896596395078b1b1f5e62f9421c141fe4ce835e9ae151e432a9353e8b",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto": {
-      "sha256": "38256a20977ad8384cffbb5447f099d72d3dedc9d3f0f430d9f8acc2db913679",
+    "estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto": {
+      "sha256": "25c1cf2a049a1c53de98a13e9f0c7a9b2c5514c5e1036ae2d37347547a2fd176",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local": {
-      "sha256": "a582cb3b3f68063f270b234356396aead0f9d9a3dc6e35df42ad0980ddae1a9c",
+    "estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local": {
+      "sha256": "cee229aee153811ec2c2236be5bd846147a9e062ad65156ae72c9732a16cceef",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce": {
-      "sha256": "bdcb9502e792f6796e974f569298d327154718b67629fa9849bea937d5733e45",
+    "estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce": {
+      "sha256": "8e25b2248f412e0e75c574e004b03bdc2420d044860ac8be7801b4dc4820f020",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto": {
-      "sha256": "ce44f034f22045d2a21a6c5fb84f7fa2853947985c707f384f3073314eb9ef05",
+    "estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto": {
+      "sha256": "e01134cb7f3abe54f27ce7cd74a1ecc4fa4f3e22a28cd8be7e6e390d4d6eb095",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos": {
-      "sha256": "222e0f070de10cd5d6f1e6ca8fbbf4d6f1833278bb9645c6643d43769fab1859",
+    "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos": {
+      "sha256": "b85e609f8a568d4898d58f7e4893bd03a68bb29098253fccf3ad2ad9667da202",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:51+00:00"
     },
-    "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto": {
-      "sha256": "c537d30a0ca034291e7ae0616b332ddcc76d92d96c64633e5a50efc5fe65adfb",
+    "estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto": {
+      "sha256": "1dec89c7752515577bf74ce2f020014539b575da4e8e759e9a9b88eb89a26525",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:06+00:00"
+      "cuando": "2026-10-05T21:46:52+00:00"
     },
-    "estructura_cb7ac503412f60c06.listar_con_filtros": {
-      "sha256": "2b8779214ca95d225a4004429d6dd7efb664375e47941f5ba93c2c16e67ef052",
+    "estructura_cd7e5b6c4f15e5d8b.listar_con_filtros": {
+      "sha256": "e16b4bb0ea366a8077814ec1e51a853b5079e704da3d2733c0c3e5e6e3eea70e",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:07+00:00"
+      "cuando": "2026-10-05T21:46:52+00:00"
     },
-    "estructura_cb7ac503412f60c06.respetar_lo_existente": {
-      "sha256": "a3d551321279eff67d42871f50df616745307e0de2f8cc349fce1d5fbc4354e0",
+    "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente": {
+      "sha256": "497aa5afeede8486bcdc054d90d57712a0be90a37b54eea4081e6d6410dca02e",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-05T20:09:07+00:00"
+      "cuando": "2026-10-05T21:46:52+00:00"
     }
   }
 }

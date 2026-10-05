@@ -1,4 +1,4 @@
-requisito estructura_cb7ac503412f60c06.respetar_lo_existente:
+requisito estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente:
     texto "Tipo: no funcional Factory SHALL NOT mover, renombrar ni borrar artefactos existentes al adoptar la estructura, y `donde`, `ruta`, `buscar` y `listar` SHALL ser de sólo lectura."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#respetar lo existente"
+    fuente "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#respetar lo existente"
     medido_por factory_estructura.respetar_lo_existente, factory_estructura.corrida_completa

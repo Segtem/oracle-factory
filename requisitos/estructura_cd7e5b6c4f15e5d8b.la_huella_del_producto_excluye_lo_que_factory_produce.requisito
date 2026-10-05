@@ -1,4 +1,4 @@
-requisito estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce:
+requisito estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce:
     texto "Tipo: funcional La huella de archivos del producto SHALL excluir `.factory/` entera, y SHALL NOT excluir `openspec/changes/<ID>/` salvo los registros que ya excluye."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#la huella del producto excluye lo que Factory produce"
+    fuente "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#la huella del producto excluye lo que Factory produce"
     medido_por factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce, factory_estructura.corrida_completa

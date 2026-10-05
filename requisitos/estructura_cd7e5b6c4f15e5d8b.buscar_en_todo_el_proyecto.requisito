@@ -1,4 +1,4 @@
-requisito estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto:
+requisito estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto:
     texto "Tipo: funcional `oracle-factory buscar TEXTO` SHALL buscar en propuestas, specs, requisitos, tareas y registros de Factory, y SHALL mostrar por resultado la ruta, la línea y el cambio al que pertenece."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#buscar en todo el proyecto"
+    fuente "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#buscar en todo el proyecto"
     medido_por factory_estructura.buscar_en_todo_el_proyecto, factory_estructura.corrida_completa

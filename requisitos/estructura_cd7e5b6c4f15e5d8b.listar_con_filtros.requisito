@@ -1,4 +1,4 @@
-requisito estructura_cb7ac503412f60c06.listar_con_filtros:
+requisito estructura_cd7e5b6c4f15e5d8b.listar_con_filtros:
     texto "Tipo: funcional `oracle-factory listar` SHALL aceptar filtros por fase y por estado abierto o cerrado, sin cambiar su salida cuando no se usan filtros."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#listar con filtros"
+    fuente "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#listar con filtros"
     medido_por factory_estructura.listar_con_filtros, factory_estructura.corrida_completa
