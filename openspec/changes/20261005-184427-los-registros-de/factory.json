@@ -2,11 +2,29 @@
   "id": "20261005-184427-los-registros-de",
   "titulo": "Los registros de Factory funcionan en otra máquina",
   "capacidad": "portabilidad",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T19:06:48+00:00",
+    "documentos": {
+      "openspec/changes/20261005-184427-los-registros-de/proposal.md": "0024a1d05597560ad26640f5b37bc8ae6306ca33c589a1ec6acac558e0db23bd",
+      "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c"
+    }
+  },
+  "requisitos": [
+    "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan",
+    "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa",
+    "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto",
+    "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse",
+    "portabilidad_cbe858e976e618573.respetar_los_registros_existentes",
+    "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
+    "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +37,46 @@
       "forma": "decidio",
       "cuando": "2026-10-05T18:44:27+00:00",
       "capacidad": "portabilidad"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T19:06:48+00:00",
+      "documentos": {
+        "openspec/changes/20261005-184427-los-registros-de/proposal.md": "0024a1d05597560ad26640f5b37bc8ae6306ca33c589a1ec6acac558e0db23bd",
+        "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T19:07:21+00:00",
+      "ids": [
+        "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan",
+        "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa",
+        "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto",
+        "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse",
+        "portabilidad_cbe858e976e618573.respetar_los_registros_existentes",
+        "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
+        "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan": "funcional",
+    "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa": "funcional",
+    "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto": "funcional",
+    "portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse": "funcional",
+    "portabilidad_cbe858e976e618573.respetar_los_registros_existentes": "no funcional",
+    "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado": "no funcional",
+    "portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

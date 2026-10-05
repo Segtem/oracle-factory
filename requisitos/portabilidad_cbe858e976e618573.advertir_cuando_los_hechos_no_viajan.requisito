@@ -1,0 +1,4 @@
+requisito portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan:
+    texto "Tipo: funcional `juzgar` SHALL advertir, sin impedir el juicio, cuando los hechos están fuera de la raíz del proyecto o ignorados por Git, porque otra máquina no podrá verificarlos."
+    fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#advertir cuando los hechos no viajan"
+    sin_medir "sin medida todavía; escenarios: «hechos ignorados por Git», «hechos fuera del proyecto»"
