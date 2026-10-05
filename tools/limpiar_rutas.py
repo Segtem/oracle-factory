@@ -20,7 +20,7 @@ from oracle_factory import cli  # noqa: E402
 # Una ruta absoluta de otra máquina: lo que importa empieza en openspec/changes/<ID>/ o tareas/<ID>/. Anclar en la forma
 # del identificador evita confundirse con un directorio de la máquina del autor que se llame «tareas» u «openspec».
 ABSOLUTA = re.compile(r'^/.*?(?<=/)((?:openspec/changes|tareas)/\d{8}-\d{6}-[a-z0-9_-]+/[^\\]+)$')
-FUENTE = re.compile(r'^(\s+fuente ")(/[^"]*)("\s*)$')
+FUENTE = re.compile(r'^(\s+fuente ")(/.*)("\s*)$')
 
 
 def relativa(ruta):
@@ -35,7 +35,7 @@ def requisito_limpio(texto: str, raiz: Path | None = None) -> tuple[str, list[st
     """El texto con las fuentes absolutas relativas, y las que no se supieron reescribir (con el motivo)."""
     lineas, sin_reescribir = texto.split('\n'), []
     for i, linea in enumerate(lineas):
-        m = FUENTE.match(linea.rstrip('\r'))
+        m = FUENTE.match(linea)
         if not m:
             continue
         rel = relativa(m.group(2))
@@ -78,10 +78,11 @@ def planear(raiz: Path) -> tuple[dict[Path, str], dict[str, dict], list[str]]:
                 cambios['hechos'] = (oracle, 'hechos', relativa(oracle['hechos']))
             else:
                 problemas.append(f'{registro.relative_to(raiz)}: hechos con ruta absoluta que no sé relativizar')
-        decididas = {}
-        for rid, decision in (estado.get('medidas') or {}).items():
-            if rid in hashes and isinstance(decision, dict) and decision.get('sha256') == hashes[rid]['anterior']:
-                decididas[rid] = decision
+        decididas = {}  # decisiones confirmadas y propuestas pendientes: las dos guardan el hash del requisito
+        for clave in ('medidas', 'medidas_pendientes'):
+            for rid, decision in (estado.get(clave) or {}).items():
+                if rid in hashes and isinstance(decision, dict) and decision.get('sha256') == hashes[rid]['anterior']:
+                    decididas.setdefault(rid, []).append(decision)
         if not cambios and not decididas:
             continue
         if serializar(json.loads(original)) != original:
@@ -92,8 +93,9 @@ def planear(raiz: Path) -> tuple[dict[Path, str], dict[str, dict], list[str]]:
             continue
         for objeto, clave, valor in cambios.values():
             objeto[clave] = valor
-        for rid, decision in decididas.items():
-            decision['sha256'] = hashes[rid]['nuevo']
+        for rid, registros in decididas.items():
+            for decision in registros:
+                decision['sha256'] = hashes[rid]['nuevo']
         if decididas:
             estado.setdefault('eventos', []).append({
                 'accion': 'rutas_limpiadas', **cli.actor(), 'modo': cli.modo_de(estado), 'forma': 'migracion',
@@ -110,7 +112,7 @@ def restos(raiz: Path) -> list[str]:
     faltan = []
     for archivo in sorted((raiz / 'requisitos').glob('*.requisito')) + sorted(
             (raiz / 'openspec' / 'changes').glob('*/requisitos-previos/*.txt')):
-        if any(FUENTE.match(l.rstrip('\r')) for l in archivo.read_text(encoding='utf-8').split('\n')):
+        if any(FUENTE.match(l) for l in archivo.read_text(encoding='utf-8').split('\n')):
             faltan.append(str(archivo.relative_to(raiz)))
     for registro in sorted((raiz / 'openspec' / 'changes').glob('*/factory.json')):
         oracle = json.loads(registro.read_text(encoding='utf-8')).get('oracle')

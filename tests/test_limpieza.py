@@ -69,6 +69,8 @@ class Limpieza(unittest.TestCase):
         f.guardar(carpeta, estado)
         previos = carpeta / 'requisitos-previos'
         previos.mkdir(exist_ok=True)
+        (self.root / 'tareas' / ident / 'requisito-historico.txt').write_text(
+            f'requisito h.h:\n    texto "t"\n    fuente "{OTRA}/openspec/changes/{ident}/specs/notas/spec.md#a"\n    sin_medir\n')
         (previos / 'viejo.requisito.txt').write_text(f'requisito x.y:\n    texto "t"\n    fuente "{OTRA}/openspec/changes/{ident}/specs/notas/spec.md#a"\n    sin_medir\n')
         self.git('add', '.')
         self.git('commit', '-qm', 'registros con ruta absoluta')
@@ -128,6 +130,26 @@ class Limpieza(unittest.TestCase):
             self.assertIn(fuente, archivo.read_text(encoding='utf-8'))  # y no se inventa una ruta
             self.assertEqual(self.limpiar('--verificar'), 1)
             self.assertIn(archivo.name, [Path(x).name for x in lim.restos(self.root)])  # el verificador la ve
+
+    def test_l1_fin_de_linea_windows_y_comillas_escapadas(self):
+        archivo = self.requisito()
+        crlf = archivo.read_text(encoding='utf-8').replace('\n', '\r\n')
+        archivo.write_bytes(crlf.encode('utf-8'))
+        self.assertIn(archivo.name, [Path(x).name for x in lim.restos(self.root)])  # el verificador la ve con \r
+        self.limpiar()
+        limpio = archivo.read_bytes().decode('utf-8')
+        self.assertNotIn(OTRA, limpio)
+        self.assertIn('\r\n', limpio)  # se conserva el fin de línea del archivo
+        escapada = re.sub(r'fuente "[^"]*"', lambda m: f'fuente "{OTRA}/a\\"b/openspec/changes/{self.ident}/x.md"', archivo.read_text(encoding='utf-8'))
+        archivo.write_text(escapada, encoding='utf-8')
+        self.assertEqual(self.limpiar(), 1)  # se avisa
+        self.assertIn(archivo.name, [Path(x).name for x in lim.restos(self.root)])
+
+    def test_l1_el_verificador_ve_cada_clase_de_registro(self):
+        restos = [Path(x).name for x in lim.restos(self.root)]
+        self.assertIn('viejo.requisito.txt', restos)  # requisito previo
+        self.assertIn('factory.json', restos)  # hechos del registro
+        self.assertTrue([x for x in restos if x.endswith('.requisito')])
 
     # --- l2: las decisiones conservan su integridad ------------------------------------
     def test_l2_la_decision_sigue_vigente_y_deja_evento(self):
@@ -192,6 +214,24 @@ class Limpieza(unittest.TestCase):
         self.assertEqual(ruta.read_bytes(), antes)
         self.assertEqual(self.requisito().read_bytes(), requisito)  # el requisito no se limpia sin su decisión
         self.assertEqual(f.medidas_sin_decision(self.estado()), [])
+
+    def test_l4_si_falla_el_reemplazo_el_archivo_original_queda_entero(self):
+        archivo = self.requisito()
+        antes = archivo.read_bytes()
+        with patch.object(lim.os, 'replace', side_effect=OSError('disco lleno')), self.assertRaises(OSError):
+            self.limpiar()
+        self.assertEqual(archivo.read_bytes(), antes)  # nunca a medias
+        self.assertEqual(self.limpiar(), 0)  # y la corrida siguiente termina el trabajo
+        self.assertNotIn(OTRA, archivo.read_text())
+
+    def test_l2_la_propuesta_pendiente_tambien_sigue_vigente(self):
+        rid = self.estado()['requisitos'][0]
+        carpeta, estado = f.leer(self.ident)
+        estado['medidas_pendientes'] = {rid: {**estado['medidas'].pop(rid), 'actor': 'claude-code'}}
+        f.guardar(carpeta, estado)
+        self.limpiar()
+        nuevo = hashlib.sha256(self.requisito().read_bytes()).hexdigest()
+        self.assertEqual(self.estado()['medidas_pendientes'][rid]['sha256'], nuevo)
 
     def test_l4_una_interrupcion_a_mitad_se_repara_en_la_corrida_siguiente(self):
         rid = self.estado()['requisitos'][0]

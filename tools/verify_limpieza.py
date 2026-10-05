@@ -17,13 +17,15 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 CONTRACTS = {
     'los_registros_no_llevan_la_ruta_privada': ['l1_requisito_con_fuente_absoluta', 'l1_requisitos_previos',
                                                 'l1_hechos_absolutos_en_el_registro',
-                                                'l1_directorios_ambiguos_y_formas_que_no_se_pueden_reescribir'],
+                                                'l1_directorios_ambiguos_y_formas_que_no_se_pueden_reescribir',
+                                                'l1_fin_de_linea_windows_y_comillas_escapadas', 'l1_el_verificador_ve_cada_clase_de_registro'],
     'las_decisiones_conservan_su_integridad': ['l2_la_decision_sigue_vigente_y_deja_evento', 'l2_estado_igual_antes_y_despues',
-                                               'l2_decision_sin_hash_o_con_otro_hash_no_se_toca'],
+                                               'l2_decision_sin_hash_o_con_otro_hash_no_se_toca', 'l2_la_propuesta_pendiente_tambien_sigue_vigente'],
     'la_evidencia_no_se_reescribe': ['l3_tareas_byte_a_byte'],
     'limpieza_repetible_y_verificable': ['l4_segunda_ejecucion_no_cambia_nada', 'l4_verificar_no_escribe_y_falla_si_queda_algo',
                                          'l4_registro_que_no_se_reserializa_igual_se_avisa_y_no_se_toca',
-                                         'l4_una_interrupcion_a_mitad_se_repara_en_la_corrida_siguiente'],
+                                         'l4_una_interrupcion_a_mitad_se_repara_en_la_corrida_siguiente',
+                                         'l4_si_falla_el_reemplazo_el_archivo_original_queda_entero'],
 }
 PREFIX = 'test_limpieza.Limpieza.test_'
 LIMITES = ('Escenarios l1–l4 en repositorios temporales, Linux, con la ruta de «otra persona» inventada; más tres comprobaciones sobre este '
