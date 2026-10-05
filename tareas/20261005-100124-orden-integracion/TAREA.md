@@ -20,3 +20,7 @@ Relacionadas: `20261004-121432-coordinar-dos`, `20261004-005956-revision-guiada`
 ### Nota (2026-10-05 10:07:26 UTC)
 
 Decisión confirmada por Brian (2026-10-05, conversación: «1. Confirmo.»): sin rebase; colaboración entra primero a main, ya revisada y cerrada, y después revisión guiada; si hace falta traer commits, se usa merge. La tarea queda abierta hasta que se ejecute la integración.
+
+### Nota (2026-10-05, decisión de Brian)
+
+Opción 1: colaboración entra a `main` revisada (revisión registrada por Brian desde su terminal, 0 hallazgos abiertos) y con el cambio `20261004-121432-coordinar-dos` abierto. Oracle no puede dar cobertura completa mientras el piloto humano siga sin medir, así que el cierre espera a ese piloto. Esto reemplaza el «revisada y cerrada» del acuerdo anterior.
