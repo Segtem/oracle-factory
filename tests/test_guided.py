@@ -10,6 +10,13 @@ from unittest.mock import patch
 from oracle_factory import cli as f
 
 
+def setUpModule():
+    # Estas pruebas representan a una persona que escribe en su terminal.
+    terminal = patch.object(f, 'terminal_interactiva', return_value=True)
+    terminal.start()
+    unittest.addModuleCleanup(terminal.stop)
+
+
 class ProyectoTemporal(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()

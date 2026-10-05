@@ -10,6 +10,13 @@ from unittest.mock import patch
 
 import fabrica as f
 
+
+def setUpModule():
+    # Estas pruebas representan a una persona que escribe en su terminal.
+    terminal = patch.object(f, 'terminal_interactiva', return_value=True)
+    terminal.start()
+    unittest.addModuleCleanup(terminal.stop)
+
 ID = '20260101-120000-ejemplo'
 RID = 'demo.promesa'
 

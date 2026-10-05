@@ -6,7 +6,11 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools.terminal import en_terminal  # noqa: E402
 
 
 def main():
@@ -18,7 +22,9 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp);root=work/'producto'
         def run(*cmd,answer=None,ok=True,cwd=work):
-            r=subprocess.run(cmd,cwd=cwd,env=env,text=True,input=answer,capture_output=True)
+            # Con answer, una persona fixture escribe en su terminal.
+            r=(en_terminal(cmd,cwd=cwd,env=env,entrada=answer) if answer is not None else
+               subprocess.run(cmd,cwd=cwd,env=env,text=True,capture_output=True))
             if ok and r.returncode:raise AssertionError(r.stdout+r.stderr)
             if not ok:assert r.returncode,r.stdout+r.stderr
             return r
@@ -35,8 +41,8 @@ def main():
         state=json.loads((change/'factory.json').read_text())
         factory('medir',ident,'--listar')
         for rid in state['requisitos']:
-            factory('medir',ident,'--requisito',rid,'--medida','notas.no_existe',ok=False)
-            factory('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir')
+            factory('medir',ident,'--requisito',rid,'--medida','notas.no_existe',ok=False,answer='')
+            factory('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir',answer='')
         run(python,'-m','unittest','discover','-s','examples/notas','-v',cwd=root)
         run(python,'examples/notas/sensor.py','--salida','.factory-demo/hechos.json',cwd=root)
         run('git','init','-q',cwd=root);run('git','add','.',cwd=root)

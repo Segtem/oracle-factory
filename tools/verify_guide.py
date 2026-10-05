@@ -9,7 +9,11 @@ from pathlib import Path
 import re
 import shlex
 import subprocess
+import sys
 import tempfile
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from tools.terminal import en_terminal  # noqa: E402
 
 class Blocks(HTMLParser):
     def __init__(self, html):
@@ -55,10 +59,13 @@ def main():
                 if argv[0]=='cd': cwd=(cwd/argv[1]).resolve(); continue
                 if argv[0]=='oracle-factory': argv[0]=executable
                 stdin=None
+                if len(argv)>1 and argv[1]=='medir':
+                    stdin=''  # decisión de persona: terminal, sin frase
                 if len(argv)>1 and argv[1] in ('aprobar-spec','revision','cerrar'):
                     action={'aprobar-spec':'APROBAR ESPECIFICACION','revision':'REGISTRAR REVISION','cerrar':'CERRAR'}[argv[1]]
                     stdin=f'{action} {identifiers["ID_DEL_CAMBIO"]}\n'
-                result=subprocess.run(argv,cwd=cwd,env=env,text=True,input=stdin,capture_output=True,timeout=90)
+                result=(en_terminal(argv,cwd=cwd,env=env,entrada=stdin) if stdin is not None else
+                        subprocess.run(argv,cwd=cwd,env=env,text=True,capture_output=True,timeout=90))
                 evidence.append({'command':line,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr})
                 if result.returncode: raise AssertionError(evidence[-1])
                 if len(argv)>1 and argv[1]=='nuevo':

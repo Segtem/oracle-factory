@@ -21,6 +21,8 @@ import time
 import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.terminal import en_terminal  # noqa: E402
 TEMPLATES = ROOT / 'docs/plantillas/colaboracion'
 GUIDE = ROOT / 'docs/colaboracion.md'
 # Lo que la spec exige que la guía describa; sin esto, los casos medirían sólo las herramientas.
@@ -102,8 +104,9 @@ class Demo:
         argv = [str(a) for a in argv]
         record = {'cwd': str(cwd), 'argv': argv, 'stdin_fixture': stdin, 'esperado': expected}
         self.logs.append(record)
-        p = subprocess.run(argv, cwd=cwd, env=self.env, input=stdin, capture_output=True,
-                           text=True, encoding='utf-8', timeout=90)
+        # Con stdin, una persona fixture escribe en su terminal; sin stdin, no hay terminal.
+        p = (en_terminal(argv, cwd=cwd, env=self.env, entrada=stdin) if stdin is not None else
+             subprocess.run(argv, cwd=cwd, env=self.env, capture_output=True, text=True, encoding='utf-8', timeout=90))
         record.update(codigo=p.returncode, stdout=p.stdout, stderr=p.stderr)
         if p.returncode != expected:
             raise AssertionError(f'{argv}: esperaba {expected}, obtuvo {p.returncode}: {p.stderr}\n{p.stdout}')
@@ -174,6 +177,7 @@ class Demo:
         for measure in measures:
             args.extend(['--medida', measure])
         args.extend(['--sin-medir', partial] if partial else ['--quitar-sin-medir'])
+        kw.setdefault('stdin', '')  # elegir medidas es una decisión de persona: terminal sin frase
         return self.factory(repo, *args, **kw)
 
     def review(self, repo, ident):

@@ -10,6 +10,13 @@ import unittest
 from unittest.mock import patch
 import fabrica as f
 
+
+def setUpModule():
+    # Estas pruebas representan a una persona que escribe en su terminal.
+    terminal = patch.object(f, 'terminal_interactiva', return_value=True)
+    terminal.start()
+    unittest.addModuleCleanup(terminal.stop)
+
 @unittest.skipUnless(shutil.which('oracle') and shutil.which('tasks'), 'requiere Oracle y Oracle Task instalados')
 class IntegracionReal(unittest.TestCase):
     def test_importacion_juicio_y_cierre_con_herramientas_reales(self):

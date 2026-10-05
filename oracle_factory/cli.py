@@ -16,10 +16,12 @@ import sys
 from importlib import metadata, resources
 
 from . import __version__
+from . import modos
 from . import revision as documentos_revision
 from pathlib import Path
 
 ROOT = Path.cwd().resolve()
+AGENTE: str | None = None  # --agente o FACTORY_AGENTE: la vía de agente nunca se registra como persona
 CHANGES = ROOT / "openspec" / "changes"
 ID_RE = re.compile(r"^\d{8}-\d{6}-[a-z0-9_-]+$")
 SLUG_RE = re.compile(r"^[a-z][a-z0-9-]*$")
@@ -59,9 +61,81 @@ def guardar(carpeta: Path, estado: dict) -> None:
         json.dumps(estado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def evento(estado: dict, accion: str, **datos) -> None:
+def terminal_interactiva() -> bool:
+    return sys.stdin.isatty()
+
+
+def actor() -> dict:
+    if AGENTE:
+        return {"actor": AGENTE, "tipo_actor": "agente"}
+    nombre = subprocess.run(["git", "config", "user.name"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    return {"actor": nombre or getpass.getuser(), "tipo_actor": "persona"}
+
+
+def modo_de(estado: dict) -> str:
+    return estado.get("modo", modos.POR_DEFECTO)
+
+
+def config_proyecto() -> dict:
+    ruta = ruta_segura(ROOT / "factory.json")
+    datos = json.loads(ruta.read_text(encoding="utf-8")) if ruta.is_file() else {}
+    if not isinstance(datos, dict):
+        raise FactoryError(f"{ruta}: se requiere un objeto JSON")
+    config = {"modo_por_defecto": datos.get("modo_por_defecto", modos.POR_DEFECTO),
+              "tipos_obligatorios": datos.get("tipos_obligatorios", False)}
+    if (set(datos) - set(config) or config["modo_por_defecto"] not in modos.MODOS
+            or type(config["tipos_obligatorios"]) is not bool):
+        raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}) y tipos_obligatorios (true/false)")
+    return config
+
+
+def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
     estado.setdefault("eventos", []).append({
-        "accion": accion, "por": getpass.getuser(), "cuando": ahora(), **datos})
+        "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": ahora(), **datos})
+
+
+def confirmar_persona(frase: str, cancelado: str) -> None:
+    if not terminal_interactiva():
+        raise FactoryError("esta decisión es de una persona y se confirma desde una terminal interactiva; "
+                           "la entrada por pipe no cuenta. Un agente usa --agente y queda registrado como agente.")
+    if input(f"Escribí {frase}: ").strip() != frase:
+        raise FactoryError(cancelado)
+
+
+DESCRIPCION = {"spec": "la aceptación de la propuesta/spec", "medidas": "la elección de medidas",
+               "revision": "la decisión de revisión", "cierre": "el cierre"}
+
+
+def decidir(estado: dict, decision: str, tipos: list[str], firma, frase: str, cancelado: str, publicar) -> str | None:
+    """Aplica el modo: devuelve la forma registrada, o None si el agente sólo dejó una propuesta."""
+    modo = modo_de(estado)
+    if AGENTE:
+        via = modos.via_agente(modo, decision, tipos)
+        if via == "rechaza":
+            raise FactoryError(f"en modo {modo}, {DESCRIPCION[decision]} la toma una persona desde una terminal interactiva, sin --agente")
+        if via == "propone":
+            estado.setdefault("propuestas", {})[decision] = {"firma": firma, **actor(), "cuando": ahora()}
+            evento(estado, decision + "_propuesta", forma="propuso")
+            publicar(estado)
+            print(f"Propuesta registrada por {AGENTE} (modo {modo}): {DESCRIPCION[decision]} no cuenta hasta que una persona "
+                  "la confirme repitiendo el comando desde una terminal interactiva, sin --agente.")
+            return None
+        return "decidio"
+    confirmar_persona(frase, cancelado)
+    propuesta = (estado.get("propuestas") or {}).pop(decision, None)
+    return "confirmo" if propuesta and propuesta["firma"] == firma else "decidio"
+
+
+def registro_decision(estado: dict, forma: str) -> dict:
+    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora()}
+
+
+def quien(registro: dict | None) -> str:
+    if not registro:
+        return "pendiente"
+    if "tipo_actor" not in registro:
+        return f"{registro.get('por', '?')} (actor no registrado: anterior a los modos)"
+    return f"{registro['actor']} ({registro['tipo_actor']}, {registro['forma']}, modo {registro['modo']})"
 
 
 def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -89,7 +163,7 @@ def nota_tarea(identificador: str, texto: str) -> None:
         raise FactoryError(f"oracle-task no pudo registrar la nota: {p.stderr.strip()}")
 
 
-def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None) -> str:
+def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None, modo: str | None = None) -> str:
     if con_ejemplo and (con_ejemplo != 'notas' or capacidad not in (None, 'notas')):
         raise FactoryError('--con-ejemplo notas requiere capacidad notas, o no indicar --capacidad')
     capacidad = capacidad or ('notas' if con_ejemplo else None)
@@ -99,6 +173,14 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     ruta_segura(ROOT / "tareas")
     if not SLUG_RE.fullmatch(capacidad):
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
+    por_defecto = config_proyecto()["modo_por_defecto"]
+    modo = modo or por_defecto
+    if modo not in modos.MODOS:
+        raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
+    if modos.baja_intervencion(por_defecto, modo):
+        if AGENTE:
+            raise FactoryError(f"un modo con menos intervención humana que el del proyecto ({por_defecto}) lo elige una persona, sin --agente")
+        confirmar_persona(f"ELEGIR MODO {modo}", "no se creó el cambio: modo no confirmado")
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
         preparar_ejemplo(plan)
@@ -158,7 +240,7 @@ The system SHALL TODO: write one testable promise.
             "fase": "espera_aprobacion_spec",
             "spec": str(spec.relative_to(ROOT)), "spec_sha256": None,
             "spec_aprobada": None, "requisitos": [], "revision": None, "oracle": None,
-            "eventos": [],
+            "modo": modo, "eventos": [],
         }
         evento(estado, "cambio_creado", capacidad=capacidad)
         if con_ejemplo:
@@ -170,8 +252,9 @@ The system SHALL TODO: write one testable promise.
         raise FactoryError(f'preparación incompleta de la tarea {identificador}: {e}. '
                            f'No crees otra tarea: recuperá este ID con tasks show {identificador}; '
                            f'revisá y completá los archivos en {carpeta}. Los destinos existentes no se sobrescriben al reintentar nuevo.') from e
-    nota_tarea(identificador, f"OpenSpec: {carpeta.relative_to(ROOT)}. Estado de factory: espera aprobación humana de proposal.md y spec.md.")
+    nota_tarea(identificador, f"OpenSpec: {carpeta.relative_to(ROOT)}. Modo de trabajo: {modo}. Estado de factory: espera aceptación de proposal.md y spec.md.")
     print(f"Cambio creado: {identificador}")
+    print(f"Modo de trabajo: {modo}")
     print(f"Tarea: {ROOT / 'tareas' / identificador / 'TAREA.md'}")
     print(f"Propuesta/spec/tasks: {carpeta}")
     if con_ejemplo:
@@ -198,9 +281,9 @@ def documentos(carpeta: Path, estado: dict) -> dict[str, str]:
 def exigir_spec(carpeta: Path, estado: dict) -> None:
     aprobacion = estado.get("spec_aprobada") or {}
     if not aprobacion:
-        raise FactoryError("primero una persona debe aprobar la propuesta y la spec")
+        raise FactoryError("primero hay que aceptar la propuesta y la spec (aprobar-spec)")
     if aprobacion.get("documentos") != documentos(carpeta, estado):
-        raise FactoryError("la propuesta/spec cambió o su aprobación es antigua; renová la aprobación humana")
+        raise FactoryError("la propuesta/spec cambió o su aprobación es antigua; renová la aceptación")
 
 
 def contexto_producto() -> dict:
@@ -255,17 +338,23 @@ def aprobar_spec(identificador: str) -> None:
     huellas = documentos(carpeta, estado)
     for archivo, huella in huellas.items():
         print(f"{archivo} (SHA-256 {huella})\n{(ROOT / archivo).read_text(encoding='utf-8')}")
-    print("Aceptar reinicia importación, revisión y veredicto de este cambio.")
-    if input(f"Escribí APROBAR ESPECIFICACION {identificador}: ").strip() != f"APROBAR ESPECIFICACION {identificador}":
-        raise FactoryError("aprobación cancelada; no cambié el estado")
+    print(f"Modo de trabajo: {modo_de(estado)}. Aceptar reinicia importación, revisión y veredicto de este cambio.")
+    try:
+        tipos = list(modos.tipos_spec(contenido).values())
+    except modos.TipoInvalido as e:
+        raise FactoryError(str(e)) from e
+    forma = decidir(estado, "spec", tipos, huellas, f"APROBAR ESPECIFICACION {identificador}",
+                    "aprobación cancelada; no cambié el estado", lambda e: guardar(carpeta, e))
+    if forma is None:
+        return
     if documentos(carpeta, estado) != huellas:
         raise FactoryError("los documentos cambiaron durante la aprobación; volvé a revisarlos")
     estado["spec_sha256"] = huellas[estado["spec"]]
-    estado["spec_aprobada"] = {"por": getpass.getuser(), "cuando": ahora(), "documentos": huellas}
+    estado["spec_aprobada"] = {**registro_decision(estado, forma), "documentos": huellas}
     estado.update(requisitos=[], revision=None, oracle=None, fase="spec_aprobada")
-    evento(estado, "spec_aprobada", documentos=huellas)
+    evento(estado, "spec_aprobada", forma=forma, documentos=huellas)
     guardar(carpeta, estado)
-    nota_tarea(identificador, f"Persona aprobó propuesta y spec {estado['spec']}; se reiniciaron las validaciones dependientes.")
+    nota_tarea(identificador, f"{quien(estado['spec_aprobada'])} aceptó propuesta y spec {estado['spec']}; se reiniciaron las validaciones dependientes.")
     print("Alcance aprobado; sus requisitos todavía deben importarse y medirse.")
     siguiente(identificador, estado["fase"])
 
@@ -277,6 +366,10 @@ def importar(identificador: str) -> None:
     # para que una promesa nueva no herede medidas de una promesa anterior.
     version = sha256((identificador + ":" + estado["spec_sha256"]).encode())[:16]
     dominio = estado["capacidad"].replace("-", "_") + "_c" + version
+    try:
+        tipos = modos.tipos_spec(spec.read_text(encoding="utf-8"), obligatorios=config_proyecto()["tipos_obligatorios"])
+    except modos.TipoInvalido as e:
+        raise FactoryError(f"{e}. No se modificó el registro.") from e
     estado.update(requisitos=[], revision=None, oracle=None, fase="importacion_pendiente")
     guardar(carpeta, estado)
     p = ejecutar(["oracle", "requisito", "importar", str(spec), "--dominio", dominio, "--escribir", "--proyecto", str(ROOT)])
@@ -287,13 +380,32 @@ def importar(identificador: str) -> None:
     if not ids:
         raise FactoryError("Oracle no devolvió ids; no doy la importación por confirmada")
     exigir_spec(carpeta, estado)
+    sin_tipo = [i for i in ids if i.split(".", 1)[1] not in tipos]
+    if sin_tipo:
+        raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
     estado["requisitos"] = ids
+    estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
     estado["fase"] = "requisitos_importados"
     evento(estado, "requisitos_importados", ids=ids)
     guardar(carpeta, estado)
-    nota_tarea(identificador, "Requisitos importados: " + ", ".join(ids) + ". Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.")
+    nota_tarea(identificador, "Requisitos importados: " + ", ".join(f"{i} ({estado['tipos'][i]})" for i in ids) + ". Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.")
     print("La persona debe revisar medidas y límites de cada requisito.")
     siguiente(identificador, estado["fase"])
+
+def tipos_cambio(estado: dict) -> list[str]:
+    if estado.get("tipos"):
+        return list(estado["tipos"].values())
+    try:
+        return list(modos.tipos_spec((ROOT / estado["spec"]).read_text(encoding="utf-8")).values())
+    except modos.TipoInvalido as e:
+        raise FactoryError(str(e)) from e
+
+
+def firma_revision(formato, informe_sha, decisiones_sha, revisor, decision, contexto) -> dict:
+    # ponytail: la revisión afecta a todo el cambio; si un hallazgo nombrara su requisito, se podría decidir por tipo.
+    return {"formato": formato, "informe_sha256": informe_sha, "decisiones_sha256": decisiones_sha,
+            "revisor": revisor, "decision": decision, "contexto": contexto}
+
 
 def bytes_json(valor: dict) -> bytes:
     return (json.dumps(valor, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
@@ -390,8 +502,16 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
                 or registro_ruta.read_bytes() != registro):
             raise FactoryError('producto, spec o registro cambió durante la operación; volvé a revisar')
 
-    if input(f'Escribí REGISTRAR REVISION {identificador}: ').strip() != f'REGISTRAR REVISION {identificador}':
-        raise FactoryError('registro de revisión cancelado')
+    firma = firma_revision('guiado', sha256(contenido), sha256(resoluciones), revisor, decision, contexto)
+
+    def publicar_propuesta(e):
+        revalidar()
+        escribir_atomico(registro_ruta, bytes_json(e), esperado=registro)
+
+    forma = decidir(estado, 'revision', tipos_cambio(estado), firma, f'REGISTRAR REVISION {identificador}',
+                    'registro de revisión cancelado', publicar_propuesta)
+    if forma is None:
+        return
     revalidar()
     destino, destino_decisiones = guardar_par_revision(identificador, 'registro', contenido, resoluciones)
     try:
@@ -402,10 +522,10 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
             'formato': 'guiado', 'revisor': revisor, 'decision': decision, 'hallazgos_abiertos': abiertos,
             'informe': str(destino.relative_to(ROOT)), 'sha256': sha256(contenido),
             'decisiones': str(destino_decisiones.relative_to(ROOT)), 'decisiones_sha256': sha256(resoluciones),
-            'por': getpass.getuser(), 'cuando': ahora(), 'contexto': contexto,
+            **registro_decision(estado, forma), 'contexto': contexto,
         }
         estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
-        evento(estado, 'revision_registrada', formato='guiado', revisor=revisor, decision=decision,
+        evento(estado, 'revision_registrada', forma=forma, formato='guiado', revisor=revisor, decision=decision,
                abiertos=abiertos, sha256=sha256(contenido), decisiones_sha256=sha256(resoluciones))
         escribir_atomico(registro_ruta, bytes_json(estado), esperado=registro)
     except (FactoryError, OSError) as e:
@@ -452,8 +572,17 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     destino = carpeta / "review.md"
     print('Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.')
     print(f"Revisor: {revisor}; decisión: {decision}; abiertos: {abiertos}; commit: {contexto['head']}")
-    if input(f"Escribí REGISTRAR REVISION {identificador}: ").strip() != f"REGISTRAR REVISION {identificador}":
-        raise FactoryError("registro de revisión cancelado")
+    firma = {**firma_revision("libre", huella, None, revisor, decision, contexto), "abiertos": abiertos}
+
+    def publicar_propuesta(e):
+        if (carpeta / "factory.json").read_bytes() != registro:
+            raise FactoryError("registro cambió durante la operación; repetí la revisión")
+        guardar(carpeta, e)
+
+    forma = decidir(estado, "revision", tipos_cambio(estado), firma, f"REGISTRAR REVISION {identificador}",
+                    "registro de revisión cancelado", publicar_propuesta)
+    if forma is None:
+        return
     exigir_spec(carpeta, estado)
     if contexto_producto() != contexto:
         raise FactoryError("el producto cambió durante la confirmación; repetí la revisión")
@@ -464,11 +593,11 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
         "formato": "libre",
         "revisor": revisor, "decision": decision, "hallazgos_abiertos": abiertos,
         "informe": str(destino.relative_to(ROOT)), "sha256": huella,
-        "por": getpass.getuser(), "cuando": ahora(), "contexto": contexto,
+        **registro_decision(estado, forma), "contexto": contexto,
     }
     estado["oracle"] = None
     estado["fase"] = "revision_aprobada" if decision == "aprobar" else "cambios_pedidos"
-    evento(estado, "revision_registrada", revisor=revisor, decision=decision, abiertos=abiertos, sha256=huella)
+    evento(estado, "revision_registrada", forma=forma, revisor=revisor, decision=decision, abiertos=abiertos, sha256=huella)
     guardar(carpeta, estado)
     nota_tarea(identificador, f"Revisión {revisor}: {decision}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(ROOT)}.")
     print(f"Informe registrado: {destino}")
@@ -517,16 +646,21 @@ def juzgar(identificador: str, hechos: Path) -> None:
 
 def pendientes(estado: dict) -> list[str]:
     faltan = []
+    humana = modo_de(estado) != "autonomo"
     if not estado.get("spec_aprobada"):
-        faltan.append("aprobación humana de spec")
+        faltan.append("aprobación humana de spec" if humana else "aceptación de spec")
     if not estado.get("requisitos"):
         faltan.append("importación OpenSpec → requisitos Oracle")
     rev = estado.get("revision") or {}
     if rev.get("decision") != "aprobar" or rev.get("hallazgos_abiertos") != 0:
-        faltan.append("revisión humana aprobada y sin hallazgos abiertos")
+        faltan.append("revisión humana aprobada y sin hallazgos abiertos" if humana else "revisión aprobada y sin hallazgos abiertos")
     oracle = estado.get("oracle") or {}
     if oracle.get("codigo") != 0:
         faltan.append("veredicto Oracle exitoso con evidencia")
+    for decision, propuesta in (estado.get("propuestas") or {}).items():
+        faltan.append(f"{DESCRIPCION[decision]} propuesta por {propuesta['actor']}, sin confirmar por una persona")
+    for rid, propuesta in (estado.get("medidas_pendientes") or {}).items():
+        faltan.append(f"medidas de {rid} propuestas por {propuesta['actor']}, sin confirmar por una persona")
     return faltan
 
 
@@ -575,28 +709,82 @@ def cerrar(identificador: str) -> None:
     falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
-    print(f"Se cerrará la tarea {identificador}; Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
-    if input(f"Escribí CERRAR {identificador}: ").strip() != f"CERRAR {identificador}":
-        raise FactoryError("cierre cancelado; la tarea sigue abierta")
+    print(f"Se cerrará la tarea {identificador} (modo {modo_de(estado)}); Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
+    print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
+    forma = decidir(estado, "cierre", [], None, f"CERRAR {identificador}", "cierre cancelado; la tarea sigue abierta", None)
     falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
-    nota_tarea(identificador, "Persona autorizó el cierre tras revisar el informe de código y el veredicto Oracle.")
+    cierre = registro_decision(estado, forma)
+    nota_tarea(identificador, f"Cierre: {quien(cierre)}, tras revisar el informe de código y el veredicto Oracle."
+               + (" Cerrado por agente en modo autónomo; no hubo decisión humana." if cierre["tipo_actor"] == "agente" else ""))
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
     if p.returncode:
         raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
     estado["fase"] = "cerrada"
-    evento(estado, "cierre_humano", oracle=estado["oracle"]["informe"], revision=estado["revision"]["informe"])
+    estado["cierre"] = cierre
+    evento(estado, "cierre", forma=forma, oracle=estado["oracle"]["informe"], revision=estado["revision"]["informe"])
     guardar(carpeta, estado)
     print(p.stdout.strip() or "Tarea cerrada.")
+    if cierre["tipo_actor"] == "agente":
+        print(f"Cerrado por agente {cierre['actor']} en modo autónomo; no hubo decisión humana.")
+
+
+def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
+    carpeta, estado = abierto(identificador)
+    actual = modo_de(estado)
+    if nuevo_modo not in modos.MODOS:
+        raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
+    if nuevo_modo == actual:
+        print(f"El cambio ya está en modo {actual}.")
+        return
+    if modos.baja_intervencion(actual, nuevo_modo):
+        if AGENTE:
+            raise FactoryError(f"pasar de {actual} a {nuevo_modo} reduce la intervención humana: lo decide una persona, sin --agente")
+        confirmar_persona(f"CAMBIAR MODO {identificador} {nuevo_modo}", "cambio de modo cancelado; el modo sigue igual")
+    estado["modo"] = nuevo_modo
+    tipos = tipos_cambio(estado)
+    propuestas, invalidadas = estado.setdefault("propuestas", {}), []
+
+    def agente_ya_no_decide(registro, decision, tipos_):
+        return registro and registro.get("tipo_actor") == "agente" and modos.via_agente(nuevo_modo, decision, tipos_) != "decide"
+
+    if agente_ya_no_decide(estado.get("spec_aprobada"), "spec", tipos):
+        sa = estado["spec_aprobada"]
+        propuestas["spec"] = {"firma": sa["documentos"], "actor": sa["actor"], "tipo_actor": "agente", "cuando": sa["cuando"]}
+        estado.update(spec_aprobada=None, revision=None, oracle=None, fase="espera_aprobacion_spec")
+        invalidadas.append("spec")
+    rev = estado.get("revision")
+    if agente_ya_no_decide(rev, "revision", tipos):
+        firma = firma_revision(rev["formato"], rev["sha256"], rev.get("decisiones_sha256"), rev["revisor"], rev["decision"], rev["contexto"])
+        if rev["formato"] == "libre":
+            firma["abiertos"] = rev["hallazgos_abiertos"]
+        propuestas["revision"] = {"firma": firma, "actor": rev["actor"], "tipo_actor": "agente", "cuando": rev["cuando"]}
+        estado.update(revision=None, oracle=None)
+        invalidadas.append("revision")
+    for rid, medida in list((estado.get("medidas") or {}).items()):
+        if agente_ya_no_decide(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")]):
+            ruta = ROOT / "requisitos" / f"{rid}.requisito"
+            estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": sha256(ruta.read_bytes()), "actor": medida["actor"],
+                                                                "tipo_actor": "agente", "cuando": medida["cuando"]}
+            del estado["medidas"][rid]
+            estado.update(oracle=None)
+            invalidadas.append("medidas de " + rid)
+    evento(estado, "modo_cambiado", anterior=actual, nuevo=nuevo_modo, invalidadas=invalidadas)
+    guardar(carpeta, estado)
+    nota_tarea(identificador, f"Modo de trabajo: {actual} → {nuevo_modo}." + (
+        " Decisiones de agente que pasan a propuesta: " + ", ".join(invalidadas) + "." if invalidadas else ""))
+    print(f"Modo de trabajo: {actual} → {nuevo_modo}.")
+    for item in invalidadas:
+        print(f"Ahora es una propuesta pendiente de confirmar por una persona: {item}")
 
 
 def mostrar(identificador: str) -> None:
     carpeta, estado = leer(identificador)
-    print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}")
+    print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
-    print("Aprobación spec: " + ("sí" if estado.get("spec_aprobada") else "esperando a la persona"))
+    print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
     if rev:
@@ -605,6 +793,12 @@ def mostrar(identificador: str) -> None:
                                                  else '; declaración humana sin validación estructural'))
     oracle = estado.get("oracle")
     print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
+    if rev:
+        print("Revisión registrada por: " + quien(rev))
+    for rid, medida in (estado.get("medidas") or {}).items():
+        print(f"Medidas de {rid}: {quien(medida)}")
+    if estado.get("cierre"):
+        print("Cierre: " + quien(estado["cierre"]))
     siguiente(identificador, estado["fase"])
 
 
@@ -838,6 +1032,12 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         raise FactoryError('medidas inexistentes o no efectivas en este proyecto: ' + ', '.join(desconocidas))
     if sin_medir is not None and (not sin_medir.strip() or quitar_sin_medir):
         raise FactoryError('--sin-medir necesita un límite no vacío y no se combina con --quitar-sin-medir')
+    tipo = (estado.get('tipos') or {}).get(requisito_id, 'funcional')
+    via = modos.via_agente(modo_de(estado), 'medidas', [tipo]) if AGENTE else 'persona'
+    if via == 'rechaza':
+        raise FactoryError(f'en modo {modo_de(estado)}, las medidas de un requisito {tipo} las elige una persona desde una terminal interactiva, sin --agente')
+    if via == 'persona' and not terminal_interactiva():
+        raise FactoryError('elegir medidas es una decisión de persona y se toma desde una terminal interactiva; un agente usa --agente')
     from dataclasses import replace
     from oracle_metalenguaje.nucleo import requisito
     from oracle_metalenguaje.nucleo.forma import error_forma
@@ -853,6 +1053,16 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     limite = '' if quitar_sin_medir else (sin_medir if sin_medir is not None else r.sin_medir)
     nuevo_r = replace(r, medido_por=tuple(medidas), sin_medir=limite)
     if nuevo_r == r:
+        pendiente = (estado.get('medidas_pendientes') or {}).get(requisito_id)
+        if via == 'persona' and pendiente and pendiente['sha256'] == sha256(original):
+            # Confirmar tal cual la propuesta de un agente: misma asociación, mismos bytes.
+            del estado['medidas_pendientes'][requisito_id]
+            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'confirmo')
+            evento(estado, 'medidas_confirmadas', forma='confirmo', requisito=requisito_id, medidas=medidas)
+            escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
+            nota_tarea(identificador, f'Medidas de {requisito_id} confirmadas por {quien(estado["medidas"][requisito_id])}.')
+            print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.')
+            return
         print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
         return
     # Sólo modificar cláusulas de asociación/límite; conservar prosa, fuente y comentarios.
@@ -898,20 +1108,31 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             raise FactoryError('el catálogo cambió durante la operación; volvé a listar')
         # Invalidar primero: si falla después la escritura, nunca queda un verde anterior vigente.
         estado.update(revision=None, oracle=None, fase='requisitos_importados')
-        evento(estado, 'medidas_elegidas', requisito=requisito_id, medidas=medidas, sin_medir=limite)
+        if via == 'propone':
+            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': sha256(datos), **actor(), 'cuando': ahora()}
+            (estado.get('medidas') or {}).pop(requisito_id, None)
+        else:
+            (estado.get('medidas_pendientes') or {}).pop(requisito_id, None)
+            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'decidio')
+        evento(estado, 'medidas_propuestas' if via == 'propone' else 'medidas_elegidas',
+               forma='propuso' if via == 'propone' else 'decidio', requisito=requisito_id, medidas=medidas, sin_medir=limite)
         escribir_atomico(carpeta / 'factory.json', (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
         escribir_atomico(ruta, datos, esperado=original)
     nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
     print(f'Asociación guardada: {ruta}')
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')
+    if via == 'propone':
+        print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): no cuenta hasta que una persona repita este mismo comando '
+              'desde una terminal interactiva, sin --agente.')
 
 
 def main(argv: list[str] | None = None) -> int:
-    global ROOT, CHANGES
+    global ROOT, CHANGES, AGENTE
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
     parser.add_argument("--proyecto", type=Path, default=Path.cwd(), help="carpeta de trabajo (por defecto, la actual); colocar antes del subcomando")
+    parser.add_argument("--agente", default=os.environ.get("FACTORY_AGENTE"), help="actuar como agente con este nombre (o FACTORY_AGENTE); queda registrado como agente, nunca como persona")
     sub = parser.add_subparsers(dest="comando", required=True)
     sub.add_parser("init", help="inicializar Oracle, tareas y acuerdos sin sobrescribir configuración")
     p = sub.add_parser("ejemplo", help="copiar el ejemplo incluido a una carpeta nueva")
@@ -920,8 +1141,11 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("nuevo", help="crear tarea y paquete OpenSpec")
     p.add_argument("--capacidad")
     p.add_argument("--con-ejemplo", choices=["notas"], help="preparar documentos y catálogos del ejemplo en destinos nuevos")
+    p.add_argument("--modo", choices=modos.MODOS, help="modo de trabajo del cambio (por defecto, el del proyecto)")
     p.add_argument("titulo")
     sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
+    q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')
+    q.add_argument('id'); q.add_argument('nuevo_modo', choices=modos.MODOS)
     q = sub.add_parser('medir', help='listar y asociar medidas explícitas sin editar requisitos a mano')
     q.add_argument('id')
     q.add_argument('--listar', action='store_true')
@@ -948,12 +1172,14 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     ROOT = args.proyecto.expanduser().resolve()
     CHANGES = ROOT / "openspec" / "changes"
+    AGENTE = (args.agente or "").strip() or None
     try:
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
         if args.comando == "init": inicializar()
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
-        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo)
+        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo)
+        elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
         elif args.comando == "listar": listar()
         elif args.comando == "medir": medir(args.id, requisito_id=args.requisito, medidas=args.medida, listar_opciones=args.listar, sin_medir=args.sin_medir, quitar_sin_medir=args.quitar_sin_medir)
         elif args.comando == "aprobar-spec": aprobar_spec(args.id)
