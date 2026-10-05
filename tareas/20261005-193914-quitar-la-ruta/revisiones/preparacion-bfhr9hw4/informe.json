@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261005-193914-quitar-la-ruta",
+  "contexto": {
+    "head": "2e1f4ebc2c2b07aa7596469412746c341a078db5",
+    "archivos_sha256": "3b5bad879fe64cf628abb7188cc5feb63043345fc759ef7532e14f79dc63f8ca"
+  },
+  "documentos": {
+    "openspec/changes/20261005-193914-quitar-la-ruta/proposal.md": "4bb38dfda00b0f1d00f42c9c369a0b17bb65b5d7eb9cace56c6c807343fb5d7d",
+    "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "tools/limpiar_rutas.py",
+    "tools/verify_limpieza.py",
+    "tests/test_limpieza.py",
+    "catalogos/factory_limpieza.corrida_completa.oracle",
+    "catalogos/factory_limpieza.la_evidencia_no_se_reescribe.oracle",
+    "catalogos/factory_limpieza.las_decisiones_conservan_su_integridad.oracle",
+    "catalogos/factory_limpieza.limpieza_repetible_y_verificable.oracle",
+    "catalogos/factory_limpieza.los_registros_no_llevan_la_ruta_privada.oracle",
+    "openspec/changes/20261005-193914-quitar-la-ruta/proposal.md",
+    "openspec/changes/20261005-193914-quitar-la-ruta/design.md",
+    "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md",
+    "requisitos/limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe.requisito",
+    "requisitos/limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad.requisito",
+    "requisitos/limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable.requisito",
+    "requisitos/limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada.requisito"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato 71f9446",
+      "resultado": "cumple",
+      "evidencia": "138 pruebas OK; corrida por el autor y por R2 (evidencia-71f9446/suite.txt)"
+    },
+    {
+      "descripcion": "Sensor de limpieza: 16 casos exactos, ningún registro con ruta absoluta, tareas/ sin cambios respecto de main y estado de cada cambio igual",
+      "resultado": "cumple",
+      "evidencia": "evidencia-71f9446/resultado.json (éxito) y oracle cobertura --con hechos.json: los 4 requisitos «cumple»"
+    },
+    {
+      "descripcion": "Mutaciones a mano de la herramienta: las pruebas fallan con cada una",
+      "resultado": "cumple",
+      "evidencia": "9 + 4 + 6 por el autor; R2 corrió 26 y sobreviven 3 equivalentes o fuera de alcance (informe-r2-79996b3.json)"
+    },
+    {
+      "descripcion": "tareas/ intacta",
+      "resultado": "cumple",
+      "evidencia": "git diff main -- tareas sólo muestra archivos añadidos, ninguno modificado ni borrado (comprobado por R2)"
+    },
+    {
+      "descripcion": "Tres vueltas de revisión independiente (R2): 5 hallazgos, 3 y ninguno, todos de severidad baja o informativa",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-cc2f95c.json, informe-r2-2191eda.json e informe-r2-79996b3.json, validados con oracle-clue"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia.",
+    "La ruta privada sigue en el historial de Git público y en tareas/ (evidencia atada a hashes, que no se reescribe); no se reescribe la historia.",
+    "Sólo Linux; las rutas de Windows no se soportan. Una fuente con texto después de la comilla de cierre no se reescribe ni se avisa (forma que Oracle no admite).",
+    "Al integrar, el último cambio integrado (portabilidad) figurará «desactualizado respecto del producto», como con cualquier commit que toque archivos del producto.",
+    "No se corrió el arnés Docker ni los demás arneses sobre este candidato; la herramienta no toca el código del producto."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2N-01",
+      "descripcion": "Una fuente absoluta con comillas escapadas en la ruta sigue sin reescribirse, sin avisar y sin que `restos()` la vea",
+      "ubicacion": "tools/limpiar_rutas.py:23",
+      "evidencia": "R2 (informe-r2-2191eda.json), severidad baja. Corregido en d47b033; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2N-02",
+      "descripcion": "La limpieza no actualiza el hash de las propuestas pendientes (`medidas_pendientes`), sólo el de las decisiones (`medidas`)",
+      "ubicacion": "tools/limpiar_rutas.py:76",
+      "evidencia": "R2 (informe-r2-2191eda.json), severidad baja. Corregido en d47b033; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2N-03",
+      "descripcion": "Cuatro de veinte mutaciones sobreviven a las pruebas de la limpieza; la más importante es que el caso de tareas/ no incluye una fuente reescribible",
+      "ubicacion": "tests/test_limpieza.py:119",
+      "evidencia": "R2 (informe-r2-2191eda.json), severidad baja. Corregido en d47b033; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2L-01",
+      "descripcion": "Si un factory.json no se reserializa igual, el requisito se reescribe de todos modos y la decisión queda con un hash desactualizado",
+      "ubicacion": "tools/limpiar_rutas.py:72",
+      "evidencia": "R2 (informe-r2-cc2f95c.json), severidad baja. Corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2L-02",
+      "descripcion": "Una interrupción a mitad deja decisiones con hash desactualizado y la segunda corrida no lo repara",
+      "ubicacion": "tools/limpiar_rutas.py:114",
+      "evidencia": "R2 (informe-r2-cc2f95c.json), severidad baja. Corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2L-03",
+      "descripcion": "La expresión de rutas es ambigua con directorios llamados tareas u openspec, y varias formas de fuente se omiten sin que el verificador lo note",
+      "ubicacion": "tools/limpiar_rutas.py:20",
+      "evidencia": "R2 (informe-r2-cc2f95c.json), severidad baja. Corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2L-04",
+      "descripcion": "El verificador no compara el estado de cada cambio antes y después sobre el repositorio, aunque la propuesta y el diseño lo prometen",
+      "ubicacion": "tools/verify_limpieza.py:37",
+      "evidencia": "R2 (informe-r2-cc2f95c.json), severidad baja. Corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2L-05",
+      "descripcion": "El evento rutas_limpiadas queda como una decisión («decidio») de un agente en modo confirmacion",
+      "ubicacion": "tools/limpiar_rutas.py:80",
+      "evidencia": "R2 (informe-r2-cc2f95c.json), severidad informativa. Corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

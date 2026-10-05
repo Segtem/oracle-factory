@@ -1,0 +1,64 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "bc983843f54b11e89d2c20409d20547104a3c62d2e9e8a7b4ad38fdc1d15054d",
+  "actor": "Brian Hollweg",
+  "motivo": "BORRADOR del agente, vale cuando Brian lo registra con revision --formato guiado. Se apoya en sus instrucciones «Da las vueltas que fanten» (corregir y repetir R2 hasta que no queden hallazgos), «Listo con los dos.» (aceptó las specs) y «Listo.» (confirmó las medidas). Edítalo si alguna decisión no es la tuya.",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2N-01",
+      "estado": "corregido",
+      "motivo": "corregido en d47b033; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2N-02",
+      "estado": "corregido",
+      "motivo": "corregido en d47b033; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2N-03",
+      "estado": "corregido",
+      "motivo": "corregido en d47b033; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2L-01",
+      "estado": "corregido",
+      "motivo": "corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2L-02",
+      "estado": "corregido",
+      "motivo": "corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2L-03",
+      "estado": "corregido",
+      "motivo": "corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2L-04",
+      "estado": "corregido",
+      "motivo": "corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2L-05",
+      "estado": "corregido",
+      "motivo": "corregido en bf8d7c9; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    }
+  ]
+}
