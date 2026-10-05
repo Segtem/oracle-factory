@@ -1,0 +1,50 @@
+{
+  "vigencia_caso": [
+    {
+      "requisito": "vigencia_por_contenido_del_producto",
+      "caso": "v1_commit_posterior_que_no_toca_el_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "vigencia_por_contenido_del_producto",
+      "caso": "v1_cambia_un_archivo_del_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "vigencia_por_contenido_del_producto",
+      "caso": "v1_mismo_contenido_por_otra_historia",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_commit_observado_se_conserva_y_se_muestra",
+      "caso": "v2_aviso_de_head_distinto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_commit_observado_se_conserva_y_se_muestra",
+      "caso": "v2_head_igual_sin_aviso",
+      "codigo": 0
+    },
+    {
+      "requisito": "informe_guiado_vinculado_al_contenido",
+      "caso": "v3_informe_preparado_antes_de_un_commit_de_registros",
+      "codigo": 0
+    },
+    {
+      "requisito": "informe_guiado_vinculado_al_contenido",
+      "caso": "v3_informe_de_otro_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "respetar_los_registros_existentes",
+      "caso": "v4_registro_anterior_a_este_cambio",
+      "codigo": 0
+    }
+  ],
+  "vigencia_corrida": [
+    {
+      "completa": 1,
+      "casos": 8
+    }
+  ]
+}
