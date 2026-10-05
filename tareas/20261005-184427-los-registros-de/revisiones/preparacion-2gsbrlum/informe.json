@@ -1,0 +1,103 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261005-184427-los-registros-de",
+  "contexto": {
+    "head": "e43c4a5f7483c28726d4bab36d7bfa6ca7a624f1",
+    "archivos_sha256": "d5eb4fc76ad322e6f47e3b96d911b06c5bfa48b6c873cf512130524bd2abbf53"
+  },
+  "documentos": {
+    "openspec/changes/20261005-184427-los-registros-de/proposal.md": "0024a1d05597560ad26640f5b37bc8ae6306ca33c589a1ec6acac558e0db23bd",
+    "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/cli.py",
+    "tests/test_portabilidad.py",
+    "tools/verify_portabilidad.py",
+    "tools/verify_maquinas.py",
+    "catalogos/factory_portabilidad.corrida_completa.oracle",
+    "catalogos/factory_portabilidad.hechos_con_ruta_relativa_al_proyecto.oracle",
+    "catalogos/factory_portabilidad.advertir_cuando_los_hechos_no_viajan.oracle",
+    "catalogos/factory_portabilidad.fuente_de_los_requisitos_relativa.oracle",
+    "catalogos/factory_portabilidad.pendiente_que_explica_como_recuperarse.oracle",
+    "catalogos/factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra.oracle",
+    "catalogos/factory_portabilidad.sin_rutas_privadas_en_lo_versionado.oracle",
+    "catalogos/factory_portabilidad.respetar_los_registros_existentes.oracle",
+    "openspec/changes/20261005-184427-los-registros-de/proposal.md",
+    "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato fd1bfe7 (el producto de este HEAD es idéntico)",
+      "resultado": "cumple",
+      "evidencia": "122 pruebas OK; corrida por el autor y por R2"
+    },
+    {
+      "descripcion": "Sensor de portabilidad: 11 casos exactos y los siete requisitos en Oracle",
+      "resultado": "cumple",
+      "evidencia": "evidencia-fd1bfe7/resultado.json (éxito) y oracle-cobertura.txt; R2 lo reprodujo"
+    },
+    {
+      "descripcion": "Prueba entre máquinas con contenedores Docker sin archivos compartidos: Bruno cierra un cambio que Ana juzgó en otra máquina",
+      "resultado": "cumple",
+      "evidencia": "evidencia-fd1bfe7/maquinas/maquinas.json: M1 a M5 cumplen; antes del arreglo fallaban M2, M3 y M4 (evidencia-defecto-original/)"
+    },
+    {
+      "descripcion": "Las pruebas nuevas fallan con el código anterior y R2 repitió la prueba de Docker sobre una copia",
+      "resultado": "cumple",
+      "evidencia": "corridas sobre main y sobre 78f0eb0 en la conversación; revision-r2/"
+    },
+    {
+      "descripcion": "Arneses de modos, vigencia, colaboración, revisión guiada y los dos de release contra el wheel instalado",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor sobre fd1bfe7"
+    },
+    {
+      "descripcion": "Revisión independiente (R2), dos vueltas: cinco hallazgos de severidad baja o informativa en la primera y ninguno en la segunda",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-portabilidad.json e informe-r2-portabilidad2.json, validados con oracle-clue"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia. No hay una autorrevisión separada del autor.",
+    "Las «máquinas» son contenedores en un solo equipo físico: no se mide latencia de red, relojes distintos ni sistemas operativos distintos. Las personas y sus confirmaciones son fixtures.",
+    "Los registros y la evidencia anteriores a este cambio conservan la ruta privada del autor; su limpieza es el cambio 20261005-193914-quitar-la-ruta, pendiente de aceptación. Los paquetes de Clue guardan la ruta del checkout revisado, límite declarado fuera de alcance.",
+    "La guía del sitio (site/desde-cero.html) sigue guardando los hechos en una carpeta ignorada por Git, lo que ahora genera la advertencia; queda para la tarea guia-v2.",
+    "No se probó Windows. Factory se verifica sólo en Linux.",
+    "La revisión se registra sobre un HEAD de archivo posterior al candidato probado fd1bfe7; el producto es idéntico (la vigencia por contenido lo permite)."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2P-01",
+      "descripcion": "Los 7 requisitos de este mismo cambio llevan la ruta privada del autor en su fuente, y la medida dice «cumple»",
+      "ubicacion": "requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado.requisito:3",
+      "evidencia": "R2 (informe-r2-portabilidad.json), severidad baja. Corregido en fd1bfe7: los siete requisitos de este cambio se reescribieron y una prueba revisa los requisitos del propio repositorio."
+    },
+    {
+      "id": "R2P-02",
+      "descripcion": "fuente_relativa deja la ruta absoluta sin avisar si la raíz del proyecto tiene comillas o barras invertidas",
+      "ubicacion": "oracle_factory/cli.py:417",
+      "evidencia": "R2 (informe-r2-portabilidad.json), severidad baja. Corregido en fd1bfe7: se reconoce la ruta escapada por Oracle y se avisa si la fuente queda absoluta; R2 lo probó con siete raíces raras."
+    },
+    {
+      "id": "R2P-03",
+      "descripcion": "Entre Windows y otro sistema la ruta relativa de los hechos se guarda con barras invertidas",
+      "ubicacion": "oracle_factory/cli.py:698",
+      "evidencia": "R2 (informe-r2-portabilidad.json), severidad baja. Corregido en fd1bfe7: la ruta de los hechos se guarda siempre con «/». Windows no se probó."
+    },
+    {
+      "id": "R2P-04",
+      "descripcion": "verify_maquinas.py no limpia contenedores ni red si lo matan con SIGTERM",
+      "ubicacion": "tools/verify_maquinas.py:164",
+      "evidencia": "R2 (informe-r2-portabilidad.json), severidad baja. Corregido en fd1bfe7: SIGTERM se trata como interrupción y la herramienta limpia contenedores y red; R2 lo probó a varios plazos."
+    },
+    {
+      "id": "R2P-05",
+      "descripcion": "El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada",
+      "ubicacion": "tools/verify_maquinas.py:72",
+      "evidencia": "R2 (informe-r2-portabilidad.json), severidad informativa. Riesgo aceptado: el remoto de prueba no autentica pero sólo existe en su red privada y no publica puertos; queda un comentario que lo dice."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
