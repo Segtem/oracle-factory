@@ -69,7 +69,7 @@ class Limpieza(unittest.TestCase):
         f.guardar(carpeta, estado)
         previos = carpeta / 'requisitos-previos'
         previos.mkdir(exist_ok=True)
-        (previos / 'viejo.requisito.txt').write_text(f'requisito x.y:\n    texto "t"\n    fuente "{OTRA}/openspec/changes/{ident}/specs/n/spec.md#a"\n    sin_medir\n')
+        (previos / 'viejo.requisito.txt').write_text(f'requisito x.y:\n    texto "t"\n    fuente "{OTRA}/openspec/changes/{ident}/specs/notas/spec.md#a"\n    sin_medir\n')
         self.git('add', '.')
         self.git('commit', '-qm', 'registros con ruta absoluta')
         return ident
@@ -107,7 +107,7 @@ class Limpieza(unittest.TestCase):
         self.limpiar()
         previo = self.root / 'openspec/changes' / self.ident / 'requisitos-previos' / 'viejo.requisito.txt'
         self.assertNotIn(OTRA, previo.read_text())
-        self.assertIn(f'fuente "openspec/changes/{self.ident}/specs/n/spec.md#a"', previo.read_text())
+        self.assertIn(f'fuente "openspec/changes/{self.ident}/specs/notas/spec.md#a"', previo.read_text())
 
     def test_l1_hechos_absolutos_en_el_registro(self):
         self.assertTrue(self.estado()['oracle']['hechos'].startswith(OTRA))
@@ -115,6 +115,19 @@ class Limpieza(unittest.TestCase):
         hechos = self.estado()['oracle']['hechos']
         self.assertEqual(hechos, f'tareas/{self.ident}/hechos.json')
         self.assertEqual(hashlib.sha256((self.root / hechos).read_bytes()).hexdigest(), self.estado()['oracle']['hechos_sha256'])
+
+    def test_l1_directorios_ambiguos_y_formas_que_no_se_pueden_reescribir(self):
+        rel = 'openspec/changes/20260101-000000-x/specs/a/spec.md#b'
+        for absoluta in (f'/home/tareas/Dev/p/{rel}', f'/srv/openspec/proy/{rel}', f'/tmp/oracle/{rel}'):
+            self.assertEqual(lim.relativa(absoluta), rel, absoluta)
+        archivo = self.requisito()
+        texto = archivo.read_text(encoding='utf-8')
+        for fuente in ('/sin/identificador/spec.md#a', f'{OTRA}/openspec/changes/{self.ident}/specs/no-existe.md#a'):
+            archivo.write_text(re.sub(r'fuente "[^"]*"', lambda m: f'fuente "{fuente}"', texto), encoding='utf-8')
+            self.assertEqual(self.limpiar(), 1, fuente)  # se avisa, no se calla
+            self.assertIn(fuente, archivo.read_text(encoding='utf-8'))  # y no se inventa una ruta
+            self.assertEqual(self.limpiar('--verificar'), 1)
+            self.assertIn(archivo.name, [Path(x).name for x in lim.restos(self.root)])  # el verificador la ve
 
     # --- l2: las decisiones conservan su integridad ------------------------------------
     def test_l2_la_decision_sigue_vigente_y_deja_evento(self):
@@ -127,6 +140,7 @@ class Limpieza(unittest.TestCase):
         evento = [e for e in estado['eventos'] if e['accion'] == 'rutas_limpiadas'][-1]
         self.assertEqual(evento['requisitos'][rid], {'anterior': antes, 'nuevo': nuevo})
         self.assertEqual(evento['actor'], 'claude-code')
+        self.assertEqual(evento['forma'], 'migracion')  # no es una decisión de nadie
         self.assertEqual(f.medidas_sin_decision(estado), [])
 
     def test_l2_estado_igual_antes_y_despues(self):
@@ -173,8 +187,30 @@ class Limpieza(unittest.TestCase):
         ruta = self.root / 'openspec/changes' / self.ident / 'factory.json'
         ruta.write_text(ruta.read_text().replace('\n', '\n\n', 1))  # JSON válido, formato distinto
         antes = ruta.read_bytes()
+        requisito = self.requisito().read_bytes()
         self.assertEqual(self.limpiar(), 1)
         self.assertEqual(ruta.read_bytes(), antes)
+        self.assertEqual(self.requisito().read_bytes(), requisito)  # el requisito no se limpia sin su decisión
+        self.assertEqual(f.medidas_sin_decision(self.estado()), [])
+
+    def test_l4_una_interrupcion_a_mitad_se_repara_en_la_corrida_siguiente(self):
+        rid = self.estado()['requisitos'][0]
+        escritos = []
+        real = lim.escribir_atomico
+
+        def corta_despues_de_los_registros(archivo, texto):
+            if archivo.name != 'factory.json':
+                raise KeyboardInterrupt  # se corta antes de tocar los requisitos
+            escritos.append(archivo)
+            real(archivo, texto)
+
+        with patch.object(lim, 'escribir_atomico', corta_despues_de_los_registros), self.assertRaises(KeyboardInterrupt):
+            self.limpiar()
+        self.assertTrue(escritos)
+        self.assertEqual(self.limpiar(), 0)
+        self.assertNotIn(OTRA, self.requisito().read_text())
+        self.assertEqual(f.medidas_sin_decision(self.estado()), [])
+        self.assertEqual(len([e for e in self.estado()['eventos'] if e['accion'] == 'rutas_limpiadas']), 1)
 
 
 if __name__ == '__main__':

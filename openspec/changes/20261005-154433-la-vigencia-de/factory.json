@@ -239,7 +239,7 @@
       "actor": "claude-code",
       "tipo_actor": "agente",
       "modo": "confirmacion",
-      "forma": "decidio",
+      "forma": "migracion",
       "cuando": "2026-10-05T21:51:48+00:00",
       "requisitos": {
         "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": {

@@ -420,7 +420,7 @@
       "actor": "claude-code",
       "tipo_actor": "agente",
       "modo": "confirmacion",
-      "forma": "decidio",
+      "forma": "migracion",
       "cuando": "2026-10-05T21:51:48+00:00",
       "requisitos": {
         "revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia": {

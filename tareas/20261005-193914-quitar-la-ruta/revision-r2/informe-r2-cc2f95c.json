@@ -1,0 +1,119 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-limpieza-cc2f95c",
+  "base": "46de7af6b837a68e81c6984a1a8dc48e4a2826e5",
+  "head": "cc2f95cb16806726af39c5ba16b5dd883869aef8",
+  "diff_sha256": "38acdf7592962c1ddd46180f2c7c708532e585393473ac20f2a88b9908502432",
+  "context_sha256": "ab431a5f6def9a01d0e213caac1efc15d623d9068c6932e43b6a290e2201b346",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2L-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Si un factory.json no se reserializa igual, el requisito se reescribe de todos modos y la decisión queda con un hash desactualizado",
+      "explanation": "planear mete el requisito limpio en «escribir» y sólo después decide si puede tocar el factory.json; cuando éste no se reserializa idéntico (JSON válido con otro formato), lo salta con un aviso. main escribe igual todos los archivos de «escribir» y devuelve 1. Resultado: el requisito cambia, la decisión de medidas conserva el hash viejo, y estado pasa a mostrar «medidas de …: cambió después de la decisión registrada», justo el pendiente que el requisito «las decisiones conservan su integridad» promete que no aparezca. La prueba l4_registro_que_no_se_reserializa_igual… sólo comprueba que el factory.json quedó intacto, no el estado que queda. En este repositorio no ocurre (los factory.json afectados sí se reserializan igual); sí podría ocurrir en otro repositorio donde se use la herramienta.",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 72,
+        "end_line": 83,
+        "side": "head"
+      },
+      "trigger": "Cambiar el formato de un factory.json con una decisión de medidas con hash (por ejemplo, una línea en blanco) y correr la herramienta.",
+      "evidence": "Verificado: sondas_r2l.py (carpeta revision-r2), salida en sondas_r2l.salida.txt, test_l_02: «requisito reescrito: True | medidas_sin_decision: [cambió después de la decisión registrada …]» y el pendiente aparece en estado.",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+      "status": "pendiente",
+      "verification": "Correr test_l_02. Sugerencia: no reescribir un requisito cuyo factory.json no se pueda actualizar (o abortar antes de escribir nada)."
+    },
+    {
+      "id": "R2L-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Una interrupción a mitad deja decisiones con hash desactualizado y la segunda corrida no lo repara",
+      "explanation": "La herramienta escribe los archivos uno por uno, sin atomicidad: primero los requisitos y después el factory.json. Si se corta entre los dos, la segunda corrida ve los requisitos ya limpios (no cambian), por lo que no calcula hashes nuevos ni agrega el evento, y la decisión queda desactualizada para siempre. Contradice la idempotencia como recuperación («correrla dos veces no cambia nada» sigue siendo cierto, pero tampoco arregla nada). Hay que reponer a mano el hash o volver a decidir con medir.",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 114,
+        "end_line": 118,
+        "side": "head"
+      },
+      "trigger": "Cortar la herramienta entre la escritura de un requisito y la de su factory.json, y volver a correrla.",
+      "evidence": "Verificado por simulación: sondas_r2l.py (carpeta revision-r2), salida en sondas_r2l.salida.txt, test_l_03: tras escribir sólo los requisitos y una segunda corrida con código 0, medidas_sin_decision sigue marcando el requisito y no hay evento rutas_limpiadas.",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
+      "status": "pendiente",
+      "verification": "Correr test_l_03. Sugerencia: escribir primero los factory.json y después los requisitos, o recalcular el hash de toda decisión cuyo requisito coincida con la versión limpia del archivo."
+    },
+    {
+      "id": "R2L-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La expresión de rutas es ambigua con directorios llamados tareas u openspec, y varias formas de fuente se omiten sin que el verificador lo note",
+      "explanation": "ABSOLUTA toma la primera aparición de openspec/ o tareas/ después de una barra: con /home/tareas/Dev/p/openspec/changes/… la ruta relativa queda «tareas/Dev/p/openspec/…» (incorrecta) y con /srv/openspec/proy/openspec/changes/… queda «openspec/proy/openspec/…». Además FUENTE sólo acepta líneas con la forma exacta de Oracle, sin comillas escapadas ni barras invertidas en la ruta, sin espacio ni \\r al final; esas líneas no se reescriben, y restos() usa las mismas expresiones, de modo que las ve igual de bien: el verificador da éxito con la ruta privada todavía presente. Una fuente absoluta sin openspec/ ni tareas/ queda igual por el mismo motivo. Con los datos de este repositorio no se manifiesta: de las 45 fuentes limpiadas, todas apuntan a un archivo que existe, y no queda ninguna fuente absoluta.",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 20,
+        "end_line": 21,
+        "side": "head"
+      },
+      "trigger": "Rutas con un directorio llamado tareas u openspec antes del proyecto, o con comillas o barras en la ruta.",
+      "evidence": "Verificado a nivel de función: sondas_r2l.py (carpeta revision-r2), salida en sondas_r2l.salida.txt, test_l_01 (resultados de relativa() y de requisito_limpio() por caso). Comprobado sobre los datos reales: las 45 fuentes limpiadas existen en cc2f95c (limpieza-tmp, caso f).",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada",
+      "status": "pendiente",
+      "verification": "Correr test_l_01. Sugerencia: anclar la ruta a la raíz del proyecto conocida (como dice design.md) y hacer que restos() busque cualquier fuente que empiece con «/», no sólo las reconocidas."
+    },
+    {
+      "id": "R2L-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "El verificador no compara el estado de cada cambio antes y después sobre el repositorio, aunque la propuesta y el diseño lo prometen",
+      "explanation": "proposal.md (punto 3) y design.md dicen que el verificador comprueba que estado de cada cambio dice lo mismo antes y después, y que guarda un resumen previo. verify_limpieza.py sólo ejecuta las pruebas (que sí comparan estado, pero en un proyecto temporal), mira que no queden fuentes absolutas y que tareas/ no cambie contra main. Sobre este repositorio la comparación no se hace en la herramienta; la hice yo a mano y da igual (ver abajo). Además proposal.md habla de 46 registros y se aplicaron 49 archivos (41 requisitos, 5 requisitos previos y 3 factory.json).",
+      "location": {
+        "file": "tools/verify_limpieza.py",
+        "start_line": 37,
+        "end_line": 45,
+        "side": "head"
+      },
+      "trigger": "Leer tools/verify_limpieza.py y proposal.md.",
+      "evidence": "Verificado por lectura de código y comparación manual: limpieza-tmp/estado-base.txt contra estado-nuevo.txt.",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
+      "status": "pendiente",
+      "verification": "Agregar al verificador la comparación de estado sobre el repositorio, o corregir la propuesta para decir lo que sí hace."
+    },
+    {
+      "id": "R2L-05",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.6,
+      "title": "El evento rutas_limpiadas queda como una decisión («decidio») de un agente en modo confirmacion",
+      "explanation": "El evento que registra el cambio de hash dice actor claude-code, tipo agente, modo confirmacion, forma decidio. Según la tabla de modos, un agente en confirmacion propone y no decide; además el hash que se reescribe pertenece a decisiones que una persona confirmó (por ejemplo las de revisión guiada). Brian eligió esta forma de actualizar los hashes (decisión 3 de la propuesta) y el registro conserva el actor, el hash anterior y el nuevo, así que no oculta nada; la pregunta es si una migración debería figurar como «decidio». Si la corre una persona en una terminal, quedaría como persona que decidió.",
+      "location": {
+        "file": "tools/limpiar_rutas.py",
+        "start_line": 80,
+        "end_line": 82,
+        "side": "head"
+      },
+      "trigger": "Mirar los eventos rutas_limpiadas de los cambios de revisión guiada y de vigencia.",
+      "evidence": "Verificado en los datos: limpieza_hashes.salida.txt (accion rutas_limpiadas, tipo_actor agente, modo confirmacion, forma decidio).",
+      "related_requirement": "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+      "status": "pendiente",
+      "verification": "Decisión de diseño; si molesta, usar una forma distinta (por ejemplo «migro») que no confunda con una decisión."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre cc2f95c: suite (132 OK en 4 de 5 corridas; en la primera, un error que no logré reproducir en cuatro corridas más, causa desconocida porque no guardé su salida); tools/verify_limpieza.py --salida revision-r2/evidencia-limpieza-cc2f95c (10 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 4 requisitos limpieza_c6ac32e… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); más mis sondas sondas_r2l.py y las comparaciones de limpieza_hashes.salida.txt. No corrí colaboración, vigencia, portabilidad, estructura ni revisión guiada, ni los arneses de release.",
+    "1) Estado antes y después: cloné el checkout dos veces bajo revision-r2/limpieza-tmp (46de7af y cc2f95c) y corrí estado de cada uno de los 11 cambios con el mismo código. La única diferencia en los cambios existentes es la desaparición del pendiente «hechos ausentes (…)» en dos cambios (revisión guiada y vigencia). El tercero con hechos limpiados (modos de trabajo) no cambia, porque en esta máquina la ruta absoluta vieja sí existe. Además el cambio de esta limpieza gana sus medidas propuestas pendientes, que llegaron en un commit posterior al base.",
+    "2) Hashes: en cc2f95c, las 22 decisiones y propuestas con hash coinciden con el sha256 del archivo y ninguna decisión ni propuesta queda desactualizada (en el base eran 18 coincidentes, y las 5 sin hash siguen igual). El diff de los tres factory.json afectados sólo cambia: oracle.hechos, los sha256 de medidas, un evento nuevo rutas_limpiadas por cambio con decisiones (revisión guiada, vigencia) y, en el cambio de esta limpieza, sus medidas pendientes y eventos. No cambió ninguna decisión ajena (actor, forma, cuando).",
+    "3) Casos borde de la herramienta: otros prefijos (/tmp/oracle-release-work/…) se limpian bien; la idempotencia y --verificar funcionan sobre una copia de cc2f95c (0 archivos, sin cambios en Git); lo demás está en R2L-01 a R2L-03.",
+    "4) tareas/: git diff main -- tareas sólo muestra archivos nuevos del propio cambio (4 añadidos, ninguno modificado o borrado), y git diff 46de7af..cc2f95c --name-status sobre tareas/ también. No quedan rutas privadas fuera de tareas/ salvo la prosa de proposal.md y design.md de este cambio.",
+    "5) Spec, pruebas y verificador: las 10 pruebas de contrato y las 4 medidas coinciden con los 4 requisitos; las pruebas prueban lo que dicen, con los huecos de R2L-01 a R2L-03. No reproduje las «9 mutaciones a mano» del autor.",
+    "La carpeta limpieza-tmp y los clones son copias bajo revision-r2/; no toqué el checkout fijo. Las sondas usan el fixture de tests/test_limpieza.py."
+  ]
+}
