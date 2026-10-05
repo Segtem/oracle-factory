@@ -2,7 +2,7 @@
   "id": "20261005-154433-la-vigencia-de",
   "titulo": "La vigencia de una revisión depende del contenido del producto",
   "capacidad": "vigencia",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
   "spec_sha256": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8",
   "spec_aprobada": {
@@ -223,6 +223,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:18:59+00:00",
+      "oracle": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+      "revision": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json"
     }
   ],
   "tipos": {
@@ -265,5 +275,12 @@
       "sha256": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:18:59+00:00"
+  }
 }

@@ -1,6 +1,6 @@
 # La vigencia de una revisión depende del contenido del producto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -59,3 +59,11 @@ Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-154433
 ### Nota (2026-10-05 18:18:28 UTC)
 
 Revisión guiada registrada por Brian desde su terminal (2026-10-05), 9 hallazgos de tres vueltas de R2, 0 abiertos; veredicto Oracle verde sobre 2509c13: 4 requisitos cumplen, 13 casos. Listo para cierre.
+
+### Nota (2026-10-05 18:18:59 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
+
+### Nota (2026-10-05 18:19:16 UTC)
+
+Cerrado por Brian desde su terminal (2026-10-05) en modo confirmacion, sobre 2509c13: 4 requisitos cumplen, 13 casos, tres vueltas de R2. Resuelve el hallazgo G-02.
