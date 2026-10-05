@@ -2,7 +2,7 @@
   "id": "20261005-193914-quitar-la-ruta",
   "titulo": "Quitar la ruta privada de los registros ya publicados",
   "capacidad": "limpieza",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md",
   "spec_sha256": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38",
   "spec_aprobada": {
@@ -22,8 +22,39 @@
     "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
     "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/informe.json",
+    "sha256": "bc983843f54b11e89d2c20409d20547104a3c62d2e9e8a7b4ad38fdc1d15054d",
+    "decisiones": "tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/decisiones.json",
+    "decisiones_sha256": "4451dc08ab0f6f426a747d39a4c086a3290deea33194363ba999dc5482a6df13",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T23:50:18+00:00",
+    "contexto": {
+      "head": "8baf460b63624d99efe4f2449ddf181111207295",
+      "archivos_sha256": "3b5bad879fe64cf628abb7188cc5feb63043345fc759ef7532e14f79dc63f8ca"
+    },
+    "head_preparacion": "2e1f4ebc2c2b07aa7596469412746c341a078db5"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261005-193914-quitar-la-ruta/evidencia-71f9446/hechos.json",
+    "hechos_sha256": "d6f647e1db4ca4345d916c5ef34fcd2440558720dffc9de786b58c78015439b3",
+    "informe": "openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
+    "informe_sha256": "081ca76ede900d9966e9d8739078e15a1f28977aedbfffc4bd872af60c0c653b",
+    "cuando": "2026-10-05T23:50:52+00:00",
+    "contexto": {
+      "head": "8baf460b63624d99efe4f2449ddf181111207295",
+      "archivos_sha256": "3b5bad879fe64cf628abb7188cc5feb63043345fc759ef7532e14f79dc63f8ca"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -168,6 +199,31 @@
         "factory_limpieza.limpieza_repetible_y_verificable",
         "factory_limpieza.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:50:18+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "bc983843f54b11e89d2c20409d20547104a3c62d2e9e8a7b4ad38fdc1d15054d",
+      "decisiones_sha256": "4451dc08ab0f6f426a747d39a4c086a3290deea33194363ba999dc5482a6df13"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:50:52+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d6f647e1db4ca4345d916c5ef34fcd2440558720dffc9de786b58c78015439b3"
     }
   ],
   "tipos": {

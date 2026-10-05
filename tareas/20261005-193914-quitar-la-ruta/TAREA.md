@@ -47,3 +47,11 @@ Medidas de limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad: Br
 ### Nota (2026-10-05 23:47:55 UTC)
 
 Medidas de limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:50:18 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 8baf460b63624d99efe4f2449ddf181111207295; informe tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/informe.json; decisiones tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/decisiones.json.
+
+### Nota (2026-10-05 23:50:52 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt.
