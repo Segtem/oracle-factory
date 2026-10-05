@@ -2,7 +2,7 @@
   "id": "20261004-005956-revision-guiada",
   "titulo": "Guiar la revisión con un informe pendiente y decisiones explícitas",
   "capacidad": "revision-guiada",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md",
   "spec_sha256": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25",
   "spec_aprobada": {
@@ -404,6 +404,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "bd58bc07092eb168545c51c0bf6f65616227a66ac659c3eaa96122989dc529e3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:35:05+00:00",
+      "oracle": "openspec/changes/20261004-005956-revision-guiada/oracle-veredicto.txt",
+      "revision": "tareas/20261004-005956-revision-guiada/revisiones/registro-wot81ua4/informe.json"
     }
   ],
   "medidas_pendientes": {},
@@ -464,5 +474,12 @@
       "cuando": "2026-10-05T18:31:13+00:00",
       "sha256": "73754178a98c6f5550f404dbd5499c3fe5001ab630ccb0bc0d8877203982ea17"
     }
+  },
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:35:05+00:00"
   }
 }

@@ -1,6 +1,6 @@
 # Guiar la revisión con un informe pendiente y decisiones explícitas
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 30
 - ETIQUETAS:
 
@@ -175,3 +175,11 @@ Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261004-005956
 ### Nota (2026-10-05 18:32:52 UTC)
 
 Revisión guiada renovada registrada por Brian desde su terminal (2026-10-05) sobre el producto con la vigencia por contenido; 7 medidas confirmadas por Brian sin lo declarado sin medir; veredicto Oracle verde con evidencia-16a039a (111 pruebas, 19 casos): 7 requisitos cumplen. Listo para cierre.
+
+### Nota (2026-10-05 18:35:05 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
+
+### Nota (2026-10-05 18:35:16 UTC)
+
+Cerrado por Brian desde su terminal (2026-10-05) en modo confirmacion: 7 requisitos cumplen sin lo declarado sin medir (límites aceptados por Brian), 111 pruebas y 19 casos. G-02 resuelto por el cambio de vigencia por contenido.
