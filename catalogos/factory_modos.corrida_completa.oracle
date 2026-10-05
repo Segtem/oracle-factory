@@ -1,6 +1,6 @@
 medida factory_modos.corrida_completa:
     de modos_corrida c
-    donde c.completa == 1 y c.casos == 22
+    donde c.completa == 1 y c.casos == 25
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
     requiere modos_corrida

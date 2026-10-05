@@ -38,8 +38,9 @@ class IntegracionReal(unittest.TestCase):
                 rid=f.leer(ident)[1]['requisitos'][0]
                 requisito=root/'requisitos'/f'{rid}.requisito'
                 self.assertIn('sin_medir',requisito.read_text())
-                requisito.write_text('\n'.join('    medido_por demo.medida' if x.strip().startswith('sin_medir ') else x for x in requisito.read_text().splitlines())+'\n')
                 (root/'catalogos/demo.medida.oracle').write_text('ninguno demo.medida:\n    de corrida c\n    donde c.codigo != 0\n    umbral <= 0 segun contrato porque "cero"\n    ambito universal\n    alcance "prueba temporal"\n')
+                # Las medidas se eligen con medir: escritas a mano, sin decisión registrada, no cuentan.
+                f.medir(ident,requisito_id=rid,medidas=['demo.medida'],quitar_sin_medir=True)
                 run('git','init','-q','-b','main'); run('git','add','.')
                 run('git','-c','user.name=Prueba','-c','user.email=prueba@example.invalid','commit','-qm','base revisada')
                 report=Path(temp)/'revision.md'; report.write_text('Informe ficticio para probar el protocolo, sin hallazgos.')

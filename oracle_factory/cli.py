@@ -153,7 +153,8 @@ def quien(registro: dict | None) -> str:
         return "pendiente"
     if "tipo_actor" not in registro:
         return f"{registro.get('por', '?')} (actor no registrado: anterior a los modos)"
-    return f"{registro['actor']} ({registro['tipo_actor']}, {registro['forma']}, modo {registro['modo']})"
+    motivo = f"; motivo: {registro['motivo']}" if registro.get("motivo") else ""
+    return f"{registro['actor']} ({registro['tipo_actor']}, {registro['forma']}, modo {registro['modo']}{motivo})"
 
 
 def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -369,8 +370,8 @@ def aprobar_spec(identificador: str) -> None:
         raise FactoryError("los documentos cambiaron durante la aprobación; volvé a revisarlos")
     estado["spec_sha256"] = huellas[estado["spec"]]
     estado["spec_aprobada"] = {**registro_decision(estado, forma), "documentos": huellas}
-    # Una spec nueva genera requisitos nuevos: lo decidido o propuesto sobre los anteriores ya no aplica.
-    estado.update(requisitos=[], tipos={}, medidas={}, medidas_pendientes={}, revision=None, oracle=None, fase="spec_aprobada")
+    # importar concilia medidas y propuestas por id: la misma spec conserva sus ids y sus registros.
+    estado.update(requisitos=[], tipos={}, revision=None, oracle=None, fase="spec_aprobada")
     (estado.get("propuestas") or {}).pop("revision", None)
     evento(estado, "spec_aprobada", forma=forma, documentos=huellas)
     guardar(carpeta, estado)
@@ -405,6 +406,8 @@ def importar(identificador: str) -> None:
         raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
     estado["requisitos"] = ids
     estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
+    for clave in ("medidas", "medidas_pendientes"):
+        estado[clave] = {rid: v for rid, v in (estado.get(clave) or {}).items() if rid in ids}
     estado["fase"] = "requisitos_importados"
     evento(estado, "requisitos_importados", ids=ids)
     guardar(carpeta, estado)
@@ -628,6 +631,8 @@ def juzgar(identificador: str, hechos: Path) -> None:
     if estado.get("medidas_pendientes"):
         raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
                            + ", ".join(estado["medidas_pendientes"]))
+    if medidas_sin_decision(estado):
+        raise FactoryError("hay medidas sin decisión registrada; no cuentan para el juicio: " + ", ".join(medidas_sin_decision(estado)))
     # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
     estado.update(oracle=None, fase="juicio_pendiente")
     guardar(carpeta, estado)
@@ -689,8 +694,23 @@ def pendientes(estado: dict) -> list[str]:
     return faltan
 
 
+def medidas_sin_decision(estado: dict) -> list[str]:
+    """Requisitos con medidas en su archivo y sin decisión registrada (cambios con modo)."""
+    if "modo" not in estado and "medidas" not in estado:
+        return []  # cambio anterior a los modos
+    registrados = set(estado.get("medidas") or {}) | set(estado.get("medidas_pendientes") or {})
+    faltan = []
+    for rid in estado.get("requisitos", []):
+        ruta = ROOT / "requisitos" / f"{rid}.requisito"
+        if rid not in registrados and ruta.is_file() and any(
+                linea.startswith("    medido_por ") for linea in ruta.read_text(encoding="utf-8").splitlines()):
+            faltan.append(rid)
+    return faltan
+
+
 def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     faltan = pendientes(estado)
+    faltan += [f"medidas de {rid} sin decisión registrada; elegilas con medir" for rid in medidas_sin_decision(estado)]
     try:
         exigir_spec(carpeta, estado)
     except (FactoryError, OSError) as e:
@@ -805,6 +825,15 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
             del estado["medidas"][rid]
             estado.update(oracle=None)
             invalidadas.append(("medidas de " + rid, via))
+    for decision in list(propuestas):
+        if decision != "cierre" and modos.via_agente(nuevo_modo, decision, tipos) == "rechaza":
+            del propuestas[decision]
+            invalidadas.append((f"propuesta de {decision}", "rechaza"))
+    for rid, pendiente in (estado.get("medidas_pendientes") or {}).items():
+        tipo_rid = [(estado.get("tipos") or {}).get(rid, "funcional")]
+        if not pendiente.get("descartada") and modos.via_agente(nuevo_modo, "medidas", tipo_rid) == "rechaza":
+            pendiente["descartada"] = True
+            invalidadas.append((f"propuesta de medidas de {rid}", "rechaza"))
     texto = {"propone": "pasa a propuesta: una persona la confirma", "rechaza": "se descarta: la decide una persona"}
     evento(estado, "modo_cambiado", anterior=actual, nuevo=nuevo_modo, invalidadas=[f"{i}: {texto[v]}" for i, v in invalidadas])
     guardar(carpeta, estado)

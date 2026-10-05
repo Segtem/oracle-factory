@@ -326,7 +326,7 @@ class Modos(unittest.TestCase):
         self.assertEqual(estado['medidas'][rid]['tipo_actor'], 'agente')
         self.assertFalse([p for p in f.pendientes(estado) if 'propuesta' in p])
 
-    def test_m5_bajar_a_funcional_descarta_decision_del_agente(self):
+    def test_m5_subir_a_funcional_descarta_decision_del_agente(self):
         ident = self.crear('autonomo')
         with self.agente(), self.sin_terminal():
             f.aprobar_spec(ident)
@@ -334,10 +334,56 @@ class Modos(unittest.TestCase):
             rid = self.medir(ident)
             f.cambiar_modo(ident, 'funcional')  # sube la intervención: no exige persona
         estado = self.estado(ident)
+        self.assertIsNone(estado['spec_aprobada'])  # la spec funcional la decide ahora una persona
+        self.assertNotIn('spec', estado['propuestas'])
         self.assertIsNone(estado['medidas'].get(rid))
         self.assertTrue(estado['medidas_pendientes'][rid]['descartada'])
         self.assertTrue(any('las decide una persona' in p for p in f.pendientes(estado)))
         self.assertNotIn(rid, estado['medidas'])
+
+    def test_m3_misma_spec_conserva_registros(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        with self.agente():
+            rid = self.medir(ident)
+        tasks = self.root / 'openspec/changes' / ident / 'tasks.md'
+        tasks.write_text(tasks.read_text() + '\n- [ ] seguimiento\n')  # misma spec: mismos ids
+        self.aceptar(ident)
+        f.importar(ident)
+        estado = self.estado(ident)
+        self.assertIn(rid, estado['requisitos'])
+        self.assertIn(rid, estado['medidas_pendientes'])
+        hechos, _ = self.producto_y_hechos(ident)
+        with self.assertRaisesRegex(f.FactoryError, 'sin confirmar'):
+            f.juzgar(ident, hechos)
+
+    def test_m3_medidas_sin_decision_no_cuentan(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        rid = self.medir(ident)
+        carpeta, estado = f.leer(ident)
+        del estado['medidas'][rid]  # se pierde el registro: el archivo conserva las medidas
+        f.guardar(carpeta, estado)
+        self.assertTrue(any('sin decisión registrada' in p for p in f.pendientes_actuales(carpeta, estado)))
+        hechos, _ = self.producto_y_hechos(ident)
+        with self.assertRaisesRegex(f.FactoryError, 'sin decisión registrada'):
+            f.juzgar(ident, hechos)
+
+    def test_m5_bajar_a_funcional_descarta_propuestas(self):
+        ident = self.crear()
+        with self.agente():
+            f.aprobar_spec(ident)  # en confirmacion: propuesta
+        with self.escribe(f'CAMBIAR MODO {ident} funcional'):
+            f.cambiar_modo(ident, 'funcional')
+        self.assertNotIn('spec', self.estado(ident)['propuestas'])
+        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', 'Revisé la promesa']):
+            f.aprobar_spec(ident)
+        spec = self.estado(ident)['spec_aprobada']
+        self.assertEqual((spec['forma'], spec['motivo']), ('decidio', 'Revisé la promesa'))
+        f.mostrar(ident)
+        self.assertIn('motivo: Revisé la promesa', self.stdout.getvalue())
 
 
 class Politica(unittest.TestCase):

@@ -19,12 +19,14 @@ CONTRACTS = {
     'decisiones_segun_el_modo': ['m3_funcional_requisito_funcional', 'm3_funcional_requisito_no_funcional',
                                  'm3_confirmacion_propone', 'm3_autonomo', 'm3_cierre_en_modo_funcional',
                                  'm3_spec_nueva_descarta_lo_anterior', 'm3_juzgar_no_cuenta_medidas_propuestas',
-                                 'm3_funcional_persona_decide_con_motivo'],
+                                 'm3_funcional_persona_decide_con_motivo',
+                                 'm3_misma_spec_conserva_registros', 'm3_medidas_sin_decision_no_cuentan'],
     'actor_registrado_sin_aparentar_humanos': ['m4_confirmacion_por_pipe', 'm4_lectura_del_estado',
                                                'm4_sin_agente_ni_terminal_no_es_persona', 'm4_notas_dicen_quien_decidio',
                                                'm4_cierre_autonomo_no_niega_decisiones_humanas'],
     'cambio_de_modo_con_invalidacion': ['m5_subir_la_intervencion_humana', 'm5_bajar_de_modo_el_agente_reemplaza_su_propuesta',
-                                        'm5_bajar_a_funcional_descarta_decision_del_agente'],
+                                        'm5_subir_a_funcional_descarta_decision_del_agente',
+                                        'm5_bajar_a_funcional_descarta_propuestas'],
 }
 PREFIX = 'test_modos.Modos.test_'
 LIMITES = ('Escenarios m1–m5 en repositorios temporales, Linux. Las personas son fixtures con una terminal simulada; '
