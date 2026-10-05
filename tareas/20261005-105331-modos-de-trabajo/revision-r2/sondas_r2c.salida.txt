@@ -1,0 +1,19 @@
+test_r2c_01_renovar_aceptacion_borra_propuesta_y_juzga_con_medidas_del_agente (sondas_r2c.SondasC.test_r2c_01_renovar_aceptacion_borra_propuesta_y_juzga_con_medidas_del_agente) ... 
+R2C-01 requisitos: ['notas_cfcf2a6d657e1e73b.titulo_valido'] pendientes: {} medidas: {}
+R2C-01 archivo:     medido_por notas.casos_ejecutados, notas.resultados
+R2C-01 fase: cerrada oracle: 0 registro medidas: {}
+ok
+test_r2c_02_bajar_a_funcional_conserva_propuesta_y_la_persona_confirma (sondas_r2c.SondasC.test_r2c_02_bajar_a_funcional_conserva_propuesta_y_la_persona_confirma) ... 
+R2C-02 spec_aprobada: persona confirmo funcional motivo de la persona
+ok
+test_r2c_03_motivo_no_se_muestra (sondas_r2c.SondasC.test_r2c_03_motivo_no_se_muestra) ... 
+R2C-03 nota: Brian Hollweg (persona, decidio, modo funcional) aceptó propuesta y spec openspec/changes/20261005-124935-nota/specs/notas/spec.md; se reiniciaron las validaciones dependientes.
+ok
+test_r2c_04_subir_a_funcional_descarta_spec_del_agente (sondas_r2c.SondasC.test_r2c_04_subir_a_funcional_descarta_spec_del_agente) ... 
+R2C-04 spec_aprobada: None propuestas: {}
+ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 7.946s
+
+OK

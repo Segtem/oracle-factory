@@ -1,0 +1,4 @@
+requisito modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos:
+    texto "Cada evento SHALL registrar actor, tipo de actor (persona o agente), modo y forma (`decidio`, `propuso` o `confirmo`). Una decisión de persona SHALL exigir una terminal interactiva y rechazar la entrada por pipe. Factory SHALL NOT presentar como humana una decisión registrada por la vía de agente."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#actor registrado sin aparentar humanos"
+    medido_por factory_modos.actor_registrado_sin_aparentar_humanos, factory_modos.corrida_completa

@@ -1,0 +1,4 @@
+requisito modos_c45a4802846932222.modo_explicito_por_cambio:
+    texto "Factory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto (`confirmacion` si el proyecto no define otro), y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#modo explicito por cambio"
+    medido_por factory_modos.modo_explicito_por_cambio, factory_modos.corrida_completa

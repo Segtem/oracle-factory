@@ -13,6 +13,14 @@ import unittest
 from unittest.mock import patch
 
 from oracle_factory import cli as f
+from tools.terminal import en_terminal
+
+
+def setUpModule():
+    # Estas pruebas representan a una persona que escribe en su terminal.
+    terminal = patch.object(f, 'terminal_interactiva', return_value=True)
+    terminal.start()
+    unittest.addModuleCleanup(terminal.stop)
 
 SOURCE = Path(__file__).resolve().parents[1]
 ID = '20260101-120000-revision'
@@ -334,8 +342,10 @@ class RevisionGuiada(unittest.TestCase):
     def test_g8_cli_completo_y_oracle_real_en_fixture(self):
         root=self.root/'cli';root.mkdir()
         def run(*args, stdin=None, expected=0):
-            p=subprocess.run([str(a) for a in args],cwd=root,input=stdin,text=True,capture_output=True,timeout=90,
-                             env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1'})
+            env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1'}
+            # Con stdin, una persona escribe en su terminal; sin stdin, no hay terminal.
+            p=(en_terminal(args,cwd=root,env=env,entrada=stdin) if stdin is not None else
+               subprocess.run([str(a) for a in args],cwd=root,text=True,capture_output=True,timeout=90,env=env))
             self.trace.append({'argv':[str(a) for a in args],'stdin_fixture':stdin,'codigo':p.returncode,'stdout':p.stdout,'stderr':p.stderr})
             self.assertEqual(p.returncode,expected,p.stdout+p.stderr)
             return p
@@ -348,7 +358,7 @@ class RevisionGuiada(unittest.TestCase):
         cli('importar',ident)
         state_path=root/'openspec/changes'/ident/'factory.json'
         rid=json.loads(state_path.read_text())['requisitos'][0]
-        cli('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir')
+        cli('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir',stdin='')
         run('git','add','.')
         run('git','-c','core.hooksPath=/dev/null','-c','user.name=Fixture','-c','user.email=fixture@example.invalid','commit','-qm','producto fixture')
         facts=root/'tareas'/ident/'hechos.json'

@@ -1,0 +1,18 @@
+ERROR: test_r2_03_juicio_verde_con_medidas_sin_confirmar (sondas_r2.Sondas.test_r2_03_juicio_verde_con_medidas_sin_confirmar)
+oracle_factory.cli.FactoryError: hay medidas sin confirmar por una persona; no cuentan para el juicio: notas_cc7337a889e663778.titulo_valido
+ERROR: test_r2_04_agente_crea_autonomo_si_el_proyecto_lo_define (sondas_r2.Sondas.test_r2_04_agente_crea_autonomo_si_el_proyecto_lo_define)
+oracle_factory.cli.FactoryError: el modo autonomo tiene menos intervención humana que confirmacion: lo elige una persona, sin --agente
+FAIL: test_r2_01_propuesta_vieja_bloquea_autonomo (sondas_r2.Sondas.test_r2_01_propuesta_vieja_bloquea_autonomo)
+AssertionError: 'spec' not found in {}
+FAIL: test_r2_02_medidas_pendientes_huerfanas_tras_cambiar_spec (sondas_r2.Sondas.test_r2_02_medidas_pendientes_huerfanas_tras_cambiar_spec)
+AssertionError: 'notas_cc7337a889e663778.titulo_valido' not found in {}
+FAIL: test_r2_05_nota_de_revision_sin_actor (sondas_r2.Sondas.test_r2_05_nota_de_revision_sin_actor)
+AssertionError: 'agente' unexpectedly found in 'Revisión Brian Hollweg: aprobar; registrada por agente-x (agente, decidio, modo autonomo); 0 abiertos; commit 7daa111c4b237de904b8a11a4d761360315db944; informe openspec/changes/20261005-124908-nota/review.md.'
+FAIL: test_r2_06_funcional_convierte_decision_de_agente_en_propuesta_confirmable (sondas_r2.Sondas.test_r2_06_funcional_convierte_decision_de_agente_en_propuesta_confirmable)
+AssertionError: 'spec' not found in {}
+FAIL: test_r2_07_cierre_dice_sin_decision_humana_aunque_la_hubo (sondas_r2.Sondas.test_r2_07_cierre_dice_sin_decision_humana_aunque_la_hubo)
+AssertionError: 'no hubo decisión humana' not found in 'Cierre: agente-x (agente, decidio, modo autonomo), tras revisar el informe de código y el veredicto Oracle. El cierre lo decidió un agente en modo autónomo.'
+FAIL: test_r2_08_agente_no_puede_retirar_su_propuesta_de_medidas_al_repetir (sondas_r2.Sondas.test_r2_08_agente_no_puede_retirar_su_propuesta_de_medidas_al_repetir)
+AssertionError: 'notas_c1456ef9e6231d9af.titulo_valido' not found in {}
+Ran 30 tests in 8.784s
+FAILED (failures=6, errors=2)

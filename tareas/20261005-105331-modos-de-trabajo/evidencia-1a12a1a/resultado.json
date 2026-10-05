@@ -1,0 +1,45 @@
+{
+  "exitoso": true,
+  "tests": 84,
+  "casos_contrato": 14,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "origen": {
+    "head": "1a12a1ad4cbeb2ae08821c31f07517a3d263ec93",
+    "sha256": {
+      "catalogos/factory_modos.actor_registrado_sin_aparentar_humanos.oracle": "c305285f569adf41f7186296b12cbe6c7b95884e0873403e07062c52ee9c400e",
+      "catalogos/factory_modos.cambio_de_modo_con_invalidacion.oracle": "216a99f5a72befd07054dbb6152e90a748f7f42b6019a862cd35e81f7ee54d68",
+      "catalogos/factory_modos.corrida_completa.oracle": "791214c01fb143e8ce538c0fe297960f8f907a756ea9375f50b6eddf3a220da3",
+      "catalogos/factory_modos.decisiones_segun_el_modo.oracle": "35b345cd066c437ac9248d79b8c6700307085f31073a8cafd519760d11416fe9",
+      "catalogos/factory_modos.modo_explicito_por_cambio.oracle": "015ed8fad807b198464fd19317ca51d51a05e883ac9f37c2510b9f173eca0fff",
+      "catalogos/factory_modos.tipo_de_requisito.oracle": "141ff5681345e33a91505999ba04d281afb4945c6723f035fe81b66f7f725694",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "b54e677bf5ae06d75e404fa2bde3f0f9bf8a91d9713917e9fc691632b4b937be",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "0a00afee2c96ddecad1ab114302b1fa491791aec467a7a5552f71be118c2acfc",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "30f49365347b6bcca687202c27abb1032b0add4e90c2500f35b50853c0edb473",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "8f69f540c0d4423b86c969dff902012191cb8f30efe11c61110932eaa90e0608",
+      "tests/test_integration.py": "e7cc1e1cf3e93b00da1b8a2f8e66a4122e32aa4ac882ed39c3919950236eba96",
+      "tests/test_modos.py": "e777b22ce597414cdda8f27f11da81f7ce00a7cefcf4c21448b755f96f252f0f",
+      "tests/test_review_guided.py": "c538edd1b780a0d23287a10c165414d3689a80c2f32d1742bba68948498b57c6",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_workflow.py": "33b0c120567ef2dfb8c0bf3750e7e4862c3bf15eca152f7e172223a3b2e4d900",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_modos.py": "66c33b07534fa63f40a59fad773ebf13517b0048767c5c32416db5b61bc38ecf"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios m1–m5 en repositorios temporales, Linux. Las personas son fixtures con una terminal simulada; Factory no autentica actores: un agente que simule una terminal pasa por persona.",
+  "artefactos_sha256": {
+    "suite.txt": "b3d57ab31d05b799e39d240e576f65c313b2939f7378e0f9655f2fe3ffb422af",
+    "hechos.json": "53c953b7f826d85ad7ac4dea2d7d76260d34bad84d82e35db623063700ca3709"
+  }
+}

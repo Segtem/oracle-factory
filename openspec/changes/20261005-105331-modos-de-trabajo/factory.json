@@ -1,0 +1,337 @@
+{
+  "id": "20261005-105331-modos-de-trabajo",
+  "titulo": "Modos de trabajo según quién decide los requisitos",
+  "capacidad": "modos",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
+  "spec_sha256": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b",
+  "spec_aprobada": {
+    "por": "workstation",
+    "cuando": "2026-10-05T11:25:36+00:00",
+    "documentos": {
+      "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
+      "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
+    }
+  },
+  "requisitos": [
+    "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+    "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+    "modos_c45a4802846932222.decisiones_segun_el_modo",
+    "modos_c45a4802846932222.modo_explicito_por_cambio",
+    "modos_c45a4802846932222.tipo_de_requisito"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json",
+    "sha256": "4f44c2e5ecdde6e6cdbbf13f24b8eb7ea6a813cf752308fa8e6f12da0a0feb4c",
+    "decisiones": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/decisiones.json",
+    "decisiones_sha256": "ab2dfd33bc5a66079019bfa64f28f0cb18bca2d8e2ec449b596a337e5088b6ab",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:36:05+00:00",
+    "contexto": {
+      "head": "c0e7c3cc3c8a5ee1811b04061998ce8607f29671",
+      "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/home/workstation/Dev/factory/tareas/20261005-105331-modos-de-trabajo/evidencia-c0e7c3c/hechos.json",
+    "hechos_sha256": "64b991bcd51131d0bd29646693e658ad8c4b5b533629ee13fb4d2fa23a006397",
+    "informe": "openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
+    "informe_sha256": "e683bdec70009374121942b61656ecb4e607e70dba056fdbc879b34e9f6da235",
+    "cuando": "2026-10-05T15:39:00+00:00",
+    "contexto": {
+      "head": "c0e7c3cc3c8a5ee1811b04061998ce8607f29671",
+      "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
+    }
+  },
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:53:31+00:00",
+      "capacidad": "modos"
+    },
+    {
+      "accion": "spec_aceptada_en_conversacion",
+      "por": "Brian (usuario de esta conversación)",
+      "cuando": "2026-10-05T11:18:32+00:00",
+      "documentos": {
+        "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
+        "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
+      },
+      "canal": "conversación",
+      "texto": "«1. Vamos con modo por defecto confirmacion. 2. Si la persona hace el cierre. 3. […] poner una opcion […] 4. Dale. aprobar-spec.»",
+      "nota": "Aceptación pedida en la conversación; el agente aplicó las respuestas 1–4 a proposal/spec y ejecutó aprobar-spec con la frase por pipe (la CLI no tiene canal de conversación). Las huellas corresponden a los documentos con esas respuestas aplicadas."
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:18:41+00:00",
+      "ids": [
+        "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+        "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+        "modos_c45a4802846932222.decisiones_segun_el_modo",
+        "modos_c45a4802846932222.modo_explicito_por_cambio",
+        "modos_c45a4802846932222.tipo_de_requisito"
+      ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:25:36+00:00",
+      "documentos": {
+        "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
+        "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:29:41+00:00",
+      "ids": [
+        "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+        "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+        "modos_c45a4802846932222.decisiones_segun_el_modo",
+        "modos_c45a4802846932222.modo_explicito_por_cambio",
+        "modos_c45a4802846932222.tipo_de_requisito"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.modo_explicito_por_cambio",
+      "medidas": [
+        "factory_modos.modo_explicito_por_cambio",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.tipo_de_requisito",
+      "medidas": [
+        "factory_modos.tipo_de_requisito",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "medidas": [
+        "factory_modos.decisiones_segun_el_modo",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "medidas": [
+        "factory_modos.actor_registrado_sin_aparentar_humanos",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "medidas": [
+        "factory_modos.cambio_de_modo_con_invalidacion",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T12:28:05+00:00",
+      "requisito": "modos_c45a4802846932222.modo_explicito_por_cambio",
+      "medidas": [
+        "factory_modos.modo_explicito_por_cambio",
+        "factory_modos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T12:28:06+00:00",
+      "requisito": "modos_c45a4802846932222.tipo_de_requisito",
+      "medidas": [
+        "factory_modos.tipo_de_requisito",
+        "factory_modos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T12:28:06+00:00",
+      "requisito": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "medidas": [
+        "factory_modos.decisiones_segun_el_modo",
+        "factory_modos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T12:28:06+00:00",
+      "requisito": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "medidas": [
+        "factory_modos.actor_registrado_sin_aparentar_humanos",
+        "factory_modos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T12:28:06+00:00",
+      "requisito": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "medidas": [
+        "factory_modos.cambio_de_modo_con_invalidacion",
+        "factory_modos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:28:54+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "66f5d25cd3caf4d3d7dcaa19339cfed6b6169145d9a9d778b212b44ef20eb894",
+      "decisiones_sha256": "78f13db4e1710a55a5d8d2761b6fef85c6b9294e7cf9a5295b8581713635cc9d"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:36:05+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "4f44c2e5ecdde6e6cdbbf13f24b8eb7ea6a813cf752308fa8e6f12da0a0feb4c",
+      "decisiones_sha256": "ab2dfd33bc5a66079019bfa64f28f0cb18bca2d8e2ec449b596a337e5088b6ab"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:39:00+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "64b991bcd51131d0bd29646693e658ad8c4b5b533629ee13fb4d2fa23a006397"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:42:05+00:00",
+      "oracle": "openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
+      "revision": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json"
+    }
+  ],
+  "medidas_pendientes": {},
+  "medidas": {
+    "modos_c45a4802846932222.modo_explicito_por_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T12:28:05+00:00"
+    },
+    "modos_c45a4802846932222.tipo_de_requisito": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T12:28:06+00:00"
+    },
+    "modos_c45a4802846932222.decisiones_segun_el_modo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T12:28:06+00:00"
+    },
+    "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T12:28:06+00:00"
+    },
+    "modos_c45a4802846932222.cambio_de_modo_con_invalidacion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T12:28:06+00:00"
+    }
+  },
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:42:05+00:00"
+  }
+}

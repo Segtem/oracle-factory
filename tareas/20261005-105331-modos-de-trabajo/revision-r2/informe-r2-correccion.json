@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-modos-19b8d76",
+  "base": "1a12a1ad4cbeb2ae08821c31f07517a3d263ec93",
+  "head": "19b8d76a0326809397326002a1b53369397b1f85",
+  "diff_sha256": "6e5d066e6210bf943a4cb9a72b354402b115fcfbfa6ce964b698ad8954c53b04",
+  "context_sha256": "af05cd142292bf097039c831547b8b279d14d35036ddbf6191d30e073e79cf6d",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-opus-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2C-01",
+      "kind": "regresion",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Renovar la aceptación de la misma spec borra las medidas propuestas por el agente, pero sus medidas siguen en el .requisito y cuentan para el juicio y el cierre",
+      "explanation": "La corrección de R2-01 vacía medidas y medidas_pendientes en cada aprobar-spec, aunque la spec no haya cambiado. Si sólo cambió proposal.md o tasks.md, spec_sha256 no cambia, la reimportación da los mismos ids y Oracle conserva medido_por en los .requisito. Resultado: las medidas que el agente sólo propuso en modo confirmacion quedan asociadas en el archivo, sin propuesta pendiente y sin registro de quién las eligió. juzgar ya no las bloquea (R2-03 se esquiva), el juicio da verde y la persona puede cerrar. Además se pierde la atribución de medidas confirmadas o decididas por personas. Antes de la corrección este camino quedaba bloqueado porque la propuesta seguía pendiente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 372,
+        "end_line": 374,
+        "side": "head"
+      },
+      "trigger": "modo confirmacion: persona acepta e importa; agente medir (propone); se edita tasks.md; persona aprobar-spec e importar; revisión, juzgar, cerrar.",
+      "evidence": "Verificado: sondas_r2c.py (carpeta revision-r2), salida en sondas_r2c.salida.txt, test_r2c_01: tras renovar, requisitos contiene el mismo id, medidas_pendientes {} y medidas {}, el archivo conserva «medido_por notas.casos_ejecutados, notas.resultados», el juicio da código 0 y el cambio queda cerrado sin que ninguna persona confirmara esas medidas.",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Correr test_r2c_01. Sugerencia: descartar sólo lo que pertenece a ids que dejaron de ser requisitos (comparar después de importar), o al descartar una propuesta quitar también su asociación del .requisito; agregar este caso a test_m3_spec_nueva_descarta_lo_anterior, que sólo cubre una spec distinta."
+    },
+    {
+      "id": "R2C-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Al bajar a funcional, las propuestas que ya existían no se descartan y la decisión de la persona queda como «confirmo»",
+      "explanation": "cambiar_modo sólo revisa las decisiones del agente (spec_aprobada, revision, medidas), no las propuestas existentes. Si un agente propuso en confirmacion y una persona baja a funcional, propuestas[spec] sigue ahí. Cuando la persona decide con su motivo, decidir saca la propuesta y registra forma «confirmo» en modo funcional, donde Brian pidió que lo reservado a la persona se descarte y la persona decida. Lo mismo pasa con medidas_pendientes no descartadas de requisitos funcionales. No crea un verde falso: hay persona y motivo. Pero el registro dice «confirmó» lo que en ese modo debería ser «decidió».",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 774,
+        "end_line": 779,
+        "side": "head"
+      },
+      "trigger": "confirmacion: agente aprobar-spec (propone) → persona modo funcional → persona aprobar-spec con motivo.",
+      "evidence": "Verificado: sondas_r2c.py (carpeta revision-r2), salida en sondas_r2c.salida.txt, test_r2c_02: spec_aprobada persona / confirmo / funcional / con motivo.",
+      "related_requirement": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "status": "pendiente",
+      "verification": "Correr test_r2c_02. Sugerencia: en cambiar_modo, descartar también las propuestas cuya vía nueva sea «rechaza»."
+    },
+    {
+      "id": "R2C-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "El motivo de la persona se guarda pero no aparece en estado ni en las notas",
+      "explanation": "pedir_motivo guarda el motivo en el registro de la decisión, pero quien() no lo incluye, así que ni mostrar ni las notas del tracker lo muestran. El motivo sólo queda en factory.json. El mecanismo motivo_pendiente es correcto en los caminos que revisé (aprobar_spec, revisar libre y guiada): ningún guardado ocurre entre decidir y registro_decision, así que la clave no llega al disco. Es frágil: cualquier registro_decision posterior en el mismo proceso se llevaría el motivo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 136,
+        "end_line": 148,
+        "side": "head"
+      },
+      "trigger": "funcional: persona aprobar-spec con motivo; consultar estado y la nota.",
+      "evidence": "Verificado: sondas_r2c.py (carpeta revision-r2), salida en sondas_r2c.salida.txt, test_r2c_03: spec_aprobada.motivo existe; ni la salida de estado ni la nota lo contienen.",
+      "related_requirement": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "status": "pendiente",
+      "verification": "Correr test_r2c_03. Opcional: pasar el motivo como valor de retorno de decidir en vez de guardarlo en el estado."
+    },
+    {
+      "id": "R2C-04",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Una prueba nueva tiene un nombre que no coincide con lo que hace, y falta cubrir el caso de R2C-01",
+      "explanation": "test_m5_bajar_a_funcional_descarta_decision_del_agente pasa de autonomo a funcional, o sea que sube la intervención; su propio comentario lo dice. Sólo comprueba las medidas, no que la spec aceptada por el agente se descarte sin pasar a propuesta. Ese comportamiento es correcto (test_r2c_04 lo confirma), pero ninguna prueba del contrato lo cubre. test_m3_spec_nueva_descarta_lo_anterior sólo cubre una spec distinta, y por eso no detecta R2C-01. Las otras siete pruebas nuevas prueban lo que dicen.",
+      "location": {
+        "file": "tests/test_modos.py",
+        "start_line": 329,
+        "end_line": 341,
+        "side": "head"
+      },
+      "trigger": "Leer test_m5_bajar_a_funcional_descarta_decision_del_agente y test_m3_spec_nueva_descarta_lo_anterior.",
+      "evidence": "Lectura y test_r2c_04 en sondas_r2c.py (carpeta revision-r2), salida en sondas_r2c.salida.txt (spec_aprobada None y sin propuesta de spec tras autonomo → funcional).",
+      "related_requirement": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "status": "pendiente",
+      "verification": "Renombrar la prueba (por ejemplo, subir_a_funcional), afirmar también el descarte de la spec y agregar el caso de R2C-01."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé el delta 1a12a1a..19b8d76 de cli.py, test_modos.py, verify_modos.py y los catálogos. Corrí la suite (92 OK), mis 8 sondas originales (6 FAIL y 2 ERROR: los defectos ya no se reproducen) y 4 sondas nuevas (sondas_r2c.py).",
+    "Estado de los hallazgos originales: R2-01 resuelto para una spec distinta pero con una regresión (R2C-01); R2-02 resuelto (también medir sin cambios en vía de agente); R2-03 resuelto como bloqueo, pero esquivable por R2C-01; R2-04 resuelto; R2-05 resuelto en notas (el texto «declaración humana» del formato libre sigue imprimiéndose en la vía de agente, sin importancia); R2-06 resuelto para decisiones del agente, parcial para propuestas existentes (R2C-02); R2-07 resuelto; R2-09 resuelto en su mayor parte (R2C-04). R2-08 quedó como riesgo aceptado y no lo reevalué.",
+    "No corrí los arneses tools/verify_*.py ni verify_modos.py, ni los de release contra el wheel; me apoyo en lo declarado por el autor para eso.",
+    "Las sondas usan el fixture de test_modos.py, con la terminal parcheada; no probé isatty real ni el CLI instalado.",
+    "R2C-01 depende de que oracle requisito importar (0.38.1) conserve medido_por al reescribir un .requisito existente con el mismo id; así lo observé en el fixture, no lo verifiqué en el código de Oracle."
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "4f44c2e5ecdde6e6cdbbf13f24b8eb7ea6a813cf752308fa8e6f12da0a0feb4c",
+  "actor": "Brian Hollweg",
+  "motivo": "Decisiones de Brian en la conversación del 2026-10-05; cada una cita sus palabras. Las de R2C y R2D se apoyan en «Da las vueltas que fanten»; la conversación no tiene una confirmación explícita de cada propuesta de R2C. Renovación sobre c0e7c3c: se repiten las mismas decisiones, ya tomadas por Brian, porque Factory vincula la revisión al HEAD.",
+  "decisiones": [
+    {
+      "hallazgo_id": "M-01",
+      "estado": "corregido",
+      "motivo": "«Sí, corregí M-01 y lanzá el revisor independiente»; corregido en 1a12a1a.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "M-02",
+      "estado": "riesgo_aceptado",
+      "motivo": "«Sí, corregí M-01…» sobre la propuesta de mantener M-02, M-03 y M-04 como riesgo aceptado; falla a la vista.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "M-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje; va a la tarea docs-web-modos.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "M-04",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje; umbral de igualdad deliberado.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-01",
+      "estado": "corregido",
+      "motivo": "«Sí, vamos con tus propuestas y que R2 revise la corrección».",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-02",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-03",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-04",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-05",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-06",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-07",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-08",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje: queda marcado en el código como simplificación.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2-09",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2C-01",
+      "estado": "corregido",
+      "motivo": "Corregido en 0234cc9; Brian pidió después «Da las vueltas que fanten», sin confirmar cada propuesta por separado.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2C-02",
+      "estado": "corregido",
+      "motivo": "Idem.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2C-03",
+      "estado": "corregido",
+      "motivo": "Idem.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2C-04",
+      "estado": "corregido",
+      "motivo": "Idem.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2D-01",
+      "estado": "corregido",
+      "motivo": "Corregido en 653de8f; «Da las vueltas que fanten».",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2D-02",
+      "estado": "corregido",
+      "motivo": "Idem.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    },
+    {
+      "hallazgo_id": "R2D-03",
+      "estado": "corregido",
+      "motivo": "Idem.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T15:18:15+00:00"
+    }
+  ]
+}

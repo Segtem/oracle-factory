@@ -1,0 +1,35 @@
+test_r2d_01_registro_no_ata_el_contenido (sondas_r2d.SondasD.test_r2d_01_registro_no_ata_el_contenido) ... 
+R2D-01 archivo: ['    medido_por notas.casos_ejecutados, notas.resultados']
+R2D-01 sin decisión: []
+ok
+test_r2d_02_indentacion_distinta_esquiva_la_regla (sondas_r2d.SondasD.test_r2d_02_indentacion_distinta_esquiva_la_regla) ... 
+R2D-02 original: requisito notas_c3211b7e34ed38415.titulo_valido:
+    texto "The system SHALL reject empty or whitespace-only titles and accept titles containing text."
+    fuente "/tmp/tmpef3q57l7/producto/openspec/changes/20261005-132236-nota/specs/notas/spec.md#titulo valido"
+    sin_medir "sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»"
+
+R2D-02 editado: requisito notas_c3211b7e34ed38415.titulo_valido:
+    texto "The system SHALL reject empty or whitespace-only titles and accept titles containing text."
+    fuente "/tmp/tmpef3q57l7/producto/openspec/changes/20261005-132236-nota/specs/notas/spec.md#titulo valido"
+  medido_por notas.casos_ejecutados, notas.resultados
+
+ERROR
+test_r2d_03_persona_no_puede_registrar_medidas_ya_presentes (sondas_r2d.SondasD.test_r2d_03_persona_no_puede_registrar_medidas_ya_presentes) ... 
+R2D-03 salida: Sin cambios en la asociación; conservé la revisión y el juicio existentes.
+ok
+
+======================================================================
+ERROR: test_r2d_02_indentacion_distinta_esquiva_la_regla (sondas_r2d.SondasD.test_r2d_02_indentacion_distinta_esquiva_la_regla)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/sondas_r2d.py", line 46, in test_r2d_02_indentacion_distinta_esquiva_la_regla
+    f.juzgar(ident, hechos)
+    ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/workstation/Dev/_revisiones/factory-modos-0234cc9/oracle_factory/cli.py", line 649, in juzgar
+    raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado")
+oracle_factory.cli.FactoryError: Oracle todavía no tiene cobertura completa de cada requisito importado
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.209s
+
+FAILED (errors=1)

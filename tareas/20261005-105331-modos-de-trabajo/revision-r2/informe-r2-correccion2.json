@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-modos-0234cc9",
+  "base": "19b8d76a0326809397326002a1b53369397b1f85",
+  "head": "0234cc9abb0b4993d359cb5323bb078c3906a6ff",
+  "diff_sha256": "d0383dccfaf8325f3a8583228bb60de559907002751095280cc7d27b5a361754",
+  "context_sha256": "44a7d830a4a406549bf33d42c4cbc56aab00f3047579b96a9a24aab38b641646",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-opus-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2D-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "La regla general sólo mira si hay una decisión registrada, no si coincide con las medidas del archivo",
+      "explanation": "medidas_sin_decision considera decidido a todo requisito que tenga una entrada en medidas o en medidas_pendientes, sin comparar con lo que el .requisito asocia ahora. Los registros de medidas no guardan ni las medidas elegidas ni la huella del archivo; las propuestas guardan sha256, pero las decisiones no. Si una persona eligió una medida con medir y después el archivo se edita a mano (que es justo como test_integration elegía medidas), el registro de la persona sigue cubriendo una asociación que nadie decidió. juzgar da verde y el cambio se cierra. La conciliación por id de importar no agrega este problema: un mismo id implica la misma spec, y medir siempre reescribe el registro. El hueco es la edición fuera de Factory, el mismo camino que la regla general dice cerrar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 697,
+        "end_line": 708,
+        "side": "head"
+      },
+      "trigger": "Modo confirmacion: la persona elige medir --medida notas.casos_ejecutados; después se agrega a mano notas.resultados en el .requisito; revisión, juzgar y cerrar.",
+      "evidence": "Verificado: sondas_r2d.py (carpeta revision-r2), salida en sondas_r2d.salida.txt, test_r2d_01: medidas_sin_decision devuelve [] con el archivo ya editado, y el juicio y el cierre pasan (fase cerrada).",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Correr test_r2d_01. Sugerencia: guardar en cada registro de medidas (decidio/confirmo) la sha256 del .requisito, o las medidas, y tratar como sin decisión el requisito cuyo archivo ya no coincide."
+    },
+    {
+      "id": "R2D-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "«Elegilas con medir» no tiene salida si las medidas ya están en el archivo: medir responde «Sin cambios» y no registra la decisión",
+      "explanation": "Cuando un requisito tiene medido_por sin decisión registrada, pendientes_actuales indica «elegilas con medir». Pero si la persona repite medir con las mismas medidas, nuevo_r == r y, sin una propuesta pendiente, medir sale por «Sin cambios en la asociación» sin crear el registro. El requisito sigue bloqueado. La persona tiene que elegir otras medidas y volver a las originales, lo que además invalida la revisión. Les pasa a los cambios a los que 19b8d76 les borró los registros al renovar la spec, y a cualquier requisito editado a mano con las medidas correctas. Rompe un flujo legítimo que la propia regla general recomienda.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 713,
+        "end_line": 713,
+        "side": "head"
+      },
+      "trigger": "Requisito con medido_por y sin entrada en medidas (registro perdido o asociación escrita a mano); persona medir con esas mismas medidas.",
+      "evidence": "Verificado: sondas_r2d.py (carpeta revision-r2), salida en sondas_r2d.salida.txt, test_r2d_03: la salida es «Sin cambios en la asociación; conservé la revisión y el juicio existentes.» y medidas_sin_decision sigue devolviendo el requisito. La rama de medir no cambió en este delta (cli.py:1091-1110); la ubicación apunta al mensaje que manda a usar medir.",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Correr test_r2d_03. Sugerencia: en la rama nuevo_r == r, si el requisito figura en medidas_sin_decision y la vía permite decidir, registrar la decisión (con motivo en funcional)."
+    },
+    {
+      "id": "R2D-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "La prueba de la regla general simula un registro perdido, no la edición a mano, y no cubre la salida",
+      "explanation": "test_m3_medidas_sin_decision_no_cuentan borra la entrada de medidas en factory.json. No prueba el caso que motivó la regla: medidas escritas a mano, como hacía test_integration. Tampoco cubre la salida que la regla propone (medir con esas medidas, R2D-02) ni un archivo editado después de una decisión registrada (R2D-01). Las otras tres pruebas nuevas (misma spec, subir a funcional con la spec, bajar a funcional con propuestas) prueban lo que dicen.",
+      "location": {
+        "file": "tests/test_modos.py",
+        "start_line": 361,
+        "end_line": 372,
+        "side": "head"
+      },
+      "trigger": "Leer test_m3_medidas_sin_decision_no_cuentan.",
+      "evidence": "Lectura de código, más test_r2d_01 y test_r2d_03 en sondas_r2d.py (carpeta revision-r2), salida en sondas_r2d.salida.txt.",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Agregar casos para la edición a mano antes y después de una decisión, y para la salida por medir."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre 0234cc9: la suite (95 OK); tools/verify_modos.py --salida revision-r2/evidencia-modos-0234cc9 (25 casos, exitoso true); oracle cobertura --con <esos hechos> (rc 0, los 5 requisitos modos_c45a… con ✓ cumple); tools/verify_collaboration.py --salida revision-r2/evidencia-colab-0234cc9 --clue <env>/oracle-clue (rc 0, C1–C9 OK); mis sondas R2C (3 FAIL: ya no se reproducen) y las nuevas sondas R2D.",
+    "Estado de R2C: R2C-01 resuelto (la misma spec conserva la propuesta y juzgar la bloquea; la regla general cubre registros perdidos, con los huecos R2D-01 y R2D-02); R2C-02 resuelto; R2C-03 resuelto (estado y notas muestran el motivo); R2C-04 resuelto (prueba renombrada; afirma el descarte de la spec).",
+    "Descarté un camino: medido_por con otra sangría no esquiva la regla, porque el lector de Oracle 0.38.1 rechaza cualquier sangría distinta de cuatro espacios (probado con tab, 2 y 8 espacios). Un requisito con sólo sin_medir no llega a ✓ en cobertura, así que juzgar lo rechaza (visto en una sonda descartada, R2D-02 de sondas_r2d.py).",
+    "No revisé si cambiar un catálogo .oracle (por ejemplo el umbral de una medida ya decidida) debería invalidar decisiones de medidas: la decisión es por id de medida y eso parece intencional.",
+    "No corrí los arneses de release contra el wheel instalado ni verify_guide/verify_installed; las sondas usan el fixture de test_modos.py, con la terminal parcheada."
+  ]
+}
