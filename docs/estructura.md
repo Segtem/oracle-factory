@@ -31,7 +31,8 @@ El acuerdo humano queda a la vista en `openspec/changes/`, no escondido: es lo q
 ## Lo versionado y lo local
 
 - **`.factory/` se versiona**: es lo que comparten las personas. Lo que Factory escribe ahí lleva rutas relativas al proyecto, nunca la ruta de una máquina, para que un clon en otro lugar lo encuentre.
-- **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los checkouts de revisión, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git la vería como un directorio sin seguimiento y la huella del producto la rechazaría.
+- **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los checkouts de revisión, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git ofrecería esos checkouts como directorios sin seguimiento.
+- **Git no versiona carpetas vacías**, así que `init` deja un archivo, `.factory/LEEME.md`, que explica la carpeta y hace que un clon la tenga.
 - La huella de archivos del producto excluye `.factory/` entera, como ya excluye `tareas/`: agregar evidencia o un paquete de Clue no invalida una revisión. Cambiar el acuerdo, el código o las medidas sí.
 
 ## Una carpeta por candidato
@@ -61,11 +62,17 @@ git worktree add --detach (oracle-factory ruta ID checkout) HEAD
 | `oracle-factory buscar TEXTO` | Busca en propuestas, specs, requisitos, tareas y registros; muestra ruta, línea y cambio |
 | `oracle-factory listar --abiertos` | Los cambios abiertos (también `--cerrados` y `--fase FASE`) |
 
-Todos son de sólo lectura. Un artefacto que el registro menciona pero ya no existe aparece como **AUSENTE**, no se oculta.
+Todos son de sólo lectura. Un artefacto que el registro menciona pero ya no existe aparece como **AUSENTE**, no se oculta; un valor del registro que no es una ruta de texto aparece como **no válido**. `buscar` compara sin distinguir mayúsculas ni formas equivalentes (`Straße` y `STRASSE`), y avisa cuántos archivos omitió por superar 1 MB.
 
 ## Desde cualquier carpeta
 
-Como Git, los comandos buscan `.factory/` subiendo desde la carpeta actual, y usan el proyecto que encuentren. Si lo encontraron arriba, lo dicen por la salida de error. `--proyecto` manda siempre; sin `.factory/` en ningún ancestro, se usa la carpeta actual como hasta ahora. `init` crea `.factory/` en la carpeta donde se ejecuta.
+Como Git, los comandos buscan `.factory/` subiendo desde la carpeta actual, y usan el proyecto que encuentren. Si lo encontraron arriba, lo dicen por la salida de error. `--proyecto` manda siempre; sin `.factory/` en ningún ancestro, se usa la carpeta actual como hasta ahora. `init` crea `.factory/` en la carpeta donde se ejecuta, y avisa si esa carpeta está dentro de otro proyecto.
+
+Tres límites protegen de usar el proyecto equivocado:
+
+- Un **proyecto anterior sin `.factory/`** (el que tiene `oracle.json` y `openspec/changes/`) es una frontera: no hereda el proyecto de afuera.
+- **Tu carpeta personal nunca es la raíz.** Otras herramientas usan `~/.factory/` y no debe tomarse por un proyecto.
+- Un **enlace simbólico** llamado `.factory` no cuenta como marcador.
 
 ## Los cambios anteriores
 

@@ -65,7 +65,7 @@ class Estructura(unittest.TestCase):
         return ident
 
     def sha7(self):
-        return self.git('rev-parse', '--short=7', 'HEAD')
+        return self.git('rev-parse', 'HEAD')[:7]  # como ruta: los 7 primeros del hash completo
 
     def cambio_juzgado(self):
         ident = self.cambio_medido()
@@ -96,7 +96,10 @@ class Estructura(unittest.TestCase):
         resultado = {}
         for ruta in sorted(self.root.rglob('*')):
             if ruta.is_file() and '.git' not in ruta.relative_to(self.root).parts:
-                resultado[str(ruta.relative_to(self.root))] = hashlib.sha256(ruta.read_bytes()).hexdigest()
+                try:
+                    resultado[str(ruta.relative_to(self.root))] = hashlib.sha256(ruta.read_bytes()).hexdigest()
+                except OSError as e:  # diagnóstico: qué archivo y por qué
+                    raise AssertionError(f'huellas: no pude leer {ruta.relative_to(self.root)}: {e!r}') from e
         return resultado
 
     # --- e1: estructura documentada -------------------------------------------------------------
@@ -128,6 +131,38 @@ class Estructura(unittest.TestCase):
         self.assertEqual(lineas[0], 'mis-salidas/')
         self.assertEqual(lineas.count('.factory/local/'), 1)
 
+    def test_e2_el_clon_de_un_proyecto_trae_la_carpeta_de_factory(self):
+        subprocess.run(['git', 'init', '-q', '-b', 'main'], cwd=self.root, check=True)
+        self.git('add', '-A')
+        self.git('commit', '-qm', 'proyecto inicializado')
+        clon = Path(self.tmp.name) / 'clon'
+        subprocess.run(['git', 'clone', '-q', self.root, clon], check=True, capture_output=True)
+        self.assertTrue((clon / '.factory' / 'LEEME.md').is_file())  # antes: Git no versiona carpetas vacías
+        sub = clon / 'sub'
+        sub.mkdir()
+        codigo, _, errores = self.correr('listar', cwd=sub)
+        self.assertEqual(codigo, 0)
+        self.assertIn(str(clon), errores)  # descubrió la raíz del clon desde la subcarpeta
+
+    def test_e2_factory_que_no_es_una_carpeta_se_rechaza_antes_de_crear_nada(self):
+        raro = Path(self.tmp.name) / 'raro'
+        raro.mkdir()
+        (raro / '.factory').write_text('soy un archivo')
+        with patch.object(f, 'ROOT', raro), patch.object(f, 'CHANGES', raro / 'openspec/changes'):
+            with self.assertRaisesRegex(f.FactoryError, 'no es una carpeta'):
+                f.inicializar()
+        self.assertFalse((raro / 'tareas').exists() or (raro / 'openspec').exists() or (raro / 'oracle.json').exists())
+
+    def test_e2_init_dentro_de_otro_proyecto_avisa(self):
+        anidado = self.root / 'anidado'
+        anidado.mkdir()
+        avisos = io.StringIO()
+        with patch.object(f, 'ROOT', anidado), patch.object(f, 'CHANGES', anidado / 'openspec/changes'), \
+                contextlib.redirect_stderr(avisos):
+            f.inicializar()
+        self.assertIn('proyecto anidado', avisos.getvalue())
+        self.assertTrue((anidado / '.factory').is_dir())
+
     # --- e3: descubrir la raíz del proyecto ---------------------------------------------------------------
     def test_e3_comando_desde_una_subcarpeta(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')
@@ -156,6 +191,37 @@ class Estructura(unittest.TestCase):
         self.assertEqual(codigo, 0)
         self.assertIn('No hay cambios Factory', salida)
         self.assertNotIn('Proyecto:', errores)
+
+    def test_e3_proyecto_anterior_dentro_de_otro_es_frontera(self):
+        ident = f.nuevo('Nota', con_ejemplo='notas')  # un cambio en el proyecto de afuera
+        anidado = self.root / 'anidado'
+        (anidado / 'openspec' / 'changes').mkdir(parents=True)
+        (anidado / 'oracle.json').write_text('{}')  # un proyecto de antes de .factory/
+        codigo, salida, errores = self.correr('listar', cwd=anidado)
+        self.assertEqual(codigo, 0)
+        self.assertNotIn(ident, salida)  # no heredó el proyecto de afuera
+        self.assertNotIn('Proyecto:', errores)
+
+    def test_e3_la_carpeta_personal_no_cuenta(self):
+        casa = Path(self.tmp.name) / 'casa'
+        (casa / '.factory').mkdir(parents=True)  # lo que dejaría otra herramienta
+        proyecto = casa / 'trabajo' / 'p'
+        proyecto.mkdir(parents=True)
+        with patch.object(Path, 'home', return_value=casa):
+            codigo, salida, errores = self.correr('listar', cwd=proyecto)
+        self.assertEqual(codigo, 0)
+        self.assertNotIn('Proyecto:', errores)  # no usó la carpeta personal como raíz
+        self.assertIn('No hay cambios Factory', salida)
+
+    def test_e3_un_enlace_simbolico_no_cuenta(self):
+        enlace = Path(self.tmp.name) / 'con-enlace'
+        enlace.mkdir()
+        real = Path(self.tmp.name) / 'real'
+        real.mkdir()
+        (enlace / '.factory').symlink_to(real)
+        sub = enlace / 'sub'
+        sub.mkdir()
+        self.assertIsNone(estructura.raiz_del_proyecto(sub))
 
     # --- e4: lo versionado y lo local ---------------------------------------------------------------------
     def test_e4_rutas_relativas_en_otra_ruta_absoluta(self):
@@ -230,6 +296,22 @@ class Estructura(unittest.TestCase):
         f.comando_donde(ident, None)
         self.assertRegex(self.salida(), r'(?m)^juicio\s+existe\s+/\S+hechos\.json\s+— ruta absoluta de un registro anterior')
 
+    def test_e6_valores_no_validos_en_el_registro(self):
+        ident = self.cambio_juzgado()
+        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        estado = json.loads(ruta.read_text())
+        estado['spec'] = None
+        estado['requisitos'] = 'texto'
+        estado['revision'] = {'informe': 5, 'decisiones': [], 'contexto': {'head': 12}}
+        estado['oracle'] = {'informe': None, 'hechos': {}, 'contexto': 'x'}
+        ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
+        self.salida()
+        f.comando_donde(ident, None)  # antes: TypeError o AttributeError
+        salida = self.salida()
+        self.assertRegex(salida, r'(?m)^spec\s+no válido')
+        self.assertRegex(salida, r'(?m)^revisión\s+no válido')
+        self.assertRegex(salida, r'(?m)^acuerdo\s+existe\s+openspec/changes/')  # los válidos se siguen listando
+
     def test_e6_candidato_limita_el_listado(self):
         ident = self.cambio_juzgado()
         for sha in ('abc1234', 'def5678'):
@@ -280,6 +362,20 @@ class Estructura(unittest.TestCase):
         self.assertRegex(salida, rf'openspec/changes/{uno}/proposal\.md:\d+: .*\[{uno}\]')
         self.assertRegex(salida, rf'tareas/{dos}/TAREA\.md:\d+: .*\[{dos}\]')
         self.assertIn('2 coincidencia(s)', salida)
+
+    def test_e8_archivos_grandes_omitidos_y_formas_equivalentes(self):
+        ident = f.nuevo('Nota', con_ejemplo='notas')
+        carpeta = self.root / 'openspec/changes' / ident
+        (carpeta / 'grande.md').write_text('x' * (estructura.LIMITE_ARCHIVO + 100) + '\naguja-grande\n')
+        with (carpeta / 'proposal.md').open('a', encoding='utf-8') as out:
+            out.write('\nLa Straße del proyecto\n' + 'a' * 300 + ' aguja-lejana\n')
+        self.salida()
+        f.comando_buscar('STRASSE', 50)  # «ß» y «ss» son formas equivalentes
+        salida = self.salida()
+        self.assertRegex(salida, r'proposal\.md:\d+: La Straße')
+        self.assertIn('1 archivo(s) omitido(s)', salida)  # el grande no se leyó y se avisa
+        f.comando_buscar('aguja-lejana', 50)
+        self.assertIn('aguja-lejana', self.salida())  # el fragmento muestra donde está el texto
 
     # --- e9: listar con filtros -------------------------------------------------------------------------------------------
     def test_e9_filtro_de_abiertos(self):

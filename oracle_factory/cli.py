@@ -937,17 +937,19 @@ def comando_donde(identificador: str, candidato: str | None) -> None:
     _, estado = leer(identificador)
     print(f"{estado['id']} — {estado['titulo']}" + (f" (candidato {candidato})" if candidato else ""))
     for fila in estructura.donde(ROOT, identificador, estado, candidato):
-        marca = "histórico" if fila["gate"] == "histórico" else ("existe" if fila["existe"] else "AUSENTE")
+        marca = ("no válido" if fila.get("invalida") else "histórico" if fila["gate"] == "histórico"
+                 else "existe" if fila["existe"] else "AUSENTE")
         print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
 
 
 def comando_ruta(identificador: str, tipo: str) -> None:
     leer(identificador)  # el cambio tiene que existir
-    head = ejecutar(["git", "rev-parse", "--short=7", "HEAD"])
+    head = ejecutar(["git", "rev-parse", "HEAD"])
     if head.returncode:
         raise FactoryError("ruta necesita un repositorio Git con al menos un commit")
     try:
-        print(estructura.ruta_canonica(ROOT, identificador, tipo, head.stdout.strip()))
+        # Los 7 primeros del hash completo: --short=7 lo alarga si es ambiguo y el nombre de la carpeta cambiaría.
+        print(estructura.ruta_canonica(ROOT, identificador, tipo, head.stdout.strip()[:7]))
     except ValueError as e:
         raise FactoryError(str(e)) from e
 
@@ -955,10 +957,12 @@ def comando_ruta(identificador: str, tipo: str) -> None:
 def comando_buscar(texto: str, maximo: int) -> None:
     if not texto.strip():
         raise FactoryError("indicá el texto a buscar")
-    lineas, total = estructura.buscar(ROOT, texto, maximo)
+    lineas, total, omitidos = estructura.buscar(ROOT, texto, maximo)
     for linea in lineas:
         print(linea)
     print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
+    if omitidos:
+        print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
 
 
 def mostrar(identificador: str) -> None:
@@ -988,7 +992,27 @@ def mostrar(identificador: str) -> None:
     siguiente(identificador, estado["fase"])
 
 
+LEEME_FACTORY = """# .factory/
+
+Lo que Factory produce sobre este proyecto. Se versiona con el código para que quien clone el proyecto
+lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
+
+- `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
+- `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.
+
+Este archivo existe también porque Git no versiona carpetas vacías: sin él, un clon no tendría `.factory/`.
+Más detalle en `docs/estructura.md` del repositorio de Factory, y `oracle-factory donde ID` lista lo que hay.
+"""
+
+
 def inicializar() -> None:
+    marca = ROOT / estructura.DIR
+    if marca.is_symlink() or (marca.exists() and not marca.is_dir()):
+        raise FactoryError(f"{marca} existe y no es una carpeta de Factory: renombrala o quitala antes de ejecutar init; no creé nada")
+    afuera = estructura.raiz_del_proyecto(ROOT.parent) if ROOT.parent != ROOT else None
+    if afuera is not None:
+        print(f"Aviso: esta carpeta está dentro del proyecto Factory {afuera}; init crea un proyecto anidado y los comandos "
+              "usarán el más cercano.", file=sys.stderr)
     ROOT.mkdir(parents=True, exist_ok=True)
     for nombre in ("tareas", "catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json", ".gitignore", "openspec/changes", estructura.DIR):
         ruta_segura(ROOT / nombre)
@@ -999,6 +1023,9 @@ def inicializar() -> None:
     ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
     for sub in ('cambios', 'local'):
         ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
+    leeme = ruta_segura(ROOT / estructura.DIR / 'LEEME.md')
+    if not leeme.exists():
+        leeme.write_text(LEEME_FACTORY, encoding='utf-8')
     ignore = ruta_segura(ROOT / '.gitignore')
     contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
     pendientes = [line for line in ('.factory-demo/', estructura.IGNORAR_LOCAL, '__pycache__/', '*.py[cod]')

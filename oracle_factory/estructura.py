@@ -17,11 +17,25 @@ SUFIJOS_TEXTO = ('.md', '.json', '.requisito', '.txt')
 LIMITE_ARCHIVO = 1_000_000
 
 
+def es_proyecto_anterior(carpeta: Path) -> bool:
+    """Un proyecto Factory de antes de .factory/: tiene la configuración de Oracle y los acuerdos."""
+    return (carpeta / 'oracle.json').is_file() and (carpeta / 'openspec' / 'changes').is_dir()
+
+
 def raiz_del_proyecto(desde: Path) -> Path | None:
-    """La primera carpeta, subiendo desde `desde`, que tiene .factory/; None si ninguna."""
+    """La primera carpeta, subiendo desde `desde`, que tiene .factory/; None si ninguna.
+
+    Un proyecto anterior sin .factory/ es una frontera: no hereda el proyecto de afuera. La carpeta
+    personal del usuario nunca es la raíz (otras herramientas usan ~/.factory) y un enlace simbólico
+    llamado .factory no cuenta como marcador.
+    """
+    casa = Path.home()
     for carpeta in (desde, *desde.parents):
-        if (carpeta / DIR).is_dir():
+        marcador = carpeta / DIR
+        if carpeta != casa and marcador.is_dir() and not marcador.is_symlink():
             return carpeta
+        if es_proyecto_anterior(carpeta):
+            return None
     return None
 
 
@@ -33,8 +47,22 @@ def ruta_canonica(raiz: Path, ident: str, tipo: str, sha7: str) -> Path:
     return raiz / DIR / 'cambios' / ident / 'candidatos' / sha7 / tipo
 
 
-def _entrada(gate: str, ruta: str, raiz: Path, nota: str = '') -> dict:
-    existe = (raiz / ruta).exists()
+def _texto(valor) -> str | None:
+    return valor if isinstance(valor, str) and valor and '\x00' not in valor else None
+
+
+def _dic(valor) -> dict:
+    return valor if isinstance(valor, dict) else {}
+
+
+def _entrada(gate: str, ruta, raiz: Path, nota: str = '') -> dict:
+    if _texto(ruta) is None:
+        return {'gate': gate, 'ruta': '(valor no válido en el registro)', 'existe': False,
+                'nota': 'el registro no tiene una ruta de texto', 'invalida': True}
+    try:
+        existe = (raiz / ruta).exists()
+    except (OSError, ValueError):
+        existe = False
     if ruta.startswith('/') and not nota:
         nota = 'ruta absoluta de un registro anterior a la portabilidad; sólo vale en la máquina que la escribió'
     return {'gate': gate, 'ruta': ruta, 'existe': existe, 'nota': nota}
@@ -45,27 +73,28 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
     cambio = f'openspec/changes/{ident}'
     prefijo = (candidato or '').lower()
 
-    def del_candidato(head: str | None) -> bool:
-        return not prefijo or bool(head and head.lower().startswith(prefijo))
+    def del_candidato(head) -> bool:
+        return not prefijo or (isinstance(head, str) and head.lower().startswith(prefijo))
 
     filas: list[dict] = []
     if not prefijo:
         for nombre, gate in (('proposal.md', 'acuerdo'), ('design.md', 'acuerdo'), ('tasks.md', 'acuerdo')):
             filas.append(_entrada(gate, f'{cambio}/{nombre}', raiz))
-        filas.append(_entrada('spec', estado.get('spec', f'{cambio}/specs/?/spec.md'), raiz))
-        for rid in estado.get('requisitos', []):
-            filas.append(_entrada('medidas', f'requisitos/{rid}.requisito', raiz))
+        filas.append(_entrada('spec', estado.get('spec'), raiz))
+        requisitos = estado.get('requisitos')
+        for rid in (requisitos if isinstance(requisitos, list) else []):
+            filas.append(_entrada('medidas', f'requisitos/{rid}.requisito' if _texto(rid) else None, raiz))
         filas.append(_entrada('estado', f'{cambio}/factory.json', raiz))
         filas.append(_entrada('tarea', f'tareas/{ident}/TAREA.md', raiz))
-    rev = estado.get('revision') or {}
-    if rev and del_candidato((rev.get('contexto') or {}).get('head')):
+    rev = _dic(estado.get('revision'))
+    if rev and del_candidato(_dic(rev.get('contexto')).get('head')):
         for clave in ('informe', 'decisiones'):
-            if rev.get(clave):
+            if clave in rev and rev[clave] is not None:
                 filas.append(_entrada('revisión', rev[clave], raiz))
-    oracle = estado.get('oracle') or {}
-    if oracle and del_candidato((oracle.get('contexto') or {}).get('head')):
+    oracle = _dic(estado.get('oracle'))
+    if oracle and del_candidato(_dic(oracle.get('contexto')).get('head')):
         for clave in ('informe', 'hechos'):
-            if oracle.get(clave):
+            if clave in oracle and oracle[clave] is not None:
                 filas.append(_entrada('juicio', oracle[clave], raiz))
     candidatos = raiz / DIR / 'cambios' / ident / 'candidatos'
     if candidatos.is_dir():
@@ -95,9 +124,18 @@ def _cambio_de(ruta: Path, raiz: Path, por_requisito: dict[str, str]) -> str:
     return '-'
 
 
-def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int]:
-    """Coincidencias (texto literal, sin distinguir mayúsculas) en propuestas, specs, requisitos, tareas y registros."""
-    aguja = texto.lower()
+def _fragmento(linea: str, aguja: str) -> str:
+    """Hasta 160 caracteres de la línea, empezando poco antes de la coincidencia para que se vea."""
+    linea = linea.strip()
+    posicion = linea.casefold().find(aguja)
+    inicio = max(0, posicion - 60) if posicion > 100 else 0
+    return ('…' if inicio else '') + linea[inicio:inicio + 160]
+
+
+def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, int]:
+    """Coincidencias (texto literal, sin distinguir mayúsculas ni formas equivalentes) en propuestas, specs,
+    requisitos, tareas y registros. Devuelve las líneas, el total y los archivos omitidos por tamaño."""
+    aguja = texto.casefold()
     por_requisito: dict[str, str] = {}
     cambios = raiz / 'openspec' / 'changes'
     if cambios.is_dir():
@@ -110,23 +148,24 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int]:
                 except (OSError, ValueError):
                     continue
     lugares = [raiz / 'openspec' / 'changes', raiz / 'requisitos', raiz / 'tareas', raiz / DIR / 'cambios']
-    archivos = sorted(p for lugar in lugares if lugar.is_dir() for p in lugar.rglob('*')
+    archivos = sorted(p for lugar in lugares if lugar.is_dir() and not lugar.is_symlink() for p in lugar.rglob('*')
                       if p.is_file() and p.suffix in SUFIJOS_TEXTO and not p.is_symlink())
-    lineas, total = [], 0
+    lineas, total, omitidos = [], 0, 0
     for archivo in archivos:
         # tareas/: sólo los textos de las tareas; la evidencia en JSON es enorme y está atada a hashes.
         if archivo.relative_to(raiz).parts[0] == 'tareas' and archivo.suffix != '.md':
             continue
         try:
             if archivo.stat().st_size > LIMITE_ARCHIVO:
+                omitidos += 1
                 continue
             contenido = archivo.read_text(encoding='utf-8')
         except (OSError, UnicodeDecodeError):
             continue
         for numero, linea in enumerate(contenido.splitlines(), 1):
-            if aguja in linea.lower():
+            if aguja in linea.casefold():
                 total += 1
                 if len(lineas) < maximo:
                     relativa = archivo.relative_to(raiz).as_posix()
-                    lineas.append(f'{relativa}:{numero}: {linea.strip()[:160]}  [{_cambio_de(archivo, raiz, por_requisito)}]')
-    return lineas, total
+                    lineas.append(f'{relativa}:{numero}: {_fragmento(linea, aguja)}  [{_cambio_de(archivo, raiz, por_requisito)}]')
+    return lineas, total, omitidos
