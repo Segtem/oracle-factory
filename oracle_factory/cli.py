@@ -339,8 +339,9 @@ def mismo_producto(registrado: dict | None, actual: dict) -> bool:
     return bool(registrado) and registrado.get("archivos_sha256") == actual.get("archivos_sha256")
 
 
-def corto(head: str | None) -> str:
-    return head[:7] if head else "desconocido"
+def corto(head) -> str:
+    # El registro puede venir de un informe: tolera lo que no sea un commit en vez de romper estado y el cierre.
+    return head[:7] if isinstance(head, str) and head else "desconocido"
 
 
 def commits_registrados(estado: dict) -> list[str]:
@@ -571,6 +572,8 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         return
     revalidar()
     destino, destino_decisiones = guardar_par_revision(identificador, 'registro', contenido, resoluciones)
+    preparado = analisis['contexto'].get('head')  # lo declara el informe: sólo se guarda si es un commit
+    preparado = preparado if isinstance(preparado, str) and re.fullmatch(r'[0-9a-f]{40}', preparado) else None
     try:
         revalidar()
         if leer_regular(destino, 'informe archivado') != contenido or leer_regular(destino_decisiones, 'decisiones archivadas') != resoluciones:
@@ -580,7 +583,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
             'informe': str(destino.relative_to(ROOT)), 'sha256': sha256(contenido),
             'decisiones': str(destino_decisiones.relative_to(ROOT)), 'decisiones_sha256': sha256(resoluciones),
             **registro_decision(estado, forma), 'contexto': contexto,
-            **({'head_preparacion': analisis['contexto'].get('head')} if analisis['contexto'].get('head') != contexto['head'] else {}),
+            **({'head_preparacion': preparado} if preparado and preparado != contexto['head'] else {}),
         }
         estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
         evento(estado, 'revision_registrada', forma=forma, formato='guiado', revisor=revisor, decision=decision,

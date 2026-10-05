@@ -214,6 +214,25 @@ class Vigencia(unittest.TestCase):
         self.registrar_guiado(ident, informe, decisiones)
         self.assertEqual(self.estado(ident)['revision']['decision'], 'aprobar')
 
+    def test_v3_head_de_preparacion_que_no_es_un_commit_no_rompe(self):
+        ident = self.cambio_medido()
+        informe, decisiones = self.preparar_informe(ident)
+        datos = json.loads(informe.read_text())
+        datos['contexto']['head'] = 12345  # un informe puede traer cualquier cosa en el HEAD que declara
+        informe.write_bytes(f.bytes_json(datos))
+        triage = json.loads(decisiones.read_text())
+        triage['informe_sha256'] = f.sha256(informe.read_bytes())
+        decisiones.write_bytes(f.bytes_json(triage))
+        self.registrar_guiado(ident, informe, decisiones)
+        self.assertNotIn('head_preparacion', self.estado(ident)['revision'])
+        self.stdout.truncate(0); self.stdout.seek(0)
+        f.mostrar(ident)  # antes: TypeError
+        self.commit_de_registros()
+        f.juzgar(ident, self.hechos)
+        with self.escribe(f'CERRAR {ident}'):
+            f.cerrar(ident)  # antes: TypeError
+        self.assertEqual(self.estado(ident)['fase'], 'cerrada')
+
     # --- v4: respetar los registros existentes --------------------------------------------------
     def test_v4_registro_anterior_a_este_cambio(self):
         ident = self.cambio_medido()

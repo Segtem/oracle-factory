@@ -95,7 +95,7 @@ Una revisión aprobada todavía requiere evidencia y juicio Oracle con cobertura
 | Campos pendientes o JSON inválido | Complete los campos indicados; revise claves desconocidas/duplicadas y la versión del documento |
 | Hay abiertos, revisión parcial o comprobaciones no satisfactorias | Registre `cambios` o complete la revisión; no declare cero manualmente |
 | Cambió el informe antes de registrar | Actualice su hash en decisiones después de revisar la edición |
-| Cambió producto, HEAD o spec | Prepare un informe del contexto nuevo; si cambió proposal/spec, renueve antes su aceptación e importación |
+| Cambió el producto o la spec | Prepare un informe del contexto nuevo; si cambió proposal/spec, renueve antes su aceptación e importación. Si sólo cambió el HEAD (un commit que no toca el producto), el informe sigue valiendo |
 | Se canceló o cambiaron entradas durante la confirmación | El registro anterior no fue sustituido; revise el diagnóstico y repita cuando el contexto esté estable |
 | Falló preparar/archivar | Revise la carpeta residual indicada; conserve antecedentes y no dé el nuevo gate por publicado |
 | Falló guardar el estado | La revisión anterior o edición concurrente se conserva; las copias nuevas pueden quedar como residuo |

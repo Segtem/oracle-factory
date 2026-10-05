@@ -18,7 +18,8 @@ CONTRACTS = {
                                             'v1_registro_sin_huella_queda_desactualizado'],
     'el_commit_observado_se_conserva_y_se_muestra': ['v2_aviso_de_head_distinto', 'v2_head_igual_sin_aviso',
                                                     'v2_cierre_muestra_el_commit_y_avisa', 'v2_contexto_sin_head_no_rompe'],
-    'informe_guiado_vinculado_al_contenido': ['v3_informe_preparado_antes_de_un_commit_de_registros', 'v3_informe_de_otro_producto'],
+    'informe_guiado_vinculado_al_contenido': ['v3_informe_preparado_antes_de_un_commit_de_registros', 'v3_informe_de_otro_producto',
+                                         'v3_head_de_preparacion_que_no_es_un_commit_no_rompe'],
     'respetar_los_registros_existentes': ['v4_registro_anterior_a_este_cambio'],
 }
 PREFIX = 'test_vigencia.Vigencia.test_'
