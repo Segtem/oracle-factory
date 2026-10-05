@@ -1,0 +1,14 @@
+ID=20261005-205055-nota
+--- donde con spec=null:
+    existe = (raiz / ruta).exists()
+              ~~~~~^~~~~~
+TypeError: unsupported operand type(s) for /: 'PosixPath' and 'NoneType'
+20261005-205055-nota — Nota
+rc=0
+--- donde con spec de 5000 caracteres:
+FACTORY BLOQUEADA: [Errno 36] File name too long: '/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/d/xxxxxxxxxxxxxxxxxxxxxxxxx
+20261005-205055-nota — Nota
+--- estado con spec=null (comparación: comando existente):
+Revisión: pendiente
+Oracle: pendiente
+Próximo paso: oracle-factory aprobar-spec 20261005-205055-nota

@@ -1,0 +1,42 @@
+=== a) .factory como archivo: init en la misma carpeta
+FACTORY BLOQUEADA: [Errno 20] Not a directory: '/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/a/.factory/cambios'
+=== a2) .factory archivo en ancestro: se salta
+No hay cambios Factory. Empezá con oracle-factory init.
+=== b) .factory symlink a carpeta externa
+FACTORY BLOQUEADA: no se siguen enlaces simbólicos: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/b/proy/.factory
+.factory/cambios/n.md:1: texto-externo  [-]
+1 coincidencia(s)
+=== c) proyecto dentro de otro
+Proyecto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c/fuera (encontrado desde /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c/fuera/interno)
+FACTORY BLOQUEADA: indicá --capacidad o --con-ejemplo notas
+-- donde quedo:
+=== c2) init en subcarpeta de un proyecto existente
+Factory inicializada en /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c2/sub. No se crearon commits ni aprobaciones.
+Acuerdos: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c2/sub/openspec/changes; tareas: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c2/sub/tareas; configuración: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c2/sub/oracle.json.
+Carpeta propia de Factory: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c2/sub/.factory (versionada, salvo local/, que Git ignora).
+. .. catalogos corpus diferencial .factory .gitignore openspec oracle.json relaciones tareas 
+=== d) --proyecto relativo
+No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.
+Acuerdos: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c/fuera/openspec/changes
+No hay cambios Factory; las tareas del tracker por sí solas no son cambios Factory.
+Acuerdos: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c/fuera/openspec/changes
+=== e) .factory de otra herramienta en un ancestro (como ~/.factory)
+Proyecto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/e/home (encontrado desde /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/e/home/trabajo/proy)
+FACTORY BLOQUEADA: indicá --capacidad o --con-ejemplo notas
+ls: no se puede acceder a '../../openspec/changes': No existe el fichero o el directorio
+=== a) init con .factory archivo: que quedo a medias
+catalogos corpus diferencial .factory openspec oracle.json relaciones tareas 
+=== c) nuevo en proyecto interno (old-style) bajo un proyecto con .factory
+Proyecto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/c/fuera (encontrado desde /tmp/claude-1000/-home-workstation-Dev-fac
+Cambio creado: 20261005-205001-cambio-del
+Modo de trabajo: confirmacion
+-- en el externo:
+20261005-205001-cambio-del
+-- en el interno:
+=== e) .factory ajeno en un ancestro
+Proyecto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/e/home (encontrado desde /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-44
+FACTORY BLOQUEADA: oracle-task no pudo crear la tarea: ERROR: el directorio /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/e/home no tiene `tarea
+-- en el ancestro:
+trabajo
+ls: no se puede acceder a '/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/estructura-tmp/e/home/openspec/changes': No existe el fichero o el directorio
+-- en la carpeta de trabajo:

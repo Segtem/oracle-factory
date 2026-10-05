@@ -1,0 +1,6 @@
+archivos con .factory en el commit:
+0
+(0 = ninguno)
+clon: existe .factory? NO
+--- listar desde una subcarpeta del clon:
+No hay cambios Factory. Empezá con oracle-factory init.

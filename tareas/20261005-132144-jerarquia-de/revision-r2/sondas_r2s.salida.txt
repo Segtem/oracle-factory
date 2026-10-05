@@ -1,0 +1,56 @@
+test_s_01_donde_con_valores_raros (sondas_r2s.SondasS.test_s_01_donde_con_valores_raros) ... 
+R2S-donde fallos (campo [excepción] -> valores):
+   oracle > contexto > head [AttributeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   oracle > hechos [OSError] -> ["'xxxxxxxxxxxxxxxxxxxxxxxx"]
+   oracle > hechos [TypeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   oracle > informe [OSError] -> ["'xxxxxxxxxxxxxxxxxxxxxxxx"]
+   oracle > informe [TypeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   oracle [AttributeError] -> ["'..'", "'../..'", "'/etc/passwd'", "'a\\nb'", "'xxxxxxxxxxxxxxxxxxxxxxxx", '12']
+   requisitos [TypeError] -> ['12', '3.5', 'None', 'True']
+   revision > contexto > head [AttributeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   revision > contexto [AttributeError] -> ["'..'", "'../..'", "'/etc/passwd'", "'a\\nb'", "'xxxxxxxxxxxxxxxxxxxxxxxx", '12']
+   revision > decisiones [OSError] -> ["'xxxxxxxxxxxxxxxxxxxxxxxx"]
+   revision > decisiones [TypeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   revision > informe [OSError] -> ["'xxxxxxxxxxxxxxxxxxxxxxxx"]
+   revision > informe [TypeError] -> ['12', '3.5', 'True', "['a']", "{'a': 1}"]
+   revision [AttributeError] -> ["'..'", "'../..'", "'/etc/passwd'", "'a\\nb'", "'xxxxxxxxxxxxxxxxxxxxxxxx", '12']
+   spec [OSError] -> ["'xxxxxxxxxxxxxxxxxxxxxxxx"]
+   spec [TypeError] -> ['12', '3.5', 'None', 'True', "['a']", '[]']
+R2S-donde total de combinaciones con excepción: 101
+ok
+test_s_02_huella_con_factory_raro (sondas_r2s.SondasS.test_s_02_huella_con_factory_raro) ... 
+R2S-huella: {
+ ".factory archivo común: el cambio de contenido altera la huella": false,
+ "código bajo .factory/hooks: cambia la huella": false,
+ ".factory enlace a un directorio externo: cambia la huella": false
+}
+ok
+test_s_03_doc_dice_que_la_huella_rechaza_local_sin_ignorar (sondas_r2s.SondasS.test_s_03_doc_dice_que_la_huella_rechaza_local_sin_ignorar) ... 
+R2S-doc: la huella NO rechaza .factory/local sin ignorar (la guía dice que sí)
+ok
+test_s_04_buscar (sondas_r2s.SondasS.test_s_04_buscar) ... 
+R2S-buscar: {
+ "STRASSE": 0,
+ "strasse": 0,
+ "árbol": 1,
+ "ARBOL": 0,
+ "istanbul": 0,
+ "regex.*+?[ ( \\d": 1,
+ "fin-lejano": 1,
+ " ": 54,
+ "la línea impresa contiene fin-lejano": false,
+ "alcanza un directorio externo por enlace": 0,
+ "binario": 0,
+ "archivo >1MB (se omite sin avisar)": 0
+}
+ok
+test_s_05_buscar_rendimiento (sondas_r2s.SondasS.test_s_05_buscar_rendimiento) ... 
+R2S-buscar rendimiento: 30000 archivos .md en tareas/ -> 0.5s
+ok
+test_s_06_ruta_y_init (sondas_r2s.SondasS.test_s_06_ruta_y_init) ... 
+R2S-ruta sin commits: ruta necesita un repositorio Git con al menos un commit
+R2S-init .gitignore: 'mis/\n.factory-demo/\n.factory/local/\n__pycache__/\n*.py[cod]\n'
+ok
+----------------------------------------------------------------------
+Ran 6 tests in 2.613s
+OK

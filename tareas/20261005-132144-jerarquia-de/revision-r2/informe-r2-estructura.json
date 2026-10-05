@@ -1,0 +1,194 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-estructura-1f3e60b",
+  "base": "2038edc2fc78137bc2bccb60888765ba067a4209",
+  "head": "1f3e60bc95625aed38e3a3b1ff22aa2e705c79f7",
+  "diff_sha256": "d9ea66a624e6982480cf189297433c8b16260f4c9f39c3c6495a4f02cf341326",
+  "context_sha256": "2c7ba8d5b576e0de3f483e3778228ae30ff2a1e8c609bebd9569878e154c851e",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2S-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "`init` crea `.factory/` vacía: Git no versiona carpetas vacías, así que un clon no la tiene y el descubrimiento deja de funcionar",
+      "explanation": "init crea .factory/cambios/ y .factory/local/ sin ningún archivo dentro; local/ además está ignorada. Git no registra directorios vacíos, de modo que tras init, commit y clone el clon no tiene .factory/. En esta fase Factory no escribe nada bajo .factory/, así que eso pasa en todos los clones hasta que alguien commitea un candidato. Sin el marcador, el descubrimiento no encuentra la raíz: desde una subcarpeta del clon, listar usa la subcarpeta y responde «No hay cambios Factory. Empezá con oracle-factory init.», lo que además es engañoso. La spec pide que lo que hay bajo .factory/ (fuera de local/) sea versionable y portátil, y el cambio entero depende de que .factory/ sea el marcador de proyecto. La prueba e2 no clona; e4 clona, pero crea antes evidencia dentro de .factory/ a mano.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1000,
+        "end_line": 1001,
+        "side": "head"
+      },
+      "trigger": "init en un repositorio Git, commit de todo, clone, y correr listar desde una subcarpeta del clon.",
+      "evidence": "Verificado: sondas_r2s_clon.salida.txt: «archivos con .factory en el commit: 0», «clon: existe .factory? NO» y listar desde examples/notas del clon responde «No hay cambios Factory».",
+      "related_requirement": "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
+      "status": "pendiente",
+      "verification": "Repetir los pasos del disparador (CLI real, carpeta temporal). Corrección posible: que init escriba un archivo versionado dentro de .factory/ (por ejemplo un README o .gitkeep) y una prueba que clone justo después de init."
+    },
+    {
+      "id": "R2S-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Un proyecto sin `.factory/` dentro de otro que sí la tiene: los comandos escriben en el externo con sólo un aviso por stderr",
+      "explanation": "El descubrimiento toma la primera .factory/ hacia arriba y no mira otros marcadores del proyecto (oracle.json, openspec/changes, tareas/). Un proyecto anterior a la estructura anidado en un proyecto con .factory/ (un monorepo, o un checkout de revisión de un commit anterior bajo .factory/local/revisiones/<sha7>/, que no tiene .factory/) deja de usar su propia carpeta: los comandos operan en el proyecto de afuera. nuevo crea el cambio en el externo; el único indicio es «Proyecto: … (encontrado desde …)» por stderr, antes de la salida normal y sin pedir confirmación. La spec lo permite («la primera que encuentren»), pero el comportamiento anterior para ese proyecto era usar su carpeta actual, y la regla «sin .factory/ en ningún ancestro» ya no lo cubre. Además init en una subcarpeta de un proyecto existente crea un proyecto anidado sin avisar que ya estás dentro de otro (probado). Con un .factory/ ajeno en un ancestro (por ejemplo en el home) los comandos fallan con un mensaje confuso («oracle-task no pudo crear la tarea … no tiene tareas»), sin tocar nada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1403,
+        "end_line": 1405,
+        "side": "head"
+      },
+      "trigger": "Proyecto A con .factory/; dentro de A, una carpeta con oracle.json y openspec/changes pero sin .factory/; correr nuevo --capacidad x \"T\" en esa carpeta.",
+      "evidence": "Verificado: sondas_r2s_raiz.salida.txt (caso c): «Proyecto: …/c/fuera (encontrado desde …/c/fuera/interno)», «Cambio creado», el cambio quedó en c/fuera/openspec/changes y el interno quedó vacío. Caso c2: init en una subcarpeta crea .factory/, openspec/ y demás sin ningún aviso. Caso e: .factory ajeno en un ancestro y mensaje confuso.",
+      "related_requirement": "estructura_cb7ac503412f60c06.descubrir_la_raiz_del_proyecto",
+      "status": "pendiente",
+      "verification": "Repetir los casos c, c2 y e del archivo. Opciones: parar la subida si hay oracle.json u openspec/changes más cerca, pedir confirmación en los comandos que escriben cuando la raíz no es la carpeta actual, y avisar en init cuando hay un proyecto en un ancestro."
+    },
+    {
+      "id": "R2S-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "`donde` termina con un traceback (TypeError, AttributeError, OSError) con valores raros en factory.json, mientras `estado` funciona con el mismo registro",
+      "explanation": "_entrada y donde usan sin comprobar tipos los valores del registro (spec, requisitos, revision.informe, revision.decisiones, oracle.informe, oracle.hechos, contexto, contexto.head): ruta.startswith('/'), raiz / ruta, rev[clave] con valores que no son texto, head.lower(), .get sobre algo que no es diccionario. Probé 14 valores (null, números, booleano, listas, diccionarios, cadena vacía, .., /etc/passwd, salto de línea, 5000 caracteres) en 11 campos con y sin --candidato: 101 combinaciones terminan en una excepción que main no captura (sólo captura FactoryError, OSError, JSONDecodeError y EOFError), y una cadena de 5000 caracteres produce un OSError con el nombre de archivo demasiado largo, mostrado como «FACTORY BLOQUEADA» con un mensaje crudo. Es el mismo defecto que ya apareció en la vigencia. Con una ruta absoluta o con .., donde sólo calcula existe y no lee el contenido, así que no hay fuga.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 36,
+        "end_line": 42,
+        "side": "head"
+      },
+      "trigger": "Poner spec: null (u otro valor que no sea texto) en factory.json y ejecutar donde ID.",
+      "evidence": "Verificado: sondas_r2s.py (carpeta revision-r2), salida en sondas_r2s.salida.txt, test_s_01 (101 combinaciones con excepción, detalle por campo) y sondas_r2s_donde_cli.salida.txt: con spec=null el CLI imprime «TypeError: unsupported operand type(s) for /: 'PosixPath' and 'NoneType'», y estado con el mismo registro responde bien.",
+      "related_requirement": "estructura_cb7ac503412f60c06.donde_esta_cada_artefacto",
+      "status": "pendiente",
+      "verification": "Correr test_s_01. Sugerencia: normalizar cada valor a texto (o ignorarlo y marcarlo como ilegible) antes de usarlo, y capturar OSError por entrada."
+    },
+    {
+      "id": "R2S-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La guía dice que la huella rechazaría `.factory/local/` si no estuviera ignorada, y no es cierto",
+      "explanation": "docs/estructura.md dice: «Si esa carpeta no estuviera ignorada, Git la vería como un directorio sin seguimiento y la huella del producto la rechazaría.» contexto_producto ahora salta todo lo que empieza por .factory/ antes de la comprobación que rechaza directorios, por lo que un checkout de revisión (git worktree) sin ignorar bajo .factory/local/ no produce ningún error. El texto describe el comportamiento anterior a este mismo cambio. Sin ignorar sí quedaría sin ignorar y Git lo vería como no seguido, pero Factory no lo notaría.",
+      "location": {
+        "file": "docs/estructura.md",
+        "start_line": 34,
+        "end_line": 34,
+        "side": "head"
+      },
+      "trigger": "Quitar .factory/local/ del .gitignore, crear un worktree en .factory/local/revisiones/abc1234 y calcular la huella.",
+      "evidence": "Verificado: sondas_r2s.py (carpeta revision-r2), salida en sondas_r2s.salida.txt, test_s_03: contexto_producto() devuelve sin error con el worktree sin ignorar.",
+      "related_requirement": "estructura_cb7ac503412f60c06.estructura_documentada",
+      "status": "pendiente",
+      "verification": "Correr test_s_03. Corregir la frase (por ejemplo: «la huella no mira .factory/ entera; el .gitignore evita que Git la muestre como no seguida»)."
+    },
+    {
+      "id": "R2S-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "`.factory` que no es una carpeta: `init` falla a medias con un error crudo, y un enlace simbólico se usa como marcador y se lee a través del enlace",
+      "explanation": "Si .factory es un archivo, init ejecuta antes tasks init y oracle init, y recién después falla con «[Errno 20] Not a directory: …/.factory/cambios», dejando catalogos, corpus, tareas y demás creados y sin mensaje de Factory. El descubrimiento sí lo ignora bien (is_dir). Si .factory es un enlace simbólico a una carpeta, init lo rechaza («no se siguen enlaces simbólicos»), pero raiz_del_proyecto lo toma como marcador (is_dir sigue el enlace) y buscar y donde leen a través de él, fuera del proyecto: buscar encontró un archivo de la carpeta externa. La huella también excluye el enlace, de modo que un cambio en el destino no se nota (consecuencia de excluir .factory/ entera).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 996,
+        "end_line": 1001,
+        "side": "head"
+      },
+      "trigger": "Archivo llamado .factory en la carpeta donde se corre init; o .factory como enlace a otra carpeta y buscar.",
+      "evidence": "Verificado: sondas_r2s_raiz.salida.txt, casos a (init a medias; contenido de la carpeta) y b (buscar muestra «.factory/cambios/n.md:1: texto-externo»); sondas_r2s.py (carpeta revision-r2), salida en sondas_r2s.salida.txt, test_s_02 (el cambio de un archivo externo no altera la huella).",
+      "related_requirement": "estructura_cb7ac503412f60c06.carpeta_propia_de_factory",
+      "status": "pendiente",
+      "verification": "Comprobar que .factory sea una carpeta real antes de los comandos externos de init, y no tratar un enlace como marcador (o rechazarlo con el mismo mensaje)."
+    },
+    {
+      "id": "R2S-06",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "`buscar` omite sin avisar archivos de más de 1 MB, corta la línea a 160 caracteres aunque el texto esté después y usa lower() en vez de casefold()",
+      "explanation": "LIMITE_ARCHIVO = 1_000_000: un archivo mayor se salta sin ningún aviso, así que una búsqueda puede dar «0 coincidencia(s)» sobre un texto que sí existe. La línea impresa se recorta con linea.strip()[:160]: si el texto buscado está más allá de la columna 160 se cuenta pero no se ve en el resultado. aguja.lower() frente a linea.lower() no encuentra «strasse» en «Straße»; casefold() sí. No hay problema con mayúsculas y tildes comunes, caracteres de regex (se buscan literales), archivos binarios (se saltan) ni el rendimiento: 30000 archivos .md en tareas/ tardan 0,5 s; un enlace a una carpeta externa dentro de openspec/changes no se sigue (Python 3.13; no probé 3.11 ni 3.12). El comando rechaza una aguja vacía o de sólo espacios.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 98,
+        "end_line": 131,
+        "side": "head"
+      },
+      "trigger": "Buscar texto en un archivo de más de 1 MB, o más allá de la columna 160, o «strasse» sobre «Straße».",
+      "evidence": "Verificado: sondas_r2s.py (carpeta revision-r2), salida en sondas_r2s.salida.txt, test_s_04 y test_s_05.",
+      "related_requirement": "estructura_cb7ac503412f60c06.buscar_en_todo_el_proyecto",
+      "status": "pendiente",
+      "verification": "Correr test_s_04. Sugerencia: avisar cuántos archivos se omitieron, mostrar el contexto del texto y usar casefold()."
+    },
+    {
+      "id": "R2S-07",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.4,
+      "title": "`ruta` usa `git rev-parse --short=7`, que puede devolver más de 7 caracteres si el prefijo es ambiguo",
+      "explanation": "La spec y la guía hablan de una carpeta <sha7>. --short=7 es un mínimo: Git alarga la abreviatura cuando 7 caracteres no bastan para ser único, y la longitud puede crecer con el tamaño del repositorio. Entonces el mismo commit tendría otro nombre de carpeta en otro momento (o en otro clon), y las carpetas de candidato podrían partirse. donde ya filtra por prefijo[:7], pero ruta no. No pude provocar una ambigüedad de 7 caracteres; es una sospecha por la documentación de Git. Con un repositorio sin commits ruta falla bien («ruta necesita un repositorio Git con al menos un commit») y no crea nada (comprobado), igual que con identificadores raros.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 946,
+        "end_line": 946,
+        "side": "head"
+      },
+      "trigger": "Repositorio con dos commits que comparten los primeros 7 caracteres del hash (poco probable).",
+      "evidence": "Sospecha: no la reproduje. Sí verifiqué que ruta no crea ni cambia archivos y que rechaza repositorios sin commits y tipos desconocidos.",
+      "related_requirement": "estructura_cb7ac503412f60c06.ruta_canonica_para_producir_artefactos",
+      "status": "pendiente",
+      "verification": "Usar git rev-parse HEAD y tomar los primeros 7 caracteres, si se quiere un nombre estable."
+    },
+    {
+      "id": "R2S-08",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La prueba e4 es casi trivial: las rutas «relativas» las fabrica donde mismo y Factory no escribe nada bajo .factory/ en esta fase",
+      "explanation": "test_e4 asegura que, en un clon en otra ruta, las filas «candidato» de donde existen y no empiezan por «/». Esas rutas las construye estructura.donde a partir de un literal relativo (f'{DIR}/cambios/…'), así que nunca pueden ser absolutas; y los archivos que revisa en .factory/cambios/ los escribió el propio test con el sensor del ejemplo, no Factory. Lo que sí comprueba de verdad es que la evidencia viaja por Git (no está ignorada). No cubre que un clon recién hecho tenga .factory/ (R2S-01). Las pruebas e3 dependen de que ningún ancestro de la carpeta temporal tenga .factory/ (por ejemplo /tmp/.factory), y usan os.chdir con addCleanup para volver, lo que está bien. El resto de las pruebas prueban lo que dicen; test_e10 usa las funciones, no main.",
+      "location": {
+        "file": "tests/test_estructura.py",
+        "start_line": 161,
+        "end_line": 175,
+        "side": "head"
+      },
+      "trigger": "Leer test_e4_rutas_relativas_en_otra_ruta_absoluta.",
+      "evidence": "Lectura de código.",
+      "related_requirement": "estructura_cb7ac503412f60c06.lo_versionado_y_lo_local",
+      "status": "pendiente",
+      "verification": "Hacer que la prueba clone justo después de init y de un comando real, y que compruebe que no hay rutas absolutas en lo que Factory escribe cuando empiece a escribir en .factory/ (fase 2)."
+    },
+    {
+      "id": "R2S-09",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.5,
+      "title": "`.factory/` entera queda fuera de la huella y es un nombre que también usan otras herramientas",
+      "explanation": "La spec lo pide así («excluir .factory/ entera»), y el resultado es que cualquier cosa bajo .factory/ no cambia la huella: probé que un archivo de código en .factory/hooks/ y un archivo común llamado .factory no la alteran. Si otra herramienta guarda configuración o código que afecta al producto en un .factory/ del proyecto (por lo que sé, el CLI «droid» de Factory.ai usa .factory/ y ~/.factory; no lo verifiqué), Factory lo trataría como suyo, lo excluiría de la huella y lo usaría como marcador de proyecto. Es una colisión de nombres, no un defecto del código; lo dejo como pregunta de diseño.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 322,
+        "end_line": 322,
+        "side": "head"
+      },
+      "trigger": "Proyecto que ya tiene un .factory/ de otra herramienta.",
+      "evidence": "Verificado que la exclusión es total: sondas_r2s.py (carpeta revision-r2), salida en sondas_r2s.salida.txt, test_s_02. La coincidencia con otra herramienta es sospecha (conocimiento propio, no comprobado en este entorno; ~/.factory no existe aquí).",
+      "related_requirement": "estructura_cb7ac503412f60c06.la_huella_del_producto_excluye_lo_que_factory_produce",
+      "status": "pendiente",
+      "verification": "Decidir si basta con la regla, o si se quiere que Factory reconozca su carpeta por un archivo propio dentro de .factory/ (lo que además resuelve R2S-01)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre 1f3e60b: suite (142 OK); tools/verify_estructura.py --salida revision-r2/evidencia-estructura-1f3e60b (20 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 10 requisitos estructura_cb7ac50… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); más mis sondas sondas_r2s.py y los comandos reales de sondas_r2s_raiz.salida.txt, sondas_r2s_donde_cli.salida.txt y sondas_r2s_clon.salida.txt, siempre en carpetas temporales bajo revision-r2/estructura-tmp. No corrí los arneses de vigencia, portabilidad ni revisión guiada, ni los de release contra el wheel, ni verify_guide.",
+    "Flujos documentados: no ejecuté verify_guide (necesita el wheel instalado). La suite, que incluye los tutoriales y los flujos de init, y verify_collaboration, que corre el CLI real, pasan; en mis casos, --proyecto relativo (carpeta hermana o ../) funciona como antes y sin .factory/ en ningún ancestro el comportamiento no cambia (caso a2 y la prueba e3).",
+    "Spec contra implementación: estructura documentada (cumple, con la frase falsa de R2S-04), carpeta propia (R2S-01 y R2S-05), descubrimiento (R2S-02), lo versionado y lo local (R2S-01; vacío en esta fase), huella (la exclusión funciona; nueva evidencia no invalida y el acuerdo sigue siendo producto: probado por e5), donde (R2S-03), ruta (R2S-07; no crea nada), buscar (R2S-06), listar (los filtros y el mensaje sin coincidencias bien; sin filtros la salida no cambia) y respetar lo existente (las funciones de lectura no modifican archivos, comprobado por huellas).",
+    "Guía contra comportamiento: además de R2S-04, las frases sobre descubrimiento, ruta («no crea nada»), donde («AUSENTE») y los cambios anteriores («históricos») las comprobé y son ciertas. El campo «histórico» marca también archivos actuales de tareas/<ID>/ (por ejemplo hechos.json de un juicio anterior a la estructura), que además aparecen como fila de «juicio»; es consecuencia de la definición y no lo marco como defecto.",
+    "No pude probar: Windows, Python 3.11 y 3.12 (rglob y enlaces simbólicos), una ambigüedad real de SHA abreviado (R2S-07), ni el trabajo con git worktree de Clue dentro de .factory/local/ más allá de comprobar que la huella lo ignora.",
+    "Las sondas usan el fixture de tests/test_estructura.py con la terminal parcheada. No toqué el checkout fijo."
+  ]
+}
