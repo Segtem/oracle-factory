@@ -220,6 +220,16 @@ class Estructura(unittest.TestCase):
         self.assertRegex(salida, r'(?m)^histórico\s+histórico\s+tareas/\S+/revision-pendiente\.md')
         self.assertEqual(self.huellas(), antes)
 
+    def test_e6_ruta_absoluta_de_un_registro_anterior(self):
+        ident = self.cambio_juzgado()
+        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        estado = json.loads(ruta.read_text())
+        estado['oracle']['hechos'] = str(self.root / estado['oracle']['hechos'])  # como lo escribía la versión anterior
+        ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
+        self.salida()
+        f.comando_donde(ident, None)
+        self.assertRegex(self.salida(), r'(?m)^juicio\s+existe\s+/\S+hechos\.json\s+— ruta absoluta de un registro anterior')
+
     def test_e6_candidato_limita_el_listado(self):
         ident = self.cambio_juzgado()
         for sha in ('abc1234', 'def5678'):

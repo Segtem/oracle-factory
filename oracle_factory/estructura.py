@@ -35,6 +35,8 @@ def ruta_canonica(raiz: Path, ident: str, tipo: str, sha7: str) -> Path:
 
 def _entrada(gate: str, ruta: str, raiz: Path, nota: str = '') -> dict:
     existe = (raiz / ruta).exists()
+    if ruta.startswith('/') and not nota:
+        nota = 'ruta absoluta de un registro anterior a la portabilidad; sólo vale en la máquina que la escribió'
     return {'gate': gate, 'ruta': ruta, 'existe': existe, 'nota': nota}
 
 
