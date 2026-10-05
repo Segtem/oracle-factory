@@ -28,10 +28,10 @@ La huella de archivos ya existe y ya excluye lo que no es producto (`tareas/` y 
 
 ## Human decisions
 
-Pendiente de aceptación de proposal.md y spec.md. Preguntas abiertas para Brian:
+Brian respondió en la conversación del 2026-10-05, aceptando las tres propuestas:
 
-1. **Mostrar el aviso de HEAD distinto:** ¿sólo en `estado` y en el cierre (lo propuesto), o también como advertencia al juzgar y revisar?
-2. **¿El veredicto de Oracle (`juzgar`) sigue la misma regla?** Se propone que sí: usa los mismos hechos y el mismo producto. Los hechos, en cambio, no se vinculan a un commit hoy; no cambia nada ahí.
-3. **Antes de aplicarlo:** este cambio modifica el producto, así que **vuelve a dejar desactualizadas las revisiones** de colaboración y de revisión guiada (que ya lo están por otros motivos). Se propone cerrarlas cuando se cubra lo que cada una declara, con la regla nueva ya vigente. ¿De acuerdo?
+1. **Aviso de HEAD distinto:** sólo en `estado` y en el cierre.
+2. **El veredicto de Oracle (`juzgar`) sigue la misma regla.**
+3. **Orden:** este cambio modifica el producto y vuelve a dejar desactualizadas las revisiones de colaboración y de revisión guiada, que ya lo estaban por otros motivos. Se cierran después, con la regla nueva vigente.
 
-La persona conserva alcance, aprobación de spec, pertinencia de medidas, resolución de hallazgos y cierre. Preparar esto no acepta el cambio.
+Pendiente: aceptación de proposal.md y spec.md. Preparar esto no la acepta ni autoriza implementarlo.
