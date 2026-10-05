@@ -31,3 +31,19 @@ Medidas de limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad: fa
 ### Nota (2026-10-05 21:54:51 UTC)
 
 Medidas de limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable: factory_limpieza.limpieza_repetible_y_verificable, factory_limpieza.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 23:47:55 UTC)
+
+Medidas de limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:47:55 UTC)
+
+Medidas de limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:47:55 UTC)
+
+Medidas de limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:47:55 UTC)
+
+Medidas de limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable: Brian Hollweg (persona, confirmo, modo confirmacion).
