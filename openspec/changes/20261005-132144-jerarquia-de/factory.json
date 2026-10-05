@@ -2,7 +2,7 @@
   "id": "20261005-132144-jerarquia-de",
   "titulo": "Jerarquía de carpetas y comandos para encontrar las cosas",
   "capacidad": "estructura",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
   "spec_sha256": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a",
   "spec_aprobada": {
@@ -13,7 +13,14 @@
       "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "estructura_c3d2e9989ed343f96.buscar_en_todo_el_proyecto",
+    "estructura_c3d2e9989ed343f96.donde_esta_cada_artefacto",
+    "estructura_c3d2e9989ed343f96.estructura_documentada",
+    "estructura_c3d2e9989ed343f96.listar_con_filtros",
+    "estructura_c3d2e9989ed343f96.respetar_lo_existente",
+    "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos"
+  ],
   "revision": null,
   "oracle": null,
   "eventos": [
@@ -40,6 +47,32 @@
         "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "c26b7b71efa712b973fb7a9bae9086bd27179fe7dfd4e65b8a2386a93293e360",
         "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "75a996113a29cb001f0b6b94600d481ea8b84b281cdb945c8cc044484d1dae5a"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:49:49+00:00",
+      "ids": [
+        "estructura_c3d2e9989ed343f96.buscar_en_todo_el_proyecto",
+        "estructura_c3d2e9989ed343f96.donde_esta_cada_artefacto",
+        "estructura_c3d2e9989ed343f96.estructura_documentada",
+        "estructura_c3d2e9989ed343f96.listar_con_filtros",
+        "estructura_c3d2e9989ed343f96.respetar_lo_existente",
+        "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "estructura_c3d2e9989ed343f96.buscar_en_todo_el_proyecto": "funcional",
+    "estructura_c3d2e9989ed343f96.donde_esta_cada_artefacto": "funcional",
+    "estructura_c3d2e9989ed343f96.estructura_documentada": "funcional",
+    "estructura_c3d2e9989ed343f96.listar_con_filtros": "funcional",
+    "estructura_c3d2e9989ed343f96.respetar_lo_existente": "no funcional",
+    "estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

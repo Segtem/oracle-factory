@@ -1,0 +1,4 @@
+requisito estructura_c3d2e9989ed343f96.estructura_documentada:
+    texto "Tipo: funcional La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: la raíz, el acuerdo y los registros en `openspec/changes/<ID>/`, el trabajo en `tareas/<ID>/` con una carpeta por candidato, y los checkouts de revisión fuera del repositorio, en la carpeta que indica `raiz_revisiones` del `factory.json` del proyecto (por defecto `~/Dev/_revisiones`). La carpeta de cada candidato se llama como el SHA de 7 caracteres de su commit."
+    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#estructura documentada"
+    sin_medir "sin medida todavía; escenarios: «raíz de revisiones configurada», «una persona busca la evidencia de un candidato»"
