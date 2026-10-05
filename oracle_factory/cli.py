@@ -68,6 +68,9 @@ def terminal_interactiva() -> bool:
 def actor() -> dict:
     if AGENTE:
         return {"actor": AGENTE, "tipo_actor": "agente"}
+    if not terminal_interactiva():
+        # Ni --agente ni terminal: no se puede atribuir a una persona.
+        return {"actor": "sin identificar", "tipo_actor": "sin_identificar"}
     nombre = subprocess.run(["git", "config", "user.name"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
     return {"actor": nombre or getpass.getuser(), "tipo_actor": "persona"}
 

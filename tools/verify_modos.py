@@ -17,7 +17,8 @@ CONTRACTS = {
     'tipo_de_requisito': ['m2_requisito_no_funcional_declarado', 'm2_requisito_sin_tipo', 'm2_tipos_obligatorios'],
     'decisiones_segun_el_modo': ['m3_funcional_requisito_funcional', 'm3_funcional_requisito_no_funcional',
                                  'm3_confirmacion_propone', 'm3_autonomo', 'm3_cierre_en_modo_funcional'],
-    'actor_registrado_sin_aparentar_humanos': ['m4_confirmacion_por_pipe', 'm4_lectura_del_estado'],
+    'actor_registrado_sin_aparentar_humanos': ['m4_confirmacion_por_pipe', 'm4_lectura_del_estado',
+                                               'm4_sin_agente_ni_terminal_no_es_persona'],
     'cambio_de_modo_con_invalidacion': ['m5_subir_la_intervencion_humana'],
 }
 PREFIX = 'test_modos.Modos.test_'

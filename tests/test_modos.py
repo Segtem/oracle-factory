@@ -206,6 +206,14 @@ class Modos(unittest.TestCase):
         self.assertEqual(len(lineas), 4)
         self.assertTrue(all('(agente,' in l and 'persona' not in l for l in lineas), lineas)
 
+    def test_m4_sin_agente_ni_terminal_no_es_persona(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        with self.sin_terminal():
+            f.importar(ident)
+        evento = self.estado(ident)['eventos'][-1]
+        self.assertEqual((evento['accion'], evento['tipo_actor']), ('requisitos_importados', 'sin_identificar'))
+
     # --- m5: cambio de modo con invalidación ----------------------------------------
     def test_m5_subir_la_intervencion_humana(self):
         ident = self.crear('autonomo')

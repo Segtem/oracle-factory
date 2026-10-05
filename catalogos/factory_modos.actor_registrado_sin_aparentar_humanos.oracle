@@ -2,7 +2,7 @@ medida factory_modos.actor_registrado_sin_aparentar_humanos:
     de modos_caso c
     donde c.requisito == "actor_registrado_sin_aparentar_humanos" y c.codigo == 0
     resumen contar(1)
-    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_modos.py; asociar junto a corrida_completa"
+    umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tools/verify_modos.py; asociar junto a corrida_completa"
     requiere modos_caso
     ambito universal
     alcance "escenarios m1-m5 en Linux; el sensor verifica identidad y completitud; no autentica actores ni prueba la claridad para una persona"
