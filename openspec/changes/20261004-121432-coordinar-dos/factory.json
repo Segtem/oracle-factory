@@ -2,7 +2,7 @@
   "id": "20261004-121432-coordinar-dos",
   "titulo": "Coordinar dos personas con sus agentes sin interferencias",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
   "spec_sha256": "2fa7e127c17afade0293d209b7f223b4332ea3cd373035ad7e1d15bab7840c20",
   "spec_aprobada": {
@@ -23,19 +23,7 @@
     "colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo",
     "colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version"
   ],
-  "revision": {
-    "revisor": "Brian Hollweg",
-    "decision": "aprobar",
-    "hallazgos_abiertos": 0,
-    "informe": "openspec/changes/20261004-121432-coordinar-dos/review.md",
-    "sha256": "00a0c98cf4bc188926f4106f3272e2701b1ce1536107df4bc1fba1c8146a489f",
-    "por": "workstation",
-    "cuando": "2026-10-05T11:43:39+00:00",
-    "contexto": {
-      "head": "ec52369c7305af1315959f9025932683ad7fa4e5",
-      "archivos_sha256": "ee4468137dfa5c278f8a629dd427aee3cda3c18e8730abe2828166b80d11abec"
-    }
-  },
+  "revision": null,
   "oracle": null,
   "eventos": [
     {
@@ -166,6 +154,28 @@
       "decision": "aprobar",
       "abiertos": 0,
       "sha256": "00a0c98cf4bc188926f4106f3272e2701b1ce1536107df4bc1fba1c8146a489f"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T15:59:55+00:00",
+      "requisito": "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos",
+      "medidas": [
+        "factory_colaboracion.aislamiento_y_sincronizacion_explicitos",
+        "factory_colaboracion.corrida_completa"
+      ],
+      "sin_medir": "Pilotaje en máquinas distintas y colisión de un cambio Factory que ya tiene spec aceptada o requisitos importados (renovar la aceptación y reimportar) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task o de un cambio Factory sin spec aceptada con ID colisionado."
     }
-  ]
+  ],
+  "medidas_pendientes": {
+    "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos": {
+      "sha256": "68db2ca9f399a0ee58ed6ee89247fa0f854fdfafeae08b1c0c0ce28b9024d86a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T15:59:55+00:00"
+    }
+  }
 }

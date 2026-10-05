@@ -93,3 +93,7 @@ Revisión de Brian (2026-10-05) sobre los paquetes A y B: informes y triage en r
 ### Nota (2026-10-05 11:43:39 UTC)
 
 Revisión Brian Hollweg: aprobar; 0 abiertos; commit ec52369c7305af1315959f9025932683ad7fa4e5; informe openspec/changes/20261004-121432-coordinar-dos/review.md.
+
+### Nota (2026-10-05 15:59:55 UTC)
+
+Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: Pilotaje en máquinas distintas y colisión de un cambio Factory que ya tiene spec aceptada o requisitos importados (renovar la aceptación y reimportar) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task o de un cambio Factory sin spec aceptada con ID colisionado.. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
