@@ -168,14 +168,30 @@
         "factory_colaboracion.corrida_completa"
       ],
       "sin_medir": "Pilotaje en máquinas distintas y colisión de un cambio Factory que ya tiene spec aceptada o requisitos importados (renovar la aceptación y reimportar) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task o de un cambio Factory sin spec aceptada con ID colisionado."
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T16:04:33+00:00",
+      "requisito": "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos",
+      "medidas": [
+        "factory_colaboracion.aislamiento_y_sincronizacion_explicitos",
+        "factory_colaboracion.corrida_completa"
+      ]
     }
   ],
-  "medidas_pendientes": {
+  "medidas_pendientes": {},
+  "medidas": {
     "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos": {
-      "sha256": "68db2ca9f399a0ee58ed6ee89247fa0f854fdfafeae08b1c0c0ce28b9024d86a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-05T15:59:55+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T16:04:33+00:00",
+      "sha256": "68db2ca9f399a0ee58ed6ee89247fa0f854fdfafeae08b1c0c0ce28b9024d86a"
     }
   }
 }
