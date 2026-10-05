@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-estructura-c3e8954",
+  "base": "6dcbde5d873851338fd76a04860afa61645a0ee6",
+  "head": "c3e89546618bcd6c3f9cdcc80d8a6b0730f4486f",
+  "diff_sha256": "88c9ecfecdda19aa1a9a5c913247809c911336a21ca64a75ef03b952485a3551",
+  "context_sha256": "65d315c18b71707d63b5deba668fe2384ee800e74ca5bf186334c7b0a5ab5608",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2U-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "`donde` sigue listando a través de un `.factory` enlazado, aunque `buscar` ya no",
+      "explanation": "La corrección de R2T-02 impide que buscar lea a través de un .factory enlazado (si es un enlace, no agrega .factory/cambios a los lugares). donde no tiene la misma guarda: candidatos = raiz / DIR / \"cambios\" / ident / \"candidatos\" usa is_dir() e iterdir(), que siguen el enlace, de modo que lista como «candidato … existe» carpetas de la carpeta externa. Es sólo lectura de nombres de carpeta y el usuario es quien puso el enlace; pero la guía dice que un enlace simbólico llamado .factory «no cuenta como marcador», y el comportamiento de los dos comandos es distinto. R2S-05 mencionaba los dos.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 158,
+        "end_line": 159,
+        "side": "head"
+      },
+      "trigger": ".factory enlazado a una carpeta con cambios/<ID>/candidatos/abc1234/evidencia; correr donde ID desde la carpeta del proyecto.",
+      "evidence": "Verificado: sondas_r2u_cli.salida.txt: buscar da «0 coincidencia(s)» y donde ID imprime «candidato existe .factory/cambios/…/candidatos/abc1234/evidencia».",
+      "related_requirement": "estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory",
+      "status": "pendiente",
+      "verification": "Repetir el último caso de sondas_r2u_cli.salida.txt. Sugerencia: la misma comprobación (que .factory no sea un enlace) al principio de donde."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre c3e8954: suite (153 OK); tools/verify_estructura.py --salida revision-r2/evidencia-estructura-c3e8954 (31 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 10 requisitos estructura_cd7e5b6… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); mis sondas anteriores (sondas_r2t.py) y los comandos de sondas_r2u_cli.salida.txt, en carpetas temporales bajo revision-r2/. No corrí vigencia, portabilidad, limpieza ni revisión guiada, ni los arneses de release ni verify_guide.",
+    "R2T-01 resuelto: con $HOME apuntando a un enlace simbólico de la carpeta real que contiene un .factory/ ajeno, listar desde un proyecto debajo ya no usa ese .factory (antes sí); con $HOME real tampoco, y un proyecto legítimo fuera del home sigue descubriéndose con $HOME simbólico. R2T-02 resuelto para buscar (0 coincidencias a través del enlace); queda donde (R2U-01). R2T-03 resuelto: con 120 «ß» antes del texto el fragmento ahora lo muestra (sondas_r2t.py, test_t_01). R2T-04 resuelto: e4 exige que las filas de revisión, juicio, spec y medidas sean relativas y existan en el clon, lo que antes no comprobaba; las filas de «candidato» siguen siendo relativas por construcción.",
+    "Parciales de la primera vuelta: R2S-05 queda parcial por R2U-01 (el resto, un .factory archivo y el enlace como marcador, está resuelto); R2S-06 resuelto (casefold, aviso de archivos omitidos y fragmento); R2S-08 resuelto (la prueba del clon de init y la e4 reforzada); R2S-09 sigue como decisión aceptada de la spec.",
+    "No hay regresiones que haya visto: 0 excepciones con 14 valores raros en donde, y las sondas de buscar y de la huella dan lo mismo que en la vuelta anterior. No pude probar Windows ni Python 3.11 o 3.12."
+  ]
+}

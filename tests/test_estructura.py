@@ -388,6 +388,15 @@ class Estructura(unittest.TestCase):
         f.comando_buscar('aguja-ajena', 50)
         self.assertNotIn('nota.md', self.salida())
 
+    def test_e6_donde_no_lista_a_traves_de_un_factory_enlazado(self):
+        ident = self.cambio_juzgado()
+        ajena = Path(self.tmp.name) / 'ajena'
+        (ajena / 'cambios' / ident / 'candidatos' / 'abc1234' / 'evidencia').mkdir(parents=True)
+        (self.root / '.factory').rename(self.root / 'factory-propia')
+        (self.root / '.factory').symlink_to(ajena)
+        filas = estructura.donde(self.root, ident, self.estado(ident))
+        self.assertFalse([x for x in filas if x['gate'] == 'candidato'])
+
     def test_e8_fragmento_con_formas_que_se_alargan(self):
         linea = 'ß' * 150 + ' aguja-tardia final'  # casefold convierte cada «ß» en «ss»
         self.assertIn('aguja-tardia', estructura._fragmento(linea, 'aguja-tardia'))

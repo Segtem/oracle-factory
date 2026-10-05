@@ -97,7 +97,7 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
             if clave in oracle and oracle[clave] is not None:
                 filas.append(_entrada('juicio', oracle[clave], raiz))
     candidatos = raiz / DIR / 'cambios' / ident / 'candidatos'
-    if candidatos.is_dir():
+    if candidatos.is_dir() and not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta
         for carpeta in sorted(candidatos.iterdir()):
             if carpeta.is_dir() and (not prefijo or carpeta.name.lower().startswith(prefijo[:7])):
                 for sub in SUBCARPETAS:
