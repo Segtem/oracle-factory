@@ -1,6 +1,6 @@
 # Modos de trabajo según quién decide los requisitos
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -75,3 +75,19 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-05 15:29:14 UTC)
 
 Revisión guiada registrada por Brian desde su terminal (2026-10-05) sobre af9bc5e (producto idéntico a 653de8f): aprobar, 0 abiertos. 20 hallazgos de cuatro rondas (autorrevisión y R2): 16 corregidos, 4 riesgo aceptado. Informes en revision-brian/ y revision-r2/. Queda abierta: faltan documentación de los modos y la autenticación de actores, declarada sin medir.
+
+### Nota (2026-10-05 15:36:05 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit c0e7c3cc3c8a5ee1811b04061998ce8607f29671; informe tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json; decisiones tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/decisiones.json.
+
+### Nota (2026-10-05 15:39:00 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt.
+
+### Nota (2026-10-05 15:42:05 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
+
+### Nota (2026-10-05 15:44:15 UTC)
+
+Cerrado por Brian desde su terminal (2026-10-05) en modo confirmacion, sobre c0e7c3c: revisión guiada renovada, 5 requisitos cumplen, 27 casos, sin nada declarado sin medir. Primer cambio cerrado con la funcionalidad de modos.

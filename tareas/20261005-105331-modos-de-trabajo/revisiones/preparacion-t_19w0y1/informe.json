@@ -1,0 +1,195 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261005-105331-modos-de-trabajo",
+  "contexto": {
+    "head": "c0e7c3cc3c8a5ee1811b04061998ce8607f29671",
+    "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
+  },
+  "documentos": {
+    "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
+    "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/modos.py",
+    "oracle_factory/cli.py",
+    "tests/test_modos.py",
+    "tools/terminal.py",
+    "tools/verify_modos.py",
+    "catalogos/factory_modos.corrida_completa.oracle",
+    "catalogos/factory_modos.decisiones_segun_el_modo.oracle",
+    "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md",
+    "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
+    "tests/test_guided.py",
+    "tests/test_integration.py",
+    "tests/test_review_guided.py",
+    "tests/test_tutorial.py",
+    "tests/test_workflow.py",
+    "tools/verify_collaboration.py",
+    "tools/verify_guide.py",
+    "tools/verify_installed.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato 653de8f (el producto de este HEAD es idéntico)",
+      "resultado": "cumple",
+      "evidencia": "97 pruebas OK; corrida por el autor y por R2"
+    },
+    {
+      "descripcion": "Sensor de modos: 27 casos exactos y los cinco requisitos en Oracle",
+      "resultado": "cumple",
+      "evidencia": "evidencia-653de8f/resultado.json (éxito) y oracle-cobertura.txt: 5 requisitos cumplen; R2 lo reprodujo en revision-r2/evidencia-modos-653de8f"
+    },
+    {
+      "descripcion": "Pruebas nuevas de cada corrección fallan con el código anterior y pasan con el nuevo",
+      "resultado": "cumple",
+      "evidencia": "corridas sobre 1a12a1a, 19b8d76 y 0234cc9 en la conversación; las sondas de R2 (sondas_r2*.py) ya no reproducen los defectos"
+    },
+    {
+      "descripcion": "Arneses de colaboración (C1–C9) y revisión guiada, y arneses de release contra el wheel instalado",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor sobre 653de8f; R2 reprodujo colaboración (revision-r2/evidencia-colab-653de8f)"
+    },
+    {
+      "descripcion": "Revisión independiente (R2) de la última corrección",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-correccion3.json: 0 hallazgos, validado con oracle-clue"
+    },
+    {
+      "descripcion": "Sensor de modos y cobertura Oracle re-ejecutados sobre el HEAD de esta renovación (c0e7c3c)",
+      "resultado": "cumple",
+      "evidencia": "evidencia-c0e7c3c/resultado.json: 27 casos, éxito; oracle-cobertura.txt: 5 requisitos cumplen"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia.",
+    "Factory no autentica actores: un agente que simule una terminal interactiva pasa por persona. El arnés lo declara entre sus límites.",
+    "Las decisiones de medidas anteriores a que se guardara el hash del .requisito (las cinco confirmaciones de Brian sobre este mismo cambio) no se pueden comparar con el archivo: una edición manual posterior no se detecta hasta decidir de nuevo.",
+    "No hay documentación de los modos en las guías ni en la web (tarea docs-web-modos).",
+    "Renovación de la revisión registrada el 2026-10-05 sobre c0e7c3c: Factory vincula la revisión al HEAD (hallazgo G-02) y el commit que archivó el registro anterior la dejó desactualizada. El producto es idéntico: la huella de archivos coincide con la de la revisión anterior (af9bc5e)."
+  ],
+  "hallazgos": [
+    {
+      "id": "M-01",
+      "descripcion": "Un agente que corría importar o juzgar sin --agente quedaba registrado como persona con el nombre de Git.",
+      "ubicacion": "oracle_factory/cli.py (actor)",
+      "evidencia": "Corregido en 1a12a1a: sin --agente ni terminal el actor queda «sin identificar»."
+    },
+    {
+      "id": "M-02",
+      "descripcion": "importar puede fallar con títulos de requisito acentuados si Oracle normaliza distinto que modos.slug.",
+      "ubicacion": "oracle_factory/modos.py (slug)",
+      "evidencia": "Falla a la vista nombrando el requisito; no probado con un título acentuado."
+    },
+    {
+      "id": "M-03",
+      "descripcion": "Las guías y la web no mencionan los modos ni --agente.",
+      "ubicacion": "docs/colaboracion.md, docs/revision-guiada.md, site/",
+      "evidencia": "grep sin coincidencias; el modo por defecto confirmacion mantiene correcto lo que dicen."
+    },
+    {
+      "id": "M-04",
+      "descripcion": "Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad.",
+      "ubicacion": "catalogos/factory_modos.*.oracle",
+      "evidencia": "Deliberado: exige exactamente los casos enumerados, como en colaboración y revisión guiada."
+    },
+    {
+      "id": "R2-01",
+      "descripcion": "Si la spec cambiaba y se reimportaba, las medidas propuestas con los ids viejos quedaban colgadas y el cierre se bloqueaba para siempre.",
+      "ubicacion": "oracle_factory/cli.py (aprobar_spec, importar)",
+      "evidencia": "R2 (informe-r2.json), sonda verificada; corregido en 19b8d76 y rehecho en 0234cc9."
+    },
+    {
+      "id": "R2-02",
+      "descripcion": "Cuando decidía un agente, no se retiraba su propuesta anterior.",
+      "ubicacion": "oracle_factory/cli.py (decidir, medir)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76."
+    },
+    {
+      "id": "R2-03",
+      "descripcion": "En confirmacion, juzgar usaba medidas que el agente había propuesto y nadie confirmó.",
+      "ubicacion": "oracle_factory/cli.py (juzgar)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76."
+    },
+    {
+      "id": "R2-04",
+      "descripcion": "Un agente podía crear cambios autónomos sin persona si factory.json lo definía como modo por defecto.",
+      "ubicacion": "oracle_factory/cli.py (nuevo)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76: se compara con confirmacion, no con el archivo."
+    },
+    {
+      "id": "R2-05",
+      "descripcion": "Las notas de revisión y de medidas no decían quién decidió ni el modo.",
+      "ubicacion": "oracle_factory/cli.py (nota_tarea)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76."
+    },
+    {
+      "id": "R2-06",
+      "descripcion": "En funcional, «persona decide» funcionaba como una confirmación, sin motivo.",
+      "ubicacion": "oracle_factory/cli.py (decidir, cambiar_modo)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76: pide motivo y descarta lo que pasa a ser de la persona."
+    },
+    {
+      "id": "R2-07",
+      "descripcion": "El cierre autónomo decía «no hubo decisión humana» aunque una persona hubiera aceptado la spec.",
+      "ubicacion": "oracle_factory/cli.py (cerrar)",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76."
+    },
+    {
+      "id": "R2-08",
+      "descripcion": "La revisión en funcional usa los tipos de todos los requisitos del cambio, no sólo los afectados.",
+      "ubicacion": "oracle_factory/cli.py (tipos_cambio)",
+      "evidencia": "R2 (informe-r2.json), sospecha de lectura; marcada en el código como simplificación."
+    },
+    {
+      "id": "R2-09",
+      "descripcion": "Las pruebas no cubrían el efecto sobre el gate ni la invalidación, y el catálogo quedaba verde con los defectos presentes.",
+      "ubicacion": "tests/test_modos.py",
+      "evidencia": "R2 (informe-r2.json); corregido en 19b8d76 con ocho pruebas nuevas."
+    },
+    {
+      "id": "R2C-01",
+      "descripcion": "Regresión: aceptar la misma spec otra vez vaciaba los registros y las medidas del agente llegaban a verde y a cierre sin decisión registrada.",
+      "ubicacion": "oracle_factory/cli.py (aprobar_spec, medidas_sin_decision)",
+      "evidencia": "R2 (informe-r2-correccion.json); corregido en 0234cc9 con conciliación por id y una regla general."
+    },
+    {
+      "id": "R2C-02",
+      "descripcion": "Al bajar a funcional se conservaban las propuestas del agente y la decisión de la persona quedaba como confirmó.",
+      "ubicacion": "oracle_factory/cli.py (cambiar_modo)",
+      "evidencia": "R2 (informe-r2-correccion.json); corregido en 0234cc9."
+    },
+    {
+      "id": "R2C-03",
+      "descripcion": "El motivo de una decisión se guardaba pero no se mostraba.",
+      "ubicacion": "oracle_factory/cli.py (quien)",
+      "evidencia": "R2 (informe-r2-correccion.json); corregido en 0234cc9."
+    },
+    {
+      "id": "R2C-04",
+      "descripcion": "Una prueba tenía el nombre al revés y ninguna cubría aceptar la misma spec otra vez.",
+      "ubicacion": "tests/test_modos.py",
+      "evidencia": "R2 (informe-r2-correccion.json); corregido en 0234cc9."
+    },
+    {
+      "id": "R2D-01",
+      "descripcion": "La decisión de medidas no guardaba el contenido del .requisito: una edición a mano posterior llegaba a juicio y a cierre.",
+      "ubicacion": "oracle_factory/cli.py (medidas_sin_decision)",
+      "evidencia": "R2 (informe-r2-correccion2.json); corregido en 653de8f con el hash del archivo."
+    },
+    {
+      "id": "R2D-02",
+      "descripcion": "estado sugería «elegilas con medir» pero medir con las medidas ya presentes respondía «Sin cambios» y no registraba nada.",
+      "ubicacion": "oracle_factory/cli.py (medir)",
+      "evidencia": "R2 (informe-r2-correccion2.json); corregido en 653de8f."
+    },
+    {
+      "id": "R2D-03",
+      "descripcion": "Una prueba simulaba un registro perdido, no una edición a mano, y ninguna cubría la salida por medir.",
+      "ubicacion": "tests/test_modos.py",
+      "evidencia": "R2 (informe-r2-correccion2.json); corregido en 653de8f con dos pruebas."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

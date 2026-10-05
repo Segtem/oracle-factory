@@ -2,7 +2,7 @@
   "id": "20261005-105331-modos-de-trabajo",
   "titulo": "Modos de trabajo según quién decide los requisitos",
   "capacidad": "modos",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
   "spec_sha256": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b",
   "spec_aprobada": {
@@ -25,21 +25,33 @@
     "revisor": "Brian Hollweg",
     "decision": "aprobar",
     "hallazgos_abiertos": 0,
-    "informe": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/informe.json",
-    "sha256": "66f5d25cd3caf4d3d7dcaa19339cfed6b6169145d9a9d778b212b44ef20eb894",
-    "decisiones": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/decisiones.json",
-    "decisiones_sha256": "78f13db4e1710a55a5d8d2761b6fef85c6b9294e7cf9a5295b8581713635cc9d",
+    "informe": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json",
+    "sha256": "4f44c2e5ecdde6e6cdbbf13f24b8eb7ea6a813cf752308fa8e6f12da0a0feb4c",
+    "decisiones": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/decisiones.json",
+    "decisiones_sha256": "ab2dfd33bc5a66079019bfa64f28f0cb18bca2d8e2ec449b596a337e5088b6ab",
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-05T15:28:54+00:00",
+    "cuando": "2026-10-05T15:36:05+00:00",
     "contexto": {
-      "head": "af9bc5e9d55d8b201def68ed9d48574b6a5b0f6b",
+      "head": "c0e7c3cc3c8a5ee1811b04061998ce8607f29671",
       "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/home/workstation/Dev/factory/tareas/20261005-105331-modos-de-trabajo/evidencia-c0e7c3c/hechos.json",
+    "hechos_sha256": "64b991bcd51131d0bd29646693e658ad8c4b5b533629ee13fb4d2fa23a006397",
+    "informe": "openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
+    "informe_sha256": "e683bdec70009374121942b61656ecb4e607e70dba056fdbc879b34e9f6da235",
+    "cuando": "2026-10-05T15:39:00+00:00",
+    "contexto": {
+      "head": "c0e7c3cc3c8a5ee1811b04061998ce8607f29671",
+      "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
+    }
+  },
   "eventos": [
     {
       "accion": "cambio_creado",
@@ -240,6 +252,41 @@
       "abiertos": 0,
       "sha256": "66f5d25cd3caf4d3d7dcaa19339cfed6b6169145d9a9d778b212b44ef20eb894",
       "decisiones_sha256": "78f13db4e1710a55a5d8d2761b6fef85c6b9294e7cf9a5295b8581713635cc9d"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:36:05+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "4f44c2e5ecdde6e6cdbbf13f24b8eb7ea6a813cf752308fa8e6f12da0a0feb4c",
+      "decisiones_sha256": "ab2dfd33bc5a66079019bfa64f28f0cb18bca2d8e2ec449b596a337e5088b6ab"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:39:00+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "64b991bcd51131d0bd29646693e658ad8c4b5b533629ee13fb4d2fa23a006397"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:42:05+00:00",
+      "oracle": "openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
+      "revision": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json"
     }
   ],
   "medidas_pendientes": {},
@@ -279,5 +326,12 @@
       "modo": "confirmacion",
       "cuando": "2026-10-05T12:28:06+00:00"
     }
+  },
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:42:05+00:00"
   }
 }
