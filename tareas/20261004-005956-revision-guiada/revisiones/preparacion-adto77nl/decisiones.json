@@ -1,0 +1,36 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "c05b91f35c83d91a2d6e6c01975764f97bb6af5b1b662b1d7269aae0135ee4cb",
+  "actor": "Brian Hollweg",
+  "motivo": "Decisiones de Brian en la conversación del 2026-10-05: «Vamos con tu recomendación, corregí G-01» y «Aprobado el arreglo». Renovación del 2026-10-05: se repiten las mismas decisiones, ya tomadas por Brian, sobre el producto actual; G-02 se resuelve en el cambio 20261005-154433-la-vigencia-de, en curso.",
+  "decisiones": [
+    {
+      "hallazgo_id": "G-01",
+      "estado": "corregido",
+      "motivo": "Corregido en 69ccb5f; prueba negativa verificada.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-02",
+      "estado": "riesgo_aceptado",
+      "motivo": "Se resuelve en la tarea cli-piloto; esta revisión se registra sin commitear antes.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Se resuelve en la tarea cli-humana: mostrar archivos del diff no revisados.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-04",
+      "estado": "riesgo_aceptado",
+      "motivo": "Umbral de igualdad deliberado: exige exactamente los casos enumerados.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    }
+  ]
+}

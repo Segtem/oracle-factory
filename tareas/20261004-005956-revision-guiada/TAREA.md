@@ -103,3 +103,31 @@ Revisión guiada Brian Hollweg: aprobar; 0 abiertos derivados; commit 69ccb5f1d9
 ### Nota (2026-10-05 11:59:06 UTC)
 
 Revisión guiada registrada por Brian desde su terminal (2026-10-05) sobre 69ccb5f: aprobar, 0 abiertos. G-01 corregido; G-02, G-03 y G-04 riesgo aceptado (cli-piloto, cli-humana). Informes de Clue en revision-brian/. Queda abierta: Oracle parcial por los límites sin medir, como colaboración.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia: factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas: factory_revision_guiada.derivar_pendientes_de_decisiones_separadas, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido: factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita: factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar: factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada: factory_revision_guiada.registrar_confirmacion_humana_informada, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado: factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
