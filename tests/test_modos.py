@@ -371,6 +371,36 @@ class Modos(unittest.TestCase):
         with self.assertRaisesRegex(f.FactoryError, 'sin decisión registrada'):
             f.juzgar(ident, hechos)
 
+    def test_m3_medidas_editadas_a_mano_no_cuentan(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        rid = self.medir(ident)  # la persona elige notas.casos_ejecutados y notas.resultados
+        ruta = self.root / 'requisitos' / f'{rid}.requisito'
+        ruta.write_text(ruta.read_text().replace('medido_por notas.casos_ejecutados, notas.resultados',
+                                                 'medido_por notas.casos_ejecutados'))  # alguien lo edita a mano
+        carpeta, estado = f.leer(ident)
+        self.assertTrue(any('cambió después de la decisión' in p for p in f.pendientes_actuales(carpeta, estado)))
+        hechos, _ = self.producto_y_hechos(ident)
+        with self.assertRaisesRegex(f.FactoryError, 'sin una decisión vigente'):
+            f.juzgar(ident, hechos)
+
+    def test_m3_medir_con_las_medidas_del_archivo_registra_la_decision(self):
+        ident = self.crear()
+        self.aceptar(ident)
+        f.importar(ident)
+        rid = self.medir(ident)
+        carpeta, estado = f.leer(ident)
+        del estado['medidas'][rid]  # decisión perdida: el archivo conserva las medidas
+        f.guardar(carpeta, estado)
+        self.assertTrue(f.medidas_sin_decision(estado))
+        self.medir(ident)  # las mismas medidas que ya tiene el archivo: es la salida que sugiere estado
+        estado = self.estado(ident)
+        self.assertEqual((estado['medidas'][rid]['tipo_actor'], estado['medidas'][rid]['forma']), ('persona', 'decidio'))
+        self.assertEqual(f.medidas_sin_decision(estado), [])
+        hechos, _ = self.producto_y_hechos(ident)
+        f.juzgar(ident, hechos)  # ya no la bloquea
+
     def test_m5_bajar_a_funcional_descarta_propuestas(self):
         ident = self.crear()
         with self.agente():

@@ -632,7 +632,8 @@ def juzgar(identificador: str, hechos: Path) -> None:
         raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
                            + ", ".join(estado["medidas_pendientes"]))
     if medidas_sin_decision(estado):
-        raise FactoryError("hay medidas sin decisión registrada; no cuentan para el juicio: " + ", ".join(medidas_sin_decision(estado)))
+        raise FactoryError("hay medidas sin una decisión vigente; no cuentan para el juicio: "
+                           + "; ".join(f"{rid} ({motivo})" for rid, motivo in medidas_sin_decision(estado)))
     # Una corrida fallida nunca debe dejar disponible el verde de la anterior.
     estado.update(oracle=None, fase="juicio_pendiente")
     guardar(carpeta, estado)
@@ -694,23 +695,36 @@ def pendientes(estado: dict) -> list[str]:
     return faltan
 
 
-def medidas_sin_decision(estado: dict) -> list[str]:
+def registrar_medidas(estado: dict, rid: str, forma: str, motivo: str | None, contenido: bytes) -> dict:
+    registro = {**registro_decision(estado, forma, motivo), "sha256": sha256(contenido)}
+    estado.setdefault("medidas", {})[rid] = registro
+    return registro
+
+
+def medidas_sin_decision(estado: dict) -> list[tuple[str, str]]:
     """Requisitos con medidas en su archivo y sin decisión registrada (cambios con modo)."""
     if "modo" not in estado and "medidas" not in estado:
         return []  # cambio anterior a los modos
-    registrados = set(estado.get("medidas") or {}) | set(estado.get("medidas_pendientes") or {})
+    medidas, pendientes = estado.get("medidas") or {}, estado.get("medidas_pendientes") or {}
     faltan = []
     for rid in estado.get("requisitos", []):
         ruta = ROOT / "requisitos" / f"{rid}.requisito"
-        if rid not in registrados and ruta.is_file() and any(
-                linea.startswith("    medido_por ") for linea in ruta.read_text(encoding="utf-8").splitlines()):
-            faltan.append(rid)
+        if not ruta.is_file() or rid in pendientes:
+            continue
+        contenido = ruta.read_bytes()
+        if not any(linea.startswith("    medido_por ") for linea in contenido.decode("utf-8").splitlines()):
+            continue
+        if rid not in medidas:
+            faltan.append((rid, "sin decisión registrada; registrala con medir y las mismas medidas"))
+        elif medidas[rid].get("sha256") not in (None, sha256(contenido)):
+            # None: decisión anterior a que se guardara el hash; no se puede comparar.
+            faltan.append((rid, "cambió después de la decisión registrada; volvé a decidirla con medir"))
     return faltan
 
 
 def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     faltan = pendientes(estado)
-    faltan += [f"medidas de {rid} sin decisión registrada; elegilas con medir" for rid in medidas_sin_decision(estado)]
+    faltan += [f"medidas de {rid}: {motivo}" for rid, motivo in medidas_sin_decision(estado)]
     try:
         exigir_spec(carpeta, estado)
     except (FactoryError, OSError) as e:
@@ -819,7 +833,7 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
         via = via_nueva(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")])
         if via:
             ruta = ROOT / "requisitos" / f"{rid}.requisito"
-            estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": sha256(ruta.read_bytes()), "actor": medida["actor"],
+            estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": medida.get("sha256") or sha256(ruta.read_bytes()), "actor": medida["actor"],
                                                                 "tipo_actor": "agente", "cuando": medida["cuando"],
                                                                 "descartada": via == "rechaza"}
             del estado["medidas"][rid]
@@ -1119,21 +1133,38 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     limite = '' if quitar_sin_medir else (sin_medir if sin_medir is not None else r.sin_medir)
     nuevo_r = replace(r, medido_por=tuple(medidas), sin_medir=limite)
     if nuevo_r == r:
+        # El archivo ya tiene estas medidas: lo que falta, si algo, es el registro de quién las decidió.
         pendiente = (estado.get('medidas_pendientes') or {}).get(requisito_id)
-        if pendiente and via in ('persona', 'decide') and (via == 'decide' or pendiente['sha256'] == sha256(original)):
-            # La persona confirma tal cual (o decide, si el modo descartó la del agente);
-            # el agente que ahora decide reemplaza su propia propuesta.
-            forma = 'decidio' if via == 'decide' or pendiente.get('descartada') else 'confirmo'
-            del estado['medidas_pendientes'][requisito_id]
-            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, forma, motivo)
-            evento(estado, 'medidas_confirmadas' if forma == 'confirmo' else 'medidas_elegidas', forma=forma,
-                   requisito=requisito_id, medidas=medidas)
-            escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
-            nota_tarea(identificador, f'Medidas de {requisito_id}: {quien(estado["medidas"][requisito_id])}.')
-            print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.' if forma == 'confirmo'
-                  else f'Medidas de {requisito_id} registradas como decisión de {quien(estado["medidas"][requisito_id])}.')
+        registro = (estado.get('medidas') or {}).get(requisito_id)
+        huella = sha256(original)
+        if registro and registro.get('sha256') in (None, huella) and not pendiente:
+            print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
             return
-        print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
+        if via == 'propone':
+            if pendiente and pendiente['sha256'] == huella and not pendiente.get('descartada'):
+                print('Sin cambios: la propuesta ya está registrada, a la espera de una persona.')
+                return
+            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': huella, **actor(), 'cuando': ahora()}
+            (estado.get('medidas') or {}).pop(requisito_id, None)
+            evento(estado, 'medidas_propuestas', forma='propuso', requisito=requisito_id, medidas=medidas)
+            escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
+            nota_tarea(identificador, f'Medidas de {requisito_id} propuestas por {AGENTE} (agente, modo {modo_de(estado)}); '
+                       'no cuentan hasta que una persona las confirme.')
+            print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): las medidas que el archivo ya tiene no cuentan hasta que '
+                  'una persona repita este comando desde una terminal interactiva, sin --agente.')
+            return
+        # La persona confirma tal cual lo propuesto (mismos bytes) o decide; el agente que ahora decide
+        # reemplaza su propia propuesta.
+        forma = 'confirmo' if (via == 'persona' and pendiente and pendiente['sha256'] == huella
+                               and not pendiente.get('descartada')) else 'decidio'
+        (estado.get('medidas_pendientes') or {}).pop(requisito_id, None)
+        registrar_medidas(estado, requisito_id, forma, motivo, original)
+        evento(estado, 'medidas_confirmadas' if forma == 'confirmo' else 'medidas_elegidas', forma=forma,
+               requisito=requisito_id, medidas=medidas)
+        escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
+        nota_tarea(identificador, f'Medidas de {requisito_id}: {quien(estado["medidas"][requisito_id])}.')
+        print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.' if forma == 'confirmo'
+              else f'Medidas de {requisito_id} registradas como decisión de {quien(estado["medidas"][requisito_id])}.')
         return
     # Sólo modificar cláusulas de asociación/límite; conservar prosa, fuente y comentarios.
     lineas = original.decode('utf-8').splitlines(keepends=True)
@@ -1183,7 +1214,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             (estado.get('medidas') or {}).pop(requisito_id, None)
         else:
             (estado.get('medidas_pendientes') or {}).pop(requisito_id, None)
-            estado.setdefault('medidas', {})[requisito_id] = registro_decision(estado, 'decidio', motivo)
+            registrar_medidas(estado, requisito_id, 'decidio', motivo, datos)
         evento(estado, 'medidas_propuestas' if via == 'propone' else 'medidas_elegidas',
                forma='propuso' if via == 'propone' else 'decidio', requisito=requisito_id, medidas=medidas, sin_medir=limite)
         escribir_atomico(carpeta / 'factory.json', (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
