@@ -1,0 +1,11 @@
+test_dos_notas_en_orden (test_listado.Listado.test_dos_notas_en_orden) ... ok
+test_el_cuerpo_no_aparece (test_listado.Listado.test_el_cuerpo_no_aparece) ... ok
+test_sin_notas (test_listado.Listado.test_sin_notas) ... ok
+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok
+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok
+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK

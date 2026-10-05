@@ -1,0 +1,27 @@
+{
+  "schema_version": "oracle-clue.triage/v1",
+  "report_sha256": "5f35883b0ee258a02f92378750d9fff6f2940272514e962c2613f3b4ecfae985",
+  "decisions": [
+    {
+      "finding_id": "A2-B-01",
+      "status": "corregido",
+      "reason": "B1 agregó una entrada no ordenada en pruebas y sensor; producto corregido ed3476bae1ac2a0c1024d7a059ed706d97d39e12. La corrección requiere revisión del candidato nuevo.",
+      "actor": "Coordinador del piloto (agente), en representación de la persona B; no es decisión humana",
+      "at": "2026-10-05T10:30:29+00:00"
+    },
+    {
+      "finding_id": "A2-B-02",
+      "status": "corregido",
+      "reason": "Medidas separadas por requisito con el campo requisito; reasociadas con medir en ed3476b. Mutantes: cada uno afecta sólo a su requisito.",
+      "actor": "Coordinador del piloto (agente), en representación de la persona B; no es decisión humana",
+      "at": "2026-10-05T10:30:29+00:00"
+    },
+    {
+      "finding_id": "A2-B-03",
+      "status": "riesgo_aceptado",
+      "reason": "La ruta absoluta en fuente la escribe Factory importar; queda fuera del alcance de B. Se registra como observación sobre Factory.",
+      "actor": "Coordinador del piloto (agente), en representación de la persona B; no es decisión humana",
+      "at": "2026-10-05T10:30:29+00:00"
+    }
+  ]
+}

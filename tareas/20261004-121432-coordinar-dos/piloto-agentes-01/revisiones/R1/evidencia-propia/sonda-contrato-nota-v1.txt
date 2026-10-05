@@ -1,0 +1,6 @@
+'Mi\u2028nota' aceptado por crear_nota; listar_notas -> '- Mi\u2028nota\n- Otra' splitlines: 3 (esperado 2)
+'Mi\u2029nota' aceptado por crear_nota; listar_notas -> '- Mi\u2029nota\n- Otra' splitlines: 3 (esperado 2)
+'Mi\x85nota' aceptado por crear_nota; listar_notas -> '- Mi\x85nota\n- Otra' splitlines: 3 (esperado 2)
+'Mi\x0bnota' aceptado por crear_nota; listar_notas -> '- Mi\x0bnota\n- Otra' splitlines: 3 (esperado 2)
+'Mi\x0cnota' aceptado por crear_nota; listar_notas -> '- Mi\x0cnota\n- Otra' splitlines: 3 (esperado 2)
+'Mi\x1cnota' aceptado por crear_nota; listar_notas -> '- Mi\x1cnota\n- Otra' splitlines: 3 (esperado 2)

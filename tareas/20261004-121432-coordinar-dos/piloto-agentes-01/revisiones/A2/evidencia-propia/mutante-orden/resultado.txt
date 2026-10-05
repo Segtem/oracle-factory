@@ -1,0 +1,2 @@
+OK
+{"listado_comprobacion": [{"caso": "dos notas en orden", "codigo": 0}, {"caso": "el cuerpo no aparece", "codigo": 0}, {"caso": "sin notas", "codigo": 0}]}

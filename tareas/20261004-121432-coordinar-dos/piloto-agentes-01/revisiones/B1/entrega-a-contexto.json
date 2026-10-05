@@ -1,0 +1,379 @@
+{
+  "base": "d704844560fe22eedde97ac0411193d144c02a35",
+  "context_sha256": "9317c968a91c6b19425da1eac15449292f0a1f9f9c0170e04f3593fb79de0fbd",
+  "contexts": [
+    {
+      "file": "openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md",
+      "sha256": "3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0",
+      "text": "# Capability: creacion\n\n## ADDED Requirements\n\n### Requirement: crear nota valida\nThe system SHALL create a note from a valid title and a body, returning a dict with exactly the keys \"titulo\" and \"cuerpo\", where titulo is the given title stripped of surrounding whitespace and cuerpo is the given body unchanged (empty by default).\n\n#### Scenario: título y cuerpo\n- WHEN se crea una nota con título Mi nota y cuerpo Hola\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"}\n\n#### Scenario: cuerpo vacío\n- WHEN se crea una nota con título Mi nota y cuerpo vacío\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"}\n\n#### Scenario: título con espacios en los bordes\n- WHEN se crea una nota con título \"  Mi nota  \" y cuerpo \"  Hola  \"\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"}\n\n### Requirement: rechazar titulo invalido\nThe system SHALL refuse to create a note whose title is rejected by puede_guardar or contains a line break (\\n or \\r), raising ValueError and returning no note.\n\n#### Scenario: título vacío\n- WHEN se crea una nota con título vacío\n- THEN se lanza ValueError\n\n#### Scenario: título con espacios\n- WHEN se crea una nota con título formado solo por espacios\n- THEN se lanza ValueError\n\n#### Scenario: título con salto de línea\n- WHEN se crea una nota con título \"Mi\\nnota\"\n- THEN se lanza ValueError\n\n#### Scenario: título con retorno de carro\n- WHEN se crea una nota con título \"Mi\\rnota\"\n- THEN se lanza ValueError\n"
+    },
+    {
+      "file": "tareas/20261005-101725-crear-notas-con/cobertura-creacion-1d39ca3.txt",
+      "sha256": "262b73f4fac1a8d38e1d137bdec48911af7dffb1710b1891954bbadd8d7d14fa",
+      "text": "✓ creacion_cb8a4a12b0ffc6e4e.crear_nota_valida   cumple · creacion.validas_ejecutadas cumple, creacion.validas_resultados cumple\n✓ creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido   cumple · creacion.rechazos_ejecutados cumple, creacion.rechazos_resultados cumple\n? notas_c980a94ee0a8297b2.titulo_valido   sin juicio · notas.casos_ejecutados no aplicada, notas.resultados no aplicada\n\n3 requisitos: 2 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 1 sin juicio · 0 sin medir · 0 con medidas inexistentes\n"
+    },
+    {
+      "file": "tareas/20261005-101725-crear-notas-con/hechos-creacion-1d39ca3.json",
+      "sha256": "ab8fabca207e69a3a2cc5ddbf8548cc532ac5e9862dd51f808c9f936751b7af9",
+      "text": "{\n  \"creacion_comprobacion\": [\n    {\n      \"caso\": \"título y cuerpo\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"cuerpo vacío\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con espacios en los bordes\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título vacío\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con espacios\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con salto de línea\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con retorno de carro\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    }\n  ]\n}\n"
+    },
+    {
+      "file": "tareas/20261005-101725-crear-notas-con/pruebas-a2-1d39ca3.txt",
+      "sha256": "2b0c911287f7eb705eff5d6922b1e2a4287959348289d351f6d03e47a53d529c",
+      "text": "# commit observado: 1d39ca3f3c0b9a70c7d7f148d4c599368b0336ae\n# Python 3.13.15 (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python3)\n# comando: python3 -m unittest discover -s examples/notas -p 'test_*.py' -v\ntest_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok\ntest_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok\ntest_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok\ntest_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok\ntest_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n# código de salida: 0\n"
+    }
+  ],
+  "diff_sha256": "b5220c55fe010745574550d3ba831bc024ac0c4e7a8ffd20927795152efe3748",
+  "files": [
+    {
+      "base_text": "",
+      "file": "catalogos/creacion.rechazos_ejecutados.oracle",
+      "head_text": "medida creacion.rechazos_ejecutados:\n    de creacion_comprobacion c\n    donde c.requisito == \"rechazar_titulo_invalido\"\n    resumen contar(1)\n    umbral == 4 segun contrato porque \"la spec declara exactamente cuatro escenarios de título inválido\"\n    requiere creacion_comprobacion\n    ambito universal\n    alcance \"cuenta las observaciones de rechazo que emite sensor_creacion.py; la elección e identidad de los casos se revisan en el sensor\"\n",
+      "patch": "diff --git a/catalogos/creacion.rechazos_ejecutados.oracle b/catalogos/creacion.rechazos_ejecutados.oracle\nnew file mode 100644\nindex 0000000..8e7e4b1\n--- /dev/null\n+++ b/catalogos/creacion.rechazos_ejecutados.oracle\n@@ -0,0 +1,8 @@\n+medida creacion.rechazos_ejecutados:\n+    de creacion_comprobacion c\n+    donde c.requisito == \"rechazar_titulo_invalido\"\n+    resumen contar(1)\n+    umbral == 4 segun contrato porque \"la spec declara exactamente cuatro escenarios de título inválido\"\n+    requiere creacion_comprobacion\n+    ambito universal\n+    alcance \"cuenta las observaciones de rechazo que emite sensor_creacion.py; la elección e identidad de los casos se revisan en el sensor\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            8
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "catalogos/creacion.rechazos_resultados.oracle",
+      "head_text": "medida creacion.rechazos_resultados:\n    de creacion_comprobacion c\n    donde c.requisito == \"rechazar_titulo_invalido\" y c.codigo != 0\n    resumen contar(1)\n    umbral <= 0 segun contrato porque \"cada título inválido debe lanzar ValueError\"\n    requiere creacion_comprobacion\n    ambito universal\n    alcance \"ve si crear_nota lanzó ValueError en los cuatro escenarios del sensor; no ve otros caracteres de control ni otras excepciones\"\n",
+      "patch": "diff --git a/catalogos/creacion.rechazos_resultados.oracle b/catalogos/creacion.rechazos_resultados.oracle\nnew file mode 100644\nindex 0000000..7303056\n--- /dev/null\n+++ b/catalogos/creacion.rechazos_resultados.oracle\n@@ -0,0 +1,8 @@\n+medida creacion.rechazos_resultados:\n+    de creacion_comprobacion c\n+    donde c.requisito == \"rechazar_titulo_invalido\" y c.codigo != 0\n+    resumen contar(1)\n+    umbral <= 0 segun contrato porque \"cada título inválido debe lanzar ValueError\"\n+    requiere creacion_comprobacion\n+    ambito universal\n+    alcance \"ve si crear_nota lanzó ValueError en los cuatro escenarios del sensor; no ve otros caracteres de control ni otras excepciones\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            8
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "catalogos/creacion.validas_ejecutadas.oracle",
+      "head_text": "medida creacion.validas_ejecutadas:\n    de creacion_comprobacion c\n    donde c.requisito == \"crear_nota_valida\"\n    resumen contar(1)\n    umbral == 3 segun contrato porque \"la spec declara exactamente tres escenarios de creación válida\"\n    requiere creacion_comprobacion\n    ambito universal\n    alcance \"cuenta las observaciones de creación válida que emite sensor_creacion.py; la elección e identidad de los casos se revisan en el sensor\"\n",
+      "patch": "diff --git a/catalogos/creacion.validas_ejecutadas.oracle b/catalogos/creacion.validas_ejecutadas.oracle\nnew file mode 100644\nindex 0000000..72cefc5\n--- /dev/null\n+++ b/catalogos/creacion.validas_ejecutadas.oracle\n@@ -0,0 +1,8 @@\n+medida creacion.validas_ejecutadas:\n+    de creacion_comprobacion c\n+    donde c.requisito == \"crear_nota_valida\"\n+    resumen contar(1)\n+    umbral == 3 segun contrato porque \"la spec declara exactamente tres escenarios de creación válida\"\n+    requiere creacion_comprobacion\n+    ambito universal\n+    alcance \"cuenta las observaciones de creación válida que emite sensor_creacion.py; la elección e identidad de los casos se revisan en el sensor\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            8
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "catalogos/creacion.validas_resultados.oracle",
+      "head_text": "medida creacion.validas_resultados:\n    de creacion_comprobacion c\n    donde c.requisito == \"crear_nota_valida\" y c.codigo != 0\n    resumen contar(1)\n    umbral <= 0 segun contrato porque \"cada nota creada debe ser igual al dict esperado por la spec\"\n    requiere creacion_comprobacion\n    ambito universal\n    alcance \"compara por igualdad el dict devuelto con el esperado en los tres escenarios del sensor; no ve otros títulos ni cuerpos\"\n",
+      "patch": "diff --git a/catalogos/creacion.validas_resultados.oracle b/catalogos/creacion.validas_resultados.oracle\nnew file mode 100644\nindex 0000000..6529eed\n--- /dev/null\n+++ b/catalogos/creacion.validas_resultados.oracle\n@@ -0,0 +1,8 @@\n+medida creacion.validas_resultados:\n+    de creacion_comprobacion c\n+    donde c.requisito == \"crear_nota_valida\" y c.codigo != 0\n+    resumen contar(1)\n+    umbral <= 0 segun contrato porque \"cada nota creada debe ser igual al dict esperado por la spec\"\n+    requiere creacion_comprobacion\n+    ambito universal\n+    alcance \"compara por igualdad el dict devuelto con el esperado en los tres escenarios del sensor; no ve otros títulos ni cuerpos\"\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            8
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "\"\"\"Ejemplo mínimo: decidir si una nota se puede guardar.\"\"\"\n\ndef puede_guardar(titulo: str) -> bool:\n    \"\"\"Un título válido contiene al menos un carácter que no sea espacio.\"\"\"\n    return bool(titulo.strip())\n",
+      "file": "examples/notas/notas.py",
+      "head_text": "\"\"\"Ejemplo mínimo: decidir si una nota se puede guardar.\"\"\"\n\ndef puede_guardar(titulo: str) -> bool:\n    \"\"\"Un título válido contiene al menos un carácter que no sea espacio.\"\"\"\n    return bool(titulo.strip())\n\n\ndef crear_nota(titulo: str, cuerpo: str = \"\") -> dict:\n    \"\"\"Crea una nota «v1»: {\"titulo\": título recortado, \"cuerpo\": cuerpo tal cual}.\"\"\"\n    if not puede_guardar(titulo) or \"\\n\" in titulo or \"\\r\" in titulo:\n        raise ValueError(f\"título inválido: {titulo!r}\")\n    return {\"titulo\": titulo.strip(), \"cuerpo\": cuerpo}\n",
+      "patch": "diff --git a/examples/notas/notas.py b/examples/notas/notas.py\nindex 11ca950..a7b36fd 100644\n--- a/examples/notas/notas.py\n+++ b/examples/notas/notas.py\n@@ -3,3 +3,10 @@\n def puede_guardar(titulo: str) -> bool:\n     \"\"\"Un título válido contiene al menos un carácter que no sea espacio.\"\"\"\n     return bool(titulo.strip())\n+\n+\n+def crear_nota(titulo: str, cuerpo: str = \"\") -> dict:\n+    \"\"\"Crea una nota «v1»: {\"titulo\": título recortado, \"cuerpo\": cuerpo tal cual}.\"\"\"\n+    if not puede_guardar(titulo) or \"\\n\" in titulo or \"\\r\" in titulo:\n+        raise ValueError(f\"título inválido: {titulo!r}\")\n+    return {\"titulo\": titulo.strip(), \"cuerpo\": cuerpo}\n",
+      "ranges": {
+        "base": [
+          [
+            3,
+            5
+          ]
+        ],
+        "head": [
+          [
+            3,
+            12
+          ]
+        ]
+      },
+      "status": "M"
+    },
+    {
+      "base_text": "",
+      "file": "examples/notas/sensor_creacion.py",
+      "head_text": "\"\"\"Observa los siete escenarios de la spec «creacion» sobre crear_nota y guarda hechos para Oracle.\n\nEmite la relación propia `creacion_comprobacion` (no `comprobacion`, que es del ejemplo `notas`),\ncon una fila por escenario: caso, requisito (sufijo del id importado) y codigo (0 = como se esperaba).\n\"\"\"\nimport argparse\nimport json\nfrom pathlib import Path\nfrom notas import crear_nota\n\nVALIDOS = [\n    (\"título y cuerpo\", (\"Mi nota\", \"Hola\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"}),\n    (\"cuerpo vacío\", (\"Mi nota\", \"\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"}),\n    (\"título con espacios en los bordes\", (\"  Mi nota  \", \"  Hola  \"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"}),\n]\nINVALIDOS = [\n    (\"título vacío\", \"\"),\n    (\"título con espacios\", \"   \"),\n    (\"título con salto de línea\", \"Mi\\nnota\"),\n    (\"título con retorno de carro\", \"Mi\\rnota\"),\n]\n\n\ndef _rechaza(titulo):\n    try:\n        crear_nota(titulo, \"Hola\")\n    except ValueError:\n        return True\n    return False\n\n\ndef observar():\n    filas = [{\"caso\": nombre, \"requisito\": \"crear_nota_valida\", \"codigo\": int(crear_nota(*args) != esperado)}\n             for nombre, args, esperado in VALIDOS]\n    filas += [{\"caso\": nombre, \"requisito\": \"rechazar_titulo_invalido\", \"codigo\": int(not _rechaza(titulo))}\n              for nombre, titulo in INVALIDOS]\n    return {\"creacion_comprobacion\": filas}\n\n\nif __name__ == \"__main__\":\n    parser = argparse.ArgumentParser(description=__doc__)\n    parser.add_argument(\"--salida\", type=Path, required=True)\n    args = parser.parse_args()\n    hechos = observar()\n    args.salida.parent.mkdir(parents=True, exist_ok=True)\n    args.salida.write_text(json.dumps(hechos, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n    print(f\"Hechos de {len(hechos['creacion_comprobacion'])} casos escritos en {args.salida}\")\n",
+      "patch": "diff --git a/examples/notas/sensor_creacion.py b/examples/notas/sensor_creacion.py\nnew file mode 100644\nindex 0000000..4325ac0\n--- /dev/null\n+++ b/examples/notas/sensor_creacion.py\n@@ -0,0 +1,47 @@\n+\"\"\"Observa los siete escenarios de la spec «creacion» sobre crear_nota y guarda hechos para Oracle.\n+\n+Emite la relación propia `creacion_comprobacion` (no `comprobacion`, que es del ejemplo `notas`),\n+con una fila por escenario: caso, requisito (sufijo del id importado) y codigo (0 = como se esperaba).\n+\"\"\"\n+import argparse\n+import json\n+from pathlib import Path\n+from notas import crear_nota\n+\n+VALIDOS = [\n+    (\"título y cuerpo\", (\"Mi nota\", \"Hola\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"}),\n+    (\"cuerpo vacío\", (\"Mi nota\", \"\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"}),\n+    (\"título con espacios en los bordes\", (\"  Mi nota  \", \"  Hola  \"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"}),\n+]\n+INVALIDOS = [\n+    (\"título vacío\", \"\"),\n+    (\"título con espacios\", \"   \"),\n+    (\"título con salto de línea\", \"Mi\\nnota\"),\n+    (\"título con retorno de carro\", \"Mi\\rnota\"),\n+]\n+\n+\n+def _rechaza(titulo):\n+    try:\n+        crear_nota(titulo, \"Hola\")\n+    except ValueError:\n+        return True\n+    return False\n+\n+\n+def observar():\n+    filas = [{\"caso\": nombre, \"requisito\": \"crear_nota_valida\", \"codigo\": int(crear_nota(*args) != esperado)}\n+             for nombre, args, esperado in VALIDOS]\n+    filas += [{\"caso\": nombre, \"requisito\": \"rechazar_titulo_invalido\", \"codigo\": int(not _rechaza(titulo))}\n+              for nombre, titulo in INVALIDOS]\n+    return {\"creacion_comprobacion\": filas}\n+\n+\n+if __name__ == \"__main__\":\n+    parser = argparse.ArgumentParser(description=__doc__)\n+    parser.add_argument(\"--salida\", type=Path, required=True)\n+    args = parser.parse_args()\n+    hechos = observar()\n+    args.salida.parent.mkdir(parents=True, exist_ok=True)\n+    args.salida.write_text(json.dumps(hechos, ensure_ascii=False, indent=2) + \"\\n\", encoding=\"utf-8\")\n+    print(f\"Hechos de {len(hechos['creacion_comprobacion'])} casos escritos en {args.salida}\")\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            47
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "examples/notas/test_crear_notas.py",
+      "head_text": "import unittest\nfrom notas import crear_nota\n\n\nclass CrearNotas(unittest.TestCase):\n    def test_titulo_y_cuerpo(self):\n        self.assertEqual(crear_nota(\"Mi nota\", \"Hola\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"})\n\n    def test_cuerpo_vacio(self):\n        self.assertEqual(crear_nota(\"Mi nota\", \"\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"})\n        self.assertEqual(crear_nota(\"Mi nota\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"})\n\n    def test_recorta_titulo_y_conserva_cuerpo(self):\n        self.assertEqual(crear_nota(\"  Mi nota  \", \"  Hola  \"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"})\n\n    def test_rechaza_titulos_invalidos(self):\n        for titulo in [\"\", \"   \", \"Mi\\nnota\", \"Mi\\rnota\"]:\n            with self.subTest(titulo=titulo), self.assertRaises(ValueError):\n                crear_nota(titulo, \"Hola\")\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+      "patch": "diff --git a/examples/notas/test_crear_notas.py b/examples/notas/test_crear_notas.py\nnew file mode 100644\nindex 0000000..e1a540a\n--- /dev/null\n+++ b/examples/notas/test_crear_notas.py\n@@ -0,0 +1,23 @@\n+import unittest\n+from notas import crear_nota\n+\n+\n+class CrearNotas(unittest.TestCase):\n+    def test_titulo_y_cuerpo(self):\n+        self.assertEqual(crear_nota(\"Mi nota\", \"Hola\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"})\n+\n+    def test_cuerpo_vacio(self):\n+        self.assertEqual(crear_nota(\"Mi nota\", \"\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"})\n+        self.assertEqual(crear_nota(\"Mi nota\"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"})\n+\n+    def test_recorta_titulo_y_conserva_cuerpo(self):\n+        self.assertEqual(crear_nota(\"  Mi nota  \", \"  Hola  \"), {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"})\n+\n+    def test_rechaza_titulos_invalidos(self):\n+        for titulo in [\"\", \"   \", \"Mi\\nnota\", \"Mi\\rnota\"]:\n+            with self.subTest(titulo=titulo), self.assertRaises(ValueError):\n+                crear_nota(titulo, \"Hola\")\n+\n+\n+if __name__ == \"__main__\":\n+    unittest.main()\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            23
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101725-crear-notas-con/design.md",
+      "head_text": "# Design\n\nSin decisión técnica adicional: `crear_nota` llama a `puede_guardar` y arma un `dict`. El contrato de la nota está en proposal.md («Interfaz compartida (contrato nota v1)»).\n",
+      "patch": "diff --git a/openspec/changes/20261005-101725-crear-notas-con/design.md b/openspec/changes/20261005-101725-crear-notas-con/design.md\nnew file mode 100644\nindex 0000000..9b37d10\n--- /dev/null\n+++ b/openspec/changes/20261005-101725-crear-notas-con/design.md\n@@ -0,0 +1,3 @@\n+# Design\n+\n+Sin decisión técnica adicional: `crear_nota` llama a `puede_guardar` y arma un `dict`. El contrato de la nota está en proposal.md («Interfaz compartida (contrato nota v1)»).\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101725-crear-notas-con/factory.json",
+      "head_text": "{\n  \"id\": \"20261005-101725-crear-notas-con\",\n  \"titulo\": \"Crear notas con título y cuerpo\",\n  \"capacidad\": \"creacion\",\n  \"fase\": \"requisitos_importados\",\n  \"spec\": \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\",\n  \"spec_sha256\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\",\n  \"spec_aprobada\": {\n    \"por\": \"workstation\",\n    \"cuando\": \"2026-10-05T10:20:05+00:00\",\n    \"documentos\": {\n      \"openspec/changes/20261005-101725-crear-notas-con/proposal.md\": \"8942767f843b09fcb8b112c6c5003b7a29b6cc46a355cd53c3dd336bfdff5528\",\n      \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\"\n    }\n  },\n  \"requisitos\": [\n    \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n    \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\"\n  ],\n  \"revision\": null,\n  \"oracle\": null,\n  \"eventos\": [\n    {\n      \"accion\": \"cambio_creado\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:17:25+00:00\",\n      \"capacidad\": \"creacion\"\n    },\n    {\n      \"accion\": \"spec_aprobada\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:20:05+00:00\",\n      \"documentos\": {\n        \"openspec/changes/20261005-101725-crear-notas-con/proposal.md\": \"8942767f843b09fcb8b112c6c5003b7a29b6cc46a355cd53c3dd336bfdff5528\",\n        \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\"\n      }\n    },\n    {\n      \"accion\": \"requisitos_importados\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:20:08+00:00\",\n      \"ids\": [\n        \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n        \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\"\n      ]\n    },\n    {\n      \"accion\": \"medidas_elegidas\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:24:03+00:00\",\n      \"requisito\": \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n      \"medidas\": [\n        \"creacion.validas_ejecutadas\",\n        \"creacion.validas_resultados\"\n      ],\n      \"sin_medir\": \"\"\n    },\n    {\n      \"accion\": \"medidas_elegidas\",\n      \"por\": \"workstation\",\n      \"cuando\": \"2026-10-05T10:24:03+00:00\",\n      \"requisito\": \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\",\n      \"medidas\": [\n        \"creacion.rechazos_ejecutados\",\n        \"creacion.rechazos_resultados\"\n      ],\n      \"sin_medir\": \"\"\n    }\n  ]\n}\n",
+      "patch": "diff --git a/openspec/changes/20261005-101725-crear-notas-con/factory.json b/openspec/changes/20261005-101725-crear-notas-con/factory.json\nnew file mode 100644\nindex 0000000..7af5d91\n--- /dev/null\n+++ b/openspec/changes/20261005-101725-crear-notas-con/factory.json\n@@ -0,0 +1,70 @@\n+{\n+  \"id\": \"20261005-101725-crear-notas-con\",\n+  \"titulo\": \"Crear notas con título y cuerpo\",\n+  \"capacidad\": \"creacion\",\n+  \"fase\": \"requisitos_importados\",\n+  \"spec\": \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\",\n+  \"spec_sha256\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\",\n+  \"spec_aprobada\": {\n+    \"por\": \"workstation\",\n+    \"cuando\": \"2026-10-05T10:20:05+00:00\",\n+    \"documentos\": {\n+      \"openspec/changes/20261005-101725-crear-notas-con/proposal.md\": \"8942767f843b09fcb8b112c6c5003b7a29b6cc46a355cd53c3dd336bfdff5528\",\n+      \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\"\n+    }\n+  },\n+  \"requisitos\": [\n+    \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n+    \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\"\n+  ],\n+  \"revision\": null,\n+  \"oracle\": null,\n+  \"eventos\": [\n+    {\n+      \"accion\": \"cambio_creado\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:17:25+00:00\",\n+      \"capacidad\": \"creacion\"\n+    },\n+    {\n+      \"accion\": \"spec_aprobada\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:20:05+00:00\",\n+      \"documentos\": {\n+        \"openspec/changes/20261005-101725-crear-notas-con/proposal.md\": \"8942767f843b09fcb8b112c6c5003b7a29b6cc46a355cd53c3dd336bfdff5528\",\n+        \"openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\": \"3156eecf986beaac45c1e7e4ef059060c3045f9ea111d952fbf4c959d67d12c0\"\n+      }\n+    },\n+    {\n+      \"accion\": \"requisitos_importados\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:20:08+00:00\",\n+      \"ids\": [\n+        \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n+        \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\"\n+      ]\n+    },\n+    {\n+      \"accion\": \"medidas_elegidas\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:24:03+00:00\",\n+      \"requisito\": \"creacion_cb8a4a12b0ffc6e4e.crear_nota_valida\",\n+      \"medidas\": [\n+        \"creacion.validas_ejecutadas\",\n+        \"creacion.validas_resultados\"\n+      ],\n+      \"sin_medir\": \"\"\n+    },\n+    {\n+      \"accion\": \"medidas_elegidas\",\n+      \"por\": \"workstation\",\n+      \"cuando\": \"2026-10-05T10:24:03+00:00\",\n+      \"requisito\": \"creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido\",\n+      \"medidas\": [\n+        \"creacion.rechazos_ejecutados\",\n+        \"creacion.rechazos_resultados\"\n+      ],\n+      \"sin_medir\": \"\"\n+    }\n+  ]\n+}\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            70
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101725-crear-notas-con/proposal.md",
+      "head_text": "# Crear notas con título y cuerpo\n\n## Why\nHoy el producto sólo sabe decidir si un título se puede guardar (`puede_guardar`), pero no puede\ncrear una nota. La persona A quiere crear notas con título y cuerpo, y la persona B necesita una\nrepresentación de nota estable para mostrar un listado de texto.\n\n## What changes\n- Nueva función `crear_nota(titulo: str, cuerpo: str = \"\") -> dict` en `examples/notas/notas.py`.\n- Devuelve un `dict` con exactamente dos claves, `\"titulo\"` y `\"cuerpo\"`, ambas `str`. El título se\n  guarda recortado con `strip()`; el cuerpo, tal cual se recibió.\n- Rechaza un título inválido reutilizando `puede_guardar`: si `puede_guardar(titulo)` es falso, o si\n  el título contiene `\"\\n\"` o `\"\\r\"`, lanza `ValueError` y no devuelve nota.\n- El cuerpo es opcional (`\"\"` por defecto) y puede estar vacío.\n\n## Interfaz compartida (contrato nota v1)\nUna nota es un `dict` `{\"titulo\": str, \"cuerpo\": str}`, sin otras claves. `titulo` está recortado\ncon `strip()`, no está vacío y no contiene `\"\\n\"` ni `\"\\r\"`; `cuerpo` es el recibido, sin cambios. La persona B (frente «Listar notas») consume este contrato; un\ncambio de nombre, tipo o claves exige un nuevo acuerdo entre A y B antes de editar.\n\n## Out of scope\nPersistencia, identificadores, fechas, edición o borrado de notas, validación del cuerpo, y el\nlistado o la pantalla (frente de la persona B). No se modifica `puede_guardar`.\n\n## Human decisions\nDecididas por el coordinador del piloto el 2026-10-05, en representación de las personas A y B\n(decisión del coordinador, no de las personas mismas); B ya aceptó el contrato:\n- Representación: `dict` (no dataclass) con exactamente `{\"titulo\": str, \"cuerpo\": str}`.\n- Título inválido (no cumple `puede_guardar`, o contiene `\"\\n\"` o `\"\\r\"`): `ValueError`.\n- El título se guarda recortado con `strip()`; el cuerpo, tal cual. Motivo (señalado por B): un\n  salto de línea en el título rompe el listado y los espacios en los bordes se ven en él.\n- Cuerpo opcional, `\"\"` por defecto.\n",
+      "patch": "diff --git a/openspec/changes/20261005-101725-crear-notas-con/proposal.md b/openspec/changes/20261005-101725-crear-notas-con/proposal.md\nnew file mode 100644\nindex 0000000..362b35d\n--- /dev/null\n+++ b/openspec/changes/20261005-101725-crear-notas-con/proposal.md\n@@ -0,0 +1,32 @@\n+# Crear notas con título y cuerpo\n+\n+## Why\n+Hoy el producto sólo sabe decidir si un título se puede guardar (`puede_guardar`), pero no puede\n+crear una nota. La persona A quiere crear notas con título y cuerpo, y la persona B necesita una\n+representación de nota estable para mostrar un listado de texto.\n+\n+## What changes\n+- Nueva función `crear_nota(titulo: str, cuerpo: str = \"\") -> dict` en `examples/notas/notas.py`.\n+- Devuelve un `dict` con exactamente dos claves, `\"titulo\"` y `\"cuerpo\"`, ambas `str`. El título se\n+  guarda recortado con `strip()`; el cuerpo, tal cual se recibió.\n+- Rechaza un título inválido reutilizando `puede_guardar`: si `puede_guardar(titulo)` es falso, o si\n+  el título contiene `\"\\n\"` o `\"\\r\"`, lanza `ValueError` y no devuelve nota.\n+- El cuerpo es opcional (`\"\"` por defecto) y puede estar vacío.\n+\n+## Interfaz compartida (contrato nota v1)\n+Una nota es un `dict` `{\"titulo\": str, \"cuerpo\": str}`, sin otras claves. `titulo` está recortado\n+con `strip()`, no está vacío y no contiene `\"\\n\"` ni `\"\\r\"`; `cuerpo` es el recibido, sin cambios. La persona B (frente «Listar notas») consume este contrato; un\n+cambio de nombre, tipo o claves exige un nuevo acuerdo entre A y B antes de editar.\n+\n+## Out of scope\n+Persistencia, identificadores, fechas, edición o borrado de notas, validación del cuerpo, y el\n+listado o la pantalla (frente de la persona B). No se modifica `puede_guardar`.\n+\n+## Human decisions\n+Decididas por el coordinador del piloto el 2026-10-05, en representación de las personas A y B\n+(decisión del coordinador, no de las personas mismas); B ya aceptó el contrato:\n+- Representación: `dict` (no dataclass) con exactamente `{\"titulo\": str, \"cuerpo\": str}`.\n+- Título inválido (no cumple `puede_guardar`, o contiene `\"\\n\"` o `\"\\r\"`): `ValueError`.\n+- El título se guarda recortado con `strip()`; el cuerpo, tal cual. Motivo (señalado por B): un\n+  salto de línea en el título rompe el listado y los espacios en los bordes se ven en él.\n+- Cuerpo opcional, `\"\"` por defecto.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            32
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md",
+      "head_text": "# Capability: creacion\n\n## ADDED Requirements\n\n### Requirement: crear nota valida\nThe system SHALL create a note from a valid title and a body, returning a dict with exactly the keys \"titulo\" and \"cuerpo\", where titulo is the given title stripped of surrounding whitespace and cuerpo is the given body unchanged (empty by default).\n\n#### Scenario: título y cuerpo\n- WHEN se crea una nota con título Mi nota y cuerpo Hola\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"}\n\n#### Scenario: cuerpo vacío\n- WHEN se crea una nota con título Mi nota y cuerpo vacío\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"}\n\n#### Scenario: título con espacios en los bordes\n- WHEN se crea una nota con título \"  Mi nota  \" y cuerpo \"  Hola  \"\n- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"}\n\n### Requirement: rechazar titulo invalido\nThe system SHALL refuse to create a note whose title is rejected by puede_guardar or contains a line break (\\n or \\r), raising ValueError and returning no note.\n\n#### Scenario: título vacío\n- WHEN se crea una nota con título vacío\n- THEN se lanza ValueError\n\n#### Scenario: título con espacios\n- WHEN se crea una nota con título formado solo por espacios\n- THEN se lanza ValueError\n\n#### Scenario: título con salto de línea\n- WHEN se crea una nota con título \"Mi\\nnota\"\n- THEN se lanza ValueError\n\n#### Scenario: título con retorno de carro\n- WHEN se crea una nota con título \"Mi\\rnota\"\n- THEN se lanza ValueError\n",
+      "patch": "diff --git a/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md b/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\nnew file mode 100644\nindex 0000000..ae52704\n--- /dev/null\n+++ b/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md\n@@ -0,0 +1,37 @@\n+# Capability: creacion\n+\n+## ADDED Requirements\n+\n+### Requirement: crear nota valida\n+The system SHALL create a note from a valid title and a body, returning a dict with exactly the keys \"titulo\" and \"cuerpo\", where titulo is the given title stripped of surrounding whitespace and cuerpo is the given body unchanged (empty by default).\n+\n+#### Scenario: título y cuerpo\n+- WHEN se crea una nota con título Mi nota y cuerpo Hola\n+- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"Hola\"}\n+\n+#### Scenario: cuerpo vacío\n+- WHEN se crea una nota con título Mi nota y cuerpo vacío\n+- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"\"}\n+\n+#### Scenario: título con espacios en los bordes\n+- WHEN se crea una nota con título \"  Mi nota  \" y cuerpo \"  Hola  \"\n+- THEN se obtiene {\"titulo\": \"Mi nota\", \"cuerpo\": \"  Hola  \"}\n+\n+### Requirement: rechazar titulo invalido\n+The system SHALL refuse to create a note whose title is rejected by puede_guardar or contains a line break (\\n or \\r), raising ValueError and returning no note.\n+\n+#### Scenario: título vacío\n+- WHEN se crea una nota con título vacío\n+- THEN se lanza ValueError\n+\n+#### Scenario: título con espacios\n+- WHEN se crea una nota con título formado solo por espacios\n+- THEN se lanza ValueError\n+\n+#### Scenario: título con salto de línea\n+- WHEN se crea una nota con título \"Mi\\nnota\"\n+- THEN se lanza ValueError\n+\n+#### Scenario: título con retorno de carro\n+- WHEN se crea una nota con título \"Mi\\rnota\"\n+- THEN se lanza ValueError\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            37
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "openspec/changes/20261005-101725-crear-notas-con/tasks.md",
+      "head_text": "# Tasks\n\n- [ ] Persona: revisar y aceptar proposal.md + spec.md.\n- [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.\n- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.\n- [ ] Agente: implementar y correr las pruebas del producto.\n- [ ] Revisor: revisar el diff; registrar y resolver hallazgos.\n- [ ] Agente: correr Oracle sobre hechos observados.\n- [ ] Persona: revisar el informe y decidir si se cierra.\n",
+      "patch": "diff --git a/openspec/changes/20261005-101725-crear-notas-con/tasks.md b/openspec/changes/20261005-101725-crear-notas-con/tasks.md\nnew file mode 100644\nindex 0000000..f8d7ca6\n--- /dev/null\n+++ b/openspec/changes/20261005-101725-crear-notas-con/tasks.md\n@@ -0,0 +1,9 @@\n+# Tasks\n+\n+- [ ] Persona: revisar y aceptar proposal.md + spec.md.\n+- [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.\n+- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.\n+- [ ] Agente: implementar y correr las pruebas del producto.\n+- [ ] Revisor: revisar el diff; registrar y resolver hallazgos.\n+- [ ] Agente: correr Oracle sobre hechos observados.\n+- [ ] Persona: revisar el informe y decidir si se cierra.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            9
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito",
+      "head_text": "requisito creacion_cb8a4a12b0ffc6e4e.crear_nota_valida:\n    texto \"The system SHALL create a note from a valid title and a body, returning a dict with exactly the keys \\\"titulo\\\" and \\\"cuerpo\\\", where titulo is the given title stripped of surrounding whitespace and cuerpo is the given body unchanged (empty by default).\"\n    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md#crear nota valida\"\n    medido_por creacion.validas_ejecutadas, creacion.validas_resultados\n",
+      "patch": "diff --git a/requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito b/requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito\nnew file mode 100644\nindex 0000000..edc1aac\n--- /dev/null\n+++ b/requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito\n@@ -0,0 +1,4 @@\n+requisito creacion_cb8a4a12b0ffc6e4e.crear_nota_valida:\n+    texto \"The system SHALL create a note from a valid title and a body, returning a dict with exactly the keys \\\"titulo\\\" and \\\"cuerpo\\\", where titulo is the given title stripped of surrounding whitespace and cuerpo is the given body unchanged (empty by default).\"\n+    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md#crear nota valida\"\n+    medido_por creacion.validas_ejecutadas, creacion.validas_resultados\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito",
+      "head_text": "requisito creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido:\n    texto \"The system SHALL refuse to create a note whose title is rejected by puede_guardar or contains a line break (\\\\n or \\\\r), raising ValueError and returning no note.\"\n    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md#rechazar titulo invalido\"\n    medido_por creacion.rechazos_ejecutados, creacion.rechazos_resultados\n",
+      "patch": "diff --git a/requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito b/requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito\nnew file mode 100644\nindex 0000000..31fdb9a\n--- /dev/null\n+++ b/requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito\n@@ -0,0 +1,4 @@\n+requisito creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido:\n+    texto \"The system SHALL refuse to create a note whose title is rejected by puede_guardar or contains a line break (\\\\n or \\\\r), raising ValueError and returning no note.\"\n+    fuente \"/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md#rechazar titulo invalido\"\n+    medido_por creacion.rechazos_ejecutados, creacion.rechazos_resultados\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            4
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/TAREA.md",
+      "head_text": "# Crear notas con título y cuerpo\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-05 10:17:25 UTC)\n\nOpenSpec: openspec/changes/20261005-101725-crear-notas-con. Estado de factory: espera aprobación humana de proposal.md y spec.md.\n\n### Nota (2026-10-05 10:18:06 UTC)\n\nReparto propuesto (confirmación pendiente); ver reparto.md\n\n### Nota (2026-10-05 10:19:58 UTC)\n\nReparto confirmado por el coordinador (en representación de A y B) el 2026-10-05; contrato nota v1 ajustado (título con strip, sin \\n/\\r). Ver reparto.md\n\n### Nota (2026-10-05 10:20:05 UTC)\n\nPersona aprobó propuesta y spec openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md; se reiniciaron las validaciones dependientes.\n\n### Nota (2026-10-05 10:20:08 UTC)\n\nRequisitos importados: creacion_cb8a4a12b0ffc6e4e.crear_nota_valida, creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido. Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.\n\n### Nota (2026-10-05 10:20:50 UTC)\n\nRelevo A1 -> A2 ofrecido; recepción pendiente. Ver relevo-a1-a2.md\n\n### Nota (2026-10-05 10:22:46 UTC)\n\nRecepción del relevo A1 -> A2 confirmada por el coordinador en representación de A (2026-10-05, canal del piloto) sobre 09363acfe5e225b75df60e1c2cb8118168705592. Escritor activo: Agente A2. Ver relevo-a1-a2.md\n\n### Nota (2026-10-05 10:24:03 UTC)\n\nMedidas de creacion_cb8a4a12b0ffc6e4e.crear_nota_valida: creacion.validas_ejecutadas, creacion.validas_resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n\n### Nota (2026-10-05 10:24:03 UTC)\n\nMedidas de creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido: creacion.rechazos_ejecutados, creacion.rechazos_resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n\n### Nota (2026-10-05 10:24:27 UTC)\n\nEntrega A2 sobre producto 1d39ca3f3c0b9a70c7d7f148d4c599368b0336ae: 7 pruebas OK (Python 3.13.15); sensor_creacion.py emitió 7 filas en la relación propia creacion_comprobacion; oracle cobertura --con: los 2 requisitos creacion cumplen (notas.titulo_valido sin juicio: esos hechos no traen comprobacion). No se ejecutó revision, juzgar ni cerrar. Artefactos (SHA-256): pruebas-a2-1d39ca3.txt 2b0c911287f7eb705eff5d6922b1e2a4287959348289d351f6d03e47a53d529c; hechos-creacion-1d39ca3.json ab8fabca207e69a3a2cc5ddbf8548cc532ac5e9862dd51f808c9f936751b7af9; cobertura-creacion-1d39ca3.txt 262b73f4fac1a8d38e1d137bdec48911af7dffb1710b1891954bbadd8d7d14fa;  Pendiente humano: pertinencia de las medidas creacion.* (se quitó sin_medir) y revisión de B.\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/TAREA.md b/tareas/20261005-101725-crear-notas-con/TAREA.md\nnew file mode 100644\nindex 0000000..80f26a8\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/TAREA.md\n@@ -0,0 +1,45 @@\n+# Crear notas con título y cuerpo\n+\n+- ESTADO: ABIERTA\n+- PRIORIDAD: 50\n+- ETIQUETAS: \n+\n+### Nota (2026-10-05 10:17:25 UTC)\n+\n+OpenSpec: openspec/changes/20261005-101725-crear-notas-con. Estado de factory: espera aprobación humana de proposal.md y spec.md.\n+\n+### Nota (2026-10-05 10:18:06 UTC)\n+\n+Reparto propuesto (confirmación pendiente); ver reparto.md\n+\n+### Nota (2026-10-05 10:19:58 UTC)\n+\n+Reparto confirmado por el coordinador (en representación de A y B) el 2026-10-05; contrato nota v1 ajustado (título con strip, sin \\n/\\r). Ver reparto.md\n+\n+### Nota (2026-10-05 10:20:05 UTC)\n+\n+Persona aprobó propuesta y spec openspec/changes/20261005-101725-crear-notas-con/specs/creacion/spec.md; se reiniciaron las validaciones dependientes.\n+\n+### Nota (2026-10-05 10:20:08 UTC)\n+\n+Requisitos importados: creacion_cb8a4a12b0ffc6e4e.crear_nota_valida, creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido. Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.\n+\n+### Nota (2026-10-05 10:20:50 UTC)\n+\n+Relevo A1 -> A2 ofrecido; recepción pendiente. Ver relevo-a1-a2.md\n+\n+### Nota (2026-10-05 10:22:46 UTC)\n+\n+Recepción del relevo A1 -> A2 confirmada por el coordinador en representación de A (2026-10-05, canal del piloto) sobre 09363acfe5e225b75df60e1c2cb8118168705592. Escritor activo: Agente A2. Ver relevo-a1-a2.md\n+\n+### Nota (2026-10-05 10:24:03 UTC)\n+\n+Medidas de creacion_cb8a4a12b0ffc6e4e.crear_nota_valida: creacion.validas_ejecutadas, creacion.validas_resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n+\n+### Nota (2026-10-05 10:24:03 UTC)\n+\n+Medidas de creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido: creacion.rechazos_ejecutados, creacion.rechazos_resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.\n+\n+### Nota (2026-10-05 10:24:27 UTC)\n+\n+Entrega A2 sobre producto 1d39ca3f3c0b9a70c7d7f148d4c599368b0336ae: 7 pruebas OK (Python 3.13.15); sensor_creacion.py emitió 7 filas en la relación propia creacion_comprobacion; oracle cobertura --con: los 2 requisitos creacion cumplen (notas.titulo_valido sin juicio: esos hechos no traen comprobacion). No se ejecutó revision, juzgar ni cerrar. Artefactos (SHA-256): pruebas-a2-1d39ca3.txt 2b0c911287f7eb705eff5d6922b1e2a4287959348289d351f6d03e47a53d529c; hechos-creacion-1d39ca3.json ab8fabca207e69a3a2cc5ddbf8548cc532ac5e9862dd51f808c9f936751b7af9; cobertura-creacion-1d39ca3.txt 262b73f4fac1a8d38e1d137bdec48911af7dffb1710b1891954bbadd8d7d14fa;  Pendiente humano: pertinencia de las medidas creacion.* (se quitó sin_medir) y revisión de B.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            45
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/cobertura-creacion-1d39ca3.txt",
+      "head_text": "✓ creacion_cb8a4a12b0ffc6e4e.crear_nota_valida   cumple · creacion.validas_ejecutadas cumple, creacion.validas_resultados cumple\n✓ creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido   cumple · creacion.rechazos_ejecutados cumple, creacion.rechazos_resultados cumple\n? notas_c980a94ee0a8297b2.titulo_valido   sin juicio · notas.casos_ejecutados no aplicada, notas.resultados no aplicada\n\n3 requisitos: 2 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 1 sin juicio · 0 sin medir · 0 con medidas inexistentes\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/cobertura-creacion-1d39ca3.txt b/tareas/20261005-101725-crear-notas-con/cobertura-creacion-1d39ca3.txt\nnew file mode 100644\nindex 0000000..32b9665\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/cobertura-creacion-1d39ca3.txt\n@@ -0,0 +1,5 @@\n+✓ creacion_cb8a4a12b0ffc6e4e.crear_nota_valida   cumple · creacion.validas_ejecutadas cumple, creacion.validas_resultados cumple\n+✓ creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido   cumple · creacion.rechazos_ejecutados cumple, creacion.rechazos_resultados cumple\n+? notas_c980a94ee0a8297b2.titulo_valido   sin juicio · notas.casos_ejecutados no aplicada, notas.resultados no aplicada\n+\n+3 requisitos: 2 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 1 sin juicio · 0 sin medir · 0 con medidas inexistentes\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/hechos-creacion-1d39ca3.json",
+      "head_text": "{\n  \"creacion_comprobacion\": [\n    {\n      \"caso\": \"título y cuerpo\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"cuerpo vacío\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con espacios en los bordes\",\n      \"requisito\": \"crear_nota_valida\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título vacío\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con espacios\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con salto de línea\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    },\n    {\n      \"caso\": \"título con retorno de carro\",\n      \"requisito\": \"rechazar_titulo_invalido\",\n      \"codigo\": 0\n    }\n  ]\n}\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/hechos-creacion-1d39ca3.json b/tareas/20261005-101725-crear-notas-con/hechos-creacion-1d39ca3.json\nnew file mode 100644\nindex 0000000..57842f7\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/hechos-creacion-1d39ca3.json\n@@ -0,0 +1,39 @@\n+{\n+  \"creacion_comprobacion\": [\n+    {\n+      \"caso\": \"título y cuerpo\",\n+      \"requisito\": \"crear_nota_valida\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"cuerpo vacío\",\n+      \"requisito\": \"crear_nota_valida\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"título con espacios en los bordes\",\n+      \"requisito\": \"crear_nota_valida\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"título vacío\",\n+      \"requisito\": \"rechazar_titulo_invalido\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"título con espacios\",\n+      \"requisito\": \"rechazar_titulo_invalido\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"título con salto de línea\",\n+      \"requisito\": \"rechazar_titulo_invalido\",\n+      \"codigo\": 0\n+    },\n+    {\n+      \"caso\": \"título con retorno de carro\",\n+      \"requisito\": \"rechazar_titulo_invalido\",\n+      \"codigo\": 0\n+    }\n+  ]\n+}\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            39
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt",
+      "head_text": "test_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok\ntest_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok\ntest_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok\ntest_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok\ntest_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt b/tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt\nnew file mode 100644\nindex 0000000..00d2815\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt\n@@ -0,0 +1,12 @@\n+test_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok\n+test_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok\n+test_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok\n+test_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok\n+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\n+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\n+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n+\n+----------------------------------------------------------------------\n+Ran 7 tests in 0.000s\n+\n+OK\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            12
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/pruebas-a2-1d39ca3.txt",
+      "head_text": "# commit observado: 1d39ca3f3c0b9a70c7d7f148d4c599368b0336ae\n# Python 3.13.15 (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python3)\n# comando: python3 -m unittest discover -s examples/notas -p 'test_*.py' -v\ntest_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok\ntest_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok\ntest_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok\ntest_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok\ntest_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n# código de salida: 0\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/pruebas-a2-1d39ca3.txt b/tareas/20261005-101725-crear-notas-con/pruebas-a2-1d39ca3.txt\nnew file mode 100644\nindex 0000000..b761bc3\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/pruebas-a2-1d39ca3.txt\n@@ -0,0 +1,16 @@\n+# commit observado: 1d39ca3f3c0b9a70c7d7f148d4c599368b0336ae\n+# Python 3.13.15 (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin/python3)\n+# comando: python3 -m unittest discover -s examples/notas -p 'test_*.py' -v\n+test_cuerpo_vacio (test_crear_notas.CrearNotas.test_cuerpo_vacio) ... ok\n+test_rechaza_titulos_invalidos (test_crear_notas.CrearNotas.test_rechaza_titulos_invalidos) ... ok\n+test_recorta_titulo_y_conserva_cuerpo (test_crear_notas.CrearNotas.test_recorta_titulo_y_conserva_cuerpo) ... ok\n+test_titulo_y_cuerpo (test_crear_notas.CrearNotas.test_titulo_y_cuerpo) ... ok\n+test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\n+test_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\n+test_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n+\n+----------------------------------------------------------------------\n+Ran 7 tests in 0.000s\n+\n+OK\n+# código de salida: 0\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            16
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/relevo-a1-a2.md",
+      "head_text": "# Relevo de trabajo\n\n- Tarea/cambio: 20261005-101725-crear-notas-con («Crear notas con título y cuerpo»), capacidad `creacion`.\n- Emisor / sesión: Agente A1, sesión A1 (persona responsable: Persona A).\n- Receptor / sesión: sesión A2 (agente de la Persona A, sin contexto previo).\n- Rama y checkout: rama `trabajo/persona-a` (también en `origin/trabajo/persona-a`); checkout de A1:\n  /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a\n- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n- HEAD de entrega completo: 8b677495cb78c0a6deba6963cc1d2623a4ccdd32 (producto: spec aprobada, requisitos importados,\n  `crear_nota` y pruebas). El commit que agrega este relevo y el log de pruebas es hijo directo de ése y sólo toca\n  `tareas/20261005-101725-crear-notas-con/`; su hash lo informa A1 al coordinador (un archivo no puede contener el hash\n  de su propio commit).\n- Alcance terminado:\n  - proposal.md y spec.md con el contrato «nota v1» ajustado por el coordinador; `aprobar-spec` hecho con la frase\n    que pasó el coordinador (Factory: «Aprobación spec: sí»).\n  - `importar` hecho: requisitos `creacion_cb8a4a12b0ffc6e4e.crear_nota_valida` y\n    `creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido`, ambos sin medida todavía. Fase Factory: `requisitos_importados`.\n  - `crear_nota(titulo, cuerpo=\"\") -> dict` en examples/notas/notas.py; pruebas en examples/notas/test_crear_notas.py.\n- Archivos pendientes (incluido índice; o ninguno): ninguno sin commit; índice vacío. Por crear (A2):\n  examples/notas/sensor_creacion.py y catálogos con prefijo `creacion.*` (en `catalogos/`, junto a los `notas.*`).\n- Pruebas (comandos, resultado y límites): `cd examples/notas && python3 -m unittest -v test_crear_notas test_notas`\n  con Python 3.13.15 sobre 8b677495cb78c0a6deba6963cc1d2623a4ccdd32: 7 pruebas OK (4 nuevas + 3 previas). Límite: son\n  pruebas unitarias; no hay sensor, hechos ni veredicto Oracle todavía.\n- Evidencia (ruta y SHA-256 por artefacto):\n  - tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt — 3e68f5c08866d5adc607abde800213ae04f225441b20ae83b0cf851e80d936ba\n  - examples/notas/notas.py — aa5b4d29347eb3777d5245c38fd53ac68b3486f1f18aee075953c8df12772de7\n  - examples/notas/test_crear_notas.py — e64e4a3ec0a0b808164d061f89b6695dd4021ab8cee0d8edbae049b37dcce7b1\n  - requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito — 21e31170508c2cfa21eefc253daa88cf4ca2b53d11d733303cee59c1d65a3ac0\n  - requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito — f51c223509a3df5c03a07c9888b4f4b8eab453a5b7506a658b875eb90b02481a\n- Bloqueos y procesos por comprobar: ninguno. A1 no corrió `medir`; no hay locks en el checkout ni procesos de A1 vivos.\n  Herramientas: anteponer /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin al PATH.\n- Decisiones humanas pendientes:\n  - Pertinencia de las medidas que A2 proponga para cada requisito (y cualquier `--sin-medir`).\n  - Revisión de la entrega por la Persona B (Clue) y decisión sobre hallazgos; integración y cierre por el coordinador.\n- Próxima acción (A2, tras confirmar recepción): leer reparto.md (alcance y archivos prohibidos: sensor.py,\n  test_notas.py, oracle.json y catálogos `notas.*` no se tocan), crear sensor_creacion.py (patrón de sensor.py) y\n  catálogos `creacion.*`, `oracle-factory --proyecto <checkout> medir 20261005-101725-crear-notas-con --listar`,\n  asociar medidas, generar hechos, juzgar y preparar la entrega para revisión de B.\n- Entrega propuesta (autor, fecha y canal): Agente A1 (sesión A1), 2026-10-05, respuesta al coordinador del piloto.\n- Recepción confirmada (autor, fecha, commit; o pendiente): confirmada por el coordinador del piloto en representación\n  de la Persona A, 2026-10-05, canal del piloto, sobre el commit verificado 09363acfe5e225b75df60e1c2cb8118168705592\n  (hijo de 8b677495cb78c0a6deba6963cc1d2623a4ccdd32; checkout limpio, HEAD = origin/trabajo/persona-a, SHA-256 de los\n  cinco artefactos coinciden, 7 pruebas OK con Python 3.13.15, sin locks ni procesos). Registró: Agente A2 (sesión A2).\n- Escritor tras confirmación: sesión A2 (Agente A2), desde la recepción confirmada; A1 ya no escribe.\n\nEl emisor detiene escrituras al ofrecer la entrega; el receptor comienza después de confirmar. Si se interrumpió la sesión, preservar primero archivos e índice, comprobar procesos y acordar recuperación. El paso del tiempo no confirma recepción ni permite borrar un lock.\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/relevo-a1-a2.md b/tareas/20261005-101725-crear-notas-con/relevo-a1-a2.md\nnew file mode 100644\nindex 0000000..77d7765\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/relevo-a1-a2.md\n@@ -0,0 +1,46 @@\n+# Relevo de trabajo\n+\n+- Tarea/cambio: 20261005-101725-crear-notas-con («Crear notas con título y cuerpo»), capacidad `creacion`.\n+- Emisor / sesión: Agente A1, sesión A1 (persona responsable: Persona A).\n+- Receptor / sesión: sesión A2 (agente de la Persona A, sin contexto previo).\n+- Rama y checkout: rama `trabajo/persona-a` (también en `origin/trabajo/persona-a`); checkout de A1:\n+  /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a\n+- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n+- HEAD de entrega completo: 8b677495cb78c0a6deba6963cc1d2623a4ccdd32 (producto: spec aprobada, requisitos importados,\n+  `crear_nota` y pruebas). El commit que agrega este relevo y el log de pruebas es hijo directo de ése y sólo toca\n+  `tareas/20261005-101725-crear-notas-con/`; su hash lo informa A1 al coordinador (un archivo no puede contener el hash\n+  de su propio commit).\n+- Alcance terminado:\n+  - proposal.md y spec.md con el contrato «nota v1» ajustado por el coordinador; `aprobar-spec` hecho con la frase\n+    que pasó el coordinador (Factory: «Aprobación spec: sí»).\n+  - `importar` hecho: requisitos `creacion_cb8a4a12b0ffc6e4e.crear_nota_valida` y\n+    `creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido`, ambos sin medida todavía. Fase Factory: `requisitos_importados`.\n+  - `crear_nota(titulo, cuerpo=\"\") -> dict` en examples/notas/notas.py; pruebas en examples/notas/test_crear_notas.py.\n+- Archivos pendientes (incluido índice; o ninguno): ninguno sin commit; índice vacío. Por crear (A2):\n+  examples/notas/sensor_creacion.py y catálogos con prefijo `creacion.*` (en `catalogos/`, junto a los `notas.*`).\n+- Pruebas (comandos, resultado y límites): `cd examples/notas && python3 -m unittest -v test_crear_notas test_notas`\n+  con Python 3.13.15 sobre 8b677495cb78c0a6deba6963cc1d2623a4ccdd32: 7 pruebas OK (4 nuevas + 3 previas). Límite: son\n+  pruebas unitarias; no hay sensor, hechos ni veredicto Oracle todavía.\n+- Evidencia (ruta y SHA-256 por artefacto):\n+  - tareas/20261005-101725-crear-notas-con/pruebas-a1-8b67749.txt — 3e68f5c08866d5adc607abde800213ae04f225441b20ae83b0cf851e80d936ba\n+  - examples/notas/notas.py — aa5b4d29347eb3777d5245c38fd53ac68b3486f1f18aee075953c8df12772de7\n+  - examples/notas/test_crear_notas.py — e64e4a3ec0a0b808164d061f89b6695dd4021ab8cee0d8edbae049b37dcce7b1\n+  - requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito — 21e31170508c2cfa21eefc253daa88cf4ca2b53d11d733303cee59c1d65a3ac0\n+  - requisitos/creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido.requisito — f51c223509a3df5c03a07c9888b4f4b8eab453a5b7506a658b875eb90b02481a\n+- Bloqueos y procesos por comprobar: ninguno. A1 no corrió `medir`; no hay locks en el checkout ni procesos de A1 vivos.\n+  Herramientas: anteponer /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin al PATH.\n+- Decisiones humanas pendientes:\n+  - Pertinencia de las medidas que A2 proponga para cada requisito (y cualquier `--sin-medir`).\n+  - Revisión de la entrega por la Persona B (Clue) y decisión sobre hallazgos; integración y cierre por el coordinador.\n+- Próxima acción (A2, tras confirmar recepción): leer reparto.md (alcance y archivos prohibidos: sensor.py,\n+  test_notas.py, oracle.json y catálogos `notas.*` no se tocan), crear sensor_creacion.py (patrón de sensor.py) y\n+  catálogos `creacion.*`, `oracle-factory --proyecto <checkout> medir 20261005-101725-crear-notas-con --listar`,\n+  asociar medidas, generar hechos, juzgar y preparar la entrega para revisión de B.\n+- Entrega propuesta (autor, fecha y canal): Agente A1 (sesión A1), 2026-10-05, respuesta al coordinador del piloto.\n+- Recepción confirmada (autor, fecha, commit; o pendiente): confirmada por el coordinador del piloto en representación\n+  de la Persona A, 2026-10-05, canal del piloto, sobre el commit verificado 09363acfe5e225b75df60e1c2cb8118168705592\n+  (hijo de 8b677495cb78c0a6deba6963cc1d2623a4ccdd32; checkout limpio, HEAD = origin/trabajo/persona-a, SHA-256 de los\n+  cinco artefactos coinciden, 7 pruebas OK con Python 3.13.15, sin locks ni procesos). Registró: Agente A2 (sesión A2).\n+- Escritor tras confirmación: sesión A2 (Agente A2), desde la recepción confirmada; A1 ya no escribe.\n+\n+El emisor detiene escrituras al ofrecer la entrega; el receptor comienza después de confirmar. Si se interrumpió la sesión, preservar primero archivos e índice, comprobar procesos y acordar recuperación. El paso del tiempo no confirma recepción ni permite borrar un lock.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            46
+          ]
+        ]
+      },
+      "status": "A"
+    },
+    {
+      "base_text": "",
+      "file": "tareas/20261005-101725-crear-notas-con/reparto.md",
+      "head_text": "# Reparto de trabajo\n\n- Tarea/cambio: 20261005-101725-crear-notas-con («Crear notas con título y cuerpo»)\n- Persona responsable: Persona A\n- Agente y sesión: Agente A1, sesión A1 (relevo previsto a la sesión A2)\n- Escritor activo de registros: Agente A2 (sesión A2), desde la recepción del relevo confirmada el 2026-10-05\n  (antes: Agente A1, sesión A1; ver relevo-a1-a2.md)\n- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n- Rama: trabajo/persona-a\n- Checkout absoluto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a\n- Alcance y rutas:\n  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/ (paquete del cambio)\n  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/tareas/20261005-101725-crear-notas-con/ (registros de la tarea)\n  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/examples/notas/notas.py: sólo AGREGAR `crear_nota`; `puede_guardar` no se modifica.\n  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/examples/notas/test_crear_notas.py (archivo nuevo, pruebas de `crear_nota`).\n  - examples/notas/sensor_creacion.py (archivo nuevo, sensor propio) y catálogos con prefijo `creacion.*`.\n  - Nadie toca: examples/notas/sensor.py, examples/notas/test_notas.py, oracle.json ni los catálogos `notas.*`\n    (decisión del coordinador del 2026-10-05). examples/notas/notas.py es de A.\n- Interfaces compartidas y versión: contrato «nota v1» — `crear_nota(titulo: str, cuerpo: str = \"\") -> dict`;\n  la nota es un `dict` con exactamente las claves `\"titulo\"` (str, recortado con `strip()`, no vacío, sin `\"\\n\"`\n  ni `\"\\r\"`) y `\"cuerpo\"` (str, tal cual, `\"\"` por defecto). Si el título no cumple `puede_guardar` o contiene\n  `\"\\n\"` o `\"\\r\"` -> `ValueError`. A es dueño del contrato; B lo consume (B lo aceptó, según el coordinador).\n  Cambiar nombre, tipo o claves exige acuerdo de A y B registrado antes de editar.\n- Dependencias (ID completo, commit y condición; o ninguna): ninguna para este frente. El frente B («Listar notas»)\n  depende de este contrato; para integrar necesita el commit de A que implemente `crear_nota` (aún no existe).\n- Persona revisora: Persona B\n- Persona integradora: el coordinador del piloto (representa a A y B)\n- Próximo paso: `aprobar-spec` (aceptación dada por el coordinador), `importar`, implementar `crear_nota` y pruebas;\n  relevo a la sesión A2 para medir y entregar.\n- Confirmación de ambas personas (autor, fecha, canal; o pendiente): confirmado por el coordinador del piloto, en\n  representación de las personas A y B (no por ellas mismas), el 2026-10-05, por el canal del piloto. Revisor: B.\n  Integrador: el coordinador.\n\nLa asignación es un acuerdo, no una reserva técnica. Un escritor por registro; para cambiar el reparto, registrar motivo, aceptación y nuevo alcance antes de continuar. No tomar silencio como conformidad.\n",
+      "patch": "diff --git a/tareas/20261005-101725-crear-notas-con/reparto.md b/tareas/20261005-101725-crear-notas-con/reparto.md\nnew file mode 100644\nindex 0000000..42d6fdb\n--- /dev/null\n+++ b/tareas/20261005-101725-crear-notas-con/reparto.md\n@@ -0,0 +1,34 @@\n+# Reparto de trabajo\n+\n+- Tarea/cambio: 20261005-101725-crear-notas-con («Crear notas con título y cuerpo»)\n+- Persona responsable: Persona A\n+- Agente y sesión: Agente A1, sesión A1 (relevo previsto a la sesión A2)\n+- Escritor activo de registros: Agente A2 (sesión A2), desde la recepción del relevo confirmada el 2026-10-05\n+  (antes: Agente A1, sesión A1; ver relevo-a1-a2.md)\n+- Base Git completa: d704844560fe22eedde97ac0411193d144c02a35\n+- Rama: trabajo/persona-a\n+- Checkout absoluto: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a\n+- Alcance y rutas:\n+  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/openspec/changes/20261005-101725-crear-notas-con/ (paquete del cambio)\n+  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/tareas/20261005-101725-crear-notas-con/ (registros de la tarea)\n+  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/examples/notas/notas.py: sólo AGREGAR `crear_nota`; `puede_guardar` no se modifica.\n+  - /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/a/examples/notas/test_crear_notas.py (archivo nuevo, pruebas de `crear_nota`).\n+  - examples/notas/sensor_creacion.py (archivo nuevo, sensor propio) y catálogos con prefijo `creacion.*`.\n+  - Nadie toca: examples/notas/sensor.py, examples/notas/test_notas.py, oracle.json ni los catálogos `notas.*`\n+    (decisión del coordinador del 2026-10-05). examples/notas/notas.py es de A.\n+- Interfaces compartidas y versión: contrato «nota v1» — `crear_nota(titulo: str, cuerpo: str = \"\") -> dict`;\n+  la nota es un `dict` con exactamente las claves `\"titulo\"` (str, recortado con `strip()`, no vacío, sin `\"\\n\"`\n+  ni `\"\\r\"`) y `\"cuerpo\"` (str, tal cual, `\"\"` por defecto). Si el título no cumple `puede_guardar` o contiene\n+  `\"\\n\"` o `\"\\r\"` -> `ValueError`. A es dueño del contrato; B lo consume (B lo aceptó, según el coordinador).\n+  Cambiar nombre, tipo o claves exige acuerdo de A y B registrado antes de editar.\n+- Dependencias (ID completo, commit y condición; o ninguna): ninguna para este frente. El frente B («Listar notas»)\n+  depende de este contrato; para integrar necesita el commit de A que implemente `crear_nota` (aún no existe).\n+- Persona revisora: Persona B\n+- Persona integradora: el coordinador del piloto (representa a A y B)\n+- Próximo paso: `aprobar-spec` (aceptación dada por el coordinador), `importar`, implementar `crear_nota` y pruebas;\n+  relevo a la sesión A2 para medir y entregar.\n+- Confirmación de ambas personas (autor, fecha, canal; o pendiente): confirmado por el coordinador del piloto, en\n+  representación de las personas A y B (no por ellas mismas), el 2026-10-05, por el canal del piloto. Revisor: B.\n+  Integrador: el coordinador.\n+\n+La asignación es un acuerdo, no una reserva técnica. Un escritor por registro; para cambiar el reparto, registrar motivo, aceptación y nuevo alcance antes de continuar. No tomar silencio como conformidad.\n",
+      "ranges": {
+        "base": [],
+        "head": [
+          [
+            1,
+            34
+          ]
+        ]
+      },
+      "status": "A"
+    }
+  ],
+  "head": "d276e305f20de423356e540e9154c7c0c5ee4f6b",
+  "limitations": [
+    "Solo se revisa la diferencia entre commits; archivos no versionados no forman parte del diff.",
+    "Preparar contexto no ejecuta revisión de IA, pruebas ni aprobación humana.",
+    "El filtro de rutas conocidas no garantiza ausencia de secretos en otros archivos."
+  ],
+  "omissions": [],
+  "repo": "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/B1/producto-a",
+  "schema_version": "oracle-clue.bundle/v1"
+}

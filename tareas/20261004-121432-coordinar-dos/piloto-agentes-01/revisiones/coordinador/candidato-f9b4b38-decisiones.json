@@ -1,0 +1,48 @@
+{
+  "schema_version": "oracle-clue.triage/v1",
+  "report_sha256": "d1804ae42f075e22542e32dd8bf6c2763041d75fba1582a5209bf18d3605d380",
+  "decisions": [
+    {
+      "finding_id": "R1-01",
+      "status": "riesgo_aceptado",
+      "reason": "Se mantiene la decisión de B1-A-01, ahora con su efecto sobre listado.una_linea_por_nota a la vista: definir «línea» como str.splitlines() exige cambiar las dos specs. Queda como cambio posterior.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    },
+    {
+      "finding_id": "R1-02",
+      "status": "riesgo_aceptado",
+      "reason": "El contrato nota v1 sólo lo prueba test_integracion.py; medirlo con Oracle exige un requisito nuevo. Queda como cambio posterior.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    },
+    {
+      "finding_id": "R1-03",
+      "status": "riesgo_aceptado",
+      "reason": "integracion.md y el script de combinación se registran en el commit de archivo posterior al cierre, para no cambiar el HEAD juzgado. Se deja constancia como hueco de la guía.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    },
+    {
+      "finding_id": "R1-04",
+      "status": "riesgo_aceptado",
+      "reason": "Formato distinto del campo requisito entre sensores, sin interferencia hoy.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    },
+    {
+      "finding_id": "R1-05",
+      "status": "riesgo_aceptado",
+      "reason": "Las rutas absolutas en fuente las escribe Factory importar (igual que A2-B-03); es una observación sobre Factory.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    },
+    {
+      "finding_id": "R1-06",
+      "status": "riesgo_aceptado",
+      "reason": "La medida exige 3 casos cuando la spec tiene 2 escenarios: es más estricta que la spec, no más laxa. Se acepta.",
+      "actor": "Coordinador del piloto (agente, integrador), en representación de A y B; no es decisión humana",
+      "at": "2026-10-05T10:34:31+00:00"
+    }
+  ]
+}

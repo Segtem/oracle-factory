@@ -1,0 +1,137 @@
+{
+ "schema_version": "oracle-clue.review/v1",
+ "repo": "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/R1/producto-integrado",
+ "base": "d704844560fe22eedde97ac0411193d144c02a35",
+ "head": "f9b4b3866cc0e67b10f4100c2b7c4ae02e4b9216",
+ "diff_sha256": "6d17b346109963d2a4bf29419169b007a0e59a65eb9c43d043880fc0f041b62a",
+ "context_sha256": "e608a896f119962fa487209a7dcf98578e11b0b7819cdb62bdf2083bea8c4164",
+ "provider": {
+  "name": "Agente R1 (Claude Code, revisión del candidato integrado)",
+  "model": "claude-opus-5-5"
+ },
+ "review_status": "completo",
+ "limitations": [
+  "Revisión de f9b4b3866cc0e67b10f4100c2b7c4ae02e4b9216 contra la base d704844560fe22eedde97ac0411193d144c02a35: 45 archivos, sin omisiones de Clue. Se leyó todo el código, los catálogos, los requisitos, las specs y los factory.json. Los logs y JSON de tareas/ (evidencia previa de A y B) se miraron por encima, sin auditarlos.",
+  "Pruebas (12/12) y sensores corridos con python 3.13.15 del entorno del piloto, con PYTHONDONTWRITEBYTECODE=1. Hechos combinados con un script propio, que falla si una relación se repite. Son idénticos en contenido a hechos-integrados.json del integrador, y cobertura --con da la misma salida, byte a byte.",
+  "La evidencia del integrador y la propia van en revision-r1/ como archivos sin versionar del clone. Están en el paquete como contexto, pero no en el diff.",
+  "No se corrió oracle-factory revision, juzgar ni cerrar. Las dos tareas siguen en requisitos_importados con revisión y Oracle pendientes.",
+  "No se repitieron los mutantes de A2 ni de B1. Sólo se probaron sondas propias sobre la integración: separadores de línea y ausencia de una relación.",
+  "Los hallazgos son de un agente y quedan pendientes de decisión humana. Este informe no acepta ni rechaza el candidato."
+ ],
+ "findings": [
+  {
+   "id": "R1-01",
+   "kind": "discrepancia_con_spec",
+   "severity": "baja",
+   "confidence": 0.6,
+   "title": "Una nota creada por A puede ocupar más de una línea en el listado de B",
+   "explanation": "crear_nota sólo rechaza \\n y \\r. Acepta U+2028, U+2029, U+0085, \\x0b, \\x0c y \\x1c-\\x1e, que str.splitlines y muchos visores tratan como fin de línea. listar_notas confía en el contrato «nota v1» (título de una línea) y no valida nada, así que el texto integrado puede mostrar una nota en dos líneas. El triage B1-A-01 aceptó este riesgo mirando sólo la spec de creación. Recién al integrar se ve que toca también el requisito de B «una línea por nota». Si «línea» quiere decir separada por \\n, el requisito se sigue cumpliendo, porque sólo hay un \\n. Hace falta que una persona decida qué significa «línea» en el contrato.",
+   "location": {
+    "file": "examples/notas/notas.py",
+    "start_line": 10,
+    "end_line": 10,
+    "side": "head"
+   },
+   "trigger": "listar_notas([crear_nota('Mi\\u2028nota'), crear_nota('Otra')]) devuelve '- Mi\\u2028nota\\n- Otra'; splitlines() da 3 elementos y no 2.",
+   "evidence": "Sonda en /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/R1/evidencia-propia/sonda-contrato-nota-v1.txt (copia sin versionar en revision-r1/propia/ del clone, dentro del paquete): para los seis caracteres probados, crear_nota acepta el título y splitlines() da 3 en vez de 2. Antecedente: revisiones/coordinador/entrega-a-decisiones.json, B1-A-01 como riesgo_aceptado.",
+   "related_requirement": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+   "status": "pendiente",
+   "verification": "Que una persona fije qué es «línea» en el contrato nota v1. Si es sólo \\n, cerrar el hallazgo citando B1-A-01. Si no, ampliar la spec de creación (nueva aceptación) y sumar a sensor_creacion un caso por cada separador."
+  },
+  {
+   "id": "R1-02",
+   "kind": "pregunta",
+   "severity": "baja",
+   "confidence": 0.8,
+   "title": "El contrato entre A y B sólo lo prueba un unittest, y Oracle no lo ve",
+   "explanation": "test_integracion.py es la única comprobación que encadena crear_nota con listar_notas. Ningún sensor la emite y ningún requisito la cita, así que 'cobertura --con' da 5 de 5 sin decir nada de la compatibilidad. Hoy la deriva se nota igual: sensor_creacion compara contra dicts fijos y sensor_listado construye dicts v1 a mano, de modo que si un lado cambia de forma se pone rojo su propio sensor. Lo que no se nota es un cambio coordinado de los dos sensores, o el caso de R1-01. El verde de Oracle no prueba la integración.",
+   "location": {
+    "file": "examples/notas/test_integracion.py",
+    "start_line": 8,
+    "end_line": 10,
+    "side": "head"
+   },
+   "trigger": "Cambiar a la vez notas.py y sensor_creacion.py para que la clave sea 'nombre' deja verde el sensor de A y verde el de B (que usa dicts a mano). Sólo falla test_integracion, que no entra en los hechos.",
+   "evidence": "Pruebas 12/12 OK en f9b4b3866cc0e67b10f4100c2b7c4ae02e4b9216 (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/R1/evidencia-propia/pruebas-f9b4b38.txt). Ningún catálogo ni requisito menciona la integración (catalogos/, requisitos/).",
+   "related_requirement": null,
+   "status": "pendiente",
+   "verification": "Que el integrador y las personas decidan si alcanza con el unittest o si el contrato nota v1 merece su propio requisito y sensor."
+  },
+  {
+   "id": "R1-03",
+   "kind": "pregunta",
+   "severity": "baja",
+   "confidence": 0.85,
+   "title": "La integración no quedó registrada en el repo y test_integracion no tiene dueño",
+   "explanation": "La guía (sección 5) pide copiar integracion.md a la tarea de la entrega y registrar orden, commits, revisiones, decisiones y resultado. En f9b4b38 no hay integracion.md en ninguna de las dos tareas. test_integracion.py queda fuera del alcance de los dos repartos y no aparece en ningún TAREA.md. hechos-integrados.json y cobertura.txt sólo existen fuera del repo, y tampoco está versionado el script que combinó los tres sensores (el que falla si una relación se repite). Factory juzga un único JSON con 'juzgar --con', así que ese script forma parte de la cadena de evidencia.",
+   "location": {
+    "file": "examples/notas/test_integracion.py",
+    "start_line": 1,
+    "end_line": 1,
+    "side": "head"
+   },
+   "trigger": "Buscar integracion.md o una referencia a test_integracion.py / hechos-integrados en tareas/ del candidato.",
+   "evidence": "git ls-tree -r f9b4b38 tareas/ no tiene integracion.md. grep test_integracion en tareas/ no devuelve nada. La evidencia del integrador estaba sólo en revisiones/R1/evidencia-integrador/.",
+   "related_requirement": null,
+   "status": "pendiente",
+   "verification": "Que el integrador agregue integracion.md (en una tarea o en las dos) con los commits ed3476b/619baea/1d39ca3/d276e30, los merges 79efe14 y bfce3ed, este candidato y la forma de combinar hechos. Hacer ese commit cambia HEAD y obliga a otro ciclo de revisión."
+  },
+  {
+   "id": "R1-04",
+   "kind": "pregunta",
+   "severity": "informativa",
+   "confidence": 0.9,
+   "title": "El campo requisito tiene un formato distinto en cada sensor",
+   "explanation": "sensor_creacion pone en 'requisito' sólo el sufijo (crear_nota_valida); sensor_listado pone el id completo (listado_c7296af2cde2d7c6e.una_linea_por_nota). Cada catálogo filtra según su formato y las relaciones son distintas (comprobacion, creacion_comprobacion, listado_comprobacion), así que hoy no interfieren. Lo comprobé: las relaciones son disjuntas, los ids de medida también, y sin listado_comprobacion los requisitos de listado quedan 'sin juicio', no en verde falso. Un tercer sensor que comparta relación tendría que elegir un formato.",
+   "location": {
+    "file": "examples/notas/sensor_creacion.py",
+    "start_line": 33,
+    "end_line": 35,
+    "side": "head"
+   },
+   "trigger": "Comparar los valores de 'requisito' en creacion_comprobacion y listado_comprobacion de los hechos combinados.",
+   "evidence": "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/R1/evidencia-propia/hechos-combinados-f9b4b38.json; sonda sin listado_comprobacion: /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/R1/evidencia-propia/cobertura-sonda-sin-listado.txt (3 cumplen, 2 sin juicio).",
+   "related_requirement": null,
+   "status": "pendiente",
+   "verification": "Que las personas acuerden una convención (id completo, por ejemplo) para los próximos sensores. No requiere cambios en este candidato."
+  },
+  {
+   "id": "R1-05",
+   "kind": "pregunta",
+   "severity": "baja",
+   "confidence": 0.8,
+   "title": "La fuente de los requisitos nuevos apunta a los checkouts de A y de B",
+   "explanation": "Los cuatro .requisito nuevos tienen una fuente absoluta en piloto/a/... o piloto/b/..., no en el repo integrado. Esos checkouts existen hoy (HEAD d276e305f20de423356e540e9154c7c0c5ee4f6b y 619baeaf807049e411b0130a4b48817d060066c4), pero son de otras personas y pueden cambiar o desaparecer. A2-B-03 se aceptó sólo para B; A tiene el mismo problema y, al integrar, en el candidato quedan mezcladas fuentes de dos checkouts distintos.",
+   "location": {
+    "file": "requisitos/creacion_cb8a4a12b0ffc6e4e.crear_nota_valida.requisito",
+    "start_line": 3,
+    "end_line": 3,
+    "side": "head"
+   },
+   "trigger": "Leer la línea fuente de requisitos/creacion_*.requisito y requisitos/listado_*.requisito.",
+   "evidence": "Las cuatro líneas 3 citan /tmp/.../piloto/a/openspec/... o /tmp/.../piloto/b/openspec/...",
+   "related_requirement": "creacion_cb8a4a12b0ffc6e4e.crear_nota_valida",
+   "status": "pendiente",
+   "verification": "Extender a A el triage de A2-B-03 (observación sobre Factory importar), o pedir una ruta relativa al proyecto."
+  },
+  {
+   "id": "R1-06",
+   "kind": "discrepancia_con_spec",
+   "severity": "informativa",
+   "confidence": 0.7,
+   "title": "La medida dice 'según contrato' tres escenarios, pero la spec de listado tiene dos",
+   "explanation": "listado.una_linea_casos exige == 3 con 'segun contrato'. La spec aceptada tiene dos escenarios (dos notas en orden, el cuerpo no aparece); el tercero, 'orden de entrada no alfabético', lo sumó la corrección de A2-B-01 sin tocar la spec. El caso agregado es correcto (el requisito pide conservar el orden), y el 'porque' cita el sensor y no la spec. Aun así, el contrato aceptado y lo medido ya no son la misma lista. No pido cambiar la spec, porque eso exige otra aceptación: lo dejo señalado.",
+   "location": {
+    "file": "catalogos/listado.una_linea_casos.oracle",
+    "start_line": 5,
+    "end_line": 5,
+    "side": "head"
+   },
+   "trigger": "Contar los escenarios de openspec/changes/20261005-101733-listar-notas/specs/listado/spec.md bajo 'una linea por nota' (2) y compararlos con el umbral de listado.una_linea_casos (3).",
+   "evidence": "spec.md tiene 2 escenarios; el catálogo, umbral == 3.",
+   "related_requirement": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+   "status": "pendiente",
+   "verification": "Que una persona decida si sumar el escenario a la spec (nueva aceptación) o dejarlo como caso extra del sensor, documentado así."
+  }
+ ]
+}

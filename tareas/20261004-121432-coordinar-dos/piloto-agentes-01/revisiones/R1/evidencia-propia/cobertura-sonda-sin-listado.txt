@@ -1,0 +1,7 @@
+✓ creacion_cb8a4a12b0ffc6e4e.crear_nota_valida   cumple · creacion.validas_ejecutadas cumple, creacion.validas_resultados cumple
+✓ creacion_cb8a4a12b0ffc6e4e.rechazar_titulo_invalido   cumple · creacion.rechazos_ejecutados cumple, creacion.rechazos_resultados cumple
+? listado_c7296af2cde2d7c6e.lista_vacia   sin juicio · listado.lista_vacia_casos no aplicada, listado.lista_vacia_resultados no aplicada
+? listado_c7296af2cde2d7c6e.una_linea_por_nota   sin juicio · listado.una_linea_casos no aplicada, listado.una_linea_resultados no aplicada
+✓ notas_c980a94ee0a8297b2.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple
+
+5 requisitos: 3 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 2 sin juicio · 0 sin medir · 0 con medidas inexistentes

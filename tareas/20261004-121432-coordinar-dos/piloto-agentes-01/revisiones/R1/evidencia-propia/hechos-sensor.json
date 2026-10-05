@@ -1,0 +1,16 @@
+{
+  "comprobacion": [
+    {
+      "caso": "vacío",
+      "codigo": 0
+    },
+    {
+      "caso": "espacios",
+      "codigo": 0
+    },
+    {
+      "caso": "válido",
+      "codigo": 0
+    }
+  ]
+}

@@ -81,3 +81,7 @@ Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicito
 ### Nota (2026-10-05 10:04:37 UTC)
 
 Candidato vigente 17d1c00 (C4 con colisión de IDs). Revisión dividida en dos paquetes durables bajo ~/Dev/_revisiones; ver revision-pendiente.md.
+
+### Nota (2026-10-05 10:36:11 UTC)
+
+Piloto con agentes 01 realizado (2026-10-05): dos cambios cerrados de punta a punta, relevo sin contexto, revisiones cruzadas e integración. 11 fricciones en piloto-agentes-01/piloto.md. El piloto humano sigue pendiente.

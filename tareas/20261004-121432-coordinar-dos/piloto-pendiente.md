@@ -2,6 +2,8 @@
 
 Estado: pendiente. No se realizó un piloto con personas.
 
+El 2026-10-05 se hizo un [piloto con agentes](piloto-agentes-01/piloto.md): mide si el protocolo lo pueden seguir agentes sin contexto, y registra 11 fricciones. No sustituye este piloto humano.
+
 - Personas A/B, agentes/sesiones e integrador: pendientes de asignación humana.
 - Protocolo disponible: [guía](../../docs/colaboracion.md).
 - Registro a completar: [plantilla de piloto](../../docs/plantillas/colaboracion/piloto.md).

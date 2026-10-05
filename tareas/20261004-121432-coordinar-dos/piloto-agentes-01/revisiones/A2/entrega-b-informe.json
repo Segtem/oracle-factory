@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/producto-b",
+  "base": "d704844560fe22eedde97ac0411193d144c02a35",
+  "head": "3a3bab005f9014a800aa6915b95668b90a8a028e",
+  "diff_sha256": "3201a5b8cc05e38dde4b6260ce5a8bc131321857ff02413459636f3231103e65",
+  "context_sha256": "bac192c600276812ac1f15e7ffd1c23f37e82287eb6b7ccc96500c38cc0fcfe8",
+  "provider": {
+    "name": "Agente A2 (Claude Code, revisión cruzada para la persona A)",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión sobre 3a3bab005f9014a800aa6915b95668b90a8a028e (evidencia) con base d704844560fe22eedde97ac0411193d144c02a35; el producto es idéntico al de fcc0abbe04f441218030d2d9666ec360fa6ab0fa en examples/, catalogos/, requisitos/ y openspec/ (git diff vacío).",
+    "No se probó la compatibilidad con crear_nota de A: la rama de B no la contiene; queda para el candidato integrado.",
+    "Pruebas y sensor re-ejecutados con python3 3.13.15 del entorno del piloto, no con 'uv run' como en el log de B; mismos 6 OK y hechos byte a byte idénticos (SHA-256 8bc712fd…a3afa5).",
+    "La cobertura se consultó con 'oracle cobertura --con' (lectura); no se ejecutó 'oracle-factory juzgar' ni 'revision'.",
+    "Los hallazgos son de un agente y están pendientes de decisión humana; este informe no acepta ni rechaza la entrega."
+  ],
+  "findings": [
+    {
+      "status": "pendiente",
+      "id": "A2-B-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El orden de entrada no se distingue de un orden alfabético",
+      "explanation": "El requisito exige conservar el orden de entrada, pero la prueba y el sensor usan [Compras, Ideas], que ya está en orden alfabético. Una implementación que ordena por título pasa las 6 pruebas y el sensor emite los 3 casos con código 0, así que Oracle declararía cumplido el requisito sin haberlo observado.",
+      "location": {
+        "file": "examples/notas/sensor_listado.py",
+        "start_line": 13,
+        "end_line": 13,
+        "side": "head"
+      },
+      "trigger": "listar_notas([IDEAS, COMPRAS]) con una implementación que hace sorted(notas, key=titulo) devuelve '- Compras\\n- Ideas'.",
+      "evidence": "Mutante en /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/evidencia-propia/mutante-orden/listado.py (sorted por título): test_listado OK y observar() devuelve los 3 casos con codigo 0 (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/evidencia-propia/mutante-orden/resultado.txt). Lo mismo vale para test_listado.py:10-11.",
+      "related_requirement": "listado_c7296af2cde2d7c6e.una_linea_por_nota",
+      "verification": "Agregar un caso con entrada no ordenada (p. ej. [IDEAS, COMPRAS] -> '- Ideas\\n- Compras') en test_listado.py y en sensor_listado.py (y ajustar el umbral de listado.casos_ejecutados si cambia la cantidad); el mutante debe quedar rojo."
+    },
+    {
+      "status": "pendiente",
+      "id": "A2-B-02",
+      "kind": "pregunta",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "Los dos requisitos comparten medidas sin distinguir qué caso es de cuál",
+      "explanation": "lista_vacia y una_linea_por_nota están medidos por las mismas dos medidas, y listado_comprobacion no trae a qué requisito pertenece cada caso. Una falla sólo en «sin notas» pone en no-cumple también a una_linea_por_nota (y al revés), y listado.casos_ejecutados == 3 cuenta los casos de ambos requisitos: un sensor que dejara de observar «sin notas» pero agregara otro caso de una_linea seguiría en verde para lista_vacia. El veredicto por requisito no es independiente.",
+      "location": {
+        "file": "requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito",
+        "start_line": 4,
+        "end_line": 4,
+        "side": "head"
+      },
+      "trigger": "Hechos con sólo 'sin notas' en codigo 1.",
+      "evidence": "oracle cobertura --con /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/evidencia-propia/hechos-falla-solo-lista-vacia.json: ambos requisitos 'no cumple' por listado.resultados (/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/revisiones/A2/evidencia-propia/cobertura-falla-solo-lista-vacia.txt).",
+      "related_requirement": "listado_c7296af2cde2d7c6e.lista_vacia",
+      "verification": "Que la persona decida si acepta el acoplamiento. Si no: emitir un campo requisito por fila y separar medidas por requisito (filtro donde c.requisito == ...), y volver a asociarlas con medir."
+    },
+    {
+      "status": "pendiente",
+      "id": "A2-B-03",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.7,
+      "title": "La fuente de los requisitos apunta al checkout de B",
+      "explanation": "El campo fuente guarda una ruta absoluta a /…/piloto/b/openspec/…. En el candidato integrado y en otros clones esa ruta no es la del repo evaluado (y puede no existir). Lo genera Factory al importar: no es un defecto que B haya escrito a mano; pasa igual en los requisitos de A y del ejemplo base.",
+      "location": {
+        "file": "requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Leer el requisito desde el checkout de integración o de revisión.",
+      "evidence": "requisitos/listado_c7296af2cde2d7c6e.lista_vacia.requisito:3 y una_linea_por_nota.requisito:3 contienen /tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/piloto/b/...",
+      "related_requirement": null,
+      "verification": "Decisión del integrador: aceptar la ruta como antecedente o pedir a Factory una fuente relativa al repo."
+    }
+  ]
+}
