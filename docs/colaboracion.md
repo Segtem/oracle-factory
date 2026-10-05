@@ -100,9 +100,9 @@ Los archivos `factory.json` de las ramas son antecedentes del flujo, no votos qu
 oracle-factory --proyecto /ruta/producto-integracion estado ID_COMPLETO
 ```
 
-Un merge, rebase o commit nuevo cambia HEAD y vuelve obsoletos revisión/juicio anteriores. Un cambio de propuesta/spec exige nueva aceptación e importación; nuevas medidas invalidan revisión/juicio. Los nuevos requisitos vuelven a quedar sin medir cuando corresponde. Terminen las correcciones y los documentos del producto antes de fijar el candidato final.
+Un merge, rebase o commit nuevo cambia HEAD, pero la revisión y el juicio siguen vigentes si la huella de archivos del producto es idéntica; si cambia un archivo del producto, quedan obsoletos. `estado` avisa cuando el HEAD actual no es el revisado. Un cambio de propuesta/spec exige nueva aceptación e importación; nuevas medidas invalidan revisión/juicio. Los nuevos requisitos vuelven a quedar sin medir cuando corresponde. Terminen las correcciones y los documentos del producto antes de fijar el candidato final.
 
-Sobre ese candidato, ejecuten las pruebas y el sensor, registrando comando, entradas, salida y commit observado. Renueven la revisión de Clue sobre el resultado integrado. Guarden los artefactos junto al cambio —por ejemplo como adjuntos de su tarea, con nombres por versión— antes de registrar su decisión en Factory. Agregar un adjunto bajo `tareas/` no cambia la huella de archivos del producto, pero hacer un commit nuevo sí cambia HEAD.
+Sobre ese candidato, ejecuten las pruebas y el sensor, registrando comando, entradas, salida y commit observado. Renueven la revisión de Clue sobre el resultado integrado. Guarden los artefactos junto al cambio —por ejemplo como adjuntos de su tarea, con nombres por versión— antes de registrar su decisión en Factory. Agregar un adjunto bajo `tareas/`, o commitear sólo `tareas/` y los registros de Factory, no cambia la huella del producto ni invalida la revisión.
 
 Una vez que la persona resolvió los hallazgos y acepta la revisión, registra la decisión. Estos comandos son pasos humanos del proyecto real; las frases de confirmación deben escribirlas las personas:
 

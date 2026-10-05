@@ -24,7 +24,7 @@ El cambio debe estar abierto y tener propuesta/spec aceptadas y vigentes. Termin
 
 El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Ambos tienen campos humanos en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
 
-Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo sí cambia HEAD, incluso si sólo archiva notas; prepare de nuevo si eso ocurre antes de registrar.
+Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo que sólo archiva notas o registros tampoco la invalida: Factory compara la huella de archivos del producto y guarda el commit como dato. Si cambia un archivo del producto antes de registrar, prepare de nuevo.
 
 ## Completar lo que realmente se revisó
 
@@ -95,7 +95,7 @@ Una revisión aprobada todavía requiere evidencia y juicio Oracle con cobertura
 | Campos pendientes o JSON inválido | Complete los campos indicados; revise claves desconocidas/duplicadas y la versión del documento |
 | Hay abiertos, revisión parcial o comprobaciones no satisfactorias | Registre `cambios` o complete la revisión; no declare cero manualmente |
 | Cambió el informe antes de registrar | Actualice su hash en decisiones después de revisar la edición |
-| Cambió producto, HEAD o spec | Prepare un informe del contexto nuevo; si cambió proposal/spec, renueve antes su aceptación e importación |
+| Cambió el producto o la spec | Prepare un informe del contexto nuevo; si cambió proposal/spec, renueve antes su aceptación e importación. Si sólo cambió el HEAD (un commit que no toca el producto), el informe sigue valiendo |
 | Se canceló o cambiaron entradas durante la confirmación | El registro anterior no fue sustituido; revise el diagnóstico y repita cuando el contexto esté estable |
 | Falló preparar/archivar | Revise la carpeta residual indicada; conserve antecedentes y no dé el nuevo gate por publicado |
 | Falló guardar el estado | La revisión anterior o edición concurrente se conserva; las copias nuevas pueden quedar como residuo |

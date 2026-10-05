@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-vigencia-2509c13",
+  "base": "5750904709ada3b294d3400cba4c4ef61830f2bf",
+  "head": "2509c138191684c15080f308e6d278e249677f96",
+  "diff_sha256": "0c353da294c68d02c3de9174c68aa07a9a5899bcf0c0d76c20fda76cbc4af16e",
+  "context_sha256": "e9cf8660a4feac3743aee40a2b1a3f6962788ee4fb5be13ad08da1951635aa07",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2X-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "En repositorios con SHA-256 (64 hexadecimales) el HEAD de preparación se descarta siempre",
+      "explanation": "La validación de head_preparacion exige exactamente 40 hexadecimales. Un repositorio creado con git init --object-format=sha256 da HEAD de 64 hexadecimales; Factory funciona en él (registro, estado, cierre) pero nunca guarda head_preparacion, aunque el informe se haya preparado en otro commit. El escenario «informe preparado antes de un commit de registros» dice que queda registrado el HEAD de preparación. No afecta la vigencia (sólo mira la huella) ni rompe nada; se pierde un dato de auditoría, sin aviso, en esos repositorios. El esquema de Clue sí acepta 64 hexadecimales. Un SHA corto o con mayúsculas, que sólo aparecería por edición a mano, se descarta, y eso es lo deseable. Es un límite aceptable si los repositorios SHA-256 no se consideran soportados; si lo están, es una línea.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 576,
+        "end_line": 576,
+        "side": "head"
+      },
+      "trigger": "Repositorio con --object-format=sha256, informe guiado preparado en un commit y registrado tras otro commit que no toca el producto.",
+      "evidence": "Verificado: sondas_r2x.py (carpeta revision-r2), salida en sondas_r2x.salida.txt, test_x_02: el HEAD tiene 64 caracteres, el registro guiado se acepta y la revisión queda sin head_preparacion.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "status": "pendiente",
+      "verification": "Correr test_x_02 (git 2.55.0). Corrección posible: re.fullmatch(r\"[0-9a-f]{40}|[0-9a-f]{64}\", preparado)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre 2509c13: suite (111 OK); tools/verify_vigencia.py --salida revision-r2/evidencia-vigencia-2509c13 (13 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 4 requisitos vigencia_c82d… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); y sondas_r2x.py.",
+    "Valores raros (sondas_r2x.py, test_x_01): puse en el propio factory.json, para revision.contexto.head, oracle.contexto.head y revision.head_preparacion, estos 12 valores: null, cadena vacía, lista vacía, diccionario vacío, lista con 40 caracteres, diccionario con datos, entero, booleano, flotante, cadena de 100000 caracteres, cadena con salto de línea y escape, y hexadecimal en mayúsculas. Con cada uno llamé a estado y a cerrar (con la confirmación cancelada): ninguna terminó con una excepción que no fuera FactoryError. La cadena larga se recorta a 7 caracteres. El head de una revisión libre sale siempre de git rev-parse, no de una entrada, y está cubierto por contexto.head.",
+    "Observación sin hallazgo: una cadena con salto de línea o escape en los primeros 7 caracteres se imprime tal cual (corto no filtra caracteres de control). Sólo se alcanza editando factory.json a mano en contexto.head; head_preparacion ya sólo guarda 40 hexadecimales. Está fuera de lo que la propuesta cubre (no autentica ni defiende contra ediciones del registro).",
+    "Estado de R2W: R2W-01 resuelto (corto tolera cualquier valor y el registro guiado sólo guarda un commit de 40 hexadecimales distinto del actual; probado con el informe con head 12345 y con los 12 valores anteriores); R2W-02 resuelto (la fila de docs/revision-guiada.md ahora dice «Cambió el producto o la spec» y aclara que cambiar sólo el HEAD no obliga a nada).",
+    "Documentación: busqué con un script, sobre README.md, docs/*.md, site/*.html y site/factory.js, las frases con «commit» o «HEAD» y términos de invalidación o vigencia, y los mensajes de cli.py y revision.py. No quedan frases que digan que un commit o un cambio de HEAD invalida una revisión; los mensajes de error («desactualizado respecto del producto», «el contexto cambió durante el cierre») no nombran el commit. No rendericé el sitio.",
+    "No corrí el arnés de revisión guiada ni los de release contra el wheel, ni verify_guide. Las sondas usan el fixture de tests/test_vigencia.py, con la terminal parcheada."
+  ]
+}
