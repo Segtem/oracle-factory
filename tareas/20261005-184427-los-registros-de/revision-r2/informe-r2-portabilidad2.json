@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-portabilidad-fd1bfe7",
+  "base": "add743b9ba5bbb478b1352335ffe57a9a7b7d1e2",
+  "head": "fd1bfe78b70d893e46b53c49fda9a1cee35b2d88",
+  "diff_sha256": "1c314980684b9b9627e50ba0b3ff9b1a872fc284314676eaffe04af031b05b61",
+  "context_sha256": "cba83c418fea54ce41ab163df58eb75a0413059853c0ef868e209238071032ff",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos. Revisé el delta add743b..fd1bfe7 completo: fuente_relativa, el .as_posix() de los hechos, las dos pruebas nuevas, el manejador de SIGTERM de verify_maquinas.py, los 7 requisitos reescritos y los catálogos del sensor.",
+    "Lo que corrí sobre fd1bfe7: suite (122 OK); tools/verify_portabilidad.py --salida revision-r2/evidencia-portabilidad-fd1bfe7 (11 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 7 requisitos portabilidad_cbe858e… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_maquinas.py completo sobre una copia (revision-r2/copia-portab2, porque llama a uv build y no se toca el checkout fijo): 5 casos OK y sin contenedores, redes ni imágenes al terminar; y mis sondas sondas_r2q.py. No corrí los arneses de colaboración, vigencia ni revisión guiada, ni los de release contra el wheel.",
+    "fuente_relativa con Oracle real (sondas_r2q.py, test_q_01): las raíces «producto ñ #1», «prod con \"comillas\"», «prod\\barra», «prod 'simple'», «prod<tab>tab», «prod ü{llaves}%» y «prod \\\"mixto» terminan todas con la fuente relativa y ningún aviso. R2P-02 queda resuelto con esos casos, no sólo con el de la prueba.",
+    "No reescribe lo que no debe (test_q_02, con ROOT=/tmp/a): una fuente de un prefijo parecido (/tmp/ab/otro.md) queda igual, porque el prefijo incluye la barra final; el texto citado dentro de texto \"…\" (con comillas escapadas) tampoco se toca; una URL o una fuente ya relativa quedan como están. Sólo se procesan los requisitos de los ids de esa importación, así que no alcanza a los de otros cambios.",
+    "El aviso (test_q_03): no se dispara con una fuente relativa ni con una URL, sí con una fuente absoluta que no es de este proyecto, y se imprime una vez por archivo e importación (no por línea). Un límite, por lectura y no verificado: el aviso mira sólo fuentes que empiezan con «/», así que una ruta de Windows («C:\\…») que no se reescribiera no avisaría. No tengo Windows para comprobar cómo la escribe Oracle.",
+    "verify_maquinas.py con señales (docker-senales-fd1bfe7.txt): TERM a 1, 2 y 4 segundos con la herramienta corriendo: salida 143, sin contenedores ni redes. TERM mientras construye la imagen (1, 3, 5 y 7 segundos): salida 143, sin contenedores, redes ni imágenes factory-maquina-<pid>. SIGINT a 4 segundos: limpio. Un docker que falla a mitad (imagen inexistente: la red ya está creada, falla docker run): salida 1 y sin residuos. En una señal los archivos maquinas.json y hechos.json no se escriben (la carpeta queda vacía), de modo que no hay salida a medias, y la salida distinta de cero lo avisa. El manejador sólo afecta a SIGTERM del proceso de la herramienta; no pisa otros. Si llegara un segundo TERM durante bajar(), interrumpiría la limpieza; no lo probé.",
+    "Búsqueda de rutas privadas en todo el repositorio de este cambio: los archivos de portabilidad (requisitos, catálogos, pruebas, herramientas, código y openspec/changes/20261005-184427-…) ya no la contienen, y M3 de la herramienta de Docker da «ninguno». El repositorio conserva unos cien archivos con rutas de la máquina del autor, anteriores a este cambio (requisitos y registros de otros cambios, que la decisión de no reescribir deja como están) y, en tareas/ de este cambio, el paquete de Clue 78f0eb0 y mis propios informes y sondas, que llevan la ruta del checkout; Clue guardar esa ruta es un límite declarado fuera de alcance.",
+    "Estado de R2P: R2P-01 resuelto (los 7 requisitos tienen la fuente relativa; la prueba p6 nueva lo vigila); R2P-02 resuelto; R2P-03 resuelto (.as_posix() al guardar; la lectura ROOT / ruta con barras normales también sirve en Windows, que no probé); R2P-04 resuelto; R2P-05 quedó como riesgo aceptado y lo cubre el comentario nuevo.",
+    "Las sondas usan el fixture de tests/test_portabilidad.py con la terminal parcheada."
+  ]
+}

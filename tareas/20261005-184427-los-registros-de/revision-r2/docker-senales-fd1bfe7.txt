@@ -1,0 +1,16 @@
+señal TERM 4 a los  s: rc=125 | residuos:  | archivos de salida: 
+señal TERM 9 a los  s: rc=125 | residuos:  | archivos de salida: 
+señal INT 4 a los  s: rc=125 | residuos:  | archivos de salida: 
+señal INT 9 a los  s: rc=125 | residuos:  | archivos de salida: 
+docker falla a mitad (imagen inexistente): rc=1 | residuos:  | sponse from daemon: pull access denied for no-existe-r2, repository does not exist or may require 'docker login'  Run 'docker run --help' for more information  
+señal TERM a los 4s: rc=124 | residuos: [] | archivos de salida: []
+señal TERM a los 9s: rc=1 | residuos: [] | archivos de salida: [hechos.json maquinas.json ]
+señal INT a los 4s: rc=124 | residuos: [] | archivos de salida: []
+señal INT a los 9s: rc=1 | residuos: [] | archivos de salida: [hechos.json maquinas.json ]
+TERM a los 1s: rc del proceso=143 | residuos: [] | archivos de salida: []
+TERM a los 2s: rc del proceso=143 | residuos: [] | archivos de salida: []
+TERM a los 6s: rc del proceso=1 | residuos: [] | archivos de salida: [hechos.json maquinas.json ]
+construyendo + TERM a los 1s: rc=143 | contenedores/redes: [] | imágenes factory-maquina-<pid>: []
+construyendo + TERM a los 3s: rc=143 | contenedores/redes: [] | imágenes factory-maquina-<pid>: []
+construyendo + TERM a los 5s: rc=143 | contenedores/redes: [] | imágenes factory-maquina-<pid>: []
+construyendo + TERM a los 7s: rc=143 | contenedores/redes: [] | imágenes factory-maquina-<pid>: []

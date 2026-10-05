@@ -1,0 +1,71 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "9d39c7dcf99f24f49a4a8230058717dc5dfc9005d4e41a78f9d17cbf249e916c",
+  "actor": "Brian Hollweg",
+  "motivo": "Decisiones de Brian en la conversación del 2026-10-05; cada una cita sus palabras. La de R2X-01 se apoya en «Vamos con tus recomendaciónes», dicho después y sobre otra cuestión: no hubo una confirmación explícita y separada de esa recomendación.",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2V-01",
+      "estado": "corregido",
+      "motivo": "«Dale, vamos con las propuestas…»; corregido en 3bf20b6.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2V-02",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje; completado después con R2W-01.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2V-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje: dato informativo que no condiciona nada.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2V-04",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje; completado después con R2W-02.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2V-05",
+      "estado": "riesgo_aceptado",
+      "motivo": "Mismo mensaje: la persona decide igual y es una transición corta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2V-06",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2W-01",
+      "estado": "corregido",
+      "motivo": "«Si vamos con las dos correcciones»; corregido en 2509c13.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2W-02",
+      "estado": "corregido",
+      "motivo": "Mismo mensaje.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    },
+    {
+      "hallazgo_id": "R2X-01",
+      "estado": "riesgo_aceptado",
+      "motivo": "«Vamos con tus recomendaciónes»: se acepta, con el límite declarado, que en repositorios SHA-256 no se guarde head_preparacion.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T18:15:46+00:00"
+    }
+  ]
+}

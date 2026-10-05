@@ -1,0 +1,120 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-portabilidad-78f0eb0",
+  "base": "dd2ac6c6af8c0350e37cc300602f8f96ff459878",
+  "head": "78f0eb0bedb27a85f9d0ef02751a07b1b0190638",
+  "diff_sha256": "fa7f6ff0ccef26f40710942f51f8fd476d74f691019a1a257a2deb32f91ae188",
+  "context_sha256": "a83f3536e81c9bae24ced646b3096072000a489419984ddae0bca3f4b4884b54",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2P-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Los 7 requisitos de este mismo cambio llevan la ruta privada del autor en su fuente, y la medida dice «cumple»",
+      "explanation": "El requisito «sin rutas privadas en lo versionado» promete que lo que Factory escribe no contiene la ruta de la máquina. Los 7 archivos requisitos/portabilidad_cbe858e976e618573.*.requisito, nuevos en este diff, traen fuente \"/home/workstation/Dev/factory-portabilidad/openspec/changes/…\". Se importaron en 568973c, antes de que existiera fuente_relativa (c7a8081), y no se reescribieron. En el repositorio quedan además unos 25 archivos anteriores con la misma ruta (los registros existentes no se reescriben, por decisión). La medida factory_portabilidad.sin_rutas_privadas_en_lo_versionado da cumple porque el sensor y la prueba p6 sólo miran un proyecto temporal con el ejemplo notas, no este repositorio ni su subida a un remoto. Es el mismo defecto del hallazgo A-04, presente en el candidato.",
+      "location": {
+        "file": "requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado.requisito",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Publicar este checkout: la ruta del autor viaja en 7 archivos nuevos.",
+      "evidence": "Verificado: grep -rIl \"/home/workstation\" en el checkout, y git diff main..78f0eb0 --name-only | xargs grep -l: los 7 requisitos de portabilidad.",
+      "related_requirement": "portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado",
+      "status": "pendiente",
+      "verification": "Reimportar o reescribir esas 7 fuentes antes de integrar y agregar una comprobación del propio repositorio (por ejemplo en verify_portabilidad.py)."
+    },
+    {
+      "id": "R2P-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "fuente_relativa deja la ruta absoluta sin avisar si la raíz del proyecto tiene comillas o barras invertidas",
+      "explanation": "fuente_relativa busca la cadena literal fuente \"{ROOT}/. Oracle escribe la fuente escapada: una raíz con \" o con \\ aparece como \\\" o \\\\ en el archivo y la búsqueda no coincide, de modo que el archivo conserva la ruta absoluta y nadie lo nota (no hay aviso ni comprobación posterior). En Linux son raíces raras; en Windows toda raíz tiene barras invertidas, así que probablemente nunca se reescribe allí (sospecha: no tengo Windows). Una raíz con espacios, #, o ñ sí funciona. La prueba p6 y la herramienta de Docker no cubren estas raíces.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 417,
+        "end_line": 424,
+        "side": "head"
+      },
+      "trigger": "Proyecto en una carpeta llamada prod con \"comillas\" o prod\\barra; importar un requisito.",
+      "evidence": "Verificado en Linux: sondas_r2p.py (carpeta revision-r2), salida en sondas_r2p.salida.txt, test_p_02: con la raíz «prod con \"comillas\"» la fuente queda «/tmp/…/prod con \\\"comillas\\\"/openspec/…»; con «prod\\barra» queda con la ruta completa. Windows: sospecha.",
+      "related_requirement": "portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa",
+      "status": "pendiente",
+      "verification": "Correr test_p_02. Sugerencia: reescribir con la forma escapada de ROOT y avisar si tras reescribir el archivo todavía contiene la ruta."
+    },
+    {
+      "id": "R2P-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.5,
+      "title": "Entre Windows y otro sistema la ruta relativa de los hechos se guarda con barras invertidas",
+      "explanation": "juzgar guarda str(hechos.relative_to(ROOT)); en Windows eso usa \\, y en Linux o macOS esa ruta no se resuelve (ROOT / \"tareas\\\\ID\\\\hechos.json\" es otro nombre de archivo). El objetivo del cambio es que el registro valga en otra máquina, y la guía del sitio promete soporte para Windows. Es la misma convención que ya usaban informe, review.md y el veredicto (str(...relative_to(ROOT))), así que no es una regresión, pero deja el cierre entre sistemas operativos sin cubrir. La herramienta de Docker declara en LIMITE que no mide sistemas operativos distintos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 698,
+        "end_line": 700,
+        "side": "head"
+      },
+      "trigger": "Juzgar en Windows y consultar estado en Linux.",
+      "evidence": "Sospecha por lectura; no probé Windows.",
+      "related_requirement": "portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto",
+      "status": "pendiente",
+      "verification": "Usar .as_posix() al guardar y Path(ruta) al leer, o declarar el límite en la documentación."
+    },
+    {
+      "id": "R2P-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "verify_maquinas.py no limpia contenedores ni red si lo matan con SIGTERM",
+      "explanation": "La limpieza vive en un finally, que cubre éxito, fallas, SystemExit (errores de docker) y Ctrl-C, pero no una señal TERM, que mata el intérprete sin ejecutarlo (timeout, un CI que cancela, kill). Quedan tres contenedores (el remoto con git daemon y dos estaciones con sleep infinity) y la red fmred<pid>, que siguen corriendo hasta que alguien los borre. Los nombres usan el PID, así que no chocan con otros contenedores. Con éxito y con SIGINT no quedan contenedores, redes ni imágenes (la imagen python:3.13-slim ya existía antes).",
+      "location": {
+        "file": "tools/verify_maquinas.py",
+        "start_line": 164,
+        "end_line": 168,
+        "side": "head"
+      },
+      "trigger": "timeout -s TERM 4 python tools/verify_maquinas.py --salida … --imagen …, en cualquier momento tras levantar().",
+      "evidence": "Verificado en una copia de este checkout bajo revision-r2/copia-portab (la herramienta usa uv build, por eso no la corrí en el checkout fijo): docker-senales.txt muestra, tras TERM, fmb932392, fma932392, fmr932392 y fmred932392; tras SIGINT, nada. Los residuos los borré yo y el estado final de Docker es el inicial (docker-antes.txt / docker-despues.txt).",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Instalar un manejador de SIGTERM que llame a bajar(), o nombrar los recursos con una etiqueta común para poder limpiarlos con un solo comando."
+    },
+    {
+      "id": "R2P-05",
+      "kind": "seguridad",
+      "severity": "informativa",
+      "confidence": 0.6,
+      "title": "El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada",
+      "explanation": "git daemon --enable=receive-pack no autentica ni cifra. docker run no publica puertos (no hay -p) y la red fmred<pid> es un puente definido por el usuario, así que no es accesible desde otras redes de Docker ni desde fuera del equipo. Por lo que sé del modelo de red de Docker en Linux, el anfitrión sí puede llegar a la IP del contenedor, de modo que otro proceso local podría hacer push al remoto efímero. Es un fixture que dura un minuto y no contiene nada sensible; lo dejo como observación.",
+      "location": {
+        "file": "tools/verify_maquinas.py",
+        "start_line": 72,
+        "end_line": 73,
+        "side": "head"
+      },
+      "trigger": "Otro proceso del mismo equipo contra la IP del contenedor remoto mientras corre la herramienta.",
+      "evidence": "Lectura de código (no hay -p; red creada con docker network create). No probé el acceso desde el anfitrión.",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Aceptable. Si molesta, usar un remoto por ssh o un volumen compartido sólo para la prueba."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre 78f0eb0: suite (120 OK); tools/verify_portabilidad.py --salida revision-r2/evidencia-portabilidad-78f0eb0 (9 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 7 requisitos portabilidad_cbe858e… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_maquinas.py sobre una copia sin .git ni tareas/ en revision-r2/copia-portab (5 casos OK, evidencia en evidencia-maquinas-78f0eb0; no queda nada de Docker); pruebas de señales (docker-senales.txt); y mis sondas sondas_r2p.py. No corrí collaboration, vigencia ni revisión guiada, ni los arneses de release.",
+    "Pruebas: las nueve de test_portabilidad.py corridas contra el código de main (git archive main en revision-r2/main-copia): fallan 8 y pasa sólo p7, como dice el autor. Las dos que mueven el original después de clonar (p1_clon_en_otra_ruta y p5_cierre_desde_un_clon_en_otra_ruta) sí distinguen el defecto del arreglo. Todas prueban lo que dicen sus nombres.",
+    "Otras rutas privadas (sondas_r2p.py, test_p_03): con el recorrido del ejemplo notas y además modo guiado (preparar, informe, decisiones, registro), cambios de modo y juicio, ningún archivo versionado contiene la ruta de la máquina. Eso deja como únicos portadores los requisitos importados antes de la corrección (R2P-01) y las raíces con caracteres que Oracle escapa (R2P-02). No probé el cierre completo ni medir con un agente en esa búsqueda.",
+    "Registro anterior: con una ruta absoluta que no existe, el pendiente nombra la ruta y la salida que sugiere funciona. Volver a correr juzgar con los hechos del clon deja fase oracle_verde, guarda la ruta relativa, conserva la revisión (el producto es idéntico) y no deja pendientes (test_p_01). El mensaje imprime la ruta absoluta de la otra máquina, sólo en la terminal.",
+    "ruta de hechos: ROOT sale de resolve() en main, así que un proyecto bajo un enlace simbólico no se desalinea; un enlace dentro del proyecto que apunta afuera se resuelve a la ruta de afuera, se guarda absoluta y se advierte, que es lo prometido. pendientes_actuales hace ROOT / ruta con un valor de factory.json: una ruta absoluta o con .. lee fuera del proyecto, pero sólo para calcular una huella (no se muestra su contenido), el patrón ya existía para informes y hechos, y exige editar factory.json a mano. Un archivo especial como /dev/zero lo colgaría; no lo probé.",
+    "git check-ignore: sin Git devuelve 128 y no avisa (contexto_producto ya exige Git); un archivo versionado a pesar de coincidir con un ignore devuelve 1 y no avisa, lo correcto porque viaja (probado en un repositorio temporal). Con reglas globales de ignore advierte según la máquina del autor; es lo que importa. No probé proyectos dentro de un repositorio mayor ni submódulos.",
+    "Spec contra implementación: los 7 requisitos y sus escenarios los recorrí uno por uno; sólo «sin rutas privadas» tiene el desfase de R2P-01 entre lo que promete y lo que el repositorio contiene.",
+    "No toqué el checkout fijo: la herramienta de Docker llama a uv build, por eso la corrí sobre una copia. Las sondas usan el fixture de tests/test_portabilidad.py con la terminal parcheada."
+  ]
+}

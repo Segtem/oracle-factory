@@ -334,6 +334,41 @@ def contexto_producto() -> dict:
     return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
 
 
+def mismo_producto(registrado: dict | None, actual: dict) -> bool:
+    """Vigencia por contenido: el HEAD es un dato del registro, no una condición."""
+    return bool(registrado) and registrado.get("archivos_sha256") == actual.get("archivos_sha256")
+
+
+def corto(head) -> str:
+    # El registro puede venir de un informe: tolera lo que no sea un commit en vez de romper estado y el cierre.
+    return head[:7] if isinstance(head, str) and head else "desconocido"
+
+
+def commits_registrados(estado: dict) -> list[str]:
+    """Commit observado al registrar cada gate, siempre visible; el HEAD es un dato, no una condición."""
+    lineas = [f"{etiqueta} sobre el commit {corto((estado[nombre].get('contexto') or {}).get('head'))}"
+              for nombre, etiqueta in (("revision", "revisión registrada"), ("oracle", "veredicto Oracle registrado")) if estado.get(nombre)]
+    preparado = (estado.get("revision") or {}).get("head_preparacion")
+    if preparado:  # lo declara el informe; Factory no lo comprueba contra Git
+        lineas[0] += f" (informe preparado en {corto(preparado)}, según el propio informe)"
+    return lineas
+
+
+def avisos_head(estado: dict) -> list[str]:
+    """Registros vigentes cuyo HEAD no es el actual: producto idéntico, otra historia."""
+    try:
+        actual = contexto_producto()
+    except (FactoryError, OSError):
+        return []
+    avisos = []
+    for nombre, etiqueta in (("revision", "revisión registrada"), ("oracle", "veredicto Oracle registrado")):
+        registro = estado.get(nombre) or {}
+        contexto = registro.get("contexto") or {}
+        if mismo_producto(contexto, actual) and contexto.get("head") != actual["head"]:
+            avisos.append(f"{etiqueta} en {corto(contexto.get('head'))}; HEAD actual {corto(actual['head'])} con el producto idéntico")
+    return avisos
+
+
 def requisitos_verdes(salida: str, requisitos: list[str]) -> bool:
     # Oracle 0.38.1 puede salir con 0 ante «sin juicio» o fallas en sombra.
     # Exigimos la fila exacta de cada requisito con marca ✓; no coincidencias parciales.
@@ -379,6 +414,21 @@ def aprobar_spec(identificador: str) -> None:
     print("Alcance aprobado; sus requisitos todavía deben importarse y medirse.")
     siguiente(identificador, estado["fase"])
 
+def fuente_relativa(ruta: Path) -> None:
+    """Oracle escribe la fuente con la ruta de esta máquina; en el repositorio va relativa al proyecto."""
+    if not ruta.is_file():
+        return
+    texto = ruta.read_text(encoding="utf-8")
+    # Oracle escapa las comillas y las barras invertidas de la ruta: se reconocen las dos formas.
+    relativa = texto
+    for prefijo in {str(ROOT), json.dumps(str(ROOT))[1:-1]}:
+        relativa = relativa.replace(f'fuente "{prefijo}/', 'fuente "')
+    if relativa != texto:
+        ruta.write_text(relativa, encoding="utf-8")
+    if re.search(r'(?m)^\s*fuente "/', relativa):
+        print(f"Aviso: no pude hacer relativa la fuente de {ruta.name}; conserva una ruta absoluta de esta máquina.", file=sys.stderr)
+
+
 def importar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     exigir_spec(carpeta, estado)
@@ -404,6 +454,8 @@ def importar(identificador: str) -> None:
     sin_tipo = [i for i in ids if i.split(".", 1)[1] not in tipos]
     if sin_tipo:
         raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
+    for rid in ids:
+        fuente_relativa(ROOT / "requisitos" / f"{rid}.requisito")
     estado["requisitos"] = ids
     estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
     for clave in ("medidas", "medidas_pendientes"):
@@ -427,7 +479,7 @@ def tipos_cambio(estado: dict) -> list[str]:
 def firma_revision(formato, informe_sha, decisiones_sha, revisor, decision, contexto) -> dict:
     # ponytail: la revisión afecta a todo el cambio; si un hallazgo nombrara su requisito, se podría decidir por tipo.
     return {"formato": formato, "informe_sha256": informe_sha, "decisiones_sha256": decisiones_sha,
-            "revisor": revisor, "decision": decision, "contexto": contexto}
+            "revisor": revisor, "decision": decision, "producto": contexto["archivos_sha256"]}
 
 
 def bytes_json(valor: dict) -> bytes:
@@ -469,9 +521,9 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     rutas = guardar_par_revision(identificador, 'preparacion', bytes_json(informe), bytes_json(decisiones))
     try:
         exigir_spec(carpeta, estado)
-        if (contexto_producto() != contexto or documentos(carpeta, estado) != docs
+        if (not mismo_producto(contexto, contexto_producto()) or documentos(carpeta, estado) != docs
                 or (carpeta / 'factory.json').read_bytes() != registro):
-            raise FactoryError('cambió el contexto o registro durante la preparación')
+            raise FactoryError('cambió el producto o el registro durante la preparación')
     except (FactoryError, OSError) as e:
         raise FactoryError(f'{e}; no uses la preparación en {rutas[0].parent}; prepará una nueva. No se cambiaron gates.') from e
     print(f'Informe pendiente: {rutas[0]}\nDecisiones pendientes: {rutas[1]}')
@@ -521,7 +573,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         exigir_spec(carpeta, estado)
         if (leer_regular(informe, 'informe') != contenido or leer_regular(decisiones, 'decisiones') != resoluciones):
             raise FactoryError('informe o decisiones cambiaron durante la operación; volvé a revisarlos')
-        if (contexto_producto() != contexto or documentos(carpeta, estado) != docs
+        if (not mismo_producto(contexto, contexto_producto()) or documentos(carpeta, estado) != docs
                 or registro_ruta.read_bytes() != registro):
             raise FactoryError('producto, spec o registro cambió durante la operación; volvé a revisar')
 
@@ -537,6 +589,8 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         return
     revalidar()
     destino, destino_decisiones = guardar_par_revision(identificador, 'registro', contenido, resoluciones)
+    preparado = analisis['contexto'].get('head')  # lo declara el informe: sólo se guarda si es un commit
+    preparado = preparado if isinstance(preparado, str) and re.fullmatch(r'[0-9a-f]{40}', preparado) else None
     try:
         revalidar()
         if leer_regular(destino, 'informe archivado') != contenido or leer_regular(destino_decisiones, 'decisiones archivadas') != resoluciones:
@@ -546,6 +600,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
             'informe': str(destino.relative_to(ROOT)), 'sha256': sha256(contenido),
             'decisiones': str(destino_decisiones.relative_to(ROOT)), 'decisiones_sha256': sha256(resoluciones),
             **registro_decision(estado, forma), 'contexto': contexto,
+            **({'head_preparacion': preparado} if preparado and preparado != contexto['head'] else {}),
         }
         estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
         evento(estado, 'revision_registrada', forma=forma, formato='guiado', revisor=revisor, decision=decision,
@@ -607,7 +662,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     if forma is None:
         return
     exigir_spec(carpeta, estado)
-    if contexto_producto() != contexto:
+    if not mismo_producto(contexto, contexto_producto()):
         raise FactoryError("el producto cambió durante la confirmación; repetí la revisión")
     if leer_regular(informe, 'informe') != contenido or (carpeta / 'factory.json').read_bytes() != registro:
         raise FactoryError('informe o registro cambió durante la confirmación; repetí la revisión')
@@ -643,6 +698,17 @@ def juzgar(identificador: str, hechos: Path) -> None:
     hechos = hechos.resolve()
     if not hechos.is_file():
         raise FactoryError(f"no encuentro los hechos del sensor: {hechos}")
+    # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
+    try:
+        ruta_hechos = hechos.relative_to(ROOT).as_posix()
+    except ValueError:
+        ruta_hechos = str(hechos)
+        print(f"Aviso: los hechos están fuera del proyecto ({hechos}); otra máquina no podrá verificarlos. "
+              "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
+    else:
+        if ejecutar(["git", "check-ignore", "-q", str(hechos)]).returncode == 0:
+            print(f"Aviso: los hechos ({ruta_hechos}) están ignorados por Git y no viajan con el repositorio; otra máquina "
+                  "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
     contexto = contexto_producto()
     huella = sha256(hechos.read_bytes())
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(ROOT)])
@@ -652,7 +718,7 @@ def juzgar(identificador: str, hechos: Path) -> None:
     sys.stdout.write(p.stdout)
     if p.stderr:
         sys.stderr.write(p.stderr)
-    if contexto_producto() != contexto or sha256(hechos.read_bytes()) != huella:
+    if not mismo_producto(contexto, contexto_producto()) or sha256(hechos.read_bytes()) != huella:
         raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
     exigir_spec(carpeta, estado)
     informe = carpeta / "oracle-veredicto.txt"
@@ -660,7 +726,7 @@ def juzgar(identificador: str, hechos: Path) -> None:
     ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
     estado["oracle"] = {
         "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
-        "hechos": str(hechos), "hechos_sha256": huella,
+        "hechos": ruta_hechos, "hechos_sha256": huella,
         "informe": str(informe.relative_to(ROOT)), "informe_sha256": sha256(informe.read_bytes()),
         "cuando": ahora(), "contexto": contexto,
     }
@@ -734,7 +800,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             contexto = contexto_producto()
             for nombre in ("revision", "oracle"):
                 registro = estado.get(nombre)
-                if registro and registro.get("contexto") != contexto:
+                if registro and not mismo_producto(registro.get("contexto"), contexto):
                     faltan.append(nombre + " desactualizado respecto del producto")
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
@@ -752,7 +818,11 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
-            faltan.append(etiqueta + " ausente")
+            if etiqueta == "hechos":
+                faltan.append(f"hechos ausentes ({ruta}); en esta máquina se recuperan juzgando de nuevo con los hechos "
+                              f"del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
+            else:
+                faltan.append(etiqueta + " ausente")
     # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
     if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
         faltan.append("revisión sin evidencia vinculada")
@@ -770,6 +840,10 @@ def cerrar(identificador: str) -> None:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
     print(f"Se cerrará la tarea {identificador} (modo {modo_de(estado)}); Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
     print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
+    for linea in commits_registrados(estado):
+        print(linea + ".")
+    for aviso in avisos_head(estado):
+        print("Aviso: " + aviso + ".")
     forma = decidir(estado, "cierre", [], None, f"CERRAR {identificador}", "cierre cancelado; la tarea sigue abierta", None)
     falta = pendientes_actuales(carpeta, estado)
     if falta:
@@ -863,6 +937,10 @@ def mostrar(identificador: str) -> None:
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
+    for linea in commits_registrados(estado):
+        print(linea + ".")
+    for aviso in avisos_head(estado):
+        print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))

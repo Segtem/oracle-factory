@@ -1,0 +1,136 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109",
+  "base": "608c0fa54bd25ae4f095438b6209937966f5bd0c",
+  "head": "a55b1097f3bfee7c1e73fdc3a20bfa17da96146c",
+  "diff_sha256": "5af4f6bc82ce944f7beb128b1a76de445bf611d0c904858fa8bfa5da19d69b1f",
+  "context_sha256": "3b8945ab661b9fcdd791d0bfacf7ab6c59238b44f01afe5c35a488f30d25c85e",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2V-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El commit observado no se muestra en estado ni en el cierre; sólo aparece dentro del aviso, cuando difiere",
+      "explanation": "El requisito dice que cada registro guarda el HEAD observado y que «estado y el cierre SHALL mostrarlo». mostrar y cerrar sólo imprimen el commit dentro de avisos_head, y únicamente cuando el producto es idéntico y el HEAD actual es otro. Con HEAD igual no aparece (lo pide el escenario «HEAD igual», pero eso es sólo la ausencia del aviso); con el producto cambiado tampoco aparece, justo cuando la revisión está desactualizada y alguien querría saber en qué commit se hizo. El HEAD del veredicto de Oracle sólo se ve en el aviso. Los tests v2 sólo comprueban el aviso en estado, y ninguno cubre el cierre.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 889,
+        "end_line": 890,
+        "side": "head"
+      },
+      "trigger": "Cualquier cambio con revisión y veredicto registrados: consultar estado y cerrar, con y sin commit posterior.",
+      "evidence": "Verificado: sondas_r2v.py (carpeta revision-r2), salida en sondas_r2v.salida.txt, test_v_06: ni la salida de estado ni la del cierre contienen el commit revisado cuando HEAD no cambió.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+      "status": "pendiente",
+      "verification": "Correr test_v_06. Sugerencia: imprimir siempre «Revisión: registrada en <commit>» y «Veredicto: registrado en <commit>», y agregar una prueba del cierre."
+    },
+    {
+      "id": "R2V-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Un contexto sin «head» provoca KeyError en estado, en el cierre y en el registro guiado",
+      "explanation": "Antes de este cambio el HEAD era parte de lo comparado, así que un registro o informe sin él quedaba desactualizado. Ahora la validez sólo mira archivos_sha256 y varios lugares indexan ['head'] sin protección. avisos_head hace contexto['head'][:7] cuando el contexto trae archivos_sha256 y no trae head: estado y cerrar terminan con traceback. revisar_guiado hace analisis['contexto']['head'] cuando el informe no trae head: traceback después de archivar las copias en tareas/, sin FactoryError y sin tocar factory.json. Hace falta un registro o informe editado a mano o con otra forma; no hay camino normal.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 353,
+        "end_line": 353,
+        "side": "head"
+      },
+      "trigger": "Quitar contexto.head de revision en factory.json y correr estado; o quitar contexto.head del informe guiado (actualizando el hash en decisiones) y registrar.",
+      "evidence": "Verificado: sondas_r2v.py (carpeta revision-r2), salida en sondas_r2v.salida.txt, test_v_04 (KeyError en avisos_head desde mostrar) y test_v_02 (KeyError en revisar_guiado, cli.py:569).",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "status": "pendiente",
+      "verification": "Correr test_v_02 y test_v_04. Sugerencia: usar .get('head') y no avisar si falta, o exigir head en revision.validar."
+    },
+    {
+      "id": "R2V-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "head_preparacion es lo que el informe dice de sí mismo; no se comprueba contra Git",
+      "explanation": "revisar_guiado guarda como head_preparacion el contexto.head escrito en el informe, sin verificar que sea un commit existente ni que corresponda a la preparación (revision.validar ya no lo compara). Quien edite el informe, actualizando su hash en decisiones, deja en el registro un «HEAD de preparación» inventado. No afecta la vigencia, que sólo mira la huella, pero el escenario dice que queda registrado «el de preparación» como dato de auditoría.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 569,
+        "end_line": 569,
+        "side": "head"
+      },
+      "trigger": "Editar contexto.head del informe a un valor arbitrario antes de registrar.",
+      "evidence": "Verificado: sondas_r2v.py (carpeta revision-r2), salida en sondas_r2v.salida.txt, test_v_03: el registro queda con head_preparacion = «deadbeef…» (40 caracteres que no son un commit).",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "status": "pendiente",
+      "verification": "Correr test_v_03. Opcional: comprobar git cat-file -e, o dejar claro en el registro que es declarado por el informe."
+    },
+    {
+      "id": "R2V-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La documentación y la guía publicada siguen diciendo que un commit nuevo invalida la revisión",
+      "explanation": "README.md:94 («Si cambia el commit, ... repetir la revisión/juicio»), site/desde-cero.html («Crear otro commit posterior cambia la versión que Factory compara»), docs/colaboracion.md:103 («Un merge, rebase o commit nuevo cambia HEAD y vuelve obsoletos revisión/juicio anteriores»), docs/revision-guiada.md:18, :27 y :98 («Cambió producto, HEAD o spec») describen el contrato anterior. El cambio no los toca. Con la regla nueva es falso que un commit que no modifica el producto invalide, justamente lo que G-02 corregía; y verify_guide / verify_collaboration no lo detectan porque no comparan esos textos. Es el núcleo de la confianza de Factory y la guía enseña lo contrario.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 337,
+        "end_line": 340,
+        "side": "head"
+      },
+      "trigger": "grep -rIn -E \"otro commit|cambia HEAD|cambia el commit\" README.md docs site (ubicación del código: mismo_producto).",
+      "evidence": "Verificado por grep sobre el checkout; el diff main..a55b109 no incluye README.md, docs/ ni site/.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "status": "pendiente",
+      "verification": "Actualizar esos textos para decir que la vigencia depende de la huella de archivos y que el HEAD sólo se muestra."
+    },
+    {
+      "id": "R2V-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "Las propuestas de revisión pendientes con la firma anterior nunca se confirman como «confirmo»",
+      "explanation": "firma_revision pasó de guardar el contexto entero a guardar sólo la huella (clave «producto»). Una propuesta de revisión registrada antes de este cambio trae «contexto» y no «producto»; decidir compara las firmas, no coincide, y la persona que repite el comando la registra como «decidio». La decisión es válida (la persona escribió la frase) y la propuesta se consume, pero se pierde la forma «confirmo» que los modos prometen, y la spec pide no exigir migración de registros existentes. cambiar_modo reconstruye la firma desde rev['contexto'] con la forma nueva, así que ahí no hay desajuste.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 447,
+        "end_line": 450,
+        "side": "head"
+      },
+      "trigger": "Cambio con una propuesta de revisión de un agente con la firma antigua; la persona repite revision.",
+      "evidence": "Verificado: sondas_r2v.py (carpeta revision-r2), salida en sondas_r2v.salida.txt, test_v_05: con la firma reescrita a la forma anterior, la revisión queda persona / decidio.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+      "status": "pendiente",
+      "verification": "Correr test_v_05. Sugerencia: aceptar también la firma anterior si su contexto.archivos_sha256 coincide con la huella actual."
+    },
+    {
+      "id": "R2V-06",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "Las pruebas no cubren el cierre, el modo ejecutable ni un registro sin huella; v3_informe_de_otro_producto no distingue la causa",
+      "explanation": "Las 8 pruebas nuevas prueban lo que dicen sus nombres, y las dos convertidas (test_cambio_de_head_no_invalida… y la parte nueva de test_g6) están bien planteadas. Faltan: el aviso en el cierre (el requisito lo nombra), el cambio sólo del modo ejecutable, un registro sin archivos_sha256 (que mismo_producto rechaza por construcción; lo leí, no lo ejecuté) y un registro con head ausente (R2V-02). test_v3_informe_de_otro_producto acepta «desactualizados|otro cambio», mensajes que el código emite para cualquier causa, incluida una distinta de la huella. test_v2_head_igual_sin_aviso protege contra un aviso inventado, pero pasa también en main.",
+      "location": {
+        "file": "tests/test_vigencia.py",
+        "start_line": 162,
+        "end_line": 170,
+        "side": "head"
+      },
+      "trigger": "Leer tests/test_vigencia.py.",
+      "evidence": "Lectura de código. Mis sondas mostraron que el modo ejecutable, un archivo sin seguimiento y el .gitignore sí invalidan (test_v_01), así que el código está bien; lo que falta es la prueba.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "status": "pendiente",
+      "verification": "Agregar pruebas para esos casos y un mensaje de error específico para la huella distinta."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre a55b109: suite (106 OK); tools/verify_vigencia.py --salida revision-r2/evidencia-vigencia-a55b109 (8 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 4 requisitos vigencia_c82d… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); y mis sondas sondas_r2v.py. No corrí el arnés de revisión guiada, los de release contra el wheel ni verify_guide.",
+    "Camino «producto cambiado y revisión sigue vigente»: probé que el modo ejecutable, un archivo nuevo sin seguimiento, un archivo de otro cambio de openspec/changes y un .gitignore con un archivo ignorado invalidan; que tareas/ no invalida (por diseño, excluido como antes) y que un archivo oculto con .git/info/exclude tampoco invalida. Esto último y las exclusiones no cambiaron con este diff: la spec dice no cambiar qué cuenta como producto y el README ya declara que lo ignorado queda fuera. Es el límite de la regla de contenido, no un defecto nuevo.",
+    "Sin la condición del HEAD ya no hay una segunda señal para lo que la huella no ve (archivos ignorados localmente, tareas/). Antes tampoco la daba para lo ignorado; para tareas/ sí podía haber un commit que cambiara HEAD. No encontré nada de tareas/ que forme parte de lo que Oracle juzga, salvo los hechos, que se verifican por su propio hash.",
+    "No encontré otro lugar que compare HEAD o el contexto entero: revisé todos los usos de contexto, head y != en cli.py y revision.py. Los restantes sólo imprimen o guardan el HEAD. Un registro sin archivos_sha256 queda desactualizado (falla cerrado), por lectura.",
+    "Las sondas usan el fixture de tests/test_vigencia.py, con la terminal parcheada; no probé merges ni rebases reales entre ramas, sólo amend y commits de registros."
+  ]
+}

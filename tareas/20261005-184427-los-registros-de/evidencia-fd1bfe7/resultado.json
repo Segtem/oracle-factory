@@ -1,0 +1,49 @@
+{
+  "exitoso": true,
+  "tests": 122,
+  "casos_contrato": 11,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "origen": {
+    "head": "fd1bfe78b70d893e46b53c49fda9a1cee35b2d88",
+    "sha256": {
+      "catalogos/factory_portabilidad.advertir_cuando_los_hechos_no_viajan.oracle": "830e574e9465f0898e820c8cd56df72a0ec651a0734a56b6d658822e0ab4f44e",
+      "catalogos/factory_portabilidad.corrida_completa.oracle": "634d52bb1c07d9d86d567533179f8a3841052d4032bdbb55bdccc81cc9090ca8",
+      "catalogos/factory_portabilidad.fuente_de_los_requisitos_relativa.oracle": "c90e6f947b0bf8111deb5b16e3059be655eb0a0d0a6991a705ec1c3e80541dd4",
+      "catalogos/factory_portabilidad.hechos_con_ruta_relativa_al_proyecto.oracle": "763f49816c5fa656edc12331464dfc386247b42fdf7e1b4d579d467a1cd81a98",
+      "catalogos/factory_portabilidad.pendiente_que_explica_como_recuperarse.oracle": "66c84da7b0369ad27eb67ed183c06f90a134d1588647c0906c709ea4322f6fb7",
+      "catalogos/factory_portabilidad.respetar_los_registros_existentes.oracle": "bf0b9e4cf78210f52fb349b9916a872958ee5c825a70c8b086b2e305e9a8fa8f",
+      "catalogos/factory_portabilidad.sin_rutas_privadas_en_lo_versionado.oracle": "b564b45bb1b13a6a49b5e85b5ac0bc3e174d28f6e7ca1cbed8c21373c416af79",
+      "catalogos/factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra.oracle": "1a257ce80c7d29989a0d8681cece2027249881ce228b9f5d90508b957eb14b2e",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "ccf2f291b7350efc9d2d0b3e35af03bca449f04f447a6b216097ff4606abc8bd",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "30f49365347b6bcca687202c27abb1032b0add4e90c2500f35b50853c0edb473",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "8f69f540c0d4423b86c969dff902012191cb8f30efe11c61110932eaa90e0608",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_modos.py": "3f37e69a4d513e144d456480f702216f95af960283a2e09d68d4cd3b1fa2ad4c",
+      "tests/test_portabilidad.py": "4a1542506ec9ea105b3ef9e7a64d11e31e3a7388b3c0f8ed11e3cd0b188ab827",
+      "tests/test_review_guided.py": "5feefe70d62176a04d377a48b3d756c37f920db6ed08ce14e850e696fcd8965a",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "3d35ec6fc2d1ea821cbf18e1300911af3636165ab9884c00e166a2da094707f9",
+      "tests/test_workflow.py": "f1fda58591b9e82617a738923dbf5684777b6e3cfbd57ce842cc219eaaa6dcdf",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_portabilidad.py": "a5a5b924456826e3dafebffa019c48179d29067fd0b05213d97180f7087b28e0"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios p1–p7 en repositorios temporales, Linux; la otra máquina es un clon en otra ruta, al que se le quita el original. La evidencia entre máquinas reales aisladas, con contenedores, la da tools/verify_maquinas.py, que se corre a pedido.",
+  "artefactos_sha256": {
+    "suite.txt": "5b395e9b75a5d8d4c10e30befa6b32e0f2d995ef1c93ef202834151ad0949c27",
+    "hechos.json": "0b443436df2deb71f1161d49975c689be7e6551f69411bcbabe6a821512dffef"
+  }
+}

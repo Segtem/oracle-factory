@@ -292,7 +292,9 @@ class RevisionGuiada(unittest.TestCase):
                     path.write_bytes(original)
         self.report.write_text('original cambiado después de archivar')
         self.assertFalse(any('informe de revisión' in reason for reason in f.pendientes_actuales(self.folder,self.state())))
-        self.git('commit','--allow-empty','-qm','nuevo candidato')
+        self.git('commit','--allow-empty','-qm','otro commit con el producto idéntico')
+        self.assertFalse(any('desactualizado' in reason for reason in f.pendientes_actuales(self.folder,self.state())))
+        (self.root/'producto.py').write_text('valor = 2\n')
         self.assertTrue(any('desactualizado' in reason for reason in f.pendientes_actuales(self.folder,self.state())))
 
     def test_g6_fallas_de_archivo_y_estado_conservan_anterior(self):

@@ -1,0 +1,286 @@
+{
+  "id": "20261005-154433-la-vigencia-de",
+  "titulo": "La vigencia de una revisión depende del contenido del producto",
+  "capacidad": "vigencia",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
+  "spec_sha256": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:49:13+00:00",
+    "documentos": {
+      "openspec/changes/20261005-154433-la-vigencia-de/proposal.md": "7cd9cd076018e5349351f1f1c4ba4576487046a4789d93e9380230a1cfec1064",
+      "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8"
+    }
+  },
+  "requisitos": [
+    "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+    "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+    "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+    "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json",
+    "sha256": "9d39c7dcf99f24f49a4a8230058717dc5dfc9005d4e41a78f9d17cbf249e916c",
+    "decisiones": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/decisiones.json",
+    "decisiones_sha256": "6ea28ad7e89cb35f2f730180f59327c1649d2f4dfb241f2523a361c1edb4d52b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:17:58+00:00",
+    "contexto": {
+      "head": "1ed961015c45fb6314e91a5286c7c7fadbcd600a",
+      "archivos_sha256": "a068492eba660fba6b7108289117b1563435b86aa094f4447afe1acb139b5ae2"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "/home/workstation/Dev/factory-vigencia/tareas/20261005-154433-la-vigencia-de/evidencia-2509c13/hechos.json",
+    "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2",
+    "informe": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+    "informe_sha256": "9d02058c6597a9fb1d7698bf4a1f186a241209a796145780f19c58cc7ac63527",
+    "cuando": "2026-10-05T18:18:21+00:00",
+    "contexto": {
+      "head": "1ed961015c45fb6314e91a5286c7c7fadbcd600a",
+      "archivos_sha256": "a068492eba660fba6b7108289117b1563435b86aa094f4447afe1acb139b5ae2"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:44:33+00:00",
+      "capacidad": "vigencia"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:49:13+00:00",
+      "documentos": {
+        "openspec/changes/20261005-154433-la-vigencia-de/proposal.md": "7cd9cd076018e5349351f1f1c4ba4576487046a4789d93e9380230a1cfec1064",
+        "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:49:49+00:00",
+      "ids": [
+        "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+        "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+        "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+        "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T15:53:46+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "medidas": [
+        "factory_vigencia.vigencia_por_contenido_del_producto",
+        "factory_vigencia.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T15:53:46+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+      "medidas": [
+        "factory_vigencia.el_commit_observado_se_conserva_y_se_muestra",
+        "factory_vigencia.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T15:53:46+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "medidas": [
+        "factory_vigencia.informe_guiado_vinculado_al_contenido",
+        "factory_vigencia.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T15:53:46+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+      "medidas": [
+        "factory_vigencia.respetar_los_registros_existentes",
+        "factory_vigencia.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:09+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "medidas": [
+        "factory_vigencia.vigencia_por_contenido_del_producto",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+      "medidas": [
+        "factory_vigencia.el_commit_observado_se_conserva_y_se_muestra",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+      "medidas": [
+        "factory_vigencia.informe_guiado_vinculado_al_contenido",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "requisito": "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+      "medidas": [
+        "factory_vigencia.respetar_los_registros_existentes",
+        "factory_vigencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:17:58+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "9d39c7dcf99f24f49a4a8230058717dc5dfc9005d4e41a78f9d17cbf249e916c",
+      "decisiones_sha256": "6ea28ad7e89cb35f2f730180f59327c1649d2f4dfb241f2523a361c1edb4d52b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:18:21+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T18:18:59+00:00",
+      "oracle": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+      "revision": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json"
+    }
+  ],
+  "tipos": {
+    "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": "funcional",
+    "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": "funcional",
+    "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": "no funcional",
+    "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": "funcional"
+  },
+  "medidas": {
+    "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:09+00:00",
+      "sha256": "60bd88d9b2237c5bfe1d21ce1e5337d87e04c84ee5f39dff7c51dbe88812ea4d"
+    },
+    "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "99172deb87410a18fdfc19add2bbee9e3d521a85bad4bbe5b3ef7f8661f0e6ff"
+    },
+    "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "71f2757fcf90f1a61f5c04664720f78b138eba24d6fb5751914ca0ed6db5c59d"
+    },
+    "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-05T15:56:10+00:00",
+      "sha256": "25190abb4aa771445fb7ca716e8cc6107a0db2fb054daaddb7a76039a361fefa"
+    }
+  },
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T18:18:59+00:00"
+  }
+}

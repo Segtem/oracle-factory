@@ -1,6 +1,6 @@
 # Guiar la revisión con un informe pendiente y decisiones explícitas
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 30
 - ETIQUETAS:
 
@@ -103,3 +103,83 @@ Revisión guiada Brian Hollweg: aprobar; 0 abiertos derivados; commit 69ccb5f1d9
 ### Nota (2026-10-05 11:59:06 UTC)
 
 Revisión guiada registrada por Brian desde su terminal (2026-10-05) sobre 69ccb5f: aprobar, 0 abiertos. G-01 corregido; G-02, G-03 y G-04 riesgo aceptado (cli-piloto, cli-humana). Informes de Clue en revision-brian/. Queda abierta: Oracle parcial por los límites sin medir, como colaboración.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia: factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas: factory_revision_guiada.derivar_pendientes_de_decisiones_separadas, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido: factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:34 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita: factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar: factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada: factory_revision_guiada.registrar_confirmacion_humana_informada, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 16:18:35 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado: factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado, factory_revision_guiada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 18:31:12 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:12 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:13 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:13 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:13 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:13 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:13 UTC)
+
+Medidas de revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 18:31:40 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 28c7dccfb7005264e3e6ab80bf5ebaefed73dfad; informe tareas/20261004-005956-revision-guiada/revisiones/registro-wot81ua4/informe.json; decisiones tareas/20261004-005956-revision-guiada/revisiones/registro-wot81ua4/decisiones.json.
+
+### Nota (2026-10-05 18:32:32 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261004-005956-revision-guiada/oracle-veredicto.txt.
+
+### Nota (2026-10-05 18:32:46 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261004-005956-revision-guiada/oracle-veredicto.txt.
+
+### Nota (2026-10-05 18:32:52 UTC)
+
+Revisión guiada renovada registrada por Brian desde su terminal (2026-10-05) sobre el producto con la vigencia por contenido; 7 medidas confirmadas por Brian sin lo declarado sin medir; veredicto Oracle verde con evidencia-16a039a (111 pruebas, 19 casos): 7 requisitos cumplen. Listo para cierre.
+
+### Nota (2026-10-05 18:35:05 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
+
+### Nota (2026-10-05 18:35:16 UTC)
+
+Cerrado por Brian desde su terminal (2026-10-05) en modo confirmacion: 7 requisitos cumplen sin lo declarado sin medir (límites aceptados por Brian), 111 pruebas y 19 casos. G-02 resuelto por el cambio de vigencia por contenido.

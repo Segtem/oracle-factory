@@ -1,0 +1,15 @@
+test_p_01_recuperacion_de_un_registro_anterior (sondas_r2p.SondasP.test_p_01_recuperacion_de_un_registro_anterior) ... 
+R2P-01 pendiente: ['hechos ausentes (/tmp/tmpp65ml9sg/producto/tareas/20261005-192115-nota/hechos.json); en esta máquina se recuperan juzgando de nuevo con los hechos del clon: oracle-factory juzgar 20261005-192115-nota --con RUTA_DE_LOS_HECHOS']
+R2P-01 tras juzgar: fase oracle_verde | hechos tareas/20261005-192115-nota/hechos.json | revisión aprobar | pendientes []
+ok
+test_p_02_raiz_con_caracteres_especiales (sondas_r2p.SondasP.test_p_02_raiz_con_caracteres_especiales) ... 
+R2P-02 [producto ñ #1] fuente:     fuente "openspec/changes/20261005-192116-nota/specs/notas/spec.md#titulo valido" | contiene la ruta: False
+R2P-02 [prod con "comillas"] fuente:     fuente "/tmp/tmp_ppg9cro/raros/prod con \"comillas\"/openspec/changes/20261005-192116-nota/specs/notas/spe | contiene la ruta: False
+R2P-02 [prod\barra] fuente:     fuente "/tmp/tmp_ppg9cro/raros/prod\\barra/openspec/changes/20261005-192116-nota/specs/notas/spec.md#titul | contiene la ruta: True
+ok
+test_p_03_flujo_guiado_modo_y_cierre_sin_rutas (sondas_r2p.SondasP.test_p_03_flujo_guiado_modo_y_cierre_sin_rutas) ... 
+R2P-03 archivos versionados con la ruta de la máquina: []
+ok
+----------------------------------------------------------------------
+Ran 3 tests in 2.143s
+OK

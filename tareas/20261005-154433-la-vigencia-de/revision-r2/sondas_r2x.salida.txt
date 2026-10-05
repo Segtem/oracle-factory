@@ -1,0 +1,7 @@
+R2X-01 fallos: []
+R2X-01 salida con saltos de línea: ['revisión registrada sobre el commit abc', 'def (informe preparado en desconocido, según el propio informe).', 'veredicto Oracle registrado sobre el commit desconocido.', 'Aviso: revisión registrada en abc', 'Aviso: veredicto Oracle registrado en desconocido; HEAD actual 8ea5019 con el producto idéntico.']
+ok
+R2X-02 largo del HEAD: 64 head_preparacion: None
+ok
+Ran 15 tests in 6.315s
+OK

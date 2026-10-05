@@ -1,0 +1,56 @@
+test_v_01_que_cambios_invalidan (sondas_r2v.SondasV.test_v_01_que_cambios_invalidan) ... 
+R2V-vigencia: {'chmod+x': True, 'archivo sin seguimiento': True, 'otro cambio de openspec': True, 'tareas/': False, 'archivo en .git/info/exclude': False, '.gitignore y archivo ignorado': True}
+ok
+test_v_02_head_preparacion_sin_head (sondas_r2v.SondasV.test_v_02_head_preparacion_sin_head) ... 
+R2V-02 excepción: KeyError 'head'
+ERROR
+test_v_03_head_preparacion_inventado (sondas_r2v.SondasV.test_v_03_head_preparacion_inventado) ... 
+R2V-03 head_preparacion registrado: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef
+ok
+test_v_04_aviso_con_contexto_sin_head (sondas_r2v.SondasV.test_v_04_aviso_con_contexto_sin_head) ... 
+R2V-04 excepción en estado: KeyError 'head'
+ERROR
+test_v_05_propuesta_con_firma_vieja_queda_como_decidio (sondas_r2v.SondasV.test_v_05_propuesta_con_firma_vieja_queda_como_decidio) ... 
+R2V-05 forma: decidio persona
+ok
+test_v_06_estado_no_muestra_el_commit_observado (sondas_r2v.SondasV.test_v_06_estado_no_muestra_el_commit_observado) ... 
+R2V-06 estado contiene el commit revisado: False
+R2V-06 cierre contiene el commit revisado: False
+ok
+
+======================================================================
+ERROR: test_v_02_head_preparacion_sin_head (sondas_r2v.SondasV.test_v_02_head_preparacion_sin_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/sondas_r2v.py", line 42, in test_v_02_head_preparacion_sin_head
+    self.registrar_guiado(ident, informe, decisiones)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109/tests/test_vigencia.py", line 150, in registrar_guiado
+    f.revisar(ident, informe, 'Persona fixture', 'aprobar', formato='guiado', decisiones=decisiones)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109/oracle_factory/cli.py", line 595, in revisar
+    return revisar_guiado(identificador, informe, decisiones, revisor, decision)
+  File "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109/oracle_factory/cli.py", line 569, in revisar_guiado
+    **({'head_preparacion': analisis['contexto']['head']} if analisis['contexto'].get('head') != contexto['head'] else {}),
+                            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: 'head'
+
+======================================================================
+ERROR: test_v_04_aviso_con_contexto_sin_head (sondas_r2v.SondasV.test_v_04_aviso_con_contexto_sin_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/revision-r2/sondas_r2v.py", line 64, in test_v_04_aviso_con_contexto_sin_head
+    f.mostrar(ident)
+    ~~~~~~~~~^^^^^^^
+  File "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109/oracle_factory/cli.py", line 889, in mostrar
+    for aviso in avisos_head(estado):
+                 ~~~~~~~~~~~^^^^^^^^
+  File "/home/workstation/Dev/_revisiones/factory-vigencia-a55b109/oracle_factory/cli.py", line 353, in avisos_head
+    avisos.append(f"{etiqueta} registrado en {contexto['head'][:7]}; HEAD actual {actual['head'][:7]} con el producto idéntico")
+                                              ~~~~~~~~^^^^^^^^
+KeyError: 'head'
+
+----------------------------------------------------------------------
+Ran 14 tests in 5.377s
+
+FAILED (errors=2)
