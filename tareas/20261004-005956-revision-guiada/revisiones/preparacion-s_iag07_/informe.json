@@ -1,0 +1,85 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261004-005956-revision-guiada",
+  "contexto": {
+    "head": "69ccb5f1d944a7f88ecfa4411addb150b7fb6f63",
+    "archivos_sha256": "72ce0d4651b5b1030fe1aafee500a676981e04a8f8658cae9c64086fc94a29b6"
+  },
+  "documentos": {
+    "openspec/changes/20261004-005956-revision-guiada/proposal.md": "eb2e2a6c34c9dcc81a125cfa1a173074437dd4d47a9c522d20535b226ea137ac",
+    "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md": "ccf6f0dd86b757fef6c3818a16c0722eb187b1ec4e32f914e77467be1c2eca25"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/revision.py",
+    "oracle_factory/cli.py",
+    "openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md",
+    "openspec/changes/20261004-005956-revision-guiada/medicion-propuesta.md",
+    "tools/verify_review_guided.py",
+    "tests/test_review_guided.py",
+    "catalogos/factory_revision_guiada.corrida_completa.oracle",
+    "catalogos/factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido.oracle",
+    "catalogos/factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado.oracle",
+    "docs/revision-guiada.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato, incluido el merge con main",
+      "resultado": "cumple",
+      "evidencia": "evidencia-69ccb5f/resultado.json: 68 pruebas, 19 casos de contrato, fuentes estables, éxito true"
+    },
+    {
+      "descripcion": "Compatibilidad con colaboración después del merge con main",
+      "resultado": "cumple",
+      "evidencia": "tools/verify_collaboration.py sobre d3a2d75: C1–C9 OK (corrida en scratch del agente)"
+    },
+    {
+      "descripcion": "Cobertura Oracle de los siete requisitos",
+      "resultado": "cumple",
+      "evidencia": "evidencia-69ccb5f/oracle-cobertura.txt: 7 cumplen sólo en lo medido"
+    },
+    {
+      "descripcion": "Prueba negativa de G-01: sin la sección de recuperación en la guía, el requisito de documentación queda en rojo",
+      "resultado": "cumple",
+      "evidencia": "corrida en scratch con la medida corregida: falla sólo g8_guia_documenta_el_recorrido; explicar_y_verificar no cumple"
+    },
+    {
+      "descripcion": "Informes de Clue de los paquetes de implementación y mapeo",
+      "resultado": "cumple",
+      "evidencia": "revision-brian/informe-implementacion.json e informe-mapeo.json, validados con oracle-clue validar"
+    }
+  ],
+  "limites": [
+    "El análisis lo hizo un agente (Claude Code) y las decisiones las tomó Brian en la conversación; el agente no es independiente de quien implementó (misma familia de modelo, otra sesión).",
+    "tests/test_review_guided.py se revisó por nombres y contrato, no línea por línea; los demás archivos listados se leyeron completos o en su diff.",
+    "No mide claridad para principiantes ni calidad del análisis; la prueba de la guía comprueba presencia de secciones y comandos, no su calidad."
+  ],
+  "hallazgos": [
+    {
+      "id": "G-01",
+      "descripcion": "El requisito de documentación se medía sólo con la prueba de CLI; borrar una sección de la guía lo dejaba verde.",
+      "ubicacion": "tools/verify_review_guided.py:40-41",
+      "evidencia": "docs/revision-guiada.md sólo se hasheaba en fuentes(); corregido en 69ccb5f con g8_guia_documenta_el_recorrido."
+    },
+    {
+      "id": "G-02",
+      "descripcion": "El informe guiado queda atado al HEAD: commitearlo o mergear antes de registrar lo invalida.",
+      "ubicacion": "oracle_factory/revision.py:75-76",
+      "evidencia": "validar() compara informe.contexto con contexto_producto(), que incluye HEAD."
+    },
+    {
+      "id": "G-03",
+      "descripcion": "archivos_revisados es declarativo y no se contrasta con el diff.",
+      "ubicacion": "oracle_factory/revision.py:81-89",
+      "evidencia": "sólo se valida forma y unicidad de las rutas."
+    },
+    {
+      "id": "G-04",
+      "descripcion": "Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad.",
+      "ubicacion": "catalogos/factory_revision_guiada.*.oracle",
+      "evidencia": "umbral == N segun contrato; deliberado."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

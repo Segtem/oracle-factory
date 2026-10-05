@@ -1,0 +1,119 @@
+# Revisar con un informe y decisiones separados
+
+Este recorrido está disponible en el **checkout de desarrollo que incorpora la tarea `20261004-005956-revision-guiada`**. El release 0.1.0a3 citado en la guía publicada todavía no incluye estos comandos. Identifique el checkout con `git rev-parse HEAD`; el número de versión por sí solo no identifica estas modificaciones de desarrollo.
+
+Factory comprueba consistencia, contexto y conservación de documentos. Una persona competente analiza el código, los tests, el sensor y las medidas y decide qué hacer con sus hallazgos. Un agente puede ayudar a preparar el análisis; los nombres y motivos registrados no autentican a una persona ni demuestran que sus conclusiones sean correctas.
+
+## Preparar el entorno y el candidato
+
+Desde este checkout, prepare un entorno con las dependencias fijadas del proyecto:
+
+```bash
+uv venv .venv
+uv pip install --python .venv/bin/python -e .
+```
+
+Los comandos siguientes se ejecutan desde ese checkout. `--proyecto` selecciona el producto que se revisa y va antes del subcomando. Sustituya `/ruta/producto`, `ID_COMPLETO` y las rutas de documentos por los valores reales.
+
+El cambio debe estar abierto y tener propuesta/spec aceptadas y vigentes. Termine y confirme el producto antes de preparar la revisión. Factory captura HEAD y una huella de los archivos actuales: si hay cambios sin commit, la huella los incluye, pero no significa que estén guardados en HEAD.
+
+```bash
+.venv/bin/python fabrica.py --proyecto /ruta/producto estado ID_COMPLETO
+.venv/bin/python fabrica.py --proyecto /ruta/producto revision-preparar ID_COMPLETO
+```
+
+El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Ambos tienen campos humanos en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
+
+Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo sí cambia HEAD, incluso si sólo archiva notas; prepare de nuevo si eso ocurre antes de registrar.
+
+## Completar lo que realmente se revisó
+
+En `informe.json`, conserve `schema_version`, `cambio`, `contexto` y `documentos` generados. Si ya no corresponden al candidato, vuelva a preparar; no edite hashes para aparentar vigencia.
+
+| Campo humano | Qué registrar |
+| --- | --- |
+| `revisor` | Nombre de quien realizó el análisis; debe coincidir con `--revisor` |
+| `completa` | `true` o `false`, explícitamente; declare `false` si quedó revisión pendiente |
+| `archivos_revisados` | Lista no vacía de rutas relativas del producto, sin repeticiones; admite referir archivos eliminados |
+| `comprobaciones` | Lista no vacía de objetos con `descripcion`, `resultado` y `evidencia` |
+| `limites` | Lista explícita de límites; `[]` sólo si no declara otros límites. Es obligatoriamente no vacía si `completa` es `false` |
+| `hallazgos` | Lista de objetos con `id`, `descripcion`, `ubicacion` y `evidencia`; IDs únicos |
+| `sin_hallazgos_motivo` | Motivo concreto si `hallazgos` es `[]`; `null` si hay hallazgos |
+
+En cada comprobación, `resultado` es `cumple`, `falla` o `no_ejecutada`. Descripción y evidencia son texto no vacío que explica qué se observó y cómo recuperarlo; una referencia textual no hace que Factory ejecute la prueba o verifique ese archivo. Una comprobación fallida o no ejecutada impide registrar `aprobar`, incluso si no hay hallazgos abiertos. Puede registrar `cambios` para dejar esa situación documentada.
+
+Ejemplo de forma de una comprobación, **pendiente de completar**:
+
+```json
+{
+  "descripcion": "PENDIENTE",
+  "resultado": "no_ejecutada",
+  "evidencia": "PENDIENTE"
+}
+```
+
+Factory rechaza campos humanos obligatorios en `null`, vacíos o con el marcador exacto `PENDIENTE`, ignorando mayúsculas y espacios externos. No puede determinar que otro texto sea convincente. No agregue un hallazgo ficticio para completar una plantilla.
+
+## Registrar decisiones humanas
+
+Termine el informe antes de completar `decisiones.json`. Obtenga el SHA-256 de sus bytes finales con:
+
+```bash
+.venv/bin/python -c 'import hashlib,pathlib,sys; print(hashlib.sha256(pathlib.Path(sys.argv[1]).read_bytes()).hexdigest())' /ruta/producto/tareas/ID_COMPLETO/revisiones/PREPARACION/informe.json
+```
+
+En el documento de decisiones complete:
+
+- `informe_sha256`: el hash recién obtenido. Cualquier edición posterior del informe requiere renovarlo y revisar de nuevo las decisiones que se apoyan en él.
+- `actor` y `motivo`: persona que asume la decisión general y su justificación. Puede ser distinta del revisor.
+- `decisiones`: lista explícita, posiblemente vacía. Cada resolución contiene `hallazgo_id`, `estado`, `motivo`, `actor` y `fecha`.
+
+La fecha debe ser ISO 8601 con hora, segundos y zona, por ejemplo `2026-10-04T15:00:00-03:00`. Use la fecha real de la decisión. Los estados admitidos son `corregido`, `descartado` y `riesgo_aceptado`, siempre con motivo. Factory verifica referencias, estructura y fecha; no comprueba la corrección ni autentica al actor. Si arreglar el defecto cambió el producto, corresponde una revisión del nuevo contexto.
+
+Un hallazgo sin resolución válida queda abierto. No agregue una resolución `pendiente`: deje ese ID sin decisión hasta que la persona resuelva. Un ID inexistente, una decisión duplicada o un hash diferente hacen que el documento se rechace. Si no hubo hallazgos, escriba `decisiones: []`, conserve el motivo de ausencia en el informe y complete actor/motivo generales.
+
+## Registrar el resultado con confirmación
+
+Para dejar documentados problemas o revisión incompleta:
+
+```bash
+.venv/bin/python fabrica.py --proyecto /ruta/producto revision ID_COMPLETO --formato guiado --informe tareas/ID_COMPLETO/revisiones/PREPARACION/informe.json --decisiones tareas/ID_COMPLETO/revisiones/PREPARACION/decisiones.json --revisor "NOMBRE_REAL" --decision cambios
+```
+
+Si la persona acepta el informe completo, todas las comprobaciones declaran `cumple` y no quedan hallazgos abiertos, puede solicitar `--decision aprobar` en ese comando. En modo guiado no se pasa `--hallazgos-abiertos`: se calcula a partir de IDs y resoluciones.
+
+La terminal muestra commit y huella, responsable, alcance, límites, comprobaciones, hallazgos, resoluciones y pendientes. La persona confirma escribiendo `REGISTRAR REVISION ID_COMPLETO` cuando se lo pida. La lista vacía de hallazgos y la validación de JSON nunca sustituyen esa decisión.
+
+Después de confirmar, Factory vuelve a comprobar informe, decisiones, spec, contexto y registro de estado. Si alguno cambió, rechaza la operación para volver a revisar. Si todo corresponde, archiva copias nuevas bajo `tareas/ID_COMPLETO/revisiones/registro-…/`, guarda sus hashes y la decisión e invalida el juicio Oracle previo. No modifica las copias históricas. Esto no es un bloqueo general de otros editores o máquinas: use un escritor activo por cambio, según la [guía de colaboración](colaboracion.md).
+
+Una revisión aprobada todavía requiere evidencia y juicio Oracle con cobertura suficiente antes del cierre. La ejecución del sensor y el cierre siguen siendo pasos separados; esta funcionalidad no los ejecuta por usted.
+
+## Recuperación y revisión libre
+
+| Situación | Próximo paso |
+| --- | --- |
+| Campos pendientes o JSON inválido | Complete los campos indicados; revise claves desconocidas/duplicadas y la versión del documento |
+| Hay abiertos, revisión parcial o comprobaciones no satisfactorias | Registre `cambios` o complete la revisión; no declare cero manualmente |
+| Cambió el informe antes de registrar | Actualice su hash en decisiones después de revisar la edición |
+| Cambió producto, HEAD o spec | Prepare un informe del contexto nuevo; si cambió proposal/spec, renueve antes su aceptación e importación |
+| Se canceló o cambiaron entradas durante la confirmación | El registro anterior no fue sustituido; revise el diagnóstico y repita cuando el contexto esté estable |
+| Falló preparar/archivar | Revise la carpeta residual indicada; conserve antecedentes y no dé el nuevo gate por publicado |
+| Falló guardar el estado | La revisión anterior o edición concurrente se conserva; las copias nuevas pueden quedar como residuo |
+| La revisión quedó registrada pero falló la nota del tracker | Consulte `estado` y recupere sólo la nota; no suponga que se revirtió la revisión |
+| Cambió o falta una copia archivada | `estado` y `cerrar` la señalan como no vigente; restituya la evidencia original o registre una nueva revisión |
+
+La inmutabilidad es una política de escritura de Factory, no un permiso de filesystem: alguien puede editar las copias y entonces sus hashes dejan de coincidir. Editar los originales bajo la tarea después de archivar no cambia las copias registradas.
+
+El formato libre sigue disponible y es el predeterminado. Los comandos anteriores que pasan `--hallazgos-abiertos N` explícitamente conservan su flujo; omitir ese argumento ahora se rechaza. Los registros antiguos aparecen como `libre histórico`. La terminal los distingue como declaraciones humanas sin validación estructural de su contenido. Un error del modo guiado nunca se convierte silenciosamente a libre.
+
+Clue y CodeRabbit pueden aportar antecedentes para el análisis. Los schemas de Clue son distintos: Factory no los importa, convierte ni valida automáticamente con este comando. Si usa Clue, conserve su paquete/informe/triage por el [recorrido de colaboración](colaboracion.md) y complete el registro de Factory sobre el mismo candidato con criterio humano.
+
+## Comprobación del corte
+
+El sensor de este checkout ejecuta pruebas G1–G8 con Git, Task y Oracle reales en repositorios temporales:
+
+```bash
+.venv/bin/python tools/verify_review_guided.py --salida /tmp/evidencia-revision-guiada-01
+```
+
+La carpeta debe ser nueva. Conserva resultados por caso, trazas de comandos, fuentes y hashes; una omisión, falla o caso duplicado no se presenta como éxito. Las confirmaciones de pruebas son fixtures y no aprueban tareas reales. La prueba funcional de CLI no mide claridad para principiantes ni calidad de revisión humana.

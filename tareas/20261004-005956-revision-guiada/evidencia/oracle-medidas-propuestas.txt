@@ -1,0 +1,18 @@
+✓ factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia        3 (== 3)
+✓ factory_revision_guiada.corrida_completa            1 (== 1)
+✓ factory_revision_guiada.derivar_pendientes_de_decisiones_separadas        2 (== 2)
+✓ factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido        1 (== 1)
+✓ factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita        1 (== 1)
+✓ factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar        4 (== 4)
+✓ factory_revision_guiada.registrar_confirmacion_humana_informada        3 (== 3)
+✓ factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado        4 (== 4)
+
+VEREDICTO: verde en 8 medidas. SIN MIRAR:
+  · factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.corrida_completa: integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana
+  · factory_revision_guiada.derivar_pendientes_de_decisiones_separadas: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.registrar_confirmacion_humana_informada: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes
+  · factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado: casos seleccionados en Linux; el sensor verifica identidad y completitud; no prueba calidad del analisis, identidad de actores ni claridad para principiantes

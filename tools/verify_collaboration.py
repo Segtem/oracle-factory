@@ -22,6 +22,12 @@ import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATES = ROOT / 'docs/plantillas/colaboracion'
+GUIDE = ROOT / 'docs/colaboracion.md'
+# Lo que la spec exige que la guía describa; sin esto, los casos medirían sólo las herramientas.
+GUIDE_MARKERS = {
+    'C1': ('## 2. Aislar cada frente', 'git worktree add', 'git clone', 'git fetch'),
+    'C5': ('## 4. Revisar el candidato', 'oracle-clue preparar', 'oracle-clue validar', '--triage'),
+}
 CASES = {
     'C1': 'aislamiento y dos entregas',
     'C2': 'solapamiento textual y semántico',
@@ -62,6 +68,11 @@ def validate_artifacts(output, artifacts):
         path = (output / name).resolve()
         if not path.is_relative_to(output.resolve()) or not path.is_file() or digest(path) != expected:
             raise ValueError('artefacto ausente, fuera de salida o alterado: ' + name)
+
+
+def missing_guide_markers(case, text=None):
+    text = GUIDE.read_text(encoding='utf-8') if text is None else text
+    return [marker for marker in GUIDE_MARKERS[case] if marker not in text]
 
 
 def render_template(name, values):
@@ -184,7 +195,12 @@ class Demo:
         self.check('Pendiente: ninguno' in self.factory(repo, 'estado', ident).stdout,
                    'gates completos en fixture sobre candidato vigente')
 
+    def guide(self):
+        missing = missing_guide_markers(self.case)
+        self.check(not missing, 'la guía describe lo que exige la spec; faltan: ' + (', '.join(missing) or 'ninguno'))
+
     def C1(self, base):
+        self.guide()
         origin = self.repo(base / 'integracion')
         a, b = base / 'a', base / 'b'
         head = self.git(origin, 'rev-parse', 'HEAD').stdout.strip()
@@ -368,6 +384,7 @@ class Demo:
                              'verification': 'Ejecutar assert sumar(2,1)==3'}]}
 
     def C5(self, base):
+        self.guide()
         repo = self.repo(base / 'producto')
         (repo / 'calc.py').write_text('def sumar(a, b):\n    return a+b\n')
         (repo / 'contrato.md').write_text('sumar devuelve la suma\n')

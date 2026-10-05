@@ -1,0 +1,13 @@
+diff --cc tareas/20261005-113932-frente/TAREA.md
+index 45053b9,4c007af..0000000
+--- a/tareas/20261005-113932-frente/TAREA.md
++++ b/tareas/20261005-113932-frente/TAREA.md
+@@@ -1,4 -1,4 +1,8 @@@
+++<<<<<<< HEAD
+ +# Frente A fixture
+++=======
++ # Frente B fixture
+++>>>>>>> cd2f919b3cdd4a640494f09ad0fa9fe62f7dd64d
+  
+  - ESTADO: ABIERTA
+  - PRIORIDAD: 50

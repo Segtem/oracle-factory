@@ -1,0 +1,10 @@
+diff --cc producto.txt
+index bac71fa,28c4bab..0000000
+--- a/producto.txt
++++ b/producto.txt
+@@@ -1,1 -1,1 +1,5 @@@
+++<<<<<<< HEAD
+ +decisión B
+++=======
++ decisión A
+++>>>>>>> a

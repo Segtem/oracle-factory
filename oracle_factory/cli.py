@@ -16,6 +16,7 @@ import sys
 from importlib import metadata, resources
 
 from . import __version__
+from . import revision as documentos_revision
 from pathlib import Path
 
 ROOT = Path.cwd().resolve()
@@ -294,8 +295,148 @@ def importar(identificador: str) -> None:
     print("La persona debe revisar medidas y límites de cada requisito.")
     siguiente(identificador, estado["fase"])
 
-def revisar(identificador: str, informe: Path, revisor: str, decision: str, abiertos: int) -> None:
+def bytes_json(valor: dict) -> bytes:
+    return (json.dumps(valor, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+
+
+def leer_regular(ruta: Path, nombre: str) -> bytes:
+    if not ruta.is_file():
+        raise FactoryError(f'{nombre}: se requiere un archivo regular: {ruta}')
+    return ruta.read_bytes()
+
+
+def guardar_par_revision(identificador: str, prefijo: str, informe: bytes, decisiones: bytes) -> tuple[Path, Path]:
+    raiz = ruta_segura(ROOT / 'tareas' / identificador / 'revisiones')
+    destino = None
+    try:
+        if not ruta_segura(raiz.parent / 'TAREA.md').is_file():
+            raise FactoryError(f'no encuentro la tarea: {raiz.parent / "TAREA.md"}')
+        raiz.mkdir(parents=True, exist_ok=True)
+        destino = Path(tempfile.mkdtemp(prefix=prefijo + '-', dir=raiz))
+        for nombre, datos in (('informe.json', informe), ('decisiones.json', decisiones)):
+            archivo = ruta_segura(destino / nombre)
+            with archivo.open('xb') as salida:
+                salida.write(datos)
+        return destino / 'informe.json', destino / 'decisiones.json'
+    except (OSError, FactoryError) as e:
+        raise FactoryError(f'no se completaron los documentos de revisión: {e}. '
+                           f'Revisá posibles archivos residuales en {destino or raiz}; no se sobrescribieron antecedentes ni se publicó un gate nuevo.') from e
+
+
+def preparar_revision(identificador: str) -> tuple[Path, Path]:
     carpeta, estado = abierto(identificador)
+    registro = (carpeta / 'factory.json').read_bytes()
+    if json.loads(registro) != estado:
+        raise FactoryError('registro cambió durante la lectura; volvé a preparar')
+    exigir_spec(carpeta, estado)
+    contexto, docs = contexto_producto(), documentos(carpeta, estado)
+    informe, decisiones = documentos_revision.plantillas(identificador, contexto, docs)
+    rutas = guardar_par_revision(identificador, 'preparacion', bytes_json(informe), bytes_json(decisiones))
+    try:
+        exigir_spec(carpeta, estado)
+        if (contexto_producto() != contexto or documentos(carpeta, estado) != docs
+                or (carpeta / 'factory.json').read_bytes() != registro):
+            raise FactoryError('cambió el contexto o registro durante la preparación')
+    except (FactoryError, OSError) as e:
+        raise FactoryError(f'{e}; no uses la preparación en {rutas[0].parent}; prepará una nueva. No se cambiaron gates.') from e
+    print(f'Informe pendiente: {rutas[0]}\nDecisiones pendientes: {rutas[1]}')
+    print(f"Cambio: {identificador}; HEAD: {contexto['head']}; huella de archivos: {contexto['archivos_sha256']}")
+    print('La huella incluye cambios locales; confirmá el producto antes de revisar. Preparar no analiza ni aprueba.')
+    print('Completá el informe y luego su SHA-256 en decisiones; resolvé los hallazgos con criterio humano.')
+    print(f'Próximo paso: oracle-factory revision {identificador} --formato guiado --informe RUTA_INFORME '
+          '--decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION')
+    print('DECISION debe ser aprobar o cambios, elegida por la persona después de revisar.')
+    return rutas
+
+
+def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str) -> None:
+    carpeta, estado = abierto(identificador)
+    registro_ruta = ruta_segura(carpeta / 'factory.json')
+    registro = registro_ruta.read_bytes()
+    if json.loads(registro) != estado:
+        raise FactoryError('registro cambió durante la lectura; volvé a revisar')
+    exigir_spec(carpeta, estado)
+    contenido, resoluciones = leer_regular(informe, 'informe'), leer_regular(decisiones, 'decisiones')
+    contexto, docs = contexto_producto(), documentos(carpeta, estado)
+    try:
+        analisis, triage, pendientes_ids = documentos_revision.validar(
+            contenido, resoluciones, identificador=identificador, contexto=contexto, documentos=docs, revisor=revisor)
+    except documentos_revision.RevisionInvalida as e:
+        raise FactoryError(str(e)) from e
+    abiertos = len(pendientes_ids)
+    print('Formato: guiado; consistencia estructural, sin verificar calidad del análisis ni identidad de actores.')
+    print(f"Revisor: {revisor}; decisión solicitada: {decision}; commit: {contexto['head']}; huella: {contexto['archivos_sha256']}")
+    print(f"Revisión declarada completa: {analisis['completa']}; archivos: {', '.join(analisis['archivos_revisados'])}")
+    print('Límites: ' + ('; '.join(analisis['limites']) or 'sin límites adicionales declarados; no implica cobertura universal'))
+    for comprobacion in analisis['comprobaciones']:
+        print(f"Comprobación {comprobacion['resultado']}: {comprobacion['descripcion']} · {comprobacion['evidencia']}")
+    for hallazgo in analisis['hallazgos']:
+        print(f"Hallazgo {hallazgo['id']}: {hallazgo['descripcion']} · {hallazgo['ubicacion']} · {hallazgo['evidencia']}")
+    if not analisis['hallazgos']:
+        print('Ausencia de hallazgos declarada: ' + analisis['sin_hallazgos_motivo'])
+    for resolucion in triage['decisiones']:
+        print(f"Resolución {resolucion['hallazgo_id']}: {resolucion['estado']} · {resolucion['actor']} · {resolucion['fecha']} · {resolucion['motivo']}")
+    print(f"Actor de decisión: {triage['actor']}; motivo: {triage['motivo']}")
+    print(f"Abiertos derivados: {abiertos}; IDs: {', '.join(pendientes_ids) or 'ninguno'}")
+    if decision == 'aprobar' and (abiertos or not analisis['completa']
+                                or any(c['resultado'] != 'cumple' for c in analisis['comprobaciones'])):
+        raise FactoryError('no se puede aprobar: revisión incompleta, hallazgos abiertos o comprobaciones falla/no_ejecutada; registrá cambios o renová la revisión')
+
+    def revalidar():
+        exigir_spec(carpeta, estado)
+        if (leer_regular(informe, 'informe') != contenido or leer_regular(decisiones, 'decisiones') != resoluciones):
+            raise FactoryError('informe o decisiones cambiaron durante la operación; volvé a revisarlos')
+        if (contexto_producto() != contexto or documentos(carpeta, estado) != docs
+                or registro_ruta.read_bytes() != registro):
+            raise FactoryError('producto, spec o registro cambió durante la operación; volvé a revisar')
+
+    if input(f'Escribí REGISTRAR REVISION {identificador}: ').strip() != f'REGISTRAR REVISION {identificador}':
+        raise FactoryError('registro de revisión cancelado')
+    revalidar()
+    destino, destino_decisiones = guardar_par_revision(identificador, 'registro', contenido, resoluciones)
+    try:
+        revalidar()
+        if leer_regular(destino, 'informe archivado') != contenido or leer_regular(destino_decisiones, 'decisiones archivadas') != resoluciones:
+            raise FactoryError('las copias archivadas cambiaron antes de registrar')
+        estado['revision'] = {
+            'formato': 'guiado', 'revisor': revisor, 'decision': decision, 'hallazgos_abiertos': abiertos,
+            'informe': str(destino.relative_to(ROOT)), 'sha256': sha256(contenido),
+            'decisiones': str(destino_decisiones.relative_to(ROOT)), 'decisiones_sha256': sha256(resoluciones),
+            'por': getpass.getuser(), 'cuando': ahora(), 'contexto': contexto,
+        }
+        estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
+        evento(estado, 'revision_registrada', formato='guiado', revisor=revisor, decision=decision,
+               abiertos=abiertos, sha256=sha256(contenido), decisiones_sha256=sha256(resoluciones))
+        escribir_atomico(registro_ruta, bytes_json(estado), esperado=registro)
+    except (FactoryError, OSError) as e:
+        raise FactoryError(f'no se publicó la nueva revisión: {e}. Copias residuales en {destino.parent}; '
+                           'se conservó el registro anterior o la edición concurrente.') from e
+    try:
+        nota_tarea(identificador, f'Revisión guiada {revisor}: {decision}; {abiertos} abiertos derivados; '
+                   f"commit {contexto['head']}; informe {destino.relative_to(ROOT)}; decisiones {destino_decisiones.relative_to(ROOT)}.")
+    except (FactoryError, OSError) as e:
+        raise FactoryError(f'La revisión quedó registrada en {registro_ruta}; nota del tracker pendiente: {e}. '
+                           'Consultá estado y recuperá sólo la nota; no se revirtió el registro.') from e
+    print(f'Informe registrado: {destino}\nDecisiones registradas: {destino_decisiones}')
+    siguiente(identificador, estado['fase'])
+
+
+def revisar(identificador: str, informe: Path, revisor: str, decision: str, abiertos: int | None = None,
+            *, formato: str = 'libre', decisiones: Path | None = None) -> None:
+    if decision not in {'aprobar', 'cambios'} or not revisor.strip():
+        raise FactoryError('indicá revisor y una decisión válida')
+    if formato == 'guiado':
+        if abiertos is not None or decisiones is None:
+            raise FactoryError('modo guiado requiere --decisiones y calcula abiertos; no admite --hallazgos-abiertos')
+        return revisar_guiado(identificador, informe, decisiones, revisor, decision)
+    if formato != 'libre' or decisiones is not None:
+        raise FactoryError('usá --formato guiado con decisiones, o libre sin decisiones; no hay conversión automática')
+    if type(abiertos) is not int or abiertos < 0:
+        raise FactoryError('modo libre requiere --hallazgos-abiertos N explícito, entero no negativo')
+    carpeta, estado = abierto(identificador)
+    registro = (carpeta / 'factory.json').read_bytes()
+    if json.loads(registro) != estado:
+        raise FactoryError('registro cambió durante la lectura; volvé a revisar')
     exigir_spec(carpeta, estado)
     if not informe.is_file():
         raise FactoryError(f"no encuentro el informe: {informe}")
@@ -309,14 +450,18 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     contexto = contexto_producto()
     huella = sha256(contenido)
     destino = carpeta / "review.md"
+    print('Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.')
     print(f"Revisor: {revisor}; decisión: {decision}; abiertos: {abiertos}; commit: {contexto['head']}")
     if input(f"Escribí REGISTRAR REVISION {identificador}: ").strip() != f"REGISTRAR REVISION {identificador}":
         raise FactoryError("registro de revisión cancelado")
     exigir_spec(carpeta, estado)
     if contexto_producto() != contexto:
         raise FactoryError("el producto cambió durante la confirmación; repetí la revisión")
+    if leer_regular(informe, 'informe') != contenido or (carpeta / 'factory.json').read_bytes() != registro:
+        raise FactoryError('informe o registro cambió durante la confirmación; repetí la revisión')
     destino.write_bytes(contenido)
     estado["revision"] = {
+        "formato": "libre",
         "revisor": revisor, "decision": decision, "hallazgos_abiertos": abiertos,
         "informe": str(destino.relative_to(ROOT)), "sha256": huella,
         "por": getpass.getuser(), "cuando": ahora(), "contexto": contexto,
@@ -404,6 +549,7 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     oracle = estado.get("oracle") or {}
     for etiqueta, ruta, huella in (
         ("informe de revisión", rev.get("informe"), rev.get("sha256")),
+        ("decisiones de revisión", rev.get("decisiones"), rev.get("decisiones_sha256")),
         ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
         ("hechos", oracle.get("hechos"), oracle.get("hechos_sha256")),
     ):
@@ -417,6 +563,8 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
     if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
         faltan.append("revisión sin evidencia vinculada")
+    if rev.get('formato') == 'guiado' and not all(rev.get(k) for k in ('decisiones', 'decisiones_sha256')):
+        faltan.append('revisión guiada sin decisiones vinculadas')
     if oracle and not all(oracle.get(k) for k in ("informe", "informe_sha256", "hechos", "hechos_sha256", "contexto")):
         faltan.append("juicio sin evidencia vinculada")
     return faltan
@@ -451,6 +599,10 @@ def mostrar(identificador: str) -> None:
     print("Aprobación spec: " + ("sí" if estado.get("spec_aprobada") else "esperando a la persona"))
     rev = estado.get("revision")
     print("Revisión: " + (f"{rev['revisor']} / {rev['decision']} / {rev['hallazgos_abiertos']} abiertos" if rev else "pendiente"))
+    if rev:
+        formato = rev.get('formato', 'libre histórico')
+        print('Formato de revisión: ' + formato + ('; consistencia estructural, no calidad del análisis' if formato == 'guiado'
+                                                 else '; declaración humana sin validación estructural'))
     oracle = estado.get("oracle")
     print("Oracle: " + (f"código {oracle['codigo']} ({oracle['informe']})" if oracle else "pendiente"))
     siguiente(identificador, estado["fase"])
@@ -779,6 +931,7 @@ def main(argv: list[str] | None = None) -> int:
     limites.add_argument('--sin-medir', help='declarar el límite que permanece sin medir')
     limites.add_argument('--quitar-sin-medir', action='store_true', help='eliminar explícitamente ese límite; no prueba pertinencia ni cumplimiento')
     for nombre, ayuda in (("aprobar-spec", "aceptación humana explícita de la propuesta/spec"),
+                          ("revision-preparar", "preparar informe guiado y decisiones pendientes sin aprobar"),
                           ("importar", "importar requisitos de la spec aceptada a Oracle"),
                           ("estado", "mostrar estado y gates pendientes"),
                           ("cerrar", "cierre humano si todos los gates pasaron")):
@@ -787,7 +940,9 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("revision", help="registrar un informe de CodeRabbit/revisor y decisión humana")
     p.add_argument("id"); p.add_argument("--informe", type=Path, required=True)
     p.add_argument("--revisor", required=True); p.add_argument("--decision", choices=("aprobar", "cambios"), required=True)
-    p.add_argument("--hallazgos-abiertos", type=int, default=0)
+    p.add_argument('--formato', choices=('libre', 'guiado'), default='libre')
+    p.add_argument('--decisiones', type=Path, help='documento de decisiones separado, sólo en modo guiado')
+    p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
     p.add_argument("id"); p.add_argument("--con", type=Path, required=True)
     args = parser.parse_args(argv)
@@ -803,7 +958,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "medir": medir(args.id, requisito_id=args.requisito, medidas=args.medida, listar_opciones=args.listar, sin_medir=args.sin_medir, quitar_sin_medir=args.quitar_sin_medir)
         elif args.comando == "aprobar-spec": aprobar_spec(args.id)
         elif args.comando == "importar": importar(args.id)
-        elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos)
+        elif args.comando == 'revision-preparar': preparar_revision(args.id)
+        elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
+                                                formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con)
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "estado": mostrar(args.id)

@@ -1,0 +1,105 @@
+{
+  "revision_guiada_caso": [
+    {
+      "requisito": "preparar_documentos_pendientes_sin_aprobar",
+      "caso": "test_review_guided.RevisionGuiada.test_g1_preparar_repetido_deja_pendientes_y_conserva_gates",
+      "codigo": 0
+    },
+    {
+      "requisito": "preparar_documentos_pendientes_sin_aprobar",
+      "caso": "test_review_guided.RevisionGuiada.test_g1_error_parcial_y_enlace_no_modifican_gates",
+      "codigo": 0
+    },
+    {
+      "requisito": "preparar_documentos_pendientes_sin_aprobar",
+      "caso": "test_review_guided.RevisionGuiada.test_g1_sin_aceptacion_o_cambio_cerrado_no_prepara",
+      "codigo": 0
+    },
+    {
+      "requisito": "preparar_documentos_pendientes_sin_aprobar",
+      "caso": "test_review_guided.RevisionGuiada.test_g1_cambio_durante_preparacion_identifica_salida_obsoleta",
+      "codigo": 0
+    },
+    {
+      "requisito": "validar_informe_guiado_y_su_alcance_declarado",
+      "caso": "test_review_guided.RevisionGuiada.test_g2_plantilla_y_entradas_invalidas_no_piden_confirmacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "validar_informe_guiado_y_su_alcance_declarado",
+      "caso": "test_review_guided.RevisionGuiada.test_g2_schema_contexto_campos_y_rutas_se_validan",
+      "codigo": 0
+    },
+    {
+      "requisito": "validar_informe_guiado_y_su_alcance_declarado",
+      "caso": "test_review_guided.RevisionGuiada.test_g3_sin_hallazgos_exige_motivo_y_confirmacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "validar_informe_guiado_y_su_alcance_declarado",
+      "caso": "test_review_guided.RevisionGuiada.test_g3_incompleta_falla_o_no_ejecutada_solo_permite_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "derivar_pendientes_de_decisiones_separadas",
+      "caso": "test_review_guided.RevisionGuiada.test_g4_resoluciones_derivan_abiertos_y_muestran_motivos",
+      "codigo": 0
+    },
+    {
+      "requisito": "derivar_pendientes_de_decisiones_separadas",
+      "caso": "test_review_guided.RevisionGuiada.test_g4_hash_ids_y_decisiones_invalidas_se_rechazan",
+      "codigo": 0
+    },
+    {
+      "requisito": "registrar_confirmacion_humana_informada",
+      "caso": "test_review_guided.RevisionGuiada.test_g5_edicion_durante_confirmacion_preserva_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "registrar_confirmacion_humana_informada",
+      "caso": "test_review_guided.RevisionGuiada.test_g5_cancelar_preserva_y_nueva_revision_invalida_juicio",
+      "codigo": 0
+    },
+    {
+      "requisito": "registrar_confirmacion_humana_informada",
+      "caso": "test_review_guided.RevisionGuiada.test_g5_cambio_entre_lectura_y_snapshot_no_se_sobrescribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "conservar_evidencia_y_comprobar_vigencia",
+      "caso": "test_review_guided.RevisionGuiada.test_g6_archivos_archivados_y_contexto_se_verifican",
+      "codigo": 0
+    },
+    {
+      "requisito": "conservar_evidencia_y_comprobar_vigencia",
+      "caso": "test_review_guided.RevisionGuiada.test_g6_fallas_de_archivo_y_estado_conservan_anterior",
+      "codigo": 0
+    },
+    {
+      "requisito": "conservar_evidencia_y_comprobar_vigencia",
+      "caso": "test_review_guided.RevisionGuiada.test_g6_nota_fallida_no_finge_revertir_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "mantener_formato_libre_con_declaracion_explicita",
+      "caso": "test_review_guided.RevisionGuiada.test_g7_libre_compatible_historico_y_opciones_explicitas",
+      "codigo": 0
+    },
+    {
+      "requisito": "explicar_y_verificar_los_limites_del_recorrido",
+      "caso": "test_review_guided.RevisionGuiada.test_g8_cli_completo_y_oracle_real_en_fixture",
+      "codigo": 0
+    },
+    {
+      "requisito": "explicar_y_verificar_los_limites_del_recorrido",
+      "caso": "test_review_guided.RevisionGuiada.test_g8_guia_documenta_el_recorrido",
+      "codigo": 0
+    }
+  ],
+  "revision_guiada_corrida": [
+    {
+      "completa": 1,
+      "casos": 19
+    }
+  ]
+}

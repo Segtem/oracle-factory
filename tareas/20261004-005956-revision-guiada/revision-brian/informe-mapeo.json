@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-revision-guiada-5b54dc8",
+  "base": "b89340ff823f258c643dc1b5bd8b2314926f10bf",
+  "head": "5b54dc88fc5d6d4bf1e3768d9ba423032eb0f1e8",
+  "diff_sha256": "42561538a1ec5df822d299e47dc2fbf53a9d5c0c630e8d71fbe378b3e181e7ea",
+  "context_sha256": "f310a373d31333ecc4c26de2517ca64016669776814ab8fad863cc6694223342",
+  "provider": {
+    "name": "Claude Code (Opus 5.5), agente de Brian; hallazgos pendientes de su decisión",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Lo implementó otra sesión de un agente de la misma familia; no es una revisión independiente.",
+    "Se leyeron el mapeo (medicion-propuesta.md), los siete .requisito y la asociación en factory.json. Los hallazgos sobre las medidas (G-01 y G-04) están en el informe de implementación, porque ahí se crearon los catálogos."
+  ],
+  "findings": []
+}

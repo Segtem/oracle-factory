@@ -8,6 +8,8 @@ Es una CLI local y un flujo visible en Git. No hace commits ni publica ramas por
 
 Para trabajar entre dos personas con sus agentes, consultá la [guía de colaboración](docs/colaboracion.md): reparto, checkouts separados, relevos, revisión con Clue e integración con evidencia vigente. Incluye plantillas y una demostración local; las asignaciones son acuerdos humanos y el piloto con personas se registra por separado.
 
+En el checkout de desarrollo, la [revisión guiada](docs/revision-guiada.md) prepara informes pendientes, separa decisiones y calcula hallazgos abiertos. Todavía no está incluida en el release 0.1.0a3 enlazado abajo. El formato libre sigue disponible; este checkout exige `--hallazgos-abiertos` explícito al registrarlo.
+
 
 ## Instalación del corte alpha
 

@@ -1,0 +1,36 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/tmp/factory-colaboracion-104j6nj3/C5/producto",
+  "base": "4d396747c665a8e81347748e5faa3771b0c0873c",
+  "head": "378a93b647eaf45f359c278e0465b6cbead82e4b",
+  "diff_sha256": "a39614bfa3fa198974dde5482b5475069f812c1fde1840edfb584b82f9623a84",
+  "context_sha256": "5b8cf3f22eb44f432fda5290d101e5dfc56a3704de10b5cd724430103dfed802",
+  "provider": {
+    "name": "fixture sembrado; no revisión real",
+    "model": null
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Hallazgo fixture sobre un defecto sembrado."
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1,
+      "title": "Suma implementada como resta",
+      "explanation": "2+1 devuelve 1.",
+      "location": {
+        "file": "calc.py",
+        "start_line": 2,
+        "end_line": 2,
+        "side": "head"
+      },
+      "trigger": "sumar(2,1)",
+      "evidence": "return a-b",
+      "status": "pendiente",
+      "verification": "Ejecutar assert sumar(2,1)==3"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+requisito revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar:
+    texto "El sistema SHALL crear, para un cambio abierto con spec aceptada y vigente y contexto Git disponible, un informe guiado y un documento de decisiones nuevos, dejando pendientes las observaciones y decisiones humanas, sin modificar revisiones, juicios ni cierre."
+    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-revision-guiada/specs/revision-guiada/spec.md#preparar documentos pendientes sin aprobar"
+    medido_por factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar, factory_revision_guiada.corrida_completa
+    sin_medir "Casos seleccionados G1–G8 en Linux; no mide calidad del análisis ni autenticación o competencia de los actores."

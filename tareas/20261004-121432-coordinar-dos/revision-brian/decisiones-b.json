@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.triage/v1",
+  "report_sha256": "f61277c102057fd043e694d75800290caa85f3a5f3ae9ef03d1ddb3a4fdd33b1",
+  "decisions": [
+    {
+      "finding_id": "B-01",
+      "status": "riesgo_aceptado",
+      "reason": "Se acepta el límite: tres intentos alineados al segundo. Si aparece en una máquina lenta, se crean las dos tareas en paralelo.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    },
+    {
+      "finding_id": "B-02",
+      "status": "riesgo_aceptado",
+      "reason": "En próximos candidatos, los registros del tracker van en un commit aparte.",
+      "actor": "Brian (en la conversación: «Vamos con tu recomendación, corregí A-01 ahora.»)",
+      "at": "2026-10-05T11:39:47+00:00"
+    }
+  ]
+}

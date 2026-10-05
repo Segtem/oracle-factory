@@ -14,3 +14,7 @@ Corregir la fricción 7 del [piloto con agentes](../20261004-121432-coordinar-do
 - `revision` sin commits: explicar el paso que falta.
 - Plantillas: la spec debe traer `## ADDED Requirements` y la proposal no debe decir «Brian».
 - Ejemplo `notas`: las medidas deben cumplir `meta.ningun_umbral_de_igualdad` y `meta.toda_medida_filtra_o_agrupa` (fricción 11).
+
+### Nota (2026-10-05 11:44:21 UTC)
+
+Fricción observada al registrar la revisión de colaboración (2026-10-05): commitear factory.json/review.md cambia HEAD y deja la revisión 'desactualizada respecto del producto' aunque archivos_sha256 sea idéntico. contexto_producto() exige HEAD igual; los registros del flujo ya se excluyen de los archivos. Evaluar vincular la revisión a archivos_sha256 + commit del producto, no al HEAD que incluye registros.
