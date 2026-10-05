@@ -119,3 +119,43 @@ Medidas de estructura_cd7e5b6c4f15e5d8b.listar_con_filtros: factory_estructura.l
 ### Nota (2026-10-05 21:46:52 UTC)
 
 Medidas de estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente: factory_estructura.respetar_lo_existente, factory_estructura.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 23:48:03 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.estructura_documentada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:03 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:03 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.listar_con_filtros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:48:04 UTC)
+
+Medidas de estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente: Brian Hollweg (persona, confirmo, modo confirmacion).
