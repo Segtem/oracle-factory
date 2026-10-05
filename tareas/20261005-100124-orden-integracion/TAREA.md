@@ -24,3 +24,7 @@ Decisión confirmada por Brian (2026-10-05, conversación: «1. Confirmo.»): si
 ### Nota (2026-10-05, decisión de Brian)
 
 Opción 1: colaboración entra a `main` revisada (revisión registrada por Brian desde su terminal, 0 hallazgos abiertos) y con el cambio `20261004-121432-coordinar-dos` abierto. Oracle no puede dar cobertura completa mientras el piloto humano siga sin medir, así que el cierre espera a ese piloto. Esto reemplaza el «revisada y cerrada» del acuerdo anterior.
+
+### Nota (2026-10-05 12:02:03 UTC)
+
+Integración completa (2026-10-05): colaboración (922fa33) y revisión guiada (01deb4c) en main y subidas. Ambos cambios quedan abiertos hasta cubrir lo sin medir. Sigue modos-de-trabajo sobre este main.
