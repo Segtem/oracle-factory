@@ -4,17 +4,68 @@
 
 ### Requirement: estructura documentada
 Tipo: funcional
-La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: la raíz, el acuerdo y los registros en `openspec/changes/<ID>/`, el trabajo en `tareas/<ID>/` con una carpeta por candidato, y los checkouts de revisión fuera del repositorio, en la carpeta que indica `raiz_revisiones` del `factory.json` del proyecto (por defecto `~/Dev/_revisiones`). La carpeta de cada candidato se llama como el SHA de 7 caracteres de su commit.
-
-#### Scenario: raíz de revisiones configurada
-- GIVEN un `factory.json` con `raiz_revisiones` apuntando a otra carpeta
-- WHEN se consulta la documentación o se usa ruta con el tipo clue
-- THEN la raíz es la configurada y no la de por defecto
+La documentación SHALL describir dónde va cada artefacto de un proyecto Factory: `.factory/cambios/<ID>/` con una carpeta por candidato (`candidatos/<sha7>/` con evidencia, paquete de Clue y revisión), `.factory/local/revisiones/<sha7>/` para los checkouts de revisión, el acuerdo humano en `openspec/changes/<ID>/`, y las carpetas de Task y de Oracle en la raíz.
 
 #### Scenario: una persona busca la evidencia de un candidato
 - GIVEN un cambio con evidencia producida sobre un commit
 - WHEN la persona consulta la documentación de estructura
 - THEN sabe en qué carpeta está esa evidencia sin conocer la historia del cambio
+
+### Requirement: carpeta propia de Factory
+Tipo: funcional
+`init` SHALL crear `.factory/` en la raíz del proyecto con `cambios/` y `local/`, y SHALL agregar `.factory/local/` al `.gitignore` sin sobrescribir lo existente.
+
+#### Scenario: proyecto nuevo
+- GIVEN una carpeta sin `.factory/`
+- WHEN se ejecuta init
+- THEN existen `.factory/cambios/` y `.factory/local/`, y `.factory/local/` está ignorada por Git
+
+#### Scenario: proyecto ya inicializado
+- GIVEN un proyecto Factory existente sin `.factory/` y con un `.gitignore` propio
+- WHEN se ejecuta init
+- THEN se agrega `.factory/` y la línea de ignore, y el resto del `.gitignore` queda intacto
+
+### Requirement: descubrir la raíz del proyecto
+Tipo: funcional
+Los comandos SHALL buscar `.factory/` subiendo desde la carpeta actual hasta la raíz del sistema de archivos y usar la primera que encuentren; `--proyecto` SHALL tener prioridad y, sin `.factory/` en ningún ancestro, SHALL conservarse el comportamiento actual de usar la carpeta actual. Cuando la raíz usada no es la carpeta actual, SHALL informarlo.
+
+#### Scenario: comando desde una subcarpeta
+- GIVEN un proyecto con `.factory/` y una subcarpeta del producto
+- WHEN se ejecuta estado desde la subcarpeta
+- THEN Factory usa la raíz del proyecto e informa cuál es
+
+#### Scenario: proyecto explícito
+- GIVEN un directorio dentro de un proyecto y otro proyecto indicado con --proyecto
+- WHEN se ejecuta un comando con --proyecto
+- THEN se usa el proyecto indicado y no el del ancestro
+
+#### Scenario: sin carpeta de Factory
+- GIVEN un proyecto anterior sin `.factory/` en ningún ancestro
+- WHEN se ejecuta un comando desde su raíz
+- THEN se comporta como hasta ahora
+
+### Requirement: lo versionado y lo local
+Tipo: no funcional
+Lo que Factory guarda bajo `.factory/` fuera de `local/` SHALL ser versionable y portátil, sin rutas absolutas, y lo que es de una máquina SHALL ir en `.factory/local/`, ignorada por Git.
+
+#### Scenario: otra máquina
+- GIVEN un clon de un proyecto en otra ruta absoluta
+- WHEN se consultan los artefactos de `.factory/cambios/`
+- THEN las rutas que contienen son relativas a la raíz y se resuelven en el clon
+
+### Requirement: la huella del producto excluye lo que Factory produce
+Tipo: funcional
+La huella de archivos del producto SHALL excluir `.factory/` entera, y SHALL NOT excluir `openspec/changes/<ID>/` salvo los registros que ya excluye.
+
+#### Scenario: nueva evidencia no invalida la revisión
+- GIVEN una revisión registrada
+- WHEN se agrega evidencia o un paquete de Clue bajo `.factory/cambios/<ID>/`
+- THEN la huella del producto no cambia y la revisión sigue vigente
+
+#### Scenario: el acuerdo sigue siendo producto
+- GIVEN una revisión registrada
+- WHEN cambia la spec en `openspec/changes/<ID>/`
+- THEN la revisión queda desactualizada
 
 ### Requirement: donde esta cada artefacto
 Tipo: funcional
@@ -37,12 +88,17 @@ Tipo: funcional
 
 ### Requirement: ruta canonica para producir artefactos
 Tipo: funcional
-`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision) sobre el HEAD actual, sin crear ni modificar archivos.
+`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el HEAD actual, sin crear ni modificar archivos.
 
 #### Scenario: sensor que escribe su evidencia
 - GIVEN un cambio abierto y un HEAD
 - WHEN se usa ruta con el tipo evidencia como salida del sensor
-- THEN la evidencia queda en la carpeta del candidato de ese HEAD y donde la encuentra
+- THEN la ruta es `.factory/cambios/<ID>/candidatos/<sha7>/evidencia` y donde la encuentra
+
+#### Scenario: checkout de revisión
+- GIVEN un HEAD
+- WHEN se usa ruta con el tipo checkout
+- THEN imprime `.factory/local/revisiones/<sha7>` y no crea nada
 
 #### Scenario: tipo desconocido
 - GIVEN un tipo que no está en la estructura
@@ -69,7 +125,7 @@ Tipo: funcional
 
 ### Requirement: respetar lo existente
 Tipo: no funcional
-Factory SHALL NOT mover, renombrar ni borrar artefactos existentes al adoptar la estructura, y los comandos de esta capacidad SHALL ser de sólo lectura salvo que se diga lo contrario.
+Factory SHALL NOT mover, renombrar ni borrar artefactos existentes al adoptar la estructura, y `donde`, `ruta`, `buscar` y `listar` SHALL ser de sólo lectura.
 
 #### Scenario: proyecto con cambios anteriores
 - GIVEN un proyecto con cambios creados antes de la estructura

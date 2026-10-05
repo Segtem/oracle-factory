@@ -1,4 +1,0 @@
-requisito estructura_c3d2e9989ed343f96.ruta_canonica_para_producir_artefactos:
-    texto "Tipo: funcional `oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision) sobre el HEAD actual, sin crear ni modificar archivos."
-    fuente "/home/workstation/Dev/factory-estructura/openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#ruta canonica para producir artefactos"
-    sin_medir "sin medida todavía; escenarios: «sensor que escribe su evidencia», «tipo desconocido»"

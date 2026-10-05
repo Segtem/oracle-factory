@@ -1,4 +1,4 @@
-# Jerarquía de carpetas y comandos para encontrar las cosas
+# Jerarquía de carpetas: una carpeta `.factory/` y comandos para encontrar las cosas
 
 ## Why
 
@@ -11,43 +11,50 @@ Saber dónde está cada cosa es parte del trabajo, no un detalle. Hoy Factory de
 
 Además, Task rechazó `tareas/integracion-<sha>/` como «nombre de carpeta inválido», y los checkouts de revisión empezaron en `/tmp` y se perdían al reiniciar.
 
-Para encontrar la evidencia de un candidato o el informe que respalda una revisión, hoy hay que conocer la historia. Una persona que llega, o un agente nuevo, no puede deducirlo.
+Esos registros están repartidos entre `openspec/changes/<ID>/` y `tareas/<ID>/`, y la huella del producto los separa con excepciones sueltas (`tareas/` y tres archivos dentro de `openspec/changes/<ID>/`). Esas excepciones son frágiles: crear un cambio nuevo en la rama principal invalidó la revisión de los modos de trabajo. Y como Factory usa la carpeta actual o `--proyecto`, no funciona desde una subcarpeta como lo hace Git.
+
+Brian propuso, el 2026-10-05, una carpeta propia «al estilo git» donde esté todo lo que Factory necesita. Este cambio la introduce.
 
 ## What changes
 
-1. **Estructura documentada** (`docs/estructura.md`): qué va en la raíz del proyecto, en `openspec/changes/<ID>/` (el acuerdo y los registros de Factory) y en `tareas/<ID>/` (el trabajo y su evidencia), con una carpeta por candidato:
+1. **Una carpeta `.factory/` en la raíz del proyecto**, creada por `init`:
 
    ```text
-   tareas/<ID>/
-     TAREA.md
-     candidatos/<sha>/        # todo lo que se produjo sobre ese commit
-       evidencia/             # salida del sensor, pruebas, cobertura Oracle
-       clue/                  # paquete de contexto
-       revision/              # informes, decisiones y triage, uno por revisor
-     piloto/  integracion/    # cuando existen
+   proyecto/
+     .factory/                  # versionada: lo que comparten las personas
+       cambios/<ID>/            # lo que Factory produce sobre un cambio
+         candidatos/<sha7>/{evidencia, clue, revision}/
+       local/                   # IGNORADA por Git: de esta máquina
+         revisiones/<sha7>/     # checkouts estables para que Clue revise
+     openspec/changes/<ID>/     # el acuerdo humano, visible: propuesta, spec, diseño
+     tareas/  requisitos/  catalogos/  oracle.json    # de Task y de Oracle
    ```
 
-   Los checkouts estables de revisión van fuera del repositorio, en una raíz configurable.
-2. **`oracle-factory donde ID`**: lista cada artefacto del cambio con su ruta, si existe y a qué gate respalda (spec, medidas, revisión, juicio, cierre). Con `--candidato SHA`, sólo lo de ese candidato.
-3. **`oracle-factory ruta ID TIPO`**: imprime la ruta canónica para producir un artefacto sobre el HEAD actual, por ejemplo `--salida $(oracle-factory ruta ID evidencia)`. Así los sensores, Clue y los agentes escriben donde corresponde sin inventar nombres.
-4. **`oracle-factory buscar TEXTO`**: busca en propuestas, specs, requisitos, tareas y registros, y muestra la ruta, la línea y el cambio al que pertenece cada resultado. Complementa `tasks search`, que sólo mira las tareas.
-5. **`oracle-factory listar` con filtros** por fase y por estado (abiertos, cerrados).
-6. **Lo existente se respeta:** los cambios anteriores no se mueven. `donde` reconoce los nombres viejos y los marca como históricos.
+   Una carpeta por candidato (SHA de 7 caracteres) agrupa todo lo que se produjo sobre ese commit.
+2. **Descubrimiento como Git:** los comandos suben desde la carpeta actual hasta encontrar `.factory/`. `--proyecto` sigue mandando; sin `.factory/` en ningún ancestro, el comportamiento es el de hoy.
+3. **Lo versionado y lo local:** lo compartido va en Git y sin rutas absolutas; lo de cada máquina (checkouts, bloqueos, cachés) va en `.factory/local/`, ignorada.
+4. **La huella del producto excluye `.factory/` entera**, en lugar de las excepciones sueltas. Los registros que Factory produce se verifican por sus propios hashes, como ocurre hoy con `tareas/`.
+5. **Comandos para encontrar las cosas:** `oracle-factory donde ID`, `ruta ID TIPO` y `buscar TEXTO`, más filtros en `listar`, todos de sólo lectura.
+6. **Estructura documentada** en `docs/estructura.md`, enlazada desde el README.
+7. **Lo existente se respeta:** los cambios anteriores no se mueven; `donde` los marca como históricos.
 
 ## Out of scope
 
-- Mover automáticamente los artefactos de cambios existentes.
-- La herramienta de revisión en el IDE (tarea `revision-ide`) y la web (tarea `docs-web-modos`).
-- La estructura interna de Oracle, Task o Clue.
+- **Mover el estado de cada cambio** (`factory.json`, `review.md`, `oracle-veredicto.txt`) y la configuración del proyecto a `.factory/`: es la fase 2, un cambio propio.
+- Las carpetas de otras herramientas: `tareas/` es de Oracle Task; `requisitos/`, `catalogos/` y `oracle.json` son de Oracle; `openspec/` es de OpenSpec. Sus nombres son fijos.
+- Esconder el acuerdo humano: la propuesta y la spec siguen visibles en `openspec/changes/`.
+- Crear o gestionar worktrees de desarrollo. Los checkouts de Clue se crean con `git worktree add` en la ruta que imprime `ruta`.
 - Índices o bases de datos: la búsqueda recorre los archivos.
+- La herramienta de revisión en el IDE y la web (tareas `revision-ide` y `docs-web-modos`).
 
 ## Human decisions
 
-Brian respondió en la conversación del 2026-10-05, aceptando las recomendaciones:
+Brian respondió en la conversación del 2026-10-05:
 
-1. **Raíz de los checkouts de revisión:** configurable en `factory.json` del proyecto con la clave `raiz_revisiones`; por defecto `~/Dev/_revisiones`. Quien trabaje en otra máquina la cambia en su `factory.json`.
+1. **Raíz de los checkouts de revisión:** dentro del proyecto, en `.factory/local/revisiones/`, ignorada por Git (reemplaza la clave `raiz_revisiones` propuesta antes).
 2. **Carpeta de candidato:** SHA de 7 caracteres.
 3. **Cambios existentes:** quedan como están; `donde` los marca como históricos.
 4. **Comandos:** `donde`, `ruta` y `buscar`, en español.
+5. **`.factory/` y su contenido** (aceptando las cinco recomendaciones): el acuerdo humano queda visible en `openspec/`; `.factory/` es versionada con `local/` ignorada; los comandos suben carpetas como Git; la spec de estructura se reescribe antes de implementar; Factory no gestiona worktrees de desarrollo.
 
 Pendiente: aceptación de proposal.md y spec.md. Preparar esta propuesta no la acepta ni autoriza implementarla.
