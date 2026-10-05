@@ -1,6 +1,6 @@
 # Ordenar la integración de colaboración y revisión guiada
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: colaboracion, integracion
 
