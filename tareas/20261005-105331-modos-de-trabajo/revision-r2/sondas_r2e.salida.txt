@@ -1,0 +1,28 @@
+test_r2e_a_misma_spec_conserva_decision_con_hash (sondas_r2e.SondasE.test_r2e_a_misma_spec_conserva_decision_con_hash) ... 
+R2E-A sin decisión tras reimportar: [] registro: True
+ok
+test_r2e_b_agente_en_autonomo_cubre_edicion_a_mano_de_persona (sondas_r2e.SondasE.test_r2e_b_agente_en_autonomo_cubre_edicion_a_mano_de_persona) ... 
+R2E-B registro: agente decidio
+ok
+test_r2e_c_propuesta_descartada_y_agente_en_confirmacion (sondas_r2e.SondasE.test_r2e_c_propuesta_descartada_y_agente_en_confirmacion) ... 
+R2E-C pendiente: True
+R2E-C agente en funcional: primero hay que aceptar la propuesta y la spec (aprobar-spec)
+ok
+test_r2e_d_persona_confirma_con_pendiente_obsoleta (sondas_r2e.SondasE.test_r2e_d_persona_confirma_con_pendiente_obsoleta) ... 
+R2E-D forma: decidio
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.529s
+
+OK
+test_r2e_e_agente_no_registra_en_funcional_tras_descarte (sondas_r2e.SondasE.test_r2e_e_agente_no_registra_en_funcional_tras_descarte) ... 
+R2E-E pendiente tras reimportar: True medidas: []
+R2E-E agente: en modo funcional, las medidas de un requisito funcional las elige una persona desde una terminal interactiva, sin --agente
+R2E-E persona: persona decidio Las dos cubren los tres escenarios
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.531s
+
+OK

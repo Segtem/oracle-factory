@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-modos-653de8f",
+  "base": "0234cc9abb0b4993d359cb5323bb078c3906a6ff",
+  "head": "653de8fd6424560f03fd4959b7a410628d0896f2",
+  "diff_sha256": "53e1faed0ec40dd9df6239e476c2c8a11ed7c989ea887ba99345cc8ce099affd",
+  "context_sha256": "8b90d1312c15353184d02f7e2897ce1f64e68a3bf12ff41a9d677f4856bc385e",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: revisé el delta 0234cc9..653de8f de cli.py (registrar_medidas, medidas_sin_decision, la rama «sin cambios» de medir, el traslado de hash en cambiar_modo, juzgar) y las dos pruebas nuevas, y no encontré un camino de edición a mano del .requisito, ni vía Factory, que llegue a un verde o a un cierre sin una decisión vigente.",
+    "Excepción «decisión sin hash»: grep de todos los escritores de estado[\"medidas\"] muestra que sólo registrar_medidas lo escribe (cli.py:698 y sus dos usos en medir), y siempre con sha256. Un agente no puede crear un registro sin hash vía Factory; la excepción sólo cubre registros de versiones anteriores o una edición manual de factory.json, que la propuesta deja fuera de alcance (no autentica). Queda como límite: en un cambio con registros anteriores sin hash, una edición a mano del .requisito sigue sin detectarse hasta que se vuelva a decidir.",
+    "Rama «sin cambios» de medir (probada con sondas_r2e.py): en funcional con requisito funcional el agente es rechazado antes de llegar a ella (via rechaza), incluso con una propuesta descartada pendiente; la persona la reemplaza como decidio con motivo (test_r2e_e). Un agente en confirmacion sólo deja propuesta, y con el mismo hash no la duplica. Bajar a autonomo y que el agente repita las medidas lo deja como decidio de agente, que la tabla permite (test_r2e_b). Una propuesta del agente con el archivo editado después no se confirma como «confirmo»: queda decidio de la persona (test_r2e_d).",
+    "Conciliación: aceptar de nuevo la misma spec e importar conserva la decisión con su hash, porque la reimportación deja los bytes del .requisito iguales (test_r2e_a). cambiar_modo traslada el hash de la decisión a medidas_pendientes (cli.py:836); si el archivo cambió desde la decisión, la propuesta conserva el hash viejo y no se confirma como «confirmo». Esa ruta la leí, no la ejecuté con un archivo editado.",
+    "Corrí sobre 653de8f: suite (97 OK); tools/verify_modos.py --salida revision-r2/evidencia-modos-653de8f (27 casos, éxito true); oracle cobertura --con esos hechos (rc 0, los 5 requisitos modos_c45a… con ✓ cumple, salida en cobertura-653de8f.txt); tools/verify_collaboration.py --salida revision-r2/evidencia-colab-653de8f --clue <env>/oracle-clue (rc 0, C1–C9 OK).",
+    "No corrí los arneses de release contra el wheel instalado ni verify_guide/verify_installed. Las sondas usan el fixture de tests/test_modos.py, con la terminal parcheada. El hash cubre el archivo entero del requisito, así que un cambio de prosa o fuente también exige volver a decidir; es conservador y no lo marco como defecto. No revisé catálogos .oracle editados después de una decisión (la decisión es por id de medida)."
+  ]
+}
