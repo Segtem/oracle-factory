@@ -1,0 +1,73 @@
+# Capability: modos
+
+## ADDED Requirements
+
+### Requirement: modo explicito por cambio
+Factory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto, y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea.
+
+#### Scenario: crear un cambio con modo
+- GIVEN un proyecto cuyo modo por defecto es `confirmacion`
+- WHEN se crea un cambio con `nuevo --modo funcional`
+- THEN su factory.json registra el modo `funcional` y `estado` lo muestra
+
+#### Scenario: elegir autonomo exige a una persona
+- GIVEN un cambio en modo `confirmacion`
+- WHEN un agente intenta pasarlo a `autonomo`
+- THEN Factory lo rechaza sin modificar el registro, salvo que una persona lo confirme desde una terminal interactiva
+
+### Requirement: tipo de requisito
+La spec SHALL poder declarar `Tipo: funcional` o `Tipo: no funcional` en cada requisito; `importar` SHALL guardar ese tipo y SHALL tratar como funcional el requisito que no lo declare.
+
+#### Scenario: requisito no funcional declarado
+- GIVEN una spec con un requisito que declara `Tipo: no funcional`
+- WHEN se importa
+- THEN el requisito queda registrado como no funcional
+
+#### Scenario: requisito sin tipo
+- GIVEN una spec con un requisito sin tipo
+- WHEN se importa
+- THEN el requisito queda registrado como funcional
+
+### Requirement: decisiones segun el modo
+Para aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exigir el actor que indica la tabla del modo según el tipo de los requisitos afectados, y SHALL rechazar la decisión que llegue por una vía no permitida sin modificar el registro.
+
+#### Scenario: modo funcional y requisito funcional
+- GIVEN un cambio en modo `funcional` con requisitos funcionales
+- WHEN un agente intenta aceptar la spec
+- THEN Factory lo rechaza y pide la decisión de una persona
+
+#### Scenario: modo funcional y requisito no funcional
+- GIVEN un cambio en modo `funcional`
+- WHEN un agente elige las medidas de un requisito no funcional
+- THEN Factory lo registra como decisión del agente
+
+#### Scenario: modo confirmacion
+- GIVEN un cambio en modo `confirmacion`
+- WHEN un agente propone medidas para un requisito
+- THEN quedan como propuesta y no cuentan para el gate hasta que una persona las confirma tal cual
+
+#### Scenario: modo autonomo
+- GIVEN un cambio en modo `autonomo`
+- WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra
+- THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo
+
+### Requirement: actor registrado sin aparentar humanos
+Cada evento SHALL registrar actor, tipo de actor (persona o agente), modo y forma (`decidio`, `propuso` o `confirmo`). Una decisión de persona SHALL exigir una terminal interactiva y rechazar la entrada por pipe. Factory SHALL NOT presentar como humana una decisión registrada por la vía de agente.
+
+#### Scenario: confirmacion por pipe
+- GIVEN un gate que el modo reserva a una persona
+- WHEN la frase de confirmación llega por pipe, sin terminal
+- THEN Factory la rechaza y no registra la decisión
+
+#### Scenario: lectura del estado
+- GIVEN un cambio cerrado en modo `autonomo`
+- WHEN alguien consulta `estado`
+- THEN ve que cada gate lo decidió un agente y que no hubo decisión humana
+
+### Requirement: cambio de modo con invalidacion
+Cambiar el modo de un cambio SHALL quedar como evento, SHALL exigir confirmación humana cuando reduce la intervención humana, y SHALL invalidar las decisiones vigentes que el modo nuevo exige de otra forma.
+
+#### Scenario: subir la intervencion humana
+- GIVEN un cambio en modo `autonomo` con la spec aceptada por el agente
+- WHEN se pasa a `confirmacion`
+- THEN la aceptación del agente queda como propuesta pendiente de confirmar por una persona

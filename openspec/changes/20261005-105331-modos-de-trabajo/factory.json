@@ -1,0 +1,20 @@
+{
+  "id": "20261005-105331-modos-de-trabajo",
+  "titulo": "Modos de trabajo según quién decide los requisitos",
+  "capacidad": "modos",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "por": "workstation",
+      "cuando": "2026-10-05T10:53:31+00:00",
+      "capacidad": "modos"
+    }
+  ]
+}
