@@ -6,15 +6,12 @@
   "spec": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
   "spec_sha256": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b",
   "spec_aprobada": {
-    "por": "Brian (usuario de esta conversación)",
-    "cuando": "2026-10-05T11:18:32+00:00",
+    "por": "workstation",
+    "cuando": "2026-10-05T11:25:36+00:00",
     "documentos": {
       "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
       "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
-    },
-    "canal": "conversación",
-    "texto": "«1. Vamos con modo por defecto confirmacion. 2. Si la persona hace el cierre. 3. […] poner una opcion […] 4. Dale. aprobar-spec.»",
-    "nota": "Aceptación pedida en la conversación; el agente aplicó las respuestas 1–4 a proposal/spec y ejecutó aprobar-spec con la frase por pipe (la CLI no tiene canal de conversación). Las huellas corresponden a los documentos con esas respuestas aplicadas."
+    }
   },
   "requisitos": [
     "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
@@ -48,6 +45,27 @@
       "accion": "requisitos_importados",
       "por": "workstation",
       "cuando": "2026-10-05T11:18:41+00:00",
+      "ids": [
+        "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+        "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+        "modos_c45a4802846932222.decisiones_segun_el_modo",
+        "modos_c45a4802846932222.modo_explicito_por_cambio",
+        "modos_c45a4802846932222.tipo_de_requisito"
+      ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:25:36+00:00",
+      "documentos": {
+        "openspec/changes/20261005-105331-modos-de-trabajo/proposal.md": "7b6edb15b2696ece17490cf938612fc8c3bf3572ba1bec0400a8b9cbf1ed28b7",
+        "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "por": "workstation",
+      "cuando": "2026-10-05T11:29:41+00:00",
       "ids": [
         "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
         "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
