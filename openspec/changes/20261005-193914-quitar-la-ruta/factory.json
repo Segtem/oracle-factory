@@ -2,11 +2,26 @@
   "id": "20261005-193914-quitar-la-ruta",
   "titulo": "Quitar la ruta privada de los registros ya publicados",
   "capacidad": "limpieza",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T21:46:06+00:00",
+    "documentos": {
+      "openspec/changes/20261005-193914-quitar-la-ruta/proposal.md": "4bb38dfda00b0f1d00f42c9c369a0b17bb65b5d7eb9cace56c6c807343fb5d7d",
+      "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38"
+    }
+  },
+  "requisitos": [
+    "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe",
+    "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+    "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
+    "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +34,40 @@
       "forma": "decidio",
       "cuando": "2026-10-05T19:39:14+00:00",
       "capacidad": "limpieza"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:46:06+00:00",
+      "documentos": {
+        "openspec/changes/20261005-193914-quitar-la-ruta/proposal.md": "4bb38dfda00b0f1d00f42c9c369a0b17bb65b5d7eb9cace56c6c807343fb5d7d",
+        "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T21:47:47+00:00",
+      "ids": [
+        "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe",
+        "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad",
+        "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable",
+        "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe": "no funcional",
+    "limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad": "funcional",
+    "limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable": "no funcional",
+    "limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
