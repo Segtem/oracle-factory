@@ -1,0 +1,8 @@
+medida factory_limpieza.corrida_completa:
+    de limpieza_corrida c
+    donde c.completa == 1 y c.casos == 10
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas, fuentes estables, ningún registro con ruta absoluta y tareas/ sin cambios respecto de la base"
+    requiere limpieza_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"
