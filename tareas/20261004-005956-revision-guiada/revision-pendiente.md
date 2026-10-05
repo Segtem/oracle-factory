@@ -5,8 +5,8 @@ Estado: pendiente. Este documento organiza la entrega; no es un informe de revis
 - Candidato del producto: `109e2b579ec29c3bc87ba30c92599f81c9a6a79f`.
 - Base del diff: `65e6815`, contrato presentado.
 - Rama: `tarea/20261004-005956-revision-guiada`.
-- Checkout estable: `/tmp/factory-revision-guiada-candidato-109e2b5`.
-- [Contexto de Clue](contexto-clue-109e2b5.json), sin omisiones.
+- Checkout estable: `/home/workstation/Dev/_revisiones/factory-revision-guiada-109e2b5`.
+- [Contexto de Clue](contexto-clue-109e2b5-durable.json) (el original con ruta en /tmp, [contexto-clue-109e2b5.json](contexto-clue-109e2b5.json), queda como histórico; mismo diff y contextos), sin omisiones.
 - [Resultado del sensor](evidencia/resultado.json), [suite completa](evidencia/suite.txt), [trazas del contrato](evidencia/trazas.json) y [hechos](evidencia/hechos.json).
 - [Reglas propuestas evaluadas por Oracle](evidencia/oracle-medidas-propuestas.txt) y [cobertura real](evidencia/oracle-cobertura.txt).
 
@@ -32,8 +32,8 @@ Las ocho reglas propuestas pasan sobre esos hechos. Los siete requisitos reales 
 Se ejecutó `revision-preparar` sobre el candidato, sin registrar revisión ni decisiones. Los originales están en:
 
 ```text
-/tmp/factory-revision-guiada-candidato-109e2b5/tareas/20261004-005956-revision-guiada/revisiones/preparacion-znbsxziu/informe.json
-/tmp/factory-revision-guiada-candidato-109e2b5/tareas/20261004-005956-revision-guiada/revisiones/preparacion-znbsxziu/decisiones.json
+/home/workstation/Dev/_revisiones/factory-revision-guiada-109e2b5/tareas/20261004-005956-revision-guiada/revisiones/preparacion-znbsxziu/informe.json
+/home/workstation/Dev/_revisiones/factory-revision-guiada-109e2b5/tareas/20261004-005956-revision-guiada/revisiones/preparacion-znbsxziu/decisiones.json
 ```
 
 Se conservan copias de consulta: [informe pendiente](revision-pendiente/informe.json) y [decisiones pendientes](revision-pendiente/decisiones.json). Los campos humanos y el hash del informe siguen en null. La persona revisora debe completarlos con observaciones reales y la persona responsable debe decidir antes de registrar.

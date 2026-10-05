@@ -91,3 +91,7 @@ Medidas de revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance
 ### Nota (2026-10-04 17:54:48 UTC)
 
 Continuación solicitada por el usuario: «Bien, sigamos entonces.». Se aplicó mediante fabrica.py medir el mapeo G1–G8 previamente presentado: medida del requisito y corrida_completa, conservando límites sin_medir. Esto no registra aprobación de revisión ni confirmación de cierre. Se prepara un nuevo candidato con cobertura parcial.
+
+### Nota (2026-10-05 10:15:14 UTC)
+
+Checkouts de revisión movidos de /tmp a ~/Dev/_revisiones/factory-revision-guiada-{109e2b5,5b54dc8} (2026-10-05, pedido de Brian). Se copiaron sin cambios evidencia y revisiones/preparacion-*; los paquetes Clue *-durable.json tienen el mismo diff y los mismos contextos que los originales.

@@ -1,6 +1,6 @@
 # Candidato actualizado para revisión humana
 
-Pendiente de análisis y decisión humana. Candidato: `5b54dc88fc5d6d4bf1e3768d9ba423032eb0f1e8`, en la rama `tarea/20261004-005956-revision-guiada` y el checkout estable `/tmp/factory-revision-guiada-candidato-5b54dc8`.
+Pendiente de análisis y decisión humana. Candidato: `5b54dc88fc5d6d4bf1e3768d9ba423032eb0f1e8`, en la rama `tarea/20261004-005956-revision-guiada` y el checkout estable `/home/workstation/Dev/_revisiones/factory-revision-guiada-5b54dc8`.
 
 ## Cambio y evidencia
 
@@ -16,8 +16,8 @@ Se asociaron los siete requisitos a la medida de su mismo sufijo y a `factory_re
 
 Clue rechazó un paquete único desde `65e6815` porque el archivo de contexto anterior supera su límite de 256000 bytes. Se conserva el análisis preparatorio en dos paquetes, sin afirmar que uno contenga todo:
 
-1. [Implementación: 65e6815 → 109e2b5](contexto-clue-109e2b5.json), con el [dossier original](revision-pendiente.md).
-2. [Mapeo: b89340f → 5b54dc8](contexto-clue-5b54dc8.json): once archivos, cero omisiones.
+1. [Implementación: 65e6815 → 109e2b5](contexto-clue-109e2b5-durable.json), con el [dossier original](revision-pendiente.md).
+2. [Mapeo: b89340f → 5b54dc8](contexto-clue-5b54dc8-durable.json): once archivos, cero omisiones. Los paquetes originales, con ruta en /tmp, quedan como histórico: mismo diff y contextos.
 
 El commit intermedio `b89340f` archiva evidencia y documentos pendientes. Sus adjuntos siguen disponibles en Git y deben inspeccionarse si se usan para sustentar la revisión. Ambos paquetes son contexto, no informes. La comparación de fuentes y la nueva ejecución apoyan la continuidad del producto, sin sustituir la evaluación del revisor sobre el candidato actual.
 
@@ -28,8 +28,8 @@ Revisar implementación, suficiencia del mapeo y evidencia sobre `5b54dc8`; pres
 La CLI creó originales pendientes en:
 
 ```text
-/tmp/factory-revision-guiada-candidato-5b54dc8/tareas/20261004-005956-revision-guiada/revisiones/preparacion-avpb2b64/informe.json
-/tmp/factory-revision-guiada-candidato-5b54dc8/tareas/20261004-005956-revision-guiada/revisiones/preparacion-avpb2b64/decisiones.json
+/home/workstation/Dev/_revisiones/factory-revision-guiada-5b54dc8/tareas/20261004-005956-revision-guiada/revisiones/preparacion-avpb2b64/informe.json
+/home/workstation/Dev/_revisiones/factory-revision-guiada-5b54dc8/tareas/20261004-005956-revision-guiada/revisiones/preparacion-avpb2b64/decisiones.json
 ```
 
 Copias de consulta: [informe](revision-mapeo-pendiente/informe.json) y [decisiones](revision-mapeo-pendiente/decisiones.json). Completar con observaciones reales; después calcular el SHA-256 del informe y resolver sus hallazgos. La persona elige `aprobar` o `cambios` y confirma el registro mediante `revision --formato guiado` en ese checkout. Si cambia el producto, debe renovarse el contexto antes de registrar.
