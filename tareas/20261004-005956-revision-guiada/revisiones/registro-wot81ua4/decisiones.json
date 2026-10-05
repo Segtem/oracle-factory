@@ -1,0 +1,36 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "19431a14c2e9edce56b52fb749585fb8fc7c6b4e8a080396b39f0342da3dbfa8",
+  "actor": "Brian Hollweg",
+  "motivo": "Decisiones de Brian en la conversación del 2026-10-05; cada una cita sus palabras. Renovación sobre el producto actual. G-02 pasa de riesgo aceptado a corregido porque lo resolvió el cambio de vigencia por contenido, que Brian cerró: es un cambio de decisión que Brian confirma al registrar.",
+  "decisiones": [
+    {
+      "hallazgo_id": "G-01",
+      "estado": "corregido",
+      "motivo": "Corregido en 69ccb5f; prueba negativa verificada.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-02",
+      "estado": "corregido",
+      "motivo": "Resuelto por el cambio 20261005-154433-la-vigencia-de, cerrado por Brian el 2026-10-05: ya no hay que commitear antes ni después de registrar.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Se resuelve en la tarea cli-humana: mostrar archivos del diff no revisados.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    },
+    {
+      "hallazgo_id": "G-04",
+      "estado": "riesgo_aceptado",
+      "motivo": "Umbral de igualdad deliberado: exige exactamente los casos enumerados.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T11:53:37+00:00"
+    }
+  ]
+}
