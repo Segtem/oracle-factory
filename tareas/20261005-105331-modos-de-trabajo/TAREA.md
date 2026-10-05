@@ -67,3 +67,11 @@ Medidas de modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos confir
 ### Nota (2026-10-05 12:28:06 UTC)
 
 Medidas de modos_c45a4802846932222.cambio_de_modo_con_invalidacion confirmadas por Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 15:28:54 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit af9bc5e9d55d8b201def68ed9d48574b6a5b0f6b; informe tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/informe.json; decisiones tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/decisiones.json.
+
+### Nota (2026-10-05 15:29:14 UTC)
+
+Revisión guiada registrada por Brian desde su terminal (2026-10-05) sobre af9bc5e (producto idéntico a 653de8f): aprobar, 0 abiertos. 20 hallazgos de cuatro rondas (autorrevisión y R2): 16 corregidos, 4 riesgo aceptado. Informes en revision-brian/ y revision-r2/. Queda abierta: faltan documentación de los modos y la autenticación de actores, declarada sin medir.

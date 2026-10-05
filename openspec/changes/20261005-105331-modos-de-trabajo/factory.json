@@ -2,7 +2,7 @@
   "id": "20261005-105331-modos-de-trabajo",
   "titulo": "Modos de trabajo según quién decide los requisitos",
   "capacidad": "modos",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
   "spec_sha256": "cd9b0e0f89297860cf9a7362b94fd8653fcceb6c3233bbcfd40a482f4cd4935b",
   "spec_aprobada": {
@@ -20,7 +20,25 @@
     "modos_c45a4802846932222.modo_explicito_por_cambio",
     "modos_c45a4802846932222.tipo_de_requisito"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/informe.json",
+    "sha256": "66f5d25cd3caf4d3d7dcaa19339cfed6b6169145d9a9d778b212b44ef20eb894",
+    "decisiones": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-05hg3mlw/decisiones.json",
+    "decisiones_sha256": "78f13db4e1710a55a5d8d2761b6fef85c6b9294e7cf9a5295b8581713635cc9d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:28:54+00:00",
+    "contexto": {
+      "head": "af9bc5e9d55d8b201def68ed9d48574b6a5b0f6b",
+      "archivos_sha256": "0f1e52b8cddfdb98b7e543ce69e876293b051eee5c38c099eb6736cbc7babe5c"
+    }
+  },
   "oracle": null,
   "eventos": [
     {
@@ -208,6 +226,20 @@
         "factory_modos.cambio_de_modo_con_invalidacion",
         "factory_modos.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:28:54+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "66f5d25cd3caf4d3d7dcaa19339cfed6b6169145d9a9d778b212b44ef20eb894",
+      "decisiones_sha256": "78f13db4e1710a55a5d8d2761b6fef85c6b9294e7cf9a5295b8581713635cc9d"
     }
   ],
   "medidas_pendientes": {},
