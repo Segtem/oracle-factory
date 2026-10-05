@@ -14,8 +14,10 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 
 CONTRACTS = {
     'vigencia_por_contenido_del_producto': ['v1_commit_posterior_que_no_toca_el_producto', 'v1_cambia_un_archivo_del_producto',
-                                            'v1_mismo_contenido_por_otra_historia'],
-    'el_commit_observado_se_conserva_y_se_muestra': ['v2_aviso_de_head_distinto', 'v2_head_igual_sin_aviso'],
+                                            'v1_mismo_contenido_por_otra_historia', 'v1_cambia_el_modo_ejecutable_del_producto',
+                                            'v1_registro_sin_huella_queda_desactualizado'],
+    'el_commit_observado_se_conserva_y_se_muestra': ['v2_aviso_de_head_distinto', 'v2_head_igual_sin_aviso',
+                                                    'v2_cierre_muestra_el_commit_y_avisa', 'v2_contexto_sin_head_no_rompe'],
     'informe_guiado_vinculado_al_contenido': ['v3_informe_preparado_antes_de_un_commit_de_registros', 'v3_informe_de_otro_producto'],
     'respetar_los_registros_existentes': ['v4_registro_anterior_a_este_cambio'],
 }

@@ -24,7 +24,7 @@ El cambio debe estar abierto y tener propuesta/spec aceptadas y vigentes. Termin
 
 El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Ambos tienen campos humanos en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
 
-Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo sí cambia HEAD, incluso si sólo archiva notas; prepare de nuevo si eso ocurre antes de registrar.
+Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo que sólo archiva notas o registros tampoco la invalida: Factory compara la huella de archivos del producto y guarda el commit como dato. Si cambia un archivo del producto antes de registrar, prepare de nuevo.
 
 ## Completar lo que realmente se revisó
 

@@ -339,6 +339,20 @@ def mismo_producto(registrado: dict | None, actual: dict) -> bool:
     return bool(registrado) and registrado.get("archivos_sha256") == actual.get("archivos_sha256")
 
 
+def corto(head: str | None) -> str:
+    return head[:7] if head else "desconocido"
+
+
+def commits_registrados(estado: dict) -> list[str]:
+    """Commit observado al registrar cada gate, siempre visible; el HEAD es un dato, no una condición."""
+    lineas = [f"{etiqueta} sobre el commit {corto((estado[nombre].get('contexto') or {}).get('head'))}"
+              for nombre, etiqueta in (("revision", "revisión registrada"), ("oracle", "veredicto Oracle registrado")) if estado.get(nombre)]
+    preparado = (estado.get("revision") or {}).get("head_preparacion")
+    if preparado:  # lo declara el informe; Factory no lo comprueba contra Git
+        lineas[0] += f" (informe preparado en {corto(preparado)}, según el propio informe)"
+    return lineas
+
+
 def avisos_head(estado: dict) -> list[str]:
     """Registros vigentes cuyo HEAD no es el actual: producto idéntico, otra historia."""
     try:
@@ -346,11 +360,11 @@ def avisos_head(estado: dict) -> list[str]:
     except (FactoryError, OSError):
         return []
     avisos = []
-    for nombre, etiqueta in (("revision", "revisión"), ("oracle", "veredicto Oracle")):
+    for nombre, etiqueta in (("revision", "revisión registrada"), ("oracle", "veredicto Oracle registrado")):
         registro = estado.get(nombre) or {}
         contexto = registro.get("contexto") or {}
         if mismo_producto(contexto, actual) and contexto.get("head") != actual["head"]:
-            avisos.append(f"{etiqueta} registrado en {contexto['head'][:7]}; HEAD actual {actual['head'][:7]} con el producto idéntico")
+            avisos.append(f"{etiqueta} en {corto(contexto.get('head'))}; HEAD actual {corto(actual['head'])} con el producto idéntico")
     return avisos
 
 
@@ -566,7 +580,7 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
             'informe': str(destino.relative_to(ROOT)), 'sha256': sha256(contenido),
             'decisiones': str(destino_decisiones.relative_to(ROOT)), 'decisiones_sha256': sha256(resoluciones),
             **registro_decision(estado, forma), 'contexto': contexto,
-            **({'head_preparacion': analisis['contexto']['head']} if analisis['contexto'].get('head') != contexto['head'] else {}),
+            **({'head_preparacion': analisis['contexto'].get('head')} if analisis['contexto'].get('head') != contexto['head'] else {}),
         }
         estado.update(oracle=None, fase='revision_aprobada' if decision == 'aprobar' else 'cambios_pedidos')
         evento(estado, 'revision_registrada', forma=forma, formato='guiado', revisor=revisor, decision=decision,
@@ -791,6 +805,8 @@ def cerrar(identificador: str) -> None:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
     print(f"Se cerrará la tarea {identificador} (modo {modo_de(estado)}); Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
     print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
+    for linea in commits_registrados(estado):
+        print(linea + ".")
     for aviso in avisos_head(estado):
         print("Aviso: " + aviso + ".")
     forma = decidir(estado, "cierre", [], None, f"CERRAR {identificador}", "cierre cancelado; la tarea sigue abierta", None)
@@ -886,6 +902,8 @@ def mostrar(identificador: str) -> None:
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
+    for linea in commits_registrados(estado):
+        print(linea + ".")
     for aviso in avisos_head(estado):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))

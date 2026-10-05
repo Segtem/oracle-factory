@@ -110,6 +110,21 @@ class Vigencia(unittest.TestCase):
         self.assertNotEqual(self.head(), antes)
         self.assertFalse(self.desactualizado(ident))
 
+    def test_v1_cambia_el_modo_ejecutable_del_producto(self):
+        ident = self.cambio_medido()
+        self.revision_libre(ident)
+        (self.root / 'examples/notas/notas.py').chmod(0o755)  # el contenido es el mismo; el modo no
+        self.assertTrue(self.desactualizado(ident))
+
+    def test_v1_registro_sin_huella_queda_desactualizado(self):
+        ident = self.cambio_medido()
+        self.revision_libre(ident)
+        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        estado = json.loads(ruta.read_text())
+        del estado['revision']['contexto']['archivos_sha256']  # no hay con qué comparar: falla cerrado
+        ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
+        self.assertTrue(self.desactualizado(ident))
+
     # --- v2: el commit observado se conserva y se muestra ---------------------------------
     def test_v2_aviso_de_head_distinto(self):
         ident = self.cambio_medido()
@@ -120,7 +135,7 @@ class Vigencia(unittest.TestCase):
         self.stdout.truncate(0); self.stdout.seek(0)
         f.mostrar(ident)
         salida = self.stdout.getvalue()
-        self.assertIn(f'registrado en {registrado[:7]}', salida)
+        self.assertIn(f'registrada en {registrado[:7]}', salida)
         self.assertIn(f'HEAD actual {self.head()[:7]}', salida)
         self.assertIn('producto idéntico', salida)
 
@@ -129,7 +144,33 @@ class Vigencia(unittest.TestCase):
         self.revision_libre(ident)
         self.stdout.truncate(0); self.stdout.seek(0)
         f.mostrar(ident)
-        self.assertNotIn('Aviso:', self.stdout.getvalue())
+        salida = self.stdout.getvalue()
+        self.assertNotIn('Aviso:', salida)
+        self.assertIn(f'revisión registrada sobre el commit {self.head()[:7]}', salida)  # el commit se muestra siempre
+
+    def test_v2_cierre_muestra_el_commit_y_avisa(self):
+        ident = self.cambio_medido()
+        self.revision_libre(ident)
+        registrado = self.head()
+        f.juzgar(ident, self.hechos)
+        self.commit_de_registros()
+        self.stdout.truncate(0); self.stdout.seek(0)
+        with self.escribe(f'CERRAR {ident}'):
+            f.cerrar(ident)
+        salida = self.stdout.getvalue()
+        self.assertIn(f'revisión registrada sobre el commit {registrado[:7]}', salida)
+        self.assertIn(f'HEAD actual {self.head()[:7]} con el producto idéntico', salida)
+
+    def test_v2_contexto_sin_head_no_rompe(self):
+        ident = self.cambio_medido()
+        self.revision_libre(ident)
+        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        estado = json.loads(ruta.read_text())
+        del estado['revision']['contexto']['head']
+        ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
+        self.stdout.truncate(0); self.stdout.seek(0)
+        f.mostrar(ident)  # antes: KeyError
+        self.assertIn('commit desconocido', self.stdout.getvalue())
 
     # --- v3: informe guiado vinculado al contenido -------------------------------------------
     def preparar_informe(self, ident):
@@ -162,11 +203,16 @@ class Vigencia(unittest.TestCase):
     def test_v3_informe_de_otro_producto(self):
         ident = self.cambio_medido()
         informe, decisiones = self.preparar_informe(ident)
+        notas = self.root / 'examples/notas/notas.py'
+        original = notas.read_text()
         self.tocar_producto()
         antes = (self.root / 'openspec/changes' / ident / 'factory.json').read_bytes()
-        with self.assertRaisesRegex(f.FactoryError, 'desactualizados|otro cambio'):
+        with self.assertRaisesRegex(f.FactoryError, 'desactualizados.*prepará una nueva revisión'):
             self.registrar_guiado(ident, informe, decisiones)
         self.assertEqual((self.root / 'openspec/changes' / ident / 'factory.json').read_bytes(), antes)
+        notas.write_text(original)  # la causa era el producto: restituido, el mismo informe se acepta
+        self.registrar_guiado(ident, informe, decisiones)
+        self.assertEqual(self.estado(ident)['revision']['decision'], 'aprobar')
 
     # --- v4: respetar los registros existentes --------------------------------------------------
     def test_v4_registro_anterior_a_este_cambio(self):
