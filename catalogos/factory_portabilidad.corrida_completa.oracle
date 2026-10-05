@@ -1,0 +1,8 @@
+medida factory_portabilidad.corrida_completa:
+    de portabilidad_corrida c
+    donde c.completa == 1 y c.casos == 9
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
+    requiere portabilidad_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"
