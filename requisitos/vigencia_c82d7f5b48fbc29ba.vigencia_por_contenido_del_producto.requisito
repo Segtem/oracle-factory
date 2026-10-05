@@ -1,0 +1,4 @@
+requisito vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto:
+    texto "Tipo: funcional Factory SHALL considerar vigentes la revisión y el veredicto de Oracle mientras la huella de archivos del producto coincida con la que tenían al registrarse, aunque el `HEAD` actual sea otro, y SHALL considerarlos desactualizados cuando esa huella cambie."
+    fuente "/home/workstation/Dev/factory-vigencia/openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#vigencia por contenido del producto"
+    sin_medir "sin medida todavía; escenarios: «commit posterior que no toca el producto», «cambia un archivo del producto», «mismo contenido por otra historia»"

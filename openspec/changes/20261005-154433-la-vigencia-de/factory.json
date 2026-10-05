@@ -2,11 +2,26 @@
   "id": "20261005-154433-la-vigencia-de",
   "titulo": "La vigencia de una revisión depende del contenido del producto",
   "capacidad": "vigencia",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T15:49:13+00:00",
+    "documentos": {
+      "openspec/changes/20261005-154433-la-vigencia-de/proposal.md": "7cd9cd076018e5349351f1f1c4ba4576487046a4789d93e9380230a1cfec1064",
+      "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8"
+    }
+  },
+  "requisitos": [
+    "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+    "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+    "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+    "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +34,40 @@
       "forma": "decidio",
       "cuando": "2026-10-05T15:44:33+00:00",
       "capacidad": "vigencia"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:49:13+00:00",
+      "documentos": {
+        "openspec/changes/20261005-154433-la-vigencia-de/proposal.md": "7cd9cd076018e5349351f1f1c4ba4576487046a4789d93e9380230a1cfec1064",
+        "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md": "fecbdd35a9ed67ccc25b56473bd274c515d52af326991685828fc1f0c80d34b8"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T15:49:49+00:00",
+      "ids": [
+        "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+        "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido",
+        "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes",
+        "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra": "funcional",
+    "vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido": "funcional",
+    "vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes": "no funcional",
+    "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
