@@ -72,7 +72,9 @@ def validar(informe_bytes: bytes, decisiones_bytes: bytes, *, identificador: str
     campos(decisiones, 'schema_version informe_sha256 actor motivo decisiones', 'decisiones')
     if informe['schema_version'] != INFORME or decisiones['schema_version'] != DECISIONES:
         raise RevisionInvalida('versión de documento desconocida; usá las plantillas de revision-preparar')
-    if informe['cambio'] != identificador or informe['contexto'] != contexto or informe['documentos'] != documentos:
+    previo = informe['contexto'] if isinstance(informe['contexto'], dict) else {}
+    if (informe['cambio'] != identificador or not previo.get('archivos_sha256')
+            or previo['archivos_sha256'] != contexto.get('archivos_sha256') or informe['documentos'] != documentos):
         raise RevisionInvalida('informe de otro cambio o contexto/propuesta/spec desactualizados; prepará una nueva revisión')
     if texto(informe['revisor'], 'informe.revisor') != revisor:
         raise RevisionInvalida('informe.revisor debe coincidir con --revisor')

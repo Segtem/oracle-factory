@@ -1,0 +1,8 @@
+medida factory_vigencia.corrida_completa:
+    de vigencia_corrida c
+    donde c.completa == 1 y c.casos == 8
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
+    requiere vigencia_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

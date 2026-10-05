@@ -118,9 +118,15 @@ class Flujo(unittest.TestCase):
                 if old is None: p.unlink()
                 else: p.write_bytes(old)
 
-    def test_cambio_de_head_invalida_aunque_los_archivos_sean_iguales(self):
+    def test_cambio_de_head_no_invalida_si_los_archivos_son_iguales(self):
+        # Vigencia por contenido: el HEAD es un dato del registro, no una condición.
         self.verde()
         self.git('-c','user.name=Prueba','-c','user.email=prueba@example.invalid','commit','--allow-empty','-qm','otro commit')
+        self.assertFalse(any('desactualizado' in x for x in f.pendientes_actuales(self.folder,self.state())))
+
+    def test_cambio_de_un_archivo_del_producto_invalida(self):
+        self.verde()
+        (self.root/'producto.py').write_text('valor = 2\n')
         self.assertTrue(any('desactualizado' in x for x in f.pendientes_actuales(self.folder,self.state())))
 
     def test_informes_y_hechos_se_verifican_al_cierre(self):
