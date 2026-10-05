@@ -1,6 +1,6 @@
 # Quitar la ruta privada de los registros ya publicados
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-05 23:50:52 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt.
+
+### Nota (2026-10-05 23:52:31 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

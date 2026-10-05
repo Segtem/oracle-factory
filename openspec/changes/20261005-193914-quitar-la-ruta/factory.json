@@ -2,7 +2,7 @@
   "id": "20261005-193914-quitar-la-ruta",
   "titulo": "Quitar la ruta privada de los registros ya publicados",
   "capacidad": "limpieza",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md",
   "spec_sha256": "634fff5c79fb66f791fd9e2d5eeaebbc5dfc0fe86893675c40136219da463e38",
   "spec_aprobada": {
@@ -224,6 +224,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "d6f647e1db4ca4345d916c5ef34fcd2440558720dffc9de786b58c78015439b3"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:52:31+00:00",
+      "oracle": "openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
+      "revision": "tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/informe.json"
     }
   ],
   "tipos": {
@@ -266,5 +276,12 @@
       "sha256": "9b39b2b7d2ab581a17610a24ce449f156a7efd709fb7edd87ccc90112e21e378"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T23:52:31+00:00"
+  }
 }
