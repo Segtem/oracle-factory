@@ -159,3 +159,11 @@ Medidas de estructura_cd7e5b6c4f15e5d8b.listar_con_filtros: Brian Hollweg (perso
 ### Nota (2026-10-05 23:48:04 UTC)
 
 Medidas de estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-05 23:52:52 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 4341fdaafe8a580e622f0f085d8a4b3dc14cea78; informe tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/informe.json; decisiones tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/decisiones.json.
+
+### Nota (2026-10-05 23:53:04 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-132144-jerarquia-de/oracle-veredicto.txt.

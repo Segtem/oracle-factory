@@ -1,0 +1,165 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261005-132144-jerarquia-de",
+  "contexto": {
+    "head": "ee17e694fa129f6568f03c9bebfb1e38c1ee5973",
+    "archivos_sha256": "697c0e1e8ea0a1aa045e340037ebc55af2d7761cb8bde8ae7aa2d50c34b74cc8"
+  },
+  "documentos": {
+    "openspec/changes/20261005-132144-jerarquia-de/proposal.md": "adf7a289dcced491520105c1d075c1380249f7c0001fd72dc95eeafa85e2e890",
+    "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/estructura.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/revision.py",
+    "tests/test_estructura.py",
+    "tools/verify_estructura.py",
+    "docs/estructura.md",
+    "README.md",
+    "catalogos/factory_estructura.buscar_en_todo_el_proyecto.oracle",
+    "catalogos/factory_estructura.carpeta_propia_de_factory.oracle",
+    "catalogos/factory_estructura.corrida_completa.oracle",
+    "catalogos/factory_estructura.descubrir_la_raiz_del_proyecto.oracle",
+    "catalogos/factory_estructura.donde_esta_cada_artefacto.oracle",
+    "catalogos/factory_estructura.estructura_documentada.oracle",
+    "catalogos/factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce.oracle",
+    "catalogos/factory_estructura.listar_con_filtros.oracle",
+    "catalogos/factory_estructura.lo_versionado_y_lo_local.oracle",
+    "catalogos/factory_estructura.respetar_lo_existente.oracle",
+    "catalogos/factory_estructura.ruta_canonica_para_producir_artefactos.oracle",
+    "openspec/changes/20261005-132144-jerarquia-de/proposal.md",
+    "openspec/changes/20261005-132144-jerarquia-de/design.md",
+    "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato b9015ff",
+      "resultado": "cumple",
+      "evidencia": "154 pruebas OK; corrida por el autor y por R2 (evidencia-b9015ff/suite.txt)"
+    },
+    {
+      "descripcion": "Sensor de estructura: 32 casos exactos y los diez requisitos en Oracle",
+      "resultado": "cumple",
+      "evidencia": "evidencia-b9015ff/resultado.json (éxito) y oracle cobertura --con hechos.json: los 10 requisitos «cumple»; R2 lo reprodujo"
+    },
+    {
+      "descripcion": "Las pruebas agregadas para cada hallazgo fallan con el código anterior",
+      "resultado": "cumple",
+      "evidencia": "comprobado por el autor para R2S, R2T y R2U con git stash del módulo; R2 repitió las sondas"
+    },
+    {
+      "descripcion": "Arneses de modos, vigencia, portabilidad, colaboración (9/9), revisión guiada y los dos de release (wheel instalado y guía) sobre 307ee3f",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor; R2 corrió modos y colaboración sobre c9dd318"
+    },
+    {
+      "descripcion": "Cuatro vueltas de revisión independiente (R2): 9 hallazgos, 4, 1 y 1 de severidad baja o informativa; la cuarta sin ninguno de código abierto",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-estructura.json, informe-r2-6dcbde5.json, informe-r2-c3e8954.json e informe-r2-c9dd318.json, validados con oracle-clue"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia.",
+    "Sólo Linux; no se probó Windows ni otras versiones de Python.",
+    "La prueba con contenedores Docker entre máquinas (tools/verify_maquinas.py) no se volvió a correr en este candidato; este cambio no toca el código que ejercita (juzgar y la portabilidad de los hechos), pero no está medido.",
+    "La fase 2 (mover el estado de cada cambio y la configuración a .factory/) no está hecha: es un cambio propio.",
+    "Los paquetes de Clue y los informes de R2 guardan la ruta de los checkouts revisados; la limpieza de rutas es el cambio 20261005-193914-quitar-la-ruta.",
+    "Una intermitencia no reproducida (3 apariciones en unas 100 corridas) en pruebas con huellas, de causa desconocida; se agregó diagnóstico."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2T-01",
+      "descripcion": "La guarda de «carpeta personal» compara la ruta resuelta con Path.home() sin resolver, y falla si el home es un enlace simbólico",
+      "ubicacion": "oracle_factory/estructura.py:32",
+      "evidencia": "R2 (informe-r2-6dcbde5.json), severidad baja. Corregido en ec0c696; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2T-02",
+      "descripcion": "`buscar` sigue leyendo a través de un enlace simbólico `.factory` (o de un padre enlazado), aunque init y el descubrimiento ya lo rechazan",
+      "ubicacion": "oracle_factory/estructura.py:151",
+      "evidencia": "R2 (informe-r2-6dcbde5.json), severidad baja. Corregido en ec0c696; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2T-03",
+      "descripcion": "`_fragmento` puede dejar el texto buscado fuera del fragmento mostrado cuando casefold() alarga la línea antes de la coincidencia",
+      "ubicacion": "oracle_factory/estructura.py:127",
+      "evidencia": "R2 (informe-r2-6dcbde5.json), severidad baja. Corregido en ec0c696; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2T-04",
+      "descripcion": "La prueba e4 sigue siendo casi trivial; el clon de init se cubre con otra prueba",
+      "ubicacion": "tests/test_estructura.py:215",
+      "evidencia": "R2 (informe-r2-6dcbde5.json), severidad informativa. Corregido en ec0c696; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2U-01",
+      "descripcion": "`donde` sigue listando a través de un `.factory` enlazado, aunque `buscar` ya no",
+      "ubicacion": "oracle_factory/estructura.py:158",
+      "evidencia": "R2 (informe-r2-c3e8954.json), severidad baja. Corregido en 1670587; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2Y-01",
+      "descripcion": "Las pruebas con repositorios Git temporales pueden fallar al limpiar la carpeta temporal («Directory not empty: …/.git»)",
+      "ubicacion": "tests/test_estructura.py:391",
+      "evidencia": "R2 (informe-r2-c9dd318.json), severidad baja. Corregido en b9015ff; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-01",
+      "descripcion": "`init` crea `.factory/` vacía: Git no versiona carpetas vacías, así que un clon no la tiene y el descubrimiento deja de funcionar",
+      "ubicacion": "oracle_factory/cli.py:1000",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad media. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-02",
+      "descripcion": "Un proyecto sin `.factory/` dentro de otro que sí la tiene: los comandos escriben en el externo con sólo un aviso por stderr",
+      "ubicacion": "oracle_factory/cli.py:1403",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad media. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-03",
+      "descripcion": "`donde` termina con un traceback (TypeError, AttributeError, OSError) con valores raros en factory.json, mientras `estado` funciona con el mismo registro",
+      "ubicacion": "oracle_factory/estructura.py:36",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-04",
+      "descripcion": "La guía dice que la huella rechazaría `.factory/local/` si no estuviera ignorada, y no es cierto",
+      "ubicacion": "docs/estructura.md:34",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-05",
+      "descripcion": "`.factory` que no es una carpeta: `init` falla a medias con un error crudo, y un enlace simbólico se usa como marcador y se lee a través del enlace",
+      "ubicacion": "oracle_factory/cli.py:996",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-06",
+      "descripcion": "`buscar` omite sin avisar archivos de más de 1 MB, corta la línea a 160 caracteres aunque el texto esté después y usa lower() en vez de casefold()",
+      "ubicacion": "oracle_factory/estructura.py:98",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-07",
+      "descripcion": "`ruta` usa `git rev-parse --short=7`, que puede devolver más de 7 caracteres si el prefijo es ambiguo",
+      "ubicacion": "oracle_factory/cli.py:946",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-08",
+      "descripcion": "La prueba e4 es casi trivial: las rutas «relativas» las fabrica donde mismo y Factory no escribe nada bajo .factory/ en esta fase",
+      "ubicacion": "tests/test_estructura.py:161",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad baja. Corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-09",
+      "descripcion": "`.factory/` entera queda fuera de la huella y es un nombre que también usan otras herramientas",
+      "ubicacion": "oracle_factory/cli.py:322",
+      "evidencia": "R2 (informe-r2-estructura.json), severidad informativa. Es decisión de la spec que aceptó Brian («Listo con los dos.»): .factory/ entera queda fuera de la huella; la guarda del home y los enlaces cubren el riesgo práctico y el límite quedó declarado en docs/estructura.md."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

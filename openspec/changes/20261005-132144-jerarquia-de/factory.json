@@ -2,7 +2,7 @@
   "id": "20261005-132144-jerarquia-de",
   "titulo": "Jerarquía de carpetas y comandos para encontrar las cosas",
   "capacidad": "estructura",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
   "spec_sha256": "46967e6b86bc22e807eb79e0d2763b1f6aec3b2974cc68a1e1d25a5338f3a5aa",
   "spec_aprobada": {
@@ -28,8 +28,39 @@
     "estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente",
     "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/informe.json",
+    "sha256": "07343e78b3dbd66078dc134ce57a07a8062eab72a081acd71f8bd52ac27a23ab",
+    "decisiones": "tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/decisiones.json",
+    "decisiones_sha256": "582577da7a3139fcb39b8bbbfd38dbe9b9fb801194c3b696aa621f54a11ae4a5",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T23:52:51+00:00",
+    "contexto": {
+      "head": "4341fdaafe8a580e622f0f085d8a4b3dc14cea78",
+      "archivos_sha256": "697c0e1e8ea0a1aa045e340037ebc55af2d7761cb8bde8ae7aa2d50c34b74cc8"
+    },
+    "head_preparacion": "ee17e694fa129f6568f03c9bebfb1e38c1ee5973"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261005-132144-jerarquia-de/evidencia-b9015ff/hechos.json",
+    "hechos_sha256": "f5920a7f9a8e9516c25f685f462521a3c92f03cb32f75953100e3ec9bdf1b114",
+    "informe": "openspec/changes/20261005-132144-jerarquia-de/oracle-veredicto.txt",
+    "informe_sha256": "741365bffdb67adf7ef31647fe112e671ee6a7e5b013b1fde2eea51b3a07f77f",
+    "cuando": "2026-10-05T23:53:04+00:00",
+    "contexto": {
+      "head": "4341fdaafe8a580e622f0f085d8a4b3dc14cea78",
+      "archivos_sha256": "697c0e1e8ea0a1aa045e340037ebc55af2d7761cb8bde8ae7aa2d50c34b74cc8"
+    }
+  },
   "eventos": [
     {
       "accion": "cambio_creado",
@@ -556,6 +587,31 @@
         "factory_estructura.respetar_lo_existente",
         "factory_estructura.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:52:51+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "07343e78b3dbd66078dc134ce57a07a8062eab72a081acd71f8bd52ac27a23ab",
+      "decisiones_sha256": "582577da7a3139fcb39b8bbbfd38dbe9b9fb801194c3b696aa621f54a11ae4a5"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T23:53:04+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f5920a7f9a8e9516c25f685f462521a3c92f03cb32f75953100e3ec9bdf1b114"
     }
   ],
   "tipos": {

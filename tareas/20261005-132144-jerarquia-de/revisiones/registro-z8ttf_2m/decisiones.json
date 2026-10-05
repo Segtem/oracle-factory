@@ -1,0 +1,113 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "07343e78b3dbd66078dc134ce57a07a8062eab72a081acd71f8bd52ac27a23ab",
+  "actor": "Brian Hollweg",
+  "motivo": "BORRADOR del agente, vale cuando Brian lo registra con revision --formato guiado. Se apoya en sus instrucciones «Da las vueltas que fanten» (corregir y repetir R2 hasta que no queden hallazgos), «Listo con los dos.» (aceptó las specs) y «Listo.» (confirmó las medidas). Edítalo si alguna decisión no es la tuya.",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2T-01",
+      "estado": "corregido",
+      "motivo": "corregido en ec0c696; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2T-02",
+      "estado": "corregido",
+      "motivo": "corregido en ec0c696; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2T-03",
+      "estado": "corregido",
+      "motivo": "corregido en ec0c696; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2T-04",
+      "estado": "corregido",
+      "motivo": "corregido en ec0c696; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2U-01",
+      "estado": "corregido",
+      "motivo": "corregido en 1670587; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2Y-01",
+      "estado": "corregido",
+      "motivo": "corregido en b9015ff; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-01",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-02",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-03",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-04",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-05",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-06",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-07",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-08",
+      "estado": "corregido",
+      "motivo": "corregido en 8b881a7; R2 lo confirmó en la vuelta siguiente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-09",
+      "estado": "riesgo_aceptado",
+      "motivo": "es decisión de la spec que aceptó Brian («Listo con los dos.»): .factory/ entera queda fuera de la huella; la guarda del home y los enlaces cubren el riesgo práctico y el límite quedó declarado en docs/estructura.md",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-05T23:49:39+00:00"
+    }
+  ]
+}
