@@ -1,0 +1,11 @@
+R2W-01 head_preparacion: None
+R2W-01 estado: ['revisión registrada sobre el commit 9a40c1d.', 'veredicto Oracle registrado sobre el commit 9a40c1d.']
+ok
+R2W-02 head_preparacion registrado: 12345
+R2W-02 estado excepción: TypeError 'int' object is not subscriptable
+R2W-02 cerrar excepción: TypeError 'int' object is not subscriptable
+ok
+R2W-03 cierre: ['revisión registrada sobre el commit desconocido.', 'veredicto Oracle registrado sobre el commit desconocido.', 'Aviso: revisión registrada en desconocido; HEAD actual 36f2f3f con el producto idéntico.', 'Aviso: veredicto Oracle registrado en desconocido; HEAD actual 36f2f3f con el producto idéntico.']
+ok
+Ran 15 tests in 6.418s
+OK

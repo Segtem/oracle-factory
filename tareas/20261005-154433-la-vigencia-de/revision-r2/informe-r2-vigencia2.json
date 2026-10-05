@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-vigencia-3bf20b6",
+  "base": "133390fce61abfe9a64efdb50958bd2fe3c33633",
+  "head": "3bf20b688d3ca2ed46a2fb60c77d6d5769b805e1",
+  "diff_sha256": "4c33b5d51d135de67e9ca440d23de595a72dae363b31735473c25bb22396cee0",
+  "context_sha256": "b44bfa709d16efa89cad0d1890f24c3cfee185ebd8b601b1f63aa292a622ab49",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2W-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Un head_preparacion que no es texto, declarado por el informe, rompe estado y el cierre del cambio",
+      "explanation": "La corrección de R2V-02 usa .get('head') y corto(), que cubren la ausencia de head, pero corto() asume una cadena (head[:7]). El head de preparación viene del informe, que Factory valida sólo en archivos_sha256, y se guarda tal cual en revision.head_preparacion. Si el informe trae un número (head: 12345), el registro guiado lo acepta y desde entonces estado y cerrar terminan con TypeError, sin que el registro tenga arreglo salvo editar factory.json. Es la misma clase de defecto que R2V-02, por otro camino; requiere editar el informe y su hash, igual que R2V-03 (riesgo aceptado), pero deja el cambio inutilizable.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 342,
+        "end_line": 343,
+        "side": "head"
+      },
+      "trigger": "Poner contexto.head = 12345 en el informe guiado (y actualizar informe_sha256 en decisiones); registrar; consultar estado o cerrar.",
+      "evidence": "Verificado: sondas_r2w.py (carpeta revision-r2), salida en sondas_r2w.salida.txt, test_w_02: head_preparacion queda en 12345 y mostrar y cerrar lanzan TypeError «'int' object is not subscriptable».",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra",
+      "status": "pendiente",
+      "verification": "Correr test_w_02. Sugerencia: corto() con str(head)[:7] si es str, o guardar head_preparacion sólo si es una cadena."
+    },
+    {
+      "id": "R2W-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Queda una fila de la guía que sigue diciendo que cambiar el HEAD obliga a preparar un informe nuevo",
+      "explanation": "docs/revision-guiada.md:98 («| Cambió producto, HEAD o spec | Prepare un informe del contexto nuevo ...») no se tocó. Con la regla nueva, cambiar sólo el HEAD no obliga a nada, y la propia línea 27, que sí se corrigió, lo dice. La contradicción está en el mismo documento. No afloja nada de lo que invalida (producto y spec siguen en la fila), pero induce a repetir una revisión que no hace falta. Las otras cuatro frases corregidas (README.md:57 y :94, docs/colaboracion.md:103 y :105, docs/revision-guiada.md:27, site/desde-cero.html en el paso 05 y en la fila «Cambió código, pruebas o medidas») las releí y dicen la verdad: conservan código, spec, medidas y evidencia como causas de invalidación.",
+      "location": {
+        "file": "docs/revision-guiada.md",
+        "start_line": 27,
+        "end_line": 27,
+        "side": "head"
+      },
+      "trigger": "grep -n \"HEAD o spec\" docs/revision-guiada.md (la línea 98 está fuera del diff; se ancla en la línea 27 corregida).",
+      "evidence": "Verificado por lectura y grep del checkout.",
+      "related_requirement": "vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto",
+      "status": "pendiente",
+      "verification": "Cambiar la fila a «Cambió el producto o la spec». Opcional: README.md:94 llama «(la huella de archivos)» a la evidencia, cuando los hechos y el informe se verifican por su propio hash; es preciso en lo que importa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lo que corrí sobre 3bf20b6: suite (110 OK); tools/verify_vigencia.py --salida revision-r2/evidencia-vigencia-3bf20b6 (12 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 4 requisitos vigencia_c82d… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); tools/verify_collaboration.py --clue <env>/oracle-clue (rc 0, C1–C9 OK); mis sondas anteriores (sondas_r2v.py: sólo v_06 falla, como se esperaba; v_02 y v_04 ya no lanzan) y las nuevas sondas_r2w.py.",
+    "Estado de R2V: R2V-01 resuelto (estado y cierre muestran siempre «revisión registrada sobre el commit …» y «veredicto Oracle registrado sobre el commit …»; el aviso sólo sale con el producto idéntico y otro HEAD); R2V-02 resuelto para head ausente, en el registro guiado, estado y cierre (test_w_01 y test_w_03), pero queda el caso de un head que no es texto (R2W-01); R2V-04 parcial (cuatro frases correctas, falta una fila, R2W-02); R2V-06 resuelto (cuatro pruebas nuevas; la de «informe de otro producto» comprueba que el mismo informe se acepta al restituir el producto, aunque el mensaje de error sigue siendo genérico; no cubre el registro guiado con head ausente). R2V-03 y R2V-05 quedaron como riesgo aceptado y no los reevalué.",
+    "Con head ausente, el aviso dice «registrada en desconocido; HEAD actual … con el producto idéntico»: es honesto y no inventa un commit; lo anoto como observación, no como defecto.",
+    "No corrí los arneses de revisión guiada ni los de release contra el wheel, ni verify_guide; las sondas usan el fixture de tests/test_vigencia.py, con la terminal parcheada. Revisé el texto de la documentación y del sitio, pero no lo rendericé."
+  ]
+}
