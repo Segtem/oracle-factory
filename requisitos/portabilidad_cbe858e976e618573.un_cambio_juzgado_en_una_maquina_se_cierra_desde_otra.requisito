@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra:
     texto "Tipo: funcional Un cambio con spec aceptada, medidas, revisión y veredicto registrados en una máquina SHALL poder consultarse y cerrarse desde un clon en otra máquina, sin pendientes que dependan de rutas de la primera."
-    fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#un cambio juzgado en una máquina se cierra desde otra"
+    fuente "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#un cambio juzgado en una máquina se cierra desde otra"
     medido_por factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra, factory_portabilidad.corrida_completa

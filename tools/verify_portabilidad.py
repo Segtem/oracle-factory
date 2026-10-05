@@ -15,10 +15,11 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 CONTRACTS = {
     'hechos_con_ruta_relativa_al_proyecto': ['p1_hechos_dentro_del_proyecto', 'p1_clon_en_otra_ruta'],
     'advertir_cuando_los_hechos_no_viajan': ['p2_hechos_ignorados_por_git', 'p2_hechos_fuera_del_proyecto'],
-    'fuente_de_los_requisitos_relativa': ['p3_fuente_relativa'],
+    'fuente_de_los_requisitos_relativa': ['p3_fuente_relativa', 'p3_fuente_con_comillas_en_la_ruta_se_reescribe_o_avisa'],
     'pendiente_que_explica_como_recuperarse': ['p4_pendiente_explica_como_recuperarse'],
     'un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra': ['p5_cierre_desde_un_clon_en_otra_ruta'],
-    'sin_rutas_privadas_en_lo_versionado': ['p6_sin_rutas_privadas_en_lo_versionado'],
+    'sin_rutas_privadas_en_lo_versionado': ['p6_sin_rutas_privadas_en_lo_versionado',
+                                            'p6_los_requisitos_de_este_repositorio_no_llevan_rutas_privadas'],
     'respetar_los_registros_existentes': ['p7_registro_anterior_con_ruta_absoluta'],
 }
 PREFIX = 'test_portabilidad.Portabilidad.test_'

@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -123,6 +124,20 @@ class Portabilidad(unittest.TestCase):
         self.assertNotIn(str(self.root), texto)
         self.assertIn(f'fuente "openspec/changes/{ident}/', texto)
 
+    def test_p3_fuente_con_comillas_en_la_ruta_se_reescribe_o_avisa(self):
+        raiz = Path('/tmp/pro"ducto')  # Oracle escapa la comilla: fuente "/tmp/pro\"ducto/openspec/x#y"
+        ruta = Path(self.tmp.name) / 'r.requisito'
+        ruta.write_text('requisito x.y:\n    fuente "/tmp/pro\\"ducto/openspec/x.md#t"\n', encoding='utf-8')
+        with patch.object(f, 'ROOT', raiz):
+            f.fuente_relativa(ruta)
+        self.assertEqual(ruta.read_text(encoding='utf-8'), 'requisito x.y:\n    fuente "openspec/x.md#t"\n')
+        ajena = Path(self.tmp.name) / 's.requisito'  # una ruta que no es la de este proyecto: se avisa
+        ajena.write_text('requisito x.y:\n    fuente "/otra/ruta/x.md#t"\n', encoding='utf-8')
+        avisos = io.StringIO()
+        with patch.object(f, 'ROOT', raiz), contextlib.redirect_stderr(avisos):
+            f.fuente_relativa(ajena)
+        self.assertIn('no pude hacer relativa', avisos.getvalue())
+
     # --- p4: el pendiente explica cómo recuperarse ----------------------------------------
     def test_p4_pendiente_explica_como_recuperarse(self):
         ident = self.cambio_juzgado()
@@ -155,6 +170,11 @@ class Portabilidad(unittest.TestCase):
             except (UnicodeDecodeError, OSError):
                 continue
         self.assertEqual(con_ruta, [])
+
+    def test_p6_los_requisitos_de_este_repositorio_no_llevan_rutas_privadas(self):
+        propios = sorted((Path(__file__).resolve().parents[1] / 'requisitos').glob('portabilidad_*.requisito'))
+        self.assertTrue(propios)
+        self.assertEqual([p.name for p in propios if re.search(r'(?m)^\s*fuente "/', p.read_text(encoding='utf-8'))], [])
 
     # --- p7: registros existentes -------------------------------------------------------------------
     def test_p7_registro_anterior_con_ruta_absoluta(self):

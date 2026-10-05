@@ -43,3 +43,31 @@ Medidas de portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado: f
 ### Nota (2026-10-05 19:12:39 UTC)
 
 Medidas de portabilidad_cbe858e976e618573.respetar_los_registros_existentes: factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-05 19:32:36 UTC)
+
+Medidas de portabilidad_cbe858e976e618573.respetar_los_registros_existentes propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.

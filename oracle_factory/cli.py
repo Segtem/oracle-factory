@@ -419,9 +419,14 @@ def fuente_relativa(ruta: Path) -> None:
     if not ruta.is_file():
         return
     texto = ruta.read_text(encoding="utf-8")
-    relativa = texto.replace(f'fuente "{ROOT}/', 'fuente "')
+    # Oracle escapa las comillas y las barras invertidas de la ruta: se reconocen las dos formas.
+    relativa = texto
+    for prefijo in {str(ROOT), json.dumps(str(ROOT))[1:-1]}:
+        relativa = relativa.replace(f'fuente "{prefijo}/', 'fuente "')
     if relativa != texto:
         ruta.write_text(relativa, encoding="utf-8")
+    if re.search(r'(?m)^\s*fuente "/', relativa):
+        print(f"Aviso: no pude hacer relativa la fuente de {ruta.name}; conserva una ruta absoluta de esta máquina.", file=sys.stderr)
 
 
 def importar(identificador: str) -> None:
@@ -695,7 +700,7 @@ def juzgar(identificador: str, hechos: Path) -> None:
         raise FactoryError(f"no encuentro los hechos del sensor: {hechos}")
     # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
     try:
-        ruta_hechos = str(hechos.relative_to(ROOT))
+        ruta_hechos = hechos.relative_to(ROOT).as_posix()
     except ValueError:
         ruta_hechos = str(hechos)
         print(f"Aviso: los hechos están fuera del proyecto ({hechos}); otra máquina no podrá verificarlos. "

@@ -1,4 +1,4 @@
 requisito portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado:
     texto "Tipo: no funcional Lo que Factory escribe en el repositorio SHALL NOT contener la ruta absoluta de la máquina que lo escribió."
-    fuente "/home/workstation/Dev/factory-portabilidad/openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#sin rutas privadas en lo versionado"
+    fuente "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md#sin rutas privadas en lo versionado"
     medido_por factory_portabilidad.sin_rutas_privadas_en_lo_versionado, factory_portabilidad.corrida_completa

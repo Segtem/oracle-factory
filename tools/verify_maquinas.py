@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -67,6 +68,7 @@ class Recorrido:
 
     # -- infraestructura -------------------------------------------------------------
     def levantar(self):
+        # El remoto no autentica (git daemon con receive-pack): sólo existe dentro de esta red privada y no publica puertos.
         docker('network', 'create', self.red)
         docker('run', '-d', '--name', self.remoto, '--network', self.red, '--hostname', 'remoto', self.imagen, 'sh', '-c',
                'git init -q --bare -b main /srv/producto.git && git daemon --base-path=/srv --export-all '
@@ -151,6 +153,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if not shutil.which('docker') or docker('info', check=False).returncode:
         parser.error('hace falta Docker accesible sin sudo')
+    # SIGTERM (un timeout, un kill) también tiene que limpiar los contenedores: se trata como una interrupción.
+    signal.signal(signal.SIGTERM, lambda *_: sys.exit(143))
     salida = args.salida.expanduser().resolve()
     salida.mkdir(parents=True, exist_ok=False)
     imagen = args.imagen or f'factory-maquina-{os.getpid()}'
