@@ -1,0 +1,31 @@
+test_r2_01_propuesta_vieja_bloquea_autonomo (sondas_r2.Sondas.test_r2_01_propuesta_vieja_bloquea_autonomo) ... 
+R2-01 pendientes: ['la aceptación de la propuesta/spec propuesta por agente-x, sin confirmar por una persona']
+ok
+test_r2_02_medidas_pendientes_huerfanas_tras_cambiar_spec (sondas_r2.Sondas.test_r2_02_medidas_pendientes_huerfanas_tras_cambiar_spec) ... 
+R2-02 pendientes: ['medidas de notas_c8223cf4b12992d73.titulo_valido propuestas por agente-x, sin confirmar por una persona']
+ok
+test_r2_03_juicio_verde_con_medidas_sin_confirmar (sondas_r2.Sondas.test_r2_03_juicio_verde_con_medidas_sin_confirmar) ... 
+R2-03 fase/oracle: oracle_verde 0 pendiente: ['notas_cd43155effe4a8a97.titulo_valido']
+ok
+test_r2_04_agente_crea_autonomo_si_el_proyecto_lo_define (sondas_r2.Sondas.test_r2_04_agente_crea_autonomo_si_el_proyecto_lo_define) ... 
+R2-04 modo/actor: autonomo agente
+ok
+test_r2_05_nota_de_revision_sin_actor (sondas_r2.Sondas.test_r2_05_nota_de_revision_sin_actor) ... 
+R2-05 nota revisión: Revisión Brian Hollweg: aprobar; 0 abiertos; commit f6f4f5995e2bfaef0474b13dee7e65d9d2fcfbd8; informe openspec/changes/20261005-123859-nota/review.md. 
+R2-05 nota medidas: Medidas de notas_cd43155effe4a8a97.titulo_valido: notas.casos_ejecutados, notas.resultados. SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+R2-05 estado: ['Revisión: Brian Hollweg / aprobar / 0 abiertos', 'Revisión registrada por: agente-x (agente, decidio, modo autonomo)']
+ok
+test_r2_06_funcional_convierte_decision_de_agente_en_propuesta_confirmable (sondas_r2.Sondas.test_r2_06_funcional_convierte_decision_de_agente_en_propuesta_confirmable) ... 
+R2-06 spec_aprobada: persona confirmo funcional False
+ok
+test_r2_07_cierre_dice_sin_decision_humana_aunque_la_hubo (sondas_r2.Sondas.test_r2_07_cierre_dice_sin_decision_humana_aunque_la_hubo) ... 
+R2-07 spec: persona | nota: Cierre: agente-x (agente, decidio, modo autonomo), tras revisar el informe de código y el veredicto Oracle. Cerrado por agente en modo autónomo; no hubo decisión humana.
+ok
+test_r2_08_agente_no_puede_retirar_su_propuesta_de_medidas_al_repetir (sondas_r2.Sondas.test_r2_08_agente_no_puede_retirar_su_propuesta_de_medidas_al_repetir) ... 
+R2-08 pendientes: ['notas_ca274f5d8a75f303b.titulo_valido'] medidas: []
+ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 6.356s
+
+OK

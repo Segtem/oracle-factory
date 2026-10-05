@@ -1,0 +1,193 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-modos-1a12a1a",
+  "base": "e9f7c024c20c114c03026219efb275e59a9a2daf",
+  "head": "1a12a1ad4cbeb2ae08821c31f07517a3d263ec93",
+  "diff_sha256": "c7973b70f41c403716a22bc20cb9b55d78f80e6e713e4f35f93528655fe7ea89",
+  "context_sha256": "807889c38c58978e2a96ef783789e33fb7328d91f2f648cf1cf2f53f4ba00f5a",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-opus-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Medidas propuestas quedan huérfanas tras renovar la spec y bloquean el cierre para siempre",
+      "explanation": "aprobar_spec e importar reinician requisitos, revisión y juicio, pero no limpian medidas_pendientes (ni medidas). Si la spec cambia, la reimportación genera otro dominio (versión derivada de spec_sha256) y los ids viejos dejan de ser requisitos del cambio. pendientes() sigue listando «medidas de <id viejo> propuestas por ..., sin confirmar por una persona», y medir rechaza ese id («usá el id completo de un requisito importado»). Ni la persona ni el agente pueden retirar la propuesta por Factory: el cambio no se puede cerrar sin editar factory.json a mano.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 663,
+        "end_line": 666,
+        "side": "head"
+      },
+      "trigger": "modo confirmacion: persona acepta e importa; agente --agente medir propone; se edita spec.md; persona aprobar-spec e importar de nuevo.",
+      "evidence": "Origen: aprobar_spec (cli.py:357) e importar (cli.py:376) no limpian medidas_pendientes; la ubicación apunta a pendientes(), que la sigue listando. Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_02: el id viejo ya no está en requisitos, sigue en medidas_pendientes, pendientes() lo lista y medir sobre él lanza FactoryError.",
+      "related_requirement": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "status": "pendiente",
+      "verification": "Correr test_r2_02. Arreglo sugerido: al renovar la spec o reimportar, descartar propuestas y registros de medidas de ids que ya no son requisitos (o todas, como se hace con revision/oracle)."
+    },
+    {
+      "id": "R2-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La vía de agente que decide no retira la propuesta anterior; una propuesta vieja deja el cambio esperando a una persona",
+      "explanation": "decidir() sólo saca la propuesta en la vía de persona (línea 128). Si un agente propuso en confirmacion y una persona baja el modo (a autonomo, o a funcional con requisitos no funcionales), la decisión posterior del agente se registra como «decidio» pero propuestas[decision] queda; pendientes() la sigue listando y cerrar falla. En modo autónomo el cambio no puede cerrarse sin que una persona vuelva a decidir, contra la tabla. Lo mismo pasa con medidas: si el agente repite exactamente las medidas propuestas, nuevo_r == r y medir sale por «Sin cambios» sin limpiar medidas_pendientes ni crear el registro de medidas (línea 1058). cambiar_modo tampoco revisa las propuestas existentes al bajar de modo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 112,
+        "end_line": 129,
+        "side": "head"
+      },
+      "trigger": "confirmacion: agente aprobar-spec (propuesta) → persona modo autonomo → agente aprobar-spec (decide).",
+      "evidence": "Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_01 (pendientes lista «la aceptación de la propuesta/spec propuesta por agente-x, sin confirmar por una persona» con modo autonomo y spec aceptada por el agente) y test_r2_08 (en funcional, requisito no funcional, el agente repite medir y la propuesta queda; medidas vacío).",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Correr test_r2_01 y test_r2_08."
+    },
+    {
+      "id": "R2-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "Las medidas propuestas por el agente cuentan para el juicio de Oracle antes de ser confirmadas",
+      "explanation": "En confirmacion, medir --agente escribe la asociación en el .requisito y sólo anota medidas_pendientes. juzgar no consulta medidas_pendientes ni propuestas: corre Oracle sobre el archivo y registra oracle.codigo 0 y fase oracle_verde. La spec dice que las medidas propuestas «no cuentan para el gate hasta que una persona las confirma tal cual». El cierre sí queda bloqueado por pendientes(), pero estado/fase y la nota del tracker («Juicio Factory: verde») muestran un verde construido sobre una decisión que todavía no tomó nadie habilitado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1114,
+        "end_line": 1121,
+        "side": "head"
+      },
+      "trigger": "confirmacion: persona acepta e importa, agente propone medidas, persona registra revisión, se juzga.",
+      "evidence": "Ubicación: la propuesta escribe el .requisito (cli.py:1114-1121); juzgar (cli.py:609) no mira propuestas. Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_03: fase oracle_verde, oracle.codigo 0, con el requisito todavía en medidas_pendientes.",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Correr test_r2_03. Opciones: que juzgar rechace o marque incompleto mientras haya propuestas, o que la propuesta no escriba el .requisito hasta la confirmación."
+    },
+    {
+      "id": "R2-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Un agente crea un cambio autónomo sin persona si el proyecto define modo_por_defecto autonomo",
+      "explanation": "nuevo sólo pide confirmación humana cuando el modo baja respecto de modo_por_defecto del proyecto. Ese valor sale de factory.json del proyecto, un archivo que el agente puede escribir, y su cambio no queda como evento ni pide terminal. La propuesta dice «Elegir autonomo o pasar a un modo con menos intervención humana exige confirmación humana»; con modo_por_defecto autonomo (o funcional), un agente sin terminal crea cambios en ese modo y el primer evento queda como agente sin ninguna confirmación humana.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 179,
+        "end_line": 186,
+        "side": "head"
+      },
+      "trigger": "factory.json del proyecto con {\"modo_por_defecto\": \"autonomo\"}; FACTORY_AGENTE=x oracle-factory nuevo --modo autonomo, sin terminal.",
+      "evidence": "Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_04: el cambio queda en modo autonomo, cambio_creado con tipo_actor agente, sin pedir frase ni terminal.",
+      "related_requirement": "modos_c45a4802846932222.modo_explicito_por_cambio",
+      "status": "pendiente",
+      "verification": "Correr test_r2_04. Sugerencia: comparar contra confirmacion (el máximo) o exigir persona para todo modo distinto de confirmacion, y no sólo contra el valor del proyecto."
+    },
+    {
+      "id": "R2-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "La nota de revisión y la de medidas no dicen quién decidió ni el modo; el nombre libre del revisor puede parecer humano",
+      "explanation": "La propuesta exige que «la nota de la tarea» diga el modo y quién decidió cada gate. Las notas de revisión (libre y guiada) y la de medidas no incluyen quien(...) ni el modo. Además, --revisor es texto libre: en autonomo un agente registra --revisor \"Brian Hollweg\" y la nota del tracker queda «Revisión Brian Hollweg: aprobar; 0 abiertos ...», sin rastro de que la registró un agente. En estado, la línea «Revisión: Brian Hollweg / aprobar» aparece antes de «Revisión registrada por: agente-x (agente, ...)». Los mensajes «Formato: libre; declaración humana ...» también se imprimen en la vía de agente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 603,
+        "end_line": 603,
+        "side": "head"
+      },
+      "trigger": "autonomo: agente revision --revisor \"Brian Hollweg\" --decision aprobar --hallazgos-abiertos 0.",
+      "evidence": "Notas sin actor en cli.py:605 (libre), 538 (guiada) y 1124 (medidas); ubicación en el evento de revisión. Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_05: nota «Revisión Brian Hollweg: aprobar; 0 abiertos; commit ...» sin «agente» ni modo; nota de medidas sin actor.",
+      "related_requirement": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "status": "pendiente",
+      "verification": "Correr test_r2_05. Mismo patrón en cli.py:538 (guiada) y cli.py:1124 (medidas)."
+    },
+    {
+      "id": "R2-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.75,
+      "title": "En funcional, «persona decide» se implementa como confirmación: no hay motivo y la invalidación crea propuestas confirmables",
+      "explanation": "La propuesta define «Persona decide: la persona da la decisión y su motivo; el agente puede preparar opciones, pero no la registra». No se pide ni guarda ningún motivo en ninguna vía de persona. Además, cambiar_modo a funcional convierte la decisión del agente sobre requisitos funcionales en propuestas[spec], y la persona la «confirma» con forma confirmo en modo funcional. Eso registra lo que el agente propuso, cuando en ese modo el agente no debería registrar nada y la persona debería decidir.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 752,
+        "end_line": 760,
+        "side": "head"
+      },
+      "trigger": "autonomo: agente acepta la spec (funcional) → persona modo funcional → persona aprobar-spec.",
+      "evidence": "Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_06: spec_aprobada queda persona/confirmo/funcional y sin campo motivo. Que esto contradiga la intención es interpretación del revisor.",
+      "related_requirement": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "status": "pendiente",
+      "verification": "Correr test_r2_06; decidir con Brian si funcional debe descartar (no convertir) y si el motivo es obligatorio."
+    },
+    {
+      "id": "R2-07",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "El cierre autónomo afirma «no hubo decisión humana» aunque una persona aceptó la spec",
+      "explanation": "cerrar agrega «Cerrado por agente en modo autónomo; no hubo decisión humana.» sólo porque el cierre lo hizo un agente, sin mirar quién tomó los demás gates. En autonomo una persona puede aceptar la spec o registrar la revisión; el texto queda falso. Es el error contrario al que se busca evitar (subestima la intervención humana), pero el registro deja de ser fiel.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 721,
+        "end_line": 723,
+        "side": "head"
+      },
+      "trigger": "autonomo: persona aprobar-spec; agente importa, mide, revisa, juzga y cierra.",
+      "evidence": "Verificado: sondas_r2.py (carpeta revision-r2), salida en sondas_r2.salida.txt, test_r2_07: spec_aprobada.tipo_actor persona y nota de cierre con «no hubo decisión humana».",
+      "related_requirement": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "status": "pendiente",
+      "verification": "Correr test_r2_07."
+    },
+    {
+      "id": "R2-08",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.7,
+      "title": "La revisión en funcional usa los tipos de todo el cambio y no los del requisito afectado",
+      "explanation": "La tabla dice «Hallazgos de revisión: según el tipo del requisito afectado». firma_revision/tipos_cambio pasan todos los tipos del cambio: con un requisito funcional, un agente no puede registrar la revisión aunque los hallazgos sean de requisitos no funcionales. Es conservador (no crea verdes falsos) y está marcado con ponytail:, pero no sigue la tabla y no está en la spec ni en «Human decisions».",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 398,
+        "end_line": 411,
+        "side": "head"
+      },
+      "trigger": "funcional con un requisito funcional y uno no funcional; agente registra revisión cuyos hallazgos sólo afectan al no funcional.",
+      "evidence": "Lectura de código (líneas 398-411 y llamadas en 517 y 589); no se ejecutó una prueba.",
+      "related_requirement": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "status": "pendiente",
+      "verification": "Sospecha basada en la lectura; habría que confirmar que el formato guiado no asocia hallazgos a requisitos."
+    },
+    {
+      "id": "R2-09",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "Las pruebas de contrato no ejercen lo que más importa de algunos escenarios",
+      "explanation": "test_m3_confirmacion_propone verifica la propuesta en pendientes() pero no que «no cuenten para el gate» (juzgar las cuenta, R2-03) ni que una confirmación distinta no quede como confirmo. test_m5 sólo cubre la spec: la invalidación de revisión y medidas en cambiar_modo no tiene prueba. test_m4_confirmacion_por_pipe parchea terminal_interactiva en lugar de usar stdin por pipe real (los arneses sí usan pty). test_m4_lectura_del_estado no exige que estado diga explícitamente que no hubo decisión humana. Como las medidas factory_modos.* sólo cuentan casos verdes por nombre, el catálogo queda verde con los defectos R2-01 a R2-04 presentes.",
+      "location": {
+        "file": "tests/test_modos.py",
+        "start_line": 146,
+        "end_line": 231,
+        "side": "head"
+      },
+      "trigger": "Correr la suite: 84 pruebas en verde con los defectos de R2-01..R2-04 reproducibles.",
+      "evidence": "Verificado: la suite pasa (84 OK) y las sondas reproducen los defectos sobre el mismo fixture.",
+      "related_requirement": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "status": "pendiente",
+      "verification": "Agregar casos para las sondas de R2 y para la invalidación de revisión y medidas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé cli.py, modos.py, test_modos.py, tools/terminal.py, tools/verify_modos.py, los catálogos factory_modos y los cambios de los arneses. No ejecuté los arneses tools/verify_*.py ni verify_modos.py; sólo la suite unittest (84 OK) y mis sondas.",
+    "Las sondas reutilizan el fixture de tests/test_modos.py: la terminal está parcheada (terminal_interactiva) y no prueban isatty real; no probé el CLI instalado de punta a punta.",
+    "No revisé oracle_factory/revision.py (validación guiada), que no cambió, para saber si los hallazgos guiados podrían asociarse a un requisito (R2-08 es sospecha).",
+    "No probé los registros reales anteriores a los modos del repositorio de Factory; sólo leí el código de compatibilidad (quien(), modo_de).",
+    "No evalué la suplantación de terminal (script/pty) porque la propuesta la declara fuera de alcance."
+  ]
+}

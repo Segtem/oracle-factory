@@ -1,0 +1,135 @@
+{
+  "modos_caso": [
+    {
+      "requisito": "modo_explicito_por_cambio",
+      "caso": "m1_crear_cambio_con_modo",
+      "codigo": 0
+    },
+    {
+      "requisito": "modo_explicito_por_cambio",
+      "caso": "m1_elegir_autonomo_exige_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "modo_explicito_por_cambio",
+      "caso": "m1_modo_del_proyecto_no_evita_a_la_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "tipo_de_requisito",
+      "caso": "m2_requisito_no_funcional_declarado",
+      "codigo": 0
+    },
+    {
+      "requisito": "tipo_de_requisito",
+      "caso": "m2_requisito_sin_tipo",
+      "codigo": 0
+    },
+    {
+      "requisito": "tipo_de_requisito",
+      "caso": "m2_tipos_obligatorios",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_funcional_requisito_funcional",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_funcional_requisito_no_funcional",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_confirmacion_propone",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_autonomo",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_cierre_en_modo_funcional",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_spec_nueva_descarta_lo_anterior",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_juzgar_no_cuenta_medidas_propuestas",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_funcional_persona_decide_con_motivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_misma_spec_conserva_registros",
+      "codigo": 0
+    },
+    {
+      "requisito": "decisiones_segun_el_modo",
+      "caso": "m3_medidas_sin_decision_no_cuentan",
+      "codigo": 0
+    },
+    {
+      "requisito": "actor_registrado_sin_aparentar_humanos",
+      "caso": "m4_confirmacion_por_pipe",
+      "codigo": 0
+    },
+    {
+      "requisito": "actor_registrado_sin_aparentar_humanos",
+      "caso": "m4_lectura_del_estado",
+      "codigo": 0
+    },
+    {
+      "requisito": "actor_registrado_sin_aparentar_humanos",
+      "caso": "m4_sin_agente_ni_terminal_no_es_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "actor_registrado_sin_aparentar_humanos",
+      "caso": "m4_notas_dicen_quien_decidio",
+      "codigo": 0
+    },
+    {
+      "requisito": "actor_registrado_sin_aparentar_humanos",
+      "caso": "m4_cierre_autonomo_no_niega_decisiones_humanas",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambio_de_modo_con_invalidacion",
+      "caso": "m5_subir_la_intervencion_humana",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambio_de_modo_con_invalidacion",
+      "caso": "m5_bajar_de_modo_el_agente_reemplaza_su_propuesta",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambio_de_modo_con_invalidacion",
+      "caso": "m5_subir_a_funcional_descarta_decision_del_agente",
+      "codigo": 0
+    },
+    {
+      "requisito": "cambio_de_modo_con_invalidacion",
+      "caso": "m5_bajar_a_funcional_descarta_propuestas",
+      "codigo": 0
+    }
+  ],
+  "modos_corrida": [
+    {
+      "completa": 1,
+      "casos": 25
+    }
+  ]
+}

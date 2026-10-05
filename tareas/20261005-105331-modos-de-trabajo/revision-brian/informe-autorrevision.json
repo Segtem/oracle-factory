@@ -1,0 +1,77 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-modos-1a12a1a",
+  "base": "e9f7c024c20c114c03026219efb275e59a9a2daf",
+  "head": "1a12a1ad4cbeb2ae08821c31f07517a3d263ec93",
+  "diff_sha256": "c7973b70f41c403716a22bc20cb9b55d78f80e6e713e4f35f93528655fe7ea89",
+  "context_sha256": "807889c38c58978e2a96ef783789e33fb7328d91f2f648cf1cf2f53f4ba00f5a",
+  "provider": {
+    "name": "Claude Code (Opus 5.5), autor del cambio: AUTORREVISIÓN",
+    "model": "claude-opus-5-5"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "AUTORREVISIÓN: el agente que implementó el cambio revisa su propio código; hay una revisión independiente (R2) aparte.",
+    "M-01 (un agente sin --agente quedaba registrado como persona en eventos que no son decisiones) se encontró en esta autorrevisión y ya está corregido en 1a12a1a; por eso no figura como hallazgo.",
+    "Verificado: 84 pruebas, 14 casos de contrato, mutaciones manuales (sin exigir terminal, funcional permisivo, sin la corrección de M-01) detectadas por las pruebas, arneses de colaboración y revisión guiada, y arneses de release contra el wheel instalado (sobre 3b8b81c)."
+  ],
+  "findings": [
+    {
+      "id": "M-02",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.6,
+      "title": "importar puede fallar con títulos de requisito acentuados",
+      "explanation": "Para asociar el tipo a cada requisito importado se compara modos.slug(título) con el sufijo del id que genera Oracle. Si Oracle normaliza distinto un título con acentos, importar falla nombrando el requisito. Falla a la vista, no en silencio; no se probó con un título acentuado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 386,
+        "end_line": 386,
+        "side": "head"
+      },
+      "trigger": "Spec con «### Requirement: Validación del título».",
+      "evidence": "sin_tipo = [i for i in ids if i.split(\".\", 1)[1] not in tipos]",
+      "related_requirement": "modos_c45a4802846932222.tipo_de_requisito",
+      "status": "pendiente",
+      "verification": "Probar con un título acentuado o tomar el nombre del requisito de la salida de Oracle."
+    },
+    {
+      "id": "M-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Las guías no mencionan los modos ni --agente",
+      "explanation": "docs/colaboracion.md, docs/revision-guiada.md y site/ siguen describiendo sólo la vía de persona. Lo que dicen sigue siendo correcto en el modo por defecto (confirmacion), pero quien lea no sabe que existe la vía de agente ni los otros modos. Se ubica en la opción --agente porque las guías no forman parte del diff.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1138,
+        "end_line": 1138,
+        "side": "head"
+      },
+      "trigger": "Leer las guías buscando --agente o modo.",
+      "evidence": "grep: sin coincidencias",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Tarea docs-web-modos."
+    },
+    {
+      "id": "M-04",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.7,
+      "title": "Las medidas usan umbral de igualdad",
+      "explanation": "Mismo patrón deliberado que A-03 y G-04: exige exactamente los casos enumerados.",
+      "location": {
+        "file": "catalogos/factory_modos.corrida_completa.oracle",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Juicio con medidas meta.",
+      "evidence": "c.casos == 14",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Aceptar con motivo."
+    }
+  ]
+}
