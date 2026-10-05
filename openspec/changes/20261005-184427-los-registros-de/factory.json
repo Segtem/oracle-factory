@@ -2,7 +2,7 @@
   "id": "20261005-184427-los-registros-de",
   "titulo": "Los registros de Factory funcionan en otra máquina",
   "capacidad": "portabilidad",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261005-184427-los-registros-de/specs/portabilidad/spec.md",
   "spec_sha256": "d88e269349e67105cd3e4bc122f2d8c5c4ca4d721ac9b1a695004f7fa99f711c",
   "spec_aprobada": {
@@ -402,6 +402,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "0b443436df2deb71f1161d49975c689be7e6551f69411bcbabe6a821512dffef"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-05T19:59:36+00:00",
+      "oracle": "openspec/changes/20261005-184427-los-registros-de/oracle-veredicto.txt",
+      "revision": "tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/informe.json"
     }
   ],
   "tipos": {
@@ -471,5 +481,12 @@
       "sha256": "18e4111fd8bad612f25349265883fad031232c78b9bee64493ab9c781883583d"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-05T19:59:36+00:00"
+  }
 }

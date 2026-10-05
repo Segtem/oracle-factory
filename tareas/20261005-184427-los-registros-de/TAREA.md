@@ -1,6 +1,6 @@
 # Los registros de Factory funcionan en otra máquina
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -111,3 +111,11 @@ Juicio Factory: verde; salida Oracle 0; informe openspec/changes/20261005-184427
 ### Nota (2026-10-05 19:54:40 UTC)
 
 Medidas y revisión guiada registradas por Brian desde su terminal (2026-10-05); veredicto Oracle verde sobre fd1bfe7 con los hechos tareas/20261005-184427-los-registros-de/evidencia-fd1bfe7/hechos.json (11 casos, 7 requisitos cumplen). Prueba entre contenedores: M1 a M5 cumplen. Listo para cierre.
+
+### Nota (2026-10-05 19:59:36 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
+
+### Nota (2026-10-05 19:59:51 UTC)
+
+Cerrado por Brian desde su terminal (2026-10-05) en modo confirmacion, sobre fd1bfe7: 7 requisitos cumplen, 11 casos, prueba entre contenedores M1 a M5, dos vueltas de R2. Un cambio juzgado en una máquina se cierra desde otra.
