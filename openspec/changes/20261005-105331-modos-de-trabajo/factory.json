@@ -73,6 +73,108 @@
         "modos_c45a4802846932222.modo_explicito_por_cambio",
         "modos_c45a4802846932222.tipo_de_requisito"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.modo_explicito_por_cambio",
+      "medidas": [
+        "factory_modos.modo_explicito_por_cambio",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.tipo_de_requisito",
+      "medidas": [
+        "factory_modos.tipo_de_requisito",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.decisiones_segun_el_modo",
+      "medidas": [
+        "factory_modos.decisiones_segun_el_modo",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos",
+      "medidas": [
+        "factory_modos.actor_registrado_sin_aparentar_humanos",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-05T12:15:29+00:00",
+      "requisito": "modos_c45a4802846932222.cambio_de_modo_con_invalidacion",
+      "medidas": [
+        "factory_modos.cambio_de_modo_con_invalidacion",
+        "factory_modos.corrida_completa"
+      ],
+      "sin_medir": ""
     }
-  ]
+  ],
+  "medidas_pendientes": {
+    "modos_c45a4802846932222.modo_explicito_por_cambio": {
+      "sha256": "65b2ecc3e30eefaaf0e978aeddf42ec6af888fb9737b6f3fb7f134f98ed2b7f0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T12:15:29+00:00"
+    },
+    "modos_c45a4802846932222.tipo_de_requisito": {
+      "sha256": "158565a0509ee49ba728546dc1b4b40ee41240454485014af330663e6642544b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T12:15:29+00:00"
+    },
+    "modos_c45a4802846932222.decisiones_segun_el_modo": {
+      "sha256": "c92a9d9699bfa1d4dcb10db3b4f8155fe87954c19f62ac42d10f4cbb7ffc362d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T12:15:29+00:00"
+    },
+    "modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos": {
+      "sha256": "1b391249f7c1e1f107e707b6115520b2e849de35ec58dbf95dbebfe0d7a4c9ba",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T12:15:29+00:00"
+    },
+    "modos_c45a4802846932222.cambio_de_modo_con_invalidacion": {
+      "sha256": "314a7603934d8bf204b2442ff72d5849cc1589a29836a875acb6f888bcd568ff",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-05T12:15:29+00:00"
+    }
+  }
 }

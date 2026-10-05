@@ -1,4 +1,4 @@
 requisito modos_c45a4802846932222.decisiones_segun_el_modo:
     texto "Para aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exigir el actor que indica la tabla del modo según el tipo de los requisitos afectados, y SHALL rechazar la decisión que llegue por una vía no permitida sin modificar el registro."
     fuente "/home/workstation/Dev/factory/openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#decisiones segun el modo"
-    sin_medir "sin medida todavía; escenarios: «modo funcional y requisito funcional», «modo funcional y requisito no funcional», «modo confirmacion», «modo autonomo», «cierre en modo funcional»"
+    medido_por factory_modos.decisiones_segun_el_modo, factory_modos.corrida_completa
