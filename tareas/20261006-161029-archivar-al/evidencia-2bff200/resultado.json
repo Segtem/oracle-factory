@@ -1,0 +1,59 @@
+{
+  "exitoso": true,
+  "tests": 213,
+  "casos_contrato": 20,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "problemas_en_el_repositorio": [],
+  "antes": "31a930f",
+  "base": "main",
+  "origen": {
+    "head": "2bff20074109186c49464c1b0a08a9d1dc49e740",
+    "sha256": {
+      "catalogos/factory_archivo.corrida_completa.oracle": "4218506583caaddf66278ee76d4a847d47e90b1e5025388a1e72a28ef7bbb19f",
+      "catalogos/factory_archivo.este_repositorio_queda_archivado.oracle": "14c37e871f98547712eb6c94e8970c3df645b10ddc75af0bbef83bb0963101b6",
+      "catalogos/factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo.oracle": "bc5a52fbb10a2ec526d963a897a03eff926370502bf5c2f68260ffec099169b1",
+      "catalogos/factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe.oracle": "08f18daa6f559c190bb95841a395c83d2ad865d7ea3d5e0fe1ade2caf541e16b",
+      "catalogos/factory_archivo.los_comandos_de_lectura_muestran_el_archivo.oracle": "b2310d2837ac407ed4a3c4ae086ae8e0a8e9be1d361dd25d3de9ef7f16e9ec34",
+      "catalogos/factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado.oracle": "612f542cf08104fd21d273a94d565464b42a33e21b582c5467512233a2807166",
+      "catalogos/factory_archivo.un_conflicto_impide_cerrar.oracle": "8e9356480975c4f45dba9cb1f4bd936dfdcd2f522477673b16b52eb861efcadd",
+      "catalogos/factory_archivo.una_capacidad_con_un_solo_nombre.oracle": "e8cff941c76921bc083f75f8f90102b19b5b35db0295e3626a68a9bc2c0db568",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "c070bb33bc07137286ef866c252a49d377f66dfd8defcc9c343a739ab6edb2d6",
+      "oracle_factory/archivo.py": "4b884d4f1876fe1a8698f2fcc2c45363217189be7c2f60fcb12ea30439e41b99",
+      "oracle_factory/cli.py": "256debd5171e06f7bdb1b86fccb95fbdb7aa1355989b4c48cb1ed4efb456e96f",
+      "oracle_factory/estructura.py": "79499bfec238cefd7aa753b2fc46d8ac5dbfc7a0d5c118dac6e1e11f1155f1eb",
+      "oracle_factory/migracion.py": "e7acd01aa7fe38c04ebcb05806a4736f53ad8682f6121f5b8e9dd49ba6b659b3",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "592ee241dcc8ec68bb1657fc9f6ce13427c75b1b67231cd29fabd4431de64e5d",
+      "tests/test_archivo.py": "0b5e265aaa97f833ea7287e942ab5848fce25f9a7aa8834e3873e555cec45218",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "e18d79b10d1850e3d160f6168f26f6fc318b0a7e8f1717008e8fec4b99ba701a",
+      "tests/test_estructura.py": "c9bacd86153ada230c14a3513f8a794e7c19dc53a1d5e1616fc496b73586ce97",
+      "tests/test_estructura2.py": "94de9c2bdc0fcfdbbcb93b76f73f6258a679d5c9fad327e4fdf21dfa3b054c5d",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "e0496d57bc2480eb1464287cffa5278df6a7d0b382bea01c2b7c93aad2b1ca0d",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_limpieza.py": "4909d624d8e7183123eebe0d19316f282882ca4febd20cdba366f9e3c73def3c",
+      "tests/test_modos.py": "0a8af12c9272556fd83b34a153b60bcde3a247a6b9cf3b1776c4e5681adae1e4",
+      "tests/test_portabilidad.py": "894ff36510d7fc76c598326243dfc42ebe4020e8832753bd24b633aed106f734",
+      "tests/test_review_guided.py": "ad446485f29eea204d426f9c3854b2a341928c33724e4e8581bfb8ad764f84e6",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "6fb30fd48f32b3cf7a880e64b3a6ae5d0b10cff9d38be32bdd3804f78d10841a",
+      "tests/test_workflow.py": "cfcd7d7ba46ffbf0ecb659a9c55af717ba8365df4b4e979a98dcf6c29639df5a",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_archivo.py": "13a26b5269177f6af165d581b88127023ca240949a568826373c39482a8022d1"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios a1–a6 en repositorios temporales, Linux; en algunos el cierre se simula marcando el registro, porque archivar sólo mira la fase y el orden de cierre. Más cuatro comprobaciones sobre este repositorio: cada cambio cerrado está archivado, cada spec consolidada coincide con su índice y cada requisito vigente existe, los registros sólo ganaron la marca de archivo respecto del commit anterior a archivar, y tareas/ no cambió. No mide que la spec consolidada sea legible.",
+  "artefactos_sha256": {
+    "suite.txt": "17146b80bd8629899d9b0d1ddbccf0364389fe82af06b0e3431f1dc07e8a902f",
+    "hechos.json": "31b8f4fcb5b709de2517da7e1e3a678df9199d36aeacc88c79ee476e8473ca5d"
+  }
+}
