@@ -119,7 +119,7 @@ class Vigencia(unittest.TestCase):
     def test_v1_registro_sin_huella_queda_desactualizado(self):
         ident = self.cambio_medido()
         self.revision_libre(ident)
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         del estado['revision']['contexto']['archivos_sha256']  # no hay con qué comparar: falla cerrado
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
@@ -164,7 +164,7 @@ class Vigencia(unittest.TestCase):
     def test_v2_contexto_sin_head_no_rompe(self):
         ident = self.cambio_medido()
         self.revision_libre(ident)
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         del estado['revision']['contexto']['head']
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
@@ -206,10 +206,10 @@ class Vigencia(unittest.TestCase):
         notas = self.root / 'examples/notas/notas.py'
         original = notas.read_text()
         self.tocar_producto()
-        antes = (self.root / 'openspec/changes' / ident / 'factory.json').read_bytes()
+        antes = (self.root / '.factory/cambios' / ident / 'factory.json').read_bytes()
         with self.assertRaisesRegex(f.FactoryError, 'desactualizados.*prepará una nueva revisión'):
             self.registrar_guiado(ident, informe, decisiones)
-        self.assertEqual((self.root / 'openspec/changes' / ident / 'factory.json').read_bytes(), antes)
+        self.assertEqual((self.root / '.factory/cambios' / ident / 'factory.json').read_bytes(), antes)
         notas.write_text(original)  # la causa era el producto: restituido, el mismo informe se acepta
         self.registrar_guiado(ident, informe, decisiones)
         self.assertEqual(self.estado(ident)['revision']['decision'], 'aprobar')
@@ -237,7 +237,7 @@ class Vigencia(unittest.TestCase):
     def test_v4_registro_anterior_a_este_cambio(self):
         ident = self.cambio_medido()
         self.revision_libre(ident)
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         estado['revision']['contexto']['head'] = '0' * 40  # un registro de antes: otro HEAD, mismo producto
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')

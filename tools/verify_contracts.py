@@ -69,7 +69,8 @@ def main():
     result = unittest.TextTestRunner(verbosity=2, resultclass=Result).run(suite)
     rows = []
     for change, mapping in CONTRACTS.items():
-        state = json.loads((ROOT/'openspec/changes'/change/'factory.json').read_text())
+        nuevo = ROOT/'.factory/cambios'/change/'factory.json'
+        state = json.loads((nuevo if nuevo.is_file() else ROOT/'openspec/changes'/change/'factory.json').read_text())
         for suffix, (cls, cases) in mapping.items():
             ids = [rid for rid in state['requisitos'] if rid.rsplit('.', 1)[-1] == suffix]
             if len(ids) != 1:

@@ -168,13 +168,13 @@ class EleccionMedidas(ProyectoTemporal):
         self.assertEqual(cargar(self.req).sin_medir, 'No se comprobó persistencia ni Unicode.')
 
     def test_medida_inexistente_duplicada_o_requisito_ajeno_no_mutan(self):
-        before = self.req.read_bytes(); state = (self.folder / 'factory.json').read_bytes()
+        before = self.req.read_bytes(); state = f.ruta_registro(self.folder).read_bytes()
         cases = [{'medidas':['notas.no_existe']}, {'medidas':[self.selected[0],self.selected[0]]}, {'requisito_id':'otro.requisito'}, {'sin_medir':''}]
         for case in cases:
             kwargs = {'requisito_id':self.rid, 'medidas':self.selected, **case}
             with self.subTest(case=case), self.assertRaises(f.FactoryError): f.medir(self.ident, **kwargs)
             self.assertEqual(self.req.read_bytes(), before)
-            self.assertEqual((self.folder / 'factory.json').read_bytes(), state)
+            self.assertEqual(f.ruta_registro(self.folder).read_bytes(), state)
 
     def test_sintaxis_invalida_no_se_repara_ni_sobrescribe(self):
         self.req.write_text(self.req.read_text().replace('    texto ', '\ttexto '))
@@ -244,7 +244,7 @@ class EleccionMedidas(ProyectoTemporal):
 
     def test_catalogo_eliminado_durante_asociacion_no_muta(self):
         before = self.req.read_bytes()
-        state = (self.folder / 'factory.json').read_bytes()
+        state = f.ruta_registro(self.folder).read_bytes()
         original = f.inventario_medidas
         def inventory(*args):
             inventory.calls += 1
@@ -255,7 +255,7 @@ class EleccionMedidas(ProyectoTemporal):
             with self.assertRaisesRegex(f.FactoryError, 'catálogo cambió'):
                 self.asociar()
         self.assertEqual(self.req.read_bytes(), before)
-        self.assertEqual((self.folder / 'factory.json').read_bytes(), state)
+        self.assertEqual(f.ruta_registro(self.folder).read_bytes(), state)
 
 if __name__ == '__main__':
     unittest.main()

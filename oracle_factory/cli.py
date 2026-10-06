@@ -17,6 +17,7 @@ from importlib import metadata, resources
 
 from . import __version__
 from . import estructura
+from . import migracion
 from . import modos
 from . import revision as documentos_revision
 from pathlib import Path
@@ -49,17 +50,34 @@ def ruta_cambio(identificador: str) -> Path:
     return ruta_segura(CHANGES / identificador)
 
 
+def ruta_registro(carpeta: Path) -> Path:
+    """El registro del cambio cuyo acuerdo está en `carpeta`: en .factory/cambios/<ID>/ o, si el proyecto no se migró, en el lugar anterior."""
+    return estructura.registro_de(ROOT, carpeta.name)
+
+
+def dir_estado(carpeta: Path) -> Path:
+    return ruta_registro(carpeta).parent
+
+
+AVISADOS: set[str] = set()
+
+
 def leer(identificador: str) -> tuple[Path, dict]:
     carpeta = ruta_cambio(identificador)
-    archivo = ruta_segura(carpeta / "factory.json")
+    archivo = ruta_segura(ruta_registro(carpeta))
     if not archivo.is_file():
         raise FactoryError(f"no encuentro el registro de factory: {archivo}")
+    if estructura.es_anterior(ROOT, identificador) and identificador not in AVISADOS:
+        AVISADOS.add(identificador)
+        print(f"Aviso: el estado de {identificador} está en el lugar anterior a la fase 2 (openspec/changes/); "
+              "oracle-factory migrar lo pasa a .factory/cambios/.", file=sys.stderr)
     return carpeta, json.loads(archivo.read_text(encoding="utf-8"))
 
 
 def guardar(carpeta: Path, estado: dict) -> None:
-    (carpeta / "factory.json").write_text(
-        json.dumps(estado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    destino = ruta_registro(carpeta)
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def terminal_interactiva() -> bool:
@@ -81,7 +99,13 @@ def modo_de(estado: dict) -> str:
 
 
 def config_proyecto() -> dict:
-    ruta = ruta_segura(ROOT / "factory.json")
+    ruta = ruta_segura(ROOT / estructura.DIR / "config.json")
+    if not ruta.is_file():
+        ruta = ruta_segura(ROOT / "factory.json")  # proyecto anterior a la fase 2
+        if ruta.is_file() and "config" not in AVISADOS:
+            AVISADOS.add("config")
+            print("Aviso: la configuración está en factory.json de la raíz; oracle-factory migrar la pasa a "
+                  ".factory/config.json.", file=sys.stderr)
     datos = json.loads(ruta.read_text(encoding="utf-8")) if ruta.is_file() else {}
     if not isinstance(datos, dict):
         raise FactoryError(f"{ruta}: se requiere un objeto JSON")
@@ -513,7 +537,7 @@ def guardar_par_revision(identificador: str, prefijo: str, informe: bytes, decis
 
 def preparar_revision(identificador: str) -> tuple[Path, Path]:
     carpeta, estado = abierto(identificador)
-    registro = (carpeta / 'factory.json').read_bytes()
+    registro = (ruta_registro(carpeta)).read_bytes()
     if json.loads(registro) != estado:
         raise FactoryError('registro cambió durante la lectura; volvé a preparar')
     exigir_spec(carpeta, estado)
@@ -523,7 +547,7 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     try:
         exigir_spec(carpeta, estado)
         if (not mismo_producto(contexto, contexto_producto()) or documentos(carpeta, estado) != docs
-                or (carpeta / 'factory.json').read_bytes() != registro):
+                or (ruta_registro(carpeta)).read_bytes() != registro):
             raise FactoryError('cambió el producto o el registro durante la preparación')
     except (FactoryError, OSError) as e:
         raise FactoryError(f'{e}; no uses la preparación en {rutas[0].parent}; prepará una nueva. No se cambiaron gates.') from e
@@ -539,7 +563,7 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
 
 def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str) -> None:
     carpeta, estado = abierto(identificador)
-    registro_ruta = ruta_segura(carpeta / 'factory.json')
+    registro_ruta = ruta_segura(ruta_registro(carpeta))
     registro = registro_ruta.read_bytes()
     if json.loads(registro) != estado:
         raise FactoryError('registro cambió durante la lectura; volvé a revisar')
@@ -633,7 +657,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     if type(abiertos) is not int or abiertos < 0:
         raise FactoryError('modo libre requiere --hallazgos-abiertos N explícito, entero no negativo')
     carpeta, estado = abierto(identificador)
-    registro = (carpeta / 'factory.json').read_bytes()
+    registro = (ruta_registro(carpeta)).read_bytes()
     if json.loads(registro) != estado:
         raise FactoryError('registro cambió durante la lectura; volvé a revisar')
     exigir_spec(carpeta, estado)
@@ -648,13 +672,13 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
         raise FactoryError("el informe de revisión está vacío")
     contexto = contexto_producto()
     huella = sha256(contenido)
-    destino = carpeta / "review.md"
+    destino = dir_estado(carpeta) / 'review.md'
     print('Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.')
     print(f"Revisor: {revisor}; decisión: {decision}; abiertos: {abiertos}; commit: {contexto['head']}")
     firma = {**firma_revision("libre", huella, None, revisor, decision, contexto), "abiertos": abiertos}
 
     def publicar_propuesta(e):
-        if (carpeta / "factory.json").read_bytes() != registro:
+        if (ruta_registro(carpeta)).read_bytes() != registro:
             raise FactoryError("registro cambió durante la operación; repetí la revisión")
         guardar(carpeta, e)
 
@@ -665,7 +689,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     exigir_spec(carpeta, estado)
     if not mismo_producto(contexto, contexto_producto()):
         raise FactoryError("el producto cambió durante la confirmación; repetí la revisión")
-    if leer_regular(informe, 'informe') != contenido or (carpeta / 'factory.json').read_bytes() != registro:
+    if leer_regular(informe, 'informe') != contenido or (ruta_registro(carpeta)).read_bytes() != registro:
         raise FactoryError('informe o registro cambió durante la confirmación; repetí la revisión')
     destino.write_bytes(contenido)
     estado["revision"] = {
@@ -722,7 +746,7 @@ def juzgar(identificador: str, hechos: Path) -> None:
     if not mismo_producto(contexto, contexto_producto()) or sha256(hechos.read_bytes()) != huella:
         raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
     exigir_spec(carpeta, estado)
-    informe = carpeta / "oracle-veredicto.txt"
+    informe = dir_estado(carpeta) / 'oracle-veredicto.txt'
     informe.write_text(p.stdout + p.stderr, encoding="utf-8")
     ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
     estado["oracle"] = {
@@ -942,6 +966,28 @@ def comando_donde(identificador: str, candidato: str | None) -> None:
         print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
 
 
+def comando_migrar(verificar: bool) -> None:
+    """Pasa el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)."""
+    movimientos, problemas = migracion.planear(ROOT)
+    for texto in problemas:
+        print(f"Aviso: {texto}", file=sys.stderr)
+    if verificar:
+        for m in movimientos:
+            print(f"{m['cambio']}: {m['origen'].relative_to(ROOT)} -> {m['destino'].relative_to(ROOT)}"
+                  + ("" if m["estado"] == "escribir" else " (ya está en el lugar nuevo; sólo falta borrar el viejo)"))
+        print(f"Por migrar: {len(movimientos)} archivos.")
+        if any(m["origen"].name == "factory.json" and m["origen"].parent == ROOT for m in movimientos):
+            print("Aviso: factory.json de la raíz es parte del producto: moverlo cambia la huella y vence las revisiones vigentes.")
+        if movimientos or problemas:
+            raise SystemExit(1)
+        return
+    hechos = migracion.aplicar(movimientos)
+    cambios = sorted({m["cambio"] for m in movimientos})
+    print(f"Migrados {hechos} archivos de {len(cambios)} cambios y configuración. No hice commits: revisá con git status y confirmalos.")
+    if problemas:
+        raise SystemExit(1)
+
+
 def comando_ruta(identificador: str, tipo: str) -> None:
     leer(identificador)  # el cambio tiene que existir
     head = ejecutar(["git", "rev-parse", "HEAD"])
@@ -997,6 +1043,8 @@ LEEME_FACTORY = """# .factory/
 Lo que Factory produce sobre este proyecto. Se versiona con el código para que quien clone el proyecto
 lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 
+- `config.json` es la configuración del proyecto: `modo_por_defecto` y `tipos_obligatorios`.
+- `cambios/<ID>/` guarda el estado del cambio: `factory.json`, `review.md` y `oracle-veredicto.txt`.
 - `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
 - `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.
 
@@ -1023,6 +1071,10 @@ def inicializar() -> None:
     ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
     for sub in ('cambios', 'local'):
         ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
+    config = ruta_segura(ROOT / estructura.DIR / 'config.json')
+    if not config.exists() and not (ROOT / 'factory.json').exists():  # con la configuración anterior en la raíz, la pasa `migrar`
+        config.write_text(json.dumps({"modo_por_defecto": modos.POR_DEFECTO, "tipos_obligatorios": False}, indent=2) + "\n",
+                          encoding='utf-8')
     leeme = ruta_segura(ROOT / estructura.DIR / 'LEEME.md')
     if not leeme.exists():
         leeme.write_text(LEEME_FACTORY, encoding='utf-8')
@@ -1166,7 +1218,7 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
         if not ID_RE.fullmatch(carpeta.name):
             continue
         ruta_segura(carpeta)
-        if not (carpeta / 'factory.json').exists():
+        if not (ruta_registro(carpeta)).exists():
             continue
         _, estado = leer(carpeta.name)
         if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] == 'cerrada') \
@@ -1219,7 +1271,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
           medidas: list[str] | None = None, listar_opciones: bool = False,
           sin_medir: str | None = None, quitar_sin_medir: bool = False) -> None:
     carpeta, estado = abierto(identificador)
-    ruta_segura(carpeta / 'factory.json')
+    ruta_segura(ruta_registro(carpeta))
     ruta_segura(ROOT / estado['spec'])
     ruta_segura(carpeta / 'proposal.md')
     exigir_spec(carpeta, estado)
@@ -1265,7 +1317,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     from oracle_metalenguaje.nucleo.forma import error_forma
     ruta = ROOT / 'requisitos' / f'{requisito_id}.requisito'
     original = ruta.read_bytes()
-    registro_original = (carpeta / 'factory.json').read_bytes()
+    registro_original = (ruta_registro(carpeta)).read_bytes()
     doc_original = documentos(carpeta, estado)
     r = requisitos[requisito_id]
     if (requisito.Requisito.de_datos(requisito.leer(original.decode('utf-8'))) != r
@@ -1289,7 +1341,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': huella, **actor(), 'cuando': ahora()}
             (estado.get('medidas') or {}).pop(requisito_id, None)
             evento(estado, 'medidas_propuestas', forma='propuso', requisito=requisito_id, medidas=medidas)
-            escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
+            escribir_atomico(ruta_registro(carpeta), bytes_json(estado), esperado=registro_original)
             nota_tarea(identificador, f'Medidas de {requisito_id} propuestas por {AGENTE} (agente, modo {modo_de(estado)}); '
                        'no cuentan hasta que una persona las confirme.')
             print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): las medidas que el archivo ya tiene no cuentan hasta que '
@@ -1303,7 +1355,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         registrar_medidas(estado, requisito_id, forma, motivo, original)
         evento(estado, 'medidas_confirmadas' if forma == 'confirmo' else 'medidas_elegidas', forma=forma,
                requisito=requisito_id, medidas=medidas)
-        escribir_atomico(carpeta / 'factory.json', bytes_json(estado), esperado=registro_original)
+        escribir_atomico(ruta_registro(carpeta), bytes_json(estado), esperado=registro_original)
         nota_tarea(identificador, f'Medidas de {requisito_id}: {quien(estado["medidas"][requisito_id])}.')
         print(f'Medidas de {requisito_id} confirmadas tal como las propuso {pendiente["actor"]}.' if forma == 'confirmo'
               else f'Medidas de {requisito_id} registradas como decisión de {quien(estado["medidas"][requisito_id])}.')
@@ -1339,8 +1391,8 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         raise FactoryError(f'Oracle rechazó la asociación propuesta: {e}') from e
     with bloqueo_medidas(identificador):
         ruta_segura(ruta)
-        ruta_segura(carpeta / 'factory.json')
-        if (ruta.read_bytes() != original or (carpeta / 'factory.json').read_bytes() != registro_original
+        ruta_segura(ruta_registro(carpeta))
+        if (ruta.read_bytes() != original or (ruta_registro(carpeta)).read_bytes() != registro_original
                 or documentos(carpeta, estado) != doc_original):
             raise FactoryError('requisito, registro o spec cambió durante la operación; volvé a listar')
         try:
@@ -1359,7 +1411,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             registrar_medidas(estado, requisito_id, 'decidio', motivo, datos)
         evento(estado, 'medidas_propuestas' if via == 'propone' else 'medidas_elegidas',
                forma='propuso' if via == 'propone' else 'decidio', requisito=requisito_id, medidas=medidas, sin_medir=limite)
-        escribir_atomico(carpeta / 'factory.json', (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
+        escribir_atomico(ruta_registro(carpeta), (json.dumps(estado, ensure_ascii=False, indent=2) + '\n').encode(), esperado=registro_original)
         escribir_atomico(ruta, datos, esperado=original)
     nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}; {"propuestas" if via == "propone" else "elegidas"} por {quien(registro_decision(estado, "propuso" if via == "propone" else "decidio", motivo))}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
     print(f'Asociación guardada: {ruta}')
@@ -1391,6 +1443,8 @@ def main(argv: list[str] | None = None) -> int:
     grupo = q.add_mutually_exclusive_group()
     grupo.add_argument('--abiertos', action='store_true', help='sólo los cambios abiertos')
     grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
+    q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
+    q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
     q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
     q.add_argument('id'); q.add_argument('--candidato', help='limitarse a los artefactos de este commit (prefijo del SHA)')
     q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
@@ -1440,6 +1494,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo)
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
+        elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)

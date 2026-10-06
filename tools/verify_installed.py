@@ -38,7 +38,7 @@ def main():
         factory('aprobar-spec',ident,answer='NO\n',ok=False)
         factory('aprobar-spec',ident,answer=f'APROBAR ESPECIFICACION {ident}\n')
         factory('importar',ident)
-        state=json.loads((change/'factory.json').read_text())
+        state=json.loads((root/'.factory/cambios'/ident/'factory.json').read_text())
         factory('medir',ident,'--listar')
         for rid in state['requisitos']:
             factory('medir',ident,'--requisito',rid,'--medida','notas.no_existe',ok=False,answer='')

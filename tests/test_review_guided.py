@@ -358,7 +358,7 @@ class RevisionGuiada(unittest.TestCase):
         ident=re.search(r'Cambio creado: (\S+)',out.stdout)[1]
         cli('aprobar-spec',ident,stdin=f'APROBAR ESPECIFICACION {ident}\n')
         cli('importar',ident)
-        state_path=root/'openspec/changes'/ident/'factory.json'
+        state_path=root/'.factory/cambios'/ident/'factory.json'
         rid=json.loads(state_path.read_text())['requisitos'][0]
         cli('medir',ident,'--requisito',rid,'--medida','notas.casos_ejecutados','--medida','notas.resultados','--quitar-sin-medir',stdin='')
         run('git','add','.')

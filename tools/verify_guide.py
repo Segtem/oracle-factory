@@ -86,7 +86,7 @@ def main():
         (cwd/'.factory-demo/review.md').write_text(fixture)
         for block in guide['revisar'][1:]: commands(block)
         for block in guide['cerrar']: commands(block)
-        state=json.loads((cwd/'openspec/changes'/identifiers['ID_DEL_CAMBIO']/'factory.json').read_text())
+        state=json.loads((cwd/'.factory/cambios'/identifiers['ID_DEL_CAMBIO']/'factory.json').read_text())
         if state['fase']!='cerrada': raise AssertionError(state['fase'])
     report={'resultado':'OK','plataforma':'Linux','confirmaciones':'fixtures, sin aprobación de producto real', 'identificadores':identifiers,'comandos':evidence}
     if args.evidencia: args.evidencia.write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')

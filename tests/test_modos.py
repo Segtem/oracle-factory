@@ -56,7 +56,7 @@ class Modos(unittest.TestCase):
         return f.leer(ident)[1]
 
     def registro(self, ident):
-        return (self.root / 'openspec/changes' / ident / 'factory.json').read_bytes()
+        return (self.root / '.factory/cambios' / ident / 'factory.json').read_bytes()
 
     def aceptar(self, ident):
         with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
@@ -116,7 +116,7 @@ class Modos(unittest.TestCase):
         self.assertEqual(list(self.estado(ident)['tipos'].values()), ['funcional'])
 
     def test_m2_tipos_obligatorios(self):
-        (self.root / 'factory.json').write_text(json.dumps({'tipos_obligatorios': True}))
+        (self.root / '.factory/config.json').write_text(json.dumps({'tipos_obligatorios': True}))
         ident = self.crear()
         self.aceptar(ident)
         antes = self.registro(ident)
@@ -232,7 +232,7 @@ class Modos(unittest.TestCase):
 
     # --- correcciones de la revisión de R2 ----------------------------------------
     def test_m1_modo_del_proyecto_no_evita_a_la_persona(self):
-        (self.root / 'factory.json').write_text(json.dumps({'modo_por_defecto': 'autonomo'}))
+        (self.root / '.factory/config.json').write_text(json.dumps({'modo_por_defecto': 'autonomo'}))
         with self.agente(), self.sin_terminal(), self.assertRaisesRegex(f.FactoryError, 'lo elige una persona'):
             f.nuevo('Nota', con_ejemplo='notas')
         with self.escribe('ELEGIR MODO autonomo'):

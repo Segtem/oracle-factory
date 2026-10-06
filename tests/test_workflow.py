@@ -54,7 +54,7 @@ class Flujo(unittest.TestCase):
         return subprocess.run(['git', *args], cwd=self.root, text=True, capture_output=True, check=True)
 
     def state(self):
-        return json.loads((self.folder / 'factory.json').read_text())
+        return json.loads(f.ruta_registro(self.folder).read_text())
 
     def aprobar(self):
         with patch('builtins.input', return_value=f'APROBAR ESPECIFICACION {ID}'):
@@ -131,7 +131,7 @@ class Flujo(unittest.TestCase):
 
     def test_informes_y_hechos_se_verifican_al_cierre(self):
         self.verde()
-        for p in (self.folder/'review.md', self.folder/'oracle-veredicto.txt', self.facts):
+        for p in (f.dir_estado(self.folder)/'review.md', f.dir_estado(self.folder)/'oracle-veredicto.txt', self.facts):
             with self.subTest(path=p.name):
                 old=p.read_bytes(); p.write_text('alterado')
                 with self.assertRaises(f.FactoryError): f.cerrar(ID)
@@ -156,12 +156,12 @@ class Flujo(unittest.TestCase):
         self.assertIsNone(s['revision']); self.assertIsNone(s['oracle'])
 
     def test_revisar_cancelado_no_sobrescribe_informe_ni_estado(self):
-        self.verde(); before=self.state(); old=(self.folder/'review.md').read_bytes()
+        self.verde(); before=self.state(); old=(f.dir_estado(self.folder)/'review.md').read_bytes()
         self.report.write_text('Otro informe')
         with patch('builtins.input',return_value='cancelar'):
             with self.assertRaises(f.FactoryError): f.revisar(ID,self.report,'otra','aprobar',0)
         self.assertEqual(self.state(), before)
-        self.assertEqual((self.folder/'review.md').read_bytes(),old)
+        self.assertEqual((f.dir_estado(self.folder)/'review.md').read_bytes(),old)
 
     def test_fallo_de_segundo_juicio_descarta_verde_previo(self):
         self.verde()

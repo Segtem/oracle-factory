@@ -155,7 +155,8 @@ class Demo:
         return self.git(repo, 'rev-parse', 'HEAD').stdout.strip()
 
     def state(self, repo, ident):
-        return json.loads((repo / 'openspec/changes' / ident / 'factory.json').read_text())
+        nuevo = repo / '.factory/cambios' / ident / 'factory.json'
+        return json.loads((nuevo if nuevo.is_file() else repo / 'openspec/changes' / ident / 'factory.json').read_text())
 
     def fixture(self, path, approve=True, measured=True):
         path.mkdir()

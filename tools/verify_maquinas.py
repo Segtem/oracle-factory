@@ -140,8 +140,8 @@ class Recorrido:
         self.observar('M3', not privadas, 'archivos con la ruta de Ana: ' + (', '.join(privadas) or 'ninguno'))
         self.observar('M5', 'con el producto idéntico' in estado, 'aviso de HEAD distinto con producto idéntico')
         cierre = self.ex(b, 'oracle-factory', 'cerrar', self.ident, tty=f'CERRAR {self.ident}\n', ok=False)
-        fase = self.of(b, 'python', '-c', f"import json; print(json.load(open('openspec/changes/{self.ident}/factory.json'))['fase'])")
-        quien = self.of(b, 'python', '-c', f"import json; print((json.load(open('openspec/changes/{self.ident}/factory.json')).get('cierre') or {{}}).get('actor'))")
+        fase = self.of(b, 'python', '-c', f"import json; print(json.load(open('.factory/cambios/{self.ident}/factory.json'))['fase'])")
+        quien = self.of(b, 'python', '-c', f"import json; print((json.load(open('.factory/cambios/{self.ident}/factory.json')).get('cierre') or {{}}).get('actor'))")
         self.observar('M4', cierre.returncode == 0 and fase == 'cerrada' and quien == 'Bruno',
                       f'código {cierre.returncode}; fase {fase}; cerró {quien}; ' + cierre.stdout.strip().splitlines()[-1][-150:])
 

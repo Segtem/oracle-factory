@@ -206,7 +206,7 @@ class Limpieza(unittest.TestCase):
         self.assertEqual(lim.restos(self.root), [])
 
     def test_l4_registro_que_no_se_reserializa_igual_se_avisa_y_no_se_toca(self):
-        ruta = self.root / 'openspec/changes' / self.ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / self.ident / 'factory.json'
         ruta.write_text(ruta.read_text().replace('\n', '\n\n', 1))  # JSON válido, formato distinto
         antes = ruta.read_bytes()
         requisito = self.requisito().read_bytes()

@@ -52,6 +52,11 @@ def serializar(estado: dict) -> str:
     return json.dumps(estado, ensure_ascii=False, indent=2) + '\n'
 
 
+def registros_de(raiz: Path) -> list[Path]:
+    """Los registros de los cambios, en .factory/cambios/ y en el lugar anterior a la fase 2."""
+    return sorted(raiz.glob('openspec/changes/*/factory.json')) + sorted(raiz.glob('.factory/cambios/*/factory.json'))
+
+
 def planear(raiz: Path) -> tuple[dict[Path, str], dict[str, dict], list[str]]:
     """(archivo → texto nuevo, rid → hashes, problemas). No escribe nada."""
     escribir: dict[Path, str] = {}
@@ -68,7 +73,7 @@ def planear(raiz: Path) -> tuple[dict[Path, str], dict[str, dict], list[str]]:
             if archivo.parent.name == 'requisitos':
                 hashes[archivo.name.removesuffix('.requisito')] = {
                     'anterior': hashlib.sha256(viejo).hexdigest(), 'nuevo': hashlib.sha256(nuevo).hexdigest()}
-    for registro in sorted((raiz / 'openspec' / 'changes').glob('*/factory.json')):
+    for registro in registros_de(raiz):
         original = registro.read_text(encoding='utf-8')
         estado = json.loads(original)
         cambios = {}
@@ -114,7 +119,7 @@ def restos(raiz: Path) -> list[str]:
             (raiz / 'openspec' / 'changes').glob('*/requisitos-previos/*.txt')):
         if any(FUENTE.match(l) for l in archivo.read_text(encoding='utf-8').split('\n')):
             faltan.append(str(archivo.relative_to(raiz)))
-    for registro in sorted((raiz / 'openspec' / 'changes').glob('*/factory.json')):
+    for registro in registros_de(raiz):
         oracle = json.loads(registro.read_text(encoding='utf-8')).get('oracle')
         if isinstance(oracle, dict) and isinstance(oracle.get('hechos'), str) and oracle['hechos'].startswith('/'):
             faltan.append(str(registro.relative_to(raiz)))

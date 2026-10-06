@@ -5,7 +5,11 @@ Un proyecto Factory reparte lo que guarda entre cuatro lugares. Saber cuál es c
 ```text
 proyecto/
   .factory/                           # lo que Factory produce; versionada, salvo local/
+    config.json                       # configuración del proyecto: modo por defecto y tipos obligatorios
     cambios/<ID>/                     # un cambio
+      factory.json                    #   su estado: fase, decisiones, eventos
+      review.md                       #   la revisión libre, si la hubo
+      oracle-veredicto.txt            #   el último veredicto de Oracle
       candidatos/<sha7>/              # todo lo que se produjo sobre ese commit
         evidencia/                    #   salida del sensor, pruebas, cobertura de Oracle
         clue/                         #   paquete de contexto de Clue
@@ -21,8 +25,8 @@ proyecto/
 
 | Carpeta | Dueño | Qué contiene |
 |---|---|---|
-| `.factory/` | Factory | Lo que se produce sobre un candidato y lo propio de cada máquina |
-| `openspec/changes/<ID>/` | OpenSpec y Factory | El acuerdo (`proposal.md`, `spec.md`, `design.md`, `tasks.md`) y el registro del cambio (`factory.json`) |
+| `.factory/` | Factory | El estado de cada cambio, la configuración, lo que se produce sobre un candidato y lo propio de cada máquina |
+| `openspec/changes/<ID>/` | OpenSpec | Sólo el acuerdo: `proposal.md`, `design.md`, `tasks.md` y `specs/` |
 | `tareas/` | Oracle Task | La tarea de cada cambio, con sus notas |
 | `requisitos/`, `catalogos/`, `oracle.json` | Oracle | Los requisitos importados, las medidas y la configuración |
 
@@ -78,12 +82,20 @@ Tres límites protegen de usar el proyecto equivocado:
 
 Los cambios creados antes de esta estructura tienen su evidencia en carpetas con otros nombres (`evidencia-mapeo`, `revision-pendiente`, `contexto-clue-<sha>.json`…). **No se mueven.** `donde` las lista como *históricas*: son evidencia atada a hashes y, en el caso de los paquetes de Clue, a la ruta del checkout que revisaron.
 
-## Lo que viene
+## Migrar un proyecto anterior (fase 2)
 
-Esta es la primera fase. El estado de cada cambio (`factory.json`, `review.md`, `oracle-veredicto.txt`) y la configuración del proyecto todavía viven en `openspec/changes/<ID>/` y en la raíz; pasarlos a `.factory/` es un cambio aparte.
+Hasta la fase 2, el estado de cada cambio (`factory.json`, `review.md`, `oracle-veredicto.txt`) vivía en `openspec/changes/<ID>/` y la configuración en un `factory.json` de la raíz. Un proyecto así **sigue funcionando**: Factory lee y escribe el estado donde está y avisa por la salida de error que existe `migrar`. Nada se mueve solo.
+
+```text
+oracle-factory migrar --verificar    # lista lo que movería, no escribe; falla mientras haya algo por migrar
+oracle-factory migrar                # lo mueve; no hace commits
+```
+
+`migrar` escribe lo nuevo antes de borrar lo viejo y el registro al final, y en el registro sólo reescribe las rutas que citan `review.md` y `oracle-veredicto.txt`; el resto queda byte a byte. Si lo cortan, se vuelve a correr. Si un cambio tiene el estado en los dos lugares con contenido distinto, avisa y no toca ninguno de los dos. Después de migrar, `estado` dice lo mismo y las revisiones siguen vigentes, porque la huella del producto no incluye `.factory/`. La excepción es la configuración de la raíz: es parte del producto, y moverla cambia la huella (`--verificar` lo avisa antes).
 
 ## Límites declarados
 
+- **`tareas/` y su evidencia no se mueven**: la evidencia anterior a la estructura sigue en `tareas/<ID>/evidencia-*` y `donde` la lista como histórica.
 - **Sólo Linux, probado.** No se probó en Windows ni con otras versiones de Python que la del entorno de desarrollo.
 - **`.factory/` entera queda fuera de la huella del producto**, por decisión de la spec: lo que Factory produce (evidencia, paquetes, informes) no invalida una revisión. Otra herramienta que use una carpeta `.factory` en el mismo proyecto se tomaría como propia; la carpeta personal y los enlaces simbólicos nunca cuentan como raíz.
 - **`buscar` y `donde` no rechazan un enlace simbólico en otro lugar** (por ejemplo `openspec/` o `tareas/` enlazados): son de sólo lectura y el enlace lo puso quien trabaja en el proyecto. Sí rechazan que `.factory` sea un enlace.

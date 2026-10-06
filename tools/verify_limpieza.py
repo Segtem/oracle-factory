@@ -59,7 +59,8 @@ def estados_distintos(base, excluir=()):
         antes = Path(tmp) / 'base'
         subprocess.run(['git', '-C', str(ROOT), 'worktree', 'add', '--detach', '-q', str(antes), base], check=True, capture_output=True)
         try:
-            cambios = sorted(p.parent.name for p in (antes / 'openspec/changes').glob('*/factory.json') if p.parent.name not in excluir)
+            cambios = sorted({p.parent.name for p in [*antes.glob('openspec/changes/*/factory.json'), *antes.glob('.factory/cambios/*/factory.json')]
+                              if p.parent.name not in excluir})
             viejo, nuevo = estados(antes, cambios), estados(ROOT, cambios)
         finally:
             subprocess.run(['git', '-C', str(ROOT), 'worktree', 'remove', '--force', str(antes)], capture_output=True)

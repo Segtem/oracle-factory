@@ -179,7 +179,7 @@ class Portabilidad(unittest.TestCase):
     # --- p7: registros existentes -------------------------------------------------------------------
     def test_p7_registro_anterior_con_ruta_absoluta(self):
         ident = self.cambio_juzgado()
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         estado['oracle']['hechos'] = str(self.root / 'tareas' / ident / 'hechos.json')  # como lo escribía la versión anterior
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')

@@ -282,10 +282,10 @@ class Estructura(unittest.TestCase):
 
     def test_e6_artefacto_ausente(self):
         ident = self.cambio_juzgado()
-        (self.root / 'openspec/changes' / ident / 'review.md').unlink()
+        (self.root / '.factory/cambios' / ident / 'review.md').unlink()
         self.salida()
         f.comando_donde(ident, None)
-        self.assertRegex(self.salida(), r'(?m)^revisión\s+AUSENTE\s+openspec/changes/\S+/review\.md')
+        self.assertRegex(self.salida(), r'(?m)^revisión\s+AUSENTE\s+\.factory/cambios/\S+/review\.md')
 
     def test_e6_cambio_anterior_a_la_estructura(self):
         ident = self.cambio_juzgado()
@@ -303,7 +303,7 @@ class Estructura(unittest.TestCase):
 
     def test_e6_ruta_absoluta_de_un_registro_anterior(self):
         ident = self.cambio_juzgado()
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         estado['oracle']['hechos'] = str(self.root / estado['oracle']['hechos'])  # como lo escribía la versión anterior
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
@@ -313,7 +313,7 @@ class Estructura(unittest.TestCase):
 
     def test_e6_valores_no_validos_en_el_registro(self):
         ident = self.cambio_juzgado()
-        ruta = self.root / 'openspec/changes' / ident / 'factory.json'
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
         estado['spec'] = None
         estado['requisitos'] = 'texto'
@@ -390,11 +390,12 @@ class Estructura(unittest.TestCase):
 
     def test_e6_donde_no_lista_a_traves_de_un_factory_enlazado(self):
         ident = self.cambio_juzgado()
+        estado = self.estado(ident)  # se lee antes de cambiar .factory por un enlace
         ajena = Path(self.tmp.name) / 'ajena'
         (ajena / 'cambios' / ident / 'candidatos' / 'abc1234' / 'evidencia').mkdir(parents=True)
         (self.root / '.factory').rename(self.root / 'factory-propia')
         (self.root / '.factory').symlink_to(ajena)
-        filas = estructura.donde(self.root, ident, self.estado(ident))
+        filas = estructura.donde(self.root, ident, estado)
         self.assertFalse([x for x in filas if x['gate'] == 'candidato'])
 
     def test_e8_fragmento_con_formas_que_se_alargan(self):

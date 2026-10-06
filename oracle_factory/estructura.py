@@ -39,6 +39,17 @@ def raiz_del_proyecto(desde: Path) -> Path | None:
     return None
 
 
+def registro_de(raiz: Path, ident: str) -> Path:
+    """El registro de un cambio: .factory/cambios/<ID>/factory.json; si sólo está en el lugar anterior a la fase 2, ahí."""
+    nuevo = raiz / DIR / 'cambios' / ident / 'factory.json'
+    viejo = raiz / 'openspec' / 'changes' / ident / 'factory.json'
+    return viejo if viejo.is_file() and not nuevo.is_file() else nuevo
+
+
+def es_anterior(raiz: Path, ident: str) -> bool:
+    return registro_de(raiz, ident).parent == raiz / 'openspec' / 'changes' / ident
+
+
 def ruta_canonica(raiz: Path, ident: str, tipo: str, sha7: str) -> Path:
     if tipo not in TIPOS:
         raise ValueError(f'tipo desconocido «{tipo}»; los válidos son: {", ".join(TIPOS)}')
@@ -84,7 +95,8 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
         requisitos = estado.get('requisitos')
         for rid in (requisitos if isinstance(requisitos, list) else []):
             filas.append(_entrada('medidas', f'requisitos/{rid}.requisito' if _texto(rid) else None, raiz))
-        filas.append(_entrada('estado', f'{cambio}/factory.json', raiz))
+        filas.append(_entrada('estado', registro_de(raiz, ident).relative_to(raiz).as_posix(), raiz,
+                              'anterior a la fase 2: `oracle-factory migrar` lo pasa a .factory/' if es_anterior(raiz, ident) else ''))
         filas.append(_entrada('tarea', f'tareas/{ident}/TAREA.md', raiz))
     rev = _dic(estado.get('revision'))
     if rev and del_candidato(_dic(rev.get('contexto')).get('head')):
@@ -147,8 +159,8 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
     cambios = raiz / 'openspec' / 'changes'
     if cambios.is_dir():
         for carpeta in cambios.iterdir():
-            registro = carpeta / 'factory.json'
-            if registro.is_file():
+            registro = registro_de(raiz, carpeta.name)
+            if registro.is_file() and not ((raiz / DIR).is_symlink() and registro.is_relative_to(raiz / DIR)):
                 try:
                     for rid in json.loads(registro.read_text(encoding='utf-8')).get('requisitos', []):
                         por_requisito[rid] = carpeta.name
