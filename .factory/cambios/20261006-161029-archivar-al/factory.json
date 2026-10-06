@@ -4,26 +4,26 @@
   "capacidad": "archivo",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md",
-  "spec_sha256": "d6f0f8c0128a319936f5a5b1a8991e12b8efeb2a1d336c33b0c6338f4416b31a",
+  "spec_sha256": "3abf11dafefea3bc7233d8fc560ae9be342e0e2366e94f9023c4e673f7f0969b",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-06T16:13:27+00:00",
+    "cuando": "2026-10-06T17:49:46+00:00",
     "documentos": {
       "openspec/changes/20261006-161029-archivar-al/proposal.md": "652abfad86d6686b2fe8bb3a5130a88625779c2a337c7f14aeea66ca81e4a693",
-      "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md": "d6f0f8c0128a319936f5a5b1a8991e12b8efeb2a1d336c33b0c6338f4416b31a"
+      "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md": "3abf11dafefea3bc7233d8fc560ae9be342e0e2366e94f9023c4e673f7f0969b"
     }
   },
   "requisitos": [
-    "archivo_c8ae38573cf7168a4.este_repositorio_queda_archivado",
-    "archivo_c8ae38573cf7168a4.la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
-    "archivo_c8ae38573cf7168a4.lo_cerrado_no_se_mueve_ni_se_reescribe",
-    "archivo_c8ae38573cf7168a4.los_comandos_de_lectura_muestran_el_archivo",
-    "archivo_c8ae38573cf7168a4.se_distingue_lo_vigente_de_lo_reemplazado",
-    "archivo_c8ae38573cf7168a4.un_conflicto_impide_cerrar",
-    "archivo_c8ae38573cf7168a4.una_capacidad_con_un_solo_nombre"
+    "archivo_cbf6802991c3ba673.este_repositorio_queda_archivado",
+    "archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+    "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe",
+    "archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo",
+    "archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado",
+    "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar",
+    "archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre"
   ],
   "revision": null,
   "oracle": null,
@@ -164,60 +164,187 @@
         "factory_archivo.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T17:49:46+00:00",
+      "documentos": {
+        "openspec/changes/20261006-161029-archivar-al/proposal.md": "652abfad86d6686b2fe8bb3a5130a88625779c2a337c7f14aeea66ca81e4a693",
+        "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md": "3abf11dafefea3bc7233d8fc560ae9be342e0e2366e94f9023c4e673f7f0969b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T17:49:59+00:00",
+      "ids": [
+        "archivo_cbf6802991c3ba673.este_repositorio_queda_archivado",
+        "archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+        "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe",
+        "archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo",
+        "archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado",
+        "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar",
+        "archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:06+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+      "medidas": [
+        "factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:06+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar",
+      "medidas": [
+        "factory_archivo.un_conflicto_impide_cerrar",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:07+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe",
+      "medidas": [
+        "factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:07+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado",
+      "medidas": [
+        "factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:07+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre",
+      "medidas": [
+        "factory_archivo.una_capacidad_con_un_solo_nombre",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:07+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo",
+      "medidas": [
+        "factory_archivo.los_comandos_de_lectura_muestran_el_archivo",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T17:50:07+00:00",
+      "requisito": "archivo_cbf6802991c3ba673.este_repositorio_queda_archivado",
+      "medidas": [
+        "factory_archivo.este_repositorio_queda_archivado",
+        "factory_archivo.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "archivo_c8ae38573cf7168a4.este_repositorio_queda_archivado": "no funcional",
-    "archivo_c8ae38573cf7168a4.la_spec_de_un_cambio_se_fusiona_al_cerrarlo": "funcional",
-    "archivo_c8ae38573cf7168a4.lo_cerrado_no_se_mueve_ni_se_reescribe": "no funcional",
-    "archivo_c8ae38573cf7168a4.los_comandos_de_lectura_muestran_el_archivo": "funcional",
-    "archivo_c8ae38573cf7168a4.se_distingue_lo_vigente_de_lo_reemplazado": "funcional",
-    "archivo_c8ae38573cf7168a4.un_conflicto_impide_cerrar": "funcional",
-    "archivo_c8ae38573cf7168a4.una_capacidad_con_un_solo_nombre": "funcional"
+    "archivo_cbf6802991c3ba673.este_repositorio_queda_archivado": "no funcional",
+    "archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo": "funcional",
+    "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe": "no funcional",
+    "archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo": "funcional",
+    "archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado": "funcional",
+    "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar": "funcional",
+    "archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {
-    "archivo_c8ae38573cf7168a4.la_spec_de_un_cambio_se_fusiona_al_cerrarlo": {
-      "sha256": "7a906684252b32672ea30b9cd85a7b2d318c945ac796d52285968455b8609be3",
+    "archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo": {
+      "sha256": "98271c174e9584bb43075f73049747fa93f480f15293fa09479ede781589cdf7",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:06+00:00"
     },
-    "archivo_c8ae38573cf7168a4.un_conflicto_impide_cerrar": {
-      "sha256": "a1d072c9bc790ea80759908d1324d86dc9031dbeef94adf4265cb035484fa56c",
+    "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar": {
+      "sha256": "d13dffd8d1845d2a77e55917266255f782d291624e16ef40ead62c6ad1f0d848",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:06+00:00"
     },
-    "archivo_c8ae38573cf7168a4.lo_cerrado_no_se_mueve_ni_se_reescribe": {
-      "sha256": "1eb03679faace9d6682e16e7c1b5dffe2966fedf7aa09746561b0d1c87b62ba8",
+    "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe": {
+      "sha256": "90feca6d1b31d94769f5ef7264194337ec458eb4d7521d1a98851931ddb53a3f",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:07+00:00"
     },
-    "archivo_c8ae38573cf7168a4.se_distingue_lo_vigente_de_lo_reemplazado": {
-      "sha256": "4bfa493bb87221c72ff5e355900bbd0018ce4706c3a99a16ed23167ae92abc96",
+    "archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado": {
+      "sha256": "a8bc555a31d040ed9591c85608cf5c79f29a66541264e04e8c85498a2797ce66",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:07+00:00"
     },
-    "archivo_c8ae38573cf7168a4.una_capacidad_con_un_solo_nombre": {
-      "sha256": "b0097908cfd31b7e065c8b2477725f5af1ddff32d94020e685e7c5ce759777f6",
+    "archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre": {
+      "sha256": "8d72f72d17fbbdbedba05bd44e31e63ac7f01fe349141e6cb40faf70571517be",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:07+00:00"
     },
-    "archivo_c8ae38573cf7168a4.los_comandos_de_lectura_muestran_el_archivo": {
-      "sha256": "1995718d57d728dd0b8727f7ca106b3f88f1ee098201764c8ea8fcaee9e6af65",
+    "archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo": {
+      "sha256": "da0ef9f8629302c1f87e86930f75c3a30c51d7f46cf275e2167aec8dbab11c9c",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:07+00:00"
     },
-    "archivo_c8ae38573cf7168a4.este_repositorio_queda_archivado": {
-      "sha256": "b1dbfd87f74d2f28c55f67fbc790879b5549dbf58468b195af2228c779911b2f",
+    "archivo_cbf6802991c3ba673.este_repositorio_queda_archivado": {
+      "sha256": "61d547f4b1d51ed144105cea1ca78e076dd52d99e9455e25744d30f5c8c5e480",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-06T16:24:47+00:00"
+      "cuando": "2026-10-06T17:50:07+00:00"
     }
   }
 }

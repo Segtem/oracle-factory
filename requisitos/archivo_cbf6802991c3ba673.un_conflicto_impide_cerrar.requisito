@@ -1,0 +1,4 @@
+requisito archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar:
+    texto "Tipo: funcional Si la fusión no es posible (agregar un requisito con un nombre que ya existe en la capacidad, modificar o quitar uno que no existe, repetir un nombre en la spec del cambio o usar `RENAMED`), o si la spec consolidada en disco no es la que generó Factory, `cerrar` SHALL rechazarse antes de pedir la confirmación y de modificar cualquier archivo, y SHALL nombrar el requisito o el archivo en conflicto."
+    fuente "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md#un conflicto impide cerrar"
+    medido_por factory_archivo.un_conflicto_impide_cerrar, factory_archivo.corrida_completa
