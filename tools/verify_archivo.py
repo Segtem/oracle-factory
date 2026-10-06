@@ -77,7 +77,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--salida', type=Path, required=True, help='carpeta nueva de evidencia')
     parser.add_argument('--base', default='main', help='referencia de Git contra la que tareas/ no debe cambiar')
-    parser.add_argument('--antes', required=True, help='commit justo antes de archivar los cambios existentes; 
+    parser.add_argument('--antes', required=True, help='commit justo antes de archivar los cambios existentes; '
                                         'contra él se comprueba que los registros sólo ganaron la marca de archivo')
     args = parser.parse_args(argv)
     versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task')}
