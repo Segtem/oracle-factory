@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-archivar-a3c4d07",
+  "base": "c31ef7376b002373d01e9fd2f71654a8003919f7",
+  "head": "a3c4d073696a323dcff582e3035386fd6ec6e0ca",
+  "diff_sha256": "e7c7b007904f8e37a2c2d6180dc293b30d77b64d1cfa706f9ae0bc0f54406986",
+  "context_sha256": "d41d985f34958b239e9d180d2d8357ab0b014a0f36870f330ad746623c26e0d3",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2D-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Mover una spec consolidada editada no permite regenerarla aunque la guía lo indica",
+      "explanation": "La guía permite mover una spec editada fuera de `openspec/specs/` y volver a archivar. Si ya existe `.factory/specs/<capacidad>.json`, al moverla `exigir_spec_consolidada` lee `actual = None`, pero sólo admite el texto derivado del índice previo o el del índice nuevo. Por eso `archivar` rechaza la spec ausente y deja el cambio cerrado sin marca; `cerrar` tampoco puede reabrirlo. Reproduje el caso en una fixture con un cambio ya archivado y otro cerrado pendiente. La alternativa documentada de restaurar con Git funciona, así que el impacto queda limitado al procedimiento de mover la edición.",
+      "location": {
+        "file": "docs/estructura.md",
+        "start_line": 94,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "En una copia temporal, archivar un cambio para crear índice/spec; cerrar un segundo cambio de la misma capacidad; mover la spec consolidada fuera de openspec/specs/ y ejecutar archivar.",
+      "evidence": "Reproducido en probe_r2.py: mover `openspec/specs/notas/spec.md` causa FactoryError de spec editada/sin índice, aunque el índice previo existe y permite reconstruir el contenido de Factory. El cambio pendiente queda sin `archivo`.",
+      "related_requirement": "archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar",
+      "status": "pendiente",
+      "verification": "Permitir regenerar la spec ausente desde el índice previo antes de fusionar, manteniendo el rechazo cuando existe un contenido distinto; o quitar la opción de moverla de la guía y explicar que se debe restaurar el archivo al contenido esperado. Agregar una prueba de spec ausente con índice existente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé el checkout a3c4d07. tools/verify_archivo.py --base 7474577 --antes 31a930f terminó con éxito: 211 pruebas y 19 casos de contrato. El verificador encontró las specs e índices consolidados consistentes y el estado del repositorio archivado.",
+    "R2C-01 queda cerrado: a6_un_corte_entre_la_spec_y_el_indice_se_repara pasa. Inyecté además un corte después del reemplazo de spec e índice y antes de guardar el registro; el reintento de archivar lo completó. También inyecté un corte luego del cierre externo de la tarea y antes de guardar el registro de cierre; reintentar cerrar convergió.",
+    "D1–D9 de la auditoría documental quedan cerrados en los archivos y escenarios revisados: orden y motivo de la huella, precisión de su alcance, opciones de CLI, guardia y procedimiento de edición manual, inventario/árbol y escenarios de la spec.",
+    "Mutaciones realizadas sólo en fixtures temporales; el checkout permaneció limpio. Mover la spec consolidada con un índice existente deja un cambio cerrado pendiente y archivar no la regenera (R2D-01). Restaurarla al contenido esperado desde Git sí permite continuar.",
+    "También simulé un corte que deja escrito sólo un prefijo del factory.json mientras archivar persiste la marca: el siguiente archivar falla con JSONDecodeError. Es un riesgo real del guardado no atómico usado por guardar, pero ese escritor y su llamada de persistencia quedan fuera de los rangos del diff incluidos en el paquete Clue; no lo reporto como hallazgo de este paquete. La simulación reproduce el estado truncado, no una interrupción real del sistema operativo dentro de write_text. Pruebas en Linux; no probé otros sistemas operativos."
+  ]
+}

@@ -222,6 +222,15 @@ class Archivo(unittest.TestCase):
         nuevo = f.leer(otro)[1]
         self.assertEqual(nuevo['eventos'][-1]['accion'], 'archivado')
 
+    def test_a3_un_corte_al_guardar_el_registro_no_lo_trunca(self):
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        carpeta, estado = f.leer(ident)
+        antes = f.ruta_registro(carpeta).read_bytes()
+        estado['titulo'] = 'otro'
+        with patch.object(f.os, 'replace', side_effect=OSError('disco lleno')), self.assertRaises(OSError):
+            f.guardar(carpeta, estado)
+        self.assertEqual(f.ruta_registro(carpeta).read_bytes(), antes)  # entero, no a medias
+
     # --- a4: se distingue lo vigente de lo reemplazado --------------------------------------------------------------
     def test_a4_requisito_reemplazado(self):
         primero = self.cambio_cerrado()

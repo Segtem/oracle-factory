@@ -78,7 +78,7 @@ def leer(identificador: str) -> tuple[Path, dict]:
 def guardar(carpeta: Path, estado: dict) -> None:
     destino = ruta_registro(carpeta)
     destino.parent.mkdir(parents=True, exist_ok=True)
-    destino.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))  # un corte no lo trunca
 
 
 def terminal_interactiva() -> bool:
@@ -910,8 +910,8 @@ def exigir_spec_consolidada(capacidad: str, indice: dict) -> None:
     # La nueva también vale: una corrida cortada entre la spec y el índice ya la había escrito.
     if actual not in (esperado, archivo.texto_consolidado(indice)):  # editada a mano o por otra herramienta: no se pisa
         raise FactoryError(f"{spec.relative_to(ROOT)} no es la que generó Factory (se editó a mano o no tiene índice en "
-                           f"{ruta_indice(capacidad).relative_to(ROOT)}); restaurala (git checkout o git restore) o movela "
-                           "fuera de openspec/specs/ antes de fusionar")
+                           f"{ruta_indice(capacidad).relative_to(ROOT)}); restaurala con git restore antes de fusionar; "
+                           "lo que se quería cambiar entra por la spec de un cambio")
 
 
 def escribir_archivo(capacidad: str, indice: dict) -> str:
