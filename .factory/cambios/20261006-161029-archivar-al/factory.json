@@ -1,0 +1,24 @@
+{
+  "id": "20261006-161029-archivar-al",
+  "titulo": "Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/",
+  "capacidad": "archivo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T16:10:29+00:00",
+      "capacidad": "archivo"
+    }
+  ]
+}
