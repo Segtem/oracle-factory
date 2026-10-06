@@ -91,7 +91,7 @@ oracle-factory migrar --verificar    # lista lo que movería, no escribe; falla 
 oracle-factory migrar                # lo mueve; no hace commits
 ```
 
-`migrar` escribe lo nuevo antes de borrar lo viejo y el registro al final, y en el registro sólo reescribe las rutas que citan `review.md` y `oracle-veredicto.txt`; el resto queda byte a byte. Si lo cortan, se vuelve a correr. Si un cambio tiene el estado en los dos lugares con contenido distinto, avisa y no toca ninguno de los dos. Después de migrar, `estado` dice lo mismo y las revisiones siguen vigentes, porque la huella del producto no incluye `.factory/`. La excepción es la configuración de la raíz: es parte del producto, y moverla cambia la huella (`--verificar` lo avisa antes).
+`migrar` escribe lo nuevo antes de borrar lo viejo y el registro al final, y en el registro sólo reescribe las rutas que citan `review.md` y `oracle-veredicto.txt`; el resto queda byte a byte. Si lo cortan, se vuelve a correr. Si un cambio tiene el estado en los dos lugares con contenido distinto, o si algo del camino es un enlace simbólico, avisa, no toca ese cambio y termina con código distinto de cero. Lo que no sabe mover (una carpeta de cambio sin registro, un `factory.json` de la raíz que no es la configuración de Factory) lo deja donde está y lo avisa, pero no es un fallo: la segunda ejecución da 0. Después de migrar, `estado` dice lo mismo y las revisiones siguen vigentes, porque la huella del producto no incluye `.factory/`. La excepción es la configuración de la raíz: es parte del producto, y moverla cambia la huella (`--verificar` lo avisa antes).
 
 ## Límites declarados
 

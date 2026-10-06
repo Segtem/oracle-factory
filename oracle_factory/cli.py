@@ -968,8 +968,8 @@ def comando_donde(identificador: str, candidato: str | None) -> None:
 
 def comando_migrar(verificar: bool) -> None:
     """Pasa el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)."""
-    movimientos, problemas = migracion.planear(ROOT)
-    for texto in problemas:
+    movimientos, problemas, avisos = migracion.planear(ROOT)
+    for texto in problemas + avisos:
         print(f"Aviso: {texto}", file=sys.stderr)
     if verificar:
         for m in movimientos:

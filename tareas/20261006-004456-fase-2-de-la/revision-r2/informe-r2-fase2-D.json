@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-beb4b5d",
+  "base": "1447f601bec0db86ad9670e6fb08d238af057f25",
+  "head": "beb4b5df87bfb38d710120986dadaa5bc514cc5a",
+  "diff_sha256": "a690e4733628b4243af30b4ac1c0e776453a8c28c5f40a8106ff13f538a4c3ae",
+  "context_sha256": "6c70096255ddbdce7e44e89e2a384a9f748937473e5672d584f56d72b6109529",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2G-01",
+      "kind": "seguridad",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "`migrar` escribe a través de un enlace simbólico con el nombre del temporal (`<archivo>.migracion`) y deja el destino convertido en un enlace",
+      "explanation": "La corrección de R2F-01 revisa con _enlazado() el camino del destino, pero _escribir_atomico escribe primero en destino.with_name(nombre + \".migracion\"), un nombre que _enlazado no mira. Si en .factory/cambios/<ID>/ hay un enlace simbólico con ese nombre (por ejemplo versionado en un clon ajeno), temporal.write_bytes() lo sigue y sobrescribe el archivo al que apunta, fuera del proyecto; después os.replace mueve el enlace mismo a destino, de modo que review.md, oracle-veredicto.txt o factory.json queda como un enlace al archivo externo (lo leído coincide, así que la comprobación posterior pasa) y migrar borra el original. Requiere que alguien haya plantado un enlace con ese nombre exacto; el impacto es la escritura de contenido del repositorio sobre un archivo elegido por el enlace.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 20,
+        "end_line": 28,
+        "side": "head"
+      },
+      "trigger": "Un enlace simbólico .factory/cambios/<ID>/review.md.migracion hacia un archivo externo y correr migrar.",
+      "evidence": "Verificado: sondas_r2g.py (carpeta revision-r2), salida en sondas_r2g.salida.txt, test_g_01: el archivo externo quedó sobrescrito con «revisión de …» y el destino review.md quedó como enlace simbólico.",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Correr test_g_01. Corrección: crear el temporal con os.open(..., O_CREAT|O_EXCL|O_NOFOLLOW) (o borrar un temporal previo antes de escribir) y rechazar si el temporal es un enlace."
+    },
+    {
+      "id": "R2G-02",
+      "kind": "seguridad",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "`migrar` lee y borra archivos a través de un `openspec/changes` (o `openspec`) enlazado",
+      "explanation": "La comprobación de enlaces cubre el destino y las carpetas de cambio (carpeta.is_symlink()) pero no el camino hasta ellas: el origen se lee de openspec/changes/<ID>/ aunque openspec o openspec/changes sean un enlace, y aplicar() hace origen.unlink() sobre esos archivos. Con openspec/changes enlazado a una carpeta externa, migrar copió su estado al proyecto y borró los archivos originales de afuera (probé 12 archivos antes, 3 después); con openspec enlazado, igual. Las demás rutas de Factory sí rechazan esos enlaces con ruta_segura. El borrado se limita a archivos llamados factory.json, review.md y oracle-veredicto.txt de carpetas con nombre de ID, y exige un enlace en un lugar donde el proyecto espera una carpeta real.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 62,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "openspec/changes enlazado a una carpeta con cambios de Factory y correr migrar.",
+      "evidence": "Verificado: sondas_r2g.py (carpeta revision-r2), salida en sondas_r2g.salida.txt, test_g_02 (openspec/changes enlazado: 9 movimientos, archivos externos de 12 a 3) y test_g_03 (openspec enlazado: 9 movimientos y 0 factory.json quedan fuera).",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Correr test_g_02 y test_g_03. Corrección: aplicar _enlazado a cada origen (y a openspec/changes) antes de planear."
+    },
+    {
+      "id": "R2G-03",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.7,
+      "title": "Una carpeta de cambio sin registro o un `factory.json` de la raíz que no es configuración dejan a `migrar` en código 1 para siempre",
+      "explanation": "Las correcciones de R2F-04 son las pedidas: la carpeta sin registro no se mueve y el factory.json ajeno tampoco, y los dos se avisan. Pero ambos quedan como «problemas» permanentes, así que migrar y migrar --verificar terminan con 1 también cuando no hay nada más que mover (probado con una carpeta sin registro tras migrar todo: 0 movimientos, 1 problema). La spec dice que la segunda ejecución «termina con éxito» y que --verificar falla mientras haya algo por migrar; un proyecto con ese archivo no puede llegar nunca a «0 por migrar». Además, init no crea .factory/config.json cuando existe un factory.json en la raíz, aunque no sea de Factory, y config_proyecto sigue leyendo ese archivo y rechazándolo; el aviso de migrar no dice cómo salir. Es un límite razonable y poco frecuente.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 62,
+        "end_line": 66,
+        "side": "head"
+      },
+      "trigger": "Carpeta con nombre de ID que sólo tiene review.md, o factory.json ajeno en la raíz; correr migrar dos veces.",
+      "evidence": "Verificado: sondas_r2g.py (carpeta revision-r2), salida en sondas_r2g.salida.txt, test_g_05 (carpeta sin registro: 0 movimientos y 1 problema).",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Correr test_g_05. Opciones: declararlo como límite en la guía, o distinguir «aviso» de «problema» en el código de salida."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre beb4b5d: suite (189 OK); tools/verify_estructura2.py --salida revision-r2/evidencia-estructura2-beb4b5d --antes 3f08ff9 --excluir 20261006-004456-fase-2-de-la (20 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 8 requisitos estructura2_… con ✓ cumple); verify_modos (27), verify_vigencia (13) y verify_collaboration (rc 0, C1–C9); oracle-factory migrar --verificar sobre este repositorio: «Por migrar: 0 archivos», código 0; mis sondas sondas_r2f.py (20 cortes de interrupción otra vez: todos convergen, sin temporales) y sondas_r2g.py. No corrí portabilidad, limpieza ni revisión guiada, ni los arneses de release, de Docker ni verify_guide.",
+    "Estado de R2F: R2F-01 resuelto para el destino (con .factory/cambios/<ID> enlazado ya no escribe fuera: sondas_r2f test_f_02, caso d, ahora [] y el cambio se rechaza con aviso; los demás cambios se migran); R2F-02 resuelto (sin UnboundLocalError y sin impedir los demás cambios: el caso b ahora da 1 problema y el cambio excluido); R2F-03 resuelto (migrar imprime el aviso de huella al aplicar); R2F-04 resuelto (el factory.json ajeno ya no se mueve y la carpeta sin registro tampoco, con aviso). Quedan R2G-01 y R2G-02, de la misma clase que R2F-01 por caminos que la corrección no cubrió: el temporal y el origen.",
+    "Validación de la configuración y config_proyecto: la validación de la raíz es más laxa que config_proyecto (acepta, para mover, un objeto cuyas claves están en el conjunto aunque el valor no sea válido: {\"modo_por_defecto\": \"inventado\"} se mueve, y config_proyecto lo rechaza igual en el lugar nuevo). config_proyecto no cambió en esta corrección y acepta lo mismo que antes; todo lo que config_proyecto acepta, la validación lo deja mover; los casos «clave extra», lista y null no se mueven (probado con sondas_r2g.py, test_g_04).",
+    "Puntos que revisé y no encontré problema: el aviso de huella sólo sale cuando hay un factory.json en la raíz entre los movimientos; el plan de la carpeta sin registro no mira el registro nuevo faltante cuando sólo existe el nuevo; la rama «borrar_viejo» no escribe nada; los 20 puntos de corte siguen convergiendo con la nueva regla de huérfanos. No probé Windows, Python 3.11 ni 3.12."
+  ]
+}

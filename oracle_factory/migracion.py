@@ -48,12 +48,19 @@ def _esperado(origen: Path, nombre: str, ident: str) -> bytes:
     return _reescrito(datos, ident) if nombre == 'factory.json' else datos
 
 
-def planear(raiz: Path) -> tuple[list[dict], list[str]]:
-    """(movimientos, problemas). Un movimiento: {'cambio', 'origen', 'destino', 'bytes', 'estado'} con estado
-    'escribir' (el destino no existe) o 'borrar_viejo' (el destino ya es el esperado). No escribe nada."""
+def planear(raiz: Path) -> tuple[list[dict], list[str], list[str]]:
+    """(movimientos, problemas, avisos). Un movimiento: {'cambio', 'origen', 'destino', 'bytes', 'estado'} con estado
+    'escribir' (el destino no existe) o 'borrar_viejo' (el destino ya es el esperado). Un problema es algo que impide
+    migrar (conflicto, enlace simbólico) y hace fallar el comando; un aviso es algo que no se sabe mover y se deja donde está.
+    No escribe nada."""
     movimientos: list[dict] = []
     problemas: list[str] = []
+    avisos: list[str] = []
+    malos: set[str] = set()  # cambios con un problema: no se mueven a medias
     cambios = raiz / 'openspec' / 'changes'
+    enlace = _enlazado(raiz, cambios)
+    if enlace is not None:
+        return [], [f'{enlace.relative_to(raiz)} es un enlace simbólico: no migro a través de él'], []
     pares: list[tuple[str, Path, Path, str]] = []  # (cambio, origen, destino, nombre)
     if cambios.is_dir():
         for carpeta in sorted(cambios.iterdir()):
@@ -63,29 +70,31 @@ def planear(raiz: Path) -> tuple[list[dict], list[str]]:
             if not registro_presente:  # sin registro no es un cambio de Factory: no se mueve nada de esa carpeta
                 huerfanos = [n for n in ESTADO if (carpeta / n).exists()]
                 if huerfanos:
-                    problemas.append(f'{carpeta.relative_to(raiz)} tiene {", ".join(huerfanos)} pero ningún registro: no los toco')
+                    avisos.append(f'{carpeta.relative_to(raiz)} tiene {", ".join(huerfanos)} pero ningún registro: no los toco')
                 continue
             for nombre in ESTADO:
                 origen = carpeta / nombre
-                if origen.is_file() and not origen.is_symlink():
+                if origen.is_symlink():
+                    problemas.append(f'{origen.relative_to(raiz)} es un enlace simbólico: no lo sigo')
+                    malos.add(carpeta.name)
+                elif origen.is_file() and not origen.is_symlink():
                     pares.append((carpeta.name, origen, raiz / estructura.DIR / 'cambios' / carpeta.name / nombre, nombre))
     config = raiz / 'factory.json'
     if config.is_file() and not config.is_symlink():
         if _es_configuracion(config):
             pares.append(('configuración', config, raiz / estructura.DIR / 'config.json', 'config'))
         else:
-            problemas.append('factory.json de la raíz no es una configuración de Factory (sólo modo_por_defecto y '
+            avisos.append('factory.json de la raíz no es una configuración de Factory (sólo modo_por_defecto y '
                              'tipos_obligatorios): no lo toco')
     if (raiz / estructura.DIR).is_symlink():
-        return [], [f'{estructura.DIR} es un enlace simbólico: no migro a través de él']
-    malos: set[str] = set()
+        return [], [f'{estructura.DIR} es un enlace simbólico: no migro a través de él'], avisos
     for cambio, origen, destino, nombre in pares:
-        esperado = _esperado(origen, nombre, cambio)
-        enlace = _enlazado(raiz, destino)
-        if enlace is not None:  # ni el archivo ni ninguna carpeta del camino: escribir a través de un enlace sale del proyecto
-            problemas.append(f'{enlace.relative_to(raiz)} es un enlace simbólico: no escribo a través de él')
+        enlace = _enlazado(raiz, origen) or _enlazado(raiz, destino)
+        if enlace is not None:  # ni el origen ni el destino ni sus carpetas: seguir un enlace sale del proyecto
+            problemas.append(f'{enlace.relative_to(raiz)} es un enlace simbólico: no lo sigo')
             malos.add(cambio)
             continue
+        esperado = _esperado(origen, nombre, cambio)
         if destino.is_file():
             if destino.read_bytes() == esperado:
                 estado = 'borrar_viejo'
@@ -101,13 +110,17 @@ def planear(raiz: Path) -> tuple[list[dict], list[str]]:
             estado = 'escribir'
         movimientos.append({'cambio': cambio, 'origen': origen, 'destino': destino, 'bytes': esperado, 'estado': estado})
     # un cambio con un problema no se mueve a medias
-    return [m for m in movimientos if m['cambio'] not in malos], problemas
+    return [m for m in movimientos if m['cambio'] not in malos], problemas, avisos
 
 
 def _escribir_atomico(destino: Path, datos: bytes) -> None:
     destino.parent.mkdir(parents=True, exist_ok=True)
     temporal = destino.with_name(destino.name + '.migracion')
-    temporal.write_bytes(datos)
+    if temporal.is_symlink() or temporal.exists():
+        temporal.unlink()  # un resto de una corrida cortada, o un enlace: se borra el nombre, nunca se escribe a través de él
+    descriptor = os.open(temporal, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+    with os.fdopen(descriptor, 'wb') as archivo:
+        archivo.write(datos)
     os.replace(temporal, destino)
 
 

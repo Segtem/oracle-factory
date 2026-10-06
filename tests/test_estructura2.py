@@ -149,7 +149,7 @@ class Estructura2(unittest.TestCase):
         huerfana.mkdir()
         (huerfana / 'review.md').write_text('no es de un cambio de Factory\n')
         codigo, errores = self.migrar()
-        self.assertEqual(codigo, 1)
+        self.assertEqual(codigo, 0)  # un aviso no es un fallo: no hay nada que migrar y la segunda ejecución da 0
         self.assertIn('sin-registro', errores)
         self.assertEqual((huerfana / 'review.md').read_text(), 'no es de un cambio de Factory\n')
         self.assertFalse((self.root / '.factory/cambios/20260101-000000-sin-registro').exists())
@@ -166,7 +166,7 @@ class Estructura2(unittest.TestCase):
     def test_s4_interrupcion_despues_de_escribir_y_antes_de_borrar(self):
         ident = self.cambio_juzgado()
         self.a_lugar_anterior(ident)
-        movimientos, _ = migracion.planear(self.root)
+        movimientos, *_ = migracion.planear(self.root)
         for m in movimientos:  # se corta aquí: lo nuevo escrito, lo viejo sin borrar
             migracion._escribir_atomico(m['destino'], m['bytes'])
         self.assertTrue((self.root / 'openspec/changes' / ident / 'factory.json').exists())
@@ -209,6 +209,50 @@ class Estructura2(unittest.TestCase):
         self.assertEqual(list(ajena.iterdir()), [])
         self.assertTrue((self.root / 'openspec/changes' / ident / 'factory.json').is_file())  # el viejo, entero
         self.assertTrue((self.root / '.factory/cambios' / otro / 'factory.json').is_file())  # el otro sí se migró
+
+    def test_s4_un_origen_enlazado_no_se_sigue_ni_se_borra(self):
+        ident = self.cambio_juzgado()
+        otro = f.nuevo('Otra nota', 'otra')
+        self.a_lugar_anterior(ident)
+        self.a_lugar_anterior(otro)
+        ajena = Path(self.tmp.name) / 'ajena.md'
+        ajena.write_text('de afuera\n')
+        viejo = self.root / 'openspec/changes' / ident / 'review.md'
+        viejo.unlink()
+        viejo.symlink_to(ajena)
+        codigo, errores = self.migrar()
+        self.assertEqual(codigo, 1)
+        self.assertIn('enlace simbólico', errores)
+        self.assertEqual(ajena.read_text(), 'de afuera\n')
+        self.assertTrue(viejo.is_symlink())
+        self.assertTrue((self.root / '.factory/cambios' / otro / 'factory.json').is_file())
+
+    def test_s4_openspec_changes_enlazado_no_se_sigue(self):
+        ident = self.cambio_juzgado()
+        self.a_lugar_anterior(ident)
+        cambios = self.root / 'openspec/changes'
+        real = Path(self.tmp.name) / 'cambios-de-afuera'
+        cambios.rename(real)
+        cambios.symlink_to(real)
+        antes = {str(p): p.read_bytes() for p in real.rglob('*') if p.is_file()}
+        codigo, errores = self.migrar()
+        self.assertEqual(codigo, 1)
+        self.assertIn('enlace simbólico', errores)
+        self.assertEqual({str(p): p.read_bytes() for p in real.rglob('*') if p.is_file()}, antes)  # no borró nada de afuera
+
+    def test_s4_un_temporal_enlazado_o_sobrante_no_se_sigue(self):
+        ident = self.cambio_juzgado()
+        self.a_lugar_anterior(ident)
+        ajena = Path(self.tmp.name) / 'ajena.txt'
+        ajena.write_text('de afuera\n')
+        carpeta = self.root / '.factory/cambios' / ident
+        (carpeta / 'review.md.migracion').symlink_to(ajena)  # un enlace con el nombre del temporal
+        (carpeta / 'oracle-veredicto.txt.migracion').write_text('resto de una corrida cortada\n')
+        self.assertEqual(self.migrar()[0], 0)
+        self.assertEqual(ajena.read_text(), 'de afuera\n')  # no se escribió a través del enlace
+        self.assertFalse((carpeta / 'review.md').is_symlink())
+        self.assertTrue((carpeta / 'oracle-veredicto.txt').is_file())  # y el resto no bloqueó la migración
+        self.assertEqual(sorted(p.name for p in carpeta.iterdir() if p.name.endswith('.migracion')), [])
 
     def test_s4_estado_en_los_dos_lugares_con_contenido_distinto(self):
         ident = self.cambio_juzgado()
@@ -276,7 +320,7 @@ class Estructura2(unittest.TestCase):
         ajeno = json.dumps({'name': 'otra herramienta'})
         (self.root / 'factory.json').write_text(ajeno)
         codigo, errores = self.migrar()
-        self.assertEqual(codigo, 1)
+        self.assertEqual(codigo, 0)
         self.assertIn('no es una configuración de Factory', errores)
         self.assertEqual((self.root / 'factory.json').read_text(), ajeno)
         self.assertFalse((self.root / '.factory/config.json').exists())
