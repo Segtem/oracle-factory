@@ -79,3 +79,31 @@ Medidas de archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo
 ### Nota (2026-10-06 17:50:07 UTC)
 
 Medidas de archivo_cbf6802991c3ba673.este_repositorio_queda_archivado: factory_archivo.este_repositorio_queda_archivado, factory_archivo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-06 23:11:46 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:11:47 UTC)
+
+Medidas de archivo_cbf6802991c3ba673.este_repositorio_queda_archivado: Brian Hollweg (persona, confirmo, modo confirmacion).
