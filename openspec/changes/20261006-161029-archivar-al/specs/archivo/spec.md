@@ -18,12 +18,22 @@ Al cerrar un cambio, Factory SHALL fusionar su spec en `openspec/specs/<capacida
 
 ### Requirement: un conflicto impide cerrar
 Tipo: funcional
-Si la fusión no es posible (agregar un requisito con un nombre que ya existe en la capacidad, o modificar o quitar uno que no existe), `cerrar` SHALL rechazarse antes de modificar cualquier archivo y SHALL nombrar el requisito en conflicto.
+Si la fusión no es posible (agregar un requisito con un nombre que ya existe en la capacidad, modificar o quitar uno que no existe, repetir un nombre en la spec del cambio o usar `RENAMED`), o si la spec consolidada en disco no es la que generó Factory, `cerrar` SHALL rechazarse antes de pedir la confirmación y de modificar cualquier archivo, y SHALL nombrar el requisito o el archivo en conflicto.
 
 #### Scenario: agregar un requisito que ya existe
 - GIVEN una capacidad con el requisito «X» y un cambio que agrega «X»
 - WHEN la persona intenta cerrarlo
 - THEN el cierre se rechaza nombrando «X», y ni el registro ni la spec consolidada cambian
+
+#### Scenario: modificar un requisito que no existe
+- GIVEN una capacidad sin el requisito «Y» y un cambio que modifica «Y»
+- WHEN se intenta archivarlo
+- THEN se rechaza nombrando «Y» y nada cambia
+
+#### Scenario: spec consolidada editada a mano
+- GIVEN una spec consolidada que alguien editó a mano
+- WHEN se intenta cerrar o archivar un cambio de esa capacidad
+- THEN se rechaza antes de preguntar, nombrando el archivo, y la edición no se pisa
 
 ### Requirement: lo cerrado no se mueve ni se reescribe
 Tipo: no funcional

@@ -893,21 +893,31 @@ def plan_archivo(estado: dict) -> tuple[str, dict]:
     capacidad = capacidad_destino(estado["capacidad"])
     dominio = {rid.split(".", 1)[1]: rid for rid in estado.get("requisitos", [])}
     try:
-        return capacidad, archivo.fusionar(leer_indice(capacidad), (ROOT / estado["spec"]).read_text(encoding="utf-8"),
-                                           estado["id"], dominio)
+        indice = archivo.fusionar(leer_indice(capacidad), (ROOT / estado["spec"]).read_text(encoding="utf-8"),
+                                  estado["id"], dominio)
     except archivo.Conflicto as e:
         raise FactoryError(f"la spec no se puede fusionar en openspec/specs/{capacidad}/: {e}") from e
+    exigir_spec_consolidada(capacidad, indice)  # también antes de preguntar: cerrar no debe dejar un cierre sin archivar
+    return capacidad, indice
 
 
-def escribir_archivo(capacidad: str, indice: dict) -> str:
-    """Escribe la spec consolidada y su índice; devuelve la ruta relativa de la spec."""
+def exigir_spec_consolidada(capacidad: str, indice: dict) -> None:
+    """Falla si la spec consolidada en disco no es la que generó Factory (ni la de antes ni la que se va a escribir)."""
     spec = ruta_spec_consolidada(capacidad)
     previo = leer_indice(capacidad)
     esperado = archivo.texto_consolidado(previo) if ruta_indice(capacidad).is_file() else None
     actual = ruta_segura(spec).read_text(encoding="utf-8") if spec.is_file() else None
-    if actual != esperado:  # editada a mano, o escrita por otra herramienta: no se pisa
+    # La nueva también vale: una corrida cortada entre la spec y el índice ya la había escrito.
+    if actual not in (esperado, archivo.texto_consolidado(indice)):  # editada a mano o por otra herramienta: no se pisa
         raise FactoryError(f"{spec.relative_to(ROOT)} no es la que generó Factory (se editó a mano o no tiene índice en "
-                           f"{ruta_indice(capacidad).relative_to(ROOT)}); restaurala o movela antes de fusionar")
+                           f"{ruta_indice(capacidad).relative_to(ROOT)}); restaurala (git checkout o git restore) o movela "
+                           "fuera de openspec/specs/ antes de fusionar")
+
+
+def escribir_archivo(capacidad: str, indice: dict) -> str:
+    """Escribe la spec consolidada y su índice; devuelve la ruta relativa de la spec."""
+    exigir_spec_consolidada(capacidad, indice)
+    spec = ruta_spec_consolidada(capacidad)
     for destino in (spec, ruta_indice(capacidad)):
         ruta_segura(destino).parent.mkdir(parents=True, exist_ok=True)
     escribir_atomico(spec, archivo.texto_consolidado(indice).encode("utf-8"))

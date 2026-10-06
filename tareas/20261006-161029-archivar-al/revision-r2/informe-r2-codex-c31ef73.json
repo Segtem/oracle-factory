@@ -1,0 +1,38 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-archivar-c31ef73",
+  "base": "31a930fb9e3dc5b8b0294a2744680bd7e9566f5a",
+  "head": "c31ef7376b002373d01e9fd2f71654a8003919f7",
+  "diff_sha256": "aa597999a0ba54e962a4b22f364a33bc6dc86bb2ba356382b5f031ad7c0f7585",
+  "context_sha256": "6ce5da36eba7b515ebcf95c1171b71b7fc52aefd98894a09f67f5b3deb1fab23",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2C-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un corte entre la spec y el índice deja `archivar` sin poder reparar",
+      "explanation": "`escribir_archivo` reemplaza primero la spec consolidada y después el índice, en dos operaciones separadas. Si el proceso se corta después del primer reemplazo, el registro del cambio sigue cerrado y sin marca de archivo, la spec ya contiene el cambio y el índice conserva el estado anterior. Al reintentar, la comparación agregada en esta versión interpreta esa spec parcialmente escrita como edición manual y falla antes de actualizar el índice. El cambio queda cerrado pero `archivar` no lo puede reparar sin restaurar manualmente la spec. Reproduje el corte inyectando un fallo justo antes del segundo reemplazo; el reintento respondió `openspec/specs/notas/spec.md no es la que generó Factory (se editó a mano...)`.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 908,
+        "end_line": 908,
+        "side": "head"
+      },
+      "trigger": "En una fixture temporal, permitir que escribir_atomico reemplace la spec y lanzar una excepción antes de reemplazar .factory/specs/<capacidad>.json; luego ejecutar archivar otra vez.",
+      "evidence": "Reproducido en corte-registro.log: después del corte la spec incluye el cambio y el índice no; el reintento falla por la guardia de edición manual. La suite completa y tools/verify_archivo.py pasan en ejecución normal. Una segunda sonda cortó después del éxito de `tasks close` y antes de guardar el registro: `cerrar` reintentado sí convergió (corte-cierre-tarea.log).",
+      "related_requirement": "archivo_c8ae38573cf7168a4.este_repositorio_queda_archivado",
+      "status": "pendiente",
+      "verification": "Agregar una prueba que inyecte el corte entre ambos reemplazos y exija que el siguiente `archivar` reconcilie el estado parcial sin perder una edición manual genuina. Por ejemplo, hacer que la recuperación identifique el índice/spec como uno de los estados parciales esperados o guardar ambos artefactos transaccionalmente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé el checkout final c31ef73. `tools/verify_archivo.py` corrió la suite completa: 209 pruebas, 17 casos de contrato, éxito, con `--base 7474577 --antes 31a930f`; también ejecuté la reproducción aislada del corte spec/índice. No ejecuté la suite en el checkout original 31a930f: el hallazgo está en la guardia de edición manual agregada en la línea 908 del cambio final, que no está en ese checkout. El corte después del cierre externo y antes de guardar el registro se recuperó al reintentar `cerrar`; los cortes fueron excepciones inyectadas, no cortes reales de energía/proceso. No probé otros sistemas operativos.",
+    "Una primera corrida del verificador usó `--base 31a930f` y falló sólo porque la tarea actual ya tenía una modificación de TAREA.md respecto de esa base; la segunda corrida usó la base de creación de la tarea y pasó."
+  ]
+}

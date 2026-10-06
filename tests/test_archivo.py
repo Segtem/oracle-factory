@@ -178,6 +178,19 @@ class Archivo(unittest.TestCase):
         self.assertIn('editó a mano', str(error.exception))
         self.assertEqual(self.archivos(), antes)
 
+    def test_a2_cerrar_con_la_spec_consolidada_editada_se_rechaza_antes_de_preguntar(self):
+        self.cambio_cerrado()
+        consolidada = self.root / 'openspec/specs/notas/spec.md'
+        consolidada.write_text(consolidada.read_text() + '\nagregado a mano\n')
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        antes = self.archivos()
+        with patch.object(f, 'pendientes_actuales', return_value=[]), \
+                patch('builtins.input', side_effect=AssertionError('no debía preguntar')), self.assertRaises(f.FactoryError) as error:
+            f.cerrar(ident)
+        self.assertIn('editó a mano', str(error.exception))
+        self.assertEqual(self.archivos(), antes)  # ni la tarea ni el registro se cerraron
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
     def test_a2_secciones_mayusculas_y_nombres_repetidos(self):
         self.cambio_cerrado()
         minusculas = MODIFICA.replace('## MODIFIED Requirements', '## Modified Requirements') + '\n### Notas internas\nNo es un requisito.\n'
@@ -281,6 +294,25 @@ class Archivo(unittest.TestCase):
         self.assertIn('### Requirement: nota con fecha', self.consolidada())
         self.assertNotIn('archivo', f.leer(abierto)[1])
         self.assertFalse((self.root / 'openspec/specs/otra').exists())
+
+    def test_a6_un_corte_entre_la_spec_y_el_indice_se_repara(self):
+        self.cambio_cerrado()
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        self.marcar_cerrado(ident, '2099-01-01T00:00:00+00:00')
+        real = f.escribir_atomico
+
+        def corta_antes_del_indice(ruta, datos, **k):
+            if ruta.suffix == '.json' and ruta.parent.name == 'specs':
+                raise KeyboardInterrupt
+            return real(ruta, datos, **k)
+
+        with patch.object(f, 'escribir_atomico', corta_antes_del_indice), self.assertRaises(KeyboardInterrupt):
+            f.archivar()
+        self.assertIn('longer than 80 characters', self.consolidada())  # la spec ya se escribió; el índice no
+        f.archivar()  # el reintento la reconoce como suya y completa el índice y la marca
+        self.assertEqual(f.leer(ident)[1]['archivo']['capacidad'], 'notas')
+        indice = json.loads((self.root / '.factory/specs/notas.json').read_text())
+        self.assertIn(ident, indice['archivados'])
 
     def test_a6_un_cierre_anterior_sin_registro_de_cierre(self):
         self.cambio_cerrado()

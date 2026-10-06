@@ -16,14 +16,15 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 CONTRACTS = {
     'la_spec_de_un_cambio_se_fusiona_al_cerrarlo': ['a1_primer_cambio_de_una_capacidad', 'a1_un_cambio_que_modifica_y_quita_requisitos'],
     'un_conflicto_impide_cerrar': ['a2_agregar_un_requisito_que_ya_existe', 'a2_modificar_un_requisito_que_no_existe',
-                                   'a2_una_spec_consolidada_editada_a_mano_no_se_pisa', 'a2_secciones_mayusculas_y_nombres_repetidos'],
+                                   'a2_una_spec_consolidada_editada_a_mano_no_se_pisa',
+                                   'a2_cerrar_con_la_spec_consolidada_editada_se_rechaza_antes_de_preguntar', 'a2_secciones_mayusculas_y_nombres_repetidos'],
     'lo_cerrado_no_se_mueve_ni_se_reescribe': ['a3_archivar_solo_agrega_la_marca'],
     'se_distingue_lo_vigente_de_lo_reemplazado': ['a4_requisito_reemplazado'],
     'una_capacidad_con_un_solo_nombre': ['a5_capacidad_con_alias', 'a5_un_alias_de_un_alias_se_rechaza'],
     'los_comandos_de_lectura_muestran_el_archivo': ['a6_lectura_de_un_cambio_archivado'],
     'este_repositorio_queda_archivado': ['a6_segunda_ejecucion_no_cambia_nada', 'a6_reintento_de_un_cierre_cortado_no_duplica',
                                          'a6_solo_se_archivan_los_cerrados_y_en_el_orden_de_cierre',
-                                         'a6_un_cierre_anterior_sin_registro_de_cierre', 'a6_la_huella_ignora_solo_las_specs_que_genera_factory'],
+                                         'a6_un_cierre_anterior_sin_registro_de_cierre', 'a6_un_corte_entre_la_spec_y_el_indice_se_repara', 'a6_la_huella_ignora_solo_las_specs_que_genera_factory'],
 }
 REPO = 'este_repositorio_queda_archivado'  # además de sus pruebas, lo comprueba este verificador sobre el repositorio
 PREFIX = 'test_archivo.Archivo.test_'

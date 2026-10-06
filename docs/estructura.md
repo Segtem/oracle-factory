@@ -5,6 +5,7 @@ Un proyecto Factory reparte lo que guarda entre cuatro lugares. Saber cuál es c
 ```text
 proyecto/
   .factory/                           # lo que Factory produce; versionada, salvo local/
+    LEEME.md                          # explica la carpeta; existe para que Git la versione aunque esté vacía
     config.json                       # configuración del proyecto: modo por defecto, tipos obligatorios y alias de capacidades
     specs/<capacidad>.json            # índice de la spec consolidada: de qué cambio viene cada requisito y qué reemplazó
     cambios/<ID>/                     # un cambio
@@ -27,7 +28,7 @@ proyecto/
 
 | Carpeta | Dueño | Qué contiene |
 |---|---|---|
-| `.factory/` | Factory | El estado de cada cambio, la configuración, lo que se produce sobre un candidato y lo propio de cada máquina |
+| `.factory/` | Factory | El estado de cada cambio, la configuración, los índices de las specs consolidadas (`specs/`), lo que se produce sobre un candidato y lo propio de cada máquina |
 | `openspec/changes/<ID>/` | OpenSpec | Sólo el acuerdo: `proposal.md`, `design.md`, `tasks.md` y `specs/` |
 | `openspec/specs/<capacidad>/` | Factory (formato OpenSpec) | La spec consolidada: los requisitos vigentes de la capacidad. Se genera; no se edita a mano |
 | `tareas/` | Oracle Task | La tarea de cada cambio, con sus notas |
@@ -40,7 +41,7 @@ El acuerdo humano queda a la vista en `openspec/changes/`, no escondido: es lo q
 - **`.factory/` se versiona**: es lo que comparten las personas. Lo que Factory escribe ahí lleva rutas relativas al proyecto, nunca la ruta de una máquina, para que un clon en otro lugar lo encuentre.
 - **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los checkouts de revisión, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git ofrecería esos checkouts como directorios sin seguimiento.
 - **Git no versiona carpetas vacías**, así que `init` deja un archivo, `.factory/LEEME.md`, que explica la carpeta y hace que un clon la tenga.
-- La huella de archivos del producto excluye `.factory/` entera, como ya excluye `tareas/`: agregar evidencia o un paquete de Clue no invalida una revisión. Cambiar el acuerdo, el código o las medidas sí.
+- La huella de archivos del producto excluye `.factory/` entera, como ya excluye `tareas/`, y las specs consolidadas que genera Factory (ver más abajo): agregar evidencia o un paquete de Clue no invalida una revisión. Cambiar el acuerdo, el código o las medidas sí.
 
 ## Una carpeta por candidato
 
@@ -89,11 +90,13 @@ Los cambios creados antes de esta estructura tienen su evidencia en carpetas con
 
 Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`) o quita (`REMOVED`); sin encabezados, todo cuenta como agregado. Al cerrar el cambio, Factory la fusiona en `openspec/specs/<capacidad>/spec.md`, que queda con los requisitos vigentes y, en cada uno, el cambio y el requisito de Oracle de los que viene. Para saber qué hace el sistema hoy se lee esa spec, no todas las propuestas.
 
-- **Un conflicto no se resuelve solo:** agregar un requisito que ya existe, o modificar o quitar uno que no existe, rechaza el cierre antes de preguntar y nombra el requisito.
+- **Un conflicto no se resuelve solo:** agregar un requisito que ya existe, modificar o quitar uno que no existe, repetir un nombre en la spec del cambio o usar `RENAMED` rechaza el cierre antes de preguntar y nombra el requisito. Para resolverlo se corrige la spec del cambio: `MODIFIED` para cambiar un requisito que ya existe, `REMOVED` para darlo de baja, y para renombrarlo se quita y se agrega con el nombre nuevo. Corregir la spec cambia el acuerdo: hay que volver a aceptarla (`aprobar-spec`), reimportar, decidir las medidas y renovar la revisión y el juicio antes de cerrar.
+- **Una spec consolidada editada a mano no se pisa:** si `openspec/specs/<capacidad>/spec.md` no es la que generó Factory, cerrar o archivar un cambio de esa capacidad se rechaza antes de preguntar. Se restaura con `git restore openspec/specs/<capacidad>/spec.md` (o se mueve fuera de `openspec/specs/`) y se vuelve a intentar; lo que se quería cambiar entra por la spec de un cambio.
 - **Nada de lo cerrado se mueve:** a diferencia de OpenSpec, la carpeta del cambio queda en `openspec/changes/<ID>/` y sus requisitos de Oracle no se reimportan. `estado` de un cambio archivado dice cuáles de sus requisitos siguen vigentes y cuáles reemplazó otro cambio.
 - **Un nombre por capacidad:** `capacidades` en `.factory/config.json` declara alias (`{"estructura2": "estructura"}`); un cambio con un alias se fusiona en la capacidad de destino, y `nuevo` lo avisa.
 - **Los cambios cerrados antes de esto** se archivan con `oracle-factory archivar`, en el orden en que se cerraron; correrlo de nuevo no cambia nada.
-- La spec consolidada queda fuera de la huella del producto, como `.factory/`: se deriva de specs ya aceptadas, y si contara, un cierre interrumpido no se podría reintentar.
+- La spec consolidada que generó Factory (la que tiene índice en `.factory/specs/<capacidad>.json`) queda fuera de la huella del producto, como `.factory/`: se deriva de specs ya aceptadas, y si contara, archivar los cambios anteriores vencería la revisión del último cambio integrado. Cualquier otro archivo de `openspec/specs/` sí cuenta.
+- **Si se corta:** `cerrar` cierra primero y fusiona después. Un corte antes de cerrar no deja nada fusionado y se reintenta; uno después deja el cambio cerrado sin archivar, y `oracle-factory archivar` lo completa.
 
 ## Migrar un proyecto anterior (fase 2)
 
