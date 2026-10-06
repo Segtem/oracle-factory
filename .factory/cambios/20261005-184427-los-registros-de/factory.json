@@ -50,7 +50,7 @@
     "codigo_oracle": 0,
     "hechos": "tareas/20261005-184427-los-registros-de/evidencia-fd1bfe7/hechos.json",
     "hechos_sha256": "0b443436df2deb71f1161d49975c689be7e6551f69411bcbabe6a821512dffef",
-    "informe": "openspec/changes/20261005-184427-los-registros-de/oracle-veredicto.txt",
+    "informe": ".factory/cambios/20261005-184427-los-registros-de/oracle-veredicto.txt",
     "informe_sha256": "d104601aed83e53734dae0f2054f13c74ff7c9e4b29329fd48342f6cbf3ad646",
     "cuando": "2026-10-05T19:54:34+00:00",
     "contexto": {
@@ -410,7 +410,7 @@
       "modo": "confirmacion",
       "forma": "decidio",
       "cuando": "2026-10-05T19:59:36+00:00",
-      "oracle": "openspec/changes/20261005-184427-los-registros-de/oracle-veredicto.txt",
+      "oracle": ".factory/cambios/20261005-184427-los-registros-de/oracle-veredicto.txt",
       "revision": "tareas/20261005-184427-los-registros-de/revisiones/registro-d69f7fqg/informe.json"
     }
   ],

@@ -46,7 +46,7 @@
     "codigo_oracle": 0,
     "hechos": "tareas/20261005-154433-la-vigencia-de/evidencia-2509c13/hechos.json",
     "hechos_sha256": "30aa4037b6292806354b2a6a251712115bed5c888dba498d983b9bf04eb04ac2",
-    "informe": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+    "informe": ".factory/cambios/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
     "informe_sha256": "9d02058c6597a9fb1d7698bf4a1f186a241209a796145780f19c58cc7ac63527",
     "cuando": "2026-10-05T18:18:21+00:00",
     "contexto": {
@@ -231,7 +231,7 @@
       "modo": "confirmacion",
       "forma": "decidio",
       "cuando": "2026-10-05T18:18:59+00:00",
-      "oracle": "openspec/changes/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
+      "oracle": ".factory/cambios/20261005-154433-la-vigencia-de/oracle-veredicto.txt",
       "revision": "tareas/20261005-154433-la-vigencia-de/revisiones/registro-s005bs8v/informe.json"
     },
     {

@@ -47,7 +47,7 @@
     "codigo_oracle": 0,
     "hechos": "tareas/20261005-193914-quitar-la-ruta/evidencia-71f9446/hechos.json",
     "hechos_sha256": "d6f647e1db4ca4345d916c5ef34fcd2440558720dffc9de786b58c78015439b3",
-    "informe": "openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
+    "informe": ".factory/cambios/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
     "informe_sha256": "081ca76ede900d9966e9d8739078e15a1f28977aedbfffc4bd872af60c0c653b",
     "cuando": "2026-10-05T23:50:52+00:00",
     "contexto": {
@@ -232,7 +232,7 @@
       "modo": "confirmacion",
       "forma": "decidio",
       "cuando": "2026-10-05T23:52:31+00:00",
-      "oracle": "openspec/changes/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
+      "oracle": ".factory/cambios/20261005-193914-quitar-la-ruta/oracle-veredicto.txt",
       "revision": "tareas/20261005-193914-quitar-la-ruta/revisiones/registro-th97ash_/informe.json"
     }
   ],
