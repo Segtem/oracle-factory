@@ -107,3 +107,11 @@ Medidas de archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo
 ### Nota (2026-10-06 23:11:47 UTC)
 
 Medidas de archivo_cbf6802991c3ba673.este_repositorio_queda_archivado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-06 23:24:10 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit a7304b3e5806ccb94954541598a011af4245e5d4; informe tareas/20261006-161029-archivar-al/revisiones/registro-nm6_wfan/informe.json; decisiones tareas/20261006-161029-archivar-al/revisiones/registro-nm6_wfan/decisiones.json.
+
+### Nota (2026-10-06 23:24:23 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261006-161029-archivar-al/oracle-veredicto.txt.
