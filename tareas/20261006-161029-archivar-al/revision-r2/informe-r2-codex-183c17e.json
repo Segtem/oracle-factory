@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-archivar-183c17e",
+  "base": "571dcd367913fc9a8b64f94c1bd4f686edf0b0fa",
+  "head": "183c17ea9327f9d45325affb00be9b9b1a75701e",
+  "diff_sha256": "0b7b3b81e57f2ef13fd29629333e097081b2dc9bd4a897154b900c1f446d3625",
+  "context_sha256": "7bca54cbf93cd981bc70269562f60e48d815f37acfd314e482421b2ab092458a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "R2E-01 queda cerrado: guardar() rechaza el registro existente sin permiso de escritura antes de reemplazarlo; a3_un_registro_de_solo_lectura_no_se_modifica pasa.",
+    "tools/verify_archivo.py: 213 pruebas, 20 casos enumerados y comprobación del repositorio (21 en total); éxito sobre base 7474577 y estado previo 31a930f.",
+    "Verificación limitada a Linux; los escenarios y comprobaciones del repositorio se describen en resultado.json. No probé Windows ni ACL/atributos extendidos."
+  ]
+}
