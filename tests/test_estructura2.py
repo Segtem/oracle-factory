@@ -225,7 +225,20 @@ class Estructura2(unittest.TestCase):
         self.assertIn('enlace simbólico', errores)
         self.assertEqual(ajena.read_text(), 'de afuera\n')
         self.assertTrue(viejo.is_symlink())
+        for nombre in ('factory.json', 'oracle-veredicto.txt'):  # el cambio con un problema no se mueve a medias
+            self.assertFalse((self.root / '.factory/cambios' / ident / nombre).exists(), nombre)
+            self.assertTrue((self.root / 'openspec/changes' / ident / nombre).is_file(), nombre)
         self.assertTrue((self.root / '.factory/cambios' / otro / 'factory.json').is_file())
+
+    def test_s4_una_carpeta_de_cambio_enlazada_se_avisa(self):
+        ident = self.cambio_juzgado()
+        self.a_lugar_anterior(ident)
+        real = Path(self.tmp.name) / 'cambio-de-afuera'
+        (self.root / 'openspec/changes' / ident).rename(real)
+        (self.root / 'openspec/changes' / ident).symlink_to(real)
+        codigo, errores = self.migrar(verificar=True)
+        self.assertEqual(codigo, 1)  # antes decía «0 por migrar» sin avisar
+        self.assertIn('enlace simbólico', errores)
 
     def test_s4_openspec_changes_enlazado_no_se_sigue(self):
         ident = self.cambio_juzgado()

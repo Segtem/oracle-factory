@@ -64,7 +64,10 @@ def planear(raiz: Path) -> tuple[list[dict], list[str], list[str]]:
     pares: list[tuple[str, Path, Path, str]] = []  # (cambio, origen, destino, nombre)
     if cambios.is_dir():
         for carpeta in sorted(cambios.iterdir()):
-            if not ID_RE.fullmatch(carpeta.name) or carpeta.is_symlink():
+            if not ID_RE.fullmatch(carpeta.name):
+                continue
+            if carpeta.is_symlink():
+                problemas.append(f'{carpeta.relative_to(raiz)} es un enlace simbólico: no lo sigo')
                 continue
             registro_presente = (carpeta / 'factory.json').is_file() or (raiz / estructura.DIR / 'cambios' / carpeta.name / 'factory.json').is_file()
             if not registro_presente:  # sin registro no es un cambio de Factory: no se mueve nada de esa carpeta

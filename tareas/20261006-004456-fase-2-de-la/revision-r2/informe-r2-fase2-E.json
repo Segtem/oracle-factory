@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-98b8943",
+  "base": "beb4b5df87bfb38d710120986dadaa5bc514cc5a",
+  "head": "98b8943fcfab5c504b1de1e53103d4043a651dbd",
+  "diff_sha256": "0bf0d3e533e09902a42e1318a8a41d9555f1e34c48b3128c989ffb9ffad01e25",
+  "context_sha256": "da007c256dbee18f53b694cc81e01f89ba8c72550bba73d3501ea1b965157cc7",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2H-01",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "Ninguna prueba exige que un cambio con un problema no se mueva a medias",
+      "explanation": "El filtro final de planear (return [m for m in movimientos if m['cambio'] not in malos]) es lo que evita que, si un archivo de un cambio tiene un enlace o un conflicto, se muevan sus otros archivos (por ejemplo el registro, que quedaría citando un review.md que no se movió). El código es correcto: lo comprobé (sondas_r2h.py, test_h_02: con review.md de un cambio enlazado y el registro de otro enlazado, sólo se mueve el cambio sano, y los dos enlaces siguen en su lugar). Pero al mutar esa línea a «devolver todos los movimientos» las 23 pruebas de estructura2 siguen pasando (mutaciones3.py, M9). Es el comportamiento que protege los casos de R2G-02 y R2G-03. Misma situación, sin consecuencia hoy, para M1, M3 y M4 de ese archivo: el temporal con O_NOFOLLOW (que ya queda cubierto por el borrado previo del nombre), y la comprobación de openspec/changes y la del origen, que se cubren entre sí; son mutaciones equivalentes, defensa en profundidad, no huecos.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 113,
+        "end_line": 113,
+        "side": "head"
+      },
+      "trigger": "Mutar el filtro a «return movimientos, problemas, avisos» y correr tests.test_estructura2.",
+      "evidence": "Verificado: mutaciones3.salida.txt (M9 sobrevive). El código sin mutar se comporta bien (sondas_r2h.salida.txt, R2H-02).",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Agregar una prueba con un cambio de varios archivos en el que uno tenga un enlace o un conflicto y comprobar que los demás no se mueven ni se borran."
+    },
+    {
+      "id": "R2H-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Una carpeta de cambio que es un enlace simbólico se salta en silencio, y `migrar --verificar` da «0 por migrar» si era la única",
+      "explanation": "planear ignora sin decir nada las carpetas de openspec/changes cuyo nombre no es un ID o que son enlaces (if not ID_RE.fullmatch(...) or carpeta.is_symlink(): continue). Con las correcciones de esta vuelta, lo demás que se salta ya avisa (carpeta sin registro, factory.json ajeno, enlaces de origen o destino), pero este caso no: probé una carpeta con nombre de ID que es un enlace a una carpeta externa con un factory.json; migrar --verificar lista sólo la carpeta real, sin ningún aviso, y el cambio enlazado queda sin migrar sin que nadie lo sepa. No lo sigue ni toca nada fuera, que es lo correcto; la falta es el aviso.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 61,
+        "end_line": 63,
+        "side": "head"
+      },
+      "trigger": "Una carpeta openspec/changes/<ID> que es un enlace simbólico y correr migrar o migrar --verificar.",
+      "evidence": "Verificado con la CLI real (carpeta fase2-tmp9 en revision-r2/): sin ningún mensaje por stderr, «Por migrar: 1 archivos» sólo de la carpeta real.",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Repetir el caso de fase2-tmp9. Corrección: agregar un aviso (no un fallo) para las carpetas con nombre de ID que son enlaces."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre 98b8943: suite (192 OK); tools/verify_estructura2.py --salida revision-r2/evidencia-estructura2-98b8943 --antes 3f08ff9 --excluir 20261006-004456-fase-2-de-la (23 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 8 requisitos estructura2_… con ✓ cumple); verify_modos (27), verify_vigencia (13), verify_estructura (32) y verify_collaboration (rc 0, C1–C9); migrar --verificar sobre este repositorio: «Por migrar: 0 archivos», código 0. No corrí portabilidad, limpieza ni revisión guiada, ni los arneses de release, de Docker ni verify_guide. No probé Windows, Python 3.11 ni 3.12.",
+    "Estado de R2G: R2G-01 resuelto (con un enlace o un resto con el nombre del temporal, migrar no escribe afuera, no convierte el destino en un enlace y sobrescribe bien el resto de una corrida cortada; lo comprobé con sondas_r2g.py y sondas_r2h.py; si el temporal es una carpeta, falla con IsADirectoryError y el origen queda intacto, que es aceptable); R2G-02 resuelto (con openspec/changes o openspec enlazados migrar no mueve ni borra nada y avisa; un origen enlazado excluye sólo a ese cambio y el resto se migra, sin tocar lo apuntado); R2G-03 resuelto (la carpeta sin registro y el factory.json ajeno se avisan y migrar y migrar --verificar terminan con 0; un enlace o un conflicto sí dan código 1, comprobado con la CLI real).",
+    "Regresiones: repetí la migración de 3f08ff9 con el código de 98b8943: 22 archivos, byte a byte los mismos que la migración anterior; el estado de los 16 cambios es el mismo antes y después, salvo las rutas citadas de la línea «Oracle»; la segunda ejecución no hace nada (código 0); el barrido de 20 cortes (sondas_r2h_base.py, test_f_01) sigue convergiendo, ahora también con restos .migracion. La guía describe lo que hace el código (enlace o conflicto: código distinto de cero; lo que no sabe mover: se deja y se avisa). La validación laxa de la configuración se deja como está a propósito: config_proyecto no cambió.",
+    "Mutaciones (mutaciones3.py, 10): murieron 6; sobreviven M1, M3, M4 y M9 más el control M10 (que no cambia nada). M1, M3 y M4 son equivalentes porque el código tiene dos defensas para lo mismo; M9 es el hueco de pruebas de R2H-01."
+  ]
+}
