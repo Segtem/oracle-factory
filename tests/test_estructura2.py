@@ -154,6 +154,8 @@ class Estructura2(unittest.TestCase):
         for m in movimientos:  # se corta aquí: lo nuevo escrito, lo viejo sin borrar
             migracion._escribir_atomico(m['destino'], m['bytes'])
         self.assertTrue((self.root / 'openspec/changes' / ident / 'factory.json').exists())
+        # con el estado en los dos lugares, el vigente es el nuevo
+        self.assertEqual(f.ruta_registro(self.root / 'openspec/changes' / ident), self.root / '.factory/cambios' / ident / 'factory.json')
         self.assertEqual(self.migrar()[0], 0)
         for nombre in ESTADO:
             self.assertFalse((self.root / 'openspec/changes' / ident / nombre).exists(), nombre)
@@ -168,6 +170,12 @@ class Estructura2(unittest.TestCase):
         self.assertEqual({k: v for k, v in self.archivos_estado().items() if k.startswith('openspec')},
                          {k: v for k, v in antes.items() if k.startswith('openspec')})
         self.assertEqual(self.migrar()[0], 0)  # y la corrida siguiente termina el trabajo
+
+    def test_s4_el_registro_es_lo_ultimo_que_se_escribe(self):
+        ident = self.cambio_juzgado()
+        self.a_lugar_anterior(ident)
+        nombres = [m['destino'].name for m in migracion.planear(self.root)[0] if m['cambio'] == ident]
+        self.assertEqual(nombres[-1], 'factory.json')  # un corte antes de él deja el registro viejo, que sigue siendo el vigente
 
     def test_s4_estado_en_los_dos_lugares_con_contenido_distinto(self):
         ident = self.cambio_juzgado()

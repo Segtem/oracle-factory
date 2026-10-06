@@ -21,7 +21,7 @@ CONTRACTS = {
                                                         's3_vista_previa_no_escribe_y_falla_mientras_haya_algo'],
     'migrar_no_pierde_ni_pisa_nada': ['s4_segunda_ejecucion_no_cambia_nada', 's4_interrupcion_despues_de_escribir_y_antes_de_borrar',
                                       's4_corte_a_mitad_de_la_escritura_deja_el_viejo_entero',
-                                      's4_estado_en_los_dos_lugares_con_contenido_distinto'],
+                                      's4_estado_en_los_dos_lugares_con_contenido_distinto', 's4_el_registro_es_lo_ultimo_que_se_escribe'],
     'la_migracion_conserva_el_significado': ['s5_estado_y_huella_iguales_antes_y_despues'],
     'la_configuracion_del_proyecto_vive_en_factory': ['s6_init_crea_la_configuracion_en_factory', 's6_configuracion_en_factory_manda',
                                                       's6_configuracion_en_la_raiz_se_respeta_y_se_avisa', 's6_migrar_pasa_la_configuracion'],
