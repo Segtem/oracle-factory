@@ -2,7 +2,7 @@
   "id": "20261006-161029-archivar-al",
   "titulo": "Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/",
   "capacidad": "archivo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md",
   "spec_sha256": "3abf11dafefea3bc7233d8fc560ae9be342e0e2366e94f9023c4e673f7f0969b",
   "spec_aprobada": {
@@ -438,6 +438,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "31b8f4fcb5b709de2517da7e1e3a678df9199d36aeacc88c79ee476e8473ca5d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T23:30:58+00:00",
+      "oracle": ".factory/cambios/20261006-161029-archivar-al/oracle-veredicto.txt",
+      "revision": "tareas/20261006-161029-archivar-al/revisiones/registro-nm6_wfan/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T23:30:58+00:00",
+      "capacidad": "archivo",
+      "spec": "openspec/specs/archivo/spec.md"
     }
   ],
   "tipos": {
@@ -507,5 +527,17 @@
       "sha256": "61d547f4b1d51ed144105cea1ca78e076dd52d99e9455e25744d30f5c8c5e480"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-06T23:30:58+00:00"
+  },
+  "archivo": {
+    "capacidad": "archivo",
+    "spec": "openspec/specs/archivo/spec.md",
+    "cuando": "2026-10-06T23:30:58+00:00"
+  }
 }
