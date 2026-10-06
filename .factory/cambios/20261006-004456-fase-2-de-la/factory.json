@@ -68,6 +68,118 @@
         "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
         "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:35+00:00",
+      "requisito": "estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory",
+      "medidas": [
+        "factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando",
+      "medidas": [
+        "factory_estructura2.un_proyecto_no_migrado_sigue_funcionando",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido",
+      "medidas": [
+        "factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "medidas": [
+        "factory_estructura2.migrar_no_pierde_ni_pisa_nada",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado",
+      "medidas": [
+        "factory_estructura2.la_migracion_conserva_el_significado",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory",
+      "medidas": [
+        "factory_estructura2.la_configuracion_del_proyecto_vive_en_factory",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares",
+      "medidas": [
+        "factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-06T00:57:36+00:00",
+      "requisito": "estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado",
+      "medidas": [
+        "factory_estructura2.este_repositorio_queda_migrado_y_verificado",
+        "factory_estructura2.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -81,5 +193,54 @@
     "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory": {
+      "sha256": "6371e276f910921f41a5193f9c75cfb4ca258a99a2877f8be4b095e105d4da25",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:35+00:00"
+    },
+    "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando": {
+      "sha256": "815c75416dcc356a06788ea28146773d8965b43905e29562b2a88752056b23fd",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido": {
+      "sha256": "408145608f50b3a926a4baa65bef4af844b40adea20753810b5cbc8fde3aab5a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada": {
+      "sha256": "9ea9de2d35c9899c743ea1513704da3e6bb4bc1d36ff619553735dc6037f87a2",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado": {
+      "sha256": "071db619906515c10b30faaf3496121a5344865a20358b34cd18babe38fdbc94",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory": {
+      "sha256": "97cb735e29f9423c5d77c88b60048378887ccf8872f2fce39f05be41f69c4af3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares": {
+      "sha256": "f329062aebc9d21c5c2cd9febeb0757d87df84f429486db44a2ecb44da9b7787",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    },
+    "estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado": {
+      "sha256": "0494fe1a64498f61eaf3553374dd75b434c9bac9393807f66b9827c2dc511f07",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-06T00:57:36+00:00"
+    }
+  }
 }

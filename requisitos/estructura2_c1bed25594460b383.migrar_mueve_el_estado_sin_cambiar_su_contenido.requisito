@@ -1,4 +1,4 @@
 requisito estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido:
     texto "Tipo: funcional `oracle-factory migrar` SHALL mover el estado de todos los cambios a `.factory/cambios/<ID>/`, reescribir en cada registro sólo las rutas que citan los archivos movidos, y no tocar ningún otro byte; con `--verificar` SHALL informar qué movería sin escribir."
     fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#migrar mueve el estado sin cambiar su contenido"
-    sin_medir "sin medida todavía; escenarios: «migración completa», «vista previa»"
+    medido_por factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido, factory_estructura2.corrida_completa

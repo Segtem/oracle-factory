@@ -1,4 +1,4 @@
 requisito estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory:
     texto "Tipo: funcional La configuración SHALL leerse de `.factory/config.json`; si sólo existe el `factory.json` de la raíz SHALL leerse de ahí con un aviso, y `migrar` SHALL pasarla al lugar nuevo."
     fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#la configuración del proyecto vive en .factory"
-    sin_medir "sin medida todavía; escenarios: «configuración en la raíz», «configuración en .factory»"
+    medido_por factory_estructura2.la_configuracion_del_proyecto_vive_en_factory, factory_estructura2.corrida_completa

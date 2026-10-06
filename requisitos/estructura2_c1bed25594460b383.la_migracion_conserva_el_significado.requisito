@@ -1,4 +1,4 @@
 requisito estructura2_c1bed25594460b383.la_migracion_conserva_el_significado:
     texto "Tipo: no funcional Después de migrar, `estado` de cada cambio SHALL decir lo mismo que antes (salvo las rutas), y las revisiones y los veredictos registrados SHALL seguir vigentes, porque la huella del producto no cambia."
     fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#la migración conserva el significado"
-    sin_medir "sin medida todavía; escenarios: «cambio cerrado»"
+    medido_por factory_estructura2.la_migracion_conserva_el_significado, factory_estructura2.corrida_completa
