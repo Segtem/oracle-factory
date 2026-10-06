@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-87ffa53",
+  "base": "98b8943fcfab5c504b1de1e53103d4043a651dbd",
+  "head": "87ffa5366a91428875c384a7a57b91f99f0e0e04",
+  "diff_sha256": "2d8ce9b2aeba4bd963a8011d00b734d63066038bf6403f3947a45a1808e88e6a",
+  "context_sha256": "ad7953c442bfa622b28b139a17b0adae751881e79c16253fb677645c07d20539",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-opus-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2I-01",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Ninguna prueba exige que `migrar` no avise de la huella cuando no mueve un factory.json de la raíz",
+      "explanation": "La prueba s3_aviso_de_huella_al_aplicar_la_configuracion_de_la_raiz comprueba que el aviso sale cuando se mueve la configuración de la raíz, pero ninguna comprueba lo contrario. Con la mutación M10 (imprimir el aviso siempre al aplicar) las 24 pruebas de estructura2 siguen pasando. En un proyecto sin factory.json en la raíz, como este repositorio, ese aviso falso diría que las revisiones vencieron cuando la huella no cambió. Es la única mutación sobreviviente que no es equivalente. El código actual está bien: la migración de los 13 cambios de este repositorio no emite el aviso.",
+      "location": {
+        "file": "tests/test_estructura2.py",
+        "start_line": 233,
+        "end_line": 242,
+        "side": "head"
+      },
+      "trigger": "Mutar en cli.py la condición del aviso de huella al aplicar a «if True:» y correr tests.test_estructura2.",
+      "evidence": "Verificado: mutaciones4.salida.txt (M10 sobrevive).",
+      "related_requirement": "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado",
+      "status": "pendiente",
+      "verification": "Caso que falta: migrar (sin --verificar) un proyecto con estado en el lugar anterior y sin factory.json en la raíz, y exigir que la salida no contenga «huella». Basta con agregar esa aserción a s3_migrar_mueve_el_estado_y_solo_reescribe_las_rutas_citadas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre 87ffa53: suite (193 OK); tools/verify_estructura2.py --salida revision-r2/evidencia-estructura2-87ffa53 --antes 3f08ff9 --excluir 20261006-004456-fase-2-de-la (24 casos, éxito); oracle cobertura --con esos hechos (rc 0, los 8 requisitos estructura2_… con ✓ cumple); verify_modos (27) y verify_collaboration (rc 0). No corrí vigencia, estructura, portabilidad, limpieza ni revisión guiada, ni los arneses de release, de Docker ni verify_guide. No probé Windows ni Python 3.11 o 3.12.",
+    "R2H-01 resuelto: la prueba s4_un_origen_enlazado_no_se_sigue_ni_se_borra exige ahora que el cambio con el problema no tenga nada en .factory/cambios/<ID> y conserve su estado en el lugar anterior; la mutación M9 (mover el cambio a medias) muere. R2H-02 resuelto: con la CLI real, una carpeta de cambio que es un enlace da «Aviso: … es un enlace simbólico: no lo sigo» y código 1; la mutación M11 (sin el aviso) muere.",
+    "Mutaciones sobrevivientes (mutaciones4.py, 11 mutaciones, 7 muertas). M1, M3 y M4 son equivalentes porque hay dos defensas para lo mismo, no por falta de pruebas. M1 (crear el temporal sin O_EXCL|O_NOFOLLOW): el nombre del temporal se borra justo antes, así que O_NOFOLLOW sólo protege de una carrera en la que alguien crea el enlace entre el borrado y la apertura, y no se puede probar sin concurrencia. M3 (no rechazar openspec/changes enlazado): la comprobación de cada origen con _enlazado ve el mismo enlace en su camino y excluye todos los cambios, con código 1. M4 (no mirar el camino del origen): cada componente ya está cubierto por otra comprobación (openspec y openspec/changes por la de M3, la carpeta del cambio por R2H-02, el archivo por origen.is_symlink()). M10 sí es una prueba que falta (R2I-01). La mutación M10 de la vuelta anterior era un control sin efecto; esta vez la reemplacé por la real.",
+    "Regresiones: ninguna. La migración de 3f08ff9 con el código de 87ffa53 da los mismos 22 archivos; el estado de los 16 cambios es igual salvo la ruta de la línea «Oracle»; los 20 cortes de interrupción convergen sin temporales; las sondas de enlaces de las vueltas anteriores (destino, temporal, origen, openspec/changes y openspec) siguen dando lo correcto.",
+    "Lo dejaría como límite declarado, sin corregir: M1 (la carrera en el temporal, porque requiere concurrencia y la defensa existe) y la validación laxa del contenido de la configuración de la raíz (decisión del autor; config_proyecto no cambió). R2I-01 se cierra con una aserción en una prueba existente."
+  ]
+}

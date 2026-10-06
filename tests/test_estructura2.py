@@ -123,6 +123,7 @@ class Estructura2(unittest.TestCase):
         esperado = {n: (self.root / '.factory/cambios' / ident / n).read_bytes() for n in ESTADO}
         self.a_lugar_anterior(ident)
         self.assertEqual(self.migrar(), (0, ''))
+        self.assertNotIn('huella', self.stdout.getvalue())  # sin factory.json en la raíz la huella no cambia: no se avisa
         for nombre in ESTADO:
             self.assertEqual((self.root / '.factory/cambios' / ident / nombre).read_bytes(), esperado[nombre], nombre)
             self.assertFalse((self.root / 'openspec/changes' / ident / nombre).exists(), nombre)

@@ -96,6 +96,8 @@ oracle-factory migrar                # lo mueve; no hace commits
 ## Límites declarados
 
 - **`tareas/` y su evidencia no se mueven**: la evidencia anterior a la estructura sigue en `tareas/<ID>/evidencia-*` y `donde` la lista como histórica.
+- **`migrar` no juzga el contenido de la configuración**: mueve el `factory.json` de la raíz si sus claves son las de Factory, aunque un valor sea inválido; `config_proyecto` lo rechaza igual en el lugar nuevo, como antes en la raíz.
+- **`migrar` no se defiende de otro proceso que cree enlaces mientras corre**: borra el nombre del temporal y lo abre sin seguir enlaces, pero no se prueba con concurrencia.
 - **Sólo Linux, probado.** No se probó en Windows ni con otras versiones de Python que la del entorno de desarrollo.
 - **`.factory/` entera queda fuera de la huella del producto**, por decisión de la spec: lo que Factory produce (evidencia, paquetes, informes) no invalida una revisión. Otra herramienta que use una carpeta `.factory` en el mismo proyecto se tomaría como propia; la carpeta personal y los enlaces simbólicos nunca cuentan como raíz.
 - **`buscar` y `donde` no rechazan un enlace simbólico en otro lugar** (por ejemplo `openspec/` o `tareas/` enlazados): son de sólo lectura y el enlace lo puso quien trabaja en el proyecto. Sí rechazan que `.factory` sea un enlace.
