@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-abd0190",
+  "base": "3f08ff9854660bae6471b152d4a34db0553d2f0c",
+  "head": "abd0190daf59901dffc435b8bf65304380554e1b",
+  "diff_sha256": "e118eb0ca477ce95b489a47d06d100cbafcd1a0459b96176595aec8b4861d489",
+  "context_sha256": "607ce08657965e27674800e5f7e7999d339c0e04d008c3d6b6967b0be94b1301",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos. Este paquete es sólo la migración de los datos (44 archivos: 22 borrados del lugar anterior y 22 creados en .factory/cambios/). Verifiqué los datos de la forma más directa: repetí la migración sobre una copia independiente de 3f08ff9 con el código de 1447f60 y comparé con lo que el autor dejó en abd0190 y en 1447f60: los 22 archivos son byte a byte iguales; migrar no deja nada más fuera de los 22 (git status de la copia sólo muestra .factory/ y openspec/changes/<ID>/{factory.json, review.md, oracle-veredicto.txt}); tareas/ queda sin cambios (git diff main..abd0190 sobre tareas/ no tiene modificaciones ni borrados de archivos preexistentes).",
+    "En los 13 registros la única diferencia con el registro viejo son las 12 citas «openspec/changes/<ID>/review.md» y «…/oracle-veredicto.txt» reescritas a «.factory/cambios/<ID>/…»; review.md y oracle-veredicto.txt movidos tienen los mismos bytes que los originales. El estado de cada uno de los 16 cambios dice lo mismo antes y después (sólo cambian la línea del aviso de «lugar anterior» y la ruta de la línea «Oracle»), la huella del producto es la misma (32004ebc…) y el contenido del veredicto no cambió.",
+    "Lo que no comprobé en este paquete: que el commit del autor quede exactamente en abd0190 sin otros archivos (sólo comparé los 22 archivos y el árbol de la copia, no el contenido de Git); y no repetí la migración en otra máquina ni en Windows."
+  ]
+}

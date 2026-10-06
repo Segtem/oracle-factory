@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-3f08ff9",
+  "base": "404a6972a03e83b0102da0ed61bac6191af8d54d",
+  "head": "3f08ff9854660bae6471b152d4a34db0553d2f0c",
+  "diff_sha256": "8f5fa2482d0f7b7f2743039ea0929d676171961dd185ce73ae2eb30d88603791",
+  "context_sha256": "67c290385751a909fa98b2080ff85870459f57bac65c2f3ff9ae283b48d02dd1",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [
+    {
+      "id": "R2F-01",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "`migrar` escribe fuera del proyecto si `.factory/cambios/<ID>` es un enlace simbólico",
+      "explanation": "planear comprueba que .factory no sea un enlace y que el archivo de destino no lo sea, pero no que lo sea la carpeta .factory/cambios/<ID> (ni .factory/cambios). _escribir_atomico hace destino.parent.mkdir(parents=True) y os.replace, que siguen el enlace, de modo que los tres archivos de estado (factory.json, review.md, oracle-veredicto.txt) se crean en la carpeta a la que apunta. El estado de un cambio viene del repositorio y un enlace puede venir versionado en un clon: quien corra migrar sobre un repositorio ajeno escribe esos tres nombres, con contenido del repositorio, en cualquier carpeta que el enlace elija (sobrescribe si ya existen). leer y las demás rutas de Factory sí pasan por ruta_segura, que rechaza enlaces; migracion.py no la usa. Después, migrar borra los archivos viejos como si todo hubiera salido bien.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 52,
+        "end_line": 54,
+        "side": "head"
+      },
+      "trigger": "Un enlace simbólico en .factory/cambios/<ID> hacia otra carpeta, y correr migrar con el estado en openspec/changes/<ID>/.",
+      "evidence": "Verificado: sondas_r2f.py (carpeta revision-r2), salida en sondas_r2f.salida.txt, test_f_02 (caso d): con .factory/cambios/<ID> enlazado a una carpeta externa, migrar escribió allí factory.json, oracle-veredicto.txt y review.md.",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Correr test_f_02. Corrección: validar con ruta_segura cada destino (o resolver y exigir que quede dentro de .factory/cambios/ del proyecto) y rechazar el cambio con un aviso."
+    },
+    {
+      "id": "R2F-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "`migrar` termina con UnboundLocalError si el destino es un enlace simbólico y es el primer archivo del plan",
+      "explanation": "En planear, la rama «destino.is_symlink()» añade el problema y el cambio a «malos» pero no hace continue; la ejecución llega a movimientos.append(... estado) con la variable «estado» sin asignar (o con la del archivo anterior, que luego se descarta por «malos»). Si es el primer archivo que se procesa, el comando termina con un traceback, que main no captura (sólo FactoryError, OSError, JSONDecodeError y EOFError), y no migra ningún cambio, ni siquiera los que estaban bien. El mensaje «es un enlace simbólico» que el código quiere dar no llega a verse. Ninguna prueba cubre un destino enlazado (la spec lo pide en «rechazar»).",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 54,
+        "end_line": 70,
+        "side": "head"
+      },
+      "trigger": "Un enlace simbólico como .factory/cambios/<ID>/review.md con el viejo review.md en openspec/changes/<ID>/ y ese cambio como primero del plan.",
+      "evidence": "Verificado: sondas_r2f.py (carpeta revision-r2), salida en sondas_r2f.salida.txt, test_f_02 (caso b) y con la CLI real (migrar termina con «UnboundLocalError: cannot access local variable 'estado'…»).",
+      "related_requirement": "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+      "status": "pendiente",
+      "verification": "Correr test_f_02 o repetir el último comando de la sección «CLI real». Corrección: agregar continue tras malos.add(cambio) y una prueba con un destino enlazado."
+    },
+    {
+      "id": "R2F-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "`migrar` sólo avisa del cambio de huella con `--verificar`; al aplicar mueve `factory.json` de la raíz sin decir que vence las revisiones",
+      "explanation": "El aviso «factory.json de la raíz es parte del producto: moverlo cambia la huella y vence las revisiones vigentes» está sólo en la rama --verificar de comando_migrar. Al aplicar, la salida es «Migrados N archivos…» sin ese aviso. Verifiqué que mover un factory.json de la raíz cambia la huella (05f26b92… → 32004ebc…) y deja «revision desactualizado respecto del producto; oracle desactualizado» en un cambio que estaba vigente. En este repositorio no pasa (no tenía factory.json en la raíz: la huella queda igual), pero sí en cualquier proyecto con configuración en la raíz que migre sin pasar antes por --verificar. La spec pide que la migración conserve la vigencia salvo ese caso, y el diseño lo trata como advertencia.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 980,
+        "end_line": 984,
+        "side": "head"
+      },
+      "trigger": "Proyecto con factory.json en la raíz, revisión y veredicto vigentes; correr migrar sin --verificar.",
+      "evidence": "Verificado: salida de migrar (apply) sin aviso, huella distinta antes y después, y estado con «desactualizado» (comandos en revision-r2/fase2-tmp3).",
+      "related_requirement": "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado",
+      "status": "pendiente",
+      "verification": "Repetir los comandos en fase2-tmp3 (copia del proyecto con un factory.json de raíz). Corrección: imprimir el aviso también al aplicar (o pedir confirmación), y mencionarlo en la guía."
+    },
+    {
+      "id": "R2F-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.8,
+      "title": "`migrar` mueve cualquier `factory.json` de la raíz a `.factory/config.json` y un `review.md` suelto de una carpeta sin registro, sin validarlos",
+      "explanation": "La configuración se mueve por nombre, sin comprobar que sea la de Factory: un factory.json ajeno (por ejemplo {\"name\": \"x\", \"version\": 3}) se traslada a .factory/config.json, donde ya no es el archivo que otra herramienta esperaba en la raíz. Aunque Factory ya fallaría con ese archivo (config_proyecto rechaza claves desconocidas), migrar no lo avisa. Lo mismo pasa con una carpeta de openspec/changes/ con nombre de ID que sólo tiene review.md u oracle-veredicto.txt y no tiene factory.json: se mueven los archivos sin registro y el cambio no existe para Factory. Sí se saltan en silencio las carpetas cuyo nombre no es un ID y los enlaces.",
+      "location": {
+        "file": "oracle_factory/migracion.py",
+        "start_line": 46,
+        "end_line": 48,
+        "side": "head"
+      },
+      "trigger": "factory.json con otro contenido en la raíz, o una carpeta con nombre de ID sin factory.json pero con review.md.",
+      "evidence": "Verificado: sondas_r2f.py (carpeta revision-r2), salida en sondas_r2f.salida.txt, test_f_03 («mueve un factory.json ajeno a .factory/config.json: True; problemas: []») y test_f_02 (caso e).",
+      "related_requirement": "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory",
+      "status": "pendiente",
+      "verification": "Correr test_f_02 y test_f_03. Corrección: comprobar con config_proyecto-equivalente antes de mover, y no mover archivos de cambios sin registro (avisar)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sobre 1447f60 (el código de migracion.py y cli.py es el mismo que en 3f08ff9, porque abd0190 y 1447f60 sólo cambian datos, catálogos, verificador y una prueba): suite (185 OK); tools/verify_estructura2.py --salida revision-r2/evidencia-estructura2-1447f60 --antes 3f08ff9 --excluir 20261006-004456-fase-2-de-la (16 casos, éxito; estados en el lugar anterior: ninguno; tareas tocadas: ninguna; estados distintos: ninguno); verify_modos (27), verify_vigencia (13), verify_estructura (32) y verify_collaboration (rc 0, C1–C9), todos en verde; oracle cobertura --con los hechos de estructura2: rc 0, pero los 8 requisitos estructura2_… salen «sin medir» en este commit (las medidas se asocian en commits posteriores, así que no pude comprobar «cumple»). No corrí portabilidad, limpieza ni revisión guiada, ni los arneses de release, de Docker ni verify_guide.",
+    "Punto 1 (estado antes y después): copié 3f08ff9 (13 cambios en el lugar anterior) y migré la copia con el código de 1447f60. El estado de los 16 cambios es idéntico antes y después, salvo la línea «Aviso: … está en el lugar anterior …» (stderr) y la línea «Oracle: código 0 (<ruta>)», que cambia sólo la ruta en los 6 cambios con veredicto. La huella del producto es la misma (32004ebc…) y la segunda corrida no hace nada. Los 22 archivos migrados son byte a byte los del commit del autor; en los 13 registros las únicas diferencias con el viejo son las 12 citas de review.md y oracle-veredicto.txt; review.md y oracle-veredicto.txt movidos son idénticos al original; tareas/ no cambió (revisión de la parte B abajo).",
+    "Punto 3 (interrupción): provoqué un corte (KeyboardInterrupt) en cada una de las 20 operaciones de escritura y borrado de una migración de 3 cambios con configuración (sondas_r2f.py, test_f_01). En todos los puntos el estado se sigue leyendo (el vigente es el viejo hasta que existe el registro nuevo, y el nuevo desde entonces), la segunda corrida converge al mismo resultado que la migración sin cortes, no queda ningún archivo .migracion y no hay duplicados. Con el estado en los dos lugares y contenido distinto, migrar avisa de ese cambio, no toca sus archivos y mueve el resto. Destino carpeta: rechazado. Falla: R2F-01 y R2F-02.",
+    "Punto 4 (sitios que leen el estado): en cli.py y estructura.py todos los accesos pasan por ruta_registro, dir_estado o registro_de (más migracion.py y las constantes de contexto_producto); la regla de contexto_producto que excluye openspec/changes/<ID>/{factory.json,review.md,oracle-veredicto.txt} se mantiene para los proyectos sin migrar. leer, guardar, revisar, juzgar, medir y nuevo escriben donde está el registro (el nuevo si existe, el anterior si sólo está ahí), y con los dos lugares gana el nuevo de forma coherente al leer y al escribir; no encontré pérdida de estado. Punto 5: con .factory/config.json válido y factory.json de la raíz inválido se usa el primero; con el primero inválido falla con JSONDecodeError (FACTORY BLOQUEADA) aunque la raíz sea válida; init en un proyecto con factory.json en la raíz no crea config.json y el aviso dice cómo migrarla. Punto 6: tools/limpiar_rutas.py ve los dos lugares (probé restos() y planear() con una ruta absoluta en .factory/cambios); verify_contracts, verify_collaboration, verify_guide, verify_installed y verify_maquinas leen el lugar nuevo (los dos últimos sólo crean proyectos nuevos) y verify_limpieza y verify_estructura2 comparan estado con ambos.",
+    "Punto 7 (spec, guía y pruebas): las pruebas s1–s7 corresponden a los escenarios de la spec; el requisito «este repositorio queda migrado» no tiene prueba unitaria, lo cubre el verificador. Faltan pruebas de un destino enlazado o de una carpeta de cambio enlazada (R2F-01 y R2F-02) y del aviso de huella al aplicar (R2F-03). docs/estructura.md describe el comportamiento real, salvo que la frase sobre el orden de escritura se cumple (lo comprobé con los 20 cortes) y no menciona la huella al migrar la configuración.",
+    "No probé Windows, Python 3.11 ni 3.12, ni un proyecto con millares de cambios."
+  ]
+}

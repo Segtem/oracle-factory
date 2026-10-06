@@ -138,6 +138,22 @@ class Estructura2(unittest.TestCase):
         self.migrar()
         self.assertEqual(self.migrar(verificar=True)[0], 0)
 
+    def test_s3_aviso_de_huella_al_aplicar_la_configuracion_de_la_raiz(self):
+        (self.root / '.factory/config.json').unlink()
+        (self.root / 'factory.json').write_text(json.dumps({'tipos_obligatorios': True}))
+        self.migrar()
+        self.assertIn('huella', self.stdout.getvalue())
+
+    def test_s3_carpeta_sin_registro_no_se_toca(self):
+        huerfana = self.root / 'openspec/changes/20260101-000000-sin-registro'
+        huerfana.mkdir()
+        (huerfana / 'review.md').write_text('no es de un cambio de Factory\n')
+        codigo, errores = self.migrar()
+        self.assertEqual(codigo, 1)
+        self.assertIn('sin-registro', errores)
+        self.assertEqual((huerfana / 'review.md').read_text(), 'no es de un cambio de Factory\n')
+        self.assertFalse((self.root / '.factory/cambios/20260101-000000-sin-registro').exists())
+
     # --- s4: migrar no pierde ni pisa nada -------------------------------------------------------------------------------------
     def test_s4_segunda_ejecucion_no_cambia_nada(self):
         ident = self.cambio_juzgado()
@@ -176,6 +192,23 @@ class Estructura2(unittest.TestCase):
         self.a_lugar_anterior(ident)
         nombres = [m['destino'].name for m in migracion.planear(self.root)[0] if m['cambio'] == ident]
         self.assertEqual(nombres[-1], 'factory.json')  # un corte antes de él deja el registro viejo, que sigue siendo el vigente
+
+    def test_s4_un_destino_enlazado_no_se_sigue(self):
+        ident = self.cambio_juzgado()
+        otro = f.nuevo('Otra nota', 'otra')
+        for i in (ident, otro):
+            self.a_lugar_anterior(i)
+        ajena = Path(self.tmp.name) / 'ajena'
+        ajena.mkdir()
+        carpeta = self.root / '.factory/cambios' / ident
+        carpeta.rmdir()  # a_lugar_anterior la dejó vacía; el enlace ocupa su lugar
+        carpeta.symlink_to(ajena)
+        codigo, errores = self.migrar()  # el enlace es el primer destino del plan: no debe romper ni escribir afuera
+        self.assertEqual(codigo, 1)
+        self.assertIn('enlace simbólico', errores)
+        self.assertEqual(list(ajena.iterdir()), [])
+        self.assertTrue((self.root / 'openspec/changes' / ident / 'factory.json').is_file())  # el viejo, entero
+        self.assertTrue((self.root / '.factory/cambios' / otro / 'factory.json').is_file())  # el otro sí se migró
 
     def test_s4_estado_en_los_dos_lugares_con_contenido_distinto(self):
         ident = self.cambio_juzgado()
@@ -237,6 +270,16 @@ class Estructura2(unittest.TestCase):
         self.migrar()
         self.assertEqual(json.loads((self.root / '.factory/config.json').read_text()), {'tipos_obligatorios': True})
         self.assertFalse((self.root / 'factory.json').exists())
+
+    def test_s6_un_factory_json_que_no_es_configuracion_no_se_mueve(self):
+        (self.root / '.factory/config.json').unlink()
+        ajeno = json.dumps({'name': 'otra herramienta'})
+        (self.root / 'factory.json').write_text(ajeno)
+        codigo, errores = self.migrar()
+        self.assertEqual(codigo, 1)
+        self.assertIn('no es una configuración de Factory', errores)
+        self.assertEqual((self.root / 'factory.json').read_text(), ajeno)
+        self.assertFalse((self.root / '.factory/config.json').exists())
 
     # --- s7: los comandos de lectura entienden los dos lugares ---------------------------------------------------------------------
     def test_s7_lectura_con_cambios_en_los_dos_lugares(self):

@@ -981,6 +981,9 @@ def comando_migrar(verificar: bool) -> None:
         if movimientos or problemas:
             raise SystemExit(1)
         return
+    if any(m["origen"].name == "factory.json" and m["origen"].parent == ROOT for m in movimientos):
+        print("Aviso: factory.json de la raíz es parte del producto: moverlo cambia la huella y vence las revisiones vigentes; "
+              "hay que volver a preparar y registrar la revisión de los cambios abiertos.")
     hechos = migracion.aplicar(movimientos)
     cambios = sorted({m["cambio"] for m in movimientos})
     print(f"Migrados {hechos} archivos de {len(cambios)} cambios y configuración. No hice commits: revisá con git status y confirmalos.")

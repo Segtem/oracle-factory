@@ -6,6 +6,7 @@ movidos. Escribe lo nuevo antes de borrar lo viejo, y el registro al final: una 
 """
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
@@ -13,6 +14,25 @@ from . import estructura
 
 ESTADO = ('review.md', 'oracle-veredicto.txt', 'factory.json')  # el registro va último
 ID_RE = estructura.ID_RE
+CLAVES_CONFIG = {'modo_por_defecto', 'tipos_obligatorios'}
+
+
+def _enlazado(raiz: Path, ruta: Path) -> Path | None:
+    """El primer enlace simbólico en el camino de `ruta` bajo `raiz`, que no se debe seguir al escribir."""
+    actual = raiz
+    for parte in ruta.relative_to(raiz).parts:
+        actual = actual / parte
+        if actual.is_symlink():
+            return actual
+    return None
+
+
+def _es_configuracion(ruta: Path) -> bool:
+    try:
+        datos = json.loads(ruta.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return False
+    return isinstance(datos, dict) and set(datos) <= CLAVES_CONFIG
 
 
 def _reescrito(contenido: bytes, ident: str) -> bytes:
@@ -39,22 +59,34 @@ def planear(raiz: Path) -> tuple[list[dict], list[str]]:
         for carpeta in sorted(cambios.iterdir()):
             if not ID_RE.fullmatch(carpeta.name) or carpeta.is_symlink():
                 continue
+            registro_presente = (carpeta / 'factory.json').is_file() or (raiz / estructura.DIR / 'cambios' / carpeta.name / 'factory.json').is_file()
+            if not registro_presente:  # sin registro no es un cambio de Factory: no se mueve nada de esa carpeta
+                huerfanos = [n for n in ESTADO if (carpeta / n).exists()]
+                if huerfanos:
+                    problemas.append(f'{carpeta.relative_to(raiz)} tiene {", ".join(huerfanos)} pero ningún registro: no los toco')
+                continue
             for nombre in ESTADO:
                 origen = carpeta / nombre
                 if origen.is_file() and not origen.is_symlink():
                     pares.append((carpeta.name, origen, raiz / estructura.DIR / 'cambios' / carpeta.name / nombre, nombre))
     config = raiz / 'factory.json'
     if config.is_file() and not config.is_symlink():
-        pares.append(('configuración', config, raiz / estructura.DIR / 'config.json', 'config'))
+        if _es_configuracion(config):
+            pares.append(('configuración', config, raiz / estructura.DIR / 'config.json', 'config'))
+        else:
+            problemas.append('factory.json de la raíz no es una configuración de Factory (sólo modo_por_defecto y '
+                             'tipos_obligatorios): no lo toco')
     if (raiz / estructura.DIR).is_symlink():
         return [], [f'{estructura.DIR} es un enlace simbólico: no migro a través de él']
     malos: set[str] = set()
     for cambio, origen, destino, nombre in pares:
         esperado = _esperado(origen, nombre, cambio)
-        if destino.is_symlink():
-            problemas.append(f'{destino.relative_to(raiz)} es un enlace simbólico')
+        enlace = _enlazado(raiz, destino)
+        if enlace is not None:  # ni el archivo ni ninguna carpeta del camino: escribir a través de un enlace sale del proyecto
+            problemas.append(f'{enlace.relative_to(raiz)} es un enlace simbólico: no escribo a través de él')
             malos.add(cambio)
-        elif destino.is_file():
+            continue
+        if destino.is_file():
             if destino.read_bytes() == esperado:
                 estado = 'borrar_viejo'
             else:

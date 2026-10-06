@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-fase2-1447f60",
+  "base": "abd0190daf59901dffc435b8bf65304380554e1b",
+  "head": "1447f601bec0db86ad9670e6fb08d238af057f25",
+  "diff_sha256": "1c56621a921741a37e2c44459817a7bc0451958c67607820924cf5dd4de5cc5e",
+  "context_sha256": "cdd9dd6540545bfbbf7da18145caf548821ce1b1f9bf5ba34fa259b1f2239694",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos sobre este paquete (catálogos, tools/verify_estructura2.py y las pruebas de 1447f60). Corrí el verificador con --antes 3f08ff9 --excluir 20261006-004456-fase-2-de-la: 16 casos, éxito; estados en el lugar anterior: ninguno; tareas tocadas: ninguna; estados distintos: ninguno; coincide con lo que reproduje a mano. La suite (185) y verify_modos, verify_vigencia, verify_estructura y verify_collaboration dan éxito.",
+    "Observaciones sin hallazgo: el verificador normaliza en la salida de estado cualquier prefijo absoluto previo a openspec/ o tareas/ y reemplaza «.factory/cambios/» por «openspec/changes/», lo que es más amplio que las rutas de los archivos movidos; no oculta fases, decisiones ni pendientes, que es lo que se compara. El requisito «este repositorio queda migrado» se mide con la fila repositorio_migrado, que depende de ese verificador y no de una prueba unitaria. Con --base main el verificador falla por vigencia (explicado en design.md); necesita --antes. Los 8 requisitos estructura2_… salen «sin medir» con la cobertura de este commit, porque las medidas se asocian después.",
+    "Las pruebas que cambió 1447f60 (el vigente es el nuevo con dos lugares, el registro va último) prueban lo que dicen, y mis 20 cortes confirman el segundo punto en el código. Los vacíos de pruebas están en el paquete A (destinos enlazados, aviso de huella)."
+  ]
+}

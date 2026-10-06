@@ -1,6 +1,6 @@
 medida factory_estructura2.corrida_completa:
     de estructura2_corrida c
-    donde c.completa == 1 y c.casos == 16
+    donde c.completa == 1 y c.casos == 20
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas, fuentes estables, ningún estado en el lugar anterior, tareas/ sin cambios y el estado de cada cambio igual respecto de la base"
     requiere estructura2_corrida
