@@ -1,6 +1,6 @@
 # Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -87,3 +87,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-06 12:16:57 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261006-004456-fase-2-de-la/oracle-veredicto.txt.
+
+### Nota (2026-10-06 12:19:43 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

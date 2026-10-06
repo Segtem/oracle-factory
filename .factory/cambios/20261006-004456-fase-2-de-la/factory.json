@@ -2,7 +2,7 @@
   "id": "20261006-004456-fase-2-de-la",
   "titulo": "Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/",
   "capacidad": "estructura2",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md",
   "spec_sha256": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1",
   "spec_aprobada": {
@@ -340,6 +340,16 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "03ae9eb79f2a21e74c13265a451aeae5eb6d8cae2a61a7b3c891fd9eaa6311d2"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T12:19:43+00:00",
+      "oracle": ".factory/cambios/20261006-004456-fase-2-de-la/oracle-veredicto.txt",
+      "revision": "tareas/20261006-004456-fase-2-de-la/revisiones/registro-pbifkn14/informe.json"
     }
   ],
   "tipos": {
@@ -418,5 +428,12 @@
       "sha256": "0494fe1a64498f61eaf3553374dd75b434c9bac9393807f66b9827c2dc511f07"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-06T12:19:43+00:00"
+  }
 }
