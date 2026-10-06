@@ -181,6 +181,20 @@
         "factory_colaboracion.aislamiento_y_sincronizacion_explicitos",
         "factory_colaboracion.corrida_completa"
       ]
+    },
+    {
+      "accion": "rutas_limpiadas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "migracion",
+      "cuando": "2026-10-06T00:03:23+00:00",
+      "requisitos": {
+        "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos": {
+          "anterior": "68db2ca9f399a0ee58ed6ee89247fa0f854fdfafeae08b1c0c0ce28b9024d86a",
+          "nuevo": "b6958203f24c70ec7b1e768c02c032f5cf0a2a7f6034ba6f06adb5da8baae0a0"
+        }
+      }
     }
   ],
   "medidas_pendientes": {},
@@ -191,7 +205,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T16:04:33+00:00",
-      "sha256": "68db2ca9f399a0ee58ed6ee89247fa0f854fdfafeae08b1c0c0ce28b9024d86a"
+      "sha256": "b6958203f24c70ec7b1e768c02c032f5cf0a2a7f6034ba6f06adb5da8baae0a0"
     }
   }
 }
