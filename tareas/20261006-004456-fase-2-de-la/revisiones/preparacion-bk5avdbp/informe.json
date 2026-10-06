@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261006-004456-fase-2-de-la",
+  "contexto": {
+    "head": "708d709cbece68c6dc192a18a43adf8904ef8f31",
+    "archivos_sha256": "f26543d6d4244b054f3b50bbcf5263ccb39172c8f006bd8e238970a4ecf4eb72"
+  },
+  "documentos": {
+    "openspec/changes/20261006-004456-fase-2-de-la/proposal.md": "527c84d6004bf8cfac7c714e3dce42e5204ffc5b3323d143d94fe96a6a93e0c5",
+    "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/migracion.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "tests/test_estructura2.py",
+    "tests/test_estructura.py",
+    "tests/test_guided.py",
+    "tests/test_workflow.py",
+    "tests/test_modos.py",
+    "tests/test_vigencia.py",
+    "tests/test_portabilidad.py",
+    "tests/test_review_guided.py",
+    "tests/test_limpieza.py",
+    "tools/verify_estructura2.py",
+    "tools/limpiar_rutas.py",
+    "tools/verify_limpieza.py",
+    "tools/verify_contracts.py",
+    "tools/verify_collaboration.py",
+    "tools/verify_guide.py",
+    "tools/verify_installed.py",
+    "tools/verify_maquinas.py",
+    "docs/estructura.md",
+    "catalogos/factory_estructura2.corrida_completa.oracle",
+    "catalogos/factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory.oracle",
+    "catalogos/factory_estructura2.este_repositorio_queda_migrado_y_verificado.oracle",
+    "catalogos/factory_estructura2.la_configuracion_del_proyecto_vive_en_factory.oracle",
+    "catalogos/factory_estructura2.la_migracion_conserva_el_significado.oracle",
+    "catalogos/factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares.oracle",
+    "catalogos/factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido.oracle",
+    "catalogos/factory_estructura2.migrar_no_pierde_ni_pisa_nada.oracle",
+    "catalogos/factory_estructura2.un_proyecto_no_migrado_sigue_funcionando.oracle",
+    "openspec/changes/20261006-004456-fase-2-de-la/proposal.md",
+    "openspec/changes/20261006-004456-fase-2-de-la/design.md",
+    "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato c151c5f",
+      "resultado": "cumple",
+      "evidencia": "193 pruebas OK; corrida por el autor y por R2 (evidencia-c151c5f/suite.txt)"
+    },
+    {
+      "descripcion": "Sensor de la fase 2: 24 casos exactos, ningún estado en el lugar anterior, tareas/ sin cambios respecto de main y el estado de los 13 cambios igual antes y después de migrar",
+      "resultado": "cumple",
+      "evidencia": "evidencia-c151c5f/resultado.json (éxito) y oracle cobertura --con hechos.json: los 8 requisitos «cumple»"
+    },
+    {
+      "descripcion": "Migración de este repositorio: 22 archivos de 13 cambios; los registros sólo difieren en las 12 citas de oracle-veredicto.txt y review.md; review.md y oracle-veredicto.txt movidos idénticos; la huella del producto no cambia",
+      "resultado": "cumple",
+      "evidencia": "comprobado por el autor y repetido por R2 sobre una copia (informe-r2-fase2-B.json)"
+    },
+    {
+      "descripcion": "Interrupción de migrar en cada una de las 20 operaciones de escritura y borrado: el estado sigue legible y la corrida siguiente converge sin temporales",
+      "resultado": "cumple",
+      "evidencia": "sondas de R2 (informe-r2-fase2-A.json y siguientes)"
+    },
+    {
+      "descripcion": "Mutaciones a mano: las pruebas fallan con cada una; las que sobreviven son equivalentes (dos defensas para lo mismo)",
+      "resultado": "cumple",
+      "evidencia": "7 + 11 del autor y R2; informe-r2-fase2-F.json"
+    },
+    {
+      "descripcion": "Arneses de modos, vigencia, portabilidad, colaboración (9/9), revisión guiada, Docker entre máquinas (5/5) y los dos de release (wheel instalado y guía) sobre c151c5f",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor"
+    },
+    {
+      "descripcion": "Cuatro vueltas de revisión independiente (R2) en seis informes: 4, 3, 2 y 1 hallazgos (uno de severidad media, R2F-01), todos corregidos",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-fase2-A a F.json, validados con oracle-clue"
+    }
+  ],
+  "limites": [
+    "El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia.",
+    "Sólo Linux; no se probó Windows ni otras versiones de Python.",
+    "migrar no se defiende de otro proceso que cree enlaces mientras corre (borra el nombre del temporal y lo abre sin seguir enlaces, sin prueba de concurrencia).",
+    "migrar no juzga el contenido de la configuración de la raíz que mueve; config_proyecto la rechaza igual en el lugar nuevo.",
+    "La evidencia anterior en tareas/<ID>/evidencia-* no se movió a .factory/cambios/<ID>/candidatos/."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2F-01",
+      "descripcion": "`migrar` escribe fuera del proyecto si `.factory/cambios/<ID>` es un enlace simbólico",
+      "ubicacion": "oracle_factory/migracion.py:52",
+      "evidencia": "R2 (informe-r2-fase2-A.json), severidad media. Corregido en beb4b5d; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2F-02",
+      "descripcion": "`migrar` termina con UnboundLocalError si el destino es un enlace simbólico y es el primer archivo del plan",
+      "ubicacion": "oracle_factory/migracion.py:54",
+      "evidencia": "R2 (informe-r2-fase2-A.json), severidad baja. Corregido en beb4b5d; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2F-03",
+      "descripcion": "`migrar` sólo avisa del cambio de huella con `--verificar`; al aplicar mueve `factory.json` de la raíz sin decir que vence las revisiones",
+      "ubicacion": "oracle_factory/cli.py:980",
+      "evidencia": "R2 (informe-r2-fase2-A.json), severidad baja. Corregido en beb4b5d; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2F-04",
+      "descripcion": "`migrar` mueve cualquier `factory.json` de la raíz a `.factory/config.json` y un `review.md` suelto de una carpeta sin registro, sin validarlos",
+      "ubicacion": "oracle_factory/migracion.py:46",
+      "evidencia": "R2 (informe-r2-fase2-A.json), severidad baja. Corregido en beb4b5d; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2G-01",
+      "descripcion": "`migrar` escribe a través de un enlace simbólico con el nombre del temporal (`<archivo>.migracion`) y deja el destino convertido en un enlace",
+      "ubicacion": "oracle_factory/migracion.py:20",
+      "evidencia": "R2 (informe-r2-fase2-D.json), severidad baja. Corregido en 4916e12; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2G-02",
+      "descripcion": "`migrar` lee y borra archivos a través de un `openspec/changes` (o `openspec`) enlazado",
+      "ubicacion": "oracle_factory/migracion.py:62",
+      "evidencia": "R2 (informe-r2-fase2-D.json), severidad baja. Corregido en 4916e12; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2G-03",
+      "descripcion": "Una carpeta de cambio sin registro o un `factory.json` de la raíz que no es configuración dejan a `migrar` en código 1 para siempre",
+      "ubicacion": "oracle_factory/migracion.py:62",
+      "evidencia": "R2 (informe-r2-fase2-D.json), severidad informativa. Corregido en 4916e12; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2H-01",
+      "descripcion": "Ninguna prueba exige que un cambio con un problema no se mueva a medias",
+      "ubicacion": "oracle_factory/migracion.py:113",
+      "evidencia": "R2 (informe-r2-fase2-E.json), severidad baja. Corregido en 0daa15f; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2H-02",
+      "descripcion": "Una carpeta de cambio que es un enlace simbólico se salta en silencio, y `migrar --verificar` da «0 por migrar» si era la única",
+      "ubicacion": "oracle_factory/migracion.py:61",
+      "evidencia": "R2 (informe-r2-fase2-E.json), severidad baja. Corregido en 0daa15f; R2 lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2I-01",
+      "descripcion": "Ninguna prueba exige que `migrar` no avise de la huella cuando no mueve un factory.json de la raíz",
+      "ubicacion": "tests/test_estructura2.py:233",
+      "evidencia": "R2 (informe-r2-fase2-F.json), severidad baja. Corregido en c151c5f; R2 lo confirmó en la vuelta siguiente."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
