@@ -1,0 +1,180 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261006-161029-archivar-al",
+  "contexto": {
+    "head": "d95610bbd765678f9787b221795da579389e4352",
+    "archivos_sha256": "53384c1697c9992e856c37cd9499d02951b67b5ebd024264eb09ec2ad369d0f5"
+  },
+  "documentos": {
+    "openspec/changes/20261006-161029-archivar-al/proposal.md": "652abfad86d6686b2fe8bb3a5130a88625779c2a337c7f14aeea66ca81e4a693",
+    "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md": "3abf11dafefea3bc7233d8fc560ae9be342e0e2366e94f9023c4e673f7f0969b"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/archivo.py",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "oracle_factory/migracion.py",
+    "tests/test_archivo.py",
+    "tools/verify_archivo.py",
+    "docs/estructura.md",
+    ".factory/config.json",
+    ".factory/LEEME.md",
+    "catalogos/factory_archivo.corrida_completa.oracle",
+    "catalogos/factory_archivo.este_repositorio_queda_archivado.oracle",
+    "catalogos/factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo.oracle",
+    "catalogos/factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe.oracle",
+    "catalogos/factory_archivo.los_comandos_de_lectura_muestran_el_archivo.oracle",
+    "catalogos/factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado.oracle",
+    "catalogos/factory_archivo.un_conflicto_impide_cerrar.oracle",
+    "catalogos/factory_archivo.una_capacidad_con_un_solo_nombre.oracle",
+    "openspec/specs/estructura/spec.md",
+    "openspec/specs/limpieza/spec.md",
+    "openspec/specs/modos/spec.md",
+    "openspec/specs/portabilidad/spec.md",
+    "openspec/specs/revision-guiada/spec.md",
+    "openspec/specs/vigencia/spec.md",
+    "openspec/changes/20261006-161029-archivar-al/proposal.md",
+    "openspec/changes/20261006-161029-archivar-al/design.md",
+    "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato 2bff200",
+      "resultado": "cumple",
+      "evidencia": "213 pruebas OK (evidencia-2bff200/suite.txt); Codex la reprodujo"
+    },
+    {
+      "descripcion": "Sensor de archivo: 21 casos exactos y este repositorio archivado sin otros cambios respecto de 31a930f",
+      "resultado": "cumple",
+      "evidencia": "evidencia-2bff200/resultado.json (éxito) y oracle cobertura --con: los 7 requisitos «cumple»"
+    },
+    {
+      "descripcion": "Archivo retroactivo de los 7 cambios cerrados en orden de cierre: los registros sólo ganaron la marca y un evento; estado igual salvo las líneas «Archivo:»",
+      "resultado": "cumple",
+      "evidencia": "comprobado por el autor y por el verificador"
+    },
+    {
+      "descripcion": "Las pruebas nuevas de cada corrección fallan con el código anterior; mutaciones a mano detectadas",
+      "resultado": "cumple",
+      "evidencia": "10 del autor; las de Codex en sus informes"
+    },
+    {
+      "descripcion": "Arneses de modos, vigencia, portabilidad, colaboración (9/9), revisión guiada, Docker entre máquinas (5/5) y release (wheel instalado y guía) sobre 571dcd3",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor"
+    },
+    {
+      "descripcion": "Revisión independiente con otra familia de modelo: Codex gpt-6-luna, 4 vueltas (1 media, 2 bajas, sin hallazgos en la última), y auditoría de documentación de Agy1 (Gemini)",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-codex-*.json validados con oracle-clue; auditoria-docs-agy1-c31ef73.md"
+    }
+  ],
+  "limites": [
+    "El autor es Claude; la revisión la hicieron Codex (GPT) y Agy (Gemini): independiente del autor y de su familia, pero no humana.",
+    "R2A-01 a R2A-04 vienen de las sondas de una sesión de R2 que se cortó antes de escribir su informe de Clue.",
+    "Sólo Linux; no se probaron Windows, ACL ni atributos extendidos.",
+    "Los 9 cambios que nunca se cerraron no se archivan: queda como tarea decidir si se cierran o se abandonan.",
+    "La spec consolidada generada queda fuera de la huella; una edición a mano la detectan Factory al fusionar y el verificador, no la huella."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2A-01",
+      "descripcion": "Un cierre cortado y reintentado con la spec cambiada dejaba la spec consolidada vieja",
+      "ubicacion": "oracle_factory/cli.py:cerrar",
+      "evidencia": "sondas de R2 (revision-r2/sondas_r2a.salida.txt); la sesión de R2 se cortó antes del informe de Clue. Corregido en 8c38535; Codex lo confirmó en su primera vuelta."
+    },
+    {
+      "id": "R2A-02",
+      "descripcion": "Una spec consolidada editada a mano se pisaba sin aviso y no contaba en la huella",
+      "ubicacion": "oracle_factory/cli.py:escribir_archivo",
+      "evidencia": "sondas de R2 (revision-r2/sondas_r2a.salida.txt). Corregido en 8c38535; Codex lo confirmó en su primera vuelta."
+    },
+    {
+      "id": "R2A-03",
+      "descripcion": "Encabezados de delta en minúsculas y secciones ### que no son requisitos se interpretaban mal",
+      "ubicacion": "oracle_factory/archivo.py:bloques",
+      "evidencia": "sondas de R2 (revision-r2/sondas_r2a.salida.txt). Corregido en 8c38535; Codex lo confirmó en su primera vuelta."
+    },
+    {
+      "id": "R2A-04",
+      "descripcion": "Archivar un cierre anterior a los modos (sin registro «cierre») fallaba con KeyError",
+      "ubicacion": "oracle_factory/cli.py:archivar",
+      "evidencia": "sondas de R2 (revision-r2/sondas_r2a.salida.txt). Corregido en 8c38535; Codex lo confirmó en su primera vuelta."
+    },
+    {
+      "id": "R2E-01",
+      "descripcion": "guardar actualiza registros marcados como no escribibles",
+      "ubicacion": "oracle_factory/cli.py:81",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-571dcd3.json), severidad baja. Corregido en 2bff200; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2D-01",
+      "descripcion": "Mover una spec consolidada editada no permite regenerarla aunque la guía lo indica",
+      "ubicacion": "docs/estructura.md:94",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-a3c4d07.json), severidad baja. Corregido en 74d73f2; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2C-01",
+      "descripcion": "Un corte entre la spec y el índice deja `archivar` sin poder reparar",
+      "ubicacion": "oracle_factory/cli.py:908",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-c31ef73.json), severidad media. Corregido en a727c3a; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "AGY1-D1",
+      "descripcion": "justificación desactualizada de la exclusión de la huella",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D2",
+      "descripcion": "alcance de la huella sobre openspec/specs/ impreciso en la guía",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D3",
+      "descripcion": "`archivar --existentes` en design.md, que el comando no tiene",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D4",
+      "descripcion": "cerrar detectaba una spec consolidada editada recién después de cerrar la tarea",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D5",
+      "descripcion": "la guía no decía cómo resolver un conflicto de delta",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D6",
+      "descripcion": "la guía no decía qué hacer con una spec consolidada editada a mano",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D7",
+      "descripcion": ".factory/specs/ faltaba en la tabla «Quién es dueño de qué»",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D8",
+      "descripcion": ".factory/LEEME.md faltaba en el árbol y en este repositorio",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D9",
+      "descripcion": "la spec no tenía escenarios para casos que exigían las pruebas",
+      "ubicacion": "docs/estructura.md, design.md, spec.md u oracle_factory/cli.py (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-c31ef73.md). Corregido en a727c3a (D9: spec ampliada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
