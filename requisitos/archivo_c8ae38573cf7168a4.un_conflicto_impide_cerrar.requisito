@@ -1,4 +1,4 @@
 requisito archivo_c8ae38573cf7168a4.un_conflicto_impide_cerrar:
     texto "Tipo: funcional Si la fusión no es posible (agregar un requisito con un nombre que ya existe en la capacidad, o modificar o quitar uno que no existe), `cerrar` SHALL rechazarse antes de modificar cualquier archivo y SHALL nombrar el requisito en conflicto."
     fuente "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md#un conflicto impide cerrar"
-    sin_medir "sin medida todavía; escenarios: «agregar un requisito que ya existe»"
+    medido_por factory_archivo.un_conflicto_impide_cerrar, factory_archivo.corrida_completa
