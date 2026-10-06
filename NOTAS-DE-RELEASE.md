@@ -1,3 +1,24 @@
+# Oracle Factory 0.1.0a4
+
+- **Modos de trabajo** (`nuevo --modo`, `modo`): `autonomo`, `funcional` o `confirmacion` (por defecto) según quién decide los requisitos funcionales y no funcionales. Un agente propone con `--agente`; las decisiones humanas se confirman desde una terminal interactiva y cada evento registra quién, cómo y en qué modo.
+- **Revisión guiada** (`revision-preparar`, `revision --formato guiado`): informe y decisiones en archivos separados, con hallazgos abiertos calculados a partir de las decisiones.
+- **Vigencia por contenido:** una revisión o un veredicto siguen vigentes mientras no cambien los archivos del producto, aunque cambie HEAD por commits que sólo archivan registros o evidencia.
+- **Portabilidad entre máquinas:** los registros guardan rutas relativas al proyecto (hechos y fuente de los requisitos), y un cambio juzgado en una máquina se cierra desde otra. Avisa si los hechos quedan fuera del proyecto o ignorados por Git.
+- **Carpeta `.factory/`:** el estado de cada cambio (`factory.json`, `review.md`, `oracle-veredicto.txt`) vive en `.factory/cambios/<ID>/`, la configuración en `.factory/config.json` y lo producido sobre cada candidato en `.factory/cambios/<ID>/candidatos/<sha7>/`; `.factory/local/` queda fuera de Git. En `openspec/changes/<ID>/` queda sólo el acuerdo. Los comandos buscan la raíz del proyecto subiendo desde la carpeta actual, como Git.
+- **Comandos nuevos:** `donde` (cada artefacto de un cambio y el gate que respalda), `ruta` (dónde guardar evidencia, paquetes de Clue o checkouts), `buscar` y filtros de `listar` (`--abiertos`, `--cerrados`, `--fase`).
+- **`migrar`:** pasa un proyecto creado con una versión anterior a `.factory/`, sin cambiar el contenido de los registros salvo las rutas que citan los archivos movidos; es repetible, se recupera de una interrupción y no sigue enlaces simbólicos. Hasta migrarlo, el proyecto sigue funcionando y Factory avisa.
+- Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux; sin pruebas en Windows ni macOS.
+
+## Distribución y publicación
+
+El release de GitHub adjunta wheel, sdist y SHA256SUMS; los mismos archivos se suben a PyPI:
+
+```bash
+uv publish dist/oracle_factory-0.1.0a4-py3-none-any.whl dist/oracle_factory-0.1.0a4.tar.gz
+```
+
+La evidencia de cada parte está en las tareas de sus cambios (`20261005-105331-modos-de-trabajo`, `20261004-005956-revision-guiada`, `20261005-154433-la-vigencia-de`, `20261005-184427-los-registros-de`, `20261005-132144-jerarquia-de`, `20261006-004456-fase-2-de-la`), cada uno cerrado por una persona después de una revisión independiente. La 0.1.0a3 no se subió a PyPI; esta versión la reemplaza allí.
+
 # Oracle Factory 0.1.0a3
 
 - Inicio guiado: `nuevo --con-ejemplo notas` prepara ejemplo, propuesta, spec y reglas; rechaza destinos existentes antes de crear una tarea.

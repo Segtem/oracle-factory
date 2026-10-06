@@ -1,4 +1,4 @@
-# Oracle Factory — 0.1.0a3 (alpha)
+# Oracle Factory — 0.1.0a4 (alpha)
 
 La visión de Oracle Factory es coordinar agentes y herramientas para producir software completo: desde una necesidad aceptada hasta código, pruebas, revisión y entrega. La persona decide el alcance, resuelve hallazgos y acepta la entrega.
 
@@ -10,29 +10,29 @@ Para saber dónde está cada cosa y cómo encontrarla (`donde`, `ruta`, `buscar`
 
 Para trabajar entre dos personas con sus agentes, consultá la [guía de colaboración](docs/colaboracion.md): reparto, checkouts separados, relevos, revisión con Clue e integración con evidencia vigente. Incluye plantillas y una demostración local; las asignaciones son acuerdos humanos y el piloto con personas se registra por separado.
 
-En el checkout de desarrollo, la [revisión guiada](docs/revision-guiada.md) prepara informes pendientes, separa decisiones y calcula hallazgos abiertos. Todavía no está incluida en el release 0.1.0a3 enlazado abajo. El formato libre sigue disponible; este checkout exige `--hallazgos-abiertos` explícito al registrarlo.
+La [revisión guiada](docs/revision-guiada.md) prepara informes pendientes, separa decisiones y calcula hallazgos abiertos. El formato libre sigue disponible y exige `--hallazgos-abiertos` explícito al registrarlo.
 
 
 ## Instalación del corte alpha
 
-El corte alpha 0.1.0a3 incorpora inicio guiado (`nuevo --con-ejemplo`), comando de medición explícita (`medir`) y listado de cambios de Factory (`listar`).
+El corte alpha 0.1.0a4 suma, sobre el inicio guiado, `medir` y `listar` de la 0.1.0a3: modos de trabajo según quién decide los requisitos, revisión guiada, vigencia de la revisión por el contenido del producto, registros portables entre máquinas y la carpeta `.factory/` con `donde`, `ruta`, `buscar` y `migrar` (ver [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md)).
 
-El wheel de esta versión se encuentra disponible en el [release de GitHub v0.1.0a3](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a3). La subida a PyPI está pendiente. En PyPI se encuentra actualmente la versión `0.1.0a2`, pero **no incluye** `nuevo --con-ejemplo`, `medir` ni `listar`. No se recomienda instalar 0.1.0a2 si se desea utilizar los comandos de este corte.
+Está publicado en PyPI como `oracle-factory==0.1.0a4` y su wheel, con los hashes, en el [release de GitHub v0.1.0a4](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a4). Un proyecto creado con una versión anterior sigue funcionando; `oracle-factory migrar` pasa su estado a `.factory/`.
 
-Para instalar el wheel desde el release oficial con `uv`:
+Para instalarlo con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task https://github.com/Segtem/oracle-factory/releases/download/v0.1.0a3/oracle_factory-0.1.0a3-py3-none-any.whl
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task oracle-factory==0.1.0a4
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
 oracle-factory --proyecto ./mi-proyecto nuevo --con-ejemplo notas "Comprobar el título de una nota"
 ```
 
-Si uv advierte sobre conflicto porque los ejecutables `oracle` o `tasks` ya están instalados en tu sistema, podés instalar el mismo wheel sin `--with-executables-from`:
+Si uv advierte sobre conflicto porque los ejecutables `oracle` o `tasks` ya están instalados en tu sistema, podés instalarlo sin `--with-executables-from`:
 
 ```bash
-uv tool install --python 3.13 https://github.com/Segtem/oracle-factory/releases/download/v0.1.0a3/oracle_factory-0.1.0a3-py3-none-any.whl
+uv tool install --python 3.13 oracle-factory==0.1.0a4
 ```
 
 Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1` y `oracle-task 0.2.0`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
@@ -43,7 +43,7 @@ Los archivos indicados con `--informe` y `--con` se interpretan desde el proyect
 
 La [guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html) recorre el ejemplo de notas en un proyecto vacío sin clonar Factory. Para desarrollo desde el checkout, `python3 fabrica.py` conserva la misma interfaz y selección de proyecto.
 
-El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a3) conserva los artefactos y sus hashes. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
+El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a4) conserva los artefactos y sus hashes. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
 
 
 ## Flujo de la POC

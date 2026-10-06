@@ -1,6 +1,6 @@
 # Revisar con un informe y decisiones separados
 
-Este recorrido está disponible en el **checkout de desarrollo que incorpora la tarea `20261004-005956-revision-guiada`**. El release 0.1.0a3 citado en la guía publicada todavía no incluye estos comandos. Identifique el checkout con `git rev-parse HEAD`; el número de versión por sí solo no identifica estas modificaciones de desarrollo.
+Este recorrido está disponible desde Factory 0.1.0a4. Identifique el checkout con `git rev-parse HEAD`; el número de versión por sí solo no identifica estas modificaciones de desarrollo.
 
 Factory comprueba consistencia, contexto y conservación de documentos. Una persona competente analiza el código, los tests, el sensor y las medidas y decide qué hacer con sus hallazgos. Un agente puede ayudar a preparar el análisis; los nombres y motivos registrados no autentican a una persona ni demuestran que sus conclusiones sean correctas.
 
