@@ -1,0 +1,95 @@
+{
+  "archivo_caso": [
+    {
+      "requisito": "la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+      "caso": "a1_primer_cambio_de_una_capacidad",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_spec_de_un_cambio_se_fusiona_al_cerrarlo",
+      "caso": "a1_un_cambio_que_modifica_y_quita_requisitos",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_conflicto_impide_cerrar",
+      "caso": "a2_agregar_un_requisito_que_ya_existe",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_conflicto_impide_cerrar",
+      "caso": "a2_modificar_un_requisito_que_no_existe",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_conflicto_impide_cerrar",
+      "caso": "a2_una_spec_consolidada_editada_a_mano_no_se_pisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_conflicto_impide_cerrar",
+      "caso": "a2_secciones_mayusculas_y_nombres_repetidos",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_cerrado_no_se_mueve_ni_se_reescribe",
+      "caso": "a3_archivar_solo_agrega_la_marca",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_distingue_lo_vigente_de_lo_reemplazado",
+      "caso": "a4_requisito_reemplazado",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_capacidad_con_un_solo_nombre",
+      "caso": "a5_capacidad_con_alias",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_capacidad_con_un_solo_nombre",
+      "caso": "a5_un_alias_de_un_alias_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_de_lectura_muestran_el_archivo",
+      "caso": "a6_lectura_de_un_cambio_archivado",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "a6_segunda_ejecucion_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "a6_reintento_de_un_cierre_cortado_no_duplica",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "a6_solo_se_archivan_los_cerrados_y_en_el_orden_de_cierre",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "a6_un_cierre_anterior_sin_registro_de_cierre",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "a6_la_huella_ignora_solo_las_specs_que_genera_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_archivado",
+      "caso": "repositorio_archivado",
+      "codigo": 0
+    }
+  ],
+  "archivo_corrida": [
+    {
+      "completa": 1,
+      "casos": 17
+    }
+  ]
+}
