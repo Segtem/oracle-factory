@@ -2,7 +2,7 @@ medida factory_archivo.un_conflicto_impide_cerrar:
     de archivo_caso c
     donde c.requisito == "un_conflicto_impide_cerrar" y c.codigo == 0
     resumen contar(1)
-    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_archivo.py; asociar junto a corrida_completa"
+    umbral == 4 segun contrato porque "deben pasar los 4 casos enumerados para este requisito en tools/verify_archivo.py; asociar junto a corrida_completa"
     requiere archivo_caso
     ambito universal
     alcance "escenarios a1-a6 en Linux sobre proyectos temporales; no mide que la spec consolidada sea legible"

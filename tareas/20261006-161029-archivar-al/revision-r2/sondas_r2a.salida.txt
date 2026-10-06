@@ -1,0 +1,18 @@
+R2A-01 fase: cerrada | la consolidada tiene el texto nuevo: False | requisito de Oracle en el índice: notas_cdb15b4de07c207a1.titulo_valido | vigente según el registro: ['notas_ce0402e3f032b2542.titulo_valido']
+ok
+R2A-02 tras archivar otro cambio: la edición a mano sigue: False | se avisó: False
+R2A-02 editar openspec/specs cambia la huella: False
+R2A-02 una spec de openspec/specs que Factory no escribió cambia la huella: False
+ok
+R2A-03 fusión:
+   repetido en la misma spec (ADDED)            -> CONFLICTO «dos» ya existe en la capacidad x; para cambiarlo usá MODIFIED
+   MODIFIED dos veces en la misma spec          -> requisitos ['uno'] | reemplazados [('uno', 'x_c1.uno'), ('uno', 'x_c2.uno')]
+   ADDED y REMOVED del mismo en la misma spec   -> requisitos ['uno'] | reemplazados [('dos', 'x_c2.dos')]
+   encabezado en minúsculas (Modified)          -> CONFLICTO «uno» ya existe en la capacidad x; para cambiarlo usá MODIFIED
+   REMOVED en minúsculas después de ADDED       -> requisitos ['uno', 'tres', 'cuatro'] | reemplazados []
+   Purpose y otra sección con ###               -> requisitos ['uno', 'cinco'] | reemplazados [] | cuerpo cinco: ['C.', '### Notas internas', 'Esto no es un requisito.']
+   sin escenarios                               -> requisitos ['uno', 'seis'] | reemplazados []
+ok
+R2A-04 archivar un cambio cerrado sin registro «cierre» (como los anteriores a los modos): KeyError: 'cierre'
+ok
+OK

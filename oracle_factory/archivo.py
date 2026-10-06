@@ -11,7 +11,7 @@ import re
 from . import modos
 
 OPERACIONES = ('ADDED', 'MODIFIED', 'REMOVED')
-CABECERA_DELTA = re.compile(r'^##\s+(ADDED|MODIFIED|REMOVED|RENAMED)\s+Requirements\s*$')
+CABECERA_DELTA = re.compile(r'^##\s+(ADDED|MODIFIED|REMOVED|RENAMED)\s+Requirements\s*$', re.IGNORECASE)
 CABECERA_REQ = re.compile(r'^###\s+Requirement:\s*(.+?)\s*$')
 ORIGEN = re.compile(r'^Origen: (\S+) · (\S+)$')
 AVISO = '<!-- Generada por Oracle Factory al cerrar cada cambio: no se edita a mano. -->'
@@ -27,16 +27,16 @@ def bloques(texto: str) -> list[tuple[str, str, list[str]]]:
     for linea in texto.splitlines():
         delta = CABECERA_DELTA.match(linea)
         if delta:
-            if delta[1] == 'RENAMED':
+            if delta[1].upper() == 'RENAMED':
                 raise Conflicto('RENAMED no está soportado: quitá el requisito y agregalo con el nombre nuevo')
-            operacion, actual = delta[1], None
+            operacion, actual = delta[1].upper(), None
             continue
         cabecera = CABECERA_REQ.match(linea)
         if cabecera:
             actual = (operacion, cabecera[1], [])
             resultado.append(actual)
             continue
-        if linea.startswith('## ') or linea.startswith('# '):
+        if linea.startswith('### ') or linea.startswith('## ') or linea.startswith('# '):  # otra sección cierra el requisito
             actual = None
             continue
         if actual is not None:
@@ -66,6 +66,8 @@ def fusionar(indice: dict, delta: str, ident: str, dominio_por_slug: dict[str, s
     nuevo = {'capacidad': indice['capacidad'], 'archivados': [*indice['archivados'], ident],
              'requisitos': dict(indice['requisitos']), 'reemplazados': list(indice['reemplazados'])}
     conflictos = []
+    nombres = [nombre for _, nombre, _ in bloques(delta)]
+    conflictos += [f'«{n}» aparece más de una vez en la spec del cambio' for n in sorted({n for n in nombres if nombres.count(n) > 1})]
     for operacion, nombre, cuerpo in bloques(delta):
         existe = nombre in nuevo['requisitos']
         if operacion == 'ADDED' and existe:

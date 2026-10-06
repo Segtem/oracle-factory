@@ -352,9 +352,11 @@ def contexto_producto() -> dict:
     archivos = []
     for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
         partes = Path(nombre).parts
-        # openspec/specs/ es la spec consolidada que Factory deriva de las specs aceptadas al cerrar: no es producto nuevo,
-        # y si lo fuera, cerrar vencería su propia revisión y archivar vencería la del último cambio integrado.
-        if partes[0] in ("tareas", estructura.DIR) or partes[:2] == ("openspec", "specs") or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+        # Una spec consolidada que Factory generó (tiene índice) se deriva de specs ya aceptadas: no es producto nuevo, y si
+        # contara, archivar los cambios anteriores vencería la revisión del último integrado. Las demás de openspec/specs/ sí cuentan.
+        gestionada = (len(partes) == 4 and partes[:2] == ("openspec", "specs") and partes[3] == "spec.md"
+                      and (ROOT / estructura.DIR / "specs" / f"{partes[2]}.json").is_file())
+        if partes[0] in ("tareas", estructura.DIR) or gestionada or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
                 and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}):
             continue
         p = ROOT / nombre
@@ -900,6 +902,12 @@ def plan_archivo(estado: dict) -> tuple[str, dict]:
 def escribir_archivo(capacidad: str, indice: dict) -> str:
     """Escribe la spec consolidada y su índice; devuelve la ruta relativa de la spec."""
     spec = ruta_spec_consolidada(capacidad)
+    previo = leer_indice(capacidad)
+    esperado = archivo.texto_consolidado(previo) if ruta_indice(capacidad).is_file() else None
+    actual = ruta_segura(spec).read_text(encoding="utf-8") if spec.is_file() else None
+    if actual != esperado:  # editada a mano, o escrita por otra herramienta: no se pisa
+        raise FactoryError(f"{spec.relative_to(ROOT)} no es la que generó Factory (se editó a mano o no tiene índice en "
+                           f"{ruta_indice(capacidad).relative_to(ROOT)}); restaurala o movela antes de fusionar")
     for destino in (spec, ruta_indice(capacidad)):
         ruta_segura(destino).parent.mkdir(parents=True, exist_ok=True)
     escribir_atomico(spec, archivo.texto_consolidado(indice).encode("utf-8"))
@@ -927,7 +935,9 @@ def archivar() -> None:
         if ID_RE.fullmatch(carpeta.name) and ruta_registro(carpeta).is_file():
             _, estado = leer(carpeta.name)
             if estado.get("fase") == "cerrada" and not estado.get("archivo"):
-                pendientes.append((estado["cierre"].get("cuando", ""), carpeta.name))
+                cuando = (estado.get("cierre") or {}).get("cuando") or next(
+                    (e.get("cuando", "") for e in reversed(estado.get("eventos", [])) if e.get("accion") == "cierre"), "")
+                pendientes.append((cuando, carpeta.name))
     if not pendientes:
         print("No hay cambios cerrados sin archivar.")
         return
@@ -958,7 +968,6 @@ def cerrar(identificador: str) -> None:
     if falta:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
     cierre = registro_decision(estado, forma)
-    spec_consolidada = escribir_archivo(capacidad, indice)  # antes de cerrar: un reintento la encuentra ya fusionada
     nota_tarea(identificador, f"Cierre: {quien(cierre)}, tras revisar el informe de código y el veredicto Oracle."
                + (" El cierre lo decidió un agente en modo autónomo." if cierre["tipo_actor"] == "agente" else ""))
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
@@ -967,6 +976,11 @@ def cerrar(identificador: str) -> None:
     estado["fase"] = "cerrada"
     estado["cierre"] = cierre
     evento(estado, "cierre", forma=forma, oracle=estado["oracle"]["informe"], revision=estado["revision"]["informe"])
+    guardar(carpeta, estado)
+    # Se fusiona después de cerrar: si se corta antes, nada quedó fusionado y el cierre se reintenta; si se corta
+    # después, el cambio queda cerrado sin archivar y `archivar` lo completa.
+    capacidad, indice = plan_archivo(estado)
+    spec_consolidada = escribir_archivo(capacidad, indice)
     marcar_archivado(estado, capacidad, spec_consolidada, forma)
     guardar(carpeta, estado)
     print(f"Spec fusionada en {spec_consolidada}.")

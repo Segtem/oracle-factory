@@ -9,6 +9,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from oracle_factory import archivo
 from oracle_factory import cli as f
 
 GIT = ['git', '-c', 'user.name=Persona fixture', '-c', 'user.email=fixture@example.invalid', '-c', 'core.hooksPath=/dev/null',
@@ -165,6 +166,33 @@ class Archivo(unittest.TestCase):
         self.assertIn('no existe', str(error.exception))
         self.assertEqual(self.archivos(), antes)
 
+    def test_a2_una_spec_consolidada_editada_a_mano_no_se_pisa(self):
+        self.cambio_cerrado()
+        consolidada = self.root / 'openspec/specs/notas/spec.md'
+        consolidada.write_text(consolidada.read_text() + '\n### Requirement: agregado a mano\nNadie lo aprobó.\n')
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        self.marcar_cerrado(ident, '2099-01-01T00:00:00+00:00')
+        antes = self.archivos()
+        with self.assertRaises(f.FactoryError) as error:
+            f.archivar()
+        self.assertIn('editó a mano', str(error.exception))
+        self.assertEqual(self.archivos(), antes)
+
+    def test_a2_secciones_mayusculas_y_nombres_repetidos(self):
+        self.cambio_cerrado()
+        minusculas = MODIFICA.replace('## MODIFIED Requirements', '## Modified Requirements') + '\n### Notas internas\nNo es un requisito.\n'
+        ident = self.cambio_importado('Títulos largos', 'notas', minusculas)
+        self.marcar_cerrado(ident, '2099-01-01T00:00:00+00:00')
+        f.archivar()  # «Modified» es MODIFIED: no choca con el requisito que ya existe
+        texto = self.consolidada()
+        self.assertIn('longer than 80 characters', texto)
+        self.assertNotIn('No es un requisito.', texto)  # otra sección ### cierra el requisito
+        # Oracle ya rechaza al importar una spec con un nombre repetido; la fusión tampoco lo acepta
+        repetida = QUITA.split('Ya no aplica.\n\n')[1] * 2
+        with self.assertRaises(archivo.Conflicto) as error:
+            archivo.fusionar(archivo.indice_vacio('otra'), repetida, 'c', {'nota_con_fecha': 'otra_c.nota_con_fecha'})
+        self.assertIn('más de una vez', str(error.exception))
+
     # --- a3: lo cerrado no se mueve ni se reescribe ---------------------------------------------------------------
     def test_a3_archivar_solo_agrega_la_marca(self):
         primero = self.cambio_cerrado()
@@ -234,7 +262,8 @@ class Archivo(unittest.TestCase):
             return real(argv, *a, **k)
 
         with patch.object(f, 'ejecutar', falla_al_cerrar_la_tarea), self.assertRaises(f.FactoryError):
-            self.cambio_cerrado()  # la spec ya se fusionó, pero el cierre no se completó
+            self.cambio_cerrado()  # el cierre no se completó
+        self.assertFalse((self.root / 'openspec/specs/notas').exists())  # y nada quedó fusionado
         ident = f.leer(sorted(p.name for p in (self.root / 'openspec/changes').iterdir())[0])[1]['id']
         with self.escribe(f'CERRAR {ident}'):
             f.cerrar(ident)  # el reintento no choca con su propia fusión
@@ -252,6 +281,28 @@ class Archivo(unittest.TestCase):
         self.assertIn('### Requirement: nota con fecha', self.consolidada())
         self.assertNotIn('archivo', f.leer(abierto)[1])
         self.assertFalse((self.root / 'openspec/specs/otra').exists())
+
+    def test_a6_un_cierre_anterior_sin_registro_de_cierre(self):
+        self.cambio_cerrado()
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        carpeta, estado = f.leer(ident)
+        estado['fase'] = 'cerrada'  # como los cierres de antes de los modos: sólo el evento
+        estado['eventos'].append({'accion': 'cierre', 'cuando': '2099-01-01T00:00:00+00:00'})
+        f.guardar(carpeta, estado)
+        f.archivar()
+        self.assertIn('longer than 80 characters', self.consolidada())
+
+    def test_a6_la_huella_ignora_solo_las_specs_que_genera_factory(self):
+        self.cambio_cerrado()
+        self.git('add', '.')
+        self.git('commit', '-qm', 'cerrado')
+        huella = f.contexto_producto()['archivos_sha256']
+        ajena = self.root / 'openspec/specs/escrita-a-mano/spec.md'
+        ajena.parent.mkdir(parents=True)
+        ajena.write_text('# a mano\n')
+        self.assertNotEqual(f.contexto_producto()['archivos_sha256'], huella)  # la que no generó Factory es producto
+        ajena.unlink()
+        self.assertEqual(f.contexto_producto()['archivos_sha256'], huella)
 
     def test_a6_lectura_de_un_cambio_archivado(self):
         ident = self.cambio_cerrado()
