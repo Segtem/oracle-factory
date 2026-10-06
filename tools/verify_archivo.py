@@ -59,7 +59,9 @@ def este_repositorio(base, antes):
         if previo is not None and estado.get('archivo'):
             viejo = json.loads(previo)
             sin_marca = {k: v for k, v in estado.items() if k != 'archivo'}
-            if 'archivo' not in viejo:  # archivado después de `antes`: sólo puede haber ganado la marca y un evento
+            # cerrado antes de `antes` y archivado después: sólo puede haber ganado la marca y un evento. Un cambio que se cerró
+            # después (con cerrar, que también archiva) cambió legítimamente su registro.
+            if 'archivo' not in viejo and viejo.get('fase') == 'cerrada':
                 sin_marca['eventos'] = sin_marca['eventos'][:-1]
                 if sin_marca != viejo or estado['eventos'][-1]['accion'] != 'archivado':
                     problemas.append(f'{estado["id"]}: el registro cambió algo más que la marca de archivo')
