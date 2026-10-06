@@ -2,11 +2,30 @@
   "id": "20261006-004456-fase-2-de-la",
   "titulo": "Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/",
   "capacidad": "estructura2",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-06T00:47:29+00:00",
+    "documentos": {
+      "openspec/changes/20261006-004456-fase-2-de-la/proposal.md": "527c84d6004bf8cfac7c714e3dce42e5204ffc5b3323d143d94fe96a6a93e0c5",
+      "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1"
+    }
+  },
+  "requisitos": [
+    "estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory",
+    "estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado",
+    "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory",
+    "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado",
+    "estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares",
+    "estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido",
+    "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+    "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +38,48 @@
       "forma": "decidio",
       "cuando": "2026-10-06T00:44:56+00:00",
       "capacidad": "estructura2"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T00:47:29+00:00",
+      "documentos": {
+        "openspec/changes/20261006-004456-fase-2-de-la/proposal.md": "527c84d6004bf8cfac7c714e3dce42e5204ffc5b3323d143d94fe96a6a93e0c5",
+        "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T00:47:42+00:00",
+      "ids": [
+        "estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory",
+        "estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado",
+        "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory",
+        "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado",
+        "estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares",
+        "estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido",
+        "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
+        "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory": "funcional",
+    "estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado": "no funcional",
+    "estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory": "funcional",
+    "estructura2_c1bed25594460b383.la_migracion_conserva_el_significado": "no funcional",
+    "estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares": "funcional",
+    "estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido": "funcional",
+    "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada": "funcional",
+    "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

@@ -1,0 +1,4 @@
+requisito estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado:
+    texto "Tipo: no funcional Los cambios existentes de este repositorio SHALL migrarse, y un verificador SHALL comprobar que no quedan registros en el lugar viejo, que `tareas/` no cambió y que el `estado` de cada cambio es el mismo antes y después."
+    fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#este repositorio queda migrado y verificado"
+    sin_medir "sin medida todavía; escenarios: «verificación sobre este repositorio»"

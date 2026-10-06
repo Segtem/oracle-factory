@@ -1,0 +1,4 @@
+requisito estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando:
+    texto "Tipo: funcional Si el estado de un cambio está en `openspec/changes/<ID>/`, Factory SHALL leerlo y escribirlo ahí, avisar cómo migrar, y no mover nada por su cuenta."
+    fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#un proyecto no migrado sigue funcionando"
+    sin_medir "sin medida todavía; escenarios: «cambio anterior a la fase 2»"

@@ -1,0 +1,4 @@
+requisito estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada:
+    texto "Tipo: funcional `migrar` SHALL ser repetible, SHALL recuperarse de una interrupción, y SHALL rechazar el cambio cuyo estado nuevo y viejo existan con contenido distinto en vez de elegir uno."
+    fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#migrar no pierde ni pisa nada"
+    sin_medir "sin medida todavía; escenarios: «segunda ejecución», «interrupción a mitad», «estado en los dos lugares con contenido distinto»"

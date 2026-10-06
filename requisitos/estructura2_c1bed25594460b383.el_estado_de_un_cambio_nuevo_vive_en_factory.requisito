@@ -1,0 +1,4 @@
+requisito estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory:
+    texto "Tipo: funcional Un cambio nuevo SHALL guardar su registro, su revisión libre y el veredicto de Oracle en `.factory/cambios/<ID>/`, y dejar en `openspec/changes/<ID>/` sólo el acuerdo (propuesta, diseño, plan y especificación)."
+    fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#el estado de un cambio nuevo vive en .factory"
+    sin_medir "sin medida todavía; escenarios: «cambio nuevo»"

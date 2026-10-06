@@ -1,0 +1,4 @@
+requisito estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares:
+    texto "Tipo: funcional `listar`, `donde`, `ruta` y `buscar` SHALL funcionar con cambios en el lugar viejo, en el nuevo o mezclados, y `donde` SHALL mostrar la ruta real del estado."
+    fuente "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#los comandos de lectura entienden los dos lugares"
+    sin_medir "sin medida todavía; escenarios: «proyecto con cambios en los dos lugares»"
