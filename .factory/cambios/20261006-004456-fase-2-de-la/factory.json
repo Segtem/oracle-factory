@@ -2,7 +2,7 @@
   "id": "20261006-004456-fase-2-de-la",
   "titulo": "Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/",
   "capacidad": "estructura2",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md",
   "spec_sha256": "1ebb71215f3e298d7ee674e1d101bf7675cf7debd1cb5aba0d37874d226854d1",
   "spec_aprobada": {
@@ -26,8 +26,39 @@
     "estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada",
     "estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261006-004456-fase-2-de-la/revisiones/registro-pbifkn14/informe.json",
+    "sha256": "81367f919d7648759251faf5d293d4842949d43e44b805553c06a0ccd837f337",
+    "decisiones": "tareas/20261006-004456-fase-2-de-la/revisiones/registro-pbifkn14/decisiones.json",
+    "decisiones_sha256": "066e77e72eb1a76fbc2e2303fcd28bf3682b9e8d272a6a933db1c60f166422c6",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-06T12:16:01+00:00",
+    "contexto": {
+      "head": "367c53a49874afe4ec781d9bdfe49e41aba05ddb",
+      "archivos_sha256": "f26543d6d4244b054f3b50bbcf5263ccb39172c8f006bd8e238970a4ecf4eb72"
+    },
+    "head_preparacion": "708d709cbece68c6dc192a18a43adf8904ef8f31"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261006-004456-fase-2-de-la/evidencia-c151c5f/hechos.json",
+    "hechos_sha256": "03ae9eb79f2a21e74c13265a451aeae5eb6d8cae2a61a7b3c891fd9eaa6311d2",
+    "informe": ".factory/cambios/20261006-004456-fase-2-de-la/oracle-veredicto.txt",
+    "informe_sha256": "7b9bb3392dc39f11fcf606c5c9271e8e1b6354af3fc29c390995fe2692ab8a80",
+    "cuando": "2026-10-06T12:16:57+00:00",
+    "contexto": {
+      "head": "367c53a49874afe4ec781d9bdfe49e41aba05ddb",
+      "archivos_sha256": "f26543d6d4244b054f3b50bbcf5263ccb39172c8f006bd8e238970a4ecf4eb72"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -284,6 +315,31 @@
         "factory_estructura2.este_repositorio_queda_migrado_y_verificado",
         "factory_estructura2.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T12:16:01+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "81367f919d7648759251faf5d293d4842949d43e44b805553c06a0ccd837f337",
+      "decisiones_sha256": "066e77e72eb1a76fbc2e2303fcd28bf3682b9e8d272a6a933db1c60f166422c6"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-06T12:16:57+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "03ae9eb79f2a21e74c13265a451aeae5eb6d8cae2a61a7b3c891fd9eaa6311d2"
     }
   ],
   "tipos": {
