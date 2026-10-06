@@ -1,0 +1,90 @@
+{
+  "estructura2_caso": [
+    {
+      "requisito": "el_estado_de_un_cambio_nuevo_vive_en_factory",
+      "caso": "s1_cambio_nuevo_guarda_su_estado_en_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_proyecto_no_migrado_sigue_funcionando",
+      "caso": "s2_cambio_anterior_a_la_fase_2",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_mueve_el_estado_sin_cambiar_su_contenido",
+      "caso": "s3_migrar_mueve_el_estado_y_solo_reescribe_las_rutas_citadas",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_mueve_el_estado_sin_cambiar_su_contenido",
+      "caso": "s3_vista_previa_no_escribe_y_falla_mientras_haya_algo",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_no_pierde_ni_pisa_nada",
+      "caso": "s4_segunda_ejecucion_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_no_pierde_ni_pisa_nada",
+      "caso": "s4_interrupcion_despues_de_escribir_y_antes_de_borrar",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_no_pierde_ni_pisa_nada",
+      "caso": "s4_corte_a_mitad_de_la_escritura_deja_el_viejo_entero",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_no_pierde_ni_pisa_nada",
+      "caso": "s4_estado_en_los_dos_lugares_con_contenido_distinto",
+      "codigo": 0
+    },
+    {
+      "requisito": "migrar_no_pierde_ni_pisa_nada",
+      "caso": "s4_el_registro_es_lo_ultimo_que_se_escribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_migracion_conserva_el_significado",
+      "caso": "s5_estado_y_huella_iguales_antes_y_despues",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_configuracion_del_proyecto_vive_en_factory",
+      "caso": "s6_init_crea_la_configuracion_en_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_configuracion_del_proyecto_vive_en_factory",
+      "caso": "s6_configuracion_en_factory_manda",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_configuracion_del_proyecto_vive_en_factory",
+      "caso": "s6_configuracion_en_la_raiz_se_respeta_y_se_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_configuracion_del_proyecto_vive_en_factory",
+      "caso": "s6_migrar_pasa_la_configuracion",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_de_lectura_entienden_los_dos_lugares",
+      "caso": "s7_lectura_con_cambios_en_los_dos_lugares",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_queda_migrado_y_verificado",
+      "caso": "repositorio_migrado",
+      "codigo": 0
+    }
+  ],
+  "estructura2_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}
