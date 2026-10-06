@@ -78,6 +78,8 @@ def leer(identificador: str) -> tuple[Path, dict]:
 def guardar(carpeta: Path, estado: dict) -> None:
     destino = ruta_registro(carpeta)
     destino.parent.mkdir(parents=True, exist_ok=True)
+    if destino.exists() and not os.access(destino, os.W_OK):  # el reemplazo atómico saltearía la protección del archivo
+        raise FactoryError(f"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico")
     escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))  # un corte no lo trunca
 
 

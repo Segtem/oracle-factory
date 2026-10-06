@@ -231,6 +231,18 @@ class Archivo(unittest.TestCase):
             f.guardar(carpeta, estado)
         self.assertEqual(f.ruta_registro(carpeta).read_bytes(), antes)  # entero, no a medias
 
+    def test_a3_un_registro_de_solo_lectura_no_se_modifica(self):
+        ident = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        carpeta, estado = f.leer(ident)
+        registro = f.ruta_registro(carpeta)
+        antes = registro.read_bytes()
+        registro.chmod(0o444)
+        self.addCleanup(registro.chmod, 0o644)
+        estado['titulo'] = 'otro'
+        with self.assertRaises(f.FactoryError):
+            f.guardar(carpeta, estado)
+        self.assertEqual(registro.read_bytes(), antes)
+
     # --- a4: se distingue lo vigente de lo reemplazado --------------------------------------------------------------
     def test_a4_requisito_reemplazado(self):
         primero = self.cambio_cerrado()

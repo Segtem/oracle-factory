@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-archivar-571dcd3",
+  "base": "a3c4d073696a323dcff582e3035386fd6ec6e0ca",
+  "head": "571dcd367913fc9a8b64f94c1bd4f686edf0b0fa",
+  "diff_sha256": "19e0c1fe5162f4f3130e6cd21638eaf9a83c1512c556ea61bad7a7f80035aca7",
+  "context_sha256": "0fc61d54eecffa70d99d509a79d7fd07b2c924de376dab03b96d8ff46b9e8787",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2E-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "guardar actualiza registros marcados como no escribibles",
+      "explanation": "Al cambiar de `Path.write_text` a `escribir_atomico`, `guardar` reemplaza el archivo mediante `os.replace`. Si el directorio es escribible pero `factory.json` tiene modo `0444`, el guardado ahora tiene éxito y cambia su contenido; el escritor anterior fallaba por falta de permiso de escritura en el archivo. El helper conserva el modo `0444` en el temporal, por lo que el registro sigue pareciendo de solo lectura después de haber sido cambiado. Esto afecta, por ejemplo, un `archivar` que marca un cambio cerrado cuyo registro se protegió así. Reproduje el comportamiento en Linux con un archivo de prueba bajo un directorio escribible.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 81,
+        "end_line": 81,
+        "side": "head"
+      },
+      "trigger": "Con un factory.json existente en modo 0444 y permiso de escritura en su directorio, ejecutar un flujo que llame a guardar, como archivar para un cambio cerrado pendiente.",
+      "evidence": "La llamada actual a escribir_atomico cambia el contenido de un archivo 0444 y mantiene el modo 0444; con el comportamiento anterior, write_text sobre ese archivo lanza PermissionError. Una prueba temporal con el helper imprimió modo 0444 antes y después, y contenido 'new' tras guardar.",
+      "related_requirement": "archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe",
+      "status": "pendiente",
+      "verification": "Agregar un caso que marque factory.json como 0444 y verifique que guardar/archivar no cambie su contenido; o documentar explícitamente que el modo de solo lectura no protege registros cuando el directorio permite reemplazarlos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí tools/verify_archivo.py --base 7474577 --antes 31a930f con el Python indicado: 212 pruebas y 20 casos de contrato; éxito. El verificador limita sus escenarios a Linux y no mide la legibilidad de la spec consolidada.",
+    "R2D-01 queda resuelto: la guía y el error ya indican restaurar con git restore y explican que mover la spec no alcanza.",
+    "Revisé que nuevo crea el directorio antes de guardar; migrar mueve los registros sin llamar a guardar; los registros en openspec/changes siguen dentro de ROOT y su padre ya existe. medir mantiene el lock y sus escrituras pasan esperado=registro_original directamente a escribir_atomico, por lo que no usa este guardado genérico ni libera el lock antes de terminar. No vi regresiones en esos flujos.",
+    "No probé Windows ni sistemas de archivos con ACL o atributos extendidos. El checkout permaneció sin cambios; la única sonda manual usó una carpeta temporal."
+  ]
+}
