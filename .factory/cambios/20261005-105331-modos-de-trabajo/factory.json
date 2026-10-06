@@ -287,6 +287,16 @@
       "cuando": "2026-10-05T15:42:05+00:00",
       "oracle": ".factory/cambios/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
       "revision": "tareas/20261005-105331-modos-de-trabajo/revisiones/registro-pd4j6pvc/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "migracion",
+      "cuando": "2026-10-06T16:22:41+00:00",
+      "capacidad": "modos",
+      "spec": "openspec/specs/modos/spec.md"
     }
   ],
   "medidas_pendientes": {},
@@ -333,5 +343,10 @@
     "forma": "decidio",
     "modo": "confirmacion",
     "cuando": "2026-10-05T15:42:05+00:00"
+  },
+  "archivo": {
+    "capacidad": "modos",
+    "spec": "openspec/specs/modos/spec.md",
+    "cuando": "2026-10-06T16:22:41+00:00"
   }
 }

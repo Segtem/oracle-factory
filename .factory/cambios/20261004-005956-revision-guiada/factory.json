@@ -452,6 +452,16 @@
           "nuevo": "47264774c674ac1a82100513f22d8f0c1e5984972b1cbe4d662eecf1a026f360"
         }
       }
+    },
+    {
+      "accion": "archivado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "migracion",
+      "cuando": "2026-10-06T16:22:41+00:00",
+      "capacidad": "revision-guiada",
+      "spec": "openspec/specs/revision-guiada/spec.md"
     }
   ],
   "medidas_pendientes": {},
@@ -519,5 +529,10 @@
     "forma": "decidio",
     "modo": "confirmacion",
     "cuando": "2026-10-05T18:35:05+00:00"
+  },
+  "archivo": {
+    "capacidad": "revision-guiada",
+    "spec": "openspec/specs/revision-guiada/spec.md",
+    "cuando": "2026-10-06T16:22:41+00:00"
   }
 }

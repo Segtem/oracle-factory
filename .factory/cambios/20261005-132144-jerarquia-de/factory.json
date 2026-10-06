@@ -622,6 +622,16 @@
       "cuando": "2026-10-05T23:58:12+00:00",
       "oracle": ".factory/cambios/20261005-132144-jerarquia-de/oracle-veredicto.txt",
       "revision": "tareas/20261005-132144-jerarquia-de/revisiones/registro-z8ttf_2m/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "migracion",
+      "cuando": "2026-10-06T16:22:41+00:00",
+      "capacidad": "estructura",
+      "spec": "openspec/specs/estructura/spec.md"
     }
   ],
   "tipos": {
@@ -725,5 +735,10 @@
     "forma": "decidio",
     "modo": "confirmacion",
     "cuando": "2026-10-05T23:58:12+00:00"
+  },
+  "archivo": {
+    "capacidad": "estructura",
+    "spec": "openspec/specs/estructura/spec.md",
+    "cuando": "2026-10-06T16:22:41+00:00"
   }
 }
