@@ -1,4 +1,4 @@
 requisito modos_c45a4802846932222.tipo_de_requisito:
     texto "La spec SHALL poder declarar `Tipo: funcional` o `Tipo: no funcional` en cada requisito; `importar` SHALL guardar ese tipo y SHALL tratar como funcional el requisito que no lo declare, salvo que el proyecto active `tipos_obligatorios`, en cuyo caso SHALL rechazar la importación sin modificar el registro."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#tipo de requisito"
+    fuente "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#tipo de requisito"
     medido_por factory_modos.tipo_de_requisito, factory_modos.corrida_completa

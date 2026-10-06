@@ -1,5 +1,5 @@
 requisito colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo:
     texto "El protocolo SHALL registrar para cada frente el ID de tarea/cambio, persona responsable, agente o sesión, base Git, rama, checkout, alcance e interfaces compartidas, dependencias, revisor, integrador y próximo paso, con un único escritor activo de sus registros."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#reparto explicito del trabajo"
+    fuente "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#reparto explicito del trabajo"
     medido_por factory_colaboracion.reparto_explicito_del_trabajo, factory_colaboracion.corrida_completa
     sin_medir "Acuerdo real de reparto, confirmación de ambas personas y aplicación de escritor único pendientes de piloto humano."

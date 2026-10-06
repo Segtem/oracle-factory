@@ -1,4 +1,4 @@
 requisito landing_page_c9060e010b9653288.explicar_la_produccion_de_software_con_oracle_factory:
     texto "The system SHALL explain that Oracle Factory coordinates the complete software workflow, using the tool kit and AI coding agents from an approved need through implementation, tests, review, evidence, and delivery."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#explicar la producción de software con Oracle Factory"
+    fuente "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#explicar la producción de software con Oracle Factory"
     sin_medir "sin medida todavía; escenarios: «visitante recorre el flujo»"

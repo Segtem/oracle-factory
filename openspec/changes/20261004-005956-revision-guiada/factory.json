@@ -48,7 +48,7 @@
   "oracle": {
     "codigo": 0,
     "codigo_oracle": 0,
-    "hechos": "/home/workstation/Dev/factory-rg/tareas/20261004-005956-revision-guiada/evidencia-16a039a/hechos.json",
+    "hechos": "tareas/20261004-005956-revision-guiada/evidencia-16a039a/hechos.json",
     "hechos_sha256": "bd58bc07092eb168545c51c0bf6f65616227a66ac659c3eaa96122989dc529e3",
     "informe": "openspec/changes/20261004-005956-revision-guiada/oracle-veredicto.txt",
     "informe_sha256": "f04eb04dae826ce9c634011ba716c0854c9758d911b32b30fbc9eecf470fc87f",
@@ -414,6 +414,44 @@
       "cuando": "2026-10-05T18:35:05+00:00",
       "oracle": "openspec/changes/20261004-005956-revision-guiada/oracle-veredicto.txt",
       "revision": "tareas/20261004-005956-revision-guiada/revisiones/registro-wot81ua4/informe.json"
+    },
+    {
+      "accion": "rutas_limpiadas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "migracion",
+      "cuando": "2026-10-05T21:51:48+00:00",
+      "requisitos": {
+        "revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia": {
+          "anterior": "52d3b25aab4a647abbc01c5f753d236edfe16d2eb4a253f11e478358a9941bf3",
+          "nuevo": "5d0742bbb377229c6cfcc804f6f36c1eecbef4d77174dcdcc31720860b7c97f5"
+        },
+        "revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas": {
+          "anterior": "aa02c93f22f96d4149d3f1ee84ba0f19401728f9a2bc1c1a6dcfa07c4c2eb47f",
+          "nuevo": "a04940ac310f4e9dbf562f012899b4bc31d14942eab90ca149dee5a69f76363c"
+        },
+        "revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido": {
+          "anterior": "5e89801afecd0ea1e2c423fb412a2845bc7449c25943caf0978a8f7927cb1cbc",
+          "nuevo": "6e846c7c8fd33e9ddc327a08d8cedb01559fbf5231ff1847ebe3ac83f959ade1"
+        },
+        "revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita": {
+          "anterior": "ec815f0e3781a643ab2ce5cd49b0b5c7d393adfdc7e42ec0ad8f63649d4a4ba7",
+          "nuevo": "925b1ac867067f74e4b540667dcba4b1dc1d9600852eac6090cc02dd934a8b25"
+        },
+        "revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar": {
+          "anterior": "30e4ba2fcfa16f4c6830f753cf1546f3e7d5db0b776289cfda71c7d9aa2a4ae9",
+          "nuevo": "141e3e9d52da95b3229f71d98cd44da54fd85b3385df7de8bdeb440e72a26e61"
+        },
+        "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada": {
+          "anterior": "f5081bec640e866da8c792e43134739a33ba8694d5c24f71691d8e4a093430ec",
+          "nuevo": "17f3479eeeca32f7e23bf9b08d430cd63a3e26e5c6d5f02b8e2117e7a6af6188"
+        },
+        "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado": {
+          "anterior": "73754178a98c6f5550f404dbd5499c3fe5001ab630ccb0bc0d8877203982ea17",
+          "nuevo": "47264774c674ac1a82100513f22d8f0c1e5984972b1cbe4d662eecf1a026f360"
+        }
+      }
     }
   ],
   "medidas_pendientes": {},
@@ -424,7 +462,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:12+00:00",
-      "sha256": "52d3b25aab4a647abbc01c5f753d236edfe16d2eb4a253f11e478358a9941bf3"
+      "sha256": "5d0742bbb377229c6cfcc804f6f36c1eecbef4d77174dcdcc31720860b7c97f5"
     },
     "revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas": {
       "actor": "Brian Hollweg",
@@ -432,7 +470,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:12+00:00",
-      "sha256": "aa02c93f22f96d4149d3f1ee84ba0f19401728f9a2bc1c1a6dcfa07c4c2eb47f"
+      "sha256": "a04940ac310f4e9dbf562f012899b4bc31d14942eab90ca149dee5a69f76363c"
     },
     "revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido": {
       "actor": "Brian Hollweg",
@@ -440,7 +478,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:12+00:00",
-      "sha256": "5e89801afecd0ea1e2c423fb412a2845bc7449c25943caf0978a8f7927cb1cbc"
+      "sha256": "6e846c7c8fd33e9ddc327a08d8cedb01559fbf5231ff1847ebe3ac83f959ade1"
     },
     "revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita": {
       "actor": "Brian Hollweg",
@@ -448,7 +486,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:13+00:00",
-      "sha256": "ec815f0e3781a643ab2ce5cd49b0b5c7d393adfdc7e42ec0ad8f63649d4a4ba7"
+      "sha256": "925b1ac867067f74e4b540667dcba4b1dc1d9600852eac6090cc02dd934a8b25"
     },
     "revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar": {
       "actor": "Brian Hollweg",
@@ -456,7 +494,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:13+00:00",
-      "sha256": "30e4ba2fcfa16f4c6830f753cf1546f3e7d5db0b776289cfda71c7d9aa2a4ae9"
+      "sha256": "141e3e9d52da95b3229f71d98cd44da54fd85b3385df7de8bdeb440e72a26e61"
     },
     "revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada": {
       "actor": "Brian Hollweg",
@@ -464,7 +502,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:13+00:00",
-      "sha256": "f5081bec640e866da8c792e43134739a33ba8694d5c24f71691d8e4a093430ec"
+      "sha256": "17f3479eeeca32f7e23bf9b08d430cd63a3e26e5c6d5f02b8e2117e7a6af6188"
     },
     "revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado": {
       "actor": "Brian Hollweg",
@@ -472,7 +510,7 @@
       "forma": "confirmo",
       "modo": "confirmacion",
       "cuando": "2026-10-05T18:31:13+00:00",
-      "sha256": "73754178a98c6f5550f404dbd5499c3fe5001ab630ccb0bc0d8877203982ea17"
+      "sha256": "47264774c674ac1a82100513f22d8f0c1e5984972b1cbe4d662eecf1a026f360"
     }
   },
   "cierre": {

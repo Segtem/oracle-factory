@@ -1,4 +1,4 @@
 requisito onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso:
     texto "The system SHALL list existing Factory changes with full IDs and current phases, and explain the next manual action after setup."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md#recuperar cambios y siguiente paso"
+    fuente "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md#recuperar cambios y siguiente paso"
     medido_por factory_guiada.recuperar_cambios_y_siguiente_paso

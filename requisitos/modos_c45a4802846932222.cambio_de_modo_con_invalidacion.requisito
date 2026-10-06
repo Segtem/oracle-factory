@@ -1,4 +1,4 @@
 requisito modos_c45a4802846932222.cambio_de_modo_con_invalidacion:
     texto "Cambiar el modo de un cambio SHALL quedar como evento, SHALL exigir confirmación humana cuando reduce la intervención humana, y SHALL invalidar las decisiones vigentes que el modo nuevo exige de otra forma."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#cambio de modo con invalidacion"
+    fuente "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#cambio de modo con invalidacion"
     medido_por factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa

@@ -1,4 +1,4 @@
 requisito vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra:
     texto "Tipo: funcional Cada registro de revisión y de veredicto SHALL seguir guardando el `HEAD` observado, y `estado` y el cierre SHALL mostrarlo y avisar cuando el `HEAD` actual es otro con el producto idéntico."
-    fuente "/home/workstation/Dev/factory-vigencia/openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#el commit observado se conserva y se muestra"
+    fuente "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#el commit observado se conserva y se muestra"
     medido_por factory_vigencia.el_commit_observado_se_conserva_y_se_muestra, factory_vigencia.corrida_completa

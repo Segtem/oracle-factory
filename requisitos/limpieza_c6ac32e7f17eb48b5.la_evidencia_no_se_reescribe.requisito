@@ -1,0 +1,4 @@
+requisito limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe:
+    texto "Tipo: no funcional La limpieza SHALL NOT modificar los archivos de `tareas/`, y su verificación SHALL comprobar que cada uno conserva sus mismos bytes."
+    fuente "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md#la evidencia no se reescribe"
+    medido_por factory_limpieza.la_evidencia_no_se_reescribe, factory_limpieza.corrida_completa

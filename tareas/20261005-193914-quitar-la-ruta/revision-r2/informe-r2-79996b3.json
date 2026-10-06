@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-limpieza-79996b3",
+  "base": "2191eda2bb9ce450f0deff08fc1d2e0946da20a8",
+  "head": "79996b38a417c4c4610f85621d9e3cfc475df039",
+  "diff_sha256": "b3d0b517b81bdd332bcf7db59bc629f788a2145673cb61d04dc82d6b33831039",
+  "context_sha256": "5653c928c866fa93fd9a8528791d842929c292599050adcf84fdbbe6a55ffcf2",
+  "provider": {
+    "name": "claude-code (revisor R2)",
+    "model": "claude-sonnet-5-5"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos nuevos. Corrí sobre 79996b3: suite (138 OK); tools/verify_limpieza.py --salida revision-r2/evidencia-limpieza-79996b3 --antes 3004c84 --excluir 20261005-193914-quitar-la-ruta (16 casos, éxito; registros con ruta: ninguno; tareas tocadas: ninguna; estados distintos: ninguno); oracle cobertura --con esos hechos (rc 0, los 4 requisitos limpieza_c6ac32e… con ✓ cumple); tools/verify_modos.py (27 casos, éxito); git diff main -- tareas: 12 archivos añadidos, ninguno modificado ni borrado; sin restos de git worktree.",
+    "R2N-01 resuelto: con una comilla escapada en la ruta y una fuente cuyo destino existe, la línea se reescribe a relativa; si el destino no existe se avisa y restos() la cuenta (sondas_r2m.py, test_m_01 y test_m_04). Una línea con texto después de la comilla de cierre (un comentario al final) no se reescribe ni se avisa, pero esa forma no existe en la sintaxis de Oracle (no hay comentarios al final de línea). R2N-02 resuelto: el hash de la propuesta pendiente queda igual al del archivo limpio (test_m_02) y la mutación M21 muere. R2N-03 resuelto: M03, M14 y M18 mueren, y M19 era equivalente, como dice el autor.",
+    "Mutaciones: reproduje las 20 de la vuelta anterior (adaptadas al código nuevo: M19 es ahora «FUENTE vuelve a [^\"]*») y agregué seis más (mutaciones2.py, mutaciones2.salida.txt). Murieron 23 de 26. Las tres que sobreviven no son defectos de las pruebas: M23 (actualizar sólo el primer registro de una decisión) y M24 (quitar el ancla ^ de FUENTE, que match() ya impone) son equivalentes; M25 (relativa() acepta una cola de ruta con barra invertida) cambia el comportamiento sólo para rutas de Windows, que la herramienta no soporta.",
+    "Observación sobre las pruebas con Git en carpetas temporales (R2Y-01 en la revisión de estructura): vi una vez un error de limpieza de la carpeta temporal en la suite de esta herramienta, sin guardar la salida; podría ser lo mismo. No pude reproducirlo en esta vuelta (suite y sensor sin fallas)."
+  ]
+}

@@ -42,7 +42,7 @@
   "oracle": {
     "codigo": 0,
     "codigo_oracle": 0,
-    "hechos": "/home/workstation/Dev/factory/tareas/20261005-105331-modos-de-trabajo/evidencia-c0e7c3c/hechos.json",
+    "hechos": "tareas/20261005-105331-modos-de-trabajo/evidencia-c0e7c3c/hechos.json",
     "hechos_sha256": "64b991bcd51131d0bd29646693e658ad8c4b5b533629ee13fb4d2fa23a006397",
     "informe": "openspec/changes/20261005-105331-modos-de-trabajo/oracle-veredicto.txt",
     "informe_sha256": "e683bdec70009374121942b61656ecb4e607e70dba056fdbc879b34e9f6da235",

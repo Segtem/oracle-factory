@@ -1,0 +1,90 @@
+{
+  "limpieza_caso": [
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_requisito_con_fuente_absoluta",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_requisitos_previos",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_hechos_absolutos_en_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_directorios_ambiguos_y_formas_que_no_se_pueden_reescribir",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_fin_de_linea_windows_y_comillas_escapadas",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_registros_no_llevan_la_ruta_privada",
+      "caso": "l1_el_verificador_ve_cada_clase_de_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_decisiones_conservan_su_integridad",
+      "caso": "l2_la_decision_sigue_vigente_y_deja_evento",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_decisiones_conservan_su_integridad",
+      "caso": "l2_estado_igual_antes_y_despues",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_decisiones_conservan_su_integridad",
+      "caso": "l2_decision_sin_hash_o_con_otro_hash_no_se_toca",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_decisiones_conservan_su_integridad",
+      "caso": "l2_la_propuesta_pendiente_tambien_sigue_vigente",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_evidencia_no_se_reescribe",
+      "caso": "l3_tareas_byte_a_byte",
+      "codigo": 0
+    },
+    {
+      "requisito": "limpieza_repetible_y_verificable",
+      "caso": "l4_segunda_ejecucion_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "limpieza_repetible_y_verificable",
+      "caso": "l4_verificar_no_escribe_y_falla_si_queda_algo",
+      "codigo": 0
+    },
+    {
+      "requisito": "limpieza_repetible_y_verificable",
+      "caso": "l4_registro_que_no_se_reserializa_igual_se_avisa_y_no_se_toca",
+      "codigo": 0
+    },
+    {
+      "requisito": "limpieza_repetible_y_verificable",
+      "caso": "l4_una_interrupcion_a_mitad_se_repara_en_la_corrida_siguiente",
+      "codigo": 0
+    },
+    {
+      "requisito": "limpieza_repetible_y_verificable",
+      "caso": "l4_si_falla_el_reemplazo_el_archivo_original_queda_entero",
+      "codigo": 0
+    }
+  ],
+  "limpieza_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}

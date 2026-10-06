@@ -1,4 +1,4 @@
 requisito vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido:
     texto "Tipo: funcional `revision --formato guiado` SHALL aceptar un informe preparado en un `HEAD` distinto del actual si su huella de archivos coincide con la actual, y SHALL rechazarlo, sin modificar el registro, si la huella difiere."
-    fuente "/home/workstation/Dev/factory-vigencia/openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#informe guiado vinculado al contenido"
+    fuente "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#informe guiado vinculado al contenido"
     medido_por factory_vigencia.informe_guiado_vinculado_al_contenido, factory_vigencia.corrida_completa

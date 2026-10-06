@@ -1,4 +1,4 @@
 requisito landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo:
     texto "The system SHALL render the explanation without a backend, account, analytics, or runtime dependency fetched from a third party."
-    fuente "/home/workstation/Dev/factory/openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#funcionar como sitio estático autónomo"
+    fuente "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md#funcionar como sitio estático autónomo"
     sin_medir "sin medida todavía; escenarios: «visitante abre la página sin red externa»"

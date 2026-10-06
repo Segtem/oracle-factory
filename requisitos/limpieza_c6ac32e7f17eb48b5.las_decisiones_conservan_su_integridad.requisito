@@ -1,0 +1,4 @@
+requisito limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad:
+    texto "Tipo: funcional Cuando la limpieza cambia el contenido de un requisito con una decisión de medidas registrada, SHALL actualizar el hash de esa decisión y dejar un evento que registre el hash anterior y el nuevo, de modo que `estado` no muestre pendientes que antes no tenía."
+    fuente "openspec/changes/20261005-193914-quitar-la-ruta/specs/limpieza/spec.md#las decisiones conservan su integridad"
+    medido_por factory_limpieza.las_decisiones_conservan_su_integridad, factory_limpieza.corrida_completa
