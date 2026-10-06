@@ -16,6 +16,7 @@ import sys
 from importlib import metadata, resources
 
 from . import __version__
+from . import archivo
 from . import estructura
 from . import migracion
 from . import modos
@@ -110,10 +111,15 @@ def config_proyecto() -> dict:
     if not isinstance(datos, dict):
         raise FactoryError(f"{ruta}: se requiere un objeto JSON")
     config = {"modo_por_defecto": datos.get("modo_por_defecto", modos.POR_DEFECTO),
-              "tipos_obligatorios": datos.get("tipos_obligatorios", False)}
+              "tipos_obligatorios": datos.get("tipos_obligatorios", False),
+              "capacidades": datos.get("capacidades", {})}
+    alias = config["capacidades"]
     if (set(datos) - set(config) or config["modo_por_defecto"] not in modos.MODOS
-            or type(config["tipos_obligatorios"]) is not bool):
-        raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}) y tipos_obligatorios (true/false)")
+            or type(config["tipos_obligatorios"]) is not bool
+            or not isinstance(alias, dict) or not all(isinstance(k, str) and isinstance(v, str) and v not in alias
+                                                      for k, v in alias.items())):
+        raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false) "
+                           "y capacidades (alias → capacidad, sin cadenas de alias)")
     return config
 
 
@@ -217,6 +223,9 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     ruta_segura(ROOT / "tareas")
     if not SLUG_RE.fullmatch(capacidad):
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
+    if capacidad_destino(capacidad) != capacidad:
+        print(f"Aviso: la capacidad {capacidad} es un alias de {capacidad_destino(capacidad)} en la configuración del proyecto; "
+              f"al cerrar, la spec se fusiona en openspec/specs/{capacidad_destino(capacidad)}/.", file=sys.stderr)
     modo = modo or config_proyecto()["modo_por_defecto"]
     if modo not in modos.MODOS:
         raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
@@ -343,7 +352,9 @@ def contexto_producto() -> dict:
     archivos = []
     for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
         partes = Path(nombre).parts
-        if partes[0] in ("tareas", estructura.DIR) or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+        # openspec/specs/ es la spec consolidada que Factory deriva de las specs aceptadas al cerrar: no es producto nuevo,
+        # y si lo fuera, cerrar vencería su propia revisión y archivar vencería la del último cambio integrado.
+        if partes[0] in ("tareas", estructura.DIR) or partes[:2] == ("openspec", "specs") or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
                 and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}):
             continue
         p = ROOT / nombre
@@ -858,11 +869,84 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     return faltan
 
 
+def capacidad_destino(capacidad: str) -> str:
+    return config_proyecto()["capacidades"].get(capacidad, capacidad)
+
+
+def ruta_indice(capacidad: str) -> Path:
+    return ROOT / estructura.DIR / "specs" / f"{capacidad}.json"
+
+
+def ruta_spec_consolidada(capacidad: str) -> Path:
+    return ROOT / "openspec" / "specs" / capacidad / "spec.md"
+
+
+def leer_indice(capacidad: str) -> dict:
+    ruta = ruta_segura(ruta_indice(capacidad))
+    return json.loads(ruta.read_text(encoding="utf-8")) if ruta.is_file() else archivo.indice_vacio(capacidad)
+
+
+def plan_archivo(estado: dict) -> tuple[str, dict]:
+    """(capacidad, índice nuevo) de fusionar la spec del cambio; FactoryError si hay conflicto. No escribe."""
+    capacidad = capacidad_destino(estado["capacidad"])
+    dominio = {rid.split(".", 1)[1]: rid for rid in estado.get("requisitos", [])}
+    try:
+        return capacidad, archivo.fusionar(leer_indice(capacidad), (ROOT / estado["spec"]).read_text(encoding="utf-8"),
+                                           estado["id"], dominio)
+    except archivo.Conflicto as e:
+        raise FactoryError(f"la spec no se puede fusionar en openspec/specs/{capacidad}/: {e}") from e
+
+
+def escribir_archivo(capacidad: str, indice: dict) -> str:
+    """Escribe la spec consolidada y su índice; devuelve la ruta relativa de la spec."""
+    spec = ruta_spec_consolidada(capacidad)
+    for destino in (spec, ruta_indice(capacidad)):
+        ruta_segura(destino).parent.mkdir(parents=True, exist_ok=True)
+    escribir_atomico(spec, archivo.texto_consolidado(indice).encode("utf-8"))
+    escribir_atomico(ruta_indice(capacidad), bytes_json(indice))
+    return spec.relative_to(ROOT).as_posix()
+
+
+def marcar_archivado(estado: dict, capacidad: str, spec: str, forma: str) -> None:
+    estado["archivo"] = {"capacidad": capacidad, "spec": spec, "cuando": ahora()}
+    evento(estado, "archivado", forma=forma, capacidad=capacidad, spec=spec)
+
+
+def situacion_requisitos(estado: dict) -> list[tuple[str, str, str | None]]:
+    """[(requisito, 'vigente'|'reemplazado'|'ausente', cambio que lo reemplazó)] de un cambio archivado."""
+    if not estado.get("archivo"):
+        return []
+    indice = leer_indice(estado["archivo"]["capacidad"])
+    return [(rid, *archivo.situacion(indice, rid)) for rid in estado.get("requisitos", [])]
+
+
+def archivar() -> None:
+    """Archiva los cambios cerrados que todavía no lo están, en el orden en que se cerraron."""
+    pendientes = []
+    for carpeta in sorted(CHANGES.iterdir()) if CHANGES.is_dir() else []:
+        if ID_RE.fullmatch(carpeta.name) and ruta_registro(carpeta).is_file():
+            _, estado = leer(carpeta.name)
+            if estado.get("fase") == "cerrada" and not estado.get("archivo"):
+                pendientes.append((estado["cierre"].get("cuando", ""), carpeta.name))
+    if not pendientes:
+        print("No hay cambios cerrados sin archivar.")
+        return
+    for _, identificador in sorted(pendientes):
+        carpeta, estado = leer(identificador)
+        capacidad, indice = plan_archivo(estado)
+        spec = escribir_archivo(capacidad, indice)
+        marcar_archivado(estado, capacidad, spec, "migracion")
+        guardar(carpeta, estado)
+        print(f"Archivado {identificador} en {spec}.")
+
+
 def cerrar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
+    capacidad, indice = plan_archivo(estado)  # un conflicto rechaza el cierre antes de preguntar
+    print(f"Al cerrar, la spec se fusiona en openspec/specs/{capacidad}/spec.md.")
     print(f"Se cerrará la tarea {identificador} (modo {modo_de(estado)}); Oracle {estado['oracle']['informe']}; revisión {estado['revision']['informe']}.")
     print(f"Spec aceptada por {quien(estado['spec_aprobada'])}; revisión registrada por {quien(estado['revision'])}.")
     for linea in commits_registrados(estado):
@@ -874,6 +958,7 @@ def cerrar(identificador: str) -> None:
     if falta:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
     cierre = registro_decision(estado, forma)
+    spec_consolidada = escribir_archivo(capacidad, indice)  # antes de cerrar: un reintento la encuentra ya fusionada
     nota_tarea(identificador, f"Cierre: {quien(cierre)}, tras revisar el informe de código y el veredicto Oracle."
                + (" El cierre lo decidió un agente en modo autónomo." if cierre["tipo_actor"] == "agente" else ""))
     p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
@@ -882,7 +967,9 @@ def cerrar(identificador: str) -> None:
     estado["fase"] = "cerrada"
     estado["cierre"] = cierre
     evento(estado, "cierre", forma=forma, oracle=estado["oracle"]["informe"], revision=estado["revision"]["informe"])
+    marcar_archivado(estado, capacidad, spec_consolidada, forma)
     guardar(carpeta, estado)
+    print(f"Spec fusionada en {spec_consolidada}.")
     print(p.stdout.strip() or "Tarea cerrada.")
     if cierre["tipo_actor"] == "agente":
         print(f"El cierre lo decidió el agente {cierre['actor']} en modo autónomo; las demás decisiones, como indica estado.")
@@ -1038,6 +1125,10 @@ def mostrar(identificador: str) -> None:
         print(f"Medidas de {rid}: {quien(medida)}")
     if estado.get("cierre"):
         print("Cierre: " + quien(estado["cierre"]))
+    if estado.get("archivo"):
+        print(f"Archivo: {estado['archivo']['spec']}")
+        for rid, situacion, por in situacion_requisitos(estado):
+            print(f"  {rid}: {situacion}" + (f" por {por}" if por else ""))
     siguiente(identificador, estado["fase"])
 
 
@@ -1046,8 +1137,9 @@ LEEME_FACTORY = """# .factory/
 Lo que Factory produce sobre este proyecto. Se versiona con el código para que quien clone el proyecto
 lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 
-- `config.json` es la configuración del proyecto: `modo_por_defecto` y `tipos_obligatorios`.
+- `config.json` es la configuración del proyecto: `modo_por_defecto`, `tipos_obligatorios` y `capacidades` (alias de capacidades).
 - `cambios/<ID>/` guarda el estado del cambio: `factory.json`, `review.md` y `oracle-veredicto.txt`.
+- `specs/<capacidad>.json` es el índice de la spec consolidada en `openspec/specs/<capacidad>/`: de qué cambio y requisito de Oracle viene cada requisito vigente y cuáles fueron reemplazados.
 - `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
 - `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.
 
@@ -1227,7 +1319,7 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
         if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] == 'cerrada') \
                 or (cerrados and estado['fase'] != 'cerrada'):
             continue
-        print(f"{carpeta.name}  {estado['fase']}  {estado['titulo']}")
+        print(f"{carpeta.name}  {estado['fase']}{' (archivado)' if estado.get('archivo') else ''}  {estado['titulo']}")
         encontrados += 1
     if not encontrados:
         print('No hay cambios que coincidan con el filtro.' if (fase or abiertos or cerrados)
@@ -1446,6 +1538,7 @@ def main(argv: list[str] | None = None) -> int:
     grupo = q.add_mutually_exclusive_group()
     grupo.add_argument('--abiertos', action='store_true', help='sólo los cambios abiertos')
     grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
+    sub.add_parser('archivar', help='fusionar en openspec/specs/ la spec de los cambios cerrados que todavía no lo están')
     q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
     q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
     q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
@@ -1498,6 +1591,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
+        elif args.comando == "archivar": archivar()
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)

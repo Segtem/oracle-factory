@@ -5,7 +5,8 @@ Un proyecto Factory reparte lo que guarda entre cuatro lugares. Saber cuál es c
 ```text
 proyecto/
   .factory/                           # lo que Factory produce; versionada, salvo local/
-    config.json                       # configuración del proyecto: modo por defecto y tipos obligatorios
+    config.json                       # configuración del proyecto: modo por defecto, tipos obligatorios y alias de capacidades
+    specs/<capacidad>.json            # índice de la spec consolidada: de qué cambio viene cada requisito y qué reemplazó
     cambios/<ID>/                     # un cambio
       factory.json                    #   su estado: fase, decisiones, eventos
       review.md                       #   la revisión libre, si la hubo
@@ -17,6 +18,7 @@ proyecto/
     local/                            # de esta máquina; Git la ignora
       revisiones/<sha7>/              #   checkouts estables para que Clue revise
   openspec/changes/<ID>/              # el acuerdo humano, visible: propuesta, spec, diseño y plan
+  openspec/specs/<capacidad>/spec.md  # lo vigente de cada capacidad: se genera al cerrar cada cambio
   tareas/                             # de Oracle Task: la tarea de cada cambio (TAREA.md)
   requisitos/  catalogos/  oracle.json    # de Oracle: requisitos, medidas y configuración
 ```
@@ -27,6 +29,7 @@ proyecto/
 |---|---|---|
 | `.factory/` | Factory | El estado de cada cambio, la configuración, lo que se produce sobre un candidato y lo propio de cada máquina |
 | `openspec/changes/<ID>/` | OpenSpec | Sólo el acuerdo: `proposal.md`, `design.md`, `tasks.md` y `specs/` |
+| `openspec/specs/<capacidad>/` | Factory (formato OpenSpec) | La spec consolidada: los requisitos vigentes de la capacidad. Se genera; no se edita a mano |
 | `tareas/` | Oracle Task | La tarea de cada cambio, con sus notas |
 | `requisitos/`, `catalogos/`, `oracle.json` | Oracle | Los requisitos importados, las medidas y la configuración |
 
@@ -81,6 +84,16 @@ Tres límites protegen de usar el proyecto equivocado:
 ## Los cambios anteriores
 
 Los cambios creados antes de esta estructura tienen su evidencia en carpetas con otros nombres (`evidencia-mapeo`, `revision-pendiente`, `contexto-clue-<sha>.json`…). **No se mueven.** `donde` las lista como *históricas*: son evidencia atada a hashes y, en el caso de los paquetes de Clue, a la ruta del checkout que revisaron.
+
+## Lo vigente de cada capacidad
+
+Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`) o quita (`REMOVED`); sin encabezados, todo cuenta como agregado. Al cerrar el cambio, Factory la fusiona en `openspec/specs/<capacidad>/spec.md`, que queda con los requisitos vigentes y, en cada uno, el cambio y el requisito de Oracle de los que viene. Para saber qué hace el sistema hoy se lee esa spec, no todas las propuestas.
+
+- **Un conflicto no se resuelve solo:** agregar un requisito que ya existe, o modificar o quitar uno que no existe, rechaza el cierre antes de preguntar y nombra el requisito.
+- **Nada de lo cerrado se mueve:** a diferencia de OpenSpec, la carpeta del cambio queda en `openspec/changes/<ID>/` y sus requisitos de Oracle no se reimportan. `estado` de un cambio archivado dice cuáles de sus requisitos siguen vigentes y cuáles reemplazó otro cambio.
+- **Un nombre por capacidad:** `capacidades` en `.factory/config.json` declara alias (`{"estructura2": "estructura"}`); un cambio con un alias se fusiona en la capacidad de destino, y `nuevo` lo avisa.
+- **Los cambios cerrados antes de esto** se archivan con `oracle-factory archivar`, en el orden en que se cerraron; correrlo de nuevo no cambia nada.
+- La spec consolidada queda fuera de la huella del producto, como `.factory/`: se deriva de specs ya aceptadas, y si contara, un cierre interrumpido no se podría reintentar.
 
 ## Migrar un proyecto anterior (fase 2)
 

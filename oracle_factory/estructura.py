@@ -95,6 +95,8 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
         requisitos = estado.get('requisitos')
         for rid in (requisitos if isinstance(requisitos, list) else []):
             filas.append(_entrada('medidas', f'requisitos/{rid}.requisito' if _texto(rid) else None, raiz))
+        if _texto(_dic(estado.get('archivo')).get('spec')):
+            filas.append(_entrada('archivo', estado['archivo']['spec'], raiz, 'spec consolidada de la capacidad'))
         filas.append(_entrada('estado', registro_de(raiz, ident).relative_to(raiz).as_posix(), raiz,
                               'anterior a la fase 2: `oracle-factory migrar` lo pasa a .factory/' if es_anterior(raiz, ident) else ''))
         filas.append(_entrada('tarea', f'tareas/{ident}/TAREA.md', raiz))
@@ -166,7 +168,7 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
                         por_requisito[rid] = carpeta.name
                 except (OSError, ValueError):
                     continue
-    lugares = [raiz / 'openspec' / 'changes', raiz / 'requisitos', raiz / 'tareas']
+    lugares = [raiz / 'openspec' / 'changes', raiz / 'openspec' / 'specs', raiz / 'requisitos', raiz / 'tareas']
     if not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta: no se lee a través de él
         lugares.append(raiz / DIR / 'cambios')
     archivos = sorted(p for lugar in lugares if lugar.is_dir() and not lugar.is_symlink() for p in lugar.rglob('*')

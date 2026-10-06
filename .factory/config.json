@@ -1,0 +1,8 @@
+{
+  "modo_por_defecto": "confirmacion",
+  "tipos_obligatorios": false,
+  "capacidades": {
+    "estructura2": "estructura",
+    "distribution": "distribucion"
+  }
+}
