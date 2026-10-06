@@ -1,0 +1,4 @@
+requisito archivo_c8ae38573cf7168a4.se_distingue_lo_vigente_de_lo_reemplazado:
+    texto "Tipo: funcional Para cada requisito de Oracle de un cambio archivado, Factory SHALL poder decir si está vigente o fue reemplazado, y por qué cambio."
+    fuente "openspec/changes/20261006-161029-archivar-al/specs/archivo/spec.md#se distingue lo vigente de lo reemplazado"
+    sin_medir "sin medida todavía; escenarios: «requisito reemplazado»"
