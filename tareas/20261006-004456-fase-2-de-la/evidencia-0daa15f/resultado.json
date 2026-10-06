@@ -1,0 +1,62 @@
+{
+  "exitoso": true,
+  "tests": 193,
+  "casos_contrato": 23,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "estados_en_el_lugar_anterior": [],
+  "tareas_tocadas": [],
+  "estados_distintos": [],
+  "estados_comparados_con": "3f08ff9",
+  "estados_excluidos": [
+    "20261006-004456-fase-2-de-la"
+  ],
+  "origen": {
+    "head": "0daa15f31a3b0440cb76ecf0fb8cef723f0be535",
+    "sha256": {
+      "catalogos/factory_estructura2.corrida_completa.oracle": "3d6313ac316fc79f2efbc80fb357a80759b3cd27bc5cfa94e007a79ab9bdb080",
+      "catalogos/factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory.oracle": "2bf20438b6022c748dc6deab1530d615df59e2c1ad5f6676f5ca8a2552718986",
+      "catalogos/factory_estructura2.este_repositorio_queda_migrado_y_verificado.oracle": "9d1bf14ca9f2f119cd3e96914c668305f926c876659141db47e9265e147d97bf",
+      "catalogos/factory_estructura2.la_configuracion_del_proyecto_vive_en_factory.oracle": "d133552ec5a89bc229d56da2e0c689ecfa2dfe16b7dc3336755a62a155f1251e",
+      "catalogos/factory_estructura2.la_migracion_conserva_el_significado.oracle": "26d4b716432c834b72c85d376d6d13addd0ce7207032788772330fb410323ebf",
+      "catalogos/factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares.oracle": "d118efecb64c13d60a61b7384b9c62657f63e38c16198410278ac82e51d5ce1f",
+      "catalogos/factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido.oracle": "2b74ad7c0b3e6cb63bd803ec26ea7c3b148739ab4dbbdd155446742d68583ce2",
+      "catalogos/factory_estructura2.migrar_no_pierde_ni_pisa_nada.oracle": "cf1879d055c5c28f98e70124baa1515affc9b6a1dc0f5e562f2d76d2b9f28c57",
+      "catalogos/factory_estructura2.un_proyecto_no_migrado_sigue_funcionando.oracle": "63e1c0f86360bf69a9115c18f9e1874644e00fb7d7cf8197cb3d538804b7cb9e",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "0789fa1b8097bb86d1a3093a9de1e742590a3af9355e6cf256f93aac9a577431",
+      "oracle_factory/cli.py": "b4f0d7d793607b56d04b33a221c876ab660af827bd3f5a769189ed37e9bc963b",
+      "oracle_factory/estructura.py": "2939a93108e2037a1831984a902d8dc399bc02c07922cf977960581dcb392fd9",
+      "oracle_factory/migracion.py": "af642b8a30cbe62b58b83ff9f5adcb6ea7af3e2fcbdce8d7f0553eb4d68d559f",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "d39321ef27cef633d0894badc9cf099666dac35e4813ce684bce73a1e7138c31",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "e18d79b10d1850e3d160f6168f26f6fc318b0a7e8f1717008e8fec4b99ba701a",
+      "tests/test_estructura.py": "c9bacd86153ada230c14a3513f8a794e7c19dc53a1d5e1616fc496b73586ce97",
+      "tests/test_estructura2.py": "63b2ba52403de44e0f1668014960834b6b3ca6859bf30ed03a6962b58d0b7430",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "e0496d57bc2480eb1464287cffa5278df6a7d0b382bea01c2b7c93aad2b1ca0d",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_limpieza.py": "4909d624d8e7183123eebe0d19316f282882ca4febd20cdba366f9e3c73def3c",
+      "tests/test_modos.py": "0a8af12c9272556fd83b34a153b60bcde3a247a6b9cf3b1776c4e5681adae1e4",
+      "tests/test_portabilidad.py": "894ff36510d7fc76c598326243dfc42ebe4020e8832753bd24b633aed106f734",
+      "tests/test_review_guided.py": "ad446485f29eea204d426f9c3854b2a341928c33724e4e8581bfb8ad764f84e6",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "6fb30fd48f32b3cf7a880e64b3a6ae5d0b10cff9d38be32bdd3804f78d10841a",
+      "tests/test_workflow.py": "cfcd7d7ba46ffbf0ecb659a9c55af717ba8365df4b4e979a98dcf6c29639df5a",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_estructura2.py": "cd27134cc23df0cd9851b766c30e3987f2b1031803833240fbf02a62542314ec"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios s1–s7 en repositorios temporales, Linux; el lugar anterior se simula moviendo los archivos de un cambio nuevo. Más tres comprobaciones sobre este repositorio: ningún estado queda en openspec/changes/, ningún archivo de tareas/ que ya existía en la base cambió y el `estado` de cada cambio es el mismo antes y después. No migra a otras máquinas ni toca el historial de Git.",
+  "artefactos_sha256": {
+    "suite.txt": "9eb533621b692af073094d087a635c8778ec3723d334f877f39a23ea4b7e668a",
+    "hechos.json": "03ae9eb79f2a21e74c13265a451aeae5eb6d8cae2a61a7b3c891fd9eaa6311d2"
+  }
+}
