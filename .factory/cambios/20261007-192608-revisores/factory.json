@@ -2,7 +2,7 @@
   "id": "20261007-192608-revisores",
   "titulo": "Pedir una revisión independiente desde Factory",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "juicio_pendiente",
   "spec": "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md",
   "spec_sha256": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521",
   "spec_aprobada": {
