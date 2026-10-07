@@ -68,7 +68,7 @@ class Decisiones(_ap.Base):
     def test_d1_cancelar(self):
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
         antes = self.registro()
-        for respuesta in ('2', '', f'APROBAR ESPECIFICACION {self.ident}', '9'):  # Enter solo tampoco elige
+        for respuesta in ('2', '', f'APROBAR ESPECIFICACION {self.ident}', '9', '²'):  # Enter solo tampoco elige
             with self.subTest(respuesta=respuesta), self.responde(respuesta), self.assertRaises(f.FactoryError), \
                     contextlib.redirect_stdout(io.StringIO()):
                 f.aprobar_spec(self.ident)

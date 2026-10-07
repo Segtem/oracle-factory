@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/349adaa",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "349adaaf21b3b537b83655c49097c32f19d64841",
+  "diff_sha256": "ea0aa13f2abe8d2904f865000ae0b402751aed8b035af706d54c9ddf9dbc075c",
+  "context_sha256": "e15adf322bcef6f1c9aa328e0d4b10fc55edc1ad22eb1d793e70cb808a5e46e2",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DGUI-07",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una respuesta Unicode inválida rompe el menú en vez de cancelarlo",
+      "explanation": "`elegir` usa `str.isdigit()` para aceptar una respuesta y luego la convierte con `int()`. `isdigit()` también devuelve True para caracteres como `²`, que `int()` no puede convertir. La excepción `ValueError` no está entre las manejadas por `main()`, así que el comando termina con traceback y no con la cancelación normal prometida para cualquier respuesta que no sea una opción. La excepción ocurre antes de registrar la decisión, por lo que no observé cambios en el registro.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 156,
+        "end_line": 156,
+        "side": "head"
+      },
+      "trigger": "En cualquier menú interactivo, escribir `²` como respuesta.",
+      "evidence": "Reproducción directa de `elegir(\"Prueba\", [(\"Aceptar\", \"confirma\"), (\"Cancelar\", \"no registra nada\")])` con `input()` devolviendo `²`: imprime las opciones y lanza `ValueError: invalid literal for int() with base 10: '²'`. `main()` sólo captura `FactoryError`, `OSError`, `json.JSONDecodeError` y `EOFError`.",
+      "related_requirement": "las confirmaciones son un menú — Scenario: cancelar",
+      "status": "pendiente",
+      "verification": "Reproducido mediante una entrada simulada a `elegir`; no se modificó el checkout ni el registro."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `tests.test_decisiones` (12 tests) y `tests.test_modos` (29 tests); ambas suites pasaron.",
+    "Reproduje manualmente el caso de entrada Unicode inválida en `elegir`; no modifiqué el checkout ni probé cambios mediante mutación de archivos.",
+    "El paquete incluye todos los archivos del diff Clue; las pruebas no cubren todas las entradas Unicode posibles."
+  ]
+}

@@ -153,7 +153,8 @@ def elegir(pregunta: str, opciones: list[tuple[str, str]]) -> int | None:
     for i, (etiqueta, implica) in enumerate(opciones, 1):
         print(f"  {i}) {etiqueta} — {implica}")
     respuesta = input(f"Elegí 1-{len(opciones)}: ").strip()
-    return int(respuesta) - 1 if respuesta.isdigit() and 1 <= int(respuesta) <= len(opciones) else None
+    # Sólo dígitos ASCII: isdigit() también acepta «²», que int() no convierte.
+    return int(respuesta) - 1 if re.fullmatch(r"[0-9]+", respuesta) and 1 <= int(respuesta) <= len(opciones) else None
 
 
 def confirmar_persona(menu: tuple[str, str, str], cancelado: str) -> None:
