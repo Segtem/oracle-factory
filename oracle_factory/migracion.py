@@ -14,7 +14,7 @@ from . import estructura
 
 ESTADO = ('review.md', 'oracle-veredicto.txt', 'factory.json')  # el registro va último
 ID_RE = estructura.ID_RE
-CLAVES_CONFIG = {'modo_por_defecto', 'tipos_obligatorios', 'capacidades'}
+CLAVES_CONFIG = {'modo_por_defecto', 'tipos_obligatorios', 'capacidades', 'revisores'}
 
 
 def _enlazado(raiz: Path, ruta: Path) -> Path | None:

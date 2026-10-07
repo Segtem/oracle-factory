@@ -63,6 +63,18 @@ def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia:
     return informe, {**decisiones, 'decisiones': borrador}
 
 
+def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
+    """Una comprobación por vuelta anterior: [{'candidato', 'ruta', 'datos'}] → comprobaciones, sin hallazgos que decidir."""
+    comprobaciones = []
+    for v in vueltas:
+        hallazgos = [h for h in v['datos'].get('findings') or [] if isinstance(h, dict)]
+        ids = ', '.join(f"{h.get('id')} ({h.get('severity', '?')})" for h in hallazgos) or 'sin hallazgos'
+        comprobaciones.append({'descripcion': f"Vuelta anterior en el candidato {v['candidato']}: {_proveedor(v['datos'])}, "
+                                              f"{len(hallazgos)} hallazgo{'s' if len(hallazgos) != 1 else ''}: {ids}",
+                               'resultado': 'falla' if hallazgos else 'cumple', 'evidencia': v['ruta']})
+    return comprobaciones
+
+
 if __name__ == '__main__':
     base = {'revisor': None, 'completa': None, 'archivos_revisados': None, 'comprobaciones': None, 'limites': None,
             'hallazgos': None, 'sin_hallazgos_motivo': None}
