@@ -77,6 +77,7 @@ def interfaz():
 def comandos_nombrados(fragmento):
     """[(subcomando, [opciones])] de cada `oracle-factory …` o `fabrica.py …` del fragmento."""
     encontrados = []
+    fragmento = re.sub(r'\\\n\s*', ' ', fragmento)  # una línea continuada con barra invertida es un solo comando
     for linea in fragmento.splitlines():
         for m in re.finditer(r'(?:oracle-factory|fabrica\.py)((?:[ \t]+[^\s|;#`]+)+)', linea):
             tokens, sub, opciones, i = m[1].split(), None, [], 0
@@ -136,6 +137,8 @@ class Web(unittest.TestCase):
     def test_w3_la_comprobacion_detecta_un_comando_inexistente(self):
         self.assertEqual(comandos_nombrados('oracle-factory --proyecto x comando-inexistente --opcion'),
                          [('comando-inexistente', ['--opcion'])])
+        self.assertEqual(comandos_nombrados('oracle-factory \\\n  --proyecto . nuevo --capacidad notas'),
+                         [('nuevo', ['--capacidad'])])  # continuada con barra invertida
 
     def test_w3_los_enlaces_internos_resuelven(self):
         todas = paginas()

@@ -15,8 +15,8 @@ Cada cambio tiene una tarea y un paquete OpenSpec. Dos trabajos independientes t
 Creen cada cambio en Factory y completen propuesta/spec antes de implementarlo:
 
 ```bash
-oracle-factory --proyecto /ruta/producto nuevo --capacidad api "Agregar consulta de notas"
-oracle-factory --proyecto /ruta/producto nuevo --capacidad interfaz "Mostrar notas en pantalla"
+oracle-factory --proyecto /ruta/producto nuevo --capacidad consulta "Agregar consulta de notas"
+oracle-factory --proyecto /ruta/producto nuevo --capacidad pantalla "Mostrar notas en pantalla"
 oracle-factory --proyecto /ruta/producto listar
 ```
 
@@ -41,7 +41,7 @@ Aunque cada frente tenga su cambio, algunos archivos los tocan todos: el sensor,
 | Relación que emite el sensor | `<capacidad>_comprobacion`, con un campo `requisito` que tiene siempre el nombre del requisito sin dominio |
 | `oracle.json` → `sensores` | Lo edita el integrador, no cada frente: cada frente anota en su reparto qué ruta agrega |
 
-Dos sensores que emiten la misma relación son un solapamiento que Git no ve: decláralo en el reparto como interfaz.
+Dos sensores que emiten la misma relación son un solapamiento que Git no ve: declárenlo en el reparto como interfaz.
 
 La interfaz compartida también es alcance: cambiar `titulo` por `nombre` puede romper la pantalla aunque Git fusione archivos distintos sin conflicto. Si aparece una superposición, detengan sólo ese trabajo, acuerden orden o nuevo reparto y registren la decisión antes de editar.
 
@@ -96,7 +96,7 @@ Para que dos revisores aporten notas a la vez, usen archivos nuevos por autor/se
 Confirmen el producto y mantengan estable el checkout de revisión. Elijan una base explícita que difiera de HEAD; no supongan que `HEAD~1` representa todo el trabajo. Seleccionen propuesta/spec y evidencia que necesite quien revisa.
 
 ```bash
-oracle-clue preparar --repo /ruta/producto-a --base BASE_DE_REVISION --contexto openspec/changes/ID_COMPLETO/specs/api/spec.md --salida /ruta/revisiones/entrega-a-contexto.json
+oracle-clue preparar --repo /ruta/producto-a --base BASE_DE_REVISION --contexto openspec/changes/ID_COMPLETO/specs/consulta/spec.md --salida /ruta/revisiones/entrega-a-contexto.json
 ```
 
 La carpeta de salida debe existir fuera del repo revisado y el archivo debe ser nuevo. La persona B, con ayuda de su agente, lee el paquete y produce un informe conforme al [schema de Clue 0.1.0a1](https://github.com/Segtem/oracle-clue/blob/v0.1.0a1/docs/hallazgos.schema.json). Clue prepara contexto y valida integridad; esta versión no produce análisis de IA. Un informe vacío no acepta la entrega. Las omisiones exigen declarar revisión incompleta y sus límites.
@@ -155,11 +155,11 @@ Al cerrar, la spec del cambio se fusiona en `openspec/specs/<capacidad>/spec.md`
 
 Si quedan hallazgos, registren `--decision cambios` y corrijan antes de repetir el ciclo. No usen `tasks close` para saltar los gates de Factory. Oracle sólo juzga hechos y requisitos medidos; un verde de seguimiento de Task no prueba que el producto funcione. Factory todavía no ejecuta el sensor ni demuestra automáticamente que un JSON venga del candidato actual.
 
-El commit que archiva el cierre puede ser posterior al commit del producto juzgado. Registre ambos en la entrega sin presentarlos como idénticos. Si el producto vuelve a cambiar, corresponde otro ciclo; el historial de cierre anterior no aprueba código nuevo.
+El commit que archiva el cierre puede ser posterior al commit del producto juzgado. Registren ambos en la entrega sin presentarlos como idénticos. Si el producto vuelve a cambiar, corresponde otro ciclo; el historial de cierre anterior no aprueba código nuevo.
 
 ## Demostración y piloto
 
-Desde un checkout de Factory, use un Python con sus dependencias fijadas y Clue instalado por separado. Por ejemplo, prepare un entorno local con `uv venv .venv` y `uv pip install --python .venv/bin/python -e .`, e instale `oracle-clue==0.1.0a1` como herramienta. Ejecute:
+Desde un checkout de Factory, usen un Python con sus dependencias fijadas y Clue instalado por separado. Por ejemplo, preparen un entorno local con `uv venv .venv` y `uv pip install --python .venv/bin/python -e .`, e instalen `oracle-clue==0.1.0a1` como herramienta. Ejecuten:
 
 ```bash
 .venv/bin/python tools/verify_collaboration.py --clue oracle-clue --salida /tmp/evidencia-colaboracion-01
