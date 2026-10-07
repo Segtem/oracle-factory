@@ -1921,7 +1921,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             nota_tarea(identificador, f'Medidas de {requisito_id} propuestas por {AGENTE} (agente, modo {modo_de(estado)}); '
                        'no cuentan hasta que una persona las confirme.')
             print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): las medidas que el archivo ya tiene no cuentan hasta que '
-                  'una persona repita este comando desde una terminal interactiva, sin --agente.')
+                  f'una persona las confirme desde una terminal interactiva: oracle-factory medir {identificador} --confirmar')
             return
         # La persona confirma tal cual lo propuesto (mismos bytes) o decide; el agente que ahora decide
         # reemplaza su propia propuesta.
@@ -1994,8 +1994,8 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')
     if via == 'propone':
-        print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): no cuenta hasta que una persona repita este mismo comando '
-              'desde una terminal interactiva, sin --agente.')
+        print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): no cuenta hasta que una persona la confirme desde una '
+              f'terminal interactiva: oracle-factory medir {identificador} --confirmar')
 
 
 def confirmar_medidas(identificador: str) -> None:
