@@ -1,0 +1,104 @@
+? archivo_cbf6802991c3ba673.este_repositorio_queda_archivado   sin juicio · factory_archivo.este_repositorio_queda_archivado no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo   sin juicio · factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe   sin juicio · factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo   sin juicio · factory_archivo.los_comandos_de_lectura_muestran_el_archivo no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado   sin juicio · factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar   sin juicio · factory_archivo.un_conflicto_impide_cerrar no aplicada, factory_archivo.corrida_completa no aplicada
+? archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre   sin juicio · factory_archivo.una_capacidad_con_un_solo_nombre no aplicada, factory_archivo.corrida_completa no aplicada
+? autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide   sin juicio · factory_autoproduccion.el_borrador_de_decisiones_no_decide no aplicada, factory_autoproduccion.corrida_completa no aplicada
+? autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato   sin juicio · factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato no aplicada, factory_autoproduccion.corrida_completa no aplicada
+? autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato   sin juicio · factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato no aplicada, factory_autoproduccion.corrida_completa no aplicada
+? autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan   sin juicio · factory_autoproduccion.los_informes_se_validan_o_se_marcan no aplicada, factory_autoproduccion.corrida_completa no aplicada
+? autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores   sin juicio · factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores no aplicada, factory_autoproduccion.corrida_completa no aplicada
+? colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos   sin juicio · factory_colaboracion.aislamiento_y_sincronizacion_explicitos no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Pilotaje en máquinas distintas y colisión de un cambio Factory que ya tiene spec aceptada o requisitos importados (renovar la aceptación y reimportar) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task o de un cambio Factory sin spec aceptada con ID colisionado.
+? colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites   sin juicio · factory_colaboracion.demostracion_reproducible_con_limites no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Piloto con dos personas y sus agentes pendiente; usabilidad y productividad no medidas por el arnés.
+? colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente   sin juicio · factory_colaboracion.integracion_serializada_y_evidencia_vigente no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Autoridad del integrador, resolución humana de conflictos y suficiencia del sensor del producto sin medir; aprobaciones fixture sólo en temporales.
+? colaboracion_c20a7f5e3d414985d.relevo_recuperable   sin juicio · factory_colaboracion.relevo_recuperable no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Recepción y recuperación reales por personas sin medir; el arnés sólo simula responsables y un proceso fixture terminado.
+? colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo   sin juicio · factory_colaboracion.reparto_explicito_del_trabajo no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Acuerdo real de reparto, confirmación de ambas personas y aplicación de escritor único pendientes de piloto humano.
+? colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version   sin juicio · factory_colaboracion.revision_vinculada_a_una_version no aplicada, factory_colaboracion.corrida_completa no aplicada · SIN MEDIR: Calidad y suficiencia de la revisión cruzada y de decisiones humanas sin medir; Clue valida integridad con informe fixture.
+· distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado   sin medir · SIN MEDIR: sin medida todavía; escenarios: «instalación aislada»
+· distribution_c01af4be8811ed3bb.entregar_artefactos_verificables   sin medir · SIN MEDIR: sin medida todavía; escenarios: «usuario publica el corte»
+· distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona inicia otro proyecto»
+· documentacion_c3d226d369499e32e.correspondencia_con_el_producto   sin medir · SIN MEDIR: sin medida todavía; escenarios: «conocer el alcance»
+· documentacion_c3d226d369499e32e.guia_reproducible   sin medir · SIN MEDIR: sin medida todavía; escenarios: «proyecto vacío»
+· documentacion_c3d226d369499e32e.limites_de_la_evidencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «interpretación del verde»
+? estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory   sin juicio · factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado   sin juicio · factory_estructura2.este_repositorio_queda_migrado_y_verificado no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory   sin juicio · factory_estructura2.la_configuracion_del_proyecto_vive_en_factory no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.la_migracion_conserva_el_significado   sin juicio · factory_estructura2.la_migracion_conserva_el_significado no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares   sin juicio · factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido   sin juicio · factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada   sin juicio · factory_estructura2.migrar_no_pierde_ni_pisa_nada no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando   sin juicio · factory_estructura2.un_proyecto_no_migrado_sigue_funcionando no aplicada, factory_estructura2.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto   sin juicio · factory_estructura.buscar_en_todo_el_proyecto no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory   sin juicio · factory_estructura.carpeta_propia_de_factory no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto   sin juicio · factory_estructura.descubrir_la_raiz_del_proyecto no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto   sin juicio · factory_estructura.donde_esta_cada_artefacto no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.estructura_documentada   sin juicio · factory_estructura.estructura_documentada no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce   sin juicio · factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.listar_con_filtros   sin juicio · factory_estructura.listar_con_filtros no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local   sin juicio · factory_estructura.lo_versionado_y_lo_local no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente   sin juicio · factory_estructura.respetar_lo_existente no aplicada, factory_estructura.corrida_completa no aplicada
+? estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos   sin juicio · factory_estructura.ruta_canonica_para_producir_artefactos no aplicada, factory_estructura.corrida_completa no aplicada
+· landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante compara cuatro formas de crear software»
+· landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante consulta una herramienta aún en desarrollo»
+· landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante recorre el flujo»
+· landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante abre la página sin red externa»
+· landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles   sin medir · SIN MEDIR: sin medida todavía; escenarios: «persona sigue la guía desde cero»
+· landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos   sin medir · SIN MEDIR: sin medida todavía; escenarios: «agente llega a una decisión humana», «visitante usa una decisión de la demostración»
+· landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable   sin medir · SIN MEDIR: sin medida todavía; escenarios: «visitante prefiere movimiento reducido»
+? limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe   sin juicio · factory_limpieza.la_evidencia_no_se_reescribe no aplicada, factory_limpieza.corrida_completa no aplicada
+? limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad   sin juicio · factory_limpieza.las_decisiones_conservan_su_integridad no aplicada, factory_limpieza.corrida_completa no aplicada
+? limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable   sin juicio · factory_limpieza.limpieza_repetible_y_verificable no aplicada, factory_limpieza.corrida_completa no aplicada
+? limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada   sin juicio · factory_limpieza.los_registros_no_llevan_la_ruta_privada no aplicada, factory_limpieza.corrida_completa no aplicada
+? measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida   sin juicio · factory_guiada.asociacion_explicita_y_valida no aplicada
+? measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior   sin juicio · factory_guiada.invalidar_evidencia_anterior no aplicada
+? measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error   sin juicio · factory_guiada.preservar_requisito_ante_error no aplicada
+? modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos   sin juicio · factory_modos.actor_registrado_sin_aparentar_humanos no aplicada, factory_modos.corrida_completa no aplicada
+? modos_c45a4802846932222.cambio_de_modo_con_invalidacion   sin juicio · factory_modos.cambio_de_modo_con_invalidacion no aplicada, factory_modos.corrida_completa no aplicada
+? modos_c45a4802846932222.decisiones_segun_el_modo   sin juicio · factory_modos.decisiones_segun_el_modo no aplicada, factory_modos.corrida_completa no aplicada
+? modos_c45a4802846932222.modo_explicito_por_cambio   sin juicio · factory_modos.modo_explicito_por_cambio no aplicada, factory_modos.corrida_completa no aplicada
+? modos_c45a4802846932222.tipo_de_requisito   sin juicio · factory_modos.tipo_de_requisito no aplicada, factory_modos.corrida_completa no aplicada
+? onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion   sin juicio · factory_guiada.preparar_ejemplo_sin_aprobacion no aplicada
+? onboarding_ca007f9416d32e171.preservar_archivos_existentes   sin juicio · factory_guiada.preservar_archivos_existentes no aplicada
+? onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso   sin juicio · factory_guiada.recuperar_cambios_y_siguiente_paso no aplicada
+? portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan   sin juicio · factory_portabilidad.advertir_cuando_los_hechos_no_viajan no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa   sin juicio · factory_portabilidad.fuente_de_los_requisitos_relativa no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto   sin juicio · factory_portabilidad.hechos_con_ruta_relativa_al_proyecto no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse   sin juicio · factory_portabilidad.pendiente_que_explica_como_recuperarse no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.respetar_los_registros_existentes   sin juicio · factory_portabilidad.respetar_los_registros_existentes no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado   sin juicio · factory_portabilidad.sin_rutas_privadas_en_lo_versionado no aplicada, factory_portabilidad.corrida_completa no aplicada
+? portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra   sin juicio · factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra no aplicada, factory_portabilidad.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas   sin juicio · factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente   sin juicio · factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice   sin juicio · factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia   sin juicio · factory_resumen.este_repositorio_tiene_su_resumen_al_dia no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados   sin juicio · factory_resumen.riesgos_aceptados_y_limites_declarados no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar   sin juicio · factory_resumen.se_actualiza_al_cerrar_y_al_archivar no aplicada, factory_resumen.corrida_completa no aplicada
+? resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo   sin juicio · factory_resumen.se_sabe_cuando_quedo_viejo no aplicada, factory_resumen.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia   sin juicio · factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas   sin juicio · factory_revision_guiada.derivar_pendientes_de_decisiones_separadas no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido   sin juicio · factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita   sin juicio · factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar   sin juicio · factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada   sin juicio · factory_revision_guiada.registrar_confirmacion_humana_informada no aplicada, factory_revision_guiada.corrida_completa no aplicada
+? revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado   sin juicio · factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado no aplicada, factory_revision_guiada.corrida_completa no aplicada
+✓ revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio   cumple · factory_revisores.el_pedido_se_genera_desde_el_cambio cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.el_revisor_no_decide   cumple · factory_revisores.el_revisor_no_decide cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision   cumple · factory_revisores.este_cambio_se_revisa_con_pedir_revision cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez   cumple · factory_revisores.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe   cumple · factory_revisores.lo_que_sale_mal_no_se_guarda_como_informe cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual   cumple · factory_revisores.pedir_una_revision_del_candidato_actual cumple, factory_revisores.corrida_completa cumple
+✓ revisores_c466ac292a9f99ce6.revisores_configurables   cumple · factory_revisores.revisores_configurables cumple, factory_revisores.corrida_completa cumple
+? vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra   sin juicio · factory_vigencia.el_commit_observado_se_conserva_y_se_muestra no aplicada, factory_vigencia.corrida_completa no aplicada
+? vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido   sin juicio · factory_vigencia.informe_guiado_vinculado_al_contenido no aplicada, factory_vigencia.corrida_completa no aplicada
+? vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes   sin juicio · factory_vigencia.respetar_los_registros_existentes no aplicada, factory_vigencia.corrida_completa no aplicada
+? vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto   sin juicio · factory_vigencia.vigencia_por_contenido_del_producto no aplicada, factory_vigencia.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible   sin juicio · factory_web.el_id_de_un_cambio_termina_en_un_sufijo_legible no aplicada, factory_web.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada   sin juicio · factory_web.el_sitio_cuenta_lo_que_trae_la_version_publicada no aplicada, factory_web.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto   sin juicio · factory_web.guia_de_colaboracion_sin_las_fricciones_del_piloto no aplicada, factory_web.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando   sin juicio · factory_web.la_guia_desde_cero_sigue_funcionando no aplicada, factory_web.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes   sin juicio · factory_web.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes no aplicada, factory_web.corrida_completa no aplicada
+? web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe   sin juicio · factory_web.lo_que_la_web_nombra_existe no aplicada, factory_web.corrida_completa no aplicada
+
+102 requisitos: 7 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 82 sin juicio · 13 sin medir · 0 con medidas inexistentes

@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/fcfc134",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "fcfc134762c010ff6de24256051583daad8ebc42",
+  "diff_sha256": "4d9ba9acd7357be3ee440444098e94f891309385e6ddf2d2d2f003a513c93e08",
+  "context_sha256": "6088a8feb956afcf4a4d806bb7aed0e7b62aea946443fd64aa2afc946a4f09d1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "revision-preparar trata informes históricos no validados como revisiones reales",
+      "explanation": "El recorrido de los candidatos anteriores sólo exige que el JSON tenga schema_version oracle-clue.review/v1 y que head empiece con el identificador corto de la carpeta. A diferencia de los informes del candidato vigente, no ejecuta oracle-clue validar contra el paquete ni comprueba el hash del diff/contexto, el proveedor o la estructura de los hallazgos. Un archivo incompleto o manipulado puede así atribuir hallazgos inventados a una vuelta anterior y aparecer como una comprobación fallida en la preparación actual, influyendo en la revisión humana.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 640,
+        "end_line": 645,
+        "side": "head"
+      },
+      "trigger": "En revision/ de un candidato ancestro, colocar un JSON mínimo con schema_version oracle-clue.review/v1, head que empiece con el SHA corto de esa carpeta y un finding inventado; luego ejecutar revision-preparar sobre un candidato descendiente.",
+      "evidence": "Las líneas 640-645 filtran sólo por etiqueta de esquema y prefijo de head y agregan el objeto directamente a vueltas; preparacion.vueltas_anteriores convierte cada finding en texto y lo marca como resultado falla. Reproduje el filtro y la conversión con un JSON sintético incompleto: mutacion-historial.log muestra historial_aceptado_por_filtro=True y una comprobación de falla con el finding FAKE-1. La prueba test_v6_tres_vueltas sólo usa informes creados por pedir-revision, y test_v6_vuelta_de_otro_candidato sólo verifica el rechazo por head de otro candidato.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "status": "pendiente",
+      "verification": "Inspección de oracle_factory/cli.py y oracle_factory/preparacion.py; mutación sintética en copia lógica guardada en mutacion-historial.log. Corrí python -m unittest tests.test_revisores (13 pruebas, OK); esa suite no incluye informes históricos malformados o no validados."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal.md, spec.md, el diff completo del paquete de 35 archivos, las dos revisiones anteriores y el código/pruebas del flujo de revisores.",
+    "Corrí con el entorno indicado python -m unittest tests.test_revisores: 13 pruebas, OK; salida extensa en tests-revisores.log.",
+    "Comprobé en el código y en la prueba v4 que la regresión de timeout denunciada en 22bf184 quedó cerrada: el proceso líder y el grupo de hijos se limpian, incluida la prueba del hijo que ignora SIGTERM.",
+    "La mutación histórica inválida sobrevive al filtro actual; el ejemplo sintético y la conversión resultante están en mutacion-historial.log. No modifiqué el checkout candidato.",
+    "No corrí la suite completa, el verificador de evidencia ni Oracle de extremo a extremo; tampoco evalué la calidad de revisiones generadas ni medí los requisitos."
+  ]
+}

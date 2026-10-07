@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/aeab47a",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "aeab47a0e76eeb939d6dae72638511eee4e6a967",
+  "diff_sha256": "d9a1935af24e5cfa6dbd78174fc918cfb7c2aaac565c9237603fe92feb36439e",
+  "context_sha256": "cb88740c9465fe099f457e61abfd816c761bafbeec81fdb2d3125eb65cc6db25",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "Un revisor que no puede iniciarse no deja el evento requerido",
+      "explanation": "Si el primer argumento del comando configurado no existe (o el proceso no puede iniciarse por otro error del sistema), subprocess.Popen lanza OSError. ejecutar_revisor no lo captura, por lo que pedir_revision sale antes de llegar al registro del evento revision_pedida. La CLI sólo muestra el error general y no queda el resultado de este intento en el registro del cambio, pese a la promesa de registrar revisor, proveedor, modelo, candidato y resultado. La prueba de configuración invalida valida estructura y marcadores, pero no cubre un ejecutable imposible de lanzar.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 74,
+        "end_line": 75,
+        "side": "head"
+      },
+      "trigger": "Configurar un revisor con comando [\"/ruta/que/no/existe\", ...] y ejecutar oracle-factory pedir-revision ID --a NOMBRE.",
+      "evidence": "ejecutar_revisor abre salida.log y llama subprocess.Popen sin try/except alrededor de esa operación (oracle_factory/revisores.py:73-75). El único registro revision_pedida está después de la llamada en oracle_factory/cli.py:768-784; por tanto la excepción evita el evento. En la misma carpeta, tests/test_revisores.py::test_v2_configuracion_invalida sólo prueba configuración mal formada y no el fallo de arranque del proceso.",
+      "related_requirement": "El revisor no decide: debe dejarse un evento revision_pedida con revisor, proveedor, modelo, candidato y resultado.",
+      "status": "pendiente",
+      "verification": "Reproducible con un comando inexistente; no se ejecutó una mutación para conservar el checkout candidato de sólo lectura."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores desde el checkout candidato: 15 pruebas, OK. El checkout no tiene .venv propio; usé el entorno .venv de la raíz.",
+    "No modifiqué el checkout ni ejecuté una mutación; la falla de lanzamiento se deduce del flujo Popen → registro y no tiene una prueba dedicada.",
+    "Leí la propuesta, la spec, el diff completo del paquete y los informes anteriores indicados; revisé el estado de sus hallazgos contra el código actual."
+  ]
+}

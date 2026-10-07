@@ -19,6 +19,7 @@ from importlib import metadata, resources
 from . import __version__
 from . import archivo
 from . import resumen
+from . import revisores as revisores_mod
 from . import estructura
 from . import migracion
 from . import preparacion
@@ -117,14 +118,19 @@ def config_proyecto() -> dict:
         raise FactoryError(f"{ruta}: se requiere un objeto JSON")
     config = {"modo_por_defecto": datos.get("modo_por_defecto", modos.POR_DEFECTO),
               "tipos_obligatorios": datos.get("tipos_obligatorios", False),
-              "capacidades": datos.get("capacidades", {})}
+              "capacidades": datos.get("capacidades", {}),
+              "revisores": datos.get("revisores", {})}
+    try:
+        revisores_mod.validar_config(config["revisores"])
+    except revisores_mod.RevisorInvalido as e:
+        raise FactoryError(f"{ruta}: {e}; por ejemplo: {revisores_mod.EJEMPLO}") from e
     alias = config["capacidades"]
     if (set(datos) - set(config) or config["modo_por_defecto"] not in modos.MODOS
             or type(config["tipos_obligatorios"]) is not bool
             or not isinstance(alias, dict) or not all(isinstance(k, str) and isinstance(v, str) and v not in alias
                                                       for k, v in alias.items())):
-        raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false) "
-                           "y capacidades (alias → capacidad, sin cadenas de alias)")
+        raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
+                           "capacidades (alias → capacidad, sin cadenas de alias) y revisores")
     return config
 
 
@@ -360,6 +366,23 @@ def es_producto(nombre: str) -> bool:
                 and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}))
 
 
+def cambios_locales_de_producto() -> list[str]:
+    """Archivos del producto modificados, en el índice o nuevos, sin commit."""
+    locales = ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.splitlines()
+    locales += ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()
+    return [n for n in locales if es_producto(n)]
+
+
+def candidatos_anteriores(identificador: str, sha: str | None) -> list[str]:
+    """Los candidatos del cambio con informes de revisores, ancestros de HEAD y distintos de `sha`, del más viejo al más nuevo."""
+    base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
+    if base.is_symlink() or not base.is_dir():
+        return []
+    con_informes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink() and any((p / "revision").glob("*.json"))}
+    orden = [c[:7] for c in ejecutar(["git", "rev-list", "HEAD"]).stdout.split()]
+    return [c for c in reversed(orden) if c in con_informes and c != sha]
+
+
 def candidato_vigente(identificador: str) -> str | None:
     """El commit (7 caracteres) del candidato con carpeta propia más cercano a HEAD, si el producto no cambió desde él.
 
@@ -371,9 +394,7 @@ def candidato_vigente(identificador: str) -> str | None:
         return None
     existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()}
     # Un cambio de producto sin commit (modificado, en el índice o nuevo) también deja viejo a cualquier candidato.
-    locales = ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.splitlines()
-    locales += ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()
-    if any(es_producto(n) for n in locales):
+    if cambios_locales_de_producto():
         return None
     for commit in ejecutar(["git", "rev-list", "HEAD"]).stdout.split():
         if commit[:7] in existentes:
@@ -608,6 +629,13 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     if sha:
         revisores, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
         informe, decisiones = preparacion.completar(informe, decisiones, revisores, evidencia, archivos)
+        vueltas = []
+        for anterior in candidatos_anteriores(identificador, sha):
+            # Las vueltas anteriores pasan por la misma validación que las del candidato vigente.
+            anteriores, _, _, avisos_anteriores = material_del_candidato(identificador, anterior)
+            vueltas += [{"candidato": anterior, **r} for r in anteriores]
+            avisos += avisos_anteriores
+        informe["comprobaciones"] = (informe["comprobaciones"] or []) + preparacion.vueltas_anteriores(vueltas) or None
         for aviso in avisos:
             print(f'Aviso: {aviso}', file=sys.stderr)
         print(f'Candidato {sha}: {len(revisores)} informe(s) de revisores, '
@@ -684,6 +712,87 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
         if datos is not None:
             evidencia = {"ruta": resultado.relative_to(ROOT).as_posix(), "resultado": datos}
     return revisores, evidencia, archivos, avisos
+
+
+def pedir_revision(identificador: str, nombre: str, extra: str | None = None, base: str | None = None) -> Path:
+    """Pide una revisión del candidato actual al revisor configurado y guarda su informe si Clue lo valida."""
+    carpeta, estado = abierto(identificador)
+    revisor = config_proyecto()["revisores"].get(nombre)
+    if revisor is None:
+        raise FactoryError(f"no hay un revisor «{nombre}» en .factory/config.json; por ejemplo: {revisores_mod.EJEMPLO}")
+    clue = shutil.which("oracle-clue")
+    if clue is None:
+        raise FactoryError("pedir-revision necesita oracle-clue para preparar el paquete y validar el informe")
+    if cambios_locales_de_producto():
+        raise FactoryError("hay cambios del producto sin commit: confirmalos antes de pedir una revisión ("
+                           + ", ".join(cambios_locales_de_producto()[:5]) + ")")
+    # Un commit que sólo guarda informes o evidencia no cambia el producto: el candidato sigue siendo el vigente.
+    head = ejecutar(["git", "rev-parse", candidato_vigente(identificador) or "HEAD"]).stdout.strip()
+    sha = head[:7]
+    if base is None:
+        p = ejecutar(["git", "merge-base", "HEAD", "main"])
+        if p.returncode:
+            raise FactoryError("no encuentro la rama main para la base del paquete; indicá --base REF")
+        base = p.stdout.strip()
+    checkout = estructura.ruta_canonica(ROOT, identificador, "checkout", sha)
+    clue_dir = estructura.ruta_canonica(ROOT, identificador, "clue", sha)
+    revision_dir = estructura.ruta_canonica(ROOT, identificador, "revision", sha)
+    for d in (checkout.parent, clue_dir):  # revision/ se crea sólo con un informe válido
+        ruta_segura(d).mkdir(parents=True, exist_ok=True)
+    if not checkout.exists():
+        p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
+        if p.returncode:
+            raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
+    n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
+    paquete = clue_dir / f"paquete-{nombre}-{n}.json"
+    p = ejecutar([clue, "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"], "--salida", str(paquete)])
+    if p.returncode:
+        raise FactoryError(f"oracle-clue no pudo preparar el paquete: {(p.stderr or p.stdout).strip()[:500]}")
+    trabajo = ROOT / estructura.DIR / "local" / "revisores" / f"{sha}-{nombre}-{n}"
+    ruta_segura(trabajo).mkdir(parents=True, exist_ok=True)
+    informe, registro, pedido_archivo = trabajo / "informe.json", trabajo / "salida.log", trabajo / "pedido.md"
+    anteriores = [r.relative_to(ROOT).as_posix() for c in candidatos_anteriores(identificador, sha)
+                  for r in sorted(estructura.ruta_canonica(ROOT, identificador, "revision", c).glob("*.json"))]
+    vueltas = ("Vueltas anteriores de este cambio (ya corregidas; mirá que sigan cerradas y que no haya regresiones):\n"
+               + "\n".join(f"- {r}" for r in anteriores) + "\n") if anteriores else ""
+    valores = {"id": identificador, "titulo": estado.get("titulo", ""), "propuesta": str(carpeta / "proposal.md"),
+               "spec": str(ROOT / estado["spec"]), "candidato": sha, "checkout": str(checkout), "paquete": str(paquete),
+               "informe": str(informe), "proveedor": revisor["proveedor"], "modelo": revisor["modelo"], "vueltas": vueltas}
+    texto = revisores_mod.pedido(revisores_mod.plantilla(ROOT), valores, extra)
+    pedido_archivo.write_text(texto, encoding="utf-8")
+    argv = revisores_mod.argumentos(revisor["comando"], {"pedido": texto, "pedido_archivo": pedido_archivo, "carpeta": trabajo,
+                                                         "informe": informe, "registro": registro, "paquete": paquete,
+                                                         "checkout": checkout})
+    print(f"Revisor {nombre} ({revisor['proveedor']}, {revisor['modelo']}) sobre el candidato {sha}; tope {revisor['tope_minutos']} min.")
+    print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv))
+    resultado = revisores_mod.ejecutar_revisor(argv, trabajo, registro, revisor["tope_minutos"])
+    hallazgos, motivo = 0, None
+    if resultado == "tope":
+        motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
+    elif resultado == "no_inicia":
+        motivo = f"no se pudo iniciar el revisor ({argv[0]})"
+    elif not informe.is_file():
+        resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
+    else:
+        p = ejecutar([clue, "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
+        if p.returncode:
+            resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"
+        else:
+            datos = json.loads(informe.read_text(encoding="utf-8"))
+            hallazgos = len(datos.get("findings") or [])
+    _, estado = leer(identificador)
+    evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"], modelo=revisor["modelo"],
+           candidato=sha, resultado=resultado, hallazgos=hallazgos)
+    guardar(carpeta, estado)
+    if motivo:
+        raise FactoryError(f"{motivo}. La salida del revisor quedó en {registro.relative_to(ROOT)}; revision/ no cambió.")
+    ruta_segura(revision_dir).mkdir(parents=True, exist_ok=True)
+    destino = revision_dir / f"{nombre}-{n}.json"
+    escribir_atomico(destino, informe.read_bytes())
+    escribir_atomico(revision_dir / f"{nombre}-{n}.pedido.md", pedido_archivo.read_bytes())
+    print(f"Informe de {nombre}: {destino.relative_to(ROOT)} ({hallazgos} hallazgo{'s' if hallazgos != 1 else ''}), validado con oracle-clue.")
+    print(f"Próximo paso: corregir lo que corresponda, o preparar la revisión con oracle-factory revision-preparar {identificador}")
+    return destino
 
 
 def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str) -> None:
@@ -1770,6 +1879,9 @@ def construir_parser() -> argparse.ArgumentParser:
     grupo = q.add_mutually_exclusive_group()
     grupo.add_argument('--abiertos', action='store_true', help='sólo los cambios abiertos')
     grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
+    q = sub.add_parser('pedir-revision', help='pedir una revisión independiente del candidato actual a un revisor configurado')
+    q.add_argument('id'); q.add_argument('--a', dest='revisor', required=True, help='nombre del revisor en .factory/config.json')
+    q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue')
     q = sub.add_parser('resumen', help='escribir .factory/resumen.md: lo vigente, los cambios abiertos, riesgos aceptados y límites')
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si el resumen falta o quedó viejo')
     q.add_argument('--salida', type=Path, help='otra ruta dentro del proyecto (fuera de .factory/ cuenta en la huella)')
@@ -1833,6 +1945,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
         elif args.comando == "resumen": comando_resumen(args.verificar, args.salida)
+        elif args.comando == "pedir-revision": pedir_revision(args.id, args.revisor, args.pedir, args.base)
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)

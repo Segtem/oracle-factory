@@ -1,0 +1,141 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261007-192608-revisores",
+  "contexto": {
+    "head": "7cc5e1dd209a2f25518875ed29e8e7535693e075",
+    "archivos_sha256": "34abdbbaefd636be263948a46f3e5db4be10b2da51fa507d9665df6efe87d769"
+  },
+  "documentos": {
+    "openspec/changes/20261007-192608-revisores/proposal.md": "bab7cc841fe2c8ca7cdd7e6be2a606ee77333bd8512a9efb537d10f773b6555b",
+    "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/evidencia/hechos.json",
+    ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/evidencia/resultado.json",
+    ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/evidencia/suite.txt",
+    ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/revision/codex-1.json",
+    ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-192608-revisores/factory.json",
+    "requisitos/revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.el_revisor_no_decide.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual.requisito",
+    "requisitos/revisores_c466ac292a9f99ce6.revisores_configurables.requisito",
+    "tareas/20261005-112955-cli-humana/TAREA.md",
+    "tareas/20261007-192608-revisores/TAREA.md",
+    "tareas/20261007-192608-revisores/revisiones/preparacion-bcgax3f9/decisiones.json",
+    "tareas/20261007-192608-revisores/revisiones/preparacion-bcgax3f9/informe.json",
+    "tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/decisiones.json",
+    "tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/informe.json"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 262 pruebas, 16 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/d225085/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/d225085/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 22bf184: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/22bf184/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bdab529: codex (gpt-6-luna), 2 hallazgos: R-01 (media), R-02 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/bdab529/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato fcfc134: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/fcfc134/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9c8d215: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/9c8d215/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 025e5fe: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/025e5fe/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a1c2822: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/a1c2822/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 04d92de: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/04d92de/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9ed6a3a: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/9ed6a3a/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7cf6d7e: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/7cf6d7e/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 962ede7: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/962ede7/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 962ede7: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/962ede7/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ddfbc36: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/ddfbc36/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato aeab47a: codex (gpt-6-luna), 1 hallazgo: R-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/aeab47a/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato fc0302a: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/fc0302a/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5d1ca13: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/5d1ca13/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cb2527e: codex (gpt-6-luna), 1 hallazgo: R-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/cb2527e/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8c59250: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-192608-revisores/candidatos/8c59250/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios v1–v6 en repositorios temporales, Linux, con un revisor de prueba y oracle-clue real (sin Clue las pruebas se omiten y la corrida no es completa). Más la comprobación de que este cambio tiene en la carpeta de su candidato vigente un informe de revisor y el pedido con que se obtuvo. No mide la calidad de las revisiones.",
+    "codex (gpt-6-luna): Revisé la propuesta, la spec, el diff incremental completo del paquete y los cambios de registro/requisitos/notas. La implementación funcional no cambió entre base y head.",
+    "codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev/factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores: 16 pruebas, OK.",
+    "codex (gpt-6-luna): Contrasté los hallazgos de las vueltas anteriores con el historial de correcciones y la base 8c59250; no vi reaperturas en el diff incremental.",
+    "codex (gpt-6-luna): No corrí la suite completa ni Oracle end-to-end y no hice mutaciones sobre copias. No evalué propiedades fuera de las promesas de la spec."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

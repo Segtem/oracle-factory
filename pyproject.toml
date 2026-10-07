@@ -30,4 +30,4 @@ include = ["oracle_factory*"]
 namespaces = true
 
 [tool.setuptools.package-data]
-oracle_factory = ["data/notas/*", "data/notas/catalogos/*"]
+oracle_factory = ["data/notas/*", "data/notas/catalogos/*", "data/pedido_revision.md"]

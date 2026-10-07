@@ -1,0 +1,8 @@
+medida factory_revisores.corrida_completa:
+    de revisores_corrida c
+    donde c.completa == 1 y c.casos == 17
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas, fuentes estables y este cambio revisado con pedir-revision"
+    requiere revisores_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

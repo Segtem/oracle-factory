@@ -26,6 +26,29 @@ El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json
 
 Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo que sólo archiva notas o registros tampoco la invalida: Factory compara la huella de archivos del producto y guarda el commit como dato. Si cambia un archivo del producto antes de registrar, prepare de nuevo.
 
+## Pedir la revisión a un revisor externo
+
+Un revisor puede ser otra persona o un agente; conviene que sea de una familia de modelo distinta a la del que escribió el código. Factory no depende de ninguno: cada proyecto declara los suyos en `.factory/config.json`.
+
+```json
+"revisores": {
+  "codex": {"comando": ["env", "CODEX_MODEL=gpt-6-luna", "ask-codex", "{pedido}", "{carpeta}", "{carpeta}/codex.md"],
+            "proveedor": "codex", "modelo": "gpt-6-luna", "tope_minutos": 90}
+}
+```
+
+El nombre del revisor (la clave) es minúsculas, dígitos y guiones: va en nombres de archivo. El comando es una lista de argumentos (sin shell) con marcadores: `{pedido}` (el texto del pedido), `{pedido_archivo}`, `{carpeta}` (la carpeta de trabajo del revisor, en `.factory/local/revisores/`), `{informe}` (dónde tiene que dejar su informe), `{registro}`, `{paquete}` y `{checkout}`. Cualquier otra llave, abierta o cerrada, se rechaza al leer la configuración, para que un marcador mal escrito no llegue al revisor. Con eso:
+
+```bash
+oracle-factory pedir-revision ID_COMPLETO --a codex
+```
+
+prepara el checkout y el paquete de Oracle Clue del candidato actual (en las rutas de `oracle-factory ruta`), arma el pedido desde la propuesta, la spec y las vueltas anteriores, lanza al revisor, espera hasta el tope, valida su informe con Clue y lo guarda —con el pedido usado— en la carpeta `revision/` del candidato. `--pedir "TEXTO"` agrega indicaciones; `--base REF` cambia la base del paquete. El pedido sale de una plantilla de Factory que cada proyecto puede reemplazar con `.factory/pedido-revision.md`.
+
+Si el revisor no se puede iniciar, no deja informe, Clue lo rechaza o se pasa del tope, no se guarda nada en `revision/` y su salida queda en la carpeta de trabajo. Con cambios del producto sin commit, no se lanza. En ningún caso el revisor decide: `pedir-revision` sólo deja un evento con el revisor, el modelo y el resultado. Ejecuta el comando que dice la configuración del proyecto, como haría un `Makefile`: revisala antes de usarla en un repositorio ajeno.
+
+`revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez.
+
 ## Completar lo que realmente se revisó
 
 En `informe.json`, conserve `schema_version`, `cambio`, `contexto` y `documentos` generados. Si ya no corresponden al candidato, vuelva a preparar; no edite hashes para aparentar vigencia.

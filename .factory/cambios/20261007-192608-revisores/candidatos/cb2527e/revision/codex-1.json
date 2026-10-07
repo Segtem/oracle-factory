@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/cb2527e",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "cb2527e2712891fdba9584f64dc1210ab267a5d7",
+  "diff_sha256": "e30246d3479826a8ee19d82c1c4633d171f046bc4a0e9277e51fe115a10fc8fc",
+  "context_sha256": "ae7853d52dce51aa938f9554c4a4748219e22f09df6ddaaf40df06638c03f2a0",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El argumento `{pedido}` modifica marcadores literales del texto",
+      "explanation": "`argumentos` expande los marcadores conocidos uno por uno sobre el argumento ya sustituido. Si el valor de `{pedido}` contiene literalmente otro marcador conocido, por ejemplo `{informe}` en las indicaciones o en la plantilla, la siguiente iteración lo reemplaza por la ruta del informe. El revisor recibe entonces un pedido distinto del que queda guardado en el archivo `.pedido.md`, lo que puede cambiar el sentido de la revisión y contradice que `--pedir` se agregue al pedido usado.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 65,
+        "end_line": 66,
+        "side": "head"
+      },
+      "trigger": "Configurar el comando con el argumento `{pedido}` y ejecutar `pedir-revision` con `--pedir \"conservá literalmente {informe} en este ejemplo\"`. El archivo de pedido conserva `{informe}`, pero argv recibe la ruta configurada para `informe`.",
+      "evidence": "Reproducción directa de `argumentos` en memoria: con el valor `Pedido\\nIndicaciones: conservá literalmente {informe} en este ejemplo.` y la ruta `/tmp/informe.json`, el argumento producido fue `Pedido\\nIndicaciones: conservá literalmente /tmp/informe.json en este ejemplo.`. El bucle de las líneas 65–66 hace las sustituciones secuencialmente; la suite `tests.test_revisores` no comprueba el texto del argumento recibido por el proceso.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio",
+      "status": "pendiente",
+      "verification": "Reproducción directa en memoria sobre el código del candidato; no modifiqué el checkout. Corrí `python -m unittest tests.test_revisores` con el Python y PATH indicados: 16 pruebas, OK."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los 72 archivos del paquete/diff y revisé los módulos funcionales, la plantilla, el verificador y las pruebas.",
+    "Corrí `PYTHONDONTWRITEBYTECODE=1 PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores`: 16 pruebas, OK.",
+    "Revisé que las correcciones anteriores sigan presentes: validación del nombre y marcadores, terminación del grupo ante timeout, filtros y validación Clue de informes históricos cuando Clue está disponible, y no creación de revision/ en fallos.",
+    "Reproduje en memoria que un marcador conocido dentro del valor de `{pedido}` se expande por accidente; guardé el detalle extenso en `review-notas.txt`.",
+    "No corrí la suite completa, `tools/verify_revisores.py` ni Oracle. No hice mutaciones sobre copias. El checkout candidato quedó sin modificaciones."
+  ]
+}

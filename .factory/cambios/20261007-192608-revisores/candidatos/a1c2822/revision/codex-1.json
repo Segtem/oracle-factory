@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/a1c2822",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "a1c28228a3c17f5555eef4ab65feaa660a5311e1",
+  "diff_sha256": "6ce504d6555489dbe347dfbebe0dbd2e7709d0279ad1f38f2e80e7154671f280",
+  "context_sha256": "deb4d4543076a2ea47b55ba1c98ba9d6b547c36802c34eb026cf8bf4bc7641f6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.93,
+      "title": "La configuración acepta marcadores de comando desconocidos",
+      "explanation": "La configuración comprueba que los argumentos sean textos no vacíos, pero no rechaza marcadores entre llaves que no estén en MARCADORES. Si se escribe por error, por ejemplo, `{inform}` en lugar de `{informe}`, `validar_config` lo acepta y `argumentos` lo deja literal. `pedir-revision` prepara checkout y paquete antes de lanzar el proceso; el revisor recibe entonces una ruta inválida y la revisión falla tarde, en vez de rechazar la configuración inválida antes de preparar nada como promete la spec.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 32,
+        "end_line": 33,
+        "side": "head"
+      },
+      "trigger": "Declarar en `.factory/config.json` un revisor con `comando: [\"programa\", \"{inform}\"]` y ejecutar `pedir-revision ID --a nombre`. La configuración pasa; el proceso recibe `{inform}` literalmente en argv y el checkout y el paquete ya fueron preparados.",
+      "evidence": "Reproducción directa sobre las funciones del candidato: `validar_config({\"x\": {\"comando\": [\"fake-reviewer\", \"{inform}\"], \"proveedor\": \"p\", \"modelo\": \"m\", \"tope_minutos\": 1}})` devolvió la configuración sin error y `argumentos` produjo `[\"fake-reviewer\", \"{inform}\"]`. La documentación enumera los únicos marcadores soportados en `docs/revision-guiada.md:40`. En `oracle_factory/cli.py:737-750`, checkout y paquete se preparan antes de ejecutar el comando.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.revisores_configurables",
+      "status": "pendiente",
+      "verification": "Corrí `python -m unittest tests.test_revisores` con el Python y PATH indicados: 15 pruebas, OK. Reproduje el marcador desconocido llamando directamente a `validar_config` y `argumentos`; la suite no cubre este caso. No modifiqué el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y contexto del paquete, el código y las pruebas del cambio, y las cinco revisiones anteriores.",
+    "Verifiqué por lectura que las regresiones previas de timeout y validación de informes históricos con oracle-clue instalado siguen cerradas. El caso histórico sin Clue queda bajo el límite explícito del pedido: esos informes se aceptan marcados como sin validar.",
+    "Corrí `python -m unittest tests.test_revisores` con el entorno indicado: 15 pruebas, OK; además hice una reproducción aislada del marcador desconocido.",
+    "No corrí la suite completa, tools/verify_revisores.py ni Oracle de extremo a extremo; no hice mutaciones sobre el checkout. La reproducción usó llamadas directas en memoria."
+  ]
+}

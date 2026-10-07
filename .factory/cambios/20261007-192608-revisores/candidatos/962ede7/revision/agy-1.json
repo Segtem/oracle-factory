@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/962ede7",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "962ede7dc2795c85f2908deba80c78bdc090df35",
+  "diff_sha256": "001ed030383a2cfdfcbecea719cba9f419a36a5558cc5f6ce1a5760f1e713aaf",
+  "context_sha256": "1974ef76cdc7da1f3db336cce33ea6425067c4e731e1728163ebd9de70dadb09",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, la spec, el diff completo del paquete y el contexto de Clue.",
+    "Comprobé que las correcciones de las nueve vueltas previas siguen vigentes (terminación de procesos hijos tras timeout, filtrado y validación de informes históricos con Clue, validación exhaustiva de marcadores y validación del nombre del revisor como slug para rutas).",
+    "Corrí la suite de pruebas unitarias `python -m unittest tests.test_revisores` con el entorno indicado: 15 pruebas pasadas sin errores.",
+    "Ejecuté `tools/verify_revisores.py`: 261 pruebas y los 15 casos de contrato pasaron exitosamente; el fallo reportado por `este_repositorio()` responde a la ausencia de la carpeta del candidato 962ede7 dentro del checkout de sólo lectura antes de su incorporación.",
+    "Realicé pruebas de mutaciones manuales sobre una copia en la carpeta de trabajo: 3 mutaciones fueron eliminadas por las pruebas y 3 sobrevivieron debido a que el código es más estricto que las aserciones mínimas de la suite.",
+    "El checkout del candidato 962ede7 se mantuvo en modo de sólo lectura, sin realizar commits ni modificaciones.",
+    "No se encontraron defectos que violen la especificación ni regresiones."
+  ]
+}

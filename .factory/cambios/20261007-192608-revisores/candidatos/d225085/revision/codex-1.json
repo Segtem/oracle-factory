@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/d225085",
+  "base": "8c5925029102104952300469b50c414c168357d8",
+  "head": "d2250857d7cad0de4005a385318f25a68eb1f197",
+  "diff_sha256": "9556f35bad0b913dab2c25f7fc25ef50cd4f4f6f707d2201879d619a30c0195a",
+  "context_sha256": "a4a0a6493e7310654714cc16d18ebbd1c0c00202195539d2d076b76cb870ab2b",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, la spec, el diff incremental completo del paquete y los cambios de registro/requisitos/notas. La implementación funcional no cambió entre base y head.",
+    "Corrí PATH=/tmp/claude-1000/-home-workstation-Dev/factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores: 16 pruebas, OK.",
+    "Contrasté los hallazgos de las vueltas anteriores con el historial de correcciones y la base 8c59250; no vi reaperturas en el diff incremental.",
+    "No corrí la suite completa ni Oracle end-to-end y no hice mutaciones sobre copias. No evalué propiedades fuera de las promesas de la spec."
+  ]
+}

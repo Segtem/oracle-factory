@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/04d92de",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "04d92de0fdfec8985dc291768f2ab43c17f346fa",
+  "diff_sha256": "2c3db64d22f073b1c12e031b9fc35d720f5f7c1b69ff163f05149bfa3e14e208",
+  "context_sha256": "ece1df4aba9bd2dd1a67bb26019e89622ca6532e35e056d75878c50f7f4158d7",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La validación deja pasar marcadores desconocidos que contienen dígitos",
+      "explanation": "La validación de comando busca marcadores desconocidos con la expresión regular `\\{[a-z_]+\\}`, que sólo reconoce letras minúsculas y guiones bajos. Un error de configuración como `{informe2}` no se reconoce como marcador desconocido: la configuración se acepta y, al construir argv, el reemplazo sólo sustituye los marcadores conocidos, por lo que el proceso recibe literalmente `{informe2}`. Esto contradice que una configuración inválida se rechace antes de preparar el checkout y el paquete; además deja una variante del problema ya corregido para el marcador `{inform}`.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 35,
+        "end_line": 35,
+        "side": "head"
+      },
+      "trigger": "Declarar un revisor con comando [\"reviewer\", \"{informe2}\"] y los demás campos válidos, luego ejecutar pedir-revision. validar_config lo acepta y argumentos entrega {informe2} literalmente.",
+      "evidence": "Reproducción directa contra las funciones del candidato: validar_config aceptó la configuración con {informe2}, y argumentos produjo [\"reviewer\", \"{informe2}\"]. La expresión regular de la línea 35 excluye dígitos y la función argumentos sólo reemplaza elementos de MARCADORES. La configuración es comprobada antes de preparar checkout y paquete, así que el reconocimiento correcto de este typo permitiría el rechazo temprano exigido. La prueba test_v2_configuracion_invalida cubre {inform}, pero no marcadores con dígitos.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.revisores_configurables",
+      "status": "pendiente",
+      "verification": "Reproducción en memoria con el Python y entorno indicados; sin modificar el checkout. Corrí python -m unittest tests.test_revisores: 15 pruebas, OK; la suite no cubre marcadores desconocidos con dígitos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y la spec, los 43 archivos del paquete/diff, el código de la CLI y módulos afectados, y las pruebas del cambio.",
+    "Corrí con el entorno solicitado python -m unittest tests.test_revisores: 15 pruebas, OK; salida extensa en tests-revisores.log.",
+    "Verifiqué que las vueltas previas relevantes siguen cerradas: el timeout mata también descendientes (incluida su prueba), el historial pasa por material_del_candidato y los informes históricos inválidos se excluyen cuando Clue está disponible, y el informe propio del verificador exige validación de Clue y un evento exitoso. La validación de marcadores corrigió {inform}, pero no cubre nombres con dígitos.",
+    "Reproduje el borde {informe2} directamente en memoria. No hice mutaciones ni escribí en el checkout candidato.",
+    "No corrí la suite completa, tools/verify_revisores.py ni Oracle de extremo a extremo; no medí requisitos ni evalué la calidad de informes generados."
+  ]
+}
