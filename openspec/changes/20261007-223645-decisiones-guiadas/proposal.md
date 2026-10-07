@@ -36,5 +36,7 @@ La frase existe para probar que decide una persona en una terminal. Un menú int
 
 ## Human decisions
 
-- ¿El menú de confirmación acepta Enter solo como «la opción recomendada»? Propuesta: no; hay que elegir el número, para que una decisión no salga de un Enter apurado.
-- ¿El motivo armado con datos es una opción aunque no haya propuesta del agente? Propuesta: sí.
+Decididas por Brian el 2026-10-07, con el menú de esta misma propuesta:
+
+- Enter solo no elige nada: hay que escribir el número de la opción, para que una decisión no salga de un Enter apurado.
+- El motivo armado con los datos del cambio aparece siempre; si el agente propuso uno, va primero.
