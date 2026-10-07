@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/e88250b",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "e88250b4cc071bed78f264712937f3242f563c8b",
+  "diff_sha256": "9a3b6f845243c683770cf9e6bb22674f8908d2f192314d6c0eda06a251aa5e7c",
+  "context_sha256": "a56d9c6273c7626eaa09fd15323f685b37f494bc2ce7e7709cfacf7da32ea13c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Inspeccioné el diff completo del paquete y contrasté las cinco promesas de la spec con cli.py, revision.py, las pruebas, y los contratos existentes de registro y documentos de revisión.",
+    "Corrí PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones: 12 pruebas, OK.",
+    "Revisé las siete rondas anteriores solicitadas; sus defectos no aparecen reabiertos en el diff actual.",
+    "No corrí la suite completa ni hice mutaciones; no probé una interacción manual con pseudoterminal."
+  ]
+}
