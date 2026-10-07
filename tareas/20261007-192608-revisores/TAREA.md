@@ -143,3 +143,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-07 22:12:24 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit ac9e81f0bed35852788ea735c6c0d1c640fe77f7; informe tareas/20261007-192608-revisores/revisiones/registro-_0e71cxx/informe.json; decisiones tareas/20261007-192608-revisores/revisiones/registro-_0e71cxx/decisiones.json.
+
+### Nota (2026-10-07 22:12:50 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261007-192608-revisores/oracle-veredicto.txt.
