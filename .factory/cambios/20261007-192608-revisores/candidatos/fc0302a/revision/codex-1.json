@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/fc0302a",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "fc0302ab5cb28901d237b5d394b4c719c82fdc49",
+  "diff_sha256": "a3a4ef46f8e30616214d0a8eb52c545c90976ca890c1cee8de6fcc8bc6b0048f",
+  "context_sha256": "154559cee4f5684e1c528f85eb76007b4f1e00043ded71685c890414308624a9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "Un fallo antes de guardar el informe deja creada revision/",
+      "explanation": "pedir_revision crea revision_dir junto con las carpetas de checkout y clue antes de intentar lanzar el revisor. Si el comando no inicia, vence el tope, no deja informe o Clue lo rechaza, la función registra el error y retorna sin guardar archivos en revision/, pero el directorio recién creado permanece. Esto contradice el escenario que exige que revision/ no cambie ante un informe rechazado (y el requisito de que los errores no dejen artefactos allí). La prueba del caso de fallo sólo verifica que el glob de archivos esté vacío, por lo que no detecta la creación de la carpeta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 740,
+        "end_line": 741,
+        "side": "head"
+      },
+      "trigger": "En un candidato sin carpeta revision/, configurar un comando de revisor inexistente (o uno que no deje informe) y ejecutar pedir-revision. La llamada falla, pero revision/ existe vacía porque se crea antes de ejecutar el revisor.",
+      "evidence": "oracle_factory/cli.py:740-741 llama mkdir(parents=True, exist_ok=True) sobre revision_dir antes de revisar el resultado del proceso; el camino de error retorna en 787-788 sin quitar ese directorio. tests/test_revisores.py:156-162 sólo afirma que revision.glob('*') sea una lista vacía, lo que pasa también si revision/ acaba de ser creada. La ubicación reportada está dentro del diff del paquete.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe",
+      "status": "pendiente",
+      "verification": "Inspección del flujo y de la prueba de fallo de inicio; ejecuté PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores desde el checkout fc0302a: 16 pruebas, OK. No hice una mutación adicional ni modifiqué el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y las doce revisiones anteriores indicadas; contrasté el arreglo más reciente del fallo de inicio y el cambio de comprobaciones históricas.",
+    "Corrí tests.test_revisores con el Python disponible en el workspace y el PATH de oracle-clue indicado: 16 pruebas, OK. El checkout no contiene .venv/bin/python, por eso usé el entorno equivalente en /home/workstation/Dev/factory-rev/.venv.",
+    "No ejecuté el verificador integral de revisores ni Oracle, y no hice mutaciones; guardé el diff de producto inspeccionado en revision-product.diff."
+  ]
+}

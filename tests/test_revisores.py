@@ -157,7 +157,7 @@ class Revisores(Base):
         with self.assertRaises(f.FactoryError) as error:
             self.pedir()
         self.assertIn(esperado, str(error.exception))
-        self.assertEqual(list((self.carpeta() / 'revision').glob('*')), [])
+        self.assertFalse((self.carpeta() / 'revision').exists())  # ni siquiera la carpeta
         self.assertTrue(list((self.root / '.factory/local/revisores').glob('*/salida.log')))  # la salida queda
         self.assertEqual(self.eventos()[-1]['resultado'], resultado)
 

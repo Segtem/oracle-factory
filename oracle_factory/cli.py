@@ -737,7 +737,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     checkout = estructura.ruta_canonica(ROOT, identificador, "checkout", sha)
     clue_dir = estructura.ruta_canonica(ROOT, identificador, "clue", sha)
     revision_dir = estructura.ruta_canonica(ROOT, identificador, "revision", sha)
-    for d in (checkout.parent, clue_dir, revision_dir):
+    for d in (checkout.parent, clue_dir):  # revision/ se crea sólo con un informe válido
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     if not checkout.exists():
         p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
@@ -786,6 +786,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     guardar(carpeta, estado)
     if motivo:
         raise FactoryError(f"{motivo}. La salida del revisor quedó en {registro.relative_to(ROOT)}; revision/ no cambió.")
+    ruta_segura(revision_dir).mkdir(parents=True, exist_ok=True)
     destino = revision_dir / f"{nombre}-{n}.json"
     escribir_atomico(destino, informe.read_bytes())
     escribir_atomico(revision_dir / f"{nombre}-{n}.pedido.md", pedido_archivo.read_bytes())
