@@ -59,13 +59,12 @@ def pedido(texto_plantilla: str, valores: dict, extra: str | None) -> str:
 
 
 def argumentos(comando: list[str], valores: dict) -> list[str]:
-    """El comando con los marcadores reemplazados; sin shell, cada argumento es uno solo."""
-    salida = []
-    for arg in comando:
-        for marca in MARCADORES:
-            arg = arg.replace(marca, str(valores[marca.strip('{}')]))
-        salida.append(arg)
-    return salida
+    """El comando con los marcadores reemplazados; sin shell, cada argumento es uno solo.
+
+    Una sola pasada: un valor que contiene un marcador (el pedido puede citar `{informe}`) se pasa tal cual.
+    """
+    patron = re.compile('|'.join(map(re.escape, MARCADORES)))
+    return [patron.sub(lambda m: str(valores[m.group()[1:-1]]), arg) for arg in comando]
 
 
 def ejecutar_revisor(argv: list[str], cwd: Path, registro: Path, tope_minutos: int) -> str:

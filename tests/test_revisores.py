@@ -141,6 +141,9 @@ class Revisores(Base):
         pedido = (self.carpeta() / 'revision' / 'prueba-1.pedido.md').read_text()
         self.assertTrue(pedido.startswith(f'Pedido propio para {self.ident} sobre {self.git("rev-parse", "HEAD")[:7]}.'))
         self.assertTrue(pedido.rstrip().endswith('mirá la concurrencia'))
+        # el texto del pedido llega tal cual aunque cite un marcador
+        self.assertEqual(rev_mod.argumentos(['{pedido}', '{informe}'], {'pedido': 'no toques {informe}', 'informe': 'i.json'}),
+                         ['no toques {informe}', 'i.json'])
 
     def test_v3_la_plantilla_de_factory_lleva_lo_necesario(self):
         self.preparar()
