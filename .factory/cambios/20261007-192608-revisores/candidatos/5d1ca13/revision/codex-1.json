@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/5d1ca13",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "5d1ca13db37386e3834c165a5bc515caab38c72a",
+  "diff_sha256": "d7176bee2ee3b1c2eb465a17b30f018c2780764acc2fde03cff3d2242d3375b6",
+  "context_sha256": "5a5a842a363337cb87ba1c518adfc6865e054abd2d11d38e9f8f67371fcf18f6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La configuración admite marcadores con llaves sin cerrar",
+      "explanation": "La búsqueda de marcadores desconocidos sólo detecta grupos completos `{...}`. Una configuración con el argumento `{informe` pasa la validación aunque las llaves literales no se admiten; `argumentos` no lo sustituye y el proceso recibe ese texto literal. `pedir-revision` prepara el checkout y el paquete y lanza el comando antes de descubrir el problema (normalmente al no obtener un informe válido), en vez de rechazar la configuración antes de preparar nada como promete la spec.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 38,
+        "end_line": 38,
+        "side": "head"
+      },
+      "trigger": "Declarar un revisor válido en los demás campos con `comando: [\"reviewer\", \"{informe\"]` y ejecutar `pedir-revision ID --a reviewer`. La configuración se acepta y el marcador incompleto queda literal en argv.",
+      "evidence": "Reproduje `validar_config` directamente contra el candidato con un revisor cuyo comando contiene `{informe`; la función devolvió la configuración sin error. La expresión regular `\\{[^{}]*\\}` de la línea 38 requiere cierre `}`, y `argumentos` sólo reemplaza los marcadores completos de `MARCADORES`. `tests/test_revisores.py::test_v2_configuracion_invalida` cubre marcadores desconocidos balanceados (`{inform}`, `{Informe2}` y `{pedido.texto}`), pero no llaves sin pareja.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.revisores_configurables",
+      "status": "pendiente",
+      "verification": "Reproducción directa en memoria con el intérprete indicado; checkout candidato sin modificaciones. Corrí `python -m unittest tests.test_revisores` con el PATH indicado: 16 pruebas, OK. No hice mutaciones en el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo del paquete y revisé los módulos funcionales y las pruebas del cambio.",
+    "Corrí `python -m unittest tests.test_revisores` desde el checkout candidato con `/home/workstation/Dev/factory-rev/.venv/bin/python` y el PATH indicado: 16 pruebas, OK.",
+    "Revisé las vueltas previas: el timeout mata el grupo de procesos, los informes históricos se filtran por candidato y Clue cuando está disponible, los rechazos de Clue no se incorporan al historial, el verificador valida informes con Clue, y los errores de inicio/fallo no crean `revision/` ni omiten el evento.",
+    "Reproduje el marcador incompleto directamente contra `validar_config`; no ejecuté una corrida de `pedir-revision` con ese comando porque la validación basta para demostrar que el caso inválido pasa.",
+    "No corrí la suite completa, `tools/verify_revisores.py` ni Oracle de extremo a extremo."
+  ]
+}

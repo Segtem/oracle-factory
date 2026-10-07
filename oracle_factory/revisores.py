@@ -34,10 +34,10 @@ def validar_config(revisores) -> dict:
             raise RevisorInvalido(f'revisor {nombre}: se requieren exactamente comando, proveedor, modelo y tope_minutos')
         if not (isinstance(r['comando'], list) and r['comando'] and all(isinstance(a, str) and a for a in r['comando'])):
             raise RevisorInvalido(f'revisor {nombre}: comando debe ser una lista no vacía de argumentos')
-        # Lo que queda entre llaves después de sacar los marcadores conocidos es un error de tipeo (o llaves literales, que no se admiten).
-        desconocidos = sorted({m for a in r['comando'] for m in re.findall(r'\{[^{}]*\}', re.sub('|'.join(map(re.escape, MARCADORES)), '', a))})
+        # Una llave que queda después de sacar los marcadores conocidos es un error de tipeo (las llaves literales no se admiten).
+        desconocidos = sorted(a for a in r['comando'] if re.search('[{}]', re.sub('|'.join(map(re.escape, MARCADORES)), '', a)))
         if desconocidos:
-            raise RevisorInvalido(f'revisor {nombre}: marcadores desconocidos {", ".join(desconocidos)}; '
+            raise RevisorInvalido(f'revisor {nombre}: llaves fuera de un marcador en {", ".join(desconocidos)}; '
                                   f'se pueden usar {", ".join(MARCADORES)}')
         if not all(isinstance(r[k], str) and r[k] for k in ('proveedor', 'modelo')):
             raise RevisorInvalido(f'revisor {nombre}: proveedor y modelo son textos')
