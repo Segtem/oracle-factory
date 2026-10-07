@@ -37,7 +37,7 @@ Un revisor puede ser otra persona o un agente; conviene que sea de una familia d
 }
 ```
 
-El comando es una lista de argumentos (sin shell) con marcadores: `{pedido}` (el texto del pedido), `{pedido_archivo}`, `{carpeta}` (la carpeta de trabajo del revisor, en `.factory/local/revisores/`), `{informe}` (dónde tiene que dejar su informe), `{registro}`, `{paquete}` y `{checkout}`. Cualquier otra cosa entre llaves se rechaza al leer la configuración, para que un marcador mal escrito no llegue al revisor. Con eso:
+El nombre del revisor (la clave) es minúsculas, dígitos y guiones: va en nombres de archivo. El comando es una lista de argumentos (sin shell) con marcadores: `{pedido}` (el texto del pedido), `{pedido_archivo}`, `{carpeta}` (la carpeta de trabajo del revisor, en `.factory/local/revisores/`), `{informe}` (dónde tiene que dejar su informe), `{registro}`, `{paquete}` y `{checkout}`. Cualquier otra cosa entre llaves se rechaza al leer la configuración, para que un marcador mal escrito no llegue al revisor. Con eso:
 
 ```bash
 oracle-factory pedir-revision ID_COMPLETO --a codex

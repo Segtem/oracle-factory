@@ -28,6 +28,8 @@ def validar_config(revisores) -> dict:
     if not isinstance(revisores, dict):
         raise RevisorInvalido('revisores debe ser un objeto nombre → revisor')
     for nombre, r in revisores.items():
+        if not re.fullmatch(r'[a-z][a-z0-9-]{0,39}', nombre):  # va en nombres de archivo y de carpeta
+            raise RevisorInvalido(f'revisor {nombre!r}: el nombre es minúsculas, dígitos y guiones, de hasta 40 caracteres')
         if not isinstance(r, dict) or set(r) != {'comando', 'proveedor', 'modelo', 'tope_minutos'}:
             raise RevisorInvalido(f'revisor {nombre}: se requieren exactamente comando, proveedor, modelo y tope_minutos')
         if not (isinstance(r['comando'], list) and r['comando'] and all(isinstance(a, str) and a for a in r['comando'])):

@@ -127,6 +127,10 @@ class Revisores(Base):
             (self.root / '.factory/config.json').write_text(json.dumps(invalida))
             with self.assertRaises(f.FactoryError):
                 f.config_proyecto()
+        for nombre in ('../../salida', 'a/b', 'Codex', ''):
+            (self.root / '.factory/config.json').write_text(json.dumps({**config, 'revisores': {nombre: config['revisores']['prueba']}}))
+            with self.assertRaises(f.FactoryError):
+                f.config_proyecto()
 
     # --- v3: el pedido se genera desde el cambio ---------------------------------------------------------------------------
     def test_v3_plantilla_del_proyecto_e_indicaciones(self):
