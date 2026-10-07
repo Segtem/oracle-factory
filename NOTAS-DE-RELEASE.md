@@ -1,3 +1,20 @@
+# Oracle Factory 0.1.0a5
+
+- **Lo vigente de cada capacidad:** al cerrar un cambio, su spec delta (`ADDED`, `MODIFIED`, `REMOVED`; sin encabezados cuenta como `ADDED`) se fusiona en `openspec/specs/<capacidad>/spec.md`, con un índice en `.factory/specs/<capacidad>.json`. Cada requisito vigente dice de qué cambio y de qué requisito de Oracle viene. Para saber qué hace el sistema hoy se lee esa spec, no todas las propuestas.
+- **Un conflicto impide cerrar:** agregar un requisito que ya existe, modificar o quitar uno que no existe, repetir un nombre o usar `RENAMED` rechaza el cierre antes de preguntar. Una spec consolidada editada a mano tampoco se pisa.
+- **Nada de lo cerrado se mueve:** la carpeta del cambio queda en `openspec/changes/<ID>/` y los requisitos de Oracle no se reimportan; `estado` de un cambio archivado dice cuáles de sus requisitos siguen vigentes y cuáles reemplazó otro cambio.
+- **`archivar`:** fusiona los cambios cerrados antes de esta versión, en el orden en que se cerraron; es repetible y completa un archivo interrumpido.
+- **Alias de capacidades** en `.factory/config.json` (`capacidades`), para que una capacidad con dos nombres tenga una sola spec; `nuevo` avisa cuando se usa un alias.
+- `listar` marca los cambios archivados, `donde` muestra la spec consolidada y `buscar` busca también en `openspec/specs/`.
+- El registro de cada cambio se guarda con reemplazo atómico (un corte no lo trunca) y no se reemplaza si es de sólo lectura.
+- La revisión independiente de este corte la hizo otra familia de modelo (Codex, GPT) en cuatro vueltas, más una auditoría de documentación (Agy, Gemini). Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a5-py3-none-any.whl dist/oracle_factory-0.1.0a5.tar.gz
+```
+
+La evidencia está en la tarea del cambio `20261006-161029-archivar-al`.
+
 # Oracle Factory 0.1.0a4
 
 - **Modos de trabajo** (`nuevo --modo`, `modo`): `autonomo`, `funcional` o `confirmacion` (por defecto) según quién decide los requisitos funcionales y no funcionales. Un agente propone con `--agente`; las decisiones humanas se confirman desde una terminal interactiva y cada evento registra quién, cómo y en qué modo.
