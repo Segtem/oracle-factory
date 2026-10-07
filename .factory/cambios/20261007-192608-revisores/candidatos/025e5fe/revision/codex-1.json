@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/025e5fe",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "025e5fe3cf3231a050a4ffda4584911bc0cde032",
+  "diff_sha256": "4c73bb83f0daba9ca972ca6dc4eba0df21e45fccf4bfe0e8e9b0c461cb792550",
+  "context_sha256": "5392883a32b458f84c41d0c0c609533937c09e310930fa3564904d6c58e80caa",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Los informes históricos sin Clue todavía influyen en revision-preparar",
+      "explanation": "Cuando oracle-clue no está en PATH, material_del_candidato asigna al informe la etiqueta 'sin validar: oracle-clue no está instalado', pero no lo descarta: lo agrega a revisores. La nueva ruta de revision-preparar usa esa lista tanto para el candidato vigente como para las vueltas anteriores; preparacion.vueltas_anteriores entonces extrae sus findings y crea comprobaciones, incluso marcándolas como falla. Un JSON histórico alterado o inválido que conserve schema_version y un head que coincida puede por eso presentar hallazgos inventados como evidencia de una vuelta anterior. La corrección cubre el caso con Clue disponible, pero deja abierta la misma contaminación si Clue no está instalado, precisamente cuando no puede comprobarse el informe.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 636,
+        "end_line": 638,
+        "side": "head"
+      },
+      "trigger": "Con un candidato anterior que tenga un informe modificado con schema_version 'oracle-clue.review/v1', head del candidato y findings arbitrarios, ejecutar revision-preparar con oracle-clue ausente del PATH. El informe se incluye en material_del_candidato y aparece como comprobación histórica con esos hallazgos.",
+      "evidence": "En oracle_factory/cli.py, las líneas 690-691 fijan validacion='sin validar: oracle-clue no está instalado'; después el flujo continúa y agrega el informe a revisores (líneas 700-707). revision-preparar itera candidatos anteriores y pasa esos elementos a preparacion.vueltas_anteriores (líneas 634-638). La función usa datos.findings para describir la comprobación y la marca falla si hay hallazgos. test_v6_vuelta_que_clue_no_valida sólo prueba el escenario con oracle-clue instalado, donde se rechaza el informe; no cubre la rama sin Clue.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "status": "pendiente",
+      "verification": "Inspección del flujo y de la rama de ausencia de oracle-clue; no ejecuté una mutación sobre una copia. Corrí `python -m unittest tests.test_revisores` con el entorno indicado: 14 pruebas, OK. La suite prueba informes históricos no válidos sólo con Clue presente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta, spec, diff completo del paquete y las cuatro revisiones anteriores.",
+    "Corrí `python -m unittest tests.test_revisores` con el Python y PATH indicados: 14 pruebas, OK.",
+    "No corrí el verificador integral ni Oracle; el checkout candidato se mantuvo sólo lectura.",
+    "No hice mutaciones. El hallazgo se limita al camino donde oracle-clue no está instalado; con Clue presente, el test histórico existente confirma el rechazo de un informe inválido."
+  ]
+}
