@@ -1,6 +1,6 @@
 # Resumen del estado actual: una vista corta y regenerable de lo vigente
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -115,3 +115,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-07 11:50:37 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261007-003414-resumen-del/oracle-veredicto.txt.
+
+### Nota (2026-10-07 11:51:01 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

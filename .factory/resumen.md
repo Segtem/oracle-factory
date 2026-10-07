@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d9315efa9201f74ce4bd704da490c0dfcc6df8401a3bc0b1855319c9c57b4f34 -->
+<!-- oracle-factory resumen sha256:2612c3561f1b18603f0567066f03a9ef82c756d079eb6eb706aaf4a3d855ef52 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-7 capacidades · 52 requisitos vigentes · 7 cambios abiertos
+8 capacidades · 59 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -85,6 +85,20 @@ Spec completa: [openspec/specs/portabilidad/spec.md](../openspec/specs/portabili
 | sin rutas privadas en lo versionado | no funcional | `portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado` | factory_portabilidad.sin_rutas_privadas_en_lo_versionado, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
 | respetar los registros existentes | no funcional | `portabilidad_cbe858e976e618573.respetar_los_registros_existentes` | factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
 
+### resumen
+
+Spec completa: [openspec/specs/resumen/spec.md](../openspec/specs/resumen/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| el resumen muestra lo vigente y lo pendiente | funcional | `resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente` | factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| riesgos aceptados y límites declarados | funcional | `resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados` | factory_resumen.riesgos_aceptados_y_limites_declarados, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| el veredicto es el del cierre y lo dice | funcional | `resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice` | factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| el resumen es determinista y no cambia nada más | no funcional | `resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas` | factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| se sabe cuándo quedó viejo | funcional | `resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo` | factory_resumen.se_sabe_cuando_quedo_viejo, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| se actualiza al cerrar y al archivar | funcional | `resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar` | factory_resumen.se_actualiza_al_cerrar_y_al_archivar, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+| este repositorio tiene su resumen al día | no funcional | `resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia` | factory_resumen.este_repositorio_tiene_su_resumen_al_dia, factory_resumen.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-003414-resumen-del |
+
 ### revision-guiada
 
 Spec completa: [openspec/specs/revision-guiada/spec.md](../openspec/specs/revision-guiada/spec.md)
@@ -160,14 +174,6 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
 
-### 20261007-003414-resumen-del — Resumen del estado actual: una vista corta y regenerable de lo vigente
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen` · [propuesta](../openspec/changes/20261007-003414-resumen-del/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-- medidas de 7 requisitos: propuestas por claude-code, sin confirmar por una persona
-
 Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
 
 ## Riesgos aceptados
@@ -233,3 +239,8 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261006-161029-archivar-al) Sólo Linux; no se probaron Windows, ACL ni atributos extendidos.
 - (20261006-161029-archivar-al) Los 9 cambios que nunca se cerraron no se archivan: queda como tarea decidir si se cierran o se abandonan.
 - (20261006-161029-archivar-al) La spec consolidada generada queda fuera de la huella; una edición a mano la detectan Factory al fusionar y el verificador, no la huella.
+- (20261007-003414-resumen-del) El autor es Claude; la revisión la hicieron Codex (GPT) y Agy (Gemini): independiente del autor y de su familia, pero no humana.
+- (20261007-003414-resumen-del) Sólo Linux.
+- (20261007-003414-resumen-del) El veredicto de cada requisito vigente es el del cierre de su cambio: no hay todavía una corrida de Oracle sobre todo el sistema (tarea hechos-varios).
+- (20261007-003414-resumen-del) Lo que les falta a los cambios abiertos depende de la huella del producto: un commit que vence una revisión deja el resumen viejo hasta regenerarlo.
+- (20261007-003414-resumen-del) Los cambios viejos sin medidas muestran sólo lo que reporta pendientes_actuales (revisión y veredicto), no que falta medir; se revisa en cli-humana.

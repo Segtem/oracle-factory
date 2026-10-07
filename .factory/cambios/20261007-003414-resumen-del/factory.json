@@ -2,7 +2,7 @@
   "id": "20261007-003414-resumen-del",
   "titulo": "Resumen del estado actual: una vista corta y regenerable de lo vigente",
   "capacidad": "resumen",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md",
   "spec_sha256": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b",
   "spec_aprobada": {
@@ -438,6 +438,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "caa5ff0019d4fbdc0b29248c9c0b903a659547505c25c317898e1b7baea3e25d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:51:01+00:00",
+      "oracle": ".factory/cambios/20261007-003414-resumen-del/oracle-veredicto.txt",
+      "revision": "tareas/20261007-003414-resumen-del/revisiones/registro-u2qqlplz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:51:01+00:00",
+      "capacidad": "resumen",
+      "spec": "openspec/specs/resumen/spec.md"
     }
   ],
   "tipos": {
@@ -507,5 +527,17 @@
       "sha256": "a374e114f1cbdc4ff7276565093d19028a36afa5c1af5645ad0350152fc49468"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T11:51:01+00:00"
+  },
+  "archivo": {
+    "capacidad": "resumen",
+    "spec": "openspec/specs/resumen/spec.md",
+    "cuando": "2026-10-07T11:51:01+00:00"
+  }
 }
