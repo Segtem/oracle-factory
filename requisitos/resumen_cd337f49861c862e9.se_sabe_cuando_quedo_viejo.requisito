@@ -1,4 +1,4 @@
-requisito resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo:
+requisito resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo:
     texto "Tipo: funcional El resumen SHALL llevar la huella de lo que resume, y `resumen --verificar` SHALL terminar con código distinto de cero, sin escribir, cuando el resumen falta o no coincide con los registros actuales."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#se sabe cuándo quedó viejo"
     medido_por factory_resumen.se_sabe_cuando_quedo_viejo, factory_resumen.corrida_completa

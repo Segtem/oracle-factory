@@ -1,0 +1,4 @@
+requisito resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas:
+    texto "Tipo: no funcional Con los mismos registros y la misma huella del producto, `resumen` SHALL producir los mismos bytes, sin fecha ni commit, sin red ni modelos de lenguaje; SHALL NOT modificar ningún otro archivo, y `.factory/resumen.md` SHALL quedar fuera de la huella del producto."
+    fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#el resumen es determinista y no cambia nada más"
+    medido_por factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas, factory_resumen.corrida_completa

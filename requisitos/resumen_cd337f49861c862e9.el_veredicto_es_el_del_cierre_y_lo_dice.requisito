@@ -1,4 +1,4 @@
-requisito resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice:
+requisito resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice:
     texto "Tipo: funcional Para cada requisito vigente, el resumen SHALL mostrar el veredicto registrado al cerrar el cambio del que viene, con ese cambio y su fecha, y SHALL decir que no es una corrida nueva; si el cambio no registró veredicto, SHALL decirlo en vez de inventarlo."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#el veredicto es el del cierre y lo dice"
     medido_por factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice, factory_resumen.corrida_completa

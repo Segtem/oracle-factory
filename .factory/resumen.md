@@ -1,4 +1,4 @@
-<!-- oracle-factory resumen sha256:45cd25e9826169eb7f3d719b46c23d91acf7d94485da95a9e26aaa71911fd37f -->
+<!-- oracle-factory resumen sha256:d9315efa9201f74ce4bd704da490c0dfcc6df8401a3bc0b1855319c9c57b4f34 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
@@ -166,7 +166,6 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen` · [p
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
-- la propuesta/spec cambió o su aprobación es antigua; renová la aceptación
 - medidas de 7 requisitos: propuestas por claude-code, sin confirmar por una persona
 
 Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.

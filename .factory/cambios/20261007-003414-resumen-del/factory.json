@@ -4,26 +4,26 @@
   "capacidad": "resumen",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md",
-  "spec_sha256": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729",
+  "spec_sha256": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-07T00:36:45+00:00",
+    "cuando": "2026-10-07T01:24:17+00:00",
     "documentos": {
       "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
-      "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729"
+      "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b"
     }
   },
   "requisitos": [
-    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
-    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
-    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
-    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
-    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
-    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
-    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo"
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo"
   ],
   "revision": null,
   "oracle": null,
@@ -164,60 +164,187 @@
         "factory_resumen.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T01:24:17+00:00",
+      "documentos": {
+        "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+        "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T01:24:30+00:00",
+      "ids": [
+        "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+        "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+        "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+        "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "medidas": [
+        "factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+      "medidas": [
+        "factory_resumen.riesgos_aceptados_y_limites_declarados",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "medidas": [
+        "factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "medidas": [
+        "factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo",
+      "medidas": [
+        "factory_resumen.se_sabe_cuando_quedo_viejo",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+      "medidas": [
+        "factory_resumen.se_actualiza_al_cerrar_y_al_archivar",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+      "medidas": [
+        "factory_resumen.este_repositorio_tiene_su_resumen_al_dia",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas": "no funcional",
-    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente": "funcional",
-    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice": "funcional",
-    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia": "no funcional",
-    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados": "funcional",
-    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar": "funcional",
-    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo": "funcional"
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas": "no funcional",
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente": "funcional",
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice": "funcional",
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia": "no funcional",
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados": "funcional",
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar": "funcional",
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {
-    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente": {
-      "sha256": "1f3c83135bd82a92221f65f376ea38274aa3b92b6eee897abd62adaed3b1c439",
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente": {
+      "sha256": "5248d4e6a972279f2f673b21b52cd0b54b724827f2898bb570a55c202ef64178",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados": {
-      "sha256": "ccd5ccd5fbd92a1e7b3bf68a97b43399271bbd1608035b5ade0668ad08047a90",
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados": {
+      "sha256": "45c0b0d08b40a4af4c01edd188798d2ed55685bc44bd2b5ba2e8a17bf9c38ed7",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice": {
-      "sha256": "f9f1099267562877d5e0d3b4b09d45f956fc39ae1bc54cc1e80e0c48760228bb",
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice": {
+      "sha256": "64103d7fc731e02b0a7ff34bbb85a54d65013945ad5f564bf07e23d96cef7073",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas": {
-      "sha256": "0ae7ac48990c93148251ef7c14ce7467c4ef5178dd0ca0d2b81b6769f8be2ed7",
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas": {
+      "sha256": "4e9d2fd49b776561625e79e9781bdf1c0a30b09bfd84fcbd75690735825503bc",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo": {
-      "sha256": "7ab62deb7cb38a0e1f523c96579a6ff76fce51bfa708cd357298bfae47d3d791",
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo": {
+      "sha256": "4b95cc38c94d42cf170775ed9d1a6d623f2838f1a66c7c4501997fe3aa05963b",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar": {
-      "sha256": "186af53c30d7164f66914c836e15eb0b81a94e826a3fe942d96adab8d80f1c43",
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar": {
+      "sha256": "2c13ae90988e3c3c56dbfcf296ee24deb7d9023de94e361a24c095944f0213ae",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     },
-    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia": {
-      "sha256": "74cffe4825c1f647119c2384bfa350ab8a6bcd4ee61824e4df7a3c954a4784e1",
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia": {
+      "sha256": "a374e114f1cbdc4ff7276565093d19028a36afa5c1af5645ad0350152fc49468",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-07T00:45:48+00:00"
+      "cuando": "2026-10-07T01:24:38+00:00"
     }
   }
 }
