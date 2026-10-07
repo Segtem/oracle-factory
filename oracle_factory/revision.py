@@ -119,9 +119,13 @@ def validar(informe_bytes: bytes, decisiones_bytes: bytes, *, identificador: str
     texto(decisiones['motivo'], 'decisiones.motivo')
     resueltos = set()
     for resolucion in lista(decisiones['decisiones'], 'decisiones.decisiones'):
-        campos(resolucion, 'hallazgo_id estado motivo actor fecha', 'resolución')
+        # origen_motivo es opcional: lo agrega `revisar` (agente, armado o persona); los documentos a mano no lo traen.
+        campos({k: v for k, v in resolucion.items() if k != 'origen_motivo'} if isinstance(resolucion, dict) else resolucion,
+               'hallazgo_id estado motivo actor fecha', 'resolución')
         for campo, valor in resolucion.items():
             texto(valor, 'resolución.' + campo)
+        if resolucion.get('origen_motivo', 'persona') not in ('agente', 'armado', 'persona'):
+            raise RevisionInvalida('origen de motivo desconocido: ' + resolucion['origen_motivo'])
         fid = resolucion['hallazgo_id']
         if fid not in ids or fid in resueltos:
             raise RevisionInvalida('decisión duplicada o hallazgo inexistente: ' + fid)

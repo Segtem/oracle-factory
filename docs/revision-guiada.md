@@ -63,7 +63,7 @@ Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revis
 2. **La decisión:** aprobar, sólo si no queda nada abierto y todo cumple, o pedir cambios.
 3. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
 
-Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo: `agente`, `armado` o `persona`.
+Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo (`agente`, `armado` o `persona`), también el de cada hallazgo resuelto (`origen_motivo`, opcional en los documentos completados a mano).
 
 El agente puede dejar preparada su recomendación, que la persona ve como primera opción de motivo:
 

@@ -197,6 +197,20 @@
         "factory_decisiones.sin_terminal_no_hay_decision_de_persona",
         "factory_decisiones.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-07T23:02:50+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "158b050",
+      "resultado": "ok",
+      "hallazgos": 2
     }
   ],
   "tipos": {

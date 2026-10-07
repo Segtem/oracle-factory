@@ -974,7 +974,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
                            f"oracle-factory pedir-revision {identificador} y producí la evidencia antes de revisar")
     print(f"Revisión de {identificador} · candidato {sha}")
     for c in informe["comprobaciones"]:
-        print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}")
+        print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}\n      Evidencia: {c['evidencia']}")
     for limite in informe.get("limites") or []:
         print(f"  Límite: {limite}")
     persona = actor()["actor"]
@@ -989,8 +989,9 @@ def revisar_paso_a_paso(identificador: str) -> None:
         if i == 2:
             continue
         estado_h = ("riesgo_aceptado", "descartado")[i]
-        motivo_h, _ = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
-        resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "actor": persona, "fecha": ahora()})
+        motivo_h, origen_h = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
+        resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
+                             "actor": persona, "fecha": ahora()})
     abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
     if abiertos or any(c["resultado"] != "cumple" for c in informe["comprobaciones"]):
         opciones = [("cambios", "Pedir cambios", f"quedan {abiertos} hallazgo(s) abiertos o comprobaciones que no cumplen; no se puede aprobar")]

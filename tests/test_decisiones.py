@@ -82,6 +82,7 @@ class Decisiones(_ap.Base):
         self.assertEqual((revision['decision'], revision['revisor']), ('aprobar', f.actor()['actor']))
         self.assertTrue(revision['motivo'].startswith(f'Apruebo el candidato {self.sha}'))
         self.assertIn('Evidencia del candidato', salida)  # lo que se decide se muestra en texto
+        self.assertLess(salida.index('evidencia/resultado.json'), salida.index('Decisión sobre el candidato'))  # antes de decidir
 
     def test_d2_un_hallazgo_abierto(self):
         self.candidato(['R-01'])
@@ -96,7 +97,14 @@ class Decisiones(_ap.Base):
         revision = self.revision()
         self.assertEqual((revision['decision'], revision['hallazgos_abiertos']), ('aprobar', 0))
         decisiones = json.loads((self.root / revision['decisiones']).read_text())
-        self.assertEqual([(d['hallazgo_id'], d['estado']) for d in decisiones['decisiones']], [('R-01', 'riesgo_aceptado')])
+        self.assertEqual([(d['hallazgo_id'], d['estado'], d['origen_motivo']) for d in decisiones['decisiones']],
+                         [('R-01', 'riesgo_aceptado', 'armado')])
+        decisiones['decisiones'][0]['origen_motivo'] = 'inventado'  # un origen fuera de los tres no se acepta
+        carpeta, estado = f.leer(self.ident)
+        with self.assertRaisesRegex(f.documentos_revision.RevisionInvalida, 'origen de motivo'):
+            f.documentos_revision.validar((self.root / revision['informe']).read_bytes(), json.dumps(decisiones).encode(),
+                                          identificador=self.ident, contexto=revision['contexto'],
+                                          documentos=f.documentos(carpeta, estado), revisor=revision['revisor'])
 
     # --- d3: el motivo se elige -------------------------------------------------------------------------------------------
     def test_d3_motivo_propuesto_por_el_agente(self):
