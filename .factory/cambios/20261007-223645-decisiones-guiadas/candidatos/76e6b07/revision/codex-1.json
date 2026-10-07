@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/76e6b07",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "76e6b078044f2648eff0fbbed0e4cfefea554bfa",
+  "diff_sha256": "811861f52bd06400d900b9fb5d680d0cd8f86fdd8dd0650f6859d6d533e0c6ca",
+  "context_sha256": "6c942c159963096a82154aeaaae63b7f8a1e41a5e2815d02991680c86ff80a5c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DGUI-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Una respuesta inválida en “de a una” se trata como “Saltear”",
+      "explanation": "En el submenú para decidir cada requisito, cualquier respuesta distinta de la opción 1 continúa como si se hubiera elegido “Saltear”. `elegir` devuelve None para Enter o una opción inexistente, así que una entrada inválida no cancela la operación. El bucle puede avanzar y registrar medidas de requisitos posteriores cuando reciba opciones válidas, aunque la spec exige que cualquier respuesta que no sea una opción cancele sin registrar nada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2033,
+        "end_line": 2035,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `medir ID --confirmar`, elegir “Decidir de a una”, ingresar una respuesta inválida para el primer requisito y luego confirmar el siguiente con `1`.",
+      "evidence": "`elegir(...)` devuelve None para una respuesta no numérica o fuera de rango (cli.py:150-156). La condición `!= 0` en cli.py:2034 trata None igual que la opción explícita “Saltear” y hace `continue`; el bucle llama `medir()` para los requisitos posteriores en cli.py:2036. `tests/test_decisiones.py::test_d4_de_a_una_y_saltear` cubre la opción válida `2`, no una entrada inválida seguida por una confirmación.",
+      "related_requirement": "las confirmaciones son un menú",
+      "status": "pendiente",
+      "verification": "Inspección estática de `elegir` y `confirmar_medidas`; suite específica ejecutada: 11 pruebas, OK. No se probó esta secuencia de entrada inválida."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones` desde el checkout candidato: 11 pruebas, OK; aparecieron avisos DeprecationWarning de oracle_metalenguaje.",
+    "Leí la propuesta, la spec, los 32 archivos del paquete Clue, las pruebas y el verificador. No corrí la suite completa, una interacción en pseudoterminal ni mutaciones manuales.",
+    "Los hallazgos previos DGUI-01 y DGUI-02 de 158b050 y DGUI-03 de 7b7bc16 siguen cerrados en el código del candidato; evidencia detallada en revision-extensa.md.",
+    "El paquete declara que la base ya incluye la migración mecánica de 17 pruebas/arneses; esa migración no se vuelve a revisar en el diff. El análisis se limita a los archivos listados en el paquete."
+  ]
+}

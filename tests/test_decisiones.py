@@ -157,6 +157,10 @@ class Decisiones(_ap.Base):
 
     def test_d4_de_a_una_y_saltear(self):
         rid = self.proponer_medidas()
+        antes = self.registro()
+        with self.responde('2', ''), self.assertRaises(f.FactoryError), contextlib.redirect_stdout(io.StringIO()):
+            f.confirmar_medidas(self.ident)  # una respuesta que no es opción cancela, no saltea
+        self.assertEqual(self.registro(), antes)
         with self.responde('2', '2'), contextlib.redirect_stdout(io.StringIO()):  # de a una; saltear
             f.confirmar_medidas(self.ident)
         estado = f.leer(self.ident)[1]

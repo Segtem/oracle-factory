@@ -2029,10 +2029,17 @@ def confirmar_medidas(identificador: str) -> None:
                 ("Decidir de a una", "te pregunto por cada requisito"), ("Cancelar", "no registra nada")])
     if i not in (0, 1):
         raise FactoryError("confirmación cancelada; no registré nada")
-    for rid in pendientes:
-        if i == 1 and elegir(f"¿Confirmás las medidas de {rid}?", [("Confirmar", "queda como decisión tuya"),
-                                                                   ("Saltear", "sigue pendiente")]) != 0:
-            continue
+    elegidos = pendientes
+    if i == 1:  # primero todas las respuestas: una que no es opción cancela sin haber registrado ninguna
+        elegidos = []
+        for rid in pendientes:
+            j = elegir(f"¿Confirmás las medidas de {rid}?", [("Confirmar", "queda como decisión tuya"),
+                                                            ("Saltear", "sigue pendiente")])
+            if j is None:
+                raise FactoryError("confirmación cancelada; no registré nada")
+            if j == 0:
+                elegidos.append(rid)
+    for rid in elegidos:
         medir(identificador, requisito_id=rid, medidas=list(requisitos[rid].medido_por))
 
 
