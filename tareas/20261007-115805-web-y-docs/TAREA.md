@@ -63,3 +63,11 @@ Medidas de web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible
 ### Nota (2026-10-07 13:26:22 UTC)
 
 Medidas de web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:30:02 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit c2581cf5e9fc6202029f0e4e54e38ac887531b40; informe tareas/20261007-115805-web-y-docs/revisiones/registro-7l41rtt5/informe.json; decisiones tareas/20261007-115805-web-y-docs/revisiones/registro-7l41rtt5/decisiones.json.
+
+### Nota (2026-10-07 13:30:13 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261007-115805-web-y-docs/oracle-veredicto.txt.
