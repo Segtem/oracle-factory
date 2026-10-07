@@ -5,6 +5,7 @@ lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 
 - `config.json` es la configuración del proyecto: `modo_por_defecto`, `tipos_obligatorios` y `capacidades` (alias de capacidades).
 - `cambios/<ID>/` guarda el estado del cambio: `factory.json`, `review.md` y `oracle-veredicto.txt`.
+- `resumen.md` es el estado actual en una lectura (`oracle-factory resumen`); se lee con `glow -p .factory/resumen.md`.
 - `specs/<capacidad>.json` es el índice de la spec consolidada en `openspec/specs/<capacidad>/`: de qué cambio y requisito de Oracle viene cada requisito vigente y cuáles fueron reemplazados.
 - `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
 - `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.

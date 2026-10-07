@@ -8,6 +8,7 @@ proyecto/
     LEEME.md                          # explica la carpeta; existe para que Git la versione aunque esté vacía
     config.json                       # configuración del proyecto: modo por defecto, tipos obligatorios y alias de capacidades
     specs/<capacidad>.json            # índice de la spec consolidada: de qué cambio viene cada requisito y qué reemplazó
+    resumen.md                        # el estado actual en una lectura: se genera, no se edita a mano
     cambios/<ID>/                     # un cambio
       factory.json                    #   su estado: fase, decisiones, eventos
       review.md                       #   la revisión libre, si la hubo
@@ -97,6 +98,15 @@ Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`
 - **Los cambios cerrados antes de esto** se archivan con `oracle-factory archivar`, en el orden en que se cerraron; correrlo de nuevo no cambia nada.
 - La spec consolidada que generó Factory (la que tiene índice en `.factory/specs/<capacidad>.json`) queda fuera de la huella del producto, como `.factory/`: se deriva de specs ya aceptadas, y si contara, archivar los cambios anteriores vencería la revisión del último cambio integrado. Cualquier otro archivo de `openspec/specs/` sí cuenta.
 - **Si se corta:** `cerrar` cierra primero y fusiona después. Un corte antes de cerrar no deja nada fusionado y se reintenta; uno después deja el cambio cerrado sin archivar, y `oracle-factory archivar` lo completa.
+
+## El estado actual en una lectura
+
+`oracle-factory resumen` escribe `.factory/resumen.md`: los requisitos vigentes de cada capacidad (con su tipo, sus medidas, el cambio del que vienen y el veredicto con que se cerró ese cambio), los cambios abiertos con lo que les falta, los riesgos que aceptó una persona y los límites declarados en las revisiones, separando los de cambios que todavía tienen requisitos vigentes de los históricos. No copia los escenarios: enlaza la spec consolidada de cada capacidad.
+
+- **Se lee con formato** con `glow -p .factory/resumen.md`.
+- **El veredicto es el del cierre**, con su fecha; no es una corrida nueva de Oracle.
+- **Se regenera solo** al cerrar y al archivar. `oracle-factory resumen --verificar` dice, sin escribir, si falta o quedó viejo (por ejemplo, porque un cambio abierto avanzó o un commit venció una revisión): las mismas entradas dan siempre los mismos bytes, así que verificar es regenerar y comparar.
+- **No vence ninguna revisión:** vive en `.factory/`, fuera de la huella. `--salida RUTA` lo escribe en otro lugar del proyecto (por ejemplo `RESUMEN.md`); fuera de `.factory/`, ese archivo sí cuenta en la huella.
 
 ## Migrar un proyecto anterior (fase 2)
 
