@@ -6,7 +6,7 @@ Este protocolo usa Factory 0.1.0a5, Oracle Task 0.2.0, Oracle Clue 0.1.0a1 y Ora
 
 ## Quién decide qué
 
-Cada cambio tiene un modo de trabajo (`nuevo --modo`, `modo ID MODO`). En `confirmacion`, el modo por defecto, un agente que actúa con `--agente NOMBRE` sólo propone: la aceptación de la spec, las medidas, la revisión y el cierre los confirma una persona repitiendo el comando desde su terminal, sin `--agente`. En `funcional`, la persona decide los requisitos funcionales y el agente puede decidir los no funcionales. En `autonomo` decide el agente, y elegir ese modo lo decide una persona. En todos, cada evento del registro dice quién actuó, si era persona o agente y en qué modo; `estado` lo muestra. Una entrada por tubería no cuenta como persona, y el nombre registrado es el de la configuración de Git de quien tiene la terminal: Factory no autentica a nadie.
+Cada cambio tiene un modo de trabajo (`nuevo --modo`, `modo ID MODO`). En `confirmacion`, el modo por defecto, un agente que actúa con `--agente NOMBRE` sólo propone: la aceptación de la spec, las medidas y la revisión las confirma una persona repitiendo el comando desde su terminal, sin `--agente`; el cierre lo hace siempre una persona (un agente sólo puede cerrar en `autonomo`). En `funcional`, la persona decide los requisitos funcionales y el agente puede decidir los no funcionales. En `autonomo` decide el agente, y elegir ese modo lo decide una persona. En todos, cada evento del registro dice quién actuó, si era persona o agente y en qué modo; `estado` lo muestra. Una entrada por tubería no cuenta como persona, y el nombre registrado es el de la configuración de Git de quien tiene la terminal: Factory no autentica a nadie.
 
 ## 1. Acordar el reparto antes de escribir
 
@@ -56,7 +56,7 @@ git worktree add -b trabajo/integracion ../producto-integracion BASE_ACORDADA
 git worktree list
 ```
 
-Cada agente usa la ruta absoluta de su checkout con `--proyecto`. Los worktrees comparten objetos y referencias Git, pero separan archivos de trabajo, HEAD e índice; no usen la misma rama en dos frentes. Factory toma la huella del checkout entero: cambiar otra spec allí puede invalidar una revisión. Separar carpetas de tareas dentro del mismo checkout no resuelve eso.
+Cada agente usa la ruta absoluta de su checkout con `--proyecto`. Los worktrees comparten objetos y referencias Git, pero separan archivos de trabajo, HEAD e índice; no usen la misma rama en dos frentes. Factory toma la huella de los archivos del producto del checkout (no de los registros, la evidencia ni la spec consolidada que genera): cambiar otra spec allí puede invalidar una revisión. Separar carpetas de tareas dentro del mismo checkout no resuelve eso.
 
 En máquinas distintas, cada persona usa un clone propio del repositorio acordado:
 
