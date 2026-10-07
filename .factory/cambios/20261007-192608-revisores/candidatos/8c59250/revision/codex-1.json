@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/8c59250",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "8c5925029102104952300469b50c414c168357d8",
+  "diff_sha256": "e3afba04a6c50f4f4f46b449488c894e4d2e355e92bb1fb43447445f0f6c4422",
+  "context_sha256": "f9c37022208b1f7ac132c724e56ab5cf15990733f44a1e7c9c2f9d942de7c7ca",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé propuesta, spec, diff completo del paquete y código/pruebas relevantes; contrasté las promesas funcionales con el cambio.",
+    "Corrí `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores`: 16 pruebas, OK. El checkout candidato permaneció de solo lectura; guardé el log en la carpeta del informe.",
+    "Contrasté los hallazgos de las vueltas previas contra el código actual y los casos de regresión añadidos; no encontré que sigan abiertos.",
+    "No ejecuté la suite completa ni Oracle end-to-end y no hice mutaciones sobre copias. La revisión independiente no mide propiedades fuera de lo prometido por la spec."
+  ]
+}

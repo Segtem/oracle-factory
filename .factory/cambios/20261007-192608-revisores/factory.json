@@ -493,6 +493,20 @@
       "candidato": "cb2527e",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-07T21:53:19+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "8c59250",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {
