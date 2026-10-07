@@ -111,12 +111,15 @@ class Decisiones(_ap.Base):
         self.candidato()
         with patch.object(f, 'AGENTE', 'claude-code'), contextlib.redirect_stdout(io.StringIO()):
             f.proponer_revision(self.ident, 'aprobar', 'Sin hallazgos; acepto el límite X.')
+        with contextlib.redirect_stdout(io.StringIO()):  # una propuesta pendiente no rompe estado ni el cambio de modo
+            f.mostrar(self.ident)
+            f.cambiar_modo(self.ident, 'confirmacion')
         salida = self.revisar('1', '1')  # aprobar; el motivo del agente (primera opción)
         self.assertIn('«Sin hallazgos; acepto el límite X.»', salida)  # el texto completo, antes de elegir
         revision = self.revision()
         self.assertEqual((revision['motivo'], revision['origen_motivo'], revision['forma']),
                          ('Sin hallazgos; acepto el límite X.', 'agente', 'confirmo'))
-        self.assertNotIn('revisar', f.leer(self.ident)[1].get('propuestas') or {})
+        self.assertFalse(f.leer(self.ident)[1].get('motivos_propuestos'))
 
     def test_d3_motivo_escrito(self):
         self.candidato()

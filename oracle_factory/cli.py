@@ -949,7 +949,8 @@ def proponer_revision(identificador: str, decision: str, motivo: str) -> None:
     sha = candidato_vigente(identificador)
     if sha is None:
         raise FactoryError("no hay candidato vigente para proponer una revisión")
-    estado.setdefault("propuestas", {})["revisar"] = {"decision": decision, "motivo": motivo, "candidato": sha,
+    # Fuera de «propuestas»: ésas son las decisiones canónicas de modos.DECISIONES, con firma.
+    estado.setdefault("motivos_propuestos", {})["revision"] = {"decision": decision, "motivo": motivo, "candidato": sha,
                                                       **actor(), "cuando": ahora()}
     evento(estado, "revision_propuesta", forma="propuso", decision=decision, candidato=sha)
     guardar(carpeta, estado)
@@ -1003,7 +1004,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
         raise FactoryError("revisión cancelada; no registré nada")
     decision = opciones[i][0]
     _, estado = leer(identificador)
-    propuesta = (estado.get("propuestas") or {}).get("revisar") or {}
+    propuesta = (estado.get("motivos_propuestos") or {}).get("revision") or {}
     propuesto = propuesta.get("motivo") if propuesta.get("decision") == decision and propuesta.get("candidato") == sha else None
     motivo = elegir_motivo(motivo_armado(informe, sha, decision, resoluciones), propuesto)
     informe.update(revisor=persona, completa=True)
@@ -1013,7 +1014,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
     escribir_atomico(ruta_decisiones, bytes_json(decisiones))
     revisar_guiado(identificador, ruta_informe, ruta_decisiones, persona, decision, motivo)
     carpeta, estado = leer(identificador)
-    if (estado.get("propuestas") or {}).pop("revisar", None) is not None:  # la propuesta ya se decidió
+    if (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None:  # la propuesta ya se decidió
         guardar(carpeta, estado)
 
 
