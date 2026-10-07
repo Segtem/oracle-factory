@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "88ececdfae098ff6d1357550528b8abcd93b146380b30a68f20602da1ad534c6",
+  "actor": "Brian Hollweg",
+  "motivo": "Sin hallazgos en el candidato d225085; las vueltas anteriores quedaron corregidas con prueba que falla en el código viejo. Acepto como límites: sin oracle-clue instalado las vueltas se muestran marcadas «sin validar», y la última vuelta fue incremental desde 8c59250 porque el paquete completo supera el límite de Clue (tarea paquete-producto).",
+  "decisiones": []
+}
