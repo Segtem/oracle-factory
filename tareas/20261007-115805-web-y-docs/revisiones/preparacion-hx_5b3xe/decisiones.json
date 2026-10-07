@@ -1,0 +1,106 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "df204484b8e9caad8965ab13a0968c4da88b4fd1ad801de81c69fd9939833156",
+  "actor": "Brian Hollweg",
+  "motivo": "BORRADOR del agente, vale cuando Brian lo registra con revision --formato guiado. Se apoya en sus instrucciones «Despues tenes que crear en la web como es para trabajar con factory con multiples usuarios», «dale» (web y documentación primero), «estrenemos el subfijo», «Da las vueltas que fanten» y «Listo» (aceptó la spec y confirmó las medidas). Edítalo si alguna decisión no es la tuya.",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2W-01",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-706f7d3.json), severidad baja. Corregido en 4a1ac94; Codex lo confirmó en la segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "R2W-02",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-706f7d3.json), severidad baja. Corregido en 4a1ac94; Codex lo confirmó en la segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D01",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D02",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D03",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D04",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D05",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D06",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D07",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D08",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D09",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D10",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D11",
+      "estado": "corregido",
+      "motivo": "Auditoría de contenido de Agy1 (revision-r2/auditoria-contenido-agy1-706f7d3.md). Corregido en 4a1ac94; Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    },
+    {
+      "hallazgo_id": "R2X-L1",
+      "estado": "corregido",
+      "motivo": "Señalado por Codex como límite fuera del diff (informe-r2-codex-4a1ac94.json). Corregido en 27f7719.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T13:27:18+00:00"
+    }
+  ]
+}
