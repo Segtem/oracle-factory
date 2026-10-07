@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:2612c3561f1b18603f0567066f03a9ef82c756d079eb6eb706aaf4a3d855ef52 -->
+<!-- oracle-factory resumen sha256:d9d42a8e75e61ddb36d149e753f2eae19b9ebcd0c449561068c539e7ab905200 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-8 capacidades · 59 requisitos vigentes · 6 cambios abiertos
+8 capacidades · 59 requisitos vigentes · 7 cambios abiertos
 
 ## Lo vigente
 
@@ -173,6 +173,14 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
+
+### 20261007-115805-web-y-docs — La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `web` · [propuesta](../openspec/changes/20261007-115805-web-y-docs/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
+- medidas de 6 requisitos: propuestas por claude-code, sin confirmar por una persona
 
 Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
 
