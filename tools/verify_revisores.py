@@ -2,7 +2,6 @@
 from collections import Counter
 from importlib import metadata
 import io
-import json
 import argparse
 from pathlib import Path
 import subprocess
@@ -42,26 +41,19 @@ def fuentes():
 def este_repositorio():
     """Problemas: el candidato vigente de este cambio tiene que tener un informe de revisor y su pedido."""
     from unittest.mock import patch
-    from oracle_factory import cli, estructura
+    from oracle_factory import cli
     with patch.object(cli, 'ROOT', ROOT), patch.object(cli, 'CHANGES', ROOT / 'openspec/changes'):
         sha = cli.candidato_vigente(CAMBIO)
         if sha is None:
             return ['este cambio no tiene una carpeta de candidato vigente']
-        carpeta = estructura.ruta_canonica(ROOT, CAMBIO, 'revision', sha)
         eventos = cli.leer(CAMBIO)[1].get('eventos') or []
         pedidas = {(e.get('candidato'), e.get('resultado')) for e in eventos if e.get('accion') == 'revision_pedida'}
-        informes = []
-        for p in carpeta.glob('*.json'):
-            try:
-                datos = json.loads(p.read_text(encoding='utf-8'))
-            except ValueError:
-                continue
-            if (p.with_suffix('.pedido.md').is_file() and isinstance(datos, dict) and datos.get('schema_version') == 'oracle-clue.review/v1'
-                    and str(datos.get('head') or '').startswith(sha)):
-                informes.append(p)
+        # Los mismos informes que usa revision-preparar: de este candidato y validados con Clue contra su paquete.
+        validos = [r for r in cli.material_del_candidato(CAMBIO, sha)[0] if r['validacion'] == 'validado con oracle-clue']
+        informes = [r for r in validos if (ROOT / r['ruta']).with_suffix('.pedido.md').is_file()]
     if (sha, 'ok') not in pedidas:
         return [f'no hay un pedir-revision exitoso registrado para el candidato {sha}']
-    return [] if informes else [f'el candidato {sha} no tiene un informe review/v1 suyo con su pedido']
+    return [] if informes else [f'el candidato {sha} no tiene un informe validado con Clue y su pedido']
 
 
 def main(argv=None):

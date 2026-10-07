@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/9c8d215",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "9c8d215609ed6c561985f80e1ea1830bcfde7685",
+  "diff_sha256": "6a4506dfb2a23277f68394c72bd48533665d3ab1392b0e64784c8ca1f4edb03b",
+  "context_sha256": "d858082bd92f5add88a58010dd6b0f2f592662bc2a80c9cbc4a0148873775aca",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El verificador da por revisado un informe alterado que Clue rechazaría",
+      "explanation": "La comprobación del informe propio sólo exige que el archivo JSON tenga schema_version oracle-clue.review/v1 y que head empiece con el SHA del candidato; también comprueba que exista el pedido asociado. La presencia de un evento revision_pedida exitoso se valida por separado, pero no vincula su resultado al contenido actual del informe. Si después de la revisión se elimina un campo obligatorio (por ejemplo findings), el verificador sigue dando por satisfecho el requisito aunque oracle-clue validar rechaza el artefacto. Así, la evidencia puede marcar completa una corrida cuyo informe actual ya no es un informe Clue válido.",
+      "location": {
+        "file": "tools/verify_revisores.py",
+        "start_line": 59,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Después de una ejecución exitosa real, conservar el evento revision_pedida con resultado ok y el archivo .pedido.md, pero editar el JSON del informe para que sólo tenga schema_version y head con el SHA vigente. Ejecutar tools/verify_revisores.py: este_repositorio lo cuenta en informes aunque oracle-clue validar falla por faltar los campos obligatorios.",
+      "evidence": "El predicado de líneas 59-60 comprueba únicamente p.with_suffix(\".pedido.md\").is_file(), schema_version y prefijo de head; las líneas 62-64 sólo exigen además que exista el evento exitoso. No se invoca oracle-clue validar ni se inspecciona la estructura. El schema de Clue exige repo, base, head, diff_sha256, provider, findings, context_sha256, review_status y limitations. Un objeto mínimo con schema_version y head supera el predicado local si el pedido y el evento ya existen, pero Clue lo rechaza por schema.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision",
+      "status": "pendiente",
+      "verification": "Inspección de tools/verify_revisores.py y del schema instalado de oracle-clue; simulé el predicado con un objeto reducido que conserva schema_version/head junto con pedido y evento exitoso: lo acepta el filtro local, mientras validate_report exige el schema completo. Corrí python -m unittest tests.test_revisores (14 pruebas, OK); no ejecuté el verificador integral porque escribe evidencia en el checkout candidato, que se mantiene sólo lectura."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta y spec completas, el diff del paquete de 37 archivos, y las revisiones anteriores 22bf184, bdab529 y fcfc134.",
+    "Corrí con el entorno solicitado python -m unittest tests.test_revisores: 14 pruebas, OK.",
+    "Verifiqué en código y pruebas que las regresiones previas de timeout con descendientes y de historial no validado están corregidas; el historial ahora usa material_del_candidato y la suite incluye rechazos de informes no válidos.",
+    "No ejecuté tools/verify_revisores.py ni la suite completa, Oracle Factory/Oracle de extremo a extremo; el verificador crea sus artefactos de evidencia dentro del checkout y éste debe permanecer sólo lectura. No medí requisitos ni evalué la calidad de revisiones generadas.",
+    "La revisión estática no autentica quién generó un informe. El hallazgo se limita a la aceptación de un artefacto que ya no pasa el schema de Clue pese a quedar vinculado a un evento exitoso anterior."
+  ]
+}
