@@ -120,10 +120,12 @@ class Revisores(Base):
     def test_v2_configuracion_invalida(self):
         self.preparar()
         config = json.loads((self.root / '.factory/config.json').read_text())
-        config['revisores']['prueba']['tope_minutos'] = 0
-        (self.root / '.factory/config.json').write_text(json.dumps(config))
-        with self.assertRaises(f.FactoryError):
-            f.config_proyecto()
+        for campo, valor in (('tope_minutos', 0), ('comando', ['programa', '{inform}'])):
+            invalida = json.loads(json.dumps(config))
+            invalida['revisores']['prueba'][campo] = valor
+            (self.root / '.factory/config.json').write_text(json.dumps(invalida))
+            with self.assertRaises(f.FactoryError):
+                f.config_proyecto()
 
     # --- v3: el pedido se genera desde el cambio ---------------------------------------------------------------------------
     def test_v3_plantilla_del_proyecto_e_indicaciones(self):

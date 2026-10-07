@@ -7,6 +7,7 @@ from __future__ import annotations
 from importlib import resources
 import contextlib
 import os
+import re
 from pathlib import Path
 import signal
 from string import Template
@@ -31,6 +32,10 @@ def validar_config(revisores) -> dict:
             raise RevisorInvalido(f'revisor {nombre}: se requieren exactamente comando, proveedor, modelo y tope_minutos')
         if not (isinstance(r['comando'], list) and r['comando'] and all(isinstance(a, str) and a for a in r['comando'])):
             raise RevisorInvalido(f'revisor {nombre}: comando debe ser una lista no vacía de argumentos')
+        desconocidos = sorted({m for a in r['comando'] for m in re.findall(r'\{[a-z_]+\}', a)} - set(MARCADORES))
+        if desconocidos:
+            raise RevisorInvalido(f'revisor {nombre}: marcadores desconocidos {", ".join(desconocidos)}; '
+                                  f'se pueden usar {", ".join(MARCADORES)}')
         if not all(isinstance(r[k], str) and r[k] for k in ('proveedor', 'modelo')):
             raise RevisorInvalido(f'revisor {nombre}: proveedor y modelo son textos')
         if type(r['tope_minutos']) is not int or not 0 < r['tope_minutos'] <= 24 * 60:
