@@ -1,3 +1,16 @@
+# Oracle Factory 0.1.0a6
+
+- **Resumen del estado actual:** `oracle-factory resumen` escribe `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, medidas, veredicto con que se cerró su cambio), los cambios abiertos con lo que les falta, los riesgos aceptados y los límites declarados. Es determinista y queda fuera de la huella del producto; `cerrar` y `archivar` lo regeneran, `--verificar` dice si quedó viejo y `--salida RUTA` lo escribe en otro lugar. Se lee con formato con `glow -p .factory/resumen.md`.
+- **`nuevo --sufijo`:** el ID de un cambio termina, por defecto, en su capacidad (antes, en los primeros 16 caracteres del título, que cortaban la frase); `--sufijo` permite elegirlo.
+- **La web y las guías al día:** una página nueva, [Factory en equipo](https://segtem.github.io/oracle-factory/colaboracion.html), para trabajar entre varias personas con sus agentes; la portada y la guía desde cero cuentan los modos, la revisión guiada, `.factory/`, la spec consolidada y el resumen; la guía de colaboración v2 corrige las fricciones del piloto con agentes. Una prueba comprueba que cada comando y opción que nombran el sitio y las guías existe en la CLI.
+- La revisión independiente de estos cambios la hicieron Codex (GPT) y Agy (Gemini). Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a6-py3-none-any.whl dist/oracle_factory-0.1.0a6.tar.gz
+```
+
+La evidencia está en las tareas de los cambios `20261007-003414-resumen-del` y `20261007-115805-web-y-docs`.
+
 # Oracle Factory 0.1.0a5
 
 - **Lo vigente de cada capacidad:** al cerrar un cambio, su spec delta (`ADDED`, `MODIFIED`, `REMOVED`; sin encabezados cuenta como `ADDED`) se fusiona en `openspec/specs/<capacidad>/spec.md`, con un índice en `.factory/specs/<capacidad>.json`. Cada requisito vigente dice de qué cambio y de qué requisito de Oracle viene. Para saber qué hace el sistema hoy se lee esa spec, no todas las propuestas.
