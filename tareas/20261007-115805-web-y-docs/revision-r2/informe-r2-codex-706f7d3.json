@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-web-706f7d3",
+  "base": "4e05ae93ed9cd51634789da544e22f7883c5ede2",
+  "head": "706f7d3a05783ca401361952bbd75978593b0d19",
+  "diff_sha256": "ad65e7338c5d2777a03783298e27db0baf0b30837a2c8ecaf9d0835af35bcb85",
+  "context_sha256": "85e2b8cbe27491800d9aa23ca9a72c07328792c0380012bcf9bf81cd6c14f29f",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2W-01",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La página dice que la huella cubre todo el checkout, pero Factory excluye rutas de registro",
+      "explanation": "La frase «Factory toma la huella del checkout entero» no coincide con contexto_producto(): al calcularla, Factory omite tareas/, .factory/ y las specs consolidadas que ya administra. El resto del texto acierta en que cambios de producto ajenos en el mismo checkout pueden invalidar la revisión, pero la afirmación literal incluye archivos que no cuentan.",
+      "location": {
+        "file": "site/colaboracion.html",
+        "start_line": 22,
+        "end_line": 22,
+        "side": "head"
+      },
+      "trigger": "Comparar la frase de la página con oracle_factory/cli.py:350-380, especialmente las exclusiones de las líneas 367-368.",
+      "evidence": "contexto_producto() toma los archivos reportados por git ls-files y excluye rutas bajo tareas/ y .factory/, además de la spec consolidada con índice; por eso no es la huella del checkout entero.",
+      "related_requirement": "web.la_guia_desde_cero_sigue_funcionando",
+      "status": "pendiente",
+      "verification": "Precisar que la huella cubre los archivos de producto del checkout y que excluye los registros generados. La separación de worktrees sigue siendo útil porque cambios de producto no relacionados sí pueden invalidar la revisión."
+    },
+    {
+      "id": "R2W-02",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El extractor de comandos confunde la barra de continuación de shell con un subcomando",
+      "explanation": "comandos_nombrados procesa cada línea por separado. En una invocación válida partida con una barra invertida, por ejemplo «oracle-factory \\\\» y luego «--proyecto . nuevo --capacidad notas», registra «\\» como subcomando inexistente y no llega a comprobar «nuevo». Así produce un falso positivo para un comando válido y deja sin revisar el comando real; el extractor no maneja la continuación de línea.",
+      "location": {
+        "file": "tests/test_web.py",
+        "start_line": 80,
+        "end_line": 81,
+        "side": "head"
+      },
+      "trigger": "En una copia, probar una invocación oracle-factory continuada con barra invertida en la primera línea y --proyecto . nuevo --capacidad notas en la siguiente. El extractor devuelve la barra como subcomando y no valida nuevo.",
+      "evidence": "La mutación manual sobre test_web-review-copy.py dio un subcomando «\\» en vez de detectar «nuevo». Los comandos actuales del sitio y las guías sí pasan el chequeo; afecta a ejemplos futuros que usen continuaciones de shell.",
+      "related_requirement": "web.lo_que_la_web_nombra_existe",
+      "status": "pendiente",
+      "verification": "Unir líneas terminadas en barra invertida antes de extraer tokens y agregar una prueba con una invocación continuada; exigir que el subcomando y sus opciones se validen sin reportar la barra como comando."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté tools/verify_guide.py --factory con el oracle-factory instalado indicado: rc 0, 23 comandos extraídos, wheel instalado y cierre de fixture. Ejecuté tests.test_web: 9 pruebas OK.",
+    "Probé crear dos tareas con el mismo sufijo y la misma marca de tiempo en un directorio temporal: Task produjo terminaciones -misma-capacidad y -misma-capacidad-1, ambas compatibles con el ID_RE de Factory. El sufijo explícito pasa validación slug y el máximo de 40; los casos inválidos cubiertos por la prueba no crean tareas.",
+    "Los enlaces internos y anclas actuales pasan la prueba. Una mutación de ancla rota en una copia fue recogida por Pagina; la comprobación compara el fragmento con los ids de la página destino. La página nueva tiene lang=es, un h1, navegación etiquetada, enlace para saltar al contenido, encabezados jerárquicos y tabla semántica con encabezados th; la inspección fue estática, sin lector de pantalla.",
+    "No ejecuté la suite completa de 234 pruebas ni un navegador/lector de pantalla. No modifiqué el checkout; las copias de prueba y las salidas están en la carpeta de revisión."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-web-fe398c1",
+  "base": "706f7d3a05783ca401361952bbd75978593b0d19",
+  "head": "fe398c11e91f971af5502f88eb2c9bd4faeee3da",
+  "diff_sha256": "2d281751d5c9238b31e1a92efe8aae388413f3baf5fdb6659db8d05846a3f706",
+  "context_sha256": "616f6bf4b17e0ef0947fe991640ba7e9c6589b76346fe40938facf2f9183eccc",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Recontraste del flujo: aprobar-spec imprime la propuesta/spec y solicita la frase APROBAR ESPECIFICACION <ID>; importar extrae e imprime los IDs que devuelve Oracle y falla si no hay IDs. Factory no llama a Clue: sus comandos y responsabilidades están separados en la guía.",
+    "Recontraste de cierre: una persona puede cerrar en cualquier modo cuando los gates están vigentes; un agente sólo puede decidir el cierre en autonomo. via_agente() rechaza cierre para confirmacion y funcional. site/colaboracion.html y site/desde-cero.html lo explican correctamente.",
+    "Quedan dos imprecisiones de severidad baja en docs/colaboracion.md, ambas heredadas y fuera de los rangos modificados de este diff (el paquete Clue sólo permite ubicar hallazgos en esos rangos): línea 59 dice que la huella cubre el checkout entero, aunque contexto_producto() excluye registros y specs consolidadas generadas; línea 9 agrupa el cierre entre las propuestas del agente en confirmacion, aunque el código rechaza esa vía. Las dejaría como límites de esta revisión, no como regresiones del cambio; son correcciones editoriales recomendables en otra modificación.",
+    "Ejecuté tests.test_web (9 pruebas, OK) y tools/verify_guide.py --factory con el ejecutable instalado indicado (23 comandos extraídos, wheel instalado y cierre de fixture; OK). No corrí la suite completa ni hice inspección con navegador o lector de pantalla."
+  ]
+}

@@ -1,0 +1,4 @@
+requisito web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible:
+    texto "Tipo: funcional `nuevo` SHALL terminar el ID del cambio en la capacidad, o en el sufijo de `--sufijo` si se indica, y SHALL rechazar antes de crear nada un sufijo que no sea de minúsculas, números y guiones, empezando con letra y de hasta 40 caracteres."
+    fuente "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md#el ID de un cambio termina en un sufijo legible"
+    medido_por factory_web.el_id_de_un_cambio_termina_en_un_sufijo_legible, factory_web.corrida_completa

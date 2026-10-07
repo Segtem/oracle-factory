@@ -1,0 +1,4 @@
+requisito web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe:
+    texto "Tipo: no funcional Cada subcomando y cada opción de `oracle-factory` que nombran el sitio y las guías de `docs/` SHALL existir en la CLI, y cada enlace interno del sitio SHALL apuntar a un archivo o a un ancla que existe."
+    fuente "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md#lo que la web nombra existe"
+    medido_por factory_web.lo_que_la_web_nombra_existe, factory_web.corrida_completa

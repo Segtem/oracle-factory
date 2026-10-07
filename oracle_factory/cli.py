@@ -216,7 +216,8 @@ def nota_tarea(identificador: str, texto: str) -> None:
         raise FactoryError(f"oracle-task no pudo registrar la nota: {p.stderr.strip()}")
 
 
-def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None, modo: str | None = None) -> str:
+def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None, modo: str | None = None,
+          sufijo: str | None = None) -> str:
     if con_ejemplo and (con_ejemplo != 'notas' or capacidad not in (None, 'notas')):
         raise FactoryError('--con-ejemplo notas requiere capacidad notas, o no indicar --capacidad')
     capacidad = capacidad or ('notas' if con_ejemplo else None)
@@ -226,6 +227,10 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     ruta_segura(ROOT / "tareas")
     if not SLUG_RE.fullmatch(capacidad):
         raise FactoryError("capacidad debe ser un slug OpenSpec: minúsculas, números y guiones")
+    # El sufijo del ID: por defecto la capacidad, no los primeros 16 caracteres del título (que cortan la frase).
+    sufijo = sufijo or capacidad
+    if not SLUG_RE.fullmatch(sufijo) or len(sufijo) > 40:
+        raise FactoryError("el sufijo debe empezar con una letra y tener sólo minúsculas, números y guiones (hasta 40)")
     if capacidad_destino(capacidad) != capacidad:
         print(f"Aviso: la capacidad {capacidad} es un alias de {capacidad_destino(capacidad)} en la configuración del proyecto; "
               f"al cerrar, la spec se fusiona en openspec/specs/{capacidad_destino(capacidad)}/.", file=sys.stderr)
@@ -240,7 +245,7 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
         preparar_ejemplo(plan)
-    p = ejecutar(["tasks", "new", titulo, "--json", "--proyecto", str(ROOT)])
+    p = ejecutar(["tasks", "new", titulo, "--sufijo", sufijo, "--json", "--proyecto", str(ROOT)])
     if p.returncode:
         raise FactoryError(f"oracle-task no pudo crear la tarea: {p.stderr.strip()}. No reintentes con otro título sin revisar los archivos del ejemplo que ya se copiaron; no hubo una tarea confirmada.")
     try:
@@ -1635,8 +1640,8 @@ def medir(identificador: str, *, requisito_id: str | None = None,
               'desde una terminal interactiva, sin --agente.')
 
 
-def main(argv: list[str] | None = None) -> int:
-    global ROOT, CHANGES, AGENTE
+def construir_parser() -> argparse.ArgumentParser:
+    """La interfaz de la CLI; también la usan las pruebas que comprueban que la web sólo nombra comandos que existen."""
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
     parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
@@ -1650,6 +1655,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--capacidad")
     p.add_argument("--con-ejemplo", choices=["notas"], help="preparar documentos y catálogos del ejemplo en destinos nuevos")
     p.add_argument("--modo", choices=modos.MODOS, help="modo de trabajo del cambio (por defecto, el del proyecto)")
+    p.add_argument("--sufijo", help="cómo termina el ID del cambio (por defecto, la capacidad)")
     p.add_argument("titulo")
     q = sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
     q.add_argument('--fase', help='sólo los cambios en esta fase')
@@ -1693,7 +1699,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
     p.add_argument("id"); p.add_argument("--con", type=Path, required=True)
-    args = parser.parse_args(argv)
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    global ROOT, CHANGES, AGENTE
+    args = construir_parser().parse_args(argv)
     if args.proyecto is not None:
         ROOT = args.proyecto.expanduser().resolve()
     else:
@@ -1708,7 +1719,7 @@ def main(argv: list[str] | None = None) -> int:
             raise FactoryError("el proyecto no existe; ejecutá primero init")
         if args.comando == "init": inicializar()
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
-        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo)
+        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo, args.sufijo)
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)

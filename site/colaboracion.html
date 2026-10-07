@@ -1,0 +1,93 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Cómo trabajan con Oracle Factory varias personas, cada una con sus propios agentes, sobre un mismo producto: reparto, checkouts, quién decide, relevos, revisión, integración y cierre."><title>En equipo — Oracle Factory</title><link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"></head><body><a class="skip" href="#guia">Saltar al contenido</a><header class="topbar wrap">
+  <a class="brand" href="./index.html" aria-label="Oracle Factory, inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 27V15h7v-5l8 5V9l10 6v12H3Z"/><path d="M5 13V4h5v9M8 20h3v3H8m7-3h3v3h-3m7-3h3v3h-3" class="cut"/></svg><span>ORACLE<span class="brand-detail">FACTORY</span></span></a>
+  <nav aria-label="Navegación principal"><a href="./index.html#formas">Cuatro caminos</a><a href="./index.html#recorrido">El recorrido</a><a href="./index.html#herramientas">El kit</a><a href="./desde-cero.html">Desde cero</a><a href="./colaboracion.html" aria-current="page">En equipo</a></nav>
+  <a class="repo-link" href="https://github.com/Segtem/oracle-factory" target="_blank" rel="noreferrer">Código abierto <span aria-hidden="true">↗</span></a>
+</header>
+<main class="wrap guide-page" id="guia"><div class="guide-heading"><p class="eyebrow">VARIAS PERSONAS / SUS AGENTES / UN PRODUCTO</p><h1>Factory,<br><em>en equipo.</em></h1><p>Cada persona trabaja con sus propios agentes, en su checkout o en su máquina. Los agentes construyen y proponen; las personas deciden, y cada decisión queda registrada a nombre de quien la tomó. Una persona integra y cierra.</p><div class="guide-badges"><span>Factory 0.1.0a5</span><span>Probado con agentes y en contenedores</span><span>Piloto con personas pendiente</span></div></div>
+<div class="guide-layout"><aside class="guide-nav" aria-label="Secciones de la página"><a href="#ejemplo">El ejemplo</a><a href="#reparto">1. Repartir</a><a href="#checkouts">2. Un lugar por persona</a><a href="#decisiones">3. Quién decide</a><a href="#relevo">4. Pasar el trabajo</a><a href="#revision">5. Revisar</a><a href="#integracion">6. Integrar</a><a href="#cierre">7. Cerrar</a><a href="#no-probado">Lo que no se probó</a></aside><div class="guide-content">
+
+<section id="ejemplo"><p class="eyebrow">EL EJEMPLO</p><h2>Ana, Bruno y un repositorio en común.</h2>
+<p>Ana y Bruno mantienen una app de notas. Cada uno trabaja en su máquina con un agente de código, y comparten un remoto de Git. Ana va a agregar la consulta de notas; Bruno, la pantalla que las muestra. Las dos cosas dependen de un contrato común: qué campos tiene una nota.</p>
+<p>Factory no reparte el trabajo ni lanza a los agentes: eso lo acuerdan las personas. Lo que hace es que cada cambio tenga un acuerdo escrito, requisitos medibles, una revisión registrada y un cierre decidido por una persona, y que todo eso viaje en Git para que el otro lo vea.</p>
+<p>La guía completa, con plantillas y comandos para cada paso, está en <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/colaboracion.md">docs/colaboracion.md</a>. Esta página es el recorrido.</p></section>
+
+<section id="reparto"><p class="step-kicker">PASO 01</p><h2>Repartir antes de escribir.</h2>
+<p>Cada frente es un cambio de Factory, con su propia tarea y su propio acuerdo. Ana y Bruno los crean antes de implementar:</p>
+<div class="code-block"><pre><code>oracle-factory nuevo --capacidad consulta "Agregar consulta de notas"
+oracle-factory nuevo --capacidad pantalla "Mostrar notas en pantalla"</code></pre></div>
+<p>Los crea una persona del equipo en la rama principal, revisa y acepta cada acuerdo, importa sus requisitos y sube todo al remoto antes de repartir; así los dos parten del mismo punto. El ID de cada cambio termina en su capacidad (<code>…-consulta</code>, <code>…-pantalla</code>), o en lo que elijan con <code>--sufijo</code>.</p>
+<div class="code-block"><pre><code>oracle-factory aprobar-spec ID_DEL_CAMBIO
+oracle-factory importar ID_DEL_CAMBIO
+git add .
+git commit -m "Acuerdos de la consulta y la pantalla"
+git push</code></pre></div>
+<p><code>aprobar-spec</code> pide escribir una frase de confirmación: es una decisión de persona. <code>importar</code> imprime el ID de cada requisito. Copian la <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/plantillas/colaboracion/reparto.md">plantilla de reparto</a> a la tarea y anotan quién es responsable, qué agente escribe, sobre qué commit base, en qué rama y qué archivos toca cada uno. Lo que comparten —el contrato de una nota, los catálogos de Oracle, la configuración— lo dejan escrito como interfaz: cambiar <code>titulo</code> por <code>nombre</code> puede romper la pantalla aunque Git fusione sin conflictos.</p>
+<p>Para que dos frentes no pisen los mismos archivos, cada capacidad usa su propio prefijo: <code>sensor_consulta.py</code>, catálogos <code>consulta.*</code>, una relación <code>consulta_comprobacion</code>. Si aparece una superposición, se detiene ese trabajo y se acuerda de nuevo antes de editar.</p></section>
+
+<section id="checkouts"><p class="step-kicker">PASO 02</p><h2>Un lugar por persona.</h2>
+<p>En máquinas distintas, cada persona clona el repositorio y trabaja en su rama. En una sola máquina, cada frente usa su propio <code>git worktree</code>. Nunca dos frentes en la misma carpeta.</p>
+<p>Factory calcula una huella con los archivos del producto (código, pruebas, specs y medidas; no los registros, la evidencia ni la spec consolidada que genera): por eso un cambio ajeno en la misma carpeta puede vencer una revisión. Los registros de Factory guardan rutas relativas al proyecto, así que un cambio que Ana juzgó en su máquina se puede revisar y cerrar desde la de Bruno. Los comandos encuentran el proyecto desde cualquier subcarpeta, como Git, y <code>.factory/local/</code> —los checkouts de revisión de cada máquina— queda fuera de Git.</p>
+<div class="code-block"><pre><code># En la máquina de Ana
+git clone URL_DEL_REPOSITORIO notas-ana
+cd notas-ana
+git switch -c trabajo/consulta
+oracle-factory donde ID_DEL_CAMBIO
+
+# En la máquina de Bruno
+git clone URL_DEL_REPOSITORIO notas-bruno
+cd notas-bruno
+git switch -c trabajo/pantalla</code></pre></div>
+<p><code>donde</code> lista cada artefacto del cambio con su ruta y el gate que respalda; <code>ruta</code> dice dónde guardar la evidencia, el paquete de Clue o el checkout de revisión de un candidato.</p></section>
+
+<section id="decisiones"><p class="step-kicker">PASO 03</p><h2>Quién decide qué.</h2>
+<p>Cada cambio tiene un modo de trabajo que fija cuánto decide una persona. Los agentes trabajan con <code>--agente</code> y quedan registrados como agentes; las personas deciden desde su propia terminal, y una entrada por tubería no cuenta como persona.</p>
+<table><thead><tr><th>Modo</th><th>Aceptar la spec y elegir medidas</th><th>Cuándo conviene</th></tr></thead><tbody>
+<tr><td><code>confirmacion</code> (por defecto)</td><td>El agente propone; una persona confirma todo repitiendo el comando sin <code>--agente</code>.</td><td>Trabajo nuevo, equipos que recién empiezan, cualquier cosa que importe.</td></tr>
+<tr><td><code>funcional</code></td><td>Una persona decide los requisitos funcionales; el agente puede decidir los no funcionales.</td><td>Cuando el equipo confía en el agente para lo técnico pero no para el qué.</td></tr>
+<tr><td><code>autonomo</code></td><td>El agente decide, y queda registrado que lo hizo un agente.</td><td>Pruebas, prototipos o tareas mecánicas. Elegirlo lo decide una persona.</td></tr>
+</tbody></table>
+<p>En todos los modos, <code>estado</code> muestra quién propuso, quién confirmó y quién decidió cada cosa. En equipo esto importa: Bruno puede ver qué aceptó Ana y qué propuso el agente de Ana, sin preguntarle.</p>
+<div class="code-block"><pre><code>oracle-factory --agente agente-de-ana medir ID_DEL_CAMBIO --requisito ID_DEL_REQUISITO --medida consulta.casos
+oracle-factory estado ID_DEL_CAMBIO</code></pre></div></section>
+
+<section id="relevo"><p class="step-kicker">PASO 04</p><h2>Pasar el trabajo sin perder contexto.</h2>
+<p>Si Ana tiene que dejar su frente a Bruno, copia la <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/plantillas/colaboracion/relevo.md">plantilla de relevo</a> a la tarea y anota base y commit, qué terminó, qué falta, cómo se prueba y qué decisiones quedaron pendientes. Ana deja de escribir en ese frente al ofrecer el relevo; Bruno lo lee sobre el commit indicado y confirma la recepción. Quien recibe actualiza el reparto (el escritor activo y el estado del frente) en el mismo commit en que lo acepta. Que nadie conteste no es una recepción.</p>
+<p>Conviene separar dos commits: el del <strong>producto</strong> (código, pruebas, spec) y el de la <strong>evidencia</strong> (hechos del sensor, informes). Se ofrece y se revisa el commit del producto; la evidencia lo cita. Un relevo commiteado no puede contener su propio hash, y como los registros y la evidencia no cuentan en la huella del producto, guardarlos después no vence la revisión.</p></section>
+
+<section id="revision"><p class="step-kicker">PASO 05</p><h2>Revisar el trabajo del otro.</h2>
+<p>Lo ideal es que revise alguien distinto de quien escribió: otra persona, u otro agente de una familia de modelo distinta a la del que escribió el código. Son dos herramientas separadas. Oracle Clue prepara el contexto de un candidato para el revisor y después valida su informe:</p>
+<div class="code-block"><pre><code>oracle-clue preparar --repo . --base BASE_DE_REVISION --salida /ruta/fuera/del/repo/contexto.json</code></pre></div>
+<p>Factory no llama a Clue: deja preparada la revisión guiada, un informe y un documento de decisiones por completar con lo que surgió de la revisión.</p>
+<div class="code-block"><pre><code>oracle-factory revision-preparar ID_DEL_CAMBIO</code></pre></div>
+<p>El revisor completa el informe con lo que realmente revisó, sus comprobaciones y sus límites; una persona decide cada hallazgo —corregido, descartado o riesgo aceptado— en un documento aparte, y registra la revisión:</p>
+<div class="code-block"><pre><code>oracle-factory revision ID_DEL_CAMBIO --formato guiado --informe RUTA_INFORME --decisiones RUTA_DECISIONES --revisor "Bruno" --decision aprobar</code></pre></div>
+<p>Factory comprueba la estructura del informe y calcula los hallazgos abiertos; no juzga si el análisis es bueno. Una corrección cambia el candidato: se prepara y se revisa de nuevo.</p></section>
+
+<section id="integracion"><p class="step-kicker">PASO 06</p><h2>Integrar una entrega por vez.</h2>
+<p>Una persona integra, desde un checkout limpio, una entrega por vez y en el orden acordado:</p>
+<div class="code-block"><pre><code>git switch main
+git pull
+git merge --no-ff trabajo/consulta</code></pre></div>
+<p>El <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/plantillas/colaboracion/integracion.md">registro de la integración</a> va en la tarea del primer cambio integrado y la otra lo referencia (Oracle Task sólo acepta IDs de tareas, no carpetas sueltas).</p>
+<p>Después de integrar, se vuelve a correr el sensor sobre el candidato integrado. Una revisión sigue vigente si los archivos del producto no cambiaron, aunque cambie el commit; si el merge cambió algo, hay que revisar otra vez. Los riesgos que cada frente aceptó por separado se vuelven a mirar contra el candidato integrado: algo aceptable en la consulta sola puede no serlo con la pantalla al lado.</p>
+<p>Antes de registrar nada, cada uno puede verificarse sin dejar rastro con <code>oracle cobertura --con HECHOS</code>: muestra qué requisitos se cumplen con esos hechos sin registrar un veredicto.</p>
+<div class="code-block"><pre><code>oracle-factory juzgar ID_DEL_CAMBIO --con RUTA_DE_LOS_HECHOS
+oracle-factory estado ID_DEL_CAMBIO</code></pre></div></section>
+
+<section id="cierre"><p class="step-kicker">PASO 07</p><h2>Cierra una persona.</h2>
+<p>Con la revisión registrada y el veredicto de Oracle verde, una persona decide el cierre desde su terminal (sólo en modo <code>autonomo</code> puede cerrar un agente, y queda registrado así). Al cerrar, la spec del cambio se fusiona en <code>openspec/specs/</code> —lo vigente de cada capacidad— y se regenera <code>.factory/resumen.md</code>: el estado de todo el proyecto en una lectura, con los cambios abiertos de los demás y lo que les falta.</p>
+<div class="code-block"><pre><code>oracle-factory cerrar ID_DEL_CAMBIO
+oracle-factory resumen --verificar</code></pre></div>
+<p>Así, cuando Bruno hace <code>git pull</code>, no tiene que leer las propuestas de Ana para saber qué cambió: lee la spec consolidada de la consulta y el resumen (con formato, <code>glow -p .factory/resumen.md</code>).</p></section>
+
+<section id="no-probado"><p class="eyebrow">LO QUE NO SE PROBÓ</p><h2>Hasta dónde llega lo comprobado.</h2>
+<p><strong>No se probó todavía con personas reales.</strong> El recorrido de esta página se comprobó así:</p>
+<ul>
+<li>Un piloto con sesiones reales de agentes, coordinadas por un agente en lugar de personas: dos frentes, un relevo, un solapamiento y una integración. Sus fricciones están corregidas en la guía.</li>
+<li>Una demostración automática en repositorios temporales: aislamiento, conflictos, relevos, clones divergentes, revisión con Clue, vigencia tras integrar y cierres rechazados.</li>
+<li>Dos «máquinas» en contenedores (Ana y Bruno) sin archivos compartidos, con un remoto Git común: un cambio juzgado en una se cierra desde la otra.</li>
+</ul>
+<p>Lo que falta medir: cuánto esperan las personas, dónde se confunden y si el reparto escrito alcanza en la práctica. También queda fuera que dos personas modifiquen a la vez el registro de un mismo cambio (la regla es un frente, un escritor) y Windows y macOS, que no se probaron. Factory tampoco autentica a las personas: el nombre registrado es el de la configuración de Git de quien tiene la terminal.</p>
+<p><a class="primary" href="./index.html">Volver a la portada <span aria-hidden="true">↗</span></a></p></section>
+
+</div></div></main><footer class="wrap"><a class="footer-brand" href="./index.html">ORACLE FACTORY <span>· Software con dirección humana.</span></a><div><a href="https://github.com/Segtem/oracle-factory">Factory ↗</a><a href="https://github.com/Segtem/oracle-clue">Clue ↗</a><span>Hecho para poder preguntar por qué.</span></div></footer></body></html>

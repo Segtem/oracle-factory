@@ -1,0 +1,60 @@
+{
+  "web_caso": [
+    {
+      "requisito": "la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes",
+      "caso": "w1_pagina_de_colaboracion_enlazada_y_completa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_sitio_cuenta_lo_que_trae_la_version_publicada",
+      "caso": "w2_el_sitio_cuenta_la_version_publicada",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_la_web_nombra_existe",
+      "caso": "w3_los_comandos_nombrados_existen",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_la_web_nombra_existe",
+      "caso": "w3_la_comprobacion_detecta_un_comando_inexistente",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_la_web_nombra_existe",
+      "caso": "w3_los_enlaces_internos_resuelven",
+      "codigo": 0
+    },
+    {
+      "requisito": "guia_de_colaboracion_sin_las_fricciones_del_piloto",
+      "caso": "w4_la_guia_resuelve_las_fricciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_id_de_un_cambio_termina_en_un_sufijo_legible",
+      "caso": "w5_sufijo_por_defecto_y_elegido",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_id_de_un_cambio_termina_en_un_sufijo_legible",
+      "caso": "w5_sufijo_invalido_no_crea_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_desde_cero_sigue_funcionando",
+      "caso": "w6_pagina_nueva_accesible_sin_javascript",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_desde_cero_sigue_funcionando",
+      "caso": "guia_con_el_paquete_instalado",
+      "codigo": 0
+    }
+  ],
+  "web_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}

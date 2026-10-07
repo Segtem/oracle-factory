@@ -1,0 +1,4 @@
+requisito web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto:
+    texto "Tipo: funcional `docs/colaboracion.md` SHALL resolver las fricciones 2, 3, 4, 5, 9 y 10 del piloto con agentes: archivos compartidos por diseño, commit de producto y commit de evidencia, actualización del reparto tras un relevo, registro de una integración de varios cambios, revisión de riesgos aceptados contra el candidato integrado y uso de `oracle cobertura --con` como verificación previa."
+    fuente "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md#guía de colaboración sin las fricciones del piloto"
+    medido_por factory_web.guia_de_colaboracion_sin_las_fricciones_del_piloto, factory_web.corrida_completa

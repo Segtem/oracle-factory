@@ -34,7 +34,7 @@
     "input": "Un requisito importado sin medir",
     "output": "Requisito enlazado a medidas elegidas",
     "decision": "¿Qué evidencia te daría confianza?",
-    "why": "Esta pausa representa tu elección manual. No es una aprobación de medidas en la CLI de Factory. Contar tres filas no demuestra que sean tres casos distintos.",
+    "why": "Esta pausa representa tu decisión: en el modo por defecto, una persona confirma las medidas desde su terminal aunque las haya propuesto un agente. Contar tres filas no demuestra que sean tres casos distintos.",
     "tracker": "Eligiendo cómo medir",
     "gate": true
   },
