@@ -98,6 +98,15 @@ class Revisores(Base):
         self.assertTrue((self.carpeta() / 'clue' / 'paquete-prueba-1.json').is_file())
         self.assertTrue((self.root / '.factory/local/revisiones' / self.git('rev-parse', 'HEAD')[:7]).is_dir())  # el checkout
 
+    def test_v1_guardar_el_informe_no_cambia_de_candidato(self):
+        self.preparar()
+        primero = self.pedir()
+        self.git('add', '.')
+        self.git('commit', '-qm', 'informe')  # sólo .factory/: el producto es el mismo
+        segundo = self.pedir()
+        self.assertEqual(segundo, primero.with_name('prueba-2.json'))
+        self.assertEqual(self.eventos()[-1]['candidato'], primero.parent.parent.name)
+
     # --- v2: revisores configurables -----------------------------------------------------------------------------------
     def test_v2_revisor_no_declarado(self):
         self.preparar()

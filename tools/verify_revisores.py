@@ -13,7 +13,7 @@ sys.path.insert(0, str(ROOT))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 
 CONTRACTS = {
-    'pedir_una_revision_del_candidato_actual': ['v1_revision_exitosa'],
+    'pedir_una_revision_del_candidato_actual': ['v1_revision_exitosa', 'v1_guardar_el_informe_no_cambia_de_candidato'],
     'revisores_configurables': ['v2_revisor_no_declarado', 'v2_configuracion_invalida'],
     'el_pedido_se_genera_desde_el_cambio': ['v3_plantilla_del_proyecto_e_indicaciones', 'v3_la_plantilla_de_factory_lleva_lo_necesario'],
     'lo_que_sale_mal_no_se_guarda_como_informe': ['v4_informe_que_clue_rechaza', 'v4_sin_informe', 'v4_tope_superado', 'v4_tope_detiene_a_los_hijos',

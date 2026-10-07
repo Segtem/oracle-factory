@@ -726,7 +726,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     if cambios_locales_de_producto():
         raise FactoryError("hay cambios del producto sin commit: confirmalos antes de pedir una revisión ("
                            + ", ".join(cambios_locales_de_producto()[:5]) + ")")
-    head = ejecutar(["git", "rev-parse", "HEAD"]).stdout.strip()
+    # Un commit que sólo guarda informes o evidencia no cambia el producto: el candidato sigue siendo el vigente.
+    head = ejecutar(["git", "rev-parse", candidato_vigente(identificador) or "HEAD"]).stdout.strip()
     sha = head[:7]
     if base is None:
         p = ejecutar(["git", "merge-base", "HEAD", "main"])

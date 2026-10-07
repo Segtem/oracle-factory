@@ -136,6 +136,20 @@
       "candidato": "025e5fe",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-07T20:24:58+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "3b0e7ed",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {
