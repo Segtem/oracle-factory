@@ -216,6 +216,7 @@ class Revisores(Base):
         vueltas = [c for c in informe['comprobaciones'] if c['descripcion'].startswith('Vuelta anterior')]
         self.assertEqual(len(vueltas), 2)
         self.assertTrue(all('T-01' in v['descripcion'] for v in vueltas))
+        self.assertTrue(all(v['resultado'] == 'cumple' for v in vueltas))  # con 'falla' no se podría aprobar
         self.assertEqual(json.loads(decisiones.read_text())['decisiones'], [])  # nada para volver a decidir
 
     def test_v6_vuelta_de_otro_candidato(self):

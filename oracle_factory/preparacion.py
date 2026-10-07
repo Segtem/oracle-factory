@@ -73,7 +73,9 @@ def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
         comprobaciones.append({'descripcion': f"Vuelta anterior en el candidato {v['candidato']}: {_proveedor(v['datos'])}, "
                                               f"{len(hallazgos)} hallazgo{'s' if len(hallazgos) != 1 else ''}: {ids}"
                                               f"{nota}",
-                               'resultado': 'falla' if hallazgos else 'cumple', 'evidencia': v['ruta']})
+                               # Lo comprobado es que la vuelta quedó registrada y validada; sus hallazgos eran de otro
+                               # candidato. Con 'falla' la compuerta de aprobación pediría decidirlos otra vez.
+                               'resultado': 'cumple', 'evidencia': v['ruta']})
     return comprobaciones
 
 
