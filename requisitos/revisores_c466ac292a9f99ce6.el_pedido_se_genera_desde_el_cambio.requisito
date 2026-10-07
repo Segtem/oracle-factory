@@ -2,4 +2,3 @@ requisito revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio:
     texto "Tipo: funcional El pedido SHALL generarse desde una plantilla versionada con la propuesta, la spec, el paquete, el checkout, el formato de informe esperado y las vueltas anteriores del cambio; un proyecto SHALL poder reemplazar la plantilla con `.factory/pedido-revision.md`, y `--pedir` SHALL agregar indicaciones al final."
     fuente "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md#el pedido se genera desde el cambio"
     medido_por factory_revisores.el_pedido_se_genera_desde_el_cambio, factory_revisores.corrida_completa
-    sin_medir "sin medida todavía; escenarios: «plantilla del proyecto e indicaciones»"

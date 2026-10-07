@@ -75,3 +75,31 @@ Medidas de revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision:
 ### Nota (2026-10-07 21:56:53 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion); 0 abiertos derivados; commit 13bd554ef929c9162cf5b349b18deb12c85d2066; informe tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/informe.json; decisiones tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/decisiones.json.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual: factory_revisores.pedir_una_revision_del_candidato_actual, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.revisores_configurables: factory_revisores.revisores_configurables, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio: factory_revisores.el_pedido_se_genera_desde_el_cambio, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe: factory_revisores.lo_que_sale_mal_no_se_guarda_como_informe, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.el_revisor_no_decide: factory_revisores.el_revisor_no_decide, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez: factory_revisores.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:25 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision: factory_revisores.este_cambio_se_revisa_con_pedir_revision, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
