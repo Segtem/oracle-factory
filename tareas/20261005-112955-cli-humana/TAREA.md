@@ -18,3 +18,11 @@ Revisar el recorrido completo de la CLI pensando en la persona, no en el agente:
 2026-10-07: completar la revisión guiada (revisor, completa, informe_sha256, actor, motivo) obliga a editar JSON a mano o pegar un script; hace falta un comando del estilo revision-completar --revisor.
 
 - 2026-10-07: sin `oracle-metalenguaje` en el intérprete (Brian corrió `python fabrica.py medir` con el python del sistema) la CLI cae con un traceback de `ModuleNotFoundError` en `inventario_medidas`. Debería decir qué falta y cómo seguir (activar `.venv` o instalar `oracle-factory`).
+
+- 2026-10-07, cierre del cambio revisores — fricciones medidas en una sola sesión de Brian:
+  - confirmar 7 medidas obligó a un bucle de fish con ids largos (`revisores_c466…`) pegados a mano;
+  - la compuerta de aprobación dijo «revisión incompleta, hallazgos abiertos o comprobaciones falla/no_ejecutada» sin decir cuál; tuvo que diagnosticarlo el agente;
+  - `revision-preparar` dejó un informe vacío en silencio cuando no había candidato vigente;
+  - registrar la revisión pidió definir `$S`, `$P`, correr un script del agente y un comando de cinco opciones;
+  - leer el informe era leer JSON (`informe.json`), no un texto para personas.
+  Pedido de Brian: «Tenemos que mejorar y facilitar la parte cli-humana».
