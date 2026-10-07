@@ -32,7 +32,7 @@ def validar_config(revisores) -> dict:
             raise RevisorInvalido(f'revisor {nombre}: se requieren exactamente comando, proveedor, modelo y tope_minutos')
         if not (isinstance(r['comando'], list) and r['comando'] and all(isinstance(a, str) and a for a in r['comando'])):
             raise RevisorInvalido(f'revisor {nombre}: comando debe ser una lista no vacía de argumentos')
-        desconocidos = sorted({m for a in r['comando'] for m in re.findall(r'\{[a-z_]+\}', a)} - set(MARCADORES))
+        desconocidos = sorted({m for a in r['comando'] for m in re.findall(r'\{\w+\}', a)} - set(MARCADORES))
         if desconocidos:
             raise RevisorInvalido(f'revisor {nombre}: marcadores desconocidos {", ".join(desconocidos)}; '
                                   f'se pueden usar {", ".join(MARCADORES)}')
