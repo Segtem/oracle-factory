@@ -1,0 +1,4 @@
+requisito decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta:
+    texto "Tipo: funcional `revisar ID` SHALL dejar la revisión del candidato vigente registrada sin que la persona edite JSON ni copie rutas o hashes. El recorrido: prepara el informe si hace falta y muestra en texto los hallazgos, las comprobaciones y la evidencia; pide decidir cada hallazgo abierto con opciones; ofrece aprobar sólo si nada queda abierto y todo cumple, o pedir cambios; registra con el nombre de la persona."
+    fuente "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md#revisar guía la revisión de punta a punta"
+    sin_medir "sin medida todavía; escenarios: «revisión sin hallazgos», «un hallazgo abierto»"

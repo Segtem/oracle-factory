@@ -2,11 +2,27 @@
   "id": "20261007-223645-decisiones-guiadas",
   "titulo": "Decisiones guiadas: menú y opciones en vez de frases",
   "capacidad": "decisiones",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T22:43:21+00:00",
+    "documentos": {
+      "openspec/changes/20261007-223645-decisiones-guiadas/proposal.md": "baa4248c93c3954e7597de5f32c4703dfe1e4f6792991e505484b67f9dcc93c1",
+      "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7"
+    }
+  },
+  "requisitos": [
+    "decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez",
+    "decisiones_c59754a250f5b3593.el_motivo_se_elige",
+    "decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu",
+    "decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta",
+    "decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +35,42 @@
       "forma": "decidio",
       "cuando": "2026-10-07T22:36:45+00:00",
       "capacidad": "decisiones"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T22:43:21+00:00",
+      "documentos": {
+        "openspec/changes/20261007-223645-decisiones-guiadas/proposal.md": "baa4248c93c3954e7597de5f32c4703dfe1e4f6792991e505484b67f9dcc93c1",
+        "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T22:43:30+00:00",
+      "ids": [
+        "decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez",
+        "decisiones_c59754a250f5b3593.el_motivo_se_elige",
+        "decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu",
+        "decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta",
+        "decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez": "funcional",
+    "decisiones_c59754a250f5b3593.el_motivo_se_elige": "funcional",
+    "decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu": "funcional",
+    "decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta": "funcional",
+    "decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona": "no funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
