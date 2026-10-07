@@ -994,8 +994,21 @@ def revisar_paso_a_paso(identificador: str) -> None:
         resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
                              "actor": persona, "fecha": ahora()})
     abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
-    if abiertos or any(c["resultado"] != "cumple" for c in informe["comprobaciones"]):
-        opciones = [("cambios", "Pedir cambios", f"quedan {abiertos} hallazgo(s) abiertos o comprobaciones que no cumplen; no se puede aprobar")]
+    # «Completa» lo declara la persona: Factory no lo supone.
+    alcance = elegir("¿Revisaste todo lo que abarca el informe?", [
+        ("Sí, la revisión está completa", "se registra como completa"),
+        ("No, quedó incompleta", "se registra incompleta, con sus límites; sólo se podrá pedir cambios")])
+    if alcance is None:
+        raise FactoryError("revisión cancelada; no registré nada")
+    completa = alcance == 0
+    if not completa and not informe.get("limites"):
+        limite = input("¿Qué quedó sin revisar? ").strip()
+        if not limite:
+            raise FactoryError("una revisión incompleta necesita su límite; no registré nada")
+        informe["limites"] = [limite]
+    if abiertos or not completa or any(c["resultado"] != "cumple" for c in informe["comprobaciones"]):
+        opciones = [("cambios", "Pedir cambios", f"quedan {abiertos} hallazgo(s) abiertos, la revisión está incompleta o hay "
+                     "comprobaciones que no cumplen; no se puede aprobar")]
     else:
         opciones = [("aprobar", "Aprobar", "la revisión queda aprobada; después corre juzgar y se puede cerrar"),
                     ("cambios", "Pedir cambios", "la revisión queda registrada pidiendo cambios")]
@@ -1007,7 +1020,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
     propuesta = (estado.get("motivos_propuestos") or {}).get("revision") or {}
     propuesto = propuesta.get("motivo") if propuesta.get("decision") == decision and propuesta.get("candidato") == sha else None
     motivo = elegir_motivo(motivo_armado(informe, sha, decision, resoluciones), propuesto)
-    informe.update(revisor=persona, completa=True)
+    informe.update(revisor=persona, completa=completa)
     contenido = bytes_json(informe)
     escribir_atomico(ruta_informe, contenido)
     decisiones.update(informe_sha256=sha256(contenido), actor=persona, motivo=motivo[0], decisiones=resoluciones)

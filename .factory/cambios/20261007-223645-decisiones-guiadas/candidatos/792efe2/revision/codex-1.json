@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/792efe2",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "792efe283d0ad353d6566e5edd18c17ae77a17eb",
+  "diff_sha256": "e46f98d9c19ae775ac6d83d3561e4c545d98acf30bb6cb9d4ab1c4aa1083286d",
+  "context_sha256": "fb1a134d2290b2d1d22f5050a5863af493c6667f1bae22879df577f1d4a4db84",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DGUI-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La revisión guiada convierte un informe incompleto en completo antes de aprobarlo",
+      "explanation": "El recorrido guiado ofrece “Aprobar” si no quedan hallazgos abiertos y todas las comprobaciones cumplen, sin comprobar `informe.completa`. Luego sobrescribe el campo con `completa=True` antes de llamar a `revisar_guiado`, cuyo control sí rechaza aprobar informes incompletos. Así, un informe válido que declara una revisión incompleta (con límites explícitos) se puede aprobar por el menú y queda persistido como completo aunque el revisor no haya declarado eso. La aprobación pierde un control de integridad del informe y el menú ofrece una opción que el propio flujo debería impedir.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1010,
+        "end_line": 1010,
+        "side": "head"
+      },
+      "trigger": "Preparar una revisión válida sin hallazgos, con todas las comprobaciones en `cumple`, `completa: false` y al menos un límite explícito; ejecutar `oracle-factory revisar ID` y elegir aprobar y un motivo.",
+      "evidence": "`oracle_factory/revision.py:101-102` permite representar una revisión incompleta si declara límites. En `oracle_factory/cli.py:997-1002`, el menú de revisar_paso_a_paso decide si ofrece aprobar mirando sólo hallazgos abiertos y resultados de comprobaciones, sin inspeccionar `informe[\"completa\"]`. En la línea 1010 el flujo reemplaza incondicionalmente el valor declarado por `True`. El chequeo posterior de `revisar_guiado` (`cli.py:876-878`) requeriría que el informe ya fuera completo, pero recibe el valor alterado.",
+      "related_requirement": "revisar guía la revisión de punta a punta",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo y del validador de documentos. La suite ejecutada (59 pruebas de decisiones, modos y revisión guiada) pasó, pero no cubre el caso de aprobar un informe incompleto desde revisar_paso_a_paso."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los archivos del paquete Clue, el diff de implementación y pruebas, además de las revisiones previas solicitadas.",
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones tests.test_modos tests.test_review_guided` desde el checkout 792efe2: 59 pruebas, OK.",
+    "Los defectos previos DGUI-01 a DGUI-05 continúan corregidos en el código: se conserva origen de motivo, se muestra evidencia antes de decidir, se compara el SHA de propuestas de medidas, una respuesta inválida en decisión individual cancela sin registrar, y la propuesta de revisión ya no usa la clave canónica `propuestas` que rompe estado/cerrar/modo.",
+    "No corrí la suite completa ni hice mutaciones o interacción con pseudoterminal; validé el hallazgo por inspección del flujo y de la regla de validación de revisión incompleta. La base del paquete incorpora la migración mecánica de 17 pruebas/arneses que se cubrió con la suite indicada, según el pedido."
+  ]
+}

@@ -60,8 +60,9 @@ oracle-factory revisar ID_COMPLETO
 Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revisores, vueltas anteriores y límites. Después pregunta con menús:
 
 1. **Cada hallazgo abierto:** aceptar el riesgo, descartarlo o dejarlo abierto.
-2. **La decisión:** aprobar, sólo si no queda nada abierto y todo cumple, o pedir cambios.
-3. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
+2. **El alcance:** si revisaste todo lo que abarca el informe. Una revisión incompleta se registra con sus límites.
+3. **La decisión:** aprobar (sólo si no queda nada abierto, la revisión está completa y todo cumple) o pedir cambios.
+4. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
 
 Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo (`agente`, `armado` o `persona`), también el de cada hallazgo resuelto (`origen_motivo`, opcional en los documentos completados a mano).
 

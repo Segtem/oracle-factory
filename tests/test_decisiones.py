@@ -77,7 +77,7 @@ class Decisiones(_ap.Base):
     # --- d2: revisar guía la revisión de punta a punta --------------------------------------------------------------------
     def test_d2_revision_sin_hallazgos(self):
         self.candidato()
-        salida = self.revisar('1', '1')  # aprobar; motivo armado
+        salida = self.revisar('1', '1', '1')  # completa; aprobar; motivo armado
         revision = self.revision()
         self.assertEqual((revision['decision'], revision['revisor']), ('aprobar', f.actor()['actor']))
         self.assertTrue(revision['motivo'].startswith(f'Apruebo el candidato {self.sha}'))
@@ -86,14 +86,14 @@ class Decisiones(_ap.Base):
 
     def test_d2_un_hallazgo_abierto(self):
         self.candidato(['R-01'])
-        salida = self.revisar('3', '1', '1')  # dejar abierto; la única decisión posible es pedir cambios
+        salida = self.revisar('3', '1', '1', '1')  # dejar abierto; completa; la única decisión posible es pedir cambios
         self.assertIn('Hallazgo R-01', salida)
         self.assertNotIn('Aprobar —', salida)
         self.assertEqual(self.revision()['decision'], 'cambios')
 
     def test_d2_un_hallazgo_decidido(self):
         self.candidato(['R-01'])
-        self.revisar('1', '1', '1', '1')  # aceptar el riesgo con su motivo armado; aprobar; motivo armado
+        self.revisar('1', '1', '1', '1', '1')  # aceptar el riesgo con su motivo armado; completa; aprobar; motivo armado
         revision = self.revision()
         self.assertEqual((revision['decision'], revision['hallazgos_abiertos']), ('aprobar', 0))
         decisiones = json.loads((self.root / revision['decisiones']).read_text())
@@ -106,6 +106,14 @@ class Decisiones(_ap.Base):
                                           identificador=self.ident, contexto=revision['contexto'],
                                           documentos=f.documentos(carpeta, estado), revisor=revision['revisor'])
 
+    def test_d2_revision_incompleta(self):
+        self.candidato()
+        salida = self.revisar('2', '1', '1')  # incompleta; la única decisión posible es pedir cambios; motivo armado
+        self.assertNotIn('Aprobar —', salida)
+        revision = self.revision()
+        self.assertEqual(revision['decision'], 'cambios')
+        self.assertFalse(json.loads((self.root / revision['informe']).read_text())['completa'])
+
     # --- d3: el motivo se elige -------------------------------------------------------------------------------------------
     def test_d3_motivo_propuesto_por_el_agente(self):
         self.candidato()
@@ -114,7 +122,7 @@ class Decisiones(_ap.Base):
         with contextlib.redirect_stdout(io.StringIO()):  # una propuesta pendiente no rompe estado ni el cambio de modo
             f.mostrar(self.ident)
             f.cambiar_modo(self.ident, 'confirmacion')
-        salida = self.revisar('1', '1')  # aprobar; el motivo del agente (primera opción)
+        salida = self.revisar('1', '1', '1')  # completa; aprobar; el motivo del agente (primera opción)
         self.assertIn('«Sin hallazgos; acepto el límite X.»', salida)  # el texto completo, antes de elegir
         revision = self.revision()
         self.assertEqual((revision['motivo'], revision['origen_motivo'], revision['forma']),
@@ -123,7 +131,7 @@ class Decisiones(_ap.Base):
 
     def test_d3_motivo_escrito(self):
         self.candidato()
-        self.revisar('1', '2', 'Lo miré yo.')  # aprobar; Otro (sin propuesta del agente: armado y Otro)
+        self.revisar('1', '1', '2', 'Lo miré yo.')  # completa; aprobar; Otro (sin propuesta del agente: armado y Otro)
         self.assertEqual((self.revision()['motivo'], self.revision()['origen_motivo']), ('Lo miré yo.', 'persona'))
 
     # --- d4: confirmar las medidas propuestas de una vez -------------------------------------------------------------------
