@@ -16,7 +16,7 @@ CONTRACTS = {
     'pedir_una_revision_del_candidato_actual': ['v1_revision_exitosa'],
     'revisores_configurables': ['v2_revisor_no_declarado', 'v2_configuracion_invalida'],
     'el_pedido_se_genera_desde_el_cambio': ['v3_plantilla_del_proyecto_e_indicaciones', 'v3_la_plantilla_de_factory_lleva_lo_necesario'],
-    'lo_que_sale_mal_no_se_guarda_como_informe': ['v4_informe_que_clue_rechaza', 'v4_sin_informe', 'v4_tope_superado',
+    'lo_que_sale_mal_no_se_guarda_como_informe': ['v4_informe_que_clue_rechaza', 'v4_sin_informe', 'v4_tope_superado', 'v4_tope_detiene_a_los_hijos',
                                                   'v4_cambios_sin_commit'],
     'el_revisor_no_decide': ['v5_despues_de_una_revision_exitosa'],
     'las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez': ['v6_tres_vueltas'],

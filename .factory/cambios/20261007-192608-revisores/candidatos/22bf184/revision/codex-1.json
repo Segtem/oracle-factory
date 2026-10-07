@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/22bf184",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "22bf184b5ef7f9c64a668375fbceebd7471191cc",
+  "diff_sha256": "902151ea47c55d59484feac65c20d139dbd4f5e16125b466f11167d4b34a3194",
+  "context_sha256": "2568a6b65567d5b43a2a468f8a92a0a77142f4f88f7e08793104fb604f376e42",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un proceso hijo puede seguir ejecutándose después del timeout",
+      "explanation": "Al vencer el tope se envía SIGTERM al grupo, pero SIGKILL sólo se envía si el proceso líder no termina en diez segundos. Si el líder sale por SIGTERM mientras un hijo del mismo grupo lo ignora, proceso.wait() retorna normalmente y la función informa \"tope\" sin volver a comprobar o matar al resto del grupo. El hijo puede seguir ejecutándose después de que pedir-revision registra el fallo y puede seguir consumiendo recursos o modificar archivos de trabajo, pese a que la spec exige detener al revisor al superar el tope.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 70,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "Configurar un revisor que cree un proceso hijo que ignore SIGTERM y luego espere; dejar que venza el tope. El padre sale al recibir SIGTERM, antes del límite de diez segundos, mientras el hijo sigue vivo.",
+      "evidence": "Reproducción directa de ejecutar_revisor con ese padre e hijo: resultado \"tope\" y el PID del hijo seguía existiendo al retornar (child_alive_after_return=true). La implementación espera únicamente proceso, que representa al líder.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe",
+      "status": "pendiente",
+      "verification": "Reproducción manual en un directorio temporal; el hijo de prueba se terminó explícitamente después de registrar que seguía vivo. La prueba test_v4_tope_superado cubre sólo un proceso simple y no comprueba descendientes."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y el código de revisores.py, cli.py, preparación de vueltas y sus pruebas relevantes.",
+    "Corrí con el entorno solicitado: python -m unittest tests.test_revisores (11 pruebas, OK).",
+    "Reproduje manualmente el caso de timeout con proceso hijo en un directorio temporal; no modifiqué el checkout candidato.",
+    "No corrí la suite completa ni Oracle Factory/Oracle de extremo a extremo; no medí requisitos ni evalué la calidad de revisiones generadas."
+  ]
+}

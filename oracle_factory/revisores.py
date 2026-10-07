@@ -5,6 +5,7 @@ Puro salvo `ejecutar_revisor`: la CLI prepara el checkout y el paquete, y regist
 from __future__ import annotations
 
 from importlib import resources
+import contextlib
 import os
 from pathlib import Path
 import signal
@@ -72,6 +73,8 @@ def ejecutar_revisor(argv: list[str], cwd: Path, registro: Path, tope_minutos: i
             try:
                 proceso.wait(timeout=10)
             except subprocess.TimeoutExpired:
+                pass
+            with contextlib.suppress(ProcessLookupError):  # el líder puede haber salido dejando hijos que ignoran SIGTERM
                 os.killpg(proceso.pid, signal.SIGKILL)
-                proceso.wait()
+            proceso.wait()
             return 'tope'

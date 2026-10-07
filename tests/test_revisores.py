@@ -2,6 +2,7 @@
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -21,6 +22,11 @@ REVISOR = r'''
 import json, sys, time
 modo, paquete, informe = sys.argv[1], sys.argv[2], sys.argv[3]
 if modo == "dormir":
+    time.sleep(30)
+if modo == "hijo":  # deja un hijo que ignora SIGTERM y sale con SIGTERM como lo haría un envoltorio
+    import os, signal, subprocess
+    hijo = subprocess.Popen([sys.executable, "-c", "import signal, time; signal.signal(signal.SIGTERM, signal.SIG_IGN); time.sleep(60)"])
+    open(informe + ".pid", "w").write(str(hijo.pid))
     time.sleep(30)
 if modo == "nada":
     print("no dejo informe"); sys.exit(0)
@@ -145,6 +151,14 @@ class Revisores(Base):
     def test_v4_tope_superado(self):
         with patch.object(rev_mod, 'SEGUNDOS_POR_MINUTO', 1):
             self.falla('dormir', 'tope')
+
+    def test_v4_tope_detiene_a_los_hijos(self):
+        self.preparar('hijo')
+        with patch.object(rev_mod, 'SEGUNDOS_POR_MINUTO', 1), self.assertRaises(f.FactoryError):
+            self.pedir()
+        pid = int(next((self.root / '.factory/local/revisores').glob('*/informe.json.pid')).read_text())
+        with self.assertRaises(ProcessLookupError):
+            os.kill(pid, 0)
 
     def test_v4_cambios_sin_commit(self):
         self.preparar()
