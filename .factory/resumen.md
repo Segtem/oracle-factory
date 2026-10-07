@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d9d42a8e75e61ddb36d149e753f2eae19b9ebcd0c449561068c539e7ab905200 -->
+<!-- oracle-factory resumen sha256:3333e95aa78d52690382a0882bde5673fe438f2ffe2efca3321c247b0834ebd9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-8 capacidades · 59 requisitos vigentes · 7 cambios abiertos
+9 capacidades · 65 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -124,6 +124,19 @@ Spec completa: [openspec/specs/vigencia/spec.md](../openspec/specs/vigencia/spec
 | informe guiado vinculado al contenido | funcional | `vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido` | factory_vigencia.informe_guiado_vinculado_al_contenido, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
 | respetar los registros existentes | no funcional | `vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes` | factory_vigencia.respetar_los_registros_existentes, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
 
+### web
+
+Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la web explica cómo trabajar entre varias personas con sus agentes | funcional | `web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes` | factory_web.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| el sitio cuenta lo que trae la versión publicada | funcional | `web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada` | factory_web.el_sitio_cuenta_lo_que_trae_la_version_publicada, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| lo que la web nombra existe | no funcional | `web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe` | factory_web.lo_que_la_web_nombra_existe, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| guía de colaboración sin las fricciones del piloto | funcional | `web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto` | factory_web.guia_de_colaboracion_sin_las_fricciones_del_piloto, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| el ID de un cambio termina en un sufijo legible | funcional | `web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible` | factory_web.el_id_de_un_cambio_termina_en_un_sufijo_legible, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| la guía desde cero sigue funcionando | no funcional | `web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando` | factory_web.la_guia_desde_cero_sigue_funcionando, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+
 ## Cambios abiertos
 
 Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
@@ -173,14 +186,6 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
-
-### 20261007-115805-web-y-docs — La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `web` · [propuesta](../openspec/changes/20261007-115805-web-y-docs/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-- medidas de 6 requisitos: propuestas por claude-code, sin confirmar por una persona
 
 Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
 
@@ -252,3 +257,7 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261007-003414-resumen-del) El veredicto de cada requisito vigente es el del cierre de su cambio: no hay todavía una corrida de Oracle sobre todo el sistema (tarea hechos-varios).
 - (20261007-003414-resumen-del) Lo que les falta a los cambios abiertos depende de la huella del producto: un commit que vence una revisión deja el resumen viejo hasta regenerarlo.
 - (20261007-003414-resumen-del) Los cambios viejos sin medidas muestran sólo lo que reporta pendientes_actuales (revisión y veredicto), no que falta medir; se revisa en cli-humana.
+- (20261007-115805-web-y-docs) El autor es Claude; revisaron Codex (GPT) y Agy (Gemini): independiente del autor y de su familia, pero no humano. Ninguna persona leyó todavía la página como lectora.
+- (20261007-115805-web-y-docs) Las pruebas de la web no usan navegador (Playwright no está instalado): no comprueban cómo se ve ni la escena animada.
+- (20261007-115805-web-y-docs) El trabajo en equipo que describe la página no se probó con personas reales; la página lo dice.
+- (20261007-115805-web-y-docs) Los IDs de los cambios anteriores conservan el sufijo cortado; sólo los nuevos usan la capacidad.
