@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/962ede7",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "962ede7dc2795c85f2908deba80c78bdc090df35",
+  "diff_sha256": "001ed030383a2cfdfcbecea719cba9f419a36a5558cc5f6ce1a5760f1e713aaf",
+  "context_sha256": "1974ef76cdc7da1f3db336cce33ea6425067c4e731e1728163ebd9de70dadb09",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Inspeccioné la propuesta, la spec, el diff completo del paquete, el código y las pruebas del candidato; releí las nueve revisiones anteriores y comprobé que sus problemas de timeout, configuración de marcadores, validación de informes y nombres de revisor ya no se reproducen en el código actual. El caso de informes históricos sin oracle-clue se dejó fuera por el límite indicado en la solicitud.",
+    "Corrí `python -m unittest tests.test_revisores` con el Python y PATH indicados: 15 pruebas, OK.",
+    "Corrí `tools/verify_revisores.py`: 261 pruebas y 15 casos exactos de contrato pasaron; el resultado global quedó en falso porque `este_repositorio()` no encontró una carpeta de candidato vigente dentro del checkout aislado. No registré ni copié artefactos al candidato, según la instrucción de mantenerlo sólo lectura.",
+    "No corrí Oracle ni hice mutaciones. Guardé la salida extensa en `revision-notas.txt`, `verificador-suite.txt` y `verificador-resultado.json` en la carpeta de esta revisión."
+  ]
+}
