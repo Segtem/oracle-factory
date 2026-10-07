@@ -103,3 +103,31 @@ Medidas de revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_de
 ### Nota (2026-10-07 21:57:25 UTC)
 
 Medidas de revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision: factory_revisores.este_cambio_se_revisa_con_pedir_revision, factory_revisores.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 21:57:51 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.revisores_configurables: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.el_revisor_no_decide: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 21:57:52 UTC)
+
+Medidas de revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision: Brian Hollweg (persona, confirmo, modo confirmacion).

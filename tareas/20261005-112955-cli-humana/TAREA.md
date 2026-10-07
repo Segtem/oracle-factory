@@ -26,3 +26,6 @@ Revisar el recorrido completo de la CLI pensando en la persona, no en el agente:
   - registrar la revisión pidió definir `$S`, `$P`, correr un script del agente y un comando de cinco opciones;
   - leer el informe era leer JSON (`informe.json`), no un texto para personas.
   Pedido de Brian: «Tenemos que mejorar y facilitar la parte cli-humana».
+
+- 2026-10-07, pedido de Brian: «las decisiones que tome el humano desde la cli deberían ser como cuando me hacés preguntas desde acá, un menú y opciones; debería ser guiado». Cada decisión humana (aprobar la spec, confirmar medidas y quitar sin_medir, registrar la revisión, cerrar) como un recorrido interactivo: muestra lo que hay que decidir en texto legible, ofrece opciones numeradas con una recomendada y una descripción de qué implica cada una, permite «otra» con texto libre para el motivo, y al final muestra el comando equivalente (para que quede registrado y se pueda repetir sin menú). Sin tty no hay menú: el comando dice qué opciones existen.
+- Confirmar medidas sin quitar `sin_medir` deja el requisito a medio cubrir y `juzgar` bloquea recién al final; el menú de medidas tiene que incluir ese paso.
