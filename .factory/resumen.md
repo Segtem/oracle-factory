@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:b6405f05585cdb234d9a1d811fceb374fb3f8e81b4c69c1a3fb0bb5c93f6cc78 -->
+<!-- oracle-factory resumen sha256:ea21fbce91e5437689623ea1e615a9db7dd1cc31bc93295f51c099669eb58d68 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-10 capacidades · 70 requisitos vigentes · 6 cambios abiertos
+11 capacidades · 77 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -124,6 +124,20 @@ Spec completa: [openspec/specs/revision-guiada/spec.md](../openspec/specs/revisi
 | conservar evidencia y comprobar vigencia | funcional | `revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia` | factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | mantener formato libre con declaracion explicita | funcional | `revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita` | factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | explicar y verificar los limites del recorrido | funcional | `revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido` | factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+
+### revisores
+
+Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| pedir una revisión del candidato actual | funcional | `revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual` | factory_revisores.pedir_una_revision_del_candidato_actual, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| revisores configurables | funcional | `revisores_c466ac292a9f99ce6.revisores_configurables` | factory_revisores.revisores_configurables, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| el pedido se genera desde el cambio | funcional | `revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio` | factory_revisores.el_pedido_se_genera_desde_el_cambio, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| lo que sale mal no se guarda como informe | funcional | `revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe` | factory_revisores.lo_que_sale_mal_no_se_guarda_como_informe, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| el revisor no decide | no funcional | `revisores_c466ac292a9f99ce6.el_revisor_no_decide` | factory_revisores.el_revisor_no_decide, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| las vueltas anteriores se muestran sin decidirse otra vez | funcional | `revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez` | factory_revisores.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| este cambio se revisa con pedir-revision | no funcional | `revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision` | factory_revisores.este_cambio_se_revisa_con_pedir_revision, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
 
 ### vigencia
 
@@ -276,3 +290,8 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261007-150043-autoproduccion) Evidencia: Escenarios p1–p4 en repositorios temporales, Linux; los informes de revisores son fixtures con el formato de Clue y la validación de Clue se simula. Más la comprobación de que este cambio tiene su paquete de Clue y los informes de sus revisores en la carpeta de su candidato.
 - (20261007-150043-autoproduccion) codex (gpt-6-luna): Comparé las 12 entradas de CONTRACTS con los 12 métodos de prueba de tests/test_autoproduccion.py: coincidencia exacta, sin omisiones ni duplicados; la entrada p5 usa el nombre renombrado.
 - (20261007-150043-autoproduccion) codex (gpt-6-luna): Ejecuté tools/verify_autoproduccion.py: las 246 pruebas de la suite pasaron y los 12 casos de contrato fueron exactos; el verificador informó éxito=false porque este worktree no contiene la carpeta local del candidato 047cfc7 requerida por su autocontrol.
+- (20261007-192608-revisores) Evidencia: Escenarios v1–v6 en repositorios temporales, Linux, con un revisor de prueba y oracle-clue real (sin Clue las pruebas se omiten y la corrida no es completa). Más la comprobación de que este cambio tiene en la carpeta de su candidato vigente un informe de revisor y el pedido con que se obtuvo. No mide la calidad de las revisiones.
+- (20261007-192608-revisores) codex (gpt-6-luna): Revisé la propuesta, la spec, el diff incremental completo del paquete y los cambios de registro/requisitos/notas. La implementación funcional no cambió entre base y head.
+- (20261007-192608-revisores) codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev/factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores: 16 pruebas, OK.
+- (20261007-192608-revisores) codex (gpt-6-luna): Contrasté los hallazgos de las vueltas anteriores con el historial de correcciones y la base 8c59250; no vi reaperturas en el diff incremental.
+- (20261007-192608-revisores) codex (gpt-6-luna): No corrí la suite completa ni Oracle end-to-end y no hice mutaciones sobre copias. No evalué propiedades fuera de las promesas de la spec.

@@ -1,6 +1,6 @@
 # Pedir una revisión independiente desde Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -147,3 +147,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-07 22:12:50 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261007-192608-revisores/oracle-veredicto.txt.
+
+### Nota (2026-10-07 22:14:54 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
