@@ -2,7 +2,7 @@
 
 - ESTADO: ABIERTA
 - PRIORIDAD: 40
-- ETIQUETAS: flujo, cli, modos
+- ETIQUETAS: flujo, cli, modos, autoproduccion
 
 
 ## Origen
@@ -16,3 +16,7 @@ Análisis del video «IDE vs CLI» (IBM Technology, 2026-10-05) contra Factory: 
 - `siguiente()` y `estado` usan la misma lógica, para que dejen de sugerir pasos ya hechos.
 
 Relacionadas: `20261005-105254-cli-piloto` (la parte de `estado`), `20261005-112955-cli-humana` y `20261005-105331-modos-de-trabajo`. Depende de que los modos estén integrados.
+
+### Nota (2026-10-07 11:47:31 UTC)
+
+Parte del objetivo «Factory se construye a sí misma» (2026-10-07).
