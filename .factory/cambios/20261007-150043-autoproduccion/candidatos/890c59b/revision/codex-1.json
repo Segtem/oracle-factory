@@ -1,0 +1,77 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-auto/.factory/local/revisiones/890c59b",
+  "base": "b7939aa415fe9edbd98a55e598bc3ae0a6f45716",
+  "head": "890c59be93890366d8534d11addc5efd61263ed0",
+  "diff_sha256": "0a250f854971dedfef734f7f80b576df4879cd53982226ee4f54de3b05f3abaa",
+  "context_sha256": "22f3b2b653ff7186e9db952e07590567008d37b47673cc70614fa2190e44da00",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2Y-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "El candidato sigue vigente aunque el producto tenga cambios locales sin commit",
+      "explanation": "La comparación `git diff <candidato> HEAD` sólo mira los árboles confirmados y no el árbol de trabajo. Si hay una carpeta de evidencia para HEAD y luego se edita localmente un archivo de producto, `candidato_vigente` devuelve ese SHA y `hechos_del_candidato` devuelve sus hechos antiguos. `juzgar` entonces ejecuta Oracle con esos hechos, pero registra el contexto del producto con la edición local: queda un veredicto que aparenta evaluar una huella distinta de la que produjeron los hechos. Lo reproduje en una copia temporal: con un archivo de producto editado sin commit, el selector mantuvo el candidato y devolvió sus hechos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 375,
+        "end_line": 376,
+        "side": "head"
+      },
+      "trigger": "Generar hechos para un candidato y modificar un archivo de producto sin commit; ejecutar `juzgar ID` sin `--con`.",
+      "evidence": "En el selector, `git diff <candidato> HEAD` no incluye cambios locales; `contexto_producto()` sí los incluye al guardar el juicio.",
+      "related_requirement": "factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato",
+      "status": "pendiente",
+      "verification": "El selector debe comprobar que la huella de producto actual coincide con la del commit candidato, o rechazar cambios locales de producto antes de usar sus hechos. Agregar una prueba con archivo modificado sin commit que exija que `juzgar` no registre el candidato viejo."
+    },
+    {
+      "id": "R2Y-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El candidato deja de encontrarse después de 200 commits inocuos",
+      "explanation": "La búsqueda limita `git rev-list` a 200 commits, sin que el contrato ni el diseño declaren ese límite. Si la carpeta propia y sus hechos corresponden a un candidato más antiguo, y los commits posteriores no cambian el producto, `candidato_vigente` no lo encuentra. `hechos_del_candidato` cae entonces al SHA de HEAD y falla buscando la evidencia bajo una ruta donde no existe. Lo reproduje en una copia temporal con una carpeta de candidato válida y 201 commits vacíos posteriores.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 373,
+        "end_line": 376,
+        "side": "head"
+      },
+      "trigger": "Crear la evidencia de un candidato y agregar más de 200 commits sin cambios de producto; luego ejecutar `juzgar ID` sin `--con`.",
+      "evidence": "La búsqueda retorna `None` tras el corte y `hechos_del_candidato` informa que falta `.factory/cambios/<ID>/candidatos/<HEAD>/evidencia/hechos.json`, aunque la evidencia existe en la carpeta antigua.",
+      "related_requirement": "factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato",
+      "status": "pendiente",
+      "verification": "Buscar hasta encontrar el candidato más cercano válido sin límite arbitrario, o declarar y manejar explícitamente el límite sin sustituirlo por la ruta de HEAD. Agregar cobertura con más de 200 commits inocuos."
+    },
+    {
+      "id": "R2Y-03",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "La spec no contempla usar informes sin validar cuando falta el checkout del paquete",
+      "explanation": "Cuando `oracle-clue` está instalado pero `paquete.repo` no existe en esta máquina, la CLI marca el informe «sin validar» y aun así lo agrega a `revisores`; por tanto sus hallazgos pasan al informe preparado. La spec sólo permite esa vía cuando `oracle-clue` no está instalado y dice que, si está disponible, cada informe se valida antes de usarse. El diseño, en cambio, sí contempla el fallback por checkout ausente. Lo reproduje usando informes fixture: con el validador presente y `repo` inexistente, ambos informes se aceptaron como no validados. Conviene decidir cuál es el contrato: no usar esos informes sin validar, o explicitar la excepción en la spec y la guía.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 659,
+        "end_line": 672,
+        "side": "head"
+      },
+      "trigger": "Poner un paquete cuyo campo `repo` apunte a un checkout ausente, un informe emparejado y `oracle-clue` disponible; ejecutar `revision-preparar ID`.",
+      "evidence": "`material_del_candidato` asigna «sin validar: el checkout del paquete no está en esta máquina» y después añade el informe a `revisores`.",
+      "related_requirement": "factory_autoproduccion.los_informes_se_validan_o_se_marcan",
+      "status": "pendiente",
+      "verification": "Alinear spec, diseño e implementación para el caso de checkout ausente; agregar una prueba específica que fije si se omite el informe o se incorpora marcado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `tests.test_autoproduccion`: 8 pruebas, OK. No corrí la suite completa ni `tools/verify_autoproduccion.py`, según la instrucción.",
+    "Las reproducciones de cambios locales, más de 200 commits y checkout ausente usaron repositorios temporales; no modifiqué el checkout de revisión.",
+    "La reproducción de checkout ausente ejercitó el fallback con el validador simulado/presente; no probé recuperación de la ruta absoluta al cambiar de máquina."
+  ]
+}

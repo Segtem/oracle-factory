@@ -1,0 +1,37 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-auto/.factory/local/revisiones/aa95d65",
+  "base": "e116430b022e59d23c815998dbfece875604b352",
+  "head": "aa95d6504d58cb6e8e09b491ecd1519195d9f8a3",
+  "diff_sha256": "293e313c85980307a99c584ee0ef234305170f81016452f9de268a1c9608fb31",
+  "context_sha256": "a74a16e01660d52ef97485b300185db869bb2965bcd095895475358cd2bbde82",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2AA-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Un informe de revisión ilegible interrumpe el verificador",
+      "explanation": "El nuevo recorrido de `revision/*.json` ejecuta `json.loads` sin capturar errores. Si un informe versionado está truncado o contiene JSON inválido, `este_repositorio()` propaga `JSONDecodeError` y `verify_autoproduccion.py` termina antes de escribir `resultado.json`. El lector de informes `cli.material_del_candidato()` ya trata estos casos como avisos y los omite.",
+      "location": {
+        "file": "tools/verify_autoproduccion.py",
+        "start_line": 54,
+        "end_line": 54,
+        "side": "head"
+      },
+      "trigger": "Dejar un archivo JSON inválido en `revision/` del candidato vigente y ejecutar `tools/verify_autoproduccion.py --salida ...`.",
+      "evidence": "La comprensión de `informes` parsea cada archivo con `json.loads` sin manejo de `ValueError`; la función `cli.material_del_candidato()` sí atrapa `ValueError` al cargar informes y agrega un aviso.",
+      "related_requirement": "factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "status": "pendiente",
+      "verification": "Agregar un caso con un informe truncado y comprobar que el verificador deja un resultado JSON legible indicando el problema, en vez de abortar con una excepción."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "`tests.test_autoproduccion`: 12 pruebas, OK. No corrí la suite completa. El hallazgo R2AA-01 se deduce del manejo de excepciones en el código; no ejecuté el verificador con un fixture de JSON truncado."
+  ]
+}

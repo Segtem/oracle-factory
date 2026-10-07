@@ -10,6 +10,9 @@ import re
 
 DIR = '.factory'
 IGNORAR_LOCAL = '.factory/local/'
+# Los paquetes de Clue son de cada máquina, como los checkouts: pesan (cientos de KB, más que lo que Clue acepta en un diff)
+# y guardan la ruta absoluta del checkout que revisaron. Se versionan los informes de los revisores, no los paquetes.
+IGNORAR_CLUE = '.factory/cambios/*/candidatos/*/clue/'
 TIPOS = ('evidencia', 'clue', 'revision', 'checkout')
 SUBCARPETAS = ('evidencia', 'clue', 'revision')
 ID_RE = re.compile(r'^\d{8}-\d{6}-[a-z0-9_-]+$')

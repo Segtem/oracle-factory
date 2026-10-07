@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-auto/.factory/local/revisiones/d58315b",
+  "base": "aa95d6504d58cb6e8e09b491ecd1519195d9f8a3",
+  "head": "d58315b350876c844d0b741be2b72e9410e1b759",
+  "diff_sha256": "f795e7422d2cbbae281973aa2b2d967e5fef0cba44fa6c2e4b116ef4e13626e3",
+  "context_sha256": "cf87a97af5975270784c9b8fb06b640c2c81940d47c9916e210a941d6ea08f79",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Confirmé en una copia del checkout que este_repositorio informa un JSON roto de revision/ como problema y continúa; no ejecuté el verificador completo con esa copia alterada.",
+    "Corrí tests.test_autoproduccion: 12 pruebas, OK. Revisé el diff de tools/verify_autoproduccion.py entre aa95d65 y d58315b; no observé regresiones adicionales."
+  ]
+}

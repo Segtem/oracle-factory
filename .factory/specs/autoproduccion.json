@@ -1,0 +1,84 @@
+{
+  "capacidad": "autoproduccion",
+  "archivados": [
+    "20261007-150043-autoproduccion"
+  ],
+  "requisitos": {
+    "juzgar encuentra la evidencia del candidato": {
+      "cambio": "20261007-150043-autoproduccion",
+      "requisito": "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato",
+      "cuerpo": [
+        "Tipo: funcional",
+        "`juzgar` sin `--con` SHALL usar `hechos.json` de la carpeta de evidencia del candidato actual (`.factory/cambios/<ID>/candidatos/<sha7>/evidencia/`, la que devuelve `ruta ID evidencia`), y si no existe SHALL fallar sin registrar nada, nombrando la ruta esperada.",
+        "",
+        "#### Scenario: evidencia en la carpeta del candidato",
+        "- GIVEN un cambio con `hechos.json` en la carpeta de evidencia del commit actual",
+        "- WHEN se ejecuta `juzgar` sin `--con`",
+        "- THEN el veredicto usa esos hechos y el registro guarda su ruta relativa",
+        "",
+        "#### Scenario: sin evidencia",
+        "- GIVEN un cambio sin hechos en la carpeta del candidato actual",
+        "- WHEN se ejecuta `juzgar` sin `--con`",
+        "- THEN falla nombrando la ruta esperada y el registro no cambia"
+      ]
+    },
+    "revision-preparar arma el informe desde los revisores": {
+      "cambio": "20261007-150043-autoproduccion",
+      "requisito": "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores",
+      "cuerpo": [
+        "Tipo: funcional",
+        "`revision-preparar` SHALL completar el informe guiado con los informes de revisores (formato de Oracle Clue) de la carpeta `revision/` del candidato: cada hallazgo con descripción, ubicación y evidencia del revisor; comprobaciones con el resultado de la evidencia del candidato; límites declarados por revisores y evidencia; y los archivos del candidato según su paquete de Clue; dejando a la persona los campos que son suyos (revisor y si la revisión está completa).",
+        "",
+        "#### Scenario: dos informes de revisores",
+        "- GIVEN un candidato con evidencia y dos informes de revisores, uno con dos hallazgos y otro sin hallazgos",
+        "- WHEN se ejecuta `revision-preparar`",
+        "- THEN el informe tiene los dos hallazgos con su ubicación, una comprobación por la evidencia y los límites de los dos informes, y deja vacío el revisor"
+      ]
+    },
+    "el borrador de decisiones no decide": {
+      "cambio": "20261007-150043-autoproduccion",
+      "requisito": "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El documento de decisiones que prepara `revision-preparar` SHALL listar cada hallazgo de los revisores sin estado, y registrar la revisión con ese borrador sin completar SHALL rechazarse.",
+        "",
+        "#### Scenario: registrar sin decidir",
+        "- GIVEN un borrador de decisiones preparado con hallazgos",
+        "- WHEN se intenta registrar la revisión sin completar los estados",
+        "- THEN se rechaza y no se registra nada"
+      ]
+    },
+    "los informes se validan o se marcan": {
+      "cambio": "20261007-150043-autoproduccion",
+      "requisito": "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan",
+      "cuerpo": [
+        "Tipo: funcional",
+        "Si `oracle-clue` está disponible, cada informe de revisor SHALL validarse contra su paquete antes de usarse; si no lo está, SHALL usarse marcado «sin validar» con un aviso; un informe ilegible, inválido o de otro candidato SHALL avisarse y no usarse.",
+        "",
+        "#### Scenario: informe de otro candidato",
+        "- GIVEN un informe de revisor cuyo commit no es el del candidato",
+        "- WHEN se ejecuta `revision-preparar`",
+        "- THEN se avisa y sus hallazgos no entran al informe",
+        "",
+        "#### Scenario: Clue no instalado",
+        "- GIVEN un candidato con un informe y sin `oracle-clue` disponible",
+        "- WHEN se ejecuta `revision-preparar`",
+        "- THEN sus hallazgos entran marcados «sin validar» y se avisa"
+      ]
+    },
+    "este repositorio produce en la carpeta del candidato": {
+      "cambio": "20261007-150043-autoproduccion",
+      "requisito": "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "cuerpo": [
+        "Tipo: no funcional",
+        "La evidencia, los paquetes de Clue y los informes de los revisores de este cambio SHALL guardarse en la carpeta de su candidato, y su revisión SHALL prepararse con `revision-preparar` desde esos informes.",
+        "",
+        "#### Scenario: el propio cambio",
+        "- GIVEN este cambio listo para revisar",
+        "- WHEN se consulta `donde` del cambio",
+        "- THEN la evidencia, el paquete de Clue y los informes de los revisores aparecen en la carpeta del candidato"
+      ]
+    }
+  },
+  "reemplazados": []
+}

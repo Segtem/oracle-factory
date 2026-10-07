@@ -8,3 +8,5 @@ dist/
 build/
 *.egg-info/
 uv.lock
+.factory/local/
+.factory/cambios/*/candidatos/*/clue/

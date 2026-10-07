@@ -1,0 +1,62 @@
+{
+  "exitoso": true,
+  "tests": 246,
+  "casos_contrato": 12,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "problemas_en_el_repositorio": [],
+  "repositorio": "1 informe(s) validados o marcados en esta máquina",
+  "origen": {
+    "head": "047cfc7a0f1a6d5050f182c1deb7788f448bf9ef",
+    "sha256": {
+      "catalogos/factory_autoproduccion.corrida_completa.oracle": "2204547ac1150f5358dc2ddac926461443c89cc52c85617ce09db91bb807daa6",
+      "catalogos/factory_autoproduccion.el_borrador_de_decisiones_no_decide.oracle": "cf016b2219b726a8117f2be37f1d1f0fd92448ed31b7037d315c4f25a1bd07c1",
+      "catalogos/factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato.oracle": "18d56262aef61149d9371c0d971c968e0de9a8fd7881385c464b75ca2ca73f68",
+      "catalogos/factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato.oracle": "55363142287340bdd596daf33bc12d0201bc0c7e61db2c8556bcefae1140ef17",
+      "catalogos/factory_autoproduccion.los_informes_se_validan_o_se_marcan.oracle": "40c34b3320b90451e8d3af2a83eff103eaa27c640e59ae687cecd48268923964",
+      "catalogos/factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores.oracle": "b3aa2eba0043115a0d82b9f15fb04f9d37780ca3eaa0e44f9b08164ae113222d",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "314055d582e0fc7bbb91309fce5f752a0f1e42ef7cae3388d9b1eee5e2eff6d7",
+      "oracle_factory/archivo.py": "4b884d4f1876fe1a8698f2fcc2c45363217189be7c2f60fcb12ea30439e41b99",
+      "oracle_factory/cli.py": "07cfab2bffddf1f4da52a0b262a5f5f62e1ded0bee7811e10fca82a02b2d6238",
+      "oracle_factory/estructura.py": "7c152e344b0ffe653c3c8b4e770a7b7466162c92f179f3d3656a3e2d49b9836e",
+      "oracle_factory/migracion.py": "e7acd01aa7fe38c04ebcb05806a4736f53ad8682f6121f5b8e9dd49ba6b659b3",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/prep.py": "60a74e0b9a3a8379e0c4f880a0f9a59a1c318d58532dd8cd34ded8626aee2526",
+      "oracle_factory/preparacion.py": "60a74e0b9a3a8379e0c4f880a0f9a59a1c318d58532dd8cd34ded8626aee2526",
+      "oracle_factory/resumen.py": "7b0fd509faf40c16606c390f33476fe38ba0cd08c539922d3d651b3bfa705e2a",
+      "oracle_factory/revision.py": "f9184761572b475aa15e8ff3b8fc32d962405fe6592d7ec4a0c11f6083657c07",
+      "pyproject.toml": "918d090382dae77ae57abcddf734254348c31df19f470dd6286e2592b495b39f",
+      "tests/test_archivo.py": "7d7dca4e65dae4c65c86248076933578e333e85b562dbc42a4a998fecc7214e0",
+      "tests/test_autoproduccion.py": "53185dd74498aa2ec2b1c8b4585e85e2cf1e1619f2ec09d3e45ebb70d1d5bd50",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_distribution.py": "33455743d0270242fc748e7aee75de4d192f369ab02cd7838b3332894e941e68",
+      "tests/test_estructura.py": "c9bacd86153ada230c14a3513f8a794e7c19dc53a1d5e1616fc496b73586ce97",
+      "tests/test_estructura2.py": "94de9c2bdc0fcfdbbcb93b76f73f6258a679d5c9fad327e4fdf21dfa3b054c5d",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "89d7449427c2410b7fb7c6abf9cfbcd8b4b838327643b16bd1415291255f2ca3",
+      "tests/test_integration.py": "e9237239dfebf187467d4f540eba4d6f6376e993ec0c31beba3a1f2c1eaaa163",
+      "tests/test_limpieza.py": "4909d624d8e7183123eebe0d19316f282882ca4febd20cdba366f9e3c73def3c",
+      "tests/test_modos.py": "0a8af12c9272556fd83b34a153b60bcde3a247a6b9cf3b1776c4e5681adae1e4",
+      "tests/test_portabilidad.py": "894ff36510d7fc76c598326243dfc42ebe4020e8832753bd24b633aed106f734",
+      "tests/test_resumen.py": "97ab8400b50253b8b8af8c66963b088d2007d96600ffa70364fd9ff075ae1901",
+      "tests/test_review_guided.py": "ad446485f29eea204d426f9c3854b2a341928c33724e4e8581bfb8ad764f84e6",
+      "tests/test_tutorial.py": "46c19117d728d82df001a9f091216207b79643182911440803f12256cde81738",
+      "tests/test_vigencia.py": "6fb30fd48f32b3cf7a880e64b3a6ae5d0b10cff9d38be32bdd3804f78d10841a",
+      "tests/test_web.py": "732503f0a06b8f0542ffde86ddf43124de7229e751918151826cec35fed5ead2",
+      "tests/test_workflow.py": "cfcd7d7ba46ffbf0ecb659a9c55af717ba8365df4b4e979a98dcf6c29639df5a",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_autoproduccion.py": "1f0f4fd47155ec376e9bf0549512817f57da9f8c8b8da229c07963b37ec655c2"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios p1–p4 en repositorios temporales, Linux; los informes de revisores son fixtures con el formato de Clue y la validación de Clue se simula. Más la comprobación de que este cambio tiene su paquete de Clue y los informes de sus revisores en la carpeta de su candidato.",
+  "artefactos_sha256": {
+    "suite.txt": "eb646e35486256f21158354bfe98665cc18312a415b530c482d56306f249b396",
+    "hechos.json": "c4fb157f99424fc3f4da9ae6321e64a3e482d3ed496d94a1a242db74ee49788a"
+  }
+}

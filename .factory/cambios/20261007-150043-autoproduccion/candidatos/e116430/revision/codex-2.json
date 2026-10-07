@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-auto/.factory/local/revisiones/e116430",
+  "base": "890c59be93890366d8534d11addc5efd61263ed0",
+  "head": "e116430b022e59d23c815998dbfece875604b352",
+  "diff_sha256": "44363015a6f27cf29acd7c119e74e55c996167b8e38611caa0617bf6571e9bff",
+  "context_sha256": "154fb9a1bc6e9f5e0f7ef430e375d25df16540156fd91fef0a949c7d29a42a62",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2Z-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "init no deja de versionar paquetes de Clue que ya estaban en el índice",
+      "explanation": "La regla nueva de `.gitignore` sólo evita agregar archivos que todavía no están versionados. En un proyecto existente que ya tenga un paquete bajo `.factory/cambios/*/candidatos/*/clue/` en el índice, `init` añade la regla pero el paquete queda rastreado; las regeneraciones futuras siguen apareciendo como cambios y pueden volver a inflar el diff que Clue debe preparar. No hay migración ni instrucción para retirar esos archivos del índice conservándolos localmente.",
+      "location": {
+        "file": ".gitignore",
+        "start_line": 12,
+        "end_line": 12,
+        "side": "head"
+      },
+      "trigger": "En un proyecto donde un archivo de clue/ ya esté versionado, ejecutar `oracle-factory init`, regenerar el paquete y revisar `git status`.",
+      "evidence": "`init` añade `.factory/cambios/*/candidatos/*/clue/` al `.gitignore`; Git sigue rastreando archivos que ya están en el índice, y el flujo no ejecuta `git rm --cached` ni documenta esa transición.",
+      "related_requirement": "factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "status": "pendiente",
+      "verification": "Agregar una migración o documentar el paso seguro para retirar paquetes ya rastreados del índice preservando las copias locales. Cubrir init en un repositorio fixture con un paquete de Clue previamente versionado y verificar que futuras regeneraciones no se propongan."
+    },
+    {
+      "id": "R2Z-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "El verificador del cambio falla en clones que no incluyen paquetes de Clue",
+      "explanation": "La política nueva ignora `.factory/cambios/*/candidatos/*/clue/` y `docs/estructura.md` indica que esos paquetes son locales. Sin embargo, `tools/verify_autoproduccion.py` exige que `material_del_candidato` encuentre informes usables y archivos de un paquete; en un clon sin el paquete ignorado, el informe se descarta cuando Clue está instalado y el verificador devuelve fallo. La prueba se confirma por las condiciones de `este_repositorio()` y la política de exclusión; no hace falta que el código de producción tenga un defecto para que el verificador no sea portable.",
+      "location": {
+        "file": ".gitignore",
+        "start_line": 12,
+        "end_line": 12,
+        "side": "head"
+      },
+      "trigger": "Clonar el commit en una máquina sin el paquete local de Clue y ejecutar `tools/verify_autoproduccion.py`; `archivos` queda vacío y los informes no son usables con Clue instalado.",
+      "evidence": "El archivo está en el diff de correcciones; sus líneas 49–51 convierten la ausencia del paquete en problema. `docs/estructura.md` documenta que el `.gitignore` excluye precisamente ese directorio.",
+      "related_requirement": "factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "status": "pendiente",
+      "verification": "Hacer que la comprobación distinga entre artefactos locales omitidos por diseño y un candidato mal formado, o documentar y ejecutar explícitamente la regeneración de paquete e informe antes de correr este verificador en una máquina nueva. Agregar un caso de clon limpio sin paquete."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "`tests.test_autoproduccion`: 11 pruebas, OK. Suite completa: 245 pruebas, OK. No corrí `tools/verify_autoproduccion.py`, porque el contrato interno de ese verificador corre la suite completa una segunda vez.",
+    "Revisé que `init` añade la regla a un `.gitignore` preexistente y conserva idempotencia; `tests.test_guided.test_init_idempotente_conserva_configuracion_y_muestra_pasos_factory` cubre el caso. La regla no saca del índice archivos ya versionados, comportamiento normal de Git.",
+    "Con Clue instalado, informes cuyos paquete o checkout falten se omiten; los docs indican recrear el checkout y que un paquete recreado en otro checkout requiere un informe nuevo. No validé una entrega regenerada de punta a punta."
+  ]
+}

@@ -8,6 +8,7 @@ import getpass
 import hashlib
 import json
 import os
+import shutil
 import tempfile
 from contextlib import contextmanager
 import re
@@ -20,6 +21,7 @@ from . import archivo
 from . import resumen
 from . import estructura
 from . import migracion
+from . import preparacion
 from . import modos
 from . import revision as documentos_revision
 from pathlib import Path
@@ -347,6 +349,50 @@ def exigir_spec(carpeta: Path, estado: dict) -> None:
         raise FactoryError("la propuesta/spec cambió o su aprobación es antigua; renová la aceptación")
 
 
+def es_producto(nombre: str) -> bool:
+    """Si un archivo (ruta relativa) cuenta en la huella del producto."""
+    partes = Path(nombre).parts
+    # Una spec consolidada que Factory generó (tiene índice) se deriva de specs ya aceptadas: no es producto nuevo, y si
+    # contara, archivar los cambios anteriores vencería la revisión del último integrado. Las demás de openspec/specs/ sí cuentan.
+    gestionada = (len(partes) == 4 and partes[:2] == ("openspec", "specs") and partes[3] == "spec.md"
+                  and (ROOT / estructura.DIR / "specs" / f"{partes[2]}.json").is_file())
+    return not (partes[0] in ("tareas", estructura.DIR) or gestionada or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+                and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}))
+
+
+def candidato_vigente(identificador: str) -> str | None:
+    """El commit (7 caracteres) del candidato con carpeta propia más cercano a HEAD, si el producto no cambió desde él.
+
+    La evidencia se produce sobre el commit de producto y se guarda en un commit posterior: ese commit no cambia el producto,
+    así que el candidato sigue siendo el anterior.
+    """
+    base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
+    if base.is_symlink() or not base.is_dir():
+        return None
+    existentes = {p.name for p in base.iterdir() if p.is_dir() and not p.is_symlink()}
+    # Un cambio de producto sin commit (modificado, en el índice o nuevo) también deja viejo a cualquier candidato.
+    locales = ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.splitlines()
+    locales += ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.splitlines()
+    if any(es_producto(n) for n in locales):
+        return None
+    for commit in ejecutar(["git", "rev-list", "HEAD"]).stdout.split():
+        if commit[:7] in existentes:
+            cambiados = ejecutar(["git", "diff", "--name-only", commit, "HEAD"]).stdout.splitlines()
+            return None if any(es_producto(n) for n in cambiados) else commit[:7]
+    return None
+
+
+def hechos_del_candidato(identificador: str) -> Path:
+    """`hechos.json` de la evidencia del candidato vigente; FactoryError con la ruta esperada si no está."""
+    leer(identificador)
+    sha = candidato_vigente(identificador) or ejecutar(["git", "rev-parse", "HEAD"]).stdout.strip()[:7]
+    hechos = estructura.ruta_canonica(ROOT, identificador, "evidencia", sha) / "hechos.json"
+    if not ruta_segura(hechos).is_file():
+        raise FactoryError(f"no encuentro los hechos del candidato: {hechos.relative_to(ROOT)}. Generalos ahí "
+                           f"(oracle-factory ruta {identificador} evidencia) o indicá --con RUTA")
+    return hechos
+
+
 def contexto_producto() -> dict:
     """Vincula revisión y juicio con HEAD y archivos no ignorados, incluidos los nuevos.
 
@@ -359,13 +405,7 @@ def contexto_producto() -> dict:
         raise FactoryError("la revisión necesita un repositorio Git con al menos un commit")
     archivos = []
     for nombre in sorted(set(lista.stdout.split("\0")) - {""}):
-        partes = Path(nombre).parts
-        # Una spec consolidada que Factory generó (tiene índice) se deriva de specs ya aceptadas: no es producto nuevo, y si
-        # contara, archivar los cambios anteriores vencería la revisión del último integrado. Las demás de openspec/specs/ sí cuentan.
-        gestionada = (len(partes) == 4 and partes[:2] == ("openspec", "specs") and partes[3] == "spec.md"
-                      and (ROOT / estructura.DIR / "specs" / f"{partes[2]}.json").is_file())
-        if partes[0] in ("tareas", estructura.DIR) or gestionada or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
-                and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}):
+        if not es_producto(nombre):
             continue
         p = ROOT / nombre
         if p.is_symlink():
@@ -564,6 +604,14 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     exigir_spec(carpeta, estado)
     contexto, docs = contexto_producto(), documentos(carpeta, estado)
     informe, decisiones = documentos_revision.plantillas(identificador, contexto, docs)
+    sha = candidato_vigente(identificador)
+    if sha:
+        revisores, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
+        informe, decisiones = preparacion.completar(informe, decisiones, revisores, evidencia, archivos)
+        for aviso in avisos:
+            print(f'Aviso: {aviso}', file=sys.stderr)
+        print(f'Candidato {sha}: {len(revisores)} informe(s) de revisores, '
+              f'{len(informe["hallazgos"])} hallazgo(s), evidencia {"sí" if evidencia else "no"}.')
     rutas = guardar_par_revision(identificador, 'preparacion', bytes_json(informe), bytes_json(decisiones))
     try:
         exigir_spec(carpeta, estado)
@@ -580,6 +628,62 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
           '--decisiones RUTA_DECISIONES --revisor NOMBRE --decision DECISION')
     print('DECISION debe ser aprobar o cambios, elegida por la persona después de revisar.')
     return rutas
+
+
+def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], dict | None, list[str], list[str]]:
+    """(informes de revisores usables, evidencia, archivos del paquete, avisos) de la carpeta del candidato."""
+    raiz = estructura.ruta_canonica(ROOT, identificador, "evidencia", sha).parent
+    avisos: list[str] = []
+
+    def cargar(ruta: Path):
+        try:
+            datos = json.loads(ruta_segura(ruta).read_text(encoding="utf-8"))
+        except (OSError, ValueError, FactoryError) as e:
+            avisos.append(f"{ruta.relative_to(ROOT)} no se pudo leer ({type(e).__name__}); no lo uso")
+            return None
+        return datos if isinstance(datos, dict) else None
+
+    paquetes = [p for p in (cargar(r) for r in sorted((raiz / "clue").glob("*.json"))) if p] if (raiz / "clue").is_dir() else []
+    archivos = sorted({f["file"] for p in paquetes for f in p.get("files") or [] if isinstance(f, dict) and f.get("file")})
+    clue = shutil.which("oracle-clue")
+    revisores = []
+    for ruta in sorted((raiz / "revision").glob("*.json")) if (raiz / "revision").is_dir() else []:
+        datos, rel = cargar(ruta), ruta.relative_to(ROOT).as_posix()
+        if datos is None:
+            continue
+        if datos.get("schema_version") != preparacion.ESQUEMA_CLUE:
+            avisos.append(f"{rel} no es un informe de Oracle Clue; no lo uso")
+            continue
+        if not str(datos.get("head") or "").startswith(sha):
+            avisos.append(f"{rel} es de otro candidato ({str(datos.get('head'))[:7]}); no lo uso")
+            continue
+        paquete = next((p for p in paquetes if p.get("diff_sha256") == datos.get("diff_sha256")
+                        and p.get("context_sha256") == datos.get("context_sha256")), None)
+        if clue is None:
+            validacion = "sin validar: oracle-clue no está instalado"
+        elif paquete is None or not Path(str(paquete.get("repo"))).is_dir():
+            # Con Clue disponible, un informe que no se puede validar no se usa (falta su paquete o su checkout).
+            falta = "su paquete en clue/" if paquete is None else f"el checkout del paquete ({paquete.get('repo')})"
+            avisos.append(f"{rel} no se puede validar: falta {falta}; recrealo con oracle-factory ruta {identificador} "
+                          "checkout y no lo uso")
+            continue
+        else:
+            ruta_paquete = next(r for r in sorted((raiz / "clue").glob("*.json")) if cargar(r) == paquete)
+            p = ejecutar([clue, "validar", str(ruta), "--paquete", str(ruta_paquete), "--repo", str(paquete["repo"])])
+            if p.returncode:
+                avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
+                continue
+            validacion = "validado con oracle-clue"
+        if validacion.startswith("sin validar"):
+            avisos.append(f"{rel}: {validacion}")
+        revisores.append({"ruta": rel, "datos": datos, "validacion": validacion})
+    resultado = raiz / "evidencia" / "resultado.json"
+    evidencia = None
+    if resultado.is_file():
+        datos = cargar(resultado)
+        if datos is not None:
+            evidencia = {"ruta": resultado.relative_to(ROOT).as_posix(), "resultado": datos}
+    return revisores, evidencia, archivos, avisos
 
 
 def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str) -> None:
@@ -1298,11 +1402,15 @@ def inicializar() -> None:
         leeme.write_text(LEEME_FACTORY, encoding='utf-8')
     ignore = ruta_segura(ROOT / '.gitignore')
     contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
-    pendientes = [line for line in ('.factory-demo/', estructura.IGNORAR_LOCAL, '__pycache__/', '*.py[cod]')
+    pendientes = [line for line in ('.factory-demo/', estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE, '__pycache__/', '*.py[cod]')
                   if line not in contenido.splitlines()]
     if pendientes:
         with ignore.open('a', encoding='utf-8') as archivo:
             archivo.write(('\n' if contenido and not contenido.endswith('\n') else '') + '\n'.join(pendientes) + '\n')
+    versionados = ejecutar(["git", "ls-files", "--", ":(glob)" + estructura.IGNORAR_CLUE + "**"]).stdout.split()
+    if versionados:  # el .gitignore no saca del índice lo que ya estaba versionado; init no toca el índice
+        print("Aviso: hay paquetes de Clue versionados de antes; ahora son locales. Para dejar de versionarlos sin borrarlos: "
+              "git rm -r --cached " + " ".join(sorted({str(Path(p).parent) for p in versionados})), file=sys.stderr)
     print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
     print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; configuración: {ROOT / "oracle.json"}.')
     print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
@@ -1698,7 +1806,7 @@ def construir_parser() -> argparse.ArgumentParser:
     p.add_argument('--decisiones', type=Path, help='documento de decisiones separado, sólo en modo guiado')
     p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
-    p.add_argument("id"); p.add_argument("--con", type=Path, required=True)
+    p.add_argument("id"); p.add_argument("--con", type=Path, help="hechos del sensor; por defecto, los del candidato (oracle-factory ruta ID evidencia)")
     return parser
 
 
@@ -1734,7 +1842,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == 'revision-preparar': preparar_revision(args.id)
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
-        elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con)
+        elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con if args.con else hechos_del_candidato(args.id))
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "estado": mostrar(args.id)
         return 0

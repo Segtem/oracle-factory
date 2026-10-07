@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "3d309965df75f4728a0998267804d751d49be1d4270bba950b801d801ec7ad8e",
+  "actor": "Brian Hollweg",
+  "motivo": "Revisé el informe que armó revision-preparar; sin hallazgos abiertos.",
+  "decisiones": []
+}

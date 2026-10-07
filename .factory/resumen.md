@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:3333e95aa78d52690382a0882bde5673fe438f2ffe2efca3321c247b0834ebd9 -->
+<!-- oracle-factory resumen sha256:b6405f05585cdb234d9a1d811fceb374fb3f8e81b4c69c1a3fb0bb5c93f6cc78 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-9 capacidades · 65 requisitos vigentes · 6 cambios abiertos
+10 capacidades · 70 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -22,6 +22,18 @@ Spec completa: [openspec/specs/archivo/spec.md](../openspec/specs/archivo/spec.m
 | una capacidad con un solo nombre | funcional | `archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre` | factory_archivo.una_capacidad_con_un_solo_nombre, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
 | este repositorio queda archivado | no funcional | `archivo_cbf6802991c3ba673.este_repositorio_queda_archivado` | factory_archivo.este_repositorio_queda_archivado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
 | los comandos de lectura muestran el archivo | funcional | `archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo` | factory_archivo.los_comandos_de_lectura_muestran_el_archivo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+
+### autoproduccion
+
+Spec completa: [openspec/specs/autoproduccion/spec.md](../openspec/specs/autoproduccion/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| juzgar encuentra la evidencia del candidato | funcional | `autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato` | factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+| revision-preparar arma el informe desde los revisores | funcional | `autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores` | factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+| el borrador de decisiones no decide | funcional | `autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide` | factory_autoproduccion.el_borrador_de_decisiones_no_decide, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+| los informes se validan o se marcan | funcional | `autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan` | factory_autoproduccion.los_informes_se_validan_o_se_marcan, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+| este repositorio produce en la carpeta del candidato | no funcional | `autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato` | factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
 
 ### estructura
 
@@ -261,3 +273,6 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261007-115805-web-y-docs) Las pruebas de la web no usan navegador (Playwright no está instalado): no comprueban cómo se ve ni la escena animada.
 - (20261007-115805-web-y-docs) El trabajo en equipo que describe la página no se probó con personas reales; la página lo dice.
 - (20261007-115805-web-y-docs) Los IDs de los cambios anteriores conservan el sufijo cortado; sólo los nuevos usan la capacidad.
+- (20261007-150043-autoproduccion) Evidencia: Escenarios p1–p4 en repositorios temporales, Linux; los informes de revisores son fixtures con el formato de Clue y la validación de Clue se simula. Más la comprobación de que este cambio tiene su paquete de Clue y los informes de sus revisores en la carpeta de su candidato.
+- (20261007-150043-autoproduccion) codex (gpt-6-luna): Comparé las 12 entradas de CONTRACTS con los 12 métodos de prueba de tests/test_autoproduccion.py: coincidencia exacta, sin omisiones ni duplicados; la entrada p5 usa el nombre renombrado.
+- (20261007-150043-autoproduccion) codex (gpt-6-luna): Ejecuté tools/verify_autoproduccion.py: las 246 pruebas de la suite pasaron y los 12 casos de contrato fueron exactos; el verificador informó éxito=false porque este worktree no contiene la carpeta local del candidato 047cfc7 requerida por su autocontrol.

@@ -1,0 +1,340 @@
+{
+  "id": "20261007-150043-autoproduccion",
+  "titulo": "Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores",
+  "capacidad": "autoproduccion",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md",
+  "spec_sha256": "a7c535285cc01dff96245b00fb648b563d33ee6aeb6297307d2b0e52d26a0635",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T15:13:33+00:00",
+    "documentos": {
+      "openspec/changes/20261007-150043-autoproduccion/proposal.md": "49195b2217de0d9264e5972eaa58656cf4da70af511064437fb142c3d0f63d4a",
+      "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md": "a7c535285cc01dff96245b00fb648b563d33ee6aeb6297307d2b0e52d26a0635"
+    }
+  },
+  "requisitos": [
+    "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide",
+    "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato",
+    "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato",
+    "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan",
+    "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261007-150043-autoproduccion/revisiones/registro-ypiykh0x/informe.json",
+    "sha256": "3d309965df75f4728a0998267804d751d49be1d4270bba950b801d801ec7ad8e",
+    "decisiones": "tareas/20261007-150043-autoproduccion/revisiones/registro-ypiykh0x/decisiones.json",
+    "decisiones_sha256": "d5155a55c80d3083f9fb5b32c15b316019179d6ac5a1cc53e55b88fbb149ee7e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T19:08:43+00:00",
+    "contexto": {
+      "head": "04f090b4ca5c1901bd751ee6fe3e71bc59391524",
+      "archivos_sha256": "b2817b6ad75f428ca35c5fca60d7e666a177fd37c4c29fab8b3e8dfd5a3181d5"
+    },
+    "head_preparacion": "f6fd5997077c4a21707100d6498a05671e454fe1"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261007-150043-autoproduccion/candidatos/047cfc7/evidencia/hechos.json",
+    "hechos_sha256": "c4fb157f99424fc3f4da9ae6321e64a3e482d3ed496d94a1a242db74ee49788a",
+    "informe": ".factory/cambios/20261007-150043-autoproduccion/oracle-veredicto.txt",
+    "informe_sha256": "b7d615036f521f6d3ed92093d349c71dcd9b7b89ecacb3458eae51e7d3c2bb45",
+    "cuando": "2026-10-07T19:09:01+00:00",
+    "contexto": {
+      "head": "04f090b4ca5c1901bd751ee6fe3e71bc59391524",
+      "archivos_sha256": "b2817b6ad75f428ca35c5fca60d7e666a177fd37c4c29fab8b3e8dfd5a3181d5"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T15:00:43+00:00",
+      "capacidad": "autoproduccion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T15:13:33+00:00",
+      "documentos": {
+        "openspec/changes/20261007-150043-autoproduccion/proposal.md": "49195b2217de0d9264e5972eaa58656cf4da70af511064437fb142c3d0f63d4a",
+        "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md": "a7c535285cc01dff96245b00fb648b563d33ee6aeb6297307d2b0e52d26a0635"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T15:14:00+00:00",
+      "ids": [
+        "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide",
+        "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato",
+        "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato",
+        "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan",
+        "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T15:20:42+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato",
+      "medidas": [
+        "factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato",
+        "factory_autoproduccion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T15:20:42+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores",
+      "medidas": [
+        "factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores",
+        "factory_autoproduccion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T15:20:42+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide",
+      "medidas": [
+        "factory_autoproduccion.el_borrador_de_decisiones_no_decide",
+        "factory_autoproduccion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T15:20:42+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan",
+      "medidas": [
+        "factory_autoproduccion.los_informes_se_validan_o_se_marcan",
+        "factory_autoproduccion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T15:20:42+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "medidas": [
+        "factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato",
+        "factory_autoproduccion.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato",
+      "medidas": [
+        "factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato",
+        "factory_autoproduccion.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores",
+      "medidas": [
+        "factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores",
+        "factory_autoproduccion.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide",
+      "medidas": [
+        "factory_autoproduccion.el_borrador_de_decisiones_no_decide",
+        "factory_autoproduccion.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan",
+      "medidas": [
+        "factory_autoproduccion.los_informes_se_validan_o_se_marcan",
+        "factory_autoproduccion.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "requisito": "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato",
+      "medidas": [
+        "factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato",
+        "factory_autoproduccion.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:08:43+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "3d309965df75f4728a0998267804d751d49be1d4270bba950b801d801ec7ad8e",
+      "decisiones_sha256": "d5155a55c80d3083f9fb5b32c15b316019179d6ac5a1cc53e55b88fbb149ee7e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:09:01+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "c4fb157f99424fc3f4da9ae6321e64a3e482d3ed496d94a1a242db74ee49788a"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:09:37+00:00",
+      "oracle": ".factory/cambios/20261007-150043-autoproduccion/oracle-veredicto.txt",
+      "revision": "tareas/20261007-150043-autoproduccion/revisiones/registro-ypiykh0x/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:09:37+00:00",
+      "capacidad": "autoproduccion",
+      "spec": "openspec/specs/autoproduccion/spec.md"
+    }
+  ],
+  "tipos": {
+    "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide": "funcional",
+    "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato": "no funcional",
+    "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato": "funcional",
+    "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan": "funcional",
+    "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores": "funcional"
+  },
+  "medidas": {
+    "autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "sha256": "81e36e2113e0da0c00f15b986f1b7156adc7a7055677054ee112b40dd5e350b1"
+    },
+    "autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "sha256": "fe485a64a2b276f009346cbcf86f337edee4970443cdefe646282f2bb53ed8cf"
+    },
+    "autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "sha256": "d3065953e4615dd240349e0e7685d65a8f66cb4b27cfa30bae4edcdbb0ade5dc"
+    },
+    "autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "sha256": "a239f3cbe2b9c392e16a7d3a5635247e110557612d5e61c870a6ce21c25ce79a"
+    },
+    "autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T19:06:51+00:00",
+      "sha256": "df3e649d178a85c056dd3fba9d6b734f28812bd7b70b0d60e0048fa38f88e2b1"
+    }
+  },
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T19:09:37+00:00"
+  },
+  "archivo": {
+    "capacidad": "autoproduccion",
+    "spec": "openspec/specs/autoproduccion/spec.md",
+    "cuando": "2026-10-07T19:09:37+00:00"
+  }
+}

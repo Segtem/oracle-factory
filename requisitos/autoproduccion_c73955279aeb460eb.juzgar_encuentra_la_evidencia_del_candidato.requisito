@@ -1,0 +1,4 @@
+requisito autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato:
+    texto "Tipo: funcional `juzgar` sin `--con` SHALL usar `hechos.json` de la carpeta de evidencia del candidato actual (`.factory/cambios/<ID>/candidatos/<sha7>/evidencia/`, la que devuelve `ruta ID evidencia`), y si no existe SHALL fallar sin registrar nada, nombrando la ruta esperada."
+    fuente "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md#juzgar encuentra la evidencia del candidato"
+    medido_por factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato, factory_autoproduccion.corrida_completa

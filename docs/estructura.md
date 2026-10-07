@@ -62,6 +62,12 @@ python examples/notas/sensor.py --salida (oracle-factory ruta ID evidencia)/hech
 git worktree add --detach (oracle-factory ruta ID checkout) HEAD
 ```
 
+Lo que se guarda ahí, Factory lo usa:
+
+- **`juzgar ID` sin `--con`** toma `evidencia/hechos.json` del candidato vigente: el commit con carpeta propia más cercano a HEAD, siempre que el producto no haya cambiado desde él (guardar la evidencia en un commit posterior no lo cambia). Si no lo encuentra, dice la ruta donde lo espera.
+- **`revision-preparar ID`** lee los informes de los revisores en `revision/*.json` (formato de Oracle Clue), la evidencia (`evidencia/resultado.json`) y el paquete de Clue (`clue/*.json`), y completa el informe guiado: hallazgos con ubicación y lo que dijo cada revisor, comprobaciones, límites y archivos del candidato. Las decisiones quedan sin estado: las toma la persona. Si `oracle-clue` está instalado, cada informe se valida contra su paquete y su checkout (si faltan, no se usa); si Clue no está instalado, entra marcado «sin validar». Un informe de otro candidato, ilegible o que Clue rechaza se avisa y no se usa.
+- **Los paquetes de Clue no se versionan** (`init` agrega `.factory/cambios/*/candidatos/*/clue/` al `.gitignore`): son de cada máquina, como los checkouts. Pesan cientos de KB —más de lo que Clue acepta en un diff— y guardan la ruta absoluta del checkout que revisaron. Sí se versionan los informes de los revisores (`revision/`), que son chicos y son lo que se decide.
+
 ## Encontrar las cosas
 
 | Comando | Para qué |

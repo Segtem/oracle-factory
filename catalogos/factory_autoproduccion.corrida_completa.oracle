@@ -1,0 +1,8 @@
+medida factory_autoproduccion.corrida_completa:
+    de autoproduccion_corrida c
+    donde c.completa == 1 y c.casos == 13
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas, fuentes estables y el material de revisión de este cambio en la carpeta de su candidato"
+    requiere autoproduccion_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

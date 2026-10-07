@@ -1,0 +1,4 @@
+requisito autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide:
+    texto "Tipo: funcional El documento de decisiones que prepara `revision-preparar` SHALL listar cada hallazgo de los revisores sin estado, y registrar la revisión con ese borrador sin completar SHALL rechazarse."
+    fuente "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md#el borrador de decisiones no decide"
+    medido_por factory_autoproduccion.el_borrador_de_decisiones_no_decide, factory_autoproduccion.corrida_completa

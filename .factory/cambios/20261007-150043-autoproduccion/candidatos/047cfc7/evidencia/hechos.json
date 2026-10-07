@@ -1,0 +1,75 @@
+{
+  "autoproduccion_caso": [
+    {
+      "requisito": "juzgar_encuentra_la_evidencia_del_candidato",
+      "caso": "p1_evidencia_en_la_carpeta_del_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_encuentra_la_evidencia_del_candidato",
+      "caso": "p1_sin_evidencia_falla_sin_registrar",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_encuentra_la_evidencia_del_candidato",
+      "caso": "p1_un_cambio_de_producto_deja_viejo_al_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_encuentra_la_evidencia_del_candidato",
+      "caso": "p1_un_cambio_local_sin_commit_deja_viejo_al_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_encuentra_la_evidencia_del_candidato",
+      "caso": "p1_muchos_commits_que_no_tocan_el_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "revision_preparar_arma_el_informe_desde_los_revisores",
+      "caso": "p2_dos_informes_de_revisores",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_borrador_de_decisiones_no_decide",
+      "caso": "p3_registrar_sin_decidir_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_informes_se_validan_o_se_marcan",
+      "caso": "p4_informe_de_otro_candidato_no_se_usa",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_informes_se_validan_o_se_marcan",
+      "caso": "p4_sin_clue_se_usa_marcado",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_informes_se_validan_o_se_marcan",
+      "caso": "p4_un_informe_que_no_pasa_clue_no_se_usa",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_informes_se_validan_o_se_marcan",
+      "caso": "p4_con_clue_y_sin_checkout_no_se_usa",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_produce_en_la_carpeta_del_candidato",
+      "caso": "p5_init_avisa_de_paquetes_de_clue_versionados",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_produce_en_la_carpeta_del_candidato",
+      "caso": "candidato_propio",
+      "codigo": 0
+    }
+  ],
+  "autoproduccion_corrida": [
+    {
+      "completa": 1,
+      "casos": 13
+    }
+  ]
+}

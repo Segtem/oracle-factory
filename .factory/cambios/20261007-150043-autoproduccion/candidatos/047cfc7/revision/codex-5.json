@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-auto/.factory/local/revisiones/047cfc7",
+  "base": "d58315b350876c844d0b741be2b72e9410e1b759",
+  "head": "047cfc7a0f1a6d5050f182c1deb7788f448bf9ef",
+  "diff_sha256": "b1b00795fa040e1c205122430940f2f307ecbd21e7aadc483bc1320ac74529ad",
+  "context_sha256": "b7785b37409cc4021ed904e4d7631c269a584564548eabf685a716749369dd0a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Comparé las 12 entradas de CONTRACTS con los 12 métodos de prueba de tests/test_autoproduccion.py: coincidencia exacta, sin omisiones ni duplicados; la entrada p5 usa el nombre renombrado.",
+    "Ejecuté tools/verify_autoproduccion.py: las 246 pruebas de la suite pasaron y los 12 casos de contrato fueron exactos; el verificador informó éxito=false porque este worktree no contiene la carpeta local del candidato 047cfc7 requerida por su autocontrol."
+  ]
+}

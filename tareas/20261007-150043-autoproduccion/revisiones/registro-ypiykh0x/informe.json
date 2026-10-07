@@ -1,0 +1,68 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261007-150043-autoproduccion",
+  "contexto": {
+    "head": "f6fd5997077c4a21707100d6498a05671e454fe1",
+    "archivos_sha256": "b2817b6ad75f428ca35c5fca60d7e666a177fd37c4c29fab8b3e8dfd5a3181d5"
+  },
+  "documentos": {
+    "openspec/changes/20261007-150043-autoproduccion/proposal.md": "49195b2217de0d9264e5972eaa58656cf4da70af511064437fb142c3d0f63d4a",
+    "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md": "a7c535285cc01dff96245b00fb648b563d33ee6aeb6297307d2b0e52d26a0635"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261007-150043-autoproduccion/candidatos/890c59b/revision/codex-1.json",
+    ".factory/cambios/20261007-150043-autoproduccion/candidatos/aa95d65/revision/codex-3.json",
+    ".factory/cambios/20261007-150043-autoproduccion/candidatos/d58315b/revision/codex-4.json",
+    ".factory/cambios/20261007-150043-autoproduccion/candidatos/e116430/revision/codex-2.json",
+    ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+    ".factory/resumen.md",
+    ".gitignore",
+    "catalogos/factory_autoproduccion.corrida_completa.oracle",
+    "catalogos/factory_autoproduccion.el_borrador_de_decisiones_no_decide.oracle",
+    "catalogos/factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato.oracle",
+    "catalogos/factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato.oracle",
+    "catalogos/factory_autoproduccion.los_informes_se_validan_o_se_marcan.oracle",
+    "catalogos/factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores.oracle",
+    "docs/estructura.md",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261007-150043-autoproduccion/design.md",
+    "openspec/changes/20261007-150043-autoproduccion/proposal.md",
+    "openspec/changes/20261007-150043-autoproduccion/specs/autoproduccion/spec.md",
+    "openspec/changes/20261007-150043-autoproduccion/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "oracle_factory/prep.py",
+    "oracle_factory/preparacion.py",
+    "requisitos/autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide.requisito",
+    "requisitos/autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato.requisito",
+    "requisitos/autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato.requisito",
+    "requisitos/autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan.requisito",
+    "requisitos/autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores.requisito",
+    "tareas/20261007-150043-autoproduccion/TAREA.md",
+    "tests/test_autoproduccion.py",
+    "tests/test_distribution.py",
+    "tests/test_guided.py",
+    "tools/verify_autoproduccion.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 246 pruebas, 12 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-150043-autoproduccion/candidatos/047cfc7/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-150043-autoproduccion/candidatos/047cfc7/revision/codex-5.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios p1–p4 en repositorios temporales, Linux; los informes de revisores son fixtures con el formato de Clue y la validación de Clue se simula. Más la comprobación de que este cambio tiene su paquete de Clue y los informes de sus revisores en la carpeta de su candidato.",
+    "codex (gpt-6-luna): Comparé las 12 entradas de CONTRACTS con los 12 métodos de prueba de tests/test_autoproduccion.py: coincidencia exacta, sin omisiones ni duplicados; la entrada p5 usa el nombre renombrado.",
+    "codex (gpt-6-luna): Ejecuté tools/verify_autoproduccion.py: las 246 pruebas de la suite pasaron y los 12 casos de contrato fueron exactos; el verificador informó éxito=false porque este worktree no contiene la carpeta local del candidato 047cfc7 requerida por su autocontrol."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

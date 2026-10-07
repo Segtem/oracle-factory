@@ -22,7 +22,7 @@ El cambio debe estar abierto y tener propuesta/spec aceptadas y vigentes. Termin
 .venv/bin/python fabrica.py --proyecto /ruta/producto revision-preparar ID_COMPLETO
 ```
 
-El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Ambos tienen campos humanos en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
+El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Si el candidato tiene carpeta propia (`oracle-factory ruta ID revision`) con informes de revisores en formato de Oracle Clue, el informe sale completado con sus hallazgos, comprobaciones, límites y archivos, y las decisiones listan cada hallazgo sin estado (ver [estructura](estructura.md#una-carpeta-por-candidato)). Los campos humanos —revisor, si la revisión está completa y el estado de cada hallazgo— quedan en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
 
 Se recomienda usar esas rutas dentro de la tarea: están fuera de la huella de archivos del producto, por lo que completar el informe no lo vuelve obsoleto por sí mismo. Un commit nuevo que sólo archiva notas o registros tampoco la invalida: Factory compara la huella de archivos del producto y guarda el commit como dato. Si cambia un archivo del producto antes de registrar, prepare de nuevo.
 
