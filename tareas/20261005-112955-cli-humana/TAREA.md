@@ -16,3 +16,5 @@ Revisar el recorrido completo de la CLI pensando en la persona, no en el agente:
 ### Nota (2026-10-07 19:09:01 UTC)
 
 2026-10-07: completar la revisión guiada (revisor, completa, informe_sha256, actor, motivo) obliga a editar JSON a mano o pegar un script; hace falta un comando del estilo revision-completar --revisor.
+
+- 2026-10-07: sin `oracle-metalenguaje` en el intérprete (Brian corrió `python fabrica.py medir` con el python del sistema) la CLI cae con un traceback de `ModuleNotFoundError` en `inventario_medidas`. Debería decir qué falta y cómo seguir (activar `.venv` o instalar `oracle-factory`).
