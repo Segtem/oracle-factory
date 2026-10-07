@@ -2003,7 +2003,14 @@ def confirmar_medidas(identificador: str) -> None:
     """Las medidas que propuso el agente, por requisito, confirmadas de una vez o de a una."""
     _, estado = abierto(identificador)
     exigir_terminal("confirmar medidas")
-    pendientes = sorted(r for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada"))
+    propuestas = {r: p for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada")}
+    # Sólo se confirma lo que el agente propuso: si el requisito cambió después, ya no es su propuesta.
+    cambiadas = sorted(r for r, p in propuestas.items()
+                       if sha256((ROOT / "requisitos" / f"{r}.requisito").read_bytes()) != p["sha256"])
+    for rid in cambiadas:
+        print(f"Aviso: {rid} cambió después de la propuesta; no se confirma acá. Revisalo con oracle-factory medir "
+              f"{identificador} --listar y decidilo con medir --requisito.")
+    pendientes = sorted(set(propuestas) - set(cambiadas))
     if not pendientes:
         print("No hay medidas propuestas pendientes de confirmar.")
         return

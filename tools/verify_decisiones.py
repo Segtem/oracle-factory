@@ -16,7 +16,7 @@ CONTRACTS = {
     'las_confirmaciones_son_un_menu': ['d1_cerrar_con_el_menu', 'd1_cancelar'],
     'revisar_guia_la_revision_de_punta_a_punta': ['d2_revision_sin_hallazgos', 'd2_un_hallazgo_abierto', 'd2_un_hallazgo_decidido'],
     'el_motivo_se_elige': ['d3_motivo_propuesto_por_el_agente', 'd3_motivo_escrito'],
-    'confirmar_las_medidas_propuestas_de_una_vez': ['d4_confirmar_todas', 'd4_de_a_una_y_saltear'],
+    'confirmar_las_medidas_propuestas_de_una_vez': ['d4_confirmar_todas', 'd4_de_a_una_y_saltear', 'd4_propuesta_cambiada_no_se_confirma'],
     'sin_terminal_no_hay_decision_de_persona': ['d5_entrada_por_pipe'],
 }
 PREFIX = 'test_decisiones.Decisiones.test_'

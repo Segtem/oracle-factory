@@ -1,6 +1,6 @@
 medida factory_decisiones.corrida_completa:
     de decisiones_corrida c
-    donde c.completa == 1 y c.casos == 10
+    donde c.completa == 1 y c.casos == 11
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
     requiere decisiones_corrida

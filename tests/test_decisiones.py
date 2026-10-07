@@ -144,6 +144,17 @@ class Decisiones(_ap.Base):
         self.assertFalse(estado.get('medidas_pendientes'))
         self.assertIn('Sin límite sin medir: queda cubierto', salida.getvalue())
 
+    def test_d4_propuesta_cambiada_no_se_confirma(self):
+        rid = self.proponer_medidas()
+        requisito = self.root / 'requisitos' / f'{rid}.requisito'
+        requisito.write_text(requisito.read_text().replace('notas.resultados', 'notas.casos_ejecutados', 1)
+                             .replace('notas.casos_ejecutados, notas.casos_ejecutados', 'notas.casos_ejecutados'))
+        salida = io.StringIO()
+        with self.responde('1'), contextlib.redirect_stdout(salida):
+            f.confirmar_medidas(self.ident)
+        self.assertIn('cambió después de la propuesta', salida.getvalue())
+        self.assertNotIn(rid, f.leer(self.ident)[1].get('medidas') or {})
+
     def test_d4_de_a_una_y_saltear(self):
         rid = self.proponer_medidas()
         with self.responde('2', '2'), contextlib.redirect_stdout(io.StringIO()):  # de a una; saltear
