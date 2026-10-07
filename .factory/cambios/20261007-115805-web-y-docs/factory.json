@@ -1,0 +1,24 @@
+{
+  "id": "20261007-115805-web-y-docs",
+  "titulo": "La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes",
+  "capacidad": "web",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:58:05+00:00",
+      "capacidad": "web"
+    }
+  ]
+}
