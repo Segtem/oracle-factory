@@ -148,6 +148,84 @@
         "factory_web.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:21+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes",
+      "medidas": [
+        "factory_web.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes",
+        "factory_web.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada",
+      "medidas": [
+        "factory_web.el_sitio_cuenta_lo_que_trae_la_version_publicada",
+        "factory_web.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe",
+      "medidas": [
+        "factory_web.lo_que_la_web_nombra_existe",
+        "factory_web.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto",
+      "medidas": [
+        "factory_web.guia_de_colaboracion_sin_las_fricciones_del_piloto",
+        "factory_web.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible",
+      "medidas": [
+        "factory_web.el_id_de_un_cambio_termina_en_un_sufijo_legible",
+        "factory_web.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "requisito": "web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando",
+      "medidas": [
+        "factory_web.la_guia_desde_cero_sigue_funcionando",
+        "factory_web.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -158,43 +236,55 @@
     "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes": "funcional",
     "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe": "no funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes": {
-      "sha256": "0a0dfac9c7868975e210ea6547110bf0c1aea86b87a63618e79cadeaa90fb666",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:28+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:21+00:00",
+      "sha256": "0a0dfac9c7868975e210ea6547110bf0c1aea86b87a63618e79cadeaa90fb666"
     },
     "web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada": {
-      "sha256": "9d3a9ce81c95cf2529991e6ee74f93a677f58a20d8d2c9496fe5691a7b0b4f08",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:28+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "sha256": "9d3a9ce81c95cf2529991e6ee74f93a677f58a20d8d2c9496fe5691a7b0b4f08"
     },
     "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe": {
-      "sha256": "02f01438b04cbec31ac9156a89195cd3a7a984765fe3c54b7098ac07fec4170e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:28+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "sha256": "02f01438b04cbec31ac9156a89195cd3a7a984765fe3c54b7098ac07fec4170e"
     },
     "web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto": {
-      "sha256": "f92b8dd13f5e1e3f10aab009c917ce5bf2181fade0dcae5e7ebcce404e78790e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:28+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "sha256": "f92b8dd13f5e1e3f10aab009c917ce5bf2181fade0dcae5e7ebcce404e78790e"
     },
     "web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible": {
-      "sha256": "5329331f931ad5126649cb4925c0cc1d0ff9c7a2be5e11226555e7f905fc2082",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:28+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "sha256": "5329331f931ad5126649cb4925c0cc1d0ff9c7a2be5e11226555e7f905fc2082"
     },
     "web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando": {
-      "sha256": "adc7f9e704b41c790633701c42c85b184d53de10f636efbddec66f380cc0049b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-07T12:09:29+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T13:26:22+00:00",
+      "sha256": "adc7f9e704b41c790633701c42c85b184d53de10f636efbddec66f380cc0049b"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

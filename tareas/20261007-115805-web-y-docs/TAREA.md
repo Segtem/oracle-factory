@@ -39,3 +39,27 @@ Medidas de web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible
 ### Nota (2026-10-07 12:09:29 UTC)
 
 Medidas de web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando: factory_web.la_guia_desde_cero_sigue_funcionando, factory_web.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 13:26:21 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:26:22 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:26:22 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:26:22 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:26:22 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 13:26:22 UTC)
+
+Medidas de web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando: Brian Hollweg (persona, confirmo, modo confirmacion).
