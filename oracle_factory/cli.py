@@ -943,8 +943,8 @@ def situacion_requisitos(estado: dict) -> list[tuple[str, str, str | None]]:
 
 def _json_de_revision(relativa, nombre: str) -> tuple[dict, str | None]:
     """(datos, problema): un documento ausente, inválido o fuera del proyecto se informa, no se toma por vacío."""
-    if not relativa:
-        return {}, None
+    if not relativa:  # sólo se llama para revisiones guiadas, que siempre registran los dos documentos
+        return {}, f"la revisión guiada no registra su {nombre}"
     try:
         datos = json.loads(ruta_segura(ROOT / relativa).read_text(encoding="utf-8"))
     except (OSError, ValueError, TypeError, FactoryError) as e:

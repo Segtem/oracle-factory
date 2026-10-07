@@ -115,6 +115,13 @@ class Resumen(Base):
         with contextlib.redirect_stdout(io.StringIO()):
             f.comando_resumen(False, None)
         self.assertIn(f'⚠ ({cerrado}) no se pudo leer el informe de la revisión', self.seccion('Límites declarados'))
+        carpeta, estado = f.leer(cerrado)
+        sin_ruta = {**estado, 'revision': {k: v for k, v in estado['revision'].items() if k != 'decisiones'}}
+        f.guardar(carpeta, sin_ruta)  # la revisión guiada perdió la ruta de sus decisiones
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.comando_resumen(False, None)
+        self.assertIn(f'⚠ ({cerrado}) la revisión guiada no registra su documento de decisiones', self.seccion('Riesgos aceptados'))
+        f.guardar(carpeta, estado)
         informe.write_text(json.dumps({'hallazgos': 1, 'limites': 'no es una lista'}))  # JSON válido, forma rara
         with contextlib.redirect_stdout(io.StringIO()):
             f.comando_resumen(False, None)  # no se rompe
