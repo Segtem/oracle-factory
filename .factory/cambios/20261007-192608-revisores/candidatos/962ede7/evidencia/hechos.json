@@ -1,0 +1,90 @@
+{
+  "revisores_caso": [
+    {
+      "requisito": "pedir_una_revision_del_candidato_actual",
+      "caso": "v1_revision_exitosa",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedir_una_revision_del_candidato_actual",
+      "caso": "v1_guardar_el_informe_no_cambia_de_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisores_configurables",
+      "caso": "v2_revisor_no_declarado",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisores_configurables",
+      "caso": "v2_configuracion_invalida",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_pedido_se_genera_desde_el_cambio",
+      "caso": "v3_plantilla_del_proyecto_e_indicaciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_pedido_se_genera_desde_el_cambio",
+      "caso": "v3_la_plantilla_de_factory_lleva_lo_necesario",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_sale_mal_no_se_guarda_como_informe",
+      "caso": "v4_informe_que_clue_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_sale_mal_no_se_guarda_como_informe",
+      "caso": "v4_sin_informe",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_sale_mal_no_se_guarda_como_informe",
+      "caso": "v4_tope_superado",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_sale_mal_no_se_guarda_como_informe",
+      "caso": "v4_tope_detiene_a_los_hijos",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_que_sale_mal_no_se_guarda_como_informe",
+      "caso": "v4_cambios_sin_commit",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_revisor_no_decide",
+      "caso": "v5_despues_de_una_revision_exitosa",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "caso": "v6_tres_vueltas",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "caso": "v6_vuelta_de_otro_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "caso": "v6_vuelta_que_clue_no_valida",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_cambio_se_revisa_con_pedir_revision",
+      "caso": "revisado_con_pedir_revision",
+      "codigo": 0
+    }
+  ],
+  "revisores_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}
