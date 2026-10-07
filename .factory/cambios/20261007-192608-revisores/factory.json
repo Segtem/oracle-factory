@@ -2,7 +2,7 @@
   "id": "20261007-192608-revisores",
   "titulo": "Pedir una revisión independiente desde Factory",
   "capacidad": "revisores",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md",
   "spec_sha256": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521",
   "spec_aprobada": {
@@ -25,7 +25,25 @@
     "revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual",
     "revisores_c466ac292a9f99ce6.revisores_configurables"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/informe.json",
+    "sha256": "4f5940110ca616691ec05007d021ee1411da41cd7a5370af263095ac4be5df62",
+    "decisiones": "tareas/20261007-192608-revisores/revisiones/registro-8cz09mp_/decisiones.json",
+    "decisiones_sha256": "8e561705b21cfb88a7785bfb74cc173a74bb50083f09d10918f4b0d8ac1be960",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T21:56:53+00:00",
+    "contexto": {
+      "head": "13bd554ef929c9162cf5b349b18deb12c85d2066",
+      "archivos_sha256": "abc3189d5f1f8ccc92816da885c3adb5736442c3bba4398540b4ea99323b7dda"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -507,6 +525,20 @@
       "candidato": "8c59250",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T21:56:53+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "4f5940110ca616691ec05007d021ee1411da41cd7a5370af263095ac4be5df62",
+      "decisiones_sha256": "8e561705b21cfb88a7785bfb74cc173a74bb50083f09d10918f4b0d8ac1be960"
     }
   ],
   "tipos": {
