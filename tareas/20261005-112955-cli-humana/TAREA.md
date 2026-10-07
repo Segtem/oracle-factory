@@ -29,3 +29,11 @@ Revisar el recorrido completo de la CLI pensando en la persona, no en el agente:
 
 - 2026-10-07, pedido de Brian: «las decisiones que tome el humano desde la cli deberían ser como cuando me hacés preguntas desde acá, un menú y opciones; debería ser guiado». Cada decisión humana (aprobar la spec, confirmar medidas y quitar sin_medir, registrar la revisión, cerrar) como un recorrido interactivo: muestra lo que hay que decidir en texto legible, ofrece opciones numeradas con una recomendada y una descripción de qué implica cada una, permite «otra» con texto libre para el motivo, y al final muestra el comando equivalente (para que quede registrado y se pueda repetir sin menú). Sin tty no hay menú: el comando dice qué opciones existen.
 - Confirmar medidas sin quitar `sin_medir` deja el requisito a medio cubrir y `juzgar` bloquea recién al final; el menú de medidas tiene que incluir ese paso.
+
+- 2026-10-07, Brian, sobre el menú con que se eligió el motivo de la revisión de revisores: «Esa interfaz que acabás de crear es la que debería tener cli-humana». La referencia:
+  - una pregunta por decisión, con una etiqueta corta («Motivo», «Decisión»);
+  - 2 a 4 opciones, la recomendada primero y marcada «(Recomendado)», cada una con una línea que dice qué implica;
+  - una vista previa del texto que se va a registrar (el motivo armado con los datos del cambio: candidato, vueltas, evidencia, límites aceptados), para no escribirlo desde cero;
+  - siempre una opción «Otro» con texto libre;
+  - al elegir, Factory ejecuta el registro y muestra el comando equivalente.
+  Primera versión con la biblioteca estándar (opciones numeradas y la vista previa debajo); flechas y panel lateral sólo si hace falta.
