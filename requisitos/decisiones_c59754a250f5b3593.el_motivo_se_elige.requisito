@@ -1,4 +1,4 @@
 requisito decisiones_c59754a250f5b3593.el_motivo_se_elige:
     texto "Tipo: funcional Al decidir con motivo, el menú SHALL ofrecer: el motivo propuesto por el agente, si dejó uno con `--agente … --motivo`; un motivo armado con los datos del cambio (candidato, hallazgos, evidencia); «Otro», para escribirlo. Se ve el texto completo de cada motivo antes de elegirlo, y el registro dice si el motivo fue el del agente, el armado o uno escrito."
     fuente "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md#el motivo se elige"
-    sin_medir "sin medida todavía; escenarios: «motivo propuesto por el agente»"
+    medido_por factory_decisiones.el_motivo_se_elige, factory_decisiones.corrida_completa
