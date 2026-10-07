@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-resumen-92c0636",
+  "base": "54a2f61ea63f4f68d38026235957a01b2a3aa57b",
+  "head": "92c0636aa10365328c438e450a531dad1921bea6",
+  "diff_sha256": "227e94e96b002c11b62c7603961765955c8982cc28cc3bcbe576c858cc86ac27",
+  "context_sha256": "ea157dc00180289895988a25d952b4b20881cc0ffabde6e02e12006662e4c010",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2S-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una revisión guiada sin ruta al informe o a decisiones se trata como vacía y no se advierte",
+      "explanation": "`_json_de_revision` devuelve `({}, None)` cuando la ruta no está registrada. Si un `factory.json` de un cambio cerrado conserva `revision.formato == \"guiado\"` pero perdió `revision.informe` (o `revision.decisiones`), `texto_resumen` no agrega ningún problema y genera las secciones de riesgos/límites como si esos datos no existieran. En una copia, quité `revision.informe` de `20261004-005956-revision-guiada/factory.json`; `resumen --salida mutacion.md` terminó con código 0 y no mostró `⚠`. Los casos añadidos cubren un archivo apuntado inválido y estructura JSON rara, pero no la ausencia de la referencia en el registro.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 946,
+        "end_line": 947,
+        "side": "head"
+      },
+      "trigger": "En un cambio cerrado con revisión guiada, borrar `revision.informe` o `revision.decisiones` del `factory.json` y ejecutar `resumen`.",
+      "evidence": "Mutación manual en copia local: retiré `revision.informe` de la revisión guiada cerrada `20261004-005956-revision-guiada`; el resumen se generó con rc 0 sin aviso en Riesgos aceptados ni Límites declarados. La llamada directa `_json_de_revision(None, \"informe\")` devolvió `({}, None)`.",
+      "related_requirement": "factory_resumen.riesgos_aceptados_y_limites_declarados",
+      "status": "pendiente",
+      "verification": "Si el formato de revisión es guiado y falta la ruta de cualquiera de sus documentos requeridos, emitir el mismo aviso que para un archivo ausente; agregar una prueba con el campo eliminado o nulo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Verificador del checkout: 225 pruebas, 13 casos de contrato; éxito. El checkout permaneció limpio.",
+    "R2R-01 queda cubierto cuando el registro sí conserva la ruta: archivo apuntado ausente/inválido y fuera del proyecto se advierte. R2R-02 y R2R-03 cierran; actualizar_resumen captura el fallo y el escape de barras precede al de `|`.",
+    "D-01 a D-07 cierran: se muestra el ID Oracle, los enlaces se calculan desde el destino (raíz, subcarpeta y `.factory`), design/docs/spec concuerdan, se retiró CABECERA sin uso y se listan carpetas sin registro. El enlace a propuestas y la omisión de subsecciones vacías también están presentes.",
+    "Mutaciones/sondas: `_agrupar` sólo agrupa sufijos de pendiente idénticos, de modo que no mezcla actores o estados distintos; al agrupar elimina los IDs individuales y conserva sólo el recuento, límite menor de trazabilidad. Los prefijos de raíz relativa calculados fueron `./` (raíz), `../` (subcarpeta y `.factory`) y `../../` (subcarpeta anidada).",
+    "El resumen es repetible con entradas iguales; la prueba de contrato compara bytes y huella del producto. No hice pruebas en Windows ni en versiones distintas de Python."
+  ]
+}

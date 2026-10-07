@@ -217,7 +217,7 @@ class Archivo(unittest.TestCase):
         despues = self.archivos()
         cambiados = {k for k in set(antes) | set(despues) if antes.get(k) != despues.get(k)}
         self.assertEqual(cambiados, {f'.factory/cambios/{otro}/factory.json', 'openspec/specs/notas/spec.md',
-                                     '.factory/specs/notas.json'})
+                                     '.factory/specs/notas.json', '.factory/resumen.md'})  # el resumen se regenera
         self.assertEqual(f.leer(primero)[1], estado_primero)  # el cambio anterior no se tocó
         nuevo = f.leer(otro)[1]
         self.assertEqual(nuevo['eventos'][-1]['accion'], 'archivado')

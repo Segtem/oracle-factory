@@ -1,0 +1,543 @@
+{
+  "id": "20261007-003414-resumen-del",
+  "titulo": "Resumen del estado actual: una vista corta y regenerable de lo vigente",
+  "capacidad": "resumen",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md",
+  "spec_sha256": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T01:24:17+00:00",
+    "documentos": {
+      "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+      "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b"
+    }
+  },
+  "requisitos": [
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261007-003414-resumen-del/revisiones/registro-u2qqlplz/informe.json",
+    "sha256": "20d2e6afceef4c0bdb025312133203879a7c5a509d5121d47a1bef5a94dabb11",
+    "decisiones": "tareas/20261007-003414-resumen-del/revisiones/registro-u2qqlplz/decisiones.json",
+    "decisiones_sha256": "13cf4e3a21828d05a9a384eb58500b0966037096b6813bec8241da0839883a12",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T11:40:54+00:00",
+    "contexto": {
+      "head": "af8a252d8fb788c36956cb26c0c02ecaa03acd3f",
+      "archivos_sha256": "b4670c2fdc2a4d43634d50d62f8f25e172db7111e3dddfb286d2011139334874"
+    },
+    "head_preparacion": "5e51b10aaac41584b7febaed896fece291a0f46b"
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261007-003414-resumen-del/evidencia-4e80af3/hechos.json",
+    "hechos_sha256": "caa5ff0019d4fbdc0b29248c9c0b903a659547505c25c317898e1b7baea3e25d",
+    "informe": ".factory/cambios/20261007-003414-resumen-del/oracle-veredicto.txt",
+    "informe_sha256": "8d4680659bb49ce2c6f3890a763058870a84243dccda95b346b05cb94c97bc17",
+    "cuando": "2026-10-07T11:50:37+00:00",
+    "contexto": {
+      "head": "af8a252d8fb788c36956cb26c0c02ecaa03acd3f",
+      "archivos_sha256": "b4670c2fdc2a4d43634d50d62f8f25e172db7111e3dddfb286d2011139334874"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T00:34:14+00:00",
+      "capacidad": "resumen"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T00:36:45+00:00",
+      "documentos": {
+        "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+        "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T00:38:32+00:00",
+      "ids": [
+        "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
+        "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
+        "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
+        "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "medidas": [
+        "factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
+      "medidas": [
+        "factory_resumen.riesgos_aceptados_y_limites_declarados",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "medidas": [
+        "factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "medidas": [
+        "factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo",
+      "medidas": [
+        "factory_resumen.se_sabe_cuando_quedo_viejo",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
+      "medidas": [
+        "factory_resumen.se_actualiza_al_cerrar_y_al_archivar",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
+      "medidas": [
+        "factory_resumen.este_repositorio_tiene_su_resumen_al_dia",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T01:24:17+00:00",
+      "documentos": {
+        "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+        "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T01:24:30+00:00",
+      "ids": [
+        "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+        "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+        "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+        "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "medidas": [
+        "factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+      "medidas": [
+        "factory_resumen.riesgos_aceptados_y_limites_declarados",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "medidas": [
+        "factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "medidas": [
+        "factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo",
+      "medidas": [
+        "factory_resumen.se_sabe_cuando_quedo_viejo",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+      "medidas": [
+        "factory_resumen.se_actualiza_al_cerrar_y_al_archivar",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T01:24:38+00:00",
+      "requisito": "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+      "medidas": [
+        "factory_resumen.este_repositorio_tiene_su_resumen_al_dia",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "medidas": [
+        "factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+      "medidas": [
+        "factory_resumen.riesgos_aceptados_y_limites_declarados",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "medidas": [
+        "factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "medidas": [
+        "factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo",
+      "medidas": [
+        "factory_resumen.se_sabe_cuando_quedo_viejo",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "requisito": "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+      "medidas": [
+        "factory_resumen.se_actualiza_al_cerrar_y_al_archivar",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-07T11:32:28+00:00",
+      "requisito": "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+      "medidas": [
+        "factory_resumen.este_repositorio_tiene_su_resumen_al_dia",
+        "factory_resumen.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:40:54+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "20d2e6afceef4c0bdb025312133203879a7c5a509d5121d47a1bef5a94dabb11",
+      "decisiones_sha256": "13cf4e3a21828d05a9a384eb58500b0966037096b6813bec8241da0839883a12"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:50:37+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "caa5ff0019d4fbdc0b29248c9c0b903a659547505c25c317898e1b7baea3e25d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:51:01+00:00",
+      "oracle": ".factory/cambios/20261007-003414-resumen-del/oracle-veredicto.txt",
+      "revision": "tareas/20261007-003414-resumen-del/revisiones/registro-u2qqlplz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:51:01+00:00",
+      "capacidad": "resumen",
+      "spec": "openspec/specs/resumen/spec.md"
+    }
+  ],
+  "tipos": {
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas": "no funcional",
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente": "funcional",
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice": "funcional",
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia": "no funcional",
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados": "funcional",
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar": "funcional",
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo": "funcional"
+  },
+  "medidas": {
+    "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "5248d4e6a972279f2f673b21b52cd0b54b724827f2898bb570a55c202ef64178"
+    },
+    "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "45c0b0d08b40a4af4c01edd188798d2ed55685bc44bd2b5ba2e8a17bf9c38ed7"
+    },
+    "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "64103d7fc731e02b0a7ff34bbb85a54d65013945ad5f564bf07e23d96cef7073"
+    },
+    "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "4e9d2fd49b776561625e79e9781bdf1c0a30b09bfd84fcbd75690735825503bc"
+    },
+    "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "4b95cc38c94d42cf170775ed9d1a6d623f2838f1a66c7c4501997fe3aa05963b"
+    },
+    "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:27+00:00",
+      "sha256": "2c13ae90988e3c3c56dbfcf296ee24deb7d9023de94e361a24c095944f0213ae"
+    },
+    "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-07T11:32:28+00:00",
+      "sha256": "a374e114f1cbdc4ff7276565093d19028a36afa5c1af5645ad0350152fc49468"
+    }
+  },
+  "medidas_pendientes": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T11:51:01+00:00"
+  },
+  "archivo": {
+    "capacidad": "resumen",
+    "spec": "openspec/specs/resumen/spec.md",
+    "cuando": "2026-10-07T11:51:01+00:00"
+  }
+}

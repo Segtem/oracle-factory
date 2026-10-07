@@ -17,6 +17,7 @@ from importlib import metadata, resources
 
 from . import __version__
 from . import archivo
+from . import resumen
 from . import estructura
 from . import migracion
 from . import modos
@@ -940,6 +941,93 @@ def situacion_requisitos(estado: dict) -> list[tuple[str, str, str | None]]:
     return [(rid, *archivo.situacion(indice, rid)) for rid in estado.get("requisitos", [])]
 
 
+def _json_de_revision(relativa, nombre: str) -> tuple[dict, str | None]:
+    """(datos, problema): un documento ausente, inválido o fuera del proyecto se informa, no se toma por vacío."""
+    if not relativa:  # sólo se llama para revisiones guiadas, que siempre registran los dos documentos
+        return {}, f"la revisión guiada no registra su {nombre}"
+    try:
+        datos = json.loads(ruta_segura(ROOT / relativa).read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError, FactoryError) as e:
+        return {}, f"no se pudo leer el {nombre} de la revisión ({relativa}): {type(e).__name__}"
+    if not isinstance(datos, dict):
+        return {}, f"el {nombre} de la revisión ({relativa}) no es un objeto JSON"
+    return datos, None
+
+
+def _lista(valor) -> list:
+    return valor if isinstance(valor, list) else []
+
+
+def texto_resumen(salida: Path | None = None) -> str:
+    """Junta los datos de los registros y genera el resumen (sin escribir nada)."""
+    carpeta_specs = ROOT / estructura.DIR / "specs"
+    indices = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(carpeta_specs.glob("*.json"))] \
+        if carpeta_specs.is_dir() else []
+    registros, abiertos, revisiones, sin_registro = {}, [], {}, []
+    for carpeta in sorted(CHANGES.iterdir()) if CHANGES.is_dir() else []:
+        if not ID_RE.fullmatch(carpeta.name):
+            continue
+        if not ruta_registro(carpeta).is_file():
+            sin_registro.append(carpeta.name)
+            continue
+        _, estado = leer(carpeta.name)
+        registros[estado["id"]] = estado
+        if estado.get("fase") != "cerrada":
+            abiertos.append({"id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase", "?"),
+                             "modo": modo_de(estado), "capacidad": capacidad_destino(estado.get("capacidad", "?")),
+                             "pendientes": pendientes_actuales(carpeta, estado)})
+            continue
+        rev = estado.get("revision") if isinstance(estado.get("revision"), dict) else {}
+        problemas = []
+        informe, decisiones = {}, {}
+        if rev.get("formato") == "guiado":  # la revisión libre (review.md) no declara riesgos ni límites con estructura
+            informe, p1 = _json_de_revision(rev.get("informe"), "informe")
+            decisiones, p2 = _json_de_revision(rev.get("decisiones"), "documento de decisiones")
+            problemas = [p for p in (p1, p2) if p]
+        hallazgos = {h.get("id"): h for h in _lista(informe.get("hallazgos")) if isinstance(h, dict)}
+        revisiones[estado["id"]] = {"decisiones": [d for d in _lista(decisiones.get("decisiones")) if isinstance(d, dict)],
+                                    "hallazgos": hallazgos, "problemas": problemas,
+                                    "limites": [l for l in _lista(informe.get("limites")) if isinstance(l, str)]}
+    medidas = {}
+    for indice in indices:
+        for req in indice["requisitos"].values():
+            ruta = ROOT / "requisitos" / f"{req['requisito']}.requisito"
+            texto = ruta.read_text(encoding="utf-8") if ruta.is_file() else ""
+            m = re.search(r"(?m)^\s+medido_por\s+(.+?)\s*$", texto)
+            medidas[req["requisito"]] = [x.strip() for x in m[1].split(",")] if m else []
+    destino = ruta_resumen(salida)
+    raiz_relativa = os.path.relpath(ROOT, destino.parent).replace(os.sep, "/") + "/"
+    return resumen.generar(indices, registros, medidas, abiertos, revisiones, sin_registro,
+                           "" if raiz_relativa == "./" else raiz_relativa)
+
+
+def ruta_resumen(salida: Path | None = None) -> Path:
+    return ruta_segura(ROOT / salida if salida else ROOT / estructura.DIR / "resumen.md")
+
+
+def comando_resumen(verificar: bool, salida: Path | None) -> None:
+    destino, texto = ruta_resumen(salida), texto_resumen(salida)
+    if verificar:
+        actual = destino.read_text(encoding="utf-8") if destino.is_file() else None
+        if actual != texto:
+            print(f"{destino.relative_to(ROOT)} " + ("no existe" if actual is None else "quedó viejo o se editó a mano")
+                  + "; regeneralo con oracle-factory resumen.")
+            raise SystemExit(1)
+        print(f"{destino.relative_to(ROOT)} está al día.")
+        return
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    escribir_atomico(destino, texto.encode("utf-8"))
+    print(f"Resumen: {destino.relative_to(ROOT)}. Para leerlo con formato: glow -p {destino.relative_to(ROOT)}")
+
+
+def actualizar_resumen() -> None:
+    """Después de cerrar o archivar: si falla, lo cerrado ya está hecho y `resumen` lo repara."""
+    try:
+        escribir_atomico(ruta_resumen(), texto_resumen().encode("utf-8"))
+    except Exception as e:  # noqa: BLE001 — el cierre ya está hecho; cualquier falla del resumen sólo se avisa
+        print(f"Aviso: no pude actualizar el resumen ({type(e).__name__}: {e}); corré oracle-factory resumen.", file=sys.stderr)
+
+
 def archivar() -> None:
     """Archiva los cambios cerrados que todavía no lo están, en el orden en que se cerraron."""
     pendientes = []
@@ -952,6 +1040,7 @@ def archivar() -> None:
                 pendientes.append((cuando, carpeta.name))
     if not pendientes:
         print("No hay cambios cerrados sin archivar.")
+        actualizar_resumen()
         return
     for _, identificador in sorted(pendientes):
         carpeta, estado = leer(identificador)
@@ -960,6 +1049,7 @@ def archivar() -> None:
         marcar_archivado(estado, capacidad, spec, "migracion")
         guardar(carpeta, estado)
         print(f"Archivado {identificador} en {spec}.")
+    actualizar_resumen()
 
 
 def cerrar(identificador: str) -> None:
@@ -996,6 +1086,7 @@ def cerrar(identificador: str) -> None:
     marcar_archivado(estado, capacidad, spec_consolidada, forma)
     guardar(carpeta, estado)
     print(f"Spec fusionada en {spec_consolidada}.")
+    actualizar_resumen()
     print(p.stdout.strip() or "Tarea cerrada.")
     if cierre["tipo_actor"] == "agente":
         print(f"El cierre lo decidió el agente {cierre['actor']} en modo autónomo; las demás decisiones, como indica estado.")
@@ -1165,6 +1256,7 @@ lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 
 - `config.json` es la configuración del proyecto: `modo_por_defecto`, `tipos_obligatorios` y `capacidades` (alias de capacidades).
 - `cambios/<ID>/` guarda el estado del cambio: `factory.json`, `review.md` y `oracle-veredicto.txt`.
+- `resumen.md` es el estado actual en una lectura (`oracle-factory resumen`); se lee con `glow -p .factory/resumen.md`.
 - `specs/<capacidad>.json` es el índice de la spec consolidada en `openspec/specs/<capacidad>/`: de qué cambio y requisito de Oracle viene cada requisito vigente y cuáles fueron reemplazados.
 - `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
 - `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.
@@ -1564,6 +1656,9 @@ def main(argv: list[str] | None = None) -> int:
     grupo = q.add_mutually_exclusive_group()
     grupo.add_argument('--abiertos', action='store_true', help='sólo los cambios abiertos')
     grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
+    q = sub.add_parser('resumen', help='escribir .factory/resumen.md: lo vigente, los cambios abiertos, riesgos aceptados y límites')
+    q.add_argument('--verificar', action='store_true', help='no escribe; falla si el resumen falta o quedó viejo')
+    q.add_argument('--salida', type=Path, help='otra ruta dentro del proyecto (fuera de .factory/ cuenta en la huella)')
     sub.add_parser('archivar', help='fusionar en openspec/specs/ la spec de los cambios cerrados que todavía no lo están')
     q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
     q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
@@ -1618,6 +1713,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
+        elif args.comando == "resumen": comando_resumen(args.verificar, args.salida)
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)

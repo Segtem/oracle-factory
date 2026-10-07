@@ -1,0 +1,85 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "20d2e6afceef4c0bdb025312133203879a7c5a509d5121d47a1bef5a94dabb11",
+  "actor": "Brian Hollweg",
+  "motivo": "BORRADOR del agente, vale cuando Brian lo registra con revision --formato guiado. Se apoya en sus instrucciones «Da las vueltas que fanten», «puedes usar codex en gtp6-luna y agy1 y agy2», «Dale continuemos… seguimos con resumen» y «Listo» (reaceptó la spec y confirmó las medidas). Edítalo si alguna decisión no es la tuya.",
+  "decisiones": [
+    {
+      "hallazgo_id": "R2R-01",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad media. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "R2R-02",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad media. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "R2R-03",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad baja. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "R2S-01",
+      "estado": "corregido",
+      "motivo": "Codex gpt-6-luna (informe-r2-codex-92c0636.json), severidad baja. Corregido en 4e80af3; Codex lo confirmó en la vuelta siguiente.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D01",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D02",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D03",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D04",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D05",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D06",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    },
+    {
+      "hallazgo_id": "AGY1-D07",
+      "estado": "corregido",
+      "motivo": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta.",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-07T11:33:03+00:00"
+    }
+  ]
+}

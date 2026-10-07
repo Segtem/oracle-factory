@@ -1,0 +1,60 @@
+{
+  "resumen_caso": [
+    {
+      "requisito": "el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "caso": "r1_capacidad_archivada_y_cambio_abierto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "caso": "r1_requisito_reemplazado",
+      "codigo": 0
+    },
+    {
+      "requisito": "riesgos_aceptados_y_limites_declarados",
+      "caso": "r2_riesgo_vigente_e_historico",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_veredicto_es_el_del_cierre_y_lo_dice",
+      "caso": "r3_veredicto_del_cierre",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "caso": "r4_dos_ejecuciones_seguidas",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_sabe_cuando_quedo_viejo",
+      "caso": "r5_un_cambio_avanza_despues_de_generar",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_sabe_cuando_quedo_viejo",
+      "caso": "r5_editado_a_mano",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_actualiza_al_cerrar_y_al_archivar",
+      "caso": "r6_cerrar_y_archivar_lo_regeneran",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_actualiza_al_cerrar_y_al_archivar",
+      "caso": "r6_salida_en_otra_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "este_repositorio_tiene_su_resumen_al_dia",
+      "caso": "repositorio_al_dia",
+      "codigo": 0
+    }
+  ],
+  "resumen_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}

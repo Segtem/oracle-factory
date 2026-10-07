@@ -1,0 +1,110 @@
+{
+  "capacidad": "resumen",
+  "archivados": [
+    "20261007-003414-resumen-del"
+  ],
+  "requisitos": {
+    "el resumen muestra lo vigente y lo pendiente": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "cuerpo": [
+        "Tipo: funcional",
+        "`oracle-factory resumen` SHALL escribir `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, cambio de origen, medidas y veredicto), los cambios abiertos con su fase, su modo y lo que les falta para cerrar, las carpetas de cambio sin registro de Factory, y un enlace a la spec consolidada de cada capacidad (válido desde donde se escribe el resumen), sin copiar sus escenarios.",
+        "",
+        "#### Scenario: proyecto con capacidades archivadas y cambios abiertos",
+        "- GIVEN un proyecto con una capacidad archivada y un cambio abierto",
+        "- WHEN se ejecuta `resumen`",
+        "- THEN el resumen lista los requisitos vigentes de la capacidad con sus medidas y el cambio abierto con lo que le falta, y no contiene los escenarios",
+        "",
+        "#### Scenario: requisito reemplazado",
+        "- GIVEN un requisito que un cambio posterior reemplazó",
+        "- WHEN se ejecuta `resumen`",
+        "- THEN aparece sólo la versión vigente, con el cambio que la trajo"
+      ]
+    },
+    "riesgos aceptados y límites declarados": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El resumen SHALL listar los riesgos aceptados (decisiones de revisión con estado `riesgo_aceptado`, con su motivo y quién decidió) y los límites declarados en los informes de revisión de los cambios cerrados, separando los de cambios que todavía tienen requisitos vigentes de los históricos; un documento de revisión ausente o ilegible SHALL avisarse en el resumen en vez de omitirse.",
+        "",
+        "#### Scenario: riesgo de un cambio con requisitos reemplazados",
+        "- GIVEN un cambio cerrado con un riesgo aceptado cuyos requisitos fueron todos reemplazados",
+        "- WHEN se ejecuta `resumen`",
+        "- THEN el riesgo aparece entre los históricos, con su motivo y quién lo aceptó",
+        "",
+        "#### Scenario: informe de revisión ilegible",
+        "- GIVEN un cambio cerrado cuyo informe de revisión no se puede leer",
+        "- WHEN se ejecuta `resumen`",
+        "- THEN el resumen lo avisa junto a los riesgos y límites, en vez de mostrarlo como si no tuviera ninguno"
+      ]
+    },
+    "el veredicto es el del cierre y lo dice": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "cuerpo": [
+        "Tipo: funcional",
+        "Para cada requisito vigente, el resumen SHALL mostrar el veredicto registrado al cerrar el cambio del que viene, con ese cambio y su fecha, y SHALL decir que no es una corrida nueva; si el cambio no registró veredicto, SHALL decirlo en vez de inventarlo.",
+        "",
+        "#### Scenario: cambio cerrado con veredicto verde",
+        "- GIVEN un requisito vigente de un cambio cerrado con veredicto verde",
+        "- WHEN se ejecuta `resumen`",
+        "- THEN el requisito muestra el veredicto, el cambio y la fecha del cierre, y el resumen aclara que no es una corrida nueva"
+      ]
+    },
+    "el resumen es determinista y no cambia nada más": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "cuerpo": [
+        "Tipo: no funcional",
+        "Con los mismos registros y la misma huella del producto, `resumen` SHALL producir los mismos bytes, sin fecha ni commit, sin red ni modelos de lenguaje; SHALL NOT modificar ningún otro archivo, y `.factory/resumen.md` SHALL quedar fuera de la huella del producto.",
+        "",
+        "#### Scenario: dos ejecuciones seguidas",
+        "- GIVEN un resumen recién generado",
+        "- WHEN se ejecuta `resumen` otra vez sin cambios en los registros",
+        "- THEN el archivo queda byte a byte igual y ninguna revisión vence"
+      ]
+    },
+    "se sabe cuándo quedó viejo": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El resumen SHALL llevar la huella de lo que resume, y `resumen --verificar` SHALL terminar con código distinto de cero, sin escribir, cuando el resumen falta o no coincide con los registros actuales.",
+        "",
+        "#### Scenario: un cambio avanza después de generar el resumen",
+        "- GIVEN un resumen generado",
+        "- WHEN un cambio abierto avanza de fase y se ejecuta `resumen --verificar`",
+        "- THEN termina con código distinto de cero y no modifica el archivo"
+      ]
+    },
+    "se actualiza al cerrar y al archivar": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar",
+      "cuerpo": [
+        "Tipo: funcional",
+        "`cerrar` y `archivar` SHALL regenerar `.factory/resumen.md` después de fusionar la spec, y si la generación falla SHALL avisarlo sin deshacer ni impedir el cierre; además, `resumen --salida RUTA` SHALL escribirlo en la ruta indicada dentro del proyecto.",
+        "",
+        "#### Scenario: cerrar un cambio",
+        "- GIVEN un cambio listo para cerrar",
+        "- WHEN la persona lo cierra",
+        "- THEN `.factory/resumen.md` ya incluye sus requisitos como vigentes y `resumen --verificar` termina con éxito"
+      ]
+    },
+    "este repositorio tiene su resumen al día": {
+      "cambio": "20261007-003414-resumen-del",
+      "requisito": "resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia",
+      "cuerpo": [
+        "Tipo: no funcional",
+        "Este repositorio SHALL tener `.factory/resumen.md` al día, y un verificador SHALL comprobarlo junto con las pruebas del contrato.",
+        "",
+        "#### Scenario: verificación sobre este repositorio",
+        "- GIVEN este repositorio con su resumen generado",
+        "- WHEN se corre el verificador",
+        "- THEN `resumen --verificar` termina con éxito"
+      ]
+    }
+  },
+  "reemplazados": []
+}

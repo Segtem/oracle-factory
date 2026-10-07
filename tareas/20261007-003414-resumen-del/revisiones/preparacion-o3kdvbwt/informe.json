@@ -1,0 +1,138 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261007-003414-resumen-del",
+  "contexto": {
+    "head": "5e51b10aaac41584b7febaed896fece291a0f46b",
+    "archivos_sha256": "b4670c2fdc2a4d43634d50d62f8f25e172db7111e3dddfb286d2011139334874"
+  },
+  "documentos": {
+    "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+    "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "90ae08d128df596b0abfca0453da9920e6517a89abf6d73c042f3ad252256a8b"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "oracle_factory/resumen.py",
+    "oracle_factory/cli.py",
+    "tests/test_resumen.py",
+    "tests/test_archivo.py",
+    "tools/verify_resumen.py",
+    "docs/estructura.md",
+    ".factory/LEEME.md",
+    ".factory/resumen.md",
+    "catalogos/factory_resumen.corrida_completa.oracle",
+    "catalogos/factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas.oracle",
+    "catalogos/factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente.oracle",
+    "catalogos/factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice.oracle",
+    "catalogos/factory_resumen.este_repositorio_tiene_su_resumen_al_dia.oracle",
+    "catalogos/factory_resumen.riesgos_aceptados_y_limites_declarados.oracle",
+    "catalogos/factory_resumen.se_actualiza_al_cerrar_y_al_archivar.oracle",
+    "catalogos/factory_resumen.se_sabe_cuando_quedo_viejo.oracle",
+    "openspec/changes/20261007-003414-resumen-del/proposal.md",
+    "openspec/changes/20261007-003414-resumen-del/design.md",
+    "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Suite completa sobre el candidato 4e80af3",
+      "resultado": "cumple",
+      "evidencia": "225 pruebas OK (evidencia-4e80af3/suite.txt); Codex la reprodujo"
+    },
+    {
+      "descripcion": "Sensor de resumen: 13 casos exactos y el resumen de este repositorio al día",
+      "resultado": "cumple",
+      "evidencia": "evidencia-4e80af3/resultado.json (éxito) y oracle cobertura --con: los 7 requisitos «cumple»"
+    },
+    {
+      "descripcion": "Las pruebas nuevas de cada corrección fallan con el código anterior; mutaciones a mano detectadas",
+      "resultado": "cumple",
+      "evidencia": "8 del autor (una equivalente: la ruta de salida se valida dos veces); las de Codex en sus informes"
+    },
+    {
+      "descripcion": "Arneses de modos, vigencia, portabilidad, colaboración (9/9), revisión guiada, Docker entre máquinas (5/5) y release (wheel instalado y guía) sobre 92c0636",
+      "resultado": "cumple",
+      "evidencia": "corridos por el autor"
+    },
+    {
+      "descripcion": "Revisión independiente con otra familia de modelo: Codex gpt-6-luna en 3 vueltas (2 medias y 2 bajas, sin hallazgos en la última) y auditoría de documentación y de lectura del resumen de Agy1 (Gemini)",
+      "resultado": "cumple",
+      "evidencia": "revision-r2/informe-r2-codex-*.json validados con oracle-clue; auditoria-docs-agy1-54a2f61.md"
+    }
+  ],
+  "limites": [
+    "El autor es Claude; la revisión la hicieron Codex (GPT) y Agy (Gemini): independiente del autor y de su familia, pero no humana.",
+    "Sólo Linux.",
+    "El veredicto de cada requisito vigente es el del cierre de su cambio: no hay todavía una corrida de Oracle sobre todo el sistema (tarea hechos-varios).",
+    "Lo que les falta a los cambios abiertos depende de la huella del producto: un commit que vence una revisión deja el resumen viejo hasta regenerarlo.",
+    "Los cambios viejos sin medidas muestran sólo lo que reporta pendientes_actuales (revisión y veredicto), no que falta medir; se revisa en cli-humana."
+  ],
+  "hallazgos": [
+    {
+      "id": "R2R-01",
+      "descripcion": "Informes de revisión ausentes o inválidos se omiten como si no declararan riesgos ni límites",
+      "ubicacion": "oracle_factory/cli.py:944",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad media. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2R-02",
+      "descripcion": "Un error de estructura del informe puede hacer fallar cerrar o archivar después de persistir el cambio",
+      "ubicacion": "oracle_factory/cli.py:1002",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad media. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2R-03",
+      "descripcion": "Una barra invertida antes de `|` vuelve a abrir una celda de la tabla Markdown",
+      "ubicacion": "oracle_factory/resumen.py:33",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-54a2f61.json), severidad baja. Corregido en 9115b1f; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "R2S-01",
+      "descripcion": "Una revisión guiada sin ruta al informe o a decisiones se trata como vacía y no se advierte",
+      "ubicacion": "oracle_factory/cli.py:946",
+      "evidencia": "Codex gpt-6-luna (informe-r2-codex-92c0636.json), severidad baja. Corregido en 4e80af3; Codex lo confirmó en la vuelta siguiente."
+    },
+    {
+      "id": "AGY1-D01",
+      "descripcion": "la tabla de lo vigente no mostraba el requisito de Oracle que exigía la spec",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D02",
+      "descripcion": "con --salida los enlaces a las specs consolidadas quedaban rotos",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D03",
+      "descripcion": "design.md decía que las medidas salían del registro y salen de requisitos/<rid>.requisito",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D04",
+      "descripcion": "la constante CABECERA no se usaba",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D05",
+      "descripcion": "la spec decía «con los mismos registros» sin contar la huella del producto",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D06",
+      "descripcion": "docs/estructura.md no mencionaba el requisito de Oracle en la tabla",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    },
+    {
+      "id": "AGY1-D07",
+      "descripcion": "las carpetas de cambio sin registro no aparecían en el resumen",
+      "ubicacion": "resumen.py, cli.py, design.md, spec.md o docs/estructura.md (ver auditoría)",
+      "evidencia": "Auditoría de Agy1 (revision-r2/auditoria-docs-agy1-54a2f61.md). Corregido en 9115b1f (D05: spec ajustada y reaceptada por Brian); Codex lo confirmó en su segunda vuelta."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

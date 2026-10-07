@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-resumen-9d62e49",
+  "base": "92c0636aa10365328c438e450a531dad1921bea6",
+  "head": "9d62e4901feef820d793c46c6c46a1888d18da3d",
+  "diff_sha256": "936a0aed1cc6667d18d5d574f91fcc81dc89d4be9e9c2eb1e5394fcc96b492af",
+  "context_sha256": "4e79e1d909b50ebeccb9a61c6bb8c173c4333add0e6e254d860df514843d3e10",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "R2S-01 cierra: la ruta de decisiones ausente se informa y la prueba ampliada lo exige.",
+    "tools/verify_resumen.py: 225 pruebas, 13 casos de contrato; éxito, resumen del repositorio al día. Checkout sin cambios."
+  ]
+}
