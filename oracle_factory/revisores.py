@@ -69,10 +69,14 @@ def argumentos(comando: list[str], valores: dict) -> list[str]:
 
 
 def ejecutar_revisor(argv: list[str], cwd: Path, registro: Path, tope_minutos: int) -> str:
-    """'ok' o 'tope'. La salida del revisor va a `registro`; al vencer el tope se detiene todo su grupo de procesos."""
+    """'ok', 'tope' o 'no_inicia'. La salida del revisor va a `registro`; al vencer el tope se detiene todo su grupo de procesos."""
     with open(registro, 'wb') as salida:
-        proceso = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.DEVNULL, stdout=salida, stderr=subprocess.STDOUT,
-                                   start_new_session=True)
+        try:
+            proceso = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.DEVNULL, stdout=salida, stderr=subprocess.STDOUT,
+                                       start_new_session=True)
+        except OSError as e:
+            salida.write(f'no se pudo iniciar {argv[0]}: {e}\n'.encode())
+            return 'no_inicia'
         try:
             proceso.wait(timeout=tope_minutos * SEGUNDOS_POR_MINUTO)
             return 'ok'

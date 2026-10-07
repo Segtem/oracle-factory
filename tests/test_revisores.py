@@ -151,12 +151,15 @@ class Revisores(Base):
     # --- v4: lo que sale mal no se guarda como informe ------------------------------------------------------------------------
     def falla(self, modo, esperado):
         self.preparar(modo)
+        self.falla_ya_preparado({'fuera': 'rechazado', 'nada': 'sin_informe', 'dormir': 'tope'}[modo], esperado)
+
+    def falla_ya_preparado(self, resultado, esperado):
         with self.assertRaises(f.FactoryError) as error:
             self.pedir()
         self.assertIn(esperado, str(error.exception))
         self.assertEqual(list((self.carpeta() / 'revision').glob('*')), [])
         self.assertTrue(list((self.root / '.factory/local/revisores').glob('*/salida.log')))  # la salida queda
-        self.assertEqual(self.eventos()[-1]['resultado'], {'fuera': 'rechazado', 'nada': 'sin_informe', 'dormir': 'tope'}[modo])
+        self.assertEqual(self.eventos()[-1]['resultado'], resultado)
 
     def test_v4_informe_que_clue_rechaza(self):
         self.falla('fuera', 'Clue rechazó')
@@ -175,6 +178,13 @@ class Revisores(Base):
         pid = int(next((self.root / '.factory/local/revisores').glob('*/informe.json.pid')).read_text())
         with self.assertRaises(ProcessLookupError):
             os.kill(pid, 0)
+
+    def test_v4_revisor_que_no_inicia(self):
+        self.preparar()
+        config = json.loads((self.root / '.factory/config.json').read_text())
+        config['revisores']['prueba']['comando'] = [str(Path(self.tmp.name) / 'no-existe'), '{informe}']
+        (self.root / '.factory/config.json').write_text(json.dumps(config))
+        self.falla_ya_preparado('no_inicia', 'no se pudo iniciar')
 
     def test_v4_cambios_sin_commit(self):
         self.preparar()

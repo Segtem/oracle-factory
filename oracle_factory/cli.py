@@ -769,6 +769,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     hallazgos, motivo = 0, None
     if resultado == "tope":
         motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
+    elif resultado == "no_inicia":
+        motivo = f"no se pudo iniciar el revisor ({argv[0]})"
     elif not informe.is_file():
         resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
     else:

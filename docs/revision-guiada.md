@@ -45,7 +45,7 @@ oracle-factory pedir-revision ID_COMPLETO --a codex
 
 prepara el checkout y el paquete de Oracle Clue del candidato actual (en las rutas de `oracle-factory ruta`), arma el pedido desde la propuesta, la spec y las vueltas anteriores, lanza al revisor, espera hasta el tope, valida su informe con Clue y lo guarda —con el pedido usado— en la carpeta `revision/` del candidato. `--pedir "TEXTO"` agrega indicaciones; `--base REF` cambia la base del paquete. El pedido sale de una plantilla de Factory que cada proyecto puede reemplazar con `.factory/pedido-revision.md`.
 
-Si el revisor no deja informe, si Clue lo rechaza o si se pasa del tope, no se guarda nada en `revision/` y su salida queda en la carpeta de trabajo. Con cambios del producto sin commit, no se lanza. En ningún caso el revisor decide: `pedir-revision` sólo deja un evento con el revisor, el modelo y el resultado. Ejecuta el comando que dice la configuración del proyecto, como haría un `Makefile`: revisala antes de usarla en un repositorio ajeno.
+Si el revisor no se puede iniciar, no deja informe, Clue lo rechaza o se pasa del tope, no se guarda nada en `revision/` y su salida queda en la carpeta de trabajo. Con cambios del producto sin commit, no se lanza. En ningún caso el revisor decide: `pedir-revision` sólo deja un evento con el revisor, el modelo y el resultado. Ejecuta el comando que dice la configuración del proyecto, como haría un `Makefile`: revisala antes de usarla en un repositorio ajeno.
 
 `revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez.
 
