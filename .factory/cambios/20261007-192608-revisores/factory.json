@@ -423,6 +423,20 @@
         "factory_revisores.este_cambio_se_revisa_con_pedir_revision",
         "factory_revisores.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-07T21:30:57+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ddfbc36",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {

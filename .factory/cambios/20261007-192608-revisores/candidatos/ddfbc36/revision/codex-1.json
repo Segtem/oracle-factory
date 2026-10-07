@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/ddfbc36",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "ddfbc3673d1213a22b11f301e354a6f49eae9076",
+  "diff_sha256": "2e86a9eb7537c4d4941bb21dab9d7fd3cd572fdc5e480de48e43b8d4735c5438",
+  "context_sha256": "4bcb39d3ee88ad7f82e9fc98058884088ab5fb98c6cc4d3897b549dc30ffec28",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y contrasté las promesas con oracle_factory/cli.py, revisores.py, preparacion.py, la plantilla, configuración y pruebas relevantes.",
+    "Corrí `tests.test_revisores` con `/home/workstation/Dev/factory-rev/.venv/bin/python` y el PATH indicado: 15 pruebas pasaron. Desactivé la escritura de bytecode para mantener el checkout candidato sin modificaciones.",
+    "Revisé que las correcciones previas relevantes sigan presentes: terminación del grupo de procesos al superar el tope, validación Clue de informes históricos cuando Clue está disponible, y validación de nombres de revisor y marcadores.",
+    "No hice mutaciones manuales ni corrí la suite completa, `tools/verify_revisores.py` ni Oracle Factory/Oracle de extremo a extremo. No medí requisitos ni evalué la calidad de revisiones generadas.",
+    "No encontré defectos nuevos dentro del alcance inspeccionado; por eso `findings` está vacía."
+  ]
+}
