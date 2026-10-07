@@ -20,3 +20,5 @@ Relacionadas: `20261005-105254-cli-piloto` (la parte de `estado`), `20261005-112
 ### Nota (2026-10-07 11:47:31 UTC)
 
 Parte del objetivo «Factory se construye a sí misma» (2026-10-07).
+
+- 2026-10-07 (cambio 20261007-192608-revisores): confirmar medidas reescribe `requisitos/*.requisito`, que es producto; si se hace después de la última vuelta de revisión y de la evidencia, el candidato queda viejo y `revision-preparar` sale vacía. El orden que funciona es medir (propuesta y confirmación) → vueltas de revisión → evidencia → revision-preparar. `avanzar` debería guiar ese orden, y `revision-preparar` avisar cuando no hay candidato vigente en vez de dejar el informe vacío en silencio.
