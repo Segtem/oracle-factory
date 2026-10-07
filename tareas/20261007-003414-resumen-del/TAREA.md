@@ -79,3 +79,31 @@ Medidas de resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar: facto
 ### Nota (2026-10-07 01:24:38 UTC)
 
 Medidas de resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia: factory_resumen.este_repositorio_tiene_su_resumen_al_dia, factory_resumen.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 11:32:27 UTC)
+
+Medidas de resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:27 UTC)
+
+Medidas de resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:27 UTC)
+
+Medidas de resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:27 UTC)
+
+Medidas de resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:27 UTC)
+
+Medidas de resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:28 UTC)
+
+Medidas de resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 11:32:28 UTC)
+
+Medidas de resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia: Brian Hollweg (persona, confirmo, modo confirmacion).
