@@ -74,7 +74,7 @@ class Archivo(unittest.TestCase):
     def cambio_cerrado(self):
         """El ejemplo de notas recorrido de punta a punta y cerrado por una persona."""
         ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         rid = f.leer(ident)[1]['requisitos'][0]
@@ -83,12 +83,12 @@ class Archivo(unittest.TestCase):
         self.git('commit', '-qm', 'producto fixture')
         informe = self.root / 'tareas' / ident / 'revision.md'
         informe.write_text('Fixture de revisión; no es una revisión real.\n')
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with self.escribe('1'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
         hechos = self.root / 'tareas' / ident / 'hechos.json'
         subprocess.run([sys.executable, 'examples/notas/sensor.py', '--salida', hechos], cwd=self.root, check=True, capture_output=True)
         f.juzgar(ident, hechos)
-        with self.escribe(f'CERRAR {ident}'):
+        with self.escribe('1'):
             f.cerrar(ident)
         return ident
 
@@ -98,7 +98,7 @@ class Archivo(unittest.TestCase):
         carpeta, estado = f.leer(ident)
         (self.root / estado['spec']).write_text(spec, encoding='utf-8')
         (carpeta / 'proposal.md').write_text(f'# {titulo}\n\nFixture.\n', encoding='utf-8')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         return ident
@@ -150,7 +150,7 @@ class Archivo(unittest.TestCase):
         self.cambio_cerrado()
         repetido = self.cambio_importado('Otra vez', 'notas', (self.root / 'examples/notas/spec.md').read_text())
         antes = self.archivos()
-        with patch.object(f, 'pendientes_actuales', return_value=[]), self.escribe(f'CERRAR {repetido}'), \
+        with patch.object(f, 'pendientes_actuales', return_value=[]), self.escribe('1'), \
                 self.assertRaises(f.FactoryError) as error:
             f.cerrar(repetido)
         self.assertIn('titulo valido', str(error.exception))
@@ -299,7 +299,7 @@ class Archivo(unittest.TestCase):
             self.cambio_cerrado()  # el cierre no se completó
         self.assertFalse((self.root / 'openspec/specs/notas').exists())  # y nada quedó fusionado
         ident = f.leer(sorted(p.name for p in (self.root / 'openspec/changes').iterdir())[0])[1]['id']
-        with self.escribe(f'CERRAR {ident}'):
+        with self.escribe('1'):
             f.cerrar(ident)  # el reintento no choca con su propia fusión
         self.assertEqual(self.consolidada().count('### Requirement: titulo valido'), 1)
         self.assertEqual(f.leer(ident)[1]['fase'], 'cerrada')

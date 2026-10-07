@@ -49,6 +49,32 @@ Si el revisor no se puede iniciar, no deja informe, Clue lo rechaza o se pasa de
 
 `revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez.
 
+## Revisar paso a paso
+
+El camino corto para la persona es un solo comando:
+
+```bash
+oracle-factory revisar ID_COMPLETO
+```
+
+Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revisores, vueltas anteriores y límites. Después pregunta con menús:
+
+1. **Cada hallazgo abierto:** aceptar el riesgo, descartarlo o dejarlo abierto.
+2. **La decisión:** aprobar, sólo si no queda nada abierto y todo cumple, o pedir cambios.
+3. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
+
+Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo: `agente`, `armado` o `persona`.
+
+El agente puede dejar preparada su recomendación, que la persona ve como primera opción de motivo:
+
+```bash
+oracle-factory --agente claude-code revisar ID_COMPLETO --decision aprobar --motivo "Sin hallazgos en el candidato; acepto el límite X."
+```
+
+Las secciones que siguen describen los mismos documentos por dentro, para quien prefiera completarlos a mano.
+
+Las medidas que propuso el agente se confirman también con un menú: `oracle-factory medir ID_COMPLETO --confirmar` las lista por requisito, avisa si alguna conserva `sin_medir` y las confirma todas o de a una.
+
 ## Completar lo que realmente se revisó
 
 En `informe.json`, conserve `schema_version`, `cambio`, `contexto` y `documentos` generados. Si ya no corresponden al candidato, vuelva a preparar; no edite hashes para aparentar vigencia.
@@ -105,7 +131,7 @@ Para dejar documentados problemas o revisión incompleta:
 
 Si la persona acepta el informe completo, todas las comprobaciones declaran `cumple` y no quedan hallazgos abiertos, puede solicitar `--decision aprobar` en ese comando. En modo guiado no se pasa `--hallazgos-abiertos`: se calcula a partir de IDs y resoluciones.
 
-La terminal muestra commit y huella, responsable, alcance, límites, comprobaciones, hallazgos, resoluciones y pendientes. La persona confirma escribiendo `REGISTRAR REVISION ID_COMPLETO` cuando se lo pida. La lista vacía de hallazgos y la validación de JSON nunca sustituyen esa decisión.
+La terminal muestra commit y huella, responsable, alcance, límites, comprobaciones, hallazgos, resoluciones y pendientes. La persona confirma eligiendo «Registrar» en el menú que se le muestra. La lista vacía de hallazgos y la validación de JSON nunca sustituyen esa decisión.
 
 Después de confirmar, Factory vuelve a comprobar informe, decisiones, spec, contexto y registro de estado. Si alguno cambió, rechaza la operación para volver a revisar. Si todo corresponde, archiva copias nuevas bajo `tareas/ID_COMPLETO/revisiones/registro-…/`, guarda sus hashes y la decisión e invalida el juicio Oracle previo. No modifica las copias históricas. Esto no es un bloqueo general de otros editores o máquinas: use un escritor activo por cambio, según la [guía de colaboración](colaboracion.md).
 

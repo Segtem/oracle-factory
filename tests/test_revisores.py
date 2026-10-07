@@ -57,7 +57,7 @@ class Revisores(Base):
     def preparar(self, modo='ok'):
         """Un cambio con una base, un commit de producto encima y un revisor de prueba configurado."""
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {self.ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(self.ident)
         f.importar(self.ident)
         self.git('add', '.')

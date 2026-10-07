@@ -57,11 +57,11 @@ class Flujo(unittest.TestCase):
         return json.loads(f.ruta_registro(self.folder).read_text())
 
     def aprobar(self):
-        with patch('builtins.input', return_value=f'APROBAR ESPECIFICACION {ID}'):
+        with patch('builtins.input', return_value='1'):
             f.aprobar_spec(ID)
 
     def revisar(self):
-        with patch('builtins.input', return_value=f'REGISTRAR REVISION {ID}'):
+        with patch('builtins.input', return_value='1'):
             f.revisar(ID, self.report, 'humano', 'aprobar', 0)
 
     def oracle(self, juicio=None, coverage=None):
@@ -80,7 +80,7 @@ class Flujo(unittest.TestCase):
 
     def test_flujo_completo_y_cierre(self):
         self.verde()
-        with patch('builtins.input', return_value=f'CERRAR {ID}'), patch.object(f,'ejecutar', wraps=self.exec_real) as run:
+        with patch('builtins.input', return_value='1'), patch.object(f,'ejecutar', wraps=self.exec_real) as run:
             # Sólo se sustituye el cierre del tracker; las huellas usan Git real.
             def execute(args):
                 if args[:2] == ['tasks','close']: return subprocess.CompletedProcess(args,0,'Cerrada','')
@@ -176,7 +176,7 @@ class Flujo(unittest.TestCase):
         old=self.state()
         def respuesta(_):
             self.spec.write_text(self.spec.read_text()+'cambio simultáneo\n')
-            return f'APROBAR ESPECIFICACION {ID}'
+            return '1'
         with patch('builtins.input',side_effect=respuesta):
             with self.assertRaises(f.FactoryError): f.aprobar_spec(ID)
         self.assertEqual(self.state(),old)

@@ -137,7 +137,7 @@ class EleccionMedidas(ProyectoTemporal):
     def setUp(self):
         super().setUp()
         self.ident = self.crear()
-        with patch('builtins.input', return_value='APROBAR ESPECIFICACION ' + self.ident):
+        with patch('builtins.input', return_value='1'):
             f.aprobar_spec(self.ident)
         f.importar(self.ident)
         self.folder, state = f.leer(self.ident)

@@ -32,7 +32,7 @@ class IntegracionReal(unittest.TestCase):
                 folder,state=f.leer(ident); spec=root/state['spec']
                 (folder/'proposal.md').write_text('Rechazar corridas con errores.')
                 spec.write_text('### Requirement: codigo cero\nThe system SHALL reject nonzero codes.\n#### Scenario: error\n- WHEN codigo es uno\n- THEN rechazar\n')
-                with patch('builtins.input',return_value=f'APROBAR ESPECIFICACION {ident}'):
+                with patch('builtins.input',return_value='1'):
                     f.aprobar_spec(ident)
                 f.importar(ident)
                 rid=f.leer(ident)[1]['requisitos'][0]
@@ -44,7 +44,7 @@ class IntegracionReal(unittest.TestCase):
                 run('git','init','-q','-b','main'); run('git','add','.')
                 run('git','-c','user.name=Prueba','-c','user.email=prueba@example.invalid','commit','-qm','base revisada')
                 report=Path(temp)/'revision.md'; report.write_text('Informe ficticio para probar el protocolo, sin hallazgos.')
-                with patch('builtins.input',return_value=f'REGISTRAR REVISION {ident}'):
+                with patch('builtins.input',return_value='1'):
                     f.revisar(ident,report,'fixture de integración','aprobar',0)
                 facts=Path(temp)/'hechos.json'; facts.write_text(json.dumps({'otra':[{'x':1}]}))
                 with self.assertRaises(f.FactoryError): f.juzgar(ident,facts)
@@ -60,7 +60,7 @@ class IntegracionReal(unittest.TestCase):
                 facts.write_text(json.dumps({'corrida':[{'codigo':0}]}))
                 f.juzgar(ident,facts)
                 self.assertEqual(f.pendientes_actuales(folder,f.leer(ident)[1]),[])
-                with patch('builtins.input',return_value=f'CERRAR {ident}'):
+                with patch('builtins.input',return_value='1'):
                     f.cerrar(ident)
                 self.assertEqual(f.leer(ident)[1]['fase'],'cerrada')
                 self.assertIn('ESTADO: CERRADA',(root/'tareas'/ident/'TAREA.md').read_text())

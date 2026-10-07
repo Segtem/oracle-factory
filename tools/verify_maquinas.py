@@ -113,7 +113,7 @@ class Recorrido:
         self.ex(a, 'oracle-factory', 'init')
         salida = self.of(a, 'oracle-factory', 'nuevo', '--con-ejemplo', 'notas', 'Comprobar el título de una nota')
         self.ident = re.search(r'Cambio creado: (\S+)', salida)[1]
-        self.ex(a, 'oracle-factory', 'aprobar-spec', self.ident, tty=f'APROBAR ESPECIFICACION {self.ident}\n')
+        self.ex(a, 'oracle-factory', 'aprobar-spec', self.ident, tty='1\n')
         rid = re.search(r'(?m)^\+\s+(\S+)', self.of(a, 'oracle-factory', 'importar', self.ident))[1]
         self.ex(a, 'oracle-factory', 'medir', self.ident, '--requisito', rid, '--medida', 'notas.casos_ejecutados',
                 '--medida', 'notas.resultados', '--quitar-sin-medir', tty='')
@@ -121,7 +121,7 @@ class Recorrido:
         self.ex(a, 'sh', '-c', f'echo "Informe fixture de Ana" > tareas/{self.ident}/informe.md')
         self.ex(a, 'git', 'add', '.'); self.ex(a, 'git', 'commit', '-qm', 'producto de Ana')
         self.ex(a, 'oracle-factory', 'revision', self.ident, '--informe', f'tareas/{self.ident}/informe.md',
-                '--revisor', 'Ana', '--decision', 'aprobar', '--hallazgos-abiertos', '0', tty=f'REGISTRAR REVISION {self.ident}\n')
+                '--revisor', 'Ana', '--decision', 'aprobar', '--hallazgos-abiertos', '0', tty='1\n')
         self.ex(a, 'oracle-factory', 'juzgar', self.ident, '--con', f'tareas/{self.ident}/hechos.json')
         self.ex(a, 'git', 'add', '.'); self.ex(a, 'git', 'commit', '-qm', 'registros de Ana')
         self.ex(a, 'git', 'push', '-q', 'origin', 'main')
@@ -139,7 +139,7 @@ class Recorrido:
         privadas = self.ex(b, 'sh', '-c', f"grep -rIl '{a.home}' . --exclude-dir=.git | sort", ok=False).stdout.split()
         self.observar('M3', not privadas, 'archivos con la ruta de Ana: ' + (', '.join(privadas) or 'ninguno'))
         self.observar('M5', 'con el producto idéntico' in estado, 'aviso de HEAD distinto con producto idéntico')
-        cierre = self.ex(b, 'oracle-factory', 'cerrar', self.ident, tty=f'CERRAR {self.ident}\n', ok=False)
+        cierre = self.ex(b, 'oracle-factory', 'cerrar', self.ident, tty='1\n', ok=False)
         fase = self.of(b, 'python', '-c', f"import json; print(json.load(open('.factory/cambios/{self.ident}/factory.json'))['fase'])")
         quien = self.of(b, 'python', '-c', f"import json; print((json.load(open('.factory/cambios/{self.ident}/factory.json')).get('cierre') or {{}}).get('actor'))")
         self.observar('M4', cierre.returncode == 0 and fase == 'cerrada' and quien == 'Bruno',

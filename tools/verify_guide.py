@@ -62,8 +62,7 @@ def main():
                 if len(argv)>1 and argv[1]=='medir':
                     stdin=''  # decisión de persona: terminal, sin frase
                 if len(argv)>1 and argv[1] in ('aprobar-spec','revision','cerrar'):
-                    action={'aprobar-spec':'APROBAR ESPECIFICACION','revision':'REGISTRAR REVISION','cerrar':'CERRAR'}[argv[1]]
-                    stdin=f'{action} {identifiers["ID_DEL_CAMBIO"]}\n'
+                    stdin='1\n'  # la opción que confirma en el menú
                 result=(en_terminal(argv,cwd=cwd,env=env,entrada=stdin) if stdin is not None else
                         subprocess.run(argv,cwd=cwd,env=env,text=True,capture_output=True,timeout=90))
                 evidence.append({'command':line,'returncode':result.returncode,'stdout':result.stdout,'stderr':result.stderr})

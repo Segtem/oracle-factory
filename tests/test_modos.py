@@ -41,7 +41,7 @@ class Modos(unittest.TestCase):
 
     def crear(self, modo=None, tipo=None):
         if modo and modos.baja_intervencion(modos.POR_DEFECTO, modo):
-            with self.escribe(f'ELEGIR MODO {modo}'):
+            with self.escribe('1'):
                 ident = f.nuevo('Nota', con_ejemplo='notas', modo=modo)
         else:
             ident = f.nuevo('Nota', con_ejemplo='notas', modo=modo)
@@ -59,7 +59,7 @@ class Modos(unittest.TestCase):
         return (self.root / '.factory/cambios' / ident / 'factory.json').read_bytes()
 
     def aceptar(self, ident):
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
 
     def medir(self, ident):
@@ -96,7 +96,7 @@ class Modos(unittest.TestCase):
         with self.agente(), self.assertRaisesRegex(f.FactoryError, 'persona'):
             f.nuevo('Otra', 'otra', modo='autonomo')
         self.assertEqual(self.registro(ident), antes)
-        with self.escribe(f'CAMBIAR MODO {ident} autonomo'):
+        with self.escribe('1'):
             f.cambiar_modo(ident, 'autonomo')
         estado = self.estado(ident)
         self.assertEqual(estado['modo'], 'autonomo')
@@ -178,10 +178,10 @@ class Modos(unittest.TestCase):
         ident = self.crear('funcional')
         self.aceptar(ident)
         f.importar(ident)
-        with self.escribe('Las dos medidas cubren los tres escenarios'):
+        with patch('builtins.input', side_effect=['2', 'Las dos medidas cubren los tres escenarios']):
             self.medir(ident)
         hechos, informe = self.producto_y_hechos(ident)
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with patch('builtins.input', side_effect=['1', '1']):  # confirmar y el motivo armado
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
         f.juzgar(ident, hechos)
         with self.agente(), self.assertRaisesRegex(f.FactoryError, 'el cierre la toma una persona'):
@@ -192,7 +192,7 @@ class Modos(unittest.TestCase):
     def test_m4_confirmacion_por_pipe(self):
         ident = self.crear()
         antes = self.registro(ident)
-        with self.sin_terminal(), self.escribe(f'APROBAR ESPECIFICACION {ident}'), \
+        with self.sin_terminal(), self.escribe('1'), \
                 self.assertRaisesRegex(f.FactoryError, 'terminal interactiva'):
             f.aprobar_spec(ident)
         self.assertEqual(self.registro(ident), antes)
@@ -235,7 +235,7 @@ class Modos(unittest.TestCase):
         (self.root / '.factory/config.json').write_text(json.dumps({'modo_por_defecto': 'autonomo'}))
         with self.agente(), self.sin_terminal(), self.assertRaisesRegex(f.FactoryError, 'lo elige una persona'):
             f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe('ELEGIR MODO autonomo'):
+        with self.escribe('1'):
             ident = f.nuevo('Nota', con_ejemplo='notas')
         self.assertEqual(self.estado(ident)['modo'], 'autonomo')
 
@@ -268,11 +268,11 @@ class Modos(unittest.TestCase):
     def test_m3_funcional_persona_decide_con_motivo(self):
         ident = self.crear('funcional')
         antes = self.registro(ident)
-        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', '']), \
+        with patch('builtins.input', side_effect=['1', '2', '']), \
                 self.assertRaisesRegex(f.FactoryError, 'motivo'):
             f.aprobar_spec(ident)
         self.assertEqual(self.registro(ident), antes)
-        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', 'Es lo que pidió el equipo']):
+        with patch('builtins.input', side_effect=['1', '2', 'Es lo que pidió el equipo']):
             f.aprobar_spec(ident)
         self.assertEqual(self.estado(ident)['spec_aprobada']['motivo'], 'Es lo que pidió el equipo')
 
@@ -306,18 +306,18 @@ class Modos(unittest.TestCase):
         ident = self.crear()
         with self.agente():
             f.aprobar_spec(ident)
-        with self.escribe(f'CAMBIAR MODO {ident} autonomo'):
+        with self.escribe('1'):
             f.cambiar_modo(ident, 'autonomo')
         with self.agente(), self.sin_terminal():
             f.aprobar_spec(ident)
         self.assertNotIn('spec', self.estado(ident)['propuestas'])
-        with self.escribe(f'CAMBIAR MODO {ident} confirmacion'):
+        with self.escribe('1'):
             f.cambiar_modo(ident, 'confirmacion')  # la spec del agente pasa a propuesta
         self.aceptar(ident)
         f.importar(ident)
         with self.agente():
             rid = self.medir(ident)
-        with self.escribe(f'CAMBIAR MODO {ident} autonomo'):
+        with self.escribe('1'):
             f.cambiar_modo(ident, 'autonomo')
         with self.agente(), self.sin_terminal():
             self.medir(ident)  # mismas medidas: ahora decide y retira su propuesta
@@ -405,10 +405,10 @@ class Modos(unittest.TestCase):
         ident = self.crear()
         with self.agente():
             f.aprobar_spec(ident)  # en confirmacion: propuesta
-        with self.escribe(f'CAMBIAR MODO {ident} funcional'):
+        with self.escribe('1'):
             f.cambiar_modo(ident, 'funcional')
         self.assertNotIn('spec', self.estado(ident)['propuestas'])
-        with patch('builtins.input', side_effect=[f'APROBAR ESPECIFICACION {ident}', 'Revisé la promesa']):
+        with patch('builtins.input', side_effect=['1', '2', 'Revisé la promesa']):
             f.aprobar_spec(ident)
         spec = self.estado(ident)['spec_aprobada']
         self.assertEqual((spec['forma'], spec['motivo']), ('decidio', 'Revisé la promesa'))
