@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/bdab529",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "bdab529cdac8fc9946e186f255d81c6890864b02",
+  "diff_sha256": "9d70fe795877d1284ae58ba45c8e135891eb6b397ba2888a68cae63aa8a0ab34",
+  "context_sha256": "b2367de28e2ffba652bab2f9c70bc3132e51a22d50bce7b10437c69a4ecdffc3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "El verificador acepta archivos vacíos como prueba de una revisión válida",
+      "explanation": "La comprobación del requisito propio solo busca un *.json con un .pedido.md del mismo nombre en la carpeta del candidato vigente. No valida el JSON con oracle-clue, no comprueba esquema/estado/paquete ni evidencia que Factory haya ejecutado pedir-revision. Por eso el verificador puede emitir el caso revisado_con_pedir_revision con código 0 y contar la corrida como completa aunque no exista un informe de revisión válido.",
+      "location": {
+        "file": "tools/verify_revisores.py",
+        "start_line": 49,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "En la carpeta revision del candidato vigente, poner dos archivos vacíos llamados arbitrariamente informe.json e informe.pedido.md, sin usar pedir-revision ni generar un paquete/informe válido, y correr tools/verify_revisores.py.",
+      "evidence": "El predicado es únicamente p.with_suffix(\".pedido.md\").is_file(); el resultado de este_repositorio se convierte directamente en codigo 0 en la fila revisado_con_pedir_revision (líneas 69-74). Una mutación que sustituya el contenido del par por bytes vacíos no cambia el resultado del predicado. La medida catalogada depende de ese código para este requisito.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision",
+      "status": "pendiente",
+      "verification": "Inspección del verificador y de catalogos/factory_revisores.este_cambio_se_revisa_con_pedir_revision; el verificador integral ejecutó 258 pruebas y marcó incompleta la corrida únicamente porque el checkout candidato de solo lectura aún no contiene su propio artefacto de revisión. No edité el checkout."
+    },
+    {
+      "id": "R-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "revision-preparar incorpora informes históricos sin verificar su candidato ni validez",
+      "explanation": "Para las vueltas anteriores se acepta cualquier JSON cuyo schema_version diga oracle-clue.review/v1. No se comprueba que su campo head pertenezca al commit guardado en el nombre de la carpeta ni se valida contra su paquete con oracle-clue. El informe resultante presenta sus IDs/severidades como una comprobación anterior (incluso como falla), así que un archivo copiado, alterado o inválido puede atribuir hallazgos falsos a un candidato y contaminar el material que revisa la persona. El flujo sí valida los informes del candidato vigente en material_del_candidato, pero omite esas comprobaciones para el historial.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 637,
+        "end_line": 641,
+        "side": "head"
+      },
+      "trigger": "Dejar bajo revision/ de un candidato ancestro un JSON con schema_version oracle-clue.review/v1 pero con head de otro commit o un finding inventado; luego ejecutar revision-preparar sobre el candidato vigente descendiente.",
+      "evidence": "El filtro de líneas 640-641 solo compara schema_version y agrega el contenido directamente a vueltas; preparacion.vueltas_anteriores transforma cada finding en texto y resultado falla sin validar el paquete. En contraste, material_del_candidato comprueba head y corre oracle-clue validar para los informes vigentes. La prueba test_v6_tres_vueltas usa únicamente informes honestos creados por pedir-revision y no cubre informes históricos no válidos.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+      "status": "pendiente",
+      "verification": "Inspección del flujo de revision-preparar, material_del_candidato y la prueba test_v6_tres_vueltas. La aceptación se puede mutar eliminando la validación de historial o agregando un JSON con esa sola etiqueta de esquema; el filtro actual lo incorpora. No modifiqué el checkout ni corrí Oracle de extremo a extremo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta y spec completas, el diff del paquete (33 archivos) y las vueltas anteriores; verifiqué que el defecto de timeout reportado en 22bf184 quedó corregido: ahora se envía SIGKILL al grupo aunque el líder ya haya salido, y la prueba de descendiente lo cubre.",
+    "Corrí con el entorno indicado: python -m unittest tests.test_revisores; 12 pruebas, OK.",
+    "Corrí tools/verify_revisores.py sobre el checkout: 258 pruebas, 12 escenarios de contrato exactos y sin omisiones/fallas; el resultado general fue False porque el checkout de solo lectura no contiene todavía carpeta de candidato vigente para este mismo commit (el verificador exige que el auto-informe ya esté persistido).",
+    "No corrí Oracle Factory/Oracle de extremo a extremo ni medí requisitos; no muté el checkout. Revisé el verificador y docs por lectura, y guardé el diff/contexto completos y la salida extensa de pruebas/verificador en esta carpeta."
+  ]
+}

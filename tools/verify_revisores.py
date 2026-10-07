@@ -2,6 +2,7 @@
 from collections import Counter
 from importlib import metadata
 import io
+import json
 import argparse
 from pathlib import Path
 import subprocess
@@ -19,7 +20,7 @@ CONTRACTS = {
     'lo_que_sale_mal_no_se_guarda_como_informe': ['v4_informe_que_clue_rechaza', 'v4_sin_informe', 'v4_tope_superado', 'v4_tope_detiene_a_los_hijos',
                                                   'v4_cambios_sin_commit'],
     'el_revisor_no_decide': ['v5_despues_de_una_revision_exitosa'],
-    'las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez': ['v6_tres_vueltas'],
+    'las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez': ['v6_tres_vueltas', 'v6_vuelta_de_otro_candidato'],
     'este_cambio_se_revisa_con_pedir_revision': [],
 }
 REPO = 'este_cambio_se_revisa_con_pedir_revision'  # lo comprueba este verificador sobre el propio cambio
@@ -47,8 +48,20 @@ def este_repositorio():
         if sha is None:
             return ['este cambio no tiene una carpeta de candidato vigente']
         carpeta = estructura.ruta_canonica(ROOT, CAMBIO, 'revision', sha)
-        informes = [p for p in carpeta.glob('*.json') if p.with_suffix('.pedido.md').is_file()]
-    return [] if informes else [f'el candidato {sha} no tiene un informe de revisor con su pedido']
+        eventos = cli.leer(CAMBIO)[1].get('eventos') or []
+        pedidas = {(e.get('candidato'), e.get('resultado')) for e in eventos if e.get('accion') == 'revision_pedida'}
+        informes = []
+        for p in carpeta.glob('*.json'):
+            try:
+                datos = json.loads(p.read_text(encoding='utf-8'))
+            except ValueError:
+                continue
+            if (p.with_suffix('.pedido.md').is_file() and isinstance(datos, dict) and datos.get('schema_version') == 'oracle-clue.review/v1'
+                    and str(datos.get('head') or '').startswith(sha)):
+                informes.append(p)
+    if (sha, 'ok') not in pedidas:
+        return [f'no hay un pedir-revision exitoso registrado para el candidato {sha}']
+    return [] if informes else [f'el candidato {sha} no tiene un informe review/v1 suyo con su pedido']
 
 
 def main(argv=None):

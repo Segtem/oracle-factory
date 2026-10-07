@@ -202,6 +202,27 @@ class Revisores(Base):
         self.assertTrue(all('T-01' in v['descripcion'] for v in vueltas))
         self.assertEqual(json.loads(decisiones.read_text())['decisiones'], [])  # nada para volver a decidir
 
+    def test_v6_vuelta_de_otro_candidato(self):
+        self.preparar('hallazgo')
+        destino = self.pedir()
+        datos = json.loads(destino.read_text())
+        datos['head'] = self.base  # un informe que dice ser de otro commit
+        destino.write_text(json.dumps(datos))
+        self.git('add', '.')
+        self.git('commit', '-qm', 'informe')
+        notas = self.root / 'examples/notas/notas.py'
+        notas.write_text(notas.read_text() + '# corrección\n')
+        self.git('add', '.')
+        self.git('commit', '-qm', 'corrección')
+        self.configurar('ok')
+        self.pedir()
+        error = io.StringIO()
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(error):
+            informe, _ = f.preparar_revision(self.ident)
+        comprobaciones = json.loads(informe.read_text())['comprobaciones'] or []
+        self.assertFalse([c for c in comprobaciones if c['descripcion'].startswith('Vuelta anterior')])
+        self.assertIn('es de otro candidato', error.getvalue())
+
 
 if __name__ == '__main__':
     unittest.main()
