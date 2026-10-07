@@ -35,3 +35,23 @@ Medidas de decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_
 ### Nota (2026-10-07 22:57:25 UTC)
 
 Medidas de decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona: factory_decisiones.sin_terminal_no_hay_decision_de_persona, factory_decisiones.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-07 23:00:08 UTC)
+
+Medidas de decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 23:00:08 UTC)
+
+Medidas de decisiones_c59754a250f5b3593.el_motivo_se_elige: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 23:00:08 UTC)
+
+Medidas de decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 23:00:08 UTC)
+
+Medidas de decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-07 23:00:08 UTC)
+
+Medidas de decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
