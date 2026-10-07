@@ -69,6 +69,7 @@ git worktree add --detach (oracle-factory ruta ID checkout) HEAD
 | `oracle-factory donde ID` | Lista cada artefacto del cambio con su ruta, si existe y qué gate respalda |
 | `oracle-factory donde ID --candidato SHA` | Lo mismo, limitado a ese candidato |
 | `oracle-factory buscar TEXTO` | Busca en propuestas, specs, requisitos, tareas y registros; muestra ruta, línea y cambio |
+| `oracle-factory resumen` | Escribe `.factory/resumen.md`: el estado actual en una lectura; `--verificar` dice si quedó viejo |
 | `oracle-factory listar --abiertos` | Los cambios abiertos (también `--cerrados` y `--fase FASE`) |
 
 Todos son de sólo lectura. Un artefacto que el registro menciona pero ya no existe aparece como **AUSENTE**, no se oculta; un valor del registro que no es una ruta de texto aparece como **no válido**. `buscar` compara sin distinguir mayúsculas ni formas equivalentes (`Straße` y `STRASSE`), y avisa cuántos archivos omitió por superar 1 MB.
@@ -101,11 +102,12 @@ Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`
 
 ## El estado actual en una lectura
 
-`oracle-factory resumen` escribe `.factory/resumen.md`: los requisitos vigentes de cada capacidad (con su tipo, sus medidas, el cambio del que vienen y el veredicto con que se cerró ese cambio), los cambios abiertos con lo que les falta, los riesgos que aceptó una persona y los límites declarados en las revisiones, separando los de cambios que todavía tienen requisitos vigentes de los históricos. No copia los escenarios: enlaza la spec consolidada de cada capacidad.
+`oracle-factory resumen` escribe `.factory/resumen.md`: los requisitos vigentes de cada capacidad (con su tipo, su requisito de Oracle, sus medidas, el cambio del que vienen y el veredicto con que se cerró ese cambio), los cambios abiertos con lo que les falta (y las carpetas de cambio sin registro), los riesgos que aceptó una persona y los límites declarados en las revisiones, separando los de cambios que todavía tienen requisitos vigentes de los históricos. No copia los escenarios: enlaza la spec consolidada de cada capacidad.
 
 - **Se lee con formato** con `glow -p .factory/resumen.md`.
 - **El veredicto es el del cierre**, con su fecha; no es una corrida nueva de Oracle.
 - **Se regenera solo** al cerrar y al archivar. `oracle-factory resumen --verificar` dice, sin escribir, si falta o quedó viejo (por ejemplo, porque un cambio abierto avanzó o un commit venció una revisión): las mismas entradas dan siempre los mismos bytes, así que verificar es regenerar y comparar.
+- **Una revisión ilegible se avisa:** si el informe o las decisiones de un cambio cerrado faltan o no se pueden leer, el resumen lo marca con ⚠ en vez de mostrarlo sin riesgos ni límites. Si el resumen no se puede generar al cerrar, el cierre igual se completa y se avisa.
 - **No vence ninguna revisión:** vive en `.factory/`, fuera de la huella. `--salida RUTA` lo escribe en otro lugar del proyecto (por ejemplo `RESUMEN.md`); fuera de `.factory/`, ese archivo sí cuenta en la huella.
 
 ## Migrar un proyecto anterior (fase 2)

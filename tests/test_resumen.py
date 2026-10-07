@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_archivo as _archivo  # noqa: E402
@@ -23,6 +24,17 @@ for _nombre in AYUDANTES:  # los ayudantes del fixture de archivo, sin heredar s
 
 
 class Resumen(Base):
+    def seccion(self, titulo, sub=None):
+        """El texto de una sección «## titulo» (y, si se pide, de su subsección «### sub»), o '' si no está."""
+        partes = self.texto().split(f'## {titulo}\n', 1)
+        if len(partes) < 2:
+            return ''
+        texto = partes[1].split('\n## ', 1)[0]
+        if sub is None:
+            return texto
+        partes = texto.split(f'### {sub}\n', 1)
+        return partes[1].split('\n### ', 1)[0] if len(partes) == 2 else ''
+
     def texto(self):
         return (self.root / '.factory/resumen.md').read_text(encoding='utf-8')
 
@@ -57,7 +69,7 @@ class Resumen(Base):
             f.comando_resumen(False, None)
         texto = self.texto()
         rid = f.leer(cerrado)[1]['requisitos'][0]
-        self.assertIn('| titulo valido | funcional | notas.casos_ejecutados, notas.resultados |', texto)
+        self.assertIn(f'| titulo valido | funcional | `{rid}` | notas.casos_ejecutados, notas.resultados |', texto)
         self.assertIn(cerrado, texto)
         self.assertIn(f'### {abierto} — Títulos largos', texto)
         self.assertIn('revisión humana aprobada', texto)  # lo que le falta
@@ -82,21 +94,43 @@ class Resumen(Base):
         self.con_riesgo(cerrado)
         with contextlib.redirect_stdout(io.StringIO()):
             f.comando_resumen(False, None)
-        riesgos = self.texto().split('## Riesgos aceptados')[1].split('## Límites declarados')[0]
-        vigentes, historicos = riesgos.split('### Históricos')
+        vigentes = self.seccion('Riesgos aceptados', 'De cambios con requisitos vigentes')
         self.assertIn('**H-01**', vigentes)
         self.assertIn('Aceptado por Persona fixture: Lo acepto por ahora.', vigentes)
-        self.assertNotIn('H-99', riesgos)  # un hallazgo corregido no es un riesgo aceptado
+        self.assertNotIn('H-99', self.seccion('Riesgos aceptados'))  # un hallazgo corregido no es un riesgo aceptado
+        self.assertEqual(self.seccion('Riesgos aceptados', 'Históricos'), '')  # una subsección vacía no se muestra
         modifica = self.cambio_importado('Títulos largos', 'notas', MODIFICA)  # reemplaza el único requisito del cerrado
         self.marcar_cerrado(modifica, '2099-01-01T00:00:00+00:00')
         with contextlib.redirect_stdout(io.StringIO()):
             f.archivar()
-        riesgos = self.texto().split('## Riesgos aceptados')[1].split('## Límites declarados')[0]
-        vigentes, historicos = riesgos.split('### Históricos')
-        self.assertNotIn('**H-01**', vigentes)
-        self.assertIn('**H-01**', historicos)
-        limites = self.texto().split('## Límites declarados')[1].split('### Históricos')[1]
-        self.assertIn(f'({cerrado}) Un límite de prueba.', limites)
+        self.assertNotIn('**H-01**', self.seccion('Riesgos aceptados', 'De cambios con requisitos vigentes'))
+        self.assertIn('**H-01**', self.seccion('Riesgos aceptados', 'Históricos'))
+        self.assertIn(f'({cerrado}) Un límite de prueba.', self.seccion('Límites declarados', 'Históricos'))
+
+    def test_r2_una_revision_ilegible_se_avisa_y_no_se_omite(self):
+        cerrado = self.cambio_cerrado()
+        self.con_riesgo(cerrado)
+        informe = self.root / 'tareas' / cerrado / 'revisiones' / 'registro-fixture' / 'informe.json'
+        informe.write_text('{ esto no es JSON')
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.comando_resumen(False, None)
+        self.assertIn(f'⚠ ({cerrado}) no se pudo leer el informe de la revisión', self.seccion('Límites declarados'))
+        informe.write_text(json.dumps({'hallazgos': 1, 'limites': 'no es una lista'}))  # JSON válido, forma rara
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.comando_resumen(False, None)  # no se rompe
+
+    def test_r1_carpetas_sin_registro_y_medidas_agrupadas(self):
+        self.cambio_cerrado()
+        (self.root / 'openspec/changes/20250101-000000-viejo').mkdir()
+        abierto = self.cambio_importado('Títulos largos', 'notas', MODIFICA)
+        carpeta, estado = f.leer(abierto)
+        estado['medidas_pendientes'] = {f'r{i}': {'actor': 'agente-x', 'tipo_actor': 'agente'} for i in range(3)}
+        f.guardar(carpeta, estado)
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.comando_resumen(False, None)
+        abiertos = self.seccion('Cambios abiertos')
+        self.assertIn('`20250101-000000-viejo`', abiertos)
+        self.assertIn('medidas de 3 requisitos: propuestas por agente-x, sin confirmar por una persona', abiertos)
 
     # --- r3: el veredicto es el del cierre y lo dice --------------------------------------------------------------------
     def test_r3_veredicto_del_cierre(self):
@@ -157,11 +191,23 @@ class Resumen(Base):
         self.assertIn(modifica, self.texto().split('## Cambios abiertos')[0])
         self.assertEqual(self.verificar(None), 0)
 
+    def test_r6_un_fallo_del_resumen_no_rompe_el_cierre(self):
+        with patch.object(f, 'texto_resumen', side_effect=TypeError('forma rara')):
+            cerrado = self.cambio_cerrado()  # no lanza
+        self.assertEqual(f.leer(cerrado)[1]['fase'], 'cerrada')
+        self.assertEqual(self.verificar(None), 1)  # quedó sin resumen, y se nota
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.comando_resumen(False, None)
+        self.assertEqual(self.verificar(None), 0)
+
     def test_r6_salida_en_otra_ruta(self):
         self.cambio_cerrado()
         with contextlib.redirect_stdout(io.StringIO()):
             f.comando_resumen(False, Path('RESUMEN.md'))
-        self.assertEqual((self.root / 'RESUMEN.md').read_text(), self.texto())
+        raiz = (self.root / 'RESUMEN.md').read_text()
+        self.assertIn('](openspec/specs/notas/spec.md)', raiz)  # los enlaces se calculan desde donde se escribe
+        self.assertIn('](../openspec/specs/notas/spec.md)', self.texto())
+        self.assertEqual(raiz.split('\n', 1)[1].replace('](openspec/', '](../openspec/'), self.texto().split('\n', 1)[1])
         with self.assertRaises(f.FactoryError):
             f.comando_resumen(False, Path('../afuera.md'))
 

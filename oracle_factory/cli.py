@@ -941,22 +941,34 @@ def situacion_requisitos(estado: dict) -> list[tuple[str, str, str | None]]:
     return [(rid, *archivo.situacion(indice, rid)) for rid in estado.get("requisitos", [])]
 
 
-def _json_seguro(relativa) -> dict:
+def _json_de_revision(relativa, nombre: str) -> tuple[dict, str | None]:
+    """(datos, problema): un documento ausente, inválido o fuera del proyecto se informa, no se toma por vacío."""
+    if not relativa:
+        return {}, None
     try:
         datos = json.loads(ruta_segura(ROOT / relativa).read_text(encoding="utf-8"))
-    except (OSError, ValueError, TypeError, FactoryError):
-        return {}
-    return datos if isinstance(datos, dict) else {}
+    except (OSError, ValueError, TypeError, FactoryError) as e:
+        return {}, f"no se pudo leer el {nombre} de la revisión ({relativa}): {type(e).__name__}"
+    if not isinstance(datos, dict):
+        return {}, f"el {nombre} de la revisión ({relativa}) no es un objeto JSON"
+    return datos, None
 
 
-def texto_resumen() -> str:
+def _lista(valor) -> list:
+    return valor if isinstance(valor, list) else []
+
+
+def texto_resumen(salida: Path | None = None) -> str:
     """Junta los datos de los registros y genera el resumen (sin escribir nada)."""
     carpeta_specs = ROOT / estructura.DIR / "specs"
     indices = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(carpeta_specs.glob("*.json"))] \
         if carpeta_specs.is_dir() else []
-    registros, abiertos, revisiones = {}, [], {}
+    registros, abiertos, revisiones, sin_registro = {}, [], {}, []
     for carpeta in sorted(CHANGES.iterdir()) if CHANGES.is_dir() else []:
-        if not ID_RE.fullmatch(carpeta.name) or not ruta_registro(carpeta).is_file():
+        if not ID_RE.fullmatch(carpeta.name):
+            continue
+        if not ruta_registro(carpeta).is_file():
+            sin_registro.append(carpeta.name)
             continue
         _, estado = leer(carpeta.name)
         registros[estado["id"]] = estado
@@ -965,11 +977,17 @@ def texto_resumen() -> str:
                              "modo": modo_de(estado), "capacidad": capacidad_destino(estado.get("capacidad", "?")),
                              "pendientes": pendientes_actuales(carpeta, estado)})
             continue
-        rev = estado.get("revision") or {}
-        informe, decisiones = _json_seguro(rev.get("informe")), _json_seguro(rev.get("decisiones"))
-        hallazgos = {h.get("id"): h for h in informe.get("hallazgos") or [] if isinstance(h, dict)}
-        revisiones[estado["id"]] = {"decisiones": [d for d in decisiones.get("decisiones") or [] if isinstance(d, dict)],
-                                    "hallazgos": hallazgos, "limites": [l for l in informe.get("limites") or [] if isinstance(l, str)]}
+        rev = estado.get("revision") if isinstance(estado.get("revision"), dict) else {}
+        problemas = []
+        informe, decisiones = {}, {}
+        if rev.get("formato") == "guiado":  # la revisión libre (review.md) no declara riesgos ni límites con estructura
+            informe, p1 = _json_de_revision(rev.get("informe"), "informe")
+            decisiones, p2 = _json_de_revision(rev.get("decisiones"), "documento de decisiones")
+            problemas = [p for p in (p1, p2) if p]
+        hallazgos = {h.get("id"): h for h in _lista(informe.get("hallazgos")) if isinstance(h, dict)}
+        revisiones[estado["id"]] = {"decisiones": [d for d in _lista(decisiones.get("decisiones")) if isinstance(d, dict)],
+                                    "hallazgos": hallazgos, "problemas": problemas,
+                                    "limites": [l for l in _lista(informe.get("limites")) if isinstance(l, str)]}
     medidas = {}
     for indice in indices:
         for req in indice["requisitos"].values():
@@ -977,7 +995,10 @@ def texto_resumen() -> str:
             texto = ruta.read_text(encoding="utf-8") if ruta.is_file() else ""
             m = re.search(r"(?m)^\s+medido_por\s+(.+?)\s*$", texto)
             medidas[req["requisito"]] = [x.strip() for x in m[1].split(",")] if m else []
-    return resumen.generar(indices, registros, medidas, abiertos, revisiones)
+    destino = ruta_resumen(salida)
+    raiz_relativa = os.path.relpath(ROOT, destino.parent).replace(os.sep, "/") + "/"
+    return resumen.generar(indices, registros, medidas, abiertos, revisiones, sin_registro,
+                           "" if raiz_relativa == "./" else raiz_relativa)
 
 
 def ruta_resumen(salida: Path | None = None) -> Path:
@@ -985,7 +1006,7 @@ def ruta_resumen(salida: Path | None = None) -> Path:
 
 
 def comando_resumen(verificar: bool, salida: Path | None) -> None:
-    destino, texto = ruta_resumen(salida), texto_resumen()
+    destino, texto = ruta_resumen(salida), texto_resumen(salida)
     if verificar:
         actual = destino.read_text(encoding="utf-8") if destino.is_file() else None
         if actual != texto:
@@ -1003,8 +1024,8 @@ def actualizar_resumen() -> None:
     """Después de cerrar o archivar: si falla, lo cerrado ya está hecho y `resumen` lo repara."""
     try:
         escribir_atomico(ruta_resumen(), texto_resumen().encode("utf-8"))
-    except (OSError, FactoryError, ValueError, KeyError) as e:
-        print(f"Aviso: no pude actualizar el resumen ({e}); corré oracle-factory resumen.", file=sys.stderr)
+    except Exception as e:  # noqa: BLE001 — el cierre ya está hecho; cualquier falla del resumen sólo se avisa
+        print(f"Aviso: no pude actualizar el resumen ({type(e).__name__}: {e}); corré oracle-factory resumen.", file=sys.stderr)
 
 
 def archivar() -> None:

@@ -13,12 +13,14 @@ sys.path.insert(0, str(ROOT))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 
 CONTRACTS = {
-    'el_resumen_muestra_lo_vigente_y_lo_pendiente': ['r1_capacidad_archivada_y_cambio_abierto', 'r1_requisito_reemplazado'],
-    'riesgos_aceptados_y_limites_declarados': ['r2_riesgo_vigente_e_historico'],
+    'el_resumen_muestra_lo_vigente_y_lo_pendiente': ['r1_capacidad_archivada_y_cambio_abierto', 'r1_requisito_reemplazado',
+                                                     'r1_carpetas_sin_registro_y_medidas_agrupadas'],
+    'riesgos_aceptados_y_limites_declarados': ['r2_riesgo_vigente_e_historico', 'r2_una_revision_ilegible_se_avisa_y_no_se_omite'],
     'el_veredicto_es_el_del_cierre_y_lo_dice': ['r3_veredicto_del_cierre'],
     'el_resumen_es_determinista_y_no_cambia_nada_mas': ['r4_dos_ejecuciones_seguidas'],
     'se_sabe_cuando_quedo_viejo': ['r5_un_cambio_avanza_despues_de_generar', 'r5_editado_a_mano'],
-    'se_actualiza_al_cerrar_y_al_archivar': ['r6_cerrar_y_archivar_lo_regeneran', 'r6_salida_en_otra_ruta'],
+    'se_actualiza_al_cerrar_y_al_archivar': ['r6_cerrar_y_archivar_lo_regeneran', 'r6_salida_en_otra_ruta',
+                                             'r6_un_fallo_del_resumen_no_rompe_el_cierre'],
     'este_repositorio_tiene_su_resumen_al_dia': [],
 }
 REPO = 'este_repositorio_tiene_su_resumen_al_dia'  # lo comprueba este verificador: resumen --verificar sobre el repositorio

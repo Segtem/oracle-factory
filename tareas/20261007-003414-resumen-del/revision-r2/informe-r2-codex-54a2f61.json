@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/_revisiones/factory-resumen-54a2f61",
+  "base": "3a22be4d1393604c4b200686579746e81e7082e7",
+  "head": "54a2f61ea63f4f68d38026235957a01b2a3aa57b",
+  "diff_sha256": "34d9308a160f8652eacbbd7fff8e86d7343ce34f71f570e0709f98f7a26155b7",
+  "context_sha256": "bed522ef01b2878ce3686bd2c44816a07e971abfc051979ef88d9bf6b8e40be2",
+  "provider": {
+    "name": "codex (revisor R2)",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2R-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Informes de revisión ausentes o inválidos se omiten como si no declararan riesgos ni límites",
+      "explanation": "`_json_seguro` convierte en `{}` la ausencia, el JSON inválido y las rutas rechazadas por `ruta_segura`. Para un cambio cerrado cuya revisión guiada todavía apunta a esos documentos, `texto_resumen` no informa el problema: elimina silenciosamente los riesgos aceptados y los límites de la vista. Lo reproduje en una copia: tras cambiar un informe con límites a JSON inválido, regenerar el resumen quitó esos límites y `--verificar` devolvió 0. Así, un registro roto puede producir un resumen aparentemente completo y al día.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 944,
+        "end_line": 949,
+        "side": "head"
+      },
+      "trigger": "Sobre una copia del proyecto, corromper el JSON del informe de un cambio cerrado con revisión guiada y límites, ejecutar `resumen` y luego `resumen --verificar`.",
+      "evidence": "Mutación manual en `mutacion-resumen`: antes el resumen contenía un límite declarado; con el documento inválido desapareció; `comando_resumen(False, None)` lo regeneró y `comando_resumen(True, None)` informó que estaba al día (código 0).",
+      "related_requirement": "riesgos_aceptados_y_limites_declarados",
+      "status": "pendiente",
+      "verification": "En un registro de revisión guiada, diferenciar documento ausente/inválido de documento válido sin riesgos o límites; exigir que resumen/verificación avisen del registro incompleto y no lo presenten como vacío."
+    },
+    {
+      "id": "R2R-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un error de estructura del informe puede hacer fallar cerrar o archivar después de persistir el cambio",
+      "explanation": "`actualizar_resumen` promete que un fallo de generación sólo deja un aviso, pero captura únicamente `OSError`, `FactoryError`, `ValueError` y `KeyError`. Un JSON válido pero malformado según el esquema, por ejemplo `{\"hallazgos\": 1, \"limites\": []}`, provoca `TypeError` al iterar `hallazgos` en `texto_resumen`; esa excepción no se captura. `cerrar` llama a `actualizar_resumen` después de guardar el cierre y fusionar la spec, y `archivar` después de guardar el archivo, por lo que el comando termina con error aunque la operación principal ya quedó hecha.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1002,
+        "end_line": 1007,
+        "side": "head"
+      },
+      "trigger": "En una copia, reemplazar `hallazgos` de un informe guiado cerrado por el entero `1` y ejecutar la ruta de actualización usada por cerrar/archivar.",
+      "evidence": "Mutación manual en `mutacion-resumen`: `actualizar_resumen()` propagó `TypeError: 'int' object is not iterable` en vez de imprimir el aviso. El código de `cerrar`/`archivar` llama esta función después de guardar el estado final.",
+      "related_requirement": "se_actualiza_al_cerrar_y_al_archivar",
+      "status": "pendiente",
+      "verification": "Probar cerrar y archivar con una fuente del resumen que falle por estructura inválida; la operación principal debe completar con aviso, sin traceback ni código de fallo, y el resumen debe poder regenerarse al corregir la fuente."
+    },
+    {
+      "id": "R2R-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "Una barra invertida antes de `|` vuelve a abrir una celda de la tabla Markdown",
+      "explanation": "`_celda` escapa `|` pero no duplica las barras invertidas previas. Por ejemplo, el nombre `nombre\\|corte` se convierte en dos barras invertidas seguidas de `|`; en tablas GFM, un número par de barras deja el separador sin escapar y rompe la fila. El escape actual funciona para un `|` simple, pero no para ese nombre especial.",
+      "location": {
+        "file": "oracle_factory/resumen.py",
+        "start_line": 33,
+        "end_line": 34,
+        "side": "head"
+      },
+      "trigger": "Generar un resumen con un nombre de requisito que contenga literalmente `\\|` y revisar la fila de la tabla.",
+      "evidence": "Evalué `_celda(\"nombre\\\\|corte\")`; produce `nombre\\\\|corte`, con un separador de tabla activo al interpretar Markdown.",
+      "related_requirement": "el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "status": "pendiente",
+      "verification": "Agregar cobertura para pipes simples y para barras invertidas antes del pipe; escapar barras invertidas antes de escapar el pipe y comprobar que la fila conserva sus cinco columnas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `tools/verify_resumen.py --salida .../evidencia-verificador`: éxito, 222 pruebas, 10 casos de contrato; `git diff --check` señaló sólo espacios finales en dos documentos de tarea/propuesta. El checkout permaneció limpio.",
+    "Mutaciones en una copia local: informe guiado inválido (la pérdida de límites/riesgos sobrevive y `--verificar` la acepta); `hallazgos: 1` (TypeError no capturado por actualizar_resumen); reordenar las claves de requisitos en el índice cambia el orden de filas, aunque repetir con el mismo archivo es estable. Considero el último resultado una limitación menor del orden canónico, no un hallazgo: el índice versionado conserva intencionalmente el orden de inserción.",
+    "Inspeccioné las protecciones de rutas: `--salida` pasa por `ruta_segura`, que rechaza rutas fuera del proyecto y componentes enlazados; la prueba existente cubre ruta fuera del proyecto y una salida normal. No ejecuté una matriz CLI completa de enlaces ni una operación interactiva de cierre/archivo mutada; la propagación de fallo se reprodujo invocando la misma función `actualizar_resumen` que ambos comandos llaman después de persistir el estado.",
+    "El resumen actual lista 7 capacidades, 52 requisitos vigentes y 7 cambios abiertos. `pendientes_actuales` se ejecuta una vez por cambio abierto y puede recalcular el contexto Git repetidamente cuando hay revisiones/juicios; el coste actual fue aceptable durante el verificador, pero no hice una medición aislada ni una proyección para muchos cientos de cambios."
+  ]
+}

@@ -4,7 +4,7 @@
 
 ### Requirement: el resumen muestra lo vigente y lo pendiente
 Tipo: funcional
-`oracle-factory resumen` SHALL escribir `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, cambio de origen, medidas y veredicto), los cambios abiertos con su fase, su modo y lo que les falta para cerrar, y un enlace a la spec consolidada de cada capacidad, sin copiar sus escenarios.
+`oracle-factory resumen` SHALL escribir `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, cambio de origen, medidas y veredicto), los cambios abiertos con su fase, su modo y lo que les falta para cerrar, las carpetas de cambio sin registro de Factory, y un enlace a la spec consolidada de cada capacidad (válido desde donde se escribe el resumen), sin copiar sus escenarios.
 
 #### Scenario: proyecto con capacidades archivadas y cambios abiertos
 - GIVEN un proyecto con una capacidad archivada y un cambio abierto
@@ -18,12 +18,17 @@ Tipo: funcional
 
 ### Requirement: riesgos aceptados y límites declarados
 Tipo: funcional
-El resumen SHALL listar los riesgos aceptados (decisiones de revisión con estado `riesgo_aceptado`, con su motivo y quién decidió) y los límites declarados en los informes de revisión de los cambios cerrados, separando los de cambios que todavía tienen requisitos vigentes de los históricos.
+El resumen SHALL listar los riesgos aceptados (decisiones de revisión con estado `riesgo_aceptado`, con su motivo y quién decidió) y los límites declarados en los informes de revisión de los cambios cerrados, separando los de cambios que todavía tienen requisitos vigentes de los históricos; un documento de revisión ausente o ilegible SHALL avisarse en el resumen en vez de omitirse.
 
 #### Scenario: riesgo de un cambio con requisitos reemplazados
 - GIVEN un cambio cerrado con un riesgo aceptado cuyos requisitos fueron todos reemplazados
 - WHEN se ejecuta `resumen`
 - THEN el riesgo aparece entre los históricos, con su motivo y quién lo aceptó
+
+#### Scenario: informe de revisión ilegible
+- GIVEN un cambio cerrado cuyo informe de revisión no se puede leer
+- WHEN se ejecuta `resumen`
+- THEN el resumen lo avisa junto a los riesgos y límites, en vez de mostrarlo como si no tuviera ninguno
 
 ### Requirement: el veredicto es el del cierre y lo dice
 Tipo: funcional
@@ -36,7 +41,7 @@ Para cada requisito vigente, el resumen SHALL mostrar el veredicto registrado al
 
 ### Requirement: el resumen es determinista y no cambia nada más
 Tipo: no funcional
-Con los mismos registros, `resumen` SHALL producir los mismos bytes, sin fecha ni commit, sin red ni modelos de lenguaje; SHALL NOT modificar ningún otro archivo, y `.factory/resumen.md` SHALL quedar fuera de la huella del producto.
+Con los mismos registros y la misma huella del producto, `resumen` SHALL producir los mismos bytes, sin fecha ni commit, sin red ni modelos de lenguaje; SHALL NOT modificar ningún otro archivo, y `.factory/resumen.md` SHALL quedar fuera de la huella del producto.
 
 #### Scenario: dos ejecuciones seguidas
 - GIVEN un resumen recién generado
@@ -54,7 +59,7 @@ El resumen SHALL llevar la huella de lo que resume, y `resumen --verificar` SHAL
 
 ### Requirement: se actualiza al cerrar y al archivar
 Tipo: funcional
-`cerrar` y `archivar` SHALL regenerar `.factory/resumen.md` después de fusionar la spec, y `resumen --salida RUTA` SHALL escribirlo en la ruta indicada dentro del proyecto.
+`cerrar` y `archivar` SHALL regenerar `.factory/resumen.md` después de fusionar la spec, y si la generación falla SHALL avisarlo sin deshacer ni impedir el cierre; además, `resumen --salida RUTA` SHALL escribirlo en la ruta indicada dentro del proyecto.
 
 #### Scenario: cerrar un cambio
 - GIVEN un cambio listo para cerrar

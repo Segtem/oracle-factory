@@ -1,4 +1,4 @@
-<!-- oracle-factory resumen sha256:ce9bd7bf3a77efdfaee30322939f90149ec04c56165660ebda06aa80184a8a66 -->
+<!-- oracle-factory resumen sha256:45cd25e9826169eb7f3d719b46c23d91acf7d94485da95a9e26aaa71911fd37f -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
@@ -7,108 +7,108 @@ Generado por `oracle-factory resumen` a partir de los registros; no se edita a m
 
 ## Lo vigente
 
-El veredicto es el registrado al cerrar el cambio de origen, no una corrida nueva de Oracle.
+El veredicto es el registrado al cerrar el cambio de origen, no una corrida nueva de Oracle sobre todo el sistema.
 
 ### archivo
 
 Spec completa: [openspec/specs/archivo/spec.md](../openspec/specs/archivo/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| la spec de un cambio se fusiona al cerrarlo | funcional | factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| un conflicto impide cerrar | funcional | factory_archivo.un_conflicto_impide_cerrar, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| lo cerrado no se mueve ni se reescribe | no funcional | factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| se distingue lo vigente de lo reemplazado | funcional | factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| una capacidad con un solo nombre | funcional | factory_archivo.una_capacidad_con_un_solo_nombre, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| este repositorio queda archivado | no funcional | factory_archivo.este_repositorio_queda_archivado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
-| los comandos de lectura muestran el archivo | funcional | factory_archivo.los_comandos_de_lectura_muestran_el_archivo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la spec de un cambio se fusiona al cerrarlo | funcional | `archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo` | factory_archivo.la_spec_de_un_cambio_se_fusiona_al_cerrarlo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| un conflicto impide cerrar | funcional | `archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar` | factory_archivo.un_conflicto_impide_cerrar, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| lo cerrado no se mueve ni se reescribe | no funcional | `archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe` | factory_archivo.lo_cerrado_no_se_mueve_ni_se_reescribe, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| se distingue lo vigente de lo reemplazado | funcional | `archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado` | factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| una capacidad con un solo nombre | funcional | `archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre` | factory_archivo.una_capacidad_con_un_solo_nombre, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| este repositorio queda archivado | no funcional | `archivo_cbf6802991c3ba673.este_repositorio_queda_archivado` | factory_archivo.este_repositorio_queda_archivado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| los comandos de lectura muestran el archivo | funcional | `archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo` | factory_archivo.los_comandos_de_lectura_muestran_el_archivo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
 
 ### estructura
 
 Spec completa: [openspec/specs/estructura/spec.md](../openspec/specs/estructura/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| estructura documentada | funcional | factory_estructura.estructura_documentada, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| carpeta propia de Factory | funcional | factory_estructura.carpeta_propia_de_factory, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| descubrir la raíz del proyecto | funcional | factory_estructura.descubrir_la_raiz_del_proyecto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| lo versionado y lo local | no funcional | factory_estructura.lo_versionado_y_lo_local, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| la huella del producto excluye lo que Factory produce | funcional | factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| donde esta cada artefacto | funcional | factory_estructura.donde_esta_cada_artefacto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| ruta canonica para producir artefactos | funcional | factory_estructura.ruta_canonica_para_producir_artefactos, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| buscar en todo el proyecto | funcional | factory_estructura.buscar_en_todo_el_proyecto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| listar con filtros | funcional | factory_estructura.listar_con_filtros, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| respetar lo existente | no funcional | factory_estructura.respetar_lo_existente, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
-| el estado de un cambio nuevo vive en .factory | funcional | factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| un proyecto no migrado sigue funcionando | funcional | factory_estructura2.un_proyecto_no_migrado_sigue_funcionando, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| migrar mueve el estado sin cambiar su contenido | funcional | factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| migrar no pierde ni pisa nada | funcional | factory_estructura2.migrar_no_pierde_ni_pisa_nada, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| la migración conserva el significado | no funcional | factory_estructura2.la_migracion_conserva_el_significado, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| la configuración del proyecto vive en .factory | funcional | factory_estructura2.la_configuracion_del_proyecto_vive_en_factory, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| los comandos de lectura entienden los dos lugares | funcional | factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
-| este repositorio queda migrado y verificado | no funcional | factory_estructura2.este_repositorio_queda_migrado_y_verificado, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| estructura documentada | funcional | `estructura_cd7e5b6c4f15e5d8b.estructura_documentada` | factory_estructura.estructura_documentada, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| carpeta propia de Factory | funcional | `estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory` | factory_estructura.carpeta_propia_de_factory, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| descubrir la raíz del proyecto | funcional | `estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto` | factory_estructura.descubrir_la_raiz_del_proyecto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| lo versionado y lo local | no funcional | `estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local` | factory_estructura.lo_versionado_y_lo_local, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| la huella del producto excluye lo que Factory produce | funcional | `estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce` | factory_estructura.la_huella_del_producto_excluye_lo_que_factory_produce, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| donde esta cada artefacto | funcional | `estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto` | factory_estructura.donde_esta_cada_artefacto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| ruta canonica para producir artefactos | funcional | `estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos` | factory_estructura.ruta_canonica_para_producir_artefactos, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| buscar en todo el proyecto | funcional | `estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto` | factory_estructura.buscar_en_todo_el_proyecto, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| listar con filtros | funcional | `estructura_cd7e5b6c4f15e5d8b.listar_con_filtros` | factory_estructura.listar_con_filtros, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| respetar lo existente | no funcional | `estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente` | factory_estructura.respetar_lo_existente, factory_estructura.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-132144-jerarquia-de |
+| el estado de un cambio nuevo vive en .factory | funcional | `estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory` | factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| un proyecto no migrado sigue funcionando | funcional | `estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando` | factory_estructura2.un_proyecto_no_migrado_sigue_funcionando, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| migrar mueve el estado sin cambiar su contenido | funcional | `estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido` | factory_estructura2.migrar_mueve_el_estado_sin_cambiar_su_contenido, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| migrar no pierde ni pisa nada | funcional | `estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada` | factory_estructura2.migrar_no_pierde_ni_pisa_nada, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| la migración conserva el significado | no funcional | `estructura2_c1bed25594460b383.la_migracion_conserva_el_significado` | factory_estructura2.la_migracion_conserva_el_significado, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| la configuración del proyecto vive en .factory | funcional | `estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory` | factory_estructura2.la_configuracion_del_proyecto_vive_en_factory, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| los comandos de lectura entienden los dos lugares | funcional | `estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares` | factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| este repositorio queda migrado y verificado | no funcional | `estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado` | factory_estructura2.este_repositorio_queda_migrado_y_verificado, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
 
 ### limpieza
 
 Spec completa: [openspec/specs/limpieza/spec.md](../openspec/specs/limpieza/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| los registros no llevan la ruta privada | funcional | factory_limpieza.los_registros_no_llevan_la_ruta_privada, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
-| las decisiones conservan su integridad | funcional | factory_limpieza.las_decisiones_conservan_su_integridad, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
-| la evidencia no se reescribe | no funcional | factory_limpieza.la_evidencia_no_se_reescribe, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
-| limpieza repetible y verificable | no funcional | factory_limpieza.limpieza_repetible_y_verificable, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| los registros no llevan la ruta privada | funcional | `limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada` | factory_limpieza.los_registros_no_llevan_la_ruta_privada, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
+| las decisiones conservan su integridad | funcional | `limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad` | factory_limpieza.las_decisiones_conservan_su_integridad, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
+| la evidencia no se reescribe | no funcional | `limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe` | factory_limpieza.la_evidencia_no_se_reescribe, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
+| limpieza repetible y verificable | no funcional | `limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable` | factory_limpieza.limpieza_repetible_y_verificable, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
 
 ### modos
 
 Spec completa: [openspec/specs/modos/spec.md](../openspec/specs/modos/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| modo explicito por cambio | funcional | factory_modos.modo_explicito_por_cambio, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
-| tipo de requisito | funcional | factory_modos.tipo_de_requisito, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
-| decisiones segun el modo | funcional | factory_modos.decisiones_segun_el_modo, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
-| actor registrado sin aparentar humanos | funcional | factory_modos.actor_registrado_sin_aparentar_humanos, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
-| cambio de modo con invalidacion | funcional | factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| modo explicito por cambio | funcional | `modos_c45a4802846932222.modo_explicito_por_cambio` | factory_modos.modo_explicito_por_cambio, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| tipo de requisito | funcional | `modos_c45a4802846932222.tipo_de_requisito` | factory_modos.tipo_de_requisito, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| decisiones segun el modo | funcional | `modos_c45a4802846932222.decisiones_segun_el_modo` | factory_modos.decisiones_segun_el_modo, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| actor registrado sin aparentar humanos | funcional | `modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos` | factory_modos.actor_registrado_sin_aparentar_humanos, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| cambio de modo con invalidacion | funcional | `modos_c45a4802846932222.cambio_de_modo_con_invalidacion` | factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 
 ### portabilidad
 
 Spec completa: [openspec/specs/portabilidad/spec.md](../openspec/specs/portabilidad/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| hechos con ruta relativa al proyecto | funcional | factory_portabilidad.hechos_con_ruta_relativa_al_proyecto, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| advertir cuando los hechos no viajan | funcional | factory_portabilidad.advertir_cuando_los_hechos_no_viajan, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| fuente de los requisitos relativa | funcional | factory_portabilidad.fuente_de_los_requisitos_relativa, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| pendiente que explica cómo recuperarse | funcional | factory_portabilidad.pendiente_que_explica_como_recuperarse, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| un cambio juzgado en una máquina se cierra desde otra | funcional | factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| sin rutas privadas en lo versionado | no funcional | factory_portabilidad.sin_rutas_privadas_en_lo_versionado, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
-| respetar los registros existentes | no funcional | factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| hechos con ruta relativa al proyecto | funcional | `portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto` | factory_portabilidad.hechos_con_ruta_relativa_al_proyecto, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| advertir cuando los hechos no viajan | funcional | `portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan` | factory_portabilidad.advertir_cuando_los_hechos_no_viajan, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| fuente de los requisitos relativa | funcional | `portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa` | factory_portabilidad.fuente_de_los_requisitos_relativa, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| pendiente que explica cómo recuperarse | funcional | `portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse` | factory_portabilidad.pendiente_que_explica_como_recuperarse, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| un cambio juzgado en una máquina se cierra desde otra | funcional | `portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra` | factory_portabilidad.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| sin rutas privadas en lo versionado | no funcional | `portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado` | factory_portabilidad.sin_rutas_privadas_en_lo_versionado, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
+| respetar los registros existentes | no funcional | `portabilidad_cbe858e976e618573.respetar_los_registros_existentes` | factory_portabilidad.respetar_los_registros_existentes, factory_portabilidad.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-184427-los-registros-de |
 
 ### revision-guiada
 
 Spec completa: [openspec/specs/revision-guiada/spec.md](../openspec/specs/revision-guiada/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| preparar documentos pendientes sin aprobar | funcional | factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| validar informe guiado y su alcance declarado | funcional | factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| derivar pendientes de decisiones separadas | funcional | factory_revision_guiada.derivar_pendientes_de_decisiones_separadas, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| registrar confirmacion humana informada | funcional | factory_revision_guiada.registrar_confirmacion_humana_informada, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| conservar evidencia y comprobar vigencia | funcional | factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| mantener formato libre con declaracion explicita | funcional | factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
-| explicar y verificar los limites del recorrido | funcional | factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| preparar documentos pendientes sin aprobar | funcional | `revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar` | factory_revision_guiada.preparar_documentos_pendientes_sin_aprobar, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| validar informe guiado y su alcance declarado | funcional | `revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado` | factory_revision_guiada.validar_informe_guiado_y_su_alcance_declarado, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| derivar pendientes de decisiones separadas | funcional | `revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas` | factory_revision_guiada.derivar_pendientes_de_decisiones_separadas, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| registrar confirmacion humana informada | funcional | `revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada` | factory_revision_guiada.registrar_confirmacion_humana_informada, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| conservar evidencia y comprobar vigencia | funcional | `revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia` | factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| mantener formato libre con declaracion explicita | funcional | `revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita` | factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| explicar y verificar los limites del recorrido | funcional | `revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido` | factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 
 ### vigencia
 
 Spec completa: [openspec/specs/vigencia/spec.md](../openspec/specs/vigencia/spec.md)
 
-| Requisito | Tipo | Medidas | Veredicto | Cambio de origen |
-|---|---|---|---|---|
-| vigencia por contenido del producto | funcional | factory_vigencia.vigencia_por_contenido_del_producto, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
-| el commit observado se conserva y se muestra | funcional | factory_vigencia.el_commit_observado_se_conserva_y_se_muestra, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
-| informe guiado vinculado al contenido | funcional | factory_vigencia.informe_guiado_vinculado_al_contenido, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
-| respetar los registros existentes | no funcional | factory_vigencia.respetar_los_registros_existentes, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| vigencia por contenido del producto | funcional | `vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto` | factory_vigencia.vigencia_por_contenido_del_producto, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
+| el commit observado se conserva y se muestra | funcional | `vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra` | factory_vigencia.el_commit_observado_se_conserva_y_se_muestra, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
+| informe guiado vinculado al contenido | funcional | `vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido` | factory_vigencia.informe_guiado_vinculado_al_contenido, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
+| respetar los registros existentes | no funcional | `vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes` | factory_vigencia.respetar_los_registros_existentes, factory_vigencia.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-154433-la-vigencia-de |
 
 ## Cambios abiertos
 
@@ -116,7 +116,7 @@ Lo que falta se calculó al generar este resumen; un commit posterior puede camb
 
 ### 20261002-204916-validar-el-flujo — Validar el flujo humano de Oracle Factory
 
-Fase `espera_aprobacion_spec` · modo `confirmacion` · capacidad `software-factory`
+Fase `espera_aprobacion_spec` · modo `confirmacion` · capacidad `software-factory` · [propuesta](../openspec/changes/20261002-204916-validar-el-flujo/proposal.md)
 
 - aprobación humana de spec
 - importación OpenSpec → requisitos Oracle
@@ -126,57 +126,50 @@ Fase `espera_aprobacion_spec` · modo `confirmacion` · capacidad `software-fact
 
 ### 20261002-222858-explicar-oracle — Explicar Oracle Factory como flujo humano de producción de software
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `landing-page`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `landing-page` · [propuesta](../openspec/changes/20261002-222858-explicar-oracle/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 
 ### 20261002-234439-dist-uv — Preparar distribución de Factory con uv y selección de proyecto
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `distribucion`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `distribucion` · [propuesta](../openspec/changes/20261002-234439-dist-uv/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 
 ### 20261004-005956-elegir-medidas — Elección de medidas
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `measurement_choice`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `measurement_choice` · [propuesta](../openspec/changes/20261004-005956-elegir-medidas/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 
 ### 20261004-005956-inicio-guiado — Inicio guiado
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `onboarding`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `onboarding` · [propuesta](../openspec/changes/20261004-005956-inicio-guiado/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 
 ### 20261004-121432-coordinar-dos — Coordinar dos personas con sus agentes sin interferencias
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` · [propuesta](../openspec/changes/20261004-121432-coordinar-dos/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
-- medidas de colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites: sin decisión registrada; registrala con medir y las mismas medidas
-- medidas de colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente: sin decisión registrada; registrala con medir y las mismas medidas
-- medidas de colaboracion_c20a7f5e3d414985d.relevo_recuperable: sin decisión registrada; registrala con medir y las mismas medidas
-- medidas de colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo: sin decisión registrada; registrala con medir y las mismas medidas
-- medidas de colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version: sin decisión registrada; registrala con medir y las mismas medidas
+- medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
 
 ### 20261007-003414-resumen-del — Resumen del estado actual: una vista corta y regenerable de lo vigente
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen`
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen` · [propuesta](../openspec/changes/20261007-003414-resumen-del/proposal.md)
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
-- medidas de resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar propuestas por claude-code, sin confirmar por una persona
-- medidas de resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia propuestas por claude-code, sin confirmar por una persona
+- la propuesta/spec cambió o su aprobación es antigua; renová la aceptación
+- medidas de 7 requisitos: propuestas por claude-code, sin confirmar por una persona
+
+Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
 
 ## Riesgos aceptados
 
@@ -193,10 +186,6 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen`
 - **R2V-05** (20261005-154433-la-vigencia-de): Las propuestas de revisión pendientes con la firma anterior nunca se confirman como «confirmo». Aceptado por Brian Hollweg: Mismo mensaje: la persona decide igual y es una transición corta.
 - **R2X-01** (20261005-154433-la-vigencia-de): En repositorios con SHA-256 (64 hexadecimales) el HEAD de preparación se descarta siempre. Aceptado por Brian Hollweg: «Vamos con tus recomendaciónes»: se acepta, con el límite declarado, que en repositorios SHA-256 no se guarde head_preparacion.
 - **R2P-05** (20261005-184427-los-registros-de): El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada. Aceptado por Brian Hollweg: Mismo mensaje: el remoto de prueba no autentica, pero existe sólo en su red privada.
-
-### Históricos
-
-Ninguno.
 
 ## Límites declarados
 
@@ -245,7 +234,3 @@ Ninguno.
 - (20261006-161029-archivar-al) Sólo Linux; no se probaron Windows, ACL ni atributos extendidos.
 - (20261006-161029-archivar-al) Los 9 cambios que nunca se cerraron no se archivan: queda como tarea decidir si se cierran o se abandonan.
 - (20261006-161029-archivar-al) La spec consolidada generada queda fuera de la huella; una edición a mano la detectan Factory al fusionar y el verificador, no la huella.
-
-### Históricos
-
-Ninguno.

@@ -1,6 +1,6 @@
 medida factory_resumen.corrida_completa:
     de resumen_corrida c
-    donde c.completa == 1 y c.casos == 10
+    donde c.completa == 1 y c.casos == 13
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas, fuentes estables y el resumen de este repositorio al día"
     requiere resumen_corrida
