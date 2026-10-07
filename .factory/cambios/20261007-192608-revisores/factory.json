@@ -2,11 +2,29 @@
   "id": "20261007-192608-revisores",
   "titulo": "Pedir una revisión independiente desde Factory",
   "capacidad": "revisores",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T19:27:08+00:00",
+    "documentos": {
+      "openspec/changes/20261007-192608-revisores/proposal.md": "bab7cc841fe2c8ca7cdd7e6be2a606ee77333bd8512a9efb537d10f773b6555b",
+      "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521"
+    }
+  },
+  "requisitos": [
+    "revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio",
+    "revisores_c466ac292a9f99ce6.el_revisor_no_decide",
+    "revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision",
+    "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+    "revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe",
+    "revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual",
+    "revisores_c466ac292a9f99ce6.revisores_configurables"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +37,46 @@
       "forma": "decidio",
       "cuando": "2026-10-07T19:26:08+00:00",
       "capacidad": "revisores"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:27:08+00:00",
+      "documentos": {
+        "openspec/changes/20261007-192608-revisores/proposal.md": "bab7cc841fe2c8ca7cdd7e6be2a606ee77333bd8512a9efb537d10f773b6555b",
+        "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md": "89c5b49b6c8367e86974ef3adbbbf51218cde8d312f52e7c9268240b2acc8521"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T19:27:42+00:00",
+      "ids": [
+        "revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio",
+        "revisores_c466ac292a9f99ce6.el_revisor_no_decide",
+        "revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision",
+        "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez",
+        "revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe",
+        "revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual",
+        "revisores_c466ac292a9f99ce6.revisores_configurables"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio": "funcional",
+    "revisores_c466ac292a9f99ce6.el_revisor_no_decide": "no funcional",
+    "revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision": "no funcional",
+    "revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez": "funcional",
+    "revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe": "funcional",
+    "revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual": "funcional",
+    "revisores_c466ac292a9f99ce6.revisores_configurables": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

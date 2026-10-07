@@ -1,0 +1,4 @@
+requisito revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez:
+    texto "Tipo: funcional `revision-preparar` SHALL agregar una comprobación por cada vuelta anterior del mismo cambio (candidato, revisor y hallazgos) sin agregar sus hallazgos al informe ni al borrador de decisiones."
+    fuente "openspec/changes/20261007-192608-revisores/specs/revisores/spec.md#las vueltas anteriores se muestran sin decidirse otra vez"
+    sin_medir "sin medida todavía; escenarios: «tres vueltas»"
