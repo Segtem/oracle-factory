@@ -2,11 +2,29 @@
   "id": "20261007-003414-resumen-del",
   "titulo": "Resumen del estado actual: una vista corta y regenerable de lo vigente",
   "capacidad": "resumen",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T00:36:45+00:00",
+    "documentos": {
+      "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+      "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729"
+    }
+  },
+  "requisitos": [
+    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
+    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
+    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
+    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
+    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
+    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +37,46 @@
       "forma": "decidio",
       "cuando": "2026-10-07T00:34:14+00:00",
       "capacidad": "resumen"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T00:36:45+00:00",
+      "documentos": {
+        "openspec/changes/20261007-003414-resumen-del/proposal.md": "e04dbed1ae2f609943e97178a35102b403d07b964f03f9dd0bdd446310180f39",
+        "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md": "5e6254065d9c02e3647ce0f18743124c3a7383d2a85793b36a3148b0be5f5729"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T00:38:32+00:00",
+      "ids": [
+        "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
+        "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
+        "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
+        "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas": "no funcional",
+    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente": "funcional",
+    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice": "funcional",
+    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia": "no funcional",
+    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados": "funcional",
+    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar": "funcional",
+    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
