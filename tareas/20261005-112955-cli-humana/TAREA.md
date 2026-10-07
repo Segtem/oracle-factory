@@ -37,3 +37,7 @@ Revisar el recorrido completo de la CLI pensando en la persona, no en el agente:
   - siempre una opción «Otro» con texto libre;
   - al elegir, Factory ejecuta el registro y muestra el comando equivalente.
   Primera versión con la biblioteca estándar (opciones numeradas y la vista previa debajo); flechas y panel lateral sólo si hace falta.
+
+- 2026-10-07, Brian: «Debería ser sin fricciones las decisiones, asistidas con IA … en vez de tener que pegar "REGISTRAR REVISION 20261007-192608-revisores", me parece poco práctico». Propuesta:
+  - la frase de confirmación prueba que decide una persona en una terminal; un menú interactivo prueba lo mismo (el agente corre sin tty y no puede contestarlo), así que la frase se reemplaza por elegir una opción y Enter;
+  - «asistidas con IA»: el agente prepara la decisión con `--agente` (ya existe como propuesta), incluido el motivo redactado con los datos del cambio; el menú de la persona la muestra como opción recomendada con su vista previa, y la persona elige, edita («Otro») o rechaza. La IA redacta; decide la persona.
