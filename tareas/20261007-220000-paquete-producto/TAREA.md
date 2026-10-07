@@ -14,3 +14,4 @@
 - Lo ideal es que Clue acepte excluir rutas (`--excluir PATRÓN`, que quedan en `omissions` con su motivo) y que Factory pase las de registros (`.factory/cambios/`, `tareas/`, las de `es_producto`). Es un cambio en oracle-clue (otro repo y release).
 - Mientras tanto: `pedir-revision ID --a NOMBRE --base <último candidato revisado completo>` revisa sólo el delta (usado en ese cambio).
 - Revisar también que el revisor no gaste contexto leyendo informes de vueltas anteriores que no son producto.
+- El `.pedido.md` que se guarda en `revision/` lleva rutas absolutas de la máquina (checkout, paquete, informe, y lo que se escriba en `--pedir`). Brian aceptó publicarlas en el cambio revisores (2026-10-07), igual que la ruta del repo en los informes de Clue; el pedido guardado debería usar rutas relativas al repo.
