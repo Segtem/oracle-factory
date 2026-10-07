@@ -631,18 +631,10 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
         informe, decisiones = preparacion.completar(informe, decisiones, revisores, evidencia, archivos)
         vueltas = []
         for anterior in candidatos_anteriores(identificador, sha):
-            carpeta_rev = estructura.ruta_canonica(ROOT, identificador, "revision", anterior)
-            for ruta in sorted(carpeta_rev.glob("*.json")):
-                try:
-                    datos = json.loads(ruta_segura(ruta).read_text(encoding="utf-8"))
-                except (OSError, ValueError, FactoryError):
-                    continue
-                if not isinstance(datos, dict) or datos.get("schema_version") != preparacion.ESQUEMA_CLUE:
-                    continue
-                if not str(datos.get("head") or "").startswith(anterior):
-                    avisos.append(f"{ruta.relative_to(ROOT).as_posix()} es de otro candidato ({str(datos.get('head'))[:7]}); no lo muestro")
-                else:
-                    vueltas.append({"candidato": anterior, "ruta": ruta.relative_to(ROOT).as_posix(), "datos": datos})
+            # Las vueltas anteriores pasan por la misma validación que las del candidato vigente.
+            anteriores, _, _, avisos_anteriores = material_del_candidato(identificador, anterior)
+            vueltas += [{"candidato": anterior, **r} for r in anteriores]
+            avisos += avisos_anteriores
         informe["comprobaciones"] = (informe["comprobaciones"] or []) + preparacion.vueltas_anteriores(vueltas) or None
         for aviso in avisos:
             print(f'Aviso: {aviso}', file=sys.stderr)

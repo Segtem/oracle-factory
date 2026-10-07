@@ -64,13 +64,15 @@ def completar(informe: dict, decisiones: dict, revisores: list[dict], evidencia:
 
 
 def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
-    """Una comprobación por vuelta anterior: [{'candidato', 'ruta', 'datos'}] → comprobaciones, sin hallazgos que decidir."""
+    """Una comprobación por vuelta anterior: [{'candidato', 'ruta', 'datos', 'validacion'}] → comprobaciones, sin hallazgos que decidir."""
     comprobaciones = []
     for v in vueltas:
+        nota = '' if v.get('validacion', 'validado').startswith('validado') else f" ({v['validacion']})"
         hallazgos = [h for h in v['datos'].get('findings') or [] if isinstance(h, dict)]
         ids = ', '.join(f"{h.get('id')} ({h.get('severity', '?')})" for h in hallazgos) or 'sin hallazgos'
         comprobaciones.append({'descripcion': f"Vuelta anterior en el candidato {v['candidato']}: {_proveedor(v['datos'])}, "
-                                              f"{len(hallazgos)} hallazgo{'s' if len(hallazgos) != 1 else ''}: {ids}",
+                                              f"{len(hallazgos)} hallazgo{'s' if len(hallazgos) != 1 else ''}: {ids}"
+                                              f"{nota}",
                                'resultado': 'falla' if hallazgos else 'cumple', 'evidencia': v['ruta']})
     return comprobaciones
 

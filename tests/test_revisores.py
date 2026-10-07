@@ -203,11 +203,15 @@ class Revisores(Base):
         self.assertEqual(json.loads(decisiones.read_text())['decisiones'], [])  # nada para volver a decidir
 
     def test_v6_vuelta_de_otro_candidato(self):
+        self.vuelta_que_no_se_muestra(lambda datos: {**datos, 'head': self.base}, 'es de otro candidato')
+
+    def test_v6_vuelta_que_clue_no_valida(self):
+        self.vuelta_que_no_se_muestra(lambda datos: {k: datos[k] for k in ('schema_version', 'head', 'findings')}, 'no lo uso')
+
+    def vuelta_que_no_se_muestra(self, alterar, aviso):
         self.preparar('hallazgo')
         destino = self.pedir()
-        datos = json.loads(destino.read_text())
-        datos['head'] = self.base  # un informe que dice ser de otro commit
-        destino.write_text(json.dumps(datos))
+        destino.write_text(json.dumps(alterar(json.loads(destino.read_text()))))
         self.git('add', '.')
         self.git('commit', '-qm', 'informe')
         notas = self.root / 'examples/notas/notas.py'
@@ -221,7 +225,7 @@ class Revisores(Base):
             informe, _ = f.preparar_revision(self.ident)
         comprobaciones = json.loads(informe.read_text())['comprobaciones'] or []
         self.assertFalse([c for c in comprobaciones if c['descripcion'].startswith('Vuelta anterior')])
-        self.assertIn('es de otro candidato', error.getvalue())
+        self.assertIn(aviso, error.getvalue())
 
 
 if __name__ == '__main__':
