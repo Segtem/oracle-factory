@@ -1,4 +1,4 @@
-<!-- oracle-factory resumen sha256:9f8a4e3c3a245ad2fbf9d80eeebba88287aa2e3aa9580a6ed4f82d670b1faad1 -->
+<!-- oracle-factory resumen sha256:ce9bd7bf3a77efdfaee30322939f90149ec04c56165660ebda06aa80184a8a66 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
@@ -170,17 +170,24 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `resumen`
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
+- medidas de resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar propuestas por claude-code, sin confirmar por una persona
+- medidas de resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia propuestas por claude-code, sin confirmar por una persona
 
 ## Riesgos aceptados
 
 ### De cambios con requisitos vigentes
 
-- **G-03** (20261004-005956-revision-guiada): archivos_revisados es declarativo y no se contrasta con el diff.. Aceptado por Brian Hollweg: Se resuelve en la tarea cli-humana: mostrar archivos del diff no revisados.
-- **G-04** (20261004-005956-revision-guiada): Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad.. Aceptado por Brian Hollweg: Umbral de igualdad deliberado: exige exactamente los casos enumerados.
-- **M-02** (20261005-105331-modos-de-trabajo): importar puede fallar con títulos de requisito acentuados si Oracle normaliza distinto que modos.slug.. Aceptado por Brian Hollweg: «Sí, corregí M-01…» sobre la propuesta de mantener M-02, M-03 y M-04 como riesgo aceptado; falla a la vista.
-- **M-03** (20261005-105331-modos-de-trabajo): Las guías y la web no mencionan los modos ni --agente.. Aceptado por Brian Hollweg: Mismo mensaje; va a la tarea docs-web-modos.
-- **M-04** (20261005-105331-modos-de-trabajo): Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad.. Aceptado por Brian Hollweg: Mismo mensaje; umbral de igualdad deliberado.
-- **R2-08** (20261005-105331-modos-de-trabajo): La revisión en funcional usa los tipos de todos los requisitos del cambio, no sólo los afectados.. Aceptado por Brian Hollweg: Mismo mensaje: queda marcado en el código como simplificación.
+- **G-03** (20261004-005956-revision-guiada): archivos_revisados es declarativo y no se contrasta con el diff. Aceptado por Brian Hollweg: Se resuelve en la tarea cli-humana: mostrar archivos del diff no revisados.
+- **G-04** (20261004-005956-revision-guiada): Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad. Aceptado por Brian Hollweg: Umbral de igualdad deliberado: exige exactamente los casos enumerados.
+- **M-02** (20261005-105331-modos-de-trabajo): importar puede fallar con títulos de requisito acentuados si Oracle normaliza distinto que modos.slug. Aceptado por Brian Hollweg: «Sí, corregí M-01…» sobre la propuesta de mantener M-02, M-03 y M-04 como riesgo aceptado; falla a la vista.
+- **M-03** (20261005-105331-modos-de-trabajo): Las guías y la web no mencionan los modos ni --agente. Aceptado por Brian Hollweg: Mismo mensaje; va a la tarea docs-web-modos.
+- **M-04** (20261005-105331-modos-de-trabajo): Las medidas usan umbral de igualdad, distinto de meta.ningun_umbral_de_igualdad. Aceptado por Brian Hollweg: Mismo mensaje; umbral de igualdad deliberado.
+- **R2-08** (20261005-105331-modos-de-trabajo): La revisión en funcional usa los tipos de todos los requisitos del cambio, no sólo los afectados. Aceptado por Brian Hollweg: Mismo mensaje: queda marcado en el código como simplificación.
 - **R2S-09** (20261005-132144-jerarquia-de): `.factory/` entera queda fuera de la huella y es un nombre que también usan otras herramientas. Aceptado por Brian Hollweg: es decisión de la spec que aceptó Brian («Listo con los dos.»): .factory/ entera queda fuera de la huella; la guarda del home y los enlaces cubren el riesgo práctico y el límite quedó declarado en docs/estructura.md
 - **R2V-03** (20261005-154433-la-vigencia-de): head_preparacion es lo que el informe dice de sí mismo; no se comprueba contra Git. Aceptado por Brian Hollweg: Mismo mensaje: dato informativo que no condiciona nada.
 - **R2V-05** (20261005-154433-la-vigencia-de): Las propuestas de revisión pendientes con la firma anterior nunca se confirman como «confirmo». Aceptado por Brian Hollweg: Mismo mensaje: la persona decide igual y es una transición corta.

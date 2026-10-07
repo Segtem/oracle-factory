@@ -1,4 +1,4 @@
 requisito resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente:
     texto "Tipo: funcional `oracle-factory resumen` SHALL escribir `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, cambio de origen, medidas y veredicto), los cambios abiertos con su fase, su modo y lo que les falta para cerrar, y un enlace a la spec consolidada de cada capacidad, sin copiar sus escenarios."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#el resumen muestra lo vigente y lo pendiente"
-    sin_medir "sin medida todavía; escenarios: «proyecto con capacidades archivadas y cambios abiertos», «requisito reemplazado»"
+    medido_por factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente, factory_resumen.corrida_completa

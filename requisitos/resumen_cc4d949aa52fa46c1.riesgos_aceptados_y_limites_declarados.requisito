@@ -1,4 +1,4 @@
 requisito resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados:
     texto "Tipo: funcional El resumen SHALL listar los riesgos aceptados (decisiones de revisión con estado `riesgo_aceptado`, con su motivo y quién decidió) y los límites declarados en los informes de revisión de los cambios cerrados, separando los de cambios que todavía tienen requisitos vigentes de los históricos."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#riesgos aceptados y límites declarados"
-    sin_medir "sin medida todavía; escenarios: «riesgo de un cambio con requisitos reemplazados»"
+    medido_por factory_resumen.riesgos_aceptados_y_limites_declarados, factory_resumen.corrida_completa

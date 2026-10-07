@@ -66,6 +66,104 @@
         "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
         "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+      "medidas": [
+        "factory_resumen.el_resumen_muestra_lo_vigente_y_lo_pendiente",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados",
+      "medidas": [
+        "factory_resumen.riesgos_aceptados_y_limites_declarados",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice",
+      "medidas": [
+        "factory_resumen.el_veredicto_es_el_del_cierre_y_lo_dice",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas",
+      "medidas": [
+        "factory_resumen.el_resumen_es_determinista_y_no_cambia_nada_mas",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo",
+      "medidas": [
+        "factory_resumen.se_sabe_cuando_quedo_viejo",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar",
+      "medidas": [
+        "factory_resumen.se_actualiza_al_cerrar_y_al_archivar",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-07T00:45:48+00:00",
+      "requisito": "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia",
+      "medidas": [
+        "factory_resumen.este_repositorio_tiene_su_resumen_al_dia",
+        "factory_resumen.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -78,5 +176,48 @@
     "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "resumen_cc4d949aa52fa46c1.el_resumen_muestra_lo_vigente_y_lo_pendiente": {
+      "sha256": "1f3c83135bd82a92221f65f376ea38274aa3b92b6eee897abd62adaed3b1c439",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.riesgos_aceptados_y_limites_declarados": {
+      "sha256": "ccd5ccd5fbd92a1e7b3bf68a97b43399271bbd1608035b5ade0668ad08047a90",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.el_veredicto_es_el_del_cierre_y_lo_dice": {
+      "sha256": "f9f1099267562877d5e0d3b4b09d45f956fc39ae1bc54cc1e80e0c48760228bb",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.el_resumen_es_determinista_y_no_cambia_nada_mas": {
+      "sha256": "0ae7ac48990c93148251ef7c14ce7467c4ef5178dd0ca0d2b81b6769f8be2ed7",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.se_sabe_cuando_quedo_viejo": {
+      "sha256": "7ab62deb7cb38a0e1f523c96579a6ff76fce51bfa708cd357298bfae47d3d791",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar": {
+      "sha256": "186af53c30d7164f66914c836e15eb0b81a94e826a3fe942d96adab8d80f1c43",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    },
+    "resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia": {
+      "sha256": "74cffe4825c1f647119c2384bfa350ab8a6bcd4ee61824e4df7a3c954a4784e1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-07T00:45:48+00:00"
+    }
+  }
 }

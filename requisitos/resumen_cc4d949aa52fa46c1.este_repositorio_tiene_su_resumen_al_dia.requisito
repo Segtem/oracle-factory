@@ -1,4 +1,4 @@
 requisito resumen_cc4d949aa52fa46c1.este_repositorio_tiene_su_resumen_al_dia:
     texto "Tipo: no funcional Este repositorio SHALL tener `.factory/resumen.md` al día, y un verificador SHALL comprobarlo junto con las pruebas del contrato."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#este repositorio tiene su resumen al día"
-    sin_medir "sin medida todavía; escenarios: «verificación sobre este repositorio»"
+    medido_por factory_resumen.este_repositorio_tiene_su_resumen_al_dia, factory_resumen.corrida_completa

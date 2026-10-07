@@ -1,4 +1,4 @@
 requisito resumen_cc4d949aa52fa46c1.se_actualiza_al_cerrar_y_al_archivar:
     texto "Tipo: funcional `cerrar` y `archivar` SHALL regenerar `.factory/resumen.md` después de fusionar la spec, y `resumen --salida RUTA` SHALL escribirlo en la ruta indicada dentro del proyecto."
     fuente "openspec/changes/20261007-003414-resumen-del/specs/resumen/spec.md#se actualiza al cerrar y al archivar"
-    sin_medir "sin medida todavía; escenarios: «cerrar un cambio»"
+    medido_por factory_resumen.se_actualiza_al_cerrar_y_al_archivar, factory_resumen.corrida_completa
