@@ -1640,8 +1640,8 @@ def medir(identificador: str, *, requisito_id: str | None = None,
               'desde una terminal interactiva, sin --agente.')
 
 
-def main(argv: list[str] | None = None) -> int:
-    global ROOT, CHANGES, AGENTE
+def construir_parser() -> argparse.ArgumentParser:
+    """La interfaz de la CLI; también la usan las pruebas que comprueban que la web sólo nombra comandos que existen."""
     parser = argparse.ArgumentParser(prog="oracle-factory", description="Factory local con gates humanos, OpenSpec, oracle-task y Oracle")
     parser.add_argument("--version", action="version", version=f"oracle-factory {__version__}")
     parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
@@ -1699,7 +1699,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
     p.add_argument("id"); p.add_argument("--con", type=Path, required=True)
-    args = parser.parse_args(argv)
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    global ROOT, CHANGES, AGENTE
+    args = construir_parser().parse_args(argv)
     if args.proyecto is not None:
         ROOT = args.proyecto.expanduser().resolve()
     else:

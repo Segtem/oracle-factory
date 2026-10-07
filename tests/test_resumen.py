@@ -85,8 +85,8 @@ class Resumen(Base):
             f.archivar()
         vigente = self.texto().split('## Lo vigente')[1].split('## Cambios abiertos')[0]
         self.assertEqual(vigente.count('| titulo valido |'), 1)
-        self.assertIn(modifica, vigente)
-        self.assertNotIn(cerrado, vigente)
+        self.assertIn(f'| {modifica} |', vigente)
+        self.assertNotIn(f'| {cerrado} |', vigente)  # el ID del otro puede contener a éste (…-notas y …-notas-1)
 
     # --- r2: riesgos aceptados y límites declarados -------------------------------------------------------------------
     def test_r2_riesgo_vigente_e_historico(self):
