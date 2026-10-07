@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rev/.factory/local/revisiones/9ed6a3a",
+  "base": "36f4e0525860102c2088b68a09907556777e6af2",
+  "head": "9ed6a3ab86ca3cc976ef0ef9630a366f80c02fc3",
+  "diff_sha256": "61d1e77e3f23449fcffa12d921b2758d77bbba99709d10e5e830d53ebda7ed68",
+  "context_sha256": "cc8d74168c7ff54267692112ea4a3baf12518091e974656af62d6be45c5323a6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La validación acepta marcadores desconocidos con puntuación",
+      "explanation": "validar_config sólo busca marcadores que coincidan con `\\{\\w+\\}`. Un marcador desconocido que contenga puntuación, por ejemplo `{pedido.texto}`, no coincide con esa expresión y la configuración se acepta. argumentos sólo sustituye las cadenas exactas de MARCADORES, así que el revisor recibe `{pedido.texto}` literalmente en lugar del pedido. Es una variante del typo de marcador ya detectado en vueltas anteriores y deja pasar una configuración inválida en vez de rechazarla antes de preparar la revisión.",
+      "location": {
+        "file": "oracle_factory/revisores.py",
+        "start_line": 35,
+        "end_line": 35,
+        "side": "head"
+      },
+      "trigger": "Declarar un revisor válido en los demás campos con comando [\"tool\", \"{pedido.texto}\"] y ejecutar pedir-revision. validar_config lo acepta; argumentos produce el argumento literal {pedido.texto}.",
+      "evidence": "Reproducción en memoria importando oracle_factory.revisores del candidato: validar_config aceptó la configuración y argumentos devolvió [\"tool\", \"{pedido.texto}\"]. La línea 35 limita el reconocimiento a \\w+, que no incluye el punto. La prueba test_v2_configuracion_invalida cubre {inform} y {Informe2}, pero no marcadores con puntuación.",
+      "related_requirement": "revisores_c466ac292a9f99ce6.revisores_configurables",
+      "status": "pendiente",
+      "verification": "Reproduje el caso en memoria sin modificar el checkout. Corrí `python -m unittest tests.test_revisores` con el Python y PATH indicados: 15 pruebas, OK; la suite no cubre puntuación en marcadores."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo del paquete, los módulos afectados y las pruebas del cambio.",
+    "Corrí `python -m unittest tests.test_revisores` con el entorno indicado: 15 pruebas, OK.",
+    "Revisé las siete vueltas anteriores; las correcciones cubiertas por sus pruebas siguen presentes, incluyendo terminación de procesos descendientes, validación de informes históricos con Clue y reconocimiento de typos con mayúsculas/dígitos.",
+    "Reproduje en memoria el marcador `{pedido.texto}`. No edité el checkout candidato.",
+    "No corrí la suite completa, tools/verify_revisores.py ni Oracle de extremo a extremo."
+  ]
+}

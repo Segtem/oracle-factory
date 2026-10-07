@@ -120,7 +120,8 @@ class Revisores(Base):
     def test_v2_configuracion_invalida(self):
         self.preparar()
         config = json.loads((self.root / '.factory/config.json').read_text())
-        for campo, valor in (('tope_minutos', 0), ('comando', ['programa', '{inform}']), ('comando', ['programa', '{Informe2}'])):
+        for campo, valor in (('tope_minutos', 0), ('comando', ['programa', '{inform}']), ('comando', ['programa', '{Informe2}']),
+                              ('comando', ['programa', '{pedido.texto}'])):
             invalida = json.loads(json.dumps(config))
             invalida['revisores']['prueba'][campo] = valor
             (self.root / '.factory/config.json').write_text(json.dumps(invalida))
