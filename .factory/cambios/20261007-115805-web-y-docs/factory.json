@@ -2,11 +2,28 @@
   "id": "20261007-115805-web-y-docs",
   "titulo": "La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "a141f06fe648f7595987ccbea16094676ef9fc6cee1bad05b5b54fda7e4e7076",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-07T11:59:32+00:00",
+    "documentos": {
+      "openspec/changes/20261007-115805-web-y-docs/proposal.md": "8d02dcd7a9aa879b309e99b970a0060e387f3b7ae16f1c2067dd7f1ebe18ebad",
+      "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md": "a141f06fe648f7595987ccbea16094676ef9fc6cee1bad05b5b54fda7e4e7076"
+    }
+  },
+  "requisitos": [
+    "web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible",
+    "web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada",
+    "web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto",
+    "web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando",
+    "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes",
+    "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +36,44 @@
       "forma": "decidio",
       "cuando": "2026-10-07T11:58:05+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:59:32+00:00",
+      "documentos": {
+        "openspec/changes/20261007-115805-web-y-docs/proposal.md": "8d02dcd7a9aa879b309e99b970a0060e387f3b7ae16f1c2067dd7f1ebe18ebad",
+        "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md": "a141f06fe648f7595987ccbea16094676ef9fc6cee1bad05b5b54fda7e4e7076"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-07T11:59:42+00:00",
+      "ids": [
+        "web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible",
+        "web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada",
+        "web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto",
+        "web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando",
+        "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes",
+        "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible": "funcional",
+    "web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada": "funcional",
+    "web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto": "funcional",
+    "web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando": "no funcional",
+    "web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes": "funcional",
+    "web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe": "no funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

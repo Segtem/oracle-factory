@@ -1,0 +1,4 @@
+requisito web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada:
+    texto "Tipo: funcional La portada y la guía desde cero SHALL instalar la versión publicada en PyPI y SHALL presentar los modos de trabajo y `--agente`, la revisión guiada, la carpeta `.factory/`, la spec consolidada y el resumen del estado actual."
+    fuente "openspec/changes/20261007-115805-web-y-docs/specs/web/spec.md#el sitio cuenta lo que trae la versión publicada"
+    sin_medir "sin medida todavía; escenarios: «quien instala desde la guía»"
