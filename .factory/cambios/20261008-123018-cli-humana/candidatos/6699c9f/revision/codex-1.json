@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/6699c9f",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "6699c9f1ac3dc4ecff21b75d01abf6f55fcb9ce2",
+  "diff_sha256": "1f816a39e819b0f727f6e02464453746e6ca83af64d04bc9f22e0155ba02a306",
+  "context_sha256": "fcbcbbf3e6e0b8ea8986609a6c2743cd5d7f35f211621cfd1b9114b8a5cd9c15",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los 29 archivos y los parches del paquete; recorrí el flujo de errores, preparación de revisión, relanzamiento de fabrica.py, resumen --ver, cálculo del próximo paso y menú. Revisé las tres revisiones previas: el activador Fish ya no se recomienda, la comparación del venv usa sys.prefix y la condición contempla oracle_task además de oracle_metalenguaje.",
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana`: 10 pruebas, OK. La salida completa está en pruebas.log.",
+    "No ejecuté la suite completa ni Oracle/Clue revisar. No hice mutaciones; la única comprobación dinámica fue la suite específica. Inspeccioné la cobertura de escenarios en tests/test_cli_humana.py y los cambios de código del paquete.",
+    "No encontré un defecto adicional con evidencia suficiente en el diff actual. Esta revisión no es un veredicto de Oracle ni afirma propiedades no medidas; el checkout candidato no fue modificado."
+  ]
+}
