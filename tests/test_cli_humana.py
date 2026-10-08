@@ -149,7 +149,50 @@ class CliHumana(_ap.Base):
         carpeta, estado = f.leer(ident)
         estado['fase'] = 'oracle_rojo'
         f.guardar(carpeta, estado)
-        self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con RUTA_DE_HECHOS_CORREGIDOS')
+        self.assertEqual(f.proximo_paso(ident), f'corregí la evidencia o el producto; después: oracle-factory juzgar {ident}')
+        with patch('builtins.input', side_effect=AssertionError('no debía ofrecer un paso que no es un comando')), \
+                contextlib.redirect_stdout(Terminal()):
+            self.assertEqual(f.ofrecer_siguiente(ident), 0)
+
+    def test_c4_recorrido_completo(self):
+        """El paso calculado en cada punto del flujo, de la spec al cierre."""
+        paso = lambda: f.proximo_paso(ident)  # noqa: E731
+        ident = f.nuevo('Nota', con_ejemplo='notas')
+        self.assertEqual(paso(), f'oracle-factory aprobar-spec {ident}')
+        with self.escribe('1'), contextlib.redirect_stdout(io.StringIO()):
+            f.aprobar_spec(ident)
+        self.assertEqual(paso(), f'oracle-factory importar {ident}')
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.importar(ident)
+        self.assertEqual(paso(), f'oracle-factory medir {ident} --listar')
+        rid = f.leer(ident)[1]['requisitos'][0]
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados', 'notas.resultados'], quitar_sin_medir=True)
+        self.git('add', '.')
+        self.git('commit', '-qm', 'producto')
+        sha = self.head()[:7]
+        self.assertTrue(paso().startswith(f'oracle-factory pedir-revision {ident} --a '))
+        self.producir_evidencia(ident)
+        self.assertTrue(paso().startswith(f'oracle-factory pedir-revision {ident} --a '))  # la evidencia sola no alcanza
+        carpeta = self.carpeta(ident, sha)
+        (carpeta / 'revision').mkdir(parents=True)
+        (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), [])))
+        (carpeta / 'clue').mkdir()
+        (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
+            'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe', 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            'files': [{'file': 'examples/notas/notas.py'}]}))
+        self.assertEqual(paso(), f'oracle-factory revisar {ident}')
+        with patch('builtins.input', side_effect=['1', '2', '1']), contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            f.revisar_paso_a_paso(ident)  # completa; pedir cambios; motivo armado
+        self.assertEqual(paso(), f'corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}')
+        with patch('builtins.input', side_effect=['1', '1', '1']), contextlib.redirect_stdout(io.StringIO()), \
+                contextlib.redirect_stderr(io.StringIO()):
+            f.revisar_paso_a_paso(ident)  # completa; aprobar; motivo armado
+        self.assertEqual(paso(), f'oracle-factory juzgar {ident}')  # los hechos están en el candidato
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.juzgar(ident, f.hechos_del_candidato(ident))
+        self.assertEqual(paso(), f'oracle-factory cerrar {ident}')
 
     def test_c4_salir_no_ejecuta(self):
         ident = self.listo_para_cerrar()

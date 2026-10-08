@@ -1,0 +1,81 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/9902c08",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "9902c085363c779f997408897fe64f3940b5edc8",
+  "diff_sha256": "02d23a123dfa6b99305c828ce2609ac49aa180077b6418a271e10e47aa303e32",
+  "context_sha256": "2469e74720f021f6b97f865b650034ce01a0f051eb824eaf4123b81f8101c52c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-revisar-sin-informes-revisores",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "proximo_paso sugiere y ofrece revisar en candidatos con evidencia o carpeta revision/ vacía pero sin informes de revisores, fallando al ejecutarse",
+      "explanation": "En el cálculo de proximo_paso, la comprobación material = sha and any((estructura.ruta_canonica(ROOT, ident, tipo, sha) / nombre).exists() for tipo, nombre in (('evidencia', 'resultado.json'), ('revision', '.'))) seguida de if material and not revisado: return f'oracle-factory revisar {ident}' pretendía resolver el defecto de ofrecer revisar sin material. No obstante, la condición evalúa a True en dos escenarios inválidos: 1) Cuando se produce la evidencia (evidencia/resultado.json) antes de solicitar una revisión: no existen paquetes en clue/ ni informes en revision/, por lo que archivos_revisados es None. Al invocar revisar desde el menú de estado o directamente, revisar_paso_a_paso rechaza la ejecución lanzando FactoryError: el candidato <sha> no tiene informes de revisores ni evidencia: pedí una revisión con oracle-factory pedir-revision <id> y producí la evidencia antes de revisar. El paso pendiente según el flujo y la compuerta sigue siendo pedir-revision. 2) Cuando la carpeta revision/ existe en el candidato pero no contiene informes JSON válidos (por ejemplo, carpeta vacía o con sólo .pedido.md tras un fallo o preparación interrumpida): (revision / '.').exists() es True para cualquier directorio, pero sin informes JSON revisores es vacío y revisar_paso_a_paso aborta con el mismo error. En ambos casos Factory ofrece en el menú un comando que su propia compuerta rechaza.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1831,
+        "end_line": 1834,
+        "side": "head"
+      },
+      "trigger": "Generar evidencia (resultado.json) para un candidato vigente sin haber ejecutado pedir-revision, o tener la carpeta candidatos/<sha>/revision/ vacía, y consultar oracle-factory estado ID en terminal interactiva seleccionando la opción 1.",
+      "evidence": "Reproducido en entorno de prueba: al contar únicamente con evidencia/resultado.json, proximo_paso(ident) devuelve 'oracle-factory revisar <id>'. Al ejecutar revisar_paso_a_paso(ident), la ejecución falla inmediatamente con FactoryError: el candidato <sha> no tiene informes de revisores ni evidencia: pedí una revisión con oracle-factory pedir-revision <id> y producí la evidencia antes de revisar. Idéntico fallo se reproduce cuando la carpeta revision/ existe sin informes JSON.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1831-1834 frente a 982-984 y 728-729 de oracle_factory/cli.py, y reproducción programática con un caso de prueba aislado."
+    },
+    {
+      "id": "cli-proximo-paso-cambios-pedidos-sin-modificacion",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "proximo_paso propone y ofrece pedir-revision tras una revisión con decisión «cambios» sin que el producto haya sido modificado",
+      "explanation": "Cuando se registra una revisión con decisión cambios, estado['fase'] queda en 'cambios_pedidos'. En proximo_paso, la comprobación de revisado evalúa si el producto cambió respecto de la revisión registrada (rev.get('contexto', {}).get('archivos_sha256') == contexto_producto()['archivos_sha256']). Si la persona aún no realizó ni commiteó cambios en el código, revisado evalúa a True. Mientras que para oracle_rojo se contempló esta situación (if fase == 'oracle_rojo' and revisado:), para 'cambios_pedidos' no existe tratamiento: material and not revisado es False, y la función cae en la cláusula final retornando oracle-factory pedir-revision {ident} --a {revisor}. Si el proyecto cuenta con revisores configurados (como agy o codex en .factory/config.json), el comando no contiene marcadores en mayúsculas y ofrecer_siguiente ofrece ejecutarlo en el menú interactivo. Al ejecutarlo, pedir-revision opera sobre candidato_vigente (el mismo commit que acaba de ser rechazado), invocando al revisor externo sobre el mismo código sin modificaciones.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1827,
+        "end_line": 1836,
+        "side": "head"
+      },
+      "trigger": "Registrar una revisión con decisión cambios en un cambio y ejecutar oracle-factory estado ID antes de modificar y commitear cambios en el producto.",
+      "evidence": "Reproducido en entorno de prueba: tras registrar revisión con decisión cambios (fase == 'cambios_pedidos'), con revisado == True, proximo_paso(ident) devuelve 'oracle-factory pedir-revision <id> --a NOMBRE' (o el revisor configurado). En un entorno interactivo con revisor configurado, ofrecer_siguiente ofrece ejecutar la revisión sobre el mismo commit sin cambios.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1827-1836 de oracle_factory/cli.py y reproducción programática registrando revisión con decisión «cambios» en entorno aislado."
+    },
+    {
+      "id": "cli-test-c4-omite-cobertura-de-pasos-clave",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_cli_humana.py omite verificar que proximo_paso devuelva «revisar», «juzgar», «aprobar-spec», «importar» o «medir --listar»",
+      "explanation": "El requisito estado calcula y ofrece el próximo paso promete que estado ID calculará el próximo paso según lo que falta: aprobar la spec, importar, confirmar las medidas propuestas, elegir medidas, pedir una revisión, revisar, juzgar, cerrar. Sin embargo, la clase de pruebas de contrato CliHumana en tests/test_cli_humana.py sólo incluye aserciones para cerrar, medir --confirmar, pedir-revision (sin material) y juzgar (con Oracle en rojo). Ninguna prueba valida que proximo_paso devuelva revisar cuando hay material de revisión, juzgar tras una revisión aprobada con hechos presentes o pendientes, aprobar-spec, importar ni medir --listar. Se comprobó mediante mutaciones manuales que reemplazar el bloque de cálculo de material y revisar por material = False sobrevive con 12/12 pruebas pasando (100% OK), y eliminar completamente el cálculo de juzgar tras aprobación de revisión también sobrevive con 12/12 pruebas pasando (100% OK).",
+      "location": {
+        "file": "tests/test_cli_humana.py",
+        "start_line": 123,
+        "end_line": 160,
+        "side": "head"
+      },
+      "trigger": "Ejecutar la suite tests.test_cli_humana tras mutar oracle_factory/cli.py para anular material (material = False) o eliminar el bloque de juzgar para revisiones aprobadas.",
+      "evidence": "Se ejecutaron mutaciones manuales en copias aisladas del repositorio candidato: tanto la anulación de material como la eliminación de juzgar para revisiones aprobadas resultaron en código de salida 0 con 'Ran 12 tests ... OK' en tests.test_cli_humana.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las pruebas test_c4_* en tests/test_cli_humana.py y ejecución de las mutaciones manuales en copias de prueba aisladas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Evalué el checkout candidato 9902c08 en modo estricto de sólo lectura, sin modificarlo ni realizar commits.",
+    "Ejecuté la suite unitaria específica tests.test_cli_humana con .venv/bin/python y el PATH indicado: 12 pruebas pasaron en 5.1s.",
+    "Ejecuté la verificación formal de contrato con tools/verify_cli.py: 286 pruebas y 12 casos de contrato pasaron exitosamente.",
+    "Ejecuté la suite completa de pruebas del proyecto (unittest discover tests): 286 pruebas pasaron exitosamente en 101.7s.",
+    "Verifiqué el estado de las correcciones de las vueltas anteriores (activador Fish en 2515b20, symlink venv en ddf034c, oracle-task en 2efe4e6, y las pruebas c2 y c5 en 6699c9f); todas se mantienen cerradas y sin regresiones.",
+    "Realicé mutaciones manuales en copias temporales aisladas bajo la carpeta del revisor para contrastar la sensibilidad de la suite de pruebas.",
+    "No ejecuté Oracle formalmente ni alteré el repositorio principal; este informe refleja una revisión técnica independiente y no un veredicto de Oracle ni una afirmación sobre propiedades no medidas."
+  ]
+}

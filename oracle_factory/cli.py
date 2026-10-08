@@ -1825,11 +1825,13 @@ def proximo_paso(identificador: str) -> str | None:
             return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
     sha = candidato_vigente(ident)
     revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
+    # Con el producto revisado sin cambios, lo que falta es corregir, no otra revisión: se indica y no se ofrece ejecutar.
     if fase == "oracle_rojo" and revisado:
-        # El producto revisado no cambió: falta corregir la evidencia (o el producto) y volver a juzgar, no otra revisión.
-        return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS_CORREGIDOS"
-    material = sha and any((estructura.ruta_canonica(ROOT, ident, tipo, sha) / nombre).exists()
-                           for tipo, nombre in (("evidencia", "resultado.json"), ("revision", ".")))
+        return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
+    if fase == "cambios_pedidos" and revisado:
+        return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
+    # revisar necesita informes de revisores en el candidato (traen su paquete y lo revisado), no sólo evidencia.
+    material = sha and any(estructura.ruta_canonica(ROOT, ident, "revision", sha).glob("*.json"))
     if material and not revisado:
         return f"oracle-factory revisar {ident}"
     revisores = sorted(config_proyecto()["revisores"])
@@ -1846,7 +1848,7 @@ def ofrecer_siguiente(identificador: str) -> int:
     """En una terminal y sin --agente, ofrece ejecutar el próximo paso si es un comando completo."""
     paso = proximo_paso(identificador)
     if (not paso or AGENTE or not terminal_interactiva() or not sys.stdout.isatty()
-            or re.search(r"\b[A-Z][A-Z_]{2,}\b", paso)):
+            or not paso.startswith("oracle-factory ") or re.search(r"\b[A-Z][A-Z_]{2,}\b", paso)):
         return 0
     if elegir("¿Seguís?", [(f"Ejecutar «{paso}»", "como si lo escribieras; si es una decisión, abre su propio menú"),
                             ("Salir", "no ejecuta nada")]) != 0:

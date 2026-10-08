@@ -19,7 +19,7 @@ CONTRACTS = {
     'el_resumen_se_ve_con_formato': ['c3_sin_glow', 'c3_con_glow'],
     'estado_calcula_y_ofrece_el_proximo_paso': ['c4_listo_para_cerrar', 'c4_medidas_propuestas', 'c4_salir_no_ejecuta',
                                                 'c4_candidato_sin_material',
-                                                'c4_oracle_rojo_sin_cambios'],
+                                                'c4_oracle_rojo_sin_cambios', 'c4_recorrido_completo'],
     'el_proximo_paso_no_se_ejecuta_solo': ['c5_agente_sin_terminal_o_salida_redirigida'],
 }
 PREFIX = 'test_cli_humana.CliHumana.test_'
