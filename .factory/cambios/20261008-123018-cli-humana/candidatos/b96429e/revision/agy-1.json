@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/b96429e",
+  "base": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "head": "b96429e1a94a18f2bae2767ba533d4d82107ef0b",
+  "diff_sha256": "dd9bd7fd611ae7446289f104437b003847efbee50a61dea0b2dbc66e05134ae0",
+  "context_sha256": "d585664aca59c99b2a8843c839bc3c89e8111a434bbdbe04a5318058ee2061b7",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-tasks-md-ausente-ofrece-aprobar-spec",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` y el menú interactivo ofrecen ejecutar `aprobar-spec` si falta `tasks.md`, abortando con `FactoryError` en lugar de indicar recuperarlo desde Git",
+      "explanation": "La función `archivos_faltantes` (líneas 1815–1821), agregada para derivar a recuperación desde Git cualquier archivo referenciado que falte en disco sin ofrecer ejecución, omite `carpeta / \"tasks.md\"` en su lista `rutas` (líneas 1818–1820), incluyendo únicamente `proposal.md`, la spec, los requisitos y los artefactos de revisión y juicio. Sin embargo, `aprobar_spec` exige explícitamente la existencia de `(carpeta / \"proposal.md\", spec, carpeta / \"tasks.md\")` antes de presentar la decisión (líneas 541–544). Cuando falta `tasks.md` en un cambio cuya spec aún no ha sido aprobada (o cuya propuesta/spec fue modificada tras aprobarse), `archivos_faltantes` devuelve una lista vacía; luego `exigir_spec` falla por no estar aprobada y `proximo_paso` retorna `oracle-factory aprobar-spec {ident}` (línea 1841). En modo terminal interactivo, `ofrecer_siguiente` ofrece ejecutar dicho comando en el menú (`¿Seguís? 1. Ejecutar «oracle-factory aprobar-spec ID»`). Al seleccionarlo, `aprobar_spec` comprueba la existencia de los archivos y aborta inmediatamente con `FactoryError: hay que completar y revisar primero: openspec/changes/ID/tasks.md` (código de salida 1). Esto infringe la regla de que los archivos ausentes deben llevar a recuperarlos desde Git sin ofrecer ejecución, y genera una opción de menú que no puede avanzar el flujo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1818,
+        "end_line": 1820,
+        "side": "head"
+      },
+      "trigger": "En un cambio cuya spec aún no fue aprobada (o tras modificar proposal.md o la spec), se elimina o no existe en disco `openspec/changes/ID/tasks.md`, y se ejecuta `oracle-factory estado ID` en una terminal interactiva (o con `--agente`).",
+      "evidence": "Comprobado mediante script reproductor dinámico (`test_mutaciones.py`): al eliminar `tasks.md` antes de `aprobar_spec`, `proximo_paso` devuelve `oracle-factory aprobar-spec ID`. En modo interactivo, `ofrecer_siguiente` despliega el menú ofreciendo ejecutar la opción 1; al seleccionarla, el proceso falla con código de retorno 1 y emite por stderr: `FACTORY BLOQUEADA: hay que completar y revisar primero: openspec/changes/ID/tasks.md`. En modo `--agente`, `proximo_paso` indica ejecutar `aprobar-spec` en vez de instruir la recuperación desde Git. La suite `tests/test_cli_humana.py` (líneas 144–147) probó eliminar requisitos y `proposal.md`, pero omitió verificar la ausencia de `tasks.md`.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de `archivos_faltantes` (líneas 1815–1821) frente a `aprobar_spec` (líneas 541–544) de `oracle_factory/cli.py`. Ejecución exitosa de la suite requerida (`timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana`: 14 pruebas, OK). Verificación dinámica con reproductor confirmando el fallo de `ofrecer_siguiente` con código de salida 1 ante la ausencia de `tasks.md`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato b96429e: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, el diff empaquetado y el historial completo de revisiones previas (desde 2515b20 hasta 38efb36), verificando que los hallazgos anteriores sobre relanzamiento de fabrica.py, revisión con material de candidatos, revisión desactualizada por cambios de producto, bucle con medidas modificadas, y los artefactos ausentes cubiertos por archivos_faltantes (proposal.md, spec, requisitos, informe y decisiones de revisión, e informe y hechos de Oracle) se mantienen resueltos.",
+    "Realicé análisis estático detallado y pruebas dinámicas con reproductor y mutaciones en el directorio de trabajo sobre copias del código de b96429e para verificar el comportamiento de archivos_faltantes, proximo_paso, ofrecer_siguiente y aprobar_spec ante la falta de tasks.md.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato b96429e (sólo lectura) ni se realizaron commits."
+  ]
+}

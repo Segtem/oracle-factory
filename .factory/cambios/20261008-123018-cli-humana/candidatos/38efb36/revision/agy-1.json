@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/38efb36",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "38efb3658f9647c85a7281b57527bc4c25366e3d",
+  "diff_sha256": "6d99739b793cd62ebaacc334df52150e3c852bfaf476ae25e2d00b7f5941371e",
+  "context_sha256": "3d256dc7dbb9a8eccc0811631c6c899ee66fa220073ba0c20ae54c3725dfc746",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-propuesta-spec-ausente-antes-aprobacion",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` y el menú interactivo ofrecen ejecutar `aprobar-spec` cuando `proposal.md` o la spec faltan antes de aprobar, abortando con `FactoryError` en lugar de indicar recuperar el archivo desde Git",
+      "explanation": "`proximo_paso` delega la comprobación de la propuesta y spec en `exigir_spec(carpeta, estado)` (líneas 1825–1830). Sin embargo, cuando la spec aún no ha sido aprobada (`spec_aprobada` ausente en `estado`), `exigir_spec` (línea 401) lanza inmediatamente `FactoryError('primero hay que aceptar la propuesta y la spec (aprobar-spec)')` sin llegar a leer los archivos en disco con `documentos(...)`. Por ello, la cláusula `except OSError as e:` (línea 1829), agregada en 38efb36 para derivar archivos faltantes a su recuperación desde Git, nunca se ejecuta en esta etapa. En su lugar, el bloque `except FactoryError:` captura la excepción y retorna incondicionalmente `oracle-factory aprobar-spec {ident}`. En una terminal interactiva, `ofrecer_siguiente` ofrece ejecutar dicho comando en el menú (`¿Seguís? 1. Ejecutar «oracle-factory aprobar-spec ID»`). Al seleccionarlo, `aprobar_spec` comprueba la existencia de los archivos (líneas 542–544) y aborta inmediatamente con `FactoryError: hay que completar y revisar primero: .../proposal.md` (código de salida 1). Esto infringe la regla de que los archivos ausentes deben llevar a recuperarlos desde Git sin ofrecer ejecutar nada, y produce un menú interactivo que ofrece una acción que no puede avanzar el flujo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1825,
+        "end_line": 1830,
+        "side": "head"
+      },
+      "trigger": "En un cambio recién creado o clonado cuya spec aún no fue aprobada, se elimina o no existe en disco `proposal.md`, la spec (`estado['spec']`) o `tasks.md`, y se ejecuta `oracle-factory estado ID` en una terminal interactiva.",
+      "evidence": "Se comprobó con script reproductor (`test_reproductor.py`): al eliminar `proposal.md` antes de `aprobar_spec`, `proximo_paso` retorna `oracle-factory aprobar-spec ID`. `ofrecer_siguiente` despliega el menú ofreciendo ejecutar la opción 1 (`Ejecutar «oracle-factory aprobar-spec ID»`). Al seleccionar la opción 1, la CLI falla con código de retorno 1 y emite por stderr: `FACTORY BLOQUEADA: hay que completar y revisar primero: openspec/changes/ID/proposal.md`. La suite `tests.test_cli_humana.py` no detectó esto porque sólo probó borrar `proposal.md` después de aprobada la spec (línea 146 tras `aprobar_spec`).",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1825–1830 frente a 400–403 y 542–544 de `oracle_factory/cli.py`. Ejecución exitosa de la suite requerida (`timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana`: 14 pruebas, OK). Reproducción aislada mediante `test_reproductor.py` demostrando la falla interactiva."
+    },
+    {
+      "id": "cli-proximo-paso-artefactos-revision-ausentes-ofrece-revisar",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` ofrece ejecutar `revisar` o `pedir-revision` cuando faltan en disco los artefactos de una revisión registrada y aprobada, reiniciando la revisión en vez de indicar recuperarlos desde Git",
+      "explanation": "Cuando un cambio ya cuenta con una revisión registrada (`estado['revision']`), `problemas_de_revision(estado)` comprueba la existencia de sus artefactos (`informe` y `decisiones`, ej. `review.md`, `informe.json` o `decisiones.json`). Si alguno falta en disco, `problemas_de_revision` retorna que el artefacto está ausente (líneas 1222–1223), invalidando `revisado` (línea 1845). No obstante, en lugar de identificar que se trata de un artefacto faltante que debe recuperarse desde Git sin ofrecer ejecutar nada, `proximo_paso` trata el cambio como si nunca se hubiera revisado (líneas 1847–1855). Si el candidato cuenta con material de informes de revisores, retorna `oracle-factory revisar {ident}`; si no, pero hay revisores configurados, retorna `oracle-factory pedir-revision {ident} --a <revisor>`. En ambos casos, al ser comandos completos, `ofrecer_siguiente` los ofrece para ejecutar en el menú interactivo (`¿Seguís? 1. Ejecutar «...»`). Si la persona acepta, se inicia un asistente interactivo de revisión desde cero o se despacha un pedido externo a un agente revisor, descartando y sobreescribiendo la aprobación previamente otorgada y registrada en `factory.json`, en vez de indicar recuperar el informe o decisiones faltantes desde Git sin ofrecer ejecución.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1844,
+        "end_line": 1856,
+        "side": "head"
+      },
+      "trigger": "En un cambio con revisión aprobada registrada, se borra o no existe en disco el archivo de informe de revisión (`rev['informe']`, ej. `review.md`) o de decisiones (`rev['decisiones']`), y se ejecuta `oracle-factory estado ID` en una terminal interactiva.",
+      "evidence": "Al eliminar `review.md` en un cambio listo para cerrar con material de candidato, `pendientes_actuales` reporta `informe de revisión ausente`, pero `proximo_paso` retorna `oracle-factory revisar ID`. `ofrecer_siguiente` despliega el menú interactivo ofreciendo ejecutar `oracle-factory revisar ID`. Si no hay material de candidato pero hay revisores configurados, ofrece `oracle-factory pedir-revision ID --a <revisor>`. En `tests.test_cli_humana.py` (líneas 211–212), sólo se probó alterar el contenido del informe (`informe_rev.write_bytes(contenido + b'\n')`), omitiendo probar su ausencia (`unlink()`).",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1844–1856 frente a 1212–1229 y 1894–1904 de `oracle_factory/cli.py`. Verificación dinámica con `test_reproductor.py` confirmando que ante un informe de revisión ausente, `ofrecer_siguiente` ofrece ejecutar `revisar` en vez de instruir la recuperación desde Git."
+    },
+    {
+      "id": "cli-proximo-paso-informe-oracle-ausente-ofrece-juzgar",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` ofrece ejecutar `juzgar` cuando el informe de veredicto Oracle (`oracle-veredicto.txt`) falta en disco, en lugar de indicar recuperarlo desde Git sin ofrecer ejecución",
+      "explanation": "Cuando un cambio cuenta con un veredicto Oracle registrado (`estado['oracle']`), `proximo_paso` evalúa la vigencia del juicio comprobando tanto los hechos como el informe (líneas 1867–1872). Si el informe registrado (`oracle['informe']`, típicamente `.factory/cambios/<id>/oracle-veredicto.txt`) falta en disco pero el archivo de hechos sigue existiendo, `vigente(...)` sobre el informe resulta falso. La función cae entonces en las líneas 1878–1884 (`if juzgados is not None and juzgados.is_file():`), devolviendo `oracle-factory juzgar {ident}` o `oracle-factory juzgar {ident} --con <hechos>`. Al ser un comando completo sin marcadores en mayúsculas, `ofrecer_siguiente` lo ofrece para ejecutar en el menú interactivo (`¿Seguís? 1. Ejecutar «oracle-factory juzgar ...»`). Si la persona lo selecciona, se reejecuta Oracle innecesariamente (ejecutando suites de pruebas y regenerando el informe), cuando el cambio ya había sido juzgado y el informe es un archivo versionado de Factory que simplemente falta en el árbol de trabajo y debe ser recuperado desde Git sin ofrecer ejecución.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1870,
+        "end_line": 1884,
+        "side": "head"
+      },
+      "trigger": "En un cambio con juicio Oracle registrado (incluso en verde), se elimina o no existe en disco el archivo de veredicto `oracle['informe']` (`oracle-veredicto.txt`), manteniéndose los hechos registrados en disco, y se ejecuta `oracle-factory estado ID` en una terminal interactiva.",
+      "evidence": "Al eliminar `oracle-veredicto.txt` en un cambio listo para cerrar, `pendientes_actuales` lista `informe Oracle ausente`, pero `proximo_paso` devuelve `oracle-factory juzgar ID --con tareas/ID/hechos.json`. `ofrecer_siguiente` ofrece la opción 1 `Ejecutar «oracle-factory juzgar ID --con ...»`. En `tests.test_cli_humana.py` (líneas 230–232), sólo se probó modificar el archivo del veredicto (`informe_oracle.write_text(...)`), sin probar el caso de un informe ausente.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1870–1884 de `oracle_factory/cli.py`. Verificación dinámica con `test_reproductor.py` confirmando la oferta interactiva de `juzgar` ante la ausencia del informe de veredicto."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato 38efb36: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete Clue y el historial completo de revisiones previas (desde 2515b20 hasta a5872cd), verificando que los hallazgos anteriores sobre el activador de fish, relanzamiento de fabrica.py (sys.prefix, FACTORY_REEJECUTADO, dependencias completas), candidatos sin material usable, revisión desactualizada por cambios de producto, bucles de proximo_paso ante propuestas con sha256 modificado, y recuperación de requisitos y spec ausentes (tras aprobación) se mantienen resueltos en sus casos específicos.",
+    "Realicé análisis estático detallado y pruebas dinámicas mediante scripts aislados en el directorio de trabajo para verificar transiciones de estado, cálculo de próximo paso, manejo de excepciones ante archivos ausentes (propuesta/spec antes de aprobación, artefactos de revisión e informe de veredicto Oracle) y comportamiento de ofrecer_siguiente, aprobar_spec, revisar y juzgar.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 38efb36 (sólo lectura) ni se realizaron commits."
+  ]
+}

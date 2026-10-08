@@ -171,7 +171,9 @@ class Limpieza(unittest.TestCase):
         self.assertIn('hechos ausentes', antes)
         antes = re.sub(r'; hechos ausentes \(.*?RUTA_DE_LOS_HECHOS', '', antes)
         self.limpiar()
-        self.assertEqual(self.lineas_de_estado(), antes)
+        # limpiar reescribe requisitos sin commitearlos: el próximo paso pasa, con razón, a «commiteá los cambios».
+        sin_paso = lambda texto: re.sub(r'(?m)^Próximo paso: .*\n', '', texto)  # noqa: E731
+        self.assertEqual(sin_paso(self.lineas_de_estado()), sin_paso(antes))
 
     def test_l2_decision_sin_hash_o_con_otro_hash_no_se_toca(self):
         rid = self.estado()['requisitos'][0]

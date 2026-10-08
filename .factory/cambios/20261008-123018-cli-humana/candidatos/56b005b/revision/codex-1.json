@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/56b005b",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "56b005b41330f2f3d79c2d197e0fa50cd00cd137",
+  "diff_sha256": "5044ecbfe900a4370e8330c3286bea49b26dfffa4f086ddfa1f5da0ea6b708fe",
+  "context_sha256": "2473e7f9b6626452e9d545bdf2e7afa753c45949eb1ce5454fffa797bebf2f92",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-revision-sin-evidencia-vigente",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "estado ofrece juzgar aunque la revisión aprobada perdió su informe vigente",
+      "explanation": "El cálculo considera vigente una revisión sólo porque coincide la huella del producto. No verifica que el informe archivado (ni las decisiones guiadas) siga existiendo y conserve la huella registrada, aunque pendientes_actuales sí trata esos artefactos ausentes o alterados como pendientes. Si el informe se borra o altera después de aprobar la revisión y antes del primer juicio, estado ofrece oracle-factory juzgar y el menú puede ejecutarlo como siguiente paso, aunque todavía no hay una revisión válida para este producto. Esto rompe la secuencia prometida de revisión válida antes de juzgar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1825,
+        "end_line": 1825,
+        "side": "head"
+      },
+      "trigger": "Registrar una revisión aprobada para el producto actual, borrar o modificar el archivo indicado por estado.revision.informe (o decisiones en una revisión guiada), dejar el juicio pendiente y ejecutar estado ID.",
+      "evidence": "La línea 1825 decide revisado comparando sólo rev.contexto.archivos_sha256 con contexto_producto().archivos_sha256. Después, líneas 1837-1854 permiten llegar a oracle-factory juzgar. En cambio, pendientes_actuales (líneas 1212 en adelante) verifica existencia y SHA-256 del informe y las decisiones y las declara pendientes si faltan o cambiaron; esa comprobación sólo aparece al final, cuando el juicio ya está verde, y entonces devuelve un texto para resolver pendientes antes de cerrar. Así los dos cálculos discrepan sobre la validez de la revisión y el paso ofrecido.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática del diff y de proximo_paso / pendientes_actuales en oracle_factory/cli.py. El escenario se deriva de que la revisión y el informe se registran por separado y proximo_paso no valida la ruta/huella antes de la rama de juzgar. No pude ejecutar las pruebas solicitadas: el comando exacto terminó 127 porque el checkout candidato no contiene .venv/bin/python."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé el diff completo del paquete, la spec y propuesta, los tests añadidos, las ramas de estado y las revisiones anteriores enumeradas. Guardé el diff largo en paquete-diff.txt y el intento de pruebas en pruebas.log dentro de esta carpeta.",
+    "Intenté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato; no se ejecutó porque falta .venv/bin/python (exit 127). No ejecuté tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones; no edité el checkout ni hice commits. La revisión es análisis de código y no un veredicto de Oracle."
+  ]
+}

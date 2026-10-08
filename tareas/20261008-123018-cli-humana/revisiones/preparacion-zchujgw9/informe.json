@@ -1,0 +1,193 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261008-123018-cli-humana",
+  "contexto": {
+    "head": "a893de1bee1cff3e0ec32e9f0eb8a8af39193635",
+    "archivos_sha256": "077fb2d0a0e33e7074d516af8f5f4316203515b9b64a869f277205f811735eec"
+  },
+  "documentos": {
+    "openspec/changes/20261008-123018-cli-humana/proposal.md": "3cee298b639c66079c4717cb4da4846ca7b4ae9e537f8fbf57d81e9a64d8f8ce",
+    "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/agy-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/agy-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/codex-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/codex-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/agy-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/agy-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/codex-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/codex-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/agy-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/agy-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/codex-1.json",
+    ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/codex-1.pedido.md",
+    ".factory/cambios/20261008-123018-cli-humana/factory.json",
+    "oracle_factory/cli.py",
+    "tests/test_cli_humana.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 288 pruebas, 14 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/9dd7079/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/9dd7079/revision/agy-1.json (sin validar: oracle-clue no está instalado)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/9dd7079/revision/codex-1.json (sin validar: oracle-clue no está instalado)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2515b20: codex (gpt-6-luna), 1 hallazgo: cli-shell-activation-command (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/2515b20/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ddf034c: codex (gpt-6-luna), 1 hallazgo: fabrica-venv-symlink-skips-reexec (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/ddf034c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2efe4e6: codex (gpt-6-luna), 1 hallazgo: fabrica-reexec-ignora-oracle-task (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/2efe4e6/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6699c9f: agy (gemini-3.8-flash-high), 4 hallazgos: cli-proximo-paso-revisar-sin-informes-ni-evidencia (media), cli-proximo-paso-oracle-rojo-pide-revision (media), cli-test-c5-no-verifica-salida-de-estado (baja), cli-test-c2-no-evalua-escenario-estado (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/6699c9f/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6699c9f: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/6699c9f/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9902c08: agy (gemini-3.8-flash-high), 3 hallazgos: cli-proximo-paso-revisar-sin-informes-revisores (media), cli-proximo-paso-cambios-pedidos-sin-modificacion (media), cli-test-c4-omite-cobertura-de-pasos-clave (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/9902c08/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9902c08: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/9902c08/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 313d391: codex (gpt-6-luna), 1 hallazgo: cli-proximo-paso-reporte-no-utilizable (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/313d391/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4db955b: agy (gemini-3.8-flash-high), 1 hallazgo: cli-proximo-paso-juzga-con-revision-desactualizada (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/4db955b/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4db955b: codex (gpt-6-luna), 1 hallazgo: cli-proximo-paso-juzga-con-revision-desactualizada (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/4db955b/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a9b3d62: codex (gpt-6-luna), 1 hallazgo: cli-oracle-rojo-evidencia-actualizada-no-reconocida (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/a9b3d62/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a01816: agy (gemini-3.8-flash-high), 3 hallazgos: cli-proximo-paso-oracle-verde-evidencia-modificada-pide-revision (media), cli-proximo-paso-spec-modificada-omite-aprobar-spec (media), cli-oracle-rojo-evidencia-con-ruta-no-detectada (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/3a01816/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a01816: codex (gpt-6-luna), 1 hallazgo: cli-oracle-verde-evidencia-actualizada-no-ofrece-juzgar (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/3a01816/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 56b005b: agy (gemini-3.8-flash-high), 1 hallazgo: cli-proximo-paso-revision-invalida-ofrece-juzgar (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/56b005b/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 56b005b: codex (gpt-6-luna), 1 hallazgo: cli-proximo-paso-revision-sin-evidencia-vigente (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/56b005b/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2391733: agy (gemini-3.8-flash-high), 1 hallazgo: cli-proximo-paso-propuestas-medidas-modificadas (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/2391733/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 2391733: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/2391733/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 27cd98c: agy (gemini-3.8-flash-high), 1 hallazgo: cli-propuestas-confirmables-requisito-inexistente (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/27cd98c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 27cd98c: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/27cd98c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a5872cd: agy (gemini-3.8-flash-high), 2 hallazgos: cli-proximo-paso-spec-ausente-bloquea-estado (media), cli-proximo-paso-requisitos-ausentes-ofrece-medir (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a5872cd: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/a5872cd/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 38efb36: agy (gemini-3.8-flash-high), 3 hallazgos: cli-proximo-paso-propuesta-spec-ausente-antes-aprobacion (media), cli-proximo-paso-artefactos-revision-ausentes-ofrece-revisar (media), cli-proximo-paso-informe-oracle-ausente-ofrece-juzgar (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 38efb36: codex (gpt-6-luna), 1 hallazgo: cli-proximo-paso-hechos-oracle-ausentes-sin-recuperacion-git (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/38efb36/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b96429e: agy (gemini-3.8-flash-high), 1 hallazgo: cli-proximo-paso-tasks-md-ausente-ofrece-aprobar-spec (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b96429e: codex (gpt-6-luna), 1 hallazgo: cli-proximo-paso-tasks-md-ausente-ofrece-aprobar-spec (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261008-123018-cli-humana/candidatos/b96429e/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios c1–c5 en repositorios temporales, Linux, con la entrada de la terminal simulada; la re-ejecución de fabrica.py se prueba con un intérprete sin site-packages y un .venv de prueba; glow no se ejecuta (se comprueba la llamada). No mide que los mensajes sean claros para quien los lee.",
+    "agy (gemini-3.8-flash-high): Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato 9dd7079: 14 pruebas, OK.",
+    "agy (gemini-3.8-flash-high): Ejecuté pruebas dinámicas adicionales y de casos de borde en mi directorio de trabajo (test_edge_cases.py): 18 pruebas, OK, contrastando múltiples archivos ausentes simultáneos (proposal.md, tasks.md, spec, requisitos, informe y decisiones de revisión, hechos e informe Oracle), verificación de no oferta interactiva ante archivos faltantes y comportamiento ante tareas en fase cerrada.",
+    "agy (gemini-3.8-flash-high): Revisé la propuesta, la spec, el diff empaquetado y el historial completo de revisiones previas (desde 2515b20 hasta b96429e). Comprobé que la incorporación de tasks.md en archivos_faltantes (línea 1818) resuelve el hallazgo reportado en b96429e.",
+    "agy (gemini-3.8-flash-high): Evalué el escenario señalado por Codex sobre cambios cerrados: en un cambio cerrado (fase == 'cerrada'), proximo_paso retorna None conforme al diseño y a la especificación, ya que el ciclo del cambio está culminado; además, oracle-factory estado ya reporta cualquier artefacto ausente en la sección 'Pendiente:' (ej. 'informe Oracle ausente') sin ofrecer comandos que reinicien o bloqueen el flujo.",
+    "agy (gemini-3.8-flash-high): No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 9dd7079 (sólo lectura) ni se realizaron commits en el repositorio. Esta revisión es probabilística, no un veredicto de Oracle ni prueba de propiedades no medidas.",
+    "codex (gpt-6-luna): Leí la propuesta, la spec y el diff incremental empaquetado desde a5872cd; contrasté las rutas agregadas por archivos_faltantes() con estado y el registro, y revisé el contexto de los reportes previos. Los hallazgos anteriores sobre specs/requisitos, propuesta/tasks, informes/decisiones y artefactos Oracle faltantes están cubiertos para fases abiertas.",
+    "codex (gpt-6-luna): Ejecuté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato; no arrancó porque allí no existe `.venv/bin/python`. No ejecuté otra variante.",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa. No hice mutaciones ni escribí en el checkout candidato; guardé el diff largo inspeccionado en revision-larga.diff."
+  ],
+  "hallazgos": [
+    {
+      "id": "cli-proximo-paso-cerrado-omite-archivos-faltantes",
+      "descripcion": "`estado` omite la recuperación de archivos faltantes en cambios cerrados",
+      "ubicacion": "oracle_factory/cli.py:1835",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261008-123018-cli-humana/candidatos/9dd7079/revision/codex-1.json, sin validar: oracle-clue no está instalado; severidad baja. En `oracle_factory/cli.py`, `proximo_paso()` retorna `None` en las líneas 1832–1833 cuando `estado[\"fase\"] == \"cerrada\"`. La llamada a `archivos_faltantes(carpeta, estado)` y la instrucción de recuperarlos desde Git están después, en las líneas 1835–1837, por lo que no se alcanzan en ese escenario. La nueva detección sólo sirve para fases no cerradas."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

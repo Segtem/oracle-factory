@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/4db955b",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "4db955b674d8ee6b70c26400f026cd7639c0d61b",
+  "diff_sha256": "a85bfb305c15ace3c679e09e48fa3e74e8c827e2136bd8ed9809e2214b7466d7",
+  "context_sha256": "888d2c17884fe655d54593383e58a24689c530ca2cc23d801835af1e6946278f",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-juzga-con-revision-desactualizada",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "`estado` ofrece juzgar aunque haya cambios locales posteriores a la revisión",
+      "explanation": "`proximo_paso` prioriza la rama de revisión aprobada antes de comprobar si la huella de la revisión todavía coincide con el producto. Si se modificó producto sin commit después de aprobar la revisión, `candidato_vigente` devuelve `None`, pero `hechos_del_candidato` cae al HEAD actual y puede encontrar los hechos del candidato anterior. Entonces `estado` ofrece `oracle-factory juzgar ID` y el menú lo ejecuta sobre el producto modificado con evidencia anterior, sin pedir primero una nueva revisión. El cierre luego detecta la revisión desactualizada, pero la recomendación incumple el contrato de calcular el próximo paso según lo que falta y puede producir un juicio engañoso.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1820,
+        "end_line": 1825,
+        "side": "head"
+      },
+      "trigger": "Aprobar una revisión sobre un candidato con hechos guardados; después modificar un archivo de producto localmente sin commit y ejecutar `oracle-factory estado ID` en una terminal. Si los hechos del candidato siguen presentes, se ofrece juzgar y eligiéndolo se ejecuta `juzgar`.",
+      "evidence": "Las líneas 1820–1825 consultan `hechos_del_candidato` y devuelven `juzgar` antes de calcular `revisado`. En `candidato_vigente`, los cambios locales de producto hacen que el candidato no sea vigente; sin embargo, `hechos_del_candidato` usa el SHA de HEAD cuando no hay candidato vigente y por eso puede devolver los hechos del candidato anterior. `juzgar` captura el contexto de producto actual y corre Oracle sin exigir una revisión vigente. `pendientes_actuales` sí detecta después que la revisión quedó desactualizada, por lo que `cerrar` lo rechazará. `tests.test_cli_humana` no cubre una modificación local posterior a una revisión aprobada.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de `proximo_paso`, `candidato_vigente`, `hechos_del_candidato`, `juzgar` y `pendientes_actuales`. Ejecuté `tests.test_cli_humana`: 13 pruebas, OK; no cubre este escenario. No hice mutaciones ni escribí en el checkout candidato."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana` desde el checkout candidato: 13 pruebas, OK. La salida quedó en `pruebas.log` en la carpeta del revisor.",
+    "Leí la spec, el diff completo del paquete, el código relacionado y las revisiones anteriores indicadas. Los hallazgos anteriores sobre el activador Fish, relanzamiento de `fabrica.py`, JSON de revisión no utilizable, candidato sin material, Oracle rojo sin cambios y ejecución en agente/salida redirigida siguen cerrados en el código revisado.",
+    "No ejecuté tools/verify_*.py, la suite completa ni Oracle; no hice mutaciones. El hallazgo se basa en inspección estática del recorrido descrito. No edité el checkout candidato."
+  ]
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:eff0a64f5959848634704cf7726abbc8864a6903d4aa93e9a6185953bc439af4 -->
+<!-- oracle-factory resumen sha256:e2081477329daedd474deb08aefab231b033edb0e0172c9f559a80312d4418de -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-12 capacidades · 82 requisitos vigentes · 6 cambios abiertos
+13 capacidades · 87 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -34,6 +34,18 @@ Spec completa: [openspec/specs/autoproduccion/spec.md](../openspec/specs/autopro
 | el borrador de decisiones no decide | funcional | `autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide` | factory_autoproduccion.el_borrador_de_decisiones_no_decide, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
 | los informes se validan o se marcan | funcional | `autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan` | factory_autoproduccion.los_informes_se_validan_o_se_marcan, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
 | este repositorio produce en la carpeta del candidato | no funcional | `autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato` | factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+
+### cli
+
+Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| los errores dicen qué pasó y cómo seguir | funcional | `cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir` | factory_cli.los_errores_dicen_que_paso_y_como_seguir, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
+| fabrica.py usa el entorno del proyecto | funcional | `cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto` | factory_cli.fabrica_py_usa_el_entorno_del_proyecto, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
+| el resumen se ve con formato | funcional | `cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato` | factory_cli.el_resumen_se_ve_con_formato, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
+| estado calcula y ofrece el próximo paso | funcional | `cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso` | factory_cli.estado_calcula_y_ofrece_el_proximo_paso, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
+| el próximo paso no se ejecuta solo | no funcional | `cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo` | factory_cli.el_proximo_paso_no_se_ejecuta_solo, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
 
 ### decisiones
 
@@ -242,6 +254,7 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - **R2V-05** (20261005-154433-la-vigencia-de): Las propuestas de revisión pendientes con la firma anterior nunca se confirman como «confirmo». Aceptado por Brian Hollweg: Mismo mensaje: la persona decide igual y es una transición corta.
 - **R2X-01** (20261005-154433-la-vigencia-de): En repositorios con SHA-256 (64 hexadecimales) el HEAD de preparación se descarta siempre. Aceptado por Brian Hollweg: «Vamos con tus recomendaciónes»: se acepta, con el límite declarado, que en repositorios SHA-256 no se guarde head_preparacion.
 - **R2P-05** (20261005-184427-los-registros-de): El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada. Aceptado por Brian Hollweg: Mismo mensaje: el remoto de prueba no autentica, pero existe sólo en su red privada.
+- **cli-proximo-paso-cerrado-omite-archivos-faltantes** (20261008-123018-cli-humana): `estado` omite la recuperación de archivos faltantes en cambios cerrados. Aceptado por Brian Hollweg: Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados
 
 ## Límites declarados
 
@@ -320,3 +333,12 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones: 12 pruebas, OK.
 - (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): Revisé las siete rondas anteriores solicitadas; sus defectos no aparecen reabiertos en el diff actual.
 - (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): No corrí la suite completa ni hice mutaciones; no probé una interacción manual con pseudoterminal.
+- (20261008-123018-cli-humana) Evidencia: Escenarios c1–c5 en repositorios temporales, Linux, con la entrada de la terminal simulada; la re-ejecución de fabrica.py se prueba con un intérprete sin site-packages y un .venv de prueba; glow no se ejecuta (se comprueba la llamada). No mide que los mensajes sean claros para quien los lee.
+- (20261008-123018-cli-humana) agy (gemini-3.8-flash-high): Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato 9dd7079: 14 pruebas, OK.
+- (20261008-123018-cli-humana) agy (gemini-3.8-flash-high): Ejecuté pruebas dinámicas adicionales y de casos de borde en mi directorio de trabajo (test_edge_cases.py): 18 pruebas, OK, contrastando múltiples archivos ausentes simultáneos (proposal.md, tasks.md, spec, requisitos, informe y decisiones de revisión, hechos e informe Oracle), verificación de no oferta interactiva ante archivos faltantes y comportamiento ante tareas en fase cerrada.
+- (20261008-123018-cli-humana) agy (gemini-3.8-flash-high): Revisé la propuesta, la spec, el diff empaquetado y el historial completo de revisiones previas (desde 2515b20 hasta b96429e). Comprobé que la incorporación de tasks.md en archivos_faltantes (línea 1818) resuelve el hallazgo reportado en b96429e.
+- (20261008-123018-cli-humana) agy (gemini-3.8-flash-high): Evalué el escenario señalado por Codex sobre cambios cerrados: en un cambio cerrado (fase == 'cerrada'), proximo_paso retorna None conforme al diseño y a la especificación, ya que el ciclo del cambio está culminado; además, oracle-factory estado ya reporta cualquier artefacto ausente en la sección 'Pendiente:' (ej. 'informe Oracle ausente') sin ofrecer comandos que reinicien o bloqueen el flujo.
+- (20261008-123018-cli-humana) agy (gemini-3.8-flash-high): No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 9dd7079 (sólo lectura) ni se realizaron commits en el repositorio. Esta revisión es probabilística, no un veredicto de Oracle ni prueba de propiedades no medidas.
+- (20261008-123018-cli-humana) codex (gpt-6-luna): Leí la propuesta, la spec y el diff incremental empaquetado desde a5872cd; contrasté las rutas agregadas por archivos_faltantes() con estado y el registro, y revisé el contexto de los reportes previos. Los hallazgos anteriores sobre specs/requisitos, propuesta/tasks, informes/decisiones y artefactos Oracle faltantes están cubiertos para fases abiertas.
+- (20261008-123018-cli-humana) codex (gpt-6-luna): Ejecuté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato; no arrancó porque allí no existe `.venv/bin/python`. No ejecuté otra variante.
+- (20261008-123018-cli-humana) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa. No hice mutaciones ni escribí en el checkout candidato; guardé el diff largo inspeccionado en revision-larga.diff.

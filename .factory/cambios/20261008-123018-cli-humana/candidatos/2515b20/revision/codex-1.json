@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/2515b20",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "2515b200f540a620d45733ca85f4efd3d962f882",
+  "diff_sha256": "4c8fed2bab759c05556f6ecbb50fda130a6a52e7e62daab98424529465eca382",
+  "context_sha256": "4169e0ba1cfd5240381d9c9ad3048bd72754c5904c80e8d349e93cbd7f422ded",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-shell-activation-command",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La ayuda para activar el entorno no corresponde a Bash",
+      "explanation": "Cuando falta oracle-metalenguaje, el mensaje ofrece `source .venv/bin/activate.fish` para continuar desde un clon. Ese archivo es el activador de Fish; en Bash (la shell indicada para este entorno) no se puede cargar y la persona sigue bloqueada aunque el mensaje afirma cómo continuar. El comando debería adaptarse a la shell o indicar una alternativa que funcione en Bash.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2238,
+        "end_line": 2238,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory medir ID --listar` desde una terminal Bash sin oracle-metalenguaje disponible en el intérprete, con un clon que tenga .venv.",
+      "evidence": "El bloque de ModuleNotFoundError escribe literalmente `source .venv/bin/activate.fish y después oracle-factory …`. En Bash, `source` puede leer scripts de shell compatibles, pero activate.fish usa sintaxis de Fish y no activa el venv. La prueba nueva test_c1_falta_oracle sólo comprueba que el mensaje nombre el paquete y no incluya traceback; no valida que el paso indicado funcione en la shell.",
+      "related_requirement": "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir",
+      "status": "pendiente",
+      "verification": "Inspección del texto de error en la línea 2238 y del escenario de prueba test_c1_falta_oracle. Ejecuté `tests.test_cli_humana`: 10 pruebas pasan. El problema es reproducible por el comando indicado en Bash; no ejecuté el activador Fish."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana` desde el checkout candidato: 10 pruebas, OK.",
+    "La carpeta `.venv` no existe en el checkout de revisión; usé el intérprete `.venv` del clon principal y el PATH provisto.",
+    "Revisé la spec, todos los parches del paquete y en particular la lógica del estado, el manejo de ModuleNotFoundError, resumen y el relanzamiento de fabrica.py. No ejecuté toda la suite ni Oracle; no hice mutaciones ni escribí en el checkout candidato.",
+    "El hallazgo es una revisión probabilística del texto de ayuda; no es un veredicto de Oracle ni afirma propiedades no medidas."
+  ]
+}

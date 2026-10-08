@@ -1,0 +1,4 @@
+requisito cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso:
+    texto "Tipo: funcional `estado ID` SHALL calcular el próximo paso según lo que falta: aprobar la spec; importar; confirmar las medidas propuestas; elegir medidas; pedir una revisión; revisar; juzgar; cerrar. En una terminal y sin `--agente`, cuando ese paso es un comando completo, `estado` SHALL ofrecer ejecutarlo desde un menú; elegir salir, o cualquier otra respuesta, no ejecuta nada."
+    fuente "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md#estado calcula y ofrece el próximo paso"
+    medido_por factory_cli.estado_calcula_y_ofrece_el_proximo_paso, factory_cli.corrida_completa

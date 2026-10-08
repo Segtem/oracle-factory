@@ -1,0 +1,4 @@
+requisito cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo:
+    texto "Tipo: no funcional Sin terminal interactiva, con `--agente` o con la salida redirigida, `estado` SHALL sólo imprimir el próximo paso, sin menú ni ejecución."
+    fuente "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md#el próximo paso no se ejecuta solo"
+    medido_por factory_cli.el_proximo_paso_no_se_ejecuta_solo, factory_cli.corrida_completa

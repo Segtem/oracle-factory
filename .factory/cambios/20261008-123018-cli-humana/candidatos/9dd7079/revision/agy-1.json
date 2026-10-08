@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/9dd7079",
+  "base": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "head": "9dd70794289324ba6c530864244c9207fa01e2f6",
+  "diff_sha256": "1096cdd358bc1b6057aacb6186328cdc7a08a033753c8d72223af0ca222c6259",
+  "context_sha256": "5509f3b535d8102cef6d841ba1d2cd66de3ca36ef20a7637d840f85bb5ec00c1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato 9dd7079: 14 pruebas, OK.",
+    "Ejecuté pruebas dinámicas adicionales y de casos de borde en mi directorio de trabajo (test_edge_cases.py): 18 pruebas, OK, contrastando múltiples archivos ausentes simultáneos (proposal.md, tasks.md, spec, requisitos, informe y decisiones de revisión, hechos e informe Oracle), verificación de no oferta interactiva ante archivos faltantes y comportamiento ante tareas en fase cerrada.",
+    "Revisé la propuesta, la spec, el diff empaquetado y el historial completo de revisiones previas (desde 2515b20 hasta b96429e). Comprobé que la incorporación de tasks.md en archivos_faltantes (línea 1818) resuelve el hallazgo reportado en b96429e.",
+    "Evalué el escenario señalado por Codex sobre cambios cerrados: en un cambio cerrado (fase == 'cerrada'), proximo_paso retorna None conforme al diseño y a la especificación, ya que el ciclo del cambio está culminado; además, oracle-factory estado ya reporta cualquier artefacto ausente en la sección 'Pendiente:' (ej. 'informe Oracle ausente') sin ofrecer comandos que reinicien o bloqueen el flujo.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 9dd7079 (sólo lectura) ni se realizaron commits en el repositorio. Esta revisión es probabilística, no un veredicto de Oracle ni prueba de propiedades no medidas."
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/6699c9f",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "6699c9f1ac3dc4ecff21b75d01abf6f55fcb9ce2",
+  "diff_sha256": "1f816a39e819b0f727f6e02464453746e6ca83af64d04bc9f22e0155ba02a306",
+  "context_sha256": "fcbcbbf3e6e0b8ea8986609a6c2743cd5d7f35f211621cfd1b9114b8a5cd9c15",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-revisar-sin-informes-ni-evidencia",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "proximo_paso sugiere y ofrece revisar en candidatos sin informes de revisión ni evidencia, fallando al ejecutarse",
+      "explanation": "En proximo_paso, la comprobación sha = candidato_vigente(ident) seguida de if sha and not revisado: return f'oracle-factory revisar {ident}' asume que la mera existencia de la carpeta del candidato vigente implica que está listo para ser revisado. Sin embargo, al invocar pedir-revision se crea la carpeta del candidato (candidatos/<sha>/clue/ y checkout/), pero si el revisor externo falla, supera el tiempo límite o aún no entrega informe, y el sensor aún no generó evidencia/hechos.json, la carpeta del candidato existe sin contener ningún informe en revision/ ni evidencia en evidencia/. En este estado, estado calcula revisar y ofrecer_siguiente ofrece ejecutar oracle-factory revisar {ident} desde el menú interactivo; no obstante, al seleccionarlo, revisar_paso_a_paso rechaza la ejecución lanzando FactoryError: el candidato <sha> no tiene informes de revisores ni evidencia: pedí una revisión con oracle-factory pedir-revision <id> y producí la evidencia antes de revisar. Factory ofrece en el menú un próximo paso que su propia compuerta rechaza inmediatamente, indicando que el paso requerido sigue siendo pedir una revisión o producir evidencia.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1826,
+        "end_line": 1829,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio con requisitos y medidas confirmadas, invocar pedir-revision (o crear la estructura canónica del candidato) sin que se genere revision/*.json ni evidencia/hechos.json, y ejecutar oracle-factory estado ID en terminal interactiva seleccionando la opción 1 del menú.",
+      "evidence": "Reproducido en un repositorio de prueba: tras crear la carpeta del candidato vigente (clue/) sin informes ni evidencia, proximo_paso(ident) devuelve 'oracle-factory revisar {ident}'. Al ejecutar revisar_paso_a_paso(ident), la ejecución aborta con FactoryError: el candidato <sha> no tiene informes de revisores ni evidencia: pedí una revisión con oracle-factory pedir-revision <id> y producí la evidencia antes de revisar. La CLI calcula un próximo paso contradictorio con la validación de entrada de revisar.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1826-1829 frente a las líneas 982-984 de oracle_factory/cli.py, y reproducción programática con un caso de prueba en espacio aislado."
+    },
+    {
+      "id": "cli-proximo-paso-oracle-rojo-pide-revision",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "proximo_paso propone pedir-revision tras un juicio fallido de Oracle (oracle_rojo) sin cambios de producto",
+      "explanation": "Cuando juzgar falla (requisitos no cubiertos o código de salida no cero), estado['fase'] se actualiza a 'oracle_rojo' y se lanza FactoryError. En proximo_paso, la rama que calcula juzgar excluye explícitamente 'oracle_rojo' (if rev.get('decision') == 'aprobar' and rev.get('hallazgos_abiertos') == 0 and fase not in ('oracle_rojo', 'oracle_verde'):). Dado que el producto no fue modificado respecto a la revisión aprobada, revisado evalúa a True y sha and not revisado es False. La función cae entonces en la última cláusula y retorna oracle-factory pedir-revision {ident} --a {revisor}. Tanto siguiente como estado indican erróneamente que el próximo paso es solicitar una nueva revisión al revisor independiente sobre el mismo commit sin cambios de código, en lugar de indicar que lo pendiente es subsanar la evidencia y volver a juzgar (juzgar). Si la persona ejecuta el comando ofrecido por el menú, se solicita una revisión redundante e innecesaria sobre un commit ya revisado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1820,
+        "end_line": 1831,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory juzgar ID sobre un cambio con revisión aprobada donde Oracle falla (salida no cero o cobertura incompleta), y luego consultar oracle-factory estado ID.",
+      "evidence": "Reproducido en prueba con un cambio con revisión aprobada: tras una corrida fallida de juzgar (fase == 'oracle_rojo'), proximo_paso(ident) devuelve 'oracle-factory pedir-revision <id> --a NOMBRE' (o el primer revisor configurado). En juzgar (línea 1159), siguiente(identificador, estado['fase']) imprime inmediatamente ese próximo paso erróneo antes de salir con error.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las condiciones en líneas 1820-1831 de oracle_factory/cli.py y ejecución controlada de juzgar con hechos vacíos en entorno temporal."
+    },
+    {
+      "id": "cli-test-c5-no-verifica-salida-de-estado",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La prueba de contrato test_c5 no comprueba la impresión del próximo paso ni invoca el comando estado",
+      "explanation": "El requisito el próximo paso no se ejecuta solo y su escenario Scenario: agente especifican: 'GIVEN un agente que ejecuta oracle-factory --agente x estado ID, WHEN el próximo paso es cerrar, THEN se imprime el paso y no se pregunta ni se ejecuta nada'. Sin embargo, test_c5_agente_sin_terminal_o_salida_redirigida en tests/test_cli_humana.py llama directamente a la función auxiliar f.ofrecer_siguiente(ident), omitiendo ejecutar main(['--agente', 'x', 'estado', ident]) (o mostrar(ident)). La función ofrecer_siguiente sólo contiene la lógica para ofrecer y despachar el menú interactivo, pero nunca imprime el paso (tarea que corresponde a siguiente(), invocada desde mostrar()). Además, la prueba no realiza ninguna aserción sobre salida.getvalue(). Como resultado, al mutar siguiente para que sea un simple pass, test_c5 y toda la suite de test_cli_humana siguen pasando al 100%, dejando el comportamiento prometido sin verificación real.",
+      "location": {
+        "file": "tests/test_cli_humana.py",
+        "start_line": 148,
+        "end_line": 156,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tests/test_cli_humana.py tras reemplazar el cuerpo de siguiente() por pass en oracle_factory/cli.py.",
+      "evidence": "Se aplicó una mutación manual en una copia de trabajo sustituyendo la implementación de siguiente por pass: las 10 pruebas de tests.test_cli_humana (incluyendo test_c5) pasaron con código 0. Ninguna prueba en la suite del contrato verifica que estado imprima 'Próximo paso: '.",
+      "related_requirement": "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo",
+      "status": "pendiente",
+      "verification": "Inspección de test_c5_agente_sin_terminal_o_salida_redirigida y ejecución de prueba mutada con python -m unittest tests.test_cli_humana."
+    },
+    {
+      "id": "cli-test-c2-no-evalua-escenario-estado",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_c2_python_del_sistema ejecuta --version en lugar de estado ID y no valida la re-ejecución con argumentos de negocio",
+      "explanation": "El requisito fabrica.py usa el entorno del proyecto incluye el escenario explícito: 'GIVEN un clon con .venv y un intérprete sin oracle-metalenguaje, WHEN se ejecuta python fabrica.py estado ID con ese intérprete, THEN el comando corre con .venv/bin/python y termina como si se hubiera llamado así'. No obstante, test_c2_python_del_sistema sólo comprueba la invocación de clon / 'fabrica.py' con el argumento --version. La opción --version es atendida inmediatamente por argparse en cli.main() sin requerir ni importar oracle_metalenguaje ni oracle_task. La prueba no valida que argumentos posicionales como estado ID se propaguen intactos a través de os.execv, ni que un comando que efectivamente use las dependencias del proyecto se ejecute con éxito.",
+      "location": {
+        "file": "tests/test_cli_humana.py",
+        "start_line": 93,
+        "end_line": 106,
+        "side": "head"
+      },
+      "trigger": "Inspección del comando invocado en la línea 103 de tests/test_cli_humana.py en contraste con el escenario Scenario: python del sistema de spec.md.",
+      "evidence": "En tests/test_cli_humana.py, línea 103: p = subprocess.run([str(base), '-s', str(clon / 'fabrica.py'), '--version'], ...) sólo pasa --version. Se verificó mediante mutación que si fabrica.py omite la comprobación de oracle_task (re-ejecutando sólo por oracle_metalenguaje), test_c2 sigue pasando sin detectar la omisión.",
+      "related_requirement": "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+      "status": "pendiente",
+      "verification": "Contraste entre la especificación en openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md y la implementación del test en tests/test_cli_humana.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté la suite completa de pruebas desde el checkout candidato: 284 pruebas pasaron exitosamente en 102.4s.",
+    "Ejecuté tools/verify_cli.py --salida <dir> con éxito: 10/10 casos de contrato conformes y fuentes estables.",
+    "Ejecuté tests.test_cli_humana con .venv/bin/python y el PATH indicado: 10 pruebas pasaron en 4.1s.",
+    "Revisé la propuesta, spec, diseño, los 30 archivos del paquete Clue y las 3 revisiones anteriores (2515b20, ddf034c, 2efe4e6). Se confirmó que los defectos previos de activación Fish, symlink en venv y chequeo de oracle-task siguen cerrados sin regresiones en 6699c9f.",
+    "Realicé mutaciones manuales en copias temporales aisladas para evaluar la sensibilidad de las pruebas de contrato.",
+    "El checkout del candidato 6699c9f se mantuvo estrictamente en modo de sólo lectura, sin modificaciones locales ni commits."
+  ]
+}

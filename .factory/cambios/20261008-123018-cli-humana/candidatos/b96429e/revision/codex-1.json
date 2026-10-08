@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/b96429e",
+  "base": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "head": "b96429e1a94a18f2bae2767ba533d4d82107ef0b",
+  "diff_sha256": "dd9bd7fd611ae7446289f104437b003847efbee50a61dea0b2dbc66e05134ae0",
+  "context_sha256": "d585664aca59c99b2a8843c839bc3c89e8111a434bbdbe04a5318058ee2061b7",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-tasks-md-ausente-ofrece-aprobar-spec",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "`estado` ofrece `aprobar-spec` si falta `tasks.md`, y la opción termina fallando en vez de indicar recuperarlo",
+      "explanation": "El nuevo `archivos_faltantes` no agrega `carpeta / \"tasks.md\"` a las rutas revisadas (líneas 1818–1820). Sin embargo, `aprobar_spec` exige que `tasks.md` exista además de `proposal.md` y la spec antes de presentar la decisión (código existente en `oracle_factory/cli.py`, líneas 541–544). Si falta sólo `tasks.md` en un cambio cuya spec aún no fue aprobada, el control de archivos ausentes no devuelve ninguna ruta; luego `exigir_spec` rechaza porque no hay aprobación y `proximo_paso` devuelve `oracle-factory aprobar-spec ID`. En modo terminal, `estado` ofrece ese comando en el menú; al elegirlo, `aprobar_spec` falla con `FactoryError` por el archivo faltante, así que la opción no avanza el flujo. Debe identificar la ausencia e indicar recuperarlo desde Git, igual que hace para los demás archivos que bloquean el próximo paso.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1818,
+        "end_line": 1820,
+        "side": "head"
+      },
+      "trigger": "En un cambio todavía pendiente de aprobación de spec, borrar `openspec/changes/ID/tasks.md` dejando presentes `proposal.md` y el archivo de spec, y ejecutar `oracle-factory estado ID` en una terminal interactiva.",
+      "evidence": "La lista nueva de `archivos_faltantes` incluye `proposal.md`, la ruta de spec, requisitos y referencias de revisión/Oracle, pero omite `tasks.md`. `aprobar_spec` comprueba explícitamente `(carpeta / \"tasks.md\")` y lanza `FactoryError` si no existe. El flujo previo de `proximo_paso` ofrece `oracle-factory aprobar-spec ID` cuando `exigir_spec` falla por aprobación todavía ausente; la ausencia de tasks no altera ese resultado. Las pruebas añadidas cubren borrar proposal, un requisito y los artefactos de revisión/Oracle, pero no borrar `tasks.md`.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática del diff en `oracle_factory/cli.py:1818–1820` y de la precondición existente en `oracle_factory/cli.py:541–544`, junto con el flujo de `proximo_paso`. No se ejecutó reproducción dinámica porque la prueba autorizada no pudo iniciar al faltar `.venv/bin/python` en el checkout candidato."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión incremental del diff a5872cd..b96429e, la spec/propuesta y el helper que detecta artefactos ausentes. Los hallazgos de a5872cd sobre proposal/spec y requisitos ausentes, y los de 38efb36 sobre informes/decisiones y archivos de juicio ausentes, quedan cubiertos por el nuevo guard; encontré una omisión para tasks.md.",
+    "Ejecuté exactamente el comando solicitado: `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null`. Falló antes de iniciar con `env: .venv/bin/python: No such file or directory` (código 127).",
+    "No ejecuté tools/verify_*.py, la suite completa ni Oracle. No hice mutaciones y no modifiqué el checkout candidato. Este informe es una revisión probabilística, no un veredicto de Oracle ni evidencia sobre propiedades no medidas."
+  ]
+}

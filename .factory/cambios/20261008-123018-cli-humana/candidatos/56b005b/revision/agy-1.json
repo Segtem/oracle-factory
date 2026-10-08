@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/56b005b",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "56b005b41330f2f3d79c2d197e0fa50cd00cd137",
+  "diff_sha256": "5044ecbfe900a4370e8330c3286bea49b26dfffa4f086ddfa1f5da0ea6b708fe",
+  "context_sha256": "2473e7f9b6626452e9d545bdf2e7afa753c45949eb1ce5454fffa797bebf2f92",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-revision-invalida-ofrece-juzgar",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "`estado` ofrece juzgar cuando la revisión aprobada perdió su informe o tiene decisiones modificadas",
+      "explanation": "`proximo_paso` determina si la revisión es válida para el producto actual evaluando únicamente si `revisado = bool(rev) and rev.get(\"contexto\", {}).get(\"archivos_sha256\") == contexto_producto()[\"archivos_sha256\"]`. Esta comprobación no verifica la integridad de la evidencia de la revisión: si el informe archivado (`rev[\"informe\"]`) o el archivo de resoluciones guiadas (`rev[\"decisiones\"]`) fue eliminado, alterado o no coincide con la huella registrada, `revisado` sigue evaluándose como `True`. Como `rev.get(\"decision\") == \"aprobar\"` y `hallazgos_abiertos == 0`, `proximo_paso` asume que el producto cuenta con una revisión aprobada y vigente, y pasa a la fase siguiente del flujo devolviendo `oracle-factory juzgar {ident}`. En una terminal interactiva, `ofrecer_siguiente` ofrece ejecutar el comando `juzgar`, el cual corre y finaliza exitosamente dejando Oracle en verde. Esto quiebra la secuencia prometida por el flujo (spec aprobada → requisitos → medidas → revisión válida para el producto actual → hechos juzgados → cierre) y genera una contradicción manifiesta en la salida de `estado`: `mostrar` declara `Pendiente: informe de revisión ausente` (o `decisiones de revisión ausente`), pero inmediatamente después `siguiente` y `ofrecer_siguiente` calculan y ofrecen ejecutar `juzgar` sobre un cambio cuya revisión ya no es válida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1824,
+        "end_line": 1826,
+        "side": "head"
+      },
+      "trigger": "Aprobar y registrar una revisión (formato libre o guiado) sobre el producto actual, borrar o modificar el archivo referenciado en `estado[\"revision\"][\"informe\"]` (o `decisiones`), disponer de evidencia en el candidato sin juicio previo, y ejecutar `oracle-factory estado <ident>`.",
+      "evidence": "En `oracle_factory/cli.py`, la línea 1825 define `revisado` comparando exclusivamente `rev.get(\"contexto\", {}).get(\"archivos_sha256\") == contexto_producto()[\"archivos_sha256\"]`. A continuación, las líneas 1837–1845 devuelven `oracle-factory juzgar {ident}` cuando existen hechos en el candidato, sin comprobar la existencia ni la integridad de los artefactos de la revisión. En contraste, `pendientes_actuales` (líneas 1230–1246) valida la existencia y huella de `informe` y `decisiones`, reportando `'informe de revisión ausente'` o `'cambiado o sin huella'`. Se reprodujo programáticamente el escenario sobre un repositorio de prueba: al eliminar `review.md` o alterar `decisiones.json`, `pendientes_actuales` reporta el faltante, pero `proximo_paso` devuelve `oracle-factory juzgar <ident>` y `ofrecer_siguiente` ofrece ejecutarlo.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1823–1855 de `oracle_factory/cli.py` en el candidato 56b005b. Se ejecutó la prueba unitaria indicada: `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` (14 pruebas, OK). Se confirmó mediante script con fixtures de prueba que la eliminación o modificación del informe/decisiones preserva `proximo_paso == 'oracle-factory juzgar ...'` a pesar de los pendientes reportados. Además, se evaluó mediante mutación que la guarda `if not pendientes_actuales(...)` en la línea 1849 sobrevive a la suite actual sin que falle ninguna prueba."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el candidato 56b005b: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete Clue y el historial de revisiones previas (2515b20 a 3a01816), confirmando que los hallazgos anteriores sobre el activador de fish, relanzamiento con .venv y sys.prefix, loop guard, oracle-task en fabrica.py, candidatos sin material o con reportes descartables, revisión desactualizada por cambios de producto, y hechos modificados tras juicio verde o rojo se mantienen cerrados sin regresiones.",
+    "Realicé mutaciones manuales en copias temporales aisladas: se comprobó que la guarda de `pendientes_actuales` en la línea 1849 tras un juicio verde sobrevive a `tests.test_cli_humana` sin fallar ninguna prueba, y que la condición de `medidas_sin_decision` en la línea 1821 tampoco está cubierta por la suite.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 56b005b ni se realizaron commits."
+  ]
+}

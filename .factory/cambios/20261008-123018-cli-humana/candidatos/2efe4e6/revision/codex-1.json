@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/2efe4e6",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "2efe4e6d017c1da27f22f5372978285f84f42e9b",
+  "diff_sha256": "c24dcfc1f17e2e93e8751aba8b626009861043710f4cc0f820edb0bcde7c0c01",
+  "context_sha256": "43f35efacb0c1e50109f300a23dbb3b0901727edbf9dc373fad3fb981da5b9c1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "fabrica-reexec-ignora-oracle-task",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "`fabrica.py` no relanza si falta `oracle-task` pero está `oracle-metalenguaje`",
+      "explanation": "La nueva selección del entorno sólo se activa si `find_spec(\"oracle_metalenguaje\")` no encuentra ese módulo. Si el Python invocado tiene `oracle-metalenguaje` pero no `oracle-task`, no reejecuta con el `.venv` del clon aunque allí esté instalado el conjunto completo de dependencias. Operaciones que usan `oracle-task`, como `nuevo`, quedan en el intérprete incompleto y pueden fallar en vez de ejecutarse como con el entorno del proyecto.",
+      "location": {
+        "file": "fabrica.py",
+        "start_line": 8,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "En un clon con `.venv` completo, invocar `python fabrica.py nuevo ...` con un Python que puede importar `oracle_metalenguaje` pero no tiene la distribución `oracle-task` ni el ejecutable `tasks` disponible.",
+      "evidence": "La condición de relanzamiento de `fabrica.py` consulta únicamente `importlib.util.find_spec(\"oracle_metalenguaje\")`. En `oracle_factory/cli.py`, `ejecutar()` consulta por separado `metadata.distribution(\"oracle-task\")`; si falta, continúa con `subprocess.run([\"tasks\", ...])`. `nuevo()` usa esa ruta para crear la tarea. Por tanto la presencia del primer paquete evita probar el `.venv`, aunque la dependencia de tareas siga faltando. `tests.test_cli_humana.test_c2_python_del_sistema` cubre un Python sin `oracle_metalenguaje`, pero no el caso en que falta sólo `oracle-task`.",
+      "related_requirement": "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+      "status": "pendiente",
+      "verification": "Inspeccioné la condición de relanzamiento y las rutas de `ejecutar()`/`nuevo()`. Corrí `tests.test_cli_humana` con el intérprete y PATH pedidos: 10 pruebas, OK. No reproduje el entorno parcial ni ejecuté el suite completo u Oracle."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y la spec, los 28 archivos incluidos en el paquete y las dos revisiones previas. Los hallazgos anteriores sobre el activador Fish y el enlace simbólico de `.venv/bin/python` no reaparecen: el mensaje ya da alternativas válidas y la comparación nueva usa `sys.prefix`.",
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana`: 10 pruebas, OK. La salida completa quedó en `pruebas.log`.",
+    "No ejecuté el suite completo, Oracle ni `oracle-clue revisar`; tampoco hice mutaciones. El hallazgo adicional se basa en inspección estática de la rama para dependencias parciales. El checkout candidato permaneció sin cambios."
+  ]
+}
