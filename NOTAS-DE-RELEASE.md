@@ -1,3 +1,17 @@
+# Oracle Factory 0.1.0a8
+
+- **`estado` dice qué sigue y lo ofrece.** `oracle-factory estado ID` calcula el próximo paso según lo que está vigente, en el orden del flujo: archivos del cambio que faltan (se recuperan desde Git), spec aprobada (también si cambió después de aprobarla), importar, confirmar o elegir medidas, revisión válida para el producto actual (`pedir-revision`, `revisar`, o commitear lo que cambió), juicio vigente (hechos, informe y producto) y cierre. En una terminal ofrece ejecutarlo desde un menú; sin terminal, con `--agente` o con la salida redirigida, sólo lo imprime. Un paso que exige algo de la persona (corregir, recuperar un archivo, completar una ruta) se muestra y no se ofrece ejecutar.
+- **Errores con causa.** Al rechazar una aprobación, la revisión nombra las comprobaciones que no cumplen, los hallazgos abiertos o que está incompleta; `revision-preparar` avisa cuando no hay candidato vigente; sin `oracle-metalenguaje` en el intérprete, un mensaje dice qué falta y cómo seguir, sin traceback.
+- **`python fabrica.py` usa el entorno del clon.** Si el intérprete no tiene `oracle-metalenguaje` u `oracle-task` y el clon tiene `.venv`, se re-ejecuta con él (una sola vez).
+- **`resumen --ver`** regenera el resumen y lo muestra con `glow` si está instalado, o como texto.
+- La revisión independiente la hicieron Codex (GPT) y Agy (Gemini) en 16 vueltas lanzadas con `pedir-revision`; las últimas, incrementales, porque el paquete completo supera el límite de Oracle Clue. Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a8-py3-none-any.whl dist/oracle_factory-0.1.0a8.tar.gz
+```
+
+La evidencia está en la tarea del cambio `20261008-123018-cli-humana`.
+
 # Oracle Factory 0.1.0a7
 
 - **Decisiones guiadas:** ya no se tipean frases como `CERRAR <id>`. Cada decisión de una persona (aprobar la spec, registrar la revisión, cerrar, cambiar de modo) se toma en un menú: qué se decide, opciones numeradas con lo que implica cada una, y se elige escribiendo el número. Enter solo o cualquier otra respuesta cancela sin registrar nada; sin terminal interactiva, ninguna decisión de persona se registra.
