@@ -1,0 +1,158 @@
+"""La CLI cómoda para la persona: escenarios c1–c5 de la spec (errores, entorno, resumen, próximo paso, sin ejecución sola)."""
+import contextlib
+import hashlib
+import io
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import test_autoproduccion as _ap  # noqa: E402
+
+f = _ap.f
+RAIZ = Path(__file__).resolve().parents[1]
+
+
+class Terminal(io.StringIO):
+    """Una salida capturada que se declara terminal, como la de una persona."""
+    def isatty(self):
+        return True
+
+
+class CliHumana(_ap.Base):
+    def setUp(self):
+        super().setUp()
+        p = patch.object(f.shutil, 'which', return_value=None); p.start(); self.addCleanup(p.stop)
+
+    cambio_medido = _ap.Autoproduccion.cambio_medido
+    head = _ap.Autoproduccion.head
+    carpeta = _ap.Autoproduccion.carpeta
+    producir_evidencia = _ap.Autoproduccion.producir_evidencia
+
+    def errores(self, accion):
+        salida, errores = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(errores):
+            resultado = accion()
+        return resultado, salida.getvalue(), errores.getvalue()
+
+    def listo_para_cerrar(self):
+        """Un cambio con revisión aprobada y Oracle en verde, como en el recorrido del ejemplo."""
+        ident = self.cambio_medido()
+        informe = self.root / 'tareas' / ident / 'revision.md'
+        informe.write_text('Fixture de revisión; no es una revisión real.\n')
+        hechos = self.root / 'tareas' / ident / 'hechos.json'
+        subprocess.run([sys.executable, 'examples/notas/sensor.py', '--salida', hechos], cwd=self.root, check=True, capture_output=True)
+        with self.escribe('1'), contextlib.redirect_stdout(io.StringIO()):
+            f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
+            f.juzgar(ident, hechos)
+        return ident
+
+    # --- c1: los errores dicen qué pasó y cómo seguir --------------------------------------------------------------------
+    def test_c1_aprobar_con_una_comprobacion_que_falla(self):
+        ident = self.cambio_medido()
+        self.producir_evidencia(ident)
+        self.git('add', '.')
+        self.git('commit', '-qm', 'evidencia')
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            ruta_informe, ruta_decisiones = f.preparar_revision(ident)
+        informe = json.loads(ruta_informe.read_text())
+        informe['comprobaciones'][0]['resultado'] = 'falla'
+        informe.update(revisor='Persona fixture', completa=True, archivos_revisados=['examples/notas/notas.py'],
+                       sin_hallazgos_motivo='fixture')
+        ruta_informe.write_text(json.dumps(informe))
+        decisiones = json.loads(ruta_decisiones.read_text())
+        decisiones.update(informe_sha256=hashlib.sha256(ruta_informe.read_bytes()).hexdigest(), actor='Persona fixture',
+                          motivo='fixture', decisiones=[])
+        ruta_decisiones.write_text(json.dumps(decisiones))
+        with self.escribe('1'), self.assertRaises(f.FactoryError) as error, contextlib.redirect_stdout(io.StringIO()):
+            f.revisar_guiado(ident, ruta_informe, ruta_decisiones, 'Persona fixture', 'aprobar')
+        self.assertIn('comprobación en falla: ' + informe['comprobaciones'][0]['descripcion'], str(error.exception))
+
+    def test_c1_preparar_sin_candidato_avisa(self):
+        ident = self.cambio_medido()  # sin evidencia ni informes: no hay carpeta de candidato
+        _, _, errores = self.errores(lambda: f.preparar_revision(ident))
+        self.assertIn('no hay candidato vigente', errores)
+        self.assertIn(f'pedir-revision {ident}', errores)
+
+    def test_c1_falta_oracle(self):
+        ident = self.cambio_medido()
+        falta = ModuleNotFoundError("No module named 'oracle_metalenguaje'", name='oracle_metalenguaje')
+        with patch.object(f, 'medir', side_effect=falta):
+            codigo, _, errores = self.errores(lambda: f.main(['--proyecto', str(self.root), 'medir', ident, '--listar']))
+        self.assertEqual(codigo, 1)
+        self.assertIn('falta oracle-metalenguaje', errores)
+        self.assertNotIn('Traceback', errores)
+
+    # --- c2: fabrica.py usa el entorno del proyecto ------------------------------------------------------------------------
+    def test_c2_python_del_sistema(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            clon = Path(tmp)
+            shutil.copy(RAIZ / 'fabrica.py', clon / 'fabrica.py')
+            venv = clon / '.venv' / 'bin' / 'python'
+            venv.parent.mkdir(parents=True)
+            venv.write_text(f'#!/bin/sh\nexec {sys.executable} "$@"\n')  # el «entorno del clon»: el intérprete con dependencias
+            venv.chmod(0o755)
+            # -S deja al intérprete sin site-packages: como un python del sistema sin oracle-metalenguaje.
+            p = subprocess.run([sys.executable, '-S', str(clon / 'fabrica.py'), '--version'], capture_output=True, text=True,
+                               timeout=60)
+        self.assertEqual(p.returncode, 0, p.stderr)
+        self.assertIn('oracle-factory', p.stdout)
+
+    # --- c3: el resumen se ve con formato ------------------------------------------------------------------------------------
+    def test_c3_sin_glow(self):
+        self.cambio_medido()
+        _, salida, _ = self.errores(lambda: f.comando_resumen(False, None, ver=True))
+        self.assertEqual(salida, (self.root / '.factory/resumen.md').read_text())
+
+    def test_c3_con_glow(self):
+        self.cambio_medido()
+        with patch.object(f.shutil, 'which', return_value='/usr/bin/glow'), patch.object(f.sys.stdout, 'isatty', return_value=True), \
+                patch.object(f.subprocess, 'run') as run:
+            f.comando_resumen(False, None, ver=True)
+        run.assert_called_once_with(['glow', '-p', str(self.root / '.factory/resumen.md')], check=False)
+
+    # --- c4: estado calcula y ofrece el próximo paso ---------------------------------------------------------------------------
+    def test_c4_listo_para_cerrar(self):
+        ident = self.listo_para_cerrar()
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory cerrar {ident}')
+        with self.escribe('1'), contextlib.redirect_stdout(Terminal()), contextlib.redirect_stderr(io.StringIO()):
+            codigo = f.ofrecer_siguiente(ident)  # ejecutar el paso, que abre el menú de cierre: los dos con «1»
+        self.assertEqual(codigo, 0)
+        self.assertEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
+    def test_c4_medidas_propuestas(self):
+        ident = f.nuevo('Nota', con_ejemplo='notas')
+        with self.escribe('1'), contextlib.redirect_stdout(io.StringIO()):
+            f.aprobar_spec(ident)
+            f.importar(ident)
+        rid = f.leer(ident)[1]['requisitos'][0]
+        with patch.object(f, 'AGENTE', 'claude-code'), contextlib.redirect_stdout(io.StringIO()):
+            f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados', 'notas.resultados'], quitar_sin_medir=True)
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --confirmar')
+
+    def test_c4_salir_no_ejecuta(self):
+        ident = self.listo_para_cerrar()
+        with self.escribe('2'), patch.object(f, 'main', side_effect=AssertionError('no debía ejecutar')), \
+                contextlib.redirect_stdout(Terminal()):
+            self.assertEqual(f.ofrecer_siguiente(ident), 0)
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
+    # --- c5: el próximo paso no se ejecuta solo ------------------------------------------------------------------------------
+    def test_c5_agente_sin_terminal_o_salida_redirigida(self):
+        ident = self.listo_para_cerrar()
+        nunca = patch('builtins.input', side_effect=AssertionError('no debía preguntar'))
+        for nombre, contexto, salida in (('agente', patch.object(f, 'AGENTE', 'x'), Terminal()),
+                                         ('sin terminal', patch.object(f, 'terminal_interactiva', return_value=False), Terminal()),
+                                         ('salida redirigida', contextlib.nullcontext(), io.StringIO())):
+            with self.subTest(nombre), contexto, nunca, contextlib.redirect_stdout(salida):
+                self.assertEqual(f.ofrecer_siguiente(ident), 0)
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -60,7 +60,9 @@ El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.
 9. `oracle-factory juzgar <id> --con <hechos.json>`: exige cobertura completa de los requisitos importados y corre Oracle sobre la evidencia aportada por el sensor. Un exit code 0 con «sin juicio» o fallas en sombra no habilita el cierre.
 10. `oracle-factory cerrar <id>`: exige que todos los gates (spec, importación, revisión sin hallazgos abiertos y juicio verde) estén completos y vigentes. La persona confirma eligiendo la opción de cerrar en el menú.
 
-En todo momento se puede consultar el estado con `oracle-factory estado <id>`.
+En todo momento se puede consultar el estado con `oracle-factory estado <id>`: dice qué falta y calcula el próximo paso (por ejemplo `medir <id> --confirmar`, `revisar <id>` o `cerrar <id>`); en una terminal ofrece ejecutarlo desde un menú. Sin terminal o con `--agente` sólo lo imprime.
+
+En un clon de Factory, `python fabrica.py estado <id>` usa el entorno del clon (`.venv`) aunque se lo llame con otro intérprete; con el entorno activado (`source .venv/bin/activate.fish`) se usa directamente `oracle-factory estado <id>`.
 
 
 ## Ejemplo mínimo

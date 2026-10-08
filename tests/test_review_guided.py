@@ -203,7 +203,7 @@ class RevisionGuiada(unittest.TestCase):
         self.preparar()
         self.data.update(hallazgos=[self.hallazgo('H1'), self.hallazgo('H2')], sin_hallazgos_motivo=None)
         self.triage['decisiones'] = [self.resolucion('H1')]; self.escribir()
-        with self.assertRaisesRegex(f.FactoryError, 'hallazgos abiertos'): self.registrar()
+        with self.assertRaisesRegex(f.FactoryError, 'hallazgo abierto: H2'): self.registrar()
         with patch('builtins.input', return_value='1'): self.registrar('cambios')
         self.assertEqual(self.state()['revision']['hallazgos_abiertos'], 1)
         self.triage['decisiones'].append(self.resolucion('H2', 'riesgo_aceptado')); self.escribir()

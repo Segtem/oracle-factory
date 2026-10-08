@@ -14,6 +14,7 @@ import shutil
 import tempfile
 from contextlib import contextmanager
 import re
+import shlex
 import subprocess
 import sys
 from importlib import metadata, resources
@@ -675,6 +676,10 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     contexto, docs = contexto_producto(), documentos(carpeta, estado)
     informe, decisiones = documentos_revision.plantillas(identificador, contexto, docs)
     sha = candidato_vigente(identificador)
+    if not sha:
+        print("Aviso: no hay candidato vigente (un commit con su carpeta de candidato y sin cambios de producto después), así "
+              "que el informe queda sin informes de revisores ni evidencia. Pedí una revisión con oracle-factory "
+              f"pedir-revision {identificador} --a NOMBRE o producí la evidencia del commit actual.", file=sys.stderr)
     if sha:
         revisores, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
         informe, decisiones = preparacion.completar(informe, decisiones, revisores, evidencia, archivos)
@@ -874,9 +879,12 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         print(f"Resolución {resolucion['hallazgo_id']}: {resolucion['estado']} · {resolucion['actor']} · {resolucion['fecha']} · {resolucion['motivo']}")
     print(f"Actor de decisión: {triage['actor']}; motivo: {triage['motivo']}")
     print(f"Abiertos derivados: {abiertos}; IDs: {', '.join(pendientes_ids) or 'ninguno'}")
-    if decision == 'aprobar' and (abiertos or not analisis['completa']
-                                or any(c['resultado'] != 'cumple' for c in analisis['comprobaciones'])):
-        raise FactoryError('no se puede aprobar: revisión incompleta, hallazgos abiertos o comprobaciones falla/no_ejecutada; registrá cambios o renová la revisión')
+    if decision == 'aprobar':
+        causas = ([f"comprobación en {c['resultado']}: {c['descripcion']}" for c in analisis['comprobaciones'] if c['resultado'] != 'cumple']
+                  + [f"hallazgo abierto: {h}" for h in pendientes_ids] + ([] if analisis['completa'] else ['la revisión está declarada incompleta']))
+        if causas:
+            raise FactoryError('no se puede aprobar:\n  - ' + '\n  - '.join(causas)
+                               + '\nRegistrá la decisión «cambios» o, si corresponde, resolvé lo que falta y prepará la revisión de nuevo.')
 
     def revalidar():
         exigir_spec(carpeta, estado)
@@ -1377,7 +1385,7 @@ def ruta_resumen(salida: Path | None = None) -> Path:
     return ruta_segura(ROOT / salida if salida else ROOT / estructura.DIR / "resumen.md")
 
 
-def comando_resumen(verificar: bool, salida: Path | None) -> None:
+def comando_resumen(verificar: bool, salida: Path | None, ver: bool = False) -> None:
     destino, texto = ruta_resumen(salida), texto_resumen(salida)
     if verificar:
         actual = destino.read_text(encoding="utf-8") if destino.is_file() else None
@@ -1389,7 +1397,12 @@ def comando_resumen(verificar: bool, salida: Path | None) -> None:
         return
     destino.parent.mkdir(parents=True, exist_ok=True)
     escribir_atomico(destino, texto.encode("utf-8"))
-    print(f"Resumen: {destino.relative_to(ROOT)}. Para leerlo con formato: glow -p {destino.relative_to(ROOT)}")
+    if not ver:
+        print(f"Resumen: {destino.relative_to(ROOT)}. Para verlo con formato: oracle-factory resumen --ver")
+    elif shutil.which("glow") and sys.stdout.isatty():
+        subprocess.run(["glow", "-p", str(destino)], check=False)
+    else:
+        print(texto, end="")
 
 
 def actualizar_resumen() -> None:
@@ -1786,18 +1799,54 @@ def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
                            'Revisá esos destinos antes de reintentar; no se sobrescriben. ' + str(e)) from e
 
 
-def siguiente(identificador: str, fase: str) -> None:
-    acciones = {
-        'espera_aprobacion_spec': f'oracle-factory aprobar-spec {identificador}',
-        'spec_aprobada': f'oracle-factory importar {identificador}',
-        'requisitos_importados': f'oracle-factory medir {identificador} --listar',
-        'revision_aprobada': f'oracle-factory juzgar {identificador} --con RUTA_DE_HECHOS',
-        'cambios_pedidos': f'oracle-factory estado {identificador}',
-        'oracle_verde': f'oracle-factory estado {identificador}',
-        'oracle_rojo': f'oracle-factory estado {identificador}',
-    }
-    if fase in acciones:
-        print('Próximo paso: ' + acciones[fase])
+def proximo_paso(identificador: str) -> str | None:
+    """El próximo comando según lo que falta; con MAYÚSCULAS cuando queda algo por completar a mano."""
+    carpeta, estado = leer(identificador)
+    fase, ident = estado.get("fase"), identificador
+    medidas = estado.get("medidas") or {}
+    if fase == "cerrada":
+        return None
+    if not estado.get("spec_aprobada"):
+        return f"oracle-factory aprobar-spec {ident}"
+    if not estado.get("requisitos"):
+        return f"oracle-factory importar {ident}"
+    if any(not p.get("descartada") for p in (estado.get("medidas_pendientes") or {}).values()):
+        return f"oracle-factory medir {ident} --confirmar"
+    if any(rid not in medidas for rid in estado["requisitos"]) or medidas_sin_decision(estado):
+        return f"oracle-factory medir {ident} --listar"
+    if fase == "oracle_verde" and not pendientes_actuales(carpeta, estado):
+        return f"oracle-factory cerrar {ident}"
+    rev = estado.get("revision") or {}
+    if rev.get("decision") == "aprobar" and rev.get("hallazgos_abiertos") == 0 and fase not in ("oracle_rojo", "oracle_verde"):
+        try:
+            hechos_del_candidato(ident)
+            return f"oracle-factory juzgar {ident}"
+        except FactoryError:
+            return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
+    sha = candidato_vigente(ident)
+    revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
+    if sha and not revisado:
+        return f"oracle-factory revisar {ident}"
+    revisores = sorted(config_proyecto()["revisores"])
+    return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"
+
+
+def siguiente(identificador: str, fase: str | None = None) -> None:
+    paso = proximo_paso(identificador)
+    if paso:
+        print("Próximo paso: " + paso)
+
+
+def ofrecer_siguiente(identificador: str) -> int:
+    """En una terminal y sin --agente, ofrece ejecutar el próximo paso si es un comando completo."""
+    paso = proximo_paso(identificador)
+    if (not paso or AGENTE or not terminal_interactiva() or not sys.stdout.isatty()
+            or re.search(r"\b[A-Z][A-Z_]{2,}\b", paso)):
+        return 0
+    if elegir("¿Seguís?", [(f"Ejecutar «{paso}»", "como si lo escribieras; si es una decisión, abre su propio menú"),
+                            ("Salir", "no ejecuta nada")]) != 0:
+        return 0
+    return main(["--proyecto", str(ROOT), *shlex.split(paso)[1:]])
 
 
 def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:
@@ -2086,6 +2135,7 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('resumen', help='escribir .factory/resumen.md: lo vigente, los cambios abiertos, riesgos aceptados y límites')
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si el resumen falta o quedó viejo')
     q.add_argument('--salida', type=Path, help='otra ruta dentro del proyecto (fuera de .factory/ cuenta en la huella)')
+    q.add_argument('--ver', action='store_true', help='además, mostrarlo: con glow si está instalado, si no como texto')
     sub.add_parser('archivar', help='fusionar en openspec/specs/ la spec de los cambios cerrados que todavía no lo están')
     q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
     q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
@@ -2151,7 +2201,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
-        elif args.comando == "resumen": comando_resumen(args.verificar, args.salida)
+        elif args.comando == "resumen": comando_resumen(args.verificar, args.salida, args.ver)
         elif args.comando == "pedir-revision": pedir_revision(args.id, args.revisor, args.pedir, args.base)
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
@@ -2177,8 +2227,17 @@ def main(argv: list[str] | None = None) -> int:
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con if args.con else hechos_del_candidato(args.id))
         elif args.comando == "cerrar": cerrar(args.id)
-        elif args.comando == "estado": mostrar(args.id)
+        elif args.comando == "estado":
+            mostrar(args.id)
+            return ofrecer_siguiente(args.id)
         return 0
+    except ModuleNotFoundError as e:
+        if not (e.name or "").startswith("oracle_metalenguaje"):
+            raise
+        print(f"FACTORY BLOQUEADA: falta oracle-metalenguaje en el intérprete {sys.executable}. En un clon de Factory, usá "
+              "su entorno (source .venv/bin/activate.fish y después oracle-factory …); en otro proyecto, instalá Factory con "
+              "uv tool install --with-executables-from oracle-metalenguaje,oracle-task oracle-factory", file=sys.stderr)
+        return 1
     except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:
         print(f"FACTORY BLOQUEADA: {e}", file=sys.stderr)
         return 1

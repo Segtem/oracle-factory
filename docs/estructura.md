@@ -110,7 +110,7 @@ Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`
 
 `oracle-factory resumen` escribe `.factory/resumen.md`: los requisitos vigentes de cada capacidad (con su tipo, su requisito de Oracle, sus medidas, el cambio del que vienen y el veredicto con que se cerró ese cambio), los cambios abiertos con lo que les falta (y las carpetas de cambio sin registro), los riesgos que aceptó una persona y los límites declarados en las revisiones, separando los de cambios que todavía tienen requisitos vigentes de los históricos. No copia los escenarios: enlaza la spec consolidada de cada capacidad.
 
-- **Se lee con formato** con `glow -p .factory/resumen.md`.
+- **Se lee con formato** con `oracle-factory resumen --ver`, que lo regenera y lo muestra con `glow` si está instalado (si no, como texto).
 - **El veredicto es el del cierre**, con su fecha; no es una corrida nueva de Oracle.
 - **Se regenera solo** al cerrar y al archivar. `oracle-factory resumen --verificar` dice, sin escribir, si falta o quedó viejo (por ejemplo, porque un cambio abierto avanzó o un commit venció una revisión): las mismas entradas dan siempre los mismos bytes, así que verificar es regenerar y comparar.
 - **Una revisión ilegible se avisa:** si el informe o las decisiones de un cambio cerrado faltan o no se pueden leer, el resumen lo marca con ⚠ en vez de mostrarlo sin riesgos ni límites. Si el resumen no se puede generar al cerrar, el cierre igual se completa y se avisa.
