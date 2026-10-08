@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/a5872cd",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "diff_sha256": "1bc0e4453533c8b67b32084db4701b07b819c55b7e604719a7ec31b71b873864",
+  "context_sha256": "65d0e733b8460debb22434547677bcf8531ecfab7c838a30107b23d0105cd898",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática de la propuesta, spec, diff/contexto del paquete, pruebas relevantes y flujo proximo_paso frente a sus validadores de vigencia. No encontré un defecto que pueda sostener con evidencia; el análisis detallado está en revision-detallada.md.",
+    "Ejecuté literalmente desde el checkout candidato: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null. No arrancó: falta .venv/bin/python (código 127); por eso no afirmo que las pruebas hayan pasado.",
+    "Revisé que sigan cerrados los hallazgos anteriores incluidos en el contexto: activador fish, relanzamiento por dependencias/venv, informe no utilizable, requisitos ausentes y propuestas modificadas, estados de revisión/juicio obsoletos o sin artefactos, y cobertura de pasos del flujo.",
+    "No ejecuté tools/verify_*.py, la suite completa ni Oracle. No hice mutaciones ni escribí en el checkout candidato. El informe es una revisión probabilística, no un veredicto de Oracle ni prueba de propiedades no medidas."
+  ]
+}
