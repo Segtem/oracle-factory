@@ -62,6 +62,76 @@
         "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
         "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T12:45:05+00:00",
+      "requisito": "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir",
+      "medidas": [
+        "factory_cli.los_errores_dicen_que_paso_y_como_seguir",
+        "factory_cli.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T12:45:05+00:00",
+      "requisito": "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+      "medidas": [
+        "factory_cli.fabrica_py_usa_el_entorno_del_proyecto",
+        "factory_cli.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T12:45:06+00:00",
+      "requisito": "cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato",
+      "medidas": [
+        "factory_cli.el_resumen_se_ve_con_formato",
+        "factory_cli.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T12:45:06+00:00",
+      "requisito": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "medidas": [
+        "factory_cli.estado_calcula_y_ofrece_el_proximo_paso",
+        "factory_cli.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T12:45:06+00:00",
+      "requisito": "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo",
+      "medidas": [
+        "factory_cli.el_proximo_paso_no_se_ejecuta_solo",
+        "factory_cli.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -72,5 +142,36 @@
     "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir": {
+      "sha256": "0fe7ce24fa246e63d268b6f0b193ee8e35e6470277a0f7610d6614620825696e",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T12:45:05+00:00"
+    },
+    "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto": {
+      "sha256": "15a184725a3891e5a2648cfa8837bff7bae4cb7c6ba899a304b0d76031377db0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T12:45:05+00:00"
+    },
+    "cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato": {
+      "sha256": "d25c7a4668137c4435442c666f523cb445c3e11ded4111898a268721f001663f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T12:45:06+00:00"
+    },
+    "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso": {
+      "sha256": "7e55f0d30d3990003681b1d33382ee0d38e782e895cb882542ca5fdf31c283e7",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T12:45:06+00:00"
+    },
+    "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo": {
+      "sha256": "2651c327a91512f54103dddd38cbcabdbec719465ee066cf8929f24eb6171190",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T12:45:06+00:00"
+    }
+  }
 }
