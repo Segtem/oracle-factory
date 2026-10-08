@@ -603,6 +603,16 @@
       "candidato": "9dd7079",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-08T20:54:37+00:00",
+      "decision": "aprobar",
+      "candidato": "9dd7079"
     }
   ],
   "tipos": {
@@ -654,5 +664,15 @@
       "sha256": "0fe7ce24fa246e63d268b6f0b193ee8e35e6470277a0f7610d6614620825696e"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Candidato 9dd7079: agy sin hallazgos; el único de codex (estado no avisa de archivos faltantes en cambios cerrados) queda fuera del alcance acordado. 16 vueltas: todos los hallazgos medios corregidos con prueba que falla en el código viejo; evidencia en verde (288 pruebas, 14 casos de contrato). Límite: las últimas vueltas fueron incrementales desde a5872cd porque el paquete completo supera el límite de Clue.",
+      "candidato": "9dd7079",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-08T20:54:37+00:00"
+    }
+  }
 }
