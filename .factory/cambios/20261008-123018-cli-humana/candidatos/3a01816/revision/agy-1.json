@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/3a01816",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "3a01816752623762169f99e997303f7ab8c0b9c6",
+  "diff_sha256": "f627f060b2e9644babb8eb5f3b279ccd1f4ad722d9d3415a5366e06d37f93200",
+  "context_sha256": "2ff6e8631f1b989e7225f3d52a973140d7ab21eeadb50eba0a11b78e4ce5e4b0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-oracle-verde-evidencia-modificada-pide-revision",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`estado` ofrece pedir una nueva revisión de código cuando la evidencia cambia tras `oracle_verde`, con el producto intacto",
+      "explanation": "Cuando un cambio alcanza la fase `oracle_verde`, `proximo_paso` evalúa `if fase == \"oracle_verde\" and not pendientes_actuales(carpeta, estado): return f\"oracle-factory cerrar {ident}\"`. Si posteriormente se modifica, regenera o altera el archivo de evidencia (`hechos.json`), `pendientes_actuales` detecta `'hechos cambiado o sin huella'`, impidiendo la rama de cierre. Sin embargo, en el bloque siguiente (líneas 1822–1823), la condición para juzgar exige `revisado and rev.get(\"decision\") == \"aprobar\" and ... and fase not in (\"oracle_rojo\", \"oracle_verde\")`, excluyendo explícitamente la fase `oracle_verde`. Dado que el producto no se modificó (`revisado` es `True`), las comprobaciones intermedias de cambios de producto tampoco aplican, y la función desciende hasta la línea 1847 devolviendo `oracle-factory pedir-revision {ident} --a <revisor>`. `ofrecer_siguiente` ofrece ejecutar ese paso desde el menú interactivo, invitando a lanzar una revisión de código redundante e innecesaria sobre código ya aprobado y no modificado, en lugar de indicar que lo que falta es volver a juzgar la nueva evidencia (`oracle-factory juzgar {ident}`).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1817,
+        "end_line": 1823,
+        "side": "head"
+      },
+      "trigger": "Alcanzar la fase `oracle_verde` con revisión aprobada y juicio exitoso; posteriormente modificar o regenerar `hechos.json` sin alterar código de producto, y ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `oracle_factory/cli.py`, la línea 1817 descarta `cerrar` debido a `pendientes_actuales`; la línea 1823 excluye `juzgar` por `fase not in (..., \"oracle_verde\")`; ninguna condición intermedia atiende este estado y la línea 1847 devuelve `pedir-revision`. En prueba automatizada con `listo_para_cerrar()`, tras añadir bytes a `hechos.json`, `pendientes_actuales` reporta `['hechos cambiado o sin huella']` y `proximo_paso` devuelve `oracle-factory pedir-revision {ident} --a NOMBRE`. Además, la mutación manual que elimina `and not pendientes_actuales(...)` en la línea 1817 sobrevive sin que ningún test de `tests/test_cli_humana.py` falle.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 1817–1847 y reproducción mediante script en Python sobre `listo_para_cerrar()`. Corrí `tests.test_cli_humana`: 13 pruebas, OK (ninguna prueba cubre alteración de evidencia tras `oracle_verde`)."
+    },
+    {
+      "id": "cli-proximo-paso-spec-modificada-omite-aprobar-spec",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`estado` no ofrece `aprobar-spec` cuando `spec.md` o `proposal.md` se modifican tras una aprobación previa",
+      "explanation": "El requisito funcional de `estado` establece que se debe calcular el próximo paso según lo que falta: «aprobar la spec; importar; confirmar las medidas propuestas; elegir medidas; pedir una revisión; revisar; juzgar; cerrar». Cuando la propuesta o la spec es modificada después de una aprobación previa, dicha aprobación queda invalidada: `exigir_spec` falla con `FactoryError(\"la propuesta/spec cambió o su aprobación es antigua; renová la aceptación\")` y `pendientes_actuales` lo incluye en la lista de pendientes. Sin embargo, `proximo_paso` evalúa únicamente `if not estado.get(\"spec_aprobada\"): return f\"oracle-factory aprobar-spec {ident}\"`. Como la clave `spec_aprobada` ya existe en el registro con la aprobación anterior, `not estado.get(\"spec_aprobada\")` es `False`, pues no se contrastan las huellas de `documentos(carpeta, estado)` contra las aprobadas. Por lo tanto, `proximo_paso` omite `aprobar-spec` y propone pasos posteriores (como `pedir-revision`, `revisar` o `juzgar`), los cuales fallan de inmediato al ejecutarse al ser bloqueados por `exigir_spec`.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1809,
+        "end_line": 1810,
+        "side": "head"
+      },
+      "trigger": "Aprobar la propuesta y la spec de un cambio con `oracle-factory aprobar-spec ID`; luego editar `spec.md` o `proposal.md` y ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `oracle_factory/cli.py`, línea 1809, la condición sólo comprueba `not estado.get(\"spec_aprobada\")`, ignorando la comprobación de vigencia que sí realiza `exigir_spec` (líneas 400–404). Reproducido en prueba: tras aprobar la spec y modificar `spec.md`, `pendientes_actuales` incluye `la propuesta/spec cambió o su aprobación es antigua; renová la aceptación`, pero `proximo_paso` devuelve `oracle-factory pedir-revision ...` en vez de `oracle-factory aprobar-spec ...`. Al ejecutar el paso propuesto, FactoryError rechaza la acción.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de `proximo_paso` frente a `exigir_spec` y reproducción en script de prueba donde tras modificar `spec.md`, `proximo_paso` omite requerir `aprobar-spec`. Corrí `tests.test_cli_humana`: 13 pruebas, OK (la suite no evalúa cambios en spec tras la aprobación inicial)."
+    },
+    {
+      "id": "cli-oracle-rojo-evidencia-con-ruta-no-detectada",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "`estado` no reconoce evidencia actualizada en `oracle_rojo` cuando los hechos se suministraron con `--con RUTA`",
+      "explanation": "Cuando se juzga un cambio suministrando los hechos mediante `--con RUTA` (por ejemplo `tareas/ID/hechos.json`, ruta persistida en `estado[\"oracle\"][\"hechos\"]`), el archivo de hechos no se ubica en el directorio por defecto del candidato (`.factory/cambios/ID/candidatos/SHA/evidencia/hechos.json`). Si el juicio arroja `oracle_rojo`, la verificación de hechos en `proximo_paso` (línea 1835) invoca exclusivamente `hechos_del_candidato(ident)`, la cual falla lanzando `FactoryError`. El bloque `except FactoryError: pass` captura el error y procede incondicionalmente a devolver `corregí la evidencia o el producto; después: oracle-factory juzgar {ident}`. Esto ocasiona dos problemas: 1) si la persona corrige o actualiza el archivo de hechos que fue efectivamente juzgado, `proximo_paso` no lo detecta y permanece recomendando corregir en lugar de juzgar; 2) la instrucción textual devuelta indica ejecutar `juzgar` sin `--con RUTA`, comando que al ejecutarse falla porque `hechos_del_candidato` no encuentra los hechos en la carpeta del candidato.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1833,
+        "end_line": 1839,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory juzgar ID --con tareas/ID/hechos.json` obteniendo `oracle_rojo`. Luego actualizar `tareas/ID/hechos.json` sin tocar el producto y consultar `oracle-factory estado ID`.",
+      "evidence": "En `oracle_factory/cli.py`, línea 1835, se consulta `hechos_del_candidato(ident)` en lugar de la ruta guardada en `(estado.get(\"oracle\") or {}).get(\"hechos\")`. En línea 1839 se emite la recomendación de juzgar sin la bandera `--con`. En pruebas, al modificar los hechos en `tareas/ID/hechos.json` tras `oracle_rojo`, `proximo_paso` no reconoce la actualización y sigue devolviendo la instrucción estática, cuyo comando sugerido falla al ejecutarse sin `--con`.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1833–1839 y reproducción sintética configurando hechos fuera de `candidatos/` con fase `oracle_rojo`. Corrí `tests.test_cli_humana`: 13 pruebas, OK (sólo prueba hechos producidos en el candidato)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal y contra el candidato 3a01816: 13 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete clue y el historial de revisiones previas (confirmando que los hallazgos anteriores de fish, sys.prefix, oracle-task, candidatos sin material y revisión desactualizada se mantienen cerrados sin regresiones).",
+    "Realicé mutaciones manuales en copias temporales aisladas para evaluar qué aserciones de tests.test_cli_humana son sensibles a la lógica de estado; se verificó que la guarda de pendientes_actuales en oracle_verde sobrevive sin fallar ninguna prueba.",
+    "No ejecuté tools/verify_*.py ni la suite de pruebas completa, conforme a las instrucciones. No se modificó el checkout candidato 3a01816."
+  ]
+}

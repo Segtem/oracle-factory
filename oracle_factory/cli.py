@@ -1800,51 +1800,58 @@ def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
 
 
 def proximo_paso(identificador: str) -> str | None:
-    """El próximo comando según lo que falta; con MAYÚSCULAS cuando queda algo por completar a mano."""
+    """El próximo paso según lo que está vigente, en el orden del flujo.
+
+    Un comando completo («oracle-factory …» sin MAYÚSCULAS por completar) se puede ofrecer para ejecutar; un texto que
+    empieza con otra cosa indica algo que la persona tiene que hacer antes.
+    """
     carpeta, estado = leer(identificador)
-    fase, ident = estado.get("fase"), identificador
-    medidas = estado.get("medidas") or {}
-    if fase == "cerrada":
+    ident = identificador
+    if estado.get("fase") == "cerrada":
         return None
-    if not estado.get("spec_aprobada"):
+    try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
+        exigir_spec(carpeta, estado)
+    except FactoryError:
         return f"oracle-factory aprobar-spec {ident}"
     if not estado.get("requisitos"):
         return f"oracle-factory importar {ident}"
     if any(not p.get("descartada") for p in (estado.get("medidas_pendientes") or {}).values()):
         return f"oracle-factory medir {ident} --confirmar"
+    medidas = estado.get("medidas") or {}
     if any(rid not in medidas for rid in estado["requisitos"]) or medidas_sin_decision(estado):
         return f"oracle-factory medir {ident} --listar"
-    if fase == "oracle_verde" and not pendientes_actuales(carpeta, estado):
-        return f"oracle-factory cerrar {ident}"
+    # ¿La revisión vale para el producto actual?
     rev = estado.get("revision") or {}
-    # Una revisión vale para el producto que se revisó: si cambió después, no se juzga con ella.
-    revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
-    if (revisado and rev.get("decision") == "aprobar" and rev.get("hallazgos_abiertos") == 0
-            and fase not in ("oracle_rojo", "oracle_verde")):
-        try:
-            hechos_del_candidato(ident)
-            return f"oracle-factory juzgar {ident}"
-        except FactoryError:
-            return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
-    if cambios_locales_de_producto():
-        return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
-    sha = candidato_vigente(ident)
-    # Con el producto revisado sin cambios, lo que falta es corregir, no otra revisión: se indica y no se ofrece ejecutar.
-    if fase == "oracle_rojo" and revisado:
-        try:  # si los hechos del candidato ya no son los que se juzgaron, lo que falta es juzgarlos
-            if sha256(ruta_segura(hechos_del_candidato(ident)).read_bytes()) != (estado.get("oracle") or {}).get("hechos_sha256"):
-                return f"oracle-factory juzgar {ident}"
-        except FactoryError:
-            pass
-        return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
-    if fase == "cambios_pedidos" and revisado:
+    revisado = bool(rev) and rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"]
+    if not revisado:
+        if cambios_locales_de_producto():
+            return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
+        sha = candidato_vigente(ident)
+        # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
+        if sha and material_del_candidato(ident, sha)[0]:
+            return f"oracle-factory revisar {ident}"
+        revisores = sorted(config_proyecto()["revisores"])
+        return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"
+    if rev.get("decision") != "aprobar" or rev.get("hallazgos_abiertos") != 0:
         return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
-    # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
-    material = sha and bool(material_del_candidato(ident, sha)[0])
-    if material and not revisado:
-        return f"oracle-factory revisar {ident}"
-    revisores = sorted(config_proyecto()["revisores"])
-    return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"
+    # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
+    oracle = estado.get("oracle") or {}
+    juzgados = ROOT / oracle["hechos"] if oracle.get("hechos") else None
+    try:  # hechos del candidato que no son los juzgados: juzgarlos
+        del_candidato = hechos_del_candidato(ident)
+        if sha256(ruta_segura(del_candidato).read_bytes()) != oracle.get("hechos_sha256"):
+            return f"oracle-factory juzgar {ident}"
+    except FactoryError:
+        pass
+    if juzgados is not None and juzgados.is_file() and sha256(juzgados.read_bytes()) == oracle.get("hechos_sha256"):
+        if oracle.get("codigo") != 0:
+            return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
+        if not pendientes_actuales(carpeta, estado):
+            return f"oracle-factory cerrar {ident}"
+        return f"resolvé lo pendiente que lista estado; después: oracle-factory cerrar {ident}"
+    if juzgados is not None and juzgados.is_file():  # hechos dados con --con que cambiaron desde el juicio
+        return f"oracle-factory juzgar {ident} --con {shlex.quote(oracle['hechos'])}"
+    return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
 
 
 def siguiente(identificador: str, fase: str | None = None) -> None:

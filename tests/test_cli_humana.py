@@ -152,6 +152,7 @@ class CliHumana(_ap.Base):
         ident = self.listo_para_cerrar()
         carpeta, estado = f.leer(ident)
         estado['fase'] = 'oracle_rojo'
+        estado['oracle']['codigo'] = 1
         f.guardar(carpeta, estado)
         self.assertEqual(f.proximo_paso(ident), f'corregí la evidencia o el producto; después: oracle-factory juzgar {ident}')
         with patch('builtins.input', side_effect=AssertionError('no debía ofrecer un paso que no es un comando')), \
@@ -206,6 +207,17 @@ class CliHumana(_ap.Base):
         with contextlib.redirect_stdout(io.StringIO()):
             f.juzgar(ident, f.hechos_del_candidato(ident))
         self.assertEqual(paso(), f'oracle-factory cerrar {ident}')
+
+    def test_c4_cambios_despues_de_juzgar(self):
+        ident = self.listo_para_cerrar()  # juzgado en verde con --con tareas/<ID>/hechos.json
+        hechos = self.root / 'tareas' / ident / 'hechos.json'
+        original = hechos.read_text()
+        hechos.write_text(original + '\n')  # hechos regenerados después del juicio verde: hay que juzgarlos
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con tareas/{ident}/hechos.json')
+        hechos.write_text(original)
+        spec = next((self.root / 'openspec/changes' / ident / 'specs').rglob('spec.md'))
+        spec.write_text(spec.read_text() + '\n')  # la spec cambió después de aprobarla
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory aprobar-spec {ident}')
 
     def test_c4_salir_no_ejecuta(self):
         ident = self.listo_para_cerrar()
