@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/38efb36",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "38efb3658f9647c85a7281b57527bc4c25366e3d",
+  "diff_sha256": "6d99739b793cd62ebaacc334df52150e3c852bfaf476ae25e2d00b7f5941371e",
+  "context_sha256": "3d256dc7dbb9a8eccc0811631c6c899ee66fa220073ba0c20ae54c3725dfc746",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-hechos-oracle-ausentes-sin-recuperacion-git",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "`estado` no indica recuperar desde Git los hechos Oracle registrados que faltan",
+      "explanation": "Cuando el registro Oracle apunta a un archivo de hechos que ya no existe, `vigente(juzgados, ...)` es falso y la rama que genera un comando con la ruta registrada tampoco aplica porque exige `juzgados.is_file()`. La función termina devolviendo el marcador `oracle-factory juzgar ID --con RUTA_DE_HECHOS`. Ese marcador evita que el menú lo ejecute, pero no identifica el archivo faltante ni indica recuperarlo desde Git, que es el paso requerido para archivos ausentes. El estado puede mostrar además `hechos ausentes`, pero su instrucción actual dice que se juzgue de nuevo con hechos del clon o se indique una ruta, no que se recupere el artefacto faltante desde Git.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1885,
+        "end_line": 1885,
+        "side": "head"
+      },
+      "trigger": "En un cambio con revisión vigente y un registro Oracle cuyo campo `hechos` apunta a una ruta inexistente (por ejemplo, se perdió el artefacto registrado al cambiar de checkout), ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `oracle_factory/cli.py`, las líneas 1867–1872 consideran vigente el juicio sólo si el archivo de hechos existe y su huella coincide. Las líneas 1878–1884 sólo devuelven `juzgar ID --con <ruta registrada>` si esa ruta todavía es un archivo. En el caso de ausencia, la línea 1885 cae al texto genérico `oracle-factory juzgar ID --con RUTA_DE_HECHOS`; no menciona ni la ruta faltante ni recuperarla desde Git. La guía de estado de hechos ausentes en `pendientes_actuales` (líneas 1250–1254) también propone volver a juzgar, sin instrucción de recuperación desde Git. El marcador en mayúsculas impide ofrecerlo en el menú, pero no satisface el próximo paso solicitado.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de `proximo_paso` (líneas 1867–1885) y `pendientes_actuales` (líneas 1250–1254), contrastada con la indicación de revisión de que los archivos ausentes deben recuperarse desde Git. No pude correr las pruebas solicitadas: el comando exacto terminó con `env: .venv/bin/python: No such file or directory` en el checkout 38efb36. No corrí `tools/verify_*.py` ni la suite completa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y la spec aprobada, inspeccioné el diff empaquetado de la CLI, el lanzador fabrica.py, las pruebas relevantes y el historial de revisiones previas indicado; comprobé que los defectos previos de próximo paso, ausencias de spec/requisitos, medidas modificadas y revisión no utilizable tienen guardas o cobertura en este candidato.",
+    "Ejecuté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout 38efb36; no arrancó porque falta `.venv/bin/python` en ese checkout. No ejecuté otra variante de las pruebas.",
+    "No corrí `tools/verify_*.py` ni la suite completa. El hallazgo se basa en inspección estática; no hice mutaciones ni escribí en el checkout candidato."
+  ]
+}

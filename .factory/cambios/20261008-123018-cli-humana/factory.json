@@ -519,6 +519,20 @@
       "candidato": "a5872cd",
       "resultado": "ok",
       "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T19:54:24+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "38efb36",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {
