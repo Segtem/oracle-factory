@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/2391733",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "23917331758b2de3ab3b37e742e93958beaa5b04",
+  "diff_sha256": "a5b0b16b13715428f018f700e601460ef661351ce95a11c14cc4a28daf7513e9",
+  "context_sha256": "a19681eeaadb44cc131c4aca2e13a84e68ca84961bcefe96caa11ed77bb4477a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática completa de la propuesta, spec, diff del paquete y pruebas relevantes; no confirmé defectos. El análisis detallado está en revision-detallada.md.",
+    "Intenté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato. No arrancó porque no existe `.venv/bin/python` (código 127).",
+    "No corrí la suite completa, tools/verify_*.py ni Oracle. No hice mutaciones ni escribí en el checkout candidato.",
+    "Revisé los hallazgos de rondas anteriores contra el diff actual; no reaparecen los defectos reportados. Esta revisión probabilística no es un veredicto de Oracle ni prueba propiedades no medidas."
+  ]
+}
