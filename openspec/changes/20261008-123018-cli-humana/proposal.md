@@ -31,4 +31,4 @@ Pedido de Brian: «Tenemos que mejorar y facilitar la parte cli-humana».
 
 ## Human decisions
 
-- ¿El menú de `estado` ejecuta pasos de agente (como `pedir-revision`) o sólo los de persona? Propuesta: cualquier paso que esté completo, sin rutas por completar; el paso se ejecuta como persona, igual que si se tipeara.
+Decidida por Brian el 2026-10-08, con un menú: el menú de `estado` ofrece cualquier próximo paso completo, sin rutas por completar, incluidos los que lanzan procesos (`pedir-revision`, `juzgar`). Se ejecuta como si la persona lo tipeara; los pasos con decisión abren su propio menú.
