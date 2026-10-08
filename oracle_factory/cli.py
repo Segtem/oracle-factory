@@ -2235,7 +2235,7 @@ def main(argv: list[str] | None = None) -> int:
         if not (e.name or "").startswith("oracle_metalenguaje"):
             raise
         print(f"FACTORY BLOQUEADA: falta oracle-metalenguaje en el intérprete {sys.executable}. En un clon de Factory, usá "
-              "su entorno (source .venv/bin/activate.fish y después oracle-factory …); en otro proyecto, instalá Factory con "
+              "su entorno: .venv/bin/oracle-factory (en cualquier shell) o python fabrica.py; en otro proyecto, instalá Factory con "
               "uv tool install --with-executables-from oracle-metalenguaje,oracle-task oracle-factory", file=sys.stderr)
         return 1
     except (FactoryError, OSError, json.JSONDecodeError, EOFError) as e:

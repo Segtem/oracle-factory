@@ -62,7 +62,7 @@ El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.
 
 En todo momento se puede consultar el estado con `oracle-factory estado <id>`: dice qué falta y calcula el próximo paso (por ejemplo `medir <id> --confirmar`, `revisar <id>` o `cerrar <id>`); en una terminal ofrece ejecutarlo desde un menú. Sin terminal o con `--agente` sólo lo imprime.
 
-En un clon de Factory, `python fabrica.py estado <id>` usa el entorno del clon (`.venv`) aunque se lo llame con otro intérprete; con el entorno activado (`source .venv/bin/activate.fish`) se usa directamente `oracle-factory estado <id>`.
+En un clon de Factory, `python fabrica.py estado <id>` usa el entorno del clon (`.venv`) aunque se lo llame con otro intérprete; con el entorno activado (`source .venv/bin/activate` en bash o zsh, `source .venv/bin/activate.fish` en fish) se usa directamente `oracle-factory estado <id>`.
 
 
 ## Ejemplo mínimo

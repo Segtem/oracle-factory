@@ -197,6 +197,20 @@
         "factory_cli.los_errores_dicen_que_paso_y_como_seguir",
         "factory_cli.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T12:48:40+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "2515b20",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {
