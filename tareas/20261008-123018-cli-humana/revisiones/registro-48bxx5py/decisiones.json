@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "edb974f9db10b48c3d0c16fd947c97272b04c0e62610c83bb34126bb024dcedf",
+  "actor": "Brian Hollweg",
+  "motivo": "Candidato 9dd7079: agy sin hallazgos; el único de codex (estado no avisa de archivos faltantes en cambios cerrados) queda fuera del alcance acordado. 16 vueltas: todos los hallazgos medios corregidos con prueba que falla en el código viejo; evidencia en verde (288 pruebas, 14 casos de contrato). Límite: las últimas vueltas fueron incrementales desde a5872cd porque el paquete completo supera el límite de Clue.",
+  "decisiones": [
+    {
+      "hallazgo_id": "cli-proximo-paso-cerrado-omite-archivos-faltantes",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-08T21:04:52+00:00"
+    }
+  ]
+}

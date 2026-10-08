@@ -2,7 +2,7 @@
   "id": "20261008-123018-cli-humana",
   "titulo": "La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md",
   "spec_sha256": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
     "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261008-123018-cli-humana/revisiones/registro-48bxx5py/informe.json",
+    "sha256": "edb974f9db10b48c3d0c16fd947c97272b04c0e62610c83bb34126bb024dcedf",
+    "decisiones": "tareas/20261008-123018-cli-humana/revisiones/registro-48bxx5py/decisiones.json",
+    "decisiones_sha256": "dc123017334bebcb2557b7df31369956cc645229cf7897ba41c96ccf6000b5c2",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-08T21:05:00+00:00",
+    "motivo": "Candidato 9dd7079: agy sin hallazgos; el único de codex (estado no avisa de archivos faltantes en cambios cerrados) queda fuera del alcance acordado. 16 vueltas: todos los hallazgos medios corregidos con prueba que falla en el código viejo; evidencia en verde (288 pruebas, 14 casos de contrato). Límite: las últimas vueltas fueron incrementales desde a5872cd porque el paquete completo supera el límite de Clue.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "a893de1bee1cff3e0ec32e9f0eb8a8af39193635",
+      "archivos_sha256": "077fb2d0a0e33e7074d516af8f5f4316203515b9b64a869f277205f811735eec"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -613,6 +633,20 @@
       "cuando": "2026-10-08T20:54:37+00:00",
       "decision": "aprobar",
       "candidato": "9dd7079"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-08T21:05:00+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "edb974f9db10b48c3d0c16fd947c97272b04c0e62610c83bb34126bb024dcedf",
+      "decisiones_sha256": "dc123017334bebcb2557b7df31369956cc645229cf7897ba41c96ccf6000b5c2"
     }
   ],
   "tipos": {
@@ -665,14 +699,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Candidato 9dd7079: agy sin hallazgos; el único de codex (estado no avisa de archivos faltantes en cambios cerrados) queda fuera del alcance acordado. 16 vueltas: todos los hallazgos medios corregidos con prueba que falla en el código viejo; evidencia en verde (288 pruebas, 14 casos de contrato). Límite: las últimas vueltas fueron incrementales desde a5872cd porque el paquete completo supera el límite de Clue.",
-      "candidato": "9dd7079",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-08T20:54:37+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

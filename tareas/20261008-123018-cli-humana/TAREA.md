@@ -55,3 +55,7 @@ Medidas de cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto: Brian H
 ### Nota (2026-10-08 12:45:39 UTC)
 
 Medidas de cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-08 21:05:00 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Candidato 9dd7079: agy sin hallazgos; el único de codex (estado no avisa de archivos faltantes en cambios cerrados) queda fuera del alcance acordado. 16 vueltas: todos los hallazgos medios corregidos con prueba que falla en el código viejo; evidencia en verde (288 pruebas, 14 casos de contrato). Límite: las últimas vueltas fueron incrementales desde a5872cd porque el paquete completo supera el límite de Clue.); 0 abiertos derivados; commit a893de1bee1cff3e0ec32e9f0eb8a8af39193635; informe tareas/20261008-123018-cli-humana/revisiones/registro-48bxx5py/informe.json; decisiones tareas/20261008-123018-cli-humana/revisiones/registro-48bxx5py/decisiones.json.
