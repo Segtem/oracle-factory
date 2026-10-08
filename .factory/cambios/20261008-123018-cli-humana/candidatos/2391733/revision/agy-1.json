@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/2391733",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "23917331758b2de3ab3b37e742e93958beaa5b04",
+  "diff_sha256": "a5b0b16b13715428f018f700e601460ef661351ce95a11c14cc4a28daf7513e9",
+  "context_sha256": "a19681eeaadb44cc131c4aca2e13a84e68ca84961bcefe96caa11ed77bb4477a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-propuestas-medidas-modificadas",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "`estado` ofrece confirmar medidas propuestas cuando los requisitos cambiaron después de la propuesta, atrapando al usuario en un bucle interactivo",
+      "explanation": "`proximo_paso` calcula el siguiente paso evaluando si existen medidas pendientes propuestas mediante `if any(not p.get('descartada') for p in (estado.get('medidas_pendientes') or {}).values()): return f'oracle-factory medir {ident} --confirmar'`. Esta comprobación no verifica si el archivo del requisito aún coincide con la huella registrada al momento de la propuesta (`p['sha256']`). Sin embargo, `confirmar_medidas` (líneas 2119–2127) descarta expresamente de la confirmación todo requisito cuyo contenido haya cambiado (`sha256 != p['sha256']`), emitiendo un aviso indicando que debe decidirse con `medir ID --listar` y terminando con 'No hay medidas propuestas pendientes de confirmar' sin alterar `medidas_pendientes`. Como el estado no cambia, `proximo_paso` insiste en devolver `medir ID --confirmar`, y `ofrecer_siguiente` vuelve a ofrecerlo en el menú interactivo, generando un bucle infinito en el que la acción sugerida es rechazada por el comando ejecutado en lugar de ofrecer `oracle-factory medir ID --listar` (paso 'elegir medidas' del flujo).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1831,
+        "end_line": 1832,
+        "side": "head"
+      },
+      "trigger": "En un cambio con propuestas de medidas generadas por un agente (con modo), se edita o actualiza el archivo del requisito (ej. en requisitos/<id>.requisito) de modo que su hash difiere de p['sha256'], y se ejecuta oracle-factory estado ID en una terminal.",
+      "evidence": "En oracle_factory/cli.py, la línea 1831 evalúa únicamente not p.get('descartada') ignorando el hash del requisito. Al ejecutar confirmar_medidas (líneas 2119–2127), la función filtra esos requisitos en cambiadas, imprime aviso de que no se confirman allí sino con medir ID --listar y sale sin registrar nada ni modificar medidas_pendientes. Se reprodujo con un script y fixtures del proyecto: proximo_paso sigue devolviendo oracle-factory medir ID --confirmar y ofrecer_siguiente lo ofrece repetidamente sin poder progresar.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1831–1835 frente a 2119–2127 de oracle_factory/cli.py. Se ejecutó la suite de pruebas unitarias requerida (timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana): 14 pruebas, OK. Se comprobó con un script reproductor que ante un requisito modificado tras la propuesta, confirmar_medidas no realiza cambios y proximo_paso se mantiene ofreciendo medir --confirmar en bucle en vez de medir --listar."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el código del candidato 2391733: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete Clue y el historial de revisiones previas (desde 2515b20 hasta 56b005b), verificando que los hallazgos anteriores sobre el activador de fish, relanzamiento de fabrica.py (sys.prefix, FACTORY_REEJECUTADO, dependencias completas), candidatos sin material usable, revisión desactualizada por cambios de producto, artefactos de revisión modificados/ausentes (problemas_de_revision), y vigencia del juicio de Oracle frente a cambios de informe, producto o hechos, se mantienen corregidos.",
+    "Realicé pruebas dinámicas y análisis estático mediante scripts en el directorio de trabajo aislado para verificar el flujo de estados y posibles bucles en proximo_paso y confirmar_medidas.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 2391733 (sólo lectura) ni se realizaron commits."
+  ]
+}

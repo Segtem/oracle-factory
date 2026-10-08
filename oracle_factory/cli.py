@@ -1828,10 +1828,11 @@ def proximo_paso(identificador: str) -> str | None:
         return f"oracle-factory aprobar-spec {ident}"
     if not estado.get("requisitos"):
         return f"oracle-factory importar {ident}"
-    if any(not p.get("descartada") for p in (estado.get("medidas_pendientes") or {}).values()):
+    if propuestas_confirmables(estado):
         return f"oracle-factory medir {ident} --confirmar"
     medidas = estado.get("medidas") or {}
-    if any(rid not in medidas for rid in estado["requisitos"]) or medidas_sin_decision(estado):
+    if (any(rid not in medidas for rid in estado["requisitos"]) or medidas_sin_decision(estado)
+            or estado.get("medidas_pendientes")):  # propuestas que ya no se pueden confirmar tal cual: se deciden
         return f"oracle-factory medir {ident} --listar"
     # ¿La revisión vale para el producto actual?
     rev = estado.get("revision") or {}
@@ -2110,18 +2111,22 @@ def medir(identificador: str, *, requisito_id: str | None = None,
               f'terminal interactiva: oracle-factory medir {identificador} --confirmar')
 
 
+def propuestas_confirmables(estado: dict) -> list[str]:
+    """Requisitos con medidas propuestas por el agente que siguen tal como las propuso (si el archivo cambió, ya no lo son)."""
+    return sorted(r for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada")
+                  and sha256((ROOT / "requisitos" / f"{r}.requisito").read_bytes()) == p["sha256"])
+
+
 def confirmar_medidas(identificador: str) -> None:
     """Las medidas que propuso el agente, por requisito, confirmadas de una vez o de a una."""
     _, estado = abierto(identificador)
     exigir_terminal("confirmar medidas")
     propuestas = {r: p for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada")}
-    # Sólo se confirma lo que el agente propuso: si el requisito cambió después, ya no es su propuesta.
-    cambiadas = sorted(r for r, p in propuestas.items()
-                       if sha256((ROOT / "requisitos" / f"{r}.requisito").read_bytes()) != p["sha256"])
+    pendientes = propuestas_confirmables(estado)
+    cambiadas = sorted(set(propuestas) - set(pendientes))
     for rid in cambiadas:
         print(f"Aviso: {rid} cambió después de la propuesta; no se confirma acá. Revisalo con oracle-factory medir "
               f"{identificador} --listar y decidilo con medir --requisito.")
-    pendientes = sorted(set(propuestas) - set(cambiadas))
     if not pendientes:
         print("No hay medidas propuestas pendientes de confirmar.")
         return

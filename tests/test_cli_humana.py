@@ -138,6 +138,9 @@ class CliHumana(_ap.Base):
         with patch.object(f, 'AGENTE', 'claude-code'), contextlib.redirect_stdout(io.StringIO()):
             f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados', 'notas.resultados'], quitar_sin_medir=True)
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --confirmar')
+        requisito = self.root / 'requisitos' / f'{rid}.requisito'
+        requisito.write_text(requisito.read_text() + '# editado después de la propuesta\n')
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --listar')  # no ofrece confirmar en bucle
 
     def test_c4_candidato_sin_material(self):
         ident = self.cambio_medido()
