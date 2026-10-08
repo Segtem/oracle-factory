@@ -1812,6 +1812,15 @@ def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
                            'Revisá esos destinos antes de reintentar; no se sobrescriben. ' + str(e)) from e
 
 
+def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
+    """Los archivos que el registro del cambio referencia y no están en el disco, relativos a la raíz."""
+    rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
+    rutas = [carpeta / "proposal.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
+             *(ROOT / "requisitos" / f"{r}.requisito" for r in estado.get("requisitos") or []),
+             *(ROOT / r for r in (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"), oracle.get("hechos")) if r)]
+    return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]
+
+
 def proximo_paso(identificador: str) -> str | None:
     """El próximo paso según lo que está vigente, en el orden del flujo.
 
@@ -1822,18 +1831,16 @@ def proximo_paso(identificador: str) -> str | None:
     ident = identificador
     if estado.get("fase") == "cerrada":
         return None
+    # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
+    faltan = archivos_faltantes(carpeta, estado)
+    if faltan:
+        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: oracle-factory estado {ident}"
     try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
         exigir_spec(carpeta, estado)
     except FactoryError:
         return f"oracle-factory aprobar-spec {ident}"
-    except OSError as e:  # un archivo que falta no se arregla con un comando de Factory
-        return f"falta {Path(e.filename or '?').name} del cambio: recuperalo desde Git; después: oracle-factory estado {ident}"
     if not estado.get("requisitos"):
         return f"oracle-factory importar {ident}"
-    faltan = [r for r in estado["requisitos"] if not (ROOT / "requisitos" / f"{r}.requisito").is_file()]
-    if faltan:
-        return (f"faltan requisitos importados ({', '.join(faltan)}): recuperalos desde Git; "
-                f"después: oracle-factory estado {ident}")
     if propuestas_confirmables(estado):
         return f"oracle-factory medir {ident} --confirmar"
     medidas = estado.get("medidas") or {}

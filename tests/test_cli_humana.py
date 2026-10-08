@@ -142,9 +142,9 @@ class CliHumana(_ap.Base):
         requisito.write_text(requisito.read_text() + '# editado después de la propuesta\n')
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --listar')  # no ofrece confirmar en bucle
         requisito.unlink()  # un requisito que falta tampoco rompe estado: se recupera desde Git, no con medir
-        self.assertTrue(f.proximo_paso(ident).startswith(f'faltan requisitos importados ({rid})'))
+        self.assertTrue(f.proximo_paso(ident).startswith(f'faltan archivos del cambio (requisitos/{rid}.requisito)'))
         (self.root / 'openspec/changes' / ident / 'proposal.md').unlink()  # ni una propuesta que falta
-        self.assertTrue(f.proximo_paso(ident).startswith('falta proposal.md del cambio'))
+        self.assertIn(f'openspec/changes/{ident}/proposal.md', f.proximo_paso(ident))
 
     def test_c4_candidato_sin_material(self):
         ident = self.cambio_medido()
@@ -210,6 +210,8 @@ class CliHumana(_ap.Base):
         contenido_rev = informe_rev.read_bytes()
         informe_rev.write_bytes(contenido_rev + b'\n')  # la revisión aprobada perdió su informe vigente: no se juzga con ella
         self.assertEqual(paso(), f'oracle-factory revisar {ident}')
+        informe_rev.unlink()  # y si el informe falta, se recupera desde Git en vez de revisar de nuevo
+        self.assertTrue(paso().startswith('faltan archivos del cambio'))
         informe_rev.write_bytes(contenido_rev)
         notas = self.root / 'examples/notas/notas.py'
         original = notas.read_text()
@@ -227,6 +229,12 @@ class CliHumana(_ap.Base):
         hechos.write_text(original + '\n')  # hechos regenerados después del juicio verde: hay que juzgarlos
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con tareas/{ident}/hechos.json')
         hechos.write_text(original)
+        for clave in ('informe', 'hechos'):  # artefactos del juicio que faltan: se recuperan, no se re-juzga
+            ruta = self.root / f.leer(ident)[1]['oracle'][clave]
+            guardado = ruta.read_bytes()
+            ruta.unlink()
+            self.assertTrue(f.proximo_paso(ident).startswith('faltan archivos del cambio'), clave)
+            ruta.write_bytes(guardado)
         informe_oracle = self.root / f.leer(ident)[1]['oracle']['informe']
         informe_oracle.write_text(informe_oracle.read_text() + '\n')  # el informe del juicio cambió: juzgar de nuevo, no cerrar
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con tareas/{ident}/hechos.json')
