@@ -1,0 +1,24 @@
+{
+  "id": "20261008-123018-cli-humana",
+  "titulo": "La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso",
+  "capacidad": "cli",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T12:30:18+00:00",
+      "capacidad": "cli"
+    }
+  ]
+}
