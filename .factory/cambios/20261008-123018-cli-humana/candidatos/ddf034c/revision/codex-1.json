@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/ddf034c",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "ddf034c79381fe194b00a7f99382447c8022cbb1",
+  "diff_sha256": "acd3d0ce381eb61da60f058a98146c58c5f8dedcdb1a5261a029e1349fafb492",
+  "context_sha256": "3fee31f57b8a6cd795ae250abe93332b642739cff0411d2608688c5d05be97e6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "fabrica-venv-symlink-skips-reexec",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "`fabrica.py` no relanza Python cuando `.venv/bin/python` apunta al mismo binario base",
+      "explanation": "La comparación resuelve ambos ejecutables antes de decidir si debe relanzar. En un entorno virtual habitual, `.venv/bin/python` es un enlace simbólico al mismo binario base que usa el Python del sistema; las rutas resueltas coinciden aunque el entorno virtual tenga otro `sys.prefix` y dependencias instaladas. En ese caso se omite `execv` y el comando sigue con el intérprete sin dependencias, incumpliendo el requisito de usar `.venv/bin/python`.",
+      "location": {
+        "file": "fabrica.py",
+        "start_line": 11,
+        "end_line": 12,
+        "side": "head"
+      },
+      "trigger": "En un checkout con `.venv` que tenga `oracle-metalenguaje`, crear `.venv/bin/python` como enlace al mismo binario Python base y ejecutar `python fabrica.py medir ID --listar` desde el binario base, donde `oracle-metalenguaje` no está instalado.",
+      "evidence": "En esta máquina, `/home/workstation/.local/share/uv/python/cpython-3.13.15-linux-x86_64-gnu/bin/python3.13` no encuentra `oracle_metalenguaje`, mientras `/home/workstation/Dev/factory-ch/.venv/bin/python` sí lo encuentra; ambos `Path(sys.executable).resolve()` resuelven al mismo binario. Reproduje el caso con una copia de `fabrica.py` en `scratch/clone`, cuyo `.venv` apunta al entorno instalado: al ejecutar el binario base `scratch/clone/fabrica.py --proyecto /home/workstation/Dev/factory-ch/.factory/local/revisiones/ddf034c medir 20261008-123018-cli-humana --listar`, Factory respondió `FACTORY BLOQUEADA: falta oracle-metalenguaje en el intérprete ...python3.13` (exit 1), en vez de relanzar con el entorno virtual que sí tiene el paquete. La prueba `test_c2_python_del_sistema` no detecta el caso: usa un script shell como `.venv/bin/python` que no resuelve al binario invocador y sólo ejecuta `--version`; al quitar el bloque de relanzamiento en una copia, esa misma invocación `--version` siguió pasando.",
+      "related_requirement": "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+      "status": "pendiente",
+      "verification": "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana`: 10 pruebas, OK. En copias bajo esta carpeta, comparé la disponibilidad de `oracle_metalenguaje` entre el intérprete base y el `.venv`, reproduje el comando fallido con el intérprete base y ejecuté una mutación que elimina el relanzamiento; `--version` siguió pasando. No modifiqué el checkout candidato."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, todos los parches del paquete y la revisión anterior. La indicación de activación de Fish reportada anteriormente ya no aparece en el candidato.",
+    "Corrí `tests.test_cli_humana` con el intérprete y PATH solicitados: 10 pruebas, OK; el suite completo no fue ejecutado.",
+    "Reproduje el defecto y la mutación en copias bajo la carpeta de esta revisión; el checkout candidato se mantuvo sólo lectura.",
+    "No ejecuté Oracle ni `oracle-clue revisar`; este informe es una revisión basada en inspección y reproducción, no un veredicto de Oracle ni una afirmación sobre propiedades no medidas."
+  ]
+}

@@ -3,6 +3,7 @@ import contextlib
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -90,16 +91,17 @@ class CliHumana(_ap.Base):
 
     # --- c2: fabrica.py usa el entorno del proyecto ------------------------------------------------------------------------
     def test_c2_python_del_sistema(self):
+        venv_real = Path(sys.prefix)  # el entorno con las dependencias con que corren estas pruebas
+        if venv_real == Path(sys.base_prefix):
+            self.skipTest('las pruebas no corren dentro de un venv')
         with tempfile.TemporaryDirectory() as tmp:
             clon = Path(tmp)
             shutil.copy(RAIZ / 'fabrica.py', clon / 'fabrica.py')
-            venv = clon / '.venv' / 'bin' / 'python'
-            venv.parent.mkdir(parents=True)
-            venv.write_text(f'#!/bin/sh\nexec {sys.executable} "$@"\n')  # el «entorno del clon»: el intérprete con dependencias
-            venv.chmod(0o755)
-            # -S deja al intérprete sin site-packages: como un python del sistema sin oracle-metalenguaje.
-            p = subprocess.run([sys.executable, '-S', str(clon / 'fabrica.py'), '--version'], capture_output=True, text=True,
-                               timeout=60)
+            (clon / '.venv').symlink_to(venv_real)  # su bin/python es, como en un venv real, un enlace al binario de base
+            base = Path(sys.executable).resolve()  # el mismo binario, fuera del venv: sin oracle-metalenguaje
+            entorno = {k: v for k, v in os.environ.items() if k not in ('VIRTUAL_ENV', 'PYTHONPATH', 'FACTORY_REEJECUTADO')}
+            p = subprocess.run([str(base), '-s', str(clon / 'fabrica.py'), '--version'], capture_output=True, text=True,
+                               timeout=60, env=entorno)
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertIn('oracle-factory', p.stdout)
 

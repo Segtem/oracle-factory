@@ -7,9 +7,12 @@ import sys
 
 if __name__ == "__main__" and importlib.util.find_spec("oracle_metalenguaje") is None:
     # El python del sistema no tiene las dependencias: usar el entorno del clon, si existe, con los mismos argumentos.
-    venv = Path(__file__).resolve().parent / ".venv" / "bin" / "python"
-    if venv.is_file() and Path(sys.executable).resolve() != venv.resolve():
-        os.execv(str(venv), [str(venv), __file__, *sys.argv[1:]])
+    # Se compara el prefijo y no el ejecutable: el python de un venv suele ser un enlace al mismo binario de base.
+    venv = Path(__file__).resolve().parent / ".venv"
+    if ((venv / "bin" / "python").exists() and Path(sys.prefix).resolve() != venv.resolve()
+            and not os.environ.get("FACTORY_REEJECUTADO")):
+        os.environ["FACTORY_REEJECUTADO"] = "1"  # una sola vez: si el .venv tampoco sirve, falla con el mensaje de la CLI
+        os.execv(str(venv / "bin" / "python"), [str(venv / "bin" / "python"), __file__, *sys.argv[1:]])
 
 from oracle_factory import cli  # noqa: E402
 
