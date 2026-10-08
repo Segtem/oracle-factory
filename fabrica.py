@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 import sys
 
-if __name__ == "__main__" and importlib.util.find_spec("oracle_metalenguaje") is None:
+if __name__ == "__main__" and any(importlib.util.find_spec(m) is None for m in ("oracle_metalenguaje", "oracle_task")):
     # El python del sistema no tiene las dependencias: usar el entorno del clon, si existe, con los mismos argumentos.
     # Se compara el prefijo y no el ejecutable: el python de un venv suele ser un enlace al mismo binario de base.
     venv = Path(__file__).resolve().parent / ".venv"
