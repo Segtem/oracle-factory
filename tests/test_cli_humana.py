@@ -100,10 +100,11 @@ class CliHumana(_ap.Base):
             (clon / '.venv').symlink_to(venv_real)  # su bin/python es, como en un venv real, un enlace al binario de base
             base = Path(sys.executable).resolve()  # el mismo binario, fuera del venv: sin oracle-metalenguaje
             entorno = {k: v for k, v in os.environ.items() if k not in ('VIRTUAL_ENV', 'PYTHONPATH', 'FACTORY_REEJECUTADO')}
-            p = subprocess.run([str(base), '-s', str(clon / 'fabrica.py'), '--version'], capture_output=True, text=True,
-                               timeout=60, env=entorno)
+            ident = self.cambio_medido()
+            p = subprocess.run([str(base), '-s', str(clon / 'fabrica.py'), '--proyecto', str(self.root), 'estado', ident],
+                               capture_output=True, text=True, timeout=60, env=entorno)
         self.assertEqual(p.returncode, 0, p.stderr)
-        self.assertIn('oracle-factory', p.stdout)
+        self.assertIn(f'Próximo paso: oracle-factory pedir-revision {ident}', p.stdout)  # el comando entero, con sus argumentos
 
     # --- c3: el resumen se ve con formato ------------------------------------------------------------------------------------
     def test_c3_sin_glow(self):
@@ -137,6 +138,19 @@ class CliHumana(_ap.Base):
             f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados', 'notas.resultados'], quitar_sin_medir=True)
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --confirmar')
 
+    def test_c4_candidato_sin_material(self):
+        ident = self.cambio_medido()
+        (self.carpeta(ident) / 'clue').mkdir(parents=True)  # un pedir-revision que falló: carpeta sin informes ni evidencia
+        self.assertIsNotNone(f.candidato_vigente(ident))
+        self.assertTrue(f.proximo_paso(ident).startswith(f'oracle-factory pedir-revision {ident}'))
+
+    def test_c4_oracle_rojo_sin_cambios(self):
+        ident = self.listo_para_cerrar()
+        carpeta, estado = f.leer(ident)
+        estado['fase'] = 'oracle_rojo'
+        f.guardar(carpeta, estado)
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con RUTA_DE_HECHOS_CORREGIDOS')
+
     def test_c4_salir_no_ejecuta(self):
         ident = self.listo_para_cerrar()
         with self.escribe('2'), patch.object(f, 'main', side_effect=AssertionError('no debía ejecutar')), \
@@ -148,11 +162,13 @@ class CliHumana(_ap.Base):
     def test_c5_agente_sin_terminal_o_salida_redirigida(self):
         ident = self.listo_para_cerrar()
         nunca = patch('builtins.input', side_effect=AssertionError('no debía preguntar'))
-        for nombre, contexto, salida in (('agente', patch.object(f, 'AGENTE', 'x'), Terminal()),
-                                         ('sin terminal', patch.object(f, 'terminal_interactiva', return_value=False), Terminal()),
-                                         ('salida redirigida', contextlib.nullcontext(), io.StringIO())):
+        for nombre, argv, contexto, salida in (
+                ('agente', ['--agente', 'x'], contextlib.nullcontext(), Terminal()),
+                ('sin terminal', [], patch.object(f, 'terminal_interactiva', return_value=False), Terminal()),
+                ('salida redirigida', [], contextlib.nullcontext(), io.StringIO())):
             with self.subTest(nombre), contexto, nunca, contextlib.redirect_stdout(salida):
-                self.assertEqual(f.ofrecer_siguiente(ident), 0)
+                self.assertEqual(f.main([*argv, '--proyecto', str(self.root), 'estado', ident]), 0)
+            self.assertIn(f'Próximo paso: oracle-factory cerrar {ident}', salida.getvalue())  # se imprime, no se ejecuta
         self.assertNotEqual(f.leer(ident)[1]['fase'], 'cerrada')
 
 

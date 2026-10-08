@@ -1825,7 +1825,12 @@ def proximo_paso(identificador: str) -> str | None:
             return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
     sha = candidato_vigente(ident)
     revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
-    if sha and not revisado:
+    if fase == "oracle_rojo" and revisado:
+        # El producto revisado no cambió: falta corregir la evidencia (o el producto) y volver a juzgar, no otra revisión.
+        return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS_CORREGIDOS"
+    material = sha and any((estructura.ruta_canonica(ROOT, ident, tipo, sha) / nombre).exists()
+                           for tipo, nombre in (("evidencia", "resultado.json"), ("revision", ".")))
+    if material and not revisado:
         return f"oracle-factory revisar {ident}"
     revisores = sorted(config_proyecto()["revisores"])
     return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"
