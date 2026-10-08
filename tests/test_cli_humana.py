@@ -143,6 +143,9 @@ class CliHumana(_ap.Base):
         (self.carpeta(ident) / 'clue').mkdir(parents=True)  # un pedir-revision que falló: carpeta sin informes ni evidencia
         self.assertIsNotNone(f.candidato_vigente(ident))
         self.assertTrue(f.proximo_paso(ident).startswith(f'oracle-factory pedir-revision {ident}'))
+        (self.carpeta(ident) / 'revision').mkdir()
+        (self.carpeta(ident) / 'revision' / 'otro.json').write_text('{"no": "es un informe de Clue"}')  # se descarta al preparar
+        self.assertTrue(f.proximo_paso(ident).startswith(f'oracle-factory pedir-revision {ident}'))
 
     def test_c4_oracle_rojo_sin_cambios(self):
         ident = self.listo_para_cerrar()

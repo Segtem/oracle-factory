@@ -1830,8 +1830,8 @@ def proximo_paso(identificador: str) -> str | None:
         return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
     if fase == "cambios_pedidos" and revisado:
         return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
-    # revisar necesita informes de revisores en el candidato (traen su paquete y lo revisado), no sólo evidencia.
-    material = sha and any(estructura.ruta_canonica(ROOT, ident, "revision", sha).glob("*.json"))
+    # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
+    material = sha and bool(material_del_candidato(ident, sha)[0])
     if material and not revisado:
         return f"oracle-factory revisar {ident}"
     revisores = sorted(config_proyecto()["revisores"])
