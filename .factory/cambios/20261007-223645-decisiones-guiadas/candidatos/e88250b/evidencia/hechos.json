@@ -1,0 +1,70 @@
+{
+  "decisiones_caso": [
+    {
+      "requisito": "las_confirmaciones_son_un_menu",
+      "caso": "d1_cerrar_con_el_menu",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_confirmaciones_son_un_menu",
+      "caso": "d1_cancelar",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_guia_la_revision_de_punta_a_punta",
+      "caso": "d2_revision_sin_hallazgos",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_guia_la_revision_de_punta_a_punta",
+      "caso": "d2_un_hallazgo_abierto",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_guia_la_revision_de_punta_a_punta",
+      "caso": "d2_un_hallazgo_decidido",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_guia_la_revision_de_punta_a_punta",
+      "caso": "d2_revision_incompleta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_motivo_se_elige",
+      "caso": "d3_motivo_propuesto_por_el_agente",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_motivo_se_elige",
+      "caso": "d3_motivo_escrito",
+      "codigo": 0
+    },
+    {
+      "requisito": "confirmar_las_medidas_propuestas_de_una_vez",
+      "caso": "d4_confirmar_todas",
+      "codigo": 0
+    },
+    {
+      "requisito": "confirmar_las_medidas_propuestas_de_una_vez",
+      "caso": "d4_de_a_una_y_saltear",
+      "codigo": 0
+    },
+    {
+      "requisito": "confirmar_las_medidas_propuestas_de_una_vez",
+      "caso": "d4_propuesta_cambiada_no_se_confirma",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_terminal_no_hay_decision_de_persona",
+      "caso": "d5_entrada_por_pipe",
+      "codigo": 0
+    }
+  ],
+  "decisiones_corrida": [
+    {
+      "completa": 1,
+      "casos": 12
+    }
+  ]
+}

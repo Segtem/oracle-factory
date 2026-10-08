@@ -1,0 +1,62 @@
+{
+  "exitoso": true,
+  "tests": 274,
+  "casos_contrato": 12,
+  "casos_exactos_sin_omisiones_duplicados_ni_fallas": true,
+  "fuentes_estables": true,
+  "origen": {
+    "head": "6618bd1b9c7bf8523095c0aecdf6b337c36b9fb2",
+    "sha256": {
+      "catalogos/factory_decisiones.confirmar_las_medidas_propuestas_de_una_vez.oracle": "71d0ad4ec1a739b1615cca543337259915d3864559ebd2c2e5015e3d1dedf8d1",
+      "catalogos/factory_decisiones.corrida_completa.oracle": "bd14b3332b8e35d5805bdebd024f5fce684c839feb6f99dcc3f35e76ae92c55a",
+      "catalogos/factory_decisiones.el_motivo_se_elige.oracle": "1c91bbf12349d4262de355de5791f0979d6d41638da5af271cb30572af6ca004",
+      "catalogos/factory_decisiones.las_confirmaciones_son_un_menu.oracle": "db6e22366f18b8ae66ab935597d1de44cfd865d54e964958f2f2c450ea81d459",
+      "catalogos/factory_decisiones.revisar_guia_la_revision_de_punta_a_punta.oracle": "7c339a5ec5e1c7eff0505e15be3b6bd7f77940c3d43e54e06f832537a417dd95",
+      "catalogos/factory_decisiones.sin_terminal_no_hay_decision_de_persona.oracle": "4aab810a7683ddbbed30789af03cce9c1d45ee93dcd637f39bbf6485df5a94f7",
+      "fabrica.py": "a0785f575e9bbeb19c7c6c1dcbc84054331ec0a11498e0dd88f857e5834207ed",
+      "oracle_factory/__init__.py": "314055d582e0fc7bbb91309fce5f752a0f1e42ef7cae3388d9b1eee5e2eff6d7",
+      "oracle_factory/archivo.py": "4b884d4f1876fe1a8698f2fcc2c45363217189be7c2f60fcb12ea30439e41b99",
+      "oracle_factory/cli.py": "a3d005da8a06cc806801a3ce24a5fd894a5e7be48b10947b5987284397fadc15",
+      "oracle_factory/estructura.py": "7c152e344b0ffe653c3c8b4e770a7b7466162c92f179f3d3656a3e2d49b9836e",
+      "oracle_factory/migracion.py": "78f9e13a96caab4f84bf5c7ad39e147e5410c8eeb406d9e6d4d3b0a6c910faa9",
+      "oracle_factory/modos.py": "25d1d290bda8cbba20f8da461ca36670a52f69dcc1aeccf9116d049d2a1dc2de",
+      "oracle_factory/prep.py": "60a74e0b9a3a8379e0c4f880a0f9a59a1c318d58532dd8cd34ded8626aee2526",
+      "oracle_factory/preparacion.py": "649ea67cc6c2dea9cc9a1c7194d6720dce9ff84d4630cb229616868fdb99f541",
+      "oracle_factory/resumen.py": "7b0fd509faf40c16606c390f33476fe38ba0cd08c539922d3d651b3bfa705e2a",
+      "oracle_factory/revision.py": "bb1583076d4bae86085f33c8f4558038d61028ec34e93b68df23e25ba596fe38",
+      "oracle_factory/revisores.py": "af2a75f09c30e4b152fcc39c9f62c44b463c0485cfa1223daa95cea35107dde7",
+      "pyproject.toml": "ca706f12d0f09fc916d5ee34089329c1fb42f811d7bfea6bd153949ee0978e56",
+      "tests/test_archivo.py": "4793ed7943a822873f878e6f1d3d478daa1e704c8408b57b8340ed652f44864c",
+      "tests/test_autoproduccion.py": "a1f47d132c97f4667bdb8aba2c9e700f56124b08b4f24f672884630d609ce5ed",
+      "tests/test_collaboration_sensor.py": "9d02aae1427d4e5238d3d1c9c995f5fcb00e90653fa84be84b758f6f68ba43d0",
+      "tests/test_decisiones.py": "dbeb1c7c7fb9660f0692f454640bac1ae7a32bfbfdd6ff12bfde3993093b4dc4",
+      "tests/test_distribution.py": "33455743d0270242fc748e7aee75de4d192f369ab02cd7838b3332894e941e68",
+      "tests/test_estructura.py": "bf899f8eb32c887c127750011a766da9952f3f5890333abcbd6fe84d13e34eca",
+      "tests/test_estructura2.py": "6ced24bfa51732111e4ec95226d0a267cd51e168f042e24a573eed9689817208",
+      "tests/test_factory.py": "3ee447a3ea760c7732822f571a6e3ff19a6e2fa72e738ff4560f73921bd66c3e",
+      "tests/test_guided.py": "0282c5937eb06ba602bab725ef4f0d5f9b2c02af95d8d0df5f911d1be5e47052",
+      "tests/test_integration.py": "04405360c28e92ec62a3d8a3b88485c965974d6122ebd9959232a7438cd7d52a",
+      "tests/test_limpieza.py": "4d36dd9f3afcae8b63f53319bd7bd0af186e110edd5cd8ee6b6726fe55ba23c9",
+      "tests/test_modos.py": "eddac9e7f16a8a72eb9612b7a1a6b3b77e1903f8537e34fc2cb30f5ebd0f1960",
+      "tests/test_portabilidad.py": "c109d00cd63e569e855ad74059f17ecc5c51b9127bff8279ffa9440f4eb53a19",
+      "tests/test_resumen.py": "97ab8400b50253b8b8af8c66963b088d2007d96600ffa70364fd9ff075ae1901",
+      "tests/test_review_guided.py": "4234f755f8442aed4487bdbaf9690aa2f4b99993ca71c8999dd730dacd31841e",
+      "tests/test_revisores.py": "e45efe7588343ef457d6e1b29d1a146b2ed27d299cb3ff7cca25acd1d019e851",
+      "tests/test_tutorial.py": "34b81e6cd126c98d5de7f8d4a576e0068907a6048699d3c1f0387dd93e92926d",
+      "tests/test_vigencia.py": "c01698647a40aae363443e91ff1bd458e8b2c2831b02081d7a2ec21575020bbb",
+      "tests/test_web.py": "732503f0a06b8f0542ffde86ddf43124de7229e751918151826cec35fed5ead2",
+      "tests/test_workflow.py": "b6d23605e92f0e38fdb733ef659c00b43950395678b1981957262899f15b8e24",
+      "tools/verify_decisiones.py": "a9a00f426b6fdc6b2b3d46691ae557ca71adb0d01ce3405efa696a607bc6e05a"
+    }
+  },
+  "versiones": {
+    "oracle-metalenguaje": "0.38.1",
+    "oracle-task": "0.2.0",
+    "python": "3.13.15 (main, Sep  1 2026, 14:18:08) [Clang 22.1.3 ]"
+  },
+  "limites": "Escenarios d1–d5 en repositorios temporales, Linux, con la entrada de la terminal simulada y sin oracle-clue (los informes de prueba se usan marcados sin validar). Los arneses que corren el CLI instalado en una pseudoterminal (guía, instalado, colaboración, entre máquinas) se corren aparte. No mide que el menú sea cómodo para quien lo usa.",
+  "artefactos_sha256": {
+    "suite.txt": "8502b82cd6152da7a7f5aaccbc8c7e44246bae7bbcb00562331a8631d3b420a1",
+    "hechos.json": "c192f4c3a82140bc009a6fbf7d30cbeb07a0c9e1c51588b88c05bc8689d36e99"
+  }
+}
