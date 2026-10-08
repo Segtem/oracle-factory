@@ -323,6 +323,20 @@
       "candidato": "313d391",
       "resultado": "tope",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T15:36:21+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4db955b",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {
