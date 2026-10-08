@@ -2,7 +2,7 @@
   "id": "20261008-123018-cli-humana",
   "titulo": "La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md",
   "spec_sha256": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "077fb2d0a0e33e7074d516af8f5f4316203515b9b64a869f277205f811735eec"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261008-123018-cli-humana/candidatos/9dd7079/evidencia/hechos.json",
+    "hechos_sha256": "900b8d7d9e0b834a989d03cfb9c274863a98ccd7fa93d9b5d052dd3af0557a6b",
+    "informe": ".factory/cambios/20261008-123018-cli-humana/oracle-veredicto.txt",
+    "informe_sha256": "a9864fe173fedb5db22adb1f7bb4b0469beef3500c98f52bb96d0ec91f27a553",
+    "cuando": "2026-10-08T21:05:17+00:00",
+    "contexto": {
+      "head": "b0311053343346c256b8378ea35a1bddcde94cbe",
+      "archivos_sha256": "077fb2d0a0e33e7074d516af8f5f4316203515b9b64a869f277205f811735eec"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -647,6 +659,17 @@
       "abiertos": 0,
       "sha256": "edb974f9db10b48c3d0c16fd947c97272b04c0e62610c83bb34126bb024dcedf",
       "decisiones_sha256": "dc123017334bebcb2557b7df31369956cc645229cf7897ba41c96ccf6000b5c2"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T21:05:17+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "900b8d7d9e0b834a989d03cfb9c274863a98ccd7fa93d9b5d052dd3af0557a6b"
     }
   ],
   "tipos": {
