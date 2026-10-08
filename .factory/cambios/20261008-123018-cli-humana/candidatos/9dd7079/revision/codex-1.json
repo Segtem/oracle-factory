@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/9dd7079",
+  "base": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "head": "9dd70794289324ba6c530864244c9207fa01e2f6",
+  "diff_sha256": "1096cdd358bc1b6057aacb6186328cdc7a08a033753c8d72223af0ca222c6259",
+  "context_sha256": "5509f3b535d8102cef6d841ba1d2cd66de3ca36ef20a7637d840f85bb5ec00c1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-cerrado-omite-archivos-faltantes",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "`estado` omite la recuperación de archivos faltantes en cambios cerrados",
+      "explanation": "`proximo_paso()` retorna `None` para la fase `cerrada` antes de llamar a `archivos_faltantes()`. Si el registro de una tarea cerrada todavía referencia archivos que faltan (por ejemplo `revision.informe`, `oracle.informe` o `oracle.hechos`), `estado` no indica qué falta ni que debe recuperarse desde Git. Esto deja sin aplicar la regla añadida para archivos referenciados por el registro, precisamente en una fase donde la persona puede necesitar inspeccionar o restaurar el expediente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1835,
+        "end_line": 1837,
+        "side": "head"
+      },
+      "trigger": "Marcar un cambio como `cerrada`, conservar en su registro rutas de informes/artefactos y quitar del disco uno de esos archivos; luego ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `oracle_factory/cli.py`, `proximo_paso()` retorna `None` en las líneas 1832–1833 cuando `estado[\"fase\"] == \"cerrada\"`. La llamada a `archivos_faltantes(carpeta, estado)` y la instrucción de recuperarlos desde Git están después, en las líneas 1835–1837, por lo que no se alcanzan en ese escenario. La nueva detección sólo sirve para fases no cerradas.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso; indicación incremental: cualquier archivo referenciado por el registro que falte se recupera desde Git.",
+      "status": "pendiente",
+      "verification": "Inspección estática del diff incremental y del orden de ramas en `proximo_paso()`. No ejecuté una mutación en copia ni pude correr las pruebas: el comando exacto solicitado terminó con `env: .venv/bin/python: No such file or directory` en el checkout candidato."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec y el diff incremental empaquetado desde a5872cd; contrasté las rutas agregadas por archivos_faltantes() con estado y el registro, y revisé el contexto de los reportes previos. Los hallazgos anteriores sobre specs/requisitos, propuesta/tasks, informes/decisiones y artefactos Oracle faltantes están cubiertos para fases abiertas.",
+    "Ejecuté exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato; no arrancó porque allí no existe `.venv/bin/python`. No ejecuté otra variante.",
+    "No corrí tools/verify_*.py ni la suite completa. No hice mutaciones ni escribí en el checkout candidato; guardé el diff largo inspeccionado en revision-larga.diff."
+  ]
+}
