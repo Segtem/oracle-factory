@@ -1815,7 +1815,7 @@ def preparar_ejemplo(plan: dict[Path, bytes]) -> None:
 def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
     """Los archivos que el registro del cambio referencia y no están en el disco, relativos a la raíz."""
     rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
-    rutas = [carpeta / "proposal.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
+    rutas = [carpeta / "proposal.md", carpeta / "tasks.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
              *(ROOT / "requisitos" / f"{r}.requisito" for r in estado.get("requisitos") or []),
              *(ROOT / r for r in (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"), oracle.get("hechos")) if r)]
     return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]

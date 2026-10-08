@@ -145,6 +145,8 @@ class CliHumana(_ap.Base):
         self.assertTrue(f.proximo_paso(ident).startswith(f'faltan archivos del cambio (requisitos/{rid}.requisito)'))
         (self.root / 'openspec/changes' / ident / 'proposal.md').unlink()  # ni una propuesta que falta
         self.assertIn(f'openspec/changes/{ident}/proposal.md', f.proximo_paso(ident))
+        (self.root / 'openspec/changes' / ident / 'tasks.md').unlink()  # tasks.md también lo exige aprobar-spec
+        self.assertIn(f'openspec/changes/{ident}/tasks.md', f.proximo_paso(ident))
 
     def test_c4_candidato_sin_material(self):
         ident = self.cambio_medido()

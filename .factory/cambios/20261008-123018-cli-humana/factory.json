@@ -561,6 +561,20 @@
       "candidato": "b96429e",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T20:28:40+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "b96429e",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {
