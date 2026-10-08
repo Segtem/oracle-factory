@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/313d391",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "313d391ce9e27ad613595c3a8b14195f3a329654",
+  "diff_sha256": "f7472d0a840c977c562f021f5f8ade4da26e82a451cd31a07cbcc8033d3733db",
+  "context_sha256": "e82bfd31fbb7cfc5d6dee45b615c70cabe57b64aefbb22a6661fcdea201c8157",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-reporte-no-utilizable",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "`estado` ofrece revisar cuando `revision/` sólo contiene JSON que Factory descarta",
+      "explanation": "`proximo_paso` trata cualquier archivo `*.json` en la carpeta `revision/` como un informe disponible. Sin embargo, `material_del_candidato` descarta JSON ilegible, archivos que no sean informes Oracle Clue, informes de otro candidato y los que no pasan la validación de Clue. Si queda sólo uno de esos archivos y no hay evidencia, `estado` ofrece `oracle-factory revisar ID`; al elegirlo, `preparar_revision` no obtiene revisores ni evidencia y `revisar_paso_a_paso` falla porque no hay archivos revisados ni comprobaciones. El cálculo debería basarse en material usable, acorde a las mismas reglas de carga que aplica la preparación.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1834,
+        "end_line": 1835,
+        "side": "head"
+      },
+      "trigger": "Tener medidas completas y candidato vigente con un archivo JSON inválido, no Clue, de otro candidato o no validable en `.factory/cambios/ID/candidatos/COMMIT/revision/`, sin evidencia del candidato; ejecutar `estado ID` en una terminal e intentar el paso ofrecido.",
+      "evidence": "En la línea 1834, `any(...glob(\"*.json\"))` sólo comprueba que el archivo exista. `material_del_candidato` (líneas 715–767) filtra por `schema_version`, `head`, paquete y validación; `preparar_revision` usa únicamente los revisores filtrados y la evidencia (líneas 684–685). Sin material usable, `revisar_paso_a_paso` rechaza la operación al no encontrar `archivos_revisados` ni `comprobaciones` (líneas 981–984). `test_c4_candidato_sin_material` prueba una carpeta vacía, pero no un JSON presente que luego se descarte.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las condiciones de `proximo_paso`, `material_del_candidato` y `revisar_paso_a_paso`; ejecuté `tests.test_cli_humana` con el intérprete y PATH indicados: 13 pruebas, OK. El caso del archivo descartado no está cubierto por esas pruebas; no corrí la suite completa ni Oracle."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete, el código relacionado y las revisiones anteriores indicadas. Los hallazgos anteriores sobre el activador Fish, el relanzamiento de fabrica.py, candidato sin material, Oracle rojo sin cambios, recorrido de estado y ejecución en agente/salida redirigida siguen corregidos en el código revisado; el informe de revisión sólo señala el caso residual de JSON presente pero no utilizable.",
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana` desde el checkout candidato: 13 pruebas, OK. La salida completa quedó en `pruebas.log` dentro de la carpeta del revisor.",
+    "No ejecuté la suite completa, Oracle ni mutaciones automatizadas. No edité el checkout candidato; el caso señalado se sustenta en el flujo de filtros y guardas del código y en que la prueba cubre únicamente una carpeta vacía."
+  ]
+}
