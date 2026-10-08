@@ -463,6 +463,20 @@
       "candidato": "2391733",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T18:56:08+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "27cd98c",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {

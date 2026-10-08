@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/27cd98c",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "27cd98cac9e0e1e8bbc0a756edc2bb7ab40d6baa",
+  "diff_sha256": "2859d0be333df0e586025d8b634d41a4b02426c7d5990a101a9474f49e9c1f44",
+  "context_sha256": "c3468b8073c4977d01d65a952e364e12571f26f849fca7fd284e2c7e306e9514",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec aprobada, propuesta, el diff completo incluido en el paquete y el código actual del checkout; revisé también las rondas previas indicadas para regresiones.",
+    "Contrasté los escenarios de errores, resumen, entorno de fabrica.py y recorrido de proximo_paso con las pruebas test_cli_humana.py. Las pruebas cubren etapas y cambios de vigencia relevantes; no encontré un defecto reproducible en el diff.",
+    "Intenté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null. No se ejecutó: el checkout candidato no contiene .venv/bin/python (env devolvió ‘No such file or directory’). No corrí otras pruebas, tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones: el intérprete del comando prescrito no está disponible y no edité ni copié el checkout. La revisión fue estática además de la inspección de pruebas existentes."
+  ]
+}
