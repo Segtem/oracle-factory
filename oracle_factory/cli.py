@@ -1817,14 +1817,18 @@ def proximo_paso(identificador: str) -> str | None:
     if fase == "oracle_verde" and not pendientes_actuales(carpeta, estado):
         return f"oracle-factory cerrar {ident}"
     rev = estado.get("revision") or {}
-    if rev.get("decision") == "aprobar" and rev.get("hallazgos_abiertos") == 0 and fase not in ("oracle_rojo", "oracle_verde"):
+    # Una revisión vale para el producto que se revisó: si cambió después, no se juzga con ella.
+    revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
+    if (revisado and rev.get("decision") == "aprobar" and rev.get("hallazgos_abiertos") == 0
+            and fase not in ("oracle_rojo", "oracle_verde")):
         try:
             hechos_del_candidato(ident)
             return f"oracle-factory juzgar {ident}"
         except FactoryError:
             return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
+    if cambios_locales_de_producto():
+        return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
     sha = candidato_vigente(ident)
-    revisado = rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"] if rev else False
     # Con el producto revisado sin cambios, lo que falta es corregir, no otra revisión: se indica y no se ofrece ejecutar.
     if fase == "oracle_rojo" and revisado:
         return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"

@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/4db955b",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "4db955b674d8ee6b70c26400f026cd7639c0d61b",
+  "diff_sha256": "a85bfb305c15ace3c679e09e48fa3e74e8c827e2136bd8ed9809e2214b7466d7",
+  "context_sha256": "888d2c17884fe655d54593383e58a24689c530ca2cc23d801835af1e6946278f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-juzga-con-revision-desactualizada",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`estado` ofrece juzgar aunque haya cambios de producto posteriores a la aprobación de la revisión",
+      "explanation": "En `oracle_factory/cli.py`, la función `proximo_paso` prioriza la rama de revisión aprobada (líneas 1820–1825) antes de comprobar si la revisión sigue siendo vigente respecto del producto actual (`revisado`). Si se modifica código de producto luego de aprobada la revisión, `candidato_vigente` evalúa a None al detectar cambios locales de producto. Sin embargo, `hechos_del_candidato` (línea 457) recurre al commit HEAD como fallback si `candidato_vigente` es None, encontrando los hechos del candidato previo. En consecuencia, `proximo_paso` devuelve `oracle-factory juzgar {ident}` y `ofrecer_siguiente` ofrece ejecutarlo en el menú interactivo sobre código modificado que jamás fue revisado. Si los cambios de producto fueron confirmados en un nuevo commit, `hechos_del_candidato` falla y la función propone `oracle-factory juzgar {ident} --con RUTA_DE_HECHOS`, omitiendo requerir una nueva revisión. Esto incumple el requisito de calcular el próximo paso según lo que falta (revisar el nuevo producto) y vulnera el protocolo de Factory al habilitar un juicio de Oracle y cierre sin revisión humana del código vigente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1820,
+        "end_line": 1825,
+        "side": "head"
+      },
+      "trigger": "Aprobar una revisión sobre un candidato con hechos guardados; posteriormente realizar cambios en archivos de producto (sin commit o con commit posterior) y ejecutar `oracle-factory estado ID` en una terminal.",
+      "evidence": "En oracle_factory/cli.py, las líneas 1820–1825 consultan `hechos_del_candidato` y devuelven `juzgar` antes del cálculo de `revisado` (línea 1827). Con modificaciones de producto sin commit, `candidato_vigente` devuelve None, pero `hechos_del_candidato` obtiene los hechos del commit HEAD anterior; `ofrecer_siguiente` (líneas 1848–1856) ofrece ejecutar el paso interactivo y al confirmarlo ejecuta el juicio, estableciendo `fase = 'oracle_verde'` pese a que la revisión quedó desactualizada (`pendientes_actuales` añade 'revision desactualizado respecto del producto'). Con cambios commiteados, propone juzgar con ruta de hechos sin pedir revisión del nuevo commit. En pruebas de mutación manuales, añadir la guarda `revisado` en la línea 1820 sobrevive a tests/test_cli_humana.py (13 pruebas pasan sin detectar la falta de la guarda).",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Comprobado reproduciendo el escenario en un repositorio de prueba basado en CliHumana: tras aprobar la revisión y modificar examples/notas/notas.py sin commit, proximo_paso devuelve 'oracle-factory juzgar ...' y ofrecer_siguiente despacha el comando llevando la fase a 'oracle_verde' con revisión desactualizada. Ejecuté tests.test_cli_humana (13 pruebas, OK). La mutación que exige revisado antes de juzgar sobrevivió sin fallos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana desde el checkout candidato: 13 pruebas, OK.",
+    "Verifiqué las correcciones y el estado de cierre de los hallazgos previos (activador de shell, relanzamiento de fabrica.py con sys.prefix y oracle-task, archivos descartados en revision/, candidatos sin material, Oracle en rojo y cobertura del comando estado); se mantienen resueltos sin regresiones.",
+    "Realicé mutaciones manuales en una copia aislada del código candidato para verificar la sensibilidad del conjunto de pruebas sobre cli.py (detectaron cambios en material, terminal_interactiva, --confirmar y aviso de sha; sobrevivió la ausencia de validación de revisado previo a juzgar).",
+    "Reproduje sintéticamente el flujo interactivo de estado y ofrecer_siguiente para modificaciones de producto locales y commiteadas posteriores a la aprobación de la revisión.",
+    "Conforme a las instrucciones, no ejecuté tools/verify_*.py, la suite de pruebas completa ni Oracle en segundo plano. No se realizaron modificaciones en el checkout candidato 4db955b."
+  ]
+}

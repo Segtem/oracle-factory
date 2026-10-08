@@ -193,6 +193,11 @@ class CliHumana(_ap.Base):
                 contextlib.redirect_stderr(io.StringIO()):
             f.revisar_paso_a_paso(ident)  # completa; aprobar; motivo armado
         self.assertEqual(paso(), f'oracle-factory juzgar {ident}')  # los hechos están en el candidato
+        notas = self.root / 'examples/notas/notas.py'
+        original = notas.read_text()
+        notas.write_text(original + '# después de la revisión\n')  # producto tocado sin commit: la revisión ya no vale
+        self.assertEqual(paso(), f'commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}')
+        notas.write_text(original)
         with contextlib.redirect_stdout(io.StringIO()):
             f.juzgar(ident, f.hechos_del_candidato(ident))
         self.assertEqual(paso(), f'oracle-factory cerrar {ident}')
