@@ -1,3 +1,19 @@
+# Oracle Factory 0.1.0a7
+
+- **Decisiones guiadas:** ya no se tipean frases como `CERRAR <id>`. Cada decisión de una persona (aprobar la spec, registrar la revisión, cerrar, cambiar de modo) se toma en un menú: qué se decide, opciones numeradas con lo que implica cada una, y se elige escribiendo el número. Enter solo o cualquier otra respuesta cancela sin registrar nada; sin terminal interactiva, ninguna decisión de persona se registra.
+- **`oracle-factory revisar ID`:** la revisión del candidato vigente de punta a punta, sin editar JSON ni copiar rutas o hashes. Muestra las comprobaciones con su evidencia, pregunta por cada hallazgo (aceptar el riesgo, descartar o dejar abierto), si la revisión está completa y la decisión, y registra.
+- **El motivo se elige:** el que propuso el agente (`--agente … revisar ID --decision … --motivo …`), uno armado con los datos del cambio u «Otro». El registro guarda su origen (`agente`, `armado` o `persona`), también el de cada hallazgo resuelto.
+- **`medir ID --confirmar`:** lista las medidas que propuso el agente, avisa si alguna conserva `sin_medir` o si el requisito cambió después de la propuesta, y las confirma todas o de a una.
+- **`pedir-revision ID --a NOMBRE`:** lanza un revisor declarado en `.factory/config.json` (`revisores`: comando con marcadores, proveedor, modelo y tope en minutos), arma su pedido desde el cambio (plantilla reemplazable con `.factory/pedido-revision.md`; `--pedir` agrega indicaciones), valida su informe con Oracle Clue y lo guarda en `revision/` del candidato. Lo que sale mal (no inicia, no deja informe, Clue lo rechaza, se pasa del tope) no se guarda como informe; el revisor no decide. `revision-preparar` muestra las vueltas anteriores como comprobaciones, sin pedir que se decidan otra vez.
+- Límite conocido: el paquete de Clue de un cambio amplio puede superar 1 MB; se revisa contra una base intermedia con `pedir-revision --base`.
+- La revisión independiente de estos cambios la hicieron Codex (GPT) y Agy (Gemini), lanzados desde Factory con `pedir-revision`. Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a7-py3-none-any.whl dist/oracle_factory-0.1.0a7.tar.gz
+```
+
+La evidencia está en las tareas de los cambios `20261007-192608-revisores` y `20261007-223645-decisiones-guiadas`.
+
 # Oracle Factory 0.1.0a6
 
 - **Resumen del estado actual:** `oracle-factory resumen` escribe `.factory/resumen.md` con los requisitos vigentes de cada capacidad (tipo, requisito de Oracle, medidas, veredicto con que se cerró su cambio), los cambios abiertos con lo que les falta, los riesgos aceptados y los límites declarados. Es determinista y queda fuera de la huella del producto; `cerrar` y `archivar` lo regeneran, `--verificar` dice si quedó viejo y `--salida RUTA` lo escribe en otro lugar. Se lee con formato con `glow -p .factory/resumen.md`.

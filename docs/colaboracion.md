@@ -2,7 +2,7 @@
 
 El acuerdo de trabajo es sencillo: cada frente tiene una persona responsable, un escritor activo y su propio checkout. Las personas acuerdan el reparto y los relevos; los agentes implementan, prueban y preparan evidencia dentro de ese alcance. Una persona integra las entregas en orden y decide con el equipo qué se acepta.
 
-Este protocolo usa Factory 0.1.0a6, Oracle Task 0.2.0, Oracle Clue 0.1.0a1 y Oracle 0.38.1. La demostración cubre Linux. Los comandos de Git y las CLI comprueban aspectos concretos; la asignación y la recepción de un relevo son acuerdos humanos. Un campo `RESPONSABLE` no bloquea a otro proceso. La versión para leer de corrido está en la web: [Factory en equipo](https://segtem.github.io/oracle-factory/colaboracion.html).
+Este protocolo usa Factory 0.1.0a7, Oracle Task 0.2.0, Oracle Clue 0.1.0a1 y Oracle 0.38.1. La demostración cubre Linux. Los comandos de Git y las CLI comprueban aspectos concretos; la asignación y la recepción de un relevo son acuerdos humanos. Un campo `RESPONSABLE` no bloquea a otro proceso. La versión para leer de corrido está en la web: [Factory en equipo](https://segtem.github.io/oracle-factory/colaboracion.html).
 
 ## Quién decide qué
 
