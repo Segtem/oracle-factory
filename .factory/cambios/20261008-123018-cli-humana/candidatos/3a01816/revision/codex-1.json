@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/3a01816",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "3a01816752623762169f99e997303f7ab8c0b9c6",
+  "diff_sha256": "f627f060b2e9644babb8eb5f3b279ccd1f4ad722d9d3415a5366e06d37f93200",
+  "context_sha256": "2ff6e8631f1b989e7225f3d52a973140d7ab21eeadb50eba0a11b78e4ce5e4b0",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-oracle-verde-evidencia-actualizada-no-ofrece-juzgar",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "`estado` no ofrece volver a juzgar evidencia cambiada después de un Oracle verde",
+      "explanation": "Si el juicio Oracle quedó verde y luego se corrigen o regeneran los hechos del mismo candidato sin cambiar el producto, `pendientes_actuales` detecta que la huella de los hechos ya no coincide con el juicio registrado y evita ofrecer `cerrar`. Sin embargo, `proximo_paso` excluye expresamente `oracle_verde` de la rama que ofrece `juzgar`. Como la revisión de producto sigue vigente, también omite el paso manual de cambios locales y acaba recomendando `pedir-revision`. La persona recibe un paso equivocado y no puede ejecutar desde el menú la comprobación que corresponde a los hechos nuevos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1817,
+        "end_line": 1818,
+        "side": "head"
+      },
+      "trigger": "Completar medidas y revisión, juzgar el candidato hasta obtener `oracle_verde`; modificar después los hechos/evidencia de ese mismo candidato sin cambiar archivos de producto y ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `pendientes_actuales` (líneas 1230–1241) cualquier diferencia entre el hash de los hechos registrados por Oracle y el archivo actual agrega `hechos cambiado o sin huella`, por lo que la condición de cierre de la línea 1817 es falsa. Más abajo, la rama de revisión aprobada excluye `oracle_verde` (línea 1823), y el resto cae al `pedir-revision` de las líneas 1842–1847 cuando la revisión sigue vigente. `tests/test_cli_humana.py::test_c4_oracle_rojo_sin_cambios` prueba el cambio de evidencia en `oracle_rojo`, pero no este recorrido con `oracle_verde`.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspeccioné estáticamente `proximo_paso`, `pendientes_actuales`, `cerrar` y los casos de prueba del flujo. Intenté correr exactamente `timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null` desde el checkout candidato; no arrancó porque allí no existe `.venv/bin/python`. No edité ni muté el checkout candidato y no reproduje el flujo dinámicamente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y las revisiones anteriores indicadas. Los defectos anteriores de relanzamiento con `.venv`, candidatos sin informes revisables, cambios pedidos sin modificación, producto cambiado después de una revisión y evidencia actualizada en `oracle_rojo` parecen cubiertos por el código actual; la regresión reportada es el caso análogo posterior a `oracle_verde`.",
+    "Intenté la prueba unitaria indicada exactamente desde el checkout candidato; falló antes de ejecutar pruebas con `env: ‘.venv/bin/python’: No such file or directory`. No usé otra ruta de intérprete ni modifiqué el checkout.",
+    "No corrí `tools/verify_*.py`, la suite completa ni Oracle; no hice mutaciones. El hallazgo se basa en el flujo de control y validación de hashes inspeccionados."
+  ]
+}
