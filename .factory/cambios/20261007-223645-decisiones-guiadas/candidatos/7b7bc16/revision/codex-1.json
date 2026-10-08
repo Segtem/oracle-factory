@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/7b7bc16",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "7b7bc16de01cd59d170c66bdb16673b951acc7a3",
+  "diff_sha256": "23c346b03e04b410e892a3ee090c483d89fc3a2ad6ff0ea6dc8ca5ff668b3681",
+  "context_sha256": "ab5ac7c00dcb0cde6be735b7c62b92b56b843b5db077c4de63c7e95d67982ca9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DGUI-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "La confirmación no comprueba que las propuestas sigan vigentes",
+      "explanation": "`medidas_pendientes` conserva el SHA-256 del archivo de requisito que el agente propuso. `confirmar_medidas` obtiene las medidas actuales del archivo y las presenta como propuestas, pero no compara su SHA con el guardado en cada propuesta. Si el requisito cambia después de la propuesta y antes de confirmar, el menú permite confirmar el contenido editado como si fueran las medidas del agente. En ese caso `medir` registra una decisión nueva por la persona (el hash pendiente ya no coincide), pero la opción de menú sigue diciendo que confirma las medidas tal como las propuso el agente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2014,
+        "end_line": 2029,
+        "side": "head"
+      },
+      "trigger": "Un agente propone medidas para un requisito; antes de `medir ID --confirmar`, alguien cambia las medidas o `sin_medir` del archivo `.requisito` y deja el estado pendiente intacto; la persona elige confirmar todas.",
+      "evidence": "La función lista requisitos desde `inventario_medidas(estado)` en las líneas 2010–2019 y ejecuta `medir(... medidas=list(requisitos[rid].medido_por))` en 2029, sin validar `medidas_pendientes[rid][\"sha256\"]`. Ese SHA se comprueba después dentro de `medir` sólo para decidir si la forma es `confirmo`; si no coincide, el archivo actual todavía se registra como `decidio`, tras haberse presentado como propuesta del agente.",
+      "related_requirement": "confirmar las medidas propuestas de una vez",
+      "status": "pendiente",
+      "verification": "Inspección de `confirmar_medidas` y del control de SHA en `medir`. Las 10 pruebas de `tests.test_decisiones` pasan, pero no cubren la modificación del requisito entre propuesta y confirmación. No hice mutaciones sobre el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones` en el checkout candidato: 10 pruebas, OK (con avisos DeprecationWarning de dependencias).",
+    "Leí la propuesta, la spec, los 30 archivos del paquete Clue y las pruebas indicadas; contrasté las rutas de confirmación, revisión guiada, motivos, medidas y terminal.",
+    "Los dos hallazgos de la revisión previa siguen cerrados en el código actual: evidencia de comprobaciones antes de los menús de revisión y `origen_motivo` persistido para resoluciones.",
+    "No ejecuté la suite completa ni una interacción manual con pseudoterminal; no hice mutaciones de prueba. El hallazgo sobre cambios entre propuesta y confirmación se verificó por inspección del SHA guardado y el flujo de confirmación."
+  ]
+}

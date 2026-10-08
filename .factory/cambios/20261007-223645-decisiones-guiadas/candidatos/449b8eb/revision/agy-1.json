@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/449b8eb",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "449b8eb9b54f7838558a5b7ae25470e39e880450",
+  "diff_sha256": "ec78c661aa58191fb364d8cdaee6172393687a21e61611094ff28b03c078e00b",
+  "context_sha256": "f2afa7951462e9d6997cec89e8db19773cdf787888d5ecbfd3763d7429a01bd1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "DGUI-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "proponer_revision usa la clave 'revisar' en propuestas y rompe estado, cerrar y cambiar-modo",
+      "explanation": "Al proponer una revisión, `proponer_revision` guarda los datos en `estado[\"propuestas\"][\"revisar\"]`. Sin embargo, el contrato de `propuestas` en Oracle Factory usa las decisiones canónicas ('spec', 'medidas', 'revision', 'cierre'), definidas en `modos.DECISIONES` y en el diccionario `DESCRIPCION`. Al guardarse con la clave no canónica 'revisar': (1) `pendientes()` en `cli.py:1153-1154` consulta `DESCRIPCION[decision]`, arrojando `KeyError: 'revisar'` no capturado, lo que hace fallar inmediatamente a `oracle-factory estado ID` y a `oracle-factory cerrar ID` mientras haya una propuesta de revisión pendiente; (2) `cambiar_modo()` en `cli.py:1506` invoca `modos.via_agente(nuevo_modo, decision, tipos)`, arrojando `ValueError: modo o decisión desconocidos: <nuevo_modo>, revisar`; (3) el diccionario guardado carece de la clave 'firma' esperada por `decidir()` (`cli.py:215`), y `decidir()` busca 'revision' en lugar de 'revisar', no consumiendo la propuesta de forma estándar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 952,
+        "end_line": 953,
+        "side": "head"
+      },
+      "trigger": "Un agente propone una revisión con `oracle-factory --agente AGENTE revisar ID --decision aprobar --motivo \"...\"`; antes de que la persona complete `revisar ID`, se consulta `oracle-factory estado ID`, se intenta `cerrar ID` o se ejecuta `oracle-factory cambiar-modo ID <modo>`.",
+      "evidence": "En `oracle_factory/cli.py:952`, `proponer_revision` ejecuta `estado.setdefault(\"propuestas\", {})[\"revisar\"] = ...`. Al invocar `mostrar(ident)` (`oracle-factory estado`), `pendientes_actuales()` llama a `pendientes()` (`cli.py:1154`), que evalúa `DESCRIPCION[\"revisar\"]` y termina con `KeyError: 'revisar'`. Al invocar `cambiar_modo()` (`cli.py:1506`), `modos.via_agente(nuevo_modo, 'revisar', tipos)` arroja `ValueError: modo o decisión desconocidos: <modo>, revisar`. Ambos errores se reproducen de forma determinista sobre el candidato vigente.",
+      "related_requirement": "el motivo se elige",
+      "status": "pendiente",
+      "verification": "Reproducción en script sobre el checkout candidato: tras ejecutar `proponer_revision(ident, 'aprobar', 'motivo')`, las llamadas a `mostrar(ident)` y `cerrar(ident)` fallaron con `KeyError: 'revisar'`, y `cambiar_modo(ident, 'autonomo')` falló con `ValueError`. Inspección de `cli.py:182` y `modos.py:12` confirma que la decisión es 'revision' y que 'revisar' no existe en `DESCRIPCION` ni `modos.DECISIONES`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté la suite completa de pruebas del sensor con `tools/verify_decisiones.py --salida <dir>` (273 pruebas unitarias, 11 casos de contrato d1–d5, OK).",
+    "Ejecuté pruebas de mutación manual en un entorno aislado sobre `oracle_factory/cli.py` para contrastar la detección de regresiones de DGUI-01, DGUI-02, DGUI-03, DGUI-04, la exigencia de no elegir en Enter vacío y el orden de presentación del motivo propuesto; todas las mutaciones fueron detectadas y rechazadas por la suite.",
+    "Comprobé que los hallazgos previos DGUI-01 y DGUI-02 (de 158b050), DGUI-03 (de 7b7bc16) y DGUI-04 (de 76e6b07) permanecen corregidos en el código del candidato 449b8eb.",
+    "No se ejecutó una sesión interactiva en pseudoterminal real con usuario humano tiroteando teclas interactivas ni se probaron terminales bajo emuladores específicos (la suite simula entrada vía mocks de input()).",
+    "El paquete Clue omite los 17 archivos de pruebas y arneses con migración mecánica de confirmaciones tipeadas a '1', según fue indicado en el pedido de revisión; esa parte se validó a través de la ejecución de la suite de tests."
+  ]
+}

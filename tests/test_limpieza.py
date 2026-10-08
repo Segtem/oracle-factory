@@ -45,7 +45,7 @@ class Limpieza(unittest.TestCase):
     def cambio_antiguo(self):
         """Un cambio juzgado como los de antes de la portabilidad: fuente y hechos con la ruta de la máquina del autor."""
         ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         carpeta, estado = f.leer(ident)

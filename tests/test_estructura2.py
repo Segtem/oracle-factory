@@ -41,7 +41,7 @@ class Estructura2(unittest.TestCase):
     def cambio_juzgado(self, titulo='Nota'):
         """Un cambio con revisión libre (review.md) y veredicto (oracle-veredicto.txt)."""
         ident = f.nuevo(titulo, con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         rid = f.leer(ident)[1]['requisitos'][0]
@@ -52,7 +52,7 @@ class Estructura2(unittest.TestCase):
         self.git('commit', '-qm', 'producto fixture')
         informe = self.root / 'tareas' / ident / 'revision.md'
         informe.write_text('Fixture de revisión; no es una revisión real.\n')
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with self.escribe('1'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
         hechos = self.root / 'tareas' / ident / 'hechos.json'
         subprocess.run([sys.executable, 'examples/notas/sensor.py', '--salida', hechos], cwd=self.root, check=True, capture_output=True)
@@ -309,7 +309,7 @@ class Estructura2(unittest.TestCase):
     def test_s6_configuracion_en_factory_manda(self):
         (self.root / '.factory/config.json').write_text(json.dumps({'modo_por_defecto': 'autonomo'}))
         (self.root / 'factory.json').write_text(json.dumps({'modo_por_defecto': 'funcional'}))  # el de la raíz no cuenta
-        with patch.object(f, 'terminal_interactiva', return_value=True), self.escribe('ELEGIR MODO autonomo'):
+        with patch.object(f, 'terminal_interactiva', return_value=True), self.escribe('1'):
             ident = f.nuevo('Una', con_ejemplo='notas')
         self.assertEqual(f.leer(ident)[1]['modo'], 'autonomo')
 

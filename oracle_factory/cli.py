@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
+import io
 import datetime as dt
 import getpass
 import hashlib
@@ -139,20 +141,55 @@ def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
         "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": ahora(), **datos})
 
 
-def confirmar_persona(frase: str, cancelado: str) -> None:
+def exigir_terminal(que: str = "esta decisión") -> None:
     if not terminal_interactiva():
-        raise FactoryError("esta decisión es de una persona y se confirma desde una terminal interactiva; "
-                           "la entrada por pipe no cuenta. Un agente usa --agente y queda registrado como agente.")
-    if input(f"Escribí {frase}: ").strip() != frase:
+        raise FactoryError(f"{que} es de una persona y se toma desde una terminal interactiva; la entrada por pipe no cuenta. "
+                           "Un agente deja su propuesta con --agente y queda registrado como agente.")
+
+
+def elegir(pregunta: str, opciones: list[tuple[str, str]]) -> int | None:
+    """Menú numerado: el índice de la opción elegida, o None si la respuesta no es una opción (Enter solo no elige)."""
+    print(f"\n{pregunta}")
+    for i, (etiqueta, implica) in enumerate(opciones, 1):
+        print(f"  {i}) {etiqueta} — {implica}")
+    respuesta = input(f"Elegí 1-{len(opciones)}: ").strip()
+    # Sólo dígitos ASCII: isdigit() también acepta «²», que int() no convierte.
+    return int(respuesta) - 1 if re.fullmatch(r"[0-9]+", respuesta) and 1 <= int(respuesta) <= len(opciones) else None
+
+
+def confirmar_persona(menu: tuple[str, str, str], cancelado: str) -> None:
+    """menu = (qué se decide, etiqueta de la opción que confirma, qué implica confirmar)."""
+    pregunta, confirmar, implica = menu
+    exigir_terminal(f"«{pregunta}»")
+    if elegir(pregunta, [(confirmar, implica), ("Cancelar", "no registra nada")]) != 0:
         raise FactoryError(cancelado)
+
+
+def elegir_motivo(armado: str, propuesto: str | None = None) -> tuple[str, str]:
+    """(motivo, origen): el que propuso el agente, uno armado con los datos del cambio o uno escrito ('persona')."""
+    opciones = ([("Propuesto por el agente", propuesto, "agente")] if propuesto else []) + [
+        ("Armado con los datos del cambio", armado, "armado"), ("Otro", "escribirlo", "persona")]
+    i = elegir("Motivo de la decisión:", [(e, f"«{t}»" if o != "persona" else t) for e, t, o in opciones])
+    if i is None:
+        raise FactoryError("no se eligió un motivo; no registré nada")
+    if opciones[i][2] != "persona":
+        return opciones[i][1], opciones[i][2]
+    motivo = input("Motivo: ").strip()
+    if not motivo:
+        raise FactoryError("motivo vacío; no registré nada")
+    return motivo, "persona"
 
 
 DESCRIPCION = {"spec": "la aceptación de la propuesta/spec", "medidas": "la elección de medidas",
                "revision": "la decisión de revisión", "cierre": "el cierre"}
 
 
-def decidir(estado: dict, decision: str, tipos: list[str], firma, frase: str, cancelado: str, publicar) -> str | None:
-    """Aplica el modo: devuelve la forma registrada, o None si el agente sólo dejó una propuesta."""
+def decidir(estado: dict, decision: str, tipos: list[str], firma, menu: tuple[str, str, str], cancelado: str, publicar,
+            confirmado: tuple[str, str] | None = None) -> str | None:
+    """Aplica el modo: devuelve la forma registrada, o None si el agente sólo dejó una propuesta.
+
+    confirmado = (motivo, origen) cuando la persona ya decidió en un recorrido guiado (revisar): no se pregunta otra vez.
+    """
     modo = modo_de(estado)
     if AGENTE:
         via = modos.via_agente(modo, decision, tipos)
@@ -167,27 +204,36 @@ def decidir(estado: dict, decision: str, tipos: list[str], firma, frase: str, ca
             return None
         (estado.get("propuestas") or {}).pop(decision, None)  # decidir reemplaza su propuesta anterior
         return "decidio"
-    confirmar_persona(frase, cancelado)
-    motivo = pedir_motivo(estado, decision, tipos)
+    if confirmado is None:
+        confirmar_persona(menu, cancelado)
+        motivo = pedir_motivo(estado, decision, tipos, menu[0])
+    else:
+        exigir_terminal()
+        motivo = confirmado
     if motivo:
         estado["motivo_pendiente"] = motivo
     propuesta = (estado.get("propuestas") or {}).pop(decision, None)
-    return "confirmo" if propuesta and propuesta["firma"] == firma else "decidio"
+    return "confirmo" if (propuesta and propuesta["firma"] == firma) or (motivo and motivo[1] == "agente") else "decidio"
 
 
-def pedir_motivo(estado: dict, decision: str, tipos: list[str]) -> str | None:
-    """En modo funcional la persona decide lo funcional: con un motivo propio, no sólo confirmando."""
+def menu_revision(identificador: str, decision: str) -> tuple[str, str, str]:
+    return (f"Registrar la revisión de {identificador} con la decisión «{decision}»", "Registrar",
+            "queda como decisión tuya, con el informe y las resoluciones indicados")
+
+
+def pedir_motivo(estado: dict, decision: str, tipos: list[str], que: str) -> tuple[str, str] | None:
+    """En modo funcional la persona decide lo funcional: con un motivo, no sólo confirmando."""
     if modo_de(estado) != "funcional" or decision == "cierre" or "funcional" not in tipos:
         return None
-    motivo = input("Motivo de la decisión (modo funcional: decide la persona): ").strip()
-    if not motivo:
-        raise FactoryError("en modo funcional la persona decide con un motivo; no registré nada")
-    return motivo
+    return elegir_motivo(f"{que}: lo leí y lo decido tal como está (modo funcional).")
 
 
-def registro_decision(estado: dict, forma: str, motivo: str | None = None) -> dict:
+def registro_decision(estado: dict, forma: str, motivo: tuple[str, str] | None = None) -> dict:
     motivo = motivo or estado.pop("motivo_pendiente", None)
-    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora(), **({"motivo": motivo} if motivo else {})}
+    if isinstance(motivo, str):  # registro anterior a los motivos con origen
+        motivo = (motivo, "persona")
+    return {**actor(), "forma": forma, "modo": modo_de(estado), "cuando": ahora(),
+            **({"motivo": motivo[0], "origen_motivo": motivo[1]} if motivo else {})}
 
 
 def quien(registro: dict | None) -> str:
@@ -249,7 +295,9 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     if modos.baja_intervencion(modos.POR_DEFECTO, modo):
         if AGENTE:
             raise FactoryError(f"el modo {modo} tiene menos intervención humana que {modos.POR_DEFECTO}: lo elige una persona, sin --agente")
-        confirmar_persona(f"ELEGIR MODO {modo}", "no se creó el cambio: modo no confirmado")
+        confirmar_persona((f"Crear el cambio en modo {modo}, con menos intervención humana que {modos.POR_DEFECTO}",
+                           f"Usar el modo {modo}", "el agente podrá decidir más pasos sin una persona"),
+                          "no se creó el cambio: modo no confirmado")
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
         preparar_ejemplo(plan)
@@ -504,7 +552,8 @@ def aprobar_spec(identificador: str) -> None:
         tipos = list(modos.tipos_spec(contenido).values())
     except modos.TipoInvalido as e:
         raise FactoryError(str(e)) from e
-    forma = decidir(estado, "spec", tipos, huellas, f"APROBAR ESPECIFICACION {identificador}",
+    forma = decidir(estado, "spec", tipos, huellas, (f"Aprobar la propuesta y la spec de {identificador}", "Aprobar",
+                    "reinicia importación, revisión y veredicto de este cambio"),
                     "aprobación cancelada; no cambié el estado", lambda e: guardar(carpeta, e))
     if forma is None:
         return
@@ -795,7 +844,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     return destino
 
 
-def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str) -> None:
+def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor: str, decision: str,
+                   confirmado: tuple[str, str] | None = None) -> None:
     carpeta, estado = abierto(identificador)
     registro_ruta = ruta_segura(ruta_registro(carpeta))
     registro = registro_ruta.read_bytes()
@@ -842,8 +892,8 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
         revalidar()
         escribir_atomico(registro_ruta, bytes_json(e), esperado=registro)
 
-    forma = decidir(estado, 'revision', tipos_cambio(estado), firma, f'REGISTRAR REVISION {identificador}',
-                    'registro de revisión cancelado', publicar_propuesta)
+    forma = decidir(estado, 'revision', tipos_cambio(estado), firma, menu_revision(identificador, decision),
+                    'registro de revisión cancelado', publicar_propuesta, confirmado)
     if forma is None:
         return
     revalidar()
@@ -876,6 +926,110 @@ def revisar_guiado(identificador: str, informe: Path, decisiones: Path, revisor:
                            'Consultá estado y recuperá sólo la nota; no se revirtió el registro.') from e
     print(f'Informe registrado: {destino}\nDecisiones registradas: {destino_decisiones}')
     siguiente(identificador, estado['fase'])
+
+
+def motivo_armado(informe: dict, sha: str, decision: str, resoluciones: list[dict]) -> str:
+    hallazgos = informe.get("hallazgos") or []
+    partes = [f"{'Apruebo' if decision == 'aprobar' else 'Pido cambios en'} el candidato {sha}"]
+    partes.append(f"{len(hallazgos)} hallazgo{'s' if len(hallazgos) != 1 else ''} de los revisores"
+                  + (": " + ", ".join(f"{r['hallazgo_id']} {r['estado'].replace('_', ' ')}" for r in resoluciones)
+                     if resoluciones else ""))
+    evidencia = next((c["descripcion"] for c in informe.get("comprobaciones") or []
+                      if c["descripcion"].startswith("Evidencia del candidato")), None)
+    if evidencia:
+        partes.append(evidencia[0].lower() + evidencia[1:])
+    vueltas = sum(c["descripcion"].startswith("Vuelta anterior") for c in informe.get("comprobaciones") or [])
+    if vueltas:
+        partes.append(f"{vueltas} vuelta{'s' if vueltas != 1 else ''} anterior{'es' if vueltas != 1 else ''} registrada{'s' if vueltas != 1 else ''}")
+    return "; ".join(partes) + "."
+
+
+def proponer_revision(identificador: str, decision: str, motivo: str) -> None:
+    """El agente deja la decisión y el motivo que propone; la persona los ve como opción en revisar."""
+    carpeta, estado = abierto(identificador)
+    sha = candidato_vigente(identificador)
+    if sha is None:
+        raise FactoryError("no hay candidato vigente para proponer una revisión")
+    # Fuera de «propuestas»: ésas son las decisiones canónicas de modos.DECISIONES, con firma.
+    estado.setdefault("motivos_propuestos", {})["revision"] = {"decision": decision, "motivo": motivo, "candidato": sha,
+                                                      **actor(), "cuando": ahora()}
+    evento(estado, "revision_propuesta", forma="propuso", decision=decision, candidato=sha)
+    guardar(carpeta, estado)
+    print(f"Propuesta de {AGENTE} para el candidato {sha}: {decision}; motivo «{motivo}». "
+          f"La persona la ve como opción con oracle-factory revisar {identificador}.")
+
+
+def revisar_paso_a_paso(identificador: str) -> None:
+    """La revisión del candidato vigente, guiada: prepara, muestra, pregunta y registra sin editar JSON."""
+    abierto(identificador)
+    exigir_terminal("registrar la revisión")
+    sha = candidato_vigente(identificador)
+    if sha is None:
+        raise FactoryError("no hay candidato vigente: hace falta un commit con su carpeta de candidato (evidencia o informes "
+                           f"de revisores) y sin cambios de producto después; pedí una revisión con oracle-factory pedir-revision {identificador}")
+    with contextlib.redirect_stdout(io.StringIO()):
+        ruta_informe, ruta_decisiones = preparar_revision(identificador)
+    informe = json.loads(ruta_informe.read_text(encoding="utf-8"))
+    decisiones = json.loads(ruta_decisiones.read_text(encoding="utf-8"))
+    if not informe.get("archivos_revisados") or not informe.get("comprobaciones"):
+        raise FactoryError(f"el candidato {sha} no tiene informes de revisores ni evidencia: pedí una revisión con "
+                           f"oracle-factory pedir-revision {identificador} y producí la evidencia antes de revisar")
+    print(f"Revisión de {identificador} · candidato {sha}")
+    for c in informe["comprobaciones"]:
+        print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}\n      Evidencia: {c['evidencia']}")
+    for limite in informe.get("limites") or []:
+        print(f"  Límite: {limite}")
+    persona = actor()["actor"]
+    resoluciones = []
+    for h in informe.get("hallazgos") or []:
+        print(f"\nHallazgo {h['id']} en {h['ubicacion']}:\n  {h['descripcion']}\n  Evidencia: {h['evidencia']}")
+        i = elegir(f"¿Qué hacés con {h['id']}?", [("Aceptar el riesgo", "queda registrado como riesgo aceptado"),
+                                                  ("Descartar", "no aplica o no es un defecto"),
+                                                  ("Dejar abierto", "sólo se podrá pedir cambios")])
+        if i is None:
+            raise FactoryError("revisión cancelada; no registré nada")
+        if i == 2:
+            continue
+        estado_h = ("riesgo_aceptado", "descartado")[i]
+        motivo_h, origen_h = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
+        resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
+                             "actor": persona, "fecha": ahora()})
+    abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
+    # «Completa» lo declara la persona: Factory no lo supone.
+    alcance = elegir("¿Revisaste todo lo que abarca el informe?", [
+        ("Sí, la revisión está completa", "se registra como completa"),
+        ("No, quedó incompleta", "se registra incompleta, con sus límites; sólo se podrá pedir cambios")])
+    if alcance is None:
+        raise FactoryError("revisión cancelada; no registré nada")
+    completa = alcance == 0
+    if not completa and not informe.get("limites"):
+        limite = input("¿Qué quedó sin revisar? ").strip()
+        if not limite:
+            raise FactoryError("una revisión incompleta necesita su límite; no registré nada")
+        informe["limites"] = [limite]
+    if abiertos or not completa or any(c["resultado"] != "cumple" for c in informe["comprobaciones"]):
+        opciones = [("cambios", "Pedir cambios", f"quedan {abiertos} hallazgo(s) abiertos, la revisión está incompleta o hay "
+                     "comprobaciones que no cumplen; no se puede aprobar")]
+    else:
+        opciones = [("aprobar", "Aprobar", "la revisión queda aprobada; después corre juzgar y se puede cerrar"),
+                    ("cambios", "Pedir cambios", "la revisión queda registrada pidiendo cambios")]
+    i = elegir(f"Decisión sobre el candidato {sha}:", [(e, d) for _, e, d in opciones] + [("Cancelar", "no registra nada")])
+    if i is None or i == len(opciones):
+        raise FactoryError("revisión cancelada; no registré nada")
+    decision = opciones[i][0]
+    _, estado = leer(identificador)
+    propuesta = (estado.get("motivos_propuestos") or {}).get("revision") or {}
+    propuesto = propuesta.get("motivo") if propuesta.get("decision") == decision and propuesta.get("candidato") == sha else None
+    motivo = elegir_motivo(motivo_armado(informe, sha, decision, resoluciones), propuesto)
+    informe.update(revisor=persona, completa=completa)
+    contenido = bytes_json(informe)
+    escribir_atomico(ruta_informe, contenido)
+    decisiones.update(informe_sha256=sha256(contenido), actor=persona, motivo=motivo[0], decisiones=resoluciones)
+    escribir_atomico(ruta_decisiones, bytes_json(decisiones))
+    revisar_guiado(identificador, ruta_informe, ruta_decisiones, persona, decision, motivo)
+    carpeta, estado = leer(identificador)
+    if (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None:  # la propuesta ya se decidió
+        guardar(carpeta, estado)
 
 
 def revisar(identificador: str, informe: Path, revisor: str, decision: str, abiertos: int | None = None,
@@ -916,7 +1070,7 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
             raise FactoryError("registro cambió durante la operación; repetí la revisión")
         guardar(carpeta, e)
 
-    forma = decidir(estado, "revision", tipos_cambio(estado), firma, f"REGISTRAR REVISION {identificador}",
+    forma = decidir(estado, "revision", tipos_cambio(estado), firma, menu_revision(identificador, decision),
                     "registro de revisión cancelado", publicar_propuesta)
     if forma is None:
         return
@@ -1283,7 +1437,8 @@ def cerrar(identificador: str) -> None:
         print(linea + ".")
     for aviso in avisos_head(estado):
         print("Aviso: " + aviso + ".")
-    forma = decidir(estado, "cierre", [], None, f"CERRAR {identificador}", "cierre cancelado; la tarea sigue abierta", None)
+    forma = decidir(estado, "cierre", [], None, (f"Cerrar {identificador}", "Cerrar el cambio",
+                    "fusiona la spec en openspec/specs/ y cierra la tarea"), "cierre cancelado; la tarea sigue abierta", None)
     falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("el contexto cambió durante el cierre: " + "; ".join(falta))
@@ -1321,7 +1476,9 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
     if modos.baja_intervencion(actual, nuevo_modo):
         if AGENTE:
             raise FactoryError(f"pasar de {actual} a {nuevo_modo} reduce la intervención humana: lo decide una persona, sin --agente")
-        confirmar_persona(f"CAMBIAR MODO {identificador} {nuevo_modo}", "cambio de modo cancelado; el modo sigue igual")
+        confirmar_persona((f"Pasar {identificador} de {actual} a {nuevo_modo}", f"Pasar a {nuevo_modo}",
+                           "reduce la intervención humana; las propuestas que dejen de valer se invalidan"),
+                          "cambio de modo cancelado; el modo sigue igual")
     estado["modo"] = nuevo_modo
     tipos = tipos_cambio(estado)
     propuestas, invalidadas = estado.setdefault("propuestas", {}), []
@@ -1746,7 +1903,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         raise FactoryError(f'en modo {modo_de(estado)}, las medidas de un requisito {tipo} las elige una persona desde una terminal interactiva, sin --agente')
     if via == 'persona' and not terminal_interactiva():
         raise FactoryError('elegir medidas es una decisión de persona y se toma desde una terminal interactiva; un agente usa --agente')
-    motivo = pedir_motivo(estado, 'medidas', [tipo]) if via == 'persona' else None
+    motivo = pedir_motivo(estado, 'medidas', [tipo], f'Medidas de {requisito_id}') if via == 'persona' else None
     from dataclasses import replace
     from oracle_metalenguaje.nucleo import requisito
     from oracle_metalenguaje.nucleo.forma import error_forma
@@ -1780,7 +1937,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             nota_tarea(identificador, f'Medidas de {requisito_id} propuestas por {AGENTE} (agente, modo {modo_de(estado)}); '
                        'no cuentan hasta que una persona las confirme.')
             print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): las medidas que el archivo ya tiene no cuentan hasta que '
-                  'una persona repita este comando desde una terminal interactiva, sin --agente.')
+                  f'una persona las confirme desde una terminal interactiva: oracle-factory medir {identificador} --confirmar')
             return
         # La persona confirma tal cual lo propuesto (mismos bytes) o decide; el agente que ahora decide
         # reemplaza su propia propuesta.
@@ -1853,8 +2010,52 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')
     if via == 'propone':
-        print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): no cuenta hasta que una persona repita este mismo comando '
-              'desde una terminal interactiva, sin --agente.')
+        print(f'Propuesta de {AGENTE} (modo {modo_de(estado)}): no cuenta hasta que una persona la confirme desde una '
+              f'terminal interactiva: oracle-factory medir {identificador} --confirmar')
+
+
+def confirmar_medidas(identificador: str) -> None:
+    """Las medidas que propuso el agente, por requisito, confirmadas de una vez o de a una."""
+    _, estado = abierto(identificador)
+    exigir_terminal("confirmar medidas")
+    propuestas = {r: p for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada")}
+    # Sólo se confirma lo que el agente propuso: si el requisito cambió después, ya no es su propuesta.
+    cambiadas = sorted(r for r, p in propuestas.items()
+                       if sha256((ROOT / "requisitos" / f"{r}.requisito").read_bytes()) != p["sha256"])
+    for rid in cambiadas:
+        print(f"Aviso: {rid} cambió después de la propuesta; no se confirma acá. Revisalo con oracle-factory medir "
+              f"{identificador} --listar y decidilo con medir --requisito.")
+    pendientes = sorted(set(propuestas) - set(cambiadas))
+    if not pendientes:
+        print("No hay medidas propuestas pendientes de confirmar.")
+        return
+    try:
+        requisitos, _, _ = inventario_medidas(estado)
+    except ValueError as e:
+        raise FactoryError(f"Oracle rechazó requisito o catálogo: {e}") from e
+    print(f"Medidas propuestas en {identificador}:")
+    for rid in pendientes:
+        r = requisitos[rid]
+        print(f"  {rid}\n    Medidas: {', '.join(r.medido_por) or 'ninguna'}\n    "
+              + (f"SIN MEDIR: {r.sin_medir} (queda a medio cubrir: juzgar no lo dará cubierto)" if r.sin_medir
+                 else "Sin límite sin medir: queda cubierto"))
+    i = elegir(f"¿Qué hacés con las {len(pendientes)} propuestas?",
+               [("Confirmar todas", "quedan como decisión tuya, tal como las propuso el agente"),
+                ("Decidir de a una", "te pregunto por cada requisito"), ("Cancelar", "no registra nada")])
+    if i not in (0, 1):
+        raise FactoryError("confirmación cancelada; no registré nada")
+    elegidos = pendientes
+    if i == 1:  # primero todas las respuestas: una que no es opción cancela sin haber registrado ninguna
+        elegidos = []
+        for rid in pendientes:
+            j = elegir(f"¿Confirmás las medidas de {rid}?", [("Confirmar", "queda como decisión tuya"),
+                                                            ("Saltear", "sigue pendiente")])
+            if j is None:
+                raise FactoryError("confirmación cancelada; no registré nada")
+            if j == 0:
+                elegidos.append(rid)
+    for rid in elegidos:
+        medir(identificador, requisito_id=rid, medidas=list(requisitos[rid].medido_por))
 
 
 def construir_parser() -> argparse.ArgumentParser:
@@ -1904,6 +2105,12 @@ def construir_parser() -> argparse.ArgumentParser:
     limites = q.add_mutually_exclusive_group()
     limites.add_argument('--sin-medir', help='declarar el límite que permanece sin medir')
     limites.add_argument('--quitar-sin-medir', action='store_true', help='eliminar explícitamente ese límite; no prueba pertinencia ni cumplimiento')
+    limites.add_argument('--confirmar', action='store_true', help='confirmar con un menú las medidas que propuso el agente')
+    q = sub.add_parser('revisar', help='revisión guiada del candidato vigente: muestra, pregunta y registra (persona); '
+                       'con --agente deja la decisión y el motivo que propone')
+    q.add_argument('id')
+    q.add_argument('--decision', choices=['aprobar', 'cambios'], help='sólo con --agente: la decisión que propone')
+    q.add_argument('--motivo', help='sólo con --agente: el motivo que propone')
     for nombre, ayuda in (("aprobar-spec", "aceptación humana explícita de la propuesta/spec"),
                           ("revision-preparar", "preparar informe guiado y decisiones pendientes sin aprobar"),
                           ("importar", "importar requisitos de la spec aceptada a Oracle"),
@@ -1949,6 +2156,19 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
+        elif args.comando == "medir" and args.confirmar:
+            if args.requisito or args.medida or args.listar:
+                raise FactoryError("--confirmar no se combina con --requisito, --medida ni --listar")
+            confirmar_medidas(args.id)
+        elif args.comando == "revisar":
+            if AGENTE:
+                if not (args.decision and args.motivo and args.motivo.strip()):
+                    raise FactoryError("con --agente, revisar propone: indicá --decision y --motivo")
+                proponer_revision(args.id, args.decision, args.motivo.strip())
+            elif args.decision or args.motivo:
+                raise FactoryError("--decision y --motivo son la propuesta de un agente; una persona elige en el menú")
+            else:
+                revisar_paso_a_paso(args.id)
         elif args.comando == "medir": medir(args.id, requisito_id=args.requisito, medidas=args.medida, listar_opciones=args.listar, sin_medir=args.sin_medir, quitar_sin_medir=args.quitar_sin_medir)
         elif args.comando == "aprobar-spec": aprobar_spec(args.id)
         elif args.comando == "importar": importar(args.id)

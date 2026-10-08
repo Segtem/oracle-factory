@@ -1,0 +1,127 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261007-223645-decisiones-guiadas",
+  "contexto": {
+    "head": "7c605331c34c44466cdd9fc2bbef463d12196421",
+    "archivos_sha256": "91d2d3bae1af87d077f1b5a7613c6f8f8402cd91fe4268679ff18fc64e0d3779"
+  },
+  "documentos": {
+    "openspec/changes/20261007-223645-decisiones-guiadas/proposal.md": "baa4248c93c3954e7597de5f32c4703dfe1e4f6792991e505484b67f9dcc93c1",
+    "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/158b050/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/158b050/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/349adaa/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/349adaa/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/agy-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/agy-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/76e6b07/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/76e6b07/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/792efe2/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/792efe2/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/7b7bc16/revision/codex-1.json",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/7b7bc16/revision/codex-1.pedido.md",
+    ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+    "README.md",
+    "catalogos/factory_decisiones.confirmar_las_medidas_propuestas_de_una_vez.oracle",
+    "catalogos/factory_decisiones.corrida_completa.oracle",
+    "catalogos/factory_decisiones.el_motivo_se_elige.oracle",
+    "catalogos/factory_decisiones.las_confirmaciones_son_un_menu.oracle",
+    "catalogos/factory_decisiones.revisar_guia_la_revision_de_punta_a_punta.oracle",
+    "catalogos/factory_decisiones.sin_terminal_no_hay_decision_de_persona.oracle",
+    "docs/colaboracion.md",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261007-223645-decisiones-guiadas/design.md",
+    "openspec/changes/20261007-223645-decisiones-guiadas/proposal.md",
+    "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
+    "openspec/changes/20261007-223645-decisiones-guiadas/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/revision.py",
+    "requisitos/decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez.requisito",
+    "requisitos/decisiones_c59754a250f5b3593.el_motivo_se_elige.requisito",
+    "requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu.requisito",
+    "requisitos/decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta.requisito",
+    "requisitos/decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "tareas/20261007-220000-paquete-producto/TAREA.md",
+    "tareas/20261007-223645-decisiones-guiadas/TAREA.md",
+    "tests/test_decisiones.py",
+    "tests/test_modos.py",
+    "tools/verify_decisiones.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 274 pruebas, 12 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/e88250b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/e88250b/revision/agy-1.json (sin validar: oracle-clue no está instalado)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/e88250b/revision/codex-1.json (sin validar: oracle-clue no está instalado)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 158b050: codex (gpt-6-luna), 2 hallazgos: DGUI-01 (media), DGUI-02 (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/158b050/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7b7bc16: codex (gpt-6-luna), 1 hallazgo: DGUI-03 (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/7b7bc16/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 76e6b07: codex (gpt-6-luna), 1 hallazgo: DGUI-04 (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/76e6b07/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 449b8eb: agy (gemini-3.8-flash-high), 1 hallazgo: DGUI-05 (alta) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 449b8eb: codex (gpt-6-luna), 0 hallazgos: sin hallazgos (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/449b8eb/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 792efe2: codex (gpt-6-luna), 1 hallazgo: DGUI-06 (media) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/792efe2/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 349adaa: codex (gpt-6-luna), 1 hallazgo: DGUI-07 (baja) (sin validar: oracle-clue no está instalado)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/349adaa/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios d1–d5 en repositorios temporales, Linux, con la entrada de la terminal simulada y sin oracle-clue (los informes de prueba se usan marcados sin validar). Los arneses que corren el CLI instalado en una pseudoterminal (guía, instalado, colaboración, entre máquinas) se corren aparte. No mide que el menú sea cómodo para quien lo usa.",
+    "agy (gemini-3.8-flash-high): Contrasté cada una de las promesas de la propuesta y los cinco requisitos de la spec (las confirmaciones son un menú, revisar guía la revisión de punta a punta, el motivo se elige, confirmar las medidas propuestas de una vez, sin terminal no hay decisión de persona) con la implementación en oracle_factory/cli.py, oracle_factory/revision.py, los catálogos y los requisitos.",
+    "agy (gemini-3.8-flash-high): Comprobé que los 7 hallazgos de las rondas anteriores permanecen resueltos sin regresiones: DGUI-01 (origen del motivo en resoluciones), DGUI-02 (evidencia mostrada antes de decidir), DGUI-03 (verificación de sha256 de requisitos en confirmar medidas), DGUI-04 (respuesta inválida en de a una cancela en vez de saltear), DGUI-05 (aislamiento de motivos_propuestos sin colisión con propuestas canónicas), DGUI-06 (revisión incompleta sólo permite pedir cambios), y DGUI-07 (validación de dígitos ASCII con regex en vez de isdigit para evitar fallo con superíndices Unicode).",
+    "agy (gemini-3.8-flash-high): Ejecuté la suite unitaria de decisiones: .venv/bin/python -m unittest tests.test_decisiones (12 pruebas, OK).",
+    "agy (gemini-3.8-flash-high): Ejecuté el sensor de contrato: tools/verify_decisiones.py (274 pruebas, 12 casos de contrato d1–d5 exactos, éxito: True).",
+    "agy (gemini-3.8-flash-high): Ejecuté la suite completa de tests de la fábrica descubierta con discover (274 pruebas, OK).",
+    "agy (gemini-3.8-flash-high): Ejecuté una batería de 10 mutaciones manuales en copia aislada para verificar la sensibilidad de la suite frente a regresiones (aceptar Enter solo, superíndices Unicode, aprobar con hallazgos abiertos, pérdida de origen_motivo, clave errónea en propuestas, salteo en input inválido de de a una, omisión de comprobación sha256 en medidas cambiadas, orden del motivo propuesto, desactivación de exigir_terminal y motivo persona registrado como confirmo); todas las mutaciones fueron detectadas y rechazadas por las pruebas.",
+    "agy (gemini-3.8-flash-high): Comprobé la consistencia de contratos con el registro (factory.json), documentos de revisión (informe.json, decisiones.json, review.md), y la visualización de estado en cli.py y resumen.py.",
+    "agy (gemini-3.8-flash-high): Límites asumidos: no se interactuó con una terminal interactiva física real (la suite simula entrada con mock de input y terminal_interactiva); la base del paquete incluye la migración mecánica de confirmaciones tipeadas a '1' en 17 archivos de tests cubierta por la suite.",
+    "codex (gpt-6-luna): Inspeccioné el diff completo del paquete y contrasté las cinco promesas de la spec con cli.py, revision.py, las pruebas, y los contratos existentes de registro y documentos de revisión.",
+    "codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones: 12 pruebas, OK.",
+    "codex (gpt-6-luna): Revisé las siete rondas anteriores solicitadas; sus defectos no aparecen reabiertos en el diff actual.",
+    "codex (gpt-6-luna): No corrí la suite completa ni hice mutaciones; no probé una interacción manual con pseudoterminal."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

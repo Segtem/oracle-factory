@@ -1,0 +1,4 @@
+requisito decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona:
+    texto "Tipo: no funcional El menú SHALL exigir una terminal interactiva como la frase de hoy: sin ella, ninguna decisión de persona se registra, y el error SHALL nombrar la decisión y cómo un agente deja su propuesta con `--agente`."
+    fuente "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md#sin terminal no hay decisión de persona"
+    medido_por factory_decisiones.sin_terminal_no_hay_decision_de_persona, factory_decisiones.corrida_completa

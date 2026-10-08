@@ -32,7 +32,7 @@ class GuiaDesdeCero(unittest.TestCase):
             (root/'oracle.json').write_text(json.dumps({'esquema':'oracle.proyecto/v1','catalogo_base':False,'perfiles':[]}))
             with patch.object(f,'ROOT',root),patch.object(f,'CHANGES',root/'openspec/changes'),contextlib.redirect_stdout(io.StringIO()):
                 ident=f.nuevo('Ejemplo de guía', con_ejemplo='notas');folder,state=f.leer(ident)
-                with patch('builtins.input',return_value=f'APROBAR ESPECIFICACION {ident}'):f.aprobar_spec(ident)
+                with patch('builtins.input',return_value='1'):f.aprobar_spec(ident)
                 f.importar(ident)
                 rid=f.leer(ident)[1]['requisitos'][0]
                 f.medir(ident, requisito_id=rid, medidas=['notas.casos_ejecutados','notas.resultados'], quitar_sin_medir=True)
@@ -47,8 +47,8 @@ class GuiaDesdeCero(unittest.TestCase):
                 code.write_text(original)
                 run(sys.executable,'examples/notas/sensor.py','--salida',str(facts))
                 report=root/'.factory-demo/review.md';report.write_text('Informe fixture: se inspeccionaron los tres casos. No es aprobación de un producto real.')
-                with patch('builtins.input',return_value=f'REGISTRAR REVISION {ident}'):f.revisar(ident,report,'fixture de guía','aprobar',0)
+                with patch('builtins.input',return_value='1'):f.revisar(ident,report,'fixture de guía','aprobar',0)
                 f.juzgar(ident,facts)
                 self.assertEqual(f.pendientes_actuales(folder,f.leer(ident)[1]),[])
-                with patch('builtins.input',return_value=f'CERRAR {ident}'):f.cerrar(ident)
+                with patch('builtins.input',return_value='1'):f.cerrar(ident)
                 self.assertIn('ESTADO: CERRADA',(root/'tareas'/ident/'TAREA.md').read_text())

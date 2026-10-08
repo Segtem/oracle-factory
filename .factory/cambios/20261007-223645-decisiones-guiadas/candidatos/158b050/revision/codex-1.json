@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/158b050",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "158b050cba8cba9f2f5ca30f48f4ffb70254ec6a",
+  "diff_sha256": "b8f83bd3949a8c6f876260a5aebe8de1405c317aec309d885eb5faec20803df7",
+  "context_sha256": "d9e5870ea4248914682ad753343dbb1818744974e51f8539ab995cc06719ca38",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DGUI-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Se pierde el origen del motivo de cada resolución de hallazgo",
+      "explanation": "Al resolver un hallazgo, elegir_motivo devuelve tanto el texto como su origen (armado o persona), pero revisar_paso_a_paso descarta el segundo valor y guarda sólo el texto en resoluciones. El origen del motivo general de la revisión sí se propaga por decidir(confirmado), pero el de los motivos individuales no queda en el artefacto de decisiones; después no se puede distinguir si la persona eligió el motivo armado o escribió uno propio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 992,
+        "end_line": 993,
+        "side": "head"
+      },
+      "trigger": "Revisar un candidato con un hallazgo y elegir “Aceptar el riesgo” o “Descartar”; elegir el motivo armado o “Otro”.",
+      "evidence": "En oracle_factory/cli.py:992, motivo_h, _ = elegir_motivo(...) descarta el origen. En 993 se guarda sólo \"motivo\": motivo_h. El archivo de decisiones se actualiza más adelante con esta lista (línea 1011).",
+      "related_requirement": "el motivo se elige",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo de revisión y de la estructura persistida. Confirmado: las resoluciones sólo incluyen el texto de motivo, no origen_motivo."
+    },
+    {
+      "id": "DGUI-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "La evidencia de las comprobaciones se muestra después de elegir aprobar",
+      "explanation": "El flujo guiado lista antes de las decisiones el resultado y la descripción de cada comprobación, pero omite su evidencia. La evidencia sólo se imprime cuando revisar_guiado valida la revisión, después de que la persona ya eligió decisiones para los hallazgos, la decisión final y el motivo. Así, alguien puede elegir aprobar sin haber visto la evidencia que sustenta las comprobaciones, pese a que la spec pide mostrarla en el recorrido guiado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 976,
+        "end_line": 977,
+        "side": "head"
+      },
+      "trigger": "Ejecutar revisar ID con comprobaciones que incluyen evidencia relevante y elegir aprobar.",
+      "evidence": "revisar_paso_a_paso imprime sólo resultado y descripcion en las líneas 976–977. revisar_guiado imprime descripcion y evidencia en 866–868, pero esa función se llama después de elegir la decisión final (línea 1013); no hay una nueva elección humana después de mostrar la evidencia.",
+      "related_requirement": "revisar guía la revisión de punta a punta",
+      "status": "pendiente",
+      "verification": "Inspección del orden de impresión y prompts en oracle_factory/cli.py:976–1013 y 866–868. No se ejecutó una interacción manual adicional."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones desde el checkout candidato: 10 pruebas, OK.",
+    "Inspeccioné la spec, la propuesta, el diff/contexto Clue y el código de oracle_factory/cli.py y tests/test_decisiones.py. El paquete indica que la base ya contiene la migración mecánica de 17 pruebas/arneses; no revisé esa diferencia cubierta por suite.",
+    "No hice mutaciones manuales ni corrí la suite completa; tampoco ejecuté una CLI interactiva real. La suite específica usa input() simulado.",
+    "El paquete omite archivos fuera del diff y advierte que su alcance está acotado a commits; la revisión cubre los archivos listados y el checkout indicado."
+  ]
+}

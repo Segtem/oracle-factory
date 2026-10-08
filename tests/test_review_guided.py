@@ -54,7 +54,7 @@ class RevisionGuiada(unittest.TestCase):
         self.git('init', '-q', '-b', 'main')
         self.git('add', '.')
         self.git('commit', '-qm', 'base fixture')
-        with patch('builtins.input', return_value=f'APROBAR ESPECIFICACION {ID}'):
+        with patch('builtins.input', return_value='1'):
             f.aprobar_spec(ID)
 
     def git(self, *args):
@@ -89,7 +89,7 @@ class RevisionGuiada(unittest.TestCase):
         f.revisar(ID, self.report, 'Revisor fixture', decision, formato='guiado', decisiones=self.decisions)
 
     def aprobado(self):
-        with patch('builtins.input', return_value=f'REGISTRAR REVISION {ID}'):
+        with patch('builtins.input', return_value='1'):
             self.registrar()
 
     def hallazgo(self, fid):
@@ -195,7 +195,7 @@ class RevisionGuiada(unittest.TestCase):
                 else: self.data['comprobaciones'][0]['resultado'] = kind
                 self.escribir()
                 with self.assertRaisesRegex(f.FactoryError, 'no se puede aprobar'): self.registrar()
-                with patch('builtins.input', return_value=f'REGISTRAR REVISION {ID}'):
+                with patch('builtins.input', return_value='1'):
                     self.registrar('cambios')
                 self.assertEqual(self.state()['fase'], 'cambios_pedidos')
 
@@ -204,14 +204,14 @@ class RevisionGuiada(unittest.TestCase):
         self.data.update(hallazgos=[self.hallazgo('H1'), self.hallazgo('H2')], sin_hallazgos_motivo=None)
         self.triage['decisiones'] = [self.resolucion('H1')]; self.escribir()
         with self.assertRaisesRegex(f.FactoryError, 'hallazgos abiertos'): self.registrar()
-        with patch('builtins.input', return_value=f'REGISTRAR REVISION {ID}'): self.registrar('cambios')
+        with patch('builtins.input', return_value='1'): self.registrar('cambios')
         self.assertEqual(self.state()['revision']['hallazgos_abiertos'], 1)
         self.triage['decisiones'].append(self.resolucion('H2', 'riesgo_aceptado')); self.escribir()
         def confirm(_):
             output = self.stdout.getvalue()
             for expected in ('riesgo_aceptado', 'H2', 'Persona fixture', 'Decisión fixture motivada', 'Abiertos derivados: 0'):
                 self.assertIn(expected, output)
-            return f'REGISTRAR REVISION {ID}'
+            return '1'
         with patch('builtins.input', side_effect=confirm): self.registrar()
         self.assertEqual(self.state()['revision']['hallazgos_abiertos'], 0)
 
@@ -243,14 +243,14 @@ class RevisionGuiada(unittest.TestCase):
             with self.subTest(target=str(target)):
                 def edit(_):
                     target.write_bytes(target.read_bytes() + b'\nmodificado\n')
-                    return f'REGISTRAR REVISION {ID}'
+                    return '1'
                 with patch('builtins.input', side_effect=edit), self.assertRaises(f.FactoryError): self.registrar()
                 self.assertEqual(self.state(), old)
                 self.report.write_bytes(report); self.decisions.write_bytes(decisions)
                 (self.root/'producto.py').write_bytes(product); self.spec.write_bytes(spec)
         def concurrent(_):
             state = self.state(); state['eventos'].append({'accion':'otra persona'}); f.guardar(self.folder,state)
-            return f'REGISTRAR REVISION {ID}'
+            return '1'
         with patch('builtins.input', side_effect=concurrent), self.assertRaisesRegex(f.FactoryError, 'registro cambió'):
             self.registrar()
         self.assertEqual(self.state()['revision'], old['revision'])
@@ -304,16 +304,16 @@ class RevisionGuiada(unittest.TestCase):
             if path.name == 'decisiones.json' and path.parent.name.startswith('registro-') and args and args[0] == 'xb':
                 raise OSError('disco lleno fixture')
             return original(path, *args, **kw)
-        with patch.object(Path,'open',fail), patch('builtins.input',return_value=f'REGISTRAR REVISION {ID}'):
+        with patch.object(Path,'open',fail), patch('builtins.input',return_value='1'):
             with self.assertRaisesRegex(f.FactoryError,'residuales'): self.registrar()
         self.assertEqual(self.state(),old)
-        with patch.object(f.os,'replace',side_effect=OSError('reemplazo fallido')), patch('builtins.input',return_value=f'REGISTRAR REVISION {ID}'):
+        with patch.object(f.os,'replace',side_effect=OSError('reemplazo fallido')), patch('builtins.input',return_value='1'):
             with self.assertRaisesRegex(f.FactoryError,'no se publicó'): self.registrar()
         self.assertEqual(self.state(),old)
 
     def test_g6_nota_fallida_no_finge_revertir_registro(self):
         self.preparar(); self.note.side_effect = f.FactoryError('tracker no disponible')
-        with patch('builtins.input',return_value=f'REGISTRAR REVISION {ID}'):
+        with patch('builtins.input',return_value='1'):
             with self.assertRaisesRegex(f.FactoryError,'quedó registrada.*nota del tracker pendiente'): self.registrar()
         self.assertEqual(self.state()['fase'],'revision_aprobada')
         self.assertTrue((self.root/self.state()['revision']['decisiones']).is_file())
@@ -321,7 +321,7 @@ class RevisionGuiada(unittest.TestCase):
     def test_g7_libre_compatible_historico_y_opciones_explicitas(self):
         report = self.root/'tareas'/ID/'libre.md'; report.write_text('Revisión libre fixture')
         with self.assertRaisesRegex(f.FactoryError,'explícito'): f.revisar(ID,report,'Persona','aprobar')
-        with patch('builtins.input',return_value=f'REGISTRAR REVISION {ID}'):
+        with patch('builtins.input',return_value='1'):
             f.revisar(ID,report,'Persona','aprobar',0)
         self.assertEqual(self.state()['revision']['formato'],'libre')
         state=self.state();del state['revision']['formato'];f.guardar(self.folder,state)
@@ -356,7 +356,7 @@ class RevisionGuiada(unittest.TestCase):
         run('git','init','-q','-b','main')
         out=cli('nuevo','--con-ejemplo','notas','Fixture revisión guiada')
         ident=re.search(r'Cambio creado: (\S+)',out.stdout)[1]
-        cli('aprobar-spec',ident,stdin=f'APROBAR ESPECIFICACION {ident}\n')
+        cli('aprobar-spec',ident,stdin='1\n')
         cli('importar',ident)
         state_path=root/'.factory/cambios'/ident/'factory.json'
         rid=json.loads(state_path.read_text())['requisitos'][0]
@@ -377,10 +377,10 @@ class RevisionGuiada(unittest.TestCase):
         decisions.write_bytes(f.bytes_json(triage))
         cli('revision',ident,'--informe',report,'--revisor','Persona fixture','--decision','aprobar',expected=1)
         cli('revision',ident,'--formato','desconocido','--informe',report,'--revisor','Persona fixture','--decision','aprobar',expected=2)
-        cli('revision',ident,'--formato','guiado','--informe',report,'--decisiones',decisions,'--revisor','Persona fixture','--decision','aprobar',stdin=f'REGISTRAR REVISION {ident}\n')
+        cli('revision',ident,'--formato','guiado','--informe',report,'--decisiones',decisions,'--revisor','Persona fixture','--decision','aprobar',stdin='1\n')
         cli('juzgar',ident,'--con',facts)
         self.assertIn('Pendiente: ninguno',cli('estado',ident).stdout)
-        cli('cerrar',ident,stdin=f'CERRAR {ident}\n')
+        cli('cerrar',ident,stdin='1\n')
         self.assertEqual(json.loads(state_path.read_text())['fase'],'cerrada')
 
 

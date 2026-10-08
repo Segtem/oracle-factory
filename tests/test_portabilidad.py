@@ -40,7 +40,7 @@ class Portabilidad(unittest.TestCase):
 
     def cambio_medido(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         rid = self.estado(ident)['requisitos'][0]
@@ -50,7 +50,7 @@ class Portabilidad(unittest.TestCase):
         self.git('commit', '-qm', 'producto fixture')
         informe = self.root / 'tareas' / ident / 'revision.md'
         informe.write_text('Fixture de revisión; no es una revisión real.\n')
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with self.escribe('1'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
         return ident
 
@@ -152,7 +152,7 @@ class Portabilidad(unittest.TestCase):
         ident = self.cambio_juzgado()
         clon = self.clon()
         with self.en(clon):
-            with self.escribe(f'CERRAR {ident}'):
+            with self.escribe('1'):
                 f.cerrar(ident)
             cierre = f.leer(ident)[1]
         self.assertEqual(cierre['fase'], 'cerrada')

@@ -165,7 +165,7 @@ class Demo:
         result = self.factory(path, 'nuevo', '--con-ejemplo', 'notas', 'Fixture colaboración ' + self.case)
         ident = re.search(r'Cambio creado: (\S+)', result.stdout)[1]
         if approve:
-            self.factory(path, 'aprobar-spec', ident, stdin=f'APROBAR ESPECIFICACION {ident}\n')
+            self.factory(path, 'aprobar-spec', ident, stdin='1\n')
             self.factory(path, 'importar', ident)
             if measured:
                 self.measure(path, ident)
@@ -185,7 +185,7 @@ class Demo:
         report = repo / 'tareas' / ident / 'informe-fixture.md'
         report.write_text('FIXTURE: decisión simulada para el arnés; no es revisión humana del producto real.\n')
         self.factory(repo, 'revision', ident, '--informe', report, '--revisor', 'Fixture automatizado',
-                     '--decision', 'aprobar', '--hallazgos-abiertos', '0', stdin=f'REGISTRAR REVISION {ident}\n')
+                     '--decision', 'aprobar', '--hallazgos-abiertos', '0', stdin='1\n')
 
     def observe(self, repo, ident):
         self.run(repo, sys.executable, '-m', 'unittest', 'discover', '-s', 'examples/notas', '-v')
@@ -552,7 +552,7 @@ class Demo:
         spec.write_text(spec.read_text() + '\n### Requirement: conservar texto\nThe system SHALL preserve note text.\n#### Scenario: texto\n- THEN el texto permanece\n')
         blocked = self.factory(repo, 'cerrar', ident, expected=1)
         self.check('propuesta/spec cambió' in blocked.stderr, 'spec modificada necesita nueva aceptación')
-        self.factory(repo, 'aprobar-spec', ident, stdin=f'APROBAR ESPECIFICACION {ident}\n')
+        self.factory(repo, 'aprobar-spec', ident, stdin='1\n')
         renewed = self.state(repo, ident)
         self.check(renewed['requisitos'] == [] and renewed['revision'] is None and renewed['oracle'] is None,
                    'aceptación nueva descarta validaciones dependientes')
@@ -565,7 +565,7 @@ class Demo:
     def C8(self, base):
         repo, ident = self.fixture(base / 'producto', approve=False)
         self.check('aprobación humana' in self.factory(repo, 'cerrar', ident, expected=1).stderr, 'cierre sin aceptación rechazado')
-        self.factory(repo, 'aprobar-spec', ident, stdin=f'APROBAR ESPECIFICACION {ident}\n')
+        self.factory(repo, 'aprobar-spec', ident, stdin='1\n')
         self.factory(repo, 'importar', ident)
         facts = self.observe(repo, ident)
         self.check('cobertura completa' in self.factory(repo, 'juzgar', ident, '--con', facts, expected=1).stderr,

@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/e88250b",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "e88250b4cc071bed78f264712937f3242f563c8b",
+  "diff_sha256": "9a3b6f845243c683770cf9e6bb22674f8908d2f192314d6c0eda06a251aa5e7c",
+  "context_sha256": "a56d9c6273c7626eaa09fd15323f685b37f494bc2ce7e7709cfacf7da32ea13c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Contrasté cada una de las promesas de la propuesta y los cinco requisitos de la spec (las confirmaciones son un menú, revisar guía la revisión de punta a punta, el motivo se elige, confirmar las medidas propuestas de una vez, sin terminal no hay decisión de persona) con la implementación en oracle_factory/cli.py, oracle_factory/revision.py, los catálogos y los requisitos.",
+    "Comprobé que los 7 hallazgos de las rondas anteriores permanecen resueltos sin regresiones: DGUI-01 (origen del motivo en resoluciones), DGUI-02 (evidencia mostrada antes de decidir), DGUI-03 (verificación de sha256 de requisitos en confirmar medidas), DGUI-04 (respuesta inválida en de a una cancela en vez de saltear), DGUI-05 (aislamiento de motivos_propuestos sin colisión con propuestas canónicas), DGUI-06 (revisión incompleta sólo permite pedir cambios), y DGUI-07 (validación de dígitos ASCII con regex en vez de isdigit para evitar fallo con superíndices Unicode).",
+    "Ejecuté la suite unitaria de decisiones: .venv/bin/python -m unittest tests.test_decisiones (12 pruebas, OK).",
+    "Ejecuté el sensor de contrato: tools/verify_decisiones.py (274 pruebas, 12 casos de contrato d1–d5 exactos, éxito: True).",
+    "Ejecuté la suite completa de tests de la fábrica descubierta con discover (274 pruebas, OK).",
+    "Ejecuté una batería de 10 mutaciones manuales en copia aislada para verificar la sensibilidad de la suite frente a regresiones (aceptar Enter solo, superíndices Unicode, aprobar con hallazgos abiertos, pérdida de origen_motivo, clave errónea en propuestas, salteo en input inválido de de a una, omisión de comprobación sha256 en medidas cambiadas, orden del motivo propuesto, desactivación de exigir_terminal y motivo persona registrado como confirmo); todas las mutaciones fueron detectadas y rechazadas por las pruebas.",
+    "Comprobé la consistencia de contratos con el registro (factory.json), documentos de revisión (informe.json, decisiones.json, review.md), y la visualización de estado en cli.py y resumen.py.",
+    "Límites asumidos: no se interactuó con una terminal interactiva física real (la suite simula entrada con mock de input y terminal_interactiva); la base del paquete incluye la migración mecánica de confirmaciones tipeadas a '1' en 17 archivos de tests cubierta por la suite."
+  ]
+}

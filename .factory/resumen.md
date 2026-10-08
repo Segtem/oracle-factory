@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ea21fbce91e5437689623ea1e615a9db7dd1cc31bc93295f51c099669eb58d68 -->
+<!-- oracle-factory resumen sha256:eff0a64f5959848634704cf7726abbc8864a6903d4aa93e9a6185953bc439af4 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-11 capacidades · 77 requisitos vigentes · 6 cambios abiertos
+12 capacidades · 82 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -34,6 +34,18 @@ Spec completa: [openspec/specs/autoproduccion/spec.md](../openspec/specs/autopro
 | el borrador de decisiones no decide | funcional | `autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide` | factory_autoproduccion.el_borrador_de_decisiones_no_decide, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
 | los informes se validan o se marcan | funcional | `autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan` | factory_autoproduccion.los_informes_se_validan_o_se_marcan, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
 | este repositorio produce en la carpeta del candidato | no funcional | `autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato` | factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato, factory_autoproduccion.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-150043-autoproduccion |
+
+### decisiones
+
+Spec completa: [openspec/specs/decisiones/spec.md](../openspec/specs/decisiones/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| las confirmaciones son un menú | funcional | `decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu` | factory_decisiones.las_confirmaciones_son_un_menu, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+| revisar guía la revisión de punta a punta | funcional | `decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta` | factory_decisiones.revisar_guia_la_revision_de_punta_a_punta, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+| el motivo se elige | funcional | `decisiones_c59754a250f5b3593.el_motivo_se_elige` | factory_decisiones.el_motivo_se_elige, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+| confirmar las medidas propuestas de una vez | funcional | `decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez` | factory_decisiones.confirmar_las_medidas_propuestas_de_una_vez, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+| sin terminal no hay decisión de persona | no funcional | `decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona` | factory_decisiones.sin_terminal_no_hay_decision_de_persona, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
 
 ### estructura
 
@@ -295,3 +307,16 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261007-192608-revisores) codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev/factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-rev/.venv/bin/python -m unittest tests.test_revisores: 16 pruebas, OK.
 - (20261007-192608-revisores) codex (gpt-6-luna): Contrasté los hallazgos de las vueltas anteriores con el historial de correcciones y la base 8c59250; no vi reaperturas en el diff incremental.
 - (20261007-192608-revisores) codex (gpt-6-luna): No corrí la suite completa ni Oracle end-to-end y no hice mutaciones sobre copias. No evalué propiedades fuera de las promesas de la spec.
+- (20261007-223645-decisiones-guiadas) Evidencia: Escenarios d1–d5 en repositorios temporales, Linux, con la entrada de la terminal simulada y sin oracle-clue (los informes de prueba se usan marcados sin validar). Los arneses que corren el CLI instalado en una pseudoterminal (guía, instalado, colaboración, entre máquinas) se corren aparte. No mide que el menú sea cómodo para quien lo usa.
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Contrasté cada una de las promesas de la propuesta y los cinco requisitos de la spec (las confirmaciones son un menú, revisar guía la revisión de punta a punta, el motivo se elige, confirmar las medidas propuestas de una vez, sin terminal no hay decisión de persona) con la implementación en oracle_factory/cli.py, oracle_factory/revision.py, los catálogos y los requisitos.
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Comprobé que los 7 hallazgos de las rondas anteriores permanecen resueltos sin regresiones: DGUI-01 (origen del motivo en resoluciones), DGUI-02 (evidencia mostrada antes de decidir), DGUI-03 (verificación de sha256 de requisitos en confirmar medidas), DGUI-04 (respuesta inválida en de a una cancela en vez de saltear), DGUI-05 (aislamiento de motivos_propuestos sin colisión con propuestas canónicas), DGUI-06 (revisión incompleta sólo permite pedir cambios), y DGUI-07 (validación de dígitos ASCII con regex en vez de isdigit para evitar fallo con superíndices Unicode).
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Ejecuté la suite unitaria de decisiones: .venv/bin/python -m unittest tests.test_decisiones (12 pruebas, OK).
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Ejecuté el sensor de contrato: tools/verify_decisiones.py (274 pruebas, 12 casos de contrato d1–d5 exactos, éxito: True).
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Ejecuté la suite completa de tests de la fábrica descubierta con discover (274 pruebas, OK).
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Ejecuté una batería de 10 mutaciones manuales en copia aislada para verificar la sensibilidad de la suite frente a regresiones (aceptar Enter solo, superíndices Unicode, aprobar con hallazgos abiertos, pérdida de origen_motivo, clave errónea en propuestas, salteo en input inválido de de a una, omisión de comprobación sha256 en medidas cambiadas, orden del motivo propuesto, desactivación de exigir_terminal y motivo persona registrado como confirmo); todas las mutaciones fueron detectadas y rechazadas por las pruebas.
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Comprobé la consistencia de contratos con el registro (factory.json), documentos de revisión (informe.json, decisiones.json, review.md), y la visualización de estado en cli.py y resumen.py.
+- (20261007-223645-decisiones-guiadas) agy (gemini-3.8-flash-high): Límites asumidos: no se interactuó con una terminal interactiva física real (la suite simula entrada con mock de input y terminal_interactiva); la base del paquete incluye la migración mecánica de confirmaciones tipeadas a '1' en 17 archivos de tests cubierta por la suite.
+- (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): Inspeccioné el diff completo del paquete y contrasté las cinco promesas de la spec con cli.py, revision.py, las pruebas, y los contratos existentes de registro y documentos de revisión.
+- (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): Corrí PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-dg/.venv/bin/python -m unittest tests.test_decisiones: 12 pruebas, OK.
+- (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): Revisé las siete rondas anteriores solicitadas; sus defectos no aparecen reabiertos en el diff actual.
+- (20261007-223645-decisiones-guiadas) codex (gpt-6-luna): No corrí la suite completa ni hice mutaciones; no probé una interacción manual con pseudoterminal.

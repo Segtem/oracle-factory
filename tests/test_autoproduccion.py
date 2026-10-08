@@ -37,7 +37,7 @@ def informe_clue(head, hallazgos=(), proveedor='codex', modelo='gpt-x', estado='
 class Autoproduccion(Base):
     def cambio_medido(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         rid = f.leer(ident)[1]['requisitos'][0]
@@ -177,7 +177,7 @@ class Autoproduccion(Base):
                           actor='Persona fixture', motivo='fixture')
         (carpeta / 'decisiones.json').write_text(json.dumps(decisiones))
         antes = f.ruta_registro(f.leer(self.ident)[0]).read_bytes()
-        with self.escribe(f'REGISTRAR REVISION {self.ident}'), self.assertRaises(f.FactoryError), \
+        with self.escribe('1'), self.assertRaises(f.FactoryError), \
                 contextlib.redirect_stdout(io.StringIO()):
             f.revisar_guiado(self.ident, carpeta / 'informe.json', carpeta / 'decisiones.json', 'Persona fixture', 'aprobar')
         self.assertEqual(f.ruta_registro(f.leer(self.ident)[0]).read_bytes(), antes)

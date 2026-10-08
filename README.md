@@ -51,14 +51,14 @@ El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.
 1. `oracle-factory init`: inicializa Oracle, tareas y acuerdos; añade entradas necesarias a `.gitignore` sin sobrescribir la configuración del usuario. Los mensajes siguientes provienen de Factory.
 2. `oracle-factory nuevo --con-ejemplo notas "<pedido>"`: crea la tarea y el paquete OpenSpec copiando el ejemplo entero a `examples/notas`, la propuesta y spec al cambio y las reglas a `catalogos/`. Verifica destinos antes de crear la tarea y rechaza destinos existentes sin sobrescribir archivos. (También está disponible `oracle-factory nuevo --capacidad <slug> "<pedido>"` para plantillas en blanco sin ejemplo).
 3. `oracle-factory listar`: recupera únicamente los cambios de Factory del proyecto con su ID completo y fase actual.
-4. `oracle-factory aprobar-spec <id>`: muestra la propuesta y la spec y exige escribir interactivamente `APROBAR ESPECIFICACION <id>`. El agente espera; no puede aceptar por la persona.
+4. `oracle-factory aprobar-spec <id>`: muestra la propuesta y la spec y pregunta con un menú; la persona elige la opción que aprueba escribiendo su número. El agente espera; no puede aceptar por la persona.
 5. `oracle-factory importar <id>`: invoca al importador de Oracle. Los requisitos nuevos nacen **sin medir** y aislados por dominio para evitar herencias indebidas.
 6. `oracle-factory medir <id> --listar`: muestra los requisitos importados del cambio y las medidas disponibles en el catálogo con sus límites y fuentes.
    `oracle-factory medir <id> --requisito <id-requisito> --medida notas.casos_ejecutados --medida notas.resultados --quitar-sin-medir`: asocia medidas explícitamente sin edición manual de indentación. Conserva `sin_medir` por defecto; para retirarlo exige `--quitar-sin-medir` explícito (o `--sin-medir "alcance pendiente"` para cobertura parcial). Una asociación inválida no modifica archivos; modificar la asociación invalida la revisión y el juicio previos. Enlazar medidas no prueba pertinencia ni cumplimiento por sí mismo.
 7. Implementar y probar: los tests y el sensor se ejecutan por fuera de Factory.
 8. `oracle-factory revision <id> --informe <ruta> --revisor "<nombre>" --decision aprobar --hallazgos-abiertos 0`: registra la revisión humana y su decisión, vinculadas al commit de Git y a la huella de archivos del producto.
 9. `oracle-factory juzgar <id> --con <hechos.json>`: exige cobertura completa de los requisitos importados y corre Oracle sobre la evidencia aportada por el sensor. Un exit code 0 con «sin juicio» o fallas en sombra no habilita el cierre.
-10. `oracle-factory cerrar <id>`: exige que todos los gates (spec, importación, revisión sin hallazgos abiertos y juicio verde) estén completos y vigentes. La persona confirma escribiendo `CERRAR <id>`.
+10. `oracle-factory cerrar <id>`: exige que todos los gates (spec, importación, revisión sin hallazgos abiertos y juicio verde) estén completos y vigentes. La persona confirma eligiendo la opción de cerrar en el menú.
 
 En todo momento se puede consultar el estado con `oracle-factory estado <id>`.
 

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "a1f369d888c99e2a88331fe3a3583a37d382f4a2523bca1ffde87e3be4ca06c8",
+  "actor": "Brian Hollweg",
+  "motivo": "Sin hallazgos en el candidato e88250b (codex y agy); 7 hallazgos de vueltas anteriores corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (274 pruebas, 12 casos de contrato). Acepto como límite que la revisión se hizo contra una base con la migración mecánica de las pruebas, cubierta por la suite, porque el paquete completo supera el límite de Clue.",
+  "decisiones": []
+}

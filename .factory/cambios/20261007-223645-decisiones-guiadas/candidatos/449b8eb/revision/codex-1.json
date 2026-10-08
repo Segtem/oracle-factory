@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-dg/.factory/local/revisiones/449b8eb",
+  "base": "0b917f61e64a08e7ce0fe4652b253e9323b2ce5e",
+  "head": "449b8eb9b54f7838558a5b7ae25470e39e880450",
+  "diff_sha256": "ec78c661aa58191fb364d8cdaee6172393687a21e61611094ff28b03c078e00b",
+  "context_sha256": "f2afa7951462e9d6997cec89e8db19773cdf787888d5ecbfd3763d7429a01bd1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec y los 34 archivos incluidos en el paquete Clue; no hubo omisiones declaradas. Contrasté las promesas con el diff y el checkout del candidato.",
+    "Corrí tests.test_decisiones (11 pruebas) y tests.test_modos junto con tests.test_review_guided (48 pruebas): ambas ejecuciones terminaron OK. Usé .venv/bin/python y el PATH indicado; quedaron avisos DeprecationWarning de oracle_metalenguaje.",
+    "Las cuatro observaciones de las revisiones anteriores permanecen corregidas: se persiste origen_motivo y se muestra evidencia antes de decidir; se rechaza confirmar propuestas de medidas con hash cambiado; y una respuesta inválida al decidir de a una cancela antes de registrar. Los tests respectivos cubren estos casos.",
+    "No ejecuté la suite completa, una interacción manual con pseudoterminal ni mutaciones. El paquete declara que su base incluye la migración mecánica de 17 archivos de pruebas/arneses; esa diferencia queda cubierta por la suite y no forma parte del diff revisado."
+  ]
+}

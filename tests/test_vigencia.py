@@ -43,7 +43,7 @@ class Vigencia(unittest.TestCase):
     def cambio_medido(self):
         """Cambio con spec aceptada, requisitos importados, medidas elegidas y el producto commiteado."""
         ident = f.nuevo('Nota', con_ejemplo='notas')
-        with self.escribe(f'APROBAR ESPECIFICACION {ident}'):
+        with self.escribe('1'):
             f.aprobar_spec(ident)
         f.importar(ident)
         rid = self.estado(ident)['requisitos'][0]
@@ -59,7 +59,7 @@ class Vigencia(unittest.TestCase):
     def revision_libre(self, ident):
         informe = self.root / 'tareas' / ident / 'revision.md'
         informe.write_text('Fixture de revisión; no es una revisión real.\n')
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with self.escribe('1'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
 
     def commit_de_registros(self, mensaje='registros'):
@@ -87,7 +87,7 @@ class Vigencia(unittest.TestCase):
         f.juzgar(ident, self.hechos)
         self.commit_de_registros('otro commit de registros')
         self.assertFalse(self.desactualizado(ident))
-        with self.escribe(f'CERRAR {ident}'):
+        with self.escribe('1'):
             f.cerrar(ident)
         self.assertEqual(self.estado(ident)['fase'], 'cerrada')
 
@@ -155,7 +155,7 @@ class Vigencia(unittest.TestCase):
         f.juzgar(ident, self.hechos)
         self.commit_de_registros()
         self.stdout.truncate(0); self.stdout.seek(0)
-        with self.escribe(f'CERRAR {ident}'):
+        with self.escribe('1'):
             f.cerrar(ident)
         salida = self.stdout.getvalue()
         self.assertIn(f'revisión registrada sobre el commit {registrado[:7]}', salida)
@@ -187,7 +187,7 @@ class Vigencia(unittest.TestCase):
         return informe, decisiones
 
     def registrar_guiado(self, ident, informe, decisiones):
-        with self.escribe(f'REGISTRAR REVISION {ident}'):
+        with self.escribe('1'):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', formato='guiado', decisiones=decisiones)
 
     def test_v3_informe_preparado_antes_de_un_commit_de_registros(self):
@@ -229,7 +229,7 @@ class Vigencia(unittest.TestCase):
         f.mostrar(ident)  # antes: TypeError
         self.commit_de_registros()
         f.juzgar(ident, self.hechos)
-        with self.escribe(f'CERRAR {ident}'):
+        with self.escribe('1'):
             f.cerrar(ident)  # antes: TypeError
         self.assertEqual(self.estado(ident)['fase'], 'cerrada')
 

@@ -141,7 +141,7 @@ Cada frente aceptó sus riesgos mirando sólo su spec. Al integrar, revisen de n
 
 Sobre ese candidato, ejecuten las pruebas y el sensor, registrando comando, entradas, salida y commit observado. Renueven la revisión de Clue sobre el resultado integrado. Guarden los artefactos junto al cambio —por ejemplo como adjuntos de su tarea, con nombres por versión— antes de registrar su decisión en Factory. Agregar un adjunto bajo `tareas/`, o commitear sólo `tareas/` y los registros de Factory, no cambia la huella del producto ni invalida la revisión.
 
-Una vez que la persona resolvió los hallazgos y acepta la revisión, registra la decisión. Estos comandos son pasos humanos del proyecto real; las frases de confirmación deben escribirlas las personas:
+Una vez que la persona resolvió los hallazgos y acepta la revisión, registra la decisión. Estos comandos son pasos humanos del proyecto real; los menús de confirmación los responden las personas:
 
 ```bash
 oracle-factory --proyecto /ruta/producto-integracion revision-preparar ID_COMPLETO
