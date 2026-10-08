@@ -1,0 +1,4 @@
+requisito cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto:
+    texto "Tipo: funcional Si `python fabrica.py` corre con un intérprete sin las dependencias de Factory y el clon tiene `.venv/bin/python`, `fabrica.py` SHALL volver a ejecutarse con ese intérprete y los mismos argumentos."
+    fuente "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md#fabrica.py usa el entorno del proyecto"
+    sin_medir "sin medida todavía; escenarios: «python del sistema»"

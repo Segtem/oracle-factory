@@ -1,0 +1,4 @@
+requisito cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir:
+    texto "Tipo: funcional Cuando Factory rechaza algo por una causa que conoce, el mensaje SHALL nombrarla y decir cómo seguir: al rechazar una aprobación de revisión, cuáles comprobaciones no cumplen, qué hallazgos siguen abiertos o que la revisión está incompleta; en `revision-preparar` sin candidato vigente, un aviso de que el informe queda sin informes de revisores ni evidencia y de qué hacer; sin `oracle-metalenguaje` en el intérprete, qué falta y cómo seguir, sin traceback."
+    fuente "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md#los errores dicen qué pasó y cómo seguir"
+    sin_medir "sin medida todavía; escenarios: «aprobar con una comprobación que falla», «falta Oracle»"

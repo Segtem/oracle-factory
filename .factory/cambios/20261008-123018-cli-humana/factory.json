@@ -2,11 +2,27 @@
   "id": "20261008-123018-cli-humana",
   "titulo": "La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso",
   "capacidad": "cli",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-08T12:32:16+00:00",
+    "documentos": {
+      "openspec/changes/20261008-123018-cli-humana/proposal.md": "3cee298b639c66079c4717cb4da4846ca7b4ae9e537f8fbf57d81e9a64d8f8ce",
+      "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567"
+    }
+  },
+  "requisitos": [
+    "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo",
+    "cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato",
+    "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+    "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+    "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +35,42 @@
       "forma": "decidio",
       "cuando": "2026-10-08T12:30:18+00:00",
       "capacidad": "cli"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T12:32:16+00:00",
+      "documentos": {
+        "openspec/changes/20261008-123018-cli-humana/proposal.md": "3cee298b639c66079c4717cb4da4846ca7b4ae9e537f8fbf57d81e9a64d8f8ce",
+        "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T12:32:29+00:00",
+      "ids": [
+        "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo",
+        "cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato",
+        "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+        "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto",
+        "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo": "no funcional",
+    "cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato": "funcional",
+    "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso": "funcional",
+    "cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto": "funcional",
+    "cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

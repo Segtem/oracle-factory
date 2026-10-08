@@ -1,0 +1,4 @@
+requisito cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato:
+    texto "Tipo: funcional `resumen --ver` SHALL mostrar `.factory/resumen.md` con `glow` cuando esté instalado y la salida sea una terminal, y como texto en cualquier otro caso. No SHALL escribir otra cosa que lo que ya escribe `resumen`."
+    fuente "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md#el resumen se ve con formato"
+    sin_medir "sin medida todavía; escenarios: «sin glow»"
