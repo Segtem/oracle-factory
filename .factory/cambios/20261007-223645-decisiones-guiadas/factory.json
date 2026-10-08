@@ -2,7 +2,7 @@
   "id": "20261007-223645-decisiones-guiadas",
   "titulo": "Decisiones guiadas: menú y opciones en vez de frases",
   "capacidad": "decisiones",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
   "spec_sha256": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7",
   "spec_aprobada": {
@@ -400,6 +400,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "c192f4c3a82140bc009a6fbf7d30cbeb07a0c9e1c51588b88c05bc8689d36e99"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T00:02:16+00:00",
+      "oracle": ".factory/cambios/20261007-223645-decisiones-guiadas/oracle-veredicto.txt",
+      "revision": "tareas/20261007-223645-decisiones-guiadas/revisiones/registro-x2vds5bn/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T00:02:16+00:00",
+      "capacidad": "decisiones",
+      "spec": "openspec/specs/decisiones/spec.md"
     }
   ],
   "tipos": {
@@ -452,5 +472,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-08T00:02:16+00:00"
+  },
+  "archivo": {
+    "capacidad": "decisiones",
+    "spec": "openspec/specs/decisiones/spec.md",
+    "cuando": "2026-10-08T00:02:16+00:00"
+  }
 }
