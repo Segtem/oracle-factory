@@ -2113,8 +2113,11 @@ def medir(identificador: str, *, requisito_id: str | None = None,
 
 def propuestas_confirmables(estado: dict) -> list[str]:
     """Requisitos con medidas propuestas por el agente que siguen tal como las propuso (si el archivo cambió, ya no lo son)."""
-    return sorted(r for r, p in (estado.get("medidas_pendientes") or {}).items() if not p.get("descartada")
-                  and sha256((ROOT / "requisitos" / f"{r}.requisito").read_bytes()) == p["sha256"])
+    def actual(r):
+        ruta = ROOT / "requisitos" / f"{r}.requisito"
+        return sha256(ruta.read_bytes()) if ruta.is_file() else None  # un requisito que falta no se puede confirmar
+    return sorted(r for r, p in (estado.get("medidas_pendientes") or {}).items()
+                  if not p.get("descartada") and actual(r) == p["sha256"])
 
 
 def confirmar_medidas(identificador: str) -> None:

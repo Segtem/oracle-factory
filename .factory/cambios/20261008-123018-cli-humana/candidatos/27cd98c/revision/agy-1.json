@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/27cd98c",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "27cd98cac9e0e1e8bbc0a756edc2bb7ab40d6baa",
+  "diff_sha256": "2859d0be333df0e586025d8b634d41a4b02426c7d5990a101a9474f49e9c1f44",
+  "context_sha256": "c3468b8073c4977d01d65a952e364e12571f26f849fca7fd284e2c7e306e9514",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-propuestas-confirmables-requisito-inexistente",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`propuestas_confirmables` falla con `FileNotFoundError` si un archivo de requisito no existe en disco, bloqueando `estado`, `proximo_paso` y `confirmar_medidas`",
+      "explanation": "La nueva función `propuestas_confirmables` (líneas 2114–2117) calcula los requisitos pendientes comparando huellas mediante `sha256((ROOT / 'requisitos' / f'{r}.requisito').read_bytes()) == p['sha256']`. A diferencia de `medidas_sin_decision` (línea 1199, que verifica `if not ruta.is_file(): continue`) o `problemas_de_revision` y `pendientes_actuales` (que capturan `OSError`), `propuestas_confirmables` asume que el archivo existe en disco y llama a `read_bytes()` directamente. Si un requisito en `medidas_pendientes` fue eliminado, renombrado o falta en el clon/checkout, `read_bytes()` detona un `FileNotFoundError` no controlado. Esto provoca que `proximo_paso` (invocado por `oracle-factory estado`, `siguiente`, o en cada avance de fase) y `confirmar_medidas` fallen con `FACTORY BLOQUEADA: [Errno 2] No such file or directory: '.../requisitos/<r>.requisito'`, abortando la ejecución de la CLI e impidiendo calcular el paso siguiente o emitir el aviso correspondiente previsto en `confirmar_medidas` (líneas 2127–2129).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2114,
+        "end_line": 2117,
+        "side": "head"
+      },
+      "trigger": "En un cambio con propuestas de medidas en `medidas_pendientes`, se elimina o falta el archivo `requisitos/<r>.requisito` correspondiente y se ejecuta `oracle-factory estado ID`, `oracle-factory medir ID --confirmar`, o cualquier comando que consulte el próximo paso.",
+      "evidence": "En `oracle_factory/cli.py`, líneas 2114–2117:\n```python\ndef propuestas_confirmables(estado: dict) -> list[str]:\n    return sorted(r for r, p in (estado.get('medidas_pendientes') or {}).items() if not p.get('descartada')\n                  and sha256((ROOT / 'requisitos' / f'{r}.requisito').read_bytes()) == p['sha256'])\n```\nSi el archivo no existe en el sistema de archivos, `read_bytes()` lanza inmediatamente `FileNotFoundError`. En pruebas dinámicas con un script reproductor, al eliminar el archivo `.requisito` tras la propuesta del agente, tanto `f.proximo_paso(ident)` como `f.confirmar_medidas(ident)` lanzan `FileNotFoundError: [Errno 2] No such file or directory`, y en la invocación de la CLI se reporta `FACTORY BLOQUEADA` sin permitir consultar el estado ni continuar con el flujo.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección de las líneas 2114–2117 en contraste con el manejo defensivo en `medidas_sin_decision` (líneas 1198–1200) y `problemas_de_revision` (líneas 1219–1223) de `oracle_factory/cli.py`. Se ejecutó la suite de pruebas unitarias requerida (timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana): 14 pruebas, OK. Se reprodujo el fallo en entorno de prueba verificando que la ausencia del archivo detona `FileNotFoundError` en `propuestas_confirmables`, bloqueando `proximo_paso` y `confirmar_medidas`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null tanto desde el clon principal como contra el código del candidato 27cd98c: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete Clue y el historial de revisiones previas (desde 2515b20 hasta 2391733), verificando que los hallazgos anteriores sobre el activador de fish, relanzamiento de fabrica.py, candidatos sin material usable, revisión desactualizada por cambios de producto, artefactos de revisión modificados/ausentes (problemas_de_revision), vigencia del juicio de Oracle frente a cambios de informe/producto/hechos, y bucles de proximo_paso ante propuestas con sha256 modificado, se mantienen corregidos.",
+    "Realicé análisis estático y pruebas dinámicas de flujo mediante scripts en el directorio de trabajo aislado para verificar las transiciones de estado, el cálculo de próximo paso, y el comportamiento de confirmar_medidas y propuestas_confirmables.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato 27cd98c (sólo lectura) ni se realizaron commits."
+  ]
+}
