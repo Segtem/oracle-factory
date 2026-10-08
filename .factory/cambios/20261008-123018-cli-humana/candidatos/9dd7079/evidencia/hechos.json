@@ -1,0 +1,80 @@
+{
+  "cli_caso": [
+    {
+      "requisito": "los_errores_dicen_que_paso_y_como_seguir",
+      "caso": "c1_aprobar_con_una_comprobacion_que_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_errores_dicen_que_paso_y_como_seguir",
+      "caso": "c1_preparar_sin_candidato_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_errores_dicen_que_paso_y_como_seguir",
+      "caso": "c1_falta_oracle",
+      "codigo": 0
+    },
+    {
+      "requisito": "fabrica_py_usa_el_entorno_del_proyecto",
+      "caso": "c2_python_del_sistema",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_resumen_se_ve_con_formato",
+      "caso": "c3_sin_glow",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_resumen_se_ve_con_formato",
+      "caso": "c3_con_glow",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_listo_para_cerrar",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_medidas_propuestas",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_salir_no_ejecuta",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_candidato_sin_material",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_oracle_rojo_sin_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_recorrido_completo",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_calcula_y_ofrece_el_proximo_paso",
+      "caso": "c4_cambios_despues_de_juzgar",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proximo_paso_no_se_ejecuta_solo",
+      "caso": "c5_agente_sin_terminal_o_salida_redirigida",
+      "codigo": 0
+    }
+  ],
+  "cli_corrida": [
+    {
+      "completa": 1,
+      "casos": 14
+    }
+  ]
+}
