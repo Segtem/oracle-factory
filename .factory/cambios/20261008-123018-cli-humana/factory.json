@@ -2,7 +2,7 @@
   "id": "20261008-123018-cli-humana",
   "titulo": "La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso",
   "capacidad": "cli",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261008-123018-cli-humana/specs/cli/spec.md",
   "spec_sha256": "bac5aeb25252699d23897ccd44faff3cf4664d4c85c4e3fa0ba0d312ca466567",
   "spec_aprobada": {
@@ -670,6 +670,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "900b8d7d9e0b834a989d03cfb9c274863a98ccd7fa93d9b5d052dd3af0557a6b"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T21:08:18+00:00",
+      "oracle": ".factory/cambios/20261008-123018-cli-humana/oracle-veredicto.txt",
+      "revision": "tareas/20261008-123018-cli-humana/revisiones/registro-48bxx5py/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T21:08:18+00:00",
+      "capacidad": "cli",
+      "spec": "openspec/specs/cli/spec.md"
     }
   ],
   "tipos": {
@@ -722,5 +742,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-08T21:08:17+00:00"
+  },
+  "archivo": {
+    "capacidad": "cli",
+    "spec": "openspec/specs/cli/spec.md",
+    "cuando": "2026-10-08T21:08:18+00:00"
+  }
 }
