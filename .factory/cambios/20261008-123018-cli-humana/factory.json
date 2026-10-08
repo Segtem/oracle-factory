@@ -267,6 +267,20 @@
       "candidato": "6699c9f",
       "resultado": "ok",
       "hallazgos": 4
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T13:33:34+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "9902c08",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {

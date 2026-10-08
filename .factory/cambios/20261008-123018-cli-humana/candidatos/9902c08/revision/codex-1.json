@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/9902c08",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "9902c085363c779f997408897fe64f3940b5edc8",
+  "diff_sha256": "02d23a123dfa6b99305c828ce2609ac49aa180077b6418a271e10e47aa303e32",
+  "context_sha256": "2469e74720f021f6b97f865b650034ce01a0f051eb824eaf4123b81f8101c52c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, la spec, todos los parches del paquete y el código y las pruebas del checkout 9902c08. Contrasté cada escenario de la spec; no encontré defectos que pueda sostener con evidencia dentro del diff.",
+    "Corrí `PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana` desde el checkout candidato: 12 pruebas, OK.",
+    "Revisé que las correcciones previas sigan presentes: `fabrica.py` consulta tanto `oracle_metalenguaje` como `oracle_task`, compara el prefijo del entorno y limita el relanzamiento a una vez; el mensaje de dependencia da comandos válidos para el clon. La prueba cubre el Python base con `.venv` enlazado.",
+    "En `proximo_paso`, verifiqué los casos de candidato sin material y Oracle rojo sin cambios, junto con los escenarios de medidas propuestas y cierre. Las pruebas cubren los dos casos antes reportados; `ofrecer_siguiente` bloquea menú/ejecución cuando no corresponde y vuelve a invocar el comando en la raíz del proyecto.",
+    "No ejecuté la suite completa ni Oracle, no hice mutaciones y no edité el checkout candidato. La revisión es una inspección probabilística del cambio; no es un veredicto de Oracle ni afirma propiedades no medidas."
+  ]
+}
