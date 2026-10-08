@@ -199,6 +199,11 @@ class CliHumana(_ap.Base):
                 contextlib.redirect_stderr(io.StringIO()):
             f.revisar_paso_a_paso(ident)  # completa; aprobar; motivo armado
         self.assertEqual(paso(), f'oracle-factory juzgar {ident}')  # los hechos están en el candidato
+        informe_rev = self.root / f.leer(ident)[1]['revision']['informe']
+        contenido_rev = informe_rev.read_bytes()
+        informe_rev.write_bytes(contenido_rev + b'\n')  # la revisión aprobada perdió su informe vigente: no se juzga con ella
+        self.assertEqual(paso(), f'oracle-factory revisar {ident}')
+        informe_rev.write_bytes(contenido_rev)
         notas = self.root / 'examples/notas/notas.py'
         original = notas.read_text()
         notas.write_text(original + '# después de la revisión\n')  # producto tocado sin commit: la revisión ya no vale
@@ -215,6 +220,9 @@ class CliHumana(_ap.Base):
         hechos.write_text(original + '\n')  # hechos regenerados después del juicio verde: hay que juzgarlos
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con tareas/{ident}/hechos.json')
         hechos.write_text(original)
+        informe_oracle = self.root / f.leer(ident)[1]['oracle']['informe']
+        informe_oracle.write_text(informe_oracle.read_text() + '\n')  # el informe del juicio cambió: juzgar de nuevo, no cerrar
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident} --con tareas/{ident}/hechos.json')
         spec = next((self.root / 'openspec/changes' / ident / 'specs').rglob('spec.md'))
         spec.write_text(spec.read_text() + '\n')  # la spec cambió después de aprobarla
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory aprobar-spec {ident}')

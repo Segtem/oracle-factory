@@ -1209,6 +1209,26 @@ def medidas_sin_decision(estado: dict) -> list[tuple[str, str]]:
     return faltan
 
 
+def problemas_de_revision(estado: dict) -> list[str]:
+    """Lo que invalida la revisión registrada por sus artefactos (informe y decisiones), sin mirar el producto."""
+    rev, faltan = estado.get("revision") or {}, []
+    for etiqueta, ruta, huella in (("informe de revisión", rev.get("informe"), rev.get("sha256")),
+                                   ("decisiones de revisión", rev.get("decisiones"), rev.get("decisiones_sha256"))):
+        if not ruta and not huella:
+            continue
+        try:
+            if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
+                faltan.append(etiqueta + " cambiado o sin huella")
+        except OSError:
+            faltan.append(etiqueta + " ausente")
+    # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
+    if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
+        faltan.append("revisión sin evidencia vinculada")
+    if rev.get('formato') == 'guiado' and not all(rev.get(k) for k in ('decisiones', 'decisiones_sha256')):
+        faltan.append('revisión guiada sin decisiones vinculadas')
+    return faltan
+
+
 def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     faltan = pendientes(estado)
     faltan += [f"medidas de {rid}: {motivo}" for rid, motivo in medidas_sin_decision(estado)]
@@ -1225,11 +1245,9 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                     faltan.append(nombre + " desactualizado respecto del producto")
         except (FactoryError, OSError) as e:
             faltan.append(str(e))
-    rev = estado.get("revision") or {}
+    faltan += problemas_de_revision(estado)
     oracle = estado.get("oracle") or {}
     for etiqueta, ruta, huella in (
-        ("informe de revisión", rev.get("informe"), rev.get("sha256")),
-        ("decisiones de revisión", rev.get("decisiones"), rev.get("decisiones_sha256")),
         ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
         ("hechos", oracle.get("hechos"), oracle.get("hechos_sha256")),
     ):
@@ -1244,11 +1262,6 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                               f"del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
             else:
                 faltan.append(etiqueta + " ausente")
-    # Los registros antiguos sólo tenían un código numérico: no son evidencia vigente.
-    if rev and not all(rev.get(k) for k in ("informe", "sha256", "contexto")):
-        faltan.append("revisión sin evidencia vinculada")
-    if rev.get('formato') == 'guiado' and not all(rev.get(k) for k in ('decisiones', 'decisiones_sha256')):
-        faltan.append('revisión guiada sin decisiones vinculadas')
     if oracle and not all(oracle.get(k) for k in ("informe", "informe_sha256", "hechos", "hechos_sha256", "contexto")):
         faltan.append("juicio sin evidencia vinculada")
     return faltan
@@ -1822,7 +1835,8 @@ def proximo_paso(identificador: str) -> str | None:
         return f"oracle-factory medir {ident} --listar"
     # ¿La revisión vale para el producto actual?
     rev = estado.get("revision") or {}
-    revisado = bool(rev) and rev.get("contexto", {}).get("archivos_sha256") == contexto_producto()["archivos_sha256"]
+    revisado = (bool(rev) and mismo_producto(rev.get("contexto"), contexto_producto())
+                and not problemas_de_revision(estado))  # mismas reglas que pendientes_actuales
     if not revisado:
         if cambios_locales_de_producto():
             return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
@@ -1843,13 +1857,23 @@ def proximo_paso(identificador: str) -> str | None:
             return f"oracle-factory juzgar {ident}"
     except FactoryError:
         pass
-    if juzgados is not None and juzgados.is_file() and sha256(juzgados.read_bytes()) == oracle.get("hechos_sha256"):
+    def vigente(ruta, huella):
+        return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
+    # El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó.
+    if (vigente(juzgados, oracle.get("hechos_sha256"))
+            and vigente(ROOT / oracle["informe"] if oracle.get("informe") else None, oracle.get("informe_sha256"))
+            and mismo_producto(oracle.get("contexto"), contexto_producto())):
         if oracle.get("codigo") != 0:
             return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
         if not pendientes_actuales(carpeta, estado):
             return f"oracle-factory cerrar {ident}"
         return f"resolvé lo pendiente que lista estado; después: oracle-factory cerrar {ident}"
-    if juzgados is not None and juzgados.is_file():  # hechos dados con --con que cambiaron desde el juicio
+    if juzgados is not None and juzgados.is_file():  # hechos que siguen ahí, con un juicio que ya no vale: juzgar de nuevo
+        try:
+            if juzgados.resolve() == hechos_del_candidato(ident).resolve():
+                return f"oracle-factory juzgar {ident}"
+        except FactoryError:
+            pass
         return f"oracle-factory juzgar {ident} --con {shlex.quote(oracle['hechos'])}"
     return f"oracle-factory juzgar {ident} --con RUTA_DE_HECHOS"
 
