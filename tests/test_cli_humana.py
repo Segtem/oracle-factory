@@ -102,7 +102,8 @@ class CliHumana(_ap.Base):
             entorno = {k: v for k, v in os.environ.items() if k not in ('VIRTUAL_ENV', 'PYTHONPATH', 'FACTORY_REEJECUTADO')}
             ident = self.cambio_medido()
             p = subprocess.run([str(base), '-s', str(clon / 'fabrica.py'), '--proyecto', str(self.root), 'estado', ident],
-                               capture_output=True, text=True, timeout=60, env=entorno)
+                               capture_output=True, text=True, timeout=60, env=entorno,
+                               stdin=subprocess.DEVNULL)
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertIn(f'Próximo paso: oracle-factory pedir-revision {ident}', p.stdout)  # el comando entero, con sus argumentos
 
@@ -156,6 +157,10 @@ class CliHumana(_ap.Base):
         with patch('builtins.input', side_effect=AssertionError('no debía ofrecer un paso que no es un comando')), \
                 contextlib.redirect_stdout(Terminal()):
             self.assertEqual(f.ofrecer_siguiente(ident), 0)
+        hechos = self.producir_evidencia(ident)  # evidencia nueva en el candidato: ahora sí, juzgarla
+        hechos.write_text(hechos.read_text() + '\n')  # el sensor es determinista; otros bytes simulan hechos corregidos
+        self.assertNotEqual(hashlib.sha256(hechos.read_bytes()).hexdigest(), f.leer(ident)[1]['oracle']['hechos_sha256'])
+        self.assertEqual(f.proximo_paso(ident), f'oracle-factory juzgar {ident}')
 
     def test_c4_recorrido_completo(self):
         """El paso calculado en cada punto del flujo, de la spec al cierre."""

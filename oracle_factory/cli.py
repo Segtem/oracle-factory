@@ -1831,6 +1831,11 @@ def proximo_paso(identificador: str) -> str | None:
     sha = candidato_vigente(ident)
     # Con el producto revisado sin cambios, lo que falta es corregir, no otra revisión: se indica y no se ofrece ejecutar.
     if fase == "oracle_rojo" and revisado:
+        try:  # si los hechos del candidato ya no son los que se juzgaron, lo que falta es juzgarlos
+            if sha256(ruta_segura(hechos_del_candidato(ident)).read_bytes()) != (estado.get("oracle") or {}).get("hechos_sha256"):
+                return f"oracle-factory juzgar {ident}"
+        except FactoryError:
+            pass
         return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
     if fase == "cambios_pedidos" and revisado:
         return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
