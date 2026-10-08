@@ -351,6 +351,20 @@
       "candidato": "4db955b",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-08T15:57:54+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a9b3d62",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {

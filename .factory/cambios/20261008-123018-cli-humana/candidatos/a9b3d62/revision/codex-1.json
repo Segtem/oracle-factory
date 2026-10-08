@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/a9b3d62",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "a9b3d62b25e4cfa40a226457896b61531a52a5e4",
+  "diff_sha256": "f067fc65f029d3b5acd72c8242c7dccac5a34199408d29b5d960f8564a597255",
+  "context_sha256": "2f3c6ad4e2f9a41dffe43104c3576d33423c816c871e484dbe82b4b87a2cbe03",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "cli-oracle-rojo-evidencia-actualizada-no-reconocida",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "`estado` sigue pidiendo corregir evidencia después de que ya se actualizó",
+      "explanation": "Con Oracle en rojo y una revisión aprobada que sigue vigente para el producto, `proximo_paso` siempre devuelve la instrucción de corregir evidencia o producto y luego juzgar. No compara los hechos vigentes del candidato con los usados en el juicio rojo. Si la persona corrige o regenera sólo la evidencia (sin cambiar el producto), el estado persiste en `oracle_rojo` y `estado` continúa mostrando una instrucción de corrección ya cumplida; tampoco ofrece ejecutar `juzgar` desde el menú, porque el paso no es un comando completo. Así la recomendación no refleja lo que falta y el flujo queda sin el próximo comando que permitiría verificar la evidencia nueva.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1833,
+        "end_line": 1834,
+        "side": "head"
+      },
+      "trigger": "Completar medidas y revisión, juzgar el candidato y obtener fase `oracle_rojo`; luego corregir o regenerar `evidencia/resultado.json` o `evidencia/hechos.json` del mismo candidato sin modificar archivos de producto, y ejecutar `oracle-factory estado ID`.",
+      "evidence": "En `proximo_paso`, la rama `if fase == \"oracle_rojo\" and revisado` devuelve incondicionalmente `corregí la evidencia o el producto; después: oracle-factory juzgar ID`. La condición sólo comprueba que la huella actual del producto coincide con el contexto de revisión. No compara el hash de los hechos actuales con `estado[\"oracle\"][\"hechos_sha256\"]` ni verifica si cambió la evidencia desde el juicio. `ofrecer_siguiente` sólo ofrece pasos que empiezan por `oracle-factory `, por lo que esta instrucción no se puede ejecutar desde el menú. La prueba `test_c4_oracle_rojo_sin_cambios` cubre únicamente el caso en que la evidencia aún no cambió.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspeccioné `proximo_paso`, `pendientes_actuales` y la prueba `test_c4_oracle_rojo_sin_cambios`. Ejecuté `tests.test_cli_humana` desde el checkout candidato con `/home/workstation/Dev/factory-ch/.venv/bin/python` y el PATH solicitado: 13 pruebas, OK. No alteré el checkout ni reproduje el flujo con un candidato temporal; el caso residual se basa en que la rama es incondicional respecto de los hashes de evidencia y la prueba sólo cubre evidencia sin cambios."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los parches del paquete y las revisiones históricas indicadas. Las correcciones previas permanecen en el código revisado: el mensaje de activación ya no apunta a Fish, `fabrica.py` comprueba ambas dependencias y compara `sys.prefix`, el candidato sin informes utilizables pide revisión, y los cambios de producto locales posteriores a una revisión evitan juzgar material desactualizado.",
+    "Ejecuté `PATH=/tmp/claude-1000/-home-workstation-Dev/factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH /home/workstation/Dev/factory-ch/.venv/bin/python -m unittest tests.test_cli_humana` desde el checkout candidato: 13 pruebas, OK. El checkout candidato no tiene `.venv`; usé el entorno `.venv` del clon principal como intérprete de pruebas.",
+    "No ejecuté la suite completa ni Oracle, no corrí `tools/verify_*.py` y no hice mutaciones. No edité el checkout candidato. La prueba puntual no cubre el cambio de evidencia después de Oracle rojo; la conclusión del hallazgo es una revisión estática, no un veredicto de Oracle."
+  ]
+}
