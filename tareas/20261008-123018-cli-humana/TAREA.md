@@ -35,3 +35,23 @@ Medidas de cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso: factor
 ### Nota (2026-10-08 12:45:06 UTC)
 
 Medidas de cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo: factory_cli.el_proximo_paso_no_se_ejecuta_solo, factory_cli.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-08 12:45:39 UTC)
+
+Medidas de cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-08 12:45:39 UTC)
+
+Medidas de cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-08 12:45:39 UTC)
+
+Medidas de cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-08 12:45:39 UTC)
+
+Medidas de cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-08 12:45:39 UTC)
+
+Medidas de cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir: Brian Hollweg (persona, confirmo, modo confirmacion).
