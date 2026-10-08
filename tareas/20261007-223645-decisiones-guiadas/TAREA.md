@@ -59,3 +59,7 @@ Medidas de decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona:
 ### Nota (2026-10-08 00:01:39 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Sin hallazgos en el candidato e88250b (codex y agy); 7 hallazgos de vueltas anteriores corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (274 pruebas, 12 casos de contrato). Acepto como límite que la revisión se hizo contra una base con la migración mecánica de las pruebas, cubierta por la suite, porque el paquete completo supera el límite de Clue.); 0 abiertos derivados; commit 7c605331c34c44466cdd9fc2bbef463d12196421; informe tareas/20261007-223645-decisiones-guiadas/revisiones/registro-x2vds5bn/informe.json; decisiones tareas/20261007-223645-decisiones-guiadas/revisiones/registro-x2vds5bn/decisiones.json.
+
+### Nota (2026-10-08 00:01:54 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261007-223645-decisiones-guiadas/oracle-veredicto.txt.

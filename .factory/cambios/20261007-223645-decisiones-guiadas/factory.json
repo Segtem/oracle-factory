@@ -2,7 +2,7 @@
   "id": "20261007-223645-decisiones-guiadas",
   "titulo": "Decisiones guiadas: menú y opciones en vez de frases",
   "capacidad": "decisiones",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
   "spec_sha256": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "91d2d3bae1af87d077f1b5a7613c6f8f8402cd91fe4268679ff18fc64e0d3779"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261007-223645-decisiones-guiadas/candidatos/e88250b/evidencia/hechos.json",
+    "hechos_sha256": "c192f4c3a82140bc009a6fbf7d30cbeb07a0c9e1c51588b88c05bc8689d36e99",
+    "informe": ".factory/cambios/20261007-223645-decisiones-guiadas/oracle-veredicto.txt",
+    "informe_sha256": "5c4981e49ae37f63c1f0563f2b3f14acc03d50325c4893fd3d9f7dc206c0ba8e",
+    "cuando": "2026-10-08T00:01:54+00:00",
+    "contexto": {
+      "head": "ea11bd84aac6c01ef39df07a19f4d572040e33c5",
+      "archivos_sha256": "91d2d3bae1af87d077f1b5a7613c6f8f8402cd91fe4268679ff18fc64e0d3779"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -377,6 +389,17 @@
       "abiertos": 0,
       "sha256": "a1f369d888c99e2a88331fe3a3583a37d382f4a2523bca1ffde87e3be4ca06c8",
       "decisiones_sha256": "67768aadcee2e751b214558a8bdc8f30224ed843d3e12eeb00e4c6ed30e2c2a4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-08T00:01:54+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "c192f4c3a82140bc009a6fbf7d30cbeb07a0c9e1c51588b88c05bc8689d36e99"
     }
   ],
   "tipos": {
