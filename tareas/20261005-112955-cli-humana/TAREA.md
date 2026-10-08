@@ -1,6 +1,6 @@
 # Revisar los comandos de Factory para que una persona trabaje cómoda
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: cli, modos, ux
 
