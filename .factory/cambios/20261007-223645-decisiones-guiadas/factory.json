@@ -2,7 +2,7 @@
   "id": "20261007-223645-decisiones-guiadas",
   "titulo": "Decisiones guiadas: menú y opciones en vez de frases",
   "capacidad": "decisiones",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
   "spec_sha256": "974dd4887beddc28b4ffc1abdaf70cf9897df15c3e07ed4dbfcc3524f424bad7",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta",
     "decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261007-223645-decisiones-guiadas/revisiones/registro-x2vds5bn/informe.json",
+    "sha256": "a1f369d888c99e2a88331fe3a3583a37d382f4a2523bca1ffde87e3be4ca06c8",
+    "decisiones": "tareas/20261007-223645-decisiones-guiadas/revisiones/registro-x2vds5bn/decisiones.json",
+    "decisiones_sha256": "67768aadcee2e751b214558a8bdc8f30224ed843d3e12eeb00e4c6ed30e2c2a4",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-08T00:01:39+00:00",
+    "motivo": "Sin hallazgos en el candidato e88250b (codex y agy); 7 hallazgos de vueltas anteriores corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (274 pruebas, 12 casos de contrato). Acepto como límite que la revisión se hizo contra una base con la migración mecánica de las pruebas, cubierta por la suite, porque el paquete completo supera el límite de Clue.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "7c605331c34c44466cdd9fc2bbef463d12196421",
+      "archivos_sha256": "91d2d3bae1af87d077f1b5a7613c6f8f8402cd91fe4268679ff18fc64e0d3779"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -343,6 +363,20 @@
       "cuando": "2026-10-08T00:00:55+00:00",
       "decision": "aprobar",
       "candidato": "e88250b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-08T00:01:39+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a1f369d888c99e2a88331fe3a3583a37d382f4a2523bca1ffde87e3be4ca06c8",
+      "decisiones_sha256": "67768aadcee2e751b214558a8bdc8f30224ed843d3e12eeb00e4c6ed30e2c2a4"
     }
   ],
   "tipos": {
@@ -395,14 +429,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Sin hallazgos en el candidato e88250b (codex y agy); 7 hallazgos de vueltas anteriores corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (274 pruebas, 12 casos de contrato). Acepto como límite que la revisión se hizo contra una base con la migración mecánica de las pruebas, cubierta por la suite, porque el paquete completo supera el límite de Clue.",
-      "candidato": "e88250b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-08T00:00:55+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
