@@ -141,8 +141,10 @@ class CliHumana(_ap.Base):
         requisito = self.root / 'requisitos' / f'{rid}.requisito'
         requisito.write_text(requisito.read_text() + '# editado después de la propuesta\n')
         self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --listar')  # no ofrece confirmar en bucle
-        requisito.unlink()  # un requisito que falta tampoco rompe estado
-        self.assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --listar')
+        requisito.unlink()  # un requisito que falta tampoco rompe estado: se recupera desde Git, no con medir
+        self.assertTrue(f.proximo_paso(ident).startswith(f'faltan requisitos importados ({rid})'))
+        (self.root / 'openspec/changes' / ident / 'proposal.md').unlink()  # ni una propuesta que falta
+        self.assertTrue(f.proximo_paso(ident).startswith('falta proposal.md del cambio'))
 
     def test_c4_candidato_sin_material(self):
         ident = self.cambio_medido()

@@ -1826,8 +1826,14 @@ def proximo_paso(identificador: str) -> str | None:
         exigir_spec(carpeta, estado)
     except FactoryError:
         return f"oracle-factory aprobar-spec {ident}"
+    except OSError as e:  # un archivo que falta no se arregla con un comando de Factory
+        return f"falta {Path(e.filename or '?').name} del cambio: recuperalo desde Git; después: oracle-factory estado {ident}"
     if not estado.get("requisitos"):
         return f"oracle-factory importar {ident}"
+    faltan = [r for r in estado["requisitos"] if not (ROOT / "requisitos" / f"{r}.requisito").is_file()]
+    if faltan:
+        return (f"faltan requisitos importados ({', '.join(faltan)}): recuperalos desde Git; "
+                f"después: oracle-factory estado {ident}")
     if propuestas_confirmables(estado):
         return f"oracle-factory medir {ident} --confirmar"
     medidas = estado.get("medidas") or {}

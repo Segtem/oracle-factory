@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ch/.factory/local/revisiones/a5872cd",
+  "base": "fb39b42f4b7bda3adab45a4aa4c1fd6227bda16a",
+  "head": "a5872cdb7808ae7e3c662c119aa0b3ff252ae8ca",
+  "diff_sha256": "1bc0e4453533c8b67b32084db4701b07b819c55b7e604719a7ec31b71b873864",
+  "context_sha256": "65d0e733b8460debb22434547677bcf8531ecfab7c838a30107b23d0105cd898",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "cli-proximo-paso-spec-ausente-bloquea-estado",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` no captura `OSError`/`FileNotFoundError` al validar la spec con `exigir_spec`, provocando que `estado` aborte con `FACTORY BLOQUEADA` si `proposal.md` o `spec.md` faltan en disco",
+      "explanation": "`proximo_paso` evalúa la vigencia de la propuesta y spec llamando a `exigir_spec(carpeta, estado)` dentro de un bloque `try ... except FactoryError:` (líneas 1825–1828). Cuando la spec ya fue aprobada (`spec_aprobada` en estado), `exigir_spec` (línea 403) invoca `documentos(carpeta, estado)` (líneas 394–396), la cual ejecuta `read_bytes()` directamente sobre `carpeta / 'proposal.md'` y `ROOT / estado['spec']`. Si cualquiera de estos archivos falta en disco (eliminado, no clonado o renombrado), `read_bytes()` lanza inmediatamente `FileNotFoundError` (que es una subclase de `OSError`, no de `FactoryError`). Al no capturar `OSError` (a diferencia de `pendientes_actuales` en la línea 1237 que captura `(FactoryError, OSError)`), la excepción se propaga. En consecuencia, al ejecutar `oracle-factory estado ID` (tanto en modo interactivo como con `--agente`), `mostrar` falla a mitad de salida en `siguiente(identificador)` y `main()` aborta la CLI con `FACTORY BLOQUEADA: [Errno 2] No such file or directory: '...'` y código de salida 1, en lugar de tolerar los archivos ausentes, reportar el estado y determinar el paso correspondiente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1825,
+        "end_line": 1828,
+        "side": "head"
+      },
+      "trigger": "En un cambio con spec aprobada, se elimina o no existe en disco el archivo `proposal.md` o el archivo de la spec indicado en `estado['spec']` (ej. `openspec/changes/<id>/specs/<cap>/spec.md`), y se ejecuta `oracle-factory estado ID` o se invoca `proximo_paso`.",
+      "evidence": "Al eliminar `proposal.md` o `spec.md` tras `aprobar_spec`, la ejecución de `f.main(['--proyecto', str(ROOT), 'estado', ident])` aborta con código 1 emitiendo por stderr `FACTORY BLOQUEADA: [Errno 2] No such file or directory: '.../proposal.md'`, ya que `exigir_spec` detona `FileNotFoundError` no capturado por el bloque `except FactoryError:` de `proximo_paso`. En contraste, `pendientes_actuales` (línea 1237) sí captura `(FactoryError, OSError)` defensivamente.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1825–1828 frente a 394–396, 403 y 1237 de `oracle_factory/cli.py`. Se ejecutó la suite de pruebas unitarias (`timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana`: 14 pruebas, OK). Se verificó dinámicamente mediante reproducción aislada que la ausencia de `proposal.md` o `spec.md` tras la aprobación detona `FileNotFoundError` y aborta `estado` con salida de error 1."
+    },
+    {
+      "id": "cli-proximo-paso-requisitos-ausentes-ofrece-medir",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "`proximo_paso` calcula y ofrece `medir ID --listar` cuando faltan archivos `.requisito` en disco, induciendo a un comando del menú que falla con `FactoryError` sin avanzar el flujo",
+      "explanation": "La secuencia declarada de avance es `spec aprobada → requisitos → medidas ...`. `proximo_paso` comprueba si se completó la fase de requisitos evaluando únicamente `if not estado.get('requisitos'): return f'oracle-factory importar {ident}'` (líneas 1829–1830), verificando si la lista de IDs en `factory.json` está vacía, pero sin comprobar si los archivos `requisitos/<rid>.requisito` existen efectivamente en el disco. Si al menos un archivo `.requisito` falta en disco (escenario introducido en la prueba `test_c4_medidas_propuestas` línea 144 con `requisito.unlink()`), `proximo_paso` omite `importar` y pasa a la fase de medidas, devolviendo `oracle-factory medir {ident} --listar` (línea 1836). En una terminal interactiva, `ofrecer_siguiente` ofrece dicho comando en el menú (`¿Seguís? 1. Ejecutar «oracle-factory medir ID --listar»`). Al seleccionarlo, `medir` invoca `inventario_medidas(estado)` (línea 1970), que itera sobre `estado['requisitos']` e intenta cargar cada archivo con `requisito.cargar(ruta)` (línea 1949). Como el archivo no existe, `inventario_medidas` falla y `medir` aborta con `FactoryError: Oracle rechazó requisito o catálogo: no se pudo leer el requisito ... [Errno 2] No such file or directory`. Lo mismo ocurre al intentar `--confirmar` o `--requisito`. Por ende, el menú ofrece ejecutar una acción que no puede ejecutarse ni avanzar el flujo; el próximo paso real ante requisitos ausentes en disco es importarlos con `oracle-factory importar {ident}`.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1829,
+        "end_line": 1836,
+        "side": "head"
+      },
+      "trigger": "En un cambio con requisitos importados, se elimina o no existe en disco un archivo `requisitos/<rid>.requisito` (ej. tras `unlink()` o clon incompleto), y se ejecuta `oracle-factory estado ID` en una terminal interactiva.",
+      "evidence": "En `oracle_factory/cli.py`, la línea 1829 sólo comprueba `not estado.get('requisitos')` ignorando la existencia de los archivos. `proximo_paso` devuelve `oracle-factory medir {ident} --listar`. Al ejecutarse dicha acción desde el menú ofrecido por `ofrecer_siguiente`, `medir` llama a `inventario_medidas` (líneas 1948–1949), detonando `FactoryError: Oracle rechazó requisito o catálogo: no se pudo leer el requisito ... [Errno 2] No such file or directory` con código 1. La prueba `test_c4_medidas_propuestas` (línea 144) asserta este paso erróneo (`assertEqual(f.proximo_paso(ident), f'oracle-factory medir {ident} --listar')`) sin comprobar que el comando ofrecido no puede ejecutarse.",
+      "related_requirement": "cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso",
+      "status": "pendiente",
+      "verification": "Inspección estática de las líneas 1829–1836 frente a 1948–1949 y 1970 de `oracle_factory/cli.py` y línea 144 de `tests/test_cli_humana.py`. Se ejecutó la suite requerida (`timeout 120 env PATH=... .venv/bin/python -m unittest tests.test_cli_humana`: 14 pruebas, OK). Se verificó dinámicamente con un script reproductor que ante un `.requisito` ausente, ejecutar el comando sugerido por el menú (`medir --listar`) falla con `FactoryError` impidiendo avanzar, mientras que `importar` restaura los archivos correctamente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: timeout 120 env PATH=/tmp/claude-1000/-home-workstation-Dev-factory/d3ffc37f-4c26-4426-b2d7-381bdbfe4609/scratchpad/env/bin:$PATH .venv/bin/python -m unittest tests.test_cli_humana </dev/null desde el repositorio principal contra el candidato a5872cd: 14 pruebas, OK.",
+    "Revisé la propuesta, la spec, todos los parches del paquete Clue y el historial de revisiones previas (desde 2515b20 hasta 27cd98c), verificando que los hallazgos anteriores sobre el activador de fish, relanzamiento de fabrica.py, candidatos sin material usable, revisión desactualizada por cambios de producto, artefactos de revisión modificados/ausentes (problemas_de_revision), vigencia del juicio de Oracle frente a cambios de informe/producto/hechos, bucles de proximo_paso ante propuestas con sha256 modificado, y el manejo en propuestas_confirmables ante requisitos ausentes, se mantienen cerrados sin regresiones en sus áreas específicas.",
+    "Realicé análisis estático y pruebas dinámicas de flujo mediante scripts aislados en el directorio de trabajo para verificar transiciones de estado, cálculo de próximo paso, manejo de excepciones ante archivos ausentes (propuesta, spec, requisitos) y comportamiento de ofrecer_siguiente y medir.",
+    "No ejecuté tools/verify_*.py ni la suite completa de pruebas ni Oracle, conforme a las instrucciones. No se modificó el checkout candidato a5872cd (sólo lectura) ni se realizaron commits."
+  ]
+}
