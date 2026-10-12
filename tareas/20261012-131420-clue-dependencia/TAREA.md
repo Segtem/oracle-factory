@@ -23,3 +23,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-12 13:31:29 UTC)
 
 Requisitos importados: autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira (funcional), autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan (funcional), autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-12 13:31:39 UTC)
+
+Medidas de autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory: factory_clue.oracle_clue_viene_con_factory, factory_clue.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-12 13:31:39 UTC)
+
+Medidas de autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan: factory_clue.los_informes_de_revisores_siempre_se_validan, factory_clue.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-12 13:31:39 UTC)
+
+Medidas de autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira: factory_clue.importar_no_trae_lo_que_la_spec_retira, factory_clue.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
