@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e200bab",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "e200bab806d7804cdadd74ec43acc5bf98c78cb9",
+  "diff_sha256": "42ae5659b85e1fbde94e03dc35394ffa0b28b75ed13bbc7962e14533c975d775",
+  "context_sha256": "8671d341175c79b6bf21d4a74ff24e122bb64e605e777b72107434f431ffd7fe",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.93,
+      "title": "Un informe JSON no objeto en revision/ reemplaza la vuelta anterior sin emitir aviso",
+      "explanation": "En material_del_candidato, cargar() retorna None sin añadir un aviso a avisos cuando el JSON leído es sintácticamente válido pero su raíz no es un objeto (por ejemplo `[]`, `\"texto\"`, `123`). En las líneas 768-771, la detección de la última vuelta examina todos los archivos *.json coincidentes con <revisor>-<n>.json y calcula el máximo n sin verificar si el archivo fue cargado como un dict válido. Luego, en las líneas 772-775, marca r[\"reemplazado_por\"] en el informe anterior válido, por lo que preparar_revision lo descarta de revisores. Como resultado, la vuelta previa deja de aportar hallazgos, pero el informe inválido no es advertido en absoluto. Esto incumple el requisito funcional de que un informe inválido o ilegible debe avisarse y no usarse.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 768,
+        "end_line": 775,
+        "side": "head"
+      },
+      "trigger": "Crear revision/codex-1.json con un informe válido con hallazgos y revision/codex-2.json con contenido `[]` (o cualquier JSON cuya raíz no sea un diccionario); luego ejecutar revision-preparar para el candidato.",
+      "evidence": "En oracle_factory/cli.py:736, cargar() sólo retorna datos si isinstance(datos, dict), de lo contrario retorna None sin agregar elementos a la lista avisos. En las líneas 768-771, el bucle toma cualquier archivo *.json del directorio que coincida con el patrón de nombre sin filtrar por validez, registrando codex-2.json en ultimo. En las líneas 772-775, marca codex-1.json con reemplazado_por, provocando que se excluya de revisores en preparar_revision (línea 693). Al probar este caso en un entorno de prueba controlado, preparar_revision termina con informe['hallazgos'] vacío y stderr vacío, suprimiendo la vuelta previa sin avisar de codex-2.json. Las líneas 768-775 pertenecen al rango [762, 778] del diff del paquete.",
+      "related_requirement": "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan",
+      "status": "pendiente",
+      "verification": "Confirmado mediante análisis estático y reproducción empírica con fixture en tests donde codex-1.json contenía un hallazgo y codex-2.json contenía `[]`. Se comprobó que f.preparar_revision silenció a codex-1.json sin emitir ningún aviso en errores.getvalue(). Además, se corrieron 47 tests con el comando solicitado (OK en 18.7s) y se realizaron 3 mutaciones sobre una copia de trabajo que confirmaron que las pruebas k4 y k5 detectan las regresiones de nombres y menús."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron proposal.md, la spec de autoproducción, el diff y contexto del paquete clue y los informes de rondas previas de este cambio.",
+    "Se ejecutó exactamente el comando indicado en primer plano desde el checkout de e200bab: timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null (47 pruebas, todas OK en 18.662s).",
+    "No se ejecutaron tools/verify_*.py ni la suite completa de tests, respetando las instrucciones del pedido de revisión.",
+    "Se realizaron mutaciones manuales sobre una copia aislada en scratch/repo_copy: (1) revertir el barrido de último revisor a sólo revisores validados fue detectado por test_k4_el_mas_nuevo_invalido_no_revive_el_anterior; (2) omitir vueltas del mismo candidato fue detectado por test_k4_incompleta_seguida_de_completa; (3) permitir seleccionar opción 1 deshabilitada fue detectado por test_k5_aprobar_no_disponible."
+  ]
+}

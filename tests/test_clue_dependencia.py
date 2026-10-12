@@ -117,6 +117,12 @@ class ClueDependencia(_ap.Base):
         self.assertEqual(informe['hallazgos'], [])  # codex-1 no vuelve: lo reemplazó codex-2, que no se usa
         self.assertFalse([c for c in informe['comprobaciones'] if c['descripcion'].startswith('Revisión de ')])
         self.assertIn('codex-2.json es de otro candidato', errores.getvalue())
+        (self.carpeta(ident, self.git('rev-parse', 'HEAD~1')[:7]) / 'revision' / 'codex-2.json').write_text('[]')  # JSON que no es un informe
+        errores = io.StringIO()
+        with _ap.clue_acepta(), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errores):
+            ruta, _ = f.preparar_revision(ident)
+        self.assertEqual(json.loads(ruta.read_text())['hallazgos'], [])
+        self.assertIn('codex-2.json no es un objeto JSON', errores.getvalue())  # y se avisa
 
     # --- k5: el menú de la decisión no corre sus números -------------------------------------------------------------------------
     def test_k5_aprobar_no_disponible(self):

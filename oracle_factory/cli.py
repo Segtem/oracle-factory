@@ -733,7 +733,10 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
         except (OSError, ValueError, FactoryError) as e:
             avisos.append(f"{ruta.relative_to(ROOT)} no se pudo leer ({type(e).__name__}); no lo uso")
             return None
-        return datos if isinstance(datos, dict) else None
+        if not isinstance(datos, dict):
+            avisos.append(f"{ruta.relative_to(ROOT)} no es un objeto JSON; no lo uso")
+            return None
+        return datos
 
     paquetes = [p for p in (cargar(r) for r in sorted((raiz / "clue").glob("*.json"))) if p] if (raiz / "clue").is_dir() else []
     archivos = sorted({f["file"] for p in paquetes for f in p.get("files") or [] if isinstance(f, dict) and f.get("file")})
