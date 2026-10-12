@@ -255,6 +255,9 @@ def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
         try:
             metadata.distribution(paquete)
         except metadata.PackageNotFoundError:
+            if args[0] == "oracle-clue":  # dependencia fija: se usa la del entorno de Factory, nunca otra del PATH
+                raise FactoryError(f"falta oracle-clue en el entorno de Factory ({sys.executable}); reinstalá oracle-factory "
+                                   "o, en un clon, uv pip install -e . en su .venv")
             pass  # Compatibilidad con el checkout y herramientas ya instaladas.
         else:
             codigo = ("import sys; from importlib.metadata import distribution; "

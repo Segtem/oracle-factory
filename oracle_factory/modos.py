@@ -49,9 +49,16 @@ def slug(texto: str) -> str:
 
 def tipos_spec(texto: str, *, obligatorios: bool = False) -> dict[str, str]:
     """{slug del requisito: tipo}. Sin línea «Tipo:», funcional, salvo tipos obligatorios."""
-    tipos, actual, sin_tipo = {}, None, []
+    tipos, actual, sin_tipo, retirados = {}, None, [], False
     for linea in texto.splitlines():
+        delta = re.match(r'^##\s+(ADDED|MODIFIED|REMOVED|RENAMED)\s+Requirements\s*$', linea, re.IGNORECASE)
+        if delta:  # lo que la spec retira no se importa ni se mide: no lleva tipo
+            retirados, actual = delta[1].upper() == 'REMOVED', None
+            continue
         cabecera = re.match(r'^###\s+Requirement:\s*(.+?)\s*$', linea)
+        if cabecera and retirados:
+            actual = None
+            continue
         if cabecera:
             actual = slug(cabecera[1])
             tipos[actual] = None

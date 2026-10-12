@@ -13,9 +13,9 @@ sys.path.insert(0, str(ROOT))
 from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 
 CONTRACTS = {
-    'oracle_clue_viene_con_factory': ['k1_clue_es_dependencia_y_se_usa_el_del_entorno'],
+    'oracle_clue_viene_con_factory': ['k1_clue_es_dependencia_y_se_usa_el_del_entorno', 'k1_pedir_revision_sin_clue_en_el_path'],
     'los_informes_de_revisores_siempre_se_validan': ['k2_informe_sin_paquete_no_se_usa'],
-    'importar_no_trae_lo_que_la_spec_retira': ['k3_spec_que_retira_un_requisito'],
+    'importar_no_trae_lo_que_la_spec_retira': ['k3_spec_que_retira_un_requisito', 'k3_retirados_sin_tipo_con_tipos_obligatorios'],
 }
 PREFIX = 'test_clue_dependencia.ClueDependencia.test_'
 LIMITES = ('Escenarios k1–k3 en repositorios temporales, Linux, con el oracle-clue instalado en el entorno de Factory. No prueba '

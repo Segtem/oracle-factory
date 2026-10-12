@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/122ef26",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "122ef261408faaec3924c79ae48eba82c1fbdaf1",
+  "diff_sha256": "777c716c667859db41cc278dc0d58e43a7e4bea4778ca75bb79dbfdd9e30ee20",
+  "context_sha256": "28058d718dafb71dfe702ad0948c8f9a4686ee87f765f60685854497d03dbf0b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "importar falla con TipoInvalido ante specs con REMOVED si el proyecto activa tipos_obligatorios",
+      "explanation": "El requisito «importar no trae lo que la spec retira» establece que los requisitos bajo ## REMOVED Requirements quedan fuera de la importación y no se miden. En oracle_factory/cli.py (líneas 610–614 dentro del diff), Factory descarta los IDs de retirados y desvincula sus archivos .requisito tras la llamada de Oracle. Sin embargo, en la línea 598 (previa a la invocación de Oracle y al descarte), importar ejecuta modos.tipos_spec(spec.read_text(), obligatorios=config_proyecto()['tipos_obligatorios']) sobre el texto completo y sin filtrar de la spec. Cuando un proyecto tiene configurado tipos_obligatorios=True en .factory/config.json, modos.tipos_spec() recorre todos los encabezados ### Requirement: del documento exigiendo una línea Tipo:. Dado que los requisitos retirados en OpenSpec sólo declaran su cabecera y no definen tipo, modos.tipos_spec lanza TipoInvalido indicando que el requisito retirado no declara tipo. En consecuencia, importar aborta con FactoryError («el proyecto exige tipos (tipos_obligatorios) y no lo declaran: <requisito_retirado>. No se modificó el registro.»), impidiendo importar cualquier especificación válida con requisitos retirados en proyectos que exijan tipos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 610,
+        "end_line": 614,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory importar <id> sobre un cambio cuya especificación incluya una sección ## REMOVED Requirements en un proyecto donde .factory/config.json tenga tipos_obligatorios=true.",
+      "evidence": "En oracle_factory/cli.py:610-614, el filtrado de retirados se realiza a posteriori sobre ids mediante archivo.bloques(), pero la llamada a modos.tipos_spec() en la línea 598 procesa la spec completa sin discriminar secciones. En una reproducción local con la spec de test_k3 y tipos_obligatorios=True, la importación falló con FactoryError: el proyecto exige tipos (tipos_obligatorios) y no lo declaran: una_nota_vieja. No se modificó el registro.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira",
+      "status": "pendiente",
+      "verification": "Reproducido en copia de trabajo ejecutando importar con tipos_obligatorios: true en .factory/config.json sobre la spec con ## REMOVED Requirements de test_k3."
+    },
+    {
+      "id": "F-002",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El apartado de resolución de conflictos en el paso 1 de la guía para principiantes continúa omitiendo oracle-clue",
+      "explanation": "En la vuelta bf752f4, el informe codex-1 señaló en F-001 que la guía no incluía el conflicto con el ejecutable oracle-clue. El commit 122ef26 pretendió subsanarlo modificando la sección de solución de problemas (#problemas, línea 57 de site/desde-cero.html), donde agregó «u oracle-clue» y mantuvo la remisión «(consultá el apartado en el paso 1)». Sin embargo, el apartado aludido del paso 1 (#instalar, línea 23) no fue modificado: su cabecera sigue diciendo «<summary>Si ya tenías Oracle, Oracle Task o hay conflicto de ejecutables</summary>», y el cuerpo de solución persiste indicando «Si uv informa que los comandos oracle o tasks ya existen, conservá esas instalaciones e instalá Factory sin exponerlos globalmente...», omitiendo por completo a oracle-clue. Asimismo, las comprobaciones de versiones inmediatamente anteriores (líneas 21–23) omiten verificar «oracle-clue --version» (y esperar 0.1.0a1), y el párrafo de paquetes al pie de la línea 23 no describe oracle-clue, a diferencia de README.md que sí fue adaptado íntegramente.",
+      "location": {
+        "file": "site/desde-cero.html",
+        "start_line": 23,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Seguir el paso 1 de la guía para principiantes en un equipo con oracle-clue ya instalado, o consultar el apartado tras una advertencia en la sección de problemas (línea 57).",
+      "evidence": "En site/desde-cero.html:23, el bloque details conserva sólo «Oracle, Oracle Task» en el summary y «oracle o tasks» en la descripción de conflictos, a pesar de que la línea 57 redirige a este apartado para resolver advertencias por oracle-clue.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Inspección estática de site/desde-cero.html línea 23 frente a línea 57 y a README.md líneas 32–38."
+    },
+    {
+      "id": "F-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_k1 verifica únicamente --help vía f.ejecutar y no el flujo de pedir-revision prometido en el escenario",
+      "explanation": "El escenario de la spec k1 («instalación sola») promete: «GIVEN un entorno donde sólo se instaló oracle-factory, sin oracle-clue en el PATH / WHEN se ejecuta pedir-revision con un revisor configurado / THEN el paquete se prepara y el informe se valida con el Clue instalado con Factory». En tests/test_clue_dependencia.py:45-52, test_k1_clue_es_dependencia_y_se_usa_el_del_entorno verifica la presencia de la dependencia en pyproject.toml y luego ejecuta f.ejecutar(['oracle-clue', '--help']) bajo patch.dict(os.environ, {'PATH': ''}). La prueba nunca ejecuta pedir-revision, ni comprueba la preparación del paquete (oracle-clue preparar) ni la validación del informe (oracle-clue validar) en un entorno sin Clue en el PATH como establece el escenario. Dado que tools/verify_clue.py mapea únicamente k1 para respaldar el contrato oracle_clue_viene_con_factory, el contrato queda cubierto sólo por una invocación básica de ayuda a nivel de utilitario y no por el flujo funcional prometido.",
+      "location": {
+        "file": "tests/test_clue_dependencia.py",
+        "start_line": 45,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "Revisión del escenario de la spec k1 frente a las aserciones de tests/test_clue_dependencia.py:45-51.",
+      "evidence": "En tests/test_clue_dependencia.py:48-51, la prueba ejecuta f.ejecutar(['oracle-clue', '--help']). En openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md:13-16, el escenario «instalación sola» prescribe ejecutar pedir-revision y verificar que el paquete se prepara y el informe se valida.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Inspección estática de tests/test_clue_dependencia.py:45-51 contra la spec de autoproduccion aprobada."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se contrastaron propuesta, spec aprobada con sus escenarios k1–k3, el paquete diff y el contexto completo del cambio.",
+    "Las vueltas anteriores quedaron comprobadas: F-001 de codex sobre beb83f4 sigue cerrado (setup de test_decisiones); F-001 de agy sobre bf752f4 cerró la supervivencia del mock con PATH vacío; F-002 de agy sobre bf752f4 cerró la versión de clue en el verificador; F-003 de agy sobre bf752f4 cerró los nombres obsoletos en test_autoproduccion. En cambio, F-001 de codex sobre bf752f4 persiste en la línea 23 de site/desde-cero.html.",
+    "Se intentó ejecutar exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano en el checkout candidato (/home/workstation/Dev/factory-cd/.factory/local/revisiones/122ef26); no arrancó (código 127) porque el checkout candidato no contiene `.venv/bin/python`.",
+    "En una copia de trabajo local en la carpeta del revisor enlazada al entorno virtual del repositorio principal se corrió exactamente dicha suite, superando exitosamente las 30 pruebas en ~13s.",
+    "Se realizaron pruebas de mutación manuales sobre copias locales para verificar detección de regresiones en el despacho de f.ejecutar y en el descarte de requisitos de la sección REMOVED.",
+    "Por indicación expresa de la consigna, no se ejecutaron tools/verify_*.py ni la suite completa de pruebas."
+  ]
+}
