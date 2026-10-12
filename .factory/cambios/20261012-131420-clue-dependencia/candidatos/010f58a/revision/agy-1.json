@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/010f58a",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "010f58a96a33fd0b24bc742de873bebd555aad44",
+  "diff_sha256": "dc56b97ec668d291fa68d8c88dc0ab57a54a1a4fe36c89be2220e15cb38a1d21",
+  "context_sha256": "f7eeee7d74dc2b42727aaf5876fbb7527e58dff56a5ced0be1862e57b678fa5a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión incremental del candidato 010f58a con base en e3f2b64. Se verificaron la propuesta, la spec de autoproducción y el diff del paquete contra el código y las pruebas del candidato.",
+    "Se comprobó el cierre de los hallazgos previos (beb83f4, bf752f4, 122ef26, e3f2b64, e62557b y e200bab), en particular que un informe más nuevo inválido o un JSON de nivel superior no objeto en revision/ reemplaza la vuelta anterior emitiendo el aviso correspondiente sin revivir hallazgos previos, y que el menú interactivo de decisión en revisar mantiene su numeración (1: Aprobar con detalle de no disponibilidad, 2: Pedir cambios, 3: Cancelar) sin permitir registrar una aprobación indebida.",
+    "Se ejecutó la suite indicada desde el checkout del candidato: `timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null` resultando en 47 tests exitosos en 18.678s.",
+    "Se realizaron mutaciones manuales sobre una copia aislada de prueba evaluando la respuesta de las pruebas ante regresiones: omisión de aviso ante JSON no objeto, cálculo de última vuelta restringido a revisores válidos, omisión de filtrado de informes reemplazados, omisión del rechazo de aprobación no disponible, y desplazamiento de numeración en el menú interactivo. En todos los casos los casos de contrato k4 y k5 detectaron y fallaron ante la regresión.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa por indicación expresa del pedido. No se reportan hallazgos al confirmarse que el código cumple las promesas de la spec y no presenta defectos activos dentro del alcance revisado."
+  ]
+}
