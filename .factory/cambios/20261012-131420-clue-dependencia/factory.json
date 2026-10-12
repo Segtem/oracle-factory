@@ -4,22 +4,22 @@
   "capacidad": "autoproduccion",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
-  "spec_sha256": "b6529bc9a4ffa0c4b7d54e3c23236c7374be963850a0e1882c8abe1160274492",
+  "spec_sha256": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-12T13:17:06+00:00",
+    "cuando": "2026-10-12T13:31:03+00:00",
     "documentos": {
-      "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "e4c1cb61506e8ae0690002b8ff957a40662f92f95bc8b96d4374ce2dd5a15826",
-      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "b6529bc9a4ffa0c4b7d54e3c23236c7374be963850a0e1882c8abe1160274492"
+      "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "73b113e50c7a209d5f68892ef3f6a141b166f7d74fccce24576eaae5b77e0452",
+      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c"
     }
   },
   "requisitos": [
-    "autoproduccion_c9116fa1ba4e8439b.los_informes_de_revisores_siempre_se_validan",
-    "autoproduccion_c9116fa1ba4e8439b.los_informes_se_validan_o_se_marcan",
-    "autoproduccion_c9116fa1ba4e8439b.oracle_clue_viene_con_factory"
+    "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira",
+    "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
+    "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory"
   ],
   "revision": null,
   "oracle": null,
@@ -58,12 +58,37 @@
         "autoproduccion_c9116fa1ba4e8439b.los_informes_se_validan_o_se_marcan",
         "autoproduccion_c9116fa1ba4e8439b.oracle_clue_viene_con_factory"
       ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T13:31:03+00:00",
+      "documentos": {
+        "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "73b113e50c7a209d5f68892ef3f6a141b166f7d74fccce24576eaae5b77e0452",
+        "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T13:31:29+00:00",
+      "ids": [
+        "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira",
+        "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
+        "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory"
+      ]
     }
   ],
   "tipos": {
-    "autoproduccion_c9116fa1ba4e8439b.los_informes_de_revisores_siempre_se_validan": "funcional",
-    "autoproduccion_c9116fa1ba4e8439b.los_informes_se_validan_o_se_marcan": "funcional",
-    "autoproduccion_c9116fa1ba4e8439b.oracle_clue_viene_con_factory": "funcional"
+    "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira": "funcional",
+    "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan": "funcional",
+    "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {}
