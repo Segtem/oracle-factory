@@ -83,3 +83,23 @@ Medidas de autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se
 ### Nota (2026-10-12 15:52:43 UTC)
 
 Medidas de autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory: factory_clue.oracle_clue_viene_con_factory, factory_clue.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-12 15:53:01 UTC)
+
+Medidas de autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 15:53:01 UTC)
+
+Medidas de autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 15:53:01 UTC)
+
+Medidas de autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 15:53:01 UTC)
+
+Medidas de autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 15:53:01 UTC)
+
+Medidas de autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory: Brian Hollweg (persona, confirmo, modo confirmacion).
