@@ -2,59 +2,29 @@
   "id": "20261012-131420-clue-dependencia",
   "titulo": "Oracle Clue como dependencia fija de Factory",
   "capacidad": "autoproduccion",
-  "fase": "oracle_verde",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
-  "spec_sha256": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c",
+  "spec_sha256": "d93c679b02a09c29756c884ab26dd57820a3ecea315f701157cfe61ddd91b363",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-12T13:31:03+00:00",
+    "cuando": "2026-10-12T15:52:22+00:00",
     "documentos": {
-      "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "73b113e50c7a209d5f68892ef3f6a141b166f7d74fccce24576eaae5b77e0452",
-      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c"
+      "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "f4802a108c2d13c3d2fde3ccd66213bd7e85510549266a496c414f40bd8cc9ff",
+      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "d93c679b02a09c29756c884ab26dd57820a3ecea315f701157cfe61ddd91b363"
     }
   },
   "requisitos": [
-    "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira",
-    "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
-    "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory"
+    "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores",
+    "autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros",
+    "autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira",
+    "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan",
+    "autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory"
   ],
-  "revision": {
-    "formato": "guiado",
-    "revisor": "Brian Hollweg",
-    "decision": "cambios",
-    "hallazgos_abiertos": 0,
-    "informe": "tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/informe.json",
-    "sha256": "be98421d96f183703ff4483713611292c05d6a60621297b63a81413305aa0d0f",
-    "decisiones": "tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/decisiones.json",
-    "decisiones_sha256": "d3f6587cfb6a0acc00d623a4cff0cc5b9bcfe68ce92579cf626885b0b3204389",
-    "actor": "Brian Hollweg",
-    "tipo_actor": "persona",
-    "forma": "decidio",
-    "modo": "confirmacion",
-    "cuando": "2026-10-12T15:00:14+00:00",
-    "motivo": "Pido cambios en el candidato e3f2b64; 0 hallazgos de los revisores; evidencia del candidato: 292 pruebas, 5 casos de contrato; 5 vueltas anteriores registradas.",
-    "origen_motivo": "armado",
-    "contexto": {
-      "head": "bc60a63807ff39e194e9b4b19c732505a2f5d576",
-      "archivos_sha256": "d3807b20e37501b4aa27304a92b4dd8666769f091d699a211ec53807d737d6df"
-    }
-  },
-  "oracle": {
-    "codigo": 0,
-    "codigo_oracle": 0,
-    "hechos": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/e3f2b64/evidencia/hechos.json",
-    "hechos_sha256": "5b2a3afd5ad70e42c2d878133342e0a65a1da3a310a7417442c8b0ccea9dfe62",
-    "informe": ".factory/cambios/20261012-131420-clue-dependencia/oracle-veredicto.txt",
-    "informe_sha256": "06a3f6c25c3ae850a1c21b270bdb179bffe8ef8b4fcb0952d86231e59a2f3b9d",
-    "cuando": "2026-10-12T15:00:29+00:00",
-    "contexto": {
-      "head": "8f9c40156b5d420e656347daac865d4ed9acf639",
-      "archivos_sha256": "d3807b20e37501b4aa27304a92b4dd8666769f091d699a211ec53807d737d6df"
-    }
-  },
+  "revision": null,
+  "oracle": null,
   "modo": "confirmacion",
   "eventos": [
     {
@@ -329,39 +299,144 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "5b2a3afd5ad70e42c2d878133342e0a65a1da3a310a7417442c8b0ccea9dfe62"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T15:52:22+00:00",
+      "documentos": {
+        "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "f4802a108c2d13c3d2fde3ccd66213bd7e85510549266a496c414f40bd8cc9ff",
+        "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "d93c679b02a09c29756c884ab26dd57820a3ecea315f701157cfe61ddd91b363"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T15:52:42+00:00",
+      "ids": [
+        "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores",
+        "autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros",
+        "autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira",
+        "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan",
+        "autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T15:52:42+00:00",
+      "requisito": "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores",
+      "medidas": [
+        "factory_clue.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores",
+        "factory_clue.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T15:52:43+00:00",
+      "requisito": "autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros",
+      "medidas": [
+        "factory_clue.el_menu_de_la_decision_no_corre_sus_numeros",
+        "factory_clue.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T15:52:43+00:00",
+      "requisito": "autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira",
+      "medidas": [
+        "factory_clue.importar_no_trae_lo_que_la_spec_retira",
+        "factory_clue.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T15:52:43+00:00",
+      "requisito": "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan",
+      "medidas": [
+        "factory_clue.los_informes_de_revisores_siempre_se_validan",
+        "factory_clue.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T15:52:43+00:00",
+      "requisito": "autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory",
+      "medidas": [
+        "factory_clue.oracle_clue_viene_con_factory",
+        "factory_clue.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira": "funcional",
-    "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan": "funcional",
-    "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory": "funcional"
+    "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores": "funcional",
+    "autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros": "funcional",
+    "autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira": "funcional",
+    "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan": "funcional",
+    "autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory": "funcional"
   },
-  "medidas": {
-    "autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-12T13:32:26+00:00",
-      "sha256": "ef6246fcbf1541c727ca19cfb1058024cc7ad9d4d756ec7c61c70e9f72ffa7d9"
+  "medidas": {},
+  "medidas_pendientes": {
+    "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores": {
+      "sha256": "171e3b8a9beceda33bad6cae2b42b93f957c32805773ab35f5241107aef03dec",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T15:52:42+00:00"
     },
-    "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-12T13:32:26+00:00",
-      "sha256": "408df7f034b6ebdbcf0e02aef13a57eb954f4bf5f5e2366e65684ede35145849"
+    "autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros": {
+      "sha256": "238ba2e6bfbeecfec1c07b564c6a46d54f86f495e048691934e022cbc5fb009f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T15:52:43+00:00"
     },
-    "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-12T13:32:26+00:00",
-      "sha256": "f93167c46e32a87660920e41e9fc8141ef3b136a8b32f9f3bd521238d18f0dfa"
+    "autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira": {
+      "sha256": "a973156f0a8a4de8cf5f31c064a2618fc656c4255d0eee4d00e00a44e7fdf52c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T15:52:43+00:00"
+    },
+    "autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan": {
+      "sha256": "5d90d5be399a04cb88f27ef3612382cf68126301026f08c636ed264f63e1c0fe",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T15:52:43+00:00"
+    },
+    "autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory": {
+      "sha256": "71ba3bcfa9bcc834c4f2a0a1a2cd506563d36319ce776f6deb73653263773cd8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T15:52:43+00:00"
     }
   },
-  "medidas_pendientes": {},
   "motivos_propuestos": {}
 }

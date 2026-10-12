@@ -1,4 +1,4 @@
-requisito autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan:
+requisito autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan:
     texto "Tipo: funcional Cada informe de revisor SHALL validarse con Clue contra su paquete antes de usarse; un informe ilegible, inválido, de otro candidato o que no se puede validar (por ejemplo, porque falta su paquete o su checkout) SHALL avisarse y no usarse. No hay informes «sin validar»."
     fuente "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md#los informes de revisores siempre se validan"
     medido_por factory_clue.los_informes_de_revisores_siempre_se_validan, factory_clue.corrida_completa
