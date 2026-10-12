@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
+  "actor": "Brian Hollweg",
+  "motivo": "codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.",
+  "decisiones": []
+}

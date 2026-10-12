@@ -2,7 +2,7 @@
   "id": "20261012-214104-ruta-vigente",
   "titulo": "ruta apunta al candidato vigente, no a HEAD",
   "capacidad": "estructura",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
   "spec_sha256": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/informe.json",
+    "sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
+    "decisiones": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/decisiones.json",
+    "decisiones_sha256": "79befab980a29a19c5e49ee4a5631512ac35bc3854dbe12fef785f794881328e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T22:45:01+00:00",
+    "motivo": "codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "51b0c64ecaf30a379e841c4a932ac93d5ad5d1ca",
+      "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -119,6 +139,20 @@
       "cuando": "2026-10-12T22:43:53+00:00",
       "decision": "aprobar",
       "candidato": "7b1e780"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-12T22:45:01+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
+      "decisiones_sha256": "79befab980a29a19c5e49ee4a5631512ac35bc3854dbe12fef785f794881328e"
     }
   ],
   "tipos": {
@@ -135,14 +169,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.",
-      "candidato": "7b1e780",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-12T22:43:53+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

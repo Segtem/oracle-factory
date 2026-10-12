@@ -23,3 +23,7 @@ Medidas de estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos: 
 ### Nota (2026-10-12 22:21:29 UTC)
 
 Medidas de estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 22:45:01 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.); 0 abiertos derivados; commit 51b0c64ecaf30a379e841c4a932ac93d5ad5d1ca; informe tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/informe.json; decisiones tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/decisiones.json.

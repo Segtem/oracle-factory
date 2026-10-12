@@ -1,0 +1,62 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261012-214104-ruta-vigente",
+  "contexto": {
+    "head": "51b0c64ecaf30a379e841c4a932ac93d5ad5d1ca",
+    "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
+  },
+  "documentos": {
+    "openspec/changes/20261012-214104-ruta-vigente/proposal.md": "d4cb7980d7f7bf85f6b7b7983f592284f96acc08a45b93fdec30a4022a326440",
+    "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+    "catalogos/factory_ruta.corrida_completa.oracle",
+    "catalogos/factory_ruta.ruta_canonica_para_producir_artefactos.oracle",
+    "docs/estructura.md",
+    "openspec/changes/20261012-214104-ruta-vigente/design.md",
+    "openspec/changes/20261012-214104-ruta-vigente/proposal.md",
+    "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
+    "openspec/changes/20261012-214104-ruta-vigente/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos.requisito",
+    "tareas/20261012-214104-ruta-vigente/TAREA.md",
+    "tests/test_estructura.py",
+    "tests/test_ruta_vigente.py",
+    "tools/verify_ruta.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 298 pruebas, 6 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-214104-ruta-vigente/candidatos/7b1e780/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-214104-ruta-vigente/candidatos/7b1e780/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-214104-ruta-vigente/candidatos/7b1e780/revision/codex-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios en repositorios temporales, Linux, con el ejemplo de notas. El candidato vigente es el de candidato_vigente(), ya medido para pedir-revision y juzgar; esta evidencia no lo vuelve a probar por separado.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente el comando indicado en primer plano desde la raíz del checkout del candidato: timeout 200 .venv/bin/python -m unittest tests.test_ruta_vigente tests.test_estructura </dev/null (35 pruebas, todas OK en 10.491 s).",
+    "agy (gemini-3.8-flash-high): Por indicación expresa del pedido de revisión, no se ejecutó tools/verify_*.py ni la suite completa de pruebas.",
+    "agy (gemini-3.8-flash-high): Se verificó la coincidencia en la resolución del candidato: comando_ruta en oracle_factory/cli.py resuelve sha = candidato_vigente(identificador) or head.stdout.strip()[:7], lo que concuerda exactamente con la resolución en hechos_del_candidato (utilizado por juzgar) y pedir-revision (que usa candidato_vigente(identificador) or 'HEAD'), garantizando que los cuatro tipos de artefactos (evidencia, clue, revision, checkout) apunten al mismo candidato.",
+    "agy (gemini-3.8-flash-high): Se analizaron y comprobaron empíricamente los casos borde de candidato_vigente(): (a) Sin candidatos previos: retorna None y comando_ruta recae en los 7 primeros caracteres de HEAD sin crear carpetas; (b) Commit posterior que sólo agrega registros o tareas: candidato_vigente() ignora cambios que no son producto (archivos bajo .factory/ o tareas/), preservando la carpeta del candidato previo; (c) Commit posterior que cambia el producto: detecta modificaciones de producto vía git diff y retorna None, recayendo en HEAD; (d) Múltiples candidatos en la historia: identifica correctamente el candidato vigente más reciente con carpeta propia si el producto no cambió desde él.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en copias aisladas en scratch/ contra tests/test_ruta_vigente.py y tests/test_estructura.py: M1 (usar siempre HEAD en comando_ruta) es detectada y eliminada por test_r1_un_commit_que_solo_guarda_registros y test_r1_los_cuatro_tipos_del_mismo_candidato; M2 (sin fallback a HEAD) es detectada y eliminada por test_e7_evidencia_en_la_carpeta_del_candidato; M3 (omitir cambios_locales_de_producto() en candidato_vigente()) sobrevive a las pruebas actuales porque tests/test_ruta_vigente.py y tests/test_estructura.py sólo prueban cambios de producto commiteados (git commit -qam producto) y carecen de un caso con cambios de producto no commiteados en el árbol de trabajo; M4 (ignorar cambios de producto en git diff) es detectada y eliminada por test_r1_un_commit_que_cambia_el_producto; M5 (crear directorio en comando_ruta) es detectada y eliminada por test_e7_evidencia_en_la_carpeta_del_candidato y test_e7_checkout_de_revision; M6 (no verificar candidatos existentes) es detectada y eliminada por test_r1_un_commit_que_solo_guarda_registros.",
+    "agy (gemini-3.8-flash-high): Se contrastaron los cinco escenarios de openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md con las pruebas: están cubiertos en tests/test_estructura.py y tests/test_ruta_vigente.py. Se nota que en el escenario «sensor que escribe su evidencia», test_e7_evidencia_en_la_carpeta_del_candidato valida la ruta impresa sobre HEAD y que no cree archivos, sin ejecutar el sensor ni llamar a donde (cuya funcionalidad se prueba en test_e6_*). No se encontraron defectos en el candidato 7b1e780.",
+    "codex (gpt-6-luna): Corrida exacta desde la raíz del checkout: timeout 200 /home/workstation/Dev/factory-ruta-vigente/.venv/bin/python -m unittest tests.test_ruta_vigente tests.test_estructura </dev/null; resultado: 35 tests, OK (10,471 s).",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa.",
+    "codex (gpt-6-luna): Revisé la rama de cambios locales de producto en candidato_vigente(): retorna None ante producto modificado, en índice o nuevo; comando_ruta entonces usa HEAD. No hay un test directo de esa rama sin commit; el caso de cambio de producto probado sí está commiteado.",
+    "codex (gpt-6-luna): No hice mutaciones sobre copias. No encontré un defecto confirmado en el diff revisado."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
