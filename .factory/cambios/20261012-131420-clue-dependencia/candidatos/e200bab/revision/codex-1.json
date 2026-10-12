@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e200bab",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "e200bab806d7804cdadd74ec43acc5bf98c78cb9",
+  "diff_sha256": "42ae5659b85e1fbde94e03dc35394ffa0b28b75ed13bbc7962e14533c975d775",
+  "context_sha256": "8671d341175c79b6bf21d4a74ff24e122bb64e605e777b72107434f431ffd7fe",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "Un informe JSON no objeto reemplaza la vuelta anterior sin avisar",
+      "explanation": "Si el archivo de mayor número (por ejemplo codex-2.json) contiene JSON válido pero su valor superior no es un objeto, cargar() devuelve None sin agregar un aviso. El nuevo barrido de nombres sí lo incluye como la última vuelta y marca codex-1.json como reemplazado; por ello el informe anterior validado deja de aportar hallazgos, pero revision-preparar tampoco avisa que codex-2.json no era un informe utilizable. Esto incumple el requisito de avisar cuando un informe es inválido. El caso de JSON sintácticamente inválido sí genera aviso, y el test nuevo cubre un informe de otro candidato; falta el caso de JSON bien formado con estructura superior incorrecta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 771,
+        "end_line": 775,
+        "side": "head"
+      },
+      "trigger": "Crear revision/codex-1.json como informe válido con un hallazgo y revision/codex-2.json con contenido `[]`; luego ejecutar revision-preparar para el candidato.",
+      "evidence": "En oracle_factory/cli.py:736, cargar() retorna None cuando el JSON parseado no es dict, sin agregar aviso. En las líneas 768-771, el barrido considera todo *.json cuyo nombre coincide con <revisor>-<n>.json y elige el máximo sin inspeccionar su contenido; luego las líneas 772-775 asignan ese archivo a reemplazado_por para el codex-1.json ya cargado. preparar_revision filtra esa vuelta anterior y únicamente la muestra como vuelta registrada si existe en revisores; al no ser dict, codex-2 no se agrega a revisores. Las líneas 771-775 están dentro del rango cambiado del diff.",
+      "related_requirement": "los informes de revisores siempre se validan; el informe más nuevo de cada revisor reemplaza a los anteriores",
+      "status": "pendiente",
+      "verification": "Análisis estático del flujo. El test solicitado pasó, pero no incluye el caso de JSON top-level no objeto; no hice mutación manual."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta, la spec y el diff/contexto del paquete; se contrastaron las promesas nuevas y se revisaron los informes previos. El hallazgo de e62557b sobre un informe más nuevo inválido suprimiendo al anterior queda cerrado para informes objeto: el código calcula el máximo sobre los nombres existentes y el test k4 cubre un informe posterior de otro candidato.",
+    "Se ejecutó en primer plano, desde el checkout e200bab, exactamente `timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null`: 47 tests, OK (18.783s).",
+    "No corrí tools/verify_*.py ni la suite completa, según la indicación. No hice mutaciones manuales; la revisión del borde hallado es estática."
+  ]
+}
