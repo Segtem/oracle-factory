@@ -109,6 +109,16 @@
       "candidato": "7b1e780",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T22:43:53+00:00",
+      "decision": "aprobar",
+      "candidato": "7b1e780"
     }
   ],
   "tipos": {
@@ -124,5 +134,15 @@
       "sha256": "11bdfa3b165562be2dfa315efd13f13ea38f2df96e1b776c6c3968f3dad5ddb4"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.",
+      "candidato": "7b1e780",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T22:43:53+00:00"
+    }
+  }
 }
