@@ -19,3 +19,7 @@ Requisitos importados: estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_
 ### Nota (2026-10-12 22:19:34 UTC)
 
 Medidas de estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos: factory_ruta.ruta_canonica_para_producir_artefactos, factory_ruta.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-12 22:21:29 UTC)
+
+Medidas de estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos: Brian Hollweg (persona, confirmo, modo confirmacion).
