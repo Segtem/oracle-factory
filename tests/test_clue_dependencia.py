@@ -106,6 +106,18 @@ class ClueDependencia(_ap.Base):
         anteriores = [c for c in informe['comprobaciones'] if c['descripcion'].startswith('Vuelta anterior')]
         self.assertEqual([c['evidencia'].rsplit('/', 1)[-1].split(' ')[0] for c in anteriores], ['codex-1.json'])
 
+    def test_k4_el_mas_nuevo_invalido_no_revive_el_anterior(self):
+        ident = self.candidato_con(('codex-1.json', 'completo', ['R-01']))
+        otro = _ap.informe_clue('f' * 40, [])  # de otro candidato: no se puede usar
+        (self.carpeta(ident, self.git('rev-parse', 'HEAD~1')[:7]) / 'revision' / 'codex-2.json').write_text(json.dumps(otro))
+        errores = io.StringIO()
+        with _ap.clue_acepta(), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(errores):
+            ruta, _ = f.preparar_revision(ident)
+        informe = json.loads(ruta.read_text())
+        self.assertEqual(informe['hallazgos'], [])  # codex-1 no vuelve: lo reemplazó codex-2, que no se usa
+        self.assertFalse([c for c in informe['comprobaciones'] if c['descripcion'].startswith('Revisión de ')])
+        self.assertIn('codex-2.json es de otro candidato', errores.getvalue())
+
     # --- k5: el menú de la decisión no corre sus números -------------------------------------------------------------------------
     def test_k5_aprobar_no_disponible(self):
         ident = self.candidato_con(('codex-1.json', 'incompleto', []))

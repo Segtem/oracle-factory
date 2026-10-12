@@ -762,12 +762,13 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
             avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
             continue
         revisores.append({"ruta": rel, "datos": datos, "validacion": "validado con oracle-clue"})
-    # El informe más nuevo de cada revisor (<revisor>-<n>.json) reemplaza a los anteriores del mismo revisor.
+    # El informe más nuevo de cada revisor (<revisor>-<n>.json) reemplaza a los anteriores del mismo revisor, aunque no
+    # se pueda usar: entonces ese revisor no aporta nada, en vez de volver a su vuelta anterior.
     ultimo: dict[str, tuple[int, str]] = {}
-    for r in revisores:
-        m = re.fullmatch(r"(.+)-(\d+)\.json", Path(r["ruta"]).name)
+    for archivo in sorted((raiz / "revision").glob("*.json")) if (raiz / "revision").is_dir() else []:
+        m = re.fullmatch(r"(.+)-(\d+)\.json", archivo.name)
         if m and int(m[2]) > ultimo.get(m[1], (0, ""))[0]:
-            ultimo[m[1]] = (int(m[2]), r["ruta"])
+            ultimo[m[1]] = (int(m[2]), archivo.relative_to(ROOT).as_posix())
     for r in revisores:
         m = re.fullmatch(r"(.+)-(\d+)\.json", Path(r["ruta"]).name)
         if m and ultimo[m[1]][1] != r["ruta"]:
