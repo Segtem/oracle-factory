@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e3f2b64",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "diff_sha256": "7da8430cd421711d327b9d7856fe092bd395b9c1e12ba0c51dc9e74bae2dd50a",
+  "context_sha256": "57d09162dbe43387509db8865a83e6eaa80298aa59d28a2413b32cafc948a0db",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se contrastaron propuesta, spec, diff y código relacionado con dependencia/dispatch de oracle-clue, preparación y validación de informes, importación de REMOVED, pruebas y documentación. Las vueltas previas revisadas permanecen cerradas: el setup de decisiones ya describe Clue simulado, k1 vacía PATH y además ejercita pedir-revision, el verificador registra oracle-clue, los nombres p4 obsoletos fueron retirados, el fallback a PATH ahora falla explícitamente y tipos_spec omite los requisitos REMOVED incluso con tipos_obligatorios.",
+    "Se ejecutó exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano desde el checkout candidato; no arrancó (código 127) porque no existe `.venv/bin/python` allí.",
+    "No se ejecutaron otros tests, tools/verify_*.py ni la suite completa. No se hicieron mutaciones. La inspección estática no confirmó regresiones que justifiquen hallazgos; por la prueba indicada que no pudo correr, la revisión queda incompleta."
+  ]
+}
