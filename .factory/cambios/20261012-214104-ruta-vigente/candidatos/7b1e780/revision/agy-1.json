@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ruta-vigente/.factory/local/revisiones/7b1e780",
+  "base": "9c104bda6a4a2cccaac08239c0a4bbddc2282c09",
+  "head": "7b1e7807fa4ca79cf4cc4e3b2b885d76818c84d7",
+  "diff_sha256": "b5884524081bf8fdd74518d3ccf7945bd8664ff55afd06450dfbb99b70479a56",
+  "context_sha256": "30956347c06591c61ffc40f8d53ae276e88fb94120702a88eb84a9d8f07c7815",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente el comando indicado en primer plano desde la raíz del checkout del candidato: timeout 200 .venv/bin/python -m unittest tests.test_ruta_vigente tests.test_estructura </dev/null (35 pruebas, todas OK en 10.491 s).",
+    "Por indicación expresa del pedido de revisión, no se ejecutó tools/verify_*.py ni la suite completa de pruebas.",
+    "Se verificó la coincidencia en la resolución del candidato: comando_ruta en oracle_factory/cli.py resuelve sha = candidato_vigente(identificador) or head.stdout.strip()[:7], lo que concuerda exactamente con la resolución en hechos_del_candidato (utilizado por juzgar) y pedir-revision (que usa candidato_vigente(identificador) or 'HEAD'), garantizando que los cuatro tipos de artefactos (evidencia, clue, revision, checkout) apunten al mismo candidato.",
+    "Se analizaron y comprobaron empíricamente los casos borde de candidato_vigente(): (a) Sin candidatos previos: retorna None y comando_ruta recae en los 7 primeros caracteres de HEAD sin crear carpetas; (b) Commit posterior que sólo agrega registros o tareas: candidato_vigente() ignora cambios que no son producto (archivos bajo .factory/ o tareas/), preservando la carpeta del candidato previo; (c) Commit posterior que cambia el producto: detecta modificaciones de producto vía git diff y retorna None, recayendo en HEAD; (d) Múltiples candidatos en la historia: identifica correctamente el candidato vigente más reciente con carpeta propia si el producto no cambió desde él.",
+    "Se realizaron pruebas de mutación manuales en copias aisladas en scratch/ contra tests/test_ruta_vigente.py y tests/test_estructura.py: M1 (usar siempre HEAD en comando_ruta) es detectada y eliminada por test_r1_un_commit_que_solo_guarda_registros y test_r1_los_cuatro_tipos_del_mismo_candidato; M2 (sin fallback a HEAD) es detectada y eliminada por test_e7_evidencia_en_la_carpeta_del_candidato; M3 (omitir cambios_locales_de_producto() en candidato_vigente()) sobrevive a las pruebas actuales porque tests/test_ruta_vigente.py y tests/test_estructura.py sólo prueban cambios de producto commiteados (git commit -qam producto) y carecen de un caso con cambios de producto no commiteados en el árbol de trabajo; M4 (ignorar cambios de producto en git diff) es detectada y eliminada por test_r1_un_commit_que_cambia_el_producto; M5 (crear directorio en comando_ruta) es detectada y eliminada por test_e7_evidencia_en_la_carpeta_del_candidato y test_e7_checkout_de_revision; M6 (no verificar candidatos existentes) es detectada y eliminada por test_r1_un_commit_que_solo_guarda_registros.",
+    "Se contrastaron los cinco escenarios de openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md con las pruebas: están cubiertos en tests/test_estructura.py y tests/test_ruta_vigente.py. Se nota que en el escenario «sensor que escribe su evidencia», test_e7_evidencia_en_la_carpeta_del_candidato valida la ruta impresa sobre HEAD y que no cree archivos, sin ejecutar el sensor ni llamar a donde (cuya funcionalidad se prueba en test_e6_*). No se encontraron defectos en el candidato 7b1e780."
+  ]
+}

@@ -1618,8 +1618,10 @@ def comando_ruta(identificador: str, tipo: str) -> None:
     if head.returncode:
         raise FactoryError("ruta necesita un repositorio Git con al menos un commit")
     try:
-        # Los 7 primeros del hash completo: --short=7 lo alarga si es ambiguo y el nombre de la carpeta cambiaría.
-        print(estructura.ruta_canonica(ROOT, identificador, tipo, head.stdout.strip()[:7]))
+        # El candidato vigente, como pedir-revision y juzgar: un commit que sólo guarda registros no es un candidato nuevo.
+        # Si no hay, HEAD con los 7 primeros del hash completo (--short=7 lo alarga si es ambiguo y la carpeta cambiaría).
+        sha = candidato_vigente(identificador) or head.stdout.strip()[:7]
+        print(estructura.ruta_canonica(ROOT, identificador, tipo, sha))
     except ValueError as e:
         raise FactoryError(str(e)) from e
 

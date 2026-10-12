@@ -1,0 +1,40 @@
+{
+  "ruta_caso": [
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_e7_evidencia_en_la_carpeta_del_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_r1_un_commit_que_solo_guarda_registros",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_r1_un_commit_que_cambia_el_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_e7_checkout_de_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_r1_los_cuatro_tipos_del_mismo_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "ruta_canonica_para_producir_artefactos",
+      "caso": "test_e7_tipo_desconocido",
+      "codigo": 0
+    }
+  ],
+  "ruta_corrida": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "id": "20261012-214104-ruta-vigente",
+  "titulo": "ruta apunta al candidato vigente, no a HEAD",
+  "capacidad": "estructura",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
+  "spec_sha256": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T21:51:40+00:00",
+    "documentos": {
+      "openspec/changes/20261012-214104-ruta-vigente/proposal.md": "d4cb7980d7f7bf85f6b7b7983f592284f96acc08a45b93fdec30a4022a326440",
+      "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8"
+    }
+  },
+  "requisitos": [
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/informe.json",
+    "sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
+    "decisiones": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/decisiones.json",
+    "decisiones_sha256": "79befab980a29a19c5e49ee4a5631512ac35bc3854dbe12fef785f794881328e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T22:45:01+00:00",
+    "motivo": "codex y agy revisaron el candidato 7b1e780 completo, sin hallazgos; las 6 pruebas del contrato fallan o pasan donde corresponde (las de registros y los cuatro tipos fallan con el código viejo), la suite entera pasa (298) y la rama de cambios sin commitear que notaron los dos ya la cubre test_autoproduccion.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "51b0c64ecaf30a379e841c4a932ac93d5ad5d1ca",
+      "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261012-214104-ruta-vigente/candidatos/7b1e780/evidencia/hechos.json",
+    "hechos_sha256": "b24c963a413b5d4f8698fda8618b70afec22a08523813564a2339719f1d0aa04",
+    "informe": ".factory/cambios/20261012-214104-ruta-vigente/oracle-veredicto.txt",
+    "informe_sha256": "f763a3f22a8068d14290acb62b4ed282360d03ec7e4b618a33c74b0a491c254e",
+    "cuando": "2026-10-12T22:45:12+00:00",
+    "contexto": {
+      "head": "d764b8e5245e2979468a12ea3d4ef100fb61fb66",
+      "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T21:41:04+00:00",
+      "capacidad": "estructura"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T21:51:40+00:00",
+      "documentos": {
+        "openspec/changes/20261012-214104-ruta-vigente/proposal.md": "d4cb7980d7f7bf85f6b7b7983f592284f96acc08a45b93fdec30a4022a326440",
+        "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T21:55:02+00:00",
+      "ids": [
+        "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T22:19:34+00:00",
+      "requisito": "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos",
+      "medidas": [
+        "factory_ruta.ruta_canonica_para_producir_artefactos",
+        "factory_ruta.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-12T22:21:29+00:00",
+      "requisito": "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos",
+      "medidas": [
+        "factory_ruta.ruta_canonica_para_producir_artefactos",
+        "factory_ruta.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-12T22:23:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7b1e780",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-12T22:41:51+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7b1e780",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T22:43:53+00:00",
+      "decision": "aprobar",
+      "candidato": "7b1e780"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-12T22:45:01+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
+      "decisiones_sha256": "79befab980a29a19c5e49ee4a5631512ac35bc3854dbe12fef785f794881328e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:12+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b24c963a413b5d4f8698fda8618b70afec22a08523813564a2339719f1d0aa04"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:44+00:00",
+      "oracle": ".factory/cambios/20261012-214104-ruta-vigente/oracle-veredicto.txt",
+      "revision": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:44+00:00",
+      "capacidad": "estructura",
+      "spec": "openspec/specs/estructura/spec.md"
+    }
+  ],
+  "tipos": {
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos": "funcional"
+  },
+  "medidas": {
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-12T22:21:29+00:00",
+      "sha256": "11bdfa3b165562be2dfa315efd13f13ea38f2df96e1b776c6c3968f3dad5ddb4"
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T22:45:43+00:00"
+  },
+  "archivo": {
+    "capacidad": "estructura",
+    "spec": "openspec/specs/estructura/spec.md",
+    "cuando": "2026-10-12T22:45:44+00:00"
+  }
+}

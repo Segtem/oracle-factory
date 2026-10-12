@@ -341,7 +341,7 @@ class Estructura(unittest.TestCase):
 
     # --- e7: ruta canónica para producir artefactos -------------------------------------------------------------------
     def test_e7_evidencia_en_la_carpeta_del_candidato(self):
-        ident = self.cambio_juzgado()
+        ident = self.cambio_medido()  # sin candidato vigente: la de HEAD (con uno, ver test_ruta_vigente)
         self.salida()
         f.comando_ruta(ident, 'evidencia')
         impresa = self.salida().strip()
@@ -349,7 +349,7 @@ class Estructura(unittest.TestCase):
         self.assertFalse(Path(impresa).exists())  # imprimir la ruta no crea la carpeta
 
     def test_e7_checkout_de_revision(self):
-        ident = self.cambio_juzgado()
+        ident = self.cambio_medido()  # sin candidato vigente: la de HEAD (con uno, ver test_ruta_vigente)
         antes = self.huellas()
         self.salida()
         f.comando_ruta(ident, 'checkout')

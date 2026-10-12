@@ -55,7 +55,7 @@ oracle-factory ruta ID revision       # .../candidatos/<sha7>/revision
 oracle-factory ruta ID checkout       # .../.factory/local/revisiones/<sha7>
 ```
 
-`ruta` imprime la ruta sobre el HEAD actual y **no crea nada**. Se usa así:
+`ruta` imprime la ruta del **candidato vigente** —el mismo que usan `pedir-revision` y `juzgar`: el commit con carpeta propia más cercano a HEAD, si el producto no cambió desde él— o la de HEAD si no hay ninguno, y **no crea nada**. Así, commitear informes o evidencia no abre un candidato nuevo: la evidencia siguiente va a la misma carpeta. Se usa así:
 
 ```fish
 python examples/notas/sensor.py --salida (oracle-factory ruta ID evidencia)/hechos.json

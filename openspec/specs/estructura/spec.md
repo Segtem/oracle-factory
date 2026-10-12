@@ -130,19 +130,29 @@ Tipo: funcional
 - THEN se listan los artefactos válidos y los no válidos se marcan, sin un error interno
 
 ### Requirement: ruta canonica para producir artefactos
-Origen: 20261005-132144-jerarquia-de · estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos
+Origen: 20261012-214104-ruta-vigente · estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos
 Tipo: funcional
-`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el HEAD actual, nombrando la carpeta del candidato con los 7 primeros caracteres del hash completo del commit, sin crear ni modificar archivos.
+`oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el candidato vigente del cambio —el commit con carpeta de candidato más cercano a HEAD, si el producto no cambió desde él— o sobre HEAD si no hay candidato vigente, nombrando la carpeta del candidato con los 7 primeros caracteres del hash completo del commit, sin crear ni modificar archivos.
 
 #### Scenario: sensor que escribe su evidencia
-- GIVEN un cambio abierto y un HEAD
+- GIVEN un cambio abierto y un HEAD sin candidato vigente
 - WHEN se usa ruta con el tipo evidencia como salida del sensor
-- THEN la ruta es `.factory/cambios/<ID>/candidatos/<sha7>/evidencia` y donde la encuentra
+- THEN la ruta es `.factory/cambios/<ID>/candidatos/<sha7 de HEAD>/evidencia` y donde la encuentra
+
+#### Scenario: un commit que sólo guarda registros
+- GIVEN un candidato con carpeta propia y, después, un commit que sólo agrega informes o evidencia del cambio
+- WHEN se usa ruta con el tipo evidencia
+- THEN la ruta es la carpeta del candidato anterior, no la de HEAD, y no se crea ninguna carpeta
+
+#### Scenario: un commit que cambia el producto
+- GIVEN un candidato con carpeta propia y, después, un commit que cambia el producto
+- WHEN se usa ruta con el tipo evidencia
+- THEN la ruta es la de HEAD
 
 #### Scenario: checkout de revisión
 - GIVEN un HEAD
 - WHEN se usa ruta con el tipo checkout
-- THEN imprime `.factory/local/revisiones/<sha7>` y no crea nada
+- THEN imprime `.factory/local/revisiones/<sha7>` del mismo candidato y no crea nada
 
 #### Scenario: tipo desconocido
 - GIVEN un tipo que no está en la estructura
