@@ -16,7 +16,7 @@ f = _ap.f
 class Decisiones(_ap.Base):
     def setUp(self):
         super().setUp()
-        # Sin Clue: los informes de prueba se usan marcados «sin validar», como en autoproducción.
+        # Los informes de prueba no traen un paquete real: Clue los acepta (clue_acepta) y el resto del camino es el de siempre.
         p = _ap.clue_acepta(); p.__enter__(); self.addCleanup(p.__exit__, None, None, None)
 
     cambio_medido = _ap.Autoproduccion.cambio_medido

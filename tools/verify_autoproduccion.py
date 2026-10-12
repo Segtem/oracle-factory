@@ -61,10 +61,10 @@ def este_repositorio():
                 informes.append(p)
         problemas += [] if informes else [f'el candidato {sha} no tiene informes de revisores en revision/']
         if not any((carpeta.parent / 'clue').glob('*.json')):
-            return problemas, 'paquetes de Clue ausentes en esta máquina (son locales): informes sin validar aquí'
+            return problemas, 'paquetes de Clue ausentes en esta máquina (son locales): los informes no se pueden validar aquí'
         revisores, _, _, avisos = cli.material_del_candidato(CAMBIO, sha)
         problemas += [a for a in avisos if 'no lo uso' in a]
-        return problemas, f'{len(revisores)} informe(s) validados o marcados en esta máquina'
+        return problemas, f'{len(revisores)} informe(s) validados en esta máquina'
 
 
 def main(argv=None):
