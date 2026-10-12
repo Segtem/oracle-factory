@@ -2,7 +2,7 @@
   "id": "20261012-131420-clue-dependencia",
   "titulo": "Oracle Clue como dependencia fija de Factory",
   "capacidad": "autoproduccion",
-  "fase": "requisitos_importados",
+  "fase": "cambios_pedidos",
   "spec": "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
   "spec_sha256": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
     "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "cambios",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/informe.json",
+    "sha256": "be98421d96f183703ff4483713611292c05d6a60621297b63a81413305aa0d0f",
+    "decisiones": "tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/decisiones.json",
+    "decisiones_sha256": "d3f6587cfb6a0acc00d623a4cff0cc5b9bcfe68ce92579cf626885b0b3204389",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T15:00:14+00:00",
+    "motivo": "Pido cambios en el candidato e3f2b64; 0 hallazgos de los revisores; evidencia del candidato: 292 pruebas, 5 casos de contrato; 5 vueltas anteriores registradas.",
+    "origen_motivo": "armado",
+    "contexto": {
+      "head": "bc60a63807ff39e194e9b4b19c732505a2f5d576",
+      "archivos_sha256": "d3807b20e37501b4aa27304a92b4dd8666769f091d699a211ec53807d737d6df"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -272,6 +292,20 @@
       "cuando": "2026-10-12T14:40:24+00:00",
       "decision": "aprobar",
       "candidato": "e3f2b64"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T15:00:14+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "cambios",
+      "abiertos": 0,
+      "sha256": "be98421d96f183703ff4483713611292c05d6a60621297b63a81413305aa0d0f",
+      "decisiones_sha256": "d3f6587cfb6a0acc00d623a4cff0cc5b9bcfe68ce92579cf626885b0b3204389"
     }
   ],
   "tipos": {
@@ -306,14 +340,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Candidato e3f2b64: codex y agy sin hallazgos tras 4 vueltas; los hallazgos anteriores (uno medio por vuelta en 2 y 3: prueba k1 que no probaba nada, REMOVED con tipos obligatorios) quedaron corregidos con prueba que falla en el código viejo; evidencia en verde (5 casos de contrato). Clue pasa a dependencia fija y deja de haber informes «sin validar».",
-      "candidato": "e3f2b64",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-12T14:40:24+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

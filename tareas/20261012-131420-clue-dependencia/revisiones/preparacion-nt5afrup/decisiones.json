@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "be98421d96f183703ff4483713611292c05d6a60621297b63a81413305aa0d0f",
+  "actor": "Brian Hollweg",
+  "motivo": "Pido cambios en el candidato e3f2b64; 0 hallazgos de los revisores; evidencia del candidato: 292 pruebas, 5 casos de contrato; 5 vueltas anteriores registradas.",
+  "decisiones": []
+}

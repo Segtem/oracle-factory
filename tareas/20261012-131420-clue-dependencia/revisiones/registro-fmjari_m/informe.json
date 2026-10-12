@@ -1,0 +1,112 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261012-131420-clue-dependencia",
+  "contexto": {
+    "head": "bc60a63807ff39e194e9b4b19c732505a2f5d576",
+    "archivos_sha256": "d3807b20e37501b4aa27304a92b4dd8666769f091d699a211ec53807d737d6df"
+  },
+  "documentos": {
+    "openspec/changes/20261012-131420-clue-dependencia/proposal.md": "73b113e50c7a209d5f68892ef3f6a141b166f7d74fccce24576eaae5b77e0452",
+    "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md": "927a7e3100028440eb5fd5bc6008d1e0e16444eeaafef968df7f3d1b82ab1d8c"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/agy-1.json",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/agy-1.pedido.md",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/codex-1.json",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/codex-1.pedido.md",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/beb83f4/revision/codex-1.json",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/beb83f4/revision/codex-1.pedido.md",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/agy-1.json",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/agy-1.pedido.md",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/codex-1.json",
+    ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/codex-1.pedido.md",
+    ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+    "README.md",
+    "catalogos/factory_autoproduccion.corrida_completa.oracle",
+    "catalogos/factory_autoproduccion.los_informes_se_validan_o_se_marcan.oracle",
+    "catalogos/factory_clue.corrida_completa.oracle",
+    "catalogos/factory_clue.importar_no_trae_lo_que_la_spec_retira.oracle",
+    "catalogos/factory_clue.los_informes_de_revisores_siempre_se_validan.oracle",
+    "catalogos/factory_clue.oracle_clue_viene_con_factory.oracle",
+    "docs/colaboracion.md",
+    "docs/estructura.md",
+    "openspec/changes/20261012-131420-clue-dependencia/design.md",
+    "openspec/changes/20261012-131420-clue-dependencia/proposal.md",
+    "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
+    "openspec/changes/20261012-131420-clue-dependencia/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/modos.py",
+    "pyproject.toml",
+    "requisitos/autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira.requisito",
+    "requisitos/autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan.requisito",
+    "requisitos/autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory.requisito",
+    "site/desde-cero.html",
+    "tareas/20261012-131420-clue-dependencia/TAREA.md",
+    "tests/test_autoproduccion.py",
+    "tests/test_cli_humana.py",
+    "tests/test_clue_dependencia.py",
+    "tests/test_decisiones.py",
+    "tests/test_revisores.py",
+    "tools/verify_autoproduccion.py",
+    "tools/verify_clue.py",
+    "tools/verify_decisiones.py",
+    "tools/verify_revisores.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 292 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/e3f2b64/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (incompleto)",
+      "resultado": "no_ejecutada",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/e3f2b64/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (incompleto)",
+      "resultado": "no_ejecutada",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/e3f2b64/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato beb83f4: codex (gpt-6-luna), 1 hallazgo: F-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/beb83f4/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bf752f4: agy (gemini-3.8-flash-high), 3 hallazgos: F-001 (media), F-002 (baja), F-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bf752f4: codex (gpt-6-luna), 1 hallazgo: F-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/bf752f4/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 122ef26: agy (gemini-3.8-flash-high), 3 hallazgos: F-001 (media), F-002 (baja), F-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 122ef26: codex (gpt-6-luna), 1 hallazgo: F-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/122ef26/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios k1–k3 en repositorios temporales, Linux, con el oracle-clue instalado en el entorno de Factory. No prueba una instalación con uv tool install desde PyPI: eso lo cubren los arneses de release (verify_installed y verify_guide).",
+    "agy (gemini-3.8-flash-high): Se contrastaron la propuesta, la spec aprobada con sus escenarios k1–k3, el paquete de diff y el contexto completo del cambio. Se verificó que todas las promesas del contrato se cumplan y que los hallazgos de las vueltas anteriores (beb83f4, bf752f4, 122ef26) permanezcan resueltos: el setup de decisiones describe adecuadamente el fixture con clue_acepta(), test_k1 verifica el aislamiento ante la falta de distribución en el entorno y ejercita pedir-revision sin Clue en PATH, verify_clue.py registra la versión de oracle-clue en resultado.json, se retiraron nombres obsoletos en test_autoproduccion, el paso 1 de site/desde-cero.html incluye a oracle-clue en el apartado de conflictos de ejecutables, ejecutar() lanza FactoryError en vez de recurrir a PATH si falta la distribución, e importar() junto a tipos_spec() ignoran los requisitos bajo ## REMOVED Requirements permitiendo operar con tipos_obligatorios activado.",
+    "agy (gemini-3.8-flash-high): Se intentó ejecutar exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano en el checkout candidato (/home/workstation/Dev/factory-cd/.factory/local/revisiones/e3f2b64); no arrancó (código 127) porque el checkout candidato no cuenta con un entorno virtual local en `.venv/bin/python`.",
+    "agy (gemini-3.8-flash-high): En una copia de trabajo temporal en la carpeta del revisor enlazada al entorno virtual del proyecto principal se ejecutó la suite indicada, superando satisfactoriamente las 32 pruebas sin errores ni omisiones (Ran 32 tests in ~13.6s, OK).",
+    "agy (gemini-3.8-flash-high): Se evaluaron mutaciones manuales sobre el código en copia local confirmando que las pruebas fallan ante regresiones: remover 'oracle-clue' de paquetes en ejecutar() quiebra test_k1_pedir_revision_sin_clue_en_el_path; omitir la excepción FactoryError ante PackageNotFoundError quiebra test_k1_clue_es_dependencia_y_se_usa_el_del_entorno; reactivar la exigencia de tipos sobre requisitos REMOVED quiebra test_k3_retirados_sin_tipo_con_tipos_obligatorios; y omitir la desvinculación de requisitos retirados en importar() quiebra test_k3_spec_que_retira_un_requisito.",
+    "agy (gemini-3.8-flash-high): Por indicación expresa de la consigna, no se ejecutaron tools/verify_*.py ni la suite completa de pruebas. No se detectaron defectos en el candidato e3f2b64; la lista de findings queda vacía.",
+    "codex (gpt-6-luna): Se contrastaron propuesta, spec, diff y código relacionado con dependencia/dispatch de oracle-clue, preparación y validación de informes, importación de REMOVED, pruebas y documentación. Las vueltas previas revisadas permanecen cerradas: el setup de decisiones ya describe Clue simulado, k1 vacía PATH y además ejercita pedir-revision, el verificador registra oracle-clue, los nombres p4 obsoletos fueron retirados, el fallback a PATH ahora falla explícitamente y tipos_spec omite los requisitos REMOVED incluso con tipos_obligatorios.",
+    "codex (gpt-6-luna): Se ejecutó exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano desde el checkout candidato; no arrancó (código 127) porque no existe `.venv/bin/python` allí.",
+    "codex (gpt-6-luna): No se ejecutaron otros tests, tools/verify_*.py ni la suite completa. No se hicieron mutaciones. La inspección estática no confirmó regresiones que justifiquen hallazgos; por la prueba indicada que no pudo correr, la revisión queda incompleta."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
