@@ -2,7 +2,7 @@
   "id": "20261012-131420-clue-dependencia",
   "titulo": "Oracle Clue como dependencia fija de Factory",
   "capacidad": "autoproduccion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
   "spec_sha256": "d93c679b02a09c29756c884ab26dd57820a3ecea315f701157cfe61ddd91b363",
   "spec_aprobada": {
@@ -612,6 +612,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "80d0784e905375de08c09e0035e879c30018d6c820622c058b70a613ae33d821"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T16:53:00+00:00",
+      "oracle": ".factory/cambios/20261012-131420-clue-dependencia/oracle-veredicto.txt",
+      "revision": "tareas/20261012-131420-clue-dependencia/revisiones/registro-x5or_zdz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T16:53:00+00:00",
+      "capacidad": "autoproduccion",
+      "spec": "openspec/specs/autoproduccion/spec.md"
     }
   ],
   "tipos": {
@@ -664,5 +684,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T16:53:00+00:00"
+  },
+  "archivo": {
+    "capacidad": "autoproduccion",
+    "spec": "openspec/specs/autoproduccion/spec.md",
+    "cuando": "2026-10-12T16:53:00+00:00"
+  }
 }

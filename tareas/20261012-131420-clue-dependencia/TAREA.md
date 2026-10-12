@@ -1,6 +1,6 @@
 # Oracle Clue como dependencia fija de Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -111,3 +111,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-12 16:49:04 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261012-131420-clue-dependencia/oracle-veredicto.txt.
+
+### Nota (2026-10-12 16:53:00 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
