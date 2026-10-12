@@ -51,3 +51,7 @@ Medidas de autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory: Brian
 ### Nota (2026-10-12 15:00:14 UTC)
 
 Revisión guiada Brian Hollweg: cambios; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Pido cambios en el candidato e3f2b64; 0 hallazgos de los revisores; evidencia del candidato: 292 pruebas, 5 casos de contrato; 5 vueltas anteriores registradas.); 0 abiertos derivados; commit bc60a63807ff39e194e9b4b19c732505a2f5d576; informe tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/informe.json; decisiones tareas/20261012-131420-clue-dependencia/revisiones/registro-fmjari_m/decisiones.json.
+
+### Nota (2026-10-12 15:00:29 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261012-131420-clue-dependencia/oracle-veredicto.txt.
