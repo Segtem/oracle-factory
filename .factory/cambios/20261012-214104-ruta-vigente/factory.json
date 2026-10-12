@@ -2,11 +2,23 @@
   "id": "20261012-214104-ruta-vigente",
   "titulo": "ruta apunta al candidato vigente, no a HEAD",
   "capacidad": "estructura",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T21:51:40+00:00",
+    "documentos": {
+      "openspec/changes/20261012-214104-ruta-vigente/proposal.md": "d4cb7980d7f7bf85f6b7b7983f592284f96acc08a45b93fdec30a4022a326440",
+      "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8"
+    }
+  },
+  "requisitos": [
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +31,34 @@
       "forma": "decidio",
       "cuando": "2026-10-12T21:41:04+00:00",
       "capacidad": "estructura"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T21:51:40+00:00",
+      "documentos": {
+        "openspec/changes/20261012-214104-ruta-vigente/proposal.md": "d4cb7980d7f7bf85f6b7b7983f592284f96acc08a45b93fdec30a4022a326440",
+        "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T21:55:02+00:00",
+      "ids": [
+        "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
