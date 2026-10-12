@@ -5,14 +5,16 @@
 ? archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado   sin juicio · factory_archivo.se_distingue_lo_vigente_de_lo_reemplazado no aplicada, factory_archivo.corrida_completa no aplicada
 ? archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar   sin juicio · factory_archivo.un_conflicto_impide_cerrar no aplicada, factory_archivo.corrida_completa no aplicada
 ? archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre   sin juicio · factory_archivo.una_capacidad_con_un_solo_nombre no aplicada, factory_archivo.corrida_completa no aplicada
-✓ autoproduccion_c116be927bdacc69e.importar_no_trae_lo_que_la_spec_retira   cumple · factory_clue.importar_no_trae_lo_que_la_spec_retira cumple, factory_clue.corrida_completa cumple
-✓ autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan   cumple · factory_clue.los_informes_de_revisores_siempre_se_validan cumple, factory_clue.corrida_completa cumple
-✓ autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory   cumple · factory_clue.oracle_clue_viene_con_factory cumple, factory_clue.corrida_completa cumple
 ? autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide   sin juicio · factory_autoproduccion.el_borrador_de_decisiones_no_decide no aplicada, factory_autoproduccion.corrida_completa no aplicada
 ? autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato   sin juicio · factory_autoproduccion.este_repositorio_produce_en_la_carpeta_del_candidato no aplicada, factory_autoproduccion.corrida_completa no aplicada
 ? autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato   sin juicio · factory_autoproduccion.juzgar_encuentra_la_evidencia_del_candidato no aplicada, factory_autoproduccion.corrida_completa no aplicada
 ? autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan   sin juicio · factory_autoproduccion.los_informes_se_validan_o_se_marcan no aplicada, factory_autoproduccion.corrida_completa no aplicada
 ? autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores   sin juicio · factory_autoproduccion.revision_preparar_arma_el_informe_desde_los_revisores no aplicada, factory_autoproduccion.corrida_completa no aplicada
+✓ autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores   cumple · factory_clue.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores cumple, factory_clue.corrida_completa cumple
+✓ autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros   cumple · factory_clue.el_menu_de_la_decision_no_corre_sus_numeros cumple, factory_clue.corrida_completa cumple
+✓ autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira   cumple · factory_clue.importar_no_trae_lo_que_la_spec_retira cumple, factory_clue.corrida_completa cumple
+✓ autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan   cumple · factory_clue.los_informes_de_revisores_siempre_se_validan cumple, factory_clue.corrida_completa cumple
+✓ autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory   cumple · factory_clue.oracle_clue_viene_con_factory cumple, factory_clue.corrida_completa cumple
 ? cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo   sin juicio · factory_cli.el_proximo_paso_no_se_ejecuta_solo no aplicada, factory_cli.corrida_completa no aplicada
 ? cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato   sin juicio · factory_cli.el_resumen_se_ve_con_formato no aplicada, factory_cli.corrida_completa no aplicada
 ? cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso   sin juicio · factory_cli.estado_calcula_y_ofrece_el_proximo_paso no aplicada, factory_cli.corrida_completa no aplicada
@@ -114,4 +116,4 @@
 ? web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes   sin juicio · factory_web.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes no aplicada, factory_web.corrida_completa no aplicada
 ? web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe   sin juicio · factory_web.lo_que_la_web_nombra_existe no aplicada, factory_web.corrida_completa no aplicada
 
-115 requisitos: 3 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 99 sin juicio · 13 sin medir · 0 con medidas inexistentes
+117 requisitos: 5 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 99 sin juicio · 13 sin medir · 0 con medidas inexistentes

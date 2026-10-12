@@ -2,7 +2,7 @@
   "id": "20261012-131420-clue-dependencia",
   "titulo": "Oracle Clue como dependencia fija de Factory",
   "capacidad": "autoproduccion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
   "spec_sha256": "d93c679b02a09c29756c884ab26dd57820a3ecea315f701157cfe61ddd91b363",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "5e2bc68b5b9db90415446f7e4444aab9eac087ca4b502361575001bf1193d7b2"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261012-131420-clue-dependencia/candidatos/010f58a/evidencia/hechos.json",
+    "hechos_sha256": "80d0784e905375de08c09e0035e879c30018d6c820622c058b70a613ae33d821",
+    "informe": ".factory/cambios/20261012-131420-clue-dependencia/oracle-veredicto.txt",
+    "informe_sha256": "89c7cb8f4a1bdea05de0d2fac163a31b0c2788edc1676cda5504c59a5977356a",
+    "cuando": "2026-10-12T16:49:04+00:00",
+    "contexto": {
+      "head": "2394acd7e81f25f398c89ea81a3f878d7f287e29",
+      "archivos_sha256": "5e2bc68b5b9db90415446f7e4444aab9eac087ca4b502361575001bf1193d7b2"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -589,6 +601,17 @@
       "abiertos": 0,
       "sha256": "fe03e4664c0b26d2c5167de04ac94821fd1223d31e331b9ee136fe1c574210c1",
       "decisiones_sha256": "1df7cfa5adb29f389d37a16871abdbacedf581259941a53b408c03f2319f06ed"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T16:49:04+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "80d0784e905375de08c09e0035e879c30018d6c820622c058b70a613ae33d821"
     }
   ],
   "tipos": {
