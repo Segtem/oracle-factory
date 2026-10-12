@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-ruta-vigente/.factory/local/revisiones/7b1e780",
+  "base": "9c104bda6a4a2cccaac08239c0a4bbddc2282c09",
+  "head": "7b1e7807fa4ca79cf4cc4e3b2b885d76818c84d7",
+  "diff_sha256": "b5884524081bf8fdd74518d3ccf7945bd8664ff55afd06450dfbb99b70479a56",
+  "context_sha256": "30956347c06591c61ffc40f8d53ae276e88fb94120702a88eb84a9d8f07c7815",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Corrida exacta desde la raíz del checkout: timeout 200 /home/workstation/Dev/factory-ruta-vigente/.venv/bin/python -m unittest tests.test_ruta_vigente tests.test_estructura </dev/null; resultado: 35 tests, OK (10,471 s).",
+    "No corrí tools/verify_*.py ni la suite completa.",
+    "Revisé la rama de cambios locales de producto en candidato_vigente(): retorna None ante producto modificado, en índice o nuevo; comando_ruta entonces usa HEAD. No hay un test directo de esa rama sin commit; el caso de cambio de producto probado sí está commiteado.",
+    "No hice mutaciones sobre copias. No encontré un defecto confirmado en el diff revisado."
+  ]
+}
