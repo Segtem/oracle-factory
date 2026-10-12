@@ -1,0 +1,4 @@
+requisito autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores:
+    texto "Tipo: funcional Cuando un candidato tiene varios informes del mismo revisor (`<revisor>-<n>.json`), `revision-preparar` SHALL usar sólo el de mayor `n` para hallazgos y comprobaciones, y SHALL mostrar los anteriores como vueltas registradas, sin decidirse otra vez."
+    fuente "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md#el informe más nuevo de cada revisor reemplaza a los anteriores"
+    medido_por factory_clue.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores, factory_clue.corrida_completa

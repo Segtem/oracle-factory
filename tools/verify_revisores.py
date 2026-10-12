@@ -25,8 +25,8 @@ CONTRACTS = {
 REPO = 'este_cambio_se_revisa_con_pedir_revision'  # lo comprueba este verificador sobre el propio cambio
 PREFIX = 'test_revisores.Revisores.test_'
 CAMBIO = '20261007-192608-revisores'
-LIMITES = ('Escenarios v1–v6 en repositorios temporales, Linux, con un revisor de prueba y oracle-clue real (sin Clue las pruebas se '
-           'omiten y la corrida no es completa). Más la comprobación de que este cambio tiene en la carpeta de su candidato vigente '
+LIMITES = ('Escenarios v1–v6 en repositorios temporales, Linux, con un revisor de prueba y el oracle-clue del entorno de Factory. '
+           'Más la comprobación de que este cambio tiene en la carpeta de su candidato vigente '
            'un informe de revisor y el pedido con que se obtuvo. No mide la calidad de las revisiones.')
 
 

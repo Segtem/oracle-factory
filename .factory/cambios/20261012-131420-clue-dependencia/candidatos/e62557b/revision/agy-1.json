@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e62557b",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "e62557be47f69885fc7fb856ae9e616bcb846588",
+  "diff_sha256": "493784cb4a6527abd809e789ec05f98f424ca847259e61507512d22a545c64da",
+  "context_sha256": "a02b916672009da60f89610b2e77496f671e89060ee75e9a46f7ba6432d8e320",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite indicada desde el checkout del candidato (/home/workstation/Dev/factory-cd/.factory/local/revisiones/e62557b): timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null, completando 46 pruebas en ~18s con resultado OK.",
+    "Se verificaron las vueltas anteriores (beb83f4, bf752f4, 122ef26, e3f2b64) confirmando que no hay regresiones.",
+    "Se contrastaron los nuevos requisitos de la spec («el informe más nuevo de cada revisor reemplaza a los anteriores» y «el menú de la decisión no corre sus números») contra la implementación en oracle_factory/cli.py y las pruebas en tests/test_clue_dependencia.py y tests/test_decisiones.py.",
+    "Se realizaron pruebas de mutación manuales en copias temporales aisladas comprobando que las pruebas fallan ante regresiones: no filtrar informes reemplazados quiebra test_k4; no agregar vueltas anteriores del mismo candidato quiebra test_k4; permitir aprobar con causas quiebra test_k5; correr los números del menú al estilo anterior quiebra test_k5.",
+    "Se comprobaron escenarios de borde adicionales: reemplazo con números de vuelta de múltiples dígitos (codex-10 reemplaza a codex-9), revisores con nombres que contienen guiones (super-revisor-2 reemplaza a super-revisor-1), múltiples revisores con múltiples vueltas concurrentes y presentación combinada de múltiples causas de rechazo en el menú de aprobación.",
+    "Por indicación expresa de la consigna, no se ejecutaron tools/verify_*.py ni la suite completa de pruebas. Límites asumidos no reportados: Factory no autentica actores. No se encontraron defectos en el candidato e62557b."
+  ]
+}

@@ -1,0 +1,4 @@
+requisito autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros:
+    texto "Tipo: funcional En `revisar`, el menú de la decisión SHALL mostrar siempre «Aprobar», «Pedir cambios» y «Cancelar» con los mismos números. Cuando aprobar no se puede, «Aprobar» SHALL decir por qué, y elegirlo SHALL rechazarse sin registrar nada."
+    fuente "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md#el menú de la decisión no corre sus números"
+    medido_por factory_clue.el_menu_de_la_decision_no_corre_sus_numeros, factory_clue.corrida_completa

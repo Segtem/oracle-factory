@@ -28,7 +28,7 @@ class Terminal(io.StringIO):
 class CliHumana(_ap.Base):
     def setUp(self):
         super().setUp()
-        p = patch.object(f.shutil, 'which', return_value=None); p.start(); self.addCleanup(p.stop)
+        p = _ap.clue_acepta(); p.__enter__(); self.addCleanup(p.__exit__, None, None, None)
 
     cambio_medido = _ap.Autoproduccion.cambio_medido
     head = _ap.Autoproduccion.head
@@ -197,7 +197,7 @@ class CliHumana(_ap.Base):
         (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), [])))
         (carpeta / 'clue').mkdir()
         (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
-            'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe', 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            'schema_version': 'oracle-clue.bundle/v1', 'repo': str(self.root), 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
             'files': [{'file': 'examples/notas/notas.py'}]}))
         self.assertEqual(paso(), f'oracle-factory revisar {ident}')
         with patch('builtins.input', side_effect=['1', '2', '1']), contextlib.redirect_stdout(io.StringIO()), \

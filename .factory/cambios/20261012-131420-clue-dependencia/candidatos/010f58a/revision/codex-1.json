@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/010f58a",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "010f58a96a33fd0b24bc742de873bebd555aad44",
+  "diff_sha256": "dc56b97ec668d291fa68d8c88dc0ab57a54a1a4fe36c89be2220e15cb38a1d21",
+  "context_sha256": "f7eeee7d74dc2b42727aaf5876fbb7527e58dff56a5ced0be1862e57b678fa5a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión incremental de e3f2b64 contra 010f58a: contrasté la propuesta y la spec con el diff del paquete y el código del checkout. Revisé las vueltas previas indicadas; los problemas históricos relativos a dependencia, importación de REMOVED, selección de la última vuelta y números del menú no reaparecen en esta diferencia.",
+    "Corrí exactamente `timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null` desde el checkout del candidato: 47 tests, OK (18.793s).",
+    "En una copia aislada muté la selección de la última vuelta, el aviso de JSON top-level no objeto y el rechazo de Aprobar no disponible; los tests k4_incompleta_seguida_de_completa, k4_el_mas_nuevo_invalido_no_revive_el_anterior y k5_aprobar_no_disponible fallaron respectivamente ante esas regresiones.",
+    "No ejecuté tools/verify_*.py ni la suite completa, conforme a la instrucción. No se reportan hallazgos porque no observé defectos activos dentro del alcance incremental revisado."
+  ]
+}

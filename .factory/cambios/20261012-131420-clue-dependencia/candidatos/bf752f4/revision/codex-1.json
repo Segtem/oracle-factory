@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/bf752f4",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "bf752f46abdcf3475b3a5343b6a9f358ec640f91",
+  "diff_sha256": "f0d4d8d1dd1639d4922d62c8f40eb625b945b6bb16081b9b029e8e400f8c585b",
+  "context_sha256": "84ddf530aa4b688d876600e6ee4a0b29288368de0bb096a82e81b498b1e20ae9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La guía no incluye el conflicto con el ejecutable oracle-clue",
+      "explanation": "La instalación recomendada ahora expone también oracle-clue y el resumen de la sección menciona ese ejecutable, pero el texto de recuperación sólo dice que uv puede avisar por oracle o tasks ya instalados. Si el conflicto es oracle-clue, la guía no indica aplicar la misma alternativa de instalar Factory sin --with-executables-from, aunque README sí contempla ese caso.",
+      "location": {
+        "file": "site/desde-cero.html",
+        "start_line": 23,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Seguir la instalación para principiantes en un equipo que ya tiene oracle-clue instalado y recibir un conflicto de ejecutable al correr uv tool install con --with-executables-from.",
+      "evidence": "En site/desde-cero.html, la instalación modificada agrega oracle-clue a --with-executables-from y el título de la sección también lo nombra; el párrafo de solución de esa misma línea conserva sólo “oracle” o “tasks”. README.md actualizado sí incluye oracle-clue en la condición y ofrece instalar sin --with-executables-from.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Revisión estática del diff y del texto de README.md. El test solicitado no pudo arrancar: falta .venv/bin/python en el checkout candidato. La validación final solicitada tampoco arrancó porque oracle-clue no está disponible en este entorno."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se contrastaron propuesta, spec, diff y código de los flujos de importar, pedir-revision y revision-preparar; se buscaron referencias a Clue opcional en código, pruebas y documentación.",
+    "La vuelta anterior quedó cerrada: tests/test_decisiones.py ahora usa clue_acepta() y su comentario describe correctamente el fixture.",
+    "Se intentó exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano; no se ejecutaron tests porque falta .venv/bin/python.",
+    "No se corrieron tools/verify_*.py, la suite completa ni mutaciones. La revisión es estática salvo la comprobación fallida de disponibilidad del intérprete.",
+    "No se pudo ejecutar la validación solicitada del informe: oracle-clue no está en PATH y la distribución tampoco está instalada en el intérprete local."
+  ]
+}

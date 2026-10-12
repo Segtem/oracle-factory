@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e3f2b64",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "diff_sha256": "7da8430cd421711d327b9d7856fe092bd395b9c1e12ba0c51dc9e74bae2dd50a",
+  "context_sha256": "57d09162dbe43387509db8865a83e6eaa80298aa59d28a2413b32cafc948a0db",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se contrastaron la propuesta, la spec aprobada con sus escenarios k1–k3, el paquete de diff y el contexto completo del cambio. Se verificó que todas las promesas del contrato se cumplan y que los hallazgos de las vueltas anteriores (beb83f4, bf752f4, 122ef26) permanezcan resueltos: el setup de decisiones describe adecuadamente el fixture con clue_acepta(), test_k1 verifica el aislamiento ante la falta de distribución en el entorno y ejercita pedir-revision sin Clue en PATH, verify_clue.py registra la versión de oracle-clue en resultado.json, se retiraron nombres obsoletos en test_autoproduccion, el paso 1 de site/desde-cero.html incluye a oracle-clue en el apartado de conflictos de ejecutables, ejecutar() lanza FactoryError en vez de recurrir a PATH si falta la distribución, e importar() junto a tipos_spec() ignoran los requisitos bajo ## REMOVED Requirements permitiendo operar con tipos_obligatorios activado.",
+    "Se intentó ejecutar exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano en el checkout candidato (/home/workstation/Dev/factory-cd/.factory/local/revisiones/e3f2b64); no arrancó (código 127) porque el checkout candidato no cuenta con un entorno virtual local en `.venv/bin/python`.",
+    "En una copia de trabajo temporal en la carpeta del revisor enlazada al entorno virtual del proyecto principal se ejecutó la suite indicada, superando satisfactoriamente las 32 pruebas sin errores ni omisiones (Ran 32 tests in ~13.6s, OK).",
+    "Se evaluaron mutaciones manuales sobre el código en copia local confirmando que las pruebas fallan ante regresiones: remover 'oracle-clue' de paquetes en ejecutar() quiebra test_k1_pedir_revision_sin_clue_en_el_path; omitir la excepción FactoryError ante PackageNotFoundError quiebra test_k1_clue_es_dependencia_y_se_usa_el_del_entorno; reactivar la exigencia de tipos sobre requisitos REMOVED quiebra test_k3_retirados_sin_tipo_con_tipos_obligatorios; y omitir la desvinculación de requisitos retirados en importar() quiebra test_k3_spec_que_retira_un_requisito.",
+    "Por indicación expresa de la consigna, no se ejecutaron tools/verify_*.py ni la suite completa de pruebas. No se detectaron defectos en el candidato e3f2b64; la lista de findings queda vacía."
+  ]
+}

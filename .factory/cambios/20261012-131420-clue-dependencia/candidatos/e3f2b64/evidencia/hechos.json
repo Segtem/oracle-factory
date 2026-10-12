@@ -1,0 +1,35 @@
+{
+  "clue_caso": [
+    {
+      "requisito": "oracle_clue_viene_con_factory",
+      "caso": "k1_clue_es_dependencia_y_se_usa_el_del_entorno",
+      "codigo": 0
+    },
+    {
+      "requisito": "oracle_clue_viene_con_factory",
+      "caso": "k1_pedir_revision_sin_clue_en_el_path",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_informes_de_revisores_siempre_se_validan",
+      "caso": "k2_informe_sin_paquete_no_se_usa",
+      "codigo": 0
+    },
+    {
+      "requisito": "importar_no_trae_lo_que_la_spec_retira",
+      "caso": "k3_spec_que_retira_un_requisito",
+      "codigo": 0
+    },
+    {
+      "requisito": "importar_no_trae_lo_que_la_spec_retira",
+      "caso": "k3_retirados_sin_tipo_con_tipos_obligatorios",
+      "codigo": 0
+    }
+  ],
+  "clue_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

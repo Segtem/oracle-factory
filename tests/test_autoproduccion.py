@@ -34,6 +34,19 @@ def informe_clue(head, hallazgos=(), proveedor='codex', modelo='gpt-x', estado='
             'review_status': estado, 'limitations': [f'Límite de {proveedor}.']}
 
 
+@contextlib.contextmanager
+def clue_acepta():
+    """Clue valida los informes de prueba (no se arma un paquete real): el resto del camino es el de siempre."""
+    real = f.ejecutar
+
+    def falso(argv, *a, **k):
+        if list(argv[:2]) == ['oracle-clue', 'validar']:
+            return subprocess.CompletedProcess(argv, 0, '', '')
+        return real(argv, *a, **k)
+    with patch.object(f, 'ejecutar', side_effect=falso):
+        yield
+
+
 class Autoproduccion(Base):
     def cambio_medido(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')
@@ -148,7 +161,7 @@ class Autoproduccion(Base):
         self.assertIsNone(informe['completa'])
 
     def _dos_informes(self, clue=None):
-        with contextlib.nullcontext() if clue == 'externo' else patch.object(f.shutil, 'which', return_value=None):
+        with contextlib.nullcontext() if clue == 'externo' else clue_acepta():
             # el head del candidato se conoce recién al hacer el commit del producto: se arma en dos pasos
             self.ident = self.cambio_medido()
             head = self.head()
@@ -158,8 +171,9 @@ class Autoproduccion(Base):
             (carpeta / 'revision' / 'a.json').write_text(json.dumps(informe_clue(head, ['R-01', 'R-02'])))
             (carpeta / 'revision' / 'b.json').write_text(json.dumps(informe_clue(head, [], 'agy', 'gemini')))
             (carpeta / 'clue').mkdir()
-            (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
-                'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe', 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            (carpeta / 'clue').joinpath('paquete.json').write_text(json.dumps({
+                'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe' if clue == 'externo' else str(self.root),
+                'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
                 'files': [{'file': 'examples/notas/notas.py'}, {'file': 'examples/notas/sensor.py'}]}))
             self.git('add', '.')
             self.git('commit', '-qm', 'evidencia e informes')
@@ -182,9 +196,9 @@ class Autoproduccion(Base):
             f.revisar_guiado(self.ident, carpeta / 'informe.json', carpeta / 'decisiones.json', 'Persona fixture', 'aprobar')
         self.assertEqual(f.ruta_registro(f.leer(self.ident)[0]).read_bytes(), antes)
 
-    # --- p4: los informes se validan o se marcan ----------------------------------------------------------------------------
+    # --- p4: lo que no se puede validar no se usa ----------------------------------------------------------------------------
     def test_p4_informe_de_otro_candidato_no_se_usa(self):
-        with patch.object(f.shutil, 'which', return_value=None):
+        with clue_acepta():
             self.ident = self.cambio_medido()
             carpeta = self.carpeta(self.ident)
             self.producir_evidencia(self.ident)
@@ -194,13 +208,8 @@ class Autoproduccion(Base):
         self.assertEqual(informe['hallazgos'], [])
         self.assertIn('es de otro candidato', avisos)
 
-    def test_p4_sin_clue_se_usa_marcado(self):
-        informe, _, _ = self._dos_informes()
-        self.assertIn('sin validar: oracle-clue no está instalado', informe['hallazgos'][0]['evidencia'])
-
-    def test_p4_con_clue_y_sin_checkout_no_se_usa(self):
-        with patch.object(f.shutil, 'which', return_value='/usr/bin/oracle-clue'):
-            informe, _, _ = self._dos_informes('externo')  # el repo del paquete (/no/existe) no está en esta máquina
+    def test_p4_sin_checkout_no_se_usa(self):
+        informe, _, _ = self._dos_informes('externo')  # el repo del paquete (/no/existe) no está en esta máquina
         self.assertEqual(informe['hallazgos'], [])
 
     def test_p4_un_informe_que_no_pasa_clue_no_se_usa(self):

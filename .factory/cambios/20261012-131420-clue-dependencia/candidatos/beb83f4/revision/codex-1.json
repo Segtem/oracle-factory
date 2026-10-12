@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/beb83f4",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "beb83f4c897623e342ed6d34e45af14d56f117e7",
+  "diff_sha256": "c2798ea51470be5f6f690830d3c1c70e0df750ec86597991fa9d072901ffb937",
+  "context_sha256": "548047642dad3d03783889ac5cb8b260e9c7010dfea2fc0a46f9b5f34e8a9883",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El setup de decisiones todavía afirma que Clue falta",
+      "explanation": "El comentario del setup dice que los informes se usan «sin validar», pero la línea modificada ahora instala clue_acepta(), que simula una validación exitosa de oracle-clue. La descripción de la prueba ya no corresponde al comportamiento del fixture y contradice el contrato de que los informes siempre se validan.",
+      "location": {
+        "file": "tests/test_decisiones.py",
+        "start_line": 20,
+        "end_line": 20,
+        "side": "head"
+      },
+      "trigger": "Leer test_decisiones.py alrededor de Decisiones.setUp: el comentario inmediatamente anterior dice «Sin Clue»/«sin validar», mientras que el setup modificado entra en clue_acepta().",
+      "evidence": "Diff tests/test_decisiones.py: línea 20 cambia el mock de shutil.which(None) por _ap.clue_acepta(); línea 19 conserva el comentario previo que asegura ausencia de Clue e informes marcados sin validar.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
+      "status": "pendiente",
+      "verification": "Revisión estática contra el diff y la implementación de clue_acepta() en tests/test_autoproduccion.py. El comando de pruebas indicado no llegó a ejecutar porque falta .venv/bin/python en el checkout candidato."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se leyó la spec aprobada, el diff completo del paquete y el contexto; se contrastaron las rutas de ejecución, importación, revisión y documentación, incluidos usos residuales de Clue.",
+    "Se intentó exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano; no arrancó: el checkout no contiene `.venv/bin/python`.",
+    "No se corrieron otros tests, tools/verify_*.py ni la suite completa. No se hicieron mutaciones. La revisión es estática; el hallazgo es una descripción de prueba obsoleta, no evidencia de que el flujo de producción incumpla el contrato."
+  ]
+}

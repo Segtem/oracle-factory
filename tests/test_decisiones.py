@@ -16,8 +16,8 @@ f = _ap.f
 class Decisiones(_ap.Base):
     def setUp(self):
         super().setUp()
-        # Sin Clue: los informes de prueba se usan marcados «sin validar», como en autoproducción.
-        p = patch.object(f.shutil, 'which', return_value=None); p.start(); self.addCleanup(p.stop)
+        # Los informes de prueba no traen un paquete real: Clue los acepta (clue_acepta) y el resto del camino es el de siempre.
+        p = _ap.clue_acepta(); p.__enter__(); self.addCleanup(p.__exit__, None, None, None)
 
     cambio_medido = _ap.Autoproduccion.cambio_medido
     head = _ap.Autoproduccion.head
@@ -38,7 +38,7 @@ class Decisiones(_ap.Base):
         (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), list(hallazgos))))
         (carpeta / 'clue').mkdir()
         (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
-            'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe', 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            'schema_version': 'oracle-clue.bundle/v1', 'repo': str(self.root), 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
             'files': [{'file': 'examples/notas/notas.py'}]}))
         self.git('add', '.')
         self.git('commit', '-qm', 'evidencia e informe')
@@ -86,9 +86,9 @@ class Decisiones(_ap.Base):
 
     def test_d2_un_hallazgo_abierto(self):
         self.candidato(['R-01'])
-        salida = self.revisar('3', '1', '1', '1')  # dejar abierto; completa; la única decisión posible es pedir cambios
+        salida = self.revisar('3', '1', '2', '1')  # dejar abierto; completa; pedir cambios (2: los números no se corren)
         self.assertIn('Hallazgo R-01', salida)
-        self.assertNotIn('Aprobar —', salida)
+        self.assertIn('1) Aprobar — NO DISPONIBLE: 1 hallazgo(s) abiertos', salida)
         self.assertEqual(self.revision()['decision'], 'cambios')
 
     def test_d2_un_hallazgo_decidido(self):
@@ -108,8 +108,8 @@ class Decisiones(_ap.Base):
 
     def test_d2_revision_incompleta(self):
         self.candidato()
-        salida = self.revisar('2', '1', '1')  # incompleta; la única decisión posible es pedir cambios; motivo armado
-        self.assertNotIn('Aprobar —', salida)
+        salida = self.revisar('2', '2', '1')  # incompleta; pedir cambios; motivo armado
+        self.assertIn('NO DISPONIBLE: la revisión está incompleta', salida)
         revision = self.revision()
         self.assertEqual(revision['decision'], 'cambios')
         self.assertFalse(json.loads((self.root / revision['informe']).read_text())['completa'])

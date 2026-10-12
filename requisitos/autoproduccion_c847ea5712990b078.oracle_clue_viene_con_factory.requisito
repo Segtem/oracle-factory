@@ -1,0 +1,4 @@
+requisito autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory:
+    texto "Tipo: funcional Instalar `oracle-factory` SHALL instalar `oracle-clue` en una versión fijada, y Factory SHALL usar el Clue de su propio entorno (no uno del `PATH`) para preparar paquetes y validar informes."
+    fuente "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md#oracle-clue viene con Factory"
+    medido_por factory_clue.oracle_clue_viene_con_factory, factory_clue.corrida_completa

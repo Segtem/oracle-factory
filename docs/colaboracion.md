@@ -159,10 +159,10 @@ El commit que archiva el cierre puede ser posterior al commit del producto juzga
 
 ## Demostración y piloto
 
-Desde un checkout de Factory, usen un Python con sus dependencias fijadas y Clue instalado por separado. Por ejemplo, preparen un entorno local con `uv venv .venv` y `uv pip install --python .venv/bin/python -e .`, e instalen `oracle-clue==0.1.0a1` como herramienta. Ejecuten:
+Desde un checkout de Factory, usen un Python con sus dependencias fijadas, que ya incluyen Oracle Clue. Por ejemplo, preparen un entorno local con `uv venv .venv` y `uv pip install --python .venv/bin/python -e .`. Ejecuten:
 
 ```bash
-.venv/bin/python tools/verify_collaboration.py --clue oracle-clue --salida /tmp/evidencia-colaboracion-01
+.venv/bin/python tools/verify_collaboration.py --clue .venv/bin/oracle-clue --salida /tmp/evidencia-colaboracion-01
 ```
 
 La salida debe ser una carpeta nueva. El arnés ejecuta Git, Task, Clue, Factory y Oracle en repositorios temporales, sin publicar ramas. Guarda `resultado.json`, `hechos.json`, comandos, versiones y artefactos con hashes. Los repositorios temporales se eliminan al terminar; los logs incluyen sus rutas originales y los artefactos preservados permiten inspeccionar lo observado. Las confirmaciones e informes son fixtures rotulados, válidos sólo dentro de esa simulación.

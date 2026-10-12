@@ -20,8 +20,8 @@ CONTRACTS = {
     'sin_terminal_no_hay_decision_de_persona': ['d5_entrada_por_pipe'],
 }
 PREFIX = 'test_decisiones.Decisiones.test_'
-LIMITES = ('Escenarios d1–d5 en repositorios temporales, Linux, con la entrada de la terminal simulada y sin oracle-clue (los '
-           'informes de prueba se usan marcados sin validar). Los arneses que corren el CLI instalado en una pseudoterminal '
+LIMITES = ('Escenarios d1–d5 en repositorios temporales, Linux, con la entrada de la terminal simulada y la validación de Clue '
+           'simulada (los informes de prueba no traen un paquete real). Los arneses que corren el CLI instalado en una pseudoterminal '
            '(guía, instalado, colaboración, entre máquinas) se corren aparte. No mide que el menú sea cómodo para quien lo usa.')
 
 

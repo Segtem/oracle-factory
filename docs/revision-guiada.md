@@ -47,7 +47,7 @@ prepara el checkout y el paquete de Oracle Clue del candidato actual (en las rut
 
 Si el revisor no se puede iniciar, no deja informe, Clue lo rechaza o se pasa del tope, no se guarda nada en `revision/` y su salida queda en la carpeta de trabajo. Con cambios del producto sin commit, no se lanza. En ningún caso el revisor decide: `pedir-revision` sólo deja un evento con el revisor, el modelo y el resultado. Ejecuta el comando que dice la configuración del proyecto, como haría un `Makefile`: revisala antes de usarla en un repositorio ajeno.
 
-`revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez.
+`revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez. Si un mismo revisor tiene varios informes sobre el candidato (`codex-1.json`, `codex-2.json`), cuenta el más nuevo y los anteriores quedan como vueltas.
 
 ## Revisar paso a paso
 
@@ -61,7 +61,7 @@ Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revis
 
 1. **Cada hallazgo abierto:** aceptar el riesgo, descartarlo o dejarlo abierto.
 2. **El alcance:** si revisaste todo lo que abarca el informe. Una revisión incompleta se registra con sus límites.
-3. **La decisión:** aprobar (sólo si no queda nada abierto, la revisión está completa y todo cumple) o pedir cambios.
+3. **La decisión:** aprobar (sólo si no queda nada abierto, la revisión está completa y todo cumple) o pedir cambios. Los números no cambian: «Aprobar» es siempre la 1, y cuando no se puede, el menú dice por qué y elegirla no registra nada.
 4. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
 
 Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo (`agente`, `armado` o `persona`), también el de cada hallazgo resuelto (`origen_motivo`, opcional en los documentos completados a mano).
