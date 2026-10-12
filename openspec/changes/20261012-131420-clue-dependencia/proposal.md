@@ -20,4 +20,4 @@ Brian decidió (2026-10-12) que Clue pase a ser dependencia fija, como `oracle-m
 
 ## Human decisions
 
-- ¿Se exponen los comandos de Clue (`oracle-clue`) al instalar Factory, como hoy se hace opcionalmente con `oracle` y `tasks` (`--with-executables-from`)? Propuesta: igual que esos dos, opcional y documentado.
+Decidida por Brian el 2026-10-12, con un menú: la instalación documentada expone también el comando `oracle-clue`, opcional como `oracle` y `tasks` (`--with-executables-from oracle-metalenguaje,oracle-task,oracle-clue`). Factory no lo necesita en el `PATH`, porque usa el de su entorno, pero así quien revisa puede correr `oracle-clue validar` a mano.
