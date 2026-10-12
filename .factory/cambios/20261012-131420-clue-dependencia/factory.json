@@ -545,6 +545,16 @@
       "candidato": "010f58a",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T16:42:17+00:00",
+      "decision": "aprobar",
+      "candidato": "010f58a"
     }
   ],
   "tipos": {
@@ -597,5 +607,14 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Candidato 010f58a: codex y agy sin hallazgos y con revisión completa. Los hallazgos de las vueltas anteriores quedaron corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (8 casos de contrato). La revisión anterior registrada como «cambios» se debió a informes incompletos por un error en el pedido y al menú que corría sus números; las dos causas se corrigieron en este cambio. Las últimas vueltas fueron incrementales desde e3f2b64 porque el paquete completo supera el límite de Clue.",
+      "candidato": "010f58a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T16:42:17+00:00"
+    }
+  }
 }
