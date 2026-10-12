@@ -1,3 +1,18 @@
+# Oracle Factory 0.1.0a9
+
+- **Oracle Clue viene con Factory.** `oracle-clue==0.1.0a1` es dependencia fija, como `oracle-metalenguaje` y `oracle-task`. Factory lo usa desde su propio entorno, no del `PATH`. Si le falta esa distribución, da un error que dice cómo reinstalar. La instalación documentada expone también el comando `oracle-clue` (`--with-executables-from oracle-metalenguaje,oracle-task,oracle-clue`), para que quien revisa pueda correr `oracle-clue validar` a mano.
+- **Todo informe de revisor se valida.** Ya no hay informes «sin validar». Un informe ilegible, que no es un objeto JSON, de otro candidato o que no se puede validar (porque le falta el paquete o el checkout) se avisa y no se usa.
+- **El informe más nuevo de cada revisor reemplaza a los anteriores.** Con `codex-1.json` y `codex-2.json` en un mismo candidato cuenta el 2, aunque no se pueda usar; los anteriores quedan como vueltas registradas.
+- **El menú de la decisión en `revisar` mantiene sus números.** «Aprobar» es siempre la 1. Cuando no se puede aprobar, dice por qué, y elegirla no registra nada. Antes, la opción 1 pasaba a ser «Pedir cambios».
+- **`importar` deja afuera lo que la spec retira.** Los requisitos de `## REMOVED Requirements` no se importan ni necesitan tipo; se retiran de la spec consolidada al cerrar.
+- La revisión independiente la hicieron Codex (GPT) y Agy (Gemini) en 7 vueltas lanzadas con `pedir-revision`. Oracle sigue en 0.38.1 y Oracle Task en 0.2.0. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a9-py3-none-any.whl dist/oracle_factory-0.1.0a9.tar.gz
+```
+
+La evidencia está en la tarea del cambio `20261012-131420-clue-dependencia`.
+
 # Oracle Factory 0.1.0a8
 
 - **`estado` dice qué sigue y lo ofrece.** `oracle-factory estado ID` calcula el próximo paso según lo que está vigente, en el orden del flujo: archivos del cambio que faltan (se recuperan desde Git), spec aprobada (también si cambió después de aprobarla), importar, confirmar o elegir medidas, revisión válida para el producto actual (`pedir-revision`, `revisar`, o commitear lo que cambió), juicio vigente (hechos, informe y producto) y cierre. En una terminal ofrece ejecutarlo desde un menú; sin terminal, con `--agente` o con la salida redirigida, sólo lo imprime. Un paso que exige algo de la persona (corregir, recuperar un archivo, completar una ruta) se muestra y no se ofrece ejecutar.
