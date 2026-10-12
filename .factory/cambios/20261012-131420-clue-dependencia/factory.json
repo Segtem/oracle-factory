@@ -262,6 +262,16 @@
       "candidato": "e3f2b64",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T14:40:24+00:00",
+      "decision": "aprobar",
+      "candidato": "e3f2b64"
     }
   ],
   "tipos": {
@@ -295,5 +305,15 @@
       "sha256": "f93167c46e32a87660920e41e9fc8141ef3b136a8b32f9f3bd521238d18f0dfa"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Candidato e3f2b64: codex y agy sin hallazgos tras 4 vueltas; los hallazgos anteriores (uno medio por vuelta en 2 y 3: prueba k1 que no probaba nada, REMOVED con tipos obligatorios) quedaron corregidos con prueba que falla en el código viejo; evidencia en verde (5 casos de contrato). Clue pasa a dependencia fija y deja de haber informes «sin validar».",
+      "candidato": "e3f2b64",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T14:40:24+00:00"
+    }
+  }
 }
