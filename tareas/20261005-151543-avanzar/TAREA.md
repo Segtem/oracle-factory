@@ -1,6 +1,6 @@
 # Un comando que avance el flujo con el próximo paso correcto según el modo
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: flujo, cli, modos, autoproduccion
 
@@ -22,3 +22,7 @@ Relacionadas: `20261005-105254-cli-piloto` (la parte de `estado`), `20261005-112
 Parte del objetivo «Factory se construye a sí misma» (2026-10-07).
 
 - 2026-10-07 (cambio 20261007-192608-revisores): confirmar medidas reescribe `requisitos/*.requisito`, que es producto; si se hace después de la última vuelta de revisión y de la evidencia, el candidato queda viejo y `revision-preparar` sale vacía. El orden que funciona es medir (propuesta y confirmación) → vueltas de revisión → evidencia → revision-preparar. `avanzar` debería guiar ese orden, y `revision-preparar` avisar cuando no hay candidato vigente en vez de dejar el informe vacío en silencio.
+
+### Nota (2026-10-12 21:40:44 UTC)
+
+Hecha por el cambio 20261008-123018-cli-humana: estado calcula el próximo paso con la misma lógica que siguiente() y ofrece correrlo; las decisiones de persona se detienen en su menú. No hizo falta un comando avanzar aparte.

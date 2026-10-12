@@ -18,3 +18,7 @@ Corregir la fricción 7 del [piloto con agentes](../20261004-121432-coordinar-do
 ### Nota (2026-10-05 11:44:21 UTC)
 
 Fricción observada al registrar la revisión de colaboración (2026-10-05): commitear factory.json/review.md cambia HEAD y deja la revisión 'desactualizada respecto del producto' aunque archivos_sha256 sea idéntico. contexto_producto() exige HEAD igual; los registros del flujo ya se excluyen de los archivos. Evaluar vincular la revisión a archivos_sha256 + commit del producto, no al HEAD que incluye registros.
+
+### Nota (2026-10-12 21:40:44 UTC)
+
+Revisado el 2026-10-12: ya están las plantillas (ADDED, sin «Brian»), la fuente relativa, el próximo paso de estado (cli-humana) y la vigencia por producto. Falta: medir avisa que reemplaza y señala huérfanas; --listar separa medidas del proyecto y meta; ejemplo notas con las meta.
