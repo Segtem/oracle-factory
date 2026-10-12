@@ -77,6 +77,47 @@ class ClueDependencia(_ap.Base):
         self.assertIn('no se puede validar', errores.getvalue())
         self.assertNotIn('sin validar', errores.getvalue())
 
+    def candidato_con(self, *informes):
+        """Un candidato con evidencia, un paquete y los informes dados ({nombre: (estado, hallazgos)})."""
+        ident = self.cambio_medido()
+        sha = self.head()
+        carpeta = self.carpeta(ident)
+        self.producir_evidencia(ident)
+        (carpeta / 'revision').mkdir(parents=True)
+        for nombre, estado_rev, hallazgos in informes:
+            (carpeta / 'revision' / nombre).write_text(json.dumps(_ap.informe_clue(sha, hallazgos, estado=estado_rev)))
+        (carpeta / 'clue').mkdir()
+        (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
+            'schema_version': 'oracle-clue.bundle/v1', 'repo': str(self.root), 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            'files': [{'file': 'examples/notas/notas.py'}]}))
+        self.git('add', '.')
+        self.git('commit', '-qm', 'evidencia e informes')
+        return ident
+
+    # --- k4: el informe más nuevo de cada revisor reemplaza a los anteriores ---------------------------------------------------
+    def test_k4_incompleta_seguida_de_completa(self):
+        ident = self.candidato_con(('codex-1.json', 'incompleto', ['R-01']), ('codex-2.json', 'completo', []))
+        with _ap.clue_acepta(), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            ruta, _ = f.preparar_revision(ident)
+        informe = json.loads(ruta.read_text())
+        self.assertEqual(informe['hallazgos'], [])  # los de codex-1 no se deciden otra vez
+        revisiones = [c for c in informe['comprobaciones'] if c['descripcion'].startswith('Revisión de ')]
+        self.assertEqual([(c['resultado'], c['evidencia'].rsplit('/', 1)[-1].split(' ')[0]) for c in revisiones], [('cumple', 'codex-2.json')])
+        anteriores = [c for c in informe['comprobaciones'] if c['descripcion'].startswith('Vuelta anterior')]
+        self.assertEqual([c['evidencia'].rsplit('/', 1)[-1].split(' ')[0] for c in anteriores], ['codex-1.json'])
+
+    # --- k5: el menú de la decisión no corre sus números -------------------------------------------------------------------------
+    def test_k5_aprobar_no_disponible(self):
+        ident = self.candidato_con(('codex-1.json', 'incompleto', []))
+        antes = f.ruta_registro(f.leer(ident)[0]).read_bytes()
+        salida = io.StringIO()
+        with _ap.clue_acepta(), patch('builtins.input', side_effect=['1', '1']), contextlib.redirect_stdout(salida), \
+                contextlib.redirect_stderr(io.StringIO()), self.assertRaisesRegex(f.FactoryError, 'no se puede aprobar'):
+            f.revisar_paso_a_paso(ident)  # completa; «1» sigue siendo Aprobar, y no está disponible
+        self.assertIn('1) Aprobar — NO DISPONIBLE', salida.getvalue())
+        self.assertIn('2) Pedir cambios', salida.getvalue())
+        self.assertEqual(f.ruta_registro(f.leer(ident)[0]).read_bytes(), antes)
+
     # --- k3: importar no trae lo que la spec retira ---------------------------------------------------------------------------
     def test_k3_retirados_sin_tipo_con_tipos_obligatorios(self):
         config = self.root / '.factory/config.json'

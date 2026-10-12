@@ -86,9 +86,9 @@ class Decisiones(_ap.Base):
 
     def test_d2_un_hallazgo_abierto(self):
         self.candidato(['R-01'])
-        salida = self.revisar('3', '1', '1', '1')  # dejar abierto; completa; la única decisión posible es pedir cambios
+        salida = self.revisar('3', '1', '2', '1')  # dejar abierto; completa; pedir cambios (2: los números no se corren)
         self.assertIn('Hallazgo R-01', salida)
-        self.assertNotIn('Aprobar —', salida)
+        self.assertIn('1) Aprobar — NO DISPONIBLE: 1 hallazgo(s) abiertos', salida)
         self.assertEqual(self.revision()['decision'], 'cambios')
 
     def test_d2_un_hallazgo_decidido(self):
@@ -108,8 +108,8 @@ class Decisiones(_ap.Base):
 
     def test_d2_revision_incompleta(self):
         self.candidato()
-        salida = self.revisar('2', '1', '1')  # incompleta; la única decisión posible es pedir cambios; motivo armado
-        self.assertNotIn('Aprobar —', salida)
+        salida = self.revisar('2', '2', '1')  # incompleta; pedir cambios; motivo armado
+        self.assertIn('NO DISPONIBLE: la revisión está incompleta', salida)
         revision = self.revision()
         self.assertEqual(revision['decision'], 'cambios')
         self.assertFalse(json.loads((self.root / revision['informe']).read_text())['completa'])

@@ -15,6 +15,8 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 CONTRACTS = {
     'oracle_clue_viene_con_factory': ['k1_clue_es_dependencia_y_se_usa_el_del_entorno', 'k1_pedir_revision_sin_clue_en_el_path'],
     'los_informes_de_revisores_siempre_se_validan': ['k2_informe_sin_paquete_no_se_usa'],
+    'el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores': ['k4_incompleta_seguida_de_completa'],
+    'el_menu_de_la_decision_no_corre_sus_numeros': ['k5_aprobar_no_disponible'],
     'importar_no_trae_lo_que_la_spec_retira': ['k3_spec_que_retira_un_requisito', 'k3_retirados_sin_tipo_con_tipos_obligatorios'],
 }
 PREFIX = 'test_clue_dependencia.ClueDependencia.test_'

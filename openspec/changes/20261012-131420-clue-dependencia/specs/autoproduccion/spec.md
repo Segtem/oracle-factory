@@ -32,3 +32,21 @@ Los requisitos de la sección `## REMOVED Requirements` de la spec de un cambio 
 - GIVEN una spec aprobada con un requisito en ADDED y otro en REMOVED
 - WHEN se ejecuta `importar`
 - THEN sólo queda importado el de ADDED, y no hay archivo de requisito para el retirado
+
+### Requirement: el informe más nuevo de cada revisor reemplaza a los anteriores
+Tipo: funcional
+Cuando un candidato tiene varios informes del mismo revisor (`<revisor>-<n>.json`), `revision-preparar` SHALL usar sólo el de mayor `n` para hallazgos y comprobaciones, y SHALL mostrar los anteriores como vueltas registradas, sin decidirse otra vez.
+
+#### Scenario: una revisión incompleta seguida de una completa
+- GIVEN un candidato con `codex-1.json` incompleto y `codex-2.json` completo
+- WHEN se ejecuta `revision-preparar`
+- THEN la comprobación de codex es la de `codex-2.json` y `codex-1.json` aparece como vuelta anterior
+
+### Requirement: el menú de la decisión no corre sus números
+Tipo: funcional
+En `revisar`, el menú de la decisión SHALL mostrar siempre «Aprobar», «Pedir cambios» y «Cancelar» con los mismos números. Cuando aprobar no se puede, «Aprobar» SHALL decir por qué, y elegirlo SHALL rechazarse sin registrar nada.
+
+#### Scenario: aprobar no disponible
+- GIVEN un candidato con una comprobación que no cumple
+- WHEN la persona ejecuta `revisar` y elige `1`
+- THEN se le dice por qué no se puede aprobar y no se registra nada

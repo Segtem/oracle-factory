@@ -12,6 +12,7 @@ Brian decidió (2026-10-12) que Clue pase a ser dependencia fija, como `oracle-m
 - **Factory usa el Clue de su propio entorno**, igual que con `oracle` y `tasks`, y no el que esté en el `PATH`. Una instalación con `uv tool install oracle-factory` funciona sin instalar Clue aparte.
 - **Los informes de revisores siempre se validan con Clue.** Desaparece el caso «sin validar». Un informe que no se puede validar se avisa y no se usa, como hoy cuando Clue está instalado.
 - **`importar` deja afuera lo que la spec retira.** Es la primera spec con `## REMOVED Requirements`, y el importador de Oracle trajo el requisito retirado como uno nuevo, sin cuerpo y sin poder medirse. Factory lo saca de la importación. Decidido por Brian al aparecer, el 2026-10-12, con una tarea para que el importador de Oracle entienda las secciones.
+- **El informe más nuevo de cada revisor reemplaza a los anteriores, y el menú de la decisión no corre sus números.** Al registrar la revisión de este mismo cambio, los dos revisores entregaron informes «incompletos». El pedido les indicaba un `.venv` que el checkout no tiene. Por eso «Aprobar» no estuvo disponible, la opción `1` pasó a ser «Pedir cambios» y quedó registrado «cambios». Decidido por Brian el 2026-10-12, con un menú.
 - **Docs y web**: la instalación nombra a Clue entre las dependencias y deja de tratarlo como algo aparte.
 
 ## Out of scope

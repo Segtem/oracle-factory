@@ -689,7 +689,8 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
               "que el informe queda sin informes de revisores ni evidencia. Pedí una revisión con oracle-factory "
               f"pedir-revision {identificador} --a NOMBRE o producí la evidencia del commit actual.", file=sys.stderr)
     if sha:
-        revisores, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
+        todos, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
+        revisores = [r for r in todos if not r.get("reemplazado_por")]
         informe, decisiones = preparacion.completar(informe, decisiones, revisores, evidencia, archivos)
         vueltas = []
         for anterior in candidatos_anteriores(identificador, sha):
@@ -697,6 +698,7 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
             anteriores, _, _, avisos_anteriores = material_del_candidato(identificador, anterior)
             vueltas += [{"candidato": anterior, **r} for r in anteriores]
             avisos += avisos_anteriores
+        vueltas += [{"candidato": sha, **r} for r in todos if r.get("reemplazado_por")]  # vueltas anteriores en el mismo candidato
         informe["comprobaciones"] = (informe["comprobaciones"] or []) + preparacion.vueltas_anteriores(vueltas) or None
         for aviso in avisos:
             print(f'Aviso: {aviso}', file=sys.stderr)
@@ -760,6 +762,16 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
             avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
             continue
         revisores.append({"ruta": rel, "datos": datos, "validacion": "validado con oracle-clue"})
+    # El informe más nuevo de cada revisor (<revisor>-<n>.json) reemplaza a los anteriores del mismo revisor.
+    ultimo: dict[str, tuple[int, str]] = {}
+    for r in revisores:
+        m = re.fullmatch(r"(.+)-(\d+)\.json", Path(r["ruta"]).name)
+        if m and int(m[2]) > ultimo.get(m[1], (0, ""))[0]:
+            ultimo[m[1]] = (int(m[2]), r["ruta"])
+    for r in revisores:
+        m = re.fullmatch(r"(.+)-(\d+)\.json", Path(r["ruta"]).name)
+        if m and ultimo[m[1]][1] != r["ruta"]:
+            r["reemplazado_por"] = ultimo[m[1]][1]
     resultado = raiz / "evidencia" / "resultado.json"
     evidencia = None
     if resultado.is_file():
@@ -1013,16 +1025,18 @@ def revisar_paso_a_paso(identificador: str) -> None:
         if not limite:
             raise FactoryError("una revisión incompleta necesita su límite; no registré nada")
         informe["limites"] = [limite]
-    if abiertos or not completa or any(c["resultado"] != "cumple" for c in informe["comprobaciones"]):
-        opciones = [("cambios", "Pedir cambios", f"quedan {abiertos} hallazgo(s) abiertos, la revisión está incompleta o hay "
-                     "comprobaciones que no cumplen; no se puede aprobar")]
-    else:
-        opciones = [("aprobar", "Aprobar", "la revisión queda aprobada; después corre juzgar y se puede cerrar"),
-                    ("cambios", "Pedir cambios", "la revisión queda registrada pidiendo cambios")]
-    i = elegir(f"Decisión sobre el candidato {sha}:", [(e, d) for _, e, d in opciones] + [("Cancelar", "no registra nada")])
-    if i is None or i == len(opciones):
+    # Los números no se corren: «Aprobar» es siempre la 1, y cuando no se puede dice por qué.
+    causas = ([f"{abiertos} hallazgo(s) abiertos"] if abiertos else []) + ([] if completa else ["la revisión está incompleta"]) + [
+        f"{c['descripcion']} ({c['resultado']})" for c in informe["comprobaciones"] if c["resultado"] != "cumple"]
+    aprobar = ("NO DISPONIBLE: " + "; ".join(causas)) if causas else "la revisión queda aprobada; después corre juzgar y se puede cerrar"
+    i = elegir(f"Decisión sobre el candidato {sha}:", [("Aprobar", aprobar),
+                                                         ("Pedir cambios", "la revisión queda registrada pidiendo cambios"),
+                                                         ("Cancelar", "no registra nada")])
+    if i is None or i == 2:
         raise FactoryError("revisión cancelada; no registré nada")
-    decision = opciones[i][0]
+    if i == 0 and causas:
+        raise FactoryError("no se puede aprobar: " + "; ".join(causas) + ". No registré nada.")
+    decision = ("aprobar", "cambios")[i]
     _, estado = leer(identificador)
     propuesta = (estado.get("motivos_propuestos") or {}).get("revision") or {}
     propuesto = propuesta.get("motivo") if propuesta.get("decision") == decision and propuesta.get("candidato") == sha else None
