@@ -461,6 +461,20 @@
         "factory_clue.oracle_clue_viene_con_factory",
         "factory_clue.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-12T15:55:00+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e62557b",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/e62557b",
+  "base": "e3f2b64dca11843b8e6832094863798c12a764f5",
+  "head": "e62557be47f69885fc7fb856ae9e616bcb846588",
+  "diff_sha256": "493784cb4a6527abd809e789ec05f98f424ca847259e61507512d22a545c64da",
+  "context_sha256": "a02b916672009da60f89610b2e77496f671e89060ee75e9a46f7ba6432d8e320",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Un informe más nuevo inválido deja activo el anterior",
+      "explanation": "La implementación descarta los informes que no pasan Clue antes de calcular cuál es el mayor número por revisor. Si codex-1.json valida y codex-2.json existe pero no valida, codex-2 se omite y codex-1 queda como el único informe validado y se usa en la preparación. Esto contradice el requisito de que el informe de mayor n reemplace a los anteriores: la revisión anterior puede volver a aportar hallazgos y comprobaciones aunque haya una vuelta posterior inválida. La política de no usar informes inválidos debería impedir usar esa vuelta, sin restaurar una versión anterior del mismo revisor.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 767,
+        "end_line": 774,
+        "side": "head"
+      },
+      "trigger": "Guardar codex-1.json válido y codex-2.json del mismo candidato, con el segundo informe inválido o no validable; ejecutar revision-preparar.",
+      "evidence": "En material_del_candidato, las rutas que no pasan la validación hacen continue antes de añadirse a revisores (líneas 760-764). El bloque nuevo calcula ultimo recorriendo sólo revisores validados (767-770), luego marca reemplazados sólo los elementos de esa misma lista (771-774). Así, ante codex-1 válido y codex-2 inválido, codex-1 no recibe reemplazado_por y se pasa a preparacion.completar.",
+      "related_requirement": "autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores",
+      "status": "pendiente",
+      "verification": "Hallazgo confirmado por inspección del flujo y de las líneas añadidas. La prueba k4 cubre un informe incompleto seguido de uno completo, ambos aceptados por el validador simulado; no cubre que el informe de mayor n sea inválido. Se ejecutó el comando solicitado: 46 tests en 18.716 s, OK."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, el diff completo del paquete, los flujos afectados y los informes previos indicados; los defectos anteriores observados en esas vueltas siguen corregidos.",
+    "Se ejecutó desde el checkout e62557b exactamente `timeout 200 /home/workstation/Dev/factory-cd/.venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores tests.test_decisiones </dev/null` en primer plano. Resultado: 46 tests, OK.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según la indicación. No se hicieron mutaciones manuales sobre copias."
+  ]
+}
