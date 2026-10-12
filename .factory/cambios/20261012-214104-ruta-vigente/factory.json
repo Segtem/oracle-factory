@@ -2,7 +2,7 @@
   "id": "20261012-214104-ruta-vigente",
   "titulo": "ruta apunta al candidato vigente, no a HEAD",
   "capacidad": "estructura",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
   "spec_sha256": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8",
   "spec_aprobada": {
@@ -176,6 +176,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "b24c963a413b5d4f8698fda8618b70afec22a08523813564a2339719f1d0aa04"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:44+00:00",
+      "oracle": ".factory/cambios/20261012-214104-ruta-vigente/oracle-veredicto.txt",
+      "revision": "tareas/20261012-214104-ruta-vigente/revisiones/registro-q2rrzrsn/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:44+00:00",
+      "capacidad": "estructura",
+      "spec": "openspec/specs/estructura/spec.md"
     }
   ],
   "tipos": {
@@ -192,5 +212,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-12T22:45:43+00:00"
+  },
+  "archivo": {
+    "capacidad": "estructura",
+    "spec": "openspec/specs/estructura/spec.md",
+    "cuando": "2026-10-12T22:45:44+00:00"
+  }
 }

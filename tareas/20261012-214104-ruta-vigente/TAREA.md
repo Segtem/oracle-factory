@@ -1,6 +1,6 @@
 # ruta apunta al candidato vigente, no a HEAD
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-12 22:45:12 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261012-214104-ruta-vigente/oracle-veredicto.txt.
+
+### Nota (2026-10-12 22:45:44 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
