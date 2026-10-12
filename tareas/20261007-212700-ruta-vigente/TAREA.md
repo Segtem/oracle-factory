@@ -1,6 +1,6 @@
 # oracle-factory ruta apunta al candidato vigente, no a HEAD
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 10
 - ETIQUETAS: estructura, autoproduccion
 
@@ -15,3 +15,7 @@ Pasó en el cambio 20261007-192608-revisores: tras commitear el informe de agy, 
 
 - Mientras tanto: producir la evidencia antes de commitear los informes, o escribirla en `ruta_canonica(..., candidato_vigente(ID))`.
 - Las carpetas creadas por error en ese cambio están fuera del repo, en el scratchpad (no se borraron).
+
+### Nota (2026-10-12 23:21:02 UTC)
+
+Hecha por el cambio 20261012-214104-ruta-vigente (integrado en f6f4287): ruta usa candidato_vigente o HEAD; requisito MODIFIED en openspec/specs/estructura/.
