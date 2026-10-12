@@ -52,7 +52,6 @@ for _nombre in AYUDANTES:
     setattr(Base, _nombre, getattr(_archivo.Archivo, _nombre))
 
 
-@unittest.skipUnless(shutil.which('oracle-clue'), 'pedir-revision necesita oracle-clue')
 class Revisores(Base):
     def preparar(self, modo='ok'):
         """Un cambio con una base, un commit de producto encima y un revisor de prueba configurado."""

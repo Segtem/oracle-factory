@@ -17,7 +17,7 @@ class Decisiones(_ap.Base):
     def setUp(self):
         super().setUp()
         # Sin Clue: los informes de prueba se usan marcados «sin validar», como en autoproducción.
-        p = patch.object(f.shutil, 'which', return_value=None); p.start(); self.addCleanup(p.stop)
+        p = _ap.clue_acepta(); p.__enter__(); self.addCleanup(p.__exit__, None, None, None)
 
     cambio_medido = _ap.Autoproduccion.cambio_medido
     head = _ap.Autoproduccion.head
@@ -38,7 +38,7 @@ class Decisiones(_ap.Base):
         (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), list(hallazgos))))
         (carpeta / 'clue').mkdir()
         (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
-            'schema_version': 'oracle-clue.bundle/v1', 'repo': '/no/existe', 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
+            'schema_version': 'oracle-clue.bundle/v1', 'repo': str(self.root), 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
             'files': [{'file': 'examples/notas/notas.py'}]}))
         self.git('add', '.')
         self.git('commit', '-qm', 'evidencia e informe')

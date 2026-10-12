@@ -22,20 +22,20 @@ Está publicado en PyPI como `oracle-factory==0.1.0a8` y su wheel, con los hashe
 Para instalarlo con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task oracle-factory==0.1.0a8
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a8
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
 oracle-factory --proyecto ./mi-proyecto nuevo --con-ejemplo notas "Comprobar el título de una nota"
 ```
 
-Si uv advierte sobre conflicto porque los ejecutables `oracle` o `tasks` ya están instalados en tu sistema, podés instalarlo sin `--with-executables-from`:
+Si uv advierte sobre conflicto porque los ejecutables `oracle`, `tasks` u `oracle-clue` ya están instalados en tu sistema, podés instalarlo sin `--with-executables-from`:
 
 ```bash
 uv tool install --python 3.13 oracle-factory==0.1.0a8
 ```
 
-Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1` y `oracle-task 0.2.0`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
+Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a1`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
 
 `--proyecto` se coloca antes del subcomando; sin esa opción se usa la carpeta actual. `init` crea la estructura de Oracle, Oracle Task y OpenSpec, añade ignores para `.factory-demo/`, `__pycache__/` y `*.py[cod]` sin sobrescribir configuración existente y no crea commits ni aprobaciones. Git debe estar instalado. Python 3.11 o posterior.
 
@@ -79,7 +79,7 @@ oracle-factory medir <id> --listar
 oracle-factory medir <id> --requisito <id-requisito> --medida notas.casos_ejecutados --medida notas.resultados --quitar-sin-medir
 ```
 
-Si necesitás los comandos independientes `oracle` y `tasks`, usá la instalación con `--with-executables-from oracle-metalenguaje,oracle-task`. Luego podés consultar `oracle cobertura --proyecto .`: hasta mapear todos los requisitos, Factory no acepta evidencia ni permite cerrar.
+Si necesitás los comandos independientes `oracle`, `tasks` y `oracle-clue` (por ejemplo, para que un revisor valide su informe a mano con `oracle-clue validar`), usá la instalación con `--with-executables-from oracle-metalenguaje,oracle-task,oracle-clue`. Luego podés consultar `oracle cobertura --proyecto .`: hasta mapear todos los requisitos, Factory no acepta evidencia ni permite cerrar.
 
 
 ## Alcance y límites de esta POC

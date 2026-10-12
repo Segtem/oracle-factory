@@ -23,3 +23,12 @@ Cada informe de revisor SHALL validarse con Clue contra su paquete antes de usar
 - GIVEN un candidato con un informe de revisor cuyo paquete no está
 - WHEN se ejecuta `revision-preparar`
 - THEN se avisa y sus hallazgos no entran al informe
+
+### Requirement: importar no trae lo que la spec retira
+Tipo: funcional
+Los requisitos de la sección `## REMOVED Requirements` de la spec de un cambio SHALL quedar fuera de su importación: `importar` no los registra entre los requisitos del cambio ni deja sus archivos en `requisitos/`, porque lo que se retira no se mide; se retiran de la spec consolidada al cerrar.
+
+#### Scenario: una spec que retira un requisito
+- GIVEN una spec aprobada con un requisito en ADDED y otro en REMOVED
+- WHEN se ejecuta `importar`
+- THEN sólo queda importado el de ADDED, y no hay archivo de requisito para el retirado

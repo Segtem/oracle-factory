@@ -249,7 +249,7 @@ def quien(registro: dict | None) -> str:
 def ejecutar(args: list[str]) -> subprocess.CompletedProcess[str]:
     # uv tool install no expone los ejecutables de dependencias en el PATH global.
     # Usar los entry points del mismo intérprete evita depender de otra instalación.
-    paquetes = {"oracle": "oracle-metalenguaje", "tasks": "oracle-task"}
+    paquetes = {"oracle": "oracle-metalenguaje", "tasks": "oracle-task", "oracle-clue": "oracle-clue"}
     if args[0] in paquetes:
         paquete = paquetes[args[0]]
         try:
@@ -607,6 +607,11 @@ def importar(identificador: str) -> None:
     ids = sorted(set(re.findall(r"(?m)^[+=]\s+([a-z][a-z0-9_.]*)", p.stdout)))
     if not ids:
         raise FactoryError("Oracle no devolvió ids; no doy la importación por confirmada")
+    # El importador de Oracle no distingue las secciones del delta: lo que la spec retira no se importa ni se mide.
+    retirados = {modos.slug(nombre) for op, nombre, _ in archivo.bloques(spec.read_text(encoding="utf-8")) if op == "REMOVED"}
+    for rid in [i for i in ids if i.split(".", 1)[1] in retirados]:
+        (ROOT / "requisitos" / f"{rid}.requisito").unlink(missing_ok=True)  # el dominio es propio de este cambio
+        ids.remove(rid)
     exigir_spec(carpeta, estado)
     sin_tipo = [i for i in ids if i.split(".", 1)[1] not in tipos]
     if sin_tipo:
@@ -727,7 +732,6 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
 
     paquetes = [p for p in (cargar(r) for r in sorted((raiz / "clue").glob("*.json"))) if p] if (raiz / "clue").is_dir() else []
     archivos = sorted({f["file"] for p in paquetes for f in p.get("files") or [] if isinstance(f, dict) and f.get("file")})
-    clue = shutil.which("oracle-clue")
     revisores = []
     for ruta in sorted((raiz / "revision").glob("*.json")) if (raiz / "revision").is_dir() else []:
         datos, rel = cargar(ruta), ruta.relative_to(ROOT).as_posix()
@@ -741,24 +745,18 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
             continue
         paquete = next((p for p in paquetes if p.get("diff_sha256") == datos.get("diff_sha256")
                         and p.get("context_sha256") == datos.get("context_sha256")), None)
-        if clue is None:
-            validacion = "sin validar: oracle-clue no está instalado"
-        elif paquete is None or not Path(str(paquete.get("repo"))).is_dir():
-            # Con Clue disponible, un informe que no se puede validar no se usa (falta su paquete o su checkout).
+        if paquete is None or not Path(str(paquete.get("repo"))).is_dir():
+            # Un informe que no se puede validar no se usa (falta su paquete o su checkout).
             falta = "su paquete en clue/" if paquete is None else f"el checkout del paquete ({paquete.get('repo')})"
             avisos.append(f"{rel} no se puede validar: falta {falta}; recrealo con oracle-factory ruta {identificador} "
                           "checkout y no lo uso")
             continue
-        else:
-            ruta_paquete = next(r for r in sorted((raiz / "clue").glob("*.json")) if cargar(r) == paquete)
-            p = ejecutar([clue, "validar", str(ruta), "--paquete", str(ruta_paquete), "--repo", str(paquete["repo"])])
-            if p.returncode:
-                avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
-                continue
-            validacion = "validado con oracle-clue"
-        if validacion.startswith("sin validar"):
-            avisos.append(f"{rel}: {validacion}")
-        revisores.append({"ruta": rel, "datos": datos, "validacion": validacion})
+        ruta_paquete = next(r for r in sorted((raiz / "clue").glob("*.json")) if cargar(r) == paquete)
+        p = ejecutar(["oracle-clue", "validar", str(ruta), "--paquete", str(ruta_paquete), "--repo", str(paquete["repo"])])
+        if p.returncode:
+            avisos.append(f"{rel} no pasa la validación de Clue: {(p.stderr or p.stdout).strip()[:300]}; no lo uso")
+            continue
+        revisores.append({"ruta": rel, "datos": datos, "validacion": "validado con oracle-clue"})
     resultado = raiz / "evidencia" / "resultado.json"
     evidencia = None
     if resultado.is_file():
@@ -774,9 +772,6 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     revisor = config_proyecto()["revisores"].get(nombre)
     if revisor is None:
         raise FactoryError(f"no hay un revisor «{nombre}» en .factory/config.json; por ejemplo: {revisores_mod.EJEMPLO}")
-    clue = shutil.which("oracle-clue")
-    if clue is None:
-        raise FactoryError("pedir-revision necesita oracle-clue para preparar el paquete y validar el informe")
     if cambios_locales_de_producto():
         raise FactoryError("hay cambios del producto sin commit: confirmalos antes de pedir una revisión ("
                            + ", ".join(cambios_locales_de_producto()[:5]) + ")")
@@ -799,7 +794,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
             raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
     n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
     paquete = clue_dir / f"paquete-{nombre}-{n}.json"
-    p = ejecutar([clue, "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"], "--salida", str(paquete)])
+    p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"], "--salida", str(paquete)])
     if p.returncode:
         raise FactoryError(f"oracle-clue no pudo preparar el paquete: {(p.stderr or p.stdout).strip()[:500]}")
     trabajo = ROOT / estructura.DIR / "local" / "revisores" / f"{sha}-{nombre}-{n}"
@@ -828,7 +823,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     elif not informe.is_file():
         resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
     else:
-        p = ejecutar([clue, "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
+        p = ejecutar(["oracle-clue", "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
         if p.returncode:
             resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"
         else:

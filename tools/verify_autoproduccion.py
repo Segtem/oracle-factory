@@ -19,7 +19,8 @@ CONTRACTS = {
                                                     'p1_muchos_commits_que_no_tocan_el_producto'],
     'revision_preparar_arma_el_informe_desde_los_revisores': ['p2_dos_informes_de_revisores'],
     'el_borrador_de_decisiones_no_decide': ['p3_registrar_sin_decidir_se_rechaza'],
-    'los_informes_se_validan_o_se_marcan': ['p4_informe_de_otro_candidato_no_se_usa', 'p4_sin_clue_se_usa_marcado',
+    # p4_sin_clue_se_usa_marcado salió con 20261012-131420-clue-dependencia, que retira el caso «sin validar».
+    'los_informes_se_validan_o_se_marcan': ['p4_informe_de_otro_candidato_no_se_usa',
                                             'p4_un_informe_que_no_pasa_clue_no_se_usa', 'p4_con_clue_y_sin_checkout_no_se_usa'],
     'este_repositorio_produce_en_la_carpeta_del_candidato': ['p5_init_avisa_de_paquetes_de_clue_versionados'],
 }
