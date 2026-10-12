@@ -192,6 +192,20 @@
       "candidato": "bf752f4",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-12T13:55:38+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "bf752f4",
+      "resultado": "ok",
+      "hallazgos": 3
     }
   ],
   "tipos": {

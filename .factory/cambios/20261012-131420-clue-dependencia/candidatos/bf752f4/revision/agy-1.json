@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/bf752f4",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "bf752f46abdcf3475b3a5343b6a9f358ec640f91",
+  "diff_sha256": "f0d4d8d1dd1639d4922d62c8f40eb625b945b6bb16081b9b029e8e400f8c585b",
+  "context_sha256": "84ddf530aa4b688d876600e6ee4a0b29288368de0bb096a82e81b498b1e20ae9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La prueba test_k1 simula ausencia de Clue en PATH con shutil.which inefectivo y sobrevive si ejecutar recurre al PATH",
+      "explanation": "El escenario de la spec k1 («instalación sola») promete que cuando oracle-clue no está en el PATH, Factory utiliza el Clue instalado en su entorno. En tests/test_clue_dependencia.py, la prueba test_k1_clue_es_dependencia_y_se_usa_el_del_entorno intenta simular la ausencia de Clue en el PATH mediante with patch.object(f.shutil, 'which', return_value=None). Sin embargo, f.ejecutar delega directamente en subprocess.run, el cual en sistemas POSIX busca ejecutables en os.environ['PATH'] a nivel de llamada al sistema (execvp) sin consultar nunca shutil.which. En consecuencia: (1) el fixture no simula un entorno sin Clue en PATH, sino que conserva un mock obsoleto de la implementación anterior que usaba shutil.which('oracle-clue'); (2) si se muta f.ejecutar retirando 'oracle-clue' del mapeo paquetes en un entorno donde oracle-clue está en el PATH, la prueba sobrevive sin detectar la regresión; y (3) la prueba nunca ejecuta pedir-revision como prescribe el escenario de la spec.",
+      "location": {
+        "file": "tests/test_clue_dependencia.py",
+        "start_line": 47,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Ejecutar test_k1 en un entorno donde oracle-clue existe en el PATH tras mutar f.ejecutar para que omita 'oracle-clue' de paquetes. La prueba pasa a pesar de que el código recurre al binario del sistema.",
+      "evidence": "En tests/test_clue_dependencia.py:47 se usa patch.object(f.shutil, 'which', return_value=None). En oracle_factory/cli.py:249-265, f.ejecutar llama a subprocess.run(args, ...), que no invoca shutil.which. En una copia local con .venv/bin en el PATH y f.ejecutar sin entrada para oracle-clue en paquetes, test_k1 finalizó con OK.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Revisión estática del diff y prueba de mutación manual en copia local. Para reproducir: ejecutar test_k1 con f.ejecutar modificado y oracle-clue en PATH, comprobando que la aserción no detecta el desvío al ejecutable del PATH."
+    },
+    {
+      "id": "F-002",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "verify_clue.py omite registrar la versión de oracle-clue en los hechos de resultado.json",
+      "explanation": "tools/verify_clue.py es el verificador de evidencia creado para el contrato de Clue como dependencia fija. En la función main (línea 36), construye el diccionario versions consultando metadata.version únicamente para 'oracle-metalenguaje' y 'oracle-task', copiando la lista de arneses previos sin incorporar 'oracle-clue'. Como resultado, la evidencia producida en resultado.json bajo el campo 'versiones' omite la versión de oracle-clue (que el contrato promete fijar en 0.1.0a1), registrando únicamente las otras dependencias y python.",
+      "location": {
+        "file": "tools/verify_clue.py",
+        "start_line": 36,
+        "end_line": 36,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar tools/verify_clue.py línea 36: la tupla de distribuciones pasadas a metadata.version es ('oracle-metalenguaje', 'oracle-task').",
+      "evidence": "tools/verify_clue.py:36 define versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task')}. En la línea 54 se escribe resultado.json con 'versiones': {**versions, 'python': sys.version}, donde no figura 'oracle-clue'.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Inspección estática de tools/verify_clue.py contra la definición del contrato oracle_clue_viene_con_factory."
+    },
+    {
+      "id": "F-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "test_autoproduccion.py conserva la cabecera del requisito retirado «los informes se validan o se marcan»",
+      "explanation": "En tests/test_autoproduccion.py (líneas 199-200 dentro del diff), la cabecera de sección sigue rotulada como '# --- p4: los informes se validan o se marcan ...', correspondiente al requisito explícitamente retirado en la spec (sección ## REMOVED Requirements) y reemplazado por 'los informes de revisores siempre se validan'. Asimismo, la prueba test_p4_con_clue_y_sin_checkout_no_se_usa (línea 211) conserva en su nombre la suposición de que contar con Clue es condicional ('con_clue'), en contraste con el nuevo diseño donde Clue siempre está disponible.",
+      "location": {
+        "file": "tests/test_autoproduccion.py",
+        "start_line": 199,
+        "end_line": 200,
+        "side": "head"
+      },
+      "trigger": "Lectura de tests/test_autoproduccion.py:199-200: la sección p4 mantiene el nombre del requisito retirado.",
+      "evidence": "Diff tests/test_autoproduccion.py: línea 199 contiene '# --- p4: los informes se validan o se marcan ----------------------------------------------------------------------------' y línea 211 define test_p4_con_clue_y_sin_checkout_no_se_usa, a pesar de que el requisito fue retirado en la spec de autoproducción.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.los_informes_de_revisores_siempre_se_validan",
+      "status": "pendiente",
+      "verification": "Revisión estática contra openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md donde 'los informes se validan o se marcan' figura bajo ## REMOVED Requirements."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se leyó la propuesta, la spec aprobada con sus escenarios k1–k3, el paquete diff y el contexto completo del cambio.",
+    "Se intentó ejecutar exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano en el checkout candidato; no arrancó debido a que el checkout candidato no contiene `.venv/bin/python`.",
+    "En una copia de trabajo local enlazada al entorno virtual del repositorio principal se corrieron las 30 pruebas de dichos módulos, resultando todas exitosas (30 tests OK en ~13s).",
+    "Se realizaron mutaciones manuales sobre el despacho de ejecutables en f.ejecutar demostrando que test_k1 sobrevive si se omite oracle-clue cuando existe en el PATH global.",
+    "Por indicación expresa de la consigna, no se ejecutaron tools/verify_*.py ni la suite completa de pruebas."
+  ]
+}

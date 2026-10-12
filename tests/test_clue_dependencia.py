@@ -2,6 +2,7 @@
 import contextlib
 import io
 import json
+import os
 from pathlib import Path
 import sys
 import tomllib
@@ -44,7 +45,7 @@ class ClueDependencia(_ap.Base):
     def test_k1_clue_es_dependencia_y_se_usa_el_del_entorno(self):
         dependencias = tomllib.loads((RAIZ / 'pyproject.toml').read_text())['project']['dependencies']
         self.assertTrue(any(d.startswith('oracle-clue==') for d in dependencias), dependencias)
-        with patch.object(f.shutil, 'which', return_value=None):  # sin oracle-clue en el PATH
+        with patch.dict(os.environ, {'PATH': ''}):  # sin nada en el PATH: sólo funciona si usa el Clue del entorno
             p = f.ejecutar(['oracle-clue', '--help'])
         self.assertEqual(p.returncode, 0, p.stderr)
         self.assertIn('preparar', p.stdout)

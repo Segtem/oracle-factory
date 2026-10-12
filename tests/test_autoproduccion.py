@@ -196,7 +196,7 @@ class Autoproduccion(Base):
             f.revisar_guiado(self.ident, carpeta / 'informe.json', carpeta / 'decisiones.json', 'Persona fixture', 'aprobar')
         self.assertEqual(f.ruta_registro(f.leer(self.ident)[0]).read_bytes(), antes)
 
-    # --- p4: los informes se validan o se marcan ----------------------------------------------------------------------------
+    # --- p4: lo que no se puede validar no se usa ----------------------------------------------------------------------------
     def test_p4_informe_de_otro_candidato_no_se_usa(self):
         with clue_acepta():
             self.ident = self.cambio_medido()
@@ -208,7 +208,7 @@ class Autoproduccion(Base):
         self.assertEqual(informe['hallazgos'], [])
         self.assertIn('es de otro candidato', avisos)
 
-    def test_p4_con_clue_y_sin_checkout_no_se_usa(self):
+    def test_p4_sin_checkout_no_se_usa(self):
         informe, _, _ = self._dos_informes('externo')  # el repo del paquete (/no/existe) no está en esta máquina
         self.assertEqual(informe['hallazgos'], [])
 

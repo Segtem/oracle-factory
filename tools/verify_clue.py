@@ -33,7 +33,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--salida', type=Path, required=True, help='carpeta nueva de evidencia')
     args = parser.parse_args(argv)
-    versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task')}
+    versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task', 'oracle-clue')}
     output = args.salida.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=False)
     origen = fuentes()
