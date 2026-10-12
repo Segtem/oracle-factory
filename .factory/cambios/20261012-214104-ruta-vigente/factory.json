@@ -54,11 +54,32 @@
       "ids": [
         "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-12T22:19:34+00:00",
+      "requisito": "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos",
+      "medidas": [
+        "factory_ruta.ruta_canonica_para_producir_artefactos",
+        "factory_ruta.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
     "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos": {
+      "sha256": "11bdfa3b165562be2dfa315efd13f13ea38f2df96e1b776c6c3968f3dad5ddb4",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-12T22:19:34+00:00"
+    }
+  }
 }
