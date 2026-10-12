@@ -2,7 +2,7 @@
   "id": "20261012-214104-ruta-vigente",
   "titulo": "ruta apunta al candidato vigente, no a HEAD",
   "capacidad": "estructura",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261012-214104-ruta-vigente/specs/estructura/spec.md",
   "spec_sha256": "14b9c9bed1dc10f124788f03b53ba00f3c7f8fc702196eae69828c67f8e60db8",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261012-214104-ruta-vigente/candidatos/7b1e780/evidencia/hechos.json",
+    "hechos_sha256": "b24c963a413b5d4f8698fda8618b70afec22a08523813564a2339719f1d0aa04",
+    "informe": ".factory/cambios/20261012-214104-ruta-vigente/oracle-veredicto.txt",
+    "informe_sha256": "f763a3f22a8068d14290acb62b4ed282360d03ec7e4b618a33c74b0a491c254e",
+    "cuando": "2026-10-12T22:45:12+00:00",
+    "contexto": {
+      "head": "d764b8e5245e2979468a12ea3d4ef100fb61fb66",
+      "archivos_sha256": "e9486b9cee6dd84235e0c865424e6de948818cd84b4446e9fdb74d9bca9cad04"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -153,6 +165,17 @@
       "abiertos": 0,
       "sha256": "dd1af3739ef8dcc6ff10da1bbd97dba01a9839a59a014217cd423069c7e04503",
       "decisiones_sha256": "79befab980a29a19c5e49ee4a5631512ac35bc3854dbe12fef785f794881328e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-12T22:45:12+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b24c963a413b5d4f8698fda8618b70afec22a08523813564a2339719f1d0aa04"
     }
   ],
   "tipos": {
