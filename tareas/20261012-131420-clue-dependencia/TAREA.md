@@ -103,3 +103,7 @@ Medidas de autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se
 ### Nota (2026-10-12 15:53:01 UTC)
 
 Medidas de autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-12 16:48:51 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Candidato 010f58a: codex y agy sin hallazgos y con revisión completa. Los hallazgos de las vueltas anteriores quedaron corregidos, cada uno con una prueba que falla en el código viejo; evidencia en verde (8 casos de contrato). La revisión anterior registrada como «cambios» se debió a informes incompletos por un error en el pedido y al menú que corría sus números; las dos causas se corrigieron en este cambio. Las últimas vueltas fueron incrementales desde e3f2b64 porque el paquete completo supera el límite de Clue.); 0 abiertos derivados; commit 3cd4e05fac22cd5c378b0f35047c3abbfb5134ad; informe tareas/20261012-131420-clue-dependencia/revisiones/registro-x5or_zdz/informe.json; decisiones tareas/20261012-131420-clue-dependencia/revisiones/registro-x5or_zdz/decisiones.json.
