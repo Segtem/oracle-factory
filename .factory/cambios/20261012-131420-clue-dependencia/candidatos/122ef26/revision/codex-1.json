@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cd/.factory/local/revisiones/122ef26",
+  "base": "cc8370749a02dcb39fb8bece528cf7bdbd8113e1",
+  "head": "122ef261408faaec3924c79ae48eba82c1fbdaf1",
+  "diff_sha256": "777c716c667859db41cc278dc0d58e43a7e4bea4778ca75bb79dbfdd9e30ee20",
+  "context_sha256": "28058d718dafb71dfe702ad0948c8f9a4686ee87f765f60685854497d03dbf0b",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "El fallback de ejecutar permite invocar oracle-clue desde PATH",
+      "explanation": "La tabla modificada agrega oracle-clue a los comandos que Factory resuelve desde la distribución del intérprete, pero si metadata.distribution('oracle-clue') falla, el except deja intacto el argv. La llamada final a subprocess.run resuelve entonces el nombre oracle-clue usando PATH. Así, cuando falta la distribución en el entorno (por ejemplo, Factory ejecutado desde un checkout o una instalación incompleta) y hay otro oracle-clue en PATH, pedir_revision y material_del_candidato preparan o validan con ese binario externo. Esto incumple la promesa de que Factory usa el Clue de su propio entorno y no uno del PATH.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 252,
+        "end_line": 252,
+        "side": "head"
+      },
+      "trigger": "Ejecutar Factory con oracle-clue ausente de importlib.metadata del intérprete y un ejecutable oracle-clue de otra instalación presente en PATH; luego pedir-revision o revision-preparar invocará el ejecutable de PATH por la rama PackageNotFoundError.",
+      "evidence": "El cambio añade 'oracle-clue': 'oracle-clue' a paquetes en oracle_factory/cli.py:252. La rama de cli.py:255-258 deja args intactos ante PackageNotFoundError, y cli.py:265 ejecuta subprocess.run(args); al no contener argv una ruta, el sistema busca oracle-clue en PATH. Las llamadas nuevas de preparación y validación pasan por ejecutar (líneas 755 y 797, además de 826). El test k1 vacía PATH solo cuando la metadata está instalada y no ejercita este fallback.",
+      "related_requirement": "autoproduccion_c116be927bdacc69e.oracle_clue_viene_con_factory",
+      "status": "pendiente",
+      "verification": "Revisión estática del despacho y de las llamadas de pedir_revision/material_del_candidato. No se pudo ejecutar la prueba indicada: falta .venv/bin/python en el checkout. No se hicieron mutaciones."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se revisaron propuesta, spec, diff completo y código/pruebas/documentación relativos a dependencia fija, validación de informes e importación de REMOVED; también se buscaron referencias residuales a Clue opcional.",
+    "Las vueltas anteriores revisadas siguen cerradas: se corrigió el setup contradictorio de decisiones, el test de k1 vacía PATH en vez de mockear shutil.which, y la guía menciona oracle-clue en los conflictos de instalación.",
+    "Se intentó exactamente `timeout 200 .venv/bin/python -m unittest tests.test_clue_dependencia tests.test_autoproduccion tests.test_revisores </dev/null` en primer plano desde el checkout candidato; no arrancó porque no existe `.venv/bin/python`.",
+    "No se corrieron otras pruebas, tools/verify_*.py ni la suite completa; no se hicieron mutaciones. La validación final con oracle-clue validar se intentó por separado y no pudo arrancar porque el ejecutable no está disponible en el entorno."
+  ]
+}

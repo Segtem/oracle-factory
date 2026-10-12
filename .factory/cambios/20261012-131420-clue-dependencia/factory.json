@@ -206,6 +206,20 @@
       "candidato": "bf752f4",
       "resultado": "ok",
       "hallazgos": 3
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-12T14:00:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "122ef26",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {
