@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261013-115616-vueltas-severidad. Modo de trabajo: c
 ### Nota (2026-10-13 11:59:56 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-13 12:02:59 UTC)
+
+Requisitos importados: revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad (funcional), revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado (funcional), revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

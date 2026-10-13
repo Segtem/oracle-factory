@@ -47,6 +47,8 @@ prepara el checkout y el paquete de Oracle Clue del candidato actual (en las rut
 
 Si el revisor no se puede iniciar, no deja informe, Clue lo rechaza o se pasa del tope, no se guarda nada en `revision/` y su salida queda en la carpeta de trabajo. Con cambios del producto sin commit, no se lanza. En ningún caso el revisor decide: `pedir-revision` sólo deja un evento con el revisor, el modelo y el resultado. Ejecuta el comando que dice la configuración del proyecto, como haría un `Makefile`: revisala antes de usarla en un repositorio ajeno.
 
+**¿Otra vuelta?** Al guardar un informe, `pedir-revision` cuenta sus hallazgos por severidad y mira todos los informes vigentes del candidato. Si queda alguno medio, alto o crítico que no coincide con un riesgo aceptado, pide corregirlo y pedir otra vuelta; si sólo quedan bajos o informativos, dice que no hace falta otra vuelta y que los decide una persona en `revisar`. `estado` sugiere lo mismo. Es una sugerencia: un bajo puede esconder algo, y la persona puede pedir otra vuelta igual.
+
 `revision-preparar` toma después los informes del candidato vigente y muestra como comprobaciones las vueltas anteriores, sin pedir que se decidan otra vez. Si un mismo revisor tiene varios informes sobre el candidato (`codex-1.json`, `codex-2.json`), cuenta el más nuevo y los anteriores quedan como vueltas.
 
 ## Revisar paso a paso
@@ -59,7 +61,7 @@ oracle-factory revisar ID_COMPLETO
 
 Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revisores, vueltas anteriores y límites. Después pregunta con menús:
 
-1. **Cada hallazgo abierto:** aceptar el riesgo, descartarlo o dejarlo abierto.
+1. **Cada hallazgo abierto:** aceptar el riesgo, descartarlo o dejarlo abierto. Un riesgo aceptado vale para el resto del cambio: va solo en el pedido de las vueltas siguientes, no pide otra vuelta y, si el mismo hallazgo vuelve (mismo archivo y mismo título, sin contar mayúsculas, puntuación ni espacios), `revisar` lo muestra como ya aceptado y pregunta si se mantiene, con el mismo motivo, o se revoca y se decide de nuevo. Se guarda aunque la revisión pida cambios, y no se guarda si se cancela.
 2. **El alcance:** si revisaste todo lo que abarca el informe. Una revisión incompleta se registra con sus límites.
 3. **La decisión:** aprobar (sólo si no queda nada abierto, la revisión está completa y todo cumple) o pedir cambios. Los números no cambian: «Aprobar» es siempre la 1, y cuando no se puede, el menú dice por qué y elegirla no registra nada.
 4. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.

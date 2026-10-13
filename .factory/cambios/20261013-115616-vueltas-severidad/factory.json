@@ -2,7 +2,7 @@
   "id": "20261013-115616-vueltas-severidad",
   "titulo": "Vueltas de revisión proporcionales y riesgos aceptados que persisten",
   "capacidad": "revisores",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md",
   "spec_sha256": "847100bd334a73b37296f8f44eab517b395f8641f264f24e858f6c0b379a6e1a",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md": "847100bd334a73b37296f8f44eab517b395f8641f264f24e858f6c0b379a6e1a"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+    "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+    "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261013-115616-vueltas-severidad/proposal.md": "5edbf7a22fdf597b2c0d27a7667c069f478a9fa1ae4b677a6f40e8953f025454",
         "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md": "847100bd334a73b37296f8f44eab517b395f8641f264f24e858f6c0b379a6e1a"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T12:02:59+00:00",
+      "ids": [
+        "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+        "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+        "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad": "funcional",
+    "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado": "funcional",
+    "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

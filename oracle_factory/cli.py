@@ -787,6 +787,12 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
     return revisores, evidencia, archivos, avisos
 
 
+def corte_del_candidato(identificador: str, sha: str, estado: dict) -> tuple[list[dict], list[dict]] | None:
+    """(medios o más, bajos) sin aceptar en los informes vigentes del candidato; None si no tiene ninguno usable."""
+    revisores = [r for r in material_del_candidato(identificador, sha)[0] if not r.get("reemplazado_por")]
+    return preparacion.corte(revisores, estado.get("aceptados") or []) if revisores else None
+
+
 def pedir_revision(identificador: str, nombre: str, extra: str | None = None, base: str | None = None) -> Path:
     """Pide una revisión del candidato actual al revisor configurado y guarda su informe si Clue lo valida."""
     carpeta, estado = abierto(identificador)
@@ -825,6 +831,10 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
                   for r in sorted(estructura.ruta_canonica(ROOT, identificador, "revision", c).glob("*.json"))]
     vueltas = ("Vueltas anteriores de este cambio (ya corregidas; mirá que sigan cerradas y que no haya regresiones):\n"
                + "\n".join(f"- {r}" for r in anteriores) + "\n") if anteriores else ""
+    if estado.get("aceptados"):
+        vueltas += ("Riesgos ya aceptados por una persona en este cambio (no los reportes otra vez salvo que el defecto haya "
+                    "cambiado o empeorado):\n" + "\n".join(f"- {a['archivo']}: {a['titulo']} (aceptado por {a['actor']}: "
+                                                            f"{a['motivo']})" for a in estado["aceptados"]) + "\n")
     valores = {"id": identificador, "titulo": estado.get("titulo", ""), "propuesta": str(carpeta / "proposal.md"),
                "spec": str(ROOT / estado["spec"]), "candidato": sha, "checkout": str(checkout), "paquete": str(paquete),
                "informe": str(informe), "proveedor": revisor["proveedor"], "modelo": revisor["modelo"], "vueltas": vueltas}
@@ -836,7 +846,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     print(f"Revisor {nombre} ({revisor['proveedor']}, {revisor['modelo']}) sobre el candidato {sha}; tope {revisor['tope_minutos']} min.")
     print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv))
     resultado = revisores_mod.ejecutar_revisor(argv, trabajo, registro, revisor["tope_minutos"])
-    hallazgos, motivo = 0, None
+    hallazgos, motivo, severidades = 0, None, ""
     if resultado == "tope":
         motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
     elif resultado == "no_inicia":
@@ -850,6 +860,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         else:
             datos = json.loads(informe.read_text(encoding="utf-8"))
             hallazgos = len(datos.get("findings") or [])
+            severidades = preparacion.contar_severidades(datos.get("findings") or [])
     _, estado = leer(identificador)
     evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"], modelo=revisor["modelo"],
            candidato=sha, resultado=resultado, hallazgos=hallazgos)
@@ -860,8 +871,17 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     destino = revision_dir / f"{nombre}-{n}.json"
     escribir_atomico(destino, informe.read_bytes())
     escribir_atomico(revision_dir / f"{nombre}-{n}.pedido.md", pedido_archivo.read_bytes())
-    print(f"Informe de {nombre}: {destino.relative_to(ROOT)} ({hallazgos} hallazgo{'s' if hallazgos != 1 else ''}), validado con oracle-clue.")
-    print(f"Próximo paso: corregir lo que corresponda, o preparar la revisión con oracle-factory revision-preparar {identificador}")
+    print(f"Informe de {nombre}: {destino.relative_to(ROOT)} ({hallazgos} hallazgo{'s' if hallazgos != 1 else ''}"
+          f"{': ' + severidades if severidades else ''}), validado con oracle-clue.")
+    graves, bajos = corte_del_candidato(identificador, sha, leer(identificador)[1]) or ([], [])
+    if graves:
+        print(f"Quedan {len(graves)} hallazgo{'s' if len(graves) != 1 else ''} medio{'s' if len(graves) != 1 else ''} o más "
+              f"sin aceptar en el candidato {sha} ({', '.join(str(h.get('id')) for h in graves)}).")
+        print(f"Próximo paso: corregirlos, commitear y pedir otra vuelta con oracle-factory pedir-revision {identificador}")
+    else:
+        print(f"No quedan hallazgos medios ni altos sin aceptar en el candidato {sha}: no hace falta otra vuelta.")
+        print(f"Próximo paso: oracle-factory revisar {identificador}"
+              + (f" — los {len(bajos)} bajos los decide una persona (aceptar, descartar o dejar abierto)" if bajos else ""))
     return destino
 
 
@@ -1005,8 +1025,25 @@ def revisar_paso_a_paso(identificador: str) -> None:
         print(f"  Límite: {limite}")
     persona = actor()["actor"]
     resoluciones = []
+    aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or []}
+    nuevos, revocados = [], []  # se guardan sólo si la revisión se registra
     for h in informe.get("hallazgos") or []:
         print(f"\nHallazgo {h['id']} en {h['ubicacion']}:\n  {h['descripcion']}\n  Evidencia: {h['evidencia']}")
+        firma = preparacion.firma_de_ubicacion(h["ubicacion"], h["descripcion"])
+        previo = aceptados.get(firma)
+        if previo:
+            print(f"  YA ACEPTADO por {previo['actor']} el {previo['fecha'][:10]} (candidato {previo['candidato']}): "
+                  f"«{previo['motivo']}»")
+            j = elegir(f"¿Mantenés aceptado {h['id']}?", [
+                ("Mantener aceptado", "se registra como riesgo aceptado con el mismo motivo"),
+                ("Revocar", "deja de estar aceptado y lo decidís como un hallazgo nuevo")])
+            if j is None:
+                raise FactoryError("revisión cancelada; no registré nada")
+            if j == 0:
+                resoluciones.append({"hallazgo_id": h["id"], "estado": "riesgo_aceptado", "motivo": previo["motivo"],
+                                     "origen_motivo": "persona", "actor": persona, "fecha": ahora()})
+                continue
+            revocados.append(firma)
         i = elegir(f"¿Qué hacés con {h['id']}?", [("Aceptar el riesgo", "queda registrado como riesgo aceptado"),
                                                   ("Descartar", "no aplica o no es un defecto"),
                                                   ("Dejar abierto", "sólo se podrá pedir cambios")])
@@ -1018,6 +1055,9 @@ def revisar_paso_a_paso(identificador: str) -> None:
         motivo_h, origen_h = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
         resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
                              "actor": persona, "fecha": ahora()})
+        if estado_h == "riesgo_aceptado":
+            nuevos.append({"archivo": preparacion.archivo_de_ubicacion(h["ubicacion"]), "titulo": h["descripcion"],
+                           "firma": firma, "motivo": motivo_h, "actor": persona, "fecha": ahora(), "candidato": sha})
     abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
     # «Completa» lo declara la persona: Factory no lo supone.
     alcance = elegir("¿Revisaste todo lo que abarca el informe?", [
@@ -1054,7 +1094,12 @@ def revisar_paso_a_paso(identificador: str) -> None:
     escribir_atomico(ruta_decisiones, bytes_json(decisiones))
     revisar_guiado(identificador, ruta_informe, ruta_decisiones, persona, decision, motivo)
     carpeta, estado = leer(identificador)
-    if (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None:  # la propuesta ya se decidió
+    cambio = (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None  # la propuesta ya se decidió
+    if nuevos or revocados:  # valen para las vueltas siguientes, aunque esta revisión pida cambios
+        quitar = set(revocados) | {n["firma"] for n in nuevos}
+        estado["aceptados"] = [a for a in estado.get("aceptados") or [] if a["firma"] not in quitar] + nuevos
+        cambio = True
+    if cambio:
         guardar(carpeta, estado)
 
 
@@ -1953,7 +1998,11 @@ def proximo_paso(identificador: str) -> str | None:
             return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
         sha = candidato_vigente(ident)
         # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
-        if sha and material_del_candidato(ident, sha)[0]:
+        corte = corte_del_candidato(ident, sha, estado) if sha else None
+        if corte and corte[0]:
+            return (f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
+                    f"oracle-factory pedir-revision {ident}")
+        if corte is not None:
             return f"oracle-factory revisar {ident}"
         revisores = sorted(config_proyecto()["revisores"])
         return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"

@@ -1,0 +1,4 @@
+requisito revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad:
+    texto "Tipo: funcional Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. Una severidad desconocida o ausente SHALL contar como media. `estado` SHALL sugerir el mismo próximo paso."
+    fuente "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md#el corte de vueltas sigue la severidad"
+    sin_medir "sin medida todavía; escenarios: «sólo quedan bajos», «queda uno medio», «severidad desconocida»"
