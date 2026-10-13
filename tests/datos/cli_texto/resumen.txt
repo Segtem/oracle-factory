@@ -1,0 +1,28 @@
+<!-- oracle-factory resumen sha256:<hash> -->
+# Estado actual
+
+Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
+
+0 capacidades · 0 requisitos vigentes · 1 cambio abierto
+
+## Lo vigente
+
+El veredicto es el registrado al cerrar el cambio de origen, no una corrida nueva de Oracle sobre todo el sistema.
+
+## Cambios abiertos
+
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### <id> — Nota
+
+Fase `revision_aprobada` · modo `confirmacion` · capacidad `notas` · [propuesta](../openspec/changes/<id>/proposal.md)
+
+- veredicto Oracle exitoso con evidencia
+
+## Riesgos aceptados
+
+Ninguno.
+
+## Límites declarados
+
+Ninguno.
