@@ -1,6 +1,6 @@
 # Asociar medidas a requisitos sin editar indentación manualmente
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 20
 - ETIQUETAS:
 
@@ -113,3 +113,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 11:43:53 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-elegir-medidas/oracle-veredicto.txt.
+
+### Nota (2026-10-13 11:46:59 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

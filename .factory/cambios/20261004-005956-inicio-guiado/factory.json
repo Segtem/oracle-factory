@@ -2,7 +2,7 @@
   "id": "20261004-005956-inicio-guiado",
   "titulo": "Inicio guiado",
   "capacidad": "onboarding",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md",
   "spec_sha256": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f",
   "spec_aprobada": {
@@ -294,6 +294,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "dd955f1c63b1a2dc1518772604c85c70d6d4d59ad44ddb5a103598ca93648138"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T11:47:41+00:00",
+      "oracle": ".factory/cambios/20261004-005956-inicio-guiado/oracle-veredicto.txt",
+      "revision": "tareas/20261004-005956-inicio-guiado/revisiones/registro-7c7armqi/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T11:47:41+00:00",
+      "capacidad": "onboarding",
+      "spec": "openspec/specs/onboarding/spec.md"
     }
   ],
   "medidas_pendientes": {},
@@ -323,5 +343,17 @@
       "sha256": "d31c1085cf407a46f7e4d8089ccbda5964dc440e7a9bf14e1a1607b2af06f6d8"
     }
   },
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T11:47:41+00:00"
+  },
+  "archivo": {
+    "capacidad": "onboarding",
+    "spec": "openspec/specs/onboarding/spec.md",
+    "cuando": "2026-10-13T11:47:41+00:00"
+  }
 }

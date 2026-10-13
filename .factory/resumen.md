@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:e2771679d6bed1f53671aee9e702020c35e99d06f4401191fbc968f6d3fc0dea -->
+<!-- oracle-factory resumen sha256:4f3f12067df7ba41d5cc09dabe8140283ad54751ca066d27bf39e0992944a7f7 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-13 capacidades · 95 requisitos vigentes · 3 cambios abiertos
+15 capacidades · 101 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -103,6 +103,16 @@ Spec completa: [openspec/specs/limpieza/spec.md](../openspec/specs/limpieza/spec
 | la evidencia no se reescribe | no funcional | `limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe` | factory_limpieza.la_evidencia_no_se_reescribe, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
 | limpieza repetible y verificable | no funcional | `limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable` | factory_limpieza.limpieza_repetible_y_verificable, factory_limpieza.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-193914-quitar-la-ruta |
 
+### measurement_choice
+
+Spec completa: [openspec/specs/measurement_choice/spec.md](../openspec/specs/measurement_choice/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| asociacion explicita y valida | funcional | `measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida` | factory_guiada.asociacion_explicita_y_valida | verde al cerrar el 2026-10-13 | 20261004-005956-elegir-medidas |
+| preservar requisito ante error | funcional | `measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error` | factory_guiada.preservar_requisito_ante_error | verde al cerrar el 2026-10-13 | 20261004-005956-elegir-medidas |
+| invalidar evidencia anterior | funcional | `measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior` | factory_guiada.invalidar_evidencia_anterior | verde al cerrar el 2026-10-13 | 20261004-005956-elegir-medidas |
+
 ### modos
 
 Spec completa: [openspec/specs/modos/spec.md](../openspec/specs/modos/spec.md)
@@ -114,6 +124,16 @@ Spec completa: [openspec/specs/modos/spec.md](../openspec/specs/modos/spec.md)
 | decisiones segun el modo | funcional | `modos_c45a4802846932222.decisiones_segun_el_modo` | factory_modos.decisiones_segun_el_modo, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 | actor registrado sin aparentar humanos | funcional | `modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos` | factory_modos.actor_registrado_sin_aparentar_humanos, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 | cambio de modo con invalidacion | funcional | `modos_c45a4802846932222.cambio_de_modo_con_invalidacion` | factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+
+### onboarding
+
+Spec completa: [openspec/specs/onboarding/spec.md](../openspec/specs/onboarding/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| preparar ejemplo sin aprobacion | funcional | `onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion` | factory_guiada.preparar_ejemplo_sin_aprobacion | verde al cerrar el 2026-10-13 | 20261004-005956-inicio-guiado |
+| preservar archivos existentes | funcional | `onboarding_ca007f9416d32e171.preservar_archivos_existentes` | factory_guiada.preservar_archivos_existentes | verde al cerrar el 2026-10-13 | 20261004-005956-inicio-guiado |
+| recuperar cambios y siguiente paso | funcional | `onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso` | factory_guiada.recuperar_cambios_y_siguiente_paso | verde al cerrar el 2026-10-13 | 20261004-005956-inicio-guiado |
 
 ### portabilidad
 
@@ -199,20 +219,6 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
 
-### 20261004-005956-elegir-medidas — Elección de medidas
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `measurement_choice` · [propuesta](../openspec/changes/20261004-005956-elegir-medidas/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-
-### 20261004-005956-inicio-guiado — Inicio guiado
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `onboarding` · [propuesta](../openspec/changes/20261004-005956-inicio-guiado/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-
 ### 20261004-121432-coordinar-dos — Coordinar dos personas con sus agentes sin interferencias
 
 Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` · [propuesta](../openspec/changes/20261004-121432-coordinar-dos/proposal.md)
@@ -253,6 +259,26 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 
 ### De cambios con requisitos vigentes
 
+- (20261004-005956-elegir-medidas) agy (gemini-3.8-flash-high): Alcance y contexto del diff: revisión de vuelta 3 para el cambio 20261004-005956-elegir-medidas en el candidato f871a71 frente a base 37fad360. El diff consolidado incluye el registro de medidas confirmadas por Brian Hollweg (persona) en factory.json y TAREA.md, el registro de auditoría de vueltas 1 y 2, y los refuerzos acumulados en tests/test_guided.py (tanto de EleccionMedidas en la vuelta 2 como de InicioGuiado en f871a71).
+- (20261004-005956-elegir-medidas) agy (gemini-3.8-flash-high): Sin defectos en el diff: se inspeccionaron exhaustivamente las líneas modificadas en tests/test_guided.py (en particular los rangos head 43-49, 52-66, 118-134 de InicioGuiado y 177-184, 198-207, 240-258, 282-299 de EleccionMedidas), factory.json y TAREA.md. Las nuevas aserciones verifican con precisión que no se creen tareas al listar, validan la ruta conflictiva exacta y comprueban las rutas e ID en la salida de nuevo. Las huellas sha256 registradas para los archivos .requisito coinciden con sus contenidos en disco. No se detectaron defectos en el diff, por lo que findings queda vacía.
+- (20261004-005956-elegir-medidas) agy (gemini-3.8-flash-high): Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-elegir-medidas/proposal.md y openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md frente a la implementación de medir, inventario_medidas y bloqueo_medidas. El código satisface todos los requisitos y escenarios: 1) 'asociacion explicita y valida': exige el ID completo del requisito perteneciente al cambio, valida que las medidas existan en el catálogo efectivo, preserva prosa, fuente, comentarios y límites parciales, prohíbe opciones de edición bajo --listar y rechaza asociaciones automáticas; 2) 'preservar requisito ante error': ante medidas inexistentes, sintaxis inválida, spec desactualizada, catálogo alterado o fallo de E/S, conserva intactos los bytes originales mediante escritura atómica y validación de esperado; 3) 'invalidar evidencia anterior': cualquier modificación en la asociación o límites resetea revision y oracle a None e invalida la fase, mientras que repeticiones idénticas preservan las validaciones existentes sin cierre automático.
+- (20261004-005956-elegir-medidas) agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó exactamente en primer plano el comando indicado: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas en 4.19s). No se ejecutaron tools/verify_*.py ni la suite completa del proyecto, conforme a las instrucciones.
+- (20261004-005956-elegir-medidas) agy (gemini-3.8-flash-high): Verificación de mutaciones y resolución de vueltas anteriores: se ejecutó una batería de 23 mutaciones en copias locales sobre medir e InicioGuiado. Se constató que los hallazgos de vueltas anteriores siguen cerrados sin regresiones: las aserciones de EleccionMedidas matan mutantes de opciones en --listar, alteración de huella de catálogo, concurrencia en registro/spec, medidas vacías y límites vacíos; el metalenguaje de Oracle provee defensa en profundidad rechazando medidas duplicadas y espacios en sin_medir; y en InicioGuiado el candidato f871a71 cierra el hallazgo IG-01 de Codex (comprobación de no creación de tareas en listar) y los mutantes M6-M8 de Agy (rutas/ID exactas y ruta conflictiva). Conforme a las indicaciones, M9, M11 y M18 se consideran fuera del alcance de estos requisitos.
+- (20261004-005956-elegir-medidas) codex (gpt-6-luna): Se contrastaron proposal.md, specs/measurement_choice/spec.md, oracle_factory/cli.py, tests/test_guided.py y el mapeo del cambio en tools/verify_contracts.py. El diff de este candidato no modifica cli.py ni verify_contracts.py; se inspeccionó su estado en el checkout solicitado y se evaluaron los rangos del diff en tests/test_guided.py y los archivos de trazabilidad.
+- (20261004-005956-elegir-medidas) codex (gpt-6-luna): La implementación exige un requisito importado por el cambio y medidas efectivas explícitas; ante cambios valida requisito, registro, spec aprobada y huella del catálogo bajo bloqueo. Una asociación distinta invalida revision/oracle y la fase; la repetición idéntica conserva validaciones. Los casos asignados a los tres requisitos están enumerados en tools/verify_contracts.py. Los refuerzos de esta vuelta prueban además que listar rechaza opciones de edición, no modifica archivos y no crea tareas, y que inicio-guiado informa ID/rutas y la ruta conflictiva en sus errores cubiertos.
+- (20261004-005956-elegir-medidas) codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas, OK. No se ejecutaron tools/verify_*.py ni la suite completa.
+- (20261004-005956-elegir-medidas) codex (gpt-6-luna): No se hicieron mutaciones manuales. M9 (otros ejemplos limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedaron fuera del alcance indicado. Esta revisión no evalúa la pertinencia semántica de medidas elegidas ni propiedades que los casos enumerados no observan.
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Alcance del diff: el paquete de Clue para el candidato f871a71 comprende modificaciones de aserciones en tests/test_guided.py (líneas 46, 55-57, 63, 121-122, 128-131 para InicioGuiado, y líneas 177-184, 198-207, 240-258, 282-299 para EleccionMedidas), actualizaciones de metadatos de trazabilidad en .factory/cambios/20261004-005956-inicio-guiado/factory.json y .factory/cambios/20261004-005956-elegir-medidas/factory.json, notas de auditoría en tareas/20261004-005956-inicio-guiado/TAREA.md y tareas/20261004-005956-elegir-medidas/TAREA.md, y los artefactos de revisión/evidencia de las vueltas 1 (4295fb1) y 2 (62f4334). El commit candidato no altera la implementación de producción en oracle_factory/cli.py ni el sensor tools/verify_contracts.py.
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Sin defectos en el diff: las aserciones añadidas en tests/test_guided.py comprueban de manera rigurosa y fiel las promesas de la propuesta y la spec sin introducir aserciones espurias ni desajustes con el contrato. Los registros en factory.json y TAREA.md documentan consistentemente el historial de propuestas, confirmaciones humanas y revisiones, coincidiendo las huellas sha256 con los archivos en requisitos/. Al no hallarse defectos dentro de los rangos modificados del diff, la lista de hallazgos (findings) queda vacía conforme a las reglas del validador de Oracle Clue.
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Cierre de hallazgos y mutantes de la vuelta 2: el candidato f871a71 cierra satisfactoriamente los puntos pendientes de la vuelta 2: 1) Hallazgo IG-01 de Codex: en tests/test_guided.py:128-130 se captura before = self.tasks() y se verifica self.assertEqual(self.tasks(), before) tras invocar f.listar(), garantizando que la recuperación de IDs no cree tareas adicionales; 2) Mutantes M6 y M7 de agy: en tests/test_guided.py:55-57 se verifica que la salida de nuevo contenga el ID completo ('Cambio creado: ' + ident) y las rutas exactas de la tarea, propuesta, spec, ejemplo y catálogos; 3) Mutante M8 de agy: en tests/test_guided.py:63 se usa self.assertRaisesRegex comprobando que el error ante conflictos reporte explícitamente la ruta conflictiva ('catalogos/notas.resultados.oracle'). M9, M11 y M18 quedaron fuera del alcance por indicación explícita (limitación por opciones de argparse en --con-ejemplo, filtros generales de listar y nuevo sin ejemplo).
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-inicio-guiado/proposal.md y openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md frente al código existente en el checkout f871a71. Se verificó el cumplimiento de los tres requisitos: 1) 'preparar_ejemplo_sin_aprobacion': nuevo --con-ejemplo notas infiere capacidad notas, rechaza incompatibilidades, copia proposal.md, spec.md y catálogos, deja el estado en espera_aprobacion_spec sin spec aprobada ni medidas asociadas, e informa rutas y próximo paso humano; 2) 'preservar_archivos_existentes': plan_ejemplo y preparar_ejemplo validan rutas con ruta_segura, rechazan colisiones antes de invocar la creación de tarea, previenen sobrescrituras con open('xb') e informan destinos copiados en caso de interrupción; 3) 'recuperar_cambios_y_siguiente_paso': inicializar es idempotente, conserva configuración existente, actualiza .gitignore sin tocar el índice de Git, explica git init y los siguientes pasos; listar recupera IDs completos, fases y títulos sin crear tareas ni confundir tareas tracker.
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas en 4.2s, 9 de InicioGuiado y 11 de EleccionMedidas). No se ejecutó tools/verify_*.py ni la suite completa del proyecto según la restricción establecida.
+- (20261004-005956-inicio-guiado) agy (gemini-3.8-flash-high): Análisis de mutaciones locales: se evaluaron 18 mutaciones sobre copias y parches en la carpeta local .factory/local/revisores/f871a71-agy-1 contra la suite tests.test_guided.InicioGuiado. Todas las mutaciones dirigidas a los contratos de inicio-guiado (creación de tarea espuria en listar, truncamiento de ID, omisión de rutas exactas en la salida de nuevo, omisión de la ruta conflictiva en el error de plan_ejemplo, auto-aprobación de spec, asignación de medidas iniciales y omisión de copia de catálogos) fueron detectadas y eliminadas por las pruebas. La salida detallada se guardó localmente en mutaciones_guiado.log.
+- (20261004-005956-inicio-guiado) codex (gpt-6-luna): Se leyeron proposal.md y specs/onboarding/spec.md, los tres requisitos importados de requisitos/, el paquete Clue, oracle_factory/cli.py, tests/test_guided.py, el mapeo de tools/verify_contracts.py y las cuatro revisiones anteriores. No se ejecutó tools/verify_contracts.py ni tools/verify_*.py.
+- (20261004-005956-inicio-guiado) codex (gpt-6-luna): Se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas OK. La salida completa está en tests_guided.log.
+- (20261004-005956-inicio-guiado) codex (gpt-6-luna): No se ejecutó la suite completa. No se hicieron mutaciones manuales; el análisis de cobertura se basó en las aserciones actuales y en los mutantes reportados en revisiones previas.
+- (20261004-005956-inicio-guiado) codex (gpt-6-luna): Las regresiones de vueltas previas quedan cubiertas en el candidato: el test de nuevo comprueba que no haya medidas asignadas ni pendientes, que se imprima el ID completo y las rutas del ejemplo; el conflicto comprueba la ruta del catálogo en el error; init comprueba sus instrucciones; listar verifica ID, fase, título, exclusión de tareas tracker y que no cambie el conjunto de tareas antes/después. No detecté regresión en la implementación actual de oracle_factory/cli.py para los requisitos de este cambio.
+- (20261004-005956-inicio-guiado) codex (gpt-6-luna): M9 (otros nombres de ejemplo limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedan fuera de los requisitos indicados para esta revisión, según el alcance provisto.
 - (20261004-005956-revision-guiada) El análisis lo hizo un agente (Claude Code) y las decisiones las tomó Brian en la conversación; el agente no es independiente de quien implementó (misma familia de modelo, otra sesión).
 - (20261004-005956-revision-guiada) tests/test_review_guided.py se revisó por nombres y contrato, no línea por línea; los demás archivos listados se leyeron completos o en su diff.
 - (20261004-005956-revision-guiada) No mide claridad para principiantes ni calidad del análisis; la prueba de la guía comprueba presencia de secciones y comandos, no su calidad.

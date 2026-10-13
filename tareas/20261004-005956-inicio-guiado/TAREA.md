@@ -1,6 +1,6 @@
 # Preparar un primer cambio guiado sin copiar archivos a mano
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 30
 - ETIQUETAS:
 
@@ -113,3 +113,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 11:43:54 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-inicio-guiado/oracle-veredicto.txt.
+
+### Nota (2026-10-13 11:47:41 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
