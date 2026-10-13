@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy: 6 defectos distintos en las dos primeras (cierre y nota del tracker, corte entre registro y borrado, donde con registro mínimo, pruebas faltantes, singular del resumen), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.",
+  "decisiones": []
+}

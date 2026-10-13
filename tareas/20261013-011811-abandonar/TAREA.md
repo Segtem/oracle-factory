@@ -47,3 +47,7 @@ Medidas de archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido: B
 ### Nota (2026-10-13 01:39:23 UTC)
 
 Medidas de archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 09:57:14 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy: 6 defectos distintos en las dos primeras (cierre y nota del tracker, corte entre registro y borrado, donde con registro mínimo, pruebas faltantes, singular del resumen), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.); 0 abiertos derivados; commit 420a2c1d77cb65bdcea1da924e381aa1cc5959a5; informe tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/informe.json; decisiones tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/decisiones.json.

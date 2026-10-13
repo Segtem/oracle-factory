@@ -2,7 +2,7 @@
   "id": "20261013-011811-abandonar",
   "titulo": "Abandonar un cambio con motivo, decidido por una persona",
   "capacidad": "archivo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
   "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
     "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/informe.json",
+    "sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
+    "decisiones": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/decisiones.json",
+    "decisiones_sha256": "1b726ecd977c7c16dbee9fcec0e306a9b6bd62bed4cd4f5b5863094721b0caf4",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T09:57:14+00:00",
+    "motivo": "tres vueltas de codex y agy: 6 defectos distintos en las dos primeras (cierre y nota del tracker, corte entre registro y borrado, donde con registro mínimo, pruebas faltantes, singular del resumen), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "420a2c1d77cb65bdcea1da924e381aa1cc5959a5",
+      "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -272,6 +292,20 @@
       "cuando": "2026-10-13T02:30:17+00:00",
       "decision": "aprobar",
       "candidato": "a3fbbef"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T09:57:14+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
+      "decisiones_sha256": "1b726ecd977c7c16dbee9fcec0e306a9b6bd62bed4cd4f5b5863094721b0caf4"
     }
   ],
   "tipos": {
@@ -315,14 +349,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy: 6 defectos distintos en las dos primeras (cierre y nota del tracker, corte entre registro y borrado, donde con registro mínimo, pruebas faltantes, singular del resumen), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.",
-      "candidato": "a3fbbef",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T02:30:17+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
