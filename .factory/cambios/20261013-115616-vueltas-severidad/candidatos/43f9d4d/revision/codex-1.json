@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/43f9d4d",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "43f9d4d80fe24b063e25233c524c2d8936df2f6e",
+  "diff_sha256": "b826032fd8e8789c830235e30a9163f314044d72357d59e919bb879d7caa6de0",
+  "context_sha256": "61c61e0d26cbfc200d2a0222fd6beeefffd3919c335a8e8b8695d1ee8ac4340d",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "La firma equipara títulos distintos cuando hay puntuación",
+      "explanation": "La normalización reemplaza cada signo de puntuación por un espacio. Como resultado, un riesgo aceptado cuyo título sea «foo-bar» produce la misma firma que un hallazgo posterior titulado «foo bar». La spec requiere normalizar quitando la puntuación; con esa regla, el primer título queda «foobar» y el segundo «foo bar», por lo que no deben coincidir. `revisar` puede mostrar el segundo hallazgo como ya aceptado y evitar que se decida como nuevo, y el corte puede excluirlo del conteo de medios o altos sin una aceptación que corresponda.",
+      "location": {
+        "file": "oracle_factory/preparacion.py",
+        "start_line": 89,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Aceptar un hallazgo en `src/x.py` titulado «foo-bar»; en un candidato posterior, recibir un hallazgo del mismo archivo titulado «foo bar» y ejecutar `revisar` o el corte de `pedir-revision`.",
+      "evidence": "La función aplica `re.sub(r'[^\\w\\s]', ' ', titulo.lower())`. Se invocó `firma('src/x.py', 'foo-bar')` y `firma('src/x.py', 'foo bar')`; ambas devolvieron `src/x.py|foo bar`. La prueba `test_vs3_mantener_un_riesgo_aceptado` sólo verifica equivalencia por mayúsculas, doble espacio y puntuación terminal/interior con espacios existentes; no cubre puntuación entre caracteres que causa esta colisión.",
+      "related_requirement": "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+      "status": "pendiente",
+      "verification": "Reproducción directa de `firma` sobre el checkout candidato. También se ejecutó el comando solicitado: `python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided`; terminó OK, 45 tests."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff del paquete contra la spec y sus tres requisitos; el checkout candidato se mantuvo sin cambios.",
+    "Se ejecutó exactamente la selección solicitada de unittest (45 tests, OK); no se corrieron tools/verify_*.py ni la suite completa.",
+    "No se hicieron mutaciones sobre copias. La colisión de firmas se reprodujo llamando a la función en el checkout candidato.",
+    "La conclusión corresponde a esta revisión del código y las pruebas; no sustituye la decisión de la persona sobre el hallazgo."
+  ]
+}

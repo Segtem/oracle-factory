@@ -873,7 +873,12 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     escribir_atomico(revision_dir / f"{nombre}-{n}.pedido.md", pedido_archivo.read_bytes())
     print(f"Informe de {nombre}: {destino.relative_to(ROOT)} ({hallazgos} hallazgo{'s' if hallazgos != 1 else ''}"
           f"{': ' + severidades if severidades else ''}), validado con oracle-clue.")
-    graves, bajos = corte_del_candidato(identificador, sha, leer(identificador)[1]) or ([], [])
+    corte = corte_del_candidato(identificador, sha, leer(identificador)[1])
+    if corte is None:
+        print(f"No pude usar los informes del candidato {sha} para decidir si hace falta otra vuelta; "
+              f"mirá los avisos con oracle-factory revision-preparar {identificador}")
+        return destino
+    graves, bajos = corte
     if graves:
         print(f"Quedan {len(graves)} hallazgo{'s' if len(graves) != 1 else ''} medio{'s' if len(graves) != 1 else ''} o más "
               f"sin aceptar en el candidato {sha} ({', '.join(str(h.get('id')) for h in graves)}).")
@@ -1026,11 +1031,11 @@ def revisar_paso_a_paso(identificador: str) -> None:
     persona = actor()["actor"]
     resoluciones = []
     aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or []}
-    nuevos, revocados = [], []  # se guardan sólo si la revisión se registra
+    nuevos, revocados = {}, []  # se guardan sólo si la revisión se registra
     for h in informe.get("hallazgos") or []:
         print(f"\nHallazgo {h['id']} en {h['ubicacion']}:\n  {h['descripcion']}\n  Evidencia: {h['evidencia']}")
         firma = preparacion.firma_de_ubicacion(h["ubicacion"], h["descripcion"])
-        previo = aceptados.get(firma)
+        previo = aceptados.get(firma) if firma else None
         if previo:
             print(f"  YA ACEPTADO por {previo['actor']} el {previo['fecha'][:10]} (candidato {previo['candidato']}): "
                   f"«{previo['motivo']}»")
@@ -1044,6 +1049,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
                                      "origen_motivo": "persona", "actor": persona, "fecha": ahora()})
                 continue
             revocados.append(firma)
+            del aceptados[firma]  # otro hallazgo igual en esta revisión ya no se muestra como aceptado
         i = elegir(f"¿Qué hacés con {h['id']}?", [("Aceptar el riesgo", "queda registrado como riesgo aceptado"),
                                                   ("Descartar", "no aplica o no es un defecto"),
                                                   ("Dejar abierto", "sólo se podrá pedir cambios")])
@@ -1055,9 +1061,11 @@ def revisar_paso_a_paso(identificador: str) -> None:
         motivo_h, origen_h = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
         resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
                              "actor": persona, "fecha": ahora()})
-        if estado_h == "riesgo_aceptado":
-            nuevos.append({"archivo": preparacion.archivo_de_ubicacion(h["ubicacion"]), "titulo": h["descripcion"],
-                           "firma": firma, "motivo": motivo_h, "actor": persona, "fecha": ahora(), "candidato": sha})
+        if estado_h == "riesgo_aceptado" and firma:
+            # Uno por firma: si otro revisor reporta lo mismo en esta revisión, se le muestra como ya aceptado.
+            nuevos[firma] = aceptados[firma] = {
+                "archivo": preparacion.archivo_de_ubicacion(h["ubicacion"]), "titulo": h["descripcion"], "firma": firma,
+                "motivo": motivo_h, "actor": persona, "fecha": ahora(), "candidato": sha}
     abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
     # «Completa» lo declara la persona: Factory no lo supone.
     alcance = elegir("¿Revisaste todo lo que abarca el informe?", [
@@ -1096,8 +1104,8 @@ def revisar_paso_a_paso(identificador: str) -> None:
     carpeta, estado = leer(identificador)
     cambio = (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None  # la propuesta ya se decidió
     if nuevos or revocados:  # valen para las vueltas siguientes, aunque esta revisión pida cambios
-        quitar = set(revocados) | {n["firma"] for n in nuevos}
-        estado["aceptados"] = [a for a in estado.get("aceptados") or [] if a["firma"] not in quitar] + nuevos
+        quitar = set(revocados) | set(nuevos)
+        estado["aceptados"] = [a for a in estado.get("aceptados") or [] if a["firma"] not in quitar] + list(nuevos.values())
         cambio = True
     if cambio:
         guardar(carpeta, estado)

@@ -84,9 +84,13 @@ def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
 BAJAS = ('baja', 'informativa')  # cualquier otra severidad, o ninguna, pide otra vuelta
 
 
-def firma(archivo: str, titulo: str) -> str:
-    """Archivo (sin línea) + título en minúsculas, sin puntuación y con espacios simples: lo que vuelve igual entre vueltas."""
-    return f"{archivo}|{' '.join(re.sub(r'[^\w\s]', ' ', titulo.lower()).split())}"
+def firma(archivo: str, titulo: str) -> str | None:
+    """Archivo (sin línea) + título en minúsculas, sin puntuación y con espacios simples: lo que vuelve igual entre vueltas.
+
+    None si al título no le queda texto: un título de puros signos no identifica nada y nunca coincide.
+    """
+    normal = ' '.join(re.sub(r'[^\w\s]', '', titulo.lower()).split())
+    return f"{archivo}|{normal}" if normal else None
 
 
 def archivo_de_ubicacion(ubicacion: str) -> str:
@@ -95,13 +99,13 @@ def archivo_de_ubicacion(ubicacion: str) -> str:
     return archivo if archivo and linea.isdigit() else ubicacion
 
 
-def firma_de_ubicacion(ubicacion: str, titulo: str) -> str:
+def firma_de_ubicacion(ubicacion: str, titulo: str) -> str | None:
     return firma(archivo_de_ubicacion(ubicacion), titulo)
 
 
 def corte(revisores: list[dict], aceptados: list[dict]) -> tuple[list[dict], list[dict]]:
     """(medios o más, bajos) entre los hallazgos de los informes, sin los que coinciden con un riesgo aceptado."""
-    firmas = {a['firma'] for a in aceptados}
+    firmas = {a['firma'] for a in aceptados} - {None}
     graves, bajos = [], []
     for rev in revisores:
         for h in rev['datos'].get('findings') or []:
@@ -135,6 +139,7 @@ if __name__ == '__main__':
     assert i['revisor'] is None and i['completa'] is None and all(x['estado'] is None for x in d['decisiones'])
     assert i['comprobaciones'][0]['resultado'] == 'cumple' and 'codex (m): l' in i['limites']
     assert firma('x.py', 'El  título, otra vez!') == firma_de_ubicacion('x.py:12', 'el título otra vez') == 'x.py|el título otra vez'
+    assert firma('x.py', 'foo-bar') != firma('x.py', 'foo bar') and firma('x.py', '...') is None
     h = lambda s, t='t': {'title': t, 'location': {'file': 'x.py'}, **({'severity': s} if s else {})}
     g, b = corte([{'datos': {'findings': [h('baja'), h('informativa'), h('media', 'm'), h(None, 'n'), h('critica', 'c')]}}],
                  [{'firma': firma('x.py', 'c')}])

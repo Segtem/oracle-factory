@@ -114,6 +114,11 @@ class Vueltas(Base):
         self.assertIn('Quedan 1 hallazgo medio o más sin aceptar', salida)  # el del otro revisor cuenta
         self.assertIn(f'pedir otra vuelta con oracle-factory pedir-revision {self.ident}', salida)
         self.assertTrue(self.paso().startswith('corregí los 1 hallazgos medios o más del candidato'))
+        # Si los informes no se pueden usar para el corte, no sugiere revisar (revisar fallaría sin informes).
+        with patch.object(f, 'corte_del_candidato', return_value=None):
+            salida = self.pedir('agy', ['baja', 'Un nombre poco claro'])
+        self.assertIn('No pude usar los informes del candidato', salida)
+        self.assertNotIn(f'oracle-factory revisar {self.ident}', salida)
 
     def test_vs1_severidad_desconocida(self):
         # Clue exige la severidad; si un informe guardado la pierde, Factory no lo da por bajo.
@@ -135,9 +140,14 @@ class Vueltas(Base):
         self.assertIn(f"- examples/notas/notas.py: Falta validar el título (aceptado por {aceptado['actor']}: {aceptado['motivo']})", pedido)
 
     def test_vs2_se_guarda_aunque_pida_cambios(self):
-        self.aceptar_en_una_vuelta(decision='2')
+        self.preparar()
+        self.pedir('codex', ['media', 'Falta validar el título'])
+        self.pedir('agy', ['media', 'Falta validar el título'])  # otro revisor reporta lo mismo
+        # acepta el primero; motivo armado; el segundo ya figura aceptado: mantener; completa; pedir cambios; motivo armado
+        salida = self.revisar('1', '1', '1', '1', '2', '1')
+        self.assertIn('YA ACEPTADO', salida)
         self.assertEqual(f.leer(self.ident)[1]['revision']['decision'], 'cambios')
-        self.assertEqual(len(self.aceptados()), 1)
+        self.assertEqual(len(self.aceptados()), 1)  # uno por firma, sin duplicados
 
     def test_vs2_un_medio_aceptado_no_pide_otra_vuelta(self):
         self.aceptar_en_una_vuelta()
@@ -170,9 +180,12 @@ class Vueltas(Base):
     def test_vs3_revocar_un_riesgo_aceptado(self):
         self.aceptar_en_una_vuelta()
         self.pedir('codex', ['media', 'Falta validar el título'])
-        self.revisar('2', '3', '1', '2', '1')  # revocar; dejar abierto; completa; pedir cambios; motivo armado
+        self.pedir('agy', ['media', 'Falta validar el título'])  # otro revisor reporta lo mismo
+        # revocar; dejar abierto; el segundo ya no figura aceptado: dejar abierto; completa; pedir cambios; motivo armado
+        salida = self.revisar('2', '3', '3', '1', '2', '1')
+        self.assertEqual(salida.count('YA ACEPTADO'), 1)
         self.assertEqual(self.aceptados(), [])
-        self.assertEqual(f.leer(self.ident)[1]['revision']['hallazgos_abiertos'], 1)
+        self.assertEqual(f.leer(self.ident)[1]['revision']['hallazgos_abiertos'], 2)
 
     def test_vs3_un_titulo_distinto_no_coincide(self):
         self.aceptar_en_una_vuelta()
@@ -181,6 +194,11 @@ class Vueltas(Base):
         salida = self.revisar('3', '1', '2', '1')  # dejar abierto; completa; pedir cambios; motivo armado
         self.assertNotIn('YA ACEPTADO', salida)
         self.assertIn('¿Qué hacés con T-1?', salida)
+        # Quitar la puntuación no la vuelve espacio, y un título de puros signos no coincide con nada.
+        self.assertNotEqual(preparacion.firma('a.py', 'foo-bar'), preparacion.firma('a.py', 'foo bar'))
+        signos = {'title': '???', 'severity': 'alta', 'location': {'file': 'a.py'}}
+        graves, _ = preparacion.corte([{'datos': {'findings': [signos]}}], [{'firma': preparacion.firma('a.py', '...')}])
+        self.assertEqual(graves, [signos])
 
 
 if __name__ == '__main__':
