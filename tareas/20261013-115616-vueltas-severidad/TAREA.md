@@ -43,3 +43,7 @@ Medidas de revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas
 ### Nota (2026-10-13 15:18:00 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy: la 1 trajo 5 hallazgos (2 altos, 3 medios) y la 2, 4 (1 alto, 2 medios, 1 bajo), todos corregidos con una aserción que falla en el código anterior dentro de los mismos 10 casos del contrato; la 3 dejó un solo hallazgo bajo, decidido en esta revisión, y el corte nuevo dijo que no hacía falta otra vuelta. El F-03 de la vuelta 1 (el escenario de severidad desconocida no se alcanza por pedir-revision porque Clue rechaza el informe) queda como límite declarado en la evidencia; ajustar la spec va aparte. Suite 320 y evidencia en verde.); 0 abiertos derivados; commit 522d26e0a2a3a790e4dc82af911317eb81d54e89; informe tareas/20261013-115616-vueltas-severidad/revisiones/registro-1gs50r2g/informe.json; decisiones tareas/20261013-115616-vueltas-severidad/revisiones/registro-1gs50r2g/decisiones.json.
+
+### Nota (2026-10-13 15:18:18 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-115616-vueltas-severidad/oracle-veredicto.txt.
