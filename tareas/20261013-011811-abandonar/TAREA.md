@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261013-011811-abandonar. Modo de trabajo: confirmac
 ### Nota (2026-10-13 01:19:08 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-13 01:25:29 UTC)
+
+Requisitos importados: archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo (funcional), archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte (funcional), archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido (funcional), archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

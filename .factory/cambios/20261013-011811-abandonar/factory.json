@@ -2,7 +2,7 @@
   "id": "20261013-011811-abandonar",
   "titulo": "Abandonar un cambio con motivo, decidido por una persona",
   "capacidad": "archivo",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
   "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,28 @@
         "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
         "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T01:25:29+00:00",
+      "ids": [
+        "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+        "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+        "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+        "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo": "funcional",
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte": "funcional",
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido": "funcional",
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
