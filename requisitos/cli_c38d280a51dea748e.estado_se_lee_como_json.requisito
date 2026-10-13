@@ -1,4 +1,4 @@
 requisito cli_c38d280a51dea748e.estado_se_lee_como_json:
     texto "Tipo: funcional `oracle-factory estado ID --json` SHALL imprimir en stdout un único objeto JSON con `esquema` igual a `oracle-factory.estado/1` y, como mínimo: `id`, `titulo`, `fase`, `modo`, `candidato` (el vigente o null), `requisitos` (cada uno con sus medidas y la decisión que las respalda), `pendientes`, `proximo_paso`, `decisiones` (spec, revisión, cierre y abandono, cada una con actor, tipo de actor, forma, cuándo y motivo si lo tiene), `revision` y `oracle` (cada uno con el commit al que se refiere y si sigue vigente para el producto actual) y `aceptados`. SHALL NOT ofrecer ejecutar el próximo paso ni leer de la terminal, y SHALL NOT escribir archivos."
     fuente "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md#estado se lee como JSON"
-    sin_medir "sin medida todavía; escenarios: «un cambio en revisión», «la revisión vence», «un cambio abandonado»"
+    medido_por factory_cli_json.estado_se_lee_como_json, factory_cli_json.corrida_completa
