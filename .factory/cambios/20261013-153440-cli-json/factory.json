@@ -2,7 +2,7 @@
   "id": "20261013-153440-cli-json",
   "titulo": "Salidas en JSON de estado, donde y resumen",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
   "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-153440-cli-json/candidatos/7b12c87/evidencia/hechos.json",
+    "hechos_sha256": "4745ba0542f4252963a6c6a29903aa031bff31715c7bf5bccd379a8f9ac4d3cf",
+    "informe": ".factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt",
+    "informe_sha256": "27e41beff967d50259c596246eb9095846a03132158ec96ffe859ea4d0af578a",
+    "cuando": "2026-10-13T17:34:56+00:00",
+    "contexto": {
+      "head": "63b2c4d71a007e3cf9b7786133662e5e6a87508e",
+      "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -239,6 +251,17 @@
       "abiertos": 0,
       "sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
       "decisiones_sha256": "eae1f52bdc03a8eaa799a669b9addbdb494d768a82ade7d1492108cfb0e867d8"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:34:56+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "4745ba0542f4252963a6c6a29903aa031bff31715c7bf5bccd379a8f9ac4d3cf"
     }
   ],
   "tipos": {

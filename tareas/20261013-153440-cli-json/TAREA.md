@@ -43,3 +43,7 @@ Medidas de cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_s
 ### Nota (2026-10-13 17:34:36 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy: la 1 trajo 2 medios, 2 bajos y 1 informativo; se corrigieron la vigencia del juicio y de la revisión (mismas reglas que estado en texto), las pruebas de oracle y del resumen y el actor de registros viejos, con aserciones que fallan en el código anterior dentro de los mismos 7 casos; la 2 no encontró nada. CLI-JSON-001 (un cambio sin evidencia no la lista como ausente en donde: cumplirlo cambiaría el texto de donde, que otro requisito prohíbe) queda como límite: el escenario se probó con los hechos de un juicio registrado que ya no están, y ajustar la spec va aparte. Suite 327 y evidencia en verde.); 0 abiertos derivados; commit 2e783f5118de7a45495c7fdced33fe4fca9e16da; informe tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/informe.json; decisiones tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/decisiones.json.
+
+### Nota (2026-10-13 17:34:56 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt.
