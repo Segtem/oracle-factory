@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/dba4c66",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "dba4c6609a86bae6b9989a215c3756e01d03244c",
+  "diff_sha256": "e363d36480d82a1f1cce3d1e5e38bb764b634621456064ed59e80cfda28bbc39",
+  "context_sha256": "2731483ace7d4d67a8a8746cfe2c7e9f1dad5969e8f3bff2bf3896e1c1b6647f",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "abandonar-fallo-nota-tracker-deja-cambio-sin-nota",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Si falla la nota del tracker, el cambio se abandona sin el motivo en la tarea",
+      "explanation": "Después de cerrar la tarea, `abandonar()` captura cualquier `FactoryError` de `nota_tarea`, solo imprime un aviso y continúa guardando la fase `abandonada` y borrando sus requisitos. Por tanto, un fallo de `tasks note` deja la tarea cerrada sin la nota que dé el motivo, aunque la spec exige cerrar la tarea del tracker con esa nota. La operación no ofrece una reparación al reintentar: una vez persistido el abandono y limpiados los requisitos, el camino normal rechaza el cambio ya abandonado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1565,
+        "end_line": 1568,
+        "side": "head"
+      },
+      "trigger": "La tarea tiene estado abierto y `tasks close` tiene éxito, pero la llamada siguiente a `tasks note` falla (por ejemplo, el tracker queda indisponible).",
+      "evidence": "Reproducción en el fixture temporal de `tests/test_abandonar.py`: se hizo fallar `nota_tarea` con `FactoryError('tracker indisponible')`. `abandonar()` devolvió sin excepción; el resultado fue `phase: abandonada`, `task_closed: True`, `task_has_abandon_note: False`, y emitió el aviso `tracker indisponible; el motivo queda en el registro del cambio`. El motivo queda en Factory, pero falta en la tarea del tracker.",
+      "related_requirement": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "status": "pendiente",
+      "verification": "Reproducir con una tarea abierta y `nota_tarea` simulada para lanzar `FactoryError`; verificar que la fase se guarda como abandonada y que `TAREA.md` no recibe la nota del motivo pese a que la tarea queda cerrada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó desde la raíz del checkout el comando indicado: `timeout 300 /home/workstation/Dev/factory-abandonar/.venv/bin/python -m unittest tests.test_abandonar tests.test_archivo tests.test_resumen tests.test_estructura </dev/null`; resultado: 75 pruebas OK.",
+    "Se reprodujo en un fixture temporal el fallo de la nota del tracker; el checkout candidato permaneció sin modificaciones.",
+    "Se revisaron los escenarios de decisión humana, cancelación, modo autónomo, reintento de limpieza tras corte, estado, donde, listar y resumen, además de las rutas de modificación sobre cambios abandonados.",
+    "No se ejecutaron `tools/verify_*.py` ni la suite completa, según la indicación de revisión."
+  ]
+}

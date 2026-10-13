@@ -145,6 +145,26 @@ class Abandonar(unittest.TestCase):
             f.abandonar(ident)
         self.assertEqual(self.archivos(), antes)  # ni el registro, ni los requisitos, ni una nota en la tarea abierta
 
+    def test_ab2_si_la_nota_falla_se_completa_al_repetir(self):
+        ident = self.importado()
+        requisitos = f.leer(ident)[1]['requisitos']
+        real = f.ejecutar
+
+        def sin_nota(argv, *a, **k):
+            if list(argv[:2]) == ['tasks', 'note']:
+                return f.subprocess.CompletedProcess(argv, 1, '', 'tracker indisponible')
+            return real(argv, *a, **k)
+        with patch.object(f, 'ejecutar', side_effect=sin_nota), self.responde('1', '1'), \
+                self.assertRaisesRegex(f.FactoryError, 'tracker indisponible'):
+            f.abandonar(ident)
+        self.assertNotEqual(f.leer(ident)[1]['fase'], 'abandonada')  # Factory no cambió: se puede repetir
+        self.assertTrue(all(self.requisito(r).is_file() for r in requisitos))
+        with self.responde('1', '1'):
+            f.abandonar(ident)
+        self.assertEqual(f.leer(ident)[1]['fase'], 'abandonada')
+        self.assertIn('ESTADO: CERRADA', self.tarea(ident))
+        self.assertEqual(self.tarea(ident).count('Abandonado por una persona'), 1)
+
     def test_ab2_un_corte_despues_del_registro_se_completa(self):
         ident = self.importado()
         requisitos = f.leer(ident)[1]['requisitos']

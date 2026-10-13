@@ -19,6 +19,7 @@ CONTRACTS = {
     'lo_abandonado_no_queda_abierto_ni_medido': ['ab2_abandonar_un_cambio_con_requisitos_importados',
                                                  'ab2_un_comando_sobre_un_cambio_abandonado',
                                                  'ab2_si_el_tracker_no_cierra_no_cambia_nada',
+                                                 'ab2_si_la_nota_falla_se_completa_al_repetir',
                                                  'ab2_un_corte_despues_del_registro_se_completa'],
     'el_resumen_muestra_lo_abandonado_aparte': ['ab3_un_cambio_abandonado_en_el_resumen'],
     'una_carpeta_sin_registro_tambien_se_abandona': ['ab4_una_carpeta_anterior_al_flujo'],

@@ -1557,15 +1557,16 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     motivo = elegir_motivo(f"no se va a terminar: queda abandonado en la fase {estado['fase']}"
                            + (f" con {len(requisitos)} requisitos sin cerrar" if requisitos else "")
                            + "; lo que siga va en un cambio nuevo.", propuesto)
-    if tarea.is_file():  # antes de tocar nada: si el cierre falla, el cambio y la tarea quedan como estaban
+    if tarea.is_file():
+        # El tracker antes que Factory: si falla, el cambio sigue abierto y repetir abandonar lo completa (una tarea ya
+        # cerrada no se vuelve a cerrar y la nota no se repite). Cerrar va primero para no dejar la nota en una tarea abierta.
         if "ESTADO: CERRADA" not in tarea.read_text(encoding="utf-8"):
             p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
             if p.returncode:
                 raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
-        try:  # la nota sólo repite el motivo, que queda en el registro: si falla, se avisa y se sigue
-            nota_tarea(identificador, f"Abandonado por una persona; motivo: {motivo[0]}")
-        except FactoryError as e:
-            print(f"Aviso: {e}; el motivo queda en el registro del cambio.", file=sys.stderr)
+        nota = f"Abandonado por una persona; motivo: {motivo[0]}"
+        if nota not in tarea.read_text(encoding="utf-8"):
+            nota_tarea(identificador, nota)
     else:
         print(f"Aviso: {identificador} no tiene tarea en tareas/; no hay nada que cerrar en el tracker.", file=sys.stderr)
     forma = "confirmo" if motivo[1] == "agente" else "decidio"
