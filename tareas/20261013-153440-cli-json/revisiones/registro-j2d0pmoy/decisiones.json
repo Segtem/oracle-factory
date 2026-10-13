@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy: la 1 trajo 2 medios, 2 bajos y 1 informativo; se corrigieron la vigencia del juicio y de la revisión (mismas reglas que estado en texto), las pruebas de oracle y del resumen y el actor de registros viejos, con aserciones que fallan en el código anterior dentro de los mismos 7 casos; la 2 no encontró nada. CLI-JSON-001 (un cambio sin evidencia no la lista como ausente en donde: cumplirlo cambiaría el texto de donde, que otro requisito prohíbe) queda como límite: el escenario se probó con los hechos de un juicio registrado que ya no están, y ajustar la spec va aparte. Suite 327 y evidencia en verde.",
+  "decisiones": []
+}

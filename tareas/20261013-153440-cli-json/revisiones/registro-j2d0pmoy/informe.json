@@ -1,0 +1,89 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261013-153440-cli-json",
+  "contexto": {
+    "head": "2e783f5118de7a45495c7fdced33fe4fca9e16da",
+    "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
+  },
+  "documentos": {
+    "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
+    "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/evidencia/hechos.json",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/evidencia/resultado.json",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/evidencia/suite.txt",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/agy-1.json",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/codex-1.json",
+    ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-153440-cli-json/factory.json",
+    "README.md",
+    "catalogos/factory_cli_json.corrida_completa.oracle",
+    "catalogos/factory_cli_json.donde_y_resumen_se_leen_como_json.oracle",
+    "catalogos/factory_cli_json.estado_se_lee_como_json.oracle",
+    "catalogos/factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json.oracle",
+    "docs/estructura.md",
+    "openspec/changes/20261013-153440-cli-json/design.md",
+    "openspec/changes/20261013-153440-cli-json/proposal.md",
+    "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
+    "openspec/changes/20261013-153440-cli-json/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/resumen.py",
+    "requisitos/cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json.requisito",
+    "requisitos/cli_c38d280a51dea748e.estado_se_lee_como_json.requisito",
+    "requisitos/cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json.requisito",
+    "tareas/20261013-153440-cli-json/TAREA.md",
+    "tests/datos/cli_texto/donde.txt",
+    "tests/datos/cli_texto/estado.txt",
+    "tests/datos/cli_texto/resumen.txt",
+    "tests/test_cli_json.py",
+    "tools/verify_cli_json.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 327 pruebas, 7 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-153440-cli-json/candidatos/7b12c87/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-153440-cli-json/candidatos/7b12c87/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-153440-cli-json/candidatos/7b12c87/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 48ccf54: agy (gemini-3.8-flash-high), 4 hallazgos: CLI-JSON-001 (media), CLI-JSON-002 (baja), CLI-JSON-003 (baja), CLI-JSON-004 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 48ccf54: codex (gpt-6-luna), 1 hallazgo: CLIJSON-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-153440-cli-json/candidatos/48ccf54/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cj1–cj3 en repositorios temporales, Linux, con Clue simulado y las respuestas del menú simuladas. Que el texto no cambia se compara contra salidas de referencia generadas con el código de main antes del cambio, normalizando ID, fechas, hashes y actor. No prueba ningún cliente (IDE, panel, MCP).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias indicadas por el operador: 'tests.test_cli_json', 'tests.test_resumen' y 'tests.test_estructura' bajo Python 3.13 en Linux.",
+    "agy (gemini-3.8-flash-high): Se contrastaron las promesas de la propuesta y la spec (openspec/changes/20261013-153440-cli-json/specs/cli/spec.md) contra el código de oracle_factory/cli.py y oracle_factory/resumen.py.",
+    "agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: CLIJSON-001 (vigencia del juicio con artefactos intactos), CLI-JSON-002 (pruebas de oracle en estado --json), CLI-JSON-003 (pruebas completas de resumen --json) y CLI-JSON-004 (actor en registros anteriores a modos). Todos permanecen resueltos sin regresiones.",
+    "agy (gemini-3.8-flash-high): No se reitera CLI-JSON-001 de la vuelta 1 por indicación expresa de la consigna (materia de decisión humana en revisión).",
+    "agy (gemini-3.8-flash-high): Se evaluó la estabilidad del esquema JSON para clientes (IDE, panel, MCP), la ausencia de efectos secundarios o escrituras en disco bajo --json, y la preservación byte a byte de salidas previas de texto.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manual sobre copias en el espacio local del revisor.",
+    "agy (gemini-3.8-flash-high): No se ejecutó tools/verify_cli_json.py ni la suite completa de tests, conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): No se probaron clientes externos en tiempo real (extensión VS Code, paneles o factory-mcp).",
+    "codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y los informes de las vueltas anteriores; contrasté cli.py, resumen.py y tests/test_cli_json.py con los tres requisitos.",
+    "codex (gpt-6-luna): Ejecuté exactamente: /home/workstation/Dev/factory-cli-json/.venv/bin/python -m unittest tests.test_cli_json tests.test_resumen tests.test_estructura desde /home/workstation/Dev/factory-cli-json: 51 tests, OK.",
+    "codex (gpt-6-luna): Revisé las referencias tests/datos/cli_texto y los caminos JSON de estado, donde y resumen; no ejecuté tools/verify_*.py ni la suite completa.",
+    "codex (gpt-6-luna): No hice mutaciones manuales. No probé clientes externos (IDE, panel o MCP); la revisión de compatibilidad del esquema fue estática."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d1d2702481d1ad396ba6523be85f3021e4ad2ad036d6cdbdfa78afa03228a204 -->
+<!-- oracle-factory resumen sha256:aa1f3d24aabd6021a796ac8e503d5a1bb89d201571518526aabfdf1af15db5fd -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-15 capacidades · 104 requisitos vigentes · 1 cambio abierto
+15 capacidades · 107 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -54,6 +54,9 @@ Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
 | el resumen se ve con formato | funcional | `cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato` | factory_cli.el_resumen_se_ve_con_formato, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
 | estado calcula y ofrece el próximo paso | funcional | `cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso` | factory_cli.estado_calcula_y_ofrece_el_proximo_paso, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
 | el próximo paso no se ejecuta solo | no funcional | `cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo` | factory_cli.el_proximo_paso_no_se_ejecuta_solo, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
+| estado se lee como JSON | funcional | `cli_c38d280a51dea748e.estado_se_lee_como_json` | factory_cli_json.estado_se_lee_como_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
+| donde y resumen se leen como JSON | funcional | `cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json` | factory_cli_json.donde_y_resumen_se_leen_como_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
+| la salida de texto no cambia y los errores no se mezclan con el JSON | funcional | `cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json` | factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
 
 ### decisiones
 
@@ -407,3 +410,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se revisaron la propuesta, los tres requisitos, el diff, `oracle_factory/cli.py`, `oracle_factory/preparacion.py`, `tests/test_vueltas.py` y las cuatro revisiones de vueltas anteriores; el checkout candidato se mantuvo intacto.
 - (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se ejecutó exactamente `cd /home/workstation/Dev/factory-vueltas-severidad && /home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided </dev/null`: 45 tests, OK.
 - (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se reprodujo directamente el caso de ruta POSIX `src/part:12`. No se ejecutaron `tools/verify_*.py` ni la suite completa.
+- (20261013-153440-cli-json) Evidencia: Escenarios cj1–cj3 en repositorios temporales, Linux, con Clue simulado y las respuestas del menú simuladas. Que el texto no cambia se compara contra salidas de referencia generadas con el código de main antes del cambio, normalizando ID, fechas, hashes y actor. No prueba ningún cliente (IDE, panel, MCP).
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias indicadas por el operador: 'tests.test_cli_json', 'tests.test_resumen' y 'tests.test_estructura' bajo Python 3.13 en Linux.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): Se contrastaron las promesas de la propuesta y la spec (openspec/changes/20261013-153440-cli-json/specs/cli/spec.md) contra el código de oracle_factory/cli.py y oracle_factory/resumen.py.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: CLIJSON-001 (vigencia del juicio con artefactos intactos), CLI-JSON-002 (pruebas de oracle en estado --json), CLI-JSON-003 (pruebas completas de resumen --json) y CLI-JSON-004 (actor en registros anteriores a modos). Todos permanecen resueltos sin regresiones.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): No se reitera CLI-JSON-001 de la vuelta 1 por indicación expresa de la consigna (materia de decisión humana en revisión).
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): Se evaluó la estabilidad del esquema JSON para clientes (IDE, panel, MCP), la ausencia de efectos secundarios o escrituras en disco bajo --json, y la preservación byte a byte de salidas previas de texto.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manual sobre copias en el espacio local del revisor.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): No se ejecutó tools/verify_cli_json.py ni la suite completa de tests, conforme a las instrucciones.
+- (20261013-153440-cli-json) agy (gemini-3.8-flash-high): No se probaron clientes externos en tiempo real (extensión VS Code, paneles o factory-mcp).
+- (20261013-153440-cli-json) codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y los informes de las vueltas anteriores; contrasté cli.py, resumen.py y tests/test_cli_json.py con los tres requisitos.
+- (20261013-153440-cli-json) codex (gpt-6-luna): Ejecuté exactamente: /home/workstation/Dev/factory-cli-json/.venv/bin/python -m unittest tests.test_cli_json tests.test_resumen tests.test_estructura desde /home/workstation/Dev/factory-cli-json: 51 tests, OK.
+- (20261013-153440-cli-json) codex (gpt-6-luna): Revisé las referencias tests/datos/cli_texto y los caminos JSON de estado, donde y resumen; no ejecuté tools/verify_*.py ni la suite completa.
+- (20261013-153440-cli-json) codex (gpt-6-luna): No hice mutaciones manuales. No probé clientes externos (IDE, panel o MCP); la revisión de compatibilidad del esquema fue estática.

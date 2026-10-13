@@ -495,6 +495,15 @@ def contexto_producto() -> dict:
     return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
 
 
+def juicio_vigente(oracle: dict, actual: dict | None) -> bool:
+    """El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó."""
+    def intacto(relativa, huella):
+        ruta = ROOT / relativa if relativa else None
+        return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
+    return (actual is not None and intacto(oracle.get("hechos"), oracle.get("hechos_sha256"))
+            and intacto(oracle.get("informe"), oracle.get("informe_sha256")) and mismo_producto(oracle.get("contexto"), actual))
+
+
 def mismo_producto(registrado: dict | None, actual: dict) -> bool:
     """Vigencia por contenido: el HEAD es un dato del registro, no una condición."""
     return bool(registrado) and registrado.get("archivos_sha256") == actual.get("archivos_sha256")
@@ -1434,6 +1443,13 @@ def _lista(valor) -> list:
 
 def texto_resumen(salida: Path | None = None) -> str:
     """Junta los datos de los registros y genera el resumen (sin escribir nada)."""
+    destino = ruta_resumen(salida)
+    raiz_relativa = os.path.relpath(ROOT, destino.parent).replace(os.sep, "/") + "/"
+    return resumen.generar(*insumos_resumen(), "" if raiz_relativa == "./" else raiz_relativa)
+
+
+def insumos_resumen() -> tuple:
+    """(índices, registros, medidas, abiertos, revisiones, sin registro): lo que leen el resumen en texto y en JSON."""
     carpeta_specs = ROOT / estructura.DIR / "specs"
     indices = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(carpeta_specs.glob("*.json"))] \
         if carpeta_specs.is_dir() else []
@@ -1471,10 +1487,7 @@ def texto_resumen(salida: Path | None = None) -> str:
             texto = ruta.read_text(encoding="utf-8") if ruta.is_file() else ""
             m = re.search(r"(?m)^\s+medido_por\s+(.+?)\s*$", texto)
             medidas[req["requisito"]] = [x.strip() for x in m[1].split(",")] if m else []
-    destino = ruta_resumen(salida)
-    raiz_relativa = os.path.relpath(ROOT, destino.parent).replace(os.sep, "/") + "/"
-    return resumen.generar(indices, registros, medidas, abiertos, revisiones, sin_registro,
-                           "" if raiz_relativa == "./" else raiz_relativa)
+    return indices, registros, medidas, abiertos, revisiones, sin_registro
 
 
 def ruta_resumen(salida: Path | None = None) -> Path:
@@ -1713,6 +1726,80 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
     print(f"Modo de trabajo: {actual} → {nuevo_modo}.")
     for item, via in invalidadas:
         print(f"Decisión de agente sobre {item}: {texto[via]}.")
+
+
+ESQUEMA_ESTADO, ESQUEMA_DONDE = "oracle-factory.estado/1", "oracle-factory.donde/1"
+
+
+def imprimir_json(datos: dict) -> None:
+    """Todo de una vez al final: si algo falla antes, stdout queda vacío y el error va a stderr."""
+    print(json.dumps(datos, ensure_ascii=False, indent=2, sort_keys=True))
+
+
+def _decision(registro: dict | None) -> dict | None:
+    """Quién decidió, cómo, cuándo y por qué; lo mismo que `quien` muestra en texto."""
+    if not registro:
+        return None
+    datos = {k: registro.get(k) for k in ("actor", "tipo_actor", "forma", "modo", "cuando", "motivo", "origen_motivo")}
+    if "tipo_actor" not in registro:  # anterior a los modos: el actor estaba en «por» y no se sabe si era persona
+        datos["actor"] = registro.get("actor") or registro.get("por")
+    return datos
+
+
+def datos_estado(identificador: str) -> dict:
+    """Lo que muestra `estado`, como datos con esquema versionado; no pregunta ni escribe nada."""
+    carpeta, estado = leer(identificador)
+    abandonado = estado.get("fase") == "abandonada"
+    try:
+        actual = None if abandonado else contexto_producto()
+    except (FactoryError, OSError):
+        actual = None
+    medido_por: dict[str, list[str]] = {}
+    if not abandonado and estado.get("requisitos"):
+        try:
+            requisitos, _, _ = inventario_medidas(estado)
+            medido_por = {rid: list(r.medido_por) for rid, r in requisitos.items()}
+        except (ValueError, OSError, FactoryError):
+            pass  # un requisito o catálogo que Oracle rechaza: las medidas quedan vacías y pendientes lo dice
+
+    def gate(registro: dict | None, campos: tuple, vigente: bool) -> dict | None:
+        if not registro:
+            return None
+        return {**{c: registro.get(c) for c in campos}, "head": (registro.get("contexto") or {}).get("head"),
+                "cuando": registro.get("cuando"), "vigente": vigente}
+
+    pendientes_medidas = estado.get("medidas_pendientes") or {}
+    return {
+        "esquema": ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
+        "modo": modo_de(estado), "capacidad": estado.get("capacidad"),
+        "candidato": None if abandonado else candidato_vigente(identificador),
+        "requisitos": [{"id": rid, "tipo": (estado.get("tipos") or {}).get(rid, "funcional"), "medidas": medido_por.get(rid, []),
+                        "decision": _decision((estado.get("medidas") or {}).get(rid)),
+                        "propuesta": _decision(None if (pendientes_medidas.get(rid) or {}).get("descartada")
+                                               else pendientes_medidas.get(rid))}
+                       for rid in estado.get("requisitos") or []],
+        "pendientes": [] if abandonado else pendientes_actuales(carpeta, estado),
+        "proximo_paso": proximo_paso(identificador),
+        "decisiones": {"spec": _decision(estado.get("spec_aprobada")), "revision": _decision(estado.get("revision")),
+                       "cierre": _decision(estado.get("cierre")), "abandono": _decision(estado.get("abandono"))},
+        # Vigencia con las mismas reglas que estado en texto y proximo_paso.
+        "revision": gate(estado.get("revision"), ("decision", "hallazgos_abiertos", "revisor", "formato", "informe"),
+                         actual is not None and mismo_producto((estado.get("revision") or {}).get("contexto"), actual)
+                         and not problemas_de_revision(estado)),
+        "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos"),
+                       juicio_vigente(estado.get("oracle") or {}, actual)),
+        "aceptados": estado.get("aceptados") or [],
+        "avisos": [] if abandonado else avisos_head(estado),
+    }
+
+
+def datos_donde(identificador: str, candidato: str | None) -> dict:
+    _, estado = leer(identificador)
+    return {"esquema": ESQUEMA_DONDE, "id": estado["id"], "titulo": estado.get("titulo", ""), "candidato": candidato,
+            "artefactos": [{"gate": fila["gate"], "ruta": fila["ruta"], "nota": fila["nota"] or None,
+                            "situacion": ("no_valido" if fila.get("invalida") else "historico" if fila["gate"] == "histórico"
+                                          else "existe" if fila["existe"] else "ausente")}
+                           for fila in estructura.donde(ROOT, identificador, estado, candidato)]}
 
 
 def comando_donde(identificador: str, candidato: str | None) -> None:
@@ -2035,12 +2122,7 @@ def proximo_paso(identificador: str) -> str | None:
             return f"oracle-factory juzgar {ident}"
     except FactoryError:
         pass
-    def vigente(ruta, huella):
-        return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
-    # El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó.
-    if (vigente(juzgados, oracle.get("hechos_sha256"))
-            and vigente(ROOT / oracle["informe"] if oracle.get("informe") else None, oracle.get("informe_sha256"))
-            and mismo_producto(oracle.get("contexto"), contexto_producto())):
+    if juicio_vigente(oracle, contexto_producto()):
         if oracle.get("codigo") != 0:
             return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
         if not pendientes_actuales(carpeta, estado):
@@ -2368,11 +2450,13 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si el resumen falta o quedó viejo')
     q.add_argument('--salida', type=Path, help='otra ruta dentro del proyecto (fuera de .factory/ cuenta en la huella)')
     q.add_argument('--ver', action='store_true', help='además, mostrarlo: con glow si está instalado, si no como texto')
+    q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado sin escribir el resumen (para IDE, paneles y MCP)')
     sub.add_parser('archivar', help='fusionar en openspec/specs/ la spec de los cambios cerrados que todavía no lo están')
     q = sub.add_parser('migrar', help='pasar el estado de cada cambio y la configuración a .factory/ (fase 2 de la estructura)')
     q.add_argument('--verificar', action='store_true', help='listar lo que movería sin escribir; falla si hay algo por migrar')
     q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
     q.add_argument('id'); q.add_argument('--candidato', help='limitarse a los artefactos de este commit (prefijo del SHA)')
+    q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado (para IDE, paneles y MCP)')
     q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
@@ -2404,6 +2488,8 @@ def construir_parser() -> argparse.ArgumentParser:
                           ("cerrar", "cierre humano si todos los gates pasaron")):
         q = sub.add_parser(nombre, help=ayuda)
         q.add_argument("id")
+        if nombre == "estado":
+            q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado (para IDE, paneles y MCP)')
     p = sub.add_parser("revision", help="registrar un informe de CodeRabbit/revisor y decisión humana")
     p.add_argument("id"); p.add_argument("--informe", type=Path, required=True)
     p.add_argument("--revisor", required=True); p.add_argument("--decision", choices=("aprobar", "cambios"), required=True)
@@ -2437,8 +2523,13 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
+        elif args.comando == "resumen" and args.json:
+            if args.verificar or args.salida or args.ver:
+                raise FactoryError("--json no se combina con --verificar, --salida ni --ver")
+            imprimir_json(resumen.datos(*insumos_resumen()))
         elif args.comando == "resumen": comando_resumen(args.verificar, args.salida, args.ver)
         elif args.comando == "pedir-revision": pedir_revision(args.id, args.revisor, args.pedir, args.base)
+        elif args.comando == "donde" and args.json: imprimir_json(datos_donde(args.id, args.candidato))
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
@@ -2464,6 +2555,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con if args.con else hechos_del_candidato(args.id))
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "abandonar": abandonar(args.id, args.motivo)
+        elif args.comando == "estado" and args.json: imprimir_json(datos_estado(args.id))
         elif args.comando == "estado":
             mostrar(args.id)
             return ofrecer_siguiente(args.id)

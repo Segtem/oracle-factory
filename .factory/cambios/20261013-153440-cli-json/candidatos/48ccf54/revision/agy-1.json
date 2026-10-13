@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-json/.factory/local/revisiones/48ccf54",
+  "base": "ae07f64a9645e2064b0dcbf043c93d3e2a12eb84",
+  "head": "48ccf541885d7ddfc5a9c5feb6f73f25162c330d",
+  "diff_sha256": "1455a1afa990ffc926c5ffe96ec2daa45ad7e3716947cd211b07314e5e1457fc",
+  "context_sha256": "a3e28d0714ce7ca52b4d0585eb7cc13e91095218e951e4a458d3dfce47a61265",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias indicadas por el operador: 'tests.test_cli_json', 'tests.test_resumen' y 'tests.test_estructura' bajo Python 3.13 en Linux.",
+    "Se realizaron pruebas de mutación manual en copias aisladas en el espacio de trabajo del revisor para comprobar la sensibilidad de la suite.",
+    "No se ejecutó tools/verify_cli_json.py ni la suite completa de descubrimiento de tests, conforme a las instrucciones explícitas del operador.",
+    "No se probaron interacciones en tiempo real con clientes externos finales (IDE VS Code, panel web o servidores MCP)."
+  ],
+  "findings": [
+    {
+      "id": "CLI-JSON-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El escenario «donde con un artefacto ausente» no se cumple para un cambio sin evidencia",
+      "explanation": "La especificación aprobada en openspec/changes/20261013-153440-cli-json/specs/cli/spec.md (Scenario: donde con un artefacto ausente) establece: GIVEN un cambio sin evidencia; WHEN se pide donde con --json; THEN la evidencia figura con situación ausente. Sin embargo, en la implementación de oracle_factory/cli.py (datos_donde) que delega en oracle_factory/estructura.py (donde), los subdirectorios de candidatos solo se agregan si existen en el sistema de archivos ('if (carpeta / sub).exists(): filas.append(...)'). Para un cambio que aún no produjo evidencia, datos_donde no genera ninguna entrada en 'artefactos' referente a la evidencia (ni con gate 'candidato'/'evidencia' ni con situación 'ausente'). En openspec/changes/20261013-153440-cli-json/design.md (línea 8) el implementador documentó expresamente este desvío respecto a la spec: 'donde lista la evidencia de un candidato sólo cuando existe; lo que figura ausente es un artefacto que un registro nombra y ya no está (por ejemplo, los hechos de un juicio registrado)'. Para hacer pasar el test, tests/test_cli_json.py:108-120 (test_cj2_donde_con_un_artefacto_ausente) produce evidencia previa, registra un juicio con juzgar y luego borra hechos.json para comprobar el gate 'juicio' como ausente, en lugar de probar un cambio sin evidencia como exige la spec.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1781,
+        "end_line": 1788,
+        "side": "head"
+      },
+      "trigger": "Ejecutar 'oracle-factory donde ID --json' sobre un cambio nuevo o medido que no haya generado evidencia.",
+      "evidence": "Al invocar datos_donde(ident, None) en un cambio sin evidencia, la lista 'artefactos' contiene acuerdos, spec, estado y tarea (todos 'existe'), pero ninguna entrada con gate o ruta de evidencia ni ningún artefacto con situación 'ausente'.",
+      "related_requirement": "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+      "status": "pendiente",
+      "verification": "Ejecutar datos_donde(ident, None)['artefactos'] en un cambio recién importado: no contiene elementos con situacion == 'ausente'."
+    },
+    {
+      "id": "CLI-JSON-002",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_cli_json no comprueba el contrato de oracle en estado --json y mutaciones sobreviven",
+      "explanation": "El requisito cli_c38d280a51dea748e.estado_se_lee_como_json exige que oracle-factory estado ID --json imprima en stdout un objeto JSON que incluya 'revision y oracle (cada uno con el commit al que se refiere y si sigue vigente para el producto actual)'. Sin embargo, en tests/test_cli_json.py ningún test verifica la presencia, los campos ni la vigencia de 'oracle': test_cj1_un_cambio_en_revision deja el cambio en 'revision_aprobada' sin juicio previo y no contiene aserciones sobre datos['oracle']; no existe ningún test que invoque estado --json sobre un cambio con juicio registrado; y test_cj1_la_revision_vence solo asume la expiración de revision['vigente']. Como resultado, mutaciones que asignan hardcodeado '\"oracle\": None' o que eliminan por completo la clave 'oracle' en datos_estado() sobreviven la suite 'python -m unittest tests.test_cli_json' con 7 de 7 pruebas exitosas.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 65,
+        "end_line": 86,
+        "side": "head"
+      },
+      "trigger": "Mutar datos_estado en oracle_factory/cli.py sustituyendo '\"oracle\": gate(...)' por '\"oracle\": None' o eliminando la clave 'oracle'.",
+      "evidence": "Al aplicar la mutación indicada en una copia local de oracle_factory/cli.py, 'python -m unittest tests.test_cli_json' pasa con 7 tests en 2.8s sin advertir el cambio ni fallar.",
+      "related_requirement": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "status": "pendiente",
+      "verification": "Correr unittest sobre tests.test_cli_json con la mutación en datos_estado: la prueba continúa pasando sin errores."
+    },
+    {
+      "id": "CLI-JSON-003",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_cj2_resumen_sin_escribir omite aserciones sobre abandonados, limites, riesgos y veredicto",
+      "explanation": "El requisito cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json exige que oracle-factory resumen --json imprima 'lo vigente por capacidad (cada requisito con su requisito de Oracle, tipo, medidas, veredicto al cerrar y cambio de origen), los cambios abiertos con sus pendientes, los abandonados con su motivo, las carpetas sin registro, los riesgos aceptados y los límites'. Sin embargo, en tests/test_cli_json.py:121-140 (test_cj2_resumen_sin_escribir), la prueba se limita a constatar la idempotencia de bytes, la inalterabilidad de .factory/resumen.md, el esquema y la presencia general de capacidades y abiertos, omitiendo aserciones sobre abandonados (con motivo), sin_registro, riesgos_aceptados, limites, tipo y veredicto_al_cerrar. Mutaciones en oracle_factory/resumen.py que asignan listas vacías a abandonados, sin_registro, riesgos_aceptados y limites sobreviven la suite tests.test_cli_json sin ninguna falla.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 121,
+        "end_line": 140,
+        "side": "head"
+      },
+      "trigger": "Mutar oracle_factory/resumen.py retornando listas vacías para abandonados, sin_registro, riesgos_aceptados y limites en la función datos().",
+      "evidence": "Al ejecutar 'python -m unittest tests.test_cli_json' con la mutación en resumen.py, los 7 tests terminan exitosamente sin registrar fallas.",
+      "related_requirement": "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+      "status": "pendiente",
+      "verification": "Correr tests.test_cli_json con la función datos() mutada para vaciar dichas secciones: la prueba sobrevive completamente."
+    },
+    {
+      "id": "CLI-JSON-004",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "_decision devuelve actor null en registros heredados anteriores a los modos de trabajo",
+      "explanation": "La función _decision(registro) en oracle_factory/cli.py (líneas 1729-1733) extrae ('actor', 'tipo_actor', 'forma', 'modo', 'cuando', 'motivo', 'origen_motivo'). El docstring declara: 'Quién decidió, cómo, cuándo y por qué; lo mismo que quien muestra en texto'. Sin embargo, quien(registro) en modo texto contempla registros anteriores a la introducción de modos que usaban la clave 'por': 'if \"tipo_actor\" not in registro: return f\"{registro.get(\"por\", \"?\")} (actor no registrado: anterior a los modos)\"'. Al consultar un cambio histórico con aprobaciones o registros previos a los modos, _decision deja 'actor: null', omitiendo la información que la versión de texto sí preserva y presenta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1729,
+        "end_line": 1733,
+        "side": "head"
+      },
+      "trigger": "Consultar datos_estado(ident) o _decision(registro) sobre un cambio previo a la implementación de modos de trabajo.",
+      "evidence": "En cambios como 20261002-222858-explicar-oracle, spec_aprobada contiene {'por': 'usuario', 'cuando': ...}. datos_estado devuelve en decisiones.spec 'actor': null, perdiendo la referencia al decisor.",
+      "related_requirement": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "status": "pendiente",
+      "verification": "Ejecutar _decision({'por': 'usuario', 'cuando': '2026-10-02'}): devuelve {'actor': None, 'tipo_actor': None, ...} en vez de preservar la autoría."
+    }
+  ]
+}

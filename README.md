@@ -62,7 +62,7 @@ El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.
 
 Un cambio que no se va a terminar se abandona con `oracle-factory abandonar <id>`. Lo decide una persona desde un menú, en cualquier modo, y elige el motivo (un agente puede proponerlo con `--agente … abandonar <id> --motivo "…"`). Pasa a la fase `abandonada`: sus `.requisito` salen de `requisitos/` (quedan en Git), su tarea se cierra con el motivo, nada se fusiona en `openspec/specs/`, y el resumen lo muestra aparte. También vale para una carpeta de `openspec/changes/` sin registro.
 
-En todo momento se puede consultar el estado con `oracle-factory estado <id>`: dice qué falta y calcula el próximo paso (por ejemplo `medir <id> --confirmar`, `revisar <id>` o `cerrar <id>`); en una terminal ofrece ejecutarlo desde un menú. Sin terminal o con `--agente` sólo lo imprime.
+En todo momento se puede consultar el estado con `oracle-factory estado <id>`: dice qué falta y calcula el próximo paso (por ejemplo `medir <id> --confirmar`, `revisar <id>` o `cerrar <id>`); en una terminal ofrece ejecutarlo desde un menú. Sin terminal o con `--agente` sólo lo imprime. Para un IDE, un panel o un agente, `estado <id> --json`, `donde <id> --json` y `resumen --json` dan lo mismo como JSON con esquema versionado (`oracle-factory.estado/1`, `.donde/1`, `.resumen/1`), sin preguntar ni escribir nada; ver [docs/estructura.md](docs/estructura.md#salidas-en-json).
 
 En un clon de Factory, `python fabrica.py estado <id>` usa el entorno del clon (`.venv`) aunque se lo llame con otro intérprete; con el entorno activado (`source .venv/bin/activate` en bash o zsh, `source .venv/bin/activate.fish` en fish) se usa directamente `oracle-factory estado <id>`.
 

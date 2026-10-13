@@ -1,0 +1,332 @@
+{
+  "id": "20261013-153440-cli-json",
+  "titulo": "Salidas en JSON de estado, donde y resumen",
+  "capacidad": "cli",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
+  "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T15:46:25+00:00",
+    "documentos": {
+      "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
+      "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
+    }
+  },
+  "requisitos": [
+    "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+    "cli_c38d280a51dea748e.estado_se_lee_como_json",
+    "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/informe.json",
+    "sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
+    "decisiones": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/decisiones.json",
+    "decisiones_sha256": "eae1f52bdc03a8eaa799a669b9addbdb494d768a82ade7d1492108cfb0e867d8",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T17:34:36+00:00",
+    "motivo": "dos vueltas de codex y agy: la 1 trajo 2 medios, 2 bajos y 1 informativo; se corrigieron la vigencia del juicio y de la revisión (mismas reglas que estado en texto), las pruebas de oracle y del resumen y el actor de registros viejos, con aserciones que fallan en el código anterior dentro de los mismos 7 casos; la 2 no encontró nada. CLI-JSON-001 (un cambio sin evidencia no la lista como ausente en donde: cumplirlo cambiaría el texto de donde, que otro requisito prohíbe) queda como límite: el escenario se probó con los hechos de un juicio registrado que ya no están, y ajustar la spec va aparte. Suite 327 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "2e783f5118de7a45495c7fdced33fe4fca9e16da",
+      "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-153440-cli-json/candidatos/7b12c87/evidencia/hechos.json",
+    "hechos_sha256": "4745ba0542f4252963a6c6a29903aa031bff31715c7bf5bccd379a8f9ac4d3cf",
+    "informe": ".factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt",
+    "informe_sha256": "27e41beff967d50259c596246eb9095846a03132158ec96ffe859ea4d0af578a",
+    "cuando": "2026-10-13T17:34:56+00:00",
+    "contexto": {
+      "head": "63b2c4d71a007e3cf9b7786133662e5e6a87508e",
+      "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T15:34:40+00:00",
+      "capacidad": "cli"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T15:46:25+00:00",
+      "documentos": {
+        "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
+        "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T15:46:35+00:00",
+      "ids": [
+        "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+        "cli_c38d280a51dea748e.estado_se_lee_como_json",
+        "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T15:52:46+00:00",
+      "requisito": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "medidas": [
+        "factory_cli_json.estado_se_lee_como_json",
+        "factory_cli_json.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T15:52:46+00:00",
+      "requisito": "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+      "medidas": [
+        "factory_cli_json.donde_y_resumen_se_leen_como_json",
+        "factory_cli_json.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T15:52:46+00:00",
+      "requisito": "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+      "medidas": [
+        "factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+        "factory_cli_json.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+      "medidas": [
+        "factory_cli_json.donde_y_resumen_se_leen_como_json",
+        "factory_cli_json.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "medidas": [
+        "factory_cli_json.estado_se_lee_como_json",
+        "factory_cli_json.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+      "medidas": [
+        "factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+        "factory_cli_json.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T16:08:53+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "48ccf54",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T16:27:27+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "48ccf54",
+      "resultado": "ok",
+      "hallazgos": 4
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T16:34:50+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7b12c87",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T16:47:52+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7b12c87",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T16:48:07+00:00",
+      "decision": "aprobar",
+      "candidato": "7b12c87"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T17:34:36+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
+      "decisiones_sha256": "eae1f52bdc03a8eaa799a669b9addbdb494d768a82ade7d1492108cfb0e867d8"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:34:56+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "4745ba0542f4252963a6c6a29903aa031bff31715c7bf5bccd379a8f9ac4d3cf"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:52:07+00:00",
+      "oracle": ".factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt",
+      "revision": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:52:07+00:00",
+      "capacidad": "cli",
+      "spec": "openspec/specs/cli/spec.md"
+    }
+  ],
+  "tipos": {
+    "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json": "funcional",
+    "cli_c38d280a51dea748e.estado_se_lee_como_json": "funcional",
+    "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json": "funcional"
+  },
+  "medidas": {
+    "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "07e8c78a7edcdc236e9c9fc014713e0e0904d70baaaaea95c2bd987851b63aee"
+    },
+    "cli_c38d280a51dea748e.estado_se_lee_como_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "cb7c726436481d379a48261120b7b9fc2e86ba71d2815f0b70b6010fb0d3f585"
+    },
+    "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "bbcfd31142725996bef9ee668170362fe690b1f7b9a687d056758f95e5a8bf07"
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T17:52:07+00:00"
+  },
+  "archivo": {
+    "capacidad": "cli",
+    "spec": "openspec/specs/cli/spec.md",
+    "cuando": "2026-10-13T17:52:07+00:00"
+  }
+}

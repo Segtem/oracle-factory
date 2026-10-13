@@ -1,0 +1,14 @@
+<id> — Nota
+acuerdo    existe    openspec/changes/<id>/proposal.md
+acuerdo    existe    openspec/changes/<id>/design.md
+acuerdo    existe    openspec/changes/<id>/tasks.md
+spec       existe    openspec/changes/<id>/specs/notas/spec.md
+medidas    existe    requisitos/notas_c<h>.titulo_valido.requisito
+estado     existe    .factory/cambios/<id>/factory.json
+tarea      existe    tareas/<id>/TAREA.md
+revisión   existe    tareas/<id>/revisiones/registro-<x>/informe.json
+revisión   existe    tareas/<id>/revisiones/registro-<x>/decisiones.json
+candidato  existe    .factory/cambios/<id>/candidatos/<sha7>/evidencia
+candidato  existe    .factory/cambios/<id>/candidatos/<sha7>/clue
+candidato  existe    .factory/cambios/<id>/candidatos/<sha7>/revision
+histórico  histórico tareas/<id>/revisiones  — nombre anterior a la estructura; no se mueve

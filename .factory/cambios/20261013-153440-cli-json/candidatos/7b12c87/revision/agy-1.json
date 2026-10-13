@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-json/.factory/local/revisiones/7b12c87",
+  "base": "ae07f64a9645e2064b0dcbf043c93d3e2a12eb84",
+  "head": "7b12c87f8e1c1ae2b20266762f6aa1889ac727f4",
+  "diff_sha256": "1f2cc9a6e5b936b2f69c23801a14416d7f6e96cffabd5ce69d8fd1ca41d663fb",
+  "context_sha256": "0e01f759e9ff5355f66f42a2645f085eef1504276345332a1bb455287601f5e2",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias indicadas por el operador: 'tests.test_cli_json', 'tests.test_resumen' y 'tests.test_estructura' bajo Python 3.13 en Linux.",
+    "Se contrastaron las promesas de la propuesta y la spec (openspec/changes/20261013-153440-cli-json/specs/cli/spec.md) contra el código de oracle_factory/cli.py y oracle_factory/resumen.py.",
+    "Se verificaron las correcciones de la vuelta 1: CLIJSON-001 (vigencia del juicio con artefactos intactos), CLI-JSON-002 (pruebas de oracle en estado --json), CLI-JSON-003 (pruebas completas de resumen --json) y CLI-JSON-004 (actor en registros anteriores a modos). Todos permanecen resueltos sin regresiones.",
+    "No se reitera CLI-JSON-001 de la vuelta 1 por indicación expresa de la consigna (materia de decisión humana en revisión).",
+    "Se evaluó la estabilidad del esquema JSON para clientes (IDE, panel, MCP), la ausencia de efectos secundarios o escrituras en disco bajo --json, y la preservación byte a byte de salidas previas de texto.",
+    "Se realizaron pruebas de mutación manual sobre copias en el espacio local del revisor.",
+    "No se ejecutó tools/verify_cli_json.py ni la suite completa de tests, conforme a las instrucciones.",
+    "No se probaron clientes externos en tiempo real (extensión VS Code, paneles o factory-mcp)."
+  ],
+  "findings": []
+}

@@ -74,6 +74,7 @@ Lo que se guarda ahí, Factory lo usa:
 |---|---|
 | `oracle-factory donde ID` | Lista cada artefacto del cambio con su ruta, si existe y qué gate respalda |
 | `oracle-factory donde ID --candidato SHA` | Lo mismo, limitado a ese candidato |
+| `oracle-factory donde ID --json` | Lo mismo como JSON (ver [Salidas en JSON](#salidas-en-json)) |
 | `oracle-factory buscar TEXTO` | Busca en propuestas, specs, requisitos, tareas y registros; muestra ruta, línea y cambio |
 | `oracle-factory resumen` | Escribe `.factory/resumen.md`: el estado actual en una lectura; `--verificar` dice si quedó viejo |
 | `oracle-factory listar --abiertos` | Los cambios abiertos (también `--cerrados` y `--fase FASE`) |
@@ -136,3 +137,13 @@ oracle-factory migrar                # lo mueve; no hace commits
 - **Sólo Linux, probado.** No se probó en Windows ni con otras versiones de Python que la del entorno de desarrollo.
 - **`.factory/` entera queda fuera de la huella del producto**, por decisión de la spec: lo que Factory produce (evidencia, paquetes, informes) no invalida una revisión. Otra herramienta que use una carpeta `.factory` en el mismo proyecto se tomaría como propia; la carpeta personal y los enlaces simbólicos nunca cuentan como raíz.
 - **`buscar` y `donde` no rechazan un enlace simbólico en otro lugar** (por ejemplo `openspec/` o `tareas/` enlazados): son de sólo lectura y el enlace lo puso quien trabaja en el proyecto. Sí rechazan que `.factory` sea un enlace.
+
+## Salidas en JSON
+
+`estado`, `donde` y `resumen` aceptan `--json` para que un IDE, un panel o un agente lean lo mismo que una persona, sin parsear texto. Cada objeto trae `esquema` (`oracle-factory.estado/1`, `oracle-factory.donde/1`, `oracle-factory.resumen/1`); el número sube sólo si se quita una clave o cambia su sentido, no al sumar claves. Las claves van en español, como en `factory.json`, y salen ordenadas.
+
+- `estado ID --json`: fase, modo, `candidato` vigente (o null), `requisitos` con sus `medidas`, la `decision` que las respalda y la `propuesta` pendiente, `pendientes`, `proximo_paso`, `decisiones` (spec, revisión, cierre, abandono: actor, tipo de actor, forma, modo, cuándo, motivo), `revision` y `oracle` con el `head` al que se refieren y si siguen `vigente`s para el producto actual, `aceptados` y `avisos`. No ofrece ejecutar el próximo paso ni pregunta nada.
+- `donde ID --json`: `artefactos`, cada uno con `gate`, `ruta`, `situacion` (`existe`, `ausente`, `historico` o `no_valido`) y `nota`.
+- `resumen --json`: `capacidades` con sus requisitos vigentes (requisito de Oracle, tipo, medidas, veredicto al cerrar, cambio de origen), `abiertos` con sus pendientes, `abandonados`, `sin_registro`, `riesgos_aceptados`, `limites` y `problemas`. No escribe `.factory/resumen.md`; las mismas entradas dan los mismos bytes.
+
+Con `--json`, un error va a stderr con código 1 y stdout queda vacío: un cliente nunca lee un JSON a medias. Decidir (aprobar, revisar, cerrar) sigue siendo de una persona en su terminal.

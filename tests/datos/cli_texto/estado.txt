@@ -1,0 +1,14 @@
+<id> — Nota
+Fase: revision_aprobada
+Modo de trabajo: confirmacion
+Requisitos Oracle: notas_c<h>.titulo_valido
+Pendiente: veredicto Oracle exitoso con evidencia
+revisión registrada sobre el commit <sha7>.
+Aviso: revisión registrada en <sha7>; HEAD actual <sha7> con el producto idéntico.
+Aprobación spec: sí, <actor> (persona, decidio, modo confirmacion)
+Revisión: <actor> / aprobar / 0 abiertos
+Formato de revisión: guiado; consistencia estructural, no calidad del análisis
+Oracle: pendiente
+Revisión registrada por: <actor> (persona, decidio, modo confirmacion; motivo: Apruebo el candidato <sha7>; 0 hallazgos de los revisores; evidencia del candidato: 3 pruebas, 3 casos de contrato.)
+Medidas de notas_c<h>.titulo_valido: <actor> (persona, decidio, modo confirmacion)
+Próximo paso: oracle-factory juzgar <id>

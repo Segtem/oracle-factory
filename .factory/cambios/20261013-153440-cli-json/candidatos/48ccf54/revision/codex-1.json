@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-json/.factory/local/revisiones/48ccf54",
+  "base": "ae07f64a9645e2064b0dcbf043c93d3e2a12eb84",
+  "head": "48ccf541885d7ddfc5a9c5feb6f73f25162c330d",
+  "diff_sha256": "1455a1afa990ffc926c5ffe96ec2daa45ad7e3716947cd211b07314e5e1457fc",
+  "context_sha256": "a3e28d0714ce7ca52b4d0585eb7cc13e91095218e951e4a458d3dfce47a61265",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLIJSON-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El juicio puede figurar vigente aunque sus hechos o informe hayan cambiado",
+      "explanation": "El campo oracle.vigente se calcula sólo con mismo_producto(contexto, actual). En cambio, proximo_paso considera vigente un juicio únicamente si los archivos de hechos e informe todavía existen y sus hashes coinciden con los registrados, además de coincidir el producto. Si se edita o elimina uno de esos archivos sin cambiar el producto, el JSON informa vigente=true aunque el flujo ya considera obsoleto el juicio y recomienda volver a juzgar. Un cliente puede mostrar un veredicto como actual cuando ya no respalda los artefactos registrados.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1758,
+        "end_line": 1758,
+        "side": "head"
+      },
+      "trigger": "Con un juicio registrado, alterar o eliminar el archivo señalado por oracle.hechos u oracle.informe sin modificar archivos de producto y pedir estado --json.",
+      "evidence": "En oracle_factory/cli.py:1753-1758, gate añade vigente sólo a partir de la igualdad de archivos_sha256 del producto. En oracle_factory/cli.py:2110-2115, proximo_paso exige además que los hechos y el informe existan y conserven sus hashes registrados. Por tanto, tras alterar uno de esos artefactos, oracle.vigente permanece true mientras el próximo paso invalida el juicio.",
+      "related_requirement": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "status": "pendiente",
+      "verification": "Verificado por lectura del diff y comparación con la condición de vigencia usada por proximo_paso; no ejecuté una mutación manual."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente /home/workstation/Dev/factory-cli-json/.venv/bin/python -m unittest tests.test_cli_json tests.test_resumen tests.test_estructura desde el repositorio: 51 tests, OK.",
+    "Contrasté los tres requisitos con la implementación, tests/test_cli_json.py, tests/test_resumen.py y los fixtures tests/datos/cli_texto/*.txt.",
+    "No ejecuté tools/verify_*.py ni la suite completa. No hice mutaciones manuales; el defecto informado se verificó por comparación estática de las condiciones."
+  ]
+}
