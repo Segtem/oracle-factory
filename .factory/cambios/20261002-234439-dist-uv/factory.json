@@ -30,6 +30,14 @@
         "distribution_c01af4be8811ed3bb.entregar_artefactos_verificables",
         "distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto"
       ]
+    },
+    {
+      "accion": "abandono_propuesto",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:01:20+00:00"
     }
   ],
   "spec_sha256": "5965c857b2460068d1f847294d705fefdfd789dc469f1870baa94f14af49e657",
@@ -43,5 +51,13 @@
     "origen": "conversación",
     "mensaje": "dale no te olvides del release.",
     "contexto": "Aceptación de preparar ambos paquetes, probarlos, commit, push, tag y release; PyPI lo publica el usuario. Documentos transcritos por el agente para registrar ese alcance."
+  },
+  "motivos_propuestos": {
+    "abandono": {
+      "motivo": "la distribución se entregó fuera del flujo, de 0.1.0a1 a 0.1.0a9 en PyPI; sus 3 requisitos nunca tuvieron medidas y lo que siga de distribución va en un cambio nuevo.",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:01:20+00:00"
+    }
   }
 }

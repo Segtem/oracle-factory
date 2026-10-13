@@ -79,6 +79,22 @@
         "landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos",
         "landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable"
       ]
+    },
+    {
+      "accion": "abandono_propuesto",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:01:20+00:00"
     }
-  ]
+  ],
+  "motivos_propuestos": {
+    "abandono": {
+      "motivo": "lo reemplazó la capacidad web (openspec/specs/web/), con sus propios requisitos medidos; sus 7 requisitos nunca tuvieron medidas.",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:01:20+00:00"
+    }
+  }
 }

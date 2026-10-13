@@ -15,6 +15,22 @@
       "por": "workstation",
       "cuando": "2026-10-02T20:49:16+00:00",
       "capacidad": "software-factory"
+    },
+    {
+      "accion": "abandono_propuesto",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:01:20+00:00"
     }
-  ]
+  ],
+  "motivos_propuestos": {
+    "abandono": {
+      "motivo": "plantilla de antes de los modos que nunca se completó: la spec no se aprobó y el flujo que quería validar ya lo ejercen los cambios cerrados desde entonces.",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:01:20+00:00"
+    }
+  }
 }
