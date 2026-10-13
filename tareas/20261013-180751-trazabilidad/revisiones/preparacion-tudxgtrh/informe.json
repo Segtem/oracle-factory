@@ -1,0 +1,109 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261013-180751-trazabilidad",
+  "contexto": {
+    "head": "0a32bc6beb5283717a440ca98e60a89780939460",
+    "archivos_sha256": "abdfd04fca7e820b44bb9676ba0137ef432f9389f8106cd6e77d7dace99e0881"
+  },
+  "documentos": {
+    "openspec/changes/20261013-180751-trazabilidad/proposal.md": "2594a6d92fd0e75a3f325bd7aa1d6647f0869fe3668fecc09ff47e2dde619df2",
+    "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/evidencia/hechos.json",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/evidencia/resultado.json",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/evidencia/suite.txt",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/evidencia/trazabilidad.json",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/agy-1.json",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/codex-1.json",
+    ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+    "oracle_factory/trazabilidad.py",
+    "tests/test_trazabilidad.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 332 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato af88d90: agy (gemini-3.8-flash-high), 9 hallazgos: agy-trazabilidad-diff-tab-quote (alta), agy-trazabilidad-diff-no-renames (alta), agy-trazabilidad-tracer-hijack (media), agy-trazabilidad-def-lineno-inaccurate (media), agy-trazabilidad-modulo-clases-sin-respaldo (alta), agy-trazabilidad-merge-base-head-main (media), agy-trazabilidad-archivos-borrados-no-rastreables (media), agy-trazabilidad-threading-tests-untested (baja), agy-trazabilidad-limites-incompletos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/af88d90/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato af88d90: codex (gpt-6-luna), 2 hallazgos: TRZ-001 (media), TRZ-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/af88d90/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ca7db4e: agy (gemini-3.8-flash-high), 4 hallazgos: agy-trazabilidad-decoradores-firma-def (media), agy-trazabilidad-clases-locales-al-importar (media), agy-trazabilidad-renombre-fuera-producto-borrados (media), agy-trazabilidad-test-marca-local-trace-untested (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/ca7db4e/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ca7db4e: codex (gpt-6-luna), 1 hallazgo: TRZ-TEST-BASE-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/ca7db4e/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 80c3e1d: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/80c3e1d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 80c3e1d: codex (gpt-6-luna), 2 hallazgos: TRZ-RESULT-SKIP-FAIL-001 (baja), TRZ-MODULE-GUARD-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/80c3e1d/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato e6ecb4a: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato e6ecb4a: codex (gpt-6-luna), 1 hallazgo: TRZ-MODULE-GUARD-FORM-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-180751-trazabilidad/candidatos/e6ecb4a/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tz1–tz3 en repositorios temporales, Linux, con casos reales trazados. La trazabilidad de este cambio es la de sus propios casos: ejecutar una línea no prueba que sea correcta, y lo que corre en otro proceso no se traza.",
+    "agy (gemini-3.8-flash-high): Revisión completa e incremental del candidato 19c704b frente a la base e6ecb4a y sobre el checkout completo contra la especificación openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md (requisitos tz1–tz3) y proposal.md. No se encontraron defectos ni discrepancias con la spec dentro de los cambios del paquete.",
+    "agy (gemini-3.8-flash-high): Se comprobó la corrección de TRZ-MODULE-GUARD-FORM-001 en oracle_factory/trazabilidad.py: la función auxiliar _es_principal(test) reconoce el guard __main__ tanto en la forma __name__ == '__main__' como en la forma invertida '__main__' == __name__, y restringe estrictamente la operación a ast.Eq único (len(test.ops) == 1), descartando != y comparaciones encadenadas. Con !=, el cuerpo se ejecuta al importar y por tanto permanece correctamente dentro de 'al_importar' en lugar de trasladarse a 'funciones' / 'sin_respaldo'. Las pruebas agregadas en tests/test_trazabilidad.py cubren ambas variantes.",
+    "agy (gemini-3.8-flash-high): Se analizó la exclusión de condiciones compuestas (ej. if __name__ == '__main__' and cond:): _es_principal se restringe por diseño a la forma canónica del guard de punto de entrada del módulo; expresiones booleanas compuestas arbitrarias a nivel de módulo quedan bajo el comportamiento general de código de importación, en consonancia con la spec y los límites declarados.",
+    "agy (gemini-3.8-flash-high): Se verificó la ausencia de regresiones respecto de los hallazgos cerrados en vueltas anteriores (af88d90, ca7db4e, 80c3e1d, e6ecb4a): nombres exactos con git diff -z -M sin comillas; preservación y encadenamiento de trazas de sys.settrace y threading.settrace con restauración en bloque finally; correlación de decoradores con la línea del 'def' en decorados; soporte de clases locales anidadas; cómputo de merge-base desde el commit del candidato; inclusión de archivos borrados y movidos fuera del producto en 'borrados'; prioridad de fallas sobre subpruebas omitidas; y declaración explícita de los tres límites en LIMITES, salida de texto y salida JSON.",
+    "agy (gemini-3.8-flash-high): Se ejecutó en primer plano el comando de pruebas requerido: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null (12 pruebas, resultado OK). Salida registrada en tests.log.",
+    "agy (gemini-3.8-flash-high): Se ejecutó el comando real de trazabilidad: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null (código 0) y su variante con --json. Salidas registradas en cli-trazabilidad.log y cli-trazabilidad-json.log. Se confirmó que las líneas de las funciones de traza en oracle_factory/trazabilidad.py aparecen como sin respaldo debido a que Python no traza las funciones de traza en ejecución, según lo documentado y esperado.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manuales en copias aisladas dentro del directorio de trabajo (13 mutaciones que abarcan _es_principal, lineas_ejecutables, lineas_agregadas, trazar, cruzar, datos_trazabilidad y LIMITES), confirmando que todas son detectadas y provocan fallos en la suite de pruebas.",
+    "agy (gemini-3.8-flash-high): No se ejecutó tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido. El checkout /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/19c704b se mantuvo estrictamente en solo lectura sin ediciones ni commits.",
+    "codex (gpt-6-luna): Revisé la propuesta, spec, diff incremental, implementación completa de trazabilidad, funciones del CLI solicitadas, herramienta de evidencia y los informes previos de las vueltas af88d90, ca7db4e, 80c3e1d y e6ecb4a.",
+    "codex (gpt-6-luna): Ejecuté exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null`: 12 pruebas, OK.",
+    "codex (gpt-6-luna): Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`; salida en `cli-trazabilidad.log`.",
+    "codex (gpt-6-luna): Corrí probes directos de guard simple y guard compuesto; la segunda forma reproduce la clasificación incorrecta.",
+    "codex (gpt-6-luna): No corrí `tools/verify_*.py` ni la suite completa. No modifiqué el checkout del candidato ni hice commits."
+  ],
+  "hallazgos": [
+    {
+      "id": "TRZ-MODULE-GUARD-COMPOUND-001",
+      "descripcion": "La detección de guards __main__ no contempla condiciones compuestas",
+      "ubicacion": "oracle_factory/trazabilidad.py:124",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/revision/codex-1.json, validado con oracle-clue; severidad media. Probe directo de `lineas_ejecutables(\"A = 1\\nif __name__ == '__main__' and A:\\n    print(A)\\n\")` devuelve `(set(), {1, 2, 3}, {})`; el cuerpo está en el conjunto de importación. Para el guard simple equivalente sin `and`, devuelve `({3}, {1, 2}, {})`. Al importar, `__name__` es el nombre del módulo, por lo que el cuerpo de la condición compuesta no corre."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

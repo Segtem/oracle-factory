@@ -279,6 +279,16 @@
       "candidato": "19c704b",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T21:56:40+00:00",
+      "decision": "aprobar",
+      "candidato": "19c704b"
     }
   ],
   "tipos": {
@@ -312,5 +322,15 @@
       "sha256": "81d5dfcdc41a93da9af702289b6ef2176c4b5b37fbd54e4c502bf57cd5cd5f85"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "cinco vueltas de codex y agy (la 4 y la 5 incrementales, porque el paquete completo pasaba el límite de 1 MB de Clue por la evidencia ya commiteada): la 1 trajo 11 hallazgos (3 altos), la 2, 5, la 3, 2, y la 4, 1; todos corregidos con aserciones que fallan en el código anterior, en los mismos 5 casos. La 5 dejó sólo una variante más del guard __main__ (con and), que Brian aceptó como riesgo: las líneas mal clasificadas siguen visibles en «corren al importar». Suite 332 y evidencia en verde.",
+      "candidato": "19c704b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T21:56:40+00:00"
+    }
+  }
 }
