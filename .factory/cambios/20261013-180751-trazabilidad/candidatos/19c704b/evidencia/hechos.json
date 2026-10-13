@@ -1,0 +1,35 @@
+{
+  "trazabilidad_caso": [
+    {
+      "requisito": "el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "caso": "Trazar.test_tz1_dos_requisitos_con_sus_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "caso": "Trazar.test_tz1_un_caso_que_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "caso": "Cruce.test_tz2_una_linea_cambiada_sin_respaldo",
+      "codigo": 0
+    },
+    {
+      "requisito": "trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "caso": "Cruce.test_tz2_sin_trazabilidad_en_la_evidencia",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_limites_de_la_trazabilidad_se_declaran",
+      "caso": "Cruce.test_tz3_limites_a_la_vista",
+      "codigo": 0
+    }
+  ],
+  "trazabilidad_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

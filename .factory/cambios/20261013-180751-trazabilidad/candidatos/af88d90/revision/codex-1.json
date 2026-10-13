@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/af88d90",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "af88d90b329f971d15eec50105fca2c04f9e0037",
+  "diff_sha256": "1c40de8a66401be4f075f3afaf71a011569ff3f485cc253fe24dd8890d7c2e6a",
+  "context_sha256": "87fbc84263cafe0f13dd64865ff41a7a8c7bbe9754922044c52e7588537913fe",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TRZ-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "trazar silencia temporalmente una traza existente",
+      "explanation": "trazar guarda la función de traza previa, pero instala llamada con sys.settrace y threading.settrace sin encadenar esa función. Mientras corre cada caso, el observador previo deja de recibir eventos; sólo recupera su identidad al salir. Esto pierde instrumentación activa en el hilo que invoca el sensor y contradice la expectativa de no romper a quien ya estaba trazando. La prueba actual comprueba únicamente que sys.gettrace() vuelve a ser la misma función al terminar.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 57,
+        "end_line": 57,
+        "side": "head"
+      },
+      "trigger": "Ejecutar trazabilidad.trazar sobre un caso mientras sys.settrace tiene instalado un observador que registra llamadas al método de prueba.",
+      "evidence": "Una comprobación en un proyecto temporal instaló un observador que contaba el evento call de test_probe; durante trazabilidad.trazar el contador quedó en 0. En tests/test_trazabilidad.py:82-93 se comprueba sólo la restauración de la referencia después del trazado, no que el observador siga recibiendo eventos durante el caso.",
+      "related_requirement": "el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Reproducción aislada en carpeta temporal: cero eventos para test_probe con una traza previa activa; la llamada de trazar retornó y la prueba no alteró el checkout."
+    },
+    {
+      "id": "TRZ-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "los archivos borrados desaparecen del resultado de trazabilidad",
+      "explanation": "cambios_del_diff asigna archivo=None al encontrar +++ /dev/null y deja de registrar ese archivo. La CLI pide git diff con --no-renames, así que un archivo borrado (incluido uno no Python) no aparece ni en sin_respaldo ni en no_rastreables, aunque es un archivo cambiado que la traza no puede observar. Los renombres se representan como borrado más alta nueva: el lado borrado también desaparece, mientras que el archivo nuevo se trata como adición completa. La prueba del parser afirma que un hunk de borrado produce un mapa vacío, pero no comprueba el requisito de enumerar archivos cambiados no rastreables.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 94,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Comparar contra la base un candidato que elimina un archivo README (o cualquier archivo) y ejecutar oracle-factory trazabilidad ID.",
+      "evidence": "La ruta /dev/null pone archivo en None y el parser no conserva la ruta anterior; cruzar sólo recibe archivos presentes en el diccionario cambios. En tests/test_trazabilidad.py:184 se espera explícitamente que el parser devuelva {} para un hunk de borrado. La prueba aislada de un renombre bajo --no-renames produjo cabeceras +++ b/new.md y +++ /dev/null; el mapa sólo incluyó new.md.",
+      "related_requirement": "trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Reproducción en repositorio git temporal de una eliminación/renombre con git diff -U0 --no-renames: cambios_del_diff omitió la ruta borrada y conservó sólo las líneas de la nueva ruta. El repositorio del candidato no se modificó."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, los rangos y el diff del paquete, oracle_factory/trazabilidad.py, las secciones modificadas de oracle_factory/cli.py, tests/test_trazabilidad.py y tools/verify_trazabilidad.py.",
+    "Corrí exactamente /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json: 12 pruebas, OK. La salida íntegra está en tests-run.log.",
+    "Corrí oracle-factory trazabilidad 20261013-180751-trazabilidad; la salida íntegra está en cli-run.log. La salida declara ambos límites requeridos.",
+    "Probé en temporales el efecto sobre una traza previa y el parseo de un diff de renombre/borrado; no ejecuté tools/verify_*.py ni la suite completa, como se indicó.",
+    "No hice mutaciones al código del candidato ni alteré su checkout. La prueba de renombre confirma el tratamiento del borrado y la adición; no hice un barrido de mutaciones.",
+    "La revisión es estática más las pruebas y reproducciones descritas; no es un veredicto de Oracle ni demuestra propiedades fuera de los casos ejecutados."
+  ]
+}

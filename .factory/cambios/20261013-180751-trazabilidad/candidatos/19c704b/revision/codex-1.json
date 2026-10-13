@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/19c704b",
+  "base": "e6ecb4acfc1bd7351695029ac290685b9cbceb22",
+  "head": "19c704b388d1413b1f07d73f98977718071af22d",
+  "diff_sha256": "9345fd9224b232a96726443f7fa44fb8db237602611d3ba82091a8c52c675599",
+  "context_sha256": "9bee05eb580ae25cb25838ebcb20356da188d60109179f05c06b4911f3ab56be",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TRZ-MODULE-GUARD-COMPOUND-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La detección de guards __main__ no contempla condiciones compuestas",
+      "explanation": "`_es_principal` sólo reconoce una comparación `__name__ == '__main__'` aislada. Si se añade una condición con `and`, el cuerpo no puede ejecutarse durante la importación, pero `lineas_ejecutables` lo deja en el conjunto de líneas de importación. Al cruzar un cambio en ese cuerpo, la CLI lo presenta como `al_importar` y no como línea ejecutable que ningún caso respalda, dando una clasificación de ejecución incorrecta.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 124,
+        "end_line": 128,
+        "side": "head"
+      },
+      "trigger": "Cambiar una línea dentro de `if __name__ == '__main__' and ENABLED:` en un módulo Python y pedir `oracle-factory trazabilidad ID`.",
+      "evidence": "Probe directo de `lineas_ejecutables(\"A = 1\\nif __name__ == '__main__' and A:\\n    print(A)\\n\")` devuelve `(set(), {1, 2, 3}, {})`; el cuerpo está en el conjunto de importación. Para el guard simple equivalente sin `and`, devuelve `({3}, {1, 2}, {})`. Al importar, `__name__` es el nombre del módulo, por lo que el cuerpo de la condición compuesta no corre.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Reproducir ambos snippets con `oracle_factory.trazabilidad.lineas_ejecutables`; en un candidato de prueba cambiar la línea del cuerpo del guard compuesto y verificar que no aparezca en `al_importar`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, spec, diff incremental, implementación completa de trazabilidad, funciones del CLI solicitadas, herramienta de evidencia y los informes previos de las vueltas af88d90, ca7db4e, 80c3e1d y e6ecb4a.",
+    "Ejecuté exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null`: 12 pruebas, OK.",
+    "Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`; salida en `cli-trazabilidad.log`.",
+    "Corrí probes directos de guard simple y guard compuesto; la segunda forma reproduce la clasificación incorrecta.",
+    "No corrí `tools/verify_*.py` ni la suite completa. No modifiqué el checkout del candidato ni hice commits."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/ca7db4e",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "ca7db4e153db4461e3204db46c94113d1237cc07",
+  "diff_sha256": "f47bc9cfe7a4bc3e7547505edd4c7165f53c0a96dbc60f76d2634c6f0faad8cc",
+  "context_sha256": "f24bd1f557b0f970fbd4f2ab50bfc3c0c4fa6887aa66b0169d6784ec3b9a6ec3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TRZ-TEST-BASE-001",
+      "kind": "regresion",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "La prueba de base pasa si la CLI vuelve a calcularla desde HEAD",
+      "explanation": "El código actual calcula la base desde el commit candidato (cli.py:1820-1825), pero la prueba no protege esa propiedad. En el fixture, el commit del candidato se crea en la línea 188 y después se agrega un commit de evidencia en la línea 198, sobre la misma rama. La aserción de la línea 214 espera explícitamente `git merge-base HEAD main`; en esa historia, `merge-base HEAD main` y `merge-base candidato main` son iguales. Por eso una regresión que reemplace el SHA del candidato por HEAD seguiría pasando. Esto deja sin probar la corrección de la vuelta anterior para árboles donde HEAD y el candidato tienen bases distintas.",
+      "location": {
+        "file": "tests/test_trazabilidad.py",
+        "start_line": 214,
+        "end_line": 214,
+        "side": "head"
+      },
+      "trigger": "Mutar datos_trazabilidad para ejecutar `git merge-base HEAD main` y correr `tests.test_trazabilidad.Cruce.test_tz2_una_linea_cambiada_sin_respaldo` con el fixture actual.",
+      "evidence": "El fixture crea el commit candidato en `tests/test_trazabilidad.py:188` y luego el commit de evidencia en `:198`; la prueba compara el resultado con `self.git('merge-base', 'HEAD', 'main')` en `:214`. HEAD es descendiente directo del candidato en esa historia, así que ambas expresiones dan la misma base. No hice una mutación en disco; la supervivencia se deduce de la topología y la aserción del fixture.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "En una copia temporal, cambiar la referencia de `candidato` a `HEAD` para el merge-base y correr el test indicado; para que la prueba detecte la regresión, crear después del commit candidato un HEAD cuya base respecto de main sea diferente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el paquete/diff, oracle_factory/trazabilidad.py completo, las secciones pertinentes de oracle_factory/cli.py, tests/test_trazabilidad.py, tools/verify_trazabilidad.py y los informes de la vuelta anterior.",
+    "Corrí exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null`: 12 pruebas, OK. Salida íntegra: tests-run.log.",
+    "Corrí `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`; salida íntegra: cli-run.log. La salida muestra la base candidata, líneas al importar, ruta renombrada, archivo borrado y límites declarados.",
+    "Revisé el parser de diff -U0, los renombres y borrados en el fixture y el encadenamiento/restauración de trazas. No encontré regresiones funcionales en los escenarios revisados.",
+    "No ejecuté tools/verify_*.py ni la suite completa, según la instrucción. No edité el checkout del candidato ni realicé una mutación en disco; el hallazgo describe una mutación que sobrevive por la historia y la aserción del fixture.",
+    "La revisión y el comando de salida son evidencia acotada; no constituyen un veredicto de Oracle ni prueban propiedades fuera de los casos ejecutados."
+  ]
+}

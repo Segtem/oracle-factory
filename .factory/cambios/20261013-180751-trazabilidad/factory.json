@@ -1,0 +1,427 @@
+{
+  "id": "20261013-180751-trazabilidad",
+  "titulo": "Trazabilidad por candidato: requisito, casos y líneas cambiadas",
+  "capacidad": "trazabilidad",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
+  "spec_sha256": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T18:10:45+00:00",
+    "documentos": {
+      "openspec/changes/20261013-180751-trazabilidad/proposal.md": "2594a6d92fd0e75a3f325bd7aa1d6647f0869fe3668fecc09ff47e2dde619df2",
+      "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd"
+    }
+  },
+  "requisitos": [
+    "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+    "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-180751-trazabilidad/revisiones/registro-ym1a4uj5/informe.json",
+    "sha256": "4d8bd056867bf9daa0ce2d1ea6c5092823da15d95b9e73d464e78adfc91a3df2",
+    "decisiones": "tareas/20261013-180751-trazabilidad/revisiones/registro-ym1a4uj5/decisiones.json",
+    "decisiones_sha256": "e6ead8ecdcc9ab22cea919dd1a811c70c253cf19619bca80c0b32256b163ea1e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T21:59:59+00:00",
+    "motivo": "cinco vueltas de codex y agy (la 4 y la 5 incrementales, porque el paquete completo pasaba el límite de 1 MB de Clue por la evidencia ya commiteada): la 1 trajo 11 hallazgos (3 altos), la 2, 5, la 3, 2, y la 4, 1; todos corregidos con aserciones que fallan en el código anterior, en los mismos 5 casos. La 5 dejó sólo una variante más del guard __main__ (con and), que Brian aceptó como riesgo: las líneas mal clasificadas siguen visibles en «corren al importar». Suite 332 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "0c2ab0a78bfeab76d43f3882758c2c76e2d7caa0",
+      "archivos_sha256": "abdfd04fca7e820b44bb9676ba0137ef432f9389f8106cd6e77d7dace99e0881"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/evidencia/hechos.json",
+    "hechos_sha256": "9267f7d0f0e5176864782f25a2b4a8085fbcf039000fa623ddbfa0e07aa8796f",
+    "informe": ".factory/cambios/20261013-180751-trazabilidad/oracle-veredicto.txt",
+    "informe_sha256": "bfc4a0132064efb95aeba4d69190b02f5430f2f2b708db3bd89b12811d8291e7",
+    "cuando": "2026-10-13T22:00:09+00:00",
+    "contexto": {
+      "head": "70da5b84a7f8b4e06bc665b0d055963114881c03",
+      "archivos_sha256": "abdfd04fca7e820b44bb9676ba0137ef432f9389f8106cd6e77d7dace99e0881"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T18:07:51+00:00",
+      "capacidad": "trazabilidad"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T18:10:45+00:00",
+      "documentos": {
+        "openspec/changes/20261013-180751-trazabilidad/proposal.md": "2594a6d92fd0e75a3f325bd7aa1d6647f0869fe3668fecc09ff47e2dde619df2",
+        "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T18:12:38+00:00",
+      "ids": [
+        "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+        "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+        "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T18:21:16+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "medidas": [
+        "factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+        "factory_trazabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T18:21:16+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "medidas": [
+        "factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+        "factory_trazabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T18:21:16+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+      "medidas": [
+        "factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran",
+        "factory_trazabilidad.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "medidas": [
+        "factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+        "factory_trazabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+      "medidas": [
+        "factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran",
+        "factory_trazabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "medidas": [
+        "factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+        "factory_trazabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T18:27:36+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "af88d90",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T18:44:14+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "af88d90",
+      "resultado": "ok",
+      "hallazgos": 9
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T18:53:04+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ca7db4e",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T19:10:32+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "ca7db4e",
+      "resultado": "ok",
+      "hallazgos": 4
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T20:49:31+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "80c3e1d",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T21:14:25+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "80c3e1d",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T21:30:07+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e6ecb4a",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T21:38:20+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e6ecb4a",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T21:44:36+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "19c704b",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T21:55:13+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "19c704b",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T21:56:40+00:00",
+      "decision": "aprobar",
+      "candidato": "19c704b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T21:59:59+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "4d8bd056867bf9daa0ce2d1ea6c5092823da15d95b9e73d464e78adfc91a3df2",
+      "decisiones_sha256": "e6ead8ecdcc9ab22cea919dd1a811c70c253cf19619bca80c0b32256b163ea1e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:00:09+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "9267f7d0f0e5176864782f25a2b4a8085fbcf039000fa623ddbfa0e07aa8796f"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:03:38+00:00",
+      "oracle": ".factory/cambios/20261013-180751-trazabilidad/oracle-veredicto.txt",
+      "revision": "tareas/20261013-180751-trazabilidad/revisiones/registro-ym1a4uj5/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:03:38+00:00",
+      "capacidad": "trazabilidad",
+      "spec": "openspec/specs/trazabilidad/spec.md"
+    }
+  ],
+  "tipos": {
+    "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso": "funcional",
+    "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran": "funcional",
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": "funcional"
+  },
+  "medidas": {
+    "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "64f6a63e6c2318a7d1142f94836dce3f3c5ea248ef3b8a1f8850c99e8cf6f96b"
+    },
+    "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "7cefb11cb8c4ff937165654e7363c977d623f1facf144c75affe03507ddc6e97"
+    },
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "81d5dfcdc41a93da9af702289b6ef2176c4b5b37fbd54e4c502bf57cd5cd5f85"
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/trazabilidad.py",
+      "titulo": "La detección de guards __main__ no contempla condiciones compuestas",
+      "firma": "oracle_factory/trazabilidad.py|la detección de guards main no contempla condiciones compuestas",
+      "motivo": "Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-13T21:59:55+00:00",
+      "candidato": "19c704b"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T22:03:38+00:00"
+  },
+  "archivo": {
+    "capacidad": "trazabilidad",
+    "spec": "openspec/specs/trazabilidad/spec.md",
+    "cuando": "2026-10-13T22:03:38+00:00"
+  }
+}

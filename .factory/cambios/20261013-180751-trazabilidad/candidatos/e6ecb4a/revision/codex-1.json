@@ -1,0 +1,42 @@
+{
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/e6ecb4a",
+  "base": "80c3e1db25128b806d16c965689c78c549120ccf",
+  "head": "e6ecb4acfc1bd7351695029ac290685b9cbceb22",
+  "diff_sha256": "5f3f34c9d668455e38ad93d4320562188ab4b3b41cd09c3f017228fd4a3046f7",
+  "context_sha256": "cce7109b6fa5938440aaaed1446a93efca2a1578d17f1d2fef4cc656f5844bfb",
+  "schema_version": "oracle-clue.review/v1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TRZ-MODULE-GUARD-FORM-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La clasificación del guard __main__ depende de una sola forma sintáctica",
+      "explanation": "El detector sólo reconoce `if __name__ == \"__main__\"` con `__name__` a la izquierda y no verifica que el operador sea `==`. Por eso interpreta mal guards equivalentes o complementarios: en `if __name__ != \"__main__\":`, cuyo cuerpo sí corre al importar, mueve las líneas del cuerpo desde `al_importar` a `sin_respaldo`; en `if \"__main__\" == __name__:`, cuyo cuerpo no corre al importar, las deja en `al_importar`. La salida atribuye una ejecución de importación que no ocurrió y puede ocultar líneas ejecutables sin respaldo, incumpliendo el cruce de líneas cambiadas por su comportamiento real.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 116,
+        "end_line": 118,
+        "side": "head"
+      },
+      "trigger": "Cambiar una línea ejecutable dentro de un guard equivalente escrito como `if \"__main__\" == __name__:` o dentro del cuerpo de `if __name__ != \"__main__\":`, y pedir la trazabilidad del candidato.",
+      "evidence": "Probe directo de `lineas_ejecutables`: `if __name__ != '__main__':\\n    run_on_import()\\n` devuelve `({2}, {1}, {})`, clasificando el cuerpo como función aunque corre al importar; `if '__main__' == __name__:\\n    main()\\n` devuelve `(set(), {1, 2}, {})`, clasificando como importación el cuerpo que no corre. El código de las líneas 116–118 exige `n.test.left.id == '__name__'`, pero no comprueba `ast.Eq`.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Reproducir ambos probes con `oracle_factory.trazabilidad.lineas_ejecutables` y cruzar una línea del cuerpo como cambiada; comprobar que ambas categorías salen invertidas respecto de la ejecución al importar."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec y propuesta, el diff incremental desde 80c3e1d, la implementación completa de oracle_factory/trazabilidad.py, la lógica CLI de datos_trazabilidad/comando_trazabilidad/rangos/subcomando, tests/test_trazabilidad.py y los seis informes de las vueltas anteriores.",
+    "Comprobé que las correcciones previas de firma decorada, clases locales, renombres hacia fuera del producto, base del candidato, preservación/encadenado de trazas y resultado de casos omitidos y fallidos siguen presentes; el caso omitido y fallido está cubierto por la prueba añadida.",
+    "Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null`: 12 pruebas, OK. La salida resumida está en tests.log.",
+    "Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`: terminó correctamente y mostró los tres requisitos y límites; salida completa en cli-trazabilidad.log.",
+    "Ejecuté probes en memoria sobre dos formas de guards __main__; ambos reproducen clasificaciones incorrectas. Salida en probe-main-guard.log.",
+    "No ejecuté tools/verify_*.py ni la suite completa. No modifiqué el checkout del candidato ni hice commits."
+  ]
+}

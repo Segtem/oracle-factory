@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/ca7db4e",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "ca7db4e153db4461e3204db46c94113d1237cc07",
+  "diff_sha256": "f47bc9cfe7a4bc3e7547505edd4c7165f53c0a96dbc60f76d2634c6f0faad8cc",
+  "context_sha256": "f24bd1f557b0f970fbd4f2ab50bfc3c0c4fa6887aa66b0169d6784ec3b9a6ec3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-trazabilidad-decoradores-firma-def",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Funciones decoradas atribuyen la ejecución a la línea del decorador y relegan la firma def a al_importar",
+      "explanation": "En oracle_factory/trazabilidad.py:64, dentro del callback de evento call, se ejecuta conjunto.add(frame.f_lineno) bajo el supuesto documentado de ser «la primera línea del código llamado: se llamó». No obstante, en Python, cuando una función posee decoradores (por ejemplo @decorador seguido de def f(x):), el co_firstlineno del objeto de código de la función corresponde a la línea del decorador y no a la sentencia def. Consecuentemente, en lineas_ejecutables (trazabilidad.py:103-106), la línea del decorador se incluye en funciones mientras que la línea de def f(x) sólo se compila en el código del módulo y pasa a importar. Al ejecutar trazar() sobre un caso de prueba que llama a f(x), se registra la línea del decorador pero nunca la línea del def. Luego, al cruzar con el diff en cruzar(), si el candidato añade o modifica la firma def de una función decorada o un método con @property/@classmethod, esa línea se clasifica en al_importar («Corren al importar (antes de los casos; sin decir si tienen respaldo)») en lugar de quedar bajo su requisito, a pesar de que el caso del contrato la ejecutó. A la inversa, la línea del decorador se reporta erróneamente como respaldada por la llamada, cuando en realidad se evaluó al importar el módulo.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 63,
+        "end_line": 68,
+        "side": "head"
+      },
+      "trigger": "Modificar la firma def o el decorador en una función decorada que es invocada por los casos de prueba del contrato.",
+      "evidence": "En una prueba controlada con una función decorada (@dec en línea 4, def f(x) en línea 5, return en línea 6) llamada por un caso del contrato, cruzar() devuelve {'sample.py': [4, 6]} bajo el requisito y {'sample.py': [5]} bajo al_importar. La firma def f(x) nunca se acredita al requisito.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Ejecutar trazabilidad.cruzar sobre una función decorada llamada por un test y verificar que la línea del def queda asignada a al_importar mientras que la línea del decorador se asigna al requisito."
+    },
+    {
+      "id": "agy-trazabilidad-clases-locales-al-importar",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Cuerpos de clase definidos dentro de funciones se clasifican como al_importar y contradicen el reporte",
+      "explanation": "En oracle_factory/trazabilidad.py:103, lineas_ejecutables discrimina destino = funciones if c.co_flags & inspect.CO_OPTIMIZED else importar. En Python, los objetos de código correspondientes a cuerpos de clase nunca contienen la bandera CO_OPTIMIZED. Por lo tanto, cualquier clase local definida dentro de una función (p. ej. adaptadores o registros internos creados dentro de una fábrica) tiene sus sentencias de cuerpo asignadas a importar. Esto provoca dos inconsistencias frente a la spec y los límites declarados: 1) Contradice el límite declarado en trazabilidad.py:20-21 («lo que corre al importar un módulo (constantes, imports, cuerpos de clase) pasa antes que los casos: se lista aparte...»), dado que las clases locales no corren al importar el módulo sino en tiempo de ejecución de la función dentro del caso. 2) Si un caso del contrato invoca la función contenedora, trazar() registra la ejecución de las líneas del cuerpo de la clase local; sin embargo, en cruzar() (líneas 150-163), esas líneas aparecen simultáneamente respaldadas bajo el requisito y listadas bajo al_importar, generando una contradicción explícita en la salida donde la misma línea figura como ejecutada y a la vez clasificada como corrida antes de los casos.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 101,
+        "end_line": 106,
+        "side": "head"
+      },
+      "trigger": "Introducir o modificar una clase interna dentro de una función ejecutada por casos del contrato.",
+      "evidence": "Al compilar def f(): class Local: val = 123 y ejecutar f() bajo trazar(), cruzar() incluye la línea val = 123 al mismo tiempo en requisitos[rid]['lineas'] y en al_importar.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Invocar lineas_ejecutables y cruzar sobre una función con una clase anidada ejecutada por un test de contrato y verificar que las líneas del cuerpo de la clase aparecen duplicadas en al_importar."
+    },
+    {
+      "id": "agy-trazabilidad-renombre-fuera-producto-borrados",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Mover un archivo de producto fuera del árbol de producto se descarta silenciosamente de borrados",
+      "explanation": "En oracle_factory/cli.py:1831-1836, el procesamiento del diff compara cada entrada mediante if not es_producto(archivo['ruta']): continue antes de evaluar si el estado corresponde a una eliminación o renombre. Cuando un archivo de producto preexistente es trasladado fuera de la huella del producto (por ejemplo trasladado con git mv desde oracle_factory/ hacia .factory/ o tareas/), git diff --name-status -z -M emite un estado R con origen en el producto y ruta en la carpeta interna. Debido a que archivo['ruta'] no cuenta como producto según es_producto(), la condición de la línea 1832 evalúa a True y salta la iteración con continue. En consecuencia, el archivo de producto eliminado nunca se añade a borrados (a diferencia de un git rm directo con estado D), ni figura en no_rastreables ni en cambios. La remoción del componente de producto queda completamente omitida en el informe de trazabilidad.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1831,
+        "end_line": 1836,
+        "side": "head"
+      },
+      "trigger": "Mover un archivo existente de producto a un directorio excluido de la huella de producto (como .factory/ o tareas/).",
+      "evidence": "Con una salida de diff R100\\0oracle_factory/foo.py\\0.factory/foo.py\\0, cli.py:1832 salta la entrada porque es_producto('.factory/foo.py') es False. Como resultado, borrados queda vacío y el archivo de producto eliminado desaparece de la salida.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Simular el procesamiento de un diff donde un archivo de producto es renombrado hacia una ruta interna (.factory/) y verificar que no figura en borrados."
+    },
+    {
+      "id": "agy-trazabilidad-test-marca-local-trace-untested",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_tz1_dos_requisitos_con_sus_casos no verifica la entrega de eventos locales en trazas encadenadas",
+      "explanation": "En oracle_factory/trazabilidad.py:24-33 se implementó _encadenada para garantizar que una traza previa continúe recibiendo eventos durante la ejecución de los casos. Sin embargo, en tests/test_trazabilidad.py:100-112 (test_tz1_dos_requisitos_con_sus_casos), la función instalada marca retorna explícitamente None en la línea 103 al recibir el evento call. Al devolver None, otra en trazabilidad.py:59 es None, por lo que _encadenada se instancia con previa = None y la delegación de eventos locales (línea 29: previa = previa(frame, evento, arg)) nunca se ejecuta durante la suite de pruebas. Una mutación manual en _encadenada que anula la llamada a previa (silenciando todos los eventos line, return o exception a cualquier observador previo) sobrevive sin fallar a los 12 tests de la suite (unittest tests.test_trazabilidad tests.test_cli_json). Además, el test no invoca threading.settrace(marca), dejando el encadenamiento de trazas en hilos concurrentes completamente desprovisto de validación.",
+      "location": {
+        "file": "tests/test_trazabilidad.py",
+        "start_line": 100,
+        "end_line": 112,
+        "side": "head"
+      },
+      "trigger": "Modificar _encadenada para no invocar previa en eventos locales o ejecutar pruebas contra una implementación con delegación rota.",
+      "evidence": "Se mutó _encadenada en trazabilidad.py suprimiendo la invocación a previa en eventos locales; unittest tests.test_trazabilidad tests.test_cli_json finalizó con código 0 (OK en 12 pruebas). En la salida real de trazabilidad, las líneas 24, 26, 28-33 de trazabilidad.py figuran bajo «Sin respaldo».",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Mutar _encadenada eliminando la invocación a previa en ambas y correr python -m unittest tests.test_trazabilidad tests.test_cli_json para constatar que todas las pruebas continúan pasando."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas: python -m unittest tests.test_trazabilidad tests.test_cli_json (12 pruebas, resultado OK).",
+    "Se ejecutó el comando de trazabilidad del proyecto sobre el candidato vigente: oracle-factory trazabilidad 20261013-180751-trazabilidad.",
+    "Se verificó la salida real tanto en formato de texto como en JSON contra los esquemas oracle-factory.trazabilidad/1 y oracle-factory.trazabilidad-casos/1.",
+    "Se realizaron experimentos aislados y mutaciones manuales en copias en memoria y scripts temporales dentro del directorio de trabajo para contrastar la detección de fallas en trazadores encadenados, clases anidadas, funciones decoradas y diffs de renombres.",
+    "No se ejecutaron herramientas verify_*.py ni la suite completa de pruebas, conforme a las instrucciones recibidas.",
+    "No se alteró el repositorio de revisión en solo lectura /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/ca7db4e ni se generaron commits."
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/af88d90",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "af88d90b329f971d15eec50105fca2c04f9e0037",
+  "diff_sha256": "1c40de8a66401be4f075f3afaf71a011569ff3f485cc253fe24dd8890d7c2e6a",
+  "context_sha256": "87fbc84263cafe0f13dd64865ff41a7a8c7bbe9754922044c52e7588537913fe",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-trazabilidad-diff-tab-quote",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "cambios_del_diff no normaliza rutas con tabulador ni comillas generadas por git diff",
+      "explanation": "En 'cambios_del_diff' (oracle_factory/trazabilidad.py:93-94), la extracción del nombre de archivo se realiza con 'linea[6:] if linea.startswith(\"+++ b/\") else None'. Git diff (conforme a POSIX diff) añade un carácter de tabulación ('\\t') al final de la ruta cuando el nombre contiene espacios (por ejemplo '+++ b/foo bar.py\\t'). Al no recortar espacios ni tabuladores finales, el nombre de archivo registrado en 'cambios' conserva el '\\t'. Luego, en cli.py:1830, 'archivo.endswith(\".py\")' evalúa a False, por lo que el archivo nunca se lee con git show ni se analizan sus líneas ejecutables, quedando erróneamente clasificado en 'no_rastreables' y desvinculado de las trazas de trazar(). Asimismo, para nombres con caracteres no-ASCII o especiales donde Git activa quotepath (por ejemplo '+++ \"b/canci\\303\\263n.py\"'), 'linea.startswith(\"+++ b/\")' es False, haciendo que archivo sea None y descartando el archivo por completo del diff.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 93,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Modificar o agregar un archivo de producto cuya ruta contenga espacios en blanco o caracteres no-ASCII.",
+      "evidence": "Ejecutar git diff -U0 sobre un archivo con espacios produce '+++ b/foo bar.py\\t'. 'cambios_del_diff' devuelve {'foo bar.py\\t': {...}}, para el cual endswith('.py') es False. Para 'canción.py', git diff genera comillas iniciales y startswith('+++ b/') resulta False, asignando archivo = None.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Pasar a cambios_del_diff un diff con '+++ b/foo bar.py\\t\\n@@ -1 +1 @@\\n+x\\n' y comprobar que la clave contiene un tabulador terminal ('foo bar.py\\t') en lugar de la ruta normalizada."
+    },
+    {
+      "id": "agy-trazabilidad-diff-no-renames",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "El uso de git diff --no-renames trata renombres como creación completa, inflando líneas sin respaldo",
+      "explanation": "La spec establece que 'oracle-factory trazabilidad' cruza los casos con las líneas que el candidato cambió respecto de su base. En oracle_factory/cli.py:1824 se ejecuta 'git diff -U0 --no-renames --no-color base candidato'. Al forzar '--no-renames', cualquier archivo renombrado (por ejemplo con git mv) se descompone forzosamente en el borrado total del archivo original y la creación desde cero del archivo de destino con todas sus líneas como adiciones (+). Como consecuencia, todas las líneas ejecutables del archivo renombrado pasan a considerarse 'líneas cambiadas'. Salvo que los contratos del requisito cubran el 100% de las funciones del archivo, todas las líneas preexistentes no ejecutadas se listan como 'Sin respaldo (líneas cambiadas que no ejecuta ningún caso del contrato)', reportando falsamente como código no probado líneas que nunca fueron alteradas por el candidato.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1824,
+        "end_line": 1827,
+        "side": "head"
+      },
+      "trigger": "Renombrar un archivo Python existente en un candidato sin que los casos de prueba ejecuten todas sus funciones.",
+      "evidence": "En cli.py:1824 se pasa la opción '--no-renames'. Un git mv genera un hunk '@@ -0,0 +1,N @@' para el nuevo archivo, marcando todas sus líneas como agregadas en 'cambios'. Las funciones no llamadas pasan a figurar en 'sin_respaldo'.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Crear un commit donde se renombra un archivo existente de varias funciones; ejecutar oracle-factory trazabilidad y verificar que las líneas no modificadas se reportan como sin respaldo."
+    },
+    {
+      "id": "agy-trazabilidad-tracer-hijack",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "trazar() silencia y rompe la traza de quien ya trazaba al no encadenar sys.settrace",
+      "explanation": "En oracle_factory/trazabilidad.py:56-63, trazar() guarda previas = sys.gettrace(), threading.gettrace() y las restaura en el bloque finally tras suite.run(resultado). Sin embargo, la función de traza instalada ('llamada') no delega ni invoca a previas[0](frame, evento, arg). Durante la ejecución de los casos de prueba, cualquier trazador previo (por ejemplo, herramientas de cobertura, depuradores o el propio sensor de Factory) queda totalmente silenciado y no recibe ningún evento de llamada o línea. Este problema fue detectado en el propio cambio y anotado como limitación en tools/verify_trazabilidad.py:28 ('Los casos tz1 trazan por su cuenta: mientras lo hacen, la traza de afuera no ve lo que ejecutan.'), pero no fue resuelto en el código. Además, en tests/test_trazabilidad.py:82-93 (test_tz1_dos_requisitos_con_sus_casos), se instala una traza 'marca' que devuelve None inmediatamente, por lo que nunca se verifica que un trazador activo reciba eventos durante suite.run; de hecho, la línea 86 de test_trazabilidad.py ('return None' en marca) queda catalogada como 'Sin respaldo' porque nunca llega a ejecutarse.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 56,
+        "end_line": 63,
+        "side": "head"
+      },
+      "trigger": "Invocar trazar() en un entorno donde sys.gettrace() ya estaba configurado por un llamador externo.",
+      "evidence": "La evidencia de af88d90 muestra que tests/test_trazabilidad.py:86 quedó 'Sin respaldo'. Asimismo, si se define un trazador externo que acumula eventos, este recibe 0 eventos durante la corrida de suite.run() en trazar().",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Configurar sys.settrace(mi_rastreador) antes de llamar a trazar(); comprobar que mi_rastreador no recibe eventos de las funciones ejecutadas durante los tests del contrato."
+    },
+    {
+      "id": "agy-trazabilidad-def-lineno-inaccurate",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "llamada registra frame.f_lineno como línea del def sin contemplar decoradores ni generadores",
+      "explanation": "En oracle_factory/trazabilidad.py:46, dentro del evento 'call', se ejecuta 'conjunto.add(frame.f_lineno) # la línea del def: la función se llamó'. Esta lógica asume que frame.f_lineno coincide con la definición de la función. No obstante, en Python: 1) En funciones decoradas, frame.f_lineno al momento del call corresponde a la línea del primer decorador (@decorador), no a la línea de 'def f(...)'. Si un candidato modifica la firma 'def' de una función decorada, esa línea no se registra en la traza ni en lineas_ejecutables (co_lines contiene el decorador, no la línea del def), omitiéndose por completo. 2) En generadores o corrutinas que se reanudan mediante yield, los eventos call posteriores registran la línea del yield y no la del def. 3) En definiciones multilínea con parámetros en varias líneas, las líneas de parámetros no figuran en co_lines y nunca son capturadas.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 41,
+        "end_line": 46,
+        "side": "head"
+      },
+      "trigger": "Trazar funciones decoradas o con firmas multilínea donde se modifica la línea de def o parámetros.",
+      "evidence": "Para '@dec\\ndef f(x):\\n    return x', f.co_firstlineno es la línea 1 (@dec). En llamada(), frame.f_lineno es 1. La línea 2 ('def f') no es registrada en conjunto ni aparece en lineas_ejecutables.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Ejecutar trazar() sobre una función con decorador en línea separada; comprobar que la línea de 'def' no está en el conjunto de líneas."
+    },
+    {
+      "id": "agy-trazabilidad-modulo-clases-sin-respaldo",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "lineas_ejecutables excluye código de nivel de módulo y cuerpos de clase, ocultando código ejecutable sin probar",
+      "explanation": "El requisito de la spec establece expresamente: 'las líneas cambiadas ejecutables que no ejecuta ningún caso, como sin respaldo; y los archivos cambiados que la traza no puede ver. Las líneas que no son ejecutables (comentarios, en blanco) SHALL NOT figurar sin respaldo.' La spec únicamente permite excluir comentarios y líneas en blanco. Sin embargo, 'lineas_ejecutables' (oracle_factory/trazabilidad.py:79-85) filtra el código compilado exigiendo estrictamente 'c.co_flags & inspect.CO_OPTIMIZED'. Esto descarta el código de nivel de módulo (asignaciones, constantes, llamadas de inicialización) y de cuerpos de clases (atributos de clase, tablas de despacho). Si un candidato agrega o modifica sentencias ejecutables a nivel de módulo o clase (como 'MAXIMO = 80'), esas líneas ejecutables se omiten de lineas_ejecutables y nunca aparecen en 'sin_respaldo', aun cuando ningún caso de prueba las haya ejecutado. En tests/test_trazabilidad.py:182, el test convalida esta omisión ('assertNotIn(numero(NOTAS, \"MAXIMO\"), ...) # corre al importar: la traza no lo ve'), contradiciendo la especificación aprobada.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 79,
+        "end_line": 85,
+        "side": "head"
+      },
+      "trigger": "Agregar o modificar sentencias a nivel de módulo o dentro de un cuerpo de clase sin añadir pruebas para ellas.",
+      "evidence": "Al ejecutar lineas_ejecutables('CONST = 1\\nclass C:\\n    ATTR = 2\\n'), el resultado es set(), ignorando ambas sentencias ejecutables y asumiendo que no existen líneas que respaldar.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Invocar lineas_ejecutables sobre un fragmento con constantes a nivel de módulo y observar que devuelve conjunto vacío."
+    },
+    {
+      "id": "agy-trazabilidad-merge-base-head-main",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "datos_trazabilidad calcula merge-base con HEAD y rama fija main en lugar del commit del candidato",
+      "explanation": "En oracle_factory/cli.py:1820-1823, se calcula la base del diff ejecutando 'git merge-base HEAD main'. 1) Utiliza la referencia 'HEAD' del árbol de trabajo actual en lugar del SHA del candidato ('sha' / 'candidato'). Si la CLI se ejecuta desde otra rama o con HEAD apuntando a un commit posterior/diferente, la base calculada no corresponde al candidato. 2) La rama 'main' está codificada en duro sin posibilidad de configurar la rama base mediante una opción '--base' (a diferencia de 'pedir-revision' en cli.py:1886), lo que provoca un error irrecuperable en repositorios cuya rama principal es 'master' u otro nombre.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1820,
+        "end_line": 1823,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory trazabilidad cuando HEAD está en otra rama o cuando la rama principal del repositorio no se llama main.",
+      "evidence": "cli.py:1820 ejecuta 'ejecutar([\"git\", \"merge-base\", \"HEAD\", \"main\"])'. No se valida contra candidato ni se acepta argumento --base.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Revisar la signatura de construir_parser() para el subcomando trazabilidad y la llamada a git merge-base en datos_trazabilidad()."
+    },
+    {
+      "id": "agy-trazabilidad-archivos-borrados-no-rastreables",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "Archivos eliminados y archivos no-Python con sólo borrado de líneas se omiten de no_rastreables",
+      "explanation": "La spec establece que se deben informar 'los archivos cambiados que la traza no puede ver'. En oracle_factory/trazabilidad.py:93-101, cuando un archivo es eliminado (+++ /dev/null), archivo se establece en None. Asimismo, si en un archivo no-Python (por ejemplo .md, .txt) únicamente se eliminan líneas (cantidad == 0), no se añade al diccionario 'cambios'. Como 'cruzar()' calcula 'no_rastreables' iterando únicamente sobre las claves de 'cambios' (trazabilidad.py:130: '[a for a in sorted(cambios) if ejecutables.get(a) is None]'), los archivos de producto borrados y los archivos modificados sólo mediante eliminaciones nunca aparecen en 'no_rastreables', ignorando cambios en el producto que la traza no puede seguir.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 93,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Eliminar un archivo de producto (git rm) o borrar líneas de un archivo que no sea Python sin agregar líneas nuevas.",
+      "evidence": "En cambios_del_diff, un hunk de sólo borrado produce cantidad == 0 y no registra el archivo en 'cambios'. El archivo queda totalmente ausente del resultado retornado por cruzar().",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Procesar un diff de eliminación con cambios_del_diff y cruzar; verificar que el archivo eliminado no figura en no_rastreables."
+    },
+    {
+      "id": "agy-trazabilidad-threading-tests-untested",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "threading.settrace en trazar() no cuenta con pruebas en test_trazabilidad.py y sobrevive mutación",
+      "explanation": "En oracle_factory/trazabilidad.py:58 y 63, se invoca threading.settrace(llamada) y threading.settrace(previas[1]). Sin embargo, la suite de pruebas tests/test_trazabilidad.py no contiene ningún caso con ejecución concurrente o hilos. Una mutación manual que anula threading.settrace (reemplazándola por una función no-op) sobrevive con éxito a la suite completa de pruebas de test_trazabilidad. Adicionalmente, si un caso de prueba inicia un hilo de fondo, threading.settrace en el bloque finally sólo afecta a hilos creados a futuro, dejando el hilo en ejecución permanentemente ligado a 'llamada' y mutando 'lineas' fuera de tiempo.",
+      "location": {
+        "file": "tests/test_trazabilidad.py",
+        "start_line": 82,
+        "end_line": 106,
+        "side": "head"
+      },
+      "trigger": "Ejecutar pruebas unitarias contra una implementación donde threading.settrace está desactivado.",
+      "evidence": "Se mutó trazabilidad.threading.settrace = lambda f: None en tiempo de ejecución y los 5 tests de test_trazabilidad pasaron sin fallas.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "Comprobar que en test_trazabilidad.py no existe ningún caso de prueba que cree instancias de threading.Thread."
+    },
+    {
+      "id": "agy-trazabilidad-limites-incompletos",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Los límites declarados omiten la exclusión estructural de código a nivel de módulo y clases",
+      "explanation": "El requisito 'los_limites_de_la_trazabilidad_se_declaran' exige declarar los límites de la trazabilidad. En oracle_factory/trazabilidad.py:17-18 se definen dos límites: que ejecutar una línea no prueba corrección y que el código en otro proceso no se traza. Sin embargo, la herramienta tiene una limitación de diseño crítica: no traza ni considera ejecutables las líneas fuera de funciones (código de módulo y clases). Esto induce a error a quien revisa el informe en texto o JSON, sugiriendo que cualquier línea de código no probada aparecerá bajo 'Sin respaldo', cuando en realidad sentencias enteras de configuración o inicialización son invisibles para la herramienta.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 17,
+        "end_line": 18,
+        "side": "head"
+      },
+      "trigger": "Consultar la salida en texto o JSON de oracle-factory trazabilidad esperando cobertura de sentencias a nivel de módulo.",
+      "evidence": "LIMITES sólo contiene 2 frases sobre procesos y corrección semántica. No se declara que el código no contenido en funciones optimizadas se ignora.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+      "status": "pendiente",
+      "verification": "Comparar las cadenas en LIMITES con el alcance real de lineas_ejecutables()."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas: python -m unittest tests.test_trazabilidad tests.test_cli_json.",
+    "Se ejecutó el comando de trazabilidad en el proyecto: oracle-factory trazabilidad 20261013-180751-trazabilidad.",
+    "Se realizaron experimentos y mutaciones manuales controladas en copias locales para verificar supervivencia de pruebas y comportamiento con git diff.",
+    "No se ejecutaron herramientas verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del revisor."
+  ]
+}
