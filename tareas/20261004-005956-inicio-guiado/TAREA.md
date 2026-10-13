@@ -81,3 +81,15 @@ Implementación d569498 integrada y subida a main. Tag y release v0.1.0a3 public
 ## Próximo paso
 
 El mantenedor puede publicar en PyPI los artefactos exactos de dist/ con uv publish dist/oracle_factory-0.1.0a3-py3-none-any.whl dist/oracle_factory-0.1.0a3.tar.gz. Para cerrar este cambio real, revisar el producto d569498, el informe técnico y la pertinencia/suficiencia de las seis medidas; registrar decisión humana con Factory, regenerar hechos en el commit revisado, correr juzgar y confirmar cierre sólo si corresponde. Main, tag, release y web están publicados/verificados; no se simulan los gates humanos.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preservar_archivos_existentes propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.

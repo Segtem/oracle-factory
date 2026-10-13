@@ -71,6 +71,62 @@
         "factory_guiada.preservar_requisito_ante_error"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "medidas": [
+        "factory_guiada.asociacion_explicita_y_valida"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "medidas": [
+        "factory_guiada.preservar_requisito_ante_error"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+      "medidas": [
+        "factory_guiada.invalidar_evidencia_anterior"
+      ]
     }
-  ]
+  ],
+  "medidas_pendientes": {
+    "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida": {
+      "sha256": "de1605e6505e4d9ca7f093dddd9ffa6088ded88176e7f66ad1f97cfca35029a4",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    },
+    "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error": {
+      "sha256": "4b1efb60715d66f3937a92dbba4e04c16467a829a2680149d59d3593e6955897",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    },
+    "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior": {
+      "sha256": "4719065a5526652071b52a045e39d780fdd3ec6afc6ab0c66a84757110767375",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    }
+  }
 }

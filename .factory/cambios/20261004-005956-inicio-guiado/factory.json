@@ -71,6 +71,62 @@
         "factory_guiada.recuperar_cambios_y_siguiente_paso"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+      "medidas": [
+        "factory_guiada.preparar_ejemplo_sin_aprobacion"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "medidas": [
+        "factory_guiada.preservar_archivos_existentes"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:09:48+00:00",
+      "requisito": "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso",
+      "medidas": [
+        "factory_guiada.recuperar_cambios_y_siguiente_paso"
+      ]
     }
-  ]
+  ],
+  "medidas_pendientes": {
+    "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion": {
+      "sha256": "dc230e98d4d8125d12224cb3fb617415ef1c2b2b20b329fc9841eda214fc8afa",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    },
+    "onboarding_ca007f9416d32e171.preservar_archivos_existentes": {
+      "sha256": "a40ac8efbadfe1c5307c1ae09dce496ada241c8125ec9f6010b457c247f385f3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    },
+    "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso": {
+      "sha256": "d31c1085cf407a46f7e4d8089ccbda5964dc440e7a9bf14e1a1607b2af06f6d8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:09:48+00:00"
+    }
+  }
 }
