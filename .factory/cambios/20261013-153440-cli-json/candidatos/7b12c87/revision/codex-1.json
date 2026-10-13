@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-json/.factory/local/revisiones/7b12c87",
+  "base": "ae07f64a9645e2064b0dcbf043c93d3e2a12eb84",
+  "head": "7b12c87f8e1c1ae2b20266762f6aa1889ac727f4",
+  "diff_sha256": "1f2cc9a6e5b936b2f69c23801a14416d7f6e96cffabd5ce69d8fd1ca41d663fb",
+  "context_sha256": "0e01f759e9ff5355f66f42a2645f085eef1504276345332a1bb455287601f5e2",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y los informes de las vueltas anteriores; contrasté cli.py, resumen.py y tests/test_cli_json.py con los tres requisitos.",
+    "Ejecuté exactamente: /home/workstation/Dev/factory-cli-json/.venv/bin/python -m unittest tests.test_cli_json tests.test_resumen tests.test_estructura desde /home/workstation/Dev/factory-cli-json: 51 tests, OK.",
+    "Revisé las referencias tests/datos/cli_texto y los caminos JSON de estado, donde y resumen; no ejecuté tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones manuales. No probé clientes externos (IDE, panel o MCP); la revisión de compatibilidad del esquema fue estática."
+  ]
+}
