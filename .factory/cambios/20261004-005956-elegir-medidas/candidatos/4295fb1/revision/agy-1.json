@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/4295fb1",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "4295fb16ddddc1fa98f908ac20c8f7bb85a7b17b",
+  "diff_sha256": "daaa73ddaaf9d7ce738d70c3041e5f7c8a9e9c15559069bd137bbf9081d777ff",
+  "context_sha256": "ad12fc434a5c1d83fd51def531e73da596680711673a979f0e15f945b2b8fd10",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance del diff: el paquete de Clue para el cambio 20261004-005956-elegir-medidas contiene exclusivamente cambios de metadatos en .factory/cambios/20261004-005956-elegir-medidas/factory.json (y cambios paralelos en inicio-guiado) y notas de auditoría en tareas/20261004-005956-elegir-medidas/TAREA.md. El commit candidato 4295fb1 no introduce código de producción nuevo, sino que registra las medidas propuestas por claude-code bajo modo confirmación y su confirmación expresa por Brian Hollweg (persona).",
+    "Sin defectos en el diff: las líneas modificadas en factory.json y TAREA.md registran fielmente los actores, modos, eventos y huellas sha256 de los tres archivos .requisito vigentes (de1605e6..., 4719065a..., 4b1efb60...). No existen discrepancias ni defectos dentro de los rangos modificados del diff, por lo que la lista de hallazgos (findings) queda vacía conforme a las reglas de validación de Oracle Clue.",
+    "Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-elegir-medidas/proposal.md y openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md frente a la implementación en oracle_factory/cli.py. El código cumple con los tres requisitos: 1) 'asociacion explicita y valida': medir exige el ID completo del requisito importado por el cambio, valida la existencia de medidas en el catálogo efectivo, preserva prosa, fuente, comentarios y límites parciales, e impide sufijos ambiguos o asociaciones automáticas; 2) 'preservar requisito ante error': ante medidas inexistentes, sintaxis inválida, catálogos eliminados o fallos de E/S, el archivo .requisito conserva sus bytes originales, se usan bloqueos de archivo para prevenir carreras y se rechazan symlinks inseguros; 3) 'invalidar evidencia anterior': asociar medidas distintas resetea revision y oracle a None e invalida la fase, mientras que repeticiones idénticas preservan las validaciones previas sin cierre automático.",
+    "Ejecución de pruebas: se ejecutó exactamente en primer plano el comando indicado: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas, incluyendo los 11 casos de EleccionMedidas). No se ejecutaron tools/verify_*.py ni la suite completa.",
+    "Análisis de mutaciones y huecos de cobertura: se aplicaron 12 mutaciones sobre copias locales de medir contra la suite tests.test_guided.EleccionMedidas. 7 mutaciones fueron detectadas y eliminadas (M4 repetición idéntica, M5 invalidación de revisión/juicio ante cambio, M6 vaciado de sin_medir con quitar_sin_medir, M7 rechazo de sin_medir vacío, M8 preservación de comentarios, M9 orden de escritura atómica para evitar verdes huérfanos, y M10 rechazo de medidas duplicadas verificado por el metalenguaje de Oracle). Sin embargo, 5 mutaciones sobrevivieron evidenciando huecos en las pruebas de verify_contracts: 1) M1 sobrevivió: medir --listar no tiene pruebas de que rechace opciones de edición (--requisito o --medida); 2) M2 sobrevivió: la verificación de cambio de catálogo por huella sha256 (actual_sha != catalogo_sha) no es cubierta porque la prueba sólo simula FileNotFoundError; 3) M3 sobrevivió: la detección de modificaciones concurrentes a factory.json o a la spec no está cubierta (sólo se prueba concurrencia sobre el archivo .requisito); 4) M11 sobrevivió: no se prueba el rechazo de --sin-medir formado únicamente por espacios en blanco ('   '); 5) M12 sobrevivió: no se prueba la invocación de medir con lista de medidas vacía (medidas=[])."
+  ]
+}

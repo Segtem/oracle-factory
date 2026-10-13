@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/4295fb1",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "4295fb16ddddc1fa98f908ac20c8f7bb85a7b17b",
+  "diff_sha256": "daaa73ddaaf9d7ce738d70c3041e5f7c8a9e9c15559069bd137bbf9081d777ff",
+  "context_sha256": "c553acefc9d6f901dabfc38d48e1c39de6025946a0364919cb2a12942d6d96e5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron proposal.md, specs/onboarding/spec.md, oracle_factory/cli.py, tests/test_guided.py y tools/verify_contracts.py del checkout 4295fb1. El diff entregado por el paquete sólo modifica cuatro archivos de registro/seguimiento y no incluye el código ni las pruebas revisadas; por el requisito de ubicar hallazgos dentro de rangos del diff, no se atribuyen hallazgos a archivos sin líneas modificadas.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas OK.",
+    "No se ejecutó tools/verify_contracts.py ni la suite completa. No se hicieron mutaciones manuales."
+  ]
+}

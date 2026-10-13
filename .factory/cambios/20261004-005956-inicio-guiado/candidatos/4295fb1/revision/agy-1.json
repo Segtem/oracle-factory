@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/4295fb1",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "4295fb16ddddc1fa98f908ac20c8f7bb85a7b17b",
+  "diff_sha256": "daaa73ddaaf9d7ce738d70c3041e5f7c8a9e9c15559069bd137bbf9081d777ff",
+  "context_sha256": "c553acefc9d6f901dabfc38d48e1c39de6025946a0364919cb2a12942d6d96e5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance del diff: el paquete de Clue contiene únicamente modificaciones de metadatos y seguimiento en .factory/cambios/20261004-005956-inicio-guiado/factory.json, .factory/cambios/20261004-005956-elegir-medidas/factory.json y sus respectivas tareas/TAREA.md, registrando la propuesta de claude-code y la confirmación humana de medidas por Brian Hollweg. No hay cambios de código en este commit candidato 4295fb1.",
+    "Sin defectos en el diff: las líneas modificadas registran correctamente los actores, eventos, modo confirmacion y huellas sha256 coincidentes con los archivos .requisito en requisitos/. Al no haber defectos dentro de los rangos modificados del diff, findings queda vacía conforme a las reglas del validador de Oracle Clue.",
+    "Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-inicio-guiado/proposal.md y openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md frente al código existente en el checkout 4295fb1. oracle_factory/cli.py cumple con: 1) nuevo --con-ejemplo notas infiere capacidad notas, rechaza capacidades incompatibles, copia documentos y catálogos, deja el estado en espera_aprobacion_spec sin spec aprobada ni requisitos medidos, e informa rutas y próximo paso; 2) plan_ejemplo y preparar_ejemplo validan rutas con ruta_segura, rechazan destinos existentes antes de crear tareas y previenen sobrescrituras con open('xb'); 3) listar y siguiente/inicializar recuperan IDs completos, muestran fases y detallan acciones manuales.",
+    "Ejecución de pruebas: se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas). No se ejecutó tools/verify_contracts.py ni la suite completa del proyecto.",
+    "Análisis de mutaciones y huecos de cobertura: se realizaron 10 mutaciones manuales sobre copias locales contra la suite tests.test_guided.InicioGuiado. Las pruebas mataron exitosamente 7 mutantes (bloqueo de sobrescrituras, fallos de copia, ID truncado en listar, siguiente mudo, spec auto-aprobada). Sin embargo, 3 mutantes sobrevivieron revelando huecos en las aserciones: 1) M1 sobrevivió: omitir los prints explicativos y de próximo paso en inicializar() no rompe test_init_idempotente_conserva_configuracion_y_muestra_pasos_factory porque sólo aserta .gitignore, oracle.json y la ausencia de 'oracle caso nuevo', sin verificar que se explique la acción manual post-setup; 2) M3 sobrevivió: omitir el título del cambio en listar() no rompe test_listar_recupera_cambio_y_no_confunde_tareas_solas porque sólo aserta el ID y la fase; 3) M8 sobrevivió: asignar medidas iniciales en nuevo() no rompe test_ejemplo_completo_pendiente_y_sin_aprobaciones porque comprueba state['requisitos'] == [] pero no verifica state.get('medidas')."
+  ]
+}
