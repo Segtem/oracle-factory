@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/e6ecb4a",
+  "base": "80c3e1db25128b806d16c965689c78c549120ccf",
+  "head": "e6ecb4acfc1bd7351695029ac290685b9cbceb22",
+  "diff_sha256": "5f3f34c9d668455e38ad93d4320562188ab4b3b41cd09c3f017228fd4a3046f7",
+  "context_sha256": "cce7109b6fa5938440aaaed1446a93efca2a1578d17f1d2fef4cc656f5844bfb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Revisión completa e incremental del candidato e6ecb4a frente a la base 80c3e1d y sobre el checkout completo contra la especificación openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md (requisitos tz1–tz3) y proposal.md. No se encontraron nuevos defectos ni discrepancias con la spec.",
+    "Se comprobó la corrección de TRZ-RESULT-SKIP-FAIL-001 en oracle_factory/trazabilidad.py: trazar() evalúa 'falla' si not resultado.wasSuccessful() o resultado.testsRun != 1 antes de evaluar resultado.skipped, asegurando que un caso con subpruebas omitidas y fallidas quede catalogado como falla. Se verificó con test_omite_y_falla en tests/test_trazabilidad.py.",
+    "Se comprobó la corrección de TRZ-MODULE-GUARD-001 en oracle_factory/trazabilidad.py: lineas_ejecutables() extrae las líneas del cuerpo de if __name__ == '__main__': y las traslada del conjunto 'importar' a 'funciones', por lo que califican como ejecutables y se reportan en 'sin_respaldo' si ningún caso las ejercita (mientras que la línea de la condición if permanece en 'al_importar'). Se verificó con la adición en NOTAS y aserciones en test_tz2_una_linea_cambiada_sin_respaldo en tests/test_trazabilidad.py.",
+    "Se verificó la ausencia de regresiones respecto de los hallazgos cerrados en vueltas anteriores (af88d90, ca7db4e, 80c3e1d): nombres exactos y con espacios/caracteres especiales vía git diff -z -M; preservación y encadenamiento de trazas de sys.settrace y threading.settrace con restauración en bloque finally; correlación de decoradores con la línea del 'def' en decorados; soporte de clases locales anidadas; cómputo de merge-base desde el commit del candidato; inclusión de archivos borrados y movidos fuera del producto en 'borrados'; y declaración explícita de los tres límites en LIMITES, salida de texto y salida JSON.",
+    "Se ejecutó exactamente en primer plano el comando de pruebas: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null (12 pruebas, resultado OK). Salida registrada en tests.log.",
+    "Se ejecutó el comando real de trazabilidad: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null (código 0). Salida registrada en cli-trazabilidad.log. Se confirmó que las líneas de funciones de traza en oracle_factory/trazabilidad.py aparecen como sin respaldo debido a que Python no traza las funciones de traza en ejecución, tal como está documentado y previsto.",
+    "Se ejecutaron pruebas de mutación manuales en copias aisladas en el directorio de trabajo (mutaciones M1 a M9), verificando que alteraciones lógicas en trazar(), lineas_ejecutables(), cruzar(), _encadenada(), y lineas_agregadas() rompen las pruebas de contrato correspondientes.",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas, conforme a las restricciones del pedido. El checkout /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/e6ecb4a se mantuvo estrictamente en solo lectura sin ediciones ni commits."
+  ]
+}

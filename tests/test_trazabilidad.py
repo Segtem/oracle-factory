@@ -272,6 +272,9 @@ class Cruce(_ap.Base):
         # una clase definida dentro de una función corre cuando la función se llama, no al importar
         local = trazabilidad.lineas_ejecutables('def f():\n    class L:\n        z = 1\n    return L\n')
         self.assertEqual((local[0], local[1]), ({1, 2, 3, 4}, set()))
+        # el guard __main__ en cualquier orden; con != el cuerpo sí corre al importar
+        for guard, esperado in (("'__main__' == __name__", ({3}, {1, 2})), ("__name__ != '__main__'", (set(), {1, 2, 3}))):
+            self.assertEqual(trazabilidad.lineas_ejecutables(f'A = 1\nif {guard}:\n    print(A)\n')[:2], esperado)
         # Un hunk que sólo borra no agrega líneas; y cada requisito ve sólo las líneas de sus casos.
         self.assertEqual(trazabilidad.lineas_agregadas('@@ -3,2 +2,0 @@\n'), set())
         dos = trazabilidad.cruzar({'requisitos': {'r1': ['c1'], 'r2': ['c2']},

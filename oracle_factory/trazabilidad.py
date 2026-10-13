@@ -113,12 +113,19 @@ def lineas_ejecutables(texto: str) -> tuple[set[int], set[int], dict[int, int]] 
     funciones |= set(decorados.values())
     # El cuerpo de `if __name__ == "__main__":` no corre al importar: es ejecutable, y sólo un caso lo podría respaldar.
     for n in arbol.body:
-        if (isinstance(n, ast.If) and isinstance(n.test, ast.Compare) and isinstance(n.test.left, ast.Name)
-                and n.test.left.id == '__name__' and any(isinstance(c, ast.Constant) and c.value == '__main__'
-                                                         for c in n.test.comparators)):
+        if isinstance(n, ast.If) and _es_principal(n.test):
             principal = set(range(n.body[0].lineno, n.body[-1].end_lineno + 1)) & importar
             funciones |= principal
     return funciones, importar - funciones, decorados
+
+
+def _es_principal(test) -> bool:
+    """`__name__ == "__main__"` en cualquier orden; no `!=` (ese cuerpo sí corre al importar) ni comparaciones encadenadas."""
+    if not (isinstance(test, ast.Compare) and len(test.ops) == 1 and isinstance(test.ops[0], ast.Eq)):
+        return False
+    lados = (test.left, test.comparators[0])
+    return (any(isinstance(l, ast.Name) and l.id == '__name__' for l in lados)
+            and any(isinstance(l, ast.Constant) and l.value == '__main__' for l in lados))
 
 
 def archivos_cambiados(name_status: str) -> list[dict]:
@@ -188,6 +195,8 @@ if __name__ == '__main__':
     assert lineas_ejecutables(fuente) == ({3, 5, 10, 11, 13, 14, 15, 16, 17}, {1, 7, 8}, {13: 14})
     assert lineas_ejecutables('def (') is None
     assert lineas_ejecutables("A = 1\nif __name__ == '__main__':\n    print(A)\n")[:2] == ({3}, {1, 2})
+    assert lineas_ejecutables("A = 1\nif '__main__' == __name__:\n    print(A)\n")[:2] == ({3}, {1, 2})
+    assert lineas_ejecutables("A = 1\nif __name__ != '__main__':\n    print(A)\n")[:2] == (set(), {1, 2, 3})
     assert archivos_cambiados('M\0a b.py\0R087\0viejo.py\0nuevo.py\0D\0x.md\0') == [
         {'estado': 'M', 'origen': None, 'ruta': 'a b.py'}, {'estado': 'R', 'origen': 'viejo.py', 'ruta': 'nuevo.py'},
         {'estado': 'D', 'origen': None, 'ruta': 'x.md'}]
