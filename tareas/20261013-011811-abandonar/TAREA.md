@@ -1,6 +1,6 @@
 # Abandonar un cambio con motivo, decidido por una persona
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 09:57:27 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-011811-abandonar/oracle-veredicto.txt.
+
+### Nota (2026-10-13 09:57:48 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

@@ -2,7 +2,7 @@
   "id": "20261013-011811-abandonar",
   "titulo": "Abandonar un cambio con motivo, decidido por una persona",
   "capacidad": "archivo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
   "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
   "spec_aprobada": {
@@ -329,6 +329,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "e9294c94b6a229bd18687304cad3a218f3b8466cfbca0bd79296ce8f88113a98"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:48+00:00",
+      "oracle": ".factory/cambios/20261013-011811-abandonar/oracle-veredicto.txt",
+      "revision": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:48+00:00",
+      "capacidad": "archivo",
+      "spec": "openspec/specs/archivo/spec.md"
     }
   ],
   "tipos": {
@@ -372,5 +392,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T09:57:48+00:00"
+  },
+  "archivo": {
+    "capacidad": "archivo",
+    "spec": "openspec/specs/archivo/spec.md",
+    "cuando": "2026-10-13T09:57:48+00:00"
+  }
 }
