@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/a3fbbef",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "a3fbbef812c317770911ba0f6445baf06dfd0fe6",
+  "diff_sha256": "85619fbca607e6a78b38a37de82774163151f0839e1558ec0efa68277d27b644",
+  "context_sha256": "ce0760d684048acaf9ca60f2e075fd872a8f8eb49a4db46ae93e38ce304bfbe5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias tests/test_abandonar.py, tests/test_archivo.py, tests/test_resumen.py y tests/test_estructura.py con el comando exacto requerido en primer plano desde la raíz del checkout con timeout 300 e intérprete .venv/bin/python: 76 pruebas ejecutadas exitosamente (OK en 33.1 s).",
+    "No se ejecutaron tools/verify_*.py ni la suite completa de pruebas, conforme a la instrucción expresa de la solicitud de revisión.",
+    "Se verificó la corrección del hallazgo de la vuelta anterior (codex-1 en dba4c66): si la nota falla tras cerrar la tarea en el tracker, se interrumpe la ejecución mediante FactoryError antes de modificar el estado en Factory, garantizando que el cambio permanezca abierto y que una repetición de oracle-factory abandonar complete el proceso sin reintentar el cierre de la tarea ni duplicar la nota en TAREA.md (verificado mediante la prueba test_ab2_si_la_nota_falla_se_completa_al_repetir).",
+    "Se comprobó que todos los hallazgos de las vueltas 05c64dc y dba4c66 permanecen resueltos sin regresiones: preservación de decisión humana y requisito de terminal interactiva, soporte de registros mínimos sin spec para carpetas sin registro, coherencia en los comandos de lectura (estado, donde, resumen, listar, ruta) y rechazo consistente de comandos modificadores (medir, juzgar, cerrar, modo, importar, aprobar-spec, revisar, pedir-revision) sobre cambios abandonados.",
+    "Se ejecutaron pruebas de mutación manuales en un arnés aislado fuera del checkout (mutaciones de comprobación de ESTADO: CERRADA, duplicación de nota, tragar fallo de nota_tarea, omitir verificación de fase abandonada en abierto() y proximo_paso(), y manejo de abandonados en resumen), verificando que la suite cubre adecuadamente la lógica del cambio.",
+    "El checkout candidato a3fbbef permaneció en modo sólo lectura sin modificaciones (git status --short sin cambios).",
+    "Al no detectarse defectos restantes, la lista de hallazgos se reporta vacía."
+  ],
+  "findings": []
+}
