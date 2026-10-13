@@ -1,0 +1,4 @@
+requisito cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json:
+    texto "Tipo: funcional Sin `--json`, `estado`, `donde` y `resumen` SHALL imprimir lo mismo que antes de este cambio. Con `--json`, un error SHALL ir a stderr con código 1 y stdout SHALL quedar vacío."
+    fuente "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md#la salida de texto no cambia y los errores no se mezclan con el JSON"
+    sin_medir "sin medida todavía; escenarios: «el texto sigue igual», «un cambio inexistente»"

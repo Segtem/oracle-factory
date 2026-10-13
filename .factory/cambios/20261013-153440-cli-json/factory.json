@@ -2,7 +2,7 @@
   "id": "20261013-153440-cli-json",
   "titulo": "Salidas en JSON de estado, donde y resumen",
   "capacidad": "cli",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
   "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+    "cli_c38d280a51dea748e.estado_se_lee_como_json",
+    "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
         "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T15:46:35+00:00",
+      "ids": [
+        "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+        "cli_c38d280a51dea748e.estado_se_lee_como_json",
+        "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json": "funcional",
+    "cli_c38d280a51dea748e.estado_se_lee_como_json": "funcional",
+    "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

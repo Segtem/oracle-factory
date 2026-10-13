@@ -126,6 +126,37 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
     return f'<!-- oracle-factory resumen sha256:{hashlib.sha256(texto.encode()).hexdigest()} -->\n' + texto
 
 
+ESQUEMA = 'oracle-factory.resumen/1'
+
+
+def datos(indices: list[dict], registros: dict[str, dict], medidas: dict[str, list[str]],
+          abiertos: list[dict], revisiones: dict[str, dict], sin_registro: list[str] = ()) -> dict:
+    """Lo mismo que `generar`, como datos para un cliente (IDE, panel, MCP). Mismas entradas, mismo resultado."""
+    vigentes = {r['cambio'] for i in indices for r in i['requisitos'].values()}
+    capacidades = [{'capacidad': i['capacidad'], 'spec': f"openspec/specs/{i['capacidad']}/spec.md",
+                    'requisitos': [{'nombre': nombre, 'tipo': _tipo(req.get('cuerpo', [])), 'requisito': req['requisito'],
+                                    'medidas': medidas.get(req['requisito'], []),
+                                    'veredicto_al_cerrar': _veredicto(registros.get(req['cambio'])), 'cambio': req['cambio']}
+                                   for nombre, req in i['requisitos'].items()]} for i in indices]
+    abandonados = [{'id': ident, 'titulo': r.get('titulo', ''), 'motivo': (r.get('abandono') or {}).get('motivo'),
+                    'actor': (r.get('abandono') or {}).get('actor'), 'cuando': (r.get('abandono') or {}).get('cuando')}
+                   for ident, r in sorted(registros.items()) if r.get('fase') == 'abandonada']
+    aceptados, limites, problemas = [], [], []
+    for ident in sorted(revisiones):
+        rev = revisiones[ident]
+        problemas += [{'cambio': ident, 'problema': p} for p in rev.get('problemas', [])]
+        for d in rev.get('decisiones', []):
+            if d.get('estado') == 'riesgo_aceptado':
+                h = rev.get('hallazgos', {}).get(d.get('hallazgo_id'), {})
+                aceptados.append({'cambio': ident, 'vigente': ident in vigentes, 'hallazgo': d.get('hallazgo_id'),
+                                  'descripcion': h.get('descripcion'), 'actor': d.get('actor'), 'motivo': d.get('motivo')})
+        limites += [{'cambio': ident, 'vigente': ident in vigentes, 'limite': l} for l in rev.get('limites', [])]
+    return {'esquema': ESQUEMA, 'capacidades': capacidades,
+            'abiertos': [{**a, 'pendientes': _agrupar(a['pendientes'])} for a in abiertos],
+            'abandonados': abandonados, 'sin_registro': list(sin_registro),
+            'riesgos_aceptados': aceptados, 'limites': limites, 'problemas': problemas}
+
+
 if __name__ == '__main__':
     idx = [{'capacidad': 'x', 'requisitos': {'uno': {'cambio': 'c1', 'requisito': 'x_c1.uno', 'cuerpo': ['Tipo: no funcional', 'A SHALL b.']}}}]
     reg = {'c1': {'oracle': {'codigo': 0}, 'cierre': {'cuando': '2026-10-01T00:00:00+00:00'}}}
@@ -138,4 +169,7 @@ if __name__ == '__main__':
     assert t.index('**H1**') < t.index('### Históricos') and t.index('(c0) viejo') > t.rindex('### Históricos')
     assert _celda('a\\|b') == 'a\\\\\\|b'
     assert _agrupar(['medidas de a: x', 'medidas de b: x', 'otra']) == ['otra', 'medidas de 2 requisitos: x']
+    d = datos(idx, reg, {'x_c1.uno': ['m.a']}, [], rev)
+    assert d == datos(idx, reg, {'x_c1.uno': ['m.a']}, [], rev) and d['capacidades'][0]['requisitos'][0]['medidas'] == ['m.a']
+    assert [a['hallazgo'] for a in d['riesgos_aceptados']] == ['H1'] and {l['limite'] for l in d['limites']} == {'l', 'viejo'}
     print('ok')
