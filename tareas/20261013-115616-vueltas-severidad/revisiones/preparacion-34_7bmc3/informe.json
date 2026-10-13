@@ -1,0 +1,104 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261013-115616-vueltas-severidad",
+  "contexto": {
+    "head": "522d26e0a2a3a790e4dc82af911317eb81d54e89",
+    "archivos_sha256": "d67ef6b4b12c6d31f566109adb202c9d9ff68fae53e8ca5567fddb90946c9133"
+  },
+  "documentos": {
+    "openspec/changes/20261013-115616-vueltas-severidad/proposal.md": "5edbf7a22fdf597b2c0d27a7667c069f478a9fa1ae4b677a6f40e8953f025454",
+    "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md": "847100bd334a73b37296f8f44eab517b395f8641f264f24e858f6c0b379a6e1a"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/evidencia/hechos.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/evidencia/resultado.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/evidencia/suite.txt",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/agy-1.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/codex-1.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/evidencia/hechos.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/evidencia/resultado.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/evidencia/suite.txt",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/agy-1.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/codex-1.json",
+    ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+    "catalogos/factory_vueltas.corrida_completa.oracle",
+    "catalogos/factory_vueltas.el_corte_de_vueltas_sigue_la_severidad.oracle",
+    "catalogos/factory_vueltas.revisar_reconoce_un_riesgo_ya_aceptado.oracle",
+    "catalogos/factory_vueltas.un_riesgo_aceptado_persiste_entre_vueltas.oracle",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261013-115616-vueltas-severidad/design.md",
+    "openspec/changes/20261013-115616-vueltas-severidad/proposal.md",
+    "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md",
+    "openspec/changes/20261013-115616-vueltas-severidad/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/preparacion.py",
+    "requisitos/revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad.requisito",
+    "requisitos/revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado.requisito",
+    "requisitos/revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas.requisito",
+    "tareas/20261013-115616-vueltas-severidad/TAREA.md",
+    "tests/test_vueltas.py",
+    "tools/verify_vueltas.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 320 pruebas, 10 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/6d60612/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/6d60612/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/6d60612/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 43f9d4d: agy (gemini-3.8-flash-high), 4 hallazgos: F-01 (alta), F-02 (alta), F-03 (media), F-04 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 43f9d4d: codex (gpt-6-luna), 1 hallazgo: F1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/43f9d4d/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0dda62b: agy (gemini-3.8-flash-high), 3 hallazgos: F-01 (alta), F-02 (media), F-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0dda62b: codex (gpt-6-luna), 1 hallazgo: F1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-115616-vueltas-severidad/candidatos/0dda62b/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios vs1–vs3 en repositorios temporales, Linux, con revisores de prueba, Clue real y las respuestas del menú simuladas. La severidad desconocida se prueba sobre la función de corte, porque Clue no valida un informe sin ella. No mide si el corte ahorra vueltas reales: eso se ve en los próximos cambios.",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación (findings vacía). Los hallazgos de las vueltas 1 y 2 (F-01, F-02, F-03) fueron subsanados satisfactoriamente y no presentan regresiones.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias solicitadas: tests.test_vueltas, tests.test_revisores y tests.test_review_guided en primer plano con el entorno virtual del proyecto (/home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales y pruebas aisladas en scripts temporales sobre copias locales para verificar discriminación de severidades en preparacion.corte, preservación de símbolos matemáticos en preparacion.firma, persistencia de aceptados sin firma y deduplicación de hallazgos repetidos en revisar_paso_a_paso. Todas las mutaciones relevantes fueron detectadas por las pruebas.",
+    "agy (gemini-3.8-flash-high): No se ejecutaron las herramientas tools/verify_*.py ni la suite de pruebas completa del proyecto, conforme a las instrucciones recibidas.",
+    "codex (gpt-6-luna): Se revisaron la propuesta, los tres requisitos, el diff, `oracle_factory/cli.py`, `oracle_factory/preparacion.py`, `tests/test_vueltas.py` y las cuatro revisiones de vueltas anteriores; el checkout candidato se mantuvo intacto.",
+    "codex (gpt-6-luna): Se ejecutó exactamente `cd /home/workstation/Dev/factory-vueltas-severidad && /home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided </dev/null`: 45 tests, OK.",
+    "codex (gpt-6-luna): Se reprodujo directamente el caso de ruta POSIX `src/part:12`. No se ejecutaron `tools/verify_*.py` ni la suite completa."
+  ],
+  "hallazgos": [
+    {
+      "id": "F-01",
+      "descripcion": "La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos",
+      "ubicacion": "oracle_factory/preparacion.py:99",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261013-115616-vueltas-severidad/candidatos/6d60612/revision/codex-1.json, validado con oracle-clue; severidad baja. Con el código del candidato: `archivo_de_ubicacion(\"src/part:12\")` devuelve `src/part`; `firma(\"src/part:12\", \"riesgo\")` da `src/part:12|riesgo`, mientras que `firma_de_ubicacion(\"src/part:12\", \"riesgo\")` da `src/part|riesgo`. La ubicación sin línea se produce en `preparacion._ubicacion` cuando `location.start_line` es nulo."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

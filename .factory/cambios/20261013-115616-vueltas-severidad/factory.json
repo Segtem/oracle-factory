@@ -2,7 +2,7 @@
   "id": "20261013-115616-vueltas-severidad",
   "titulo": "Vueltas de revisión proporcionales y riesgos aceptados que persisten",
   "capacidad": "revisores",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md",
   "spec_sha256": "847100bd334a73b37296f8f44eab517b395f8641f264f24e858f6c0b379a6e1a",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
     "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-115616-vueltas-severidad/revisiones/registro-1gs50r2g/informe.json",
+    "sha256": "1aeaf4de706ead3fc566fb1cbcd8dd87842618eab0a08feb799700e45ad3edb8",
+    "decisiones": "tareas/20261013-115616-vueltas-severidad/revisiones/registro-1gs50r2g/decisiones.json",
+    "decisiones_sha256": "e9cc2a05563876c883ee2417ed3fd47bbe8346bd55400ee2d5b21cbf692b68ba",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T15:18:00+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 trajo 5 hallazgos (2 altos, 3 medios) y la 2, 4 (1 alto, 2 medios, 1 bajo), todos corregidos con una aserción que falla en el código anterior dentro de los mismos 10 casos del contrato; la 3 dejó un solo hallazgo bajo, decidido en esta revisión, y el corte nuevo dijo que no hacía falta otra vuelta. El F-03 de la vuelta 1 (el escenario de severidad desconocida no se alcanza por pedir-revision porque Clue rechaza el informe) queda como límite declarado en la evidencia; ajustar la spec va aparte. Suite 320 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "522d26e0a2a3a790e4dc82af911317eb81d54e89",
+      "archivos_sha256": "d67ef6b4b12c6d31f566109adb202c9d9ff68fae53e8ca5567fddb90946c9133"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -233,6 +253,20 @@
       "cuando": "2026-10-13T15:16:47+00:00",
       "decision": "aprobar",
       "candidato": "6d60612"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T15:18:00+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1aeaf4de706ead3fc566fb1cbcd8dd87842618eab0a08feb799700e45ad3edb8",
+      "decisiones_sha256": "e9cc2a05563876c883ee2417ed3fd47bbe8346bd55400ee2d5b21cbf692b68ba"
     }
   ],
   "tipos": {
@@ -267,14 +301,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy: la 1 trajo 5 hallazgos (2 altos, 3 medios) y la 2, 4 (1 alto, 2 medios, 1 bajo), todos corregidos con una aserción que falla en el código anterior dentro de los mismos 10 casos del contrato; la 3 dejó un solo hallazgo bajo, decidido en esta revisión, y el corte nuevo dijo que no hacía falta otra vuelta. El F-03 de la vuelta 1 (el escenario de severidad desconocida no se alcanza por pedir-revision porque Clue rechaza el informe) queda como límite declarado en la evidencia; ajustar la spec va aparte. Suite 320 y evidencia en verde.",
-      "candidato": "6d60612",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T15:16:47+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/preparacion.py",
+      "titulo": "La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos",
+      "firma": "oracle_factory/preparacion.py|la ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos",
+      "motivo": "Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-13T15:17:44+00:00",
+      "candidato": "6d60612"
     }
-  }
+  ]
 }
