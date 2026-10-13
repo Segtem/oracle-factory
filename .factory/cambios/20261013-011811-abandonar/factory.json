@@ -60,6 +60,62 @@
         "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
         "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+      "medidas": [
+        "factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "medidas": [
+        "factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+      "medidas": [
+        "factory_abandonar.el_resumen_muestra_lo_abandonado_aparte",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona",
+      "medidas": [
+        "factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -69,5 +125,30 @@
     "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo": {
+      "sha256": "ac2638d8d793af49de2098bdc573ffbb980ac2065fa7757f1985aab4a68e1374",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T01:34:32+00:00"
+    },
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido": {
+      "sha256": "53ca5e4f028974e8d87aa2b9f9668fb76b18d36962052421be7b20a1d2a29554",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T01:34:32+00:00"
+    },
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte": {
+      "sha256": "6a410ec473e1e499c35acc3e61f143e2ef35f8df340b6e846a9eda27f7428619",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T01:34:32+00:00"
+    },
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona": {
+      "sha256": "ec851504f25d98aecd5d3840fe6dfe8c66da24cc546df5cba267d2550b9b7a36",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T01:34:32+00:00"
+    }
+  }
 }

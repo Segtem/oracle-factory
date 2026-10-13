@@ -1,4 +1,4 @@
 requisito archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido:
     texto "Tipo: funcional Al abandonar, Factory SHALL quitar de `requisitos/` los archivos de los requisitos del cambio y listarlos en el registro, SHALL cerrar la tarea del tracker con una nota que dé el motivo, y SHALL NOT modificar la propuesta, la spec del cambio ni `openspec/specs/`. Después, `estado` SHALL mostrar quién lo abandonó y por qué, sin próximo paso; los comandos que modifican un cambio SHALL rechazarlo; y `listar --abiertos` SHALL NOT mostrarlo."
     fuente "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md#lo abandonado no queda abierto ni medido"
-    sin_medir "sin medida todavía; escenarios: «abandonar un cambio con requisitos importados», «un comando sobre un cambio abandonado»"
+    medido_por factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido, factory_abandonar.corrida_completa

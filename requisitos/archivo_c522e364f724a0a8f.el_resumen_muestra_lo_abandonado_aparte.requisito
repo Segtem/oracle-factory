@@ -1,4 +1,4 @@
 requisito archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte:
     texto "Tipo: funcional `oracle-factory resumen` SHALL listar los cambios abandonados en una sección propia, con su título, quién lo decidió y el motivo, y SHALL NOT contarlos entre los cambios abiertos."
     fuente "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md#el resumen muestra lo abandonado aparte"
-    sin_medir "sin medida todavía; escenarios: «un cambio abandonado en el resumen»"
+    medido_por factory_abandonar.el_resumen_muestra_lo_abandonado_aparte, factory_abandonar.corrida_completa

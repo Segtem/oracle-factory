@@ -1,4 +1,4 @@
 requisito archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo:
     texto "Tipo: funcional `oracle-factory abandonar ID` SHALL pedir a una persona, desde una terminal interactiva y en cualquier modo de trabajo, que confirme el abandono con un menú y elija un motivo. Con `--agente` SHALL NOT abandonar: con `--motivo` SHALL dejar ese motivo propuesto para que la persona lo vea como opción. Un cambio cerrado o ya abandonado SHALL rechazarse."
     fuente "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md#abandonar es una decisión de persona con motivo"
-    sin_medir "sin medida todavía; escenarios: «la persona abandona con el motivo propuesto», «un agente no abandona», «la persona cancela», «un cambio cerrado»"
+    medido_por factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo, factory_abandonar.corrida_completa
