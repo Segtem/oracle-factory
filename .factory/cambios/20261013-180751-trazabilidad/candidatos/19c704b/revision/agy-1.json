@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/19c704b",
+  "base": "e6ecb4acfc1bd7351695029ac290685b9cbceb22",
+  "head": "19c704b388d1413b1f07d73f98977718071af22d",
+  "diff_sha256": "9345fd9224b232a96726443f7fa44fb8db237602611d3ba82091a8c52c675599",
+  "context_sha256": "9bee05eb580ae25cb25838ebcb20356da188d60109179f05c06b4911f3ab56be",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Revisión completa e incremental del candidato 19c704b frente a la base e6ecb4a y sobre el checkout completo contra la especificación openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md (requisitos tz1–tz3) y proposal.md. No se encontraron defectos ni discrepancias con la spec dentro de los cambios del paquete.",
+    "Se comprobó la corrección de TRZ-MODULE-GUARD-FORM-001 en oracle_factory/trazabilidad.py: la función auxiliar _es_principal(test) reconoce el guard __main__ tanto en la forma __name__ == '__main__' como en la forma invertida '__main__' == __name__, y restringe estrictamente la operación a ast.Eq único (len(test.ops) == 1), descartando != y comparaciones encadenadas. Con !=, el cuerpo se ejecuta al importar y por tanto permanece correctamente dentro de 'al_importar' en lugar de trasladarse a 'funciones' / 'sin_respaldo'. Las pruebas agregadas en tests/test_trazabilidad.py cubren ambas variantes.",
+    "Se analizó la exclusión de condiciones compuestas (ej. if __name__ == '__main__' and cond:): _es_principal se restringe por diseño a la forma canónica del guard de punto de entrada del módulo; expresiones booleanas compuestas arbitrarias a nivel de módulo quedan bajo el comportamiento general de código de importación, en consonancia con la spec y los límites declarados.",
+    "Se verificó la ausencia de regresiones respecto de los hallazgos cerrados en vueltas anteriores (af88d90, ca7db4e, 80c3e1d, e6ecb4a): nombres exactos con git diff -z -M sin comillas; preservación y encadenamiento de trazas de sys.settrace y threading.settrace con restauración en bloque finally; correlación de decoradores con la línea del 'def' en decorados; soporte de clases locales anidadas; cómputo de merge-base desde el commit del candidato; inclusión de archivos borrados y movidos fuera del producto en 'borrados'; prioridad de fallas sobre subpruebas omitidas; y declaración explícita de los tres límites en LIMITES, salida de texto y salida JSON.",
+    "Se ejecutó en primer plano el comando de pruebas requerido: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null (12 pruebas, resultado OK). Salida registrada en tests.log.",
+    "Se ejecutó el comando real de trazabilidad: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null (código 0) y su variante con --json. Salidas registradas en cli-trazabilidad.log y cli-trazabilidad-json.log. Se confirmó que las líneas de las funciones de traza en oracle_factory/trazabilidad.py aparecen como sin respaldo debido a que Python no traza las funciones de traza en ejecución, según lo documentado y esperado.",
+    "Se ejecutaron pruebas de mutación manuales en copias aisladas dentro del directorio de trabajo (13 mutaciones que abarcan _es_principal, lineas_ejecutables, lineas_agregadas, trazar, cruzar, datos_trazabilidad y LIMITES), confirmando que todas son detectadas y provocan fallos en la suite de pruebas.",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido. El checkout /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/19c704b se mantuvo estrictamente en solo lectura sin ediciones ni commits."
+  ]
+}
