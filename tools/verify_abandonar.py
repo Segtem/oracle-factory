@@ -14,7 +14,8 @@ from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
 
 CONTRACTS = {
     'abandonar_es_una_decision_de_persona_con_motivo': ['ab1_la_persona_abandona_con_el_motivo_propuesto', 'ab1_un_agente_no_abandona',
-                                                        'ab1_la_persona_cancela', 'ab1_un_cambio_cerrado'],
+                                                        'ab1_la_persona_cancela', 'ab1_sin_terminal_no_se_abandona',
+                                                        'ab1_un_cambio_cerrado'],
     'lo_abandonado_no_queda_abierto_ni_medido': ['ab2_abandonar_un_cambio_con_requisitos_importados',
                                                  'ab2_un_comando_sobre_un_cambio_abandonado',
                                                  'ab2_si_el_tracker_no_cierra_no_cambia_nada',

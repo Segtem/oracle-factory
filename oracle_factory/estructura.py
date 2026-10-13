@@ -94,7 +94,8 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
     if not prefijo:
         for nombre, gate in (('proposal.md', 'acuerdo'), ('design.md', 'acuerdo'), ('tasks.md', 'acuerdo')):
             filas.append(_entrada(gate, f'{cambio}/{nombre}', raiz))
-        filas.append(_entrada('spec', estado.get('spec'), raiz))
+        if 'spec' in estado or estado.get('fase') != 'abandonada':  # el registro mínimo de una carpeta abandonada no tiene spec
+            filas.append(_entrada('spec', estado.get('spec'), raiz))
         requisitos = estado.get('requisitos')
         for rid in (requisitos if isinstance(requisitos, list) else []):
             filas.append(_entrada('medidas', f'requisitos/{rid}.requisito' if _texto(rid) else None, raiz))

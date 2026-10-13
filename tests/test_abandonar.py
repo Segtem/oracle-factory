@@ -81,6 +81,14 @@ class Abandonar(unittest.TestCase):
             f.abandonar(ident)
         self.assertEqual(self.archivos(), antes)
 
+    def test_ab1_sin_terminal_no_se_abandona(self):
+        ident = self.importado()
+        antes = self.archivos()
+        with patch.object(f, 'terminal_interactiva', return_value=False), self.responde('1', '1'), \
+                self.assertRaisesRegex(f.FactoryError, 'terminal interactiva'):
+            f.abandonar(ident)
+        self.assertEqual(self.archivos(), antes)
+
     def test_ab1_un_cambio_cerrado(self):
         ident = self.cambio_cerrado()
         antes = self.archivos()
@@ -159,10 +167,13 @@ class Abandonar(unittest.TestCase):
         with self.responde('1', '1'):
             f.abandonar(ident)
         texto = self.resumen()
-        self.assertIn('· 1 cambios abiertos', texto)
+        self.assertIn('· 1 cambio abierto\n', texto)
         seccion = texto.split('## Cambios abandonados', 1)[1].split('\n## ', 1)[0]
         self.assertIn(ident, seccion)
         self.assertIn(MOTIVO, seccion)
+        self.assertIn('Otra', seccion)  # el título
+        abandono = f.leer(ident)[1]['abandono']
+        self.assertIn(f"({abandono['actor']}, {abandono['cuando'][:10]})", seccion)  # quién y cuándo
         self.assertNotIn(f'### {ident}', texto.split('## Cambios abiertos', 1)[1].split('\n## ', 1)[0])
 
     # --- ab4: una carpeta sin registro también se abandona ---------------------------------------------------------
@@ -188,6 +199,9 @@ class Abandonar(unittest.TestCase):
         f.mostrar(ident)
         self.assertIn('Fase: abandonada', self.salida())
         f.comando_donde(ident, None)  # los comandos de lectura aceptan el registro mínimo, sin spec
+        donde = self.salida()
+        self.assertIn('proposal.md', donde)
+        self.assertNotIn('no válido', donde)
         f.listar()
         self.assertIn(f'{ident}  abandonada', self.salida())
 

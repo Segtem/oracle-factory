@@ -1,0 +1,118 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/05c64dc",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "05c64dc32d0b4b8a8511c5b554e079e27b32a625",
+  "diff_sha256": "e8a8dcee28a481543c7f525417aba0fdce3e90f05a92de343c1691c89efc66f0",
+  "context_sha256": "9b55cc4edb4a75379a9078e79918138467515d5026880cddf84e76d196b2b085",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias tests/test_abandonar.py, tests/test_archivo.py y tests/test_resumen.py bajo timeout 200 con el intérprete .venv/bin/python.",
+    "Se realizaron mutaciones manuales sobre el código de oracle_factory/resumen.py y oracle_factory/cli.py evaluando la respuesta de tests/test_abandonar.py.",
+    "Se evaluó el comportamiento de comandos de lectura (estado, donde, buscar, listar, resumen) y comandos de modificación sobre cambios abandonados y registros mínimos generados a partir de carpetas sin registro.",
+    "No se ejecutaron tools/verify_abandonar.py ni otros scripts de evidencia tools/verify_*.py por indicación expresa del usuario.",
+    "No se ejecutó la suite completa del proyecto (discover en tests/).",
+    "No se realizaron modificaciones sobre el checkout bajo revisión (.factory/local/revisiones/05c64dc)."
+  ],
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Modificación prematura de la tarea y estado inconsistente ante fallos en el cierre de la tarea en el tracker",
+      "explanation": "En `abandonar()`, se invoca `nota_tarea(identificador, f\"Abandonado por una persona; motivo: {motivo[0]}\")` antes de ejecutar `tasks close`. Si `tasks close` falla (por ejemplo con returncode != 0), la función lanza `FactoryError`. No obstante, el archivo de la tarea (`TAREA.md`) ya quedó modificado con una nota permanente que afirma que el cambio fue abandonado por una persona, a pesar de que el cambio continúa abierto en Factory (el archivo `factory.json` nunca se actualizó) y la tarea en el tracker sigue en estado ABIERTA. La afirmación del comentario en línea 1551 (`# antes de tocar nada: si el tracker falla, el cambio queda como estaba`) no se cumple. Además, si `tasks close` tiene éxito pero ocurre un error antes de persistir `factory.json`, la tarea queda cerrada en el tracker mientras el cambio permanece abierto en Factory.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1551,
+        "end_line": 1557,
+        "side": "head"
+      },
+      "trigger": "Ejecución de `oracle-factory abandonar <id>` cuando la llamada al tracker `tasks close` falla o si el proceso se corta entre el cierre de la tarea y la persistencia del estado en `guardar()`.",
+      "evidence": "Al simular el fallo de `tasks close` mediante un mock de `ejecutar(['tasks', 'close', ...])`, `TAREA.md` queda modificada con la nota `Abandonado por una persona; motivo: ...` manteniendo `ESTADO: ABIERTA`, mientras `factory.json` no cambia de fase, produciendo un estado inconsistente.",
+      "related_requirement": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "status": "pendiente",
+      "verification": "Ejecutar `f.abandonar(ident)` interceptando `tasks close` con returncode 1 y comprobar si `TAREA.md` fue modificado antes del fallo."
+    },
+    {
+      "id": "agy-2",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Imposibilidad de reintento y persistencia de requisitos huérfanos si se interrumpe la eliminación de archivos tras registrar el abandono",
+      "explanation": "En `abandonar()`, primero se persiste el registro en `factory.json` marcando `fase: 'abandonada'` y `requisitos_quitados: requisitos`, y recién después se procede a eliminar los archivos físicos en `for rid in requisitos: (ROOT / 'requisitos' / f'{rid}.requisito').unlink(missing_ok=True)`. Si el proceso se interrumpe (corte de señal, fallo de permisos o excepción de I/O) durante este ciclo, los archivos `.requisito` permanecen en `requisitos/`. Debido a que el cambio ya quedó en fase `abandonada`, cualquier intento posterior de reejecutar `oracle-factory abandonar <id>` es rechazado por `abierto(identificador)` (`FactoryError: el cambio está abandonado (...); lo que siga va en un cambio nuevo`), impidiendo completar o reintentar la limpieza. Asimismo, `oracle-factory estado <id>` reporta `Requisitos quitados de requisitos/: ...` a pesar de que los archivos siguen presentes en el sistema de archivos, ensuciando permanentemente las evaluaciones de Oracle.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1564,
+        "end_line": 1568,
+        "side": "head"
+      },
+      "trigger": "Interrupción o excepción durante la eliminación de archivos `.requisito` en `abandonar()` tras haberse guardado `factory.json`.",
+      "evidence": "Al simular una excepción en `unlink`, el archivo `.requisito` permanece en `requisitos/`, `factory.json` tiene fase `abandonada`, un reintento de `f.abandonar(ident)` es rechazado con `FactoryError: el cambio está abandonado (...)`, y `mostrar(ident)` afirma erróneamente que los requisitos fueron quitados.",
+      "related_requirement": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "status": "pendiente",
+      "verification": "Ejecutar `f.abandonar(ident)` simulando fallo en `unlink`, verificar la existencia de los archivos en `requisitos/` y confirmar que reintentar `f.abandonar(ident)` falla rechazando el cambio ya abandonado."
+    },
+    {
+      "id": "agy-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Comando de lectura `donde` reporta gate `spec` como inválido en registros mínimos de carpetas sin registro",
+      "explanation": "Para una carpeta anterior al flujo sin registro que se abandona con `abandonar`, se crea un registro mínimo que no posee clave `spec` (como indica el comentario en `cli.py:1703`: 'un registro mínimo no tiene spec'). Sin embargo, al ejecutar `oracle-factory donde <id>` sobre dicho cambio, `estructura.donde` intenta resolver `estado.get('spec')` y, al ser `None`, `_entrada` lo califica como `(valor no válido en el registro)` con `invalida: True`, imprimiendo `spec no válido (valor no válido en el registro) — el registro no tiene una ruta de texto`. La prueba `test_ab4_una_carpeta_anterior_al_flujo` invoca `f.comando_donde(ident, None)` con el comentario `# los comandos de lectura aceptan el registro mínimo, sin spec`, pero no valida la salida (`self.salida()`), por lo que no detecta que el comando de lectura reporta el registro como corrupto o no válido para el gate `spec`.",
+      "location": {
+        "file": "tests/test_abandonar.py",
+        "start_line": 162,
+        "end_line": 165,
+        "side": "head"
+      },
+      "trigger": "Ejecución de `oracle-factory donde <id>` sobre un cambio abandonado originado en una carpeta sin registro.",
+      "evidence": "Al ejecutar `f.comando_donde(ident, None)` tras abandonar una carpeta sin registro, la salida producida contiene: `spec no válido (valor no válido en el registro) — el registro no tiene una ruta de texto`. La prueba `test_ab4` en líneas 162-164 omite asertar `self.salida()`.",
+      "related_requirement": "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona",
+      "status": "pendiente",
+      "verification": "Ejecutar `f.comando_donde(ident, None)` en el fixture de `test_ab4` y verificar si en la salida figura `spec no válido`."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Falta de pruebas para terminal interactiva y omisión de atributos en la prueba del resumen (mutaciones sobreviven)",
+      "explanation": "El requisito 1 establece que `oracle-factory abandonar ID` 'SHALL pedir a una persona, desde una terminal interactiva y en cualquier modo de trabajo...'. La suite de pruebas nunca evalúa el rechazo ante la falta de una terminal interactiva (el fixture fija globalmente `terminal_interactiva = True`). Una mutación que elimine la llamada a `exigir_terminal` en `confirmar_persona` sobrevive sin que ningún test falle. De igual manera, el requisito 3 exige listar los cambios abandonados 'con su título, quién lo decidió y el motivo', pero `test_ab3` (líneas 127-139) solo valida que aparezcan el ID y el motivo, permitiendo que una mutación que elimine el actor o la fecha en `resumen.py` sobreviva a la corrida de pruebas.",
+      "location": {
+        "file": "tests/test_abandonar.py",
+        "start_line": 133,
+        "end_line": 139,
+        "side": "head"
+      },
+      "trigger": "Ejecución de pruebas de mutación en `oracle_factory/resumen.py` (omisión de actor/fecha) o en `oracle_factory/cli.py` (omisión de verificación de terminal interactiva).",
+      "evidence": "Las mutaciones manuales demostraron que eliminar el actor y la fecha en `resumen.generar` o eliminar `exigir_terminal` en `confirmar_persona` superan exitosamente la suite `unittest tests.test_abandonar` (SURVIVED = True).",
+      "related_requirement": "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+      "status": "pendiente",
+      "verification": "Aplicar mutaciones que eliminen el actor en la sección de abandonados de `resumen.py` o la comprobación de terminal interactiva en `cli.py`, y ejecutar `tests.test_abandonar`."
+    },
+    {
+      "id": "agy-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Discrepancia en la pluralización de cambios abiertos en el resumen cuando hay exactamente un cambio abierto",
+      "explanation": "La spec promete en `Requirement: el resumen muestra lo abandonado aparte`, escenario `un cambio abandonado en el resumen`: `THEN dice 1 cambio abierto, y el abandonado aparece en su sección con el motivo`. Sin embargo, `oracle_factory/resumen.py` utiliza la plantilla fija `{len(abiertos)} cambios abiertos`, generando `1 cambios abiertos` cuando hay un único cambio abierto. En `tests/test_abandonar.py` (línea 134), la prueba `test_ab3_un_cambio_abandonado_en_el_resumen` valida `· 1 cambios abiertos`, adaptando la aserción a la discrepancia del código en vez de verificar la redacción comprometida en la spec.",
+      "location": {
+        "file": "oracle_factory/resumen.py",
+        "start_line": 88,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Generación del resumen con `oracle-factory resumen` cuando hay exactamente un cambio abierto.",
+      "evidence": "Al ejecutar `f.texto_resumen()` con 1 cambio abierto y 1 abandonado, el texto contiene `1 cambios abiertos` en vez de `1 cambio abierto`. En `test_abandonar.py` línea 134 se comprueba explícitamente `self.assertIn('· 1 cambios abiertos', texto)`.",
+      "related_requirement": "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+      "status": "pendiente",
+      "verification": "Ejecutar `texto_resumen()` con un cambio abierto y comparar contra el escenario de la spec que especifica `1 cambio abierto`."
+    }
+  ]
+}

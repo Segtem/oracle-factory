@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9a8c2571f23192fbfcadbd7670af36636e10118aef6edfe521f5e8410ba32a77 -->
+<!-- oracle-factory resumen sha256:24f36deaeed9bf74d11189055a6d31cee167d8e91e940e0764f670f61988916d -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-13 capacidades · 91 requisitos vigentes · 6 cambios abiertos
+13 capacidades · 91 requisitos vigentes · 7 cambios abiertos
 
 ## Lo vigente
 
@@ -240,6 +240,13 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
+
+### 20261013-011811-abandonar — Abandonar un cambio con motivo, decidido por una persona
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `archivo` · [propuesta](../openspec/changes/20261013-011811-abandonar/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
 

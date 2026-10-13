@@ -182,6 +182,20 @@
       "candidato": "05c64dc",
       "resultado": "ok",
       "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T01:56:38+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "05c64dc",
+      "resultado": "ok",
+      "hallazgos": 5
     }
   ],
   "tipos": {

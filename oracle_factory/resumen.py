@@ -35,6 +35,10 @@ def _celda(texto) -> str:
     return str(texto).replace('\\', '\\\\').replace('|', '\\|').replace('\n', ' ')
 
 
+def _n(cantidad: int, singular: str, plural: str) -> str:
+    return f'{cantidad} {singular if cantidad == 1 else plural}'
+
+
 def _agrupar(pendientes: list[str]) -> list[str]:
     """Junta las líneas de medidas que dicen lo mismo de varios requisitos («7 requisitos: …»)."""
     grupos: dict[str, int] = {}
@@ -65,7 +69,8 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
     cuerpo = ['# Estado actual', '',
               'Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. '
               '`oracle-factory resumen --verificar` dice si quedó viejo.', '',
-              f'{len(indices)} capacidades · {total} requisitos vigentes · {len(abiertos)} cambios abiertos', '',
+              f'{_n(len(indices), "capacidad", "capacidades")} · {_n(total, "requisito vigente", "requisitos vigentes")} · '
+              f'{_n(len(abiertos), "cambio abierto", "cambios abiertos")}', '',
               '## Lo vigente', '',
               'El veredicto es el registrado al cerrar el cambio de origen, no una corrida nueva de Oracle sobre todo el sistema.']
     for indice in indices:
