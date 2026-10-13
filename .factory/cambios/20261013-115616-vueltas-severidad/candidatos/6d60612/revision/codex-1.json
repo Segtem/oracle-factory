@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/6d60612",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "6d60612b0c3164f364bc13ba7625e7b5ec3e6f98",
+  "diff_sha256": "c030684cc9a57fcb350dae362426417f11824926963625809e44a37c890c8f27",
+  "context_sha256": "19d4b46b0be485fd88bc5cb4d6925b0b04e49cd185a5af0704485cd26d25dee8",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos",
+      "explanation": "`archivo_de_ubicacion` separa el último segmento `:número` como si siempre fuera una línea. En un informe Clue, `location.file` puede ser un nombre de archivo POSIX válido como `src/part:12` y `start_line` puede estar ausente; `preparacion.completar` deja entonces la ubicación guiada como `src/part:12`. Al guardar una aceptación, este parser la registra bajo `src/part`, mientras que `corte` compara con `location.file` completo (`src/part:12`). En una vuelta posterior el riesgo ya aceptado no se reconoce, y `revisar` vuelve a ofrecer decidirlo como nuevo. El comportamiento es reproducible para una ruta legal POSIX y contradice la coincidencia por mismo archivo prometida.",
+      "location": {
+        "file": "oracle_factory/preparacion.py",
+        "start_line": 99,
+        "end_line": 100,
+        "side": "head"
+      },
+      "trigger": "Un revisor devuelve un hallazgo en un archivo llamado `src/part:12` sin `start_line`; la persona lo acepta y vuelve a aparecer en un candidato posterior.",
+      "evidence": "Con el código del candidato: `archivo_de_ubicacion(\"src/part:12\")` devuelve `src/part`; `firma(\"src/part:12\", \"riesgo\")` da `src/part:12|riesgo`, mientras que `firma_de_ubicacion(\"src/part:12\", \"riesgo\")` da `src/part|riesgo`. La ubicación sin línea se produce en `preparacion._ubicacion` cuando `location.start_line` es nulo.",
+      "related_requirement": "revisar reconoce un riesgo ya aceptado",
+      "status": "pendiente",
+      "verification": "Reproducción directa de `archivo_de_ubicacion`, `firma` y `firma_de_ubicacion` sobre el checkout 6d60612; las firmas difieren para el mismo archivo y título."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, los tres requisitos, el diff, `oracle_factory/cli.py`, `oracle_factory/preparacion.py`, `tests/test_vueltas.py` y las cuatro revisiones de vueltas anteriores; el checkout candidato se mantuvo intacto.",
+    "Se ejecutó exactamente `cd /home/workstation/Dev/factory-vueltas-severidad && /home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided </dev/null`: 45 tests, OK.",
+    "Se reprodujo directamente el caso de ruta POSIX `src/part:12`. No se ejecutaron `tools/verify_*.py` ni la suite completa."
+  ]
+}
