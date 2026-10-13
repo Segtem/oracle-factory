@@ -57,6 +57,12 @@ class T(unittest.TestCase):
     def test_en_hilo(self):
         from modulo_tz import en_hilo
         self.assertEqual(en_hilo(1), 3)
+
+    def test_omite_y_falla(self):
+        with self.subTest(parte=1):
+            self.skipTest('una parte se omite')
+        with self.subTest(parte=2):
+            self.assertEqual(doble(1), 3)
 '''
 
 
@@ -140,8 +146,10 @@ class Trazar(unittest.TestCase):
         self.assertTrue(all(not a.startswith(('.venv', '/')) for c in datos['casos'].values() for a in c['lineas']))
 
     def test_tz1_un_caso_que_falla(self):
-        datos = self.trazar({'r': ['test_modulo_tz.T.test_falla', 'test_modulo_tz.T.test_triple']})
+        datos = self.trazar({'r': ['test_modulo_tz.T.test_falla', 'test_modulo_tz.T.test_triple',
+                                   'test_modulo_tz.T.test_omite_y_falla']})
         self.assertEqual(datos['casos']['test_modulo_tz.T.test_falla']['resultado'], 'falla')
+        self.assertEqual(datos['casos']['test_modulo_tz.T.test_omite_y_falla']['resultado'], 'falla')  # la falla gana
         self.assertEqual(datos['casos']['test_modulo_tz.T.test_falla']['lineas']['modulo_tz.py'], [1, 2])
         self.assertEqual(datos['casos']['test_modulo_tz.T.test_triple'],
                          {'resultado': 'ok', 'lineas': {'modulo_tz.py': [5, 6, 7], 'test_modulo_tz.py': [9, 10]}})
@@ -161,6 +169,10 @@ def puede_guardar(titulo: str, minimo: int = 1) -> bool:
 
 def largo(titulo: str) -> int:
     return len(titulo)
+
+
+if __name__ == "__main__":
+    print(puede_guardar("x"))
 '''
 
 
@@ -235,12 +247,13 @@ class Cruce(_ap.Base):
         self.assertEqual(datos['requisitos'][self.rid]['casos'],
                          [{'caso': 'test_notas.Notas.test_acepta_titulo_con_texto', 'resultado': 'ok'}])
         self.assertEqual(datos['sin_respaldo'], {
-            notas: [numero(NOTAS, 'def largo'), numero(NOTAS, 'return len')],
+            notas: [numero(NOTAS, 'def largo'), numero(NOTAS, 'return len'), numero(NOTAS, 'print(puede')],  # no corre al importar
             'examples/notas/con espacio.py': [1, 2],  # el nombre llega exacto, sin tabulador ni comillas
             'examples/notas/utilidades.py': [numero(UTIL, 'return a - b')]})  # renombrado: sólo lo que cambió
         # borrado, y movido fuera del producto (a tareas/): para el producto, los dos se fueron
         self.assertEqual(datos['borrados'], ['examples/notas/sensor.py', 'examples/notas/spec.md'])
-        self.assertEqual(datos['al_importar'], {notas: [numero(NOTAS, 'import functools'), numero(NOTAS, 'MAXIMO')]})
+        self.assertEqual(datos['al_importar'], {notas: [numero(NOTAS, 'import functools'), numero(NOTAS, 'MAXIMO'),
+                                                        numero(NOTAS, 'if __name__')]})  # la condición sí corre al importar
         comentario = numero(NOTAS, '# Un comentario')
         self.assertNotIn(comentario, respaldadas + datos['sin_respaldo'][notas])
         self.assertEqual(datos['no_rastreables'], ['examples/notas/README.md'])

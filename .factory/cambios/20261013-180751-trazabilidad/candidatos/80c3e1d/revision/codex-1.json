@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/80c3e1d",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "80c3e1db25128b806d16c965689c78c549120ccf",
+  "diff_sha256": "57ad905ab7be15863a5b4ffa5a9414249455981581a41886ba4fe1aa4c297828",
+  "context_sha256": "dbfa9172757f59ed887990274abe6a041baf913b107c59ce90a08d090a48793b",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TRZ-RESULT-SKIP-FAIL-001",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Un caso con subpruebas omitidas y fallidas queda registrado sólo como omitido",
+      "explanation": "La clasificación prioriza `resultado.skipped` sobre `resultado.wasSuccessful()`. Un único método unittest puede registrar ambas cosas: por ejemplo, una subprueba puede llamar `skipTest()` y otra fallar una aserción. En ese caso la salida informa `omitido` aunque el caso también falló, incumpliendo la promesa de registrar como falla un caso fallido.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 85,
+        "end_line": 86,
+        "side": "head"
+      },
+      "trigger": "Un caso de contrato contiene subpruebas; una se omite y otra falla.",
+      "evidence": "Probe aislado con `test_mix` que ejecuta `skipTest()` dentro de un subTest y luego falla otra aserción: `trazar()` devolvió `{'resultado': 'omitido', ...}`. `unittest.TestResult` conserva tanto el skip como el fallo; el orden del condicional los colapsa al estado omitido.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "status": "pendiente",
+      "verification": "En una copia temporal, correr `trazar()` sobre un TestCase con un subTest omitido y otro fallido; comprobar que el resultado actual es `omitido` pese a la falla registrada."
+    },
+    {
+      "id": "TRZ-MODULE-GUARD-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El cuerpo de una guarda __main__ se reporta como código que corre al importar",
+      "explanation": "`lineas_ejecutables()` agrega todas las líneas del code object del módulo a `importar`, sin distinguir ramas condicionales. `co_lines()` incluye también el cuerpo de `if __name__ == '__main__'`, aunque esa rama no se ejecuta cuando el módulo se importa. `cruzar()` entonces lo muestra en `al_importar` y lo excluye de `sin_respaldo`; la salida afirma una ejecución previa a los casos para líneas que no corrieron. Esto hace inexacta la clasificación de líneas ejecutables cambiadas y puede ocultar código que ningún caso ni importación ejecutó.",
+      "location": {
+        "file": "oracle_factory/trazabilidad.py",
+        "start_line": 107,
+        "end_line": 109,
+        "side": "head"
+      },
+      "trigger": "Cambiar líneas dentro de `if __name__ == '__main__'` en un archivo Python de producto y pedir la trazabilidad sin ejecutar el archivo como programa principal.",
+      "evidence": "Probe con `X = 2` seguido de `if __name__ == '__main__': raise SystemExit(7)`: `lineas_ejecutables()` devolvió las tres líneas en el conjunto `importar`; `cruzar()` puso las líneas 2–3 en `al_importar` y dejó `sin_respaldo` vacío, aunque el cuerpo no se ejecuta al importar el módulo.",
+      "related_requirement": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "status": "pendiente",
+      "verification": "Ejecutar el probe citado importando el archivo sin `__name__ == '__main__'`; confirmar que el informe actual ubica la línea del cuerpo en `al_importar`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal.md, spec.md, el paquete completo, los archivos del candidato indicados y los cuatro informes de revisión anteriores. Comparé las correcciones anteriores de decoradores, clases locales, renombres hacia fuera del producto, encadenamiento de trazas y base del candidato.",
+    "Ejecuté exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null` desde el repositorio del proyecto; terminó con código 0. Salida completa: `cli-trazabilidad.log`.",
+    "Ejecuté exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null` en primer plano; terminó con código 0 (12 pruebas, OK). Salida completa: `tests.log`.",
+    "Hice probes aislados en un directorio temporal para confirmar el estado mixto de subpruebas y la clasificación del cuerpo de `__main__`. No ejecuté `tools/verify_*.py` ni la suite completa, según la instrucción. No edité el checkout del candidato ni hice commits."
+  ]
+}

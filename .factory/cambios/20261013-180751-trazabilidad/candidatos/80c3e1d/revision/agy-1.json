@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/80c3e1d",
+  "base": "1e94bcc10d823cef3c00607d0fb3fc0bb427c56d",
+  "head": "80c3e1db25128b806d16c965689c78c549120ccf",
+  "diff_sha256": "57ad905ab7be15863a5b4ffa5a9414249455981581a41886ba4fe1aa4c297828",
+  "context_sha256": "dbfa9172757f59ed887990274abe6a041baf913b107c59ce90a08d090a48793b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Revisión completa del candidato 80c3e1d contra los requisitos de openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md (tz1–tz3). No se identificaron defectos ni regresiones respecto de la especificación.",
+    "Se comprobó el cierre efectivo de los 4 hallazgos de agy-1 de la vuelta 2: la firma 'def' de funciones decoradas se mapea correctamente en 'decorados' y 'funciones' (sin caer erróneamente en 'al_importar'); las clases locales dentro de funciones propagan 'en_funcion' sin figurar como 'al_importar'; los archivos movidos fuera del producto se registran en 'borrados'; y la entrega de eventos locales y multihilo en la traza encadenada cuenta con verificación explícita en 'tests/test_trazabilidad.py'.",
+    "Se comprobó el cierre efectivo del hallazgo TRZ-TEST-BASE-001 de codex-1: la prueba 'test_tz2_una_linea_cambiada_sin_respaldo' protege la estabilidad del cálculo de la merge-base desde el commit candidato incluso tras avanzar y mezclar la rama main.",
+    "Se ejecutaron en primer plano exactamente las pruebas especificadas: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null (12 pruebas, resultado OK).",
+    "Se inspeccionó la salida real ejecutando cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null, verificando que los 3 requisitos, casos, líneas respaldadas, líneas sin respaldo, líneas al importar, archivos no rastreables y los límites declarados se presenten de acuerdo con la especificación.",
+    "Se ejecutaron pruebas de mutación manuales en copias aisladas dentro del espacio de trabajo del revisor para contrastar la detección de fallas en trazabilidad encadenada, 'decorados', funciones anidadas, parseo de git diff -U0, renombres y archivos borrados.",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones de la revisión.",
+    "El checkout /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/80c3e1d se mantuvo en solo lectura y no se realizaron commits ni modificaciones en el repositorio."
+  ]
+}

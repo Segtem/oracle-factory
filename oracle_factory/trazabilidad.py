@@ -82,8 +82,9 @@ def trazar(raiz: Path, contratos: dict[str, list[str]]) -> dict:
         finally:
             sys.settrace(previas[0])
             threading.settrace(previas[1])
-        estado = ('omitido' if resultado.skipped else 'ok' if resultado.wasSuccessful() and resultado.testsRun == 1
-                  else 'falla')
+        # Una falla gana a una omisión: un caso puede tener subpruebas omitidas y otras que fallan.
+        estado = ('falla' if not resultado.wasSuccessful() or resultado.testsRun != 1
+                  else 'omitido' if resultado.skipped else 'ok')
         casos[caso] = {'resultado': estado, 'lineas': {a: sorted(ls) for a, ls in sorted(lineas.items())}}
     return {'esquema': ESQUEMA_CASOS, 'requisitos': {r: sorted(c) for r, c in sorted(contratos.items())}, 'casos': casos}
 
@@ -110,6 +111,13 @@ def lineas_ejecutables(texto: str) -> tuple[set[int], set[int], dict[int, int]] 
     decorados = {min(d.lineno for d in n.decorator_list): n.lineno for n in ast.walk(arbol)
                  if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.decorator_list}
     funciones |= set(decorados.values())
+    # El cuerpo de `if __name__ == "__main__":` no corre al importar: es ejecutable, y sólo un caso lo podría respaldar.
+    for n in arbol.body:
+        if (isinstance(n, ast.If) and isinstance(n.test, ast.Compare) and isinstance(n.test.left, ast.Name)
+                and n.test.left.id == '__name__' and any(isinstance(c, ast.Constant) and c.value == '__main__'
+                                                         for c in n.test.comparators)):
+            principal = set(range(n.body[0].lineno, n.body[-1].end_lineno + 1)) & importar
+            funciones |= principal
     return funciones, importar - funciones, decorados
 
 
@@ -179,6 +187,7 @@ if __name__ == '__main__':
               '\n@staticmethod\ndef h():\n    class L:\n        z = 4\n    return L\n')
     assert lineas_ejecutables(fuente) == ({3, 5, 10, 11, 13, 14, 15, 16, 17}, {1, 7, 8}, {13: 14})
     assert lineas_ejecutables('def (') is None
+    assert lineas_ejecutables("A = 1\nif __name__ == '__main__':\n    print(A)\n")[:2] == ({3}, {1, 2})
     assert archivos_cambiados('M\0a b.py\0R087\0viejo.py\0nuevo.py\0D\0x.md\0') == [
         {'estado': 'M', 'origen': None, 'ruta': 'a b.py'}, {'estado': 'R', 'origen': 'viejo.py', 'ruta': 'nuevo.py'},
         {'estado': 'D', 'origen': None, 'ruta': 'x.md'}]

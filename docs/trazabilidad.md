@@ -16,7 +16,7 @@ datos = trazabilidad.trazar(RAIZ, {
 (evidencia / 'trazabilidad.json').write_text(json.dumps(datos, ensure_ascii=False, indent=2))
 ```
 
-Las claves son los ids de los requisitos de Oracle (los de `estado ID --json`), y los casos, ids de `unittest` que se puedan cargar desde donde corre el sensor. `trazar` usa sólo la biblioteca estándar (`sys.settrace`, Python 3.11 o más), traza también los hilos que arranque cada caso y cuenta los archivos dentro de `RAIZ`, fuera de `.venv`. Un caso que falla queda registrado con `"resultado": "falla"`. Si ya había una traza puesta (otro sensor, un depurador), se encadena: sigue recibiendo sus eventos y la recupera al terminar. `tools/verify_trazabilidad.py` es un ejemplo completo.
+Las claves son los ids de los requisitos de Oracle (los de `estado ID --json`), y los casos, ids de `unittest` que se puedan cargar desde donde corre el sensor. `trazar` usa sólo la biblioteca estándar (`sys.settrace`, Python 3.11 o más), traza también los hilos que arranque cada caso y cuenta los archivos dentro de `RAIZ`, fuera de `.venv`. Un caso que falla queda registrado con `"resultado": "falla"`, aunque también tenga subpruebas omitidas. Si ya había una traza puesta (otro sensor, un depurador), se encadena: sigue recibiendo sus eventos y la recupera al terminar. `tools/verify_trazabilidad.py` es un ejemplo completo.
 
 ## Cómo se lee
 
@@ -30,7 +30,7 @@ Toma el candidato vigente y lo compara con su base: el merge-base del candidato 
 
 - **por requisito**, sus casos con su resultado y las líneas cambiadas que ejecutan;
 - **sin respaldo**: líneas cambiadas ejecutables que no ejecuta ningún caso del contrato;
-- **corren al importar**: líneas cambiadas de módulo o de cuerpos de clase del módulo (constantes, imports, atributos); corren antes que los casos, así que se listan aparte, sin decir si tienen respaldo. Una clase definida dentro de una función corre cuando la función se llama, así que cuenta como el resto de la función. En una función decorada, la línea del `def` cuenta como ejecutada cuando lo está su primer decorador, que es la línea que ve la traza;
+- **corren al importar**: líneas cambiadas de módulo o de cuerpos de clase del módulo (constantes, imports, atributos); corren antes que los casos, así que se listan aparte, sin decir si tienen respaldo. Una clase definida dentro de una función corre cuando la función se llama, así que cuenta como el resto de la función. El cuerpo de `if __name__ == "__main__":` no corre al importar: cuenta como ejecutable, y figura sin respaldo si ningún caso lo corre. En una función decorada, la línea del `def` cuenta como ejecutada cuando lo está su primer decorador, que es la línea que ve la traza;
 - **no rastreables**: archivos cambiados que la traza no ve (no son Python o no compilan);
 - **borrados**: archivos del producto que el candidato quitó o movió fuera del producto (por ejemplo, a `tareas/`).
 
