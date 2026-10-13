@@ -1,6 +1,6 @@
 # Vueltas de revisión proporcionales: cortar por severidad y que los bajos los decida la persona
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 17
 - ETIQUETAS: revision, autoproduccion
 
@@ -16,3 +16,7 @@ Origen: el video «Yo leo el código, ¿y tú?» (BettaTech, 2026-10-07) — «l
 - Lo que corta es la persona, no el revisor: Factory puede mostrar «quedan N hallazgos bajos» y sugerir pasar a la revisión guiada.
 - Puede ser una opción del revisor en la configuración (`corte: "media"`) o del proyecto.
 - Medir: cuántas vueltas y cuántos hallazgos por severidad tuvo cada cambio (sale de los informes en `revision/`).
+
+### Nota (2026-10-13 15:22:47 UTC)
+
+Hecha por el cambio 20261013-115616-vueltas-severidad (integrado en dd10a17): pedir-revision cuenta por severidad y sugiere otra vuelta sólo con medios o más sin aceptar; los riesgos aceptados persisten en el cambio, van en el pedido y revisar los reconoce. Ya se usó en su propia revisión: la vuelta 3 dejó un bajo y no pidió otra.

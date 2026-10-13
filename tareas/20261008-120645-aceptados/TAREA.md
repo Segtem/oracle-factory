@@ -1,6 +1,6 @@
 # Riesgos aceptados que persisten entre vueltas y candidatos
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 6
 - ETIQUETAS: revision, autoproduccion
 
@@ -16,3 +16,7 @@ Origen: video «AI Coding Agents + Static Code Analysis for Safer Code» (IBM De
 - Coincidencia: por regla/kind + archivo + texto normalizado, no por id (los ids cambian entre vueltas).
 - Aceptar es decisión de persona (menú); el agente puede proponer.
 - Encaja con vueltas-severidad.
+
+### Nota (2026-10-13 15:22:47 UTC)
+
+Hecha por el cambio 20261013-115616-vueltas-severidad (integrado en dd10a17): pedir-revision cuenta por severidad y sugiere otra vuelta sólo con medios o más sin aceptar; los riesgos aceptados persisten en el cambio, van en el pedido y revisar los reconoce. Ya se usó en su propia revisión: la vuelta 3 dejó un bajo y no pidió otra.
