@@ -1,6 +1,6 @@
 # Salidas en JSON de estado, donde y resumen
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 17:34:56 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt.
+
+### Nota (2026-10-13 17:52:07 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

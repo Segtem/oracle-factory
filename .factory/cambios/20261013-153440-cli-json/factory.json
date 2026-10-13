@@ -2,7 +2,7 @@
   "id": "20261013-153440-cli-json",
   "titulo": "Salidas en JSON de estado, donde y resumen",
   "capacidad": "cli",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
   "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
   "spec_aprobada": {
@@ -262,6 +262,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "4745ba0542f4252963a6c6a29903aa031bff31715c7bf5bccd379a8f9ac4d3cf"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:52:07+00:00",
+      "oracle": ".factory/cambios/20261013-153440-cli-json/oracle-veredicto.txt",
+      "revision": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T17:52:07+00:00",
+      "capacidad": "cli",
+      "spec": "openspec/specs/cli/spec.md"
     }
   ],
   "tipos": {
@@ -296,5 +316,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T17:52:07+00:00"
+  },
+  "archivo": {
+    "capacidad": "cli",
+    "spec": "openspec/specs/cli/spec.md",
+    "cuando": "2026-10-13T17:52:07+00:00"
+  }
 }
