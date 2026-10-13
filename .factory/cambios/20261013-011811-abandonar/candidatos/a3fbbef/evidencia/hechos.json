@@ -1,0 +1,70 @@
+{
+  "abandonar_caso": [
+    {
+      "requisito": "abandonar_es_una_decision_de_persona_con_motivo",
+      "caso": "ab1_la_persona_abandona_con_el_motivo_propuesto",
+      "codigo": 0
+    },
+    {
+      "requisito": "abandonar_es_una_decision_de_persona_con_motivo",
+      "caso": "ab1_un_agente_no_abandona",
+      "codigo": 0
+    },
+    {
+      "requisito": "abandonar_es_una_decision_de_persona_con_motivo",
+      "caso": "ab1_la_persona_cancela",
+      "codigo": 0
+    },
+    {
+      "requisito": "abandonar_es_una_decision_de_persona_con_motivo",
+      "caso": "ab1_sin_terminal_no_se_abandona",
+      "codigo": 0
+    },
+    {
+      "requisito": "abandonar_es_una_decision_de_persona_con_motivo",
+      "caso": "ab1_un_cambio_cerrado",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_abandonado_no_queda_abierto_ni_medido",
+      "caso": "ab2_abandonar_un_cambio_con_requisitos_importados",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_abandonado_no_queda_abierto_ni_medido",
+      "caso": "ab2_un_comando_sobre_un_cambio_abandonado",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_abandonado_no_queda_abierto_ni_medido",
+      "caso": "ab2_si_el_tracker_no_cierra_no_cambia_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_abandonado_no_queda_abierto_ni_medido",
+      "caso": "ab2_si_la_nota_falla_se_completa_al_repetir",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_abandonado_no_queda_abierto_ni_medido",
+      "caso": "ab2_un_corte_despues_del_registro_se_completa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_resumen_muestra_lo_abandonado_aparte",
+      "caso": "ab3_un_cambio_abandonado_en_el_resumen",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_carpeta_sin_registro_tambien_se_abandona",
+      "caso": "ab4_una_carpeta_anterior_al_flujo",
+      "codigo": 0
+    }
+  ],
+  "abandonar_corrida": [
+    {
+      "completa": 1,
+      "casos": 12
+    }
+  ]
+}
