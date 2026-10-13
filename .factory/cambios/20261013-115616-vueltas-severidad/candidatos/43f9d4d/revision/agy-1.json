@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/43f9d4d",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "43f9d4d80fe24b063e25233c524c2d8936df2f6e",
+  "diff_sha256": "b826032fd8e8789c830235e30a9163f314044d72357d59e919bb879d7caa6de0",
+  "context_sha256": "61c61e0d26cbfc200d2a0222fd6beeefffd3919c335a8e8b8695d1ee8ac4340d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Falsos positivos y colisión en firma() con títulos vacíos o de sólo signos de puntuación",
+      "explanation": "La función preparacion.firma(archivo, titulo) normaliza el título mediante ' '.join(re.sub(r'[^\\w\\s]', ' ', titulo.lower()).split()). Cuando un título está vacío o contiene exclusivamente signos de puntuación o símbolos (por ejemplo '...', '???', '---', '[ ]'), la expresión regular descarta todos los caracteres y la normalización produce una cadena vacía, resultando en la firma 'archivo|'. Si una persona acepta un riesgo cuyo título normaliza a cadena vacía, cualquier otro hallazgo en ese mismo archivo con un título que también normalice a cadena vacía (incluso con títulos originales distintos y de severidad alta o crítica) comparte la misma firma. Como consecuencia, preparacion.corte lo saltea automáticamente como si ya estuviese aceptado (if firma(...) in firmas: continue), permitiendo que un defecto grave pase sin corte ni advertencia, y revisar_paso_a_paso lo presenta falsamente como 'YA ACEPTADO'.",
+      "location": {
+        "file": "oracle_factory/preparacion.py",
+        "start_line": 87,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Un revisor emite un hallazgo con título '...' en un archivo que se acepta como riesgo, y posteriormente se reporta otro hallazgo no relacionado en el mismo archivo con título '???' o '[ ]'.",
+      "evidence": "preparacion.firma('a.py', '...') == preparacion.firma('a.py', '???') == 'a.py|'. Al pasar un hallazgo grave con título '???' a corte([informe], [{'firma': 'a.py|'}]), el hallazgo es omitido de graves.",
+      "related_requirement": "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+      "status": "pendiente",
+      "verification": "python -c \"from oracle_factory import preparacion; assert preparacion.firma('a.py', '...') != preparacion.firma('a.py', '???')\" falla con AssertionError."
+    },
+    {
+      "id": "F-02",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Duplicación de riesgos en estado['aceptados'] y pérdida accidental al revocar cuando concurren múltiples hallazgos con la misma firma",
+      "explanation": "En revisar_paso_a_paso, el diccionario aceptados se lee una sola vez al inicio del bucle. Cuando concurren dos hallazgos con la misma firma (por ejemplo, reportados por revisores distintos como codex y agy, o dos instancias en el mismo archivo), el segundo no se identifica como ya aceptado en esa corrida. Si la persona acepta ambos riesgos, ambos se incorporan a nuevos y en la línea 1100 se concatenan a estado['aceptados'], duplicando las entradas en el registro y en los pedidos posteriores a revisores. Peor aún: en una vuelta subsiguiente, si la persona elige 'Mantener aceptado' para el primero (línea 1042: se agrega a resoluciones y no a nuevos) y 'Revocar' para el segundo (línea 1046: revocados.append(firma)), al finalizar se ejecuta quitar = set(revocados) | {n['firma'] for n in nuevos} y estado['aceptados'] = [a for a in estado['aceptados'] if a['firma'] not in quitar] + nuevos. Como firma está en quitar y no en nuevos, el riesgo que la persona explícitamente eligió mantener es eliminado por completo de los aceptados.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1098,
+        "end_line": 1101,
+        "side": "head"
+      },
+      "trigger": "Dos revisores reportan un hallazgo coincidente en el mismo candidato. La persona acepta el riesgo en la primera revisión; en la segunda vuelta mantiene el primero y revoca el segundo.",
+      "evidence": "Reproducido en test_experimentos.py: aceptar dos hallazgos coincidentes produce len(estado['aceptados']) == 2. En la siguiente vuelta, mantener el primero y revocar el segundo deja estado['aceptados'] vacío ([]).",
+      "related_requirement": "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas",
+      "status": "pendiente",
+      "verification": "Ejecución de test donde dos revisores generan hallazgos con igual firma: tras revisar, self.aceptados() contiene 2 elementos; al mantener uno y revocar el otro en la vuelta siguiente, self.aceptados() queda en []."
+    },
+    {
+      "id": "F-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "test_vs1_severidad_desconocida esquiva pedir-revision y oculta que Clue rechaza informes con severidad ausente o desconocida",
+      "explanation": "La especificación (spec.md) establece en Scenario: severidad desconocida: 'GIVEN un informe con un hallazgo sin severidad / WHEN termina pedir-revision / THEN cuenta como medio y pide otra vuelta'. Sin embargo, pedir_revision ejecuta obligatoriamente oracle-clue validar antes de guardar cualquier informe. El esquema de Clue (schemas/hallazgos.schema.json) exige severity obligatoria dentro del enum ['critica', 'alta', 'media', 'baja', 'informativa']. Si un revisor entrega un hallazgo sin severidad o desconocida, Clue rechaza el informe y pedir_revision aborta con FactoryError sin guardar el informe ni pedir otra vuelta por corte. Para evitar este fallo, test_vs1_severidad_desconocida en test_vueltas.py no invoca pedir_revision (a diferencia de los demás tests test_vs1_*), sino que llama directamente en memoria a las funciones unitarias preparacion.corte y preparacion.contar_severidades con diccionarios artificiales, esquivando el flujo de pedir-revision prometido en la spec.",
+      "location": {
+        "file": "tests/test_vueltas.py",
+        "start_line": 118,
+        "end_line": 124,
+        "side": "head"
+      },
+      "trigger": "Un revisor emite un informe sin campo severity o con severidad desconocida durante la ejecución de oracle-factory pedir-revision.",
+      "evidence": "jsonschema.validate con un hallazgo con severity 'desconocida' o sin severity falla contra el esquema de Clue. En cli.py líneas 857-869, dicho rechazo genera FactoryError y la ejecución no llega al corte de pedir-revision.",
+      "related_requirement": "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+      "status": "pendiente",
+      "verification": "Ejecutar self.pedir('codex', [None, 'título']) en test_vueltas.py falla con FactoryError por rechazo de Clue."
+    },
+    {
+      "id": "F-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "pedir_revision sugiere falsamente revisar cuando corte_del_candidato retorna None",
+      "explanation": "En oracle_factory/cli.py, corte_del_candidato retorna None cuando no hay informes de revisores utilizables vigentes. Al finalizar pedir_revision, se evalúa: 'graves, bajos = corte_del_candidato(...) or ([], [])'. Si corte_del_candidato es None, la expresión evalúa a ([], []), por lo que graves es vacío y el flujo cae en la rama else, imprimiendo: 'No quedan hallazgos medios ni altos sin aceptar... Próximo paso: oracle-factory revisar {identificador}'. Si el usuario ejecuta a continuación oracle-factory revisar, el comando aborta inmediatamente con FactoryError: 'el candidato ... no tiene informes de revisores ni evidencia: pedí una revisión con oracle-factory pedir-revision', contradiciendo la sugerencia recién emitida. En contraste, proximo_paso verifica explícitamente 'if corte is not None:' antes de sugerir revisar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 876,
+        "end_line": 884,
+        "side": "head"
+      },
+      "trigger": "Invocación de pedir_revision donde corte_del_candidato devuelve None debido a que los informes no son utilizables.",
+      "evidence": "En cli.py línea 876, 'corte_del_candidato(...) or ([], [])' convierte None en ([], []), activando el mensaje 'no hace falta otra vuelta' y sugiriendo revisar, que luego falla en cli.py línea 1018.",
+      "related_requirement": "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+      "status": "pendiente",
+      "verification": "Simular corte_del_candidato retornando None dentro de pedir_revision confirma que imprime 'no hace falta otra vuelta' y sugiere revisar."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las suites de pruebas unificadas tests.test_vueltas, tests.test_revisores y tests.test_review_guided utilizando el entorno virtual del repositorio (.venv).",
+    "Se realizaron pruebas de mutación manuales sobre las funciones de corte, firma, normalización y deduplicación en copias locales.",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas del repositorio, conforme a las restricciones especificadas para esta revisión."
+  ]
+}

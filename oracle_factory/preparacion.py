@@ -6,6 +6,8 @@ Lo que es de la persona (revisor, si la revisión está completa y el estado de 
 """
 from __future__ import annotations
 
+import unicodedata
+
 ESQUEMA_CLUE = 'oracle-clue.review/v1'
 
 
@@ -79,6 +81,54 @@ def vueltas_anteriores(vueltas: list[dict]) -> list[dict]:
     return comprobaciones
 
 
+BAJAS = ('baja', 'informativa')  # cualquier otra severidad, o ninguna, pide otra vuelta
+
+
+def firma(archivo: str, titulo: str) -> str | None:
+    """Archivo (sin línea) + título en minúsculas, sin puntuación y con espacios simples: lo que vuelve igual entre vueltas.
+
+    None si al título no le queda texto: un título de puros signos no identifica nada y nunca coincide.
+    """
+    # Sólo la puntuación (categoría P de Unicode): los símbolos como = < > + distinguen «x == y» de «x != y».
+    normal = ' '.join(''.join(c for c in titulo.lower() if not unicodedata.category(c).startswith('P')).split())
+    return f"{archivo}|{normal}" if normal else None
+
+
+def archivo_de_ubicacion(ubicacion: str) -> str:
+    """El archivo de una ubicación del informe guiado, que es `archivo:línea` o sólo `archivo`."""
+    archivo, _, linea = ubicacion.rpartition(':')
+    return archivo if archivo and linea.isdigit() else ubicacion
+
+
+def firma_de_ubicacion(ubicacion: str, titulo: str) -> str | None:
+    return firma(archivo_de_ubicacion(ubicacion), titulo)
+
+
+def corte(revisores: list[dict], aceptados: list[dict]) -> tuple[list[dict], list[dict]]:
+    """(medios o más, bajos) entre los hallazgos de los informes, sin los que coinciden con un riesgo aceptado."""
+    firmas = {a['firma'] for a in aceptados} - {None}
+    graves, bajos = [], []
+    for rev in revisores:
+        for h in rev['datos'].get('findings') or []:
+            if not isinstance(h, dict):
+                continue
+            loc = h.get('location') if isinstance(h.get('location'), dict) else {}
+            if firma(str(loc.get('file') or '?'), str(h.get('title') or (h.get('explanation') or '').strip() or 'sin título')) in firmas:
+                continue
+            (bajos if h.get('severity') in BAJAS else graves).append(h)
+    return graves, bajos
+
+
+def contar_severidades(hallazgos: list) -> str:
+    """«1 media, 2 baja» en orden de gravedad; una severidad ausente se nombra «sin severidad»."""
+    orden = ('critica', 'alta', 'media', 'baja', 'informativa')
+    cuenta: dict[str, int] = {}
+    for h in hallazgos:
+        s = h.get('severity') if isinstance(h, dict) and h.get('severity') else 'sin severidad'
+        cuenta[s] = cuenta.get(s, 0) + 1
+    return ', '.join(f'{n} {s}' for s, n in sorted(cuenta.items(), key=lambda x: orden.index(x[0]) if x[0] in orden else 9))
+
+
 if __name__ == '__main__':
     base = {'revisor': None, 'completa': None, 'archivos_revisados': None, 'comprobaciones': None, 'limites': None,
             'hallazgos': None, 'sin_hallazgos_motivo': None}
@@ -89,4 +139,12 @@ if __name__ == '__main__':
     assert [h['id'] for h in i['hallazgos']] == ['A', 'A-2'] and i['hallazgos'][0]['ubicacion'] == 'x.py:3'
     assert i['revisor'] is None and i['completa'] is None and all(x['estado'] is None for x in d['decisiones'])
     assert i['comprobaciones'][0]['resultado'] == 'cumple' and 'codex (m): l' in i['limites']
+    assert firma('x.py', 'El  título, otra vez!') == firma_de_ubicacion('x.py:12', 'el título otra vez') == 'x.py|el título otra vez'
+    assert firma('x.py', 'foo-bar') != firma('x.py', 'foo bar') and firma('x.py', '...') is None
+    assert firma('x.py', 'x == y') != firma('x.py', 'x != y') and firma('x.py', 'a < b') != firma('x.py', 'a > b')
+    h = lambda s, t='t': {'title': t, 'location': {'file': 'x.py'}, **({'severity': s} if s else {})}
+    g, b = corte([{'datos': {'findings': [h('baja'), h('informativa'), h('media', 'm'), h(None, 'n'), h('critica', 'c')]}}],
+                 [{'firma': firma('x.py', 'c')}])
+    assert [x['title'] for x in g] == ['m', 'n'] and len(b) == 2
+    assert contar_severidades([h('baja'), h('media'), h('baja'), h(None)]) == '1 media, 2 baja, 1 sin severidad'
     print('ok')

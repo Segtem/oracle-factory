@@ -1,0 +1,60 @@
+{
+  "vueltas_caso": [
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "vs1_solo_quedan_bajos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "vs1_queda_uno_medio",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "vs1_severidad_desconocida",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_riesgo_aceptado_persiste_entre_vueltas",
+      "caso": "vs2_aceptado_presente_en_el_pedido_siguiente",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_riesgo_aceptado_persiste_entre_vueltas",
+      "caso": "vs2_se_guarda_aunque_pida_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_riesgo_aceptado_persiste_entre_vueltas",
+      "caso": "vs2_un_medio_aceptado_no_pide_otra_vuelta",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_riesgo_aceptado_persiste_entre_vueltas",
+      "caso": "vs2_cancelar_no_guarda",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_reconoce_un_riesgo_ya_aceptado",
+      "caso": "vs3_mantener_un_riesgo_aceptado",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_reconoce_un_riesgo_ya_aceptado",
+      "caso": "vs3_revocar_un_riesgo_aceptado",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_reconoce_un_riesgo_ya_aceptado",
+      "caso": "vs3_un_titulo_distinto_no_coincide",
+      "codigo": 0
+    }
+  ],
+  "vueltas_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}

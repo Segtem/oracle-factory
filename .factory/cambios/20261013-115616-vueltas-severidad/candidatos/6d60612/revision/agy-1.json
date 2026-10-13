@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/6d60612",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "6d60612b0c3164f364bc13ba7625e7b5ec3e6f98",
+  "diff_sha256": "c030684cc9a57fcb350dae362426417f11824926963625809e44a37c890c8f27",
+  "context_sha256": "19d4b46b0be485fd88bc5cb4d6925b0b04e49cd185a5af0704485cd26d25dee8",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "No se encontraron defectos ni discrepancias con la especificación (findings vacía). Los hallazgos de las vueltas 1 y 2 (F-01, F-02, F-03) fueron subsanados satisfactoriamente y no presentan regresiones.",
+    "Se ejecutaron las pruebas unitarias solicitadas: tests.test_vueltas, tests.test_revisores y tests.test_review_guided en primer plano con el entorno virtual del proyecto (/home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python).",
+    "Se ejecutaron mutaciones manuales y pruebas aisladas en scripts temporales sobre copias locales para verificar discriminación de severidades en preparacion.corte, preservación de símbolos matemáticos en preparacion.firma, persistencia de aceptados sin firma y deduplicación de hallazgos repetidos en revisar_paso_a_paso. Todas las mutaciones relevantes fueron detectadas por las pruebas.",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite de pruebas completa del proyecto, conforme a las instrucciones recibidas."
+  ]
+}

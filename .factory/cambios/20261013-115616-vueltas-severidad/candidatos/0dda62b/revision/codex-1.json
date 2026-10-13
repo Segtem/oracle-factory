@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/0dda62b",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "0dda62bb54e18a88c647d4a4e31f85f256136096",
+  "diff_sha256": "67543569910bf01e98b3b0bec01705da996c6ce7bb65f4d1c1bc3e3ab64193f1",
+  "context_sha256": "a9b34ac8ea494a6994663f0a9b096cb36bd7674c43925c569845dd841bce0e1a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Revocar un duplicado borra el riesgo que se eligió mantener",
+      "explanation": "Si un mismo riesgo aceptado aparece dos veces en el informe, `revisar_paso_a_paso` permite mantener la primera aparición y revocar la segunda. La decisión de mantener queda registrada como `riesgo_aceptado`, pero al persistir se eliminan los aceptados cuyas firmas estén en `revocados`; como la segunda aparición agrega esa firma a `revocados`, el riesgo mantenido desaparece de `estado['aceptados']`. Esto contradice el resultado prometido para «mantener un riesgo aceptado» (el riesgo sigue vigente) y la persistencia entre vueltas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1107,
+        "end_line": 1108,
+        "side": "head"
+      },
+      "trigger": "Con un riesgo previamente aceptado, hacer que dos revisores reporten el mismo archivo y título en el candidato vigente. En `revisar`, responder mantener para el primer hallazgo, revocar para el segundo y dejarlo abierto; completar la revisión y pedir cambios.",
+      "evidence": "Reproduje el flujo en un fixture temporal basado en `tests/test_vueltas.py`: antes de revisar había un aceptado; con las respuestas mantener, revocar, dejar abierto, completa y pedir cambios, la revisión registró un hallazgo abierto y `aceptados` terminó vacío. La decisión de mantener del primer hallazgo se produjo antes de la revocación. La prueba existente `test_vs3_revocar_un_riesgo_aceptado` cubre el orden opuesto (revocar el primero y dejar abierto el segundo), pero no este orden. La selección solicitada de 45 tests terminó OK.",
+      "related_requirement": "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+      "status": "pendiente",
+      "verification": "Reproducción manual automatizada con la fixture de `tests/test_vueltas.py`, usando un repositorio temporal; salida guardada en `analisis-mutacion.txt`. También se ejecutó exactamente `cd /home/workstation/Dev/factory-vueltas-severidad && /home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided </dev/null`: 45 tests, OK."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó la propuesta, los tres requisitos, los cambios de `oracle_factory/cli.py`, `oracle_factory/preparacion.py` y `tests/test_vueltas.py`, además de los informes de la vuelta anterior; el checkout candidato se mantuvo sin cambios.",
+    "Se ejecutó únicamente la selección de unittest indicada: 45 tests, OK. No se ejecutaron `tools/verify_*.py` ni la suite completa.",
+    "Se reprodujo el orden mantener-y-después-revocar con una fixture en un directorio temporal; no se hicieron mutaciones del código del checkout.",
+    "La firma de títulos corrigió la colisión señalada en la vuelta anterior, el guardado evita duplicar firmas aceptadas en el caso probado y el corte evita sugerir revisar cuando devuelve None. No se reitera F-03, según la instrucción de la revisión."
+  ]
+}
