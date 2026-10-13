@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-13 18:12:38 UTC)
 
 Requisitos importados: trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso (funcional), trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran (funcional), trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-13 18:21:16 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso: factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso, factory_trazabilidad.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-13 18:21:16 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato: factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato, factory_trazabilidad.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-13 18:21:16 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran: factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran, factory_trazabilidad.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
