@@ -93,3 +93,15 @@ Medidas de onboarding_ca007f9416d32e171.preservar_archivos_existentes propuestas
 ### Nota (2026-10-13 10:09:48 UTC)
 
 Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preservar_archivos_existentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso: Brian Hollweg (persona, confirmo, modo confirmacion).

@@ -93,3 +93,15 @@ Medidas de measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error p
 ### Nota (2026-10-13 10:09:48 UTC)
 
 Medidas de measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:11:00 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:01 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:01 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error: Brian Hollweg (persona, confirmo, modo confirmacion).
