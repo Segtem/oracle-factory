@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/4295fb1",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "4295fb16ddddc1fa98f908ac20c8f7bb85a7b17b",
+  "diff_sha256": "daaa73ddaaf9d7ce738d70c3041e5f7c8a9e9c15559069bd137bbf9081d777ff",
+  "context_sha256": "ad12fc434a5c1d83fd51def531e73da596680711673a979f0e15f945b2b8fd10",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "El diff del candidato modifica sólo .factory/cambios/*/factory.json y tareas/*/TAREA.md; no modifica oracle_factory/cli.py, tools/verify_contracts.py ni tests/test_guided.py. Por eso no hay líneas del diff a las que atribuir defectos de implementación o de pruebas.",
+    "Se inspeccionaron la spec measurement_choice, la función medir y su inventario/validación de catálogo, el mapeo de tools/verify_contracts.py y los casos de EleccionMedidas en tests/test_guided.py. El flujo inspeccionado valida pertenencia al conjunto importado, medidas efectivas y exclusivas; verifica spec/entradas antes de escribir; conserva prosa y fuente; y limpia revision/oracle cuando cambia la asociación.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 tests, OK.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según instrucción. No se hicieron mutaciones manuales; las pruebas de escritura fallida, catálogo concurrentemente eliminado y edición concurrente se revisaron leyendo el test y su configuración, además del resultado de unittest.",
+    "No se juzgó la suficiencia semántica de las medidas elegidas por las personas ni su pertinencia más allá de la cobertura declarada por los casos enumerados."
+  ]
+}

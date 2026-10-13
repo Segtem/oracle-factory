@@ -1,0 +1,90 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261004-005956-elegir-medidas",
+  "contexto": {
+    "head": "ef29b9d375d9c50487518237e82eb68d0d8cd538",
+    "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
+  },
+  "documentos": {
+    "openspec/changes/20261004-005956-elegir-medidas/proposal.md": "db4b959e41d223cfe22f4ce3e96508094150d22bccaca15558efbe934e12a6f9",
+    "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+    "tareas/20261004-005956-elegir-medidas/TAREA.md",
+    "tareas/20261004-005956-inicio-guiado/TAREA.md",
+    "tests/test_guided.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/f871a71/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/f871a71/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4295fb1: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4295fb1: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 62f4334: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 62f4334: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "agy (gemini-3.8-flash-high): Alcance y contexto del diff: revisión de vuelta 3 para el cambio 20261004-005956-elegir-medidas en el candidato f871a71 frente a base 37fad360. El diff consolidado incluye el registro de medidas confirmadas por Brian Hollweg (persona) en factory.json y TAREA.md, el registro de auditoría de vueltas 1 y 2, y los refuerzos acumulados en tests/test_guided.py (tanto de EleccionMedidas en la vuelta 2 como de InicioGuiado en f871a71).",
+    "agy (gemini-3.8-flash-high): Sin defectos en el diff: se inspeccionaron exhaustivamente las líneas modificadas en tests/test_guided.py (en particular los rangos head 43-49, 52-66, 118-134 de InicioGuiado y 177-184, 198-207, 240-258, 282-299 de EleccionMedidas), factory.json y TAREA.md. Las nuevas aserciones verifican con precisión que no se creen tareas al listar, validan la ruta conflictiva exacta y comprueban las rutas e ID en la salida de nuevo. Las huellas sha256 registradas para los archivos .requisito coinciden con sus contenidos en disco. No se detectaron defectos en el diff, por lo que findings queda vacía.",
+    "agy (gemini-3.8-flash-high): Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-elegir-medidas/proposal.md y openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md frente a la implementación de medir, inventario_medidas y bloqueo_medidas. El código satisface todos los requisitos y escenarios: 1) 'asociacion explicita y valida': exige el ID completo del requisito perteneciente al cambio, valida que las medidas existan en el catálogo efectivo, preserva prosa, fuente, comentarios y límites parciales, prohíbe opciones de edición bajo --listar y rechaza asociaciones automáticas; 2) 'preservar requisito ante error': ante medidas inexistentes, sintaxis inválida, spec desactualizada, catálogo alterado o fallo de E/S, conserva intactos los bytes originales mediante escritura atómica y validación de esperado; 3) 'invalidar evidencia anterior': cualquier modificación en la asociación o límites resetea revision y oracle a None e invalida la fase, mientras que repeticiones idénticas preservan las validaciones existentes sin cierre automático.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó exactamente en primer plano el comando indicado: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas en 4.19s). No se ejecutaron tools/verify_*.py ni la suite completa del proyecto, conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): Verificación de mutaciones y resolución de vueltas anteriores: se ejecutó una batería de 23 mutaciones en copias locales sobre medir e InicioGuiado. Se constató que los hallazgos de vueltas anteriores siguen cerrados sin regresiones: las aserciones de EleccionMedidas matan mutantes de opciones en --listar, alteración de huella de catálogo, concurrencia en registro/spec, medidas vacías y límites vacíos; el metalenguaje de Oracle provee defensa en profundidad rechazando medidas duplicadas y espacios en sin_medir; y en InicioGuiado el candidato f871a71 cierra el hallazgo IG-01 de Codex (comprobación de no creación de tareas en listar) y los mutantes M6-M8 de Agy (rutas/ID exactas y ruta conflictiva). Conforme a las indicaciones, M9, M11 y M18 se consideran fuera del alcance de estos requisitos.",
+    "codex (gpt-6-luna): Se contrastaron proposal.md, specs/measurement_choice/spec.md, oracle_factory/cli.py, tests/test_guided.py y el mapeo del cambio en tools/verify_contracts.py. El diff de este candidato no modifica cli.py ni verify_contracts.py; se inspeccionó su estado en el checkout solicitado y se evaluaron los rangos del diff en tests/test_guided.py y los archivos de trazabilidad.",
+    "codex (gpt-6-luna): La implementación exige un requisito importado por el cambio y medidas efectivas explícitas; ante cambios valida requisito, registro, spec aprobada y huella del catálogo bajo bloqueo. Una asociación distinta invalida revision/oracle y la fase; la repetición idéntica conserva validaciones. Los casos asignados a los tres requisitos están enumerados en tools/verify_contracts.py. Los refuerzos de esta vuelta prueban además que listar rechaza opciones de edición, no modifica archivos y no crea tareas, y que inicio-guiado informa ID/rutas y la ruta conflictiva en sus errores cubiertos.",
+    "codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas, OK. No se ejecutaron tools/verify_*.py ni la suite completa.",
+    "codex (gpt-6-luna): No se hicieron mutaciones manuales. M9 (otros ejemplos limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedaron fuera del alcance indicado. Esta revisión no evalúa la pertinencia semántica de medidas elegidas ni propiedades que los casos enumerados no observan."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

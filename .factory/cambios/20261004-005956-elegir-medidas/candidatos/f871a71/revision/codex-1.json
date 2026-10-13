@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/f871a71",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "f871a7156d519e0068b79efd3f11afa3d355bd1d",
+  "diff_sha256": "2676ca92028e4d76bce791b5fdae54739db7735f539ed2041d5c49d5884f8994",
+  "context_sha256": "f747bc85c44db80e793696c960295b75a4e09fce964c278e8e84af6a12c8fab5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron proposal.md, specs/measurement_choice/spec.md, oracle_factory/cli.py, tests/test_guided.py y el mapeo del cambio en tools/verify_contracts.py. El diff de este candidato no modifica cli.py ni verify_contracts.py; se inspeccionó su estado en el checkout solicitado y se evaluaron los rangos del diff en tests/test_guided.py y los archivos de trazabilidad.",
+    "La implementación exige un requisito importado por el cambio y medidas efectivas explícitas; ante cambios valida requisito, registro, spec aprobada y huella del catálogo bajo bloqueo. Una asociación distinta invalida revision/oracle y la fase; la repetición idéntica conserva validaciones. Los casos asignados a los tres requisitos están enumerados en tools/verify_contracts.py. Los refuerzos de esta vuelta prueban además que listar rechaza opciones de edición, no modifica archivos y no crea tareas, y que inicio-guiado informa ID/rutas y la ruta conflictiva en sus errores cubiertos.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas, OK. No se ejecutaron tools/verify_*.py ni la suite completa.",
+    "No se hicieron mutaciones manuales. M9 (otros ejemplos limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedaron fuera del alcance indicado. Esta revisión no evalúa la pertinencia semántica de medidas elegidas ni propiedades que los casos enumerados no observan."
+  ]
+}

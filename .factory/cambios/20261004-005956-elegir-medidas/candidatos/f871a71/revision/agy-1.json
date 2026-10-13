@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/f871a71",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "f871a7156d519e0068b79efd3f11afa3d355bd1d",
+  "diff_sha256": "2676ca92028e4d76bce791b5fdae54739db7735f539ed2041d5c49d5884f8994",
+  "context_sha256": "f747bc85c44db80e793696c960295b75a4e09fce964c278e8e84af6a12c8fab5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto del diff: revisión de vuelta 3 para el cambio 20261004-005956-elegir-medidas en el candidato f871a71 frente a base 37fad360. El diff consolidado incluye el registro de medidas confirmadas por Brian Hollweg (persona) en factory.json y TAREA.md, el registro de auditoría de vueltas 1 y 2, y los refuerzos acumulados en tests/test_guided.py (tanto de EleccionMedidas en la vuelta 2 como de InicioGuiado en f871a71).",
+    "Sin defectos en el diff: se inspeccionaron exhaustivamente las líneas modificadas en tests/test_guided.py (en particular los rangos head 43-49, 52-66, 118-134 de InicioGuiado y 177-184, 198-207, 240-258, 282-299 de EleccionMedidas), factory.json y TAREA.md. Las nuevas aserciones verifican con precisión que no se creen tareas al listar, validan la ruta conflictiva exacta y comprueban las rutas e ID en la salida de nuevo. Las huellas sha256 registradas para los archivos .requisito coinciden con sus contenidos en disco. No se detectaron defectos en el diff, por lo que findings queda vacía.",
+    "Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-elegir-medidas/proposal.md y openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md frente a la implementación de medir, inventario_medidas y bloqueo_medidas. El código satisface todos los requisitos y escenarios: 1) 'asociacion explicita y valida': exige el ID completo del requisito perteneciente al cambio, valida que las medidas existan en el catálogo efectivo, preserva prosa, fuente, comentarios y límites parciales, prohíbe opciones de edición bajo --listar y rechaza asociaciones automáticas; 2) 'preservar requisito ante error': ante medidas inexistentes, sintaxis inválida, spec desactualizada, catálogo alterado o fallo de E/S, conserva intactos los bytes originales mediante escritura atómica y validación de esperado; 3) 'invalidar evidencia anterior': cualquier modificación en la asociación o límites resetea revision y oracle a None e invalida la fase, mientras que repeticiones idénticas preservan las validaciones existentes sin cierre automático.",
+    "Ejecución de pruebas: se ejecutó exactamente en primer plano el comando indicado: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas en 4.19s). No se ejecutaron tools/verify_*.py ni la suite completa del proyecto, conforme a las instrucciones.",
+    "Verificación de mutaciones y resolución de vueltas anteriores: se ejecutó una batería de 23 mutaciones en copias locales sobre medir e InicioGuiado. Se constató que los hallazgos de vueltas anteriores siguen cerrados sin regresiones: las aserciones de EleccionMedidas matan mutantes de opciones en --listar, alteración de huella de catálogo, concurrencia en registro/spec, medidas vacías y límites vacíos; el metalenguaje de Oracle provee defensa en profundidad rechazando medidas duplicadas y espacios en sin_medir; y en InicioGuiado el candidato f871a71 cierra el hallazgo IG-01 de Codex (comprobación de no creación de tareas en listar) y los mutantes M6-M8 de Agy (rutas/ID exactas y ruta conflictiva). Conforme a las indicaciones, M9, M11 y M18 se consideran fuera del alcance de estos requisitos."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "a6604a9c4c3b701a28fce4b9c6cc3636b4343091536ae09e530aa9a9e1f7d834",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.",
+  "decisiones": []
+}

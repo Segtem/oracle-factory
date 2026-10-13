@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/62f4334",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "62f4334c28e7421505ac8ff544d00247e416e194",
+  "diff_sha256": "85246abd2ef1fd54aaa7e6fe8cff587874e73723db147f13054cb34031cdc12b",
+  "context_sha256": "489c4d80de2edaac90c22ad5ecde6a5f4208d678e3bfe54a309228fb9f6402a9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron proposal.md, specs/measurement_choice/spec.md y los tres .requisito de requisitos/ con oracle_factory/cli.py, tests/test_guided.py y el mapeo de tools/verify_contracts.py en el checkout 62f4334. La implementación revisada exige requisito importado por el cambio, catálogo efectivo y medidas explícitas; valida antes de escribir, revalida requisito/registro/spec/catálogo bajo bloqueo, conserva identidad/texto/fuente y limpia revision/oracle sólo ante una asociación distinta.",
+    "Se ejecutó exactamente el comando indicado en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas, OK. El HEAD del repositorio principal y el del checkout candidato coinciden con 62f4334c28e7421505ac8ff544d00247e416e194; además, los SHA-256 de oracle_factory/cli.py y tests/test_guided.py coinciden entre ambos.",
+    "Los hallazgos de cobertura de la vuelta anterior se revisaron contra las nuevas aserciones: rechazo de opciones de edición en --listar (incluye quitar_sin_medir), cambio concurrente de catálogo mediante huella, modificación concurrente del registro y de la spec, --sin-medir compuesto por espacios, y lista de medidas vacía. Las aserciones nuevas están dentro de los rangos del diff y los casos nombrados continúan asociados a los requisitos por tools/verify_contracts.py.",
+    "El caso --sin-medir con espacios exige FactoryError y conservación de bytes/registro; si la validación local de strip desapareciera, la lectura/validación de requisitos de Oracle también rechaza el valor vacío de hecho. Por eso el mutante señalado como equivalente en la vuelta 1 no representa una aceptación distinta observable. No se ejecutaron mutaciones manuales en esta vuelta.",
+    "No se ejecutó tools/verify_contracts.py, ningún tools/verify_*.py ni la suite completa, según instrucción. El análisis de los casos/mapeo se hizo leyendo el código y el test ejecutado. Sin hallazgos atribuibles a las líneas modificadas del diff."
+  ]
+}

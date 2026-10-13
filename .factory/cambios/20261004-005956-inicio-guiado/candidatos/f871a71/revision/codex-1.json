@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/f871a71",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "f871a7156d519e0068b79efd3f11afa3d355bd1d",
+  "diff_sha256": "2676ca92028e4d76bce791b5fdae54739db7735f539ed2041d5c49d5884f8994",
+  "context_sha256": "dd6d1b383123b7fa45bfab84c42a86fd0de0619f6dbd181db1e184540ed8ccec",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron proposal.md y specs/onboarding/spec.md, los tres requisitos importados de requisitos/, el paquete Clue, oracle_factory/cli.py, tests/test_guided.py, el mapeo de tools/verify_contracts.py y las cuatro revisiones anteriores. No se ejecutó tools/verify_contracts.py ni tools/verify_*.py.",
+    "Se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas OK. La salida completa está en tests_guided.log.",
+    "No se ejecutó la suite completa. No se hicieron mutaciones manuales; el análisis de cobertura se basó en las aserciones actuales y en los mutantes reportados en revisiones previas.",
+    "Las regresiones de vueltas previas quedan cubiertas en el candidato: el test de nuevo comprueba que no haya medidas asignadas ni pendientes, que se imprima el ID completo y las rutas del ejemplo; el conflicto comprueba la ruta del catálogo en el error; init comprueba sus instrucciones; listar verifica ID, fase, título, exclusión de tareas tracker y que no cambie el conjunto de tareas antes/después. No detecté regresión en la implementación actual de oracle_factory/cli.py para los requisitos de este cambio.",
+    "M9 (otros nombres de ejemplo limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedan fuera de los requisitos indicados para esta revisión, según el alcance provisto."
+  ]
+}

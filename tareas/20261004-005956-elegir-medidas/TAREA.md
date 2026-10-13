@@ -1,6 +1,6 @@
 # Asociar medidas a requisitos sin editar indentación manualmente
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 20
 - ETIQUETAS:
 
@@ -81,3 +81,39 @@ Implementación d569498 integrada y subida a main. Tag y release v0.1.0a3 public
 ## Próximo paso
 
 El mantenedor puede publicar en PyPI los artefactos exactos de dist/ con uv publish dist/oracle_factory-0.1.0a3-py3-none-any.whl dist/oracle_factory-0.1.0a3.tar.gz. Para cerrar este cambio real, revisar el producto d569498, el informe técnico y la pertinencia/suficiencia de las seis medidas; registrar decisión humana con Factory, regenerar hechos en el commit revisado, correr juzgar y confirmar cierre sólo si corresponde. Main, tag, release y web están publicados/verificados; no se simulan los gates humanos.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:11:00 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:01 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:01 UTC)
+
+Medidas de measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 11:43:10 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.); 0 abiertos derivados; commit a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90; informe tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/informe.json; decisiones tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/decisiones.json.
+
+### Nota (2026-10-13 11:43:53 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-elegir-medidas/oracle-veredicto.txt.
+
+### Nota (2026-10-13 11:46:59 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

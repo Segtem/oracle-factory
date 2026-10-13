@@ -43,6 +43,7 @@ class InicioGuiado(ProyectoTemporal):
         self.assertEqual(state['fase'], 'espera_aprobacion_spec')
         self.assertIsNone(state['spec_aprobada'])
         self.assertEqual(state['requisitos'], [])
+        self.assertFalse(state.get('medidas')); self.assertFalse(state.get('medidas_pendientes'))
         self.assertEqual((folder / 'proposal.md').read_bytes(), (self.root / 'examples/notas/proposal.md').read_bytes())
         self.assertEqual((self.root / state['spec']).read_bytes(), (self.root / 'examples/notas/spec.md').read_bytes())
         for p in (self.root / 'examples/notas/catalogos').iterdir():
@@ -51,12 +52,15 @@ class InicioGuiado(ProyectoTemporal):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertFalse((self.root / '.git').exists())
         self.assertIn('aprobar-spec ' + ident, self.stdout.getvalue())
+        for ruta in (f'Cambio creado: {ident}', str(self.root / 'tareas' / ident / 'TAREA.md'), str(folder / 'proposal.md'),
+                     str(self.root / state['spec']), str(self.root / 'examples/notas'), str(self.root / 'catalogos')):
+            self.assertIn(ruta, self.stdout.getvalue())
 
     def test_conflictos_se_rechazan_antes_de_crear_tarea(self):
         path = self.root / 'catalogos/notas.resultados.oracle'
         path.write_bytes(b'Medida del usuario\n')
         before = self.tasks()
-        with self.assertRaises(f.FactoryError): self.crear()
+        with self.assertRaisesRegex(f.FactoryError, 'catalogos/notas.resultados.oracle'): self.crear()
         self.assertEqual(path.read_bytes(), b'Medida del usuario\n')
         self.assertEqual(self.tasks(), before)
         self.assertFalse((self.root / 'examples/notas').exists())
@@ -114,13 +118,17 @@ class InicioGuiado(ProyectoTemporal):
         self.assertEqual(config.read_bytes(), original)
         self.assertEqual(ignore.read_text(), 'mis-salidas/\n.factory-demo/\n.factory/local/\n.factory/cambios/*/candidatos/*/clue/\n__pycache__/\n*.py[cod]\n')
         self.assertNotIn('oracle caso nuevo', self.stdout.getvalue())
+        self.assertIn('Próximo paso: oracle-factory nuevo --con-ejemplo notas', self.stdout.getvalue())
+        self.assertIn('git init', self.stdout.getvalue())
 
     def test_listar_recupera_cambio_y_no_confunde_tareas_solas(self):
         ident = self.crear()
         subprocess.run([f.sys.executable, '-m', 'oracle_task.cli', 'new', 'Sólo tracker', '--sufijo', 'tracker', '--proyecto', str(self.root)], check=True, capture_output=True)
         self.stdout.seek(0); self.stdout.truncate()
+        before = self.tasks()
         f.listar()
-        self.assertIn(ident + '  espera_aprobacion_spec', self.stdout.getvalue())
+        self.assertEqual(self.tasks(), before)
+        self.assertIn(ident + '  espera_aprobacion_spec  Un título de nota', self.stdout.getvalue())
         self.assertNotIn('Sólo tracker', self.stdout.getvalue())
 
     def test_enlaces_de_destino_no_escriben_fuera_del_proyecto(self):
@@ -169,7 +177,8 @@ class EleccionMedidas(ProyectoTemporal):
 
     def test_medida_inexistente_duplicada_o_requisito_ajeno_no_mutan(self):
         before = self.req.read_bytes(); state = f.ruta_registro(self.folder).read_bytes()
-        cases = [{'medidas':['notas.no_existe']}, {'medidas':[self.selected[0],self.selected[0]]}, {'requisito_id':'otro.requisito'}, {'sin_medir':''}]
+        cases = [{'medidas':['notas.no_existe']}, {'medidas':[self.selected[0],self.selected[0]]}, {'requisito_id':'otro.requisito'}, {'sin_medir':''},
+                 {'sin_medir':'   '}, {'medidas':[]}]
         for case in cases:
             kwargs = {'requisito_id':self.rid, 'medidas':self.selected, **case}
             with self.subTest(case=case), self.assertRaises(f.FactoryError): f.medir(self.ident, **kwargs)
@@ -189,6 +198,10 @@ class EleccionMedidas(ProyectoTemporal):
         self.assertEqual(before, {p:p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
         for value in (self.rid, 'notas.resultados', 'SIN MEDIR', 'Alcance:', 'Fuente:'):
             self.assertIn(value, self.stdout.getvalue())
+        for edicion in ({'requisito_id': self.rid}, {'medidas': self.selected}, {'sin_medir': 'x'}, {'quitar_sin_medir': True}):
+            with self.subTest(edicion=edicion), self.assertRaisesRegex(f.FactoryError, '--listar no acepta'):
+                f.medir(self.ident, listar_opciones=True, **edicion)
+        self.assertEqual(before, {p:p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
 
     def test_cambio_invalida_y_repeticion_identica_conserva_validaciones(self):
         _, state = f.leer(self.ident)
@@ -227,6 +240,19 @@ class EleccionMedidas(ProyectoTemporal):
             with self.assertRaises(f.FactoryError): self.asociar()
         self.assertTrue(self.req.read_text().endswith('# Editado en otra sesión\n'))
         self.assertNotIn('medido_por ', self.req.read_text())
+        # También el registro del cambio y la spec aprobada, editados por otra sesión mientras se escribe.
+        req = self.req.read_bytes()
+        for otro in (f.ruta_registro(self.folder), self.root / f.leer(self.ident)[1]['spec']):
+            antes = otro.read_bytes()
+            @contextlib.contextmanager
+            def editado(*args):
+                with original(*args):
+                    otro.write_bytes(antes.replace(b'\n', b' \n', 1))
+                    yield
+            with self.subTest(otro=otro.name), patch.object(f, 'bloqueo_medidas', editado):
+                with self.assertRaisesRegex(f.FactoryError, 'cambió durante la operación'): self.asociar()
+            self.assertEqual(self.req.read_bytes(), req)
+            otro.write_bytes(antes)
 
     def test_escritura_fallida_conserva_requisito_y_no_deja_verde_viejo(self):
         before = self.req.read_bytes()
@@ -252,6 +278,18 @@ class EleccionMedidas(ProyectoTemporal):
             return original(*args)
         inventory.calls = 0
         with patch.object(f, 'inventario_medidas', inventory):
+            with self.assertRaisesRegex(f.FactoryError, 'catálogo cambió'):
+                self.asociar()
+        self.assertEqual(self.req.read_bytes(), before)
+        self.assertEqual(f.ruta_registro(self.folder).read_bytes(), state)
+        # Un catálogo que otro editor modifica (sin borrarlo) cambia su huella: tampoco se escribe.
+        catalogo = self.root / 'catalogos/notas.resultados.oracle'
+        def modificado(*args):
+            modificado.calls += 1
+            if modificado.calls == 2: catalogo.write_text(catalogo.read_text() + '# editado por otra sesión\n')
+            return original(*args)
+        modificado.calls = 0
+        with patch.object(f, 'inventario_medidas', modificado):
             with self.assertRaisesRegex(f.FactoryError, 'catálogo cambió'):
                 self.asociar()
         self.assertEqual(self.req.read_bytes(), before)

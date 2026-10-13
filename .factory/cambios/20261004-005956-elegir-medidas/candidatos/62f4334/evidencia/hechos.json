@@ -1,0 +1,109 @@
+{
+  "verificacion_factory": [
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+      "caso": "test_guided.InicioGuiado.test_ejemplo_completo_pendiente_y_sin_aprobaciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion",
+      "caso": "test_guided.InicioGuiado.test_capacidad_incompatible_o_padre_archivo_no_crea_tarea",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "caso": "test_guided.InicioGuiado.test_conflictos_se_rechazan_antes_de_crear_tarea",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "caso": "test_guided.InicioGuiado.test_ejemplo_existente_no_crea_tarea_duplicada_al_reintentar",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "caso": "test_guided.InicioGuiado.test_copia_interrumpida_informa_destinos_y_no_crea_tarea",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "caso": "test_guided.InicioGuiado.test_fallo_despues_de_crear_tarea_reporta_id_real_para_recuperar",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.preservar_archivos_existentes",
+      "caso": "test_guided.InicioGuiado.test_enlaces_de_destino_no_escriben_fuera_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso",
+      "caso": "test_guided.InicioGuiado.test_init_idempotente_conserva_configuracion_y_muestra_pasos_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso",
+      "caso": "test_guided.InicioGuiado.test_listar_recupera_cambio_y_no_confunde_tareas_solas",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "caso": "test_guided.EleccionMedidas.test_asociacion_preserva_prosa_fuente_comentarios_y_limite_parcial",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "caso": "test_guided.EleccionMedidas.test_quitar_limite_es_explicito_y_nuevo_limite_permanece_parcial",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "caso": "test_guided.EleccionMedidas.test_medida_inexistente_duplicada_o_requisito_ajeno_no_mutan",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida",
+      "caso": "test_guided.EleccionMedidas.test_listado_es_solo_lectura_y_muestra_limites_y_fuentes",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_sintaxis_invalida_no_se_repara_ni_sobrescribe",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_spec_desactualizada_rechaza_asociacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_enlace_en_requisito_rechazado",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_edicion_concurrente_detectada_no_sobrescribe_al_editor",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_escritura_fallida_conserva_requisito_y_no_deja_verde_viejo",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error",
+      "caso": "test_guided.EleccionMedidas.test_catalogo_eliminado_durante_asociacion_no_muta",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+      "caso": "test_guided.EleccionMedidas.test_cambio_invalida_y_repeticion_identica_conserva_validaciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
+      "caso": "test_guided.EleccionMedidas.test_escritura_fallida_conserva_requisito_y_no_deja_verde_viejo",
+      "codigo": 0
+    }
+  ]
+}

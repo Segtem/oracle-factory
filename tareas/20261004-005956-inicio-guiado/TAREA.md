@@ -1,6 +1,6 @@
 # Preparar un primer cambio guiado sin copiar archivos a mano
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 30
 - ETIQUETAS:
 
@@ -81,3 +81,39 @@ Implementación d569498 integrada y subida a main. Tag y release v0.1.0a3 public
 ## Próximo paso
 
 El mantenedor puede publicar en PyPI los artefactos exactos de dist/ con uv publish dist/oracle_factory-0.1.0a3-py3-none-any.whl dist/oracle_factory-0.1.0a3.tar.gz. Para cerrar este cambio real, revisar el producto d569498, el informe técnico y la pertinencia/suficiencia de las seis medidas; registrar decisión humana con Factory, regenerar hechos en el commit revisado, correr juzgar y confirmar cierre sólo si corresponde. Main, tag, release y web están publicados/verificados; no se simulan los gates humanos.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preservar_archivos_existentes propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:09:48 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.preservar_archivos_existentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 10:11:03 UTC)
+
+Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 11:43:27 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy sobre el código vigente: 3 mutantes vivos en la primera (próximo paso de init, título en listar, medidas en nuevo) y en la segunda un hallazgo de codex (listar sin comprobar que no crea tareas) y 3 mutantes (ID y rutas exactas, ruta conflictiva); todos cubiertos reforzando los mismos casos del contrato, y la tercera vuelta, completa, no encontró nada; la evidencia da los 9 casos en verde.); 0 abiertos derivados; commit a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90; informe tareas/20261004-005956-inicio-guiado/revisiones/registro-7c7armqi/informe.json; decisiones tareas/20261004-005956-inicio-guiado/revisiones/registro-7c7armqi/decisiones.json.
+
+### Nota (2026-10-13 11:43:54 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-inicio-guiado/oracle-veredicto.txt.
+
+### Nota (2026-10-13 11:47:41 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
