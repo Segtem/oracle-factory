@@ -30,9 +30,9 @@ Toma el candidato vigente y lo compara con su base: el merge-base del candidato 
 
 - **por requisito**, sus casos con su resultado y las líneas cambiadas que ejecutan;
 - **sin respaldo**: líneas cambiadas ejecutables que no ejecuta ningún caso del contrato;
-- **corren al importar**: líneas cambiadas de módulo o de cuerpos de clase (constantes, imports, atributos); corren antes que los casos, así que se listan aparte, sin decir si tienen respaldo;
+- **corren al importar**: líneas cambiadas de módulo o de cuerpos de clase del módulo (constantes, imports, atributos); corren antes que los casos, así que se listan aparte, sin decir si tienen respaldo. Una clase definida dentro de una función corre cuando la función se llama, así que cuenta como el resto de la función. En una función decorada, la línea del `def` cuenta como ejecutada cuando lo está su primer decorador, que es la línea que ve la traza;
 - **no rastreables**: archivos cambiados que la traza no ve (no son Python o no compilan);
-- **borrados**: archivos del producto que el candidato quitó.
+- **borrados**: archivos del producto que el candidato quitó o movió fuera del producto (por ejemplo, a `tareas/`).
 
 Los registros de Factory (`.factory/`, `tareas/`) no cuentan: no son producto.
 
@@ -41,6 +41,5 @@ Los registros de Factory (`.factory/`, `tareas/`) no cuentan: no son producto.
 - Ejecutar una línea no prueba que sea correcta: sólo que algún caso del contrato pasó por ella.
 - El código que corre en otro proceso (por ejemplo, `oracle` o `tasks` llamados por la CLI) no se traza.
 - Lo que corre al importar un módulo (constantes, imports, cuerpos de clase) pasa antes que cualquier caso: se lista aparte, sin decir si tiene respaldo. Las líneas de comentario y en blanco no figuran en ningún lado.
-- En una función con decoradores, la traza y lo ejecutable usan la línea del primer decorador para «se llamó»; la línea del `def` corre al importar y figura ahí, no como respaldada.
 - Un hilo que un caso deja corriendo después de terminar sigue con la traza de ese caso.
 - Sin respaldo no bloquea nada: es información para quien revisa.

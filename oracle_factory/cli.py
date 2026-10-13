@@ -1830,6 +1830,8 @@ def datos_trazabilidad(identificador: str, base: str | None = None) -> dict:
     cambios, borrados, ejecutables = {}, [], {}
     for archivo in trazabilidad_mod.archivos_cambiados(lista.stdout):
         if not es_producto(archivo["ruta"]):
+            if archivo["origen"] and es_producto(archivo["origen"]):
+                borrados.append(archivo["origen"])  # movido fuera del producto: para el producto, se borró
             continue
         if archivo["estado"] == "D":
             borrados.append(archivo["ruta"])

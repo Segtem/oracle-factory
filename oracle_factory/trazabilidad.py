@@ -6,6 +6,7 @@ son puras.
 """
 from __future__ import annotations
 
+import ast
 import inspect
 from pathlib import Path
 import re
@@ -87,23 +88,29 @@ def trazar(raiz: Path, contratos: dict[str, list[str]]) -> dict:
     return {'esquema': ESQUEMA_CASOS, 'requisitos': {r: sorted(c) for r, c in sorted(contratos.items())}, 'casos': casos}
 
 
-def lineas_ejecutables(texto: str) -> tuple[set[int], set[int]] | None:
-    """(líneas dentro de funciones, líneas que corren al importar) de un archivo Python; None si no compila.
+def lineas_ejecutables(texto: str) -> tuple[set[int], set[int], dict[int, int]] | None:
+    """(líneas que corren dentro de funciones, líneas que corren al importar, {decorador: def}); None si no compila.
 
-    Las de funciones son las que una traza de los casos puede ver. Las de módulo y cuerpos de clase corren al importar,
-    antes de cualquier caso. Los comentarios y las líneas en blanco no están en ninguna.
+    Las de funciones son las que una traza de los casos puede ver: también los cuerpos de clases definidas dentro de
+    una función. Las de módulo y de clases del módulo corren al importar, antes de cualquier caso. En una función
+    decorada, la traza ve la línea del primer decorador; el `def` cuenta como ejecutado cuando ese decorador lo está.
+    Los comentarios y las líneas en blanco no están en ninguna.
     """
     try:
         codigo = compile(texto, '<archivo>', 'exec')
+        arbol = ast.parse(texto)
     except (SyntaxError, ValueError):
         return None
-    funciones, importar, pila = set(), set(), [codigo]
+    funciones, importar, pila = set(), set(), [(codigo, False)]
     while pila:
-        c = pila.pop()
-        destino = funciones if c.co_flags & inspect.CO_OPTIMIZED else importar  # funciones y comprensiones, o no
-        destino.update(l for _, _, l in c.co_lines() if l)  # la 0 es el arranque del módulo, no una línea
-        pila.extend(k for k in c.co_consts if isinstance(k, type(codigo)))
-    return funciones, importar - funciones
+        c, en_funcion = pila.pop()
+        en_funcion = en_funcion or bool(c.co_flags & inspect.CO_OPTIMIZED)  # funciones y comprensiones, o lo que corre dentro
+        (funciones if en_funcion else importar).update(l for _, _, l in c.co_lines() if l)  # la 0 es el arranque, no una línea
+        pila.extend((k, en_funcion) for k in c.co_consts if isinstance(k, type(codigo)))
+    decorados = {min(d.lineno for d in n.decorator_list): n.lineno for n in ast.walk(arbol)
+                 if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.decorator_list}
+    funciones |= set(decorados.values())
+    return funciones, importar - funciones, decorados
 
 
 def archivos_cambiados(name_status: str) -> list[dict]:
@@ -130,7 +137,7 @@ def lineas_agregadas(diff: str) -> set[int]:
     return lineas
 
 
-def cruzar(trazas: dict, cambios: dict[str, set[int]], ejecutables: dict[str, tuple[set[int], set[int]] | None],
+def cruzar(trazas: dict, cambios: dict[str, set[int]], ejecutables: dict[str, tuple | None],
            borrados: list[str] = ()) -> dict:
     """Por requisito, las líneas cambiadas que ejecutan sus casos; las de funciones que no ejecuta ninguno; las que corren
     al importar; los archivos que la traza no puede ver; y los borrados."""
@@ -140,7 +147,8 @@ def cruzar(trazas: dict, cambios: dict[str, set[int]], ejecutables: dict[str, tu
         union: dict[str, set[int]] = {}
         for caso in lista:
             for archivo, ls in ((casos.get(caso) or {}).get('lineas') or {}).items():
-                union.setdefault(archivo, set()).update(ls)
+                decorados = (ejecutables.get(archivo) or ((), (), {}))[2]
+                union.setdefault(archivo, set()).update([*ls, *(decorados[l] for l in ls if l in decorados)])
         return union
 
     def interseccion(ejec: dict[str, set[int]]) -> dict[str, list[int]]:
@@ -167,14 +175,16 @@ def cruzar(trazas: dict, cambios: dict[str, set[int]], ejecutables: dict[str, tu
 
 
 if __name__ == '__main__':
-    fuente = 'X = 1\n\ndef f(a):\n    # nota\n    return a + 1\n\nclass C:\n    y = 2\n\n    def g(self):\n        return 3\n'
-    assert lineas_ejecutables(fuente) == ({3, 5, 10, 11}, {1, 7, 8}) and lineas_ejecutables('def (') is None
+    fuente = ('X = 1\n\ndef f(a):\n    # nota\n    return a + 1\n\nclass C:\n    y = 2\n\n    def g(self):\n        return 3\n'
+              '\n@staticmethod\ndef h():\n    class L:\n        z = 4\n    return L\n')
+    assert lineas_ejecutables(fuente) == ({3, 5, 10, 11, 13, 14, 15, 16, 17}, {1, 7, 8}, {13: 14})
+    assert lineas_ejecutables('def (') is None
     assert archivos_cambiados('M\0a b.py\0R087\0viejo.py\0nuevo.py\0D\0x.md\0') == [
         {'estado': 'M', 'origen': None, 'ruta': 'a b.py'}, {'estado': 'R', 'origen': 'viejo.py', 'ruta': 'nuevo.py'},
         {'estado': 'D', 'origen': None, 'ruta': 'x.md'}]
     assert lineas_agregadas('@@ -1,0 +2,2 @@\n+a\n+b\n@@ -9 +11 @@\n-c\n+d\n@@ -3,2 +12,0 @@\n') == {2, 3, 11}
     t = {'requisitos': {'r': ['c1']}, 'casos': {'c1': {'resultado': 'ok', 'lineas': {'x.py': [2]}}}}
-    c = cruzar(t, {'x.py': {1, 2, 3, 4}, 'y.md': set()}, {'x.py': ({2, 3}, {1}), 'y.md': None}, ['z.py'])
-    assert c['requisitos']['r']['lineas'] == {'x.py': [2]} and c['sin_respaldo'] == {'x.py': [3]}
+    c = cruzar(t, {'x.py': {1, 2, 3, 4}, 'y.md': set()}, {'x.py': ({2, 3, 4}, {1}, {2: 4}), 'y.md': None}, ['z.py'])
+    assert c['requisitos']['r']['lineas'] == {'x.py': [2, 4]} and c['sin_respaldo'] == {'x.py': [3]}  # 4: el def de 2
     assert c['al_importar'] == {'x.py': [1]} and c['no_rastreables'] == ['y.md'] and c['borrados'] == ['z.py']
     print('ok')

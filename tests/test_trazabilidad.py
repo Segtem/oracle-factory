@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sys
 import tempfile
+import threading
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -95,13 +96,22 @@ class Trazar(unittest.TestCase):
     def test_tz1_dos_requisitos_con_sus_casos(self):
         afuera = sys.gettrace()  # bajo el sensor de Factory, su traza
 
-        vistas = set()  # lo que ve quien ya trazaba: tiene que seguir viéndolo mientras trazar traza
+        vistas, en_hilos = set(), set()  # lo que ve quien ya trazaba: tiene que seguir viéndolo mientras trazar traza
 
-        def marca(frame, evento, arg):
-            if frame.f_code.co_filename.endswith('modulo_tz.py'):
-                vistas.add(frame.f_code.co_name)
-            return None
+        def observador(destino):
+            def marca(frame, evento, arg):
+                if not frame.f_code.co_filename.endswith('modulo_tz.py'):
+                    return None
+
+                def local(frame, evento, arg):
+                    destino.add((frame.f_code.co_name, evento, frame.f_lineno))
+                    return local
+                return local
+            return marca
+        marca = observador(vistas)
+        hilos_antes = threading.gettrace()
         sys.settrace(marca)
+        threading.settrace(observador(en_hilos))
         try:
             datos = self.trazar({'r_doble': ['test_modulo_tz.T.test_doble'],
                                  'r_triple': ['test_modulo_tz.T.test_triple', 'test_modulo_tz.T.test_externo',
@@ -109,7 +119,9 @@ class Trazar(unittest.TestCase):
             self.assertIs(sys.gettrace(), marca)  # y la recupera al terminar
         finally:
             sys.settrace(afuera)
-        self.assertTrue({'doble', 'triple', 'externo'} <= vistas)
+            threading.settrace(hilos_antes)
+        self.assertTrue({('doble', 'line', 2), ('triple', 'line', 6), ('externo', 'line', 12)} <= vistas)
+        self.assertIn(('triple', 'line', 6), en_hilos)  # también en el hilo que arranca el caso
         hilo = datos['casos']['test_modulo_tz.T.test_en_hilo']['lineas']['modulo_tz.py']
         self.assertTrue({5, 6, 7} <= set(hilo))  # triple, corrido en otro hilo
         self.assertEqual(datos['esquema'], 'oracle-factory.trazabilidad-casos/1')
@@ -136,9 +148,11 @@ class Trazar(unittest.TestCase):
 
 
 NOTAS = '''"""Ejemplo mínimo: decidir si una nota se puede guardar."""
+import functools
 MAXIMO = 80
 
-def puede_guardar(titulo: str) -> bool:
+@functools.lru_cache(maxsize=None)
+def puede_guardar(titulo: str, minimo: int = 1) -> bool:
     """Un título válido contiene al menos un carácter que no sea espacio."""
     limpio = titulo.strip()
     return bool(limpio)
@@ -180,6 +194,7 @@ class Cruce(_ap.Base):
         (self.root / 'examples/notas/utilidades.py').write_text(UTIL.replace('return a - b', 'return b - a'))
         (self.root / 'examples/notas/con espacio.py').write_text('def nueva():\n    return 1\n')
         self.git('rm', '-q', 'examples/notas/sensor.py')
+        self.git('mv', 'examples/notas/spec.md', f'tareas/{self.ident}/spec-del-ejemplo.md')
         readme = self.root / 'examples/notas/README.md'
         readme.write_text(readme.read_text() + '\nUna línea más.\n')
         tarea = self.root / 'tareas' / self.ident / 'TAREA.md'
@@ -214,28 +229,45 @@ class Cruce(_ap.Base):
         self.assertEqual(datos['base'], self.git('merge-base', 'HEAD', 'main'))
         notas = 'examples/notas/notas.py'
         respaldadas = datos['requisitos'][self.rid]['lineas'][notas]
-        self.assertEqual(respaldadas, [numero(NOTAS, 'limpio = '), numero(NOTAS, 'return bool(limpio)')])
+        # decorada: la traza ve el decorador, y el def (con su firma nueva) cuenta como ejecutado con él
+        self.assertEqual(respaldadas, [numero(NOTAS, '@functools'), numero(NOTAS, 'def puede_guardar'),
+                                       numero(NOTAS, 'limpio = '), numero(NOTAS, 'return bool(limpio)')])
         self.assertEqual(datos['requisitos'][self.rid]['casos'],
                          [{'caso': 'test_notas.Notas.test_acepta_titulo_con_texto', 'resultado': 'ok'}])
         self.assertEqual(datos['sin_respaldo'], {
             notas: [numero(NOTAS, 'def largo'), numero(NOTAS, 'return len')],
             'examples/notas/con espacio.py': [1, 2],  # el nombre llega exacto, sin tabulador ni comillas
             'examples/notas/utilidades.py': [numero(UTIL, 'return a - b')]})  # renombrado: sólo lo que cambió
-        self.assertEqual(datos['borrados'], ['examples/notas/sensor.py'])
-        self.assertEqual(datos['al_importar'], {notas: [numero(NOTAS, 'MAXIMO')]})
+        # borrado, y movido fuera del producto (a tareas/): para el producto, los dos se fueron
+        self.assertEqual(datos['borrados'], ['examples/notas/sensor.py', 'examples/notas/spec.md'])
+        self.assertEqual(datos['al_importar'], {notas: [numero(NOTAS, 'import functools'), numero(NOTAS, 'MAXIMO')]})
         comentario = numero(NOTAS, '# Un comentario')
         self.assertNotIn(comentario, respaldadas + datos['sin_respaldo'][notas])
         self.assertEqual(datos['no_rastreables'], ['examples/notas/README.md'])
         otra = self.git('rev-parse', 'HEAD~3')  # otra base, anterior a la de main
         self.assertEqual(json.loads(self.correr('trazabilidad', self.ident, '--json', '--base', otra)[1])['base'], otra)
+        # main avanza con un registro y se mezcla en la rama: HEAD tiene otra base, el candidato sigue con la suya.
+        base = datos['base']
+        self.git('checkout', '-q', 'main')
+        (self.root / 'tareas' / 'nota-en-main.md').write_text('registro\n')
+        self.git('add', '.')
+        self.git('commit', '-qm', 'registro en main')
+        self.git('checkout', '-q', 'tarea')
+        self.git('merge', '-q', '--no-edit', 'main')
+        self.assertNotEqual(self.git('merge-base', 'HEAD', 'main'), base)
+        self.assertEqual(json.loads(self.correr('trazabilidad', self.ident, '--json')[1])['base'], base)
+        # una clase definida dentro de una función corre cuando la función se llama, no al importar
+        local = trazabilidad.lineas_ejecutables('def f():\n    class L:\n        z = 1\n    return L\n')
+        self.assertEqual((local[0], local[1]), ({1, 2, 3, 4}, set()))
         # Un hunk que sólo borra no agrega líneas; y cada requisito ve sólo las líneas de sus casos.
         self.assertEqual(trazabilidad.lineas_agregadas('@@ -3,2 +2,0 @@\n'), set())
         dos = trazabilidad.cruzar({'requisitos': {'r1': ['c1'], 'r2': ['c2']},
                                    'casos': {'c1': {'lineas': {'a.py': [1]}}, 'c2': {'lineas': {'a.py': [2]}}}},
-                                  {'a.py': {1, 2}}, {'a.py': ({1, 2}, set())})
+                                  {'a.py': {1, 2}}, {'a.py': ({1, 2}, set(), {})})
         self.assertEqual((dos['requisitos']['r1']['lineas'], dos['requisitos']['r2']['lineas']), ({'a.py': [1]}, {'a.py': [2]}))
         _, texto, _ = self.correr('trazabilidad', self.ident)
-        self.assertIn(f'{notas}: {numero(NOTAS, "limpio = ")}-{numero(NOTAS, "return bool(limpio)")}', texto)
+        self.assertIn(f'{notas}: {numero(NOTAS, "@functools")}-{numero(NOTAS, "def puede_guardar")}, '
+                      f'{numero(NOTAS, "limpio = ")}-{numero(NOTAS, "return bool(limpio)")}', texto)
         self.assertIn(f'{notas}: {numero(NOTAS, "def largo")}-{numero(NOTAS, "return len")}', texto)
 
     def test_tz2_sin_trazabilidad_en_la_evidencia(self):
