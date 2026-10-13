@@ -1,0 +1,408 @@
+{
+  "id": "20261013-011811-abandonar",
+  "titulo": "Abandonar un cambio con motivo, decidido por una persona",
+  "capacidad": "archivo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
+  "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T01:19:08+00:00",
+    "documentos": {
+      "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
+      "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
+    }
+  },
+  "requisitos": [
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/informe.json",
+    "sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
+    "decisiones": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/decisiones.json",
+    "decisiones_sha256": "1b726ecd977c7c16dbee9fcec0e306a9b6bd62bed4cd4f5b5863094721b0caf4",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T09:57:14+00:00",
+    "motivo": "tres vueltas de codex y agy: 6 defectos distintos en las dos primeras (cierre y nota del tracker, corte entre registro y borrado, donde con registro mínimo, pruebas faltantes, singular del resumen), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "420a2c1d77cb65bdcea1da924e381aa1cc5959a5",
+      "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-011811-abandonar/candidatos/a3fbbef/evidencia/hechos.json",
+    "hechos_sha256": "e9294c94b6a229bd18687304cad3a218f3b8466cfbca0bd79296ce8f88113a98",
+    "informe": ".factory/cambios/20261013-011811-abandonar/oracle-veredicto.txt",
+    "informe_sha256": "4f98f4360d0fe2adff1936f6da3e70c1f6eef5b511816eaeaacb6059872232f0",
+    "cuando": "2026-10-13T09:57:27+00:00",
+    "contexto": {
+      "head": "d1a242c4e40bd5d850c3424680857e56514d2d41",
+      "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T01:18:11+00:00",
+      "capacidad": "archivo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T01:19:08+00:00",
+      "documentos": {
+        "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
+        "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T01:25:29+00:00",
+      "ids": [
+        "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+        "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+        "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+        "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+      "medidas": [
+        "factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "medidas": [
+        "factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+      "medidas": [
+        "factory_abandonar.el_resumen_muestra_lo_abandonado_aparte",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T01:34:32+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona",
+      "medidas": [
+        "factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona",
+        "factory_abandonar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo",
+      "medidas": [
+        "factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo",
+        "factory_abandonar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte",
+      "medidas": [
+        "factory_abandonar.el_resumen_muestra_lo_abandonado_aparte",
+        "factory_abandonar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "medidas": [
+        "factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido",
+        "factory_abandonar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "requisito": "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona",
+      "medidas": [
+        "factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona",
+        "factory_abandonar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T01:42:12+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "05c64dc",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T01:56:38+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "05c64dc",
+      "resultado": "ok",
+      "hallazgos": 5
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T02:01:52+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "dba4c66",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T02:15:10+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "dba4c66",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T02:16:58+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a3fbbef",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T02:28:14+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "a3fbbef",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T02:30:10+00:00",
+      "decision": "aprobar",
+      "candidato": "a3fbbef"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T02:30:17+00:00",
+      "decision": "aprobar",
+      "candidato": "a3fbbef"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T09:57:14+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
+      "decisiones_sha256": "1b726ecd977c7c16dbee9fcec0e306a9b6bd62bed4cd4f5b5863094721b0caf4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:27+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e9294c94b6a229bd18687304cad3a218f3b8466cfbca0bd79296ce8f88113a98"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:48+00:00",
+      "oracle": ".factory/cambios/20261013-011811-abandonar/oracle-veredicto.txt",
+      "revision": "tareas/20261013-011811-abandonar/revisiones/registro-ta1s3qt2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:48+00:00",
+      "capacidad": "archivo",
+      "spec": "openspec/specs/archivo/spec.md"
+    }
+  ],
+  "tipos": {
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo": "funcional",
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte": "funcional",
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido": "funcional",
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona": "funcional"
+  },
+  "medidas": {
+    "archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "sha256": "ac2638d8d793af49de2098bdc573ffbb980ac2065fa7757f1985aab4a68e1374"
+    },
+    "archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "sha256": "6a410ec473e1e499c35acc3e61f143e2ef35f8df340b6e846a9eda27f7428619"
+    },
+    "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "sha256": "53ca5e4f028974e8d87aa2b9f9668fb76b18d36962052421be7b20a1d2a29554"
+    },
+    "archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T01:39:23+00:00",
+      "sha256": "ec851504f25d98aecd5d3840fe6dfe8c66da24cc546df5cba267d2550b9b7a36"
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T09:57:48+00:00"
+  },
+  "archivo": {
+    "capacidad": "archivo",
+    "spec": "openspec/specs/archivo/spec.md",
+    "cuando": "2026-10-13T09:57:48+00:00"
+  }
+}

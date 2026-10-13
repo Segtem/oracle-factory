@@ -1,0 +1,4 @@
+requisito archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona:
+    texto "Tipo: funcional Sobre una carpeta de `openspec/changes/` sin registro de Factory, `abandonar` SHALL crear un registro mínimo en la fase abandonada, con la misma decisión de persona y motivo, y el resumen SHALL dejar de listarla como carpeta sin registro."
+    fuente "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md#una carpeta sin registro también se abandona"
+    medido_por factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona, factory_abandonar.corrida_completa

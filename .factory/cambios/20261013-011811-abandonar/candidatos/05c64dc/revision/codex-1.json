@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/05c64dc",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "05c64dc32d0b4b8a8511c5b554e079e27b32a625",
+  "diff_sha256": "e8a8dcee28a481543c7f525417aba0fdce3e90f05a92de343c1691c89efc66f0",
+  "context_sha256": "9b55cc4edb4a75379a9078e79918138467515d5026880cddf84e76d196b2b085",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "abandonar-fallo-cierre-tracker-deja-nota-parcial",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Si falla el cierre del tracker, queda una nota de abandono en una tarea todavía abierta",
+      "explanation": "La operación modifica el tracker en dos llamadas separadas: primero registra la nota de abandono y después intenta cerrar la tarea. Si `tasks note` tiene éxito y `tasks close` falla, el comando sale con error antes de guardar el registro abandonado o quitar requisitos, pero la nota ya quedó en la tarea abierta. El estado del tracker y Factory quedan divergentes y el reintento vuelve a agregar otra nota. Esto contradice la expectativa de que un fallo del tracker no deje el abandono a medias.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1551,
+        "end_line": 1556,
+        "side": "head"
+      },
+      "trigger": "Con una tarea abierta, hacer que `tasks note` devuelva éxito y que la llamada siguiente `tasks close` devuelva un código distinto de cero; ejecutar `oracle-factory abandonar ID` y observar que el registro siga abierto y los requisitos sigan presentes, mientras la tarea conserva la nota «Abandonado por una persona».",
+      "evidence": "El bloque llama a `nota_tarea` antes de `ejecutar([\"tasks\", \"close\", ...])`. `nota_tarea` lanza error sólo si su propia llamada falla; el fallo posterior de cierre lanza otro error sin revertir la nota. Las pruebas de `test_abandonar` cubren el cierre exitoso, pero no inyectan un fallo entre estas dos llamadas.",
+      "related_requirement": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "status": "pendiente",
+      "verification": "Inspección estática del orden de escrituras y del tratamiento de `returncode`. Corrí el comando unitario solicitado: pasó (40 pruebas). No inyecté un fallo del tracker ni hice mutaciones."
+    },
+    {
+      "id": "abandonar-corte-tras-registro-deja-requisitos-vigentes",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un corte después de guardar la fase abandonada puede dejar sus requisitos en `requisitos/` sin vía de recuperación",
+      "explanation": "El registro se guarda como `abandonada` antes de borrar los archivos de requisito. Si el proceso se interrumpe entre `guardar` y el bucle de `unlink`, permanecen los archivos en `requisitos/` aunque el registro afirme que fueron quitados. Al repetir `abandonar`, `abierto()` rechaza el cambio por su fase terminal, así que el comando no completa la limpieza. El requisito de sacar los archivos de `requisitos/` queda incumplido y el estado parcial no tiene recuperación automática.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1560,
+        "end_line": 1566,
+        "side": "head"
+      },
+      "trigger": "Interrumpir el proceso inmediatamente después de que `guardar(carpeta, estado)` escriba la fase `abandonada` y antes de que ejecute el primer `unlink`; luego comprobar que los archivos aún existen y volver a ejecutar `abandonar ID`.",
+      "evidence": "Las líneas guardan primero `fase = \"abandonada\"` y `requisitos_quitados`, y sólo después borran cada archivo. La siguiente ejecución pasa por `abierto(identificador)`, que rechaza la fase abandonada antes de alcanzar la limpieza. `test_abandonar` sólo cubre el recorrido completo y no simula interrupciones entre las escrituras.",
+      "related_requirement": "archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido",
+      "status": "pendiente",
+      "verification": "Inspección estática del orden de persistencia, borrado y validación de fase. Corrí el comando unitario solicitado: pasó (40 pruebas). No simulé una interrupción ni hice mutaciones."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y el código/tests del checkout candidato.",
+    "Corrí exactamente `timeout 200 /home/workstation/Dev/factory-abandonar/.venv/bin/python -m unittest tests.test_abandonar tests.test_archivo tests.test_resumen </dev/null` desde la raíz del checkout; resultado: 40 pruebas, OK.",
+    "No corrí `tools/verify_*.py`, la suite completa ni Oracle. No hice mutaciones ni pruebas de fallo/corte; los dos hallazgos se derivan del orden observable de las escrituras y sus rutas de error.",
+    "El escenario de carpeta mínima prueba estado, donde, listar y resumen; no prueba buscar específicamente. No encontré en el código de búsqueda un defecto concreto para informar."
+  ]
+}

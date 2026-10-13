@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9a8c2571f23192fbfcadbd7670af36636e10118aef6edfe521f5e8410ba32a77 -->
+<!-- oracle-factory resumen sha256:9d276fe779228a8a9eaed3da36d070e6e10f7c2bbbeb9b6c322ec55f972cead9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-13 capacidades · 91 requisitos vigentes · 6 cambios abiertos
+13 capacidades · 95 requisitos vigentes · 6 cambios abiertos
 
 ## Lo vigente
 
@@ -22,6 +22,10 @@ Spec completa: [openspec/specs/archivo/spec.md](../openspec/specs/archivo/spec.m
 | una capacidad con un solo nombre | funcional | `archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre` | factory_archivo.una_capacidad_con_un_solo_nombre, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
 | este repositorio queda archivado | no funcional | `archivo_cbf6802991c3ba673.este_repositorio_queda_archivado` | factory_archivo.este_repositorio_queda_archivado, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
 | los comandos de lectura muestran el archivo | funcional | `archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo` | factory_archivo.los_comandos_de_lectura_muestran_el_archivo, factory_archivo.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-161029-archivar-al |
+| abandonar es una decisión de persona con motivo | funcional | `archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo` | factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo, factory_abandonar.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-011811-abandonar |
+| lo abandonado no queda abierto ni medido | funcional | `archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido` | factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido, factory_abandonar.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-011811-abandonar |
+| el resumen muestra lo abandonado aparte | funcional | `archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte` | factory_abandonar.el_resumen_muestra_lo_abandonado_aparte, factory_abandonar.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-011811-abandonar |
+| una carpeta sin registro también se abandona | funcional | `archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona` | factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona, factory_abandonar.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-011811-abandonar |
 
 ### autoproduccion
 
@@ -367,3 +371,16 @@ Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `
 - (20261012-214104-ruta-vigente) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa.
 - (20261012-214104-ruta-vigente) codex (gpt-6-luna): Revisé la rama de cambios locales de producto en candidato_vigente(): retorna None ante producto modificado, en índice o nuevo; comando_ruta entonces usa HEAD. No hay un test directo de esa rama sin commit; el caso de cambio de producto probado sí está commiteado.
 - (20261012-214104-ruta-vigente) codex (gpt-6-luna): No hice mutaciones sobre copias. No encontré un defecto confirmado en el diff revisado.
+- (20261013-011811-abandonar) Evidencia: Escenarios ab1–ab4 en repositorios temporales, Linux, con la terminal y las respuestas del menú simuladas. No prueba el abandono de los cambios viejos de este repositorio: eso lo decide una persona después de integrar.
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias tests/test_abandonar.py, tests/test_archivo.py, tests/test_resumen.py y tests/test_estructura.py con el comando exacto requerido en primer plano desde la raíz del checkout con timeout 300 e intérprete .venv/bin/python: 76 pruebas ejecutadas exitosamente (OK en 33.1 s).
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): No se ejecutaron tools/verify_*.py ni la suite completa de pruebas, conforme a la instrucción expresa de la solicitud de revisión.
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo de la vuelta anterior (codex-1 en dba4c66): si la nota falla tras cerrar la tarea en el tracker, se interrumpe la ejecución mediante FactoryError antes de modificar el estado en Factory, garantizando que el cambio permanezca abierto y que una repetición de oracle-factory abandonar complete el proceso sin reintentar el cierre de la tarea ni duplicar la nota en TAREA.md (verificado mediante la prueba test_ab2_si_la_nota_falla_se_completa_al_repetir).
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): Se comprobó que todos los hallazgos de las vueltas 05c64dc y dba4c66 permanecen resueltos sin regresiones: preservación de decisión humana y requisito de terminal interactiva, soporte de registros mínimos sin spec para carpetas sin registro, coherencia en los comandos de lectura (estado, donde, resumen, listar, ruta) y rechazo consistente de comandos modificadores (medir, juzgar, cerrar, modo, importar, aprobar-spec, revisar, pedir-revision) sobre cambios abandonados.
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manuales en un arnés aislado fuera del checkout (mutaciones de comprobación de ESTADO: CERRADA, duplicación de nota, tragar fallo de nota_tarea, omitir verificación de fase abandonada en abierto() y proximo_paso(), y manejo de abandonados en resumen), verificando que la suite cubre adecuadamente la lógica del cambio.
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): El checkout candidato a3fbbef permaneció en modo sólo lectura sin modificaciones (git status --short sin cambios).
+- (20261013-011811-abandonar) agy (gemini-3.8-flash-high): Al no detectarse defectos restantes, la lista de hallazgos se reporta vacía.
+- (20261013-011811-abandonar) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: timeout 300 /home/workstation/Dev/factory-abandonar/.venv/bin/python -m unittest tests.test_abandonar tests.test_archivo tests.test_resumen tests.test_estructura </dev/null; resultado: 76 pruebas, OK (33.401 s).
+- (20261013-011811-abandonar) codex (gpt-6-luna): No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción de revisión.
+- (20261013-011811-abandonar) codex (gpt-6-luna): Se contrastaron los escenarios de la spec con el código y las pruebas añadidas, y se revisaron los hallazgos de las vueltas 05c64dc y dba4c66: cierre fallido del tracker, nota fallida con reintento, corte posterior al registro, terminal/persona, registro mínimo y gates de lectura.
+- (20261013-011811-abandonar) codex (gpt-6-luna): No se ejecutaron mutaciones manuales sobre copias. El checkout candidato no quedó modificado (git status --short sin salida).
+- (20261013-011811-abandonar) codex (gpt-6-luna): La revisión independiente no es un veredicto de Oracle ni prueba propiedades fuera de los requisitos cubiertos y de las pruebas indicadas; no se encontró un defecto restante con evidencia suficiente.

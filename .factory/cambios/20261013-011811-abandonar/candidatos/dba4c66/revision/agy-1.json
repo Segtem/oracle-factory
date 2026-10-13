@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/dba4c66",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "dba4c6609a86bae6b9989a215c3756e01d03244c",
+  "diff_sha256": "e363d36480d82a1f1cce3d1e5e38bb764b634621456064ed59e80cfda28bbc39",
+  "context_sha256": "2731483ace7d4d67a8a8746cfe2c7e9f1dad5969e8f3bff2bf3896e1c1b6647f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias tests/test_abandonar.py, tests/test_archivo.py, tests/test_resumen.py y tests/test_estructura.py con el comando exacto requerido bajo timeout 300 e intérprete .venv/bin/python desde la raíz del checkout (75 pruebas, OK).",
+    "Se verificó la resolución de los hallazgos de la primera vuelta (agy-1 a agy-5 y codex-1): el tracker ahora se cierra con tasks close antes de intentar registrar la nota de abandono; un corte entre guardar el registro abandonado y la eliminación de archivos se recupera y completa limpiamente al repetir oracle-factory abandonar; el comando de lectura donde ya no reporta gate spec como no válido en registros mínimos de carpetas sin registro; se agregaron las pruebas para el rechazo sin terminal interactiva y la comprobación de actor y fecha en el resumen; y se corrigió la pluralización en el encabezado del resumen mediante _n.",
+    "Se evaluaron mutaciones manuales en un arnés de prueba aislado (omisión de actor o fecha en el resumen, pluralización fija, adición de gate spec en donde para registros mínimos, omisión de la recuperación ante cortes en repetir abandonar, omisión de exigir_terminal y registro prematuro de nota en tarea), confirmando que las pruebas matan todas estas mutaciones.",
+    "Se evaluó el comportamiento de los comandos de modificación (medir, juzgar, cerrar, abandonar, modo, aprobar-spec, importar, revision-preparar, pedir-revision, revision) sobre cambios abandonados y registros mínimos, confirmando que abierto() los rechaza coherentemente sin alterar el repositorio.",
+    "Se evaluó el comportamiento de los comandos de lectura (estado, donde, buscar, listar, resumen, ruta) tanto para cambios abandonados con requisitos importados como para registros mínimos de carpetas sin registro, verificando que no fallen ni presenten estados corruptos o inconsistentes.",
+    "No se encontraron nuevos defectos, regresiones ni discrepancias respecto a la propuesta y la spec; la lista de hallazgos se entrega vacía.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa de pruebas (discover completo) por indicación expresa del pedido de revisión.",
+    "No se realizaron modificaciones sobre el checkout bajo revisión (/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/dba4c66)."
+  ],
+  "findings": []
+}

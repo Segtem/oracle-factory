@@ -35,6 +35,10 @@ def _celda(texto) -> str:
     return str(texto).replace('\\', '\\\\').replace('|', '\\|').replace('\n', ' ')
 
 
+def _n(cantidad: int, singular: str, plural: str) -> str:
+    return f'{cantidad} {singular if cantidad == 1 else plural}'
+
+
 def _agrupar(pendientes: list[str]) -> list[str]:
     """Junta las líneas de medidas que dicen lo mismo de varios requisitos («7 requisitos: …»)."""
     grupos: dict[str, int] = {}
@@ -65,7 +69,8 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
     cuerpo = ['# Estado actual', '',
               'Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. '
               '`oracle-factory resumen --verificar` dice si quedó viejo.', '',
-              f'{len(indices)} capacidades · {total} requisitos vigentes · {len(abiertos)} cambios abiertos', '',
+              f'{_n(len(indices), "capacidad", "capacidades")} · {_n(total, "requisito vigente", "requisitos vigentes")} · '
+              f'{_n(len(abiertos), "cambio abierto", "cambios abiertos")}', '',
               '## Lo vigente', '',
               'El veredicto es el registrado al cerrar el cambio de origen, no una corrida nueva de Oracle sobre todo el sistema.']
     for indice in indices:
@@ -85,6 +90,13 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
                    f"Fase `{a['fase']}` · modo `{a['modo']}` · capacidad `{a['capacidad']}` · "
                    f"[propuesta]({raiz_relativa}openspec/changes/{a['id']}/proposal.md)", '']
         cuerpo += [f'- {_celda(p)}' for p in _agrupar(a['pendientes'])] or ['- Nada: listo para cerrar.']
+    abandonados = sorted((r for r in registros.values() if r.get('fase') == 'abandonada'), key=lambda r: r['id'])
+    if abandonados:
+        cuerpo += ['', '## Cambios abandonados', '', 'No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.', '']
+        for r in abandonados:
+            a = r.get('abandono') or {}
+            cuerpo.append(f"- **{r['id']}** — {_celda(r.get('titulo', ''))}: {_celda(a.get('motivo', 'sin motivo'))} "
+                          f"({_celda(a.get('actor', '?'))}, {a.get('cuando', '')[:10]})")
     if sin_registro:
         cuerpo += ['', 'Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): '
                    + ', '.join(f'`{c}`' for c in sin_registro) + '.']

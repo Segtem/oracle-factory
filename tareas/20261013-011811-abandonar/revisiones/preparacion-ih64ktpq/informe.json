@@ -1,0 +1,101 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261013-011811-abandonar",
+  "contexto": {
+    "head": "ca6ea1d83054c2fcfcc39732970119bf70081c66",
+    "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
+  },
+  "documentos": {
+    "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
+    "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/agy-1.json",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/codex-1.json",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/agy-1.json",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/agy-1.pedido.md",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/codex-1.json",
+    ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/codex-1.pedido.md",
+    ".factory/cambios/20261013-011811-abandonar/factory.json",
+    ".factory/resumen.md",
+    "README.md",
+    "catalogos/factory_abandonar.abandonar_es_una_decision_de_persona_con_motivo.oracle",
+    "catalogos/factory_abandonar.corrida_completa.oracle",
+    "catalogos/factory_abandonar.el_resumen_muestra_lo_abandonado_aparte.oracle",
+    "catalogos/factory_abandonar.lo_abandonado_no_queda_abierto_ni_medido.oracle",
+    "catalogos/factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona.oracle",
+    "docs/estructura.md",
+    "openspec/changes/20261013-011811-abandonar/design.md",
+    "openspec/changes/20261013-011811-abandonar/proposal.md",
+    "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
+    "openspec/changes/20261013-011811-abandonar/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "oracle_factory/resumen.py",
+    "requisitos/archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo.requisito",
+    "requisitos/archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte.requisito",
+    "requisitos/archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido.requisito",
+    "requisitos/archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona.requisito",
+    "tareas/20261013-011811-abandonar/TAREA.md",
+    "tests/test_abandonar.py",
+    "tools/verify_abandonar.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 310 pruebas, 12 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/a3fbbef/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/a3fbbef/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/a3fbbef/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 05c64dc: agy (gemini-3.8-flash-high), 5 hallazgos: agy-1 (alta), agy-2 (alta), agy-3 (media), agy-4 (media), agy-5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 05c64dc: codex (gpt-6-luna), 2 hallazgos: abandonar-fallo-cierre-tracker-deja-nota-parcial (media), abandonar-corte-tras-registro-deja-requisitos-vigentes (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/05c64dc/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato dba4c66: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato dba4c66: codex (gpt-6-luna), 1 hallazgo: abandonar-fallo-nota-tracker-deja-cambio-sin-nota (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261013-011811-abandonar/candidatos/dba4c66/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios ab1–ab4 en repositorios temporales, Linux, con la terminal y las respuestas del menú simuladas. No prueba el abandono de los cambios viejos de este repositorio: eso lo decide una persona después de integrar.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias tests/test_abandonar.py, tests/test_archivo.py, tests/test_resumen.py y tests/test_estructura.py con el comando exacto requerido en primer plano desde la raíz del checkout con timeout 300 e intérprete .venv/bin/python: 76 pruebas ejecutadas exitosamente (OK en 33.1 s).",
+    "agy (gemini-3.8-flash-high): No se ejecutaron tools/verify_*.py ni la suite completa de pruebas, conforme a la instrucción expresa de la solicitud de revisión.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo de la vuelta anterior (codex-1 en dba4c66): si la nota falla tras cerrar la tarea en el tracker, se interrumpe la ejecución mediante FactoryError antes de modificar el estado en Factory, garantizando que el cambio permanezca abierto y que una repetición de oracle-factory abandonar complete el proceso sin reintentar el cierre de la tarea ni duplicar la nota en TAREA.md (verificado mediante la prueba test_ab2_si_la_nota_falla_se_completa_al_repetir).",
+    "agy (gemini-3.8-flash-high): Se comprobó que todos los hallazgos de las vueltas 05c64dc y dba4c66 permanecen resueltos sin regresiones: preservación de decisión humana y requisito de terminal interactiva, soporte de registros mínimos sin spec para carpetas sin registro, coherencia en los comandos de lectura (estado, donde, resumen, listar, ruta) y rechazo consistente de comandos modificadores (medir, juzgar, cerrar, modo, importar, aprobar-spec, revisar, pedir-revision) sobre cambios abandonados.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manuales en un arnés aislado fuera del checkout (mutaciones de comprobación de ESTADO: CERRADA, duplicación de nota, tragar fallo de nota_tarea, omitir verificación de fase abandonada en abierto() y proximo_paso(), y manejo de abandonados en resumen), verificando que la suite cubre adecuadamente la lógica del cambio.",
+    "agy (gemini-3.8-flash-high): El checkout candidato a3fbbef permaneció en modo sólo lectura sin modificaciones (git status --short sin cambios).",
+    "agy (gemini-3.8-flash-high): Al no detectarse defectos restantes, la lista de hallazgos se reporta vacía.",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: timeout 300 /home/workstation/Dev/factory-abandonar/.venv/bin/python -m unittest tests.test_abandonar tests.test_archivo tests.test_resumen tests.test_estructura </dev/null; resultado: 76 pruebas, OK (33.401 s).",
+    "codex (gpt-6-luna): No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción de revisión.",
+    "codex (gpt-6-luna): Se contrastaron los escenarios de la spec con el código y las pruebas añadidas, y se revisaron los hallazgos de las vueltas 05c64dc y dba4c66: cierre fallido del tracker, nota fallida con reintento, corte posterior al registro, terminal/persona, registro mínimo y gates de lectura.",
+    "codex (gpt-6-luna): No se ejecutaron mutaciones manuales sobre copias. El checkout candidato no quedó modificado (git status --short sin salida).",
+    "codex (gpt-6-luna): La revisión independiente no es un veredicto de Oracle ni prueba propiedades fuera de los requisitos cubiertos y de las pruebas indicadas; no se encontró un defecto restante con evidencia suficiente."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

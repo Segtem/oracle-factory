@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-abandonar/.factory/local/revisiones/a3fbbef",
+  "base": "00fbda0cf9859f0cb426ffabec4eb9b61f4b8801",
+  "head": "a3fbbef812c317770911ba0f6445baf06dfd0fe6",
+  "diff_sha256": "85619fbca607e6a78b38a37de82774163151f0839e1558ec0efa68277d27b644",
+  "context_sha256": "ce0760d684048acaf9ca60f2e075fd872a8f8eb49a4db46ae93e38ce304bfbe5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente desde la raíz del checkout: timeout 300 /home/workstation/Dev/factory-abandonar/.venv/bin/python -m unittest tests.test_abandonar tests.test_archivo tests.test_resumen tests.test_estructura </dev/null; resultado: 76 pruebas, OK (33.401 s).",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción de revisión.",
+    "Se contrastaron los escenarios de la spec con el código y las pruebas añadidas, y se revisaron los hallazgos de las vueltas 05c64dc y dba4c66: cierre fallido del tracker, nota fallida con reintento, corte posterior al registro, terminal/persona, registro mínimo y gates de lectura.",
+    "No se ejecutaron mutaciones manuales sobre copias. El checkout candidato no quedó modificado (git status --short sin salida).",
+    "La revisión independiente no es un veredicto de Oracle ni prueba propiedades fuera de los requisitos cubiertos y de las pruebas indicadas; no se encontró un defecto restante con evidencia suficiente."
+  ]
+}
