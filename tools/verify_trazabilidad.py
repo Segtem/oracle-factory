@@ -24,8 +24,7 @@ CONTRACTS = {
 }
 PREFIX = 'test_trazabilidad.'
 LIMITES = ('Escenarios tz1–tz3 en repositorios temporales, Linux, con casos reales trazados. La trazabilidad de este '
-           'cambio es la de sus propios casos: ejecutar una línea no prueba que sea correcta, y lo que corre en otro proceso no se traza. '
-           'Los casos tz1 trazan por su cuenta: mientras lo hacen, la traza de afuera no ve lo que ejecutan.')
+           'cambio es la de sus propios casos: ejecutar una línea no prueba que sea correcta, y lo que corre en otro proceso no se traza.')
 
 
 def fuentes():

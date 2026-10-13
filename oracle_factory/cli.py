@@ -1803,7 +1803,7 @@ def datos_donde(identificador: str, candidato: str | None) -> dict:
                            for fila in estructura.donde(ROOT, identificador, estado, candidato)]}
 
 
-def datos_trazabilidad(identificador: str) -> dict:
+def datos_trazabilidad(identificador: str, base: str | None = None) -> dict:
     """La trazabilidad del candidato vigente: lo que dejó el sensor, cruzado con el diff contra la base."""
     leer(identificador)
     sha = candidato_vigente(identificador)
@@ -1817,24 +1817,37 @@ def datos_trazabilidad(identificador: str) -> dict:
     trazas = json.loads(ruta.read_text(encoding="utf-8"))
     if not isinstance(trazas, dict) or trazas.get("esquema") != trazabilidad_mod.ESQUEMA_CASOS:
         raise FactoryError(f"{ruta.relative_to(ROOT)} no es una trazabilidad de casos ({trazabilidad_mod.ESQUEMA_CASOS})")
-    p = ejecutar(["git", "merge-base", "HEAD", "main"])
+    candidato = ejecutar(["git", "rev-parse", sha]).stdout.strip()
+    # La base es la del candidato (no la de HEAD), como el paquete de pedir-revision; --base la cambia.
+    p = ejecutar(["git", "merge-base", candidato, base or "main"])
     if p.returncode:
-        raise FactoryError("no encuentro la rama main para la base del diff")
-    base, candidato = p.stdout.strip(), ejecutar(["git", "rev-parse", sha]).stdout.strip()
-    diff = ejecutar(["git", "diff", "-U0", "--no-renames", "--no-color", base, candidato])
-    if diff.returncode:
-        raise FactoryError(f"git diff falló: {diff.stderr.strip()[:300]}")
-    cambios = {a: ls for a, ls in trazabilidad_mod.cambios_del_diff(diff.stdout).items() if es_producto(a)}
-    ejecutables = {}
-    for archivo in cambios:  # el archivo como está en el candidato, no en el árbol de trabajo
-        texto = ejecutar(["git", "show", f"{candidato}:{archivo}"]) if archivo.endswith(".py") else None
-        ejecutables[archivo] = trazabilidad_mod.lineas_ejecutables(texto.stdout) if texto and not texto.returncode else None
+        raise FactoryError(f"no encuentro la base del diff ({base or 'main'}): indicá otra con --base REF")
+    base = p.stdout.strip()
+    # Nombres exactos (-z, sin comillas ni tabuladores) y renombres detectados: un archivo movido no es uno nuevo entero.
+    lista = ejecutar(["git", "diff", "--name-status", "-z", "-M", base, candidato])
+    if lista.returncode:
+        raise FactoryError(f"git diff falló: {lista.stderr.strip()[:300]}")
+    cambios, borrados, ejecutables = {}, [], {}
+    for archivo in trazabilidad_mod.archivos_cambiados(lista.stdout):
+        if not es_producto(archivo["ruta"]):
+            continue
+        if archivo["estado"] == "D":
+            borrados.append(archivo["ruta"])
+            continue
+        rutas = [archivo["origen"], archivo["ruta"]] if archivo["origen"] else [archivo["ruta"]]
+        diff = ejecutar(["git", "diff", "-U0", "-M", "--no-color", base, candidato, "--", *rutas])
+        cambios[archivo["ruta"]] = trazabilidad_mod.lineas_agregadas(diff.stdout)
+        # El archivo como está en el candidato, no en el árbol de trabajo.
+        texto = ejecutar(["git", "show", f"{candidato}:{archivo['ruta']}"]) if archivo["ruta"].endswith(".py") else None
+        ejecutables[archivo["ruta"]] = (trazabilidad_mod.lineas_ejecutables(texto.stdout)
+                                        if texto is not None and not texto.returncode else None)
     return {"esquema": trazabilidad_mod.ESQUEMA, "id": identificador, "candidato": sha, "base": base,
-            "trazabilidad": ruta.relative_to(ROOT).as_posix(), **trazabilidad_mod.cruzar(trazas, cambios, ejecutables)}
+            "trazabilidad": ruta.relative_to(ROOT).as_posix(),
+            **trazabilidad_mod.cruzar(trazas, cambios, ejecutables, borrados)}
 
 
-def comando_trazabilidad(identificador: str, como_json: bool) -> None:
-    datos = datos_trazabilidad(identificador)
+def comando_trazabilidad(identificador: str, como_json: bool, base: str | None = None) -> None:
+    datos = datos_trazabilidad(identificador, base)
     if como_json:
         imprimir_json(datos)
         return
@@ -1851,8 +1864,14 @@ def comando_trazabilidad(identificador: str, como_json: bool) -> None:
         print(f"  {archivo}: {rangos(lineas)}")
     if not datos["sin_respaldo"]:
         print("  ninguna")
+    if datos["al_importar"]:
+        print("Corren al importar (antes de los casos; sin decir si tienen respaldo):")
+        for archivo, lineas in datos["al_importar"].items():
+            print(f"  {archivo}: {rangos(lineas)}")
     if datos["no_rastreables"]:
         print("No rastreables (no son Python o no compilan): " + ", ".join(datos["no_rastreables"]))
+    if datos["borrados"]:
+        print("Borrados: " + ", ".join(datos["borrados"]))
     for limite in datos["limites"]:
         print(f"Límite: {limite}.")
 
@@ -2527,6 +2546,7 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('trazabilidad', help='por requisito, las líneas cambiadas del candidato que ejecutan sus casos, y las que '
                        'no ejecuta ninguno (sólo lectura)')
     q.add_argument('id'); q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
+    q.add_argument('--base', help='base del diff (por defecto, el merge-base del candidato con main)')
     q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
@@ -2599,7 +2619,7 @@ def main(argv: list[str] | None = None) -> int:
             imprimir_json(resumen.datos(*insumos_resumen()))
         elif args.comando == "resumen": comando_resumen(args.verificar, args.salida, args.ver)
         elif args.comando == "pedir-revision": pedir_revision(args.id, args.revisor, args.pedir, args.base)
-        elif args.comando == "trazabilidad": comando_trazabilidad(args.id, args.json)
+        elif args.comando == "trazabilidad": comando_trazabilidad(args.id, args.json, args.base)
         elif args.comando == "donde" and args.json: imprimir_json(datos_donde(args.id, args.candidato))
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)

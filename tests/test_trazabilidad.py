@@ -25,6 +25,15 @@ def triple(x):
 def externo(x):
     import ext_tz
     return ext_tz.uno(x)
+
+
+def en_hilo(x):
+    import threading
+    salida = []
+    hilo = threading.Thread(target=lambda: salida.append(triple(x)))
+    hilo.start()
+    hilo.join()
+    return salida[0]
 '''
 PRUEBAS = '''import unittest
 from modulo_tz import doble, triple
@@ -43,6 +52,10 @@ class T(unittest.TestCase):
     def test_externo(self):
         from modulo_tz import externo
         self.assertEqual(externo(1), 1)
+
+    def test_en_hilo(self):
+        from modulo_tz import en_hilo
+        self.assertEqual(en_hilo(1), 3)
 '''
 
 
@@ -82,18 +95,27 @@ class Trazar(unittest.TestCase):
     def test_tz1_dos_requisitos_con_sus_casos(self):
         afuera = sys.gettrace()  # bajo el sensor de Factory, su traza
 
+        vistas = set()  # lo que ve quien ya trazaba: tiene que seguir viéndolo mientras trazar traza
+
         def marca(frame, evento, arg):
+            if frame.f_code.co_filename.endswith('modulo_tz.py'):
+                vistas.add(frame.f_code.co_name)
             return None
-        sys.settrace(marca)  # quien trazaba antes recupera su traza al terminar
+        sys.settrace(marca)
         try:
             datos = self.trazar({'r_doble': ['test_modulo_tz.T.test_doble'],
-                                 'r_triple': ['test_modulo_tz.T.test_triple', 'test_modulo_tz.T.test_externo']})
-            self.assertIs(sys.gettrace(), marca)
+                                 'r_triple': ['test_modulo_tz.T.test_triple', 'test_modulo_tz.T.test_externo',
+                                              'test_modulo_tz.T.test_en_hilo']})
+            self.assertIs(sys.gettrace(), marca)  # y la recupera al terminar
         finally:
             sys.settrace(afuera)
+        self.assertTrue({'doble', 'triple', 'externo'} <= vistas)
+        hilo = datos['casos']['test_modulo_tz.T.test_en_hilo']['lineas']['modulo_tz.py']
+        self.assertTrue({5, 6, 7} <= set(hilo))  # triple, corrido en otro hilo
         self.assertEqual(datos['esquema'], 'oracle-factory.trazabilidad-casos/1')
         self.assertEqual(datos['requisitos'], {'r_doble': ['test_modulo_tz.T.test_doble'],
-                                               'r_triple': ['test_modulo_tz.T.test_externo', 'test_modulo_tz.T.test_triple']})
+                                               'r_triple': ['test_modulo_tz.T.test_en_hilo', 'test_modulo_tz.T.test_externo',
+                                                            'test_modulo_tz.T.test_triple']})
         externo = datos['casos']['test_modulo_tz.T.test_externo']['lineas']
         self.assertEqual(externo['modulo_tz.py'], [10, 11, 12])
         self.assertNotIn('.venv/ext_tz.py', externo)  # una dependencia instalada no es del proyecto
@@ -128,6 +150,19 @@ def largo(titulo: str) -> int:
 '''
 
 
+UTIL = """def suma(a, b):
+    return a + b
+
+
+def resta(a, b):
+    return a - b
+
+
+def producto(a, b):
+    return a * b
+"""
+
+
 class Cruce(_ap.Base):
     cambio_medido = _ap.Autoproduccion.cambio_medido
     head = _ap.Autoproduccion.head
@@ -136,8 +171,15 @@ class Cruce(_ap.Base):
         """Un cambio en una rama, con un candidato que cambia notas.py y el README, y su evidencia."""
         with contextlib.redirect_stdout(io.StringIO()):
             self.ident = self.cambio_medido()
+        (self.root / 'examples/notas/util.py').write_text(UTIL)
+        self.git('add', '.')
+        self.git('commit', '-qm', 'util en main')
         self.git('checkout', '-qb', 'tarea')
         (self.root / 'examples/notas/notas.py').write_text(NOTAS)
+        self.git('mv', 'examples/notas/util.py', 'examples/notas/utilidades.py')  # renombrado, con una línea cambiada
+        (self.root / 'examples/notas/utilidades.py').write_text(UTIL.replace('return a - b', 'return b - a'))
+        (self.root / 'examples/notas/con espacio.py').write_text('def nueva():\n    return 1\n')
+        self.git('rm', '-q', 'examples/notas/sensor.py')
         readme = self.root / 'examples/notas/README.md'
         readme.write_text(readme.read_text() + '\nUna línea más.\n')
         tarea = self.root / 'tareas' / self.ident / 'TAREA.md'
@@ -175,16 +217,22 @@ class Cruce(_ap.Base):
         self.assertEqual(respaldadas, [numero(NOTAS, 'limpio = '), numero(NOTAS, 'return bool(limpio)')])
         self.assertEqual(datos['requisitos'][self.rid]['casos'],
                          [{'caso': 'test_notas.Notas.test_acepta_titulo_con_texto', 'resultado': 'ok'}])
-        self.assertEqual(datos['sin_respaldo'], {notas: [numero(NOTAS, 'def largo'), numero(NOTAS, 'return len')]})
+        self.assertEqual(datos['sin_respaldo'], {
+            notas: [numero(NOTAS, 'def largo'), numero(NOTAS, 'return len')],
+            'examples/notas/con espacio.py': [1, 2],  # el nombre llega exacto, sin tabulador ni comillas
+            'examples/notas/utilidades.py': [numero(UTIL, 'return a - b')]})  # renombrado: sólo lo que cambió
+        self.assertEqual(datos['borrados'], ['examples/notas/sensor.py'])
+        self.assertEqual(datos['al_importar'], {notas: [numero(NOTAS, 'MAXIMO')]})
         comentario = numero(NOTAS, '# Un comentario')
         self.assertNotIn(comentario, respaldadas + datos['sin_respaldo'][notas])
         self.assertEqual(datos['no_rastreables'], ['examples/notas/README.md'])
-        self.assertNotIn(numero(NOTAS, 'MAXIMO'), datos['sin_respaldo'][notas])  # corre al importar: la traza no lo ve
+        otra = self.git('rev-parse', 'HEAD~3')  # otra base, anterior a la de main
+        self.assertEqual(json.loads(self.correr('trazabilidad', self.ident, '--json', '--base', otra)[1])['base'], otra)
         # Un hunk que sólo borra no agrega líneas; y cada requisito ve sólo las líneas de sus casos.
-        self.assertEqual(trazabilidad.cambios_del_diff('+++ b/a.py\n@@ -3,2 +2,0 @@\n'), {})
+        self.assertEqual(trazabilidad.lineas_agregadas('@@ -3,2 +2,0 @@\n'), set())
         dos = trazabilidad.cruzar({'requisitos': {'r1': ['c1'], 'r2': ['c2']},
                                    'casos': {'c1': {'lineas': {'a.py': [1]}}, 'c2': {'lineas': {'a.py': [2]}}}},
-                                  {'a.py': {1, 2}}, {'a.py': {1, 2}})
+                                  {'a.py': {1, 2}}, {'a.py': ({1, 2}, set())})
         self.assertEqual((dos['requisitos']['r1']['lineas'], dos['requisitos']['r2']['lineas']), ({'a.py': [1]}, {'a.py': [2]}))
         _, texto, _ = self.correr('trazabilidad', self.ident)
         self.assertIn(f'{notas}: {numero(NOTAS, "limpio = ")}-{numero(NOTAS, "return bool(limpio)")}', texto)
@@ -209,6 +257,7 @@ class Cruce(_ap.Base):
             self.assertIn(limite, texto)
         self.assertIn('no prueba que sea correcta', texto)
         self.assertIn('otro proceso', texto)
+        self.assertIn('corre al importar', texto)
 
 
 if __name__ == '__main__':
