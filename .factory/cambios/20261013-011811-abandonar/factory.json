@@ -252,6 +252,16 @@
       "candidato": "a3fbbef",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T02:30:10+00:00",
+      "decision": "aprobar",
+      "candidato": "a3fbbef"
     }
   ],
   "tipos": {
@@ -294,5 +304,15 @@
       "sha256": "ec851504f25d98aecd5d3840fe6dfe8c66da24cc546df5cba267d2550b9b7a36"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy: 7 hallazgos en las dos primeras (tracker, cortes, donde, pruebas faltantes, singular), todos corregidos con una prueba que falla en el código anterior; la tercera vuelta, completa, no encontró nada; la suite pasa (310) con los 12 casos del contrato.",
+      "candidato": "a3fbbef",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T02:30:10+00:00"
+    }
+  }
 }
