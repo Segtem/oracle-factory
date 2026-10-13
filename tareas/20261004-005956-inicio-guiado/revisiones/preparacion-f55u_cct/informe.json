@@ -1,0 +1,92 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261004-005956-inicio-guiado",
+  "contexto": {
+    "head": "a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90",
+    "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
+  },
+  "documentos": {
+    "openspec/changes/20261004-005956-inicio-guiado/proposal.md": "a8db8e927f8a0590d2a620d2c76be76c048b10b75458b20a391f79baecdcbe65",
+    "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/4295fb1/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-elegir-medidas/candidatos/62f4334/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/evidencia/hechos.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/evidencia/hechos.manifest.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/agy-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/agy-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/codex-1.json",
+    ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/codex-1.pedido.md",
+    ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+    "tareas/20261004-005956-elegir-medidas/TAREA.md",
+    "tareas/20261004-005956-inicio-guiado/TAREA.md",
+    "tests/test_guided.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/f871a71/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/f871a71/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4295fb1: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4295fb1: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/4295fb1/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 62f4334: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 62f4334: codex (gpt-6-luna), 1 hallazgo: IG-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/62f4334/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "agy (gemini-3.8-flash-high): Alcance del diff: el paquete de Clue para el candidato f871a71 comprende modificaciones de aserciones en tests/test_guided.py (líneas 46, 55-57, 63, 121-122, 128-131 para InicioGuiado, y líneas 177-184, 198-207, 240-258, 282-299 para EleccionMedidas), actualizaciones de metadatos de trazabilidad en .factory/cambios/20261004-005956-inicio-guiado/factory.json y .factory/cambios/20261004-005956-elegir-medidas/factory.json, notas de auditoría en tareas/20261004-005956-inicio-guiado/TAREA.md y tareas/20261004-005956-elegir-medidas/TAREA.md, y los artefactos de revisión/evidencia de las vueltas 1 (4295fb1) y 2 (62f4334). El commit candidato no altera la implementación de producción en oracle_factory/cli.py ni el sensor tools/verify_contracts.py.",
+    "agy (gemini-3.8-flash-high): Sin defectos en el diff: las aserciones añadidas en tests/test_guided.py comprueban de manera rigurosa y fiel las promesas de la propuesta y la spec sin introducir aserciones espurias ni desajustes con el contrato. Los registros en factory.json y TAREA.md documentan consistentemente el historial de propuestas, confirmaciones humanas y revisiones, coincidiendo las huellas sha256 con los archivos en requisitos/. Al no hallarse defectos dentro de los rangos modificados del diff, la lista de hallazgos (findings) queda vacía conforme a las reglas del validador de Oracle Clue.",
+    "agy (gemini-3.8-flash-high): Cierre de hallazgos y mutantes de la vuelta 2: el candidato f871a71 cierra satisfactoriamente los puntos pendientes de la vuelta 2: 1) Hallazgo IG-01 de Codex: en tests/test_guided.py:128-130 se captura before = self.tasks() y se verifica self.assertEqual(self.tasks(), before) tras invocar f.listar(), garantizando que la recuperación de IDs no cree tareas adicionales; 2) Mutantes M6 y M7 de agy: en tests/test_guided.py:55-57 se verifica que la salida de nuevo contenga el ID completo ('Cambio creado: ' + ident) y las rutas exactas de la tarea, propuesta, spec, ejemplo y catálogos; 3) Mutante M8 de agy: en tests/test_guided.py:63 se usa self.assertRaisesRegex comprobando que el error ante conflictos reporte explícitamente la ruta conflictiva ('catalogos/notas.resultados.oracle'). M9, M11 y M18 quedaron fuera del alcance por indicación explícita (limitación por opciones de argparse en --con-ejemplo, filtros generales de listar y nuevo sin ejemplo).",
+    "agy (gemini-3.8-flash-high): Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-inicio-guiado/proposal.md y openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md frente al código existente en el checkout f871a71. Se verificó el cumplimiento de los tres requisitos: 1) 'preparar_ejemplo_sin_aprobacion': nuevo --con-ejemplo notas infiere capacidad notas, rechaza incompatibilidades, copia proposal.md, spec.md y catálogos, deja el estado en espera_aprobacion_spec sin spec aprobada ni medidas asociadas, e informa rutas y próximo paso humano; 2) 'preservar_archivos_existentes': plan_ejemplo y preparar_ejemplo validan rutas con ruta_segura, rechazan colisiones antes de invocar la creación de tarea, previenen sobrescrituras con open('xb') e informan destinos copiados en caso de interrupción; 3) 'recuperar_cambios_y_siguiente_paso': inicializar es idempotente, conserva configuración existente, actualiza .gitignore sin tocar el índice de Git, explica git init y los siguientes pasos; listar recupera IDs completos, fases y títulos sin crear tareas ni confundir tareas tracker.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas en 4.2s, 9 de InicioGuiado y 11 de EleccionMedidas). No se ejecutó tools/verify_*.py ni la suite completa del proyecto según la restricción establecida.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones locales: se evaluaron 18 mutaciones sobre copias y parches en la carpeta local .factory/local/revisores/f871a71-agy-1 contra la suite tests.test_guided.InicioGuiado. Todas las mutaciones dirigidas a los contratos de inicio-guiado (creación de tarea espuria en listar, truncamiento de ID, omisión de rutas exactas en la salida de nuevo, omisión de la ruta conflictiva en el error de plan_ejemplo, auto-aprobación de spec, asignación de medidas iniciales y omisión de copia de catálogos) fueron detectadas y eliminadas por las pruebas. La salida detallada se guardó localmente en mutaciones_guiado.log.",
+    "codex (gpt-6-luna): Se leyeron proposal.md y specs/onboarding/spec.md, los tres requisitos importados de requisitos/, el paquete Clue, oracle_factory/cli.py, tests/test_guided.py, el mapeo de tools/verify_contracts.py y las cuatro revisiones anteriores. No se ejecutó tools/verify_contracts.py ni tools/verify_*.py.",
+    "codex (gpt-6-luna): Se ejecutó exactamente en primer plano: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null. Resultado: 20 pruebas OK. La salida completa está en tests_guided.log.",
+    "codex (gpt-6-luna): No se ejecutó la suite completa. No se hicieron mutaciones manuales; el análisis de cobertura se basó en las aserciones actuales y en los mutantes reportados en revisiones previas.",
+    "codex (gpt-6-luna): Las regresiones de vueltas previas quedan cubiertas en el candidato: el test de nuevo comprueba que no haya medidas asignadas ni pendientes, que se imprima el ID completo y las rutas del ejemplo; el conflicto comprueba la ruta del catálogo en el error; init comprueba sus instrucciones; listar verifica ID, fase, título, exclusión de tareas tracker y que no cambie el conjunto de tareas antes/después. No detecté regresión en la implementación actual de oracle_factory/cli.py para los requisitos de este cambio.",
+    "codex (gpt-6-luna): M9 (otros nombres de ejemplo limitados por argparse), M11 (filtros de listar) y M18 (nuevo sin ejemplo) quedan fuera de los requisitos indicados para esta revisión, según el alcance provisto."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

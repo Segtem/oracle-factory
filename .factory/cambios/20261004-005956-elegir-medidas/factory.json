@@ -2,7 +2,7 @@
   "id": "20261004-005956-elegir-medidas",
   "titulo": "Elección de medidas",
   "capacidad": "measurement_choice",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md",
   "spec_sha256": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior",
     "measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/informe.json",
+    "sha256": "a6604a9c4c3b701a28fce4b9c6cc3636b4343091536ae09e530aa9a9e1f7d834",
+    "decisiones": "tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/decisiones.json",
+    "decisiones_sha256": "8904018890167c9022d12a6422fb5b2342092a3f134f8d353eb5b072ff7d5250",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T11:43:10+00:00",
+    "motivo": "tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90",
+      "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
+    }
+  },
   "oracle": null,
   "eventos": [
     {
@@ -237,6 +257,20 @@
       "cuando": "2026-10-13T10:57:42+00:00",
       "decision": "aprobar",
       "candidato": "f871a71"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T11:43:10+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a6604a9c4c3b701a28fce4b9c6cc3636b4343091536ae09e530aa9a9e1f7d834",
+      "decisiones_sha256": "8904018890167c9022d12a6422fb5b2342092a3f134f8d353eb5b072ff7d5250"
     }
   ],
   "medidas_pendientes": {},
@@ -266,14 +300,5 @@
       "sha256": "4b1efb60715d66f3937a92dbba4e04c16467a829a2680149d59d3593e6955897"
     }
   },
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.",
-      "candidato": "f871a71",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T10:57:42+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

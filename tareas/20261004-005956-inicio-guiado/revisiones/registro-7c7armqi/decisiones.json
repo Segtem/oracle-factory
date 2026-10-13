@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "f3c2c93a4bc5aa02499305bdeb6863e3ebe0c3f9683d87a19ae010c46d38625a",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy sobre el código vigente: 3 mutantes vivos en la primera (próximo paso de init, título en listar, medidas en nuevo) y en la segunda un hallazgo de codex (listar sin comprobar que no crea tareas) y 3 mutantes (ID y rutas exactas, ruta conflictiva); todos cubiertos reforzando los mismos casos del contrato, y la tercera vuelta, completa, no encontró nada; la evidencia da los 9 casos en verde.",
+  "decisiones": []
+}
