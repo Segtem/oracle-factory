@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "4d8bd056867bf9daa0ce2d1ea6c5092823da15d95b9e73d464e78adfc91a3df2",
+  "actor": "Brian Hollweg",
+  "motivo": "cinco vueltas de codex y agy (la 4 y la 5 incrementales, porque el paquete completo pasaba el límite de 1 MB de Clue por la evidencia ya commiteada): la 1 trajo 11 hallazgos (3 altos), la 2, 5, la 3, 2, y la 4, 1; todos corregidos con aserciones que fallan en el código anterior, en los mismos 5 casos. La 5 dejó sólo una variante más del guard __main__ (con and), que Brian aceptó como riesgo: las líneas mal clasificadas siguen visibles en «corren al importar». Suite 332 y evidencia en verde.",
+  "decisiones": [
+    {
+      "hallazgo_id": "TRZ-MODULE-GUARD-COMPOUND-001",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-13T21:59:55+00:00"
+    }
+  ]
+}
