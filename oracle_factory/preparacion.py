@@ -6,7 +6,7 @@ Lo que es de la persona (revisor, si la revisión está completa y el estado de 
 """
 from __future__ import annotations
 
-import re
+import unicodedata
 
 ESQUEMA_CLUE = 'oracle-clue.review/v1'
 
@@ -89,7 +89,8 @@ def firma(archivo: str, titulo: str) -> str | None:
 
     None si al título no le queda texto: un título de puros signos no identifica nada y nunca coincide.
     """
-    normal = ' '.join(re.sub(r'[^\w\s]', '', titulo.lower()).split())
+    # Sólo la puntuación (categoría P de Unicode): los símbolos como = < > + distinguen «x == y» de «x != y».
+    normal = ' '.join(''.join(c for c in titulo.lower() if not unicodedata.category(c).startswith('P')).split())
     return f"{archivo}|{normal}" if normal else None
 
 
@@ -140,6 +141,7 @@ if __name__ == '__main__':
     assert i['comprobaciones'][0]['resultado'] == 'cumple' and 'codex (m): l' in i['limites']
     assert firma('x.py', 'El  título, otra vez!') == firma_de_ubicacion('x.py:12', 'el título otra vez') == 'x.py|el título otra vez'
     assert firma('x.py', 'foo-bar') != firma('x.py', 'foo bar') and firma('x.py', '...') is None
+    assert firma('x.py', 'x == y') != firma('x.py', 'x != y') and firma('x.py', 'a < b') != firma('x.py', 'a > b')
     h = lambda s, t='t': {'title': t, 'location': {'file': 'x.py'}, **({'severity': s} if s else {})}
     g, b = corte([{'datos': {'findings': [h('baja'), h('informativa'), h('media', 'm'), h(None, 'n'), h('critica', 'c')]}}],
                  [{'firma': firma('x.py', 'c')}])

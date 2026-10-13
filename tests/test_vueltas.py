@@ -141,13 +141,17 @@ class Vueltas(Base):
 
     def test_vs2_se_guarda_aunque_pida_cambios(self):
         self.preparar()
-        self.pedir('codex', ['media', 'Falta validar el título'])
+        self.pedir('codex', ['media', 'Falta validar el título'], ['media', '???'])
         self.pedir('agy', ['media', 'Falta validar el título'])  # otro revisor reporta lo mismo
-        # acepta el primero; motivo armado; el segundo ya figura aceptado: mantener; completa; pedir cambios; motivo armado
-        salida = self.revisar('1', '1', '1', '1', '2', '1')
-        self.assertIn('YA ACEPTADO', salida)
-        self.assertEqual(f.leer(self.ident)[1]['revision']['decision'], 'cambios')
-        self.assertEqual(len(self.aceptados()), 1)  # uno por firma, sin duplicados
+        # agy T-1: aceptar; motivo armado. codex T-1 es el mismo: sin preguntar. codex T-2 («???»): aceptar; motivo armado.
+        # completa; pedir cambios; motivo armado
+        salida = self.revisar('1', '1', '1', '1', '1', '2', '1')
+        self.assertIn('Es el mismo hallazgo que T-1: misma decisión (riesgo_aceptado)', salida)
+        rev = f.leer(self.ident)[1]['revision']
+        self.assertEqual((rev['decision'], rev['hallazgos_abiertos']), ('cambios', 0))
+        # uno por hallazgo, sin duplicar; el de puros signos se guarda aunque no tenga firma con la que coincidir
+        self.assertEqual(sorted((a['titulo'], a['firma'] is None) for a in self.aceptados()),
+                         [('???', True), ('Falta validar el título', False)])
 
     def test_vs2_un_medio_aceptado_no_pide_otra_vuelta(self):
         self.aceptar_en_una_vuelta()
@@ -170,6 +174,7 @@ class Vueltas(Base):
         self.pedir('codex', ['media', 'Falta  validar el TÍTULO'])
         salida = self.revisar('1', '1', '1', '1')  # mantener; completa; aprobar; motivo armado
         self.assertIn(f"YA ACEPTADO por {antes['actor']}", salida)
+        self.assertIn(f"como «{antes['titulo']}»", salida)  # para ver si de verdad es el mismo
         self.assertIn(f"«{antes['motivo']}»", salida)
         rev = f.leer(self.ident)[1]['revision']
         self.assertEqual((rev['decision'], rev['hallazgos_abiertos']), ('aprobar', 0))
@@ -181,10 +186,11 @@ class Vueltas(Base):
         self.aceptar_en_una_vuelta()
         self.pedir('codex', ['media', 'Falta validar el título'])
         self.pedir('agy', ['media', 'Falta validar el título'])  # otro revisor reporta lo mismo
-        # revocar; dejar abierto; el segundo ya no figura aceptado: dejar abierto; completa; pedir cambios; motivo armado
-        salida = self.revisar('2', '3', '3', '1', '2', '1')
+        # revocar; dejar abierto; el segundo es el mismo: sin preguntar; completa; pedir cambios; motivo armado
+        salida = self.revisar('2', '3', '1', '2', '1')
         self.assertEqual(salida.count('YA ACEPTADO'), 1)
-        self.assertEqual(self.aceptados(), [])
+        self.assertIn('queda abierto también', salida)
+        self.assertEqual(self.aceptados(), [])  # lo revocado no vuelve por la otra aparición
         self.assertEqual(f.leer(self.ident)[1]['revision']['hallazgos_abiertos'], 2)
 
     def test_vs3_un_titulo_distinto_no_coincide(self):
@@ -196,6 +202,7 @@ class Vueltas(Base):
         self.assertIn('¿Qué hacés con T-1?', salida)
         # Quitar la puntuación no la vuelve espacio, y un título de puros signos no coincide con nada.
         self.assertNotEqual(preparacion.firma('a.py', 'foo-bar'), preparacion.firma('a.py', 'foo bar'))
+        self.assertNotEqual(preparacion.firma('a.py', 'x == y'), preparacion.firma('a.py', 'x != y'))  # los símbolos cuentan
         signos = {'title': '???', 'severity': 'alta', 'location': {'file': 'a.py'}}
         graves, _ = preparacion.corte([{'datos': {'findings': [signos]}}], [{'firma': preparacion.firma('a.py', '...')}])
         self.assertEqual(graves, [signos])

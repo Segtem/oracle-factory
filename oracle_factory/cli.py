@@ -1030,15 +1030,23 @@ def revisar_paso_a_paso(identificador: str) -> None:
         print(f"  Límite: {limite}")
     persona = actor()["actor"]
     resoluciones = []
-    aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or []}
-    nuevos, revocados = {}, []  # se guardan sólo si la revisión se registra
+    aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or [] if a.get("firma")}
+    nuevos, revocados = [], []  # se guardan sólo si la revisión se registra
+    decididos: dict[str, dict | None] = {}  # firma → resolución (None: quedó abierto) de su primera aparición
     for h in informe.get("hallazgos") or []:
         print(f"\nHallazgo {h['id']} en {h['ubicacion']}:\n  {h['descripcion']}\n  Evidencia: {h['evidencia']}")
         firma = preparacion.firma_de_ubicacion(h["ubicacion"], h["descripcion"])
+        if firma in decididos:  # otro revisor reportó lo mismo: una sola decisión por hallazgo, sin contradicciones
+            igual = decididos[firma]
+            print(f"  Es el mismo hallazgo que {igual['hallazgo_id'] if igual else 'uno anterior'}: "
+                  f"{'misma decisión (' + igual['estado'] + ')' if igual else 'queda abierto también'}.")
+            if igual:
+                resoluciones.append({**igual, "hallazgo_id": h["id"]})
+            continue
         previo = aceptados.get(firma) if firma else None
         if previo:
-            print(f"  YA ACEPTADO por {previo['actor']} el {previo['fecha'][:10]} (candidato {previo['candidato']}): "
-                  f"«{previo['motivo']}»")
+            print(f"  YA ACEPTADO por {previo['actor']} el {previo['fecha'][:10]} (candidato {previo['candidato']}), "
+                  f"como «{previo['titulo']}»: «{previo['motivo']}»")
             j = elegir(f"¿Mantenés aceptado {h['id']}?", [
                 ("Mantener aceptado", "se registra como riesgo aceptado con el mismo motivo"),
                 ("Revocar", "deja de estar aceptado y lo decidís como un hallazgo nuevo")])
@@ -1047,25 +1055,27 @@ def revisar_paso_a_paso(identificador: str) -> None:
             if j == 0:
                 resoluciones.append({"hallazgo_id": h["id"], "estado": "riesgo_aceptado", "motivo": previo["motivo"],
                                      "origen_motivo": "persona", "actor": persona, "fecha": ahora()})
+                decididos[firma] = resoluciones[-1]
                 continue
             revocados.append(firma)
-            del aceptados[firma]  # otro hallazgo igual en esta revisión ya no se muestra como aceptado
         i = elegir(f"¿Qué hacés con {h['id']}?", [("Aceptar el riesgo", "queda registrado como riesgo aceptado"),
                                                   ("Descartar", "no aplica o no es un defecto"),
                                                   ("Dejar abierto", "sólo se podrá pedir cambios")])
         if i is None:
             raise FactoryError("revisión cancelada; no registré nada")
         if i == 2:
+            if firma:
+                decididos[firma] = None
             continue
         estado_h = ("riesgo_aceptado", "descartado")[i]
         motivo_h, origen_h = elegir_motivo(f"{'Acepto el riesgo' if i == 0 else 'Descarto el hallazgo'}: {h['descripcion']}")
         resoluciones.append({"hallazgo_id": h["id"], "estado": estado_h, "motivo": motivo_h, "origen_motivo": origen_h,
                              "actor": persona, "fecha": ahora()})
-        if estado_h == "riesgo_aceptado" and firma:
-            # Uno por firma: si otro revisor reporta lo mismo en esta revisión, se le muestra como ya aceptado.
-            nuevos[firma] = aceptados[firma] = {
-                "archivo": preparacion.archivo_de_ubicacion(h["ubicacion"]), "titulo": h["descripcion"], "firma": firma,
-                "motivo": motivo_h, "actor": persona, "fecha": ahora(), "candidato": sha}
+        if firma:
+            decididos[firma] = resoluciones[-1]
+        if estado_h == "riesgo_aceptado":  # sin firma (título de puros signos) se guarda igual, pero no coincide con nada
+            nuevos.append({"archivo": preparacion.archivo_de_ubicacion(h["ubicacion"]), "titulo": h["descripcion"],
+                           "firma": firma, "motivo": motivo_h, "actor": persona, "fecha": ahora(), "candidato": sha})
     abiertos = len(informe.get("hallazgos") or []) - len(resoluciones)
     # «Completa» lo declara la persona: Factory no lo supone.
     alcance = elegir("¿Revisaste todo lo que abarca el informe?", [
@@ -1104,8 +1114,8 @@ def revisar_paso_a_paso(identificador: str) -> None:
     carpeta, estado = leer(identificador)
     cambio = (estado.get("motivos_propuestos") or {}).pop("revision", None) is not None  # la propuesta ya se decidió
     if nuevos or revocados:  # valen para las vueltas siguientes, aunque esta revisión pida cambios
-        quitar = set(revocados) | set(nuevos)
-        estado["aceptados"] = [a for a in estado.get("aceptados") or [] if a["firma"] not in quitar] + list(nuevos.values())
+        quitar = set(revocados) | {n["firma"] for n in nuevos if n["firma"]}
+        estado["aceptados"] = [a for a in estado.get("aceptados") or [] if not a.get("firma") or a["firma"] not in quitar] + nuevos
         cambio = True
     if cambio:
         guardar(carpeta, estado)

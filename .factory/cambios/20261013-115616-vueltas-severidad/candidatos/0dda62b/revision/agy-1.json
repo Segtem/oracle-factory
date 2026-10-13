@@ -1,0 +1,77 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vueltas-severidad/.factory/local/revisiones/0dda62b",
+  "base": "aec6ef36d2870c4823ed3ee274a05eb8e98655d1",
+  "head": "0dda62bb54e18a88c647d4a4e31f85f256136096",
+  "diff_sha256": "67543569910bf01e98b3b0bec01705da996c6ce7bb65f4d1c1bc3e3ab64193f1",
+  "context_sha256": "a9b34ac8ea494a6994663f0a9b096cb36bd7674c43925c569845dd841bce0e1a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Un riesgo revocado en la misma revisión resucita en estado['aceptados'] y evade el corte en vueltas siguientes",
+      "explanation": "En revisar_paso_a_paso (oracle_factory/cli.py), cuando concurren dos o más hallazgos con la misma firma en una misma revisión (por ejemplo, reportados por revisores distintos como codex y agy, o múltiples defectos coincidentes), aceptar el primero lo guarda en nuevos[firma] = aceptados[firma] = {...} (línea 1066). Si la persona revoca el segundo con 'Revocar' (línea 1044), el flujo ejecuta revocados.append(firma) y del aceptados[firma] (líneas 1051-1052), pero omite eliminar la clave de nuevos (falta nuevos.pop(firma, None)). Si la persona luego decide el hallazgo revocado dejándolo abierto ('Dejar abierto', línea 1058), al registrar la revisión se calcula quitar = set(revocados) | set(nuevos) y estado['aceptados'] = [a for a in estado.get('aceptados') or [] if a['firma'] not in quitar] + list(nuevos.values()) (líneas 1107-1108). Dado que quitar sólo filtra los aceptados del estado anterior, concatenar incondicionalmente list(nuevos.values()) vuelve a insertar el riesgo revocado en estado['aceptados']. En consecuencia, en la vuelta siguiente preparacion.corte lo toma como un riesgo aceptado vigente, excluyendo cualquier nueva ocurrencia de ese hallazgo de graves y permitiendo que un defecto medio o alto revocado pase sin advertencia ni corte de vueltas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1106,
+        "end_line": 1109,
+        "side": "head"
+      },
+      "trigger": "Dos revisores entregan un mismo hallazgo medio o alto. En revisar_paso_a_paso la persona acepta el primero y revoca el segundo dejándolo abierto.",
+      "evidence": "En un entorno de prueba sobre el candidato, tras ejecutar self.pedir('codex', ['media', 'x']), self.pedir('agy', ['media', 'x']) y responder aceptar ('1', '1'), revocar y dejar abierto ('2', '3'), completa ('1') y pedir cambios ('2', '1'), self.aceptados() contiene 1 elemento en lugar de estar vacío ([]). En la vuelta siguiente, preparacion.corte excluye el hallazgo de graves.",
+      "related_requirement": "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+      "status": "pendiente",
+      "verification": "Ejecutar una prueba con dos hallazgos de igual firma donde el primero se acepta y el segundo se revoca y se deja abierto; assert self.aceptados() == [] falla con AssertionError al conservar el riesgo en estado['aceptados']."
+    },
+    {
+      "id": "F-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "Colisión de firma() en títulos con operadores y signos entre caracteres alfanuméricos",
+      "explanation": "La función preparacion.firma(archivo, titulo) normaliza el título mediante ' '.join(re.sub(r'[^\\w\\s]', '', titulo.lower()).split()). Al eliminar todos los caracteres no alfanuméricos sin distinguir operadores lógicos, matemáticos ni signos entre palabras, títulos con semántica opuesta o diferente normalizan a la misma cadena. Por ejemplo, 'condición x == y' y 'condición x != y' (o 'a < b' y 'a > b') normalizan ambas a 'condicion x y'; asimismo, 'error en v1.0' y 'error en v10' normalizan a 'error en v10', y 'flag a/b' y 'flag ab' normalizan a 'flag ab'. Si una persona acepta un riesgo para una de estas variantes, cualquier hallazgo posterior en el mismo archivo con la otra variante comparte idéntica firma. Como resultado, preparacion.corte lo saltea automáticamente como si ya estuviese aceptado (evadiendo el corte de vueltas para defectos medios o altos) y revisar_paso_a_paso lo presenta equívocamente como 'YA ACEPTADO'.",
+      "location": {
+        "file": "oracle_factory/preparacion.py",
+        "start_line": 87,
+        "end_line": 93,
+        "side": "head"
+      },
+      "trigger": "Se acepta un riesgo en un archivo con un título que contiene operadores o puntuación ('condición x == y' o 'error en v1.0') y en una vuelta posterior el revisor reporta un nuevo hallazgo en el mismo archivo con título divergente ('condición x != y' o 'error en v10').",
+      "evidence": "preparacion.firma('a.py', 'condición x == y') == preparacion.firma('a.py', 'condición x != y') == 'a.py|condición x y'. preparacion.firma('a.py', 'error en v1.0') == preparacion.firma('a.py', 'error en v10') == 'a.py|error en v10'.",
+      "related_requirement": "revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado",
+      "status": "pendiente",
+      "verification": "python -c \"from oracle_factory import preparacion; assert preparacion.firma('a.py', 'condicion x == y') != preparacion.firma('a.py', 'condicion x != y')\" falla con AssertionError."
+    },
+    {
+      "id": "F-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Riesgos aceptados con títulos que normalizan a vacío no se guardan en el registro del cambio",
+      "explanation": "El requisito 'un riesgo aceptado persiste entre vueltas' establece: 'Cuando una persona acepta un riesgo en revisar, el registro del cambio SHALL guardarlo con su archivo, título, motivo, persona, fecha y candidato, aunque la revisión termine pidiendo cambios. pedir-revision SHALL incluir los riesgos aceptados vigentes del cambio en el pedido a cada revisor'. Sin embargo, en oracle_factory/cli.py línea 1064 se condiciona la persistencia a: 'if estado_h == \"riesgo_aceptado\" and firma:'. Si un hallazgo tiene un título compuesto únicamente por símbolos o puntuación (por ejemplo '???'), preparacion.firma devuelve None. Como consecuencia del condicional 'and firma', el riesgo aceptado por la persona nunca se agrega a nuevos ni se persiste en estado['aceptados']. En las vueltas siguientes, pedir-revision no lo incluye en el pedido a revisores en pedido.md ni queda constancia del riesgo asumido en el registro del cambio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1064,
+        "end_line": 1068,
+        "side": "head"
+      },
+      "trigger": "Una persona acepta en revisar un hallazgo cuyo título está compuesto exclusivamente por signos o símbolos (por ejemplo '???').",
+      "evidence": "En cli.py línea 1064, si firma es None, el bloque nuevos[firma] = ... no se ejecuta. El estado['aceptados'] resultante no contiene el riesgo aceptado a pesar de haberse confirmado la decisión en el menú de revisión.",
+      "related_requirement": "revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas",
+      "status": "pendiente",
+      "verification": "Aceptar en revisar un hallazgo con título '???'; al consultar f.leer(ident)[1].get('aceptados') se comprueba que la lista está vacía ([]), omitiendo el riesgo aceptado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unificadas solicitadas: tests.test_vueltas, tests.test_revisores y tests.test_review_guided utilizando el entorno virtual (.venv).",
+    "Se ejecutaron pruebas de mutación manuales y reproducciones aisladas en scripts temporales sobre copias locales para verificar revocaciones en misma sesión y colisiones de firma.",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas del repositorio, conforme a las instrucciones recibidas."
+  ]
+}
