@@ -2,10 +2,20 @@
   "id": "20261013-011811-abandonar",
   "titulo": "Abandonar un cambio con motivo, decidido por una persona",
   "capacidad": "archivo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T01:19:08+00:00",
+    "documentos": {
+      "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
+      "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-13T01:18:11+00:00",
       "capacidad": "archivo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T01:19:08+00:00",
+      "documentos": {
+        "openspec/changes/20261013-011811-abandonar/proposal.md": "240323f668666fb939a9c2d35aedf170277df3122c83cd95a085b85bb4fc8f1c",
+        "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
