@@ -27,3 +27,15 @@ Medidas de cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json: factory_cli_
 ### Nota (2026-10-13 15:52:46 UTC)
 
 Medidas de cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json: factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json, factory_cli_json.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-13 16:03:35 UTC)
+
+Medidas de cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 16:03:35 UTC)
+
+Medidas de cli_c38d280a51dea748e.estado_se_lee_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 16:03:35 UTC)
+
+Medidas de cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json: Brian Hollweg (persona, confirmo, modo confirmacion).

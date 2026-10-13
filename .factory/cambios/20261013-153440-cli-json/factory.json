@@ -100,6 +100,45 @@
         "factory_cli_json.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json",
+      "medidas": [
+        "factory_cli_json.donde_y_resumen_se_leen_como_json",
+        "factory_cli_json.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.estado_se_lee_como_json",
+      "medidas": [
+        "factory_cli_json.estado_se_lee_como_json",
+        "factory_cli_json.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "requisito": "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+      "medidas": [
+        "factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+        "factory_cli_json.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,25 +146,31 @@
     "cli_c38d280a51dea748e.estado_se_lee_como_json": "funcional",
     "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "cli_c38d280a51dea748e.estado_se_lee_como_json": {
-      "sha256": "cb7c726436481d379a48261120b7b9fc2e86ba71d2815f0b70b6010fb0d3f585",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T15:52:46+00:00"
-    },
+  "medidas": {
     "cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json": {
-      "sha256": "07e8c78a7edcdc236e9c9fc014713e0e0904d70baaaaea95c2bd987851b63aee",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T15:52:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "07e8c78a7edcdc236e9c9fc014713e0e0904d70baaaaea95c2bd987851b63aee"
+    },
+    "cli_c38d280a51dea748e.estado_se_lee_como_json": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "cb7c726436481d379a48261120b7b9fc2e86ba71d2815f0b70b6010fb0d3f585"
     },
     "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json": {
-      "sha256": "bbcfd31142725996bef9ee668170362fe690b1f7b9a687d056758f95e5a8bf07",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T15:52:46+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T16:03:35+00:00",
+      "sha256": "bbcfd31142725996bef9ee668170362fe690b1f7b9a687d056758f95e5a8bf07"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
