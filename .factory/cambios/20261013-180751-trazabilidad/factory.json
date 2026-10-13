@@ -2,7 +2,7 @@
   "id": "20261013-180751-trazabilidad",
   "titulo": "Trazabilidad por candidato: requisito, casos y líneas cambiadas",
   "capacidad": "trazabilidad",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
   "spec_sha256": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "abdfd04fca7e820b44bb9676ba0137ef432f9389f8106cd6e77d7dace99e0881"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-180751-trazabilidad/candidatos/19c704b/evidencia/hechos.json",
+    "hechos_sha256": "9267f7d0f0e5176864782f25a2b4a8085fbcf039000fa623ddbfa0e07aa8796f",
+    "informe": ".factory/cambios/20261013-180751-trazabilidad/oracle-veredicto.txt",
+    "informe_sha256": "bfc4a0132064efb95aeba4d69190b02f5430f2f2b708db3bd89b12811d8291e7",
+    "cuando": "2026-10-13T22:00:09+00:00",
+    "contexto": {
+      "head": "70da5b84a7f8b4e06bc665b0d055963114881c03",
+      "archivos_sha256": "abdfd04fca7e820b44bb9676ba0137ef432f9389f8106cd6e77d7dace99e0881"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -323,6 +335,17 @@
       "abiertos": 0,
       "sha256": "4d8bd056867bf9daa0ce2d1ea6c5092823da15d95b9e73d464e78adfc91a3df2",
       "decisiones_sha256": "e6ead8ecdcc9ab22cea919dd1a811c70c253cf19619bca80c0b32256b163ea1e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:00:09+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "9267f7d0f0e5176864782f25a2b4a8085fbcf039000fa623ddbfa0e07aa8796f"
     }
   ],
   "tipos": {
