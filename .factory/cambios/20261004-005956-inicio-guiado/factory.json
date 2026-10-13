@@ -227,6 +227,16 @@
       "candidato": "f871a71",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:57:42+00:00",
+      "decision": "aprobar",
+      "candidato": "f871a71"
     }
   ],
   "medidas_pendientes": {},
@@ -254,6 +264,16 @@
       "modo": "confirmacion",
       "cuando": "2026-10-13T10:11:03+00:00",
       "sha256": "d31c1085cf407a46f7e4d8089ccbda5964dc440e7a9bf14e1a1607b2af06f6d8"
+    }
+  },
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy sobre el código vigente: 3 mutantes vivos en la primera (próximo paso de init, título en listar, medidas en nuevo) y en la segunda un hallazgo de codex (listar sin comprobar que no crea tareas) y 3 mutantes (ID y rutas exactas, ruta conflictiva); todos cubiertos reforzando los mismos casos del contrato, y la tercera vuelta, completa, no encontró nada; la evidencia da los 9 casos en verde.",
+      "candidato": "f871a71",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:57:42+00:00"
     }
   }
 }

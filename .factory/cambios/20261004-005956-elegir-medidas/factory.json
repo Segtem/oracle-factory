@@ -227,6 +227,16 @@
       "candidato": "f871a71",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T10:57:42+00:00",
+      "decision": "aprobar",
+      "candidato": "f871a71"
     }
   ],
   "medidas_pendientes": {},
@@ -254,6 +264,16 @@
       "modo": "confirmacion",
       "cuando": "2026-10-13T10:11:01+00:00",
       "sha256": "4b1efb60715d66f3937a92dbba4e04c16467a829a2680149d59d3593e6955897"
+    }
+  },
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.",
+      "candidato": "f871a71",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T10:57:42+00:00"
     }
   }
 }
