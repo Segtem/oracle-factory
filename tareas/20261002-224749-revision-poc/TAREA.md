@@ -11,3 +11,7 @@ Correcciones verificadas: exigir fila verde por requisito (exit 0 sin juicio/som
 ## Próximo paso
 
 Revisión técnica terminada. Retomar la web en la tarea 20261002-222858-explicar-oracle; las correcciones del flujo están verificadas y la tarea de auditoría queda CERRADA.
+
+### Nota (2026-10-13 10:06:52 UTC)
+
+Abandonado por una persona; motivo: se hizo antes del flujo con registro (commit aaba485): sus correcciones están en main, pero sin registro no se puede cerrar con evidencia.

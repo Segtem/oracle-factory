@@ -1,6 +1,6 @@
 # Revisar la web de Factory con precisión y recorrido para principiantes
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Web integrada y empujada en f4d4f59. Pages 37167107976 success. HTTP 200 y coinc
 ## Próximo paso
 
 Coordinar el piloto con una persona sin experiencia y acordar medidas defendibles de claridad con 20261002-222858-explicar-oracle. Correcciones, verificaciones técnicas y publicación web terminadas. No hay cierre humano formal simulado; los requisitos documentales siguen sin medir. Revisar las cuatro propuestas de CLI antes de implementarlas.
+
+### Nota (2026-10-13 10:07:26 UTC)
+
+Abandonado por una persona; motivo: se hizo antes del flujo con registro (commits f4d4f59 y 4279f73): la web desplegada la sigue la capacidad web, pero sin registro no se puede cerrar con evidencia.

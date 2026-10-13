@@ -2,7 +2,7 @@
   "id": "20261002-234439-dist-uv",
   "titulo": "Preparar distribución de Factory con uv y selección de proyecto",
   "capacidad": "distribution",
-  "fase": "requisitos_importados",
+  "fase": "abandonada",
   "spec": "openspec/changes/20261002-234439-dist-uv/specs/distribution/spec.md",
   "requisitos": [
     "distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado",
@@ -38,6 +38,19 @@
       "modo": "confirmacion",
       "forma": "propuso",
       "cuando": "2026-10-13T10:01:20+00:00"
+    },
+    {
+      "accion": "abandono",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T10:06:28+00:00",
+      "requisitos_quitados": [
+        "distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado",
+        "distribution_c01af4be8811ed3bb.entregar_artefactos_verificables",
+        "distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto"
+      ]
     }
   ],
   "spec_sha256": "5965c857b2460068d1f847294d705fefdfd789dc469f1870baa94f14af49e657",
@@ -52,12 +65,19 @@
     "mensaje": "dale no te olvides del release.",
     "contexto": "Aceptación de preparar ambos paquetes, probarlos, commit, push, tag y release; PyPI lo publica el usuario. Documentos transcritos por el agente para registrar ese alcance."
   },
-  "motivos_propuestos": {
-    "abandono": {
-      "motivo": "la distribución se entregó fuera del flujo, de 0.1.0a1 a 0.1.0a9 en PyPI; sus 3 requisitos nunca tuvieron medidas y lo que siga de distribución va en un cambio nuevo.",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T10:01:20+00:00"
-    }
+  "motivos_propuestos": {},
+  "abandono": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T10:06:28+00:00",
+    "motivo": "la distribución se entregó fuera del flujo, de 0.1.0a1 a 0.1.0a9 en PyPI; sus 3 requisitos nunca tuvieron medidas y lo que siga de distribución va en un cambio nuevo.",
+    "origen_motivo": "agente",
+    "requisitos_quitados": [
+      "distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado",
+      "distribution_c01af4be8811ed3bb.entregar_artefactos_verificables",
+      "distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto"
+    ]
   }
 }

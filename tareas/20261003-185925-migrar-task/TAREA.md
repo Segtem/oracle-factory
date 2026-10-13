@@ -28,3 +28,7 @@ PyPI oracle-factory 0.1.0a2 verificado: hashes wheel/sdist coinciden con el rele
 ## Próximo paso
 
 Ninguno en este consumidor. El retiro de trackertast se coordina en Oracle, tarea 20261003-183936-migrar-task.
+
+### Nota (2026-10-13 10:07:11 UTC)
+
+Abandonado por una persona; motivo: se hizo antes del flujo con registro (commits f778677 y e8b58a6): la migración a oracle-task está publicada y en uso, pero sin registro no se puede cerrar con evidencia.

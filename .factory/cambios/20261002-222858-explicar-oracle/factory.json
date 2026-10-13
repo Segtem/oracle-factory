@@ -2,7 +2,7 @@
   "id": "20261002-222858-explicar-oracle",
   "titulo": "Explicar Oracle Factory como flujo humano de producción de software",
   "capacidad": "landing-page",
-  "fase": "requisitos_importados",
+  "fase": "abandonada",
   "spec": "openspec/changes/20261002-222858-explicar-oracle/specs/landing-page/spec.md",
   "spec_sha256": "af8683111d462d445455d4ae0e42654e79b4a0488a2b7b96fca76c3591f0c433",
   "spec_aprobada": {
@@ -87,14 +87,42 @@
       "modo": "confirmacion",
       "forma": "propuso",
       "cuando": "2026-10-13T10:01:20+00:00"
+    },
+    {
+      "accion": "abandono",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T10:06:19+00:00",
+      "requisitos_quitados": [
+        "landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia",
+        "landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas",
+        "landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory",
+        "landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo",
+        "landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles",
+        "landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos",
+        "landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable"
+      ]
     }
   ],
-  "motivos_propuestos": {
-    "abandono": {
-      "motivo": "lo reemplazó la capacidad web (openspec/specs/web/), con sus propios requisitos medidos; sus 7 requisitos nunca tuvieron medidas.",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T10:01:20+00:00"
-    }
+  "motivos_propuestos": {},
+  "abandono": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T10:06:19+00:00",
+    "motivo": "lo reemplazó la capacidad web (openspec/specs/web/), con sus propios requisitos medidos; sus 7 requisitos nunca tuvieron medidas.",
+    "origen_motivo": "agente",
+    "requisitos_quitados": [
+      "landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia",
+      "landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas",
+      "landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory",
+      "landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo",
+      "landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles",
+      "landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos",
+      "landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable"
+    ]
   }
 }

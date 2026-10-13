@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9d276fe779228a8a9eaed3da36d070e6e10f7c2bbbeb9b6c322ec55f972cead9 -->
+<!-- oracle-factory resumen sha256:e2771679d6bed1f53671aee9e702020c35e99d06f4401191fbc968f6d3fc0dea -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-13 capacidades · 95 requisitos vigentes · 6 cambios abiertos
+13 capacidades · 95 requisitos vigentes · 3 cambios abiertos
 
 ## Lo vigente
 
@@ -199,30 +199,6 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
 
-### 20261002-204916-validar-el-flujo — Validar el flujo humano de Oracle Factory
-
-Fase `espera_aprobacion_spec` · modo `confirmacion` · capacidad `software-factory` · [propuesta](../openspec/changes/20261002-204916-validar-el-flujo/proposal.md)
-
-- aprobación humana de spec
-- importación OpenSpec → requisitos Oracle
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-- primero hay que aceptar la propuesta y la spec (aprobar-spec)
-
-### 20261002-222858-explicar-oracle — Explicar Oracle Factory como flujo humano de producción de software
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `landing-page` · [propuesta](../openspec/changes/20261002-222858-explicar-oracle/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-
-### 20261002-234439-dist-uv — Preparar distribución de Factory con uv y selección de proyecto
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `distribucion` · [propuesta](../openspec/changes/20261002-234439-dist-uv/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
-
 ### 20261004-005956-elegir-medidas — Elección de medidas
 
 Fase `requisitos_importados` · modo `confirmacion` · capacidad `measurement_choice` · [propuesta](../openspec/changes/20261004-005956-elegir-medidas/proposal.md)
@@ -245,7 +221,16 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
 
-Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): `20261002-224749-revision-poc`, `20261003-185925-migrar-task`, `20261003-235610-web-rigurosa`.
+## Cambios abandonados
+
+No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
+
+- **20261002-204916-validar-el-flujo** — Validar el flujo humano de Oracle Factory: plantilla de antes de los modos que nunca se completó: la spec no se aprobó y el flujo que quería validar ya lo ejercen los cambios cerrados desde entonces. (Brian Hollweg, 2026-10-13)
+- **20261002-222858-explicar-oracle** — Explicar Oracle Factory como flujo humano de producción de software: lo reemplazó la capacidad web (openspec/specs/web/), con sus propios requisitos medidos; sus 7 requisitos nunca tuvieron medidas. (Brian Hollweg, 2026-10-13)
+- **20261002-224749-revision-poc** — Corregir los controles de la POC: se hizo antes del flujo con registro (commit aaba485): sus correcciones están en main, pero sin registro no se puede cerrar con evidencia. (Brian Hollweg, 2026-10-13)
+- **20261002-234439-dist-uv** — Preparar distribución de Factory con uv y selección de proyecto: la distribución se entregó fuera del flujo, de 0.1.0a1 a 0.1.0a9 en PyPI; sus 3 requisitos nunca tuvieron medidas y lo que siga de distribución va en un cambio nuevo. (Brian Hollweg, 2026-10-13)
+- **20261003-185925-migrar-task** — Migrar el tracker a Oracle Task: se hizo antes del flujo con registro (commits f778677 y e8b58a6): la migración a oracle-task está publicada y en uso, pero sin registro no se puede cerrar con evidencia. (Brian Hollweg, 2026-10-13)
+- **20261003-235610-web-rigurosa** — Web precisa de Oracle Factory: se hizo antes del flujo con registro (commits f4d4f59 y 4279f73): la web desplegada la sigue la capacidad web, pero sin registro no se puede cerrar con evidencia. (Brian Hollweg, 2026-10-13)
 
 ## Riesgos aceptados
 

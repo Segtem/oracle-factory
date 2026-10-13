@@ -2,7 +2,7 @@
   "id": "20261002-204916-validar-el-flujo",
   "titulo": "Validar el flujo humano de Oracle Factory",
   "capacidad": "software-factory",
-  "fase": "espera_aprobacion_spec",
+  "fase": "abandonada",
   "spec": "openspec/changes/20261002-204916-validar-el-flujo/specs/software-factory/spec.md",
   "spec_sha256": null,
   "spec_aprobada": null,
@@ -23,14 +23,26 @@
       "modo": "confirmacion",
       "forma": "propuso",
       "cuando": "2026-10-13T10:01:20+00:00"
+    },
+    {
+      "accion": "abandono",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T10:05:58+00:00",
+      "requisitos_quitados": []
     }
   ],
-  "motivos_propuestos": {
-    "abandono": {
-      "motivo": "plantilla de antes de los modos que nunca se completó: la spec no se aprobó y el flujo que quería validar ya lo ejercen los cambios cerrados desde entonces.",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T10:01:20+00:00"
-    }
+  "motivos_propuestos": {},
+  "abandono": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T10:05:58+00:00",
+    "motivo": "plantilla de antes de los modos que nunca se completó: la spec no se aprobó y el flujo que quería validar ya lo ejercen los cambios cerrados desde entonces.",
+    "origen_motivo": "agente",
+    "requisitos_quitados": []
   }
 }

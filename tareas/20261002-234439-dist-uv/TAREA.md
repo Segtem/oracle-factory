@@ -1,6 +1,6 @@
 # Preparar distribución de Factory con uv y selección de proyecto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS:
 
@@ -45,3 +45,7 @@ Sucesor 0.1.0a2 publicado y verificado desde PyPI; wheel/sdist iguales al releas
 ## Próximo paso
 
 Revisión humana del flujo instalado y elección de medidas para los requisitos de distribución antes del cierre formal. PyPI 0.1.0a2 y su instalación están verificados.
+
+### Nota (2026-10-13 10:06:28 UTC)
+
+Abandonado por una persona; motivo: la distribución se entregó fuera del flujo, de 0.1.0a1 a 0.1.0a9 en PyPI; sus 3 requisitos nunca tuvieron medidas y lo que siga de distribución va en un cambio nuevo.

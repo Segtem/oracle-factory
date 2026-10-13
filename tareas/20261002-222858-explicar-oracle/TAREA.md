@@ -1,6 +1,6 @@
 # Explicar Oracle Factory como flujo humano de producción de software
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -58,3 +58,7 @@ Nueva revisión de web 20261003-235610-web-rigurosa con agy1/agy2 y reproducció
 ## Próximo paso
 
 Una persona sin experiencia sigue la guía publicada desde PyPI; registrar trabas y acordar medidas defendibles para claridad antes del cierre formal. Windows/macOS requieren además ejecución real en esos sistemas.
+
+### Nota (2026-10-13 10:06:19 UTC)
+
+Abandonado por una persona; motivo: lo reemplazó la capacidad web (openspec/specs/web/), con sus propios requisitos medidos; sus 7 requisitos nunca tuvieron medidas.
