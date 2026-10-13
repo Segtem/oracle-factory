@@ -2,7 +2,7 @@
   "id": "20261004-005956-elegir-medidas",
   "titulo": "Elección de medidas",
   "capacidad": "measurement_choice",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md",
   "spec_sha256": "ba8dca841fe9ec9f7d9ad465a9cc021616afdf787b417b4ef8b12c3f4e856eb1",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261004-005956-elegir-medidas/candidatos/f871a71/evidencia/hechos.json",
+    "hechos_sha256": "dd955f1c63b1a2dc1518772604c85c70d6d4d59ad44ddb5a103598ca93648138",
+    "informe": ".factory/cambios/20261004-005956-elegir-medidas/oracle-veredicto.txt",
+    "informe_sha256": "f7d3dea6753f550914e72fdccaf2a1a5b8b29f0e0be397f4c26cec6e87767aec",
+    "cuando": "2026-10-13T11:43:53+00:00",
+    "contexto": {
+      "head": "6fee41e58d9ca82180042a7d457e5029c89b8024",
+      "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
+    }
+  },
   "eventos": [
     {
       "accion": "spec_aceptada_en_conversacion",
@@ -271,6 +283,17 @@
       "abiertos": 0,
       "sha256": "a6604a9c4c3b701a28fce4b9c6cc3636b4343091536ae09e530aa9a9e1f7d834",
       "decisiones_sha256": "8904018890167c9022d12a6422fb5b2342092a3f134f8d353eb5b072ff7d5250"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T11:43:53+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "dd955f1c63b1a2dc1518772604c85c70d6d4d59ad44ddb5a103598ca93648138"
     }
   ],
   "medidas_pendientes": {},

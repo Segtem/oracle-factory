@@ -109,3 +109,7 @@ Medidas de onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso: Bria
 ### Nota (2026-10-13 11:43:27 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy sobre el código vigente: 3 mutantes vivos en la primera (próximo paso de init, título en listar, medidas en nuevo) y en la segunda un hallazgo de codex (listar sin comprobar que no crea tareas) y 3 mutantes (ID y rutas exactas, ruta conflictiva); todos cubiertos reforzando los mismos casos del contrato, y la tercera vuelta, completa, no encontró nada; la evidencia da los 9 casos en verde.); 0 abiertos derivados; commit a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90; informe tareas/20261004-005956-inicio-guiado/revisiones/registro-7c7armqi/informe.json; decisiones tareas/20261004-005956-inicio-guiado/revisiones/registro-7c7armqi/decisiones.json.
+
+### Nota (2026-10-13 11:43:54 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-inicio-guiado/oracle-veredicto.txt.

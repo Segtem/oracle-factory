@@ -2,7 +2,7 @@
   "id": "20261004-005956-inicio-guiado",
   "titulo": "Inicio guiado",
   "capacidad": "onboarding",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md",
   "spec_sha256": "98eff950ce78eb3741a65b9f5c8e450f06192258646778451c60e12d2e33da6f",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261004-005956-inicio-guiado/candidatos/f871a71/evidencia/hechos.json",
+    "hechos_sha256": "dd955f1c63b1a2dc1518772604c85c70d6d4d59ad44ddb5a103598ca93648138",
+    "informe": ".factory/cambios/20261004-005956-inicio-guiado/oracle-veredicto.txt",
+    "informe_sha256": "f7d3dea6753f550914e72fdccaf2a1a5b8b29f0e0be397f4c26cec6e87767aec",
+    "cuando": "2026-10-13T11:43:54+00:00",
+    "contexto": {
+      "head": "6fee41e58d9ca82180042a7d457e5029c89b8024",
+      "archivos_sha256": "25737c7866dffa896cb9c30bb65f400233b116fd6773b5decd8a9eb687dbc81f"
+    }
+  },
   "eventos": [
     {
       "accion": "spec_aceptada_en_conversacion",
@@ -271,6 +283,17 @@
       "abiertos": 0,
       "sha256": "f3c2c93a4bc5aa02499305bdeb6863e3ebe0c3f9683d87a19ae010c46d38625a",
       "decisiones_sha256": "5459200775f9c3df9b372e7fe2641eb5f34f8ec361e24bb83838460e22d497de"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T11:43:54+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "dd955f1c63b1a2dc1518772604c85c70d6d4d59ad44ddb5a103598ca93648138"
     }
   ],
   "medidas_pendientes": {},

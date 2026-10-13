@@ -109,3 +109,7 @@ Medidas de measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error: 
 ### Nota (2026-10-13 11:43:10 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy sobre el código vigente: la primera dejó 5 mutantes vivos en las pruebas (--listar con edición, catálogo modificado, registro o spec concurrentes, medidas vacías y --sin-medir de espacios, este último equivalente porque Oracle también lo rechaza); se reforzaron las aserciones de los mismos casos del contrato y las vueltas 2 y 3, completas, no encontraron nada; la evidencia da los 12 casos en verde.); 0 abiertos derivados; commit a50b6a0cd71b95fae2a89ef6d8c5a17824fe7b90; informe tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/informe.json; decisiones tareas/20261004-005956-elegir-medidas/revisiones/registro-r1ik21y1/decisiones.json.
+
+### Nota (2026-10-13 11:43:53 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-005956-elegir-medidas/oracle-veredicto.txt.
