@@ -123,6 +123,34 @@ class Abandonar(unittest.TestCase):
                 comando()
         self.assertEqual(self.archivos(), antes)
 
+    def test_ab2_si_el_tracker_no_cierra_no_cambia_nada(self):
+        ident = self.importado()
+        antes = self.archivos()
+        real = f.ejecutar
+
+        def no_cierra(argv, *a, **k):
+            if list(argv[:2]) == ['tasks', 'close']:
+                return f.subprocess.CompletedProcess(argv, 1, '', 'el tracker no pudo cerrar')
+            return real(argv, *a, **k)
+        with patch.object(f, 'ejecutar', side_effect=no_cierra), self.responde('1', '1'), \
+                self.assertRaisesRegex(f.FactoryError, 'no pudo cerrar'):
+            f.abandonar(ident)
+        self.assertEqual(self.archivos(), antes)  # ni el registro, ni los requisitos, ni una nota en la tarea abierta
+
+    def test_ab2_un_corte_despues_del_registro_se_completa(self):
+        ident = self.importado()
+        requisitos = f.leer(ident)[1]['requisitos']
+        contenido = {r: self.requisito(r).read_bytes() for r in requisitos}
+        with self.responde('1', '1'):
+            f.abandonar(ident)
+        for r, datos in contenido.items():  # como si el proceso se hubiera cortado antes de borrarlos
+            self.requisito(r).write_bytes(datos)
+        registro = f.leer(ident)[1]
+        with patch('builtins.input', side_effect=AssertionError('no vuelve a preguntar')):
+            f.abandonar(ident)
+        self.assertFalse(any(self.requisito(r).exists() for r in requisitos))
+        self.assertEqual(f.leer(ident)[1], registro)
+
     # --- ab3: el resumen muestra lo abandonado aparte -----------------------------------------------------------------
     def test_ab3_un_cambio_abandonado_en_el_resumen(self):
         f.nuevo('Abierto', 'tercera')

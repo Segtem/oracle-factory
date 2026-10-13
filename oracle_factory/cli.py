@@ -1515,6 +1515,15 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     """Abandonar descarta las promesas del cambio: lo decide una persona en cualquier modo; un agente sólo propone el motivo."""
     carpeta = ruta_cambio(identificador)
     if ruta_segura(ruta_registro(carpeta)).is_file():
+        _, previo = leer(identificador)
+        quedan = [r for r in ((previo.get("abandono") or {}).get("requisitos_quitados") or [])
+                  if (ROOT / "requisitos" / f"{r}.requisito").is_file()] if previo.get("fase") == "abandonada" else []
+        if quedan:  # un corte entre el registro y el borrado: la decisión ya está tomada, sólo falta completarla
+            for rid in quedan:
+                (ROOT / "requisitos" / f"{rid}.requisito").unlink()
+            actualizar_resumen()
+            print(f"{identificador} ya estaba abandonado; quité de requisitos/ lo que había quedado: {', '.join(quedan)}.")
+            return
         carpeta, estado = abierto(identificador)
     elif (carpeta / "proposal.md").is_file():  # una carpeta anterior al flujo: el abandono le da un registro mínimo
         primera = (carpeta / "proposal.md").read_text(encoding="utf-8").strip().splitlines()[:1]
@@ -1548,12 +1557,15 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     motivo = elegir_motivo(f"no se va a terminar: queda abandonado en la fase {estado['fase']}"
                            + (f" con {len(requisitos)} requisitos sin cerrar" if requisitos else "")
                            + "; lo que siga va en un cambio nuevo.", propuesto)
-    if tarea.is_file():  # antes de tocar nada: si el tracker falla, el cambio queda como estaba
-        nota_tarea(identificador, f"Abandonado por una persona; motivo: {motivo[0]}")
+    if tarea.is_file():  # antes de tocar nada: si el cierre falla, el cambio y la tarea quedan como estaban
         if "ESTADO: CERRADA" not in tarea.read_text(encoding="utf-8"):
             p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
             if p.returncode:
                 raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
+        try:  # la nota sólo repite el motivo, que queda en el registro: si falla, se avisa y se sigue
+            nota_tarea(identificador, f"Abandonado por una persona; motivo: {motivo[0]}")
+        except FactoryError as e:
+            print(f"Aviso: {e}; el motivo queda en el registro del cambio.", file=sys.stderr)
     else:
         print(f"Aviso: {identificador} no tiene tarea en tareas/; no hay nada que cerrar en el tracker.", file=sys.stderr)
     forma = "confirmo" if motivo[1] == "agente" else "decidio"

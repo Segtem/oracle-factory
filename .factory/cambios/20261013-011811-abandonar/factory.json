@@ -168,6 +168,20 @@
         "factory_abandonar.una_carpeta_sin_registro_tambien_se_abandona",
         "factory_abandonar.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-13T01:42:12+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "05c64dc",
+      "resultado": "ok",
+      "hallazgos": 2
     }
   ],
   "tipos": {
