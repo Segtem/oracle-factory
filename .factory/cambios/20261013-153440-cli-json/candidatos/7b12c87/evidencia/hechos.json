@@ -1,0 +1,45 @@
+{
+  "cli_json_caso": [
+    {
+      "requisito": "estado_se_lee_como_json",
+      "caso": "cj1_un_cambio_en_revision",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_se_lee_como_json",
+      "caso": "cj1_la_revision_vence",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_se_lee_como_json",
+      "caso": "cj1_un_cambio_abandonado",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_y_resumen_se_leen_como_json",
+      "caso": "cj2_donde_con_un_artefacto_ausente",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_y_resumen_se_leen_como_json",
+      "caso": "cj2_resumen_sin_escribir",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+      "caso": "cj3_el_texto_sigue_igual",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json",
+      "caso": "cj3_un_cambio_inexistente",
+      "codigo": 0
+    }
+  ],
+  "cli_json_corrida": [
+    {
+      "completa": 1,
+      "casos": 7
+    }
+  ]
+}
