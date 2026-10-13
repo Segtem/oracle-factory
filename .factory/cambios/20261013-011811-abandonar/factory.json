@@ -2,7 +2,7 @@
   "id": "20261013-011811-abandonar",
   "titulo": "Abandonar un cambio con motivo, decidido por una persona",
   "capacidad": "archivo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261013-011811-abandonar/specs/archivo/spec.md",
   "spec_sha256": "66be4b5bf4e4c511da15196d36a2a2e5558bdca41a342763f2311e3ed0b214aa",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261013-011811-abandonar/candidatos/a3fbbef/evidencia/hechos.json",
+    "hechos_sha256": "e9294c94b6a229bd18687304cad3a218f3b8466cfbca0bd79296ce8f88113a98",
+    "informe": ".factory/cambios/20261013-011811-abandonar/oracle-veredicto.txt",
+    "informe_sha256": "4f98f4360d0fe2adff1936f6da3e70c1f6eef5b511816eaeaacb6059872232f0",
+    "cuando": "2026-10-13T09:57:27+00:00",
+    "contexto": {
+      "head": "d1a242c4e40bd5d850c3424680857e56514d2d41",
+      "archivos_sha256": "8673906bf3a2b67235cb5b94e9cf0910f7ef34cd90c9f33c8a7ad7f047276521"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -306,6 +318,17 @@
       "abiertos": 0,
       "sha256": "88b59d0a1498e8eaff1d7163fa82a4c635b3cb7ae96e8d3b96f2c7c39aee03e5",
       "decisiones_sha256": "1b726ecd977c7c16dbee9fcec0e306a9b6bd62bed4cd4f5b5863094721b0caf4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T09:57:27+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e9294c94b6a229bd18687304cad3a218f3b8466cfbca0bd79296ce8f88113a98"
     }
   ],
   "tipos": {
