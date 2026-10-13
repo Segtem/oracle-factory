@@ -495,6 +495,15 @@ def contexto_producto() -> dict:
     return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
 
 
+def juicio_vigente(oracle: dict, actual: dict | None) -> bool:
+    """El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó."""
+    def intacto(relativa, huella):
+        ruta = ROOT / relativa if relativa else None
+        return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
+    return (actual is not None and intacto(oracle.get("hechos"), oracle.get("hechos_sha256"))
+            and intacto(oracle.get("informe"), oracle.get("informe_sha256")) and mismo_producto(oracle.get("contexto"), actual))
+
+
 def mismo_producto(registrado: dict | None, actual: dict) -> bool:
     """Vigencia por contenido: el HEAD es un dato del registro, no una condición."""
     return bool(registrado) and registrado.get("archivos_sha256") == actual.get("archivos_sha256")
@@ -1731,7 +1740,10 @@ def _decision(registro: dict | None) -> dict | None:
     """Quién decidió, cómo, cuándo y por qué; lo mismo que `quien` muestra en texto."""
     if not registro:
         return None
-    return {k: registro.get(k) for k in ("actor", "tipo_actor", "forma", "modo", "cuando", "motivo", "origen_motivo")}
+    datos = {k: registro.get(k) for k in ("actor", "tipo_actor", "forma", "modo", "cuando", "motivo", "origen_motivo")}
+    if "tipo_actor" not in registro:  # anterior a los modos: el actor estaba en «por» y no se sabe si era persona
+        datos["actor"] = registro.get("actor") or registro.get("por")
+    return datos
 
 
 def datos_estado(identificador: str) -> dict:
@@ -1750,12 +1762,11 @@ def datos_estado(identificador: str) -> dict:
         except (ValueError, OSError, FactoryError):
             pass  # un requisito o catálogo que Oracle rechaza: las medidas quedan vacías y pendientes lo dice
 
-    def gate(registro: dict | None, campos: tuple) -> dict | None:
+    def gate(registro: dict | None, campos: tuple, vigente: bool) -> dict | None:
         if not registro:
             return None
-        contexto = registro.get("contexto") or {}
-        return {**{c: registro.get(c) for c in campos}, "head": contexto.get("head"), "cuando": registro.get("cuando"),
-                "vigente": actual is not None and mismo_producto(contexto, actual)}
+        return {**{c: registro.get(c) for c in campos}, "head": (registro.get("contexto") or {}).get("head"),
+                "cuando": registro.get("cuando"), "vigente": vigente}
 
     pendientes_medidas = estado.get("medidas_pendientes") or {}
     return {
@@ -1771,8 +1782,12 @@ def datos_estado(identificador: str) -> dict:
         "proximo_paso": proximo_paso(identificador),
         "decisiones": {"spec": _decision(estado.get("spec_aprobada")), "revision": _decision(estado.get("revision")),
                        "cierre": _decision(estado.get("cierre")), "abandono": _decision(estado.get("abandono"))},
-        "revision": gate(estado.get("revision"), ("decision", "hallazgos_abiertos", "revisor", "formato", "informe")),
-        "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos")),
+        # Vigencia con las mismas reglas que estado en texto y proximo_paso.
+        "revision": gate(estado.get("revision"), ("decision", "hallazgos_abiertos", "revisor", "formato", "informe"),
+                         actual is not None and mismo_producto((estado.get("revision") or {}).get("contexto"), actual)
+                         and not problemas_de_revision(estado)),
+        "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos"),
+                       juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else avisos_head(estado),
     }
@@ -2107,12 +2122,7 @@ def proximo_paso(identificador: str) -> str | None:
             return f"oracle-factory juzgar {ident}"
     except FactoryError:
         pass
-    def vigente(ruta, huella):
-        return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
-    # El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó.
-    if (vigente(juzgados, oracle.get("hechos_sha256"))
-            and vigente(ROOT / oracle["informe"] if oracle.get("informe") else None, oracle.get("informe_sha256"))
-            and mismo_producto(oracle.get("contexto"), contexto_producto())):
+    if juicio_vigente(oracle, contexto_producto()):
         if oracle.get("codigo") != 0:
             return f"corregí la evidencia o el producto; después: oracle-factory juzgar {ident}"
         if not pendientes_actuales(carpeta, estado):

@@ -25,20 +25,20 @@ class CliJson(_ap.Base):
     carpeta = _ap.Autoproduccion.carpeta
     producir_evidencia = _ap.Autoproduccion.producir_evidencia
 
-    def cambio_revisado(self):
-        """Un cambio medido, con evidencia, un informe de codex sin hallazgos y la revisión aprobada por la persona."""
+    def cambio_revisado(self, hallazgos=()):
+        """Un cambio medido, con evidencia, un informe de codex y la revisión aprobada por la persona (acepta cada hallazgo)."""
         with contextlib.redirect_stdout(io.StringIO()):
             ident = self.cambio_medido()
         self.producir_evidencia(ident)
         carpeta = self.carpeta(ident)
         (carpeta / 'revision').mkdir(parents=True)
-        (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), [])))
+        (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), list(hallazgos))))
         (carpeta / 'clue').mkdir()
         (carpeta / 'clue' / 'paquete.json').write_text(json.dumps({
             'schema_version': 'oracle-clue.bundle/v1', 'repo': str(self.root), 'diff_sha256': 'd' * 64, 'context_sha256': 'c' * 64,
             'files': [{'file': 'examples/notas/notas.py'}]}))
         with self.escribe('1'), contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-            f.revisar_paso_a_paso(ident)  # completa; aprobar; motivo armado
+            f.revisar_paso_a_paso(ident)  # cada hallazgo: aceptar con motivo armado; completa; aprobar; motivo armado
         self.git('add', '.')
         self.git('commit', '-qm', 'revisión')
         return ident
@@ -77,9 +77,32 @@ class CliJson(_ap.Base):
         self.assertEqual(datos['candidato'], f.candidato_vigente(ident))
         self.assertIsInstance(datos['pendientes'], list)
         self.assertEqual(datos['aceptados'], [])
+        self.assertIsNone(datos['oracle'])
+        # Un registro anterior a los modos guarda al actor en «por»: el JSON lo muestra igual que el texto.
+        carpeta, estado = f.leer(ident)
+        estado['spec_aprobada'] = {'por': 'Alguien de antes', 'cuando': '2026-10-01T00:00:00+00:00'}
+        f.guardar(carpeta, estado)
+        self.assertEqual(self.json_de('estado', ident, '--json')['decisiones']['spec']['actor'], 'Alguien de antes')
 
     def test_cj1_la_revision_vence(self):
         ident = self.cambio_revisado()
+        hechos = self.carpeta(ident, f.candidato_vigente(ident)) / 'evidencia' / 'hechos.json'
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            f.juzgar(ident, hechos)
+        datos = self.json_de('estado', ident, '--json')
+        self.assertEqual((datos['oracle']['codigo'], datos['oracle']['vigente']), (0, True))
+        self.assertEqual(datos['oracle']['head'], f.leer(ident)[1]['oracle']['contexto']['head'])
+        # Los hechos juzgados cambian sin tocar el producto: el juicio ya no vale, como dice estado en texto.
+        hechos.write_text(hechos.read_text() + ' ')
+        datos = self.json_de('estado', ident, '--json')
+        self.assertEqual((datos['oracle']['vigente'], datos['revision']['vigente']), (False, True))
+        self.assertEqual(datos['proximo_paso'], f.proximo_paso(ident))
+        # El informe de la revisión cambia sin tocar el producto: la revisión deja de valer, como en estado en texto.
+        informe = self.root / f.leer(ident)[1]['revision']['informe']
+        original = informe.read_bytes()
+        informe.write_bytes(original + b'\n')
+        self.assertFalse(self.json_de('estado', ident, '--json')['revision']['vigente'])
+        informe.write_bytes(original)
         notas = self.root / 'examples/notas/notas.py'
         notas.write_text(notas.read_text() + '\n# cambio después de revisar\n')
         self.git('add', '.')
@@ -113,12 +136,16 @@ class CliJson(_ap.Base):
         self.assertTrue(all(set(a) == {'gate', 'ruta', 'situacion', 'nota'} for a in datos['artefactos']))
 
     def test_cj2_resumen_sin_escribir(self):
-        cerrado = self.cambio_revisado()
+        cerrado = self.cambio_revisado(hallazgos=('H1',))
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             f.juzgar(cerrado, self.carpeta(cerrado, f.candidato_vigente(cerrado)) / 'evidencia' / 'hechos.json')
             with self.escribe('1'):
                 f.cerrar(cerrado)
             abierto = f.nuevo('Otra nota', capacidad='otra')
+            abandonado = f.nuevo('Una que no sigue', capacidad='tercera')
+            with self.escribe('1'):
+                f.abandonar(abandonado)  # confirmar; motivo armado
+        (self.root / 'openspec/changes/20260101-000000-vieja').mkdir()  # una carpeta sin registro
         resumen = self.root / '.factory/resumen.md'
         antes = resumen.read_bytes()
         _, uno, _ = self.correr('resumen', '--json')
@@ -131,6 +158,12 @@ class CliJson(_ap.Base):
         self.assertTrue(any(r['cambio'] == cerrado and r['medidas'] for r in vigentes))
         [abiertos] = [a for a in datos['abiertos'] if a['id'] == abierto]
         self.assertTrue(abiertos['pendientes'])
+        [vigente] = [r for r in vigentes if r['cambio'] == cerrado]
+        self.assertEqual((vigente['tipo'], vigente['veredicto_al_cerrar'][:5]), ('funcional', 'verde'))
+        self.assertEqual([(a['id'], bool(a['motivo'])) for a in datos['abandonados']], [(abandonado, True)])
+        self.assertEqual(datos['sin_registro'], ['20260101-000000-vieja'])
+        self.assertEqual([(r['cambio'], r['hallazgo'], r['vigente']) for r in datos['riesgos_aceptados']], [(cerrado, 'H1', True)])
+        self.assertIn({'cambio': cerrado, 'vigente': True, 'limite': 'codex (gpt-x): Límite de codex.'}, datos['limites'])
 
     # --- cj3: el texto no cambia y los errores no se mezclan con el JSON -----------------------------------------------------
     def normalizar(self, texto, ident):
