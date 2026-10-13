@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:4f3f12067df7ba41d5cc09dabe8140283ad54751ca066d27bf39e0992944a7f7 -->
+<!-- oracle-factory resumen sha256:d1d2702481d1ad396ba6523be85f3021e4ad2ad036d6cdbdfa78afa03228a204 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-15 capacidades · 101 requisitos vigentes · 1 cambio abierto
+15 capacidades · 104 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -190,6 +190,9 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | el revisor no decide | no funcional | `revisores_c466ac292a9f99ce6.el_revisor_no_decide` | factory_revisores.el_revisor_no_decide, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
 | las vueltas anteriores se muestran sin decidirse otra vez | funcional | `revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez` | factory_revisores.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
 | este cambio se revisa con pedir-revision | no funcional | `revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision` | factory_revisores.este_cambio_se_revisa_con_pedir_revision, factory_revisores.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-192608-revisores |
+| el corte de vueltas sigue la severidad | funcional | `revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad` | factory_vueltas.el_corte_de_vueltas_sigue_la_severidad, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
+| un riesgo aceptado persiste entre vueltas | funcional | `revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas` | factory_vueltas.un_riesgo_aceptado_persiste_entre_vueltas, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
+| revisar reconoce un riesgo ya aceptado | funcional | `revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado` | factory_vueltas.revisar_reconoce_un_riesgo_ya_aceptado, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
 
 ### vigencia
 
@@ -254,6 +257,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **R2X-01** (20261005-154433-la-vigencia-de): En repositorios con SHA-256 (64 hexadecimales) el HEAD de preparación se descarta siempre. Aceptado por Brian Hollweg: «Vamos con tus recomendaciónes»: se acepta, con el límite declarado, que en repositorios SHA-256 no se guarde head_preparacion.
 - **R2P-05** (20261005-184427-los-registros-de): El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada. Aceptado por Brian Hollweg: Mismo mensaje: el remoto de prueba no autentica, pero existe sólo en su red privada.
 - **cli-proximo-paso-cerrado-omite-archivos-faltantes** (20261008-123018-cli-humana): `estado` omite la recuperación de archivos faltantes en cambios cerrados. Aceptado por Brian Hollweg: Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados
+- **F-01** (20261013-115616-vueltas-severidad): La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos. Aceptado por Brian Hollweg: Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos
 
 ## Límites declarados
 
@@ -395,3 +399,11 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261013-011811-abandonar) codex (gpt-6-luna): Se contrastaron los escenarios de la spec con el código y las pruebas añadidas, y se revisaron los hallazgos de las vueltas 05c64dc y dba4c66: cierre fallido del tracker, nota fallida con reintento, corte posterior al registro, terminal/persona, registro mínimo y gates de lectura.
 - (20261013-011811-abandonar) codex (gpt-6-luna): No se ejecutaron mutaciones manuales sobre copias. El checkout candidato no quedó modificado (git status --short sin salida).
 - (20261013-011811-abandonar) codex (gpt-6-luna): La revisión independiente no es un veredicto de Oracle ni prueba propiedades fuera de los requisitos cubiertos y de las pruebas indicadas; no se encontró un defecto restante con evidencia suficiente.
+- (20261013-115616-vueltas-severidad) Evidencia: Escenarios vs1–vs3 en repositorios temporales, Linux, con revisores de prueba, Clue real y las respuestas del menú simuladas. La severidad desconocida se prueba sobre la función de corte, porque Clue no valida un informe sin ella. No mide si el corte ahorra vueltas reales: eso se ve en los próximos cambios.
+- (20261013-115616-vueltas-severidad) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación (findings vacía). Los hallazgos de las vueltas 1 y 2 (F-01, F-02, F-03) fueron subsanados satisfactoriamente y no presentan regresiones.
+- (20261013-115616-vueltas-severidad) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias solicitadas: tests.test_vueltas, tests.test_revisores y tests.test_review_guided en primer plano con el entorno virtual del proyecto (/home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python).
+- (20261013-115616-vueltas-severidad) agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales y pruebas aisladas en scripts temporales sobre copias locales para verificar discriminación de severidades en preparacion.corte, preservación de símbolos matemáticos en preparacion.firma, persistencia de aceptados sin firma y deduplicación de hallazgos repetidos en revisar_paso_a_paso. Todas las mutaciones relevantes fueron detectadas por las pruebas.
+- (20261013-115616-vueltas-severidad) agy (gemini-3.8-flash-high): No se ejecutaron las herramientas tools/verify_*.py ni la suite de pruebas completa del proyecto, conforme a las instrucciones recibidas.
+- (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se revisaron la propuesta, los tres requisitos, el diff, `oracle_factory/cli.py`, `oracle_factory/preparacion.py`, `tests/test_vueltas.py` y las cuatro revisiones de vueltas anteriores; el checkout candidato se mantuvo intacto.
+- (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se ejecutó exactamente `cd /home/workstation/Dev/factory-vueltas-severidad && /home/workstation/Dev/factory-vueltas-severidad/.venv/bin/python -m unittest tests.test_vueltas tests.test_revisores tests.test_review_guided </dev/null`: 45 tests, OK.
+- (20261013-115616-vueltas-severidad) codex (gpt-6-luna): Se reprodujo directamente el caso de ruta POSIX `src/part:12`. No se ejecutaron `tools/verify_*.py` ni la suite completa.

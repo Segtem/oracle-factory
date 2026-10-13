@@ -1,6 +1,6 @@
 # Vueltas de revisión proporcionales y riesgos aceptados que persisten
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 15:18:18 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-115616-vueltas-severidad/oracle-veredicto.txt.
+
+### Nota (2026-10-13 15:19:37 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
