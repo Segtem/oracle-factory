@@ -1,6 +1,6 @@
 # Trazabilidad por candidato: requisito, casos y líneas cambiadas
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-13 22:00:09 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261013-180751-trazabilidad/oracle-veredicto.txt.
+
+### Nota (2026-10-13 22:03:38 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

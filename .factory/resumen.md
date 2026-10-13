@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:aa1f3d24aabd6021a796ac8e503d5a1bb89d201571518526aabfdf1af15db5fd -->
+<!-- oracle-factory resumen sha256:977985592350067d6140462ca7ded54276112ae921e1c515d43352a4390b41ed -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-15 capacidades · 107 requisitos vigentes · 1 cambio abierto
+16 capacidades · 110 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -197,6 +197,16 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | un riesgo aceptado persiste entre vueltas | funcional | `revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas` | factory_vueltas.un_riesgo_aceptado_persiste_entre_vueltas, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
 | revisar reconoce un riesgo ya aceptado | funcional | `revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado` | factory_vueltas.revisar_reconoce_un_riesgo_ya_aceptado, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
 
+### trazabilidad
+
+Spec completa: [openspec/specs/trazabilidad/spec.md](../openspec/specs/trazabilidad/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| el sensor registra qué líneas ejecuta cada caso | funcional | `trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso` | factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
+| trazabilidad cruza los casos con el diff del candidato | funcional | `trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato` | factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
+| los límites de la trazabilidad se declaran | funcional | `trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran` | factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
+
 ### vigencia
 
 Spec completa: [openspec/specs/vigencia/spec.md](../openspec/specs/vigencia/spec.md)
@@ -261,6 +271,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **R2P-05** (20261005-184427-los-registros-de): El remoto Git de la prueba acepta push sin autenticación, aunque sólo dentro de una red privada. Aceptado por Brian Hollweg: Mismo mensaje: el remoto de prueba no autentica, pero existe sólo en su red privada.
 - **cli-proximo-paso-cerrado-omite-archivos-faltantes** (20261008-123018-cli-humana): `estado` omite la recuperación de archivos faltantes en cambios cerrados. Aceptado por Brian Hollweg: Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados
 - **F-01** (20261013-115616-vueltas-severidad): La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos. Aceptado por Brian Hollweg: Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos
+- **TRZ-MODULE-GUARD-COMPOUND-001** (20261013-180751-trazabilidad): La detección de guards __main__ no contempla condiciones compuestas. Aceptado por Brian Hollweg: Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas
 
 ## Límites declarados
 
@@ -423,3 +434,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261013-153440-cli-json) codex (gpt-6-luna): Ejecuté exactamente: /home/workstation/Dev/factory-cli-json/.venv/bin/python -m unittest tests.test_cli_json tests.test_resumen tests.test_estructura desde /home/workstation/Dev/factory-cli-json: 51 tests, OK.
 - (20261013-153440-cli-json) codex (gpt-6-luna): Revisé las referencias tests/datos/cli_texto y los caminos JSON de estado, donde y resumen; no ejecuté tools/verify_*.py ni la suite completa.
 - (20261013-153440-cli-json) codex (gpt-6-luna): No hice mutaciones manuales. No probé clientes externos (IDE, panel o MCP); la revisión de compatibilidad del esquema fue estática.
+- (20261013-180751-trazabilidad) Evidencia: Escenarios tz1–tz3 en repositorios temporales, Linux, con casos reales trazados. La trazabilidad de este cambio es la de sus propios casos: ejecutar una línea no prueba que sea correcta, y lo que corre en otro proceso no se traza.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Revisión completa e incremental del candidato 19c704b frente a la base e6ecb4a y sobre el checkout completo contra la especificación openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md (requisitos tz1–tz3) y proposal.md. No se encontraron defectos ni discrepancias con la spec dentro de los cambios del paquete.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se comprobó la corrección de TRZ-MODULE-GUARD-FORM-001 en oracle_factory/trazabilidad.py: la función auxiliar _es_principal(test) reconoce el guard __main__ tanto en la forma __name__ == '__main__' como en la forma invertida '__main__' == __name__, y restringe estrictamente la operación a ast.Eq único (len(test.ops) == 1), descartando != y comparaciones encadenadas. Con !=, el cuerpo se ejecuta al importar y por tanto permanece correctamente dentro de 'al_importar' en lugar de trasladarse a 'funciones' / 'sin_respaldo'. Las pruebas agregadas en tests/test_trazabilidad.py cubren ambas variantes.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se analizó la exclusión de condiciones compuestas (ej. if __name__ == '__main__' and cond:): _es_principal se restringe por diseño a la forma canónica del guard de punto de entrada del módulo; expresiones booleanas compuestas arbitrarias a nivel de módulo quedan bajo el comportamiento general de código de importación, en consonancia con la spec y los límites declarados.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se verificó la ausencia de regresiones respecto de los hallazgos cerrados en vueltas anteriores (af88d90, ca7db4e, 80c3e1d, e6ecb4a): nombres exactos con git diff -z -M sin comillas; preservación y encadenamiento de trazas de sys.settrace y threading.settrace con restauración en bloque finally; correlación de decoradores con la línea del 'def' en decorados; soporte de clases locales anidadas; cómputo de merge-base desde el commit del candidato; inclusión de archivos borrados y movidos fuera del producto en 'borrados'; prioridad de fallas sobre subpruebas omitidas; y declaración explícita de los tres límites en LIMITES, salida de texto y salida JSON.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se ejecutó en primer plano el comando de pruebas requerido: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null (12 pruebas, resultado OK). Salida registrada en tests.log.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se ejecutó el comando real de trazabilidad: cd /home/workstation/Dev/factory-trazabilidad && /home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null (código 0) y su variante con --json. Salidas registradas en cli-trazabilidad.log y cli-trazabilidad-json.log. Se confirmó que las líneas de las funciones de traza en oracle_factory/trazabilidad.py aparecen como sin respaldo debido a que Python no traza las funciones de traza en ejecución, según lo documentado y esperado.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manuales en copias aisladas dentro del directorio de trabajo (13 mutaciones que abarcan _es_principal, lineas_ejecutables, lineas_agregadas, trazar, cruzar, datos_trazabilidad y LIMITES), confirmando que todas son detectadas y provocan fallos en la suite de pruebas.
+- (20261013-180751-trazabilidad) agy (gemini-3.8-flash-high): No se ejecutó tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido. El checkout /home/workstation/Dev/factory-trazabilidad/.factory/local/revisiones/19c704b se mantuvo estrictamente en solo lectura sin ediciones ni commits.
+- (20261013-180751-trazabilidad) codex (gpt-6-luna): Revisé la propuesta, spec, diff incremental, implementación completa de trazabilidad, funciones del CLI solicitadas, herramienta de evidencia y los informes previos de las vueltas af88d90, ca7db4e, 80c3e1d y e6ecb4a.
+- (20261013-180751-trazabilidad) codex (gpt-6-luna): Ejecuté exactamente `/home/workstation/Dev/factory-trazabilidad/.venv/bin/python -m unittest tests.test_trazabilidad tests.test_cli_json </dev/null`: 12 pruebas, OK.
+- (20261013-180751-trazabilidad) codex (gpt-6-luna): Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`; salida en `cli-trazabilidad.log`.
+- (20261013-180751-trazabilidad) codex (gpt-6-luna): Corrí probes directos de guard simple y guard compuesto; la segunda forma reproduce la clasificación incorrecta.
+- (20261013-180751-trazabilidad) codex (gpt-6-luna): No corrí `tools/verify_*.py` ni la suite completa. No modifiqué el checkout del candidato ni hice commits.

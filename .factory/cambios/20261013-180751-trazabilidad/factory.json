@@ -2,7 +2,7 @@
   "id": "20261013-180751-trazabilidad",
   "titulo": "Trazabilidad por candidato: requisito, casos y líneas cambiadas",
   "capacidad": "trazabilidad",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
   "spec_sha256": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd",
   "spec_aprobada": {
@@ -346,6 +346,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "9267f7d0f0e5176864782f25a2b4a8085fbcf039000fa623ddbfa0e07aa8796f"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:03:38+00:00",
+      "oracle": ".factory/cambios/20261013-180751-trazabilidad/oracle-veredicto.txt",
+      "revision": "tareas/20261013-180751-trazabilidad/revisiones/registro-ym1a4uj5/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T22:03:38+00:00",
+      "capacidad": "trazabilidad",
+      "spec": "openspec/specs/trazabilidad/spec.md"
     }
   ],
   "tipos": {
@@ -391,5 +411,17 @@
       "fecha": "2026-10-13T21:59:55+00:00",
       "candidato": "19c704b"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T22:03:38+00:00"
+  },
+  "archivo": {
+    "capacidad": "trazabilidad",
+    "spec": "openspec/specs/trazabilidad/spec.md",
+    "cuando": "2026-10-13T22:03:38+00:00"
+  }
 }
