@@ -104,6 +104,7 @@ Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`
 - **Un nombre por capacidad:** `capacidades` en `.factory/config.json` declara alias (`{"estructura2": "estructura"}`); un cambio con un alias se fusiona en la capacidad de destino, y `nuevo` lo avisa.
 - **Los cambios cerrados antes de esto** se archivan con `oracle-factory archivar`, en el orden en que se cerraron; correrlo de nuevo no cambia nada.
 - La spec consolidada que generó Factory (la que tiene índice en `.factory/specs/<capacidad>.json`) queda fuera de la huella del producto, como `.factory/`: se deriva de specs ya aceptadas, y si contara, archivar los cambios anteriores vencería la revisión del último cambio integrado. Cualquier otro archivo de `openspec/specs/` sí cuenta.
+- **Un cambio abandonado** (`oracle-factory abandonar ID`, decidido por una persona con motivo) no fusiona nada: su spec queda en `openspec/changes/ID/` y sus `.requisito` salen de `requisitos/`, listados en el registro. El resumen lo pone en «Cambios abandonados» y no lo cuenta entre los abiertos.
 - **Si se corta:** `cerrar` cierra primero y fusiona después. Un corte antes de cerrar no deja nada fusionado y se reintenta; uno después deja el cambio cerrado sin archivar, y `oracle-factory archivar` lo completa.
 
 ## El estado actual en una lectura

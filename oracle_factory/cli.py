@@ -391,6 +391,8 @@ def abierto(identificador: str) -> tuple[Path, dict]:
     carpeta, estado = leer(identificador)
     if estado.get("fase") == "cerrada":
         raise FactoryError("el cambio ya está cerrado; creá una nueva tarea")
+    if estado.get("fase") == "abandonada":
+        raise FactoryError(f"el cambio está abandonado ({quien(estado.get('abandono'))}); lo que siga va en un cambio nuevo")
     return carpeta, estado
 
 
@@ -1381,6 +1383,8 @@ def texto_resumen(salida: Path | None = None) -> str:
             continue
         _, estado = leer(carpeta.name)
         registros[estado["id"]] = estado
+        if estado.get("fase") == "abandonada":
+            continue  # el resumen los toma de registros, en su sección
         if estado.get("fase") != "cerrada":
             abiertos.append({"id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase", "?"),
                              "modo": modo_de(estado), "capacidad": capacidad_destino(estado.get("capacidad", "?")),
@@ -1505,6 +1509,63 @@ def cerrar(identificador: str) -> None:
     print(p.stdout.strip() or "Tarea cerrada.")
     if cierre["tipo_actor"] == "agente":
         print(f"El cierre lo decidió el agente {cierre['actor']} en modo autónomo; las demás decisiones, como indica estado.")
+
+
+def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
+    """Abandonar descarta las promesas del cambio: lo decide una persona en cualquier modo; un agente sólo propone el motivo."""
+    carpeta = ruta_cambio(identificador)
+    if ruta_segura(ruta_registro(carpeta)).is_file():
+        carpeta, estado = abierto(identificador)
+    elif (carpeta / "proposal.md").is_file():  # una carpeta anterior al flujo: el abandono le da un registro mínimo
+        primera = (carpeta / "proposal.md").read_text(encoding="utf-8").strip().splitlines()[:1]
+        estado = {"id": identificador, "titulo": primera[0].lstrip("# ").strip() if primera else identificador,
+                  "fase": "sin registro"}
+    else:
+        raise FactoryError(f"no encuentro el cambio {identificador}: ni su registro ni su propuesta")
+    if AGENTE:
+        if not (motivo_agente and motivo_agente.strip()):
+            raise FactoryError("con --agente, abandonar propone el motivo: indicá --motivo; abandonar lo decide una persona")
+        if estado["fase"] == "sin registro":
+            raise FactoryError("una carpeta sin registro no guarda propuestas: la persona elige o escribe el motivo al abandonarla")
+        # Fuera de «propuestas»: ésas son las decisiones canónicas de modos.DECISIONES.
+        estado.setdefault("motivos_propuestos", {})["abandono"] = {"motivo": motivo_agente.strip(), **actor(), "cuando": ahora()}
+        evento(estado, "abandono_propuesto", forma="propuso")
+        guardar(carpeta, estado)
+        print(f"Motivo propuesto por {AGENTE}: «{motivo_agente.strip()}». Abandonar lo decide una persona: "
+              f"oracle-factory abandonar {identificador}")
+        return
+    if motivo_agente:
+        raise FactoryError("--motivo es la propuesta de un agente; una persona elige el motivo en el menú")
+    requisitos = [r for r in estado.get("requisitos", []) if (ROOT / "requisitos" / f"{r}.requisito").is_file()]
+    tarea = ROOT / "tareas" / identificador / "TAREA.md"
+    print(f"{identificador} — {estado['titulo']} (fase {estado['fase']}).")
+    print("Se quitan de requisitos/ (quedan en la historia de Git): " + (", ".join(requisitos) or "ninguno") + ".")
+    print("La propuesta y la spec del cambio quedan como están; nada se fusiona en openspec/specs/.")
+    confirmar_persona((f"Abandonar {identificador}", "Abandonar el cambio",
+                       "pasa a abandonado, quita sus requisitos de requisitos/ y cierra su tarea"),
+                      "abandono cancelado; el cambio sigue como estaba")
+    propuesto = ((estado.get("motivos_propuestos") or {}).get("abandono") or {}).get("motivo")
+    motivo = elegir_motivo(f"no se va a terminar: queda abandonado en la fase {estado['fase']}"
+                           + (f" con {len(requisitos)} requisitos sin cerrar" if requisitos else "")
+                           + "; lo que siga va en un cambio nuevo.", propuesto)
+    if tarea.is_file():  # antes de tocar nada: si el tracker falla, el cambio queda como estaba
+        nota_tarea(identificador, f"Abandonado por una persona; motivo: {motivo[0]}")
+        if "ESTADO: CERRADA" not in tarea.read_text(encoding="utf-8"):
+            p = ejecutar(["tasks", "close", identificador, "--proyecto", str(ROOT)])
+            if p.returncode:
+                raise FactoryError(p.stderr.strip() or "oracle-task no pudo cerrar la tarea")
+    else:
+        print(f"Aviso: {identificador} no tiene tarea en tareas/; no hay nada que cerrar en el tracker.", file=sys.stderr)
+    forma = "confirmo" if motivo[1] == "agente" else "decidio"
+    estado["fase"] = "abandonada"
+    estado["abandono"] = {**registro_decision(estado, forma, motivo), "requisitos_quitados": requisitos}
+    (estado.get("motivos_propuestos") or {}).pop("abandono", None)
+    evento(estado, "abandono", forma=forma, requisitos_quitados=requisitos)
+    guardar(carpeta, estado)
+    for rid in requisitos:  # después del registro: lo que se quitó queda dicho aunque se corte acá
+        (ROOT / "requisitos" / f"{rid}.requisito").unlink(missing_ok=True)
+    actualizar_resumen()
+    print(f"Abandonado: {identificador}; {quien(estado['abandono'])}.")
 
 
 def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
@@ -1639,6 +1700,11 @@ def comando_buscar(texto: str, maximo: int) -> None:
 
 def mostrar(identificador: str) -> None:
     carpeta, estado = leer(identificador)
+    if estado.get("fase") == "abandonada":  # sin pendientes ni próximo paso; un registro mínimo no tiene spec
+        print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {quien(estado.get('abandono'))}")
+        quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
+        print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
+        return
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
@@ -1847,7 +1913,7 @@ def proximo_paso(identificador: str) -> str | None:
     """
     carpeta, estado = leer(identificador)
     ident = identificador
-    if estado.get("fase") == "cerrada":
+    if estado.get("fase") in ("cerrada", "abandonada"):
         return None
     # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
     faltan = archivos_faltantes(carpeta, estado)
@@ -1941,7 +2007,7 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
         if not (ruta_registro(carpeta)).exists():
             continue
         _, estado = leer(carpeta.name)
-        if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] == 'cerrada') \
+        if (fase and estado['fase'] != fase) or (abiertos and estado['fase'] in ('cerrada', 'abandonada')) \
                 or (cerrados and estado['fase'] != 'cerrada'):
             continue
         print(f"{carpeta.name}  {estado['fase']}{' (archivado)' if estado.get('archivo') else ''}  {estado['titulo']}")
@@ -2247,6 +2313,10 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('id')
     q.add_argument('--decision', choices=['aprobar', 'cambios'], help='sólo con --agente: la decisión que propone')
     q.add_argument('--motivo', help='sólo con --agente: el motivo que propone')
+    q = sub.add_parser('abandonar', help='abandonar un cambio con motivo (persona, en cualquier modo); '
+                       'con --agente deja el motivo que propone')
+    q.add_argument('id')
+    q.add_argument('--motivo', help='sólo con --agente: el motivo que propone')
     for nombre, ayuda in (("aprobar-spec", "aceptación humana explícita de la propuesta/spec"),
                           ("revision-preparar", "preparar informe guiado y decisiones pendientes sin aprobar"),
                           ("importar", "importar requisitos de la spec aceptada a Oracle"),
@@ -2313,6 +2383,7 @@ def main(argv: list[str] | None = None) -> int:
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
         elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con if args.con else hechos_del_candidato(args.id))
         elif args.comando == "cerrar": cerrar(args.id)
+        elif args.comando == "abandonar": abandonar(args.id, args.motivo)
         elif args.comando == "estado":
             mostrar(args.id)
             return ofrecer_siguiente(args.id)

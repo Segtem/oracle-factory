@@ -85,6 +85,13 @@ def generar(indices: list[dict], registros: dict[str, dict], medidas: dict[str, 
                    f"Fase `{a['fase']}` · modo `{a['modo']}` · capacidad `{a['capacidad']}` · "
                    f"[propuesta]({raiz_relativa}openspec/changes/{a['id']}/proposal.md)", '']
         cuerpo += [f'- {_celda(p)}' for p in _agrupar(a['pendientes'])] or ['- Nada: listo para cerrar.']
+    abandonados = sorted((r for r in registros.values() if r.get('fase') == 'abandonada'), key=lambda r: r['id'])
+    if abandonados:
+        cuerpo += ['', '## Cambios abandonados', '', 'No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.', '']
+        for r in abandonados:
+            a = r.get('abandono') or {}
+            cuerpo.append(f"- **{r['id']}** — {_celda(r.get('titulo', ''))}: {_celda(a.get('motivo', 'sin motivo'))} "
+                          f"({_celda(a.get('actor', '?'))}, {a.get('cuando', '')[:10]})")
     if sin_registro:
         cuerpo += ['', 'Carpetas de `openspec/changes/` sin registro de Factory (anteriores al flujo): '
                    + ', '.join(f'`{c}`' for c in sin_registro) + '.']
