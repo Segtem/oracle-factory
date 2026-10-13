@@ -100,6 +100,45 @@
         "factory_trazabilidad.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+      "medidas": [
+        "factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+        "factory_trazabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+      "medidas": [
+        "factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran",
+        "factory_trazabilidad.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "requisito": "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+      "medidas": [
+        "factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato",
+        "factory_trazabilidad.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,25 +146,31 @@
     "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran": "funcional",
     "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso": {
-      "sha256": "64f6a63e6c2318a7d1142f94836dce3f3c5ea248ef3b8a1f8850c99e8cf6f96b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T18:21:16+00:00"
-    },
-    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": {
-      "sha256": "81d5dfcdc41a93da9af702289b6ef2176c4b5b37fbd54e4c502bf57cd5cd5f85",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T18:21:16+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "64f6a63e6c2318a7d1142f94836dce3f3c5ea248ef3b8a1f8850c99e8cf6f96b"
     },
     "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran": {
-      "sha256": "7cefb11cb8c4ff937165654e7363c977d623f1facf144c75affe03507ddc6e97",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T18:21:16+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "7cefb11cb8c4ff937165654e7363c977d623f1facf144c75affe03507ddc6e97"
+    },
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-13T18:22:36+00:00",
+      "sha256": "81d5dfcdc41a93da9af702289b6ef2176c4b5b37fbd54e4c502bf57cd5cd5f85"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

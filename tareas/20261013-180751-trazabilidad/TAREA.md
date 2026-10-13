@@ -27,3 +27,15 @@ Medidas de trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_di
 ### Nota (2026-10-13 18:21:16 UTC)
 
 Medidas de trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran: factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran, factory_trazabilidad.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-13 18:22:36 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 18:22:36 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-13 18:22:36 UTC)
+
+Medidas de trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato: Brian Hollweg (persona, confirmo, modo confirmacion).
