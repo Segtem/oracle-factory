@@ -1,0 +1,8 @@
+medida factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato:
+    de trazabilidad_caso c
+    donde c.requisito == "trazabilidad_cruza_los_casos_con_el_diff_del_candidato" y c.codigo == 0
+    resumen contar(1)
+    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_trazabilidad.py; asociar junto a corrida_completa"
+    requiere trazabilidad_caso
+    ambito universal
+    alcance "escenarios tz1-tz3 en Linux, con casos reales trazados en repositorios temporales"

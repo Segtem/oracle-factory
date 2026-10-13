@@ -2,7 +2,7 @@
   "id": "20261013-180751-trazabilidad",
   "titulo": "Trazabilidad por candidato: requisito, casos y líneas cambiadas",
   "capacidad": "trazabilidad",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
   "spec_sha256": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+    "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261013-180751-trazabilidad/proposal.md": "2594a6d92fd0e75a3f325bd7aa1d6647f0869fe3668fecc09ff47e2dde619df2",
         "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md": "88239974462ab67bd63b781a70f407bc6e6592a2b51327afab78eaa32ebce9dd"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T18:12:38+00:00",
+      "ids": [
+        "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso",
+        "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran",
+        "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso": "funcional",
+    "trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran": "funcional",
+    "trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

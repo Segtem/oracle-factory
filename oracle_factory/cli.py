@@ -26,6 +26,7 @@ from . import revisores as revisores_mod
 from . import estructura
 from . import migracion
 from . import preparacion
+from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import revision as documentos_revision
 from pathlib import Path
@@ -1802,6 +1803,72 @@ def datos_donde(identificador: str, candidato: str | None) -> dict:
                            for fila in estructura.donde(ROOT, identificador, estado, candidato)]}
 
 
+def datos_trazabilidad(identificador: str) -> dict:
+    """La trazabilidad del candidato vigente: lo que dejó el sensor, cruzado con el diff contra la base."""
+    leer(identificador)
+    sha = candidato_vigente(identificador)
+    if sha is None:
+        raise FactoryError("no hay candidato vigente: hace falta un commit con su carpeta de candidato y sin cambios de "
+                           f"producto después; producí la evidencia con oracle-factory ruta {identificador} evidencia")
+    ruta = estructura.ruta_canonica(ROOT, identificador, "evidencia", sha) / "trazabilidad.json"
+    if not ruta_segura(ruta).is_file():
+        raise FactoryError(f"no hay trazabilidad del candidato {sha}: el sensor la deja en {ruta.relative_to(ROOT)} con "
+                           "oracle_factory.trazabilidad.trazar (ver docs/trazabilidad.md)")
+    trazas = json.loads(ruta.read_text(encoding="utf-8"))
+    if not isinstance(trazas, dict) or trazas.get("esquema") != trazabilidad_mod.ESQUEMA_CASOS:
+        raise FactoryError(f"{ruta.relative_to(ROOT)} no es una trazabilidad de casos ({trazabilidad_mod.ESQUEMA_CASOS})")
+    p = ejecutar(["git", "merge-base", "HEAD", "main"])
+    if p.returncode:
+        raise FactoryError("no encuentro la rama main para la base del diff")
+    base, candidato = p.stdout.strip(), ejecutar(["git", "rev-parse", sha]).stdout.strip()
+    diff = ejecutar(["git", "diff", "-U0", "--no-renames", "--no-color", base, candidato])
+    if diff.returncode:
+        raise FactoryError(f"git diff falló: {diff.stderr.strip()[:300]}")
+    cambios = {a: ls for a, ls in trazabilidad_mod.cambios_del_diff(diff.stdout).items() if es_producto(a)}
+    ejecutables = {}
+    for archivo in cambios:  # el archivo como está en el candidato, no en el árbol de trabajo
+        texto = ejecutar(["git", "show", f"{candidato}:{archivo}"]) if archivo.endswith(".py") else None
+        ejecutables[archivo] = trazabilidad_mod.lineas_ejecutables(texto.stdout) if texto and not texto.returncode else None
+    return {"esquema": trazabilidad_mod.ESQUEMA, "id": identificador, "candidato": sha, "base": base,
+            "trazabilidad": ruta.relative_to(ROOT).as_posix(), **trazabilidad_mod.cruzar(trazas, cambios, ejecutables)}
+
+
+def comando_trazabilidad(identificador: str, como_json: bool) -> None:
+    datos = datos_trazabilidad(identificador)
+    if como_json:
+        imprimir_json(datos)
+        return
+    print(f"{identificador} · candidato {datos['candidato']} contra la base {datos['base'][:7]}")
+    for rid, r in datos["requisitos"].items():
+        print(f"\n{rid}")
+        print("  Casos: " + (", ".join(f"{c['caso']} ({c['resultado']})" for c in r["casos"]) or "ninguno"))
+        for archivo, lineas in r["lineas"].items():
+            print(f"  {archivo}: {rangos(lineas)}")
+        if not r["lineas"]:
+            print("  Ninguna línea cambiada ejecutada por sus casos.")
+    print("\nSin respaldo (líneas cambiadas que no ejecuta ningún caso del contrato):")
+    for archivo, lineas in datos["sin_respaldo"].items():
+        print(f"  {archivo}: {rangos(lineas)}")
+    if not datos["sin_respaldo"]:
+        print("  ninguna")
+    if datos["no_rastreables"]:
+        print("No rastreables (no son Python o no compilan): " + ", ".join(datos["no_rastreables"]))
+    for limite in datos["limites"]:
+        print(f"Límite: {limite}.")
+
+
+def rangos(lineas: list[int]) -> str:
+    """[3, 4, 5, 9] → «3-5, 9»."""
+    partes, inicio = [], None
+    for i, n in enumerate(lineas):
+        if inicio is None:
+            inicio = n
+        if i + 1 == len(lineas) or lineas[i + 1] != n + 1:
+            partes.append(str(inicio) if inicio == n else f"{inicio}-{n}")
+            inicio = None
+    return ", ".join(partes)
+
+
 def comando_donde(identificador: str, candidato: str | None) -> None:
     _, estado = leer(identificador)
     print(f"{estado['id']} — {estado['titulo']}" + (f" (candidato {candidato})" if candidato else ""))
@@ -2457,6 +2524,9 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('donde', help='listar los artefactos de un cambio, su ruta y el gate que respaldan (sólo lectura)')
     q.add_argument('id'); q.add_argument('--candidato', help='limitarse a los artefactos de este commit (prefijo del SHA)')
     q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado (para IDE, paneles y MCP)')
+    q = sub.add_parser('trazabilidad', help='por requisito, las líneas cambiadas del candidato que ejecutan sus casos, y las que '
+                       'no ejecuta ninguno (sólo lectura)')
+    q.add_argument('id'); q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
     q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
@@ -2529,6 +2599,7 @@ def main(argv: list[str] | None = None) -> int:
             imprimir_json(resumen.datos(*insumos_resumen()))
         elif args.comando == "resumen": comando_resumen(args.verificar, args.salida, args.ver)
         elif args.comando == "pedir-revision": pedir_revision(args.id, args.revisor, args.pedir, args.base)
+        elif args.comando == "trazabilidad": comando_trazabilidad(args.id, args.json)
         elif args.comando == "donde" and args.json: imprimir_json(datos_donde(args.id, args.candidato))
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
