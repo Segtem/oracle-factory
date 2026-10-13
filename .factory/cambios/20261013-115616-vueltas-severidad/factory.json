@@ -223,6 +223,16 @@
       "candidato": "6d60612",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-13T15:16:47+00:00",
+      "decision": "aprobar",
+      "candidato": "6d60612"
     }
   ],
   "tipos": {
@@ -256,5 +266,15 @@
       "sha256": "e3aa2e3f2f0adc24b717eaf09ba63f5ad9af475dba9dce085b7f404e08adef4b"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy: la 1 trajo 5 hallazgos (2 altos, 3 medios) y la 2, 4 (1 alto, 2 medios, 1 bajo), todos corregidos con una aserción que falla en el código anterior dentro de los mismos 10 casos del contrato; la 3 dejó un solo hallazgo bajo, decidido en esta revisión, y el corte nuevo dijo que no hacía falta otra vuelta. El F-03 de la vuelta 1 (el escenario de severidad desconocida no se alcanza por pedir-revision porque Clue rechaza el informe) queda como límite declarado en la evidencia; ajustar la spec va aparte. Suite 320 y evidencia en verde.",
+      "candidato": "6d60612",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-13T15:16:47+00:00"
+    }
+  }
 }
