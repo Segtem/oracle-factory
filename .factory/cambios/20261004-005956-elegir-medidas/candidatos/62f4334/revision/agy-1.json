@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/62f4334",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "62f4334c28e7421505ac8ff544d00247e416e194",
+  "diff_sha256": "85246abd2ef1fd54aaa7e6fe8cff587874e73723db147f13054cb34031cdc12b",
+  "context_sha256": "489c4d80de2edaac90c22ad5ecde6a5f4208d678e3bfe54a309228fb9f6402a9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto del diff: revisión de vuelta 2 para el cambio 20261004-005956-elegir-medidas en el candidato 62f4334 frente a base 37fad360. El diff incorpora los metadatos de medidas confirmadas por Brian Hollweg (persona) y el registro de revisiones de la vuelta 1 en factory.json y TAREA.md, junto con el refuerzo de aserciones en tests/test_guided.py orientado a matar los mutantes reportados vivos en la vuelta 1.",
+    "Sin defectos en el diff: se inspeccionaron los rangos modificados en tests/test_guided.py (líneas 172-179, 193-202, 235-253 y 277-294 de EleccionMedidas), factory.json y TAREA.md. Las nuevas aserciones verifican rigurosamente el rechazo de opciones en --listar, la detección de catálogos modificados por sha256, la edición concurrente de registro y spec, y las entradas inválidas de medidas vacías y espacios. No se identificaron defectos en el diff, por lo que findings queda vacía.",
+    "Cumplimiento de requisitos en oracle_factory/cli.py: se contrastaron las promesas de openspec/changes/20261004-005956-elegir-medidas/proposal.md y openspec/changes/20261004-005956-elegir-medidas/specs/measurement_choice/spec.md frente a la implementación de medir e inventario_medidas. El código cumple los tres requisitos: 1) 'asociacion explicita y valida': exige el ID completo del requisito importado por el cambio, valida medidas efectivas en el catálogo, preserva prosa, fuente, comentarios y límites parciales, e impide sufijos ambiguos o asociaciones automáticas; 2) 'preservar requisito ante error': ante medidas inexistentes, sintaxis inválida, spec desactualizada, catálogo alterado o fallos de E/S en escritura atómica, los bytes originales del requisito se conservan intactos; 3) 'invalidar evidencia anterior': asociar medidas distintas invalida revision y oracle restableciendo la fase a requisitos_importados, mientras que repeticiones idénticas conservan la evidencia existente sin cierre automático.",
+    "Ejecución de pruebas: se ejecutó exactamente en primer plano el comando requerido: cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null (20 pruebas exitosas, incluyendo los 11 casos de EleccionMedidas). No se corrieron tools/verify_*.py ni la suite completa conforme a las instrucciones.",
+    "Verificación de mutaciones y resolución de huecos de la vuelta 1: se evaluaron 17 mutaciones sobre medir contra la suite EleccionMedidas. Se verificó el cierre efectivo de los mutantes previos: 1) M1 cerrado: test_listado_es_solo_lectura_y_muestra_limites_y_fuentes ahora comprueba que --listar rechace exhaustivamente --requisito, --medida, --sin-medir y --quitar-sin-medir; 2) M2 cerrado: test_catalogo_eliminado_durante_asociacion_no_muta simula una modificación en el contenido del catálogo que altera su sha256 sin eliminarlo, matando el mutante de huella; 3) M3 cerrado: test_edicion_concurrente_detectada_no_sobrescribe_al_editor ahora cubre modificaciones concurrentes a factory.json y spec.md dentro de bloqueo_medidas; 4) M11 verificado: se comprobó que el metalenguaje de Oracle rechaza sin_medir con sólo espacios ('   ') lanzando RequisitoMalDeclarado (ValueError -> FactoryError) de forma nativa, por lo que omitir strip() en la CLI es un mutante semánticamente equivalente a nivel de sistema; además test_medida_inexistente_duplicada_o_requisito_ajeno_no_mutan ahora incluye explícitamente {'sin_medir': '   '}; 5) M12 cerrado: test_medida_inexistente_duplicada_o_requisito_ajeno_no_mutan incluye {'medidas': []}, eliminando el mutante de lista vacía."
+  ]
+}

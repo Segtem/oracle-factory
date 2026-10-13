@@ -1,0 +1,33 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cerrar-guiadas/.factory/local/revisiones/62f4334",
+  "base": "37fad360f80ce4cb1c256fea45b1e1e926119db2",
+  "head": "62f4334c28e7421505ac8ff544d00247e416e194",
+  "diff_sha256": "85246abd2ef1fd54aaa7e6fe8cff587874e73723db147f13054cb34031cdc12b",
+  "context_sha256": "6d772712f095c6273dc1a873153b7285a17577c1e75eabe0948324868aed7e48",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "IG-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La prueba de listar no verifica que no cree otra tarea",
+      "explanation": "El escenario promete que `listar` permite recuperar un ID sin crear otra tarea. La prueba prepara un cambio Factory y una tarea tracker, llama a `f.listar()` y solo comprueba que la salida incluya el ID/fase/título esperados y no incluya el título de la tarea tracker. No compara las tareas antes y después de listar. Una regresión que cree una tarea adicional con otro título seguiría pasando estas aserciones, por lo que el caso que el sensor atribuye a `recuperar_cambios_y_siguiente_paso` no demuestra esa parte del requisito.",
+      "location": {"file": "tests/test_guided.py", "start_line": 126, "end_line": 127, "side": "head"},
+      "trigger": "Introducir en `listar()` un efecto lateral que cree una tarea Factory adicional con un título distinto de `Sólo tracker`; ejecutar `test_listar_recupera_cambio_y_no_confunde_tareas_solas`.",
+      "evidence": "En `tests/test_guided.py:121-127`, la prueba crea el cambio y la tarea tracker, limpia stdout y ejecuta `f.listar()`. Las únicas aserciones posteriores verifican presencia del ID/fase/título del cambio y ausencia de `Sólo tracker`; no capturan `before = self.tasks()` ni comparan las tareas tras listar. La promesa está en `openspec/changes/20261004-005956-inicio-guiado/specs/onboarding/spec.md`, requisito `recuperar cambios y siguiente paso`, escenario `terminal nueva`, y en `tools/verify_contracts.py`, que atribuye este caso a ese requisito.",
+      "related_requirement": "recuperar_cambios_y_siguiente_paso",
+      "status": "pendiente",
+      "verification": "Inspección de la prueba, el mapeo del sensor y la spec. No hice mutaciones en una copia. La implementación actual de `listar()` inspeccionada recorre cambios y los imprime sin crear tareas; este hallazgo se refiere al hueco de cobertura del test."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal.md, specs/onboarding/spec.md, los tres requisitos importados del cambio, el diff del paquete, oracle_factory/cli.py, tests/test_guided.py, tools/verify_contracts.py y los informes de la vuelta anterior.",
+    "Ejecuté exactamente `cd /home/workstation/Dev/factory-cerrar-guiadas && /home/workstation/Dev/factory-cerrar-guiadas/.venv/bin/python -m unittest tests.test_guided </dev/null` en primer plano: 20 pruebas, OK (con DeprecationWarning de dependencias). No ejecuté tools/verify_*.py ni la suite completa.",
+    "Los tres huecos informados en la vuelta anterior están cerrados en esta revisión: la prueba verifica que la creación de ejemplo no deje medidas registradas ni pendientes, `init` comprueba los mensajes sobre próximo paso y Git, y `listar` exige el título además del ID completo y la fase.",
+    "Verifiqué que `--sin-medir '   '` se rechaza: la CLI actual falla por `not sin_medir.strip()` y el validador de Oracle también exige contenido no vacío mediante `str.strip()`. La prueba acepta FactoryError, así que quitar solo la comprobación local no permitiría persistir espacios en blanco.",
+    "Inspeccioné estáticamente `oracle_factory/cli.py` frente a los tres requisitos. La implementación actual prepara los documentos/catálogos antes de crear la tarea, deja el cambio esperando aprobación sin requisitos ni mediciones, protege destinos existentes y enlaces simbólicos, e imprime cambios con IDs completos/fases/títulos. No ejecuté `tools/verify_contracts.py` ni hice mutaciones en copias."
+  ]
+}

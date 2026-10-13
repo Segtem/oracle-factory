@@ -52,12 +52,15 @@ class InicioGuiado(ProyectoTemporal):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertFalse((self.root / '.git').exists())
         self.assertIn('aprobar-spec ' + ident, self.stdout.getvalue())
+        for ruta in (f'Cambio creado: {ident}', str(self.root / 'tareas' / ident / 'TAREA.md'), str(folder / 'proposal.md'),
+                     str(self.root / state['spec']), str(self.root / 'examples/notas'), str(self.root / 'catalogos')):
+            self.assertIn(ruta, self.stdout.getvalue())
 
     def test_conflictos_se_rechazan_antes_de_crear_tarea(self):
         path = self.root / 'catalogos/notas.resultados.oracle'
         path.write_bytes(b'Medida del usuario\n')
         before = self.tasks()
-        with self.assertRaises(f.FactoryError): self.crear()
+        with self.assertRaisesRegex(f.FactoryError, 'catalogos/notas.resultados.oracle'): self.crear()
         self.assertEqual(path.read_bytes(), b'Medida del usuario\n')
         self.assertEqual(self.tasks(), before)
         self.assertFalse((self.root / 'examples/notas').exists())
@@ -122,7 +125,9 @@ class InicioGuiado(ProyectoTemporal):
         ident = self.crear()
         subprocess.run([f.sys.executable, '-m', 'oracle_task.cli', 'new', 'Sólo tracker', '--sufijo', 'tracker', '--proyecto', str(self.root)], check=True, capture_output=True)
         self.stdout.seek(0); self.stdout.truncate()
+        before = self.tasks()
         f.listar()
+        self.assertEqual(self.tasks(), before)
         self.assertIn(ident + '  espera_aprobacion_spec  Un título de nota', self.stdout.getvalue())
         self.assertNotIn('Sólo tracker', self.stdout.getvalue())
 
