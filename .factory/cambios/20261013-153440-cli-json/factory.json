@@ -2,7 +2,7 @@
   "id": "20261013-153440-cli-json",
   "titulo": "Salidas en JSON de estado, donde y resumen",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
   "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "cli_c38d280a51dea748e.estado_se_lee_como_json",
     "cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/informe.json",
+    "sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
+    "decisiones": "tareas/20261013-153440-cli-json/revisiones/registro-j2d0pmoy/decisiones.json",
+    "decisiones_sha256": "eae1f52bdc03a8eaa799a669b9addbdb494d768a82ade7d1492108cfb0e867d8",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T17:34:36+00:00",
+    "motivo": "dos vueltas de codex y agy: la 1 trajo 2 medios, 2 bajos y 1 informativo; se corrigieron la vigencia del juicio y de la revisión (mismas reglas que estado en texto), las pruebas de oracle y del resumen y el actor de registros viejos, con aserciones que fallan en el código anterior dentro de los mismos 7 casos; la 2 no encontró nada. CLI-JSON-001 (un cambio sin evidencia no la lista como ausente en donde: cumplirlo cambiaría el texto de donde, que otro requisito prohíbe) queda como límite: el escenario se probó con los hechos de un juicio registrado que ya no están, y ajustar la spec va aparte. Suite 327 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "2e783f5118de7a45495c7fdced33fe4fca9e16da",
+      "archivos_sha256": "95f74d29737de993d27dffabb5ee5cc5a0c51e96e4726332efa160a414a5df2a"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -205,6 +225,20 @@
       "cuando": "2026-10-13T16:48:07+00:00",
       "decision": "aprobar",
       "candidato": "7b12c87"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-13T17:34:36+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "03d73394ab9178e3993479642a8065dcf806ae44fd4ac9b044337d2014b63e84",
+      "decisiones_sha256": "eae1f52bdc03a8eaa799a669b9addbdb494d768a82ade7d1492108cfb0e867d8"
     }
   ],
   "tipos": {
@@ -239,14 +273,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy: la 1 trajo 2 medios, 2 bajos y 1 informativo; se corrigieron la vigencia del juicio y de la revisión (mismas reglas que estado en texto), las pruebas de oracle y del resumen y el actor de registros viejos, con aserciones que fallan en el código anterior dentro de los mismos 7 casos; la 2 no encontró nada. CLI-JSON-001 (un cambio sin evidencia no la lista como ausente en donde: cumplirlo cambiaría el texto de donde, que otro requisito prohíbe) queda como límite: el escenario se probó con los hechos de un juicio registrado que ya no están, y ajustar la spec va aparte. Suite 327 y evidencia en verde.",
-      "candidato": "7b12c87",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-13T16:48:07+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
