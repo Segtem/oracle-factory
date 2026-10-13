@@ -2,10 +2,20 @@
   "id": "20261013-153440-cli-json",
   "titulo": "Salidas en JSON de estado, donde y resumen",
   "capacidad": "cli",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-13T15:46:25+00:00",
+    "documentos": {
+      "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
+      "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-13T15:34:40+00:00",
       "capacidad": "cli"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-13T15:46:25+00:00",
+      "documentos": {
+        "openspec/changes/20261013-153440-cli-json/proposal.md": "fdfd82d3b820f3a1538e03763e69b6d647b9a3b7e206d7df91f2a8b7347c0424",
+        "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md": "62185b87559b28d7c0e5e692798dc73c4abf791abd2cd9891e7ffbe313b83e64"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }

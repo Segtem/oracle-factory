@@ -7,3 +7,7 @@
 ### Nota (2026-10-13 15:34:40 UTC)
 
 OpenSpec: openspec/changes/20261013-153440-cli-json. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-13 15:46:25 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261013-153440-cli-json/specs/cli/spec.md; se reiniciaron las validaciones dependientes.
