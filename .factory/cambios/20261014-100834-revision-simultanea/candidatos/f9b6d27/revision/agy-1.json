@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-simultanea/.factory/local/revisiones/f9b6d27",
+  "base": "59d85d705225aaaa441cb2eb7b2d107aef8a376a",
+  "head": "f9b6d2716c42dc80bd9b892724eaba39f94e5d12",
+  "diff_sha256": "561bf1d78d06d4d98569b20c773dc1d1e828f9e3f8920f6de658fa38ecefbe89",
+  "context_sha256": "132a815b38d0ec4b6d47a05cb01496d4b002f8ff4241c0f616d2cf8e3919a134",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (openspec/changes/20261014-100834-revision-simultanea/proposal.md), la especificación (openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md), el diff del paquete de Clue (paquete-agy-1.json), el diseño, la implementación en oracle_factory/cli.py (turno_de_pedidos y pedir_revision) y las pruebas en tests/test_revision_simultanea.py.",
+    "Se respetaron las exclusiones del paquete: no se revisaron los 10 archivos excluidos fuera del paquete (.factory y tareas: registros y evidencia de Factory).",
+    "Se verificó la resolución de los hallazgos de la Vuelta 1: H-01 y H-02 están debidamente cerrados en f9b6d27. En tests/test_revision_simultanea.py, el arnés a_la_vez incorpora una barrera threading.Barrier (revisados) y una demora controlada (guardar_despacio con sleep de 0.3s) que fuerzan la competencia concurrente en factory.json y exigen paralelismo real durante la ejecución del revisor. H-03 fue aclarado como preexistente y fuera de alcance del cambio.",
+    "Se analizaron las condiciones de carrera y exclusión mutua: el checkout se crea atómicamente bajo el primer turno_de_pedidos evitando colisiones de git worktree add; la numeración del paquete (n) y la carpeta de trabajo quedan serializadas en ese mismo turno garantizando aislamiento por revisor e incremento sin solapamientos; la persistencia de informes y pedidos en revision/ usa rutas con índice n unívoco y escrituras atómicas; y el registro de eventos en factory.json se protege con el segundo turno_de_pedidos.",
+    "Se confirmó que el bloqueo implementado con fcntl.flock(..., LOCK_EX) es liberado automáticamente por el kernel del sistema operativo cuando el proceso termina de cualquier forma (incluso ante interrupción forzada o fallo), sin dejar bloqueos residuales en disco que impidan ejecuciones posteriores, tal como valida el escenario rs2.",
+    "Se ejecutó exactamente la suite requerida: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null (19 tests, OK en 15s).",
+    "No se ejecutó la suite completa de pruebas ni las herramientas tools/verify_*.py, conforme a las directivas explícitas de la revisión.",
+    "Se realizaron análisis sistemáticos de mutación en copias aisladas sobre tests/test_revision_simultanea.py: el código previo sin locks falla en los 3 tests (3/3 fallas); una mutación suprimiendo el segundo lock (evento en factory.json) falla en los 2 tests de rs1; una mutación suprimiendo el primer lock (checkout y paquete) falla en los 2 tests de rs1; y una mutación que extiende el turno reteniendo el bloqueo durante la ejecución del revisor falla en los 2 tests de rs1 por rotura de barrera concurrente (BrokenBarrierError)."
+  ]
+}
