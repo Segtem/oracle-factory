@@ -80,9 +80,9 @@ La revisión independiente de este cambio SHALL pedirse con `pedir-revision`, y 
 - THEN tiene al menos un informe de revisor y el pedido con que se obtuvo
 
 ### Requirement: el corte de vueltas sigue la severidad
-Origen: 20261013-115616-vueltas-severidad · revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad
+Origen: 20261014-140627-severidad-ausente · revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad
 Tipo: funcional
-Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. Una severidad desconocida o ausente SHALL contar como media. `estado` SHALL sugerir el mismo próximo paso.
+Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. `estado` SHALL sugerir el mismo próximo paso. Un informe con un hallazgo sin severidad o con una desconocida SHALL NOT guardarse; uno guardado que la pierde SHALL NOT usarse para decidir la vuelta, y `estado` SHALL avisar por qué.
 
 #### Scenario: sólo quedan bajos
 - GIVEN un candidato cuyos informes traen sólo hallazgos bajos
@@ -94,10 +94,15 @@ Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgo
 - WHEN termina pedir-revision
 - THEN la salida pide corregir el hallazgo medio y pedir otra vuelta, y estado sugiere lo mismo
 
-#### Scenario: severidad desconocida
-- GIVEN un informe con un hallazgo sin severidad
+#### Scenario: un informe sin severidad no se guarda
+- GIVEN un revisor que deja un hallazgo sin severidad, o con una que no existe
 - WHEN termina pedir-revision
-- THEN cuenta como medio y pide otra vuelta
+- THEN falla diciendo que Clue rechazó el informe, y revision/ no cambia
+
+#### Scenario: un informe guardado que pierde la severidad
+- GIVEN un informe guardado con un hallazgo medio, editado después para quitarle la severidad
+- WHEN la persona pide estado
+- THEN ese informe no se usa para decidir la vuelta y el aviso dice que no pasa la validación de Clue
 
 ### Requirement: un riesgo aceptado persiste entre vueltas
 Origen: 20261013-115616-vueltas-severidad · revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas

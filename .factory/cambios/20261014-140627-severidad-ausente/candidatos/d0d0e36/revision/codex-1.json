@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-severidad-ausente/.factory/local/revisiones/d0d0e36",
+  "base": "e791662d5ba027940a63bf959e520459bf834eb4",
+  "head": "d0d0e363a5e00677ac4a3201eb13fe9a72ac8201",
+  "diff_sha256": "6959401f81c1267f833535612fd35dc1e8b8c77798589a503679817db64ed7c8",
+  "context_sha256": "5f52f932ca895c30cb6acfcb49f3f0a1f6e08e1611a6148a85baacc48b0571b7",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, la propuesta, los rangos del diff, oracle_factory/cli.py (pedir_revision, material_del_candidato, corte_del_candidato, proximo_paso), oracle_factory/preparacion.py (corte y contar_severidades), tests/test_severidad_ausente.py, los casos vs1 de tests/test_vueltas.py y tools/verify_severidad_ausente.py.",
+    "Corrí exactamente los módulos solicitados: python -m unittest tests.test_severidad_ausente tests.test_vueltas; 12 tests pasaron. La salida completa está en pruebas.log.",
+    "No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones: el checkout candidato se mantuvo de sólo lectura.",
+    "No encontré defectos dentro de los cambios revisados. Los cuatro casos declarados por el verificador usan IDs completos de dos módulos; Counter(expected) frente a la cantidad observada detecta omisiones y duplicados."
+  ]
+}

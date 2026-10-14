@@ -1,0 +1,67 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261014-140627-severidad-ausente",
+  "contexto": {
+    "head": "67a647a6eabb6c461405a0438ba1753463512f27",
+    "archivos_sha256": "3e59d87aec5a5eb45de4d6ec6a4507ff25700f7c5b7499962c1715643b695507"
+  },
+  "documentos": {
+    "openspec/changes/20261014-140627-severidad-ausente/proposal.md": "99551866780d1a0bb9ce0e1fd7308c3630d5709da6e9299bfe28d362c067d294",
+    "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md": "8db4d71de673c6976f49f11c902a62eff3d90673bf5ac5257dba63dd61f70462"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_severidad.corrida_completa.oracle",
+    "catalogos/factory_severidad.el_corte_de_vueltas_sigue_la_severidad.oracle",
+    "openspec/changes/20261014-140627-severidad-ausente/design.md",
+    "openspec/changes/20261014-140627-severidad-ausente/proposal.md",
+    "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md",
+    "openspec/changes/20261014-140627-severidad-ausente/tasks.md",
+    "requisitos/revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad.requisito",
+    "tests/test_severidad_ausente.py",
+    "tests/test_vueltas.py",
+    "tools/verify_severidad_ausente.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 345 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/d0d0e36/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/d0d0e36/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/d0d0e36/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4f96d64: agy (gemini-3.8-flash-high), 4 hallazgos: F-01 (alta), F-02 (media), F-03 (baja), F-04 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/4f96d64/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4f96d64: codex (gpt-6-luna), 1 hallazgo: F-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/4f96d64/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios vs1 (bajos y medios, de test_vueltas) y sa1 en repositorios temporales, Linux, con revisores de prueba y oracle-clue 0.1.0a2 real. Que Clue rechace una severidad ausente o desconocida es comportamiento de Clue 0.1.0a2; una versión que la aceptara haría fallar sa1.",
+    "agy (gemini-3.8-flash-high): Revisión estática y contrastación de la spec (openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md), propuesta, diff del candidato d0d0e36, código de producto (oracle_factory/cli.py y oracle_factory/preparacion.py), casos de prueba (tests/test_severidad_ausente.py y tests/test_vueltas.py) y sensor de evidencia (tools/verify_severidad_ausente.py).",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas limitada estrictamente a la instrucción: cd /home/workstation/Dev/factory-severidad-ausente && /home/workstation/Dev/factory-severidad-ausente/.venv/bin/python -m unittest tests.test_severidad_ausente tests.test_vueltas </dev/null (12 pruebas, todas OK en 10.012s). No se corrió tools/verify_*.py ni la suite completa. El checkout del candidato se mantuvo intacto de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Comprobaciones de la vuelta 1: se verificó que F-02 (pérdida de severidad con un solo revisor) quedó subsanado al incorporar dos revisores (codex y agy) en test_sa1_un_informe_guardado_que_pierde_la_severidad, comprobando la decisión de vuelta con los informes restantes válidos (revisar). Asimismo, F-04 / codex F-01 quedó subsanado al actualizar paso() en tests/test_vueltas.py para invocar la CLI de oracle-factory estado vía f.main y cotejar su salida formateada.",
+    "agy (gemini-3.8-flash-high): El verificador tools/verify_severidad_ausente.py maneja adecuadamente los casos distribuidos en dos módulos (test_vueltas y test_severidad_ausente): utiliza nombres totalmente calificados con PREFIX vacío, consistentes con los identificadores producidos por discover y requeridos por loadTestsFromName en trazabilidad.trazar. La comparación observed == Counter(expected) asegura que los cuatro casos requeridos por el contrato se ejecuten sin duplicados ni omisiones.",
+    "agy (gemini-3.8-flash-high): Sin hallazgos: no se detectaron defectos, regresiones ni discrepancias abiertas en el código o las pruebas del candidato d0d0e36 respecto a la especificación aprobada.",
+    "codex (gpt-6-luna): Leí la spec, la propuesta, los rangos del diff, oracle_factory/cli.py (pedir_revision, material_del_candidato, corte_del_candidato, proximo_paso), oracle_factory/preparacion.py (corte y contar_severidades), tests/test_severidad_ausente.py, los casos vs1 de tests/test_vueltas.py y tools/verify_severidad_ausente.py.",
+    "codex (gpt-6-luna): Corrí exactamente los módulos solicitados: python -m unittest tests.test_severidad_ausente tests.test_vueltas; 12 tests pasaron. La salida completa está en pruebas.log.",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones: el checkout candidato se mantuvo de sólo lectura.",
+    "codex (gpt-6-luna): No encontré defectos dentro de los cambios revisados. Los cuatro casos declarados por el verificador usan IDs completos de dos módulos; Counter(expected) frente a la cantidad observada detecta omisiones y duplicados."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

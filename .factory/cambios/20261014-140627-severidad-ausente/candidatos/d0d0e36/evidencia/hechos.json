@@ -1,0 +1,30 @@
+{
+  "severidad_caso": [
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "test_vueltas.Vueltas.test_vs1_solo_quedan_bajos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "test_vueltas.Vueltas.test_vs1_queda_uno_medio",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "test_severidad_ausente.SeveridadAusente.test_sa1_un_informe_sin_severidad_no_se_guarda",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_corte_de_vueltas_sigue_la_severidad",
+      "caso": "test_severidad_ausente.SeveridadAusente.test_sa1_un_informe_guardado_que_pierde_la_severidad",
+      "codigo": 0
+    }
+  ],
+  "severidad_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}

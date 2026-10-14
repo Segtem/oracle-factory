@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-severidad-ausente/.factory/local/revisiones/d0d0e36",
+  "base": "e791662d5ba027940a63bf959e520459bf834eb4",
+  "head": "d0d0e363a5e00677ac4a3201eb13fe9a72ac8201",
+  "diff_sha256": "6959401f81c1267f833535612fd35dc1e8b8c77798589a503679817db64ed7c8",
+  "context_sha256": "5f52f932ca895c30cb6acfcb49f3f0a1f6e08e1611a6148a85baacc48b0571b7",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y contrastación de la spec (openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md), propuesta, diff del candidato d0d0e36, código de producto (oracle_factory/cli.py y oracle_factory/preparacion.py), casos de prueba (tests/test_severidad_ausente.py y tests/test_vueltas.py) y sensor de evidencia (tools/verify_severidad_ausente.py).",
+    "Ejecución de pruebas limitada estrictamente a la instrucción: cd /home/workstation/Dev/factory-severidad-ausente && /home/workstation/Dev/factory-severidad-ausente/.venv/bin/python -m unittest tests.test_severidad_ausente tests.test_vueltas </dev/null (12 pruebas, todas OK en 10.012s). No se corrió tools/verify_*.py ni la suite completa. El checkout del candidato se mantuvo intacto de sólo lectura.",
+    "Comprobaciones de la vuelta 1: se verificó que F-02 (pérdida de severidad con un solo revisor) quedó subsanado al incorporar dos revisores (codex y agy) en test_sa1_un_informe_guardado_que_pierde_la_severidad, comprobando la decisión de vuelta con los informes restantes válidos (revisar). Asimismo, F-04 / codex F-01 quedó subsanado al actualizar paso() en tests/test_vueltas.py para invocar la CLI de oracle-factory estado vía f.main y cotejar su salida formateada.",
+    "El verificador tools/verify_severidad_ausente.py maneja adecuadamente los casos distribuidos en dos módulos (test_vueltas y test_severidad_ausente): utiliza nombres totalmente calificados con PREFIX vacío, consistentes con los identificadores producidos por discover y requeridos por loadTestsFromName en trazabilidad.trazar. La comparación observed == Counter(expected) asegura que los cuatro casos requeridos por el contrato se ejecuten sin duplicados ni omisiones.",
+    "Sin hallazgos: no se detectaron defectos, regresiones ni discrepancias abiertas en el código o las pruebas del candidato d0d0e36 respecto a la especificación aprobada."
+  ]
+}
