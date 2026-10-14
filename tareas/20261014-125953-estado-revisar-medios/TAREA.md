@@ -19,3 +19,7 @@ Requisitos importados: revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_
 ### Nota (2026-10-14 13:04:07 UTC)
 
 Medidas de revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios: factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-14 13:05:08 UTC)
+
+Medidas de revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios: Brian Hollweg (persona, confirmo, modo confirmacion).
