@@ -23,3 +23,7 @@ Medidas de revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad: f
 ### Nota (2026-10-14 14:11:50 UTC)
 
 Medidas de revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 14:43:40 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, a la vez. La 1: agy un alto, un medio y dos bajos, codex un bajo. Corregidos el medio (la pérdida de severidad ahora con dos revisores: decide el informe que queda) y el bajo repetido (vs1 lee el próximo paso de estado por la CLI). El alto no era cierto: el sensor compara con Counter(expected), así que un caso que falta o se repite da incompleto (comprobado). El bajo de «alta» sin escenario propio no se cambió: alta y media van por la misma rama del corte. La 2 no encontró nada. Suite 345 y evidencia en verde.); 0 abiertos derivados; commit 273e7faa1e0080924ec6e785f506468cad4d6eac; informe tareas/20261014-140627-severidad-ausente/revisiones/registro-f4cqrm25/informe.json; decisiones tareas/20261014-140627-severidad-ausente/revisiones/registro-f4cqrm25/decisiones.json.
