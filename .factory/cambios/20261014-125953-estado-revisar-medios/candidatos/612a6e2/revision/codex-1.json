@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-estado-revisar-medios/.factory/local/revisiones/612a6e2",
+  "base": "33d34d6074a9226dd5994401dd9db66ba16949c1",
+  "head": "612a6e20520c425834e05bf39d07b2e07a777346",
+  "diff_sha256": "d1b7797aac8a5c753e226e37704538df9053981c5b492637c5cdc0013ad57912",
+  "context_sha256": "527cbe875eaba1f5f05da1587c7edfbf6e88bbee939dff6f440b0caed5af6280",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron proposal.md y specs/revisores/spec.md, el diff y contexto del paquete, oracle_factory/cli.py, tests/test_estado_alternativas.py y las dos revisiones previas solicitadas. No se leyeron los 10 archivos excluidos de registros/evidencia Factory.",
+    "Se ejecutó exactamente el comando solicitado: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null. Resultado: 35 tests, OK.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción. No se hicieron mutaciones manuales sobre copias. La inspección confirmó que las pruebas añadidas cubren las brechas señaladas en las vueltas anteriores.",
+    "La revisión es una inspección independiente más la corrida acotada indicada; no sustituye la decisión humana ni demuestra propiedades fuera de los escenarios medidos."
+  ]
+}

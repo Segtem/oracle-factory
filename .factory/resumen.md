@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:6c38a1c3e38128ecca1548a937ec974ef03a40cbf0a5c0c3eff846c34003e0b9 -->
+<!-- oracle-factory resumen sha256:bf89faa50d1c38d399634c9966a6614399a1010fa8431c565a814aaa27fa43c9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 114 requisitos vigentes · 1 cambio abierto
+16 capacidades · 115 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -200,6 +200,7 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | Factory comprueba las exclusiones del paquete | funcional | `revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete` | factory_paquete.factory_comprueba_las_exclusiones_del_paquete, factory_paquete.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-000054-paquete-producto |
 | pedidos de revisión simultáneos sobre el mismo candidato | funcional | `revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato` | factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
 | un pedido interrumpido no traba los siguientes | funcional | `revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes` | factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
+| estado ofrece revisar cuando quedan hallazgos medios | funcional | `revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios` | factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-125953-estado-revisar-medios |
 
 ### trazabilidad
 
@@ -477,3 +478,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261014-100834-revision-simultanea) codex (gpt-6-luna): Las pruebas sincronizan los pedidos en candidato_vigente, esperan a que todos terminen ejecutar_revisor antes de guardar eventos y retrasan guardar; esto ejercita la carrera de factory.json y detecta serializar el revisor dentro del turno. El escenario de proceso muerto comprueba que queda el archivo lock pero el siguiente pedido avanza.
 - (20261014-100834-revision-simultanea) codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_*.py, según lo pedido. No se hicieron mutaciones manuales sobre copias; la suite indicada se ejecutó sólo contra el candidato.
 - (20261014-100834-revision-simultanea) codex (gpt-6-luna): H-01 y H-02 de la vuelta previa quedan cubiertos por las nuevas sincronizaciones y aserciones. H-03 describe el orden preexistente entre el evento y el informe en revision/; no es una regresión introducida por este diff.
+- (20261014-125953-estado-revisar-medios) Evidencia: Escenarios er1 en repositorios temporales, Linux, con revisores de prueba y oracle-clue 0.1.0a2 real; el menú se prueba con una salida que se declara terminal y revisar reemplazado por un doble que registra la llamada.
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): Se contrastaron proposal.md, spec.md, design.md, tasks.md, el diff del paquete y los archivos del checkout candidato 612a6e2.
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): Se comprobó el cierre efectivo de los cuatro hallazgos de la vuelta 1 (H01-docs-menu-ofrece-dos, H02-mutacion-filtro-mayusculas-sobrevive, R1 y R2) sin regresiones observadas.
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas indicada: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null (35 pruebas, resultado OK).
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido de revisión.
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre copias aisladas en el workspace sobre oracle_factory/cli.py (omisión de alternativas, inclusión indebida de alternativas sin hallazgos medios, omisión de filtrado de comandos con MAYÚSCULAS, ejecución inadvertida en opción Salir, omisión de aviso en pedir_revision, omisión de la clave alternativas en JSON y omisión del texto explicativo en siguiente); las 7 mutaciones fueron detectadas y fallaron en la suite requerida (killed).
+- (20261014-125953-estado-revisar-medios) agy (gemini-3.8-flash-high): No se detectaron defectos de implementación, discrepancias con la especificación ni brechas de prueba; la lista de findings queda vacía.
+- (20261014-125953-estado-revisar-medios) codex (gpt-6-luna): Se leyeron proposal.md y specs/revisores/spec.md, el diff y contexto del paquete, oracle_factory/cli.py, tests/test_estado_alternativas.py y las dos revisiones previas solicitadas. No se leyeron los 10 archivos excluidos de registros/evidencia Factory.
+- (20261014-125953-estado-revisar-medios) codex (gpt-6-luna): Se ejecutó exactamente el comando solicitado: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null. Resultado: 35 tests, OK.
+- (20261014-125953-estado-revisar-medios) codex (gpt-6-luna): No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción. No se hicieron mutaciones manuales sobre copias. La inspección confirmó que las pruebas añadidas cubren las brechas señaladas en las vueltas anteriores.
+- (20261014-125953-estado-revisar-medios) codex (gpt-6-luna): La revisión es una inspección independiente más la corrida acotada indicada; no sustituye la decisión humana ni demuestra propiedades fuera de los escenarios medidos.

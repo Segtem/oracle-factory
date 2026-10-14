@@ -1,0 +1,70 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261014-125953-estado-revisar-medios",
+  "contexto": {
+    "head": "5a83948657391c7c28262d6cd829141d0cf792f5",
+    "archivos_sha256": "493c4a05d09d2597ede95da35790a32de95f475fd1269fec319693f6218ee686"
+  },
+  "documentos": {
+    "openspec/changes/20261014-125953-estado-revisar-medios/proposal.md": "4c243dfc47a6bff039ad183d539546f0baf14584fa54a5d8d2b83babb6bd7924",
+    "openspec/changes/20261014-125953-estado-revisar-medios/specs/revisores/spec.md": "04025e620fbd63248713345ed44ed5dc86f1e75b7973bcb8d5f09da1d5177fa5"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_alternativas.corrida_completa.oracle",
+    "catalogos/factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios.oracle",
+    "docs/estructura.md",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261014-125953-estado-revisar-medios/design.md",
+    "openspec/changes/20261014-125953-estado-revisar-medios/proposal.md",
+    "openspec/changes/20261014-125953-estado-revisar-medios/specs/revisores/spec.md",
+    "openspec/changes/20261014-125953-estado-revisar-medios/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios.requisito",
+    "tests/test_estado_alternativas.py",
+    "tools/verify_estado_revisar_medios.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 343 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/612a6e2/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/612a6e2/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/612a6e2/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 98851d6: agy (gemini-3.8-flash-high), 2 hallazgos: H01-docs-menu-ofrece-dos (baja), H02-mutacion-filtro-mayusculas-sobrevive (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/98851d6/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 98851d6: codex (gpt-6-luna), 2 hallazgos: R1 (baja), R2 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/98851d6/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios er1 en repositorios temporales, Linux, con revisores de prueba y oracle-clue 0.1.0a2 real; el menú se prueba con una salida que se declara terminal y revisar reemplazado por un doble que registra la llamada.",
+    "agy (gemini-3.8-flash-high): Se contrastaron proposal.md, spec.md, design.md, tasks.md, el diff del paquete y los archivos del checkout candidato 612a6e2.",
+    "agy (gemini-3.8-flash-high): Se comprobó el cierre efectivo de los cuatro hallazgos de la vuelta 1 (H01-docs-menu-ofrece-dos, H02-mutacion-filtro-mayusculas-sobrevive, R1 y R2) sin regresiones observadas.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas indicada: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null (35 pruebas, resultado OK).",
+    "agy (gemini-3.8-flash-high): No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido de revisión.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre copias aisladas en el workspace sobre oracle_factory/cli.py (omisión de alternativas, inclusión indebida de alternativas sin hallazgos medios, omisión de filtrado de comandos con MAYÚSCULAS, ejecución inadvertida en opción Salir, omisión de aviso en pedir_revision, omisión de la clave alternativas en JSON y omisión del texto explicativo en siguiente); las 7 mutaciones fueron detectadas y fallaron en la suite requerida (killed).",
+    "agy (gemini-3.8-flash-high): No se detectaron defectos de implementación, discrepancias con la especificación ni brechas de prueba; la lista de findings queda vacía.",
+    "codex (gpt-6-luna): Se leyeron proposal.md y specs/revisores/spec.md, el diff y contexto del paquete, oracle_factory/cli.py, tests/test_estado_alternativas.py y las dos revisiones previas solicitadas. No se leyeron los 10 archivos excluidos de registros/evidencia Factory.",
+    "codex (gpt-6-luna): Se ejecutó exactamente el comando solicitado: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null. Resultado: 35 tests, OK.",
+    "codex (gpt-6-luna): No se ejecutaron tools/verify_*.py ni la suite completa, según la instrucción. No se hicieron mutaciones manuales sobre copias. La inspección confirmó que las pruebas añadidas cubren las brechas señaladas en las vueltas anteriores.",
+    "codex (gpt-6-luna): La revisión es una inspección independiente más la corrida acotada indicada; no sustituye la decisión humana ni demuestra propiedades fuera de los escenarios medidos."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

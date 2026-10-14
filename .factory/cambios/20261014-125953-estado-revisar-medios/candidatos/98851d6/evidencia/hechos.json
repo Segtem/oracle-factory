@@ -1,0 +1,30 @@
+{
+  "alternativas_caso": [
+    {
+      "requisito": "estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "caso": "er1_quedan_hallazgos_medios_sin_aceptar",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "caso": "er1_el_menu_de_estado_ofrece_revisar",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "caso": "er1_pedir_revision_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "caso": "er1_sin_hallazgos_medios_no_hay_alternativa",
+      "codigo": 0
+    }
+  ],
+  "alternativas_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}
