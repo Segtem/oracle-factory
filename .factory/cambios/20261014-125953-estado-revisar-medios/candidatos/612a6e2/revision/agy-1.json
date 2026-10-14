@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-estado-revisar-medios/.factory/local/revisiones/612a6e2",
+  "base": "33d34d6074a9226dd5994401dd9db66ba16949c1",
+  "head": "612a6e20520c425834e05bf39d07b2e07a777346",
+  "diff_sha256": "d1b7797aac8a5c753e226e37704538df9053981c5b492637c5cdc0013ad57912",
+  "context_sha256": "527cbe875eaba1f5f05da1587c7edfbf6e88bbee939dff6f440b0caed5af6280",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron proposal.md, spec.md, design.md, tasks.md, el diff del paquete y los archivos del checkout candidato 612a6e2.",
+    "Se comprobó el cierre efectivo de los cuatro hallazgos de la vuelta 1 (H01-docs-menu-ofrece-dos, H02-mutacion-filtro-mayusculas-sobrevive, R1 y R2) sin regresiones observadas.",
+    "Se ejecutó exactamente la suite de pruebas indicada: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null (35 pruebas, resultado OK).",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones del pedido de revisión.",
+    "Se realizaron pruebas de mutación manuales sobre copias aisladas en el workspace sobre oracle_factory/cli.py (omisión de alternativas, inclusión indebida de alternativas sin hallazgos medios, omisión de filtrado de comandos con MAYÚSCULAS, ejecución inadvertida en opción Salir, omisión de aviso en pedir_revision, omisión de la clave alternativas en JSON y omisión del texto explicativo en siguiente); las 7 mutaciones fueron detectadas y fallaron en la suite requerida (killed).",
+    "No se detectaron defectos de implementación, discrepancias con la especificación ni brechas de prueba; la lista de findings queda vacía."
+  ]
+}
