@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261014-145018-donde-ausente. Modo de trabajo: confi
 ### Nota (2026-10-14 14:50:59 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-14 14:53:11 UTC)
+
+Requisitos importados: cli_cf27d83513d3991c0.donde_y_resumen_se_leen_como_json (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
