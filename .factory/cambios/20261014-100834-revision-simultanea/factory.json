@@ -166,6 +166,16 @@
       "candidato": "f9b6d27",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T12:47:37+00:00",
+      "decision": "aprobar",
+      "candidato": "f9b6d27"
     }
   ],
   "tipos": {
@@ -190,5 +200,15 @@
       "sha256": "95e531ed9a497e34ec0d426eefb199a6028e86c53d5556d0193861cfd9468090"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.",
+      "candidato": "f9b6d27",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T12:47:37+00:00"
+    }
+  }
 }
