@@ -1,4 +1,4 @@
 requisito revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato:
     texto "Tipo: funcional Dos `pedir-revision` lanzados a la vez sobre el mismo candidato SHALL terminar los dos: el checkout de revisión se crea una sola vez, cada pedido usa un paquete y un número propios, y el registro del cambio guarda el evento de cada uno."
     fuente "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md#pedidos de revisión simultáneos sobre el mismo candidato"
-    sin_medir "sin medida todavía; escenarios: «dos revisores distintos a la vez», «el mismo revisor dos veces a la vez»"
+    medido_por factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato, factory_simultanea.corrida_completa
