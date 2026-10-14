@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-simultanea/.factory/local/revisiones/5b949fc",
+  "base": "59d85d705225aaaa441cb2eb7b2d107aef8a376a",
+  "head": "5b949fc1d457fa4b12b0af9dcdcf112b42bb579f",
+  "diff_sha256": "b67aa3fc73eb52f9e80243615a70647345bf3f263c51b57a627371876a6cb592",
+  "context_sha256": "3e54f74a0d3a663751d5e2541e204a2bdefd29a8d4e97623a039b17f3bd8b2fb",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta y la spec indicadas, el diff del paquete y el flujo de pedir_revision/turno_de_pedidos con sus pruebas. Se respetaron las exclusiones del paquete; no se revisaron los dos archivos excluidos de registros y evidencia de Factory.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null. Resultado: 19 tests, OK.",
+    "No se ejecutó la suite completa ni tools/verify_*.py. No se hizo una mutación contra una copia del código anterior; por lectura, la prueba rs2 fallaría sin el turno porque el pedido no esperaría los 3 segundos mientras el proceso auxiliar conserva el flock."
+  ]
+}

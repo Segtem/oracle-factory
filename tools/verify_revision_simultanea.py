@@ -23,7 +23,7 @@ CONTRACTS = {
 PREFIX = 'test_revision_simultanea.RevisionSimultanea.test_'
 LIMITES = ('Escenarios rs1–rs2 en repositorios temporales, Linux, con revisores de prueba y oracle-clue 0.1.0a2 real; '
            'los pedidos simultáneos son hilos de un mismo proceso que arrancan juntos, y el pedido muerto es un proceso '
-           'terminado con SIGKILL. Una carrera puede no darse en una corrida: las pruebas la provocan, no la garantizan.')
+           'terminado con SIGKILL. Las carreras se fuerzan con dos esperas (al empezar y al terminar de revisar) y una demora al guardar el registro; no prueba procesos en máquinas distintas ni sistemas de archivos de red.')
 
 
 def fuentes():

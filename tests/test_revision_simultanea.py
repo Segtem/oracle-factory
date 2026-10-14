@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import threading
+import time
 import unittest
 from unittest.mock import patch
 
@@ -27,11 +28,22 @@ class RevisionSimultanea(Base):
     def a_la_vez(self, *nombres):
         """Lanza un pedido por nombre en hilos que arrancan juntos; devuelve los errores de cada uno."""
         juntos, original = threading.Barrier(len(nombres)), f.candidato_vigente
+        revisados, revisor = threading.Barrier(len(nombres)), f.revisores_mod.ejecutar_revisor
+        guardar = f.guardar
         errores = {}
+
+        def guardar_despacio(*args):  # entre leer el registro y guardarlo: sin turno, los demás leen el viejo
+            time.sleep(0.3)
+            guardar(*args)
 
         def candidato(ident):  # todos llegan juntos al checkout y al número del paquete
             juntos.wait(timeout=30)
             return original(ident)
+
+        def revisar(*args):  # y todos terminan de revisar antes de anotar su evento; si el revisor corriera dentro
+            resultado = revisor(*args)  # del turno, los demás no llegarían hasta acá y la espera se rompe
+            revisados.wait(timeout=30)
+            return resultado
 
         def pedir(i, nombre):
             try:
@@ -40,7 +52,8 @@ class RevisionSimultanea(Base):
                 errores[i] = repr(e)
 
         hilos = [threading.Thread(target=pedir, args=(i, n)) for i, n in enumerate(nombres)]
-        with patch.object(f, 'candidato_vigente', candidato), contextlib.redirect_stdout(io.StringIO()):
+        with patch.object(f, 'candidato_vigente', candidato), patch.object(f.revisores_mod, 'ejecutar_revisor', revisar), \
+                patch.object(f, 'guardar', guardar_despacio), contextlib.redirect_stdout(io.StringIO()):
             for h in hilos:
                 h.start()
             for h in hilos:
