@@ -1,0 +1,9 @@
+# estado ofrece revisar cuando quedan hallazgos medios
+
+- ESTADO: ABIERTA
+- PRIORIDAD: 50
+- ETIQUETAS: 
+
+### Nota (2026-10-14 12:59:53 UTC)
+
+OpenSpec: openspec/changes/20261014-125953-estado-revisar-medios. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
