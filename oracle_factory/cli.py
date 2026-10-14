@@ -6,6 +6,7 @@ import argparse
 import contextlib
 import io
 import datetime as dt
+import fcntl
 import getpass
 import hashlib
 import json
@@ -822,6 +823,17 @@ def corte_del_candidato(identificador: str, sha: str, estado: dict) -> tuple[lis
     return preparacion.corte(revisores, estado.get("aceptados") or []) if revisores else None
 
 
+@contextmanager
+def turno_de_pedidos(identificador: str):
+    """Turno entre pedidos de revisión del mismo cambio. Espera en vez de fallar, y el sistema lo suelta cuando el proceso
+    termina de cualquier forma: un pedido cortado no deja un bloqueo que haya que retirar."""
+    ruta = ruta_segura(ROOT / estructura.DIR / "local" / "locks" / f"{identificador}.pedir.lock")
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    with open(ruta, "a") as archivo:
+        fcntl.flock(archivo, fcntl.LOCK_EX)
+        yield
+
+
 def pedir_revision(identificador: str, nombre: str, extra: str | None = None, base: str | None = None) -> Path:
     """Pide una revisión del candidato actual al revisor configurado y guarda su informe si Clue lo valida."""
     carpeta, estado = abierto(identificador)
@@ -844,15 +856,16 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     revision_dir = estructura.ruta_canonica(ROOT, identificador, "revision", sha)
     for d in (checkout.parent, clue_dir):  # revision/ se crea sólo con un informe válido
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
-    if not checkout.exists():
-        p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
-        if p.returncode:
-            raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
-    n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
-    paquete = clue_dir / f"paquete-{nombre}-{n}.json"
     excluir = exclusiones_del_paquete(base, head)
-    p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
-                  *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
+    with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
+        if not checkout.exists():
+            p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
+            if p.returncode:
+                raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
+        n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
+        paquete = clue_dir / f"paquete-{nombre}-{n}.json"
+        p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
+                      *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
     if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
         raise FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: sólo trae registros, y un paquete "
                            "de registros no se revisa. Para revisar código que ya existe (por ejemplo, al cerrar con "
@@ -903,10 +916,11 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
             datos = json.loads(informe.read_text(encoding="utf-8"))
             hallazgos = len(datos.get("findings") or [])
             severidades = preparacion.contar_severidades(datos.get("findings") or [])
-    _, estado = leer(identificador)
-    evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"], modelo=revisor["modelo"],
-           candidato=sha, resultado=resultado, hallazgos=hallazgos)
-    guardar(carpeta, estado)
+    with turno_de_pedidos(identificador):  # leer y guardar en el mismo turno: el evento de otro pedido no se pierde
+        _, estado = leer(identificador)
+        evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"],
+               modelo=revisor["modelo"], candidato=sha, resultado=resultado, hallazgos=hallazgos)
+        guardar(carpeta, estado)
     if motivo:
         raise FactoryError(f"{motivo}. La salida del revisor quedó en {registro.relative_to(ROOT)}; revision/ no cambió.")
     ruta_segura(revision_dir).mkdir(parents=True, exist_ok=True)

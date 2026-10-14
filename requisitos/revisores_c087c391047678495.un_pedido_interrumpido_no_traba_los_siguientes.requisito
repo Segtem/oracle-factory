@@ -1,0 +1,4 @@
+requisito revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes:
+    texto "Tipo: funcional El turno entre pedidos SHALL soltarse cuando el proceso que lo tiene termina, de cualquier forma: un pedido interrumpido no SHALL dejar nada que haya que retirar a mano."
+    fuente "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md#un pedido interrumpido no traba los siguientes"
+    sin_medir "sin medida todavía; escenarios: «un bloqueo de un pedido que murió»"
