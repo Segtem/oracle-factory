@@ -137,6 +137,16 @@
       "candidato": "612a6e2",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T13:41:10+00:00",
+      "decision": "aprobar",
+      "candidato": "612a6e2"
     }
   ],
   "tipos": {
@@ -152,5 +162,15 @@
       "sha256": "10bde47f160602e0184c32d1c5cabbae90544ceef869db80c6210e2f7c40ae73"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy, lanzadas a la vez. La 1 trajo cuatro bajos (estado probado sin la CLI, el aviso de pedir-revision probado con un alto, el filtro de MAYÚSCULAS sin prueba, docs inexactas sobre el menú); todos corregidos en los mismos 4 casos, con aserciones que fallan en el código anterior. La 2 no encontró nada. Suite 343 y evidencia en verde.",
+      "candidato": "612a6e2",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T13:41:10+00:00"
+    }
+  }
 }
