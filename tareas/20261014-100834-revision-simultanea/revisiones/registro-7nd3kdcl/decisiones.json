@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "0a3a6f9bc04027fb54cd68101bd994811eb757d193b3918e99355dc0b6dc02ee",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.",
+  "decisiones": []
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-simultanea/.factory/local/revisiones/f9b6d27",
+  "base": "59d85d705225aaaa441cb2eb7b2d107aef8a376a",
+  "head": "f9b6d2716c42dc80bd9b892724eaba39f94e5d12",
+  "diff_sha256": "561bf1d78d06d4d98569b20c773dc1d1e828f9e3f8920f6de658fa38ecefbe89",
+  "context_sha256": "132a815b38d0ec4b6d47a05cb01496d4b002f8ff4241c0f616d2cf8e3919a134",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, specs/revisores/spec.md, los cambios de oracle_factory/cli.py y tests/test_revision_simultanea.py, y los informes anteriores agy-1.json y codex-1.json.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null. Resultado: 19 tests, OK.",
+    "Las pruebas sincronizan los pedidos en candidato_vigente, esperan a que todos terminen ejecutar_revisor antes de guardar eventos y retrasan guardar; esto ejercita la carrera de factory.json y detecta serializar el revisor dentro del turno. El escenario de proceso muerto comprueba que queda el archivo lock pero el siguiente pedido avanza.",
+    "No se ejecutó la suite completa ni tools/verify_*.py, según lo pedido. No se hicieron mutaciones manuales sobre copias; la suite indicada se ejecutó sólo contra el candidato.",
+    "H-01 y H-02 de la vuelta previa quedan cubiertos por las nuevas sincronizaciones y aserciones. H-03 describe el orden preexistente entre el evento y el informe en revision/; no es una regresión introducida por este diff."
+  ]
+}

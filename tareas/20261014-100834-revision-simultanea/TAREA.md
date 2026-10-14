@@ -1,0 +1,45 @@
+# pedir-revision tolera pedidos simultáneos sobre el mismo candidato
+
+- ESTADO: CERRADA
+- PRIORIDAD: 50
+- ETIQUETAS: 
+
+### Nota (2026-10-14 10:08:34 UTC)
+
+OpenSpec: openspec/changes/20261014-100834-revision-simultanea. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-14 10:09:54 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-14 10:10:16 UTC)
+
+Requisitos importados: revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato (funcional), revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-14 10:15:41 UTC)
+
+Medidas de revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato: factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato, factory_simultanea.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-14 10:15:41 UTC)
+
+Medidas de revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes: factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes, factory_simultanea.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-14 11:59:35 UTC)
+
+Medidas de revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 11:59:35 UTC)
+
+Medidas de revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 12:48:34 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.); 0 abiertos derivados; commit 52b7ceb2445fe3b57ae83cf52630a7cb08ee175d; informe tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/informe.json; decisiones tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/decisiones.json.
+
+### Nota (2026-10-14 12:48:46 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-100834-revision-simultanea/oracle-veredicto.txt.
+
+### Nota (2026-10-14 12:52:53 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

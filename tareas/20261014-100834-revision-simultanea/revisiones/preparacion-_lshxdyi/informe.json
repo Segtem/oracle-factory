@@ -1,0 +1,75 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261014-100834-revision-simultanea",
+  "contexto": {
+    "head": "52b7ceb2445fe3b57ae83cf52630a7cb08ee175d",
+    "archivos_sha256": "153e89a52aa536607dc725e3cebdc40783b33b06fb0da1ae82a5f4e81e8ab76f"
+  },
+  "documentos": {
+    "openspec/changes/20261014-100834-revision-simultanea/proposal.md": "f03f45fb8cfbceb5945f501247c335bbb2b583f4f000a620d1706ce5fcc89856",
+    "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_simultanea.corrida_completa.oracle",
+    "catalogos/factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato.oracle",
+    "catalogos/factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes.oracle",
+    "docs/colaboracion.md",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261014-100834-revision-simultanea/design.md",
+    "openspec/changes/20261014-100834-revision-simultanea/proposal.md",
+    "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md",
+    "openspec/changes/20261014-100834-revision-simultanea/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato.requisito",
+    "requisitos/revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes.requisito",
+    "tests/test_revision_simultanea.py",
+    "tools/verify_revision_simultanea.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 339 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/f9b6d27/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/f9b6d27/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/f9b6d27/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5b949fc: agy (gemini-3.8-flash-high), 3 hallazgos: H-01 (media), H-02 (baja), H-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/5b949fc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5b949fc: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/5b949fc/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios rs1–rs2 en repositorios temporales, Linux, con revisores de prueba y oracle-clue 0.1.0a2 real; los pedidos simultáneos son hilos de un mismo proceso que arrancan juntos, y el pedido muerto es un proceso terminado con SIGKILL. Las carreras se fuerzan con dos esperas (al empezar y al terminar de revisar) y una demora al guardar el registro; no prueba procesos en máquinas distintas ni sistemas de archivos de red.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261014-100834-revision-simultanea/proposal.md), la especificación (openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md), el diff del paquete de Clue (paquete-agy-1.json), el diseño, la implementación en oracle_factory/cli.py (turno_de_pedidos y pedir_revision) y las pruebas en tests/test_revision_simultanea.py.",
+    "agy (gemini-3.8-flash-high): Se respetaron las exclusiones del paquete: no se revisaron los 10 archivos excluidos fuera del paquete (.factory y tareas: registros y evidencia de Factory).",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos de la Vuelta 1: H-01 y H-02 están debidamente cerrados en f9b6d27. En tests/test_revision_simultanea.py, el arnés a_la_vez incorpora una barrera threading.Barrier (revisados) y una demora controlada (guardar_despacio con sleep de 0.3s) que fuerzan la competencia concurrente en factory.json y exigen paralelismo real durante la ejecución del revisor. H-03 fue aclarado como preexistente y fuera de alcance del cambio.",
+    "agy (gemini-3.8-flash-high): Se analizaron las condiciones de carrera y exclusión mutua: el checkout se crea atómicamente bajo el primer turno_de_pedidos evitando colisiones de git worktree add; la numeración del paquete (n) y la carpeta de trabajo quedan serializadas en ese mismo turno garantizando aislamiento por revisor e incremento sin solapamientos; la persistencia de informes y pedidos en revision/ usa rutas con índice n unívoco y escrituras atómicas; y el registro de eventos en factory.json se protege con el segundo turno_de_pedidos.",
+    "agy (gemini-3.8-flash-high): Se confirmó que el bloqueo implementado con fcntl.flock(..., LOCK_EX) es liberado automáticamente por el kernel del sistema operativo cuando el proceso termina de cualquier forma (incluso ante interrupción forzada o fallo), sin dejar bloqueos residuales en disco que impidan ejecuciones posteriores, tal como valida el escenario rs2.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite requerida: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null (19 tests, OK en 15s).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni las herramientas tools/verify_*.py, conforme a las directivas explícitas de la revisión.",
+    "agy (gemini-3.8-flash-high): Se realizaron análisis sistemáticos de mutación en copias aisladas sobre tests/test_revision_simultanea.py: el código previo sin locks falla en los 3 tests (3/3 fallas); una mutación suprimiendo el segundo lock (evento en factory.json) falla en los 2 tests de rs1; una mutación suprimiendo el primer lock (checkout y paquete) falla en los 2 tests de rs1; y una mutación que extiende el turno reteniendo el bloqueo durante la ejecución del revisor falla en los 2 tests de rs1 por rotura de barrera concurrente (BrokenBarrierError).",
+    "codex (gpt-6-luna): Se revisaron la propuesta, specs/revisores/spec.md, los cambios de oracle_factory/cli.py y tests/test_revision_simultanea.py, y los informes anteriores agy-1.json y codex-1.json.",
+    "codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null. Resultado: 19 tests, OK.",
+    "codex (gpt-6-luna): Las pruebas sincronizan los pedidos en candidato_vigente, esperan a que todos terminen ejecutar_revisor antes de guardar eventos y retrasan guardar; esto ejercita la carrera de factory.json y detecta serializar el revisor dentro del turno. El escenario de proceso muerto comprueba que queda el archivo lock pero el siguiente pedido avanza.",
+    "codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_*.py, según lo pedido. No se hicieron mutaciones manuales sobre copias; la suite indicada se ejecutó sólo contra el candidato.",
+    "codex (gpt-6-luna): H-01 y H-02 de la vuelta previa quedan cubiertos por las nuevas sincronizaciones y aserciones. H-03 describe el orden preexistente entre el evento y el informe en revision/; no es una regresión introducida por este diff."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

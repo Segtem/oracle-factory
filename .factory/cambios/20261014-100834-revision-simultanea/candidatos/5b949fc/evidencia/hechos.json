@@ -1,0 +1,25 @@
+{
+  "simultanea_caso": [
+    {
+      "requisito": "pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "caso": "rs1_dos_revisores_distintos_a_la_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "caso": "rs1_el_mismo_revisor_dos_veces_a_la_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_pedido_interrumpido_no_traba_los_siguientes",
+      "caso": "rs2_un_bloqueo_de_un_pedido_que_murio",
+      "codigo": 0
+    }
+  ],
+  "simultanea_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}

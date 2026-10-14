@@ -3,7 +3,8 @@
   "archivados": [
     "20261007-192608-revisores",
     "20261013-115616-vueltas-severidad",
-    "20261014-000054-paquete-producto"
+    "20261014-000054-paquete-producto",
+    "20261014-100834-revision-simultanea"
   ],
   "requisitos": {
     "pedir una revisión del candidato actual": {
@@ -200,6 +201,37 @@
         "- GIVEN un informe guardado con un paquete preparado sin exclusiones",
         "- WHEN se prepara la revisión con oracle-clue 0.1.0a2",
         "- THEN el informe se usa como antes"
+      ]
+    },
+    "pedidos de revisión simultáneos sobre el mismo candidato": {
+      "cambio": "20261014-100834-revision-simultanea",
+      "requisito": "revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "cuerpo": [
+        "Tipo: funcional",
+        "Dos `pedir-revision` lanzados a la vez sobre el mismo candidato SHALL terminar los dos: el checkout de revisión se crea una sola vez, cada pedido usa un paquete y un número propios, y el registro del cambio guarda el evento de cada uno.",
+        "",
+        "#### Scenario: dos revisores distintos a la vez",
+        "- GIVEN un candidato sin checkout de revisión y dos revisores configurados",
+        "- WHEN se piden las dos revisiones al mismo tiempo",
+        "- THEN las dos guardan su informe y el registro tiene los dos eventos",
+        "",
+        "#### Scenario: el mismo revisor dos veces a la vez",
+        "- GIVEN un revisor configurado",
+        "- WHEN se le piden dos revisiones del mismo candidato al mismo tiempo",
+        "- THEN quedan dos paquetes y dos informes con números distintos"
+      ]
+    },
+    "un pedido interrumpido no traba los siguientes": {
+      "cambio": "20261014-100834-revision-simultanea",
+      "requisito": "revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El turno entre pedidos SHALL soltarse cuando el proceso que lo tiene termina, de cualquier forma: un pedido interrumpido no SHALL dejar nada que haya que retirar a mano.",
+        "",
+        "#### Scenario: un bloqueo de un pedido que murió",
+        "- GIVEN el archivo de bloqueo de un pedido anterior que se cortó",
+        "- WHEN se pide una revisión",
+        "- THEN el pedido termina sin esperar ni pedir que se borre el bloqueo"
       ]
     }
   },

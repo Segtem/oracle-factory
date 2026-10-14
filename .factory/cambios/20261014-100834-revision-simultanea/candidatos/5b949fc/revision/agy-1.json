@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revision-simultanea/.factory/local/revisiones/5b949fc",
+  "base": "59d85d705225aaaa441cb2eb7b2d107aef8a376a",
+  "head": "5b949fc1d457fa4b12b0af9dcdcf112b42bb579f",
+  "diff_sha256": "b67aa3fc73eb52f9e80243615a70647345bf3f263c51b57a627371876a6cb592",
+  "context_sha256": "3e54f74a0d3a663751d5e2541e204a2bdefd29a8d4e97623a039b17f3bd8b2fb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "H-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Las pruebas simultáneas no sincronizan el guardado en factory.json y sobreviven mutaciones sin lock",
+      "explanation": "El requisito 'pedidos de revisión simultáneos sobre el mismo candidato' exige que dos pedidos lanzados a la vez completen su ejecución y que el registro del cambio conserve el evento de cada uno. En tests/test_revision_simultanea.py, el arnés a_la_vez sincroniza los hilos únicamente al inicio en f.candidato_vigente. Al ingresar al primer turno_de_pedidos (oracle_factory/cli.py:860-868), el primer hilo retiene el lock durante git worktree add y oracle-clue preparar, serializando a los demás. Como los revisores de prueba fixture se ejecutan de manera instantánea (~1 ms), el primer pedido concluye y guarda su evento en factory.json antes de que el siguiente hilo termine de preparar su paquete. En consecuencia, los pedidos nunca compiten de forma concurrente por factory.json. Se verificó experimentalmente: una mutación eliminando el segundo lock en cli.py (líneas 919-923) sobrevive completamente la suite (3 tests OK), dejando desprotegida la verificación de no-regresión de carreras en factory.json.",
+      "location": {
+        "file": "tests/test_revision_simultanea.py",
+        "start_line": 27,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests.test_revision_simultanea tras eliminar el bloqueo exclusivo en la lectura y guardado del evento (mutación de cli.py:919).",
+      "evidence": "Al mutar cli.py quitando 'with turno_de_pedidos(identificador):' en el bloque de evento (líneas 919-923), tests.test_revision_simultanea reporta 3/3 tests exitosos. Si en cambio se fuerza una barrera de sincronización concurrente en la lectura/escritura de factory.json sin lock, se pierde el evento de uno de los revisores concurrentes.",
+      "related_requirement": "pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "status": "pendiente",
+      "verification": "cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null"
+    },
+    {
+      "id": "H-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta de verificación en las pruebas de que el revisor corre fuera del turno (en paralelo)",
+      "explanation": "La propuesta y el diseño establecen expresamente que el turno exclusivo debe limitarse a operaciones cortas (crear checkout, numerar/preparar paquete y registrar evento), mientras que el revisor ('lo largo') debe ejecutarse sin bloquear a otros pedidos. Sin embargo, en tests/test_revision_simultanea.py los revisores configurados son fixtures instantáneos y los casos de prueba no comprueban que el lock esté liberado durante la ejecución de ejecutar_revisor ni miden paralelismo efectivo. Si una modificación envolviera erróneamente la invocación de ejecutar_revisor dentro de un turno global único, las pruebas actuales seguirían pasando en verde, sin advertir la serialización indebida de revisores pesados.",
+      "location": {
+        "file": "tests/test_revision_simultanea.py",
+        "start_line": 52,
+        "end_line": 74,
+        "side": "head"
+      },
+      "trigger": "Serialización de pedidos envolviendo la ejecución del revisor dentro de turno_de_pedidos.",
+      "evidence": "tests/test_revision_simultanea.py no inspecciona si el lockfile está retenido durante la llamada a ejecutar_revisor ni impone límites de tiempo comparativo entre ejecuciones paralelas e individuales de revisores.",
+      "related_requirement": "pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "status": "pendiente",
+      "verification": "cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null"
+    },
+    {
+      "id": "H-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Persistencia del evento en factory.json previa al guardado del informe en revision/ crea ventana de inconsistencia",
+      "explanation": "En oracle_factory/cli.py:919-929, el evento 'revision_pedida' con resultado='ok' se registra y persiste atómicamente en factory.json dentro del bloque with turno_de_pedidos (líneas 919-923). No obstante, los archivos del informe en revision/ (destino = revision_dir / f\"{nombre}-{n}.json\") y .pedido.md se escriben atómicamente después, fuera del lock (líneas 926-929). Si el proceso es terminado forzosamente (SIGKILL, fallo de alimentación, corte no capturado) o experimenta un error de E/S en las líneas 926-929, factory.json acredita formalmente que la revisión fue pedida y completada con éxito, pero el informe .json no existe en revision/, lo que provoca inconsistencias en comandos subsiguientes como material_del_candidato o revision-preparar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 919,
+        "end_line": 926,
+        "side": "head"
+      },
+      "trigger": "Interrupción del proceso o error de disco entre la línea 923 (guardado de factory.json) y la línea 929 (escritura de archivos en revision/).",
+      "evidence": "En cli.py, líneas 919-923 guardan factory.json y liberan el turno; la escritura de destino en revision/ ocurre en las líneas 926-929 con posterioridad y fuera del turno.",
+      "related_requirement": "pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "status": "pendiente",
+      "verification": "cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null"
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la especificación openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md, el diff del paquete y la implementación de turno_de_pedidos y pedir_revision junto con sus pruebas.",
+    "Se respetaron las exclusiones del paquete: no se revisaron los 2 archivos de registros y evidencia de Factory (.factory/cambios/20261014-100834-revision-simultanea/factory.json y tareas/20261014-100834-revision-simultanea/TAREA.md).",
+    "Se ejecutó exactamente la suite requerida: cd /home/workstation/Dev/factory-revision-simultanea && /home/workstation/Dev/factory-revision-simultanea/.venv/bin/python -m unittest tests.test_revision_simultanea tests.test_revisores </dev/null (19 tests, OK).",
+    "No se ejecutó la suite completa de pruebas ni las herramientas tools/verify_*.py, conforme a las indicaciones explícitas.",
+    "Se realizaron análisis de mutación sistemáticos en copias locales: se verificó que sin locks (código anterior) las pruebas de test_revision_simultanea fallan consistentemente (3 fallas); se verificó que con LOCK_SH fallan 2 pruebas; y se identificó que mutando cli.py para suprimir el segundo lock en la persistencia del evento, la suite completa sobrevive (3/3 tests pasan), evidenciando la falta de sincronización concurrente en esa etapa del arnés de prueba."
+  ]
+}
