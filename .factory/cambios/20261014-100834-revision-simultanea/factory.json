@@ -2,10 +2,20 @@
   "id": "20261014-100834-revision-simultanea",
   "titulo": "pedir-revision tolera pedidos simultáneos sobre el mismo candidato",
   "capacidad": "revisores",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T10:09:54+00:00",
+    "documentos": {
+      "openspec/changes/20261014-100834-revision-simultanea/proposal.md": "f03f45fb8cfbceb5945f501247c335bbb2b583f4f000a620d1706ce5fcc89856",
+      "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-14T10:08:34+00:00",
       "capacidad": "revisores"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T10:09:54+00:00",
+      "documentos": {
+        "openspec/changes/20261014-100834-revision-simultanea/proposal.md": "f03f45fb8cfbceb5945f501247c335bbb2b583f4f000a620d1706ce5fcc89856",
+        "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
