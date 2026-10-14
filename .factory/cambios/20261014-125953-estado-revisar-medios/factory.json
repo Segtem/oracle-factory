@@ -2,7 +2,7 @@
   "id": "20261014-125953-estado-revisar-medios",
   "titulo": "estado ofrece revisar cuando quedan hallazgos medios",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-125953-estado-revisar-medios/specs/revisores/spec.md",
   "spec_sha256": "04025e620fbd63248713345ed44ed5dc86f1e75b7973bcb8d5f09da1d5177fa5",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "493c4a05d09d2597ede95da35790a32de95f475fd1269fec319693f6218ee686"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-125953-estado-revisar-medios/candidatos/612a6e2/evidencia/hechos.json",
+    "hechos_sha256": "81e35e2f477881206b4ab8e2bbc3f862ac4551cf58acccc8b9dc9dd01d89e147",
+    "informe": ".factory/cambios/20261014-125953-estado-revisar-medios/oracle-veredicto.txt",
+    "informe_sha256": "0c3bc26449cd31d64afdc0b94dc0de263523d1a6b687a65f8c2226a4857d31e4",
+    "cuando": "2026-10-14T13:51:07+00:00",
+    "contexto": {
+      "head": "8e9d8c819ea6e05730108e95309cb67f12e70fa2",
+      "archivos_sha256": "493c4a05d09d2597ede95da35790a32de95f475fd1269fec319693f6218ee686"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -181,6 +193,17 @@
       "abiertos": 0,
       "sha256": "31870244343ab7a98ffdf2c01249772afd173d2560d0fb8de3f97ec598ebdcd9",
       "decisiones_sha256": "c6396869c09203610ebb921909f621199a37406ccb754bdef56f9ec5248b5d10"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T13:51:07+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "81e35e2f477881206b4ab8e2bbc3f862ac4551cf58acccc8b9dc9dd01d89e147"
     }
   ],
   "tipos": {
