@@ -2,7 +2,7 @@
   "id": "20261014-000054-paquete-producto",
   "titulo": "El paquete de revisión deja fuera lo que no es producto",
   "capacidad": "revisores",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
   "spec_sha256": "65c8f79ae6e1df20cd2e13048a29b9528d82691baa91dc6eb640c4fea7b89ca5",
   "spec_aprobada": {
@@ -247,6 +247,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "9ebeef8081d0fbb4088630fc40ce8199a5647742c6c8e8334f90091b3fcccba8"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T10:04:13+00:00",
+      "oracle": ".factory/cambios/20261014-000054-paquete-producto/oracle-veredicto.txt",
+      "revision": "tareas/20261014-000054-paquete-producto/revisiones/registro-10x0g6ns/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T10:04:13+00:00",
+      "capacidad": "revisores",
+      "spec": "openspec/specs/revisores/spec.md"
     }
   ],
   "tipos": {
@@ -272,5 +292,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T10:04:13+00:00"
+  },
+  "archivo": {
+    "capacidad": "revisores",
+    "spec": "openspec/specs/revisores/spec.md",
+    "cuando": "2026-10-14T10:04:13+00:00"
+  }
 }

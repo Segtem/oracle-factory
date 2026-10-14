@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:977985592350067d6140462ca7ded54276112ae921e1c515d43352a4390b41ed -->
+<!-- oracle-factory resumen sha256:8dd76f2aa1d7e14f00d3b9bf175b9ba1471266cd900be23f3b860e3929664892 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 110 requisitos vigentes · 1 cambio abierto
+16 capacidades · 112 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -196,6 +196,8 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | el corte de vueltas sigue la severidad | funcional | `revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad` | factory_vueltas.el_corte_de_vueltas_sigue_la_severidad, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
 | un riesgo aceptado persiste entre vueltas | funcional | `revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas` | factory_vueltas.un_riesgo_aceptado_persiste_entre_vueltas, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
 | revisar reconoce un riesgo ya aceptado | funcional | `revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado` | factory_vueltas.revisar_reconoce_un_riesgo_ya_aceptado, factory_vueltas.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-115616-vueltas-severidad |
+| el paquete de revisión excluye lo que no es producto | funcional | `revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto` | factory_paquete.el_paquete_de_revision_excluye_lo_que_no_es_producto, factory_paquete.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-000054-paquete-producto |
+| Factory comprueba las exclusiones del paquete | funcional | `revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete` | factory_paquete.factory_comprueba_las_exclusiones_del_paquete, factory_paquete.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-000054-paquete-producto |
 
 ### trazabilidad
 
@@ -448,3 +450,14 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261013-180751-trazabilidad) codex (gpt-6-luna): Ejecuté `/home/workstation/Dev/factory-trazabilidad/.venv/bin/oracle-factory trazabilidad 20261013-180751-trazabilidad </dev/null`; salida en `cli-trazabilidad.log`.
 - (20261013-180751-trazabilidad) codex (gpt-6-luna): Corrí probes directos de guard simple y guard compuesto; la segunda forma reproduce la clasificación incorrecta.
 - (20261013-180751-trazabilidad) codex (gpt-6-luna): No corrí `tools/verify_*.py` ni la suite completa. No modifiqué el checkout del candidato ni hice commits.
+- (20261014-000054-paquete-producto) Evidencia: Escenarios pp1–pp2 en repositorios temporales, Linux, con un revisor de prueba y oracle-clue 0.1.0a2 real. No mide el tamaño de paquetes reales: en el cambio trazabilidad, 1,22 MB sin exclusiones y 486 KB con ellas.
+- (20261014-000054-paquete-producto) agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite requerida: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null (20 pruebas pasaron en 11.1s).
+- (20261014-000054-paquete-producto) agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación sistemáticas en el espacio de trabajo local sobre exclusiones_del_paquete, producto_excluido y corte_del_candidato; todas las mutaciones fueron detectadas y abatidas por tests.test_paquete_producto.
+- (20261014-000054-paquete-producto) agy (gemini-3.8-flash-high): No se ejecutaron tools/verify_paquete_producto.py, tools/verify_collaboration.py ni la suite completa discover de Factory, siguiendo las indicaciones explícitas.
+- (20261014-000054-paquete-producto) agy (gemini-3.8-flash-high): Se verificó la resolución de los 5 hallazgos de la vuelta 1 (agy-1/PP-01, agy-2, agy-3, agy-4, agy-5), la conformidad con los 2 requisitos de la spec (4 escenarios) y la imposibilidad de saltear la comprobación de producto excluido.
+- (20261014-000054-paquete-producto) agy (gemini-3.8-flash-high): Sin hallazgos: la lista de findings está vacía porque los defectos detectados en la vuelta 1 fueron corregidos satisfactoriamente y no se observaron regresiones.
+- (20261014-000054-paquete-producto) codex (gpt-6-luna): Leí la propuesta, los dos requisitos y escenarios de la spec, el diff del paquete Clue y las revisiones previas agy-1 a agy-5 y PP-01.
+- (20261014-000054-paquete-producto) codex (gpt-6-luna): Contrasté exclusiones_del_paquete y producto_excluido con es_producto y el armado del paquete/pedido en pedir_revision; seguí el rechazo de informes en material_del_candidato y los avisos en preparar_revision, corte_del_candidato y estado.
+- (20261014-000054-paquete-producto) codex (gpt-6-luna): Corrí exactamente: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null. Resultado: 20 pruebas, OK.
+- (20261014-000054-paquete-producto) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa. No hice mutaciones manuales adicionales; las pruebas incluyen el caso de valores no texto en excluded_files y una prueba de integración con Clue 0.1.0a2 para un paquete válido que excluye producto.
+- (20261014-000054-paquete-producto) codex (gpt-6-luna): No revisé los 10 archivos de registros y evidencia excluidos del paquete, según el alcance indicado.
