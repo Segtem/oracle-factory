@@ -1,6 +1,6 @@
 # Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -63,3 +63,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-14 19:54:12 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-145018-donde-ausente/oracle-veredicto.txt.
+
+### Nota (2026-10-14 19:55:05 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
