@@ -149,9 +149,11 @@ class CliJson(_ap.Base):
 
     def test_cj2_donde_con_una_entrada_invalida(self):
         ident = self.cambio_revisado()
+        antes = {(a['gate'], a['ruta'], a['situacion']) for a in self.json_de('donde', ident, '--json')['artefactos']}
         (self.root / 'tareas' / ident / 'notas-de-antes.md').write_text('una nota anterior a la estructura\n')
         ruta = self.root / '.factory/cambios' / ident / 'factory.json'
         estado = json.loads(ruta.read_text())
+        informe = estado['revision']['informe']
         estado['revision']['informe'] = 5  # un valor que no es una ruta
         ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
         datos = self.json_de('donde', ident, '--json')
@@ -159,8 +161,11 @@ class CliJson(_ap.Base):
         self.assertEqual([(a['gate'], a['situacion']) for a in datos['artefactos'] if a['situacion'] == 'no_valido'],
                          [('revisión', 'no_valido')])
         self.assertIn(('histórico', f'tareas/{ident}/notas-de-antes.md', 'historico'), situaciones)
-        self.assertIn(('spec', 'existe'), {(g, s) for g, _, s in situaciones})  # los demás se siguen listando
-        self.assertIn(('acuerdo', 'existe'), {(g, s) for g, _, s in situaciones})
+        # Los demás se siguen listando: todo lo de antes, salvo el informe que ahora es inválido, sigue igual.
+        sin_informe = {a for a in antes if a[1] != informe}
+        self.assertEqual(len(antes - sin_informe), 1)
+        self.assertEqual({a for a in situaciones if a[2] != 'no_valido'},
+                         sin_informe | {('histórico', f'tareas/{ident}/notas-de-antes.md', 'historico')})
 
     def test_cj2_resumen_sin_escribir(self):
         cerrado = self.cambio_revisado(hallazgos=('H1',))
