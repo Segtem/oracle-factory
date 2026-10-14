@@ -54,11 +54,32 @@
       "ids": [
         "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T13:04:07+00:00",
+      "requisito": "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "medidas": [
+        "factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+        "factory_alternativas.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
     "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios": {
+      "sha256": "10bde47f160602e0184c32d1c5cabbae90544ceef869db80c6210e2f7c40ae73",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T13:04:07+00:00"
+    }
+  }
 }

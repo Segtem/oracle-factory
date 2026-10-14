@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-14 13:00:49 UTC)
 
 Requisitos importados: revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-14 13:04:07 UTC)
+
+Medidas de revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios: factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
