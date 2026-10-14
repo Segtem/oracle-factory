@@ -2,7 +2,7 @@
   "id": "20261014-140627-severidad-ausente",
   "titulo": "Spec de revisores: un informe sin severidad no se guarda",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md",
   "spec_sha256": "8db4d71de673c6976f49f11c902a62eff3d90673bf5ac5257dba63dd61f70462",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "3e59d87aec5a5eb45de4d6ec6a4507ff25700f7c5b7499962c1715643b695507"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-140627-severidad-ausente/candidatos/d0d0e36/evidencia/hechos.json",
+    "hechos_sha256": "a85e7503dac768712387a803ee9ea0baba212c3d94e59ab0a5b461aa50df83ce",
+    "informe": ".factory/cambios/20261014-140627-severidad-ausente/oracle-veredicto.txt",
+    "informe_sha256": "4e8d41c0c2fac5aaf880f3492537bfe8dcc12b5aba1cd45fb0d67de792713c22",
+    "cuando": "2026-10-14T14:43:51+00:00",
+    "contexto": {
+      "head": "4c39792e09597a498d6607fcdc9ed64d5f21ff53",
+      "archivos_sha256": "3e59d87aec5a5eb45de4d6ec6a4507ff25700f7c5b7499962c1715643b695507"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -181,6 +193,17 @@
       "abiertos": 0,
       "sha256": "8de808dd598a98d90beb3db416c82d9d1558768bbb6c77fd9f40f7662e688a2b",
       "decisiones_sha256": "4d864e4ebd3e6577fb7a37abbfcbf15c752c2480ac7b041ce82a500232ce747b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T14:43:51+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a85e7503dac768712387a803ee9ea0baba212c3d94e59ab0a5b461aa50df83ce"
     }
   ],
   "tipos": {
