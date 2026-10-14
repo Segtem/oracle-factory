@@ -802,25 +802,23 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
 
 
 def exclusiones_del_paquete(base: str, head: str) -> list[str]:
-    """Lo que el paquete de Clue deja fuera: .factory/ y tareas/, más cada otro archivo del diff que no es producto.
-
-    Si el diff no trae producto, nada: un paquete sin archivos no se puede revisar.
-    """
+    """Lo que el paquete de Clue deja fuera: .factory/ y tareas/, más cada otro archivo del diff que no es producto."""
     cambiados = [n for n in ejecutar(["git", "diff", "--name-only", "-z", "--no-renames", base, head]).stdout.split("\0") if n]
-    if not any(es_producto(n) for n in cambiados):
-        return []  # sólo registros (cerrar con evidencia un cambio viejo): sin exclusiones, como antes, el paquete no queda vacío
     carpetas = ("tareas", estructura.DIR)
     return sorted({*carpetas, *(n for n in cambiados if n and not es_producto(n) and Path(n).parts[0] not in carpetas)})
 
 
 def producto_excluido(paquete: dict) -> list[str]:
     """Archivos del producto que un paquete de Clue deja afuera: con alguno, el paquete no sirve para revisar."""
-    return sorted(n for n in paquete.get("excluded_files") or [] if not isinstance(n, str) or es_producto(n))
+    return sorted(str(n) for n in paquete.get("excluded_files") or [] if not isinstance(n, str) or es_producto(n))
 
 
 def corte_del_candidato(identificador: str, sha: str, estado: dict) -> tuple[list[dict], list[dict]] | None:
     """(medios o más, bajos) sin aceptar en los informes vigentes del candidato; None si no tiene ninguno usable."""
-    revisores = [r for r in material_del_candidato(identificador, sha)[0] if not r.get("reemplazado_por")]
+    material = material_del_candidato(identificador, sha)
+    for aviso in material[3]:  # por qué un informe del candidato no cuenta (por ejemplo, un paquete que excluye producto)
+        print(f"Aviso: {aviso}", file=sys.stderr)
+    revisores = [r for r in material[0] if not r.get("reemplazado_por")]
     return preparacion.corte(revisores, estado.get("aceptados") or []) if revisores else None
 
 
@@ -855,6 +853,10 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     excluir = exclusiones_del_paquete(base, head)
     p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
                   *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
+    if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
+        raise FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: sólo trae registros, y un paquete "
+                           "de registros no se revisa. Para revisar código que ya existe (por ejemplo, al cerrar con "
+                           f"evidencia un cambio viejo), pedí la revisión con --base en un commit anterior a ese código")
     if p.returncode:
         raise FactoryError(f"oracle-clue no pudo preparar el paquete: {(p.stderr or p.stdout).strip()[:500]}")
     datos_paquete = json.loads(paquete.read_text(encoding="utf-8"))

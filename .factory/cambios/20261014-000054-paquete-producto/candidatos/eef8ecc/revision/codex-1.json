@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-paquete-producto/.factory/local/revisiones/eef8ecc",
+  "base": "efb5f55ef37b6613431583d7bdc3027b4ef5e0ca",
+  "head": "eef8ecc9bc41d44329dc533560b9199e42522669",
+  "diff_sha256": "acf670ec68bbb59aabfa6ad26cd6f01d29b60cdcdbf62dd2aace374096f2a1e9",
+  "context_sha256": "bc9ed744c7d94bd230998bac122e6af5554afe4fdf631de9f4b444b9cd9e29da",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "PP-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un diff sin producto empaqueta los registros como contenido revisable",
+      "explanation": "Cuando ningún archivo del diff cuenta como producto, la función retorna una lista vacía de exclusiones. pedir_revision pasa entonces Clue sin ningún --excluir; Clue incluye todos los archivos del diff y los incorpora a files. Así, un cambio compuesto sólo por .factory/ y tareas/ no queda fuera del paquete ni del pedido, aunque la promesa general exige excluir todo archivo que no sea producto. El test test_pp1_un_registro_fuera_de_esas_carpetas sólo comprueba que el helper devuelve [] para ese caso; no prepara un paquete y por eso no descubre que los registros se filtran al paquete.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 810,
+        "end_line": 811,
+        "side": "head"
+      },
+      "trigger": "Pedir una revisión para un candidato cuyo diff contra la base sólo contiene nuevos o modificados registros bajo .factory/ y/o tareas/, sin cambios de producto.",
+      "evidence": "En oracle_factory/cli.py:810-813 la rama sin producto retorna [] antes de agregar las rutas de exclusión. En pedir_revision (líneas 855-857) esa lista vacía produce una invocación de oracle-clue preparar sin --excluir. Clue 0.1.0a2 incluye todo el diff cuando no recibe exclusiones y sólo falla si el diff queda vacío fuera de las exclusiones. tests/test_paquete_producto.py:72-78 codifica que el caso sin producto devuelve [], pero no inspecciona un paquete resultante.",
+      "related_requirement": "El paquete de revisión excluye lo que no es producto",
+      "status": "pendiente",
+      "verification": "Inspección estática de la rama y del comportamiento de prepare en oracle-clue 0.1.0a2; corroborado con el test test_pp1_un_registro_fuera_de_esas_carpetas, que espera la lista vacía sin invocar pedir_revision para ese diff."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null; pasaron 20 pruebas.",
+    "Contrasté ambos requisitos con oracle_factory/cli.py, tests/test_paquete_producto.py y la implementación instalada oracle-clue 0.1.0a2. No corrí tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones en una copia temporal; el caso reportado se confirma por la rama sin exclusiones y por el comportamiento de Clue al recibir la lista vacía."
+  ]
+}
