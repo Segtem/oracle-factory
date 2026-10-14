@@ -7,3 +7,7 @@
 ### Nota (2026-10-14 12:59:53 UTC)
 
 OpenSpec: openspec/changes/20261014-125953-estado-revisar-medios. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-14 13:00:38 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-125953-estado-revisar-medios/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
