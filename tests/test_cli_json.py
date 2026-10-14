@@ -133,6 +133,12 @@ class CliJson(_ap.Base):
         ruta = hechos.relative_to(self.root).as_posix()
         self.assertEqual([(a['gate'], a['situacion']) for a in datos['artefactos'] if a['ruta'] == ruta], [('juicio', 'ausente')])
         self.assertIn(('spec', 'existe'), {(a['gate'], a['situacion']) for a in datos['artefactos']})
+        # Fuera de lo histórico y lo no válido, la situación dice si el artefacto está en el disco.
+        propios = [a for a in datos['artefactos'] if a['situacion'] not in ('historico', 'no_valido')]
+        self.assertGreater(len(propios), 5)
+        for a in propios:
+            self.assertEqual(a['situacion'], 'existe' if (self.root / a['ruta']).exists() else 'ausente', a)
+        self.assertEqual(sum(a['situacion'] == 'ausente' for a in propios), 1)
         self.assertTrue(all(set(a) == {'gate', 'ruta', 'situacion', 'nota'} for a in datos['artefactos']))
 
     def test_cj2_resumen_sin_escribir(self):
@@ -159,6 +165,8 @@ class CliJson(_ap.Base):
         [abiertos] = [a for a in datos['abiertos'] if a['id'] == abierto]
         self.assertTrue(abiertos['pendientes'])
         [vigente] = [r for r in vigentes if r['cambio'] == cerrado]
+        self.assertEqual([vigente['requisito']], f.leer(cerrado)[1]['requisitos'])  # el requisito de Oracle de ese cambio
+        self.assertEqual(abiertos['pendientes'], f.pendientes_actuales(*f.leer(abierto)))
         self.assertEqual((vigente['tipo'], vigente['veredicto_al_cerrar'][:5]), ('funcional', 'verde'))
         self.assertEqual([(a['id'], bool(a['motivo'])) for a in datos['abandonados']], [(abandonado, True)])
         self.assertEqual(datos['sin_registro'], ['20260101-000000-vieja'])

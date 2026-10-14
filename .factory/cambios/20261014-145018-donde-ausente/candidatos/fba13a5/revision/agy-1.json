@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/fba13a5",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "fba13a5de4c8766927e87017c8007e92084972e3",
+  "diff_sha256": "f9646656d70d4d20c88d728f1df4ff61b5a6503512189d44a9dd5a8d0336f532",
+  "context_sha256": "7f40b9c48f10f6c960e79a633bc16323943e36ede698b98c8baac2dab4cb5261",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "DONDE-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La cláusula THEN de «donde con un artefacto ausente» no contempla artefactos existentes con situación «historico» o «no_valido»",
+      "explanation": "El escenario «donde con un artefacto ausente» promete textualmente: «THEN esos hechos figuran con gate juicio y situación ausente, y los artefactos que existen figuran como existe». Sin embargo, en el comportamiento implementado en oracle_factory/cli.py:1848-1850 y oracle_factory/estructura.py:129, cualquier archivo existente dentro de tareas/<id> (artefacto histórico) recibe gate 'histórico' y su situación se establece obligatoriamente en 'historico', no en 'existe', a pesar de existir físicamente en disco. Asimismo, rutas registradas que no resuelvan a rutas válidas se etiquetan como 'no_valido'. La redacción categórica «los artefactos que existen figuran como existe» no contempla estas excepciones previstas por el propio requisito («situación (existe, ausente, historico o no_valido)»). La spec debería acotar que los artefactos no históricos que existen figuran como 'existe'.",
+      "location": {
+        "file": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+        "start_line": 12,
+        "end_line": 12,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory donde ID --json` sobre un cambio que tenga un archivo existente en tareas/<id>/ (artefacto histórico) además de los hechos de juicio ausentes.",
+      "evidence": "En oracle_factory/cli.py (líneas 1848-1850): \"situacion\": (\"no_valido\" if fila.get(\"invalida\") else \"historico\" if fila[\"gate\"] == \"histórico\" else \"existe\" if fila[\"existe\"] else \"ausente\"). La evaluación prioriza fila[\"gate\"] == \"histórico\" antes de fila[\"existe\"], asignando \"historico\" aun cuando fila[\"existe\"] es True. tests/test_cli_json.py:125-136 no incluye archivos históricos en su fixture y no detecta esta discrepancia.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Verificado por análisis de código y ejecución de prueba en scratch con artefacto histórico (probar_mutaciones.py: fila con gate 'histórico' y existe=True produce situacion='historico', en contradicción con la literalidad del THEN)."
+    },
+    {
+      "id": "DONDE-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "El caso de prueba cj2 de donde no comprueba que los artefactos existentes figuren como «existe»",
+      "explanation": "La cláusula THEN del escenario promete: «y los artefactos que existen figuran como existe». Sin embargo, en tests/test_cli_json.py:135, la única aserción sobre artefactos existentes es self.assertIn(('spec', 'existe'), {(a['gate'], a['situacion']) for a in datos['artefactos']}). No se verifica ninguno de los demás artefactos existentes del cambio (documentos de acuerdo proposal.md, design.md, tasks.md, el registro factory.json, TAREA.md, los requisitos en requisitos/ ni los subdirectorios de candidatos). Se comprobó mediante mutación sobre datos_donde en la que todos los artefactos existentes cuyo gate no era 'spec' se cambiaron a situacion='ausente': la prueba cj2 pasó sin fallos (la mutación sobrevivió con 0 fallos y 0 errores). Por tanto, el contrato en tools/verify_donde_ausente.py:19 no valida la promesa sobre los artefactos existentes.",
+      "location": {
+        "file": "tools/verify_donde_ausente.py",
+        "start_line": 18,
+        "end_line": 20,
+        "side": "head"
+      },
+      "trigger": "Introducir una mutación o regresión en datos_donde que asigne situacion='ausente' a cualquier artefacto existente cuyo gate sea distinto de 'spec'.",
+      "evidence": "En tests/test_cli_json.py:135, solo se evalúa self.assertIn(('spec', 'existe'), ...). Al mutar datos_donde para forzar situacion='ausente' en todos los demás artefactos existentes, la ejecución de la prueba test_cj2_donde_con_un_artefacto_ausente pasó exitosamente (OK, 0 fallos).",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Comprobado empíricamente en probar_mutaciones.py mediante mock de cli.datos_donde (Mutación A). La suite de pruebas cj2 finalizó con éxito sin advertir la mutación."
+    },
+    {
+      "id": "RESUMEN-001",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "El caso de prueba cj2 de resumen no verifica la identidad del requisito ni el contenido de pendientes",
+      "explanation": "El requisito promete que oracle-factory resumen --json reporta lo vigente por capacidad («cada requisito con su requisito de Oracle, tipo, medidas, veredicto al cerrar y cambio de origen») y «los cambios abiertos con sus pendientes». El escenario THEN promete que las salidas «nombran el requisito vigente y el cambio abierto con sus pendientes». En tests/test_cli_json.py:157-160: 1) Para los requisitos vigentes solo se comprueba self.assertTrue(any(r['cambio'] == cerrado and r['medidas'] for r in vigentes)) y luego r['tipo'] y r['veredicto_al_cerrar']. Nunca se valida el campo 'requisito' (el ID del requisito de Oracle) ni 'nombre'. 2) Para el cambio abierto solo se evalúa self.assertTrue(abiertos['pendientes']), lo que tolera listas con datos inventados o erróneos. El código en oracle_factory/resumen.py sí computa estos campos, pero los casos de contrato asociados en tools/verify_donde_ausente.py no los contrastan, dejando una brecha en la evidencia requerida para el cierre.",
+      "location": {
+        "file": "tools/verify_donde_ausente.py",
+        "start_line": 18,
+        "end_line": 20,
+        "side": "head"
+      },
+      "trigger": "Mutar oracle_factory/resumen.py:datos para omitir la clave 'requisito' en los requisitos vigentes, o reemplazar abiertos['pendientes'] por listas con valores arbitrarios.",
+      "evidence": "En tests/test_cli_json.py:158-160, vigentes no valida r.get('requisito'), y assertTrue(abiertos['pendientes']) es una aserción de veracidad genérica. En probar_mutaciones.py, tanto la mutación que eliminó 'requisito' (Mutación B) como la que sustituyó pendientes por ['pendiente_falso_inventado'] (Mutación C) sobrevivieron al caso cj2 con 0 fallos.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Comprobado empíricamente en probar_mutaciones.py mediante mocks de resumen.datos (Mutaciones B y C). Ambas mutaciones pasaron test_cj2_resumen_sin_escribir sin provocar fallos."
+    },
+    {
+      "id": "DONDE-003",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "Alcance de la definición de «ausente» frente a artefactos de convención no registrados",
+      "explanation": "El requisito modificado agrega la definición: «`ausente` es un artefacto que un registro del cambio nombra y ya no está». No obstante, en oracle_factory/estructura.py:95,106, artefactos fijos de la convención de cambios como proposal.md, design.md, tasks.md y tareas/<id>/TAREA.md se listan con situación 'ausente' si son borrados de disco, a pesar de que el registro factory.json no los nombra (salvo proposal.md en documentos de spec_aprobada tras la aprobación). Si la intención era clarificar que la evidencia no generada de candidatos no se lista como ausente hasta tener un registro de juicio, la redacción actual sugiere restrictivamente que sólo artefactos nombrados en un registro del cambio pueden figurar como 'ausente'.",
+      "location": {
+        "file": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Eliminar design.md o tasks.md de un cambio abierto y consultar oracle-factory donde ID --json.",
+      "evidence": "En oracle_factory/estructura.py:donde, las entradas para proposal.md, design.md, tasks.md y TAREA.md se agregan por convención mediante _entrada(). Si el archivo no existe, _entrada asigna existe=False y datos_donde emite situacion='ausente', aunque factory.json no los tenga registrados.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Inspección de oracle_factory/estructura.py (líneas 95-96, 106) y contraste contra el contenido de factory.json."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas solicitada: cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null (7 pruebas ejecutadas, resultado OK).",
+    "No se ejecutó tools/verify_donde_ausente.py, ningún script tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/fba13a5 (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "Las pruebas de mutaciones sobre datos_donde y resumen.datos se ejecutaron en el directorio del revisor (.factory/local/revisores/fba13a5-agy-1/probar_mutaciones.py) mediante mocks en memoria para verificar la sensibilidad de las aserciones de CliJson.",
+    "No se revisaron los 2 archivos excluidos del paquete que no forman parte del producto (.factory/cambios/20261014-145018-donde-ausente/factory.json y tareas/20261014-145018-donde-ausente/TAREA.md)."
+  ]
+}

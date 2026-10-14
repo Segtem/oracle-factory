@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/fba13a5",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "fba13a5de4c8766927e87017c8007e92084972e3",
+  "diff_sha256": "f9646656d70d4d20c88d728f1df4ff61b5a6503512189d44a9dd5a8d0336f532",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DONDE-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "Un artefacto histórico existente no figura como existe",
+      "explanation": "El THEN promete que los artefactos que existen figuran con situación «existe», sin excluir los históricos. Sin embargo, `oracle_factory/estructura.py:donde` agrega artefactos históricos presentes de `tareas/<id>` con gate `histórico`, y `datos_donde` los etiqueta como `historico` por el gate antes de considerar si existen. La prueba cj2 sólo verifica que la spec exista y que los hechos borrados sean ausentes; no incluye un histórico existente. Esto deja una discrepancia entre el escenario escrito y la salida prevista por el código. Si los históricos son una excepción deliberada, el escenario debe acotarlo.",
+      "location": {
+        "file": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+        "start_line": 12,
+        "end_line": 12,
+        "side": "head"
+      },
+      "trigger": "Consultar `donde ID --json` para un cambio cuya carpeta `tareas/<id>` tenga un archivo histórico presente además de sus artefactos actuales.",
+      "evidence": "En `oracle_factory/estructura.py`, las entradas adicionales de tarea usan `_entrada('histórico', ...)`; en `oracle_factory/cli.py:1848`, el mapeo prioriza `fila['gate'] == 'histórico'` y emite `situacion='historico'` aunque `fila['existe']` sea verdadero. `tests/test_cli_json.py:125-136` no cubre ese caso.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "No ejecuté una fixture con archivo histórico. La discrepancia se deduce del mapeo del código y de la salida que exige el THEN; la prueba cj2 indicada pasó, pero no discrimina este caso."
+    },
+    {
+      "id": "RESUMEN-001",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "El caso de resumen no verifica el requisito ni los pendientes concretos",
+      "explanation": "La promesa dice que el JSON nombra el requisito vigente y el cambio abierto con sus pendientes. La prueba sólo comprueba que exista algún requisito del cambio cerrado con medidas (`tests/test_cli_json.py:158`) y que la lista de pendientes del cambio abierto no esté vacía (`:160`). No compara el nombre o ID esperado del requisito ni el contenido esperado de los pendientes. Por eso una regresión que muestre un requisito mal identificado, o pendientes no vacíos incorrectos, puede pasar el caso cj2. El código actual sí construye esos campos; esto es una brecha de evidencia de la promesa, no un fallo observado de salida.",
+      "location": {
+        "file": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+        "start_line": 17,
+        "end_line": 17,
+        "side": "head"
+      },
+      "trigger": "Mutar la salida JSON para cambiar el nombre/ID del requisito del cambio cerrado o para sustituir los pendientes del cambio abierto por otra lista no vacía, manteniendo el resto de la salida igual.",
+      "evidence": "En `tests/test_cli_json.py:158`, `any(r['cambio'] == cerrado and r['medidas'] ...)` no fija identidad del requisito; en `:160`, `assertTrue(abiertos['pendientes'])` sólo exige verdad. `tools/verify_donde_ausente.py` asocia el requisito a esos casos cj2, y el catálogo establece un umbral de dos casos, sin comprobaciones adicionales del contenido.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "No edité ni muté el checkout. Por inspección de las aserciones, ambas mutaciones descritas sobreviven al caso cj2. El comando solicitado pasó: 7 tests, OK."
+    }
+  ],
+  "context_sha256": "7f40b9c48f10f6c960e79a633bc16323943e36ede698b98c8baac2dab4cb5261",
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté sólo `cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null` (7 tests, OK).",
+    "No ejecuté `tools/verify_donde_ausente.py`, ningún `tools/verify_*.py` ni la suite completa.",
+    "No hice mutaciones ejecutables ni edité el checkout; las mutaciones mencionadas se evaluaron por inspección de las aserciones.",
+    "Revisión basada en el diff y contexto del paquete; no revisé los dos archivos excluidos (`.factory` y `tareas`)."
+  ]
+}
