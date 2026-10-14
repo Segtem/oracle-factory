@@ -1,0 +1,74 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261014-000054-paquete-producto",
+  "contexto": {
+    "head": "2a9f4ae799e46f39f53de2bf695f04dcb549a9cf",
+    "archivos_sha256": "19d14ba172c771382af885cab9984d8ead0734af02ad6975f91ea2565ab9ec16"
+  },
+  "documentos": {
+    "openspec/changes/20261014-000054-paquete-producto/proposal.md": "b627156a45e761e54d1330e55a2d0d00fec0b1a2595fb3ea16b908ddce9c9ef6",
+    "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md": "65c8f79ae6e1df20cd2e13048a29b9528d82691baa91dc6eb640c4fea7b89ca5"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_paquete.corrida_completa.oracle",
+    "catalogos/factory_paquete.el_paquete_de_revision_excluye_lo_que_no_es_producto.oracle",
+    "catalogos/factory_paquete.factory_comprueba_las_exclusiones_del_paquete.oracle",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261014-000054-paquete-producto/design.md",
+    "openspec/changes/20261014-000054-paquete-producto/proposal.md",
+    "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
+    "openspec/changes/20261014-000054-paquete-producto/tasks.md",
+    "oracle_factory/cli.py",
+    "pyproject.toml",
+    "requisitos/revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto.requisito",
+    "requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete.requisito",
+    "tests/test_paquete_producto.py",
+    "tools/verify_collaboration.py",
+    "tools/verify_paquete_producto.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 336 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-000054-paquete-producto/candidatos/e919597/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-000054-paquete-producto/candidatos/e919597/revision/agy-2.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-000054-paquete-producto/candidatos/e919597/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato eef8ecc: agy (gemini-3.8-flash-high), 5 hallazgos: agy-1 (alta), agy-2 (media), agy-3 (media), agy-4 (baja), agy-5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-000054-paquete-producto/candidatos/eef8ecc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato eef8ecc: codex (gpt-6-luna), 1 hallazgo: PP-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-000054-paquete-producto/candidatos/eef8ecc/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios pp1–pp2 en repositorios temporales, Linux, con un revisor de prueba y oracle-clue 0.1.0a2 real. No mide el tamaño de paquetes reales: en el cambio trazabilidad, 1,22 MB sin exclusiones y 486 KB con ellas.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite requerida: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null (20 pruebas pasaron en 11.1s).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación sistemáticas en el espacio de trabajo local sobre exclusiones_del_paquete, producto_excluido y corte_del_candidato; todas las mutaciones fueron detectadas y abatidas por tests.test_paquete_producto.",
+    "agy (gemini-3.8-flash-high): No se ejecutaron tools/verify_paquete_producto.py, tools/verify_collaboration.py ni la suite completa discover de Factory, siguiendo las indicaciones explícitas.",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución de los 5 hallazgos de la vuelta 1 (agy-1/PP-01, agy-2, agy-3, agy-4, agy-5), la conformidad con los 2 requisitos de la spec (4 escenarios) y la imposibilidad de saltear la comprobación de producto excluido.",
+    "agy (gemini-3.8-flash-high): Sin hallazgos: la lista de findings está vacía porque los defectos detectados en la vuelta 1 fueron corregidos satisfactoriamente y no se observaron regresiones.",
+    "codex (gpt-6-luna): Leí la propuesta, los dos requisitos y escenarios de la spec, el diff del paquete Clue y las revisiones previas agy-1 a agy-5 y PP-01.",
+    "codex (gpt-6-luna): Contrasté exclusiones_del_paquete y producto_excluido con es_producto y el armado del paquete/pedido en pedir_revision; seguí el rechazo de informes en material_del_candidato y los avisos en preparar_revision, corte_del_candidato y estado.",
+    "codex (gpt-6-luna): Corrí exactamente: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null. Resultado: 20 pruebas, OK.",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa. No hice mutaciones manuales adicionales; las pruebas incluyen el caso de valores no texto en excluded_files y una prueba de integración con Clue 0.1.0a2 para un paquete válido que excluye producto.",
+    "codex (gpt-6-luna): No revisé los 10 archivos de registros y evidencia excluidos del paquete, según el alcance indicado."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

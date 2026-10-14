@@ -180,6 +180,16 @@
       "candidato": "e919597",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T00:58:41+00:00",
+      "decision": "aprobar",
+      "candidato": "e919597"
     }
   ],
   "tipos": {
@@ -204,5 +214,15 @@
       "sha256": "7e69ff641abcb22ae604dac4b64df7c4f626ee4d7f208524e9ae250b87ecf93e"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy, con paquetes ya armados sin los registros de Factory: la 1 trajo un alto (el diff sin producto metía los registros en el paquete), tres medios y dos bajos; todos corregidos con aserciones que fallan en el código anterior, en los mismos 4 casos. La 2 no encontró nada (agy, reintentado tras un 503 del servicio). Suite 336 y evidencia en verde.",
+      "candidato": "e919597",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T00:58:41+00:00"
+    }
+  }
 }
