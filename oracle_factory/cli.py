@@ -939,6 +939,7 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         print(f"Quedan {len(graves)} hallazgo{'s' if len(graves) != 1 else ''} medio{'s' if len(graves) != 1 else ''} o más "
               f"sin aceptar en el candidato {sha} ({', '.join(str(h.get('id')) for h in graves)}).")
         print(f"Próximo paso: corregirlos, commitear y pedir otra vuelta con oracle-factory pedir-revision {identificador}")
+        print(f"También: aceptarlos como riesgo o descartarlos, con motivo, en oracle-factory revisar {identificador}")
     else:
         print(f"No quedan hallazgos medios ni altos sin aceptar en el candidato {sha}: no hace falta otra vuelta.")
         print(f"Próximo paso: oracle-factory revisar {identificador}"
@@ -1826,7 +1827,7 @@ def datos_estado(identificador: str) -> dict:
                                                else pendientes_medidas.get(rid))}
                        for rid in estado.get("requisitos") or []],
         "pendientes": [] if abandonado else pendientes_actuales(carpeta, estado),
-        "proximo_paso": proximo_paso(identificador),
+        "proximo_paso": (todos := pasos(identificador) or [None])[0], "alternativas": todos[1:],
         "decisiones": {"spec": _decision(estado.get("spec_aprobada")), "revision": _decision(estado.get("revision")),
                        "cierre": _decision(estado.get("cierre")), "abandono": _decision(estado.get("abandono"))},
         # Vigencia con las mismas reglas que estado en texto y proximo_paso.
@@ -2208,6 +2209,16 @@ def proximo_paso(identificador: str) -> str | None:
     Un comando completo («oracle-factory …» sin MAYÚSCULAS por completar) se puede ofrecer para ejecutar; un texto que
     empieza con otra cosa indica algo que la persona tiene que hacer antes.
     """
+    return (pasos(identificador) or [None])[0]
+
+
+def pasos(identificador: str) -> list[str]:
+    """El próximo paso seguido de las alternativas que también valen; vacía si el cambio terminó."""
+    paso = _pasos(identificador)
+    return [paso] if isinstance(paso, str) else paso or []
+
+
+def _pasos(identificador: str) -> str | list[str] | None:
     carpeta, estado = leer(identificador)
     ident = identificador
     if estado.get("fase") in ("cerrada", "abandonada"):
@@ -2238,9 +2249,9 @@ def proximo_paso(identificador: str) -> str | None:
         sha = candidato_vigente(ident)
         # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
         corte = corte_del_candidato(ident, sha, estado) if sha else None
-        if corte and corte[0]:
-            return (f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
-                    f"oracle-factory pedir-revision {ident}")
+        if corte and corte[0]:  # o la persona los acepta como riesgo o los descarta, con motivo
+            return [f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
+                    f"oracle-factory pedir-revision {ident}", f"oracle-factory revisar {ident}"]
         if corte is not None:
             return f"oracle-factory revisar {ident}"
         revisores = sorted(config_proyecto()["revisores"])
@@ -2273,21 +2284,25 @@ def proximo_paso(identificador: str) -> str | None:
 
 
 def siguiente(identificador: str, fase: str | None = None) -> None:
-    paso = proximo_paso(identificador)
+    paso, *alternativas = pasos(identificador) or [None]
     if paso:
         print("Próximo paso: " + paso)
+    for alternativa in alternativas:
+        print(f"También: {alternativa}" + (" — para aceptarlos como riesgo o descartarlos, con motivo"
+                                          if alternativa.startswith("oracle-factory revisar ") else ""))
 
 
 def ofrecer_siguiente(identificador: str) -> int:
     """En una terminal y sin --agente, ofrece ejecutar el próximo paso si es un comando completo."""
-    paso = proximo_paso(identificador)
-    if (not paso or AGENTE or not terminal_interactiva() or not sys.stdout.isatty()
-            or not paso.startswith("oracle-factory ") or re.search(r"\b[A-Z][A-Z_]{2,}\b", paso)):
+    comandos = [p for p in pasos(identificador)
+                if p.startswith("oracle-factory ") and not re.search(r"\b[A-Z][A-Z_]{2,}\b", p)]
+    if not comandos or AGENTE or not terminal_interactiva() or not sys.stdout.isatty():
         return 0
-    if elegir("¿Seguís?", [(f"Ejecutar «{paso}»", "como si lo escribieras; si es una decisión, abre su propio menú"),
-                            ("Salir", "no ejecuta nada")]) != 0:
+    eleccion = elegir("¿Seguís?", [*((f"Ejecutar «{p}»", "como si lo escribieras; si es una decisión, abre su propio menú")
+                                    for p in comandos), ("Salir", "no ejecuta nada")])
+    if eleccion is None or eleccion >= len(comandos):
         return 0
-    return main(["--proyecto", str(ROOT), *shlex.split(paso)[1:]])
+    return main(["--proyecto", str(ROOT), *shlex.split(comandos[eleccion])[1:]])
 
 
 def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = False) -> None:

@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261014-125953-estado-revisar-medios. Modo de trabaj
 ### Nota (2026-10-14 13:00:38 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-125953-estado-revisar-medios/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-14 13:00:49 UTC)
+
+Requisitos importados: revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
