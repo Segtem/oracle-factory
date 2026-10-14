@@ -35,3 +35,7 @@ Medidas de revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_sigui
 ### Nota (2026-10-14 12:48:34 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.); 0 abiertos derivados; commit 52b7ceb2445fe3b57ae83cf52630a7cb08ee175d; informe tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/informe.json; decisiones tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/decisiones.json.
+
+### Nota (2026-10-14 12:48:46 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-100834-revision-simultanea/oracle-veredicto.txt.

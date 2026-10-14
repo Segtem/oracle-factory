@@ -2,7 +2,7 @@
   "id": "20261014-100834-revision-simultanea",
   "titulo": "pedir-revision tolera pedidos simultáneos sobre el mismo candidato",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md",
   "spec_sha256": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "153e89a52aa536607dc725e3cebdc40783b33b06fb0da1ae82a5f4e81e8ab76f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-100834-revision-simultanea/candidatos/f9b6d27/evidencia/hechos.json",
+    "hechos_sha256": "1d41434bafb8d86b539b94a5ae8328e8c71459f4329e287e8a6b54efd10f41cc",
+    "informe": ".factory/cambios/20261014-100834-revision-simultanea/oracle-veredicto.txt",
+    "informe_sha256": "f8c0415b1839b804fe654bbe646d775bab5d889320b72874fdbea282ec56ab14",
+    "cuando": "2026-10-14T12:48:46+00:00",
+    "contexto": {
+      "head": "c115859486967b5a8f0ec3c4d12da4119e67cf2b",
+      "archivos_sha256": "153e89a52aa536607dc725e3cebdc40783b33b06fb0da1ae82a5f4e81e8ab76f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -210,6 +222,17 @@
       "abiertos": 0,
       "sha256": "0a3a6f9bc04027fb54cd68101bd994811eb757d193b3918e99355dc0b6dc02ee",
       "decisiones_sha256": "9a1bd4f79ac5a58707c008274c2e33b425659691d9f74fcf2b2bf11ccc617e0c"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T12:48:46+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1d41434bafb8d86b539b94a5ae8328e8c71459f4329e287e8a6b54efd10f41cc"
     }
   ],
   "tipos": {
