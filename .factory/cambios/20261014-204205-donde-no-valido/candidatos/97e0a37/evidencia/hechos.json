@@ -1,0 +1,25 @@
+{
+  "no_valido_caso": [
+    {
+      "requisito": "donde_y_resumen_se_leen_como_json",
+      "caso": "cj2_donde_con_un_artefacto_ausente",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_y_resumen_se_leen_como_json",
+      "caso": "cj2_donde_con_una_entrada_invalida",
+      "codigo": 0
+    },
+    {
+      "requisito": "donde_y_resumen_se_leen_como_json",
+      "caso": "cj2_resumen_sin_escribir",
+      "codigo": 0
+    }
+  ],
+  "no_valido_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}
