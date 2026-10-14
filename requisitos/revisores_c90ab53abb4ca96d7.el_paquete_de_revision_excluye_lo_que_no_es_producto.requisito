@@ -1,0 +1,4 @@
+requisito revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto:
+    texto "Tipo: funcional `pedir-revision` SHALL preparar el paquete de Clue excluyendo `.factory/`, `tareas/` y todo otro archivo del diff que no cuente en la huella del producto. El paquete SHALL nombrar esas exclusiones y los archivos que dejaron afuera, y el pedido al revisor SHALL decir que no forman parte de lo revisado."
+    fuente "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md#el paquete de revisión excluye lo que no es producto"
+    sin_medir "sin medida todavía; escenarios: «un candidato con registros de vueltas anteriores», «un registro fuera de esas carpetas»"

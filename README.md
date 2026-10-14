@@ -35,7 +35,7 @@ Si uv advierte sobre conflicto porque los ejecutables `oracle`, `tasks` u `oracl
 uv tool install --python 3.13 oracle-factory==0.1.0a9
 ```
 
-Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a1`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
+Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
 
 `--proyecto` se coloca antes del subcomando; sin esa opción se usa la carpeta actual. `init` crea la estructura de Oracle, Oracle Task y OpenSpec, añade ignores para `.factory-demo/`, `__pycache__/` y `*.py[cod]` sin sobrescribir configuración existente y no crea commits ni aprobaciones. Git debe estar instalado. Python 3.11 o posterior.
 
