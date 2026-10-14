@@ -137,6 +137,16 @@
       "candidato": "97e0a37",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T21:19:33+00:00",
+      "decision": "aprobar",
+      "candidato": "97e0a37"
     }
   ],
   "tipos": {
@@ -152,5 +162,15 @@
       "sha256": "0a96968d871f68c49f538590e373622b7fb4eb9c78b1e5ae75598b4a79cc683b"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy, a la vez. La 1: los dos el mismo medio (con una entrada inválida, la prueba no exigía que se siga listando todo lo demás); corregido comparando con el listado de antes de romper el registro, y comprobado con una mutación que descarta artefactos. La 2 no encontró nada. Los sensores de cli-json y donde-ausente cuentan sólo sus casos y se volvieron a correr en verde. Suite 346 y evidencia en verde.",
+      "candidato": "97e0a37",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T21:19:33+00:00"
+    }
+  }
 }
