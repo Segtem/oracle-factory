@@ -1,6 +1,6 @@
 # Spec de revisores: un informe sin severidad no se guarda
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-14 14:43:51 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-140627-severidad-ausente/oracle-veredicto.txt.
+
+### Nota (2026-10-14 14:44:44 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

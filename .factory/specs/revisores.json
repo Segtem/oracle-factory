@@ -5,7 +5,8 @@
     "20261013-115616-vueltas-severidad",
     "20261014-000054-paquete-producto",
     "20261014-100834-revision-simultanea",
-    "20261014-125953-estado-revisar-medios"
+    "20261014-125953-estado-revisar-medios",
+    "20261014-140627-severidad-ausente"
   ],
   "requisitos": {
     "pedir una revisión del candidato actual": {
@@ -105,11 +106,11 @@
       ]
     },
     "el corte de vueltas sigue la severidad": {
-      "cambio": "20261013-115616-vueltas-severidad",
-      "requisito": "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+      "cambio": "20261014-140627-severidad-ausente",
+      "requisito": "revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad",
       "cuerpo": [
         "Tipo: funcional",
-        "Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. Una severidad desconocida o ausente SHALL contar como media. `estado` SHALL sugerir el mismo próximo paso.",
+        "Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. `estado` SHALL sugerir el mismo próximo paso. Un informe con un hallazgo sin severidad o con una desconocida SHALL NOT guardarse; uno guardado que la pierde SHALL NOT usarse para decidir la vuelta, y `estado` SHALL avisar por qué.",
         "",
         "#### Scenario: sólo quedan bajos",
         "- GIVEN un candidato cuyos informes traen sólo hallazgos bajos",
@@ -121,10 +122,15 @@
         "- WHEN termina pedir-revision",
         "- THEN la salida pide corregir el hallazgo medio y pedir otra vuelta, y estado sugiere lo mismo",
         "",
-        "#### Scenario: severidad desconocida",
-        "- GIVEN un informe con un hallazgo sin severidad",
+        "#### Scenario: un informe sin severidad no se guarda",
+        "- GIVEN un revisor que deja un hallazgo sin severidad, o con una que no existe",
         "- WHEN termina pedir-revision",
-        "- THEN cuenta como medio y pide otra vuelta"
+        "- THEN falla diciendo que Clue rechazó el informe, y revision/ no cambia",
+        "",
+        "#### Scenario: un informe guardado que pierde la severidad",
+        "- GIVEN un informe guardado con un hallazgo medio, editado después para quitarle la severidad",
+        "- WHEN la persona pide estado",
+        "- THEN ese informe no se usa para decidir la vuelta y el aviso dice que no pasa la validación de Clue"
       ]
     },
     "un riesgo aceptado persiste entre vueltas": {
@@ -264,5 +270,32 @@
       ]
     }
   },
-  "reemplazados": []
+  "reemplazados": [
+    {
+      "nombre": "el corte de vueltas sigue la severidad",
+      "cambio": "20261013-115616-vueltas-severidad",
+      "requisito": "revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad",
+      "cuerpo": [
+        "Tipo: funcional",
+        "Después de guardar un informe, `pedir-revision` SHALL mostrar cuántos hallazgos trae por severidad. Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en `revisar`; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta. Una severidad desconocida o ausente SHALL contar como media. `estado` SHALL sugerir el mismo próximo paso.",
+        "",
+        "#### Scenario: sólo quedan bajos",
+        "- GIVEN un candidato cuyos informes traen sólo hallazgos bajos",
+        "- WHEN termina pedir-revision",
+        "- THEN la salida cuenta los bajos y sugiere revisar en vez de otra vuelta, y estado sugiere revisar",
+        "",
+        "#### Scenario: queda uno medio",
+        "- GIVEN un candidato con un informe que trae un hallazgo medio y otro con sólo bajos",
+        "- WHEN termina pedir-revision",
+        "- THEN la salida pide corregir el hallazgo medio y pedir otra vuelta, y estado sugiere lo mismo",
+        "",
+        "#### Scenario: severidad desconocida",
+        "- GIVEN un informe con un hallazgo sin severidad",
+        "- WHEN termina pedir-revision",
+        "- THEN cuenta como medio y pide otra vuelta"
+      ],
+      "por_cambio": "20261014-140627-severidad-ausente",
+      "operacion": "MODIFIED"
+    }
+  ]
 }
