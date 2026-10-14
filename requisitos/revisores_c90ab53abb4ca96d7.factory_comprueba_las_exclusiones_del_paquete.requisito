@@ -1,4 +1,4 @@
 requisito revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete:
     texto "Tipo: funcional Un paquete cuyas exclusiones dejan afuera un archivo del producto SHALL NOT usarse: `pedir-revision` SHALL fallar sin guardar el informe, y la preparación de la revisión SHALL no usar el informe de ese paquete y avisar por qué. Los paquetes sin exclusiones de vueltas anteriores SHALL seguir usándose."
     fuente "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md#Factory comprueba las exclusiones del paquete"
-    sin_medir "sin medida todavía; escenarios: «un paquete que excluye producto», «un paquete anterior sin exclusiones»"
+    medido_por factory_paquete.factory_comprueba_las_exclusiones_del_paquete, factory_paquete.corrida_completa
