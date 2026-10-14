@@ -84,25 +84,55 @@
         "factory_simultanea.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-14T11:59:35+00:00",
+      "requisito": "revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+      "medidas": [
+        "factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
+        "factory_simultanea.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-14T11:59:35+00:00",
+      "requisito": "revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes",
+      "medidas": [
+        "factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes",
+        "factory_simultanea.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato": "funcional",
     "revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato": {
-      "sha256": "4d62a6f06deda8f92033c817f461fcf23c2219a885f7cb8a85cec6fa3cecc0b0",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-14T10:15:41+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-14T11:59:35+00:00",
+      "sha256": "4d62a6f06deda8f92033c817f461fcf23c2219a885f7cb8a85cec6fa3cecc0b0"
     },
     "revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes": {
-      "sha256": "95e531ed9a497e34ec0d426eefb199a6028e86c53d5556d0193861cfd9468090",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-14T10:15:41+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-14T11:59:35+00:00",
+      "sha256": "95e531ed9a497e34ec0d426eefb199a6028e86c53d5556d0193861cfd9468090"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

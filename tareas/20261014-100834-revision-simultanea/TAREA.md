@@ -23,3 +23,11 @@ Medidas de revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_
 ### Nota (2026-10-14 10:15:41 UTC)
 
 Medidas de revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes: factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes, factory_simultanea.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-14 11:59:35 UTC)
+
+Medidas de revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 11:59:35 UTC)
+
+Medidas de revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes: Brian Hollweg (persona, confirmo, modo confirmacion).
