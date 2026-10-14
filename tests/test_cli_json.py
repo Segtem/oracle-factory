@@ -135,7 +135,9 @@ class CliJson(_ap.Base):
         self.assertIn(('spec', 'existe'), {(a['gate'], a['situacion']) for a in datos['artefactos']})
         # Fuera de lo histórico y lo no válido, la situación dice si el artefacto está en el disco.
         # Se eligen por gate, no por la situación que se comprueba: un histórico figura como histórico.
-        self.assertTrue(all(a['situacion'] == 'historico' for a in datos['artefactos'] if a['gate'] == 'histórico'))
+        historicos = [a for a in datos['artefactos'] if a['gate'] == 'histórico']
+        self.assertTrue(historicos)  # la revisión guiada dejó su carpeta en tareas/<id>/
+        self.assertTrue(all(a['situacion'] == 'historico' for a in historicos))
         propios = [a for a in datos['artefactos'] if a['gate'] != 'histórico']
         for a in propios:
             self.assertEqual(a['situacion'], 'existe' if (self.root / a['ruta']).exists() else 'ausente', a)
@@ -144,6 +146,21 @@ class CliJson(_ap.Base):
         self.assertLessEqual({f'{cambio}/proposal.md', f'{cambio}/design.md', f'{cambio}/tasks.md', f'tareas/{ident}/TAREA.md'},
                              {a['ruta'] for a in propios})
         self.assertTrue(all(set(a) == {'gate', 'ruta', 'situacion', 'nota'} for a in datos['artefactos']))
+
+    def test_cj2_donde_con_una_entrada_invalida(self):
+        ident = self.cambio_revisado()
+        (self.root / 'tareas' / ident / 'notas-de-antes.md').write_text('una nota anterior a la estructura\n')
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
+        estado = json.loads(ruta.read_text())
+        estado['revision']['informe'] = 5  # un valor que no es una ruta
+        ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=2) + '\n')
+        datos = self.json_de('donde', ident, '--json')
+        situaciones = {(a['gate'], a['ruta'], a['situacion']) for a in datos['artefactos']}
+        self.assertEqual([(a['gate'], a['situacion']) for a in datos['artefactos'] if a['situacion'] == 'no_valido'],
+                         [('revisión', 'no_valido')])
+        self.assertIn(('histórico', f'tareas/{ident}/notas-de-antes.md', 'historico'), situaciones)
+        self.assertIn(('spec', 'existe'), {(g, s) for g, _, s in situaciones})  # los demás se siguen listando
+        self.assertIn(('acuerdo', 'existe'), {(g, s) for g, _, s in situaciones})
 
     def test_cj2_resumen_sin_escribir(self):
         cerrado = self.cambio_revisado(hallazgos=('H1',))

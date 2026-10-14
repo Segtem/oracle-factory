@@ -42,7 +42,7 @@ def main(argv=None):
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
     result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
     expected = [PREFIX + name for names in CONTRACTS.values() for name in names]
-    observed = {name: count for name, count in result.cantidad.items() if name.startswith(PREFIX)}
+    observed = {name: count for name, count in result.cantidad.items() if name in expected}  # sólo sus casos: otro cambio puede sumar
     complete = observed == Counter(expected) and all(result.observados.get(name, 1) == 0 for name in expected)
     stable = fuentes() == origen
     ok = result.wasSuccessful() and complete and stable

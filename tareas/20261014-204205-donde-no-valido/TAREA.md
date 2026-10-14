@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261014-204205-donde-no-valido. Modo de trabajo: con
 ### Nota (2026-10-14 20:43:29 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-204205-donde-no-valido/specs/cli/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-14 20:43:43 UTC)
+
+Requisitos importados: cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
