@@ -2,7 +2,7 @@
   "id": "20261014-100834-revision-simultanea",
   "titulo": "pedir-revision tolera pedidos simultáneos sobre el mismo candidato",
   "capacidad": "revisores",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md",
   "spec_sha256": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato",
     "revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/informe.json",
+    "sha256": "0a3a6f9bc04027fb54cd68101bd994811eb757d193b3918e99355dc0b6dc02ee",
+    "decisiones": "tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/decisiones.json",
+    "decisiones_sha256": "9a1bd4f79ac5a58707c008274c2e33b425659691d9f74fcf2b2bf11ccc617e0c",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T12:48:34+00:00",
+    "motivo": "dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "52b7ceb2445fe3b57ae83cf52630a7cb08ee175d",
+      "archivos_sha256": "153e89a52aa536607dc725e3cebdc40783b33b06fb0da1ae82a5f4e81e8ab76f"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -176,6 +196,20 @@
       "cuando": "2026-10-14T12:47:37+00:00",
       "decision": "aprobar",
       "candidato": "f9b6d27"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-14T12:48:34+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "0a3a6f9bc04027fb54cd68101bd994811eb757d193b3918e99355dc0b6dc02ee",
+      "decisiones_sha256": "9a1bd4f79ac5a58707c008274c2e33b425659691d9f74fcf2b2bf11ccc617e0c"
     }
   ],
   "tipos": {
@@ -201,14 +235,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy, lanzadas a la vez con este mismo código (un checkout, paquetes y eventos de los dos, sin chocar). La 1: codex nada; agy un medio (las pruebas no forzaban la carrera del evento) y dos bajos: el H-02 (que el revisor corra fuera del turno) quedó cubierto con el mismo arreglo, comprobado con mutaciones; el H-03 (el evento se guarda antes que el informe) es previo a este cambio. La 2: ninguno de los dos encontró nada. Suite 339 y evidencia en verde.",
-      "candidato": "f9b6d27",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-14T12:47:37+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
