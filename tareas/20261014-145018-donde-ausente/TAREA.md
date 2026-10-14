@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-14 14:53:11 UTC)
 
 Requisitos importados: cli_cf27d83513d3991c0.donde_y_resumen_se_leen_como_json (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-14 14:56:04 UTC)
+
+Medidas de cli_cf27d83513d3991c0.donde_y_resumen_se_leen_como_json: factory_donde.donde_y_resumen_se_leen_como_json, factory_donde.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
