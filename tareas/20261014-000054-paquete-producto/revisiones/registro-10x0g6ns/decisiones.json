@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "1b4ea5977e57678da814558c54d031a51bd7a3c0d9cb6a734c454067c93674c7",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy, con paquetes ya armados sin los registros de Factory: la 1 trajo un alto (el diff sin producto metía los registros en el paquete), tres medios y dos bajos; todos corregidos con aserciones que fallan en el código anterior, en los mismos 4 casos. La 2 no encontró nada (agy, reintentado tras un 503 del servicio). Suite 336 y evidencia en verde.",
+  "decisiones": []
+}

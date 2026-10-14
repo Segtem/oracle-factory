@@ -2,7 +2,7 @@
   "id": "20261014-000054-paquete-producto",
   "titulo": "El paquete de revisión deja fuera lo que no es producto",
   "capacidad": "revisores",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
   "spec_sha256": "65c8f79ae6e1df20cd2e13048a29b9528d82691baa91dc6eb640c4fea7b89ca5",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto",
     "revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261014-000054-paquete-producto/revisiones/registro-10x0g6ns/informe.json",
+    "sha256": "1b4ea5977e57678da814558c54d031a51bd7a3c0d9cb6a734c454067c93674c7",
+    "decisiones": "tareas/20261014-000054-paquete-producto/revisiones/registro-10x0g6ns/decisiones.json",
+    "decisiones_sha256": "060467c57b2a8c030c9872ff9d111e2a28a023beb9c33b2f7185343f79f3ad75",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T10:03:01+00:00",
+    "motivo": "dos vueltas de codex y agy, con paquetes ya armados sin los registros de Factory: la 1 trajo un alto (el diff sin producto metía los registros en el paquete), tres medios y dos bajos; todos corregidos con aserciones que fallan en el código anterior, en los mismos 4 casos. La 2 no encontró nada (agy, reintentado tras un 503 del servicio). Suite 336 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "247f5f9ef2e1b058531eb7556243d27997fcbf0e",
+      "archivos_sha256": "19d14ba172c771382af885cab9984d8ead0734af02ad6975f91ea2565ab9ec16"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -190,6 +210,20 @@
       "cuando": "2026-10-14T00:58:41+00:00",
       "decision": "aprobar",
       "candidato": "e919597"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-14T10:03:01+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1b4ea5977e57678da814558c54d031a51bd7a3c0d9cb6a734c454067c93674c7",
+      "decisiones_sha256": "060467c57b2a8c030c9872ff9d111e2a28a023beb9c33b2f7185343f79f3ad75"
     }
   ],
   "tipos": {
@@ -215,14 +249,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy, con paquetes ya armados sin los registros de Factory: la 1 trajo un alto (el diff sin producto metía los registros en el paquete), tres medios y dos bajos; todos corregidos con aserciones que fallan en el código anterior, en los mismos 4 casos. La 2 no encontró nada (agy, reintentado tras un 503 del servicio). Suite 336 y evidencia en verde.",
-      "candidato": "e919597",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-14T00:58:41+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
