@@ -2,23 +2,21 @@
   "id": "20261014-145018-donde-ausente",
   "titulo": "Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
-  "spec_sha256": "ac125ab9a6cc44cab2e66de1a43d0b684168206660aa93dd88f3783ee8175d43",
+  "spec_sha256": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-14T15:13:07+00:00",
+    "cuando": "2026-10-14T15:34:36+00:00",
     "documentos": {
-      "openspec/changes/20261014-145018-donde-ausente/proposal.md": "3656f25ddf7cf6da6dfba69d9d9661089cf7eb95f160f497d43f6fac2dea9de8",
-      "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md": "ac125ab9a6cc44cab2e66de1a43d0b684168206660aa93dd88f3783ee8175d43"
+      "openspec/changes/20261014-145018-donde-ausente/proposal.md": "44e3ab7fd78e9f63cf82323f8fdefeef8feafcd195584da2031ea4727e8e4fd9",
+      "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c"
     }
   },
-  "requisitos": [
-    "cli_c957c8a82900bafdf.donde_y_resumen_se_leen_como_json"
-  ],
+  "requisitos": [],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -187,11 +185,21 @@
       "candidato": "f2f379c",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T15:34:36+00:00",
+      "documentos": {
+        "openspec/changes/20261014-145018-donde-ausente/proposal.md": "44e3ab7fd78e9f63cf82323f8fdefeef8feafcd195584da2031ea4727e8e4fd9",
+        "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c"
+      }
     }
   ],
-  "tipos": {
-    "cli_c957c8a82900bafdf.donde_y_resumen_se_leen_como_json": "funcional"
-  },
+  "tipos": {},
   "medidas": {
     "cli_c957c8a82900bafdf.donde_y_resumen_se_leen_como_json": {
       "actor": "Brian Hollweg",

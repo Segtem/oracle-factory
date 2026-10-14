@@ -39,3 +39,7 @@ Medidas de cli_c957c8a82900bafdf.donde_y_resumen_se_leen_como_json: factory_dond
 ### Nota (2026-10-14 15:13:55 UTC)
 
 Medidas de cli_c957c8a82900bafdf.donde_y_resumen_se_leen_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 15:34:36 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md; se reiniciaron las validaciones dependientes.
