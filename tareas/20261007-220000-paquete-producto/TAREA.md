@@ -1,6 +1,6 @@
 # El paquete de Clue de pedir-revision deja afuera los registros de Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 9
 - ETIQUETAS: revision, clue, autoproduccion
 
@@ -17,3 +17,7 @@
 - El `.pedido.md` que se guarda en `revision/` lleva rutas absolutas de la máquina (checkout, paquete, informe, y lo que se escriba en `--pedir`). Brian aceptó publicarlas en el cambio revisores (2026-10-07), igual que la ruta del repo en los informes de Clue; el pedido guardado debería usar rutas relativas al repo.
 - 2026-10-07, cambio decisiones-guiadas: el límite saltó en la primera vuelta. El diff de producto suma ~1,1 MB, porque el paquete lleva el texto completo, antes y después, de cli.py (240 KB) y de 17 pruebas migradas de forma mecánica. Se revisó en dos partes. La base fue un commit aparte (`refs/factory/base-mecanica-decisiones`): main más la migración mecánica, que cubre la suite. Así el paquete bajó a ~506 KB. Excluir rutas de registro no alcanza: Clue debería poder mandar sólo el patch con contexto en los archivos grandes, o partir el paquete.
 - Los límites que escriben los revisores en sus informes («Corrí PATH=/tmp/… /home/…/python …») llevan rutas absolutas de la máquina y pasan al informe preparado y a `.factory/resumen.md`. El pedido podría indicar que los límites usen rutas relativas al repo, o Factory relativizarlas al copiar.
+
+### Nota (2026-10-14 10:06:56 UTC)
+
+Hecho en el cambio 20261014-000054-paquete-producto (merge f4dba97): Factory fija oracle-clue 0.1.0a2 y pedir-revision excluye .factory, tareas y todo archivo del diff que no es producto; un paquete que excluye producto no se usa. La otra nota (rutas relativas en el pedido guardado) queda fuera y sigue en la tarea de Clue sobre rutas absolutas.
