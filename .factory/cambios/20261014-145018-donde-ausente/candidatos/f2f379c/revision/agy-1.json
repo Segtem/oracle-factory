@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/f2f379c",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "f2f379c2d27c9d566b64b99b7e77bc6591c2d37f",
+  "diff_sha256": "8bac14849a6d8c46631fbcae7211644e04432b4733fb5846d090f74650598c13",
+  "context_sha256": "d2482e0613cb0315d4157dc6b418cdf170aea4fb0d77dcfd822e7e5f4c4e685e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "DONDE-TEST-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "El filtrado en test_cj2 usa la clave 'situacion' bajo prueba en vez del gate del artefacto, tolerando artefactos históricos como 'existe'",
+      "explanation": "La cláusula THEN del escenario «donde con un artefacto ausente» promete textualmente: «cada artefacto que no es histórico ni inválido figura como existe si está en el disco y como ausente si no». Sin embargo, en tests/test_cli_json.py:137, la comprobación selecciona los artefactos mediante `propios = [a for a in datos['artefactos'] if a['situacion'] not in ('historico', 'no_valido')]`, filtrando por la misma propiedad de salida que se busca verificar ('situacion') en lugar de discriminar por el gate o la naturaleza del artefacto (`a['gate'] != 'histórico'`). Esta formulación circular introduce dos debilidades de prueba: 1) Si una regresión asignara situacion='existe' al artefacto histórico presente en la fixture (tareas/.../revisiones, con gate='histórico'), dicho artefacto ingresa en `propios` y la aserción pasa sin error porque físicamente existe en el disco. 2) Si un artefacto no histórico propio del cambio fuera etiquetado erróneamente con situacion='historico' o 'no_valido', la prueba lo excluye silenciosamente de `propios` sin detectar el fallo. Asimismo, la prueba no verifica positivamente que el artefacto histórico figure con situación 'historico'.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 137,
+        "end_line": 141,
+        "side": "head"
+      },
+      "trigger": "Mutar oracle_factory/cli.py:datos_donde para asignar situacion='existe' a artefactos con gate='histórico', o forzar situacion='historico' sobre un artefacto propio como proposal.md.",
+      "evidence": "Se ejecutaron mutaciones empíricas sobre una copia de prueba en scratch: 1) Al forzar en datos_donde que los artefactos con gate='histórico' reciban situacion='existe', test_cj2_donde_con_un_artefacto_ausente finalizó exitosamente (OK, 0 fallos). 2) Al forzar que proposal.md reciba situacion='historico', la prueba también finalizó con éxito sin advertir la mutación. Ambas mutaciones sobreviven debido al filtro sobre 'situacion'. Si se filtrara por gate (`a['gate'] != 'histórico'`) y se contrastara el histórico, ambas mutaciones fallarían.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Comprobado empíricamente en el espacio de trabajo local del revisor mediante mock de cli.datos_donde sobre CliJson.test_cj2_donde_con_un_artefacto_ausente (mut_historico_as_existe y mut_donde_existing_as_historico pasaron sin errores)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas solicitada: cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null (7 pruebas ejecutadas, resultado OK).",
+    "No se ejecutó tools/verify_donde_ausente.py, ningún script tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/f2f379c (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "Las pruebas de mutación sobre datos_donde y resumen.datos se ejecutaron en el directorio del revisor (.factory/local/revisores/f2f379c-agy-1/scratch_mutations.py) mediante mocks en memoria para verificar la sensibilidad de las aserciones de CliJson.",
+    "No se revisaron los 10 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory y tareas)."
+  ]
+}

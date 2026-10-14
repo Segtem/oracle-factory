@@ -12,6 +12,6 @@ Tipo: funcional
 - THEN esos hechos figuran con gate juicio y situación ausente, y cada artefacto que no es histórico ni inválido figura como existe si está en el disco y como ausente si no
 
 #### Scenario: resumen sin escribir
-- GIVEN un proyecto con un cambio cerrado y uno abierto
+- GIVEN un proyecto con un cambio cerrado y uno abierto con dos requisitos que tienen el mismo pendiente de medidas
 - WHEN se pide resumen con --json dos veces
-- THEN las dos salidas son idénticas, nombran el requisito de Oracle vigente del cambio cerrado y el cambio abierto con los mismos pendientes que estado, y .factory/resumen.md no cambia
+- THEN las dos salidas son idénticas, nombran el requisito de Oracle vigente del cambio cerrado y el cambio abierto con los pendientes de estado, con los de medidas que dicen lo mismo de varios requisitos juntos en un renglón, y .factory/resumen.md no cambia

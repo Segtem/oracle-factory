@@ -134,11 +134,15 @@ class CliJson(_ap.Base):
         self.assertEqual([(a['gate'], a['situacion']) for a in datos['artefactos'] if a['ruta'] == ruta], [('juicio', 'ausente')])
         self.assertIn(('spec', 'existe'), {(a['gate'], a['situacion']) for a in datos['artefactos']})
         # Fuera de lo histórico y lo no válido, la situación dice si el artefacto está en el disco.
-        propios = [a for a in datos['artefactos'] if a['situacion'] not in ('historico', 'no_valido')]
-        self.assertGreater(len(propios), 5)
+        # Se eligen por gate, no por la situación que se comprueba: un histórico figura como histórico.
+        self.assertTrue(all(a['situacion'] == 'historico' for a in datos['artefactos'] if a['gate'] == 'histórico'))
+        propios = [a for a in datos['artefactos'] if a['gate'] != 'histórico']
         for a in propios:
             self.assertEqual(a['situacion'], 'existe' if (self.root / a['ruta']).exists() else 'ausente', a)
         self.assertEqual(sum(a['situacion'] == 'ausente' for a in propios), 1)
+        cambio = f'openspec/changes/{ident}'  # y están los fijos de la convención
+        self.assertLessEqual({f'{cambio}/proposal.md', f'{cambio}/design.md', f'{cambio}/tasks.md', f'tareas/{ident}/TAREA.md'},
+                             {a['ruta'] for a in propios})
         self.assertTrue(all(set(a) == {'gate', 'ruta', 'situacion', 'nota'} for a in datos['artefactos']))
 
     def test_cj2_resumen_sin_escribir(self):
@@ -148,6 +152,19 @@ class CliJson(_ap.Base):
             with self.escribe('1'):
                 f.cerrar(cerrado)
             abierto = f.nuevo('Otra nota', capacidad='otra')
+            # Dos requisitos con el mismo pendiente de medidas: resumen los agrupa en un renglón.
+            (self.root / 'openspec/changes' / abierto / 'specs/otra/spec.md').write_text(
+                '# Capability: otra\n\n## ADDED Requirements\n' + ''.join(
+                    f'\n### Requirement: promesa {n}\nTipo: funcional\nEl sistema SHALL cumplir la promesa {n}.\n\n'
+                    f'#### Scenario: caso {n}\n- GIVEN algo\n- WHEN pasa\n- THEN se cumple\n' for n in ('uno', 'dos')))
+            for nombre in ('proposal.md', 'design.md'):
+                (self.root / 'openspec/changes' / abierto / nombre).write_text(f'# Otra nota\n\nCompleto: {nombre}.\n')
+            with self.escribe('1'):
+                f.aprobar_spec(abierto)
+            f.importar(abierto)
+            for rid in f.leer(abierto)[1]['requisitos']:  # medidas escritas a mano en el archivo, sin decisión registrada
+                requisito = self.root / 'requisitos' / f'{rid}.requisito'
+                requisito.write_text(requisito.read_text() + '    medido_por notas.casos_ejecutados\n')
             abandonado = f.nuevo('Una que no sigue', capacidad='tercera')
             with self.escribe('1'):
                 f.abandonar(abandonado)  # confirmar; motivo armado
@@ -166,7 +183,12 @@ class CliJson(_ap.Base):
         self.assertTrue(abiertos['pendientes'])
         [vigente] = [r for r in vigentes if r['cambio'] == cerrado]
         self.assertEqual([vigente['requisito']], f.leer(cerrado)[1]['requisitos'])  # el requisito de Oracle de ese cambio
-        self.assertEqual(abiertos['pendientes'], f.pendientes_actuales(*f.leer(abierto)))
+        de_estado = f.pendientes_actuales(*f.leer(abierto))
+        medidas = [p for p in de_estado if p.startswith('medidas de ')]
+        self.assertEqual(len(medidas), 2)
+        self.assertEqual(abiertos['pendientes'], [p for p in de_estado if p not in medidas]
+                         + [f'medidas de 2 requisitos: {medidas[0].split(": ", 1)[1]}'])
+        self.assertEqual(len({p.split(': ', 1)[1] for p in medidas}), 1)  # el mismo motivo
         self.assertEqual((vigente['tipo'], vigente['veredicto_al_cerrar'][:5]), ('funcional', 'verde'))
         self.assertEqual([(a['id'], bool(a['motivo'])) for a in datos['abandonados']], [(abandonado, True)])
         self.assertEqual(datos['sin_registro'], ['20260101-000000-vieja'])
