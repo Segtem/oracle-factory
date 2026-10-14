@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-severidad-ausente/.factory/local/revisiones/4f96d64",
+  "base": "e791662d5ba027940a63bf959e520459bf834eb4",
+  "head": "4f96d642fee7acc2371f3de16834ce86bd3159c4",
+  "diff_sha256": "87857b770c2249db653abf3e61df75097df2c6944507ae196cb1cee77a99b8a8",
+  "context_sha256": "c6cae5b34554dffa89f3bb8d6d993f3f2402f1d259385a545be09a18250feb3f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.96,
+      "title": "El verificador filtra casos con «if name in expected» y anula la detección de omisiones exigida por el contrato Oracle",
+      "explanation": "El catálogo factory_severidad.corrida_completa.oracle fija el umbral en 1 porque «el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables», y resultado.json declara 'casos_exactos_sin_omisiones_duplicados_ni_fallas': complete. Sin embargo, en las líneas 48-50 de tools/verify_severidad_ausente.py, observed se construye como {name: count for name, count in result.cantidad.items() if name in expected}. Al filtrar por pertenencia a expected en lugar de filtrar por prefijo de módulo o clase (como hace tools/verify_ruta.py con if name.startswith((E7, R1))), observed jamás puede contener un caso ajeno a expected. En consecuencia, si se agregan pruebas a tests/test_severidad_ausente.py o si se omiten pruebas existentes de los módulos evaluados, observed == Counter(expected) resulta siempre True y la detección de omisiones queda totalmente inoperante. Este filtro circular encubre además que en tests/test_vueltas.py permanece el caso test_vs1_severidad_desconocida con el prefijo test_vs1_, el cual rompería el conteo si se aplicara el patrón estándar de prefijos del proyecto.",
+      "location": {
+        "file": "tools/verify_severidad_ausente.py",
+        "start_line": 48,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "Agregar un nuevo método de prueba a tests/test_severidad_ausente.py (por ejemplo, test_sa1_otro) u omitir casos del contrato en CONTRACTS: tools/verify_severidad_ausente.py seguirá reportando complete: True y corrida_completa: 1 sin advertir la discrepancia.",
+      "evidence": "En tools/verify_severidad_ausente.py:25 PREFIX es '', y en la línea 49 observed filtra con if name in expected. En contraste, tools/verify_ruta.py:46 utiliza if name.startswith((E7, R1)) para abarcar los dos módulos y detectar omisiones reales. Asimismo, tests/test_vueltas.py:123 contiene test_vs1_severidad_desconocida dentro del bloque vs1 que no está listado en CONTRACTS.",
+      "related_requirement": "el corte de vueltas sigue la severidad (revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad)",
+      "status": "pendiente",
+      "verification": "Análisis estático de tools/verify_severidad_ausente.py, comparación con tools/verify_ruta.py y tools/verify_vueltas.py, y simulación de Counter en Python confirmando que observed == Counter(expected) evalúa True aun con pruebas no contratadas en result.cantidad."
+    },
+    {
+      "id": "F-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "La prueba de pérdida de severidad no verifica la decisión de vuelta con los informes válidos restantes",
+      "explanation": "El requisito promete que si un informe guardado pierde la severidad «SHALL NOT usarse para decidir la vuelta, y estado SHALL avisar por qué». Sin embargo, test_sa1_un_informe_guardado_que_pierde_la_severidad en tests/test_severidad_ausente.py prueba el escenario con un único revisor (codex). Al invalidarse su informe, no queda ningún informe usable en el candidato (corte_del_candidato devuelve None) y estado cae en la rama por defecto sugiriendo pedir-revision a codex (oracle_factory/cli.py:2258). La aserción self.assertNotIn('corregí', salida.getvalue()) prueba que no se pide corregir el medio viciado, pero no prueba la decisión de vuelta sustantiva con los informes restantes (por ejemplo, comprobar que habiendo otro revisor con sólo hallazgos bajos, la salida sugiera revisar y no pedir otra vuelta).",
+      "location": {
+        "file": "tests/test_severidad_ausente.py",
+        "start_line": 33,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "Tener un candidato con un informe viciado y otro informe válido con hallazgos bajos: si corte_del_candidato descartara indebidamente todos los informes en vez de sólo el viciado, el caso de prueba actual no lo detectaría.",
+      "evidence": "tests/test_severidad_ausente.py:34-50 sólo crea un pedido ('codex') y corrompe su único informe; al correr estado, la salida dice 'Próximo paso: oracle-factory pedir-revision ... --a codex' porque no hay informes válidos disponibles en el candidato, no porque se haya computado el corte entre informes restantes.",
+      "related_requirement": "el corte de vueltas sigue la severidad (revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad)",
+      "status": "pendiente",
+      "verification": "Análisis estático de tests/test_severidad_ausente.py frente a material_del_candidato, corte_del_candidato y proximo_paso en oracle_factory/cli.py."
+    },
+    {
+      "id": "F-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "La severidad «alta» prometida en el requisito carece de escenario y de prueba en los contratos",
+      "explanation": "El texto del requisito 'el corte de vueltas sigue la severidad' promete expresamente: «Si entre los informes del candidato vigente no queda ningún hallazgo de severidad media o alta sin un riesgo aceptado que coincida, SHALL decir que no hace falta otra vuelta y que los bajos los decide una persona en revisar; si queda alguno, SHALL pedir corregirlo y pedir otra vuelta». No obstante, en la especificación sólo se detalla el escenario 'queda uno medio' y las pruebas del contrato (tests/test_vueltas.py y tests/test_severidad_ausente.py) únicamente usan 'media', 'baja' e 'informativa'. No existe ningún escenario ni prueba contratada para hallazgos de severidad 'alta' (ni 'critica'), dejando esa rama de la promesa sin respaldo directo en las pruebas de punta a punta del candidato.",
+      "location": {
+        "file": "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md",
+        "start_line": 7,
+        "end_line": 17,
+        "side": "head"
+      },
+      "trigger": "Un informe con un hallazgo de severidad 'alta' o 'critica' sin riesgo aceptado no está cubierto por ninguna de las pruebas contratadas en vs1 ni sa1.",
+      "evidence": "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md:7 menciona 'media o alta', pero los escenarios detallados sólo contemplan 'sólo quedan bajos' (línea 9) y 'queda uno medio' (línea 14). En tests/test_vueltas.py:101-122 y tests/test_severidad_ausente.py:23-50, no se instancia ningún hallazgo con severidad 'alta'.",
+      "related_requirement": "el corte de vueltas sigue la severidad (revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad)",
+      "status": "pendiente",
+      "verification": "Búsqueda exhaustiva de 'alta' en tests/test_vueltas.py y tests/test_severidad_ausente.py, confirmando la ausencia de casos para severidad alta en los escenarios de contrato vs1 y sa1."
+    },
+    {
+      "id": "F-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Los casos vs1 de test_vueltas prueban el helper proximo_paso pero no la salida del comando estado",
+      "explanation": "La spec promete que 'estado SHALL sugerir el mismo próximo paso'. Sin embargo, los casos vs1 de tests/test_vueltas.py comprueban esta promesa evaluando self.paso() (que invoca internamente la función Python f.proximo_paso) en lugar de invocar el comando CLI oracle-factory estado (vía f.main) para verificar la salida formateada que efectivamente ve la persona usuaria, a diferencia de lo que hace tests/test_severidad_ausente.py en su caso sa1.",
+      "location": {
+        "file": "tests/test_severidad_ausente.py",
+        "start_line": 41,
+        "end_line": 48,
+        "side": "head"
+      },
+      "trigger": "Un error en el renderizado CLI o cableado de flags en el comando estado para candidatos válidos con bajos o medios pasaría inadvertido porque vs1 no invoca estado mediante la CLI.",
+      "evidence": "tests/test_vueltas.py:85-87 define paso() como f.proximo_paso(self.ident); test_vs1_solo_quedan_bajos y test_vs1_queda_uno_medio usan self.paso() (líneas 107 y 116), sin invocar f.main(..., 'estado', ...). En cambio, tests/test_severidad_ausente.py:41-48 sí invoca f.main con estado.",
+      "related_requirement": "el corte de vueltas sigue la severidad (revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad)",
+      "status": "pendiente",
+      "verification": "Revisión estática de los casos vs1 en tests/test_vueltas.py, del helper paso() y del caso sa1 en tests/test_severidad_ausente.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas limitada estrictamente a la instrucción recibida: cd /home/workstation/Dev/factory-severidad-ausente && /home/workstation/Dev/factory-severidad-ausente/.venv/bin/python -m unittest tests.test_severidad_ausente tests.test_vueltas </dev/null (12 pruebas, todas OK).",
+    "No se ejecutó tools/verify_severidad_ausente.py ni ningún tools/verify_*.py ni la suite completa.",
+    "La evaluación de tools/verify_severidad_ausente.py se basó en análisis estático de su código, comparación con otros sensores de evidencia (como verify_ruta.py y verify_vueltas.py) y comprobación del comportamiento de conjuntos/Counter en Python."
+  ]
+}

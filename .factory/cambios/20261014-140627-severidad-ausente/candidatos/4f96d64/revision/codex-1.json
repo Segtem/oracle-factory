@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-severidad-ausente/.factory/local/revisiones/4f96d64",
+  "base": "e791662d5ba027940a63bf959e520459bf834eb4",
+  "head": "4f96d642fee7acc2371f3de16834ce86bd3159c4",
+  "diff_sha256": "87857b770c2249db653abf3e61df75097df2c6944507ae196cb1cee77a99b8a8",
+  "context_sha256": "c6cae5b34554dffa89f3bb8d6d993f3f2402f1d259385a545be09a18250feb3f",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "Los casos de corte no prueban la salida de estado para informes válidos",
+      "explanation": "La spec promete que estado sugiera el mismo próximo paso que pedir-revision en los escenarios de sólo bajos y de un medio pendiente. Los casos vs1 de tests/test_vueltas.py comprueban esa promesa llamando a self.paso(), que delega directamente en f.proximo_paso(); no ejecutan el comando estado ni comprueban su salida. La única invocación CLI de estado añadida por este cambio está en el caso del informe alterado y no validable (tests/test_severidad_ausente.py), por lo que la suite puede pasar aunque se rompa el renderizado o el cableado de estado en los escenarios válidos.",
+      "location": {
+        "file": "tests/test_severidad_ausente.py",
+        "start_line": 41,
+        "end_line": 48,
+        "side": "head"
+      },
+      "trigger": "Romper la salida CLI de estado sólo cuando existen informes válidos con bajos o medios; los dos casos vs1 seguirían comprobando el helper y no detectarían la regresión.",
+      "evidence": "tests/test_vueltas.py:85-87 define paso() como una llamada a f.proximo_paso(); test_vs1_solo_quedan_bajos y test_vs1_queda_uno_medio usan self.paso() (líneas 107 y 116), sin invocar f.main(..., \"estado\", ...). En cambio, tests/test_severidad_ausente.py:41-48 sí llama a f.main con estado, pero sólo después de quitar la severidad del informe. El código CLI actual parece conectar estado con pasos(), pero esa ruta visible no se verifica para los dos escenarios válidos.",
+      "related_requirement": "el corte de vueltas sigue la severidad — escenarios «sólo quedan bajos» y «queda uno medio»",
+      "status": "pendiente",
+      "verification": "Revisión estática del diff, de los casos vs1, del helper paso() y del flujo CLI de estado. No se agregó una prueba ni se ejecutó mutación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecutado exactamente: cd /home/workstation/Dev/factory-severidad-ausente && /home/workstation/Dev/factory-severidad-ausente/.venv/bin/python -m unittest tests.test_severidad_ausente tests.test_vueltas </dev/null (12 pruebas, OK).",
+    "No ejecuté tools/verify_severidad_ausente.py, ningún tools/verify_*.py ni la suite completa, según la instrucción.",
+    "No hice mutaciones manuales. La revisión del código y las pruebas fue estática además del comando indicado.",
+    "El conteo en tools/verify_severidad_ausente.py se ve consistente: unittest discovery produce IDs con módulo test_vueltas/test_severidad_ausente; PREFIX vacío y CONTRACTS usa los nombres totalmente cualificados de ambos módulos, luego expected, observed, filas y trazabilidad comparan la misma convención. No ejecuté ese verificador."
+  ]
+}

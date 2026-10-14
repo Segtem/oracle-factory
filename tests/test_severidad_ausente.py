@@ -34,6 +34,7 @@ class SeveridadAusente(_vueltas.Base):
     def test_sa1_un_informe_guardado_que_pierde_la_severidad(self):
         self.preparar()
         self.pedir('codex', ['media', 'Falta validar el título'])
+        self.pedir('agy', ['baja', 'Un nombre poco claro'])
         informe = self.carpeta() / 'revision' / 'codex-1.json'
         datos = json.loads(informe.read_text())
         del datos['findings'][0]['severity']
@@ -43,10 +44,9 @@ class SeveridadAusente(_vueltas.Base):
             self.assertEqual(f.main(['--proyecto', str(self.root), 'estado', self.ident]), 0)
         self.assertIn('codex-1.json no pasa la validación de Clue', errores.getvalue())
         self.assertIn("'severity' is a required property", errores.getvalue())
-        # No se usa para decidir la vuelta: ni el medio pide otra vuelta, ni se ofrece revisar sin informes que usar.
+        # La vuelta se decide con el informe que queda (el de agy, sólo bajos): revisar, no corregir el medio de codex.
         self.assertNotIn('corregí', salida.getvalue())
-        self.assertIn(f'Próximo paso: oracle-factory pedir-revision {self.ident} --a codex', salida.getvalue())
-
+        self.assertIn(f'Próximo paso: oracle-factory revisar {self.ident}\n', salida.getvalue())
 
 if __name__ == '__main__':
     unittest.main()

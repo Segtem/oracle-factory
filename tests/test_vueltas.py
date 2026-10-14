@@ -83,8 +83,14 @@ class Vueltas(Base):
         return salida.getvalue()
 
     def paso(self):
-        with contextlib.redirect_stderr(io.StringIO()):
-            return f.proximo_paso(self.ident)
+        """El próximo paso que muestra `oracle-factory estado ID`, por la CLI; es el mismo que calcula proximo_paso."""
+        salida = io.StringIO()
+        with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(f.main(['--proyecto', str(self.root), 'estado', self.ident]), 0)
+            calculado = f.proximo_paso(self.ident)
+        paso = next(linea for linea in salida.getvalue().splitlines() if linea.startswith('Próximo paso: '))[14:]
+        self.assertEqual(paso, calculado)
+        return paso
 
     def aceptados(self):
         return f.leer(self.ident)[1].get('aceptados') or []
