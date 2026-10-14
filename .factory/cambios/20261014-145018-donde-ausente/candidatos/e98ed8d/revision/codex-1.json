@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/e98ed8d",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "e98ed8d8088177d1b873c4e15dbddf037c291f3d",
+  "diff_sha256": "052d83011f8d7c09403e8872e42b927deb3b6aabd98622f051bc35cf3903afea",
+  "context_sha256": "e26f38458702ef17a374b49b1bf6fdbc12baae94c48495ffc9d7a744f112d416",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DONDE-TEST-001",
+      "kind": "pregunta",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "cj2 no prueba la excepción de situación no_valido",
+      "explanation": "El escenario exceptúa los artefactos históricos e inválidos al exigir que los demás reflejen la presencia en disco. La fixture cubre el hecho de juicio borrado y los artefactos fijos, pero no construye una entrada inválida del registro. Por eso no prueba que esa excepción se preserve: una mutación que convirtiera la situación no_valido en ausente todavía pasaría este caso. Además, la aserción de históricos usa all() sin exigir que haya al menos uno, así que puede pasar vacíamente. El mapeo actual de datos_donde sí implementa ambas situaciones; el hallazgo es una brecha de cobertura de la promesa, no un fallo observado de producción.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 139,
+        "end_line": 142,
+        "side": "head"
+      },
+      "trigger": "Agregar a la fixture una entrada inválida del registro y mutar datos_donde para emitir ausente en vez de no_valido; cj2 no detecta esa regresión mientras no cree y compruebe dicha entrada. Para la excepción histórica, verificar primero que la fixture genere al menos una fila con gate histórico.",
+      "evidence": "tests/test_cli_json.py:139-142 recorre artefactos propios de una fixture válida y exige que su situación sea existe/ausente; no crea un artefacto con situación no_valido. La única comprobación de históricos en :138 es all(...) y no comprueba presencia. En oracle_factory/estructura.py:_entrada, una ruta no textual genera invalida=True; oracle_factory/cli.py:1848-1849 la expone como no_valido. Ninguna de esas ramas se ejercita en el escenario cj2. Ejecuté el comando pedido: 7 tests, OK.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Inspección del diff, de estructura._entrada/donde y de datos_donde; no realicé una mutación ejecutable. La supervivencia descrita se deduce de que la fixture no contiene filas inválidas ni exige su presencia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente `cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null`: 7 tests, OK (con avisos DeprecationWarning de dependencias).",
+    "No ejecuté tools/verify_donde_ausente.py, ningún tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones ejecutables; la posible supervivencia se evaluó por inspección de la fixture y las aserciones.",
+    "Revisé la spec, el código de datos_donde y resumen, las pruebas cj2, tools/verify_donde_ausente.py y los catálogos factory_donde. No inspeccioné los archivos excluidos .factory y tareas."
+  ]
+}
