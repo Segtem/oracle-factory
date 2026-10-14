@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "31870244343ab7a98ffdf2c01249772afd173d2560d0fb8de3f97ec598ebdcd9",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy, lanzadas a la vez. La 1 trajo cuatro bajos (estado probado sin la CLI, el aviso de pedir-revision probado con un alto, el filtro de MAYÚSCULAS sin prueba, docs inexactas sobre el menú); todos corregidos en los mismos 4 casos, con aserciones que fallan en el código anterior. La 2 no encontró nada. Suite 343 y evidencia en verde.",
+  "decisiones": []
+}

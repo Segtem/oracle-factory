@@ -23,3 +23,7 @@ Medidas de revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_halla
 ### Nota (2026-10-14 13:05:08 UTC)
 
 Medidas de revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 13:50:54 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, lanzadas a la vez. La 1 trajo cuatro bajos (estado probado sin la CLI, el aviso de pedir-revision probado con un alto, el filtro de MAYÚSCULAS sin prueba, docs inexactas sobre el menú); todos corregidos en los mismos 4 casos, con aserciones que fallan en el código anterior. La 2 no encontró nada. Suite 343 y evidencia en verde.); 0 abiertos derivados; commit 5a83948657391c7c28262d6cd829141d0cf792f5; informe tareas/20261014-125953-estado-revisar-medios/revisiones/registro-26c8wqlu/informe.json; decisiones tareas/20261014-125953-estado-revisar-medios/revisiones/registro-26c8wqlu/decisiones.json.
