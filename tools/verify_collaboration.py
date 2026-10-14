@@ -628,7 +628,7 @@ def source_context():
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--salida', required=True, type=Path, help='carpeta nueva para evidencia')
-    parser.add_argument('--clue', default='oracle-clue', help='ejecutable de Clue 0.1.0a1')
+    parser.add_argument('--clue', default='oracle-clue', help='ejecutable de Clue 0.1.0a2')
     args = parser.parse_args(argv)
     output = args.salida.expanduser().resolve()
     versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task')}
@@ -636,10 +636,10 @@ def main(argv=None):
         parser.error('usar dependencias fijadas de Factory: oracle-metalenguaje 0.38.1 y oracle-task 0.2.0')
     clue = shutil.which(args.clue)
     if not clue:
-        parser.error('falta oracle-clue; instalar 0.1.0a1 o indicar --clue /ruta/al/ejecutable')
+        parser.error('falta oracle-clue; instalar 0.1.0a2 o indicar --clue /ruta/al/ejecutable')
     clue_version = subprocess.run([clue, '--version'], text=True, capture_output=True, check=True).stdout.strip()
-    if clue_version != 'oracle-clue 0.1.0a1':
-        parser.error('se requiere oracle-clue 0.1.0a1 para estos contratos')
+    if clue_version != 'oracle-clue 0.1.0a2':
+        parser.error('se requiere oracle-clue 0.1.0a2 para estos contratos')
     source = source_context()
     output.mkdir(parents=True, exist_ok=False)
     rows = []

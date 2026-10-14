@@ -1,0 +1,30 @@
+{
+  "paquete_caso": [
+    {
+      "requisito": "el_paquete_de_revision_excluye_lo_que_no_es_producto",
+      "caso": "pp1_un_candidato_con_registros_de_vueltas_anteriores",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_paquete_de_revision_excluye_lo_que_no_es_producto",
+      "caso": "pp1_un_registro_fuera_de_esas_carpetas",
+      "codigo": 0
+    },
+    {
+      "requisito": "factory_comprueba_las_exclusiones_del_paquete",
+      "caso": "pp2_un_paquete_que_excluye_producto",
+      "codigo": 0
+    },
+    {
+      "requisito": "factory_comprueba_las_exclusiones_del_paquete",
+      "caso": "pp2_un_paquete_anterior_sin_exclusiones",
+      "codigo": 0
+    }
+  ],
+  "paquete_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}

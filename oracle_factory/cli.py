@@ -771,6 +771,10 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
             avisos.append(f"{rel} no se puede validar: falta {falta}; recrealo con oracle-factory ruta {identificador} "
                           "checkout y no lo uso")
             continue
+        if producto_excluido(paquete):  # Clue confía en las exclusiones del paquete; Factory las comprueba
+            avisos.append(f"{rel} viene de un paquete que deja afuera archivos del producto "
+                          f"({', '.join(map(str, producto_excluido(paquete)))}); no lo uso")
+            continue
         ruta_paquete = next(r for r in sorted((raiz / "clue").glob("*.json")) if cargar(r) == paquete)
         p = ejecutar(["oracle-clue", "validar", str(ruta), "--paquete", str(ruta_paquete), "--repo", str(paquete["repo"])])
         if p.returncode:
@@ -797,9 +801,24 @@ def material_del_candidato(identificador: str, sha: str) -> tuple[list[dict], di
     return revisores, evidencia, archivos, avisos
 
 
+def exclusiones_del_paquete(base: str, head: str) -> list[str]:
+    """Lo que el paquete de Clue deja fuera: .factory/ y tareas/, más cada otro archivo del diff que no es producto."""
+    cambiados = [n for n in ejecutar(["git", "diff", "--name-only", "-z", "--no-renames", base, head]).stdout.split("\0") if n]
+    carpetas = ("tareas", estructura.DIR)
+    return sorted({*carpetas, *(n for n in cambiados if n and not es_producto(n) and Path(n).parts[0] not in carpetas)})
+
+
+def producto_excluido(paquete: dict) -> list[str]:
+    """Archivos del producto que un paquete de Clue deja afuera: con alguno, el paquete no sirve para revisar."""
+    return sorted(str(n) for n in paquete.get("excluded_files") or [] if not isinstance(n, str) or es_producto(n))
+
+
 def corte_del_candidato(identificador: str, sha: str, estado: dict) -> tuple[list[dict], list[dict]] | None:
     """(medios o más, bajos) sin aceptar en los informes vigentes del candidato; None si no tiene ninguno usable."""
-    revisores = [r for r in material_del_candidato(identificador, sha)[0] if not r.get("reemplazado_por")]
+    material = material_del_candidato(identificador, sha)
+    for aviso in material[3]:  # por qué un informe del candidato no cuenta (por ejemplo, un paquete que excluye producto)
+        print(f"Aviso: {aviso}", file=sys.stderr)
+    revisores = [r for r in material[0] if not r.get("reemplazado_por")]
     return preparacion.corte(revisores, estado.get("aceptados") or []) if revisores else None
 
 
@@ -831,9 +850,19 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
             raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
     n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
     paquete = clue_dir / f"paquete-{nombre}-{n}.json"
-    p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"], "--salida", str(paquete)])
+    excluir = exclusiones_del_paquete(base, head)
+    p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
+                  *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
+    if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
+        raise FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: sólo trae registros, y un paquete "
+                           "de registros no se revisa. Para revisar código que ya existe (por ejemplo, al cerrar con "
+                           f"evidencia un cambio viejo), pedí la revisión con --base en un commit anterior a ese código")
     if p.returncode:
         raise FactoryError(f"oracle-clue no pudo preparar el paquete: {(p.stderr or p.stdout).strip()[:500]}")
+    datos_paquete = json.loads(paquete.read_text(encoding="utf-8"))
+    if producto_excluido(datos_paquete):
+        raise FactoryError("el paquete de Clue deja afuera archivos del producto: "
+                           + ", ".join(map(str, producto_excluido(datos_paquete))) + "; no lancé al revisor")
     trabajo = ROOT / estructura.DIR / "local" / "revisores" / f"{sha}-{nombre}-{n}"
     ruta_segura(trabajo).mkdir(parents=True, exist_ok=True)
     informe, registro, pedido_archivo = trabajo / "informe.json", trabajo / "salida.log", trabajo / "pedido.md"
@@ -845,6 +874,9 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         vueltas += ("Riesgos ya aceptados por una persona en este cambio (no los reportes otra vez salvo que el defecto haya "
                     "cambiado o empeorado):\n" + "\n".join(f"- {a['archivo']}: {a['titulo']} (aceptado por {a['actor']}: "
                                                             f"{a['motivo']})" for a in estado["aceptados"]) + "\n")
+    if datos_paquete.get("excluded_files"):
+        vueltas += (f"Fuera del paquete, porque no son producto ({', '.join(datos_paquete.get('exclusions') or [])}): "
+                    f"{len(datos_paquete['excluded_files'])} archivos de registros y evidencia de Factory; no los revises.\n")
     valores = {"id": identificador, "titulo": estado.get("titulo", ""), "propuesta": str(carpeta / "proposal.md"),
                "spec": str(ROOT / estado["spec"]), "candidato": sha, "checkout": str(checkout), "paquete": str(paquete),
                "informe": str(informe), "proveedor": revisor["proveedor"], "modelo": revisor["modelo"], "vueltas": vueltas}

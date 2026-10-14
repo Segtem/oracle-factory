@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-paquete-producto/.factory/local/revisiones/eef8ecc",
+  "base": "efb5f55ef37b6613431583d7bdc3027b4ef5e0ca",
+  "head": "eef8ecc9bc41d44329dc533560b9199e42522669",
+  "diff_sha256": "acf670ec68bbb59aabfa6ad26cd6f01d29b60cdcdbf62dd2aace374096f2a1e9",
+  "context_sha256": "bc9ed744c7d94bd230998bac122e6af5554afe4fdf631de9f4b444b9cd9e29da",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite requerida de pruebas: python -m unittest tests.test_paquete_producto tests.test_revisores (20 pruebas, exitosas en 10.9s).",
+    "Se ejecutaron pruebas de mutación sistemáticas sobre exclusiones_del_paquete y producto_excluido para evaluar la sensibilidad de la suite de pruebas.",
+    "No se ejecutaron tools/verify_paquete_producto.py, tools/verify_collaboration.py ni la suite completa de tests discover de Factory, siguiendo las indicaciones explícitas.",
+    "El análisis se focalizó en los cambios de oracle_factory/cli.py (exclusiones_del_paquete, producto_excluido, pedir_revision, material_del_candidato), tests/test_paquete_producto.py y su conformidad con los requisitos de la spec."
+  ],
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Diff sin producto omite exclusiones e incluye registros de Factory en el paquete y pedido enviado al revisor",
+      "explanation": "En exclusiones_del_paquete (oracle_factory/cli.py:809-811), si el diff entre base y head no contiene archivos de producto (any(es_producto(n) for n in cambiados) es False), la función retorna []. Como consecuencia, en pedir_revision se invoca oracle-clue preparar sin ningún argumento --excluir. Esto causa que Clue empaquete todos los registros modificados (.factory/, tareas/, etc.) dentro de files, omita las claves exclusions y excluded_files en el paquete, y pedir_revision no incluya en pedido.md la advertencia al revisor. Esto viola directamente el requisito 'el paquete de revisión excluye lo que no es producto', que exige que pedir-revision prepare el paquete excluyendo .factory/, tareas/ y lo que no cuente en la huella del producto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 809,
+        "end_line": 811,
+        "side": "head"
+      },
+      "trigger": "Invocar pedir_revision en un candidato donde el diff contra la base sólo contiene archivos de registros o tareas (o ningún cambio que cuente como producto).",
+      "evidence": "Al evaluar un commit que sólo modifica tareas/ID/otra.md y .factory/config.json, exclusiones_del_paquete retorna []. El paquete de Clue resultante contiene ambos archivos en 'files', 'exclusions' es None, 'excluded_files' es None, y pedido.md omite la leyenda 'Fuera del paquete, porque no son producto'.",
+      "related_requirement": "el_paquete_de_revision_excluye_lo_que_no_es_producto",
+      "status": "pendiente",
+      "verification": "Ejecutar pedir_revision sobre una rama cuyo diff contra base sólo modifica tareas/ o .factory/ y comprobar que el paquete generado incluye registros y carece de exclusions."
+    },
+    {
+      "id": "agy-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_pp1_un_registro_fuera_de_esas_carpetas no prueba pedir_revision en diffs sin producto y codifica un desvío de la spec",
+      "explanation": "En tests/test_paquete_producto.py:72-78, el test crea una rama 'solo-registros' que únicamente toca tareas/ y afirma directamente que f.exclusiones_del_paquete(...) == []. Esta aserción no corresponde a ningún escenario de la spec (la spec no define un caso especial donde candidatos sin producto omitan exclusiones). Además, el test evita deliberadamente invocar self.pedir(); si se llamara a self.pedir(), la prueba fallaría al demostrar que se genera un paquete con archivos que no son producto y sin la advertencia en el pedido.",
+      "location": {
+        "file": "tests/test_paquete_producto.py",
+        "start_line": 72,
+        "end_line": 78,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests/test_paquete_producto.py:test_pp1_un_registro_fuera_de_esas_carpetas.",
+      "evidence": "Las líneas 72-78 comprueban self.assertEqual(f.exclusiones_del_paquete(self.base, self.git('rev-parse', 'HEAD')), []) a nivel función interna sin correr self.pedir(). Una mutación que retire el if not any(es_producto(n)) de cli.py hace fallar esta aserción unitaria, a pesar de que el código mutado cumpliría mejor la spec.",
+      "related_requirement": "el_paquete_de_revision_excluye_lo_que_no_es_producto",
+      "status": "pendiente",
+      "verification": "Sustituir la aserción unitaria en el test por una llamada a self.pedir() y comprobar que el paquete no cumple las aserciones de exclusión del escenario pp1."
+    },
+    {
+      "id": "agy-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "test_pp2_un_paquete_que_excluye_producto manipula excluded_files a mano en el JSON en lugar de usar un paquete legítimo de Clue",
+      "explanation": "En tests/test_paquete_producto.py:94-101, para probar el escenario 'un paquete que excluye producto', el test toma el paquete generado por self.pedir(), agrega a mano 'examples/notas/notas.py' a paquete['excluded_files'] y sobrescribe el JSON en disco. Esta mutación sintética genera un JSON internamente inconsistente con Clue (cuyo hash diff/contexto no coincidiría con una revalidación de Clue si se ejecutara prepare). El test no comprueba la integración real con un paquete preparado con Clue (ej. con --excluir examples/notas/notas.py) y un informe de revisor consistente, ocultando cómo se comporta material_del_candidato ante paquetes válidos de Clue que contienen exclusiones indebidas.",
+      "location": {
+        "file": "tests/test_paquete_producto.py",
+        "start_line": 94,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Ejecución de test_pp2_un_paquete_que_excluye_producto en tests/test_paquete_producto.py.",
+      "evidence": "Líneas 96-98: paquete = json.loads(clue.read_text()); paquete['excluded_files'] = sorted(paquete['excluded_files'] + ['examples/notas/notas.py']); clue.write_text(json.dumps(paquete)). El paquete resultante no tiene 'examples/notas/notas.py' en 'exclusions' ni context_sha256 válido según Clue.",
+      "related_requirement": "factory_comprueba_las_exclusiones_del_paquete",
+      "status": "pendiente",
+      "verification": "Verificar que al preparar un paquete legítimo con oracle-clue preparar --excluir examples/notas/notas.py y validar con Clue, Clue lo considera válido (returncode 0), y constatar que el test actual usa un JSON artificialmente parchado."
+    },
+    {
+      "id": "agy-4",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "producto_excluido genera TypeError no capturado si excluded_files contiene tipos no ordenables",
+      "explanation": "En oracle_factory/cli.py:818, producto_excluido ejecuta 'sorted(n for n in paquete.get(\"excluded_files\") or [] if not isinstance(n, str) or es_producto(n))'. La condición busca incluir elementos que no sean string, pero luego aplica sorted() sobre la lista. En Python 3, ordenar una lista con tipos heterogéneos (ej. int y str) o dicts genera un TypeError. Dado que en material_del_candidato la llamada a producto_excluido está fuera del bloque try/except de lectura, un paquete con excluded_files no homogéneo aborta la operación con un error fatal en lugar de un aviso.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 818,
+        "end_line": 818,
+        "side": "head"
+      },
+      "trigger": "Llamar a producto_excluido o material_del_candidato sobre un paquete donde excluded_files contiene enteros o diccionarios.",
+      "evidence": "producto_excluido({'excluded_files': [123, 'archivo.py']}) lanza TypeError: '<' not supported between instances of 'str' and 'int'.",
+      "related_requirement": "factory_comprueba_las_exclusiones_del_paquete",
+      "status": "pendiente",
+      "verification": "Ejecutar producto_excluido({'excluded_files': [100, 'sensor.py']}) y comprobar que lanza TypeError."
+    },
+    {
+      "id": "agy-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "corte_del_candidato descarta avisos impidiendo notificar exclusiones de producto en oracle-factory estado",
+      "explanation": "La propuesta documenta que 'un paquete que excluye un archivo del producto no se usa, ni al pedir la revisión ni al prepararla (revision-preparar, revisar, estado), y se avisa por qué'. Sin embargo, en oracle_factory/cli.py:823, corte_del_candidato invoca material_del_candidato(identificador, sha)[0], descartando el cuarto elemento retornado (avisos). En consecuencia, ni mostrar() ni datos_estado() en oracle-factory estado exhiben la advertencia de por qué el informe existente no es utilizable.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 823,
+        "end_line": 823,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory estado ID en un cambio que tiene un informe guardado cuyo paquete excluye archivos de producto.",
+      "evidence": "Línea 823: revisores = [r for r in material_del_candidato(identificador, sha)[0] if not r.get('reemplazado_por')]. Los avisos añadidos en la línea 775 se pierden y no se muestran al usuario en el comando estado.",
+      "related_requirement": "factory_comprueba_las_exclusiones_del_paquete",
+      "status": "pendiente",
+      "verification": "Generar un informe con paquete con exclusión de producto y ejecutar oracle-factory estado ID; verificar que no se imprime el aviso de producto excluido."
+    }
+  ]
+}

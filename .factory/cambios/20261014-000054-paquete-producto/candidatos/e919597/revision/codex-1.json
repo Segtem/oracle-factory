@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-paquete-producto/.factory/local/revisiones/e919597",
+  "base": "efb5f55ef37b6613431583d7bdc3027b4ef5e0ca",
+  "head": "e919597b5b8f1491274a557e79d9d98ee76b56da",
+  "diff_sha256": "f580dc16945da24f178fd931cbf1975c6f693735cea8b9d34b82bf63b02278f0",
+  "context_sha256": "ecd749fb05a9864f3b9f2633188627b2a2764b899e8187879cbc98c358c9e374",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, los dos requisitos y escenarios de la spec, el diff del paquete Clue y las revisiones previas agy-1 a agy-5 y PP-01.",
+    "Contrasté exclusiones_del_paquete y producto_excluido con es_producto y el armado del paquete/pedido en pedir_revision; seguí el rechazo de informes en material_del_candidato y los avisos en preparar_revision, corte_del_candidato y estado.",
+    "Corrí exactamente: cd /home/workstation/Dev/factory-paquete-producto && /home/workstation/Dev/factory-paquete-producto/.venv/bin/python -m unittest tests.test_paquete_producto tests.test_revisores </dev/null. Resultado: 20 pruebas, OK.",
+    "No corrí tools/verify_*.py ni la suite completa. No hice mutaciones manuales adicionales; las pruebas incluyen el caso de valores no texto en excluded_files y una prueba de integración con Clue 0.1.0a2 para un paquete válido que excluye producto.",
+    "No revisé los 10 archivos de registros y evidencia excluidos del paquete, según el alcance indicado."
+  ]
+}
