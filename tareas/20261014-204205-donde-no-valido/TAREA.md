@@ -19,3 +19,7 @@ Requisitos importados: cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json (
 ### Nota (2026-10-14 20:51:20 UTC)
 
 Medidas de cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json: factory_no_valido.donde_y_resumen_se_leen_como_json, factory_no_valido.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-14 20:51:49 UTC)
+
+Medidas de cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
