@@ -210,11 +210,32 @@
       "ids": [
         "cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-14T15:34:58+00:00",
+      "requisito": "cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json",
+      "medidas": [
+        "factory_donde.donde_y_resumen_se_leen_como_json",
+        "factory_donde.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
     "cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json": {
+      "sha256": "1f8133383b4bdf143778335e0428885ef6c008d4523b7b9dce57bf62a023e8f8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-14T15:34:58+00:00"
+    }
+  }
 }
