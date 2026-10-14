@@ -2,7 +2,7 @@
   "id": "20261014-000054-paquete-producto",
   "titulo": "El paquete de revisión deja fuera lo que no es producto",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
   "spec_sha256": "65c8f79ae6e1df20cd2e13048a29b9528d82691baa91dc6eb640c4fea7b89ca5",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "19d14ba172c771382af885cab9984d8ead0734af02ad6975f91ea2565ab9ec16"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-000054-paquete-producto/candidatos/e919597/evidencia/hechos.json",
+    "hechos_sha256": "9ebeef8081d0fbb4088630fc40ce8199a5647742c6c8e8334f90091b3fcccba8",
+    "informe": ".factory/cambios/20261014-000054-paquete-producto/oracle-veredicto.txt",
+    "informe_sha256": "19c227bc9a542a8e807310fdebee2ad84d33580586011e4d2540e2e044460039",
+    "cuando": "2026-10-14T10:03:16+00:00",
+    "contexto": {
+      "head": "2a44fda7a5b57ea860df0734a1d0ba270aaed596",
+      "archivos_sha256": "19d14ba172c771382af885cab9984d8ead0734af02ad6975f91ea2565ab9ec16"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -224,6 +236,17 @@
       "abiertos": 0,
       "sha256": "1b4ea5977e57678da814558c54d031a51bd7a3c0d9cb6a734c454067c93674c7",
       "decisiones_sha256": "060467c57b2a8c030c9872ff9d111e2a28a023beb9c33b2f7185343f79f3ad75"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T10:03:16+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "9ebeef8081d0fbb4088630fc40ce8199a5647742c6c8e8334f90091b3fcccba8"
     }
   ],
   "tipos": {

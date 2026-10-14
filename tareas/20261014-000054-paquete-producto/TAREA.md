@@ -35,3 +35,7 @@ Medidas de revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paq
 ### Nota (2026-10-14 10:03:01 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, con paquetes ya armados sin los registros de Factory: la 1 trajo un alto (el diff sin producto metía los registros en el paquete), tres medios y dos bajos; todos corregidos con aserciones que fallan en el código anterior, en los mismos 4 casos. La 2 no encontró nada (agy, reintentado tras un 503 del servicio). Suite 336 y evidencia en verde.); 0 abiertos derivados; commit 247f5f9ef2e1b058531eb7556243d27997fcbf0e; informe tareas/20261014-000054-paquete-producto/revisiones/registro-10x0g6ns/informe.json; decisiones tareas/20261014-000054-paquete-producto/revisiones/registro-10x0g6ns/decisiones.json.
+
+### Nota (2026-10-14 10:03:16 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-000054-paquete-producto/oracle-veredicto.txt.
