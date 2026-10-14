@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "b06de7b4a77f14ffacfcdf507dc0314af583731e56f623ec619ba0eb4fe25bba",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy, a la vez. La 1 y la 2 acotaron la spec reescrita (los históricos y los inválidos, qué es ausente, que resumen agrupa los pendientes de medidas iguales) y endurecieron cj2 (todos los artefactos de donde elegidos por gate, los fijos de la convención, el requisito y los pendientes agrupados de resumen), cada prueba comprobada con una mutación; la spec se aprobó de nuevo y las medidas se confirmaron sobre el requisito reimportado. La 3: agy nada, codex un bajo (cj2 no arma una entrada no_valido). Suite 345 y evidencia en verde.",
+  "decisiones": [
+    {
+      "hallazgo_id": "DONDE-TEST-001",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: cj2 no prueba la excepción de situación no_valido",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-14T19:53:46+00:00"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261014-145018-donde-ausente",
+  "contexto": {
+    "head": "a309fb258f61138170394d61c60269845a8a6699",
+    "archivos_sha256": "979656c92e844725f59906673f1a8d2cd1294ef3f8de6762ae22723459dabe8b"
+  },
+  "documentos": {
+    "openspec/changes/20261014-145018-donde-ausente/proposal.md": "44e3ab7fd78e9f63cf82323f8fdefeef8feafcd195584da2031ea4727e8e4fd9",
+    "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_donde.corrida_completa.oracle",
+    "catalogos/factory_donde.donde_y_resumen_se_leen_como_json.oracle",
+    "openspec/changes/20261014-145018-donde-ausente/design.md",
+    "openspec/changes/20261014-145018-donde-ausente/proposal.md",
+    "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+    "openspec/changes/20261014-145018-donde-ausente/tasks.md",
+    "requisitos/cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json.requisito",
+    "tests/test_cli_json.py",
+    "tools/verify_donde_ausente.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 345 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/e98ed8d/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/e98ed8d/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/e98ed8d/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato fba13a5: agy (gemini-3.8-flash-high), 4 hallazgos: DONDE-001 (media), DONDE-002 (media), RESUMEN-001 (baja), DONDE-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/fba13a5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato fba13a5: codex (gpt-6-luna), 2 hallazgos: DONDE-001 (media), RESUMEN-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/fba13a5/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f2f379c: agy (gemini-3.8-flash-high), 1 hallazgo: DONDE-TEST-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/f2f379c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f2f379c: codex (gpt-6-luna), 2 hallazgos: RESUMEN-001 (media), DONDE-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261014-145018-donde-ausente/candidatos/f2f379c/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cj2 en repositorios temporales, Linux, con Clue simulado. Lo ausente se prueba con los hechos de un juicio registrado que se borraron; donde no lista artefactos que se esperan y todavía no existen.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas solicitada en primer plano: cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null (7 pruebas ejecutadas, resultado OK).",
+    "agy (gemini-3.8-flash-high): No se ejecutó tools/verify_donde_ausente.py, ningún script tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/e98ed8d (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación empíricas en el espacio de trabajo local del revisor (.factory/local/revisores/e98ed8d-agy-1/probar_mutaciones.py) sobre copias en memoria de oracle_factory/cli.py y oracle_factory/resumen.py para verificar la sensibilidad de las aserciones de CliJson.",
+    "agy (gemini-3.8-flash-high): No se revisaron los 18 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory y tareas).",
+    "agy (gemini-3.8-flash-high): Sin hallazgos: se constató que los hallazgos de las vueltas 1 y 2 están resueltos sin regresiones. 1) codex RESUMEN-001 (vuelta 2): la spec explicita que resumen agrupa los pendientes de medidas idénticas, y el test cj2 arma ese escenario con dos requisitos e inspecciona tanto el renglón agrupado como los demás pendientes de estado; al mutar resumen.datos para no agrupar, la prueba falla (KILLED). 2) codex DONDE-002 (vuelta 2): test_cj2 exige la presencia de los artefactos fijos de convención (proposal.md, design.md, tasks.md, TAREA.md); mutaciones que omiten proposal.md o TAREA.md fallan la prueba (KILLED). 3) agy DONDE-TEST-001 (vuelta 2): el filtrado en test_cj2 ya no utiliza la clave 'situacion' bajo prueba, sino que discrimina por gate (propios con gate != 'histórico') y valida situacion == 'historico' para los históricos; mutaciones que fuerzan situacion='existe' en el artefacto histórico o situacion='historico' en proposal.md son detectadas y fallan la prueba (KILLED).",
+    "agy (gemini-3.8-flash-high): Se contrastó la spec reescrita contra el código de oracle_factory/cli.py (donde, datos_donde, resumen --json) y tests/test_cli_json.py: el escenario 'donde con un artefacto ausente' comprueba que los hechos borrados de un juicio registrado figuran con gate juicio y situación ausente, que los artefactos no históricos reflejan su presencia en disco (con exactamente 1 ausente) y que los artefactos de convención están listados; el escenario 'resumen sin escribir' comprueba determinismo de bytes, invariancia de .factory/resumen.md, identificación exacta del requisito de Oracle vigente del cambio cerrado y agrupación de pendientes de medidas del cambio abierto.",
+    "agy (gemini-3.8-flash-high): Respecto de la situación 'no_valido', corresponde a entradas corruptas del registro (evaluadas en el catálogo de estructura); en la fixture del escenario cj2 todos los artefactos no históricos son válidos y la prueba confirma que su situación coincide con la existencia en disco. Asimismo, la aserción all(a['situacion'] == 'historico' ...) evalúa sobre el artefacto histórico efectivamente presente en la fixture (tareas/<id>/revisiones). No se detectaron promesas incumplidas ni desalineaciones en el producto ni en los contratos.",
+    "codex (gpt-6-luna): Ejecuté exactamente `cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null`: 7 tests, OK (con avisos DeprecationWarning de dependencias).",
+    "codex (gpt-6-luna): No ejecuté tools/verify_donde_ausente.py, ningún tools/verify_*.py ni la suite completa.",
+    "codex (gpt-6-luna): No hice mutaciones ejecutables; la posible supervivencia se evaluó por inspección de la fixture y las aserciones.",
+    "codex (gpt-6-luna): Revisé la spec, el código de datos_donde y resumen, las pruebas cj2, tools/verify_donde_ausente.py y los catálogos factory_donde. No inspeccioné los archivos excluidos .factory y tareas."
+  ],
+  "hallazgos": [
+    {
+      "id": "DONDE-TEST-001",
+      "descripcion": "cj2 no prueba la excepción de situación no_valido",
+      "ubicacion": "tests/test_cli_json.py:139",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261014-145018-donde-ausente/candidatos/e98ed8d/revision/codex-1.json, validado con oracle-clue; severidad baja. tests/test_cli_json.py:139-142 recorre artefactos propios de una fixture válida y exige que su situación sea existe/ausente; no crea un artefacto con situación no_valido. La única comprobación de históricos en :138 es all(...) y no comprueba presencia. En oracle_factory/estructura.py:_entrada, una ruta no textual genera invalida=True; oracle_factory/cli.py:1848-1849 la expone como no_valido. Ninguna de esas ramas se ejercita en el escenario cj2. Ejecuté el comando pedido: 7 tests, OK."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

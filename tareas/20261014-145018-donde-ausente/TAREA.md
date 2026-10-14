@@ -55,3 +55,7 @@ Medidas de cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json: factory_dond
 ### Nota (2026-10-14 15:51:58 UTC)
 
 Medidas de cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-14 19:53:48 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy, a la vez. La 1 y la 2 acotaron la spec reescrita (los históricos y los inválidos, qué es ausente, que resumen agrupa los pendientes de medidas iguales) y endurecieron cj2 (todos los artefactos de donde elegidos por gate, los fijos de la convención, el requisito y los pendientes agrupados de resumen), cada prueba comprobada con una mutación; la spec se aprobó de nuevo y las medidas se confirmaron sobre el requisito reimportado. La 3: agy nada, codex un bajo (cj2 no arma una entrada no_valido). Suite 345 y evidencia en verde.); 0 abiertos derivados; commit a309fb258f61138170394d61c60269845a8a6699; informe tareas/20261014-145018-donde-ausente/revisiones/registro-by6o4lhe/informe.json; decisiones tareas/20261014-145018-donde-ausente/revisiones/registro-by6o4lhe/decisiones.json.

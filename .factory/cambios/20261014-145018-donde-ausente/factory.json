@@ -2,7 +2,7 @@
   "id": "20261014-145018-donde-ausente",
   "titulo": "Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
   "spec_sha256": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261014-145018-donde-ausente/revisiones/registro-by6o4lhe/informe.json",
+    "sha256": "b06de7b4a77f14ffacfcdf507dc0314af583731e56f623ec619ba0eb4fe25bba",
+    "decisiones": "tareas/20261014-145018-donde-ausente/revisiones/registro-by6o4lhe/decisiones.json",
+    "decisiones_sha256": "4da975c3cc55ea9fc0cb6e2b51723729d7ffb8e7d767f6f1949e716e4ac3723d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T19:53:48+00:00",
+    "motivo": "tres vueltas de codex y agy, a la vez. La 1 y la 2 acotaron la spec reescrita (los históricos y los inválidos, qué es ausente, que resumen agrupa los pendientes de medidas iguales) y endurecieron cj2 (todos los artefactos de donde elegidos por gate, los fijos de la convención, el requisito y los pendientes agrupados de resumen), cada prueba comprobada con una mutación; la spec se aprobó de nuevo y las medidas se confirmaron sobre el requisito reimportado. La 3: agy nada, codex un bajo (cj2 no arma una entrada no_valido). Suite 345 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "a309fb258f61138170394d61c60269845a8a6699",
+      "archivos_sha256": "979656c92e844725f59906673f1a8d2cd1294ef3f8de6762ae22723459dabe8b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -275,6 +295,20 @@
       "cuando": "2026-10-14T16:14:54+00:00",
       "decision": "aprobar",
       "candidato": "e98ed8d"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-14T19:53:48+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b06de7b4a77f14ffacfcdf507dc0314af583731e56f623ec619ba0eb4fe25bba",
+      "decisiones_sha256": "4da975c3cc55ea9fc0cb6e2b51723729d7ffb8e7d767f6f1949e716e4ac3723d"
     }
   ],
   "tipos": {
@@ -291,14 +325,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy, a la vez. La 1 y la 2 acotaron la spec reescrita (los históricos y los inválidos, qué es ausente, que resumen agrupa los pendientes de medidas iguales) y endurecieron cj2 (todos los artefactos de donde elegidos por gate, los fijos de la convención, el requisito y los pendientes agrupados de resumen), cada prueba comprobada con una mutación; la spec se aprobó de nuevo y las medidas se confirmaron sobre el requisito reimportado. La 3: agy nada, codex un bajo (cj2 no arma una entrada no_valido). Suite 345 y evidencia en verde.",
-      "candidato": "e98ed8d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-14T16:14:54+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_cli_json.py",
+      "titulo": "cj2 no prueba la excepción de situación no_valido",
+      "firma": "tests/test_cli_json.py|cj2 no prueba la excepción de situación novalido",
+      "motivo": "Acepto el riesgo: cj2 no prueba la excepción de situación no_valido",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-14T19:53:46+00:00",
+      "candidato": "e98ed8d"
     }
-  }
+  ]
 }
