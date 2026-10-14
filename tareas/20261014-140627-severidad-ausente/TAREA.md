@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261014-140627-severidad-ausente. Modo de trabajo: c
 ### Nota (2026-10-14 14:07:36 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-14 14:07:44 UTC)
+
+Requisitos importados: revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

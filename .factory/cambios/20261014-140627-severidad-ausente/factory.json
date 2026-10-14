@@ -2,7 +2,7 @@
   "id": "20261014-140627-severidad-ausente",
   "titulo": "Spec de revisores: un informe sin severidad no se guarda",
   "capacidad": "revisores",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md",
   "spec_sha256": "8db4d71de673c6976f49f11c902a62eff3d90673bf5ac5257dba63dd61f70462",
   "spec_aprobada": {
@@ -16,7 +16,9 @@
       "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md": "8db4d71de673c6976f49f11c902a62eff3d90673bf5ac5257dba63dd61f70462"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +43,22 @@
         "openspec/changes/20261014-140627-severidad-ausente/proposal.md": "99551866780d1a0bb9ce0e1fd7308c3630d5709da6e9299bfe28d362c067d294",
         "openspec/changes/20261014-140627-severidad-ausente/specs/revisores/spec.md": "8db4d71de673c6976f49f11c902a62eff3d90673bf5ac5257dba63dd61f70462"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T14:07:44+00:00",
+      "ids": [
+        "revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
