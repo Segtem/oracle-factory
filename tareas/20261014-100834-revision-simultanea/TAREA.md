@@ -1,6 +1,6 @@
 # pedir-revision tolera pedidos simultáneos sobre el mismo candidato
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-14 12:48:46 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-100834-revision-simultanea/oracle-veredicto.txt.
+
+### Nota (2026-10-14 12:52:53 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

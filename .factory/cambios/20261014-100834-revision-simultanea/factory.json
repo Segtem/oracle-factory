@@ -2,7 +2,7 @@
   "id": "20261014-100834-revision-simultanea",
   "titulo": "pedir-revision tolera pedidos simultáneos sobre el mismo candidato",
   "capacidad": "revisores",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261014-100834-revision-simultanea/specs/revisores/spec.md",
   "spec_sha256": "5b719eb7632f96e1b83df82f51514dddaa3ea39f9c67cf3a990470d3a2b1e20e",
   "spec_aprobada": {
@@ -233,6 +233,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "1d41434bafb8d86b539b94a5ae8328e8c71459f4329e287e8a6b54efd10f41cc"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T12:52:53+00:00",
+      "oracle": ".factory/cambios/20261014-100834-revision-simultanea/oracle-veredicto.txt",
+      "revision": "tareas/20261014-100834-revision-simultanea/revisiones/registro-7nd3kdcl/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T12:52:53+00:00",
+      "capacidad": "revisores",
+      "spec": "openspec/specs/revisores/spec.md"
     }
   ],
   "tipos": {
@@ -258,5 +278,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-14T12:52:53+00:00"
+  },
+  "archivo": {
+    "capacidad": "revisores",
+    "spec": "openspec/specs/revisores/spec.md",
+    "cuando": "2026-10-14T12:52:53+00:00"
+  }
 }
