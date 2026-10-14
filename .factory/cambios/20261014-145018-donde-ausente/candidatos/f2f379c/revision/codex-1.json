@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/f2f379c",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "f2f379c2d27c9d566b64b99b7e77bc6591c2d37f",
+  "diff_sha256": "8bac14849a6d8c46631fbcae7211644e04432b4733fb5846d090f74650598c13",
+  "context_sha256": "d2482e0613cb0315d4157dc6b418cdf170aea4fb0d77dcfd822e7e5f4c4e685e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "RESUMEN-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "resumen --json agrupa pendientes y deja de coincidir con estado en ciertos cambios",
+      "explanation": "La spec promete que el cambio abierto se presenta con los mismos pendientes que estado, y el caso cj2 compara la lista del JSON con pendientes_actuales. Sin embargo, resumen.datos aplica _agrupar a abiertos[*].pendientes: cuando dos o más requisitos tienen el mismo motivo de medición, los renglones «medidas de <requisito>: <motivo>» se combinan en uno. pendientes_actuales conserva un renglón por requisito. En ese caso las listas ya no son iguales. La fixture nueva del test no activa este caso: el cambio abierto sólo se crea con f.nuevo y no se importan requisitos ni se crean varias mediciones pendientes; la igualdad de la línea 169 pasa sin probar la ruta que agrupa.",
+      "location": {
+        "file": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
+        "start_line": 17,
+        "end_line": 17,
+        "side": "head"
+      },
+      "trigger": "Consultar resumen --json para un proyecto con un cambio abierto que tenga al menos dos requisitos con el mismo motivo de medida pendiente y comparar abiertos[].pendientes con estado ID --json.",
+      "evidence": "En oracle_factory/resumen.py, datos devuelve abiertos con pendientes transformados por _agrupar(a[\"pendientes\"]); _agrupar combina motivos iguales en una entrada «medidas de N requisitos: …». oracle_factory/cli.py:1370 pendientes_actuales construye una entrada separada «medidas de RID: motivo» por cada requisito. tests/test_cli_json.py:150 crea el abierto sin importar requisitos, y :169 compara en esa fixture simple; no ejercita la agrupación. La corrida autorizada de tests.test_cli_json pasó (7 tests, OK), por lo que no detecta esta discrepancia.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Inspección del camino de datos en oracle_factory/resumen.py y oracle_factory/cli.py, y de la fixture/assert en tests/test_cli_json.py. No ejecuté mutación ni tools/verify_*.py."
+    },
+    {
+      "id": "DONDE-002",
+      "kind": "pregunta",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "cj2 valida las filas devueltas pero no que donde liste todos los artefactos fijos",
+      "explanation": "La spec incluye entre los artefactos esperados los fijos de convención (propuesta, diseño, tareas y nota de la tarea), y el caso cj2 pretende probar cada artefacto de donde. El test ahora recorre todas las filas que recibió y confirma que cada ruta no histórica/no inválida concuerde con el disco, pero no contrasta la lista de rutas con el conjunto esperado; solo exige más de cinco filas. Una regresión que omita uno o varios artefactos fijos sigue pasando mientras queden seis filas válidas. La implementación actual los agrega en estructura.donde, pero este contrato no evita una omisión futura.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 138,
+        "end_line": 140,
+        "side": "head"
+      },
+      "trigger": "Mutar estructura.donde para dejar de agregar, por ejemplo, proposal.md o tareas/<id>/TAREA.md, manteniendo al menos seis artefactos devueltos; cj2 todavía recorre y valida las filas restantes sin fallar.",
+      "evidence": "tests/test_cli_json.py:138-140 sólo exige len(propios) > 5 y verifica situación para los elementos ya devueltos. No hay aserción que exija proposal.md, design.md, tasks.md, tareas/<id>/TAREA.md u otras rutas previstas. oracle_factory/estructura.py:donde agrega actualmente esas filas, pero el catálogo mide exactamente cj2 y no puede cubrir una lista incompleta si la aserción no fija su contenido.",
+      "related_requirement": "donde y resumen se leen como JSON",
+      "status": "pendiente",
+      "verification": "Inspección de la aserción modificada y del generador oracle_factory/estructura.py. La omisión sobrevive por la condición len(propios) > 5; no realicé mutación ejecutable ni modifiqué el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null`: 7 tests, OK.",
+    "No corrí tools/verify_*.py ni la suite completa, según la instrucción.",
+    "No ejecuté mutaciones manuales; las mutaciones supervivientes descritas se deducen de las aserciones y ramas inspeccionadas.",
+    "Revisé la spec, los archivos del paquete y el código/tests referenciados en el checkout candidato. No revisé los diez archivos excluidos de registros/evidencia de Factory."
+  ]
+}

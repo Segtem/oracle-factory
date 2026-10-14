@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/e98ed8d",
+  "base": "09acf2ba9555cfaa9f039ea04398922d0e40b3ee",
+  "head": "e98ed8d8088177d1b873c4e15dbddf037c291f3d",
+  "diff_sha256": "052d83011f8d7c09403e8872e42b927deb3b6aabd98622f051bc35cf3903afea",
+  "context_sha256": "e26f38458702ef17a374b49b1bf6fdbc12baae94c48495ffc9d7a744f112d416",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas solicitada en primer plano: cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null (7 pruebas ejecutadas, resultado OK).",
+    "No se ejecutó tools/verify_donde_ausente.py, ningún script tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-ausente/.factory/local/revisiones/e98ed8d (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "Se ejecutaron pruebas de mutación empíricas en el espacio de trabajo local del revisor (.factory/local/revisores/e98ed8d-agy-1/probar_mutaciones.py) sobre copias en memoria de oracle_factory/cli.py y oracle_factory/resumen.py para verificar la sensibilidad de las aserciones de CliJson.",
+    "No se revisaron los 18 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory y tareas).",
+    "Sin hallazgos: se constató que los hallazgos de las vueltas 1 y 2 están resueltos sin regresiones. 1) codex RESUMEN-001 (vuelta 2): la spec explicita que resumen agrupa los pendientes de medidas idénticas, y el test cj2 arma ese escenario con dos requisitos e inspecciona tanto el renglón agrupado como los demás pendientes de estado; al mutar resumen.datos para no agrupar, la prueba falla (KILLED). 2) codex DONDE-002 (vuelta 2): test_cj2 exige la presencia de los artefactos fijos de convención (proposal.md, design.md, tasks.md, TAREA.md); mutaciones que omiten proposal.md o TAREA.md fallan la prueba (KILLED). 3) agy DONDE-TEST-001 (vuelta 2): el filtrado en test_cj2 ya no utiliza la clave 'situacion' bajo prueba, sino que discrimina por gate (propios con gate != 'histórico') y valida situacion == 'historico' para los históricos; mutaciones que fuerzan situacion='existe' en el artefacto histórico o situacion='historico' en proposal.md son detectadas y fallan la prueba (KILLED).",
+    "Se contrastó la spec reescrita contra el código de oracle_factory/cli.py (donde, datos_donde, resumen --json) y tests/test_cli_json.py: el escenario 'donde con un artefacto ausente' comprueba que los hechos borrados de un juicio registrado figuran con gate juicio y situación ausente, que los artefactos no históricos reflejan su presencia en disco (con exactamente 1 ausente) y que los artefactos de convención están listados; el escenario 'resumen sin escribir' comprueba determinismo de bytes, invariancia de .factory/resumen.md, identificación exacta del requisito de Oracle vigente del cambio cerrado y agrupación de pendientes de medidas del cambio abierto.",
+    "Respecto de la situación 'no_valido', corresponde a entradas corruptas del registro (evaluadas en el catálogo de estructura); en la fixture del escenario cj2 todos los artefactos no históricos son válidos y la prueba confirma que su situación coincide con la existencia en disco. Asimismo, la aserción all(a['situacion'] == 'historico' ...) evalúa sobre el artefacto histórico efectivamente presente en la fixture (tareas/<id>/revisiones). No se detectaron promesas incumplidas ni desalineaciones en el producto ni en los contratos."
+  ]
+}
