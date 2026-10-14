@@ -2,7 +2,7 @@
   "id": "20261014-145018-donde-ausente",
   "titulo": "Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-145018-donde-ausente/specs/cli/spec.md",
   "spec_sha256": "4d0bdf6f931564a424d3b03a5373a4656d34ae910bb8c698b44ee7eb19af814c",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "979656c92e844725f59906673f1a8d2cd1294ef3f8de6762ae22723459dabe8b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-145018-donde-ausente/candidatos/e98ed8d/evidencia/hechos.json",
+    "hechos_sha256": "fdd68350ce8e0e42ca2ae9cd222fe88a7cccca8a7fb119149720167cf19f7a08",
+    "informe": ".factory/cambios/20261014-145018-donde-ausente/oracle-veredicto.txt",
+    "informe_sha256": "a52143812952a0bbbe54892b03fc10862a69a7cd2f8194bfa763da03a6fae619",
+    "cuando": "2026-10-14T19:54:12+00:00",
+    "contexto": {
+      "head": "94a36ee5aed8c1924ef90022dfb8a2850254a1e5",
+      "archivos_sha256": "979656c92e844725f59906673f1a8d2cd1294ef3f8de6762ae22723459dabe8b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -309,6 +321,17 @@
       "abiertos": 0,
       "sha256": "b06de7b4a77f14ffacfcdf507dc0314af583731e56f623ec619ba0eb4fe25bba",
       "decisiones_sha256": "4da975c3cc55ea9fc0cb6e2b51723729d7ffb8e7d767f6f1949e716e4ac3723d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-14T19:54:12+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "fdd68350ce8e0e42ca2ae9cd222fe88a7cccca8a7fb119149720167cf19f7a08"
     }
   ],
   "tipos": {
