@@ -1,6 +1,7 @@
 """estado ofrece revisar cuando quedan hallazgos medios: escenarios er1, con revisores de prueba y Clue real."""
 import contextlib
 import io
+import json
 from pathlib import Path
 import sys
 import unittest
@@ -19,12 +20,14 @@ class EstadoAlternativas(_vueltas.Base):
     pedir = _vueltas.Vueltas.pedir
 
     def estado(self):
-        """estado en texto y en JSON, como lo pide la persona."""
-        salida = io.StringIO()
-        with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(io.StringIO()):
-            f.mostrar(self.ident)
-            datos = f.datos_estado(self.ident)
-        return salida.getvalue(), datos
+        """`oracle-factory estado ID` y `estado ID --json`, por la CLI, como los pide la persona."""
+        salidas = []
+        for extra in ([], ['--json']):
+            salida = io.StringIO()
+            with contextlib.redirect_stdout(salida), contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(f.main(['--proyecto', str(self.root), 'estado', self.ident, *extra]), 0)
+            salidas.append(salida.getvalue())
+        return salidas[0], json.loads(salidas[1])
 
     # --- er1: estado ofrece revisar cuando quedan hallazgos medios ------------------------------------------------------------
     def test_er1_quedan_hallazgos_medios_sin_aceptar(self):
@@ -57,10 +60,15 @@ class EstadoAlternativas(_vueltas.Base):
                 contextlib.redirect_stdout(Terminal()), contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(f.ofrecer_siguiente(self.ident), 0)  # «Salir» no ejecuta nada
         revisar.assert_not_called()
+        # Un paso o una alternativa con algo por completar (MAYÚSCULAS) no se ofrece: no hay menú.
+        with patch.object(f, 'pasos', return_value=['corregí algo', f'oracle-factory juzgar {self.ident} --con RUTA_DE_HECHOS']), \
+                patch.object(f, 'elegir') as menu, contextlib.redirect_stdout(Terminal()):
+            self.assertEqual(f.ofrecer_siguiente(self.ident), 0)
+        menu.assert_not_called()
 
     def test_er1_pedir_revision_lo_dice(self):
         self.preparar()
-        salida = self.pedir('codex', ['alta', 'Falta validar el título'])
+        salida = self.pedir('codex', ['media', 'Falta validar el título'])
         self.assertIn(f'pedir otra vuelta con oracle-factory pedir-revision {self.ident}', salida)
         self.assertIn(f'También: aceptarlos como riesgo o descartarlos, con motivo, en oracle-factory revisar {self.ident}',
                       salida)

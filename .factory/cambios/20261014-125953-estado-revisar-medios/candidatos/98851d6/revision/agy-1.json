@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-estado-revisar-medios/.factory/local/revisiones/98851d6",
+  "base": "33d34d6074a9226dd5994401dd9db66ba16949c1",
+  "head": "98851d6adf597de89658f0838ee8763fbc0c1a9a",
+  "diff_sha256": "51cf90cafa1ec86b6a5f92fa22dd424b9e84d36856bbc44901a6f44f7f228c1d",
+  "context_sha256": "58f4731a0eda3c18d5a28459922223b8710fa051f4c53379d60fe231598b2cb9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "H01-docs-menu-ofrece-dos",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Documentación inexacta en docs/revision-guiada.md afirmando que el menú de estado ofrece las dos opciones",
+      "explanation": "En docs/revision-guiada.md (línea 54) se describe que ante hallazgos medios sin aceptar, el sistema «pide corregirlo y pedir otra vuelta, o aceptarlo como riesgo o descartarlo, con motivo, en revisar (el menú de estado ofrece las dos)». Sin embargo, la indicación de corregir hallazgos y commitear es un mensaje informativo para la persona y no un comando ejecutable (no comienza con «oracle-factory »). En consecuencia, `ofrecer_siguiente` en `oracle_factory/cli.py` únicamente incorpora en `comandos` la alternativa «oracle-factory revisar ID». El menú interactivo de la terminal ofrece una única opción de comando más «Salir», no «las dos».",
+      "location": {
+        "file": "docs/revision-guiada.md",
+        "start_line": 54,
+        "end_line": 54,
+        "side": "head"
+      },
+      "trigger": "Contraste entre docs/revision-guiada.md L54 y la implementación interactiva de `ofrecer_siguiente` en `oracle_factory/cli.py`.",
+      "evidence": "docs/revision-guiada.md:54 dice «(el menú de estado ofrece las dos)». Al evaluar `ofrecer_siguiente(ident)` con hallazgos medios (verificado en `test_er1_el_menu_de_estado_ofrece_revisar`), las opciones presentadas son únicamente `[Ejecutar «oracle-factory revisar ID», Salir]`.",
+      "related_requirement": "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "status": "pendiente",
+      "verification": "Ajustar la redacción en docs/revision-guiada.md para aclarar que el menú interactivo ofrece ejecutar la alternativa de revisión (`revisar`), mientras que la corrección y nueva vuelta es el flujo habitual a realizar manualmente."
+    },
+    {
+      "id": "H02-mutacion-filtro-mayusculas-sobrevive",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Ausencia de prueba para el filtrado de comandos con MAYÚSCULAS en ofrecer_siguiente (mutación sobreviviente)",
+      "explanation": "En `oracle_factory/cli.py` (líneas 2297-2299), `ofrecer_siguiente` filtra los comandos que contienen marcadores en MAYÚSCULAS por completar mediante la condición `not re.search(r\"\\b[A-Z][A-Z_]{2,}\\b\", p)` (por ejemplo, para evitar ofrecer comandos incompletos como `--a NOMBRE` o `--con RUTA_DE_HECHOS`). No obstante, ningún test en `tests/test_estado_alternativas.py` ni en las suites de regresión requeridas ejercita este filtro. Al aplicar una mutación que elimina la verificación de mayúsculas (`comandos = [p for p in pasos(identificador) if p.startswith(\"oracle-factory \")]`), la mutación sobrevive y las 35 pruebas unitarias pasan exitosamente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2297,
+        "end_line": 2299,
+        "side": "head"
+      },
+      "trigger": "Evaluación de mutaciones sobre copias aisladas en el workspace frente a la suite de tests requerida.",
+      "evidence": "Mutación M1 eliminando `and not re.search(...)` en `ofrecer_siguiente`: ejecutada en `/home/workstation/Dev/factory-estado-revisar-medios/.factory/local/revisores/98851d6-agy-1/mutaciones/oracle_factory/cli.py`. La suite de 35 tests (`test_estado_alternativas`, `test_vueltas`, `test_cli_humana`, `test_cli_json`) finalizó con código 0 (OK) sin detectar la alteración.",
+      "related_requirement": "revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios",
+      "status": "pendiente",
+      "verification": "Incorporar un test unitario en `tests/test_estado_alternativas.py` o `tests/test_cli_humana.py` que compruebe que si un paso o alternativa contiene palabras en MAYÚSCULAS por completar (ej. `--a NOMBRE`), `ofrecer_siguiente` no lo ofrezca en el menú interactivo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas: tests.test_estado_alternativas, tests.test_vueltas, tests.test_cli_humana y tests.test_cli_json.",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite completa de pruebas, respetando las instrucciones del pedido de revisión.",
+    "Se realizaron mutaciones sobre copias locales aisladas de oracle_factory/cli.py para evaluar la cobertura efectiva de las pruebas sobre la lógica introducida."
+  ]
+}

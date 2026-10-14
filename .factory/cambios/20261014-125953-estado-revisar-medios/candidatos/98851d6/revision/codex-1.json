@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-estado-revisar-medios/.factory/local/revisiones/98851d6",
+  "base": "33d34d6074a9226dd5994401dd9db66ba16949c1",
+  "head": "98851d6adf597de89658f0838ee8763fbc0c1a9a",
+  "diff_sha256": "51cf90cafa1ec86b6a5f92fa22dd424b9e84d36856bbc44901a6f44f7f228c1d",
+  "context_sha256": "58f4731a0eda3c18d5a28459922223b8710fa051f4c53379d60fe231598b2cb9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El escenario de JSON no invoca la CLI con --json",
+      "explanation": "La prueba prepara un informe con un hallazgo medio y llama a estado(), pero ese helper ejecuta f.mostrar() y f.datos_estado() directamente. Las aserciones sobre alternativas comprueban el diccionario interno; no comprueban la salida JSON de `oracle-factory estado ID --json`. Por eso, un defecto en el despacho o la serialización específica de la CLI podría dejar verde este escenario aunque el requisito de JSON falle.",
+      "location": {
+        "file": "tests/test_estado_alternativas.py",
+        "start_line": 21,
+        "end_line": 39,
+        "side": "head"
+      },
+      "trigger": "Con un candidato que tenga un informe medio sin aceptar, ejecutar `oracle-factory estado ID --json` y revisar la salida serializada; la prueba actual no hace esa invocación.",
+      "evidence": "En las líneas indicadas, estado() llama f.mostrar(self.ident) y luego f.datos_estado(self.ident); el test afirma datos[\"alternativas\"], pero no llama a f.main(..., \"estado\", ID, \"--json\") ni analiza stdout JSON. Las pruebas existentes de tests/test_cli_json.py invocan el CLI pero sus fixtures no incluyen este escenario de alternativas.",
+      "related_requirement": "estado ofrece revisar cuando quedan hallazgos medios",
+      "status": "pendiente",
+      "verification": "Prueba de cobertura faltante; no se observó un defecto en la serialización actual. La corrida solicitada terminó OK (35 pruebas)."
+    },
+    {
+      "id": "R2",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "pedir-revision sólo se prueba con un hallazgo alto",
+      "explanation": "El escenario promete el aviso cuando se guarda un informe con un hallazgo medio, pero la prueba suministra severidad `alta`. El caso medio se verifica en estado, no en la rama de salida de pedir_revision. Así, una regresión que omitiera el aviso justo para severidad media todavía podría pasar esta prueba.",
+      "location": {
+        "file": "tests/test_estado_alternativas.py",
+        "start_line": 54,
+        "end_line": 61,
+        "side": "head"
+      },
+      "trigger": "Guardar mediante pedir-revision un informe válido cuya severidad pendiente sea exactamente `media` y comprobar que el aviso incluye aceptar o descartar con `oracle-factory revisar ID`.",
+      "evidence": "La llamada es self.pedir('codex', ['alta', 'Falta validar el título']); las aserciones siguientes validan el mensaje, pero no existe en este test una entrada `media` para esa rama de pedir-revision.",
+      "related_requirement": "estado ofrece revisar cuando quedan hallazgos medios",
+      "status": "pendiente",
+      "verification": "Inspección estática de tests/test_estado_alternativas.py; no se observó un defecto en la implementación actual, que comparte corte_del_candidato con el cálculo del paso. La corrida solicitada terminó OK (35 pruebas)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó proposal.md, spec.md, el diff incluido en el paquete y archivos relevantes del checkout indicado; no se accedió a los archivos excluidos de .factory ni tareas.",
+    "Se corrió exactamente: cd /home/workstation/Dev/factory-estado-revisar-medios && /home/workstation/Dev/factory-estado-revisar-medios/.venv/bin/python -m unittest tests.test_estado_alternativas tests.test_vueltas tests.test_cli_humana tests.test_cli_json </dev/null; resultado: 35 tests, OK.",
+    "No se corrieron tools/verify_*.py ni la suite completa. No se hicieron mutaciones ni cambios al checkout. Los hallazgos son brechas de cobertura; no se reprodujo un fallo funcional."
+  ]
+}
