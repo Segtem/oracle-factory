@@ -251,6 +251,16 @@
       "candidato": "1adc75b",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T12:16:35+00:00",
+      "decision": "aprobar",
+      "candidato": "1adc75b"
     }
   ],
   "tipos": {
@@ -284,5 +294,15 @@
       "sha256": "2fc5df27ecead85adea9101addf520cb7ccd0799a4fc3a5cf09264ab8c831faf"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "cuatro vueltas de codex y agy, a la vez. La 1: un medio en común (un requisito ilegible hacía afirmar que una medida quedó suelta) y tres medios y dos bajos de agy sobre pruebas débiles; todo corregido. La 2 y la 3: codex encontró dos bordes del mismo inventario (subcarpetas de requisitos/, y una subcarpeta que no se puede abrir), corregidos. Cada arreglo con una prueba que falla sin él. La 4 no encontró nada. Suite 352 y evidencia en verde.",
+      "candidato": "1adc75b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T12:16:35+00:00"
+    }
+  }
 }
