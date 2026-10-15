@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/3fbb751",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "3fbb751a22efb1f2ad93a149d5e4234804658a9e",
+  "diff_sha256": "82ad3d8f96b69546f621ac7db840a27fe14e7cf7523253b29493e19dca417a68",
+  "context_sha256": "df8415720b89c8f720f8df25e0390fbbb51269df5cba9a62294ee0879434d1b8",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta (proposal.md), la especificación (openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md), el diff y contexto del paquete clue (paquete-agy-1.json), y el checkout candidato 3fbb751 en modo sólo lectura sin editarlo ni realizar commits.",
+    "Comprobé que todos los hallazgos de las vueltas anteriores (vuelta 1: agy F1-F8, codex F1-F2; vuelta 2: agy F1, codex F1-F2) permanecen subsanados: la tarjeta de modos en site/index.html explicita que el cierre lo toma la persona y que Factory no autentica (evitando generalizaciones absolutas sobre el registro de actores); docs/modos.md y site/modos.html detallan con precisión las decisiones propuestas y directas en modo confirmacion.",
+    "Corrí en primer plano exactamente el comando prescrito: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null (13 pruebas ejecutadas en 0.287s, resultado OK).",
+    "No ejecuté tools/verify_docs_web_modos.py, otros scripts verify_*.py ni la suite completa discover, en estricto cumplimiento de la instrucción de la revisión.",
+    "Se evaluó estáticamente la accesibilidad básica y la adaptación a dispositivos móviles de site/modos.html y site/style.css: la página cuenta con un único elemento h1, 7 encabezados h2 correlativos con las secciones, tabla con thead/tbody, th con scope col/row y datos de celdas con data-modo; para pantallas estrechas (<=700px), el diseño pasa a bloque vertical y la tabla está contenida en .table-wrap con overflow-x: auto y min-width: 560px, impidiendo desbordes horizontales de la página. No se ejecutaron pruebas con Chromium ni navegación dinámica en dispositivos móviles físicos.",
+    "Se realizaron mutaciones manuales sobre copias aisladas en el espacio de trabajo del revisor: alteraciones en texto visible de celdas, títulos de filas y permutaciones de encabezados de columna en el HTML y en el documento Markdown fueron detectadas por las aserciones de tests/test_modos_web.py; mover el enlace de modos fuera de la tarjeta en la portada fue detectado por test_mw1; mutaciones puramente semánticas en la prosa que conservaban las palabras clave exigidas sobrevivieron a test_mw1 (ya que verifica presencia de términos y estructura, sin análisis semántico de lenguaje natural completo).",
+    "No se encontraron defectos ni inconsistencias entre la documentación (docs/modos.md, README.md), el sitio web (site/modos.html, site/index.html, site/style.css), las pruebas (tests/test_modos_web.py), los catálogos Oracle (catalogos/factory_modos_web.*.oracle), las herramientas (tools/verify_docs_web_modos.py) y el código de comportamiento de Factory (oracle_factory/modos.py y oracle_factory/cli.py). La lista de findings se entrega vacía.",
+    "Validé el informe con el comando oracle-clue validar indicando el paquete y el repositorio de la revisión."
+  ]
+}

@@ -1,0 +1,60 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Los modos de trabajo de Oracle Factory: cuánto decide una persona y cuánto un agente en cada cambio, y cómo se ve en estado quién decidió."><title>Modos de trabajo — Oracle Factory</title><link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css"></head><body><a class="skip" href="#guia">Saltar al contenido</a><header class="topbar wrap">
+  <a class="brand" href="./index.html" aria-label="Oracle Factory, inicio"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 27V15h7v-5l8 5V9l10 6v12H3Z"/><path d="M5 13V4h5v9M8 20h3v3H8m7-3h3v3h-3m7-3h3v3h-3" class="cut"/></svg><span>ORACLE<span class="brand-detail">FACTORY</span></span></a>
+  <nav aria-label="Navegación principal"><a href="./index.html#formas">Cuatro caminos</a><a href="./index.html#recorrido">El recorrido</a><a href="./index.html#herramientas">El kit</a><a href="./desde-cero.html">Desde cero</a><a href="./colaboracion.html">En equipo</a></nav>
+  <a class="repo-link" href="https://github.com/Segtem/oracle-factory" target="_blank" rel="noreferrer">Código abierto <span aria-hidden="true">↗</span></a>
+</header>
+<main class="wrap guide-page" id="guia"><div class="guide-heading"><p class="eyebrow">PERSONAS / AGENTES / DECISIONES</p><h1>Quién decide,<br><em>en cada cambio.</em></h1><p>Un cambio pasa por cuatro decisiones: aceptar el alcance, elegir cómo se mide cada requisito, registrar la revisión y cerrar. El modo de trabajo dice cuáles toma una persona y cuáles puede tomar un agente. En ningún modo se pierde el rastro: cada decisión queda a nombre de quien la tomó, como persona o como agente.</p><div class="guide-badges"><span>Factory 0.1.0a9</span><span>Tres modos</span><span>Una persona siempre puede decidir</span></div></div>
+<div class="guide-layout"><aside class="guide-nav" aria-label="Secciones de la página"><a href="#modos">Los tres modos</a><a href="#quien-decide">Quién decide qué</a><a href="#tipos">Funcional o no</a><a href="#estado">Leer estado</a><a href="#cambiar">Cambiar de modo</a><a href="#ejemplo">Un ejemplo real</a><a href="#limites">Límites</a></aside><div class="guide-content">
+
+<section id="modos"><p class="eyebrow">LOS TRES MODOS</p><h2>Cuánto decide una persona.</h2>
+<p><strong><code>confirmacion</code></strong> es el modo por defecto. El agente trabaja y propone la spec, las medidas y la revisión, y una persona las confirma desde su terminal; el cierre no se propone: lo toma una persona directamente. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente.</p>
+<p><strong><code>funcional</code></strong>: la persona decide lo que el producto le promete a quien lo usa, los requisitos funcionales. El agente decide solo lo no funcional: rendimiento, mantenimiento, cómo se mide por dentro. Conviene cuando la persona quiere estar en el qué y no en cada detalle del cómo.</p>
+<p><strong><code>autonomo</code></strong>: el agente decide todo, también el cierre, y queda registrado como agente. Conviene para tareas acotadas y reversibles, o para probar el recorrido. Una persona puede intervenir igual cuando quiera.</p>
+<p>Un cambio toma el modo del proyecto (<code>modo_por_defecto</code> en <code>.factory/config.json</code>) o el que se elige al crearlo:</p>
+<div class="code-block"><pre><code>oracle-factory nuevo --capacidad notas --modo funcional "Guardar notas"</code></pre></div></section>
+
+<section id="quien-decide"><p class="eyebrow">QUIÉN DECIDE QUÉ</p><h2>Lo que puede hacer un agente.</h2>
+<p>La tabla dice qué pasa cuando un agente toma cada decisión (con <code>--agente</code>), según el modo. Una persona en su terminal decide siempre, en cualquier modo.</p>
+<div class="table-wrap"><table class="modos-tabla"><thead><tr><th scope="col">Decisión</th><th scope="col"><code>confirmacion</code></th><th scope="col"><code>funcional</code></th><th scope="col"><code>autonomo</code></th></tr></thead><tbody>
+<tr data-decision="spec" data-tipo="funcional"><th scope="row">Aceptar la propuesta y la spec (el cambio tiene algún requisito funcional)</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">sólo una persona</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="spec" data-tipo="no funcional"><th scope="row">Aceptar la propuesta y la spec (todos sus requisitos son no funcionales)</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">decide el agente</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="medidas" data-tipo="funcional"><th scope="row">Elegir las medidas de un requisito funcional</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">sólo una persona</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="medidas" data-tipo="no funcional"><th scope="row">Elegir las medidas de un requisito no funcional</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">decide el agente</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="revision" data-tipo="funcional"><th scope="row">Registrar la revisión (el cambio tiene algún requisito funcional)</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">sólo una persona</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="revision" data-tipo="no funcional"><th scope="row">Registrar la revisión (todos sus requisitos son no funcionales)</th><td data-modo="confirmacion">el agente propone; una persona confirma</td><td data-modo="funcional">decide el agente</td><td data-modo="autonomo">decide el agente</td></tr>
+<tr data-decision="cierre" data-tipo="cualquiera"><th scope="row">Cerrar el cambio</th><td data-modo="confirmacion">sólo una persona</td><td data-modo="funcional">sólo una persona</td><td data-modo="autonomo">decide el agente</td></tr>
+</tbody></table></div>
+<p><strong>El agente propone; una persona confirma</strong>: lo que hizo el agente queda como propuesta y no cuenta hasta que una persona lo confirma, con el mismo comando sin <code>--agente</code> (las medidas, con <code>oracle-factory medir ID --confirmar</code>). <strong>Sólo una persona</strong>: el comando con <code>--agente</code> falla y dice por qué. <strong>Decide el agente</strong>: la decisión cuenta, a nombre del agente.</p>
+<p>Abandonar un cambio (<code>oracle-factory abandonar ID</code>) lo decide siempre una persona; un agente sólo puede proponer el motivo.</p></section>
+
+<section id="tipos"><p class="eyebrow">FUNCIONAL O NO</p><h2>Cada requisito dice qué es.</h2>
+<p>En la spec, cada requisito declara su tipo en la línea que sigue al título: <code>Tipo: funcional</code> o <code>Tipo: no funcional</code>. Uno sin esa línea cuenta como funcional, que es el lado seguro: en modo <code>funcional</code> lo decide una persona.</p>
+<div class="code-block"><pre><code>### Requirement: guardar una nota
+Tipo: funcional</code></pre></div>
+<p>Si el proyecto pone <code>"tipos_obligatorios": true</code> en <code>.factory/config.json</code>, <code>oracle-factory importar</code> rechaza la spec mientras algún requisito no declare su tipo.</p></section>
+
+<section id="estado"><p class="eyebrow">LEER ESTADO</p><h2>Quién decidió, quién propuso, quién confirmó.</h2>
+<p><code>oracle-factory estado ID</code> muestra, junto a cada decisión tomada, quién la tomó y cómo, y entre lo pendiente, lo que un agente propuso y todavía no cuenta (un fragmento, en el orden en que sale):</p>
+<div class="code-block"><pre><code>Pendiente: medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza propuestas por claude-code, sin confirmar por una persona
+Aprobación spec: sí, Ana Pérez (persona, decidio, modo confirmacion)
+Revisión registrada por: Ana Pérez (persona, confirmo, modo confirmacion; motivo: …)
+Medidas de cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec: Ana Pérez (persona, confirmo, modo confirmacion)</code></pre></div>
+<p>Entre paréntesis van tres datos. <strong>Quién</strong>: <code>persona</code> (alguien en una terminal interactiva, con el nombre de su configuración de Git, o su usuario del sistema si Git no tiene nombre) o <code>agente</code> (el nombre que se pasó a <code>--agente</code>). <strong>Cómo</strong>: <code>decidio</code> (tomó la decisión directamente) o <code>confirmo</code> (una persona confirmó, tal cual, lo que había propuesto un agente). Y <strong>en qué modo</strong> estaba el cambio, con el motivo si lo hubo.</p>
+<p>Una propuesta de un agente no figura como decisión: aparece en «Pendiente», con quién la propuso, y entre los eventos del registro del cambio, con forma <code>propuso</code>. Cuando una persona la confirma, pasa a ser una decisión «persona, confirmo».</p>
+<p><code>oracle-factory estado ID --json</code> da lo mismo para un programa: en <code>decisiones</code>, cada decisión tomada con su actor, tipo de actor, forma, modo, fecha y motivo; en <code>requisitos</code>, la propuesta de medidas que espera confirmación.</p></section>
+
+<section id="cambiar"><p class="eyebrow">CAMBIAR DE MODO</p><h2>Subir es fácil; bajar lo decide una persona.</h2>
+<div class="code-block"><pre><code>oracle-factory modo ID funcional</code></pre></div>
+<p>Subir la intervención humana, por ejemplo de <code>autonomo</code> a <code>confirmacion</code>, lo puede hacer cualquiera. Bajarla lo decide una persona desde su terminal, con confirmación, nunca un agente. Al cambiar de modo, lo que un agente decidió y que en el modo nuevo ya no le corresponde deja de contar: vuelve a ser una propuesta, o se descarta para que lo decida una persona.</p></section>
+
+<section id="ejemplo"><p class="eyebrow">UN EJEMPLO REAL</p><h2>Factory, hecha con Factory.</h2>
+<p>Factory se construye a sí misma en modo <code>confirmacion</code>. En cada cambio, el agente de código escribe la propuesta, implementa, propone las medidas, pide revisiones a otros modelos y propone aprobar la revisión con un motivo. Una persona hace lo que la tabla le reserva: aprueba la spec, confirma las medidas, registra la revisión eligiendo el motivo y cierra. En <code>estado</code> queda, para cada decisión, «persona, confirmo» o «persona, decidio», y entre los eventos del cambio, cada propuesta del agente.</p>
+<p>El piloto con agentes que cuenta la página <a href="./colaboracion.html">En equipo</a> es anterior a los modos: ahí un agente coordinador hizo de personas, así que no muestra esto.</p></section>
+
+<section id="limites"><p class="eyebrow">LÍMITES</p><h2>Un protocolo, no un control de acceso.</h2>
+<p>Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin <code>--agente</code>, y el nombre es el de la configuración de Git de esa terminal, o el usuario del sistema si Git no tiene nombre. Un agente con una terminal interactiva que omitiera <code>--agente</code> quedaría registrado como persona: los modos son un acuerdo entre quienes trabajan juntos.</p>
+<p>Una entrada por tubería, sin terminal, no cuenta como persona: queda «sin identificar» y no puede decidir. Y el modo dice quién decide, no si la decisión es buena: eso sigue siendo de la revisión y de las medidas.</p>
+<p>La referencia completa está en <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/modos.md">docs/modos.md</a>.</p>
+<p><a class="primary" href="./index.html">Volver a la portada <span aria-hidden="true">↗</span></a></p></section>
+
+</div></div></main><footer class="wrap"><a class="footer-brand" href="./index.html">ORACLE FACTORY <span>· Software con dirección humana.</span></a><div><a href="https://github.com/Segtem/oracle-factory">Factory ↗</a><a href="https://github.com/Segtem/oracle-clue">Clue ↗</a><span>Hecho para poder preguntar por qué.</span></div></footer></body></html>

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:723102aaf83c14d71836b1c4917d2478a7943bf50c0f1c8a4ec4e92d70346e56 -->
+<!-- oracle-factory resumen sha256:c2d785e30ea1eaa74ada2cfe8a56e3d7e307ac626bf9c30081e9af1e42f04614 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 118 requisitos vigentes · 1 cambio abierto
+16 capacidades · 120 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -238,6 +238,8 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | guía de colaboración sin las fricciones del piloto | funcional | `web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto` | factory_web.guia_de_colaboracion_sin_las_fricciones_del_piloto, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
 | el ID de un cambio termina en un sufijo legible | funcional | `web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible` | factory_web.el_id_de_un_cambio_termina_en_un_sufijo_legible, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
 | la guía desde cero sigue funcionando | no funcional | `web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando` | factory_web.la_guia_desde_cero_sigue_funcionando, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
+| los modos de trabajo están explicados | funcional | `web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados` | factory_modos_web.los_modos_de_trabajo_estan_explicados, factory_modos_web.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-122841-docs-web-modos |
+| la tabla de quién decide coincide con el código | funcional | `web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo` | factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo, factory_modos_web.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-122841-docs-web-modos |
 
 ## Cambios abiertos
 
@@ -280,6 +282,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **cli-proximo-paso-cerrado-omite-archivos-faltantes** (20261008-123018-cli-humana): `estado` omite la recuperación de archivos faltantes en cambios cerrados. Aceptado por Brian Hollweg: Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados
 - **F-01** (20261013-115616-vueltas-severidad): La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos. Aceptado por Brian Hollweg: Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos
 - **TRZ-MODULE-GUARD-COMPOUND-001** (20261013-180751-trazabilidad): La detección de guards __main__ no contempla condiciones compuestas. Aceptado por Brian Hollweg: Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas
+- **F1** (20261015-122841-docs-web-modos): mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido. Aceptado por Brian Hollweg: Acepto el riesgo: mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido
 
 ### Históricos
 
@@ -542,6 +545,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261015-105600-cli-piloto) codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null. Resultado: 19 tests, OK. SHA-256 confirmó que los archivos de CLI, tests, verificador y README en ese checkout coinciden con los del candidato.
 - (20261015-105600-cli-piloto) codex (gpt-6-luna): Las seis revisiones previas fueron contrastadas: CLUE-001 de la vuelta 1 (requisito ilegible) y vuelta 2 (requisitos anidados) están atendidos; el caso de carpeta no accesible señalado en la vuelta 3 se contempla mediante os.walk(onerror=...) y la prueba cp2 lo cubre. No se encontraron regresiones de esos hallazgos.
 - (20261015-105600-cli-piloto) codex (gpt-6-luna): No se hicieron mutaciones. Los archivos excluidos por el paquete no se revisaron; no se modificó el checkout del candidato.
+- (20261015-122841-docs-web-modos) Evidencia: Escenarios mw1–mw2 sobre docs/modos.md, README.md y site/. Comprueba secciones, enlaces, que la página se lea sin JavaScript y que la tabla de quién decide diga lo mismo que modos.via_agente; no juzga si la explicación se entiende ni cómo se ve en un navegador.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Revisé la propuesta (proposal.md), la especificación (openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md), el diff y contexto del paquete clue (paquete-agy-1.json), y el checkout candidato 3fbb751 en modo sólo lectura sin editarlo ni realizar commits.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Comprobé que todos los hallazgos de las vueltas anteriores (vuelta 1: agy F1-F8, codex F1-F2; vuelta 2: agy F1, codex F1-F2) permanecen subsanados: la tarjeta de modos en site/index.html explicita que el cierre lo toma la persona y que Factory no autentica (evitando generalizaciones absolutas sobre el registro de actores); docs/modos.md y site/modos.html detallan con precisión las decisiones propuestas y directas en modo confirmacion.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Corrí en primer plano exactamente el comando prescrito: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null (13 pruebas ejecutadas en 0.287s, resultado OK).
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): No ejecuté tools/verify_docs_web_modos.py, otros scripts verify_*.py ni la suite completa discover, en estricto cumplimiento de la instrucción de la revisión.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Se evaluó estáticamente la accesibilidad básica y la adaptación a dispositivos móviles de site/modos.html y site/style.css: la página cuenta con un único elemento h1, 7 encabezados h2 correlativos con las secciones, tabla con thead/tbody, th con scope col/row y datos de celdas con data-modo; para pantallas estrechas (<=700px), el diseño pasa a bloque vertical y la tabla está contenida en .table-wrap con overflow-x: auto y min-width: 560px, impidiendo desbordes horizontales de la página. No se ejecutaron pruebas con Chromium ni navegación dinámica en dispositivos móviles físicos.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Se realizaron mutaciones manuales sobre copias aisladas en el espacio de trabajo del revisor: alteraciones en texto visible de celdas, títulos de filas y permutaciones de encabezados de columna en el HTML y en el documento Markdown fueron detectadas por las aserciones de tests/test_modos_web.py; mover el enlace de modos fuera de la tarjeta en la portada fue detectado por test_mw1; mutaciones puramente semánticas en la prosa que conservaban las palabras clave exigidas sobrevivieron a test_mw1 (ya que verifica presencia de términos y estructura, sin análisis semántico de lenguaje natural completo).
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): No se encontraron defectos ni inconsistencias entre la documentación (docs/modos.md, README.md), el sitio web (site/modos.html, site/index.html, site/style.css), las pruebas (tests/test_modos_web.py), los catálogos Oracle (catalogos/factory_modos_web.*.oracle), las herramientas (tools/verify_docs_web_modos.py) y el código de comportamiento de Factory (oracle_factory/modos.py y oracle_factory/cli.py). La lista de findings se entrega vacía.
+- (20261015-122841-docs-web-modos) agy (gemini-3.8-flash-high): Validé el informe con el comando oracle-clue validar indicando el paquete y el repositorio de la revisión.
+- (20261015-122841-docs-web-modos) codex (gpt-6-luna): Corrí exactamente `/home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web` desde la raíz indicada: 13 pruebas, todas pasaron.
+- (20261015-122841-docs-web-modos) codex (gpt-6-luna): Corrí también `tests.test_modos_web` sobre una copia mutada en `/tmp`; la mutación descrita sobrevivió.
+- (20261015-122841-docs-web-modos) codex (gpt-6-luna): Revisé estáticamente `docs/modos.md`, `site/modos.html`, `site/index.html`, `README.md`, `site/style.css`, la implementación de modos/CLI, los tests, `tools/verify_docs_web_modos.py` y los tres catálogos Factory.
+- (20261015-122841-docs-web-modos) codex (gpt-6-luna): No ejecuté `tools/verify_docs_web_modos.py`, la suite completa ni un navegador/viewport móvil, según el alcance pedido; la adaptación móvil se evaluó leyendo las media queries y el contenedor horizontal de la tabla.
 
 ### Históricos
 

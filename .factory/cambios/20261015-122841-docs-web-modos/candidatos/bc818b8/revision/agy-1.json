@@ -1,0 +1,43 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/bc818b8",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "bc818b80be94b3de73b1fb08fedcea9b42f17f9c",
+  "diff_sha256": "322a27bdc301ef0f28e536662483a8525ce259c99936585e038108542b2e575d",
+  "context_sha256": "683a2aa437ae6dd476e016476a6e1ae2a62bcd808382f6aa4f0875c7eae84142",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "La tarjeta de modos de trabajo en la portada describe confirmacion como «la persona confirma todo» omitiendo que el cierre es directo",
+      "explanation": "En site/index.html:65 (dentro del elemento <article class=\"kit-item\"> correspondiente a la tarjeta de «Modos de trabajo»), se describe: 'confirmacion (por defecto, la persona confirma todo)'. Sin embargo, en oracle_factory/modos.py:33 (if decision == 'cierre': return 'rechaza') y cli.py:198-200, la decisión de cierre en modo confirmacion rechaza la vía de agente; no existe propuesta ni confirmación de cierre, sino que la decisión la toma directamente una persona en su terminal. Esta misma discrepancia fue subsanada en docs/modos.md:7 y site/modos.html:10 tras los hallazgos F8 (agy-1) y F2 (codex-1) de la vuelta 1, pero la tarjeta de la portada en site/index.html conservó la generalización de que la persona confirma todo.",
+      "location": {
+        "file": "site/index.html",
+        "start_line": 65,
+        "end_line": 65,
+        "side": "head"
+      },
+      "trigger": "Leer la descripción del modo confirmacion en la tarjeta de la portada (site/index.html:65) e intentar proponer y confirmar el cierre mediante un agente con --agente en ese modo.",
+      "evidence": "site/index.html:65 contiene literalmente 'confirmacion (por defecto, la persona confirma todo)'. En contraste, oracle_factory/modos.py:33 devuelve 'rechaza' para cierre en confirmacion, impidiendo que un agente proponga el cierre, y docs/modos.md:7 / site/modos.html:10 explicitan que 'el cierre lo toma una persona directamente'.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Comparar el texto de site/index.html:65 con docs/modos.md:7, site/modos.html:10 y el comportamiento de vía de agente para cierre en oracle_factory/modos.py:33."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta (proposal.md), la spec (openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md), el diff y contexto del paquete paquete-agy-1.json, y el checkout candidato bc818b8 en modo sólo lectura sin editarlo ni realizar commits.",
+    "Comprobé que los hallazgos de la vuelta 1 (agy F1-F8 y codex F1-F2) fueron corregidos en docs/modos.md, site/modos.html, catalogos/ y tests/test_modos_web.py, sin regresiones en esos archivos.",
+    "Corrí en primer plano exactamente el comando solicitado: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null (13 pruebas ejecutadas en 0.287s, resultado OK).",
+    "No corrí tools/verify_*.py ni la suite completa de pruebas discover, respetando la instrucción explícita del pedido de revisión.",
+    "La evaluación de accesibilidad (un único h1, 7 h2, tabla con thead/tbody y th con scope col/row) y adaptación a dispositivos móviles (viewport meta, reglas @media en site/style.css, contenedor con overflow-x: auto para tablas) se realizó mediante análisis estático y parseo programático de marcado y estilos, sin ejecución de Chromium ni navegación dinámica.",
+    "Se realizaron pruebas de mutación manuales sobre copias aisladas en el directorio de trabajo del revisor para verificar que alteraciones en celdas visibles de la tabla (HTML y Markdown), títulos de filas y encabezados de columnas son detectadas por tests/test_modos_web.py y no sobreviven.",
+    "Validé este informe contra el paquete y el repositorio con oracle-clue validar."
+  ]
+}

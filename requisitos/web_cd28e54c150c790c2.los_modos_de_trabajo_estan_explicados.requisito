@@ -1,0 +1,4 @@
+requisito web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados:
+    texto "Tipo: funcional `docs/modos.md` y `site/modos.html` SHALL explicar los tres modos y cuándo conviene cada uno, quién decide cada cosa en cada modo, los requisitos funcionales y no funcionales con `tipos_obligatorios`, cómo leer en `estado` quién decidió, propuso o confirmó, cómo cambiar de modo, un ejemplo real y los límites. La portada SHALL enlazar la página desde su tarjeta de los modos y el README SHALL enlazar el documento. La página SHALL tener idioma `es`, un solo `h1` y su contenido en el HTML."
+    fuente "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md#los modos de trabajo están explicados"
+    medido_por factory_modos_web.los_modos_de_trabajo_estan_explicados, factory_modos_web.corrida_completa

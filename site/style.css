@@ -1599,3 +1599,39 @@ footer a:hover {
     font-size:11px
   }
 }
+.text-link {
+  display:block;
+  margin-top:10px;
+  font:12px var(--mono);
+  color:#456a37;
+  text-underline-offset:3px
+}
+.table-wrap {
+  overflow-x:auto;
+  margin:20px 0
+}
+.modos-tabla {
+  width:100%;
+  min-width:560px;
+  border-collapse:collapse;
+  font-size:13px;
+  line-height:1.5
+}
+.modos-tabla th,
+.modos-tabla td {
+  border:1px solid var(--line);
+  padding:10px 12px;
+  text-align:left;
+  vertical-align:top
+}
+.modos-tabla thead th {
+  background:#e6ecdc;
+  color:#38512d
+}
+.modos-tabla tbody th {
+  font-weight:500;
+  color:var(--ink)
+}
+.modos-tabla td {
+  color:var(--muted)
+}

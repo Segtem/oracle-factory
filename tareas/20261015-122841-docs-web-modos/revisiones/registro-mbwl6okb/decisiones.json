@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "1e8a56af5fe70a3ce7d746720237d2d6a206e0c5d1d5f4e22dc8b68e53801df8",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy, a la vez. La 1: tres medios y siete bajos (estado no mostraba propuso como decisión, el cierre en confirmacion, el nombre de Git o del sistema, y pruebas de la tabla que no leían lo que ve una persona); todo corregido, con la tabla comprobada contra modos.via_agente en la página y en el documento. La 2: tres bajos de texto en la portada y el resumen, corregidos. La 3: agy nada; codex un bajo (la prueba exige las secciones pero no el contenido de cada una). Suite 356 y evidencia en verde.",
+  "decisiones": [
+    {
+      "hallazgo_id": "F1",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-15T13:51:49+00:00"
+    }
+  ]
+}

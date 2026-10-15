@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/bc818b8",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "bc818b80be94b3de73b1fb08fedcea9b42f17f9c",
+  "diff_sha256": "322a27bdc301ef0f28e536662483a8525ce259c99936585e038108542b2e575d",
+  "context_sha256": "683a2aa437ae6dd476e016476a6e1ae2a62bcd808382f6aa4f0875c7eae84142",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La tarjeta afirma que un agente nunca queda registrado como persona",
+      "explanation": "La tarjeta de modos de la portada dice que un agente actúa con `--agente` y queda registrado como agente, «nunca como persona». La CLI clasifica por la vía usada: `actor()` devuelve `tipo_actor=\"agente\"` si `AGENTE` está configurado, pero en una terminal interactiva sin `--agente` registra `tipo_actor=\"persona\"` y el nombre de Git o del usuario del sistema. La propia guía de modos reconoce ese caso como límite; por eso la afirmación absoluta de la tarjeta contradice el comportamiento documentado y el código.",
+      "location": {
+        "file": "site/index.html",
+        "start_line": 65,
+        "end_line": 65,
+        "side": "head"
+      },
+      "trigger": "Ejecutar un comando de decisión desde una terminal interactiva con un agente, omitiendo `--agente`; consultar luego `estado` o el registro.",
+      "evidence": "En `oracle_factory/cli.py`, `actor()` (líneas 99–106) devuelve `agente` sólo si `AGENTE` tiene valor; si no, y stdin es interactivo, devuelve `persona`. `docs/modos.md` (línea 85) explica expresamente que un agente que omite `--agente` queda registrado como persona. La frase absoluta está en la tarjeta de `site/index.html` línea 65, que se modificó para añadir el enlace.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Comparar `site/index.html:65` con `oracle_factory/cli.py:99-106`; el camino `AGENTE` vacío y terminal interactiva produce un actor de tipo `persona`."
+    },
+    {
+      "id": "F2",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "El resumen de confirmacion todavía incluye el cierre entre decisiones que se confirman",
+      "explanation": "La descripción de `confirmacion` dice «cada decisión la confirma una persona» y luego aclara que el cierre lo toma una persona directamente. El cierre es una de las cuatro decisiones del propio documento, y en este modo el agente no puede proponerlo para confirmación: la tabla lo marca como «sólo una persona» y el código rechaza esa vía. La aclaración posterior no elimina la lectura contradictoria de “cada decisión”, tanto en `docs/modos.md` como en `site/modos.html`.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Leer el resumen del modo `confirmacion` como regla general para las cuatro decisiones, o intentar que un agente proponga el cierre para que una persona lo confirme.",
+      "evidence": "`oracle_factory/modos.py:33-36` hace que el cierre en modo `confirmacion` sea `rechaza`, antes de la regla de propuestas. `oracle_factory/cli.py:197-206` lanza error para esa vía rechazada. La tabla en `docs/modos.md:29` confirma «sólo una persona», mientras que la primera oración de la descripción en línea 7 aún dice «cada decisión la confirma una persona». La misma formulación aparece en `site/modos.html:10`.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Contrastar la frase de `docs/modos.md:7` y `site/modos.html:10` con la fila de cierre y `modos.via_agente(\"confirmacion\", \"cierre\", [])`, que devuelve `rechaza`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec y la propuesta, el diff/contexto del paquete, el código de modos y CLI, la documentación, la página, el enlace de portada, README, estilos añadidos, pruebas y catálogos. No abrí los diez archivos de registros/evidencia excluidos por el pedido.",
+    "Ejecuté en primer plano el comando exacto solicitado: `cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null`; resultado: 13 pruebas, OK.",
+    "No ejecuté `tools/verify_docs_web_modos.py`, otros `verify_*.py` ni la suite completa, según la instrucción. No hice una prueba de navegador o teléfono; el marcado responsive de la tabla se revisó estáticamente: `.table-wrap` usa `overflow-x:auto` y la tabla tiene `min-width:560px`. El HTML contiene un `h1`, encabezados de tabla `th` con `scope=col/row` y el texto estático.",
+    "Hice una mutación en una copia temporal de los archivos, cambiando en `site/modos.html` quién decide los requisitos funcionales por una afirmación opuesta. `test_mw1_la_pagina_y_el_documento_estan_completos` siguió pasando: verifica secciones y presencia de términos, no la veracidad de toda la prosa. El checkout candidato no se modificó.",
+    "Revisé los informes de la vuelta anterior: la prueba actual sí lee títulos/celdas visibles de HTML y Markdown, comprueba el enlace dentro de la tarjeta y los catálogos separan los casos mw1 y mw2. No observé regresión en esos puntos.",
+    "`oracle-clue` no estaba en el PATH inicial; la validación se completó con el ejecutable del `.venv` del proyecto añadiéndolo al PATH y pasando los argumentos requeridos. Resultado: «Formato y vigencia verificados»."
+  ]
+}

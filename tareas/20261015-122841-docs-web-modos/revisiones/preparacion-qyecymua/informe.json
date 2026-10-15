@@ -1,0 +1,93 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261015-122841-docs-web-modos",
+  "contexto": {
+    "head": "c273fdf1ad14236f0cc55dbbcb21eea8a4ab38e8",
+    "archivos_sha256": "7f7d8b957311ef45d64501229ae521ed1e6af3447633eba4dcb40fbacaf22f55"
+  },
+  "documentos": {
+    "openspec/changes/20261015-122841-docs-web-modos/proposal.md": "f19f953b4449da55c550f7c932103e14b453b29de11e38be372568904d3d0ccf",
+    "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_modos_web.corrida_completa.oracle",
+    "catalogos/factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo.oracle",
+    "catalogos/factory_modos_web.los_modos_de_trabajo_estan_explicados.oracle",
+    "docs/modos.md",
+    "openspec/changes/20261015-122841-docs-web-modos/design.md",
+    "openspec/changes/20261015-122841-docs-web-modos/proposal.md",
+    "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md",
+    "openspec/changes/20261015-122841-docs-web-modos/tasks.md",
+    "requisitos/web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo.requisito",
+    "requisitos/web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados.requisito",
+    "site/index.html",
+    "site/modos.html",
+    "site/style.css",
+    "tests/test_modos_web.py",
+    "tools/verify_docs_web_modos.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 356 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/3fbb751/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/3fbb751/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/3fbb751/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 39c6c2c: agy (gemini-3.8-flash-high), 8 hallazgos: F1 (media), F2 (baja), F3 (media), F4 (media), F5 (baja), F6 (baja), F7 (baja), F8 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/39c6c2c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 39c6c2c: codex (gpt-6-luna), 2 hallazgos: F1 (baja), F2 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/39c6c2c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bc818b8: agy (gemini-3.8-flash-high), 1 hallazgo: F1 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/bc818b8/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bc818b8: codex (gpt-6-luna), 2 hallazgos: F1 (baja), F2 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/bc818b8/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios mw1–mw2 sobre docs/modos.md, README.md y site/. Comprueba secciones, enlaces, que la página se lea sin JavaScript y que la tabla de quién decide diga lo mismo que modos.via_agente; no juzga si la explicación se entiende ni cómo se ve en un navegador.",
+    "agy (gemini-3.8-flash-high): Revisé la propuesta (proposal.md), la especificación (openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md), el diff y contexto del paquete clue (paquete-agy-1.json), y el checkout candidato 3fbb751 en modo sólo lectura sin editarlo ni realizar commits.",
+    "agy (gemini-3.8-flash-high): Comprobé que todos los hallazgos de las vueltas anteriores (vuelta 1: agy F1-F8, codex F1-F2; vuelta 2: agy F1, codex F1-F2) permanecen subsanados: la tarjeta de modos en site/index.html explicita que el cierre lo toma la persona y que Factory no autentica (evitando generalizaciones absolutas sobre el registro de actores); docs/modos.md y site/modos.html detallan con precisión las decisiones propuestas y directas en modo confirmacion.",
+    "agy (gemini-3.8-flash-high): Corrí en primer plano exactamente el comando prescrito: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null (13 pruebas ejecutadas en 0.287s, resultado OK).",
+    "agy (gemini-3.8-flash-high): No ejecuté tools/verify_docs_web_modos.py, otros scripts verify_*.py ni la suite completa discover, en estricto cumplimiento de la instrucción de la revisión.",
+    "agy (gemini-3.8-flash-high): Se evaluó estáticamente la accesibilidad básica y la adaptación a dispositivos móviles de site/modos.html y site/style.css: la página cuenta con un único elemento h1, 7 encabezados h2 correlativos con las secciones, tabla con thead/tbody, th con scope col/row y datos de celdas con data-modo; para pantallas estrechas (<=700px), el diseño pasa a bloque vertical y la tabla está contenida en .table-wrap con overflow-x: auto y min-width: 560px, impidiendo desbordes horizontales de la página. No se ejecutaron pruebas con Chromium ni navegación dinámica en dispositivos móviles físicos.",
+    "agy (gemini-3.8-flash-high): Se realizaron mutaciones manuales sobre copias aisladas en el espacio de trabajo del revisor: alteraciones en texto visible de celdas, títulos de filas y permutaciones de encabezados de columna en el HTML y en el documento Markdown fueron detectadas por las aserciones de tests/test_modos_web.py; mover el enlace de modos fuera de la tarjeta en la portada fue detectado por test_mw1; mutaciones puramente semánticas en la prosa que conservaban las palabras clave exigidas sobrevivieron a test_mw1 (ya que verifica presencia de términos y estructura, sin análisis semántico de lenguaje natural completo).",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni inconsistencias entre la documentación (docs/modos.md, README.md), el sitio web (site/modos.html, site/index.html, site/style.css), las pruebas (tests/test_modos_web.py), los catálogos Oracle (catalogos/factory_modos_web.*.oracle), las herramientas (tools/verify_docs_web_modos.py) y el código de comportamiento de Factory (oracle_factory/modos.py y oracle_factory/cli.py). La lista de findings se entrega vacía.",
+    "agy (gemini-3.8-flash-high): Validé el informe con el comando oracle-clue validar indicando el paquete y el repositorio de la revisión.",
+    "codex (gpt-6-luna): Corrí exactamente `/home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web` desde la raíz indicada: 13 pruebas, todas pasaron.",
+    "codex (gpt-6-luna): Corrí también `tests.test_modos_web` sobre una copia mutada en `/tmp`; la mutación descrita sobrevivió.",
+    "codex (gpt-6-luna): Revisé estáticamente `docs/modos.md`, `site/modos.html`, `site/index.html`, `README.md`, `site/style.css`, la implementación de modos/CLI, los tests, `tools/verify_docs_web_modos.py` y los tres catálogos Factory.",
+    "codex (gpt-6-luna): No ejecuté `tools/verify_docs_web_modos.py`, la suite completa ni un navegador/viewport móvil, según el alcance pedido; la adaptación móvil se evaluó leyendo las media queries y el contenedor horizontal de la tabla."
+  ],
+  "hallazgos": [
+    {
+      "id": "F1",
+      "descripcion": "mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido",
+      "ubicacion": "tests/test_modos_web.py:112",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261015-122841-docs-web-modos/candidatos/3fbb751/revision/codex-1.json, validado con oracle-clue; severidad baja. Mutación aplicada sólo en `/tmp/mode-review-mutation/site/modos.html`: conservé los siete ids, concatené sus contenidos dentro de la primera sección y dejé vacías las otras seis. Las cuatro pruebas de `tests.test_modos_web` pasaron. El test actual comprueba ids con `pagina.ids` (línea 112), y busca temas sólo en el texto agregado `pagina.texto` (líneas 119–123), por lo que no detecta la distribución vacía."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
