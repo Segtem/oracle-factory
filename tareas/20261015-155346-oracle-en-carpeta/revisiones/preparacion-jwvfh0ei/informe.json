@@ -1,0 +1,86 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261015-155346-oracle-en-carpeta",
+  "contexto": {
+    "head": "154abdb679e8f7fbc44bd641938198f664136a2c",
+    "archivos_sha256": "e182c753cdfb96c2bf89c6984a6c6e73549b9f81adb0f6326a7ee90795aab796"
+  },
+  "documentos": {
+    "openspec/changes/20261015-155346-oracle-en-carpeta/proposal.md": "f119ed560850fd9106d893ccb9f77aada1a0144978369b2eb3aa8f58af43e741",
+    "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_carpeta.corrida_completa.oracle",
+    "catalogos/factory_carpeta.el_proyecto_oracle_puede_estar_en_una_carpeta.oracle",
+    "catalogos/factory_carpeta.init_adopta_un_proyecto_oracle_existente.oracle",
+    "catalogos/factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara.oracle",
+    "docs/colaboracion.md",
+    "docs/estructura.md",
+    "openspec/changes/20261015-155346-oracle-en-carpeta/design.md",
+    "openspec/changes/20261015-155346-oracle-en-carpeta/proposal.md",
+    "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
+    "openspec/changes/20261015-155346-oracle-en-carpeta/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "pyproject.toml",
+    "requisitos/estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta.requisito",
+    "requisitos/estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente.requisito",
+    "requisitos/estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara.requisito",
+    "tests/test_oracle_en_carpeta.py",
+    "tools/verify_collaboration.py",
+    "tools/verify_oracle_en_carpeta.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 367 pruebas, 6 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/a38d44b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/a38d44b/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/a38d44b/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato af991ba: agy (gemini-3.8-flash-high), 4 hallazgos: buscar-silencia-oracle-invalido (alta), init-recrea-oracle-raiz-si-reinit (alta), test-oc3-sin-declararlo-no-prueba-juzgar (media), escalares-bloquean-comandos-previos-a-juicio (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/af991ba/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato af991ba: codex (gpt-6-luna), 1 hallazgo: OC-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/af991ba/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 75bbe8a: agy (gemini-3.8-flash-high), 3 hallazgos: juzgar-bloqueado-sin-confiar-escalares (alta), test-oc3-sin-declararlo-asercion-vacia (media), escape-rutas-windows-en-oracle (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/75bbe8a/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 75bbe8a: codex (gpt-6-luna), 1 hallazgo: OC-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/75bbe8a/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios oc1–oc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, el ejemplo notas y un escalar de prueba. No prueba Jam ni LyraGASP: su mudanza es lo que sigue, con su propia evidencia.",
+    "agy (gemini-3.8-flash-high): Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: cd /home/workstation/Dev/factory-oracle-en-carpeta && /home/workstation/Dev/factory-oracle-en-carpeta/.venv/bin/python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null (38 pruebas pasadas satisfactoriamente).",
+    "agy (gemini-3.8-flash-high): No se ejecutó tools/verify_*.py ni la suite completa de pruebas por indicación expresa.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en el entorno del revisor (con_escalares siempre vacío, con_escalares siempre forzado, omisión de carga previa de catálogo en juzgar, omisión de control de barras invertidas en carpeta_relativa, donde y buscar sin parámetro oracle, e inicializar sin detección de oracle configurado en re-init); todas las mutaciones fueron detectadas y rechazadas por la suite de pruebas.",
+    "agy (gemini-3.8-flash-high): Revisión estática exhaustiva de la implementación en oracle_factory/cli.py, oracle_factory/estructura.py, docs/estructura.md, catálogos en catalogos/factory_carpeta.*.oracle, herramientas de evidencia y especificación OpenSpec. No se detectaron defectos abiertos ni regresiones respecto de iteraciones anteriores.",
+    "codex (gpt-6-luna): No encontré hallazgos en el diff revisado; las cuatro revisiones previas revisadas no muestran regresiones abiertas en esta vuelta.",
+    "codex (gpt-6-luna): Corrí exactamente la orden de pruebas indicada; terminó con 38 tests OK, pero el checkout principal estaba en HEAD e57ac68e9b1146a1c1f37526dfb446114a90cd77, no en el candidato a38d44b45ab84f08dc10d9f3e3850639ea75f25a. Revisé estáticamente los tests y el código del candidato; no afirmo que esa corrida los haya ejecutado.",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales.",
+    "codex (gpt-6-luna): No revisé los archivos excluidos de .factory y tareas, ni ejecuté los casos en proyectos consumidores Jam o LyraGASP."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
