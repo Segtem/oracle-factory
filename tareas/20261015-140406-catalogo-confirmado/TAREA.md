@@ -31,3 +31,11 @@ Medidas de modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_camb
 ### Nota (2026-10-15 14:23:57 UTC)
 
 Medidas de modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 14:49:25 UTC)
+
+Medidas de modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-15 14:49:25 UTC)
+
+Medidas de modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
