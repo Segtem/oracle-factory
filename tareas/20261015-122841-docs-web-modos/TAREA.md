@@ -23,3 +23,11 @@ Medidas de web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados: factory_
 ### Nota (2026-10-15 12:36:52 UTC)
 
 Medidas de web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo: factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo, factory_modos_web.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 12:39:25 UTC)
+
+Medidas de web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 12:39:25 UTC)
+
+Medidas de web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados: Brian Hollweg (persona, confirmo, modo confirmacion).
