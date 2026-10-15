@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/97e0a37",
+  "base": "e98e907782bb02d6b9e8a41f940b0e7bafc5c51b",
+  "head": "97e0a3744daf6323df622571bbae653889648ff4",
+  "diff_sha256": "9bf93c52a463f611345e3b71520b8585ef75943aa63cd8584600dbe79263b9fb",
+  "context_sha256": "2e6c026eb8ba341f5af51f65646d94b04f608cefaf3e8db3c022809161ab1946",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec y el diff del paquete, incluyendo tests/test_cli_json.py, oracle_factory/cli.py:datos_donde, oracle_factory/estructura.py:donde, tools/verify_donde_no_valido.py, los cambios de conteo de tools/verify_cli_json.py y tools/verify_donde_ausente.py, y los catálogos factory_no_valido.",
+    "Corrí exactamente: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null. Resultado: 40 tests, OK.",
+    "No corrí tools/verify_*.py ni la suite completa, según la instrucción de revisión. Tampoco hice mutaciones.",
+    "No revisé los archivos Factory excluidos (.factory y tareas); la revisión se limita al diff y al contexto incluido en el paquete."
+  ]
+}

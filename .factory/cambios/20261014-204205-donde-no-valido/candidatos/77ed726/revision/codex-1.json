@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/77ed726",
+  "base": "e98e907782bb02d6b9e8a41f940b0e7bafc5c51b",
+  "head": "77ed72698d8455156f775b96ed30a429d84b6968",
+  "diff_sha256": "6ec36be6920b8758507b6d12a8c71fa57c59c334de51e9a6c78743c63d94965f",
+  "context_sha256": "e10d7fef1556d6f9363834f10d8bbcfc6b8b83924bd522694dee559ae32c2745",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "DONDE-NOVALIDO-TEST-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El escenario no comprueba que sigan listándose todos los demás artefactos",
+      "explanation": "La spec exige que, al marcar no_valido una entrada del registro, los demás artefactos sigan listándose. El test comprueba el artefacto inválido, el histórico agregado y sólo dos gates adicionales (spec y acuerdo). Por eso puede pasar aunque desaparezcan otros artefactos que ya estaban en el resultado, como medidas, tarea, estado o candidato, y no detecta una regresión de listado parcial.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 162,
+        "end_line": 163,
+        "side": "head"
+      },
+      "trigger": "Cambiar una copia de estructura.donde para omitir del resultado los artefactos distintos de la entrada inválida, el histórico, spec y acuerdo; mantener esos cuatro en el JSON.",
+      "evidence": "En las líneas 159–161 el test verifica el único no_valido y una ruta histórica. Las únicas comprobaciones posteriores del listado son assertIn para (spec, existe) y (acuerdo, existe), sin comparar contra el conjunto previo de artefactos ni exigir los gates tarea, medidas, estado y candidato que genera donde. Una respuesta que contenga sólo esos casos satisface las aserciones añadidas.",
+      "related_requirement": "donde y resumen se leen como JSON — Scenario: donde con una entrada inválida",
+      "status": "pendiente",
+      "verification": "Se revisaron las aserciones del test y el flujo de estructura.donde/cli.datos_donde. Mutación manual del predicado: una lista reducida que conserva sólo revisión/no_valido, histórico/historico, spec/existe y acuerdo/existe pasa las aserciones añadidas; no se editó ni ejecutó una copia mutada del producto."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null. Resultado: 40 tests, OK.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según la indicación de revisión.",
+    "La comprobación de mutación fue manual sobre las aserciones; no se alteró el checkout del candidato ni se ejecutó una copia mutada del producto."
+  ]
+}

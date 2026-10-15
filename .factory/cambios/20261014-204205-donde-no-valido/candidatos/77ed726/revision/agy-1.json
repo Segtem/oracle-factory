@@ -1,0 +1,43 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/77ed726",
+  "base": "e98e907782bb02d6b9e8a41f940b0e7bafc5c51b",
+  "head": "77ed72698d8455156f775b96ed30a429d84b6968",
+  "diff_sha256": "6ec36be6920b8758507b6d12a8c71fa57c59c334de51e9a6c78743c63d94965f",
+  "context_sha256": "e10d7fef1556d6f9363834f10d8bbcfc6b8b83924bd522694dee559ae32c2745",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "DONDE-NOVALIDO-TEST-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El escenario «donde con una entrada inválida» no comprueba que sigan listándose los demás artefactos",
+      "explanation": "La cláusula THEN del escenario «donde con una entrada inválida» exige textualmente: «THEN ese campo figura con situación no_valido, esos archivos figuran como historico, y los demás artefactos se siguen listando». Sin embargo, en tests/test_cli_json.py (líneas 162–163), tras verificar la entrada inválida y la ruta histórica añadida, el test solo comprueba assertIn(('spec', 'existe'), ...) y assertIn(('acuerdo', 'existe'), ...) bajo el comentario «# los demás se siguen listando». No se verifica la presencia de ninguno de los restantes artefactos generados por donde (como tarea con TAREA.md, medidas con los archivos .requisito, estado con factory.json, candidato con sus subcarpetas, ni las decisiones válidas de revisión). Mediante pruebas de mutación manuales se constató que una implementación mutilada que descarte 10 de los 14 artefactos ante un campo inválido pasa la prueba sin errores, dejando desprotegida la promesa de listado de los demás artefactos.",
+      "location": {
+        "file": "tests/test_cli_json.py",
+        "start_line": 162,
+        "end_line": 163,
+        "side": "head"
+      },
+      "trigger": "Modificar datos_donde o estructura.donde para que, al existir un valor no válido en el registro, se descarten los artefactos con gate tarea, medidas, estado, candidato y revisión (decisiones.json), conservando en el JSON solo spec, acuerdo, el archivo histórico y la entrada no_valido.",
+      "evidence": "En tests/test_cli_json.py:162-163 solo se evalúa assertIn para spec y acuerdo. En probar_mutaciones.py se simuló una respuesta reducida a esos 4 artefactos (de los 14 reales): el test test_cj2_donde_con_una_entrada_invalida pasa sin fallos (SOBREVIVE). En contraste, test_cj2_donde_con_un_artefacto_ausente comprueba fijos de convención y correspondencia universal existe/ausente.",
+      "related_requirement": "donde y resumen se leen como JSON — Scenario: donde con una entrada inválida",
+      "status": "pendiente",
+      "verification": "Verificado analizando las aserciones del test frente al escenario de la spec y comprobado empíricamente en probar_mutaciones.py con el fixture de test_cli_json.py: la mutación sobrevive."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite requerida en primer plano: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null (40 pruebas ejecutadas, resultado OK).",
+    "No se ejecutaron tools/verify_donde_no_valido.py, tools/verify_cli_json.py, tools/verify_donde_ausente.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/77ed726 (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "Se ejecutaron pruebas de mutación empíricas en el espacio de trabajo local del revisor (.factory/local/revisores/77ed726-agy-1/probar_mutaciones.py) para evaluar la sensibilidad de test_cj2_donde_con_una_entrada_invalida y la lógica de conteo de casos en tools/verify_*.py.",
+    "No se revisaron los 2 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory/cambios/20261014-204205-donde-no-valido/factory.json y tareas/20261014-204205-donde-no-valido/TAREA.md).",
+    "Se comprobó que el cambio en tools/verify_cli_json.py y tools/verify_donde_ausente.py ('if name in expected') permite que otros cambios sumen pruebas sin romper sus sensores, y se demostró por mutación que siguen detectando casos omitidos o duplicados de su propio contrato.",
+    "Se verificó la consistencia formal de catalogos/factory_no_valido.corrida_completa.oracle y catalogos/factory_no_valido.donde_y_resumen_se_leen_como_json.oracle con los hechos de tools/verify_donde_no_valido.py y el requisito requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json.requisito."
+  ]
+}

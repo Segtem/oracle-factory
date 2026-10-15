@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/97e0a37",
+  "base": "e98e907782bb02d6b9e8a41f940b0e7bafc5c51b",
+  "head": "97e0a3744daf6323df622571bbae653889648ff4",
+  "diff_sha256": "9bf93c52a463f611345e3b71520b8585ef75943aa63cd8584600dbe79263b9fb",
+  "context_sha256": "2e6c026eb8ba341f5af51f65646d94b04f608cefaf3e8db3c022809161ab1946",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Sin hallazgos: se verificó que el hallazgo DONDE-NOVALIDO-TEST-001 de la vuelta 1 fue subsanado en test_cj2_donde_con_una_entrada_invalida comparando los artefactos contra el listado previo (excluyendo el informe roto) más la entrada histórica agregada, impidiendo regresiones por omisión de artefactos.",
+    "Se comprobó mediante pruebas de mutación locales que las aserciones de test_cj2_donde_con_una_entrada_invalida detectan la omisión de cualquier artefacto, la desaparición de la entrada no_valido, el etiquetado incorrecto como ausente, la omisión del archivo histórico y artefactos espurios.",
+    "Se verificó que los tres casos cj2 de tests/test_cli_json.py prueban exhaustivamente los tres escenarios definidos en openspec/changes/20261014-204205-donde-no-valido/specs/cli/spec.md.",
+    "Se verificó que el cambio de conteo en tools/verify_cli_json.py y tools/verify_donde_ausente.py ('if name in expected') aísla los sensores de tests agregados por otros cambios y sigue detectando casos faltantes, duplicados o fallidos de sus propios contratos.",
+    "Se verificó la correspondencia exacta entre catalogos/factory_no_valido.*.oracle, tools/verify_donde_no_valido.py y requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json.requisito.",
+    "Se ejecutó exactamente la suite requerida en primer plano: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null (40 pruebas ejecutadas, resultado OK).",
+    "No se ejecutaron tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.",
+    "No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/97e0a37 (se mantuvo en modo de sólo lectura) ni se realizaron commits.",
+    "No se revisaron los 10 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory y tareas)."
+  ]
+}
