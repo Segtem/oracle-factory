@@ -2,7 +2,7 @@
   "id": "20261015-155346-oracle-en-carpeta",
   "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
   "capacidad": "estructura",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
   "spec_sha256": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "e182c753cdfb96c2bf89c6984a6c6e73549b9f81adb0f6326a7ee90795aab796"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261015-155346-oracle-en-carpeta/candidatos/a38d44b/evidencia/hechos.json",
+    "hechos_sha256": "04610fee24bb09d94c1bf28c083405ca09db0a793978224894a5d933e33c9522",
+    "informe": ".factory/cambios/20261015-155346-oracle-en-carpeta/oracle-veredicto.txt",
+    "informe_sha256": "165aded71ac718104cac30f818b05b010a977054143734a3b920587b15df50ad",
+    "cuando": "2026-10-15T19:21:46+00:00",
+    "contexto": {
+      "head": "a95860a63bd80558058477c137bc2d828654974a",
+      "archivos_sha256": "e182c753cdfb96c2bf89c6984a6c6e73549b9f81adb0f6326a7ee90795aab796"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -267,6 +279,17 @@
       "abiertos": 0,
       "sha256": "ac855981ca204be036de504b0de653f5d0e03406c77f663383bb6ee8924bd6dd",
       "decisiones_sha256": "82a5e77ae9a0bdbdcb400397e858052377361262b72aa7d624e5704a5a83d971"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T19:21:46+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "04610fee24bb09d94c1bf28c083405ca09db0a793978224894a5d933e33c9522"
     }
   ],
   "tipos": {
