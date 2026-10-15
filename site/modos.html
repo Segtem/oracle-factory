@@ -7,7 +7,7 @@
 <div class="guide-layout"><aside class="guide-nav" aria-label="Secciones de la página"><a href="#modos">Los tres modos</a><a href="#quien-decide">Quién decide qué</a><a href="#tipos">Funcional o no</a><a href="#estado">Leer estado</a><a href="#cambiar">Cambiar de modo</a><a href="#ejemplo">Un ejemplo real</a><a href="#limites">Límites</a></aside><div class="guide-content">
 
 <section id="modos"><p class="eyebrow">LOS TRES MODOS</p><h2>Cuánto decide una persona.</h2>
-<p><strong><code>confirmacion</code></strong> es el modo por defecto. El agente trabaja y propone; cada decisión la confirma una persona desde su terminal. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente.</p>
+<p><strong><code>confirmacion</code></strong> es el modo por defecto. El agente trabaja y propone; cada decisión la confirma una persona desde su terminal, y el cierre lo toma una persona directamente. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente.</p>
 <p><strong><code>funcional</code></strong>: la persona decide lo que el producto le promete a quien lo usa, los requisitos funcionales. El agente decide solo lo no funcional: rendimiento, mantenimiento, cómo se mide por dentro. Conviene cuando la persona quiere estar en el qué y no en cada detalle del cómo.</p>
 <p><strong><code>autonomo</code></strong>: el agente decide todo, también el cierre, y queda registrado como agente. Conviene para tareas acotadas y reversibles, o para probar el recorrido. Una persona puede intervenir igual cuando quiera.</p>
 <p>Un cambio toma el modo del proyecto (<code>modo_por_defecto</code> en <code>.factory/config.json</code>) o el que se elige al crearlo:</p>
@@ -34,12 +34,14 @@ Tipo: funcional</code></pre></div>
 <p>Si el proyecto pone <code>"tipos_obligatorios": true</code> en <code>.factory/config.json</code>, <code>oracle-factory importar</code> rechaza la spec mientras algún requisito no declare su tipo.</p></section>
 
 <section id="estado"><p class="eyebrow">LEER ESTADO</p><h2>Quién decidió, quién propuso, quién confirmó.</h2>
-<p><code>oracle-factory estado ID</code> muestra, junto a cada decisión, quién la tomó y cómo:</p>
-<div class="code-block"><pre><code>Aprobación spec: sí, Ana Pérez (persona, decidio, modo confirmacion)
-Medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza: Ana Pérez (persona, confirmo, modo confirmacion)
-Revisión registrada por: Ana Pérez (persona, confirmo, modo confirmacion; motivo: …)</code></pre></div>
-<p>Entre paréntesis van tres datos. <strong>Quién</strong>: <code>persona</code> (alguien en una terminal interactiva, con el nombre de su configuración de Git) o <code>agente</code> (el nombre que se pasó a <code>--agente</code>). <strong>Cómo</strong>: <code>decidio</code> (tomó la decisión directamente), <code>propuso</code> (un agente dejó una propuesta que todavía no cuenta) o <code>confirmo</code> (una persona confirmó, tal cual, lo que había propuesto un agente). Y <strong>en qué modo</strong> estaba el cambio, con el motivo si lo hubo.</p>
-<p><code>oracle-factory estado ID --json</code> da lo mismo para un programa: cada decisión con su actor, tipo de actor, forma, modo, fecha y motivo.</p></section>
+<p><code>oracle-factory estado ID</code> muestra, junto a cada decisión tomada, quién la tomó y cómo, y entre lo pendiente, lo que un agente propuso y todavía no cuenta (un fragmento, en el orden en que sale):</p>
+<div class="code-block"><pre><code>Pendiente: medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza propuestas por claude-code, sin confirmar por una persona
+Aprobación spec: sí, Ana Pérez (persona, decidio, modo confirmacion)
+Revisión registrada por: Ana Pérez (persona, confirmo, modo confirmacion; motivo: …)
+Medidas de cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec: Ana Pérez (persona, confirmo, modo confirmacion)</code></pre></div>
+<p>Entre paréntesis van tres datos. <strong>Quién</strong>: <code>persona</code> (alguien en una terminal interactiva, con el nombre de su configuración de Git, o su usuario del sistema si Git no tiene nombre) o <code>agente</code> (el nombre que se pasó a <code>--agente</code>). <strong>Cómo</strong>: <code>decidio</code> (tomó la decisión directamente) o <code>confirmo</code> (una persona confirmó, tal cual, lo que había propuesto un agente). Y <strong>en qué modo</strong> estaba el cambio, con el motivo si lo hubo.</p>
+<p>Una propuesta de un agente no figura como decisión: aparece en «Pendiente», con quién la propuso, y entre los eventos del registro del cambio, con forma <code>propuso</code>. Cuando una persona la confirma, pasa a ser una decisión «persona, confirmo».</p>
+<p><code>oracle-factory estado ID --json</code> da lo mismo para un programa: en <code>decisiones</code>, cada decisión tomada con su actor, tipo de actor, forma, modo, fecha y motivo; en <code>requisitos</code>, la propuesta de medidas que espera confirmación.</p></section>
 
 <section id="cambiar"><p class="eyebrow">CAMBIAR DE MODO</p><h2>Subir es fácil; bajar lo decide una persona.</h2>
 <div class="code-block"><pre><code>oracle-factory modo ID funcional</code></pre></div>
@@ -50,7 +52,7 @@ Revisión registrada por: Ana Pérez (persona, confirmo, modo confirmacion; moti
 <p>El piloto con agentes que cuenta la página <a href="./colaboracion.html">En equipo</a> es anterior a los modos: ahí un agente coordinador hizo de personas, así que no muestra esto.</p></section>
 
 <section id="limites"><p class="eyebrow">LÍMITES</p><h2>Un protocolo, no un control de acceso.</h2>
-<p>Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin <code>--agente</code>, y el nombre es el de la configuración de Git de esa terminal. Un agente con una terminal interactiva que omitiera <code>--agente</code> quedaría registrado como persona: los modos son un acuerdo entre quienes trabajan juntos.</p>
+<p>Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin <code>--agente</code>, y el nombre es el de la configuración de Git de esa terminal, o el usuario del sistema si Git no tiene nombre. Un agente con una terminal interactiva que omitiera <code>--agente</code> quedaría registrado como persona: los modos son un acuerdo entre quienes trabajan juntos.</p>
 <p>Una entrada por tubería, sin terminal, no cuenta como persona: queda «sin identificar» y no puede decidir. Y el modo dice quién decide, no si la decisión es buena: eso sigue siendo de la revisión y de las medidas.</p>
 <p>La referencia completa está en <a href="https://github.com/Segtem/oracle-factory/blob/main/docs/modos.md">docs/modos.md</a>.</p>
 <p><a class="primary" href="./index.html">Volver a la portada <span aria-hidden="true">↗</span></a></p></section>

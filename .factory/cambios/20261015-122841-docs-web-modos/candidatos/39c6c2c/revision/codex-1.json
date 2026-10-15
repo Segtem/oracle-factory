@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/39c6c2c",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "39c6c2cb5cc1ab541673dcd8b818a5280ead221f",
+  "diff_sha256": "e0e48c720a7ea8aad16315dea8c05a1cb64b34eb6e04c6d236cc8b29d4727fb2",
+  "context_sha256": "8848c055eaea869f1963c1621f6b3083ccde61dfa7d1ed7d06be402eb10423c9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El nombre de persona no siempre proviene de Git",
+      "explanation": "La guía dice que el nombre de quien opera como persona es el de la configuración de Git. En oracle_factory.cli.actor, si git config user.name está vacío, el código registra getpass.getuser() en su lugar. La misma afirmación aparece también en el límite de docs/modos.md y en site/modos.html. La distinción importa para interpretar quién figura en estado.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 60,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Ejecutar un comando como persona desde una terminal interactiva en un checkout donde git config user.name no está configurado.",
+      "evidence": "oracle_factory/cli.py:actor obtiene user.name y usa nombre or getpass.getuser(); por eso, sin user.name, estado muestra el usuario del sistema. docs/modos.md:82 repite que el nombre es el de Git.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Repetir una decisión de persona con user.name ausente y comprobar que el actor guardado coincide con getpass.getuser(); corregir la explicación para describir el respaldo."
+    },
+    {
+      "id": "F2",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "El resumen del modo confirmacion incluye el cierre como si se confirmara",
+      "explanation": "La frase «cada decisión la confirma una persona» sugiere que el agente puede proponer cada decisión y la persona confirmarla. Para cierre, el código rechaza la vía de agente en confirmacion: no hay propuesta de cierre que confirmar; una persona decide directamente. La tabla de la misma guía sí muestra «sólo una persona», así que el resumen introductorio contradice la excepción que la tabla explica correctamente.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Leer la descripción introductoria de confirmacion antes de consultar la fila de cierre de la tabla, o intentar cerrar con --agente en ese modo.",
+      "evidence": "oracle_factory/modos.py:via_agente devuelve rechaza para cierre en confirmacion; oracle_factory/cli.py:decidir falla en esa vía. docs/modos.md:29 aclara que el cierre es sólo de una persona, lo que hace visible la contradicción interna.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Aclarar en la descripción del modo que las decisiones delegables se confirman y que el cierre sigue siendo una decisión directa de la persona; comprobar que el texto de site/modos.html también quede consistente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, la propuesta, el diff del paquete y el checkout candidato en modo lectura. No inspeccioné los dos archivos excluidos de registros/evidencia Factory.",
+    "Corrí exactamente: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null; resultado: 13 pruebas, OK. El HEAD de esa ruta es b3e23e67f950e4e61bb69956aa15903842ce25fa, distinto del candidato 39c6c2cb5cc1ab541673dcd8b818a5280ead221f, así que esa corrida no es evidencia de ejecución sobre el checkout candidato.",
+    "No corrí tools/verify_docs_web_modos.py, la suite completa, ni pruebas de navegador o dispositivo móvil. Revisé estáticamente las reglas responsive y la estructura HTML de encabezados de tabla.",
+    "No hice mutaciones: el comando prescrito ejecuta contra la ruta de trabajo compartida y no preparé una copia aislada para esa ejecución.",
+    "El binario oracle-clue no está en PATH. Validé el informe con el entry point oracle_clue.cli:main de la distribución instalada en el .venv, pasando los mismos argumentos del comando solicitado; Oracle Clue informó «Formato y vigencia verificados»."
+  ]
+}

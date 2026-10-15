@@ -4,7 +4,7 @@ Un cambio de Factory pasa por cuatro decisiones: aceptar la propuesta y la spec,
 
 ## Los tres modos
 
-- **`confirmacion`** (el modo por defecto): el agente trabaja y propone; cada decisión la confirma una persona. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente. Es el modo en que Factory se construye a sí misma.
+- **`confirmacion`** (el modo por defecto): el agente trabaja y propone; cada decisión la confirma una persona, y el cierre lo toma una persona directamente. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente. Es el modo en que Factory se construye a sí misma.
 - **`funcional`**: la persona decide lo que el producto promete a quien lo usa (los requisitos funcionales); el agente decide solo lo no funcional (rendimiento, mantenimiento, cómo se mide por dentro). Conviene cuando la persona quiere estar en el qué, no en cada detalle del cómo.
 - **`autonomo`**: el agente decide todo, cierre incluido, y queda registrado como agente. Conviene para tareas acotadas y reversibles, o para probar el flujo. Una persona puede intervenir igual en cualquier momento.
 
@@ -47,21 +47,24 @@ Los tipos son `funcional` y `no funcional`. Un requisito sin línea `Tipo:` cuen
 
 ## Cómo leer estado
 
-`oracle-factory estado ID` muestra, junto a cada decisión, quién la tomó y cómo:
+`oracle-factory estado ID` muestra, junto a cada decisión tomada, quién la tomó y cómo, y entre lo pendiente, lo que un agente propuso y todavía no cuenta (un fragmento, en el orden en que sale):
 
 ```text
+Pendiente: medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza propuestas por claude-code, sin confirmar por una persona
 Aprobación spec: sí, Ana Pérez (persona, decidio, modo confirmacion)
-Medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza: Ana Pérez (persona, confirmo, modo confirmacion)
 Revisión registrada por: Ana Pérez (persona, confirmo, modo confirmacion; motivo: …)
+Medidas de cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec: Ana Pérez (persona, confirmo, modo confirmacion)
 ```
 
 Entre paréntesis van tres datos:
 
-- **Quién**: `persona` (alguien en una terminal interactiva, con el nombre de su configuración de Git) o `agente` (el nombre que se pasó a `--agente`).
-- **Cómo**: `decidio` (tomó la decisión directamente), `propuso` (un agente dejó una propuesta que todavía no cuenta) o `confirmo` (una persona confirmó, tal cual, lo que había propuesto un agente).
+- **Quién**: `persona` (alguien en una terminal interactiva, con el nombre de su configuración de Git, o su usuario del sistema si Git no tiene nombre) o `agente` (el nombre que se pasó a `--agente`).
+- **Cómo**: `decidio` (tomó la decisión directamente) o `confirmo` (una persona confirmó, tal cual, lo que había propuesto un agente).
 - **En qué modo** estaba el cambio cuando se decidió, y el motivo si lo hubo.
 
-`estado ID --json` da lo mismo para un programa: cada decisión con su actor, tipo de actor, forma, modo, fecha y motivo.
+Una propuesta de un agente no figura como decisión: aparece en «Pendiente», con quién la propuso, y entre los eventos del registro del cambio, con forma `propuso`. Cuando una persona la confirma, pasa a ser una decisión «persona, confirmo».
+
+`estado ID --json` da lo mismo para un programa: en `decisiones`, cada decisión tomada con su actor, tipo de actor, forma, modo, fecha y motivo; en `requisitos`, la `propuesta` de medidas que espera confirmación.
 
 ## Cambiar de modo
 
@@ -73,12 +76,12 @@ Subir la intervención humana (por ejemplo, de `autonomo` a `confirmacion`) lo p
 
 ## Un ejemplo real
 
-Factory se construye con Factory, en modo `confirmacion`. En cada cambio, el agente de código escribe la propuesta, implementa, propone las medidas con `--agente claude-code medir …`, pide las revisiones a otros modelos y propone aprobar la revisión con un motivo. Una persona hace lo que la tabla le reserva: aprueba la spec, confirma las medidas (`medir ID --confirmar`), registra la revisión eligiendo el motivo y cierra. En `estado` queda, para cada gate, «persona, confirmo» o «persona, decidio», y en los eventos del cambio, cada propuesta del agente.
+Factory se construye con Factory, en modo `confirmacion`. En cada cambio, el agente de código escribe la propuesta, implementa, propone las medidas con `--agente claude-code medir …`, pide las revisiones a otros modelos y propone aprobar la revisión con un motivo. Una persona hace lo que la tabla le reserva: aprueba la spec, confirma las medidas (`medir ID --confirmar`), registra la revisión eligiendo el motivo y cierra. En `estado` queda, para cada gate, «persona, confirmo» o «persona, decidio», y en los eventos del cambio, cada propuesta del agente con forma `propuso`.
 
 El piloto con agentes de `tareas/20261004-121432-coordinar-dos/` es anterior a los modos (Factory 0.1.0a3): ahí un agente coordinador representó a las personas, y por eso no sirve como ejemplo de esto.
 
 ## Límites
 
-- Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin `--agente`; el nombre es el de la configuración de Git de esa terminal. Un agente que tiene una terminal interactiva y omite `--agente` quedaría registrado como persona: los modos son un protocolo entre quienes trabajan juntos, no un control de acceso.
+- Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin `--agente`; el nombre es el de la configuración de Git de esa terminal, o el usuario del sistema si Git no tiene nombre. Un agente que tiene una terminal interactiva y omite `--agente` quedaría registrado como persona: los modos son un protocolo entre quienes trabajan juntos, no un control de acceso.
 - Una entrada por tubería (sin terminal) no cuenta como persona: queda «sin identificar» y no puede decidir.
 - El modo dice quién decide, no si la decisión es buena: eso sigue siendo de la revisión y de las medidas.

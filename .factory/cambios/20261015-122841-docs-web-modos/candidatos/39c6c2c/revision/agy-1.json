@@ -1,0 +1,175 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/39c6c2c",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "39c6c2cb5cc1ab541673dcd8b818a5280ead221f",
+  "diff_sha256": "e0e48c720a7ea8aad16315dea8c05a1cb64b34eb6e04c6d236cc8b29d4727fb2",
+  "context_sha256": "8848c055eaea869f1963c1621f6b3083ccde61dfa7d1ed7d06be402eb10423c9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La salida de estado nunca muestra propuso junto a una decisión",
+      "explanation": "En docs/modos.md:61 y site/modos.html:41 se afirma que entre paréntesis junto a cada decisión figura Cómo: decidio, propuso o confirmo. Sin embargo, en oracle_factory/cli.py (mostrar, líneas 2016-2030), quien() solo se invoca sobre decisiones consumadas (spec_aprobada, revision, medidas, cierre). Cuando un agente propone (via == 'propone'), decidir devuelve None, no se crea el registro de decisión y el gate permanece en 'pendiente' o se omite en el listado de medidas; la propuesta se lista únicamente como texto descriptivo bajo 'Pendiente:'. Tampoco en estado ID --json (datos_estado, líneas 1823-1835) figura propuso en decisiones (quedan null), y en requisitos[].propuesta el campo forma es null.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 58,
+        "end_line": 62,
+        "side": "head"
+      },
+      "trigger": "Consultar oracle-factory estado ID o su salida JSON (estado ID --json) tras una propuesta registrada por un agente con --agente.",
+      "evidence": "oracle_factory/cli.py:mostrar solo llama a quien() para decisiones existentes (spec_aprobada, revision, medidas, cierre). Las propuestas de agentes no crean registro de decisión y solo se reportan como texto en pendientes_actuales. En datos_estado, decisiones[gate] es null si no está cerrada, y requisitos[].propuesta tiene forma null.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Revisar oracle_factory/cli.py:mostrar y datos_estado; comprobar que quien() nunca formatea un registro con propuso en la salida de estado, y corregir la documentación para reflejar que las propuestas se informan bajo Pendiente y no como estado consumado de una decisión."
+    },
+    {
+      "id": "F2",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "El ejemplo de estado invierte el orden de emisión de Revisión y Medidas",
+      "explanation": "En oracle_factory/cli.py:mostrar (líneas 2025-2028), el bloque de revisión se imprime antes que el bucle de medidas. En docs/modos.md:53-55 y site/modos.html:38-40 el ejemplo muestra primero 'Medidas de ...' y luego 'Revisión registrada por:', invirtiendo el orden real del comando.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 53,
+        "end_line": 55,
+        "side": "head"
+      },
+      "trigger": "Comparar la salida literal de oracle-factory estado ID contra el bloque de ejemplo de docs/modos.md (líneas 53-55) y site/modos.html (líneas 38-40).",
+      "evidence": "oracle_factory/cli.py líneas 2025-2028: print('Revisión registrada por: ' + quien(rev)) se ejecuta antes del bucle for rid, medida in (estado.get('medidas') or {}).items(): print(f'Medidas de {rid}: {quien(medida)}').",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Correr ./.venv/bin/python -m oracle_factory.cli estado en un cambio con revisión y medidas registradas (ej. 20261015-105600-cli-piloto); verificar que Revisión registrada por: antecede a Medidas de."
+    },
+    {
+      "id": "F3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "TablaHtml en test_modos_web no comprueba el texto visible de las decisiones ni las columnas en HTML",
+      "explanation": "TablaHtml (tests/test_modos_web.py:29-54) indexa las celdas leyendo exclusivamente los atributos data-decision, data-tipo y data-modo del HTML. No lee ni valida el contenido de <th scope='row'> (el texto que lee una persona en el navegador) ni los encabezados de columna en <thead>. Se comprobó que mutar el texto visible de una fila a un valor absurdo o intercambiar los encabezados de columnas en site/modos.html sobrevive sin ser detectado por test_mw2_las_tablas_dicen_lo_que_hace_el_codigo (diferencias devuelve lista vacía).",
+      "location": {
+        "file": "tests/test_modos_web.py",
+        "start_line": 29,
+        "end_line": 54,
+        "side": "head"
+      },
+      "trigger": "Mutar el texto visible de las decisiones en <th scope='row'> o permutar las columnas visibles en <thead> de site/modos.html manteniendo los atributos data-decision y data-modo.",
+      "evidence": "En tests/test_modos_web.py líneas 37-44, handle_starttag solo captura self._fila a partir de a['data-decision'] y self._modo a partir de a['data-modo']. Una prueba con texto visible adulterado en una copia en memoria devuelve diferencias == [].",
+      "related_requirement": "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "status": "pendiente",
+      "verification": "Ejecutar una mutación sobre una copia de site/modos.html alterando el texto dentro de <th scope='row'> y verificar que TablaHtml(html_mutada).celdas arroja idéntico resultado que la original."
+    },
+    {
+      "id": "F4",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_mw2_una_celda_equivocada_se_detecta no prueba celda contradictoria en el documento ni parseo de HTML mutado",
+      "explanation": "El escenario exige que ante 'una tabla con una celda que contradice al código', la comparación nombre la decisión, el modo y lo que dice el código. En tests/test_modos_web.py:121-124, para HTML se altera manualmente el diccionario celdas en memoria en lugar de alimentar un HTML con una celda errónea a través del parser. Y en líneas 125-126, para el documento Markdown, reemplaza el título de la fila por '| Otra cosa |', lo que prueba la detección de una fila faltante ('falta medidas/no funcional...') y no una celda con contenido contradictorio.",
+      "location": {
+        "file": "tests/test_modos_web.py",
+        "start_line": 119,
+        "end_line": 127,
+        "side": "head"
+      },
+      "trigger": "Contrastar la implementación de test_mw2_una_celda_equivocada_se_detecta contra el escenario de la spec 'una celda equivocada se detecta'.",
+      "evidence": "En tests/test_modos_web.py:121-127: celdas = TablaHtml(html).celdas; celdas[...] = 'decide el agente' no pasa por TablaHtml.feed(). En línea 125, documento.replace('| Elegir las medidas de un requisito no funcional |', '| Otra cosa |') elimina la clave del diccionario provocando 'falta...', no una contradicción de celda.",
+      "related_requirement": "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "status": "pendiente",
+      "verification": "Revisar tests/test_modos_web.py:119-127; reemplazar una celda de valor en el texto de docs/modos.md (ej. cambiar sólo una persona por decide el agente en cierre) y verificar que diferencias(tabla_del_documento(...)) produce el mensaje esperado, demostrando que el test actual estaba evaluando falta de fila en vez de contradicción de celda."
+    },
+    {
+      "id": "F5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_mw1 no verifica que el enlace a modos.html provenga de la tarjeta de los modos",
+      "explanation": "El requisito especifica: 'La portada SHALL enlazar la página desde su tarjeta de los modos'. En tests/test_modos_web.py:96, la comprobación se limita a assertIn('modos.html', [e.removeprefix('./').split('#')[0] for e in _web.paginas()['index.html'].enlaces]), buscando el enlace en toda la página de forma plana. Si se remueve de la tarjeta (<article class='kit-item'>) y se coloca en cualquier otra parte, la prueba sigue pasando sin detectar el incumplimiento.",
+      "location": {
+        "file": "tests/test_modos_web.py",
+        "start_line": 96,
+        "end_line": 96,
+        "side": "head"
+      },
+      "trigger": "Mover el enlace a modos.html a otra sección de site/index.html (ej. topbar nav o footer) y eliminarlo de la tarjeta de los modos.",
+      "evidence": "tests/test_modos_web.py línea 96 comprueba _web.paginas()['index.html'].enlaces sin filtrar por el contenedor .kit-item correspondiente a Modos de trabajo.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Revisar la aserción en tests/test_modos_web.py:96 y verificar que no inspecciona el elemento contenedor del enlace."
+    },
+    {
+      "id": "F6",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Los catálogos Oracle declaran alcance para escenarios que no corresponden a su requisito",
+      "explanation": "Tanto en catalogos/factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo.oracle:8 como en catalogos/factory_modos_web.los_modos_de_trabajo_estan_explicados.oracle:8, la cláusula alcance declara 'escenarios mw1-mw2 sobre docs/modos.md, README.md y site/'. Sin embargo, cada regla mide únicamente los 2 casos de su propio requisito (mw2 para la tabla, mw1 para los modos explicados). Repetir la descripción global de verify_docs_web_modos.py como alcance individual declara cobertura sobre escenarios no medidos por esa regla.",
+      "location": {
+        "file": "catalogos/factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo.oracle",
+        "start_line": 8,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "Inspección de las cláusulas alcance de los catálogos en catalogos/factory_modos_web.*.oracle.",
+      "evidence": "Línea 8 de ambos archivos .oracle contiene textualmente alcance 'escenarios mw1-mw2 sobre docs/modos.md, README.md y site/', a pesar de que el requisito evalúa solo un subconjunto disjunto de casos (umbral == 2 sobre 4 totales).",
+      "related_requirement": "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "status": "pendiente",
+      "verification": "Comparar la cláusula donde (c.requisito == ...) con la cláusula alcance de ambos catálogos."
+    },
+    {
+      "id": "F7",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La documentación afirma que el nombre de persona proviene de Git omitiendo el respaldo de usuario de sistema",
+      "explanation": "En docs/modos.md:60 (y reiterado en línea 82 y en site/modos.html:41, 53), se describe: 'persona (alguien en una terminal interactiva, con el nombre de su configuración de Git)'. En oracle_factory/cli.py (actor, línea 106), el código implementa: nombre = subprocess.run(['git', 'config', 'user.name'], ...).stdout.strip(); return {'actor': nombre or getpass.getuser(), 'tipo_actor': 'persona'}. Cuando user.name no está configurado, Factory registra el usuario del sistema operativo vía getpass.getuser(), respaldo que la documentación no menciona.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 60,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Ejecutar un comando como persona en un entorno interactivo donde git config user.name no esté establecido.",
+      "evidence": "oracle_factory/cli.py:105-106: nombre = subprocess.run(['git', 'config', 'user.name'], cwd=ROOT, capture_output=True, text=True).stdout.strip(); return {'actor': nombre or getpass.getuser(), 'tipo_actor': 'persona'}.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Comprobar en oracle_factory/cli.py:106 la presencia de getpass.getuser() como fallback cuando git config user.name retorna vacío."
+    },
+    {
+      "id": "F8",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "La descripción introductoria de confirmacion generaliza la confirmación a todas las decisiones omitiendo que cierre es directo",
+      "explanation": "En docs/modos.md:7 (y site/modos.html:10) se indica: 'confirmacion (el modo por defecto): el agente trabaja y propone; cada decisión la confirma una persona'. Sin embargo, para la decisión cierre en modo confirmacion, el agente no puede proponer: via_agente devuelve rechaza (modos.py:33) y decidir falla con error si se ejecuta con --agente. El cierre lo toma directamente una persona en su terminal; no existe propuesta ni confirmación de cierre.",
+      "location": {
+        "file": "docs/modos.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Leer la descripción introductoria del modo confirmacion e intentar que un agente proponga el cierre para confirmarlo.",
+      "evidence": "oracle_factory/modos.py:33: if decision == 'cierre': return 'rechaza'. La tabla en docs/modos.md:29 indica correctamente 'sólo una persona', contradiciendo la afirmación de la línea 7 de que 'cada decisión la confirma una persona'.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Verificar en oracle_factory/modos.py:33 y cli.py:1613 que cierre en modo confirmacion rechaza la vía de agente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec (openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md), la propuesta (proposal.md), el diff del paquete y el checkout candidato 39c6c2c en modo solo lectura. No inspeccioné los dos archivos excluidos (.factory/cambios/20261015-122841-docs-web-modos/factory.json y tareas/20261015-122841-docs-web-modos/TAREA.md).",
+    "Corrí en primer plano exactamente el comando solicitado: cd /home/workstation/Dev/factory-docs-web-modos && /home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web </dev/null (13 pruebas ejecutadas en 0.289s, resultado OK).",
+    "No corrí tools/verify_docs_web_modos.py ni herramientas verify_*.py ni la suite completa discover, respetando la indicación explícita del pedido de revisión.",
+    "No se ejecutaron navegadores Chromium mediante tests/test_site.cjs ni pruebas dinámicas en dispositivos móviles reales; la verificación responsive y de accesibilidad de site/modos.html y site/style.css se realizó mediante análisis estático de reglas CSS (@media queries, overflow, layouts flex/grid), parseo de encabezados (un único h1, 7 h2 sin omisiones de nivel) y marcado de tablas (th con scope col/row).",
+    "Se realizaron mutaciones sobre copias en memoria en el entorno del revisor para comprobar qué mutaciones sobrevivían a las aserciones de tests/test_modos_web.py sin modificar los repositorios ni checkouts bajo revisión.",
+    "Validé el informe resultante con ./.venv/bin/oracle-clue validar informe.json --paquete paquete-agy-1.json --repo /home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/39c6c2c."
+  ]
+}

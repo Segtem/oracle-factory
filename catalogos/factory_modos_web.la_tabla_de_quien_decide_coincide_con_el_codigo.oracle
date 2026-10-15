@@ -5,4 +5,4 @@ medida factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo:
     umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_docs_web_modos.py; asociar junto a corrida_completa"
     requiere modos_web_caso
     ambito universal
-    alcance "escenarios mw1-mw2 sobre docs/modos.md, README.md y site/"
+    alcance "escenarios mw2: la tabla de quién decide de site/modos.html y docs/modos.md contra modos.via_agente"

@@ -27,30 +27,49 @@ FILAS_DOC = {  # la primera columna de la tabla del documento → (decisión, ti
 
 
 class TablaHtml(HTMLParser):
-    """{(decisión, tipo, modo): texto} de las filas con data-decision y celdas con data-modo."""
+    """La tabla de quién decide como la ve una persona: encabezados de columna, el título visible de cada fila y sus celdas.
+
+    celdas: {(decisión, tipo, modo): texto}, con la decisión y el tipo tomados del título visible de la fila (FILAS_DOC) y el
+    modo del encabezado de su columna. Si los atributos data-* dicen otra cosa, se anota en errores."""
 
     def __init__(self, texto):
         super().__init__()
-        self.celdas, self._fila, self._modo = {}, None, None
+        self.encabezados, self.celdas, self.errores = [], {}, []
+        self._en_thead, self._celda, self._texto = False, None, ''
+        self._atributos, self._visible, self._columna = None, None, 0
         self.feed(texto)
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == 'tr' and 'data-decision' in a:
-            self._fila = (a['data-decision'], a.get('data-tipo'))
-        elif tag == 'td' and self._fila and 'data-modo' in a:
-            self._modo = a['data-modo']
-            self.celdas[(*self._fila, self._modo)] = ''
+        if tag == 'thead':
+            self._en_thead = True
+        elif tag == 'tr':
+            self._atributos, self._visible, self._columna = (a.get('data-decision'), a.get('data-tipo')), None, 0
+        elif tag in ('th', 'td'):
+            self._celda, self._texto = (tag, a.get('data-modo')), ''
 
     def handle_endtag(self, tag):
-        if tag == 'td':
-            self._modo = None
-        elif tag == 'tr':
-            self._fila = None
+        if tag == 'thead':
+            self._en_thead = False
+        if tag not in ('th', 'td') or not self._celda:
+            return
+        texto, (_, modo_atributo) = ' '.join(self._texto.split()), self._celda
+        self._celda = None
+        if self._en_thead:
+            self.encabezados.append(texto)
+        elif tag == 'th':
+            self._visible = FILAS_DOC.get(texto, (texto, None))
+        elif self._visible:
+            self._columna += 1
+            modo = self.encabezados[self._columna] if self._columna < len(self.encabezados) else None
+            if (*self._visible, modo) != (*self._atributos, modo_atributo):
+                self.errores.append(f'«{texto}»: la página muestra {self._visible[0]}/{self._visible[1]} en modo {modo}; '
+                                    f'los atributos dicen {self._atributos[0]}/{self._atributos[1]} en modo {modo_atributo}')
+            self.celdas[(*self._visible, modo)] = texto
 
     def handle_data(self, data):
-        if self._fila and self._modo:
-            self.celdas[(*self._fila, self._modo)] += data
+        if self._celda:
+            self._texto += data
 
 
 def tabla_del_documento(texto):
@@ -93,7 +112,9 @@ class ModosWeb(unittest.TestCase):
         self.assertEqual(sorted(set(SECCIONES) - pagina.ids), [])
         documento = self.textos()[1]
         self.assertEqual(re.findall(r'(?m)^## (.+)$', documento), list(TITULOS_DOC))
-        self.assertIn('modos.html', [e.removeprefix('./').split('#')[0] for e in _web.paginas()['index.html'].enlaces])
+        portada = (ROOT / 'site/index.html').read_text(encoding='utf-8')
+        tarjeta = next(t for t in re.findall(r'<article class="kit-item">.*?</article>', portada, re.S) if 'Modos de trabajo' in t)
+        self.assertIn('href="./modos.html"', tarjeta)  # el enlace está en la tarjeta de los modos
         self.assertIn('](docs/modos.md)', (ROOT / 'README.md').read_text(encoding='utf-8'))
         texto = ' '.join(pagina.texto)
         for tema in ('confirmacion', 'funcional', 'autonomo', 'tipos_obligatorios', 'decidio', 'propuso', 'confirmo',
@@ -111,19 +132,36 @@ class ModosWeb(unittest.TestCase):
     # --- mw2: la tabla de quién decide coincide con el código ---------------------------------------------------------------
     def test_mw2_las_tablas_dicen_lo_que_hace_el_codigo(self):
         html, documento = self.textos()
-        for celdas in (TablaHtml(html).celdas, tabla_del_documento(documento)):
+        tabla = TablaHtml(html)
+        self.assertEqual(tabla.encabezados, ['Decisión', 'confirmacion', 'funcional', 'autonomo'])
+        self.assertEqual(tabla.errores, [])
+        for celdas in (tabla.celdas, tabla_del_documento(documento)):
             self.assertEqual(len(celdas), len(FILAS_DOC) * len(modos.MODOS))
             self.assertEqual(diferencias(celdas), [])
         self.assertEqual({d for d, _ in FILAS_DOC.values()}, set(modos.DECISIONES))
 
     def test_mw2_una_celda_equivocada_se_detecta(self):
         html, documento = self.textos()
-        celdas = TablaHtml(html).celdas
-        celdas[('cierre', 'cualquiera', 'confirmacion')] = 'decide el agente'
-        self.assertEqual(diferencias(celdas), ['cierre/cualquiera en modo confirmacion: la tabla dice «decide el agente», '
-                                               'el código rechaza'])
+        esperado = ['cierre/cualquiera en modo confirmacion: la tabla dice «decide el agente», el código rechaza']
+        # En la página: la celda del cierre en confirmacion, cambiada en el HTML y leída por el parser.
+        celda = '<td data-modo="confirmacion">sólo una persona</td><td data-modo="funcional">sólo una persona</td>'
+        self.assertEqual(html.count(celda), 1)
+        mal = html.replace(celda, celda.replace('sólo una persona', 'decide el agente', 1))
+        self.assertEqual(diferencias(TablaHtml(mal).celdas), esperado)
+        # En el documento: la misma celda, cambiada en la tabla Markdown.
+        fila = '| Cerrar el cambio | sólo una persona | sólo una persona | decide el agente |'
+        self.assertEqual(diferencias(tabla_del_documento(documento.replace(fila, fila.replace('sólo una persona', 'decide el agente', 1)))),
+                         esperado)
+        # Una fila que falta, y en la página, columnas cambiadas de lugar o un título de fila que no corresponde.
         sin_fila = documento.replace('| Elegir las medidas de un requisito no funcional |', '| Otra cosa |')
         self.assertIn('falta medidas/no funcional en modo funcional', diferencias(tabla_del_documento(sin_fila)))
+        cruzadas = html.replace('<th scope="col"><code>confirmacion</code></th><th scope="col"><code>funcional</code></th>',
+                                '<th scope="col"><code>funcional</code></th><th scope="col"><code>confirmacion</code></th>')
+        self.assertNotEqual(cruzadas, html)
+        self.assertTrue(TablaHtml(cruzadas).errores)
+        otro_titulo = html.replace('<th scope="row">Cerrar el cambio</th>', '<th scope="row">Abrir el cambio</th>')
+        self.assertNotEqual(otro_titulo, html)
+        self.assertTrue(TablaHtml(otro_titulo).errores)
 
 
 if __name__ == '__main__':
