@@ -144,6 +144,10 @@ class OracleEnCarpeta(Proyecto):
             self.assertEqual(codigo, 1, carpeta)
             self.assertIn(causa, errores.getvalue(), carpeta)
             self.assertEqual(self.arbol(), antes, carpeta)  # no escribió nada
+            errores = io.StringIO()
+            with contextlib.redirect_stderr(errores):
+                self.assertEqual(f.main(['--proyecto', str(self.root), 'buscar', 'algo']), 1, carpeta)  # buscar también
+            self.assertIn(causa, errores.getvalue(), carpeta)
         self.config(oracle=3)
         with self.assertRaisesRegex(f.FactoryError, 'oracle \\(la carpeta del proyecto Oracle\\)'):
             f.proyecto_oracle()
@@ -162,6 +166,11 @@ class OracleEnCarpeta(Proyecto):
         despues = self.arbol()
         self.assertEqual({p: v for p, v in despues.items() if p in antes}, antes)  # las tareas y medidas/ siguen iguales
         self.assertTrue((self.root / 'openspec/changes').is_dir())
+        # Un init posterior, sin --oracle, respeta la carpeta configurada y tampoco crea Oracle en la raíz.
+        f.inicializar()
+        self.assertEqual(json.loads((self.root / '.factory/config.json').read_text())['oracle'], 'medidas')
+        self.assertFalse((self.root / 'oracle.json').exists())
+        self.assertFalse((self.root / 'catalogos').exists())
         # Una carpeta sin proyecto Oracle no se adopta, y no se crea nada.
         otra = Path(self.tmp.name) / 'otro'
         otra.mkdir()
@@ -201,14 +210,25 @@ class OracleEnCarpeta(Proyecto):
 
     def test_oc3_sin_declararlo(self):
         self.preparar_escalares()
+        # Medido y juzgado con la clave; después el proyecto la saca y se vuelve a juzgar.
+        self.config(confiar_escalares=True)
+        ident, rid = self.cambio_juzgado(medidas=('notas.casos_conocidos', 'notas.resultados'))
+        self.config(confiar_escalares=False)
+        hechos = self.root / f.leer(ident)[1]['oracle']['hechos']
         llamadas, mirar = self.llamadas_a_oracle()
-        with mirar, contextlib.redirect_stderr(io.StringIO()):
-            with self.assertRaises(f.FactoryError) as error:
-                self.cambio_juzgado(medidas=('notas.casos_conocidos', 'notas.resultados'))
-        # El error de Oracle llega a la persona, con la clave que lo resuelve.
+        with mirar, contextlib.redirect_stderr(io.StringIO()), self.assertRaises(f.FactoryError) as error:
+            f.juzgar(ident, hechos)
+        self.assertTrue(all('--confiar-escalares' not in a for a in llamadas))  # Factory no lo pasa
+        self.assertIn('no se pudo comparar', str(error.exception))  # y la decisión no se usa sin poder cargar el catálogo
+        # medir, que carga el catálogo, dice la causa y la clave que lo resuelve; estado no se cae.
+        with self.assertRaises(f.FactoryError) as error:
+            f.medir(ident, listar_opciones=True)
         self.assertIn('--confiar-escalares', str(error.exception))
         self.assertIn('"confiar_escalares": true', str(error.exception))
-        self.assertTrue(all('--confiar-escalares' not in a for a in llamadas))
+        texto = io.StringIO()
+        with contextlib.redirect_stdout(texto), contextlib.redirect_stderr(io.StringIO()):
+            f.mostrar(ident)
+        self.assertIn(f'medidas de {rid}: el catálogo de notas.casos_conocidos', texto.getvalue())
         self.config(confiar_escalares='sí')
         with self.assertRaisesRegex(f.FactoryError, 'confiar_escalares \\(true/false\\)'):
             f.config_proyecto()

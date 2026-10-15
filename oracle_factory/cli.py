@@ -1408,7 +1408,7 @@ def catalogos_cambiados(registro: dict, contenido: bytes, catalogo=None) -> list
     try:
         archivos = archivos_de_medidas(contenido, catalogo)
         actuales = {m: sha256(r.read_bytes()) if r else None for m, r in archivos.items()}
-    except (OSError, ValueError):  # sin leer el catálogo no se puede dar por igual
+    except (OSError, ValueError, FactoryError):  # sin leer el catálogo (o sin poder cargar sus escalares) no se da por igual
         return sorted((m, archivos_viejos.get(m) or "sin archivo", "ilegible") for m in viejas)
     def que_paso(m):
         if actuales.get(m):
@@ -1455,7 +1455,7 @@ def medidas_sin_decision(estado: dict) -> list[tuple[str, str]]:
             faltan.append((rid, "cambió después de la decisión registrada; volvé a decidirla con medir"))
         elif medidas[rid].get("catalogos") is not None:
             if catalogo is None:  # uno solo para todos los requisitos; si no se lee, catalogos_cambiados lo dice
-                with contextlib.suppress(OSError, ValueError):
+                with contextlib.suppress(OSError, ValueError, FactoryError):
                     catalogo = catalogo_del_proyecto()
             if cambiadas := catalogos_cambiados(medidas[rid], contenido, catalogo):
                 faltan.append((rid, describir_cambios(cambiadas)))
@@ -2103,10 +2103,9 @@ def comando_ruta(identificador: str, tipo: str) -> None:
 def comando_buscar(texto: str, maximo: int) -> None:
     if not texto.strip():
         raise FactoryError("indicá el texto a buscar")
-    try:
-        oracle = oracle_rel()
-    except FactoryError:  # buscar sólo lee: sin una configuración legible (un .factory enlazado) busca en la raíz
-        oracle = ""
+    # Un .factory enlazado no es nuestra carpeta y no se lee a través de él: entonces se busca en la raíz. Una carpeta de
+    # Oracle mal configurada, en cambio, falla y dice la causa.
+    oracle = "" if (ROOT / estructura.DIR).is_symlink() else oracle_rel()
     lineas, total, omitidos = estructura.buscar(ROOT, texto, maximo, oracle)
     for linea in lineas:
         print(linea)
@@ -2174,6 +2173,9 @@ def inicializar(oracle: str | None = None) -> None:
     marca = ROOT / estructura.DIR
     if marca.is_symlink() or (marca.exists() and not marca.is_dir()):
         raise FactoryError(f"{marca} existe y no es una carpeta de Factory: renombrala o quitala antes de ejecutar init; no creé nada")
+    if oracle is None and (marca / "config.json").is_file():  # ya inicializado: se respeta la carpeta de Oracle configurada
+        configurada = config_proyecto()["oracle"]
+        oracle = None if configurada in (".", "") else configurada
     afuera = estructura.raiz_del_proyecto(ROOT.parent) if ROOT.parent != ROOT else None
     if afuera is not None:
         print(f"Aviso: esta carpeta está dentro del proyecto Factory {afuera}; init crea un proyecto anidado y los comandos "
@@ -2698,7 +2700,7 @@ def propuestas_confirmables(estado: dict) -> list[str]:
     # Una propuesta sin huellas de catálogo (anterior a guardarlas) no se puede confirmar tal cual: no se sabe qué vio el agente.
     catalogo = None
     if any(p.get("catalogos") is not None for p in propuestas.values()):
-        with contextlib.suppress(OSError, ValueError):
+        with contextlib.suppress(OSError, ValueError, FactoryError):
             catalogo = catalogo_del_proyecto()
     return sorted(r for r, p in propuestas.items() if p.get("catalogos") is not None
                   and not catalogos_cambiados(p, (requisitos_dir() / f"{r}.requisito").read_bytes(), catalogo))
@@ -2846,7 +2848,8 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
-        if args.comando not in ("init", "buscar") and (ROOT / estructura.DIR / "config.json").is_file():
+        if (args.comando != "init" and not (ROOT / estructura.DIR).is_symlink()
+                and (ROOT / estructura.DIR / "config.json").is_file()):
             proyecto_oracle()  # una carpeta de Oracle mal configurada falla antes de que el comando escriba nada
         if args.comando == "init": inicializar(args.oracle)
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
