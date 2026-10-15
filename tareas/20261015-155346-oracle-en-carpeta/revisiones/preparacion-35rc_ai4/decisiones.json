@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "ac855981ca204be036de504b0de653f5d0e03406c77f663383bb6ee8924bd6dd",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy, a la vez. La 1: dos altos (buscar ocultaba una carpeta inválida; init sin --oracle recreaba Oracle en la raíz) y tres medios; la 2: un alto (juzgar no entregaba el error de Oracle con escalares sin declarar) y tres medios (una prueba que pasaba por vacuidad, rutas de Windows). Todo corregido con pruebas que fallan sin el arreglo. La 3 no encontró nada. Suite 367 y evidencia en verde, con Oracle 0.38.2.",
+  "decisiones": []
+}

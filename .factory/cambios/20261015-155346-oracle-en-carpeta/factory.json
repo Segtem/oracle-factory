@@ -2,7 +2,7 @@
   "id": "20261015-155346-oracle-en-carpeta",
   "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
   "capacidad": "estructura",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
   "spec_sha256": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente",
     "estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261015-155346-oracle-en-carpeta/revisiones/registro-y1zbjnms/informe.json",
+    "sha256": "ac855981ca204be036de504b0de653f5d0e03406c77f663383bb6ee8924bd6dd",
+    "decisiones": "tareas/20261015-155346-oracle-en-carpeta/revisiones/registro-y1zbjnms/decisiones.json",
+    "decisiones_sha256": "82a5e77ae9a0bdbdcb400397e858052377361262b72aa7d624e5704a5a83d971",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T19:21:17+00:00",
+    "motivo": "tres vueltas de codex y agy, a la vez. La 1: dos altos (buscar ocultaba una carpeta inválida; init sin --oracle recreaba Oracle en la raíz) y tres medios; la 2: un alto (juzgar no entregaba el error de Oracle con escalares sin declarar) y tres medios (una prueba que pasaba por vacuidad, rutas de Windows). Todo corregido con pruebas que fallan sin el arreglo. La 3 no encontró nada. Suite 367 y evidencia en verde, con Oracle 0.38.2.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "92bebd7ff7962ef9470fe7f3858d262ea31c29ad",
+      "archivos_sha256": "e182c753cdfb96c2bf89c6984a6c6e73549b9f81adb0f6326a7ee90795aab796"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -233,6 +253,20 @@
       "cuando": "2026-10-15T17:57:27+00:00",
       "decision": "aprobar",
       "candidato": "a38d44b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T19:21:17+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "ac855981ca204be036de504b0de653f5d0e03406c77f663383bb6ee8924bd6dd",
+      "decisiones_sha256": "82a5e77ae9a0bdbdcb400397e858052377361262b72aa7d624e5704a5a83d971"
     }
   ],
   "tipos": {
@@ -291,14 +325,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy, a la vez. La 1: dos altos (buscar ocultaba una carpeta inválida; init sin --oracle recreaba Oracle en la raíz) y tres medios; la 2: un alto (juzgar no entregaba el error de Oracle con escalares sin declarar) y tres medios (una prueba que pasaba por vacuidad, rutas de Windows). Todo corregido con pruebas que fallan sin el arreglo. La 3 no encontró nada. Suite 367 y evidencia en verde, con Oracle 0.38.2.",
-      "candidato": "a38d44b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-15T17:57:27+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
