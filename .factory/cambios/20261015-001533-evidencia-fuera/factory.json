@@ -2,7 +2,7 @@
   "id": "20261015-001533-evidencia-fuera",
   "titulo": "buscar no recorre la evidencia ni los paquetes de Clue",
   "capacidad": "estructura",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md",
   "spec_sha256": "61f0f7c1de351d797f9247aa034a754ad8a2adf885cbde001958a7e45f24bd3f",
   "spec_aprobada": {
@@ -204,6 +204,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "90e0c60f6b2c2072fb81646af6c30ca8ac4e1188cca9d2c6605e1c0dc951d4f8"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T01:02:23+00:00",
+      "oracle": ".factory/cambios/20261015-001533-evidencia-fuera/oracle-veredicto.txt",
+      "revision": "tareas/20261015-001533-evidencia-fuera/revisiones/registro-tav3s1bj/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T01:02:23+00:00",
+      "capacidad": "estructura",
+      "spec": "openspec/specs/estructura/spec.md"
     }
   ],
   "tipos": {
@@ -220,5 +240,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T01:02:23+00:00"
+  },
+  "archivo": {
+    "capacidad": "estructura",
+    "spec": "openspec/specs/estructura/spec.md",
+    "cuando": "2026-10-15T01:02:23+00:00"
+  }
 }

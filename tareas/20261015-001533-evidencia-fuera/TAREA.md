@@ -1,6 +1,6 @@
 # buscar no recorre la evidencia ni los paquetes de Clue
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-15 00:58:23 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261015-001533-evidencia-fuera/oracle-veredicto.txt.
+
+### Nota (2026-10-15 01:02:23 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
