@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261015-105600-cli-piloto. Modo de trabajo: confirma
 ### Nota (2026-10-15 10:57:09 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-15 10:57:37 UTC)
+
+Requisitos importados: cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec (funcional), cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza (funcional), cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

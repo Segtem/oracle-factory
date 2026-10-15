@@ -1,0 +1,4 @@
+requisito cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza:
+    texto "Tipo: funcional Cuando un requisito ya tiene medidas y `medir` le asocia otras, `medir` SHALL nombrar las medidas que tenía y las nuevas, y SHALL señalar cada medida que deja de usar y que ningún otro requisito del proyecto usa."
+    fuente "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md#medir dice qué medidas reemplaza"
+    sin_medir "sin medida todavía; escenarios: «reemplazar las medidas de un requisito», «la primera vez no hay nada que reemplazar»"

@@ -2,7 +2,7 @@
   "id": "20261015-105600-cli-piloto",
   "titulo": "CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado",
   "capacidad": "cli",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md",
   "spec_sha256": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec",
+    "cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza",
+    "cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261015-105600-cli-piloto/proposal.md": "6cd39615325e8c5a1179add24b886b736abe59d6c098c58ecd7324b5f455cbca",
         "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T10:57:37+00:00",
+      "ids": [
+        "cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec",
+        "cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza",
+        "cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec": "funcional",
+    "cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza": "funcional",
+    "cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

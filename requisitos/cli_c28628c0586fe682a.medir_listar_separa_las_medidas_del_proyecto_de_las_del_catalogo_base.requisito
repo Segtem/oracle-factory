@@ -1,0 +1,4 @@
+requisito cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base:
+    texto "Tipo: funcional `medir ID --listar` SHALL mostrar primero las medidas del proyecto, con archivo, umbral, ámbito y alcance, y después, en una sección propia y una línea cada una, las del catálogo base de Oracle."
+    fuente "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md#medir --listar separa las medidas del proyecto de las del catálogo base"
+    sin_medir "sin medida todavía; escenarios: «un proyecto con medidas propias»"

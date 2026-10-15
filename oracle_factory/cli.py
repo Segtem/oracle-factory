@@ -335,11 +335,14 @@ TODO: qué queda explícitamente fuera.
 
 ## Human decisions
 
-TODO: preguntas que requieren una decisión de Brian/equipo.
+TODO: preguntas que requieren la decisión de una persona del equipo.
 """, encoding="utf-8")
         spec.write_text(f"""# Capability: {capacidad}
 
+## ADDED Requirements
+
 ### Requirement: comportamiento principal
+Tipo: funcional
 The system SHALL TODO: write one testable promise.
 
 #### Scenario: caso esperado
@@ -2344,6 +2347,19 @@ def bloqueo_medidas(identificador: str):
         ruta.unlink()
 
 
+def medidas_en_uso(excepto: str) -> set[str]:
+    """Las medidas que nombra algún requisito del proyecto, salvo `excepto`; un archivo que no se lee no aporta."""
+    from oracle_metalenguaje.nucleo import requisito
+    usadas = set()
+    for ruta in (ROOT / 'requisitos').glob('*.requisito'):
+        if ruta.stem != excepto:
+            try:
+                usadas.update(requisito.cargar(ruta).medido_por)
+            except (OSError, ValueError):
+                continue
+    return usadas
+
+
 def inventario_medidas(estado: dict):
     # Oracle es quien valida la sintaxis, forma única, ids y catálogo efectivo.
     from oracle_metalenguaje.nucleo import requisito
@@ -2386,9 +2402,15 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             print(f"{rid}\n  Archivo: {ROOT / 'requisitos' / (rid + '.requisito')}\n  Texto: {r.texto}\n  Fuente: {r.fuente}")
             print('  Medidas: ' + (', '.join(r.medido_por) or 'ninguna'))
             print('  SIN MEDIR: ' + (r.sin_medir or 'sin límite adicional declarado; no prueba cobertura semántica'))
-        print('Medidas efectivas disponibles:')
+        base = {mid for mid in catalogo if catalogo.entradas[mid].origen.clase == 'catalogo_base'}
+        print('Medidas del proyecto:')
         for mid, m in sorted(catalogo.items()):
-            print(f'{mid}\n  Archivo: {catalogo.entradas[mid].ruta}\n  Umbral: {m.op} {m.limite} · según {m.segun}\n  Ámbito: {m.ambito}\n  Alcance: {m.alcance}')
+            if mid not in base:
+                print(f'{mid}\n  Archivo: {catalogo.entradas[mid].ruta}\n  Umbral: {m.op} {m.limite} · según {m.segun}\n  Ámbito: {m.ambito}\n  Alcance: {m.alcance}')
+        if base:
+            print(f'Del catálogo base de Oracle ({len(base)}; se aplican a todo proyecto):')
+            for mid in sorted(base):
+                print(f'  {mid} · {catalogo[mid].alcance}')
         print('La persona elige y justifica la pertinencia. No se ejecutaron pruebas ni un juicio.')
         return
     if requisito_id not in requisitos:
@@ -2512,6 +2534,11 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         escribir_atomico(ruta, datos, esperado=original)
     nota_tarea(identificador, f'Medidas de {requisito_id}: {", ".join(medidas)}; {"propuestas" if via == "propone" else "elegidas"} por {quien(registro_decision(estado, "propuso" if via == "propone" else "decidio", motivo))}. SIN MEDIR: {limite or "sin límite adicional declarado"}. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.')
     print(f'Asociación guardada: {ruta}')
+    if r.medido_por and set(r.medido_por) != set(medidas):
+        print(f'Reemplaza las medidas que tenía ({", ".join(r.medido_por)}) por: {", ".join(medidas)}')
+        sueltas = [m for m in r.medido_por if m not in medidas and m not in medidas_en_uso(excepto=requisito_id)]
+        if sueltas:
+            print('Quedan sin ningún requisito del proyecto que las use: ' + ', '.join(sueltas))
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')
     if via == 'propone':
