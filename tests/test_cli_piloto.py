@@ -86,6 +86,15 @@ class CliPiloto(Base):
         self.assertIn(f'Reemplaza las medidas que tenía ({otra}) por: notas.casos_ejecutados', salida)
         self.assertIn(f'No pude leer 1 requisito(s) del proyecto (roto.requisito); no sé si {otra} queda(n)', salida)
         self.assertNotIn('Quedan sin', salida)
+        # Lo mismo con una subcarpeta que no se puede abrir: lo que tenga adentro podría usarla.
+        (self.root / 'requisitos' / 'roto.requisito').unlink()
+        cerrada = self.root / 'requisitos' / 'cerrada'
+        cerrada.mkdir()
+        cerrada.chmod(0)
+        self.addCleanup(cerrada.chmod, 0o755)
+        salida = self.medir(ident, uno, otra)
+        self.assertIn('No pude leer 1 requisito(s) del proyecto (cerrada/); no sé si notas.casos_ejecutados queda(n)', salida)
+        self.assertNotIn('Quedan sin', salida)
 
     def test_cp2_la_primera_vez_no_hay_nada_que_reemplazar(self):
         ident, (uno, *_) = self.con_notas()

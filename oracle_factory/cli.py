@@ -2352,12 +2352,16 @@ def medidas_en_uso(excepto: str) -> tuple[set[str], list[str]]:
     from oracle_metalenguaje.nucleo import requisito
     usadas, ilegibles = set(), []
     propio = ROOT / 'requisitos' / f'{excepto}.requisito'
-    for ruta in sorted((ROOT / 'requisitos').rglob('*.requisito')):  # también en subcarpetas, como los carga Oracle
+    base = ROOT / 'requisitos'
+    rutas = []  # también en subcarpetas, como los carga Oracle; una carpeta que no se puede abrir cuenta como ilegible
+    for carpeta, _, archivos in os.walk(base, onerror=lambda e: ilegibles.append(Path(e.filename).relative_to(base).as_posix() + '/')):
+        rutas += [Path(carpeta) / a for a in archivos if a.endswith('.requisito')]
+    for ruta in sorted(rutas):
         if ruta != propio:
             try:
                 usadas.update(requisito.cargar(ruta).medido_por)
             except (OSError, ValueError):
-                ilegibles.append(ruta.relative_to(ROOT / 'requisitos').as_posix())
+                ilegibles.append(ruta.relative_to(base).as_posix())
     return usadas, ilegibles
 
 
