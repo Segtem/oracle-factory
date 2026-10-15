@@ -194,6 +194,16 @@
       "candidato": "3fbb751",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T13:29:13+00:00",
+      "decision": "aprobar",
+      "candidato": "3fbb751"
     }
   ],
   "tipos": {
@@ -218,5 +228,15 @@
       "sha256": "280d77ae27a9aab7da87dbd1016761daae4e7ccbbbb5b8bda6cca9a9050a3a5c"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy, a la vez. La 1: tres medios y siete bajos (estado no mostraba propuso como decisión, el cierre en confirmacion, el nombre de Git o del sistema, y pruebas de la tabla que no leían lo que ve una persona); todo corregido, con la tabla comprobada contra modos.via_agente en la página y en el documento. La 2: tres bajos de texto en la portada y el resumen, corregidos. La 3: agy nada; codex un bajo (la prueba exige las secciones pero no el contenido de cada una). Suite 356 y evidencia en verde.",
+      "candidato": "3fbb751",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T13:29:13+00:00"
+    }
+  }
 }
