@@ -22,3 +22,7 @@ Fricción observada al registrar la revisión de colaboración (2026-10-05): com
 ### Nota (2026-10-12 21:40:44 UTC)
 
 Revisado el 2026-10-12: ya están las plantillas (ADDED, sin «Brian»), la fuente relativa, el próximo paso de estado (cli-humana) y la vigencia por producto. Falta: medir avisa que reemplaza y señala huérfanas; --listar separa medidas del proyecto y meta; ejemplo notas con las meta.
+
+### Nota (2026-10-15 10:54:52 UTC)
+
+Revisado el 2026-10-15: la nota del 2026-10-12 se equivocaba con las plantillas. El ejemplo notas ya trae ## ADDED Requirements, pero la plantilla genérica de nuevo (oracle_factory/cli.py, función nuevo) sigue sin él y su proposal dice «decisión de Brian/equipo»; se vio en cada cambio de esta semana. Falta, entonces: esa plantilla; medir avisa que reemplaza y señala huérfanas; --listar separa medidas del proyecto y meta; ejemplo notas con las meta.

@@ -12,3 +12,7 @@ Exploración posterior. Mejorar la revisión de código, probablemente con una e
 ### Nota (2026-10-07 12:32:20 UTC)
 
 Plan acordado con Brian el 2026-10-07: cli-json → trazabilidad → sarif → vscode (tareas 20261007-*). El enlace que faltaba es requisito → casos → líneas, medido con cobertura por caso.
+
+### Nota (2026-10-15 10:54:52 UTC)
+
+Avance al 2026-10-15: cli-json (estado, donde y resumen --json) y trazabilidad (requisito → casos → líneas) están cerrados. Siguen sarif (P13) y vscode (P14), que leen ese JSON.

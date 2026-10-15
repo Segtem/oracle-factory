@@ -14,3 +14,7 @@ Brian, 2026-10-05: «encontramos lo más importante de todo el sistema […] hac
 - El piloto con agentes como ejemplo real.
 
 Depende de `20261005-105331-modos-de-trabajo` (documentar lo implementado, no lo propuesto).
+
+### Nota (2026-10-15 10:54:52 UTC)
+
+Al 2026-10-15 su dependencia (modos-de-trabajo) está cerrada.

@@ -17,3 +17,7 @@ Registrada como mejora necesaria/propuesta a partir del pedido de revisar la web
 ## Próximo paso
 
 Reproducir el caso de JSON antiguo en fixture aislado y diseñar una captura de evidencia con límites explícitos; presentar propuesta al usuario antes de implementar.
+
+### Nota (2026-10-15 10:54:52 UTC)
+
+Avance al 2026-10-15, sin cerrarla: la evidencia vive por candidato (.factory/cambios/ID/candidatos/sha7/evidencia), juzgar toma los hechos del candidato vigente, y cada sensor registra el commit de origen, las huellas de sus fuentes y si cambiaron durante la corrida (resultado.json). Sigue faltando lo central: que Factory ejecute el sensor en vez de recibir un JSON.
