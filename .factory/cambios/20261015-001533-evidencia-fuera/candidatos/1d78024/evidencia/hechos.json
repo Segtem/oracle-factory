@@ -1,0 +1,35 @@
+{
+  "busqueda_caso": [
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "test_estructura.Estructura.test_e8_texto_en_varios_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "test_estructura.Estructura.test_e8_archivos_grandes_omitidos_y_formas_equivalentes",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "test_estructura.Estructura.test_e8_buscar_no_lee_a_traves_de_un_factory_enlazado",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "test_estructura.Estructura.test_e8_fragmento_con_formas_que_se_alargan",
+      "codigo": 0
+    },
+    {
+      "requisito": "buscar_en_todo_el_proyecto",
+      "caso": "test_evidencia_fuera.EvidenciaFuera.test_ef1_la_evidencia_no_aparece",
+      "codigo": 0
+    }
+  ],
+  "busqueda_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
