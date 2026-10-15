@@ -4,7 +4,7 @@ Un cambio de Factory pasa por cuatro decisiones: aceptar la propuesta y la spec,
 
 ## Los tres modos
 
-- **`confirmacion`** (el modo por defecto): el agente trabaja y propone; cada decisión la confirma una persona, y el cierre lo toma una persona directamente. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente. Es el modo en que Factory se construye a sí misma.
+- **`confirmacion`** (el modo por defecto): el agente trabaja y propone la spec, las medidas y la revisión, y una persona las confirma; el cierre no se propone: lo toma una persona directamente. Conviene cuando se empieza, cuando el producto importa o cuando todavía no se conoce bien al agente. Es el modo en que Factory se construye a sí misma.
 - **`funcional`**: la persona decide lo que el producto promete a quien lo usa (los requisitos funcionales); el agente decide solo lo no funcional (rendimiento, mantenimiento, cómo se mide por dentro). Conviene cuando la persona quiere estar en el qué, no en cada detalle del cómo.
 - **`autonomo`**: el agente decide todo, cierre incluido, y queda registrado como agente. Conviene para tareas acotadas y reversibles, o para probar el flujo. Una persona puede intervenir igual en cualquier momento.
 
