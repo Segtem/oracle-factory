@@ -2,7 +2,7 @@
   "id": "20261015-122841-docs-web-modos",
   "titulo": "Docs y web: los modos de trabajo y quién decide qué",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md",
   "spec_sha256": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
     "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261015-122841-docs-web-modos/revisiones/registro-mbwl6okb/informe.json",
+    "sha256": "1e8a56af5fe70a3ce7d746720237d2d6a206e0c5d1d5f4e22dc8b68e53801df8",
+    "decisiones": "tareas/20261015-122841-docs-web-modos/revisiones/registro-mbwl6okb/decisiones.json",
+    "decisiones_sha256": "39acb4860aecbb26582a0880448c495ddb3bcbf3c1f496d897d17da13b646db3",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T13:51:51+00:00",
+    "motivo": "tres vueltas de codex y agy, a la vez. La 1: tres medios y siete bajos (estado no mostraba propuso como decisión, el cierre en confirmacion, el nombre de Git o del sistema, y pruebas de la tabla que no leían lo que ve una persona); todo corregido, con la tabla comprobada contra modos.via_agente en la página y en el documento. La 2: tres bajos de texto en la portada y el resumen, corregidos. La 3: agy nada; codex un bajo (la prueba exige las secciones pero no el contenido de cada una). Suite 356 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "673247821735f8abef1e5509c5cf5776e44313f6",
+      "archivos_sha256": "7f7d8b957311ef45d64501229ae521ed1e6af3447633eba4dcb40fbacaf22f55"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -204,6 +224,20 @@
       "cuando": "2026-10-15T13:29:13+00:00",
       "decision": "aprobar",
       "candidato": "3fbb751"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T13:51:51+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1e8a56af5fe70a3ce7d746720237d2d6a206e0c5d1d5f4e22dc8b68e53801df8",
+      "decisiones_sha256": "39acb4860aecbb26582a0880448c495ddb3bcbf3c1f496d897d17da13b646db3"
     }
   ],
   "tipos": {
@@ -229,14 +263,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy, a la vez. La 1: tres medios y siete bajos (estado no mostraba propuso como decisión, el cierre en confirmacion, el nombre de Git o del sistema, y pruebas de la tabla que no leían lo que ve una persona); todo corregido, con la tabla comprobada contra modos.via_agente en la página y en el documento. La 2: tres bajos de texto en la portada y el resumen, corregidos. La 3: agy nada; codex un bajo (la prueba exige las secciones pero no el contenido de cada una). Suite 356 y evidencia en verde.",
-      "candidato": "3fbb751",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-15T13:29:13+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_modos_web.py",
+      "titulo": "mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido",
+      "firma": "tests/test_modos_web.py|mw1 verifica que existan los anclajes pero no que cada sección de la página tenga su contenido",
+      "motivo": "Acepto el riesgo: mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-15T13:51:49+00:00",
+      "candidato": "3fbb751"
     }
-  }
+  ]
 }
