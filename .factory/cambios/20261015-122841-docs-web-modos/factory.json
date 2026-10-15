@@ -2,7 +2,7 @@
   "id": "20261015-122841-docs-web-modos",
   "titulo": "Docs y web: los modos de trabajo y quién decide qué",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md",
   "spec_sha256": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "7f7d8b957311ef45d64501229ae521ed1e6af3447633eba4dcb40fbacaf22f55"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261015-122841-docs-web-modos/candidatos/3fbb751/evidencia/hechos.json",
+    "hechos_sha256": "59bef3586e44929f7ea227c32d743aeb4a2c00acd302e2223833aed29a0bf65a",
+    "informe": ".factory/cambios/20261015-122841-docs-web-modos/oracle-veredicto.txt",
+    "informe_sha256": "533ab861360f773f149cd93c9a580cae0780d8e37a2ba9c7ce05266974c4ad2b",
+    "cuando": "2026-10-15T13:52:09+00:00",
+    "contexto": {
+      "head": "3ce16fbaab3f841b3dc998befe1b61f9a343040e",
+      "archivos_sha256": "7f7d8b957311ef45d64501229ae521ed1e6af3447633eba4dcb40fbacaf22f55"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -238,6 +250,17 @@
       "abiertos": 0,
       "sha256": "1e8a56af5fe70a3ce7d746720237d2d6a206e0c5d1d5f4e22dc8b68e53801df8",
       "decisiones_sha256": "39acb4860aecbb26582a0880448c495ddb3bcbf3c1f496d897d17da13b646db3"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T13:52:09+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "59bef3586e44929f7ea227c32d743aeb4a2c00acd302e2223833aed29a0bf65a"
     }
   ],
   "tipos": {
