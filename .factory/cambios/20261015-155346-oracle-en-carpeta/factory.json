@@ -1,0 +1,24 @@
+{
+  "id": "20261015-155346-oracle-en-carpeta",
+  "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
+  "capacidad": "estructura",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:53:46+00:00",
+      "capacidad": "estructura"
+    }
+  ]
+}

@@ -37,7 +37,7 @@ Si uv advierte sobre conflicto porque los ejecutables `oracle`, `tasks` u `oracl
 uv tool install --python 3.13 oracle-factory==0.1.0a9
 ```
 
-Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.1`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
+Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.2`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
 
 `--proyecto` se coloca antes del subcomando; sin esa opción se usa la carpeta actual. `init` crea la estructura de Oracle, Oracle Task y OpenSpec, añade ignores para `.factory-demo/`, `__pycache__/` y `*.py[cod]` sin sobrescribir configuración existente y no crea commits ni aprobaciones. Git debe estar instalado. Python 3.11 o posterior.
 
@@ -97,7 +97,7 @@ Si necesitás los comandos independientes `oracle`, `tasks` y `oracle-clue` (por
 
 ## Preparación y vigencia de la evidencia
 
-Usar Python 3, Git y las herramientas instaladas. La integración se probó con Oracle 0.38.1 y Oracle Task 0.2.0. No se requiere la CLI de OpenSpec para importar estas specs a Oracle; esta POC no valida el ciclo completo del CLI OpenSpec.
+Usar Python 3, Git y las herramientas instaladas. La integración se probó con Oracle 0.38.2 y Oracle Task 0.2.0. No se requiere la CLI de OpenSpec para importar estas specs a Oracle; esta POC no valida el ciclo completo del CLI OpenSpec.
 
 Antes de registrar la revisión, terminar los cambios y crear el commit del producto. La CLI guarda HEAD y una huella de archivos versionados y nuevos no ignorados. Si cambia el código, la spec, las medidas o la evidencia (la huella de archivos), repetir la revisión/juicio. Un commit que sólo toca registros de tareas no invalida: se guarda el commit revisado y `estado` avisa cuando el HEAD actual es otro con el producto idéntico. Los registros de tareas y los informes generados en el paquete no se incluyen en la huella del producto, pero los informes se verifican por hash propio. Los archivos ignorados y dependencias externas quedan fuera de esa huella; los submódulos no están soportados.
 
