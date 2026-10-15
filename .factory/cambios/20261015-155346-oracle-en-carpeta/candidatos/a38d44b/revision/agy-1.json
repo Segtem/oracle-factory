@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/a38d44b",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "a38d44b45ab84f08dc10d9f3e3850639ea75f25a",
+  "diff_sha256": "338ea973250748cb893f76e1038ed66d287c5d9ea5a4ade3fdd839d7d588777a",
+  "context_sha256": "d9ec5649a07d0da9238b483f031929c69ef215fcb4c2b5c5fbfb2bab9f20f3e5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: cd /home/workstation/Dev/factory-oracle-en-carpeta && /home/workstation/Dev/factory-oracle-en-carpeta/.venv/bin/python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null (38 pruebas pasadas satisfactoriamente).",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas por indicación expresa.",
+    "Se realizaron pruebas de mutación manuales en el entorno del revisor (con_escalares siempre vacío, con_escalares siempre forzado, omisión de carga previa de catálogo en juzgar, omisión de control de barras invertidas en carpeta_relativa, donde y buscar sin parámetro oracle, e inicializar sin detección de oracle configurado en re-init); todas las mutaciones fueron detectadas y rechazadas por la suite de pruebas.",
+    "Revisión estática exhaustiva de la implementación en oracle_factory/cli.py, oracle_factory/estructura.py, docs/estructura.md, catálogos en catalogos/factory_carpeta.*.oracle, herramientas de evidencia y especificación OpenSpec. No se detectaron defectos abiertos ni regresiones respecto de iteraciones anteriores."
+  ]
+}
