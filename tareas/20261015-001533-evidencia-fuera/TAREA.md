@@ -23,3 +23,7 @@ Medidas de estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto: factory_busq
 ### Nota (2026-10-15 00:20:17 UTC)
 
 Medidas de estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 00:58:14 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy, a la vez. La 1: agy nada; codex un medio (el caso de tamaño no buscaba el texto del archivo omitido), corregido en el mismo caso e8 y comprobado con una mutación que saca el límite. La 2 no encontró nada. buscar saltea evidencia/ y clue/ de los candidatos y sigue leyendo revision/; en el repositorio, «severidad» pasó de 386 a 286 coincidencias. Suite 347 y evidencia en verde.); 0 abiertos derivados; commit 525197ecfc3e9ef389f4b8dc50ac3d29ea6e871f; informe tareas/20261015-001533-evidencia-fuera/revisiones/registro-tav3s1bj/informe.json; decisiones tareas/20261015-001533-evidencia-fuera/revisiones/registro-tav3s1bj/decisiones.json.
