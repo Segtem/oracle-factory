@@ -2,7 +2,7 @@
   "id": "20261015-140406-catalogo-confirmado",
   "titulo": "Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión",
   "capacidad": "modos",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
   "spec_sha256": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83",
   "spec_aprobada": {
@@ -313,6 +313,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "fc65187912906936783c7fd264c69cc1398932843709d7aa372281d9b32da3e4"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:43:15+00:00",
+      "oracle": ".factory/cambios/20261015-140406-catalogo-confirmado/oracle-veredicto.txt",
+      "revision": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:43:15+00:00",
+      "capacidad": "modos",
+      "spec": "openspec/specs/modos/spec.md"
     }
   ],
   "tipos": {
@@ -365,5 +385,17 @@
       "fecha": "2026-10-15T15:40:55+00:00",
       "candidato": "3f68c51"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T15:43:15+00:00"
+  },
+  "archivo": {
+    "capacidad": "modos",
+    "spec": "openspec/specs/modos/spec.md",
+    "cuando": "2026-10-15T15:43:15+00:00"
+  }
 }

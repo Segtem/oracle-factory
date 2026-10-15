@@ -1,6 +1,6 @@
 # Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-15 15:41:12 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261015-140406-catalogo-confirmado/oracle-veredicto.txt.
+
+### Nota (2026-10-15 15:43:15 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
