@@ -2,10 +2,20 @@
   "id": "20261015-105600-cli-piloto",
   "titulo": "CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado",
   "capacidad": "cli",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T10:57:09+00:00",
+    "documentos": {
+      "openspec/changes/20261015-105600-cli-piloto/proposal.md": "6cd39615325e8c5a1179add24b886b736abe59d6c098c58ecd7324b5f455cbca",
+      "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-15T10:56:00+00:00",
       "capacidad": "cli"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T10:57:09+00:00",
+      "documentos": {
+        "openspec/changes/20261015-105600-cli-piloto/proposal.md": "6cd39615325e8c5a1179add24b886b736abe59d6c098c58ecd7324b5f455cbca",
+        "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
