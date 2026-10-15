@@ -1,0 +1,30 @@
+{
+  "modos_web_caso": [
+    {
+      "requisito": "los_modos_de_trabajo_estan_explicados",
+      "caso": "mw1_la_pagina_y_el_documento_estan_completos",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_modos_de_trabajo_estan_explicados",
+      "caso": "mw1_la_pagina_se_lee_sin_javascript",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "caso": "mw2_las_tablas_dicen_lo_que_hace_el_codigo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "caso": "mw2_una_celda_equivocada_se_detecta",
+      "codigo": 0
+    }
+  ],
+  "modos_web_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}
