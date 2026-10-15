@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:274a7713c77c4e623da8c82532903585ecce511158cadaf29cb64e7272b960ad -->
+<!-- oracle-factory resumen sha256:723102aaf83c14d71836b1c4917d2478a7943bf50c0f1c8a4ec4e92d70346e56 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 115 requisitos vigentes · 1 cambio abierto
+16 capacidades · 118 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -57,6 +57,9 @@ Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
 | estado se lee como JSON | funcional | `cli_c38d280a51dea748e.estado_se_lee_como_json` | factory_cli_json.estado_se_lee_como_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
 | donde y resumen se leen como JSON | funcional | `cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json` | factory_no_valido.donde_y_resumen_se_leen_como_json, factory_no_valido.corrida_completa | verde al cerrar el 2026-10-15 | 20261014-204205-donde-no-valido |
 | la salida de texto no cambia y los errores no se mezclan con el JSON | funcional | `cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json` | factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
+| la plantilla de un cambio nuevo trae la forma de OpenSpec | funcional | `cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec` | factory_piloto.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
+| medir dice qué medidas reemplaza | funcional | `cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza` | factory_piloto.medir_dice_que_medidas_reemplaza, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
+| medir --listar separa las medidas del proyecto de las del catálogo base | funcional | `cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base` | factory_piloto.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
 
 ### decisiones
 
@@ -530,6 +533,15 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261015-001533-evidencia-fuera) codex (gpt-6-luna): No se ejecutaron tools/verify_*.py ni la suite completa, según la indicación. No se hicieron mutaciones manuales.
 - (20261015-001533-evidencia-fuera) codex (gpt-6-luna): Se revisó que el cambio de producto sólo altera el recorrido de buscar; resumen y donde no aparecen en el diff. Se inspeccionó donde y no se observó efecto de este cambio sobre su recorrido.
 - (20261015-001533-evidencia-fuera) codex (gpt-6-luna): Los 10 archivos excluidos del paquete bajo .factory y tareas no se revisaron, conforme a la instrucción de alcance.
+- (20261015-105600-cli-piloto) Evidencia: Escenarios cp1–cp3 en proyectos temporales, Linux, con el ejemplo notas y el catálogo base de Oracle 0.38.1. Otro requisito que usa una medida se arma escribiendo su archivo; no se prueba con dos cambios reales.
+- (20261015-105600-cli-piloto) agy (gemini-3.8-flash-high): Por indicación explícita, se ejecutaron exactamente en primer plano las pruebas unitarias focalizadas: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null (19 pruebas OK). No se ejecutó tools/verify_cli_piloto.py ni la suite completa del repositorio.
+- (20261015-105600-cli-piloto) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la spec (findings vacía). Se verificó la subsanación del hallazgo CLUE-001 de la vuelta 3: en oracle_factory/cli.py se utiliza os.walk con onerror para capturar errores de acceso a subdirectorios de requisitos/ y registrarlos en ilegibles (con barra final), evitando que medir señale erróneamente medidas como huérfanas ante la falta de permisos de lectura. La prueba test_cp2_reemplazar_las_medidas_de_un_requisito en tests/test_cli_piloto.py verifica de forma efectiva este comportamiento mediante una subcarpeta con permisos 000.
+- (20261015-105600-cli-piloto) agy (gemini-3.8-flash-high): Se revisaron la propuesta, la spec, el diff del paquete en candidate 1adc75b, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos en catalogos/factory_piloto.*.oracle y el README.md. Se comprobó que la plantilla de nuevo trae ## ADDED Requirements y Tipo: funcional, habla de 'una persona del equipo' y se sigue rechazando con TODO; medir --listar separa limpiamente las medidas del proyecto de las del catálogo base de Oracle usando origen.clase == 'catalogo_base'; y medir informa reemplazo y medidas sueltas únicamente cuando corresponde.
+- (20261015-105600-cli-piloto) agy (gemini-3.8-flash-high): Se ejecutó un análisis de mutaciones a mano sobre copias aisladas en el espacio de trabajo del revisor (13 mutaciones que cubren los 3 requisitos de la spec); el 100% de las mutaciones introducidas fue detectado y eliminado por la suite de pruebas.
+- (20261015-105600-cli-piloto) codex (gpt-6-luna): Se revisaron la propuesta y los tres requisitos de la spec contra el diff, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos factory_piloto y README.md. No se ejecutó tools/verify_cli_piloto.py ni tools/verify_*.py ni la suite completa, según la indicación.
+- (20261015-105600-cli-piloto) codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null. Resultado: 19 tests, OK. SHA-256 confirmó que los archivos de CLI, tests, verificador y README en ese checkout coinciden con los del candidato.
+- (20261015-105600-cli-piloto) codex (gpt-6-luna): Las seis revisiones previas fueron contrastadas: CLUE-001 de la vuelta 1 (requisito ilegible) y vuelta 2 (requisitos anidados) están atendidos; el caso de carpeta no accesible señalado en la vuelta 3 se contempla mediante os.walk(onerror=...) y la prueba cp2 lo cubre. No se encontraron regresiones de esos hallazgos.
+- (20261015-105600-cli-piloto) codex (gpt-6-luna): No se hicieron mutaciones. Los archivos excluidos por el paquete no se revisaron; no se modificó el checkout del candidato.
 
 ### Históricos
 
