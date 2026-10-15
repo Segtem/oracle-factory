@@ -1,4 +1,4 @@
 requisito estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara:
     texto "Tipo: funcional Con `\"confiar_escalares\": true` en la configuración, Factory SHALL correr Oracle con `--confiar-escalares` al evaluar medidas; sin esa clave SHALL NOT pasarlo. Un valor que no sea true o false SHALL rechazarse."
     fuente "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md#los escalares del proyecto se ejecutan sólo si el proyecto lo declara"
-    sin_medir "sin medida todavía; escenarios: «un proyecto con escalares.py», «sin declararlo»"
+    medido_por factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa

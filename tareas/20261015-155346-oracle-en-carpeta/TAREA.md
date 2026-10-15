@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-15 16:15:17 UTC)
 
 Requisitos importados: estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta (funcional), estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente (funcional), estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-15 16:27:37 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta: factory_carpeta.el_proyecto_oracle_puede_estar_en_una_carpeta, factory_carpeta.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 16:27:37 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente: factory_carpeta.init_adopta_un_proyecto_oracle_existente, factory_carpeta.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 16:27:37 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara: factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
