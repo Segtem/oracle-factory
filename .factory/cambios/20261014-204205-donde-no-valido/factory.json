@@ -2,7 +2,7 @@
   "id": "20261014-204205-donde-no-valido",
   "titulo": "donde --json etiqueta no_valido una entrada inválida del registro",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261014-204205-donde-no-valido/specs/cli/spec.md",
   "spec_sha256": "da9ef3d0b8cc5fa6012848edc73b008cc2065f93361890860b5fadef3b52d346",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "cc016333d315c3beab8303ebc31c9e2b740291b19a7c100cb80bf8de363f6674"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261014-204205-donde-no-valido/candidatos/97e0a37/evidencia/hechos.json",
+    "hechos_sha256": "169e9f9fa9cda106e2ae67fed53bb65391c598a943483d1bda9591620c60a6c8",
+    "informe": ".factory/cambios/20261014-204205-donde-no-valido/oracle-veredicto.txt",
+    "informe_sha256": "4ede1cd46f90ab4cdf7487aa7fb9f1a40ed4d1e17f83e5da45d23d95a472494a",
+    "cuando": "2026-10-15T00:04:34+00:00",
+    "contexto": {
+      "head": "4dedb89b0352d9b2e0ba20d745264e29a7a424ac",
+      "archivos_sha256": "cc016333d315c3beab8303ebc31c9e2b740291b19a7c100cb80bf8de363f6674"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -181,6 +193,17 @@
       "abiertos": 0,
       "sha256": "9f29b718ea825d4c89088727e0241028dde8a339457f13ff7fff146a5876957f",
       "decisiones_sha256": "d0de13c9248b3ef91f3f45a35cb44be47180233434e2da727ee418e7e7992d5c"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T00:04:34+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "169e9f9fa9cda106e2ae67fed53bb65391c598a943483d1bda9591620c60a6c8"
     }
   ],
   "tipos": {
