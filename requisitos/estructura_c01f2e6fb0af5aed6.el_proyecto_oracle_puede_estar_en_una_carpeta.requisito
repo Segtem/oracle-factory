@@ -1,0 +1,4 @@
+requisito estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta:
+    texto "Tipo: funcional Con `\"oracle\": \"CARPETA\"` en `.factory/config.json`, Factory SHALL usar esa carpeta como proyecto Oracle: importar los requisitos en `CARPETA/requisitos/`, medirlos, juzgarlos y quitarlos al abandonar desde ahí, y correr Oracle con ese proyecto; `donde` y `buscar` SHALL nombrar los requisitos en esa carpeta. Sin la clave, el proyecto Oracle SHALL seguir siendo la raíz. Una carpeta absoluta, que sale del proyecto o sin `oracle.json` SHALL rechazarse con la causa."
+    fuente "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md#el proyecto Oracle puede estar en una carpeta"
+    sin_medir "sin medida todavía; escenarios: «un proyecto con su Oracle en medidas/», «sin la clave, todo sigue en la raíz», «una carpeta inválida»"

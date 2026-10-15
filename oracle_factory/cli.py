@@ -30,7 +30,7 @@ from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import revision as documentos_revision
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 ROOT = Path.cwd().resolve()
 AGENTE: str | None = None  # --agente o FACTORY_AGENTE: la vía de agente nunca se registra como persona
@@ -92,6 +92,36 @@ def guardar(carpeta: Path, estado: dict) -> None:
     escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))  # un corte no lo trunca
 
 
+def proyecto_oracle() -> Path:
+    """La carpeta del proyecto Oracle: la raíz, o la que dice "oracle" en .factory/config.json."""
+    carpeta = config_proyecto()["oracle"]
+    if carpeta in (".", ""):
+        return ROOT
+    relativa = PurePosixPath(carpeta)
+    if relativa.is_absolute() or PureWindowsPath(carpeta).drive or ".." in relativa.parts:
+        raise FactoryError(f'.factory/config.json: "oracle" es una carpeta relativa al proyecto, sin ..; dice «{carpeta}»')
+    ruta = ROOT / relativa
+    if ruta.resolve() != ROOT / relativa or not (ruta / "oracle.json").is_file():  # un enlace que sale, o sin proyecto Oracle
+        raise FactoryError(f'.factory/config.json: "oracle" dice «{carpeta}», pero ahí no hay un proyecto Oracle '
+                           f'({relativa.as_posix()}/oracle.json); creálo con oracle init o corregí la carpeta')
+    return ruta
+
+
+def oracle_rel() -> str:
+    """La carpeta del proyecto Oracle relativa a la raíz ('' si es la raíz), para nombrar rutas."""
+    o = proyecto_oracle()
+    return "" if o == ROOT else o.relative_to(ROOT).as_posix()
+
+
+def requisitos_dir() -> Path:
+    return proyecto_oracle() / "requisitos"
+
+
+def con_escalares() -> list[str]:
+    """--confiar-escalares si el proyecto lo declaró: Oracle ejecuta su escalares.py, aislado."""
+    return ["--confiar-escalares"] if config_proyecto()["confiar_escalares"] else []
+
+
 def terminal_interactiva() -> bool:
     return sys.stdin.isatty()
 
@@ -124,18 +154,22 @@ def config_proyecto() -> dict:
     config = {"modo_por_defecto": datos.get("modo_por_defecto", modos.POR_DEFECTO),
               "tipos_obligatorios": datos.get("tipos_obligatorios", False),
               "capacidades": datos.get("capacidades", {}),
-              "revisores": datos.get("revisores", {})}
+              "revisores": datos.get("revisores", {}),
+              "oracle": datos.get("oracle", "."),
+              "confiar_escalares": datos.get("confiar_escalares", False)}
     try:
         revisores_mod.validar_config(config["revisores"])
     except revisores_mod.RevisorInvalido as e:
         raise FactoryError(f"{ruta}: {e}; por ejemplo: {revisores_mod.EJEMPLO}") from e
     alias = config["capacidades"]
     if (set(datos) - set(config) or config["modo_por_defecto"] not in modos.MODOS
-            or type(config["tipos_obligatorios"]) is not bool
+            or type(config["tipos_obligatorios"]) is not bool or type(config["confiar_escalares"]) is not bool
+            or not isinstance(config["oracle"], str)
             or not isinstance(alias, dict) or not all(isinstance(k, str) and isinstance(v, str) and v not in alias
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
-                           "capacidades (alias → capacidad, sin cadenas de alias) y revisores")
+                           "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
+                           "y confiar_escalares (true/false)")
     return config
 
 
@@ -384,7 +418,7 @@ The system SHALL TODO: write one testable promise.
     print(f"Tarea: {ROOT / 'tareas' / identificador / 'TAREA.md'}")
     print(f"Propuesta/spec/tasks: {carpeta}")
     if con_ejemplo:
-        print(f'Ejemplo y catálogos preparados en {ROOT / "examples/notas"} y {ROOT / "catalogos"}. No se ejecutó el programa.')
+        print(f'Ejemplo y catálogos preparados en {ROOT / "examples/notas"} y {proyecto_oracle() / "catalogos"}. No se ejecutó el programa.')
     else:
         print('Completá los TODO antes de pedir aceptación.')
     print(f"Próximo paso humano: revisar {carpeta / 'proposal.md'} y {spec}")
@@ -619,7 +653,7 @@ def importar(identificador: str) -> None:
         raise FactoryError(f"{e}. No se modificó el registro.") from e
     estado.update(requisitos=[], revision=None, oracle=None, fase="importacion_pendiente")
     guardar(carpeta, estado)
-    p = ejecutar(["oracle", "requisito", "importar", str(spec), "--dominio", dominio, "--escribir", "--proyecto", str(ROOT)])
+    p = ejecutar(["oracle", "requisito", "importar", str(spec), "--dominio", dominio, "--escribir", "--proyecto", str(proyecto_oracle())])
     sys.stdout.write(p.stdout)
     if p.returncode:
         raise FactoryError(p.stderr.strip() or "Oracle no pudo importar los requisitos")
@@ -629,14 +663,14 @@ def importar(identificador: str) -> None:
     # El importador de Oracle no distingue las secciones del delta: lo que la spec retira no se importa ni se mide.
     retirados = {modos.slug(nombre) for op, nombre, _ in archivo.bloques(spec.read_text(encoding="utf-8")) if op == "REMOVED"}
     for rid in [i for i in ids if i.split(".", 1)[1] in retirados]:
-        (ROOT / "requisitos" / f"{rid}.requisito").unlink(missing_ok=True)  # el dominio es propio de este cambio
+        (requisitos_dir() / f"{rid}.requisito").unlink(missing_ok=True)  # el dominio es propio de este cambio
         ids.remove(rid)
     exigir_spec(carpeta, estado)
     sin_tipo = [i for i in ids if i.split(".", 1)[1] not in tipos]
     if sin_tipo:
         raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
     for rid in ids:
-        fuente_relativa(ROOT / "requisitos" / f"{rid}.requisito")
+        fuente_relativa(requisitos_dir() / f"{rid}.requisito")
     estado["requisitos"] = ids
     estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
     for clave in ("medidas", "medidas_pendientes"):
@@ -1273,10 +1307,10 @@ def juzgar(identificador: str, hechos: Path) -> None:
                   "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
     contexto = contexto_producto()
     huella = sha256(hechos.read_bytes())
-    cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(ROOT)])
+    cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
     if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
         raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado")
-    p = ejecutar(["oracle", "cobertura", "--con", str(hechos), "--proyecto", str(ROOT)])
+    p = ejecutar(["oracle", "cobertura", "--con", str(hechos), "--proyecto", str(proyecto_oracle()), *con_escalares()])
     sys.stdout.write(p.stdout)
     if p.stderr:
         sys.stderr.write(p.stderr)
@@ -1324,8 +1358,19 @@ def pendientes(estado: dict) -> list[str]:
 
 
 def catalogo_del_proyecto():
-    from oracle_metalenguaje.nucleo.proyecto import resolver, catalogo_efectivo
-    return catalogo_efectivo(resolver(["--proyecto", str(ROOT)]))
+    """El catálogo efectivo del proyecto Oracle, como lo arma `oracle cobertura`: con sus macros y, si el proyecto lo
+    declaró (confiar_escalares), con sus escalares, que Oracle ejecuta aislados."""
+    from oracle_metalenguaje.nucleo.proyecto import (EscalaresInvalidas, EscalaresNoConfiables, catalogo_efectivo,
+                                                     escalares_del_proyecto, macros_del_proyecto, resolver)
+    proyecto = resolver(["--proyecto", str(proyecto_oracle())])
+    try:
+        with escalares_del_proyecto(proyecto, confiar=config_proyecto()["confiar_escalares"]):
+            return catalogo_efectivo(proyecto, macros=macros_del_proyecto(proyecto))
+    except EscalaresNoConfiables as e:
+        raise FactoryError(f'{e}. En Factory, eso lo declara el proyecto con "confiar_escalares": true en '
+                           ".factory/config.json") from e
+    except EscalaresInvalidas as e:
+        raise FactoryError(f"los escalares del proyecto no se pudieron cargar: {e}") from e
 
 
 def archivos_de_medidas(contenido: bytes, catalogo=None) -> dict[str, Path | None]:
@@ -1397,7 +1442,7 @@ def medidas_sin_decision(estado: dict) -> list[tuple[str, str]]:
     medidas, pendientes = estado.get("medidas") or {}, estado.get("medidas_pendientes") or {}
     faltan, catalogo = [], None
     for rid in estado.get("requisitos", []):
-        ruta = ROOT / "requisitos" / f"{rid}.requisito"
+        ruta = requisitos_dir() / f"{rid}.requisito"
         if not ruta.is_file() or rid in pendientes:
             continue
         contenido = ruta.read_bytes()
@@ -1601,7 +1646,7 @@ def insumos_resumen() -> tuple:
     medidas = {}
     for indice in indices:
         for req in indice["requisitos"].values():
-            ruta = ROOT / "requisitos" / f"{req['requisito']}.requisito"
+            ruta = requisitos_dir() / f"{req['requisito']}.requisito"
             texto = ruta.read_text(encoding="utf-8") if ruta.is_file() else ""
             m = re.search(r"(?m)^\s+medido_por\s+(.+?)\s*$", texto)
             medidas[req["requisito"]] = [x.strip() for x in m[1].split(",")] if m else []
@@ -1711,10 +1756,10 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     if ruta_segura(ruta_registro(carpeta)).is_file():
         _, previo = leer(identificador)
         quedan = [r for r in ((previo.get("abandono") or {}).get("requisitos_quitados") or [])
-                  if (ROOT / "requisitos" / f"{r}.requisito").is_file()] if previo.get("fase") == "abandonada" else []
+                  if (requisitos_dir() / f"{r}.requisito").is_file()] if previo.get("fase") == "abandonada" else []
         if quedan:  # un corte entre el registro y el borrado: la decisión ya está tomada, sólo falta completarla
             for rid in quedan:
-                (ROOT / "requisitos" / f"{rid}.requisito").unlink()
+                (requisitos_dir() / f"{rid}.requisito").unlink()
             actualizar_resumen()
             print(f"{identificador} ya estaba abandonado; quité de requisitos/ lo que había quedado: {', '.join(quedan)}.")
             return
@@ -1739,7 +1784,7 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
         return
     if motivo_agente:
         raise FactoryError("--motivo es la propuesta de un agente; una persona elige el motivo en el menú")
-    requisitos = [r for r in estado.get("requisitos", []) if (ROOT / "requisitos" / f"{r}.requisito").is_file()]
+    requisitos = [r for r in estado.get("requisitos", []) if (requisitos_dir() / f"{r}.requisito").is_file()]
     tarea = ROOT / "tareas" / identificador / "TAREA.md"
     print(f"{identificador} — {estado['titulo']} (fase {estado['fase']}).")
     print("Se quitan de requisitos/ (quedan en la historia de Git): " + (", ".join(requisitos) or "ninguno") + ".")
@@ -1770,7 +1815,7 @@ def abandonar(identificador: str, motivo_agente: str | None = None) -> None:
     evento(estado, "abandono", forma=forma, requisitos_quitados=requisitos)
     guardar(carpeta, estado)
     for rid in requisitos:  # después del registro: lo que se quitó queda dicho aunque se corte acá
-        (ROOT / "requisitos" / f"{rid}.requisito").unlink(missing_ok=True)
+        (requisitos_dir() / f"{rid}.requisito").unlink(missing_ok=True)
     actualizar_resumen()
     print(f"Abandonado: {identificador}; {quien(estado['abandono'])}.")
 
@@ -1820,7 +1865,7 @@ def cambiar_modo(identificador: str, nuevo_modo: str) -> None:
     for rid, medida in list((estado.get("medidas") or {}).items()):
         via = via_nueva(medida, "medidas", [(estado.get("tipos") or {}).get(rid, "funcional")])
         if via:
-            ruta = ROOT / "requisitos" / f"{rid}.requisito"
+            ruta = requisitos_dir() / f"{rid}.requisito"
             estado.setdefault("medidas_pendientes", {})[rid] = {"sha256": medida.get("sha256") or sha256(ruta.read_bytes()), "actor": medida["actor"],
                                                                 "tipo_actor": "agente", "cuando": medida["cuando"],
                                                                 "descartada": via == "rechaza"}
@@ -1917,7 +1962,7 @@ def datos_donde(identificador: str, candidato: str | None) -> dict:
             "artefactos": [{"gate": fila["gate"], "ruta": fila["ruta"], "nota": fila["nota"] or None,
                             "situacion": ("no_valido" if fila.get("invalida") else "historico" if fila["gate"] == "histórico"
                                           else "existe" if fila["existe"] else "ausente")}
-                           for fila in estructura.donde(ROOT, identificador, estado, candidato)]}
+                           for fila in estructura.donde(ROOT, identificador, estado, candidato, oracle_rel())]}
 
 
 def datos_trazabilidad(identificador: str, base: str | None = None) -> dict:
@@ -2010,7 +2055,7 @@ def rangos(lineas: list[int]) -> str:
 def comando_donde(identificador: str, candidato: str | None) -> None:
     _, estado = leer(identificador)
     print(f"{estado['id']} — {estado['titulo']}" + (f" (candidato {candidato})" if candidato else ""))
-    for fila in estructura.donde(ROOT, identificador, estado, candidato):
+    for fila in estructura.donde(ROOT, identificador, estado, candidato, oracle_rel()):
         marca = ("no válido" if fila.get("invalida") else "histórico" if fila["gate"] == "histórico"
                  else "existe" if fila["existe"] else "AUSENTE")
         print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
@@ -2058,7 +2103,11 @@ def comando_ruta(identificador: str, tipo: str) -> None:
 def comando_buscar(texto: str, maximo: int) -> None:
     if not texto.strip():
         raise FactoryError("indicá el texto a buscar")
-    lineas, total, omitidos = estructura.buscar(ROOT, texto, maximo)
+    try:
+        oracle = oracle_rel()
+    except FactoryError:  # buscar sólo lee: sin una configuración legible (un .factory enlazado) busca en la raíz
+        oracle = ""
+    lineas, total, omitidos = estructura.buscar(ROOT, texto, maximo, oracle)
     for linea in lineas:
         print(linea)
     print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
@@ -2107,7 +2156,8 @@ LEEME_FACTORY = """# .factory/
 Lo que Factory produce sobre este proyecto. Se versiona con el código para que quien clone el proyecto
 lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 
-- `config.json` es la configuración del proyecto: `modo_por_defecto`, `tipos_obligatorios` y `capacidades` (alias de capacidades).
+- `config.json` es la configuración del proyecto: `modo_por_defecto`, `tipos_obligatorios`, `capacidades` (alias de capacidades),
+  `revisores`, `oracle` (la carpeta del proyecto Oracle, si no es la raíz) y `confiar_escalares`.
 - `cambios/<ID>/` guarda el estado del cambio: `factory.json`, `review.md` y `oracle-veredicto.txt`.
 - `resumen.md` es el estado actual en una lectura (`oracle-factory resumen`); se lee con `glow -p .factory/resumen.md`.
 - `specs/<capacidad>.json` es el índice de la spec consolidada en `openspec/specs/<capacidad>/`: de qué cambio y requisito de Oracle viene cada requisito vigente y cuáles fueron reemplazados.
@@ -2119,7 +2169,8 @@ Más detalle en `docs/estructura.md` del repositorio de Factory, y `oracle-facto
 """
 
 
-def inicializar() -> None:
+def inicializar(oracle: str | None = None) -> None:
+    """Prepara Factory en ROOT. Con `oracle`, adopta el proyecto Oracle que ya está en esa carpeta en vez de crear uno en la raíz."""
     marca = ROOT / estructura.DIR
     if marca.is_symlink() or (marca.exists() and not marca.is_dir()):
         raise FactoryError(f"{marca} existe y no es una carpeta de Factory: renombrala o quitala antes de ejecutar init; no creé nada")
@@ -2127,10 +2178,18 @@ def inicializar() -> None:
     if afuera is not None:
         print(f"Aviso: esta carpeta está dentro del proyecto Factory {afuera}; init crea un proyecto anidado y los comandos "
               "usarán el más cercano.", file=sys.stderr)
+    if oracle is not None:
+        relativa = PurePosixPath(oracle)
+        if (oracle in ("", ".") or relativa.is_absolute() or PureWindowsPath(oracle).drive or ".." in relativa.parts
+                or (ROOT / relativa).resolve() != ROOT / relativa or not (ROOT / relativa / "oracle.json").is_file()):
+            raise FactoryError(f"--oracle es la carpeta de un proyecto Oracle que ya existe dentro de este proyecto "
+                               f"(con oracle.json); «{oracle}» no lo es. No creé nada")
     ROOT.mkdir(parents=True, exist_ok=True)
-    for nombre in ("tareas", "catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json", ".gitignore", "openspec/changes", estructura.DIR):
+    propios = ("tareas", ".gitignore", "openspec/changes", estructura.DIR)
+    oracle_raiz = ("catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json")
+    for nombre in propios + (() if oracle else oracle_raiz):
         ruta_segura(ROOT / nombre)
-    for comando in (["tasks", "init", str(ROOT), "--sin-readme"], ["oracle", "init", str(ROOT)]):
+    for comando in (["tasks", "init", str(ROOT), "--sin-readme"], *([] if oracle else [["oracle", "init", str(ROOT)]])):
         resultado = ejecutar(comando)
         if resultado.returncode:
             raise FactoryError(resultado.stderr or resultado.stdout)
@@ -2139,8 +2198,12 @@ def inicializar() -> None:
         ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
     config = ruta_segura(ROOT / estructura.DIR / 'config.json')
     if not config.exists() and not (ROOT / 'factory.json').exists():  # con la configuración anterior en la raíz, la pasa `migrar`
-        config.write_text(json.dumps({"modo_por_defecto": modos.POR_DEFECTO, "tipos_obligatorios": False}, indent=2) + "\n",
-                          encoding='utf-8')
+        datos = {"modo_por_defecto": modos.POR_DEFECTO, "tipos_obligatorios": False}
+        config.write_text(json.dumps({**datos, **({"oracle": oracle} if oracle else {})}, indent=2) + "\n", encoding='utf-8')
+    elif oracle and config.exists():  # ya inicializado: sólo se anota dónde está el proyecto Oracle
+        datos = json.loads(config.read_text(encoding='utf-8'))
+        if datos.get("oracle") != oracle:
+            escribir_atomico(config, (json.dumps({**datos, "oracle": oracle}, indent=2, ensure_ascii=False) + "\n").encode())
     leeme = ruta_segura(ROOT / estructura.DIR / 'LEEME.md')
     if not leeme.exists():
         leeme.write_text(LEEME_FACTORY, encoding='utf-8')
@@ -2156,7 +2219,7 @@ def inicializar() -> None:
         print("Aviso: hay paquetes de Clue versionados de antes; ahora son locales. Para dejar de versionarlos sin borrarlos: "
               "git rm -r --cached " + " ".join(sorted({str(Path(p).parent) for p in versionados})), file=sys.stderr)
     print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
-    print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; configuración: {ROOT / "oracle.json"}.')
+    print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; proyecto Oracle: {ROOT / (oracle or "")}.')
     print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
@@ -2222,7 +2285,8 @@ def plan_ejemplo() -> dict[Path, bytes]:
     destino = ruta_segura(ROOT / 'examples' / 'notas')
     if destino.exists():
         raise FactoryError(f"el destino del ejemplo ya existe: {destino}; usá nuevo --capacidad notas para otro cambio")
-    if not (ROOT / 'catalogos').is_dir() or not (ROOT / 'oracle.json').is_file():
+    oracle = proyecto_oracle()
+    if not (oracle / 'catalogos').is_dir() or not (oracle / 'oracle.json').is_file():
         raise FactoryError('primero inicializá el proyecto con oracle-factory init')
     origen = resources.files('oracle_factory').joinpath('data/notas')
     plan = {}
@@ -2234,7 +2298,7 @@ def plan_ejemplo() -> dict[Path, bytes]:
             else:
                 plan[destino / nombre] = item.read_bytes()
                 if relativa == Path('catalogos'):
-                    plan[ROOT / 'catalogos' / item.name] = item.read_bytes()
+                    plan[oracle / 'catalogos' / item.name] = item.read_bytes()
     recorrer(origen, Path())
     for ruta in plan:
         ruta_segura(ruta)
@@ -2268,7 +2332,7 @@ def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
     """Los archivos que el registro del cambio referencia y no están en el disco, relativos a la raíz."""
     rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
     rutas = [carpeta / "proposal.md", carpeta / "tasks.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
-             *(ROOT / "requisitos" / f"{r}.requisito" for r in estado.get("requisitos") or []),
+             *(requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
              *(ROOT / r for r in (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"), oracle.get("hechos")) if r)]
     return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]
 
@@ -2418,8 +2482,8 @@ def medidas_en_uso(excepto: str) -> tuple[set[str], list[str]]:
     """Las medidas que nombra algún requisito del proyecto, salvo `excepto`, y los requisitos que no se pudieron leer."""
     from oracle_metalenguaje.nucleo import requisito
     usadas, ilegibles = set(), []
-    propio = ROOT / 'requisitos' / f'{excepto}.requisito'
-    base = ROOT / 'requisitos'
+    propio = requisitos_dir() / f'{excepto}.requisito'
+    base = requisitos_dir()
     rutas = []  # también en subcarpetas, como los carga Oracle; una carpeta que no se puede abrir cuenta como ilegible
     for carpeta, _, archivos in os.walk(base, onerror=lambda e: ilegibles.append(Path(e.filename).relative_to(base).as_posix() + '/')):
         rutas += [Path(carpeta) / a for a in archivos if a.endswith('.requisito')]
@@ -2435,16 +2499,14 @@ def medidas_en_uso(excepto: str) -> tuple[set[str], list[str]]:
 def inventario_medidas(estado: dict):
     # Oracle es quien valida la sintaxis, forma única, ids y catálogo efectivo.
     from oracle_metalenguaje.nucleo import requisito
-    from oracle_metalenguaje.nucleo.proyecto import resolver, catalogo_efectivo
-    ruta_segura(ROOT / 'requisitos')
+    ruta_segura(requisitos_dir())
     requisitos = {}
     for rid in estado.get('requisitos', []):
         if not requisito.ID_RE.fullmatch(rid):
             raise FactoryError(f'id de requisito inválido en el registro: {rid}')
-        ruta = ruta_segura(ROOT / 'requisitos' / f'{rid}.requisito')
+        ruta = ruta_segura(requisitos_dir() / f'{rid}.requisito')
         requisitos[rid] = requisito.cargar(ruta)
-    proyecto = resolver(['--proyecto', str(ROOT)])
-    catalogo = catalogo_efectivo(proyecto)
+    catalogo = catalogo_del_proyecto()
     huella = sha256(json.dumps([
         [mid, str(catalogo.entradas[mid].ruta), sha256(catalogo.entradas[mid].ruta.read_bytes()), repr(m)]
         for mid, m in sorted(catalogo.items())
@@ -2471,7 +2533,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
             raise FactoryError('--listar no acepta opciones de edición')
         print('Requisitos de este cambio (sin evaluar cumplimiento):')
         for rid, r in requisitos.items():
-            print(f"{rid}\n  Archivo: {ROOT / 'requisitos' / (rid + '.requisito')}\n  Texto: {r.texto}\n  Fuente: {r.fuente}")
+            print(f"{rid}\n  Archivo: {requisitos_dir() / (rid + '.requisito')}\n  Texto: {r.texto}\n  Fuente: {r.fuente}")
             print('  Medidas: ' + (', '.join(r.medido_por) or 'ninguna'))
             print('  SIN MEDIR: ' + (r.sin_medir or 'sin límite adicional declarado; no prueba cobertura semántica'))
         base = {mid for mid in catalogo if catalogo.entradas[mid].origen.clase == 'catalogo_base'}
@@ -2506,7 +2568,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     from dataclasses import replace
     from oracle_metalenguaje.nucleo import requisito
     from oracle_metalenguaje.nucleo.forma import error_forma
-    ruta = ROOT / 'requisitos' / f'{requisito_id}.requisito'
+    ruta = requisitos_dir() / f'{requisito_id}.requisito'
     original = ruta.read_bytes()
     registro_original = (ruta_registro(carpeta)).read_bytes()
     doc_original = documentos(carpeta, estado)
@@ -2629,7 +2691,7 @@ def medir(identificador: str, *, requisito_id: str | None = None,
 def propuestas_confirmables(estado: dict) -> list[str]:
     """Requisitos con medidas propuestas por el agente que siguen tal como las propuso (si el archivo cambió, ya no lo son)."""
     def actual(r):
-        ruta = ROOT / "requisitos" / f"{r}.requisito"
+        ruta = requisitos_dir() / f"{r}.requisito"
         return sha256(ruta.read_bytes()) if ruta.is_file() else None  # un requisito que falta no se puede confirmar
     propuestas = {r: p for r, p in (estado.get("medidas_pendientes") or {}).items()
                   if not p.get("descartada") and actual(r) == p["sha256"]}
@@ -2639,7 +2701,7 @@ def propuestas_confirmables(estado: dict) -> list[str]:
         with contextlib.suppress(OSError, ValueError):
             catalogo = catalogo_del_proyecto()
     return sorted(r for r, p in propuestas.items() if p.get("catalogos") is not None
-                  and not catalogos_cambiados(p, (ROOT / "requisitos" / f"{r}.requisito").read_bytes(), catalogo))
+                  and not catalogos_cambiados(p, (requisitos_dir() / f"{r}.requisito").read_bytes(), catalogo))
 
 
 def confirmar_medidas(identificador: str) -> None:
@@ -2691,7 +2753,8 @@ def construir_parser() -> argparse.ArgumentParser:
     parser.add_argument("--proyecto", type=Path, default=None, help="carpeta del proyecto; por defecto se busca .factory/ subiendo desde la carpeta actual y, si no hay, se usa la actual; colocar antes del subcomando")
     parser.add_argument("--agente", default=os.environ.get("FACTORY_AGENTE"), help="actuar como agente con este nombre (o FACTORY_AGENTE); queda registrado como agente, nunca como persona")
     sub = parser.add_subparsers(dest="comando", required=True)
-    sub.add_parser("init", help="inicializar Oracle, tareas y acuerdos sin sobrescribir configuración")
+    p = sub.add_parser("init", help="inicializar Oracle, tareas y acuerdos sin sobrescribir configuración")
+    p.add_argument("--oracle", metavar="CARPETA", help="adoptar el proyecto Oracle que ya está en esa carpeta (por ejemplo medidas)")
     p = sub.add_parser("ejemplo", help="copiar el ejemplo incluido a una carpeta nueva")
     p.add_argument("nombre", choices=["notas"])
     p.add_argument("--destino", type=Path, default=Path("examples/notas"))
@@ -2783,7 +2846,9 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.comando != "init" and not ROOT.is_dir():
             raise FactoryError("el proyecto no existe; ejecutá primero init")
-        if args.comando == "init": inicializar()
+        if args.comando not in ("init", "buscar") and (ROOT / estructura.DIR / "config.json").is_file():
+            proyecto_oracle()  # una carpeta de Oracle mal configurada falla antes de que el comando escriba nada
+        if args.comando == "init": inicializar(args.oracle)
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
         elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo, args.sufijo)
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)

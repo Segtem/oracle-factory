@@ -2,7 +2,7 @@
   "id": "20261015-155346-oracle-en-carpeta",
   "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
   "capacidad": "estructura",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
   "spec_sha256": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta",
+    "estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente",
+    "estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261015-155346-oracle-en-carpeta/proposal.md": "f119ed560850fd9106d893ccb9f77aada1a0144978369b2eb3aa8f58af43e741",
         "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T16:15:17+00:00",
+      "ids": [
+        "estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta",
+        "estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente",
+        "estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta": "funcional",
+    "estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente": "funcional",
+    "estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
