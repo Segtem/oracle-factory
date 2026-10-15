@@ -2,7 +2,7 @@
   "id": "20261015-105600-cli-piloto",
   "titulo": "CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md",
   "spec_sha256": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "97e7128911432ea2128a1a0879f6302585730c2fb22d93a3d5432723f81f001f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261015-105600-cli-piloto/candidatos/1adc75b/evidencia/hechos.json",
+    "hechos_sha256": "1cc648bd4e8fa599040ddc37a6bc056f0a2a8305171bc8b5105f3ac1095bc23a",
+    "informe": ".factory/cambios/20261015-105600-cli-piloto/oracle-veredicto.txt",
+    "informe_sha256": "95b8716faf807d870a61e8e72d331268637a976419e8c6ccbba705156ac7f931",
+    "cuando": "2026-10-15T12:22:15+00:00",
+    "contexto": {
+      "head": "126ee9555f0706899476089aa255863c1d38a7ba",
+      "archivos_sha256": "97e7128911432ea2128a1a0879f6302585730c2fb22d93a3d5432723f81f001f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -295,6 +307,17 @@
       "abiertos": 0,
       "sha256": "b8200abfc0e7326aded3080d65adf9e3fa375fd270b0d2c33800aa56c163c011",
       "decisiones_sha256": "81af3b15367acd7949a6b7d8b7c75c3a3a78871d35625854d213211121f3a56d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T12:22:15+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1cc648bd4e8fa599040ddc37a6bc056f0a2a8305171bc8b5105f3ac1095bc23a"
     }
   ],
   "tipos": {

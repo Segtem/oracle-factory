@@ -43,3 +43,7 @@ Medidas de cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de
 ### Nota (2026-10-15 12:21:43 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: cuatro vueltas de codex y agy, a la vez. La 1: un medio en común (un requisito ilegible hacía afirmar que una medida quedó suelta) y tres medios y dos bajos de agy sobre pruebas débiles; todo corregido. La 2 y la 3: codex encontró dos bordes del mismo inventario (subcarpetas de requisitos/, y una subcarpeta que no se puede abrir), corregidos. Cada arreglo con una prueba que falla sin él. La 4 no encontró nada. Suite 352 y evidencia en verde.); 0 abiertos derivados; commit 920a23e11926d1ad5a521031cd324a7d5ccb1f0b; informe tareas/20261015-105600-cli-piloto/revisiones/registro-rzxn9oc3/informe.json; decisiones tareas/20261015-105600-cli-piloto/revisiones/registro-rzxn9oc3/decisiones.json.
+
+### Nota (2026-10-15 12:22:15 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261015-105600-cli-piloto/oracle-veredicto.txt.
