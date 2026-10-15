@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/af991ba",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "af991baec1c9ae81bc35cdb3f73cb29c3b94c27f",
+  "diff_sha256": "3258efed563b3650f33732e4e346a8afeae96d3c1391fbb68051dd8fc69194c9",
+  "context_sha256": "955f40147f2fcb80c42746d2c9d63fb4d800510c5b0320855595dbabb15ef818",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "OC-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "buscar oculta una configuración oracle inválida",
+      "explanation": "La spec exige que una ruta oracle absoluta, que escape del proyecto o que no tenga oracle.json se rechace al correr un comando Factory, explicando la causa. `main` excluye `buscar` de la validación inicial y `comando_buscar` captura el FactoryError de `oracle_rel()` para continuar buscando en la raíz. Con una configuración inválida, `buscar` termina como si hubiera funcionado, no nombra la causa y omite los requisitos de la carpeta Oracle configurada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2108,
+        "end_line": 2109,
+        "side": "head"
+      },
+      "trigger": "Configure `.factory/config.json` con `\"oracle\": \"../afuera\"` (o con una carpeta sin oracle.json) y ejecute `oracle-factory buscar texto`. El comando captura el rechazo de `proyecto_oracle`, usa `oracle = \"\"` y devuelve resultados de la raíz sin error.",
+      "evidence": "En `oracle_factory/cli.py:2107-2110`, `oracle_rel()` queda dentro de un `try` cuya rama `except FactoryError` asigna la cadena vacía y llama a `estructura.buscar`. En `main`, líneas 2849-2850 excluyen explícitamente `buscar` de la validación previa. `tests/test_oracle_en_carpeta.py::test_oc1_una_carpeta_invalida` prueba absolute, `..`, carpeta vacía y enlace de escape usando `aprobar-spec`, pero no prueba `buscar`; por eso no detecta el fallback silencioso.",
+      "related_requirement": "el_proyecto_oracle_puede_estar_en_una_carpeta / Scenario: una carpeta inválida",
+      "status": "pendiente",
+      "verification": "Inspección estática del candidato y de los tests. No ejecuté una mutación; el flujo del fallback es explícito en código."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, el diff del paquete y el código versionado del checkout candidato; no edité el checkout ni corrí herramientas verify_*.py ni la suite completa.",
+    "La orden de pruebas exactamente como se indicó, incluido el punto final literal después de `</dev/null`, falló porque unittest interpretó `.` como nombre de módulo y devolvió `ValueError: Empty module name`. Sin ese punto final, `python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null` corrió 38 pruebas y terminó OK, pero desde `/home/workstation/Dev/factory-oracle-en-carpeta`, cuyo HEAD era `378cac3c0e00156be47f7e004787a9c57ff55031`, no desde el checkout candidato `af991ba`; esa corrida no valida este candidato.",
+    "No hice mutaciones manuales ni comprobé Jam o LyraGASP; son consumidores fuera del diff revisado."
+  ]
+}

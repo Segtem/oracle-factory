@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/af991ba",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "af991baec1c9ae81bc35cdb3f73cb29c3b94c27f",
+  "diff_sha256": "3258efed563b3650f33732e4e346a8afeae96d3c1391fbb68051dd8fc69194c9",
+  "context_sha256": "955f40147f2fcb80c42746d2c9d63fb4d800510c5b0320855595dbabb15ef818",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "buscar-silencia-oracle-invalido",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "comando_buscar silencia excepciones y busca en la raíz ante una carpeta Oracle inválida",
+      "explanation": "La spec (Requirement: el proyecto Oracle puede estar en una carpeta) promete: «Una carpeta absoluta, que sale del proyecto o sin oracle.json SHALL rechazarse con la causa» y en su escenario 'una carpeta inválida': «GIVEN una configuración con oracle absoluta, con .. que sale del proyecto, o en una carpeta sin oracle.json / WHEN se corre un comando de Factory / THEN falla diciendo cuál es el problema y no escribe nada». Sin embargo, oracle_factory/cli.py excluye explícitamente a buscar de la validación temprana de main (línea 2849: if args.comando not in ('init', 'buscar') ...) y en comando_buscar captura FactoryError silenciosamente fijando oracle = '' (líneas 2106-2109: except FactoryError: oracle = ''). Al ejecutar oracle-factory buscar con una configuración de oracle inválida (e.g. ruta absoluta, escape con .. o sin oracle.json), el comando no falla ni rechaza la configuración: silencia el error y busca en la raíz retornando código 0. tests/test_oracle_en_carpeta.py no detecta esto porque solo prueba aprobar-spec en test_oc1_una_carpeta_invalida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2106,
+        "end_line": 2110,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory buscar <texto> en un proyecto donde .factory/config.json define una carpeta oracle absoluta, con .. que sale del proyecto o que no contiene oracle.json.",
+      "evidence": "En una prueba con .factory/config.json conteniendo {'oracle': '/ruta/absoluta'}, f.main(['buscar', 'algo']) retornó código 0 e imprimió resultados buscando en la raíz, en lugar de fallar con código 1 y reportar la causa como exige la spec.",
+      "related_requirement": "el_proyecto_oracle_puede_estar_en_una_carpeta",
+      "status": "pendiente",
+      "verification": "Configurar {'oracle': '/ruta/invalida'} en .factory/config.json y ejecutar oracle-factory buscar texto: verificar si termina con código de error y mensaje explicativo o si devuelve 0 buscando en la raíz."
+    },
+    {
+      "id": "init-recrea-oracle-raiz-si-reinit",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.9,
+      "title": "inicializar() sin --oracle recrea la estructura Oracle en la raíz aunque el proyecto ya tenga configurado oracle en carpeta",
+      "explanation": "El Requirement: init adopta un proyecto Oracle existente establece que Factory «SHALL NOT crear oracle.json, requisitos/ ni catálogos en la raíz». En oracle_factory/cli.py, inicializar(oracle: str | None = None) sólo omite oracle_raiz ('catalogos', 'corpus', 'diferencial', 'relaciones', 'requisitos', 'macros', 'oracle.json') y el subcomando ['oracle', 'init', str(ROOT)] si el argumento oracle no es None (líneas 2189-2195: for nombre in propios + (() if oracle else oracle_raiz) y *([] if oracle else [['oracle', 'init', str(ROOT)]])). Si un proyecto ya fue inicializado con oracle en una carpeta (e.g. medidas/ con 'oracle': 'medidas' en .factory/config.json), una invocación posterior de inicializar() (sin --oracle, e.g. para asegurar subcarpetas, sincronizar .gitignore o en un entorno donde init se invoca como rutina idempotente) no lee la configuración existente, evalúa oracle como None y ejecuta oracle init en ROOT, creando oracle.json, catalogos/ y demás carpetas en la raíz del repositorio a pesar de que .factory/config.json continúa apuntando a medidas/.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2189,
+        "end_line": 2193,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory init sin argumentos sobre un repositorio que ya tiene Factory inicializado con oracle-factory init --oracle <carpeta>.",
+      "evidence": "Al ejecutar f.inicializar('medidas') en un repositorio de prueba, la raíz queda limpia sin oracle.json ni catalogos. Al invocar seguidamente f.inicializar() (sin argumentos), aparecen en la raíz oracle.json y catalogos/ creados por oracle init ROOT, mientras .factory/config.json mantiene 'oracle': 'medidas'.",
+      "related_requirement": "init_adopta_un_proyecto_oracle_existente",
+      "status": "pendiente",
+      "verification": "Inicializar un proyecto con f.inicializar('medidas'), verificar que la raíz no tiene oracle.json, correr f.inicializar() y comprobar si (ROOT / 'oracle.json') o (ROOT / 'catalogos') fueron creados en la raíz."
+    },
+    {
+      "id": "test-oc3-sin-declararlo-no-prueba-juzgar",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_oc3_sin_declararlo no prueba la fase de juicio ni que Factory invoque Oracle sin --confiar-escalares",
+      "explanation": "El escenario 'sin declararlo' de la spec exige: «GIVEN el mismo proyecto sin la clave confiar_escalares / WHEN se juzga / THEN Factory no pasa --confiar-escalares y el error de Oracle llega a la persona». En tests/test_oracle_en_carpeta.py, test_oc3_sin_declararlo llama a self.cambio_juzgado(...), que ejecuta secuencialmente nuevo, aprobar_spec, importar, medir, git commit, revisar y juzgar. Sin embargo, cambio_juzgado falla prematuramente durante f.medir porque inventario_medidas invoca catalogo_del_proyecto(), arrojando FactoryError (EscalaresNoConfiables). La ejecución nunca llega a f.juzgar ni a ninguna invocación de oracle cobertura. La aserción self.assertTrue(all('--confiar-escalares' not in a for a in llamadas)) se cumple vacíamente porque la lista llamadas tiene 0 llamadas a oracle cobertura. Como prueba de mutación, al mutar cli.py en juzgar (líneas 1310 y 1313) para pasar siempre incondicionalmente '--confiar-escalares', test_oc3_sin_declararlo sobrevive y pasa sin fallar.",
+      "location": {
+        "file": "tests/test_oracle_en_carpeta.py",
+        "start_line": 202,
+        "end_line": 211,
+        "side": "head"
+      },
+      "trigger": "Ejecución de test_oc3_sin_declararlo en tests/test_oracle_en_carpeta.py.",
+      "evidence": "Al instrumentar llamadas_a_oracle(), llamadas contiene 5 elementos correspondientes a tasks y oracle requisito importar, y 0 llamadas a oracle cobertura. Además, al mutar *con_escalares() por '--confiar-escalares' en cli.py (líneas 1310 y 1313), todos los tests de test_oracle_en_carpeta.py continúan pasando con código de salida 0.",
+      "related_requirement": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "status": "pendiente",
+      "verification": "Inspeccionar las llamadas a oracle cobertura registradas durante test_oc3_sin_declararlo o verificar si sobrevive una mutación en juzgar que fuerce siempre '--confiar-escalares'."
+    },
+    {
+      "id": "escalares-bloquean-comandos-previos-a-juicio",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "catalogo_del_proyecto bloquea comandos de consulta e inspección si escalares.py está presente y no se declaró confiar_escalares",
+      "explanation": "Requirement: los escalares del proyecto se ejecutan sólo si el proyecto lo declara promete: «Con 'confiar_escalares': true en la configuración, Factory SHALL correr Oracle con --confiar-escalares al evaluar medidas; sin esa clave SHALL NOT pasarlo». Sin embargo, en oracle_factory/cli.py (líneas 1366-1372), catalogo_del_proyecto() envuelve catalogo_efectivo dentro de with escalares_del_proyecto(proyecto, confiar=config_proyecto()['confiar_escalares']). Si escalares.py existe pero confiar_escalares es False o no está configurado, escalares_del_proyecto arroja EscalaresNoConfiables, convertida en FactoryError. Esta función es llamada por inventario_medidas y medidas_sin_decision, afectando a operaciones previas a juzgar como medir --listar, medir (incluso con medidas que no usan escalares) y estado/datos_estado cuando hay requisitos importados o medidas asociadas (donde contextlib.suppress(OSError, ValueError) en medidas_sin_decision no captura FactoryError). Asimismo, cuando confiar_escalares es true, catalogo_del_proyecto ejecuta escalares.py durante consultas de solo lectura (como estado o medir --listar) y no solo 'al evaluar medidas'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1366,
+        "end_line": 1373,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory medir <id> --listar o oracle-factory estado <id> en un cambio con medidas asignadas en un proyecto que contiene escalares.py sin haber configurado confiar_escalares: true.",
+      "evidence": "En un proyecto de prueba con medidas/escalares.py y medidas asignadas que no usan escalares, al invocar f.mostrar(ident) o f.datos_estado(ident), ambos fallaron arrojando FactoryError: .../medidas/escalares.py es código Python externo; repetí con --confiar-escalares para ejecutarlo.",
+      "related_requirement": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "status": "pendiente",
+      "verification": "Crear un proyecto con un cambio y requisitos importados, agregar escalares.py en la carpeta Oracle sin 'confiar_escalares': true en .factory/config.json, y correr oracle-factory medir <id> --listar o oracle-factory estado <id>."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias ejecutadas exactamente según instrucciones: cd /home/workstation/Dev/factory-oracle-en-carpeta && /home/workstation/Dev/factory-oracle-en-carpeta/.venv/bin/python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null.",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas por indicación expresa.",
+    "Se realizaron pruebas de mutación manuales en directorios temporales aislados para verificar la sensibilidad de las pruebas ante fallos de contrato."
+  ]
+}

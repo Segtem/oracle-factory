@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/a38d44b",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "a38d44b45ab84f08dc10d9f3e3850639ea75f25a",
+  "diff_sha256": "338ea973250748cb893f76e1038ed66d287c5d9ea5a4ade3fdd839d7d588777a",
+  "context_sha256": "d9ec5649a07d0da9238b483f031929c69ef215fcb4c2b5c5fbfb2bab9f20f3e5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "No encontré hallazgos en el diff revisado; las cuatro revisiones previas revisadas no muestran regresiones abiertas en esta vuelta.",
+    "Corrí exactamente la orden de pruebas indicada; terminó con 38 tests OK, pero el checkout principal estaba en HEAD e57ac68e9b1146a1c1f37526dfb446114a90cd77, no en el candidato a38d44b45ab84f08dc10d9f3e3850639ea75f25a. Revisé estáticamente los tests y el código del candidato; no afirmo que esa corrida los haya ejecutado.",
+    "No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales.",
+    "No revisé los archivos excluidos de .factory y tareas, ni ejecuté los casos en proyectos consumidores Jam o LyraGASP."
+  ]
+}

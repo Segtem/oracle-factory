@@ -1,0 +1,40 @@
+{
+  "carpeta_caso": [
+    {
+      "requisito": "el_proyecto_oracle_puede_estar_en_una_carpeta",
+      "caso": "oc1_un_proyecto_con_su_oracle_en_medidas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proyecto_oracle_puede_estar_en_una_carpeta",
+      "caso": "oc1_sin_la_clave_todo_sigue_en_la_raiz",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proyecto_oracle_puede_estar_en_una_carpeta",
+      "caso": "oc1_una_carpeta_invalida",
+      "codigo": 0
+    },
+    {
+      "requisito": "init_adopta_un_proyecto_oracle_existente",
+      "caso": "oc2_un_repositorio_con_medidas_y_tareas",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "caso": "oc3_un_proyecto_con_escalares",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "caso": "oc3_sin_declararlo",
+      "codigo": 0
+    }
+  ],
+  "carpeta_corrida": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ]
+}

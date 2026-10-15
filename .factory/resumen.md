@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:688f72e569b710ad2eee06c73d56f7f52b687f4c4921366f239911bd96d4da7b -->
+<!-- oracle-factory resumen sha256:3166d551d8a4f99bbfe0d6704698e5a913966e04fb5dc996479fb03013514ada -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 122 requisitos vigentes · 1 cambio abierto
+16 capacidades · 125 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -97,6 +97,9 @@ Spec completa: [openspec/specs/estructura/spec.md](../openspec/specs/estructura/
 | la configuración del proyecto vive en .factory | funcional | `estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory` | factory_estructura2.la_configuracion_del_proyecto_vive_en_factory, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
 | los comandos de lectura entienden los dos lugares | funcional | `estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares` | factory_estructura2.los_comandos_de_lectura_entienden_los_dos_lugares, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
 | este repositorio queda migrado y verificado | no funcional | `estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado` | factory_estructura2.este_repositorio_queda_migrado_y_verificado, factory_estructura2.corrida_completa | verde al cerrar el 2026-10-06 | 20261006-004456-fase-2-de-la |
+| el proyecto Oracle puede estar en una carpeta | funcional | `estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta` | factory_carpeta.el_proyecto_oracle_puede_estar_en_una_carpeta, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
+| init adopta un proyecto Oracle existente | funcional | `estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente` | factory_carpeta.init_adopta_un_proyecto_oracle_existente, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
+| los escalares del proyecto se ejecutan sólo si el proyecto lo declara | funcional | `estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara` | factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
 
 ### limpieza
 
@@ -572,6 +575,15 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): Leí la spec, el diff del paquete, la implementación, tests/test_catalogo_confirmado.py, tools/verify_catalogo_confirmado.py, los catálogos agregados, README.md y los cuatro informes de revisión previos.
 - (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales fuera de las simulaciones temporales incluidas en los tests.
 - (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): La clasificación incorrecta reportada aplica al caso acotado de una medida del catálogo base omitida sin error; las pruebas cubren el caso equivalente con una ruta del proyecto. No medí el costo temporal con un proyecto grande; en el flujo normal el catálogo se resuelve una vez por llamada a estado y se reutiliza.
+- (20261015-155346-oracle-en-carpeta) Evidencia: Escenarios oc1–oc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, el ejemplo notas y un escalar de prueba. No prueba Jam ni LyraGASP: su mudanza es lo que sigue, con su propia evidencia.
+- (20261015-155346-oracle-en-carpeta) agy (gemini-3.8-flash-high): Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: cd /home/workstation/Dev/factory-oracle-en-carpeta && /home/workstation/Dev/factory-oracle-en-carpeta/.venv/bin/python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null (38 pruebas pasadas satisfactoriamente).
+- (20261015-155346-oracle-en-carpeta) agy (gemini-3.8-flash-high): No se ejecutó tools/verify_*.py ni la suite completa de pruebas por indicación expresa.
+- (20261015-155346-oracle-en-carpeta) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en el entorno del revisor (con_escalares siempre vacío, con_escalares siempre forzado, omisión de carga previa de catálogo en juzgar, omisión de control de barras invertidas en carpeta_relativa, donde y buscar sin parámetro oracle, e inicializar sin detección de oracle configurado en re-init); todas las mutaciones fueron detectadas y rechazadas por la suite de pruebas.
+- (20261015-155346-oracle-en-carpeta) agy (gemini-3.8-flash-high): Revisión estática exhaustiva de la implementación en oracle_factory/cli.py, oracle_factory/estructura.py, docs/estructura.md, catálogos en catalogos/factory_carpeta.*.oracle, herramientas de evidencia y especificación OpenSpec. No se detectaron defectos abiertos ni regresiones respecto de iteraciones anteriores.
+- (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): No encontré hallazgos en el diff revisado; las cuatro revisiones previas revisadas no muestran regresiones abiertas en esta vuelta.
+- (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): Corrí exactamente la orden de pruebas indicada; terminó con 38 tests OK, pero el checkout principal estaba en HEAD e57ac68e9b1146a1c1f37526dfb446114a90cd77, no en el candidato a38d44b45ab84f08dc10d9f3e3850639ea75f25a. Revisé estáticamente los tests y el código del candidato; no afirmo que esa corrida los haya ejecutado.
+- (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales.
+- (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): No revisé los archivos excluidos de .factory y tareas, ni ejecuté los casos en proyectos consumidores Jam o LyraGASP.
 
 ### Históricos
 

@@ -82,8 +82,8 @@ def _entrada(gate: str, ruta, raiz: Path, nota: str = '') -> dict:
     return {'gate': gate, 'ruta': ruta, 'existe': existe, 'nota': nota}
 
 
-def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) -> list[dict]:
-    """Cada artefacto del cambio con su ruta, si existe y el gate que respalda."""
+def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None, oracle: str = '') -> list[dict]:
+    """Cada artefacto del cambio con su ruta, si existe y el gate que respalda; `oracle` es la carpeta del proyecto Oracle."""
     cambio = f'openspec/changes/{ident}'
     prefijo = (candidato or '').lower()
 
@@ -98,7 +98,7 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
             filas.append(_entrada('spec', estado.get('spec'), raiz))
         requisitos = estado.get('requisitos')
         for rid in (requisitos if isinstance(requisitos, list) else []):
-            filas.append(_entrada('medidas', f'requisitos/{rid}.requisito' if _texto(rid) else None, raiz))
+            filas.append(_entrada('medidas', f'{oracle + "/" if oracle else ""}requisitos/{rid}.requisito' if _texto(rid) else None, raiz))
         if _texto(_dic(estado.get('archivo')).get('spec')):
             filas.append(_entrada('archivo', estado['archivo']['spec'], raiz, 'spec consolidada de la capacidad'))
         filas.append(_entrada('estado', registro_de(raiz, ident).relative_to(raiz).as_posix(), raiz,
@@ -131,9 +131,9 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None) ->
     return filas
 
 
-def _cambio_de(ruta: Path, raiz: Path, por_requisito: dict[str, str]) -> str:
+def _cambio_de(ruta: Path, raiz: Path, por_requisito: dict[str, str], oracle: str = '') -> str:
     partes = ruta.relative_to(raiz).parts
-    if partes[0] == 'requisitos':
+    if partes[:len(Path(oracle).parts) + 1] == (*Path(oracle).parts, 'requisitos'):
         return por_requisito.get(ruta.name.removesuffix('.requisito'), '-')
     # openspec/changes/<ID>/…, tareas/<ID>/…, .factory/cambios/<ID>/…
     posicion = {'openspec': 2, 'tareas': 1, DIR: 2}.get(partes[0])
@@ -157,7 +157,7 @@ def _fragmento(linea: str, aguja: str) -> str:
     return ('…' if inicio else '') + linea[inicio:inicio + 160]
 
 
-def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, int]:
+def buscar(raiz: Path, texto: str, maximo: int = 200, oracle: str = '') -> tuple[list[str], int, int]:
     """Coincidencias (texto literal, sin distinguir mayúsculas ni formas equivalentes) en propuestas, specs,
     requisitos, tareas y registros. Devuelve las líneas, el total y los archivos omitidos por tamaño."""
     aguja = texto.casefold()
@@ -172,7 +172,7 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
                         por_requisito[rid] = carpeta.name
                 except (OSError, ValueError):
                     continue
-    lugares = [raiz / 'openspec' / 'changes', raiz / 'openspec' / 'specs', raiz / 'requisitos', raiz / 'tareas']
+    lugares = [raiz / 'openspec' / 'changes', raiz / 'openspec' / 'specs', raiz / oracle / 'requisitos', raiz / 'tareas']
     if not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta: no se lee a través de él
         lugares.append(raiz / DIR / 'cambios')
     archivos = sorted(p for lugar in lugares if lugar.is_dir() and not lugar.is_symlink() for p in lugar.rglob('*')
@@ -198,5 +198,5 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
                 total += 1
                 if len(lineas) < maximo:
                     relativa = archivo.relative_to(raiz).as_posix()
-                    lineas.append(f'{relativa}:{numero}: {_fragmento(linea, aguja)}  [{_cambio_de(archivo, raiz, por_requisito)}]')
+                    lineas.append(f'{relativa}:{numero}: {_fragmento(linea, aguja)}  [{_cambio_de(archivo, raiz, por_requisito, oracle)}]')
     return lineas, total, omitidos
