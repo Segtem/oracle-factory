@@ -1,0 +1,35 @@
+{
+  "piloto_caso": [
+    {
+      "requisito": "la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec",
+      "caso": "cp1_un_cambio_recien_creado",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec",
+      "caso": "cp1_la_plantilla_completada_se_importa",
+      "codigo": 0
+    },
+    {
+      "requisito": "medir_dice_que_medidas_reemplaza",
+      "caso": "cp2_reemplazar_las_medidas_de_un_requisito",
+      "codigo": 0
+    },
+    {
+      "requisito": "medir_dice_que_medidas_reemplaza",
+      "caso": "cp2_la_primera_vez_no_hay_nada_que_reemplazar",
+      "codigo": 0
+    },
+    {
+      "requisito": "medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base",
+      "caso": "cp3_un_proyecto_con_medidas_propias",
+      "codigo": 0
+    }
+  ],
+  "piloto_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
