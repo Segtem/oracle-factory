@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/4e12cf2",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "4e12cf2c5c42dabd8b0ac45ea52cdbab6c7a6702",
+  "diff_sha256": "b60e7b426cfd05e2873464af828c2509a9085d5d92d3aeda81227ab31d780302",
+  "context_sha256": "4e4c625ff9a66c13546030f37089fb48a18f6a424ff38d40c2010ae09de16aae",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas requerida en primer plano: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null, con resultado OK (39 pruebas).",
+    "Se realizaron pruebas de mutación manuales en el entorno del revisor (run_mutations.py), comprobando que los escenarios mutados (catalogos_cambiados devolviendo vacío, ignorando medidas ausentes o ignorando errores de lectura de catálogo, y propuestas_confirmables ignorando cambios o aceptando propuestas sin huella) son efectivamente detectados y eliminados por la suite de pruebas.",
+    "Se verificaron las resoluciones de la vuelta 1 (agy-1, agy-2, agy-3, agy-4, agy-5 y codex CC-001) contra la spec y la implementación actual, confirmando que se encuentran cerradas y sin regresiones.",
+    "Conforme a las instrucciones específicas del pedido, no se ejecutaron las herramientas tools/verify_*.py ni la suite de pruebas completa.",
+    "No se ejecutaron sensores ni integración en vivo con sistemas externos."
+  ],
+  "findings": [
+    {
+      "id": "agy-2-1",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.95,
+      "title": "Anotación de tipo incorrecta en describir_cambios (bool en lugar de str)",
+      "explanation": "En la signatura de describir_cambios(cambiadas: list[tuple[str, str, bool]]) -> str (línea 1373), el tercer elemento de la tupla está anotado como bool. Sin embargo, cambiadas proviene de catalogos_cambiados, cuya signatura declara list[tuple[str, str, str]] y cuyos valores son cadenas literales ('cambió', 'falta' o 'ilegible'). Asimismo, en la línea 1374 el valor que se utiliza directamente como clave en el diccionario nota = {'cambió': '', 'falta': ', ya no está en el catálogo', 'ilegible': ', no pude leer el catálogo'}. Aunque Python no valida tipos estáticos en tiempo de ejecución, la anotación es inconsistente con el tipo de datos real.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1373,
+        "end_line": 1373,
+        "side": "head"
+      },
+      "trigger": "Inspección estática de código o análisis con chequeadores de tipos (mypy/pyright).",
+      "evidence": "En oracle_factory/cli.py:1373, la signatura declara cambiadas: list[tuple[str, str, bool]], en contraste con oracle_factory/cli.py:1356 (-> list[tuple[str, str, str]]) y el uso como clave nota[que] en la línea 1375.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Revisar la signatura en oracle_factory/cli.py:1373 y contrastarla con el tipo de retorno declarado en oracle_factory/cli.py:1356 y el uso en la línea 1375."
+    }
+  ]
+}

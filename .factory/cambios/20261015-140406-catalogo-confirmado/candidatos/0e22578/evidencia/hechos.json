@@ -1,0 +1,30 @@
+{
+  "catalogo_caso": [
+    {
+      "requisito": "una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "caso": "cc1_cambia_el_catalogo_de_una_medida_confirmada",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "caso": "cc1_volver_a_decidir_con_las_mismas_medidas",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "caso": "cc1_una_decision_anterior_sin_huella_de_catalogos",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "caso": "cc2_el_catalogo_cambia_entre_la_propuesta_y_la_confirmacion",
+      "codigo": 0
+    }
+  ],
+  "catalogo_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}

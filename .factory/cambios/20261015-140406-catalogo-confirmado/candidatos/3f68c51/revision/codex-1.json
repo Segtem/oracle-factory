@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/3f68c51",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "3f68c51b5c7a40675933c361fd51d30b72f9db88",
+  "diff_sha256": "04115869c4e789fdcee94d3137a23a597e232b14c2a7f3cb396c253ee5180cd1",
+  "context_sha256": "6912423bfea20dabebc51fb345a557c07ff29b419f2f1ab01a0288a501868b45",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CC3-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.89,
+      "title": "Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "explanation": "La implementación conserva para medidas del proyecto rutas relativas a ROOT, pero para una medida del catálogo base guarda en archivos_catalogo una etiqueta como «catálogo base de Oracle, meta.x.oracle». Si Oracle devuelve correctamente un catálogo que omite esa medida mientras el archivo base sigue presente (el caso «no carga, pero el archivo está»), catalogos_cambiados evalúa (ROOT / viejo).is_file() sobre esa etiqueta. Esa ruta no existe bajo el proyecto, por lo que clasifica el caso como «falta» y estado dice «ya no está en el catálogo» en lugar de «el archivo está pero Oracle no carga la medida». La decisión sí queda pendiente y nombra la medida y la etiqueta de archivo; el defecto acotado es el diagnóstico incorrecto para fuentes del catálogo base. El test nuevo simula la omisión con un archivo de catálogo del proyecto y no cubre el origen base.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1371,
+        "end_line": 1373,
+        "side": "head"
+      },
+      "trigger": "Una decisión incluye una medida del catálogo base de Oracle; tras registrar huella, el catálogo efectivo deja de exponer esa medida aunque su archivo base siga presente y la carga no lance excepción. Consultar estado.",
+      "evidence": "`nombre_de_archivo` (líneas 1339-1341) transforma rutas ajenas a ROOT en «catálogo base de Oracle, <nombre>»; `con_huellas` guarda esa etiqueta en archivos_catalogo. En líneas 1371-1372 se comprueba exclusivamente `(ROOT / viejo).is_file()`, y en 1373 esa etiqueta se usa como ruta informada cuando la entrada actual es None. El test `tests/test_catalogo_confirmado.py::test_cc1_cambia_el_catalogo_de_una_medida_confirmada` simula la omisión con `casos` bajo `self.root` (líneas 85-88), así que su archivo sí se encuentra bajo ROOT.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Reproducir en una copia un requisito medido por una entrada del catálogo base, persistir la decisión, simular que catalogo_efectivo no expone esa medida sin excepción mientras el archivo fuente base permanece, y consultar estado. Verificar que se informe «el archivo está pero Oracle no carga la medida», no «ya no está en el catálogo». La decisión debe seguir pendiente y juzgar debe rechazarla."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null. Resultado: 39 pruebas, OK.",
+    "Leí la spec, el diff del paquete, la implementación, tests/test_catalogo_confirmado.py, tools/verify_catalogo_confirmado.py, los catálogos agregados, README.md y los cuatro informes de revisión previos.",
+    "No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales fuera de las simulaciones temporales incluidas en los tests.",
+    "La clasificación incorrecta reportada aplica al caso acotado de una medida del catálogo base omitida sin error; las pruebas cubren el caso equivalente con una ruta del proyecto. No medí el costo temporal con un proyecto grande; en el flujo normal el catálogo se resuelve una vez por llamada a estado y se reutiliza."
+  ]
+}

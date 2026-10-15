@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:c2d785e30ea1eaa74ada2cfe8a56e3d7e307ac626bf9c30081e9af1e42f04614 -->
+<!-- oracle-factory resumen sha256:688f72e569b710ad2eee06c73d56f7f52b687f4c4921366f239911bd96d4da7b -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 120 requisitos vigentes · 1 cambio abierto
+16 capacidades · 122 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -130,6 +130,8 @@ Spec completa: [openspec/specs/modos/spec.md](../openspec/specs/modos/spec.md)
 | decisiones segun el modo | funcional | `modos_c45a4802846932222.decisiones_segun_el_modo` | factory_modos.decisiones_segun_el_modo, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 | actor registrado sin aparentar humanos | funcional | `modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos` | factory_modos.actor_registrado_sin_aparentar_humanos, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
 | cambio de modo con invalidacion | funcional | `modos_c45a4802846932222.cambio_de_modo_con_invalidacion` | factory_modos.cambio_de_modo_con_invalidacion, factory_modos.corrida_completa | verde al cerrar el 2026-10-05 | 20261005-105331-modos-de-trabajo |
+| una decisión de medidas deja de valer si cambia el catálogo | funcional | `modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo` | factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo, factory_catalogo.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-140406-catalogo-confirmado |
+| una propuesta de medidas no se confirma si cambió el catálogo | funcional | `modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo` | factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo, factory_catalogo.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-140406-catalogo-confirmado |
 
 ### onboarding
 
@@ -283,6 +285,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **F-01** (20261013-115616-vueltas-severidad): La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos. Aceptado por Brian Hollweg: Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos
 - **TRZ-MODULE-GUARD-COMPOUND-001** (20261013-180751-trazabilidad): La detección de guards __main__ no contempla condiciones compuestas. Aceptado por Brian Hollweg: Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas
 - **F1** (20261015-122841-docs-web-modos): mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido. Aceptado por Brian Hollweg: Acepto el riesgo: mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido
+- **CC3-001** (20261015-140406-catalogo-confirmado): Una medida del catálogo base omitida por Oracle se informa como ausente. Aceptado por Brian Hollweg: Acepto el riesgo: Una medida del catálogo base omitida por Oracle se informa como ausente
 
 ### Históricos
 
@@ -558,6 +561,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261015-122841-docs-web-modos) codex (gpt-6-luna): Corrí también `tests.test_modos_web` sobre una copia mutada en `/tmp`; la mutación descrita sobrevivió.
 - (20261015-122841-docs-web-modos) codex (gpt-6-luna): Revisé estáticamente `docs/modos.md`, `site/modos.html`, `site/index.html`, `README.md`, `site/style.css`, la implementación de modos/CLI, los tests, `tools/verify_docs_web_modos.py` y los tres catálogos Factory.
 - (20261015-122841-docs-web-modos) codex (gpt-6-luna): No ejecuté `tools/verify_docs_web_modos.py`, la suite completa ni un navegador/viewport móvil, según el alcance pedido; la adaptación móvil se evaluó leyendo las media queries y el contenedor horizontal de la tabla.
+- (20261015-140406-catalogo-confirmado) Evidencia: Escenarios cc1–cc2 en proyectos temporales, Linux, con el ejemplo notas y Oracle 0.38.1. El cambio de catálogo que se prueba es el del alcance de una medida del proyecto, que desaparezca y que no se pueda leer; cualquier cambio de bytes del archivo cuenta igual, y no se prueba una actualización del catálogo base de Oracle.
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas indicada en primer plano: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null, completando 39 pruebas exitosas (OK).
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): Se ejecutó una batería de pruebas de mutación manuales en memoria (run_mutations.py) para evaluar la sensibilidad de tests/test_catalogo_confirmado.py ante regresiones (anulación de detección de cambios, supresión de clasificación 'no_carga', supresión de clasificación 'falta', omisión del manejo de catálogo ilegible, aceptación de propuestas con catálogo cambiado o sin huella en propuestas_confirmables); todas las mutaciones fueron detectadas y eliminadas por la suite.
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): Se comprobó que las observaciones de las vueltas anteriores (agy-1 a agy-5, CC-001 de la vuelta 1, y agy-2-1 y CC2-001 de la vuelta 2) se encuentran efectivamente resueltas sin regresiones: se distingue 'cambió', 'falta', 'no_carga' e 'ilegible'; los archivos presentes pero no cargados se señalan correctamente; la resolución del catálogo efectivo se realiza una sola vez por consulta; y la anotación de tipos en describir_cambios es consistente.
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): Se contrastó la implementación de oracle_factory/cli.py (archivos_de_medidas, huellas_de_catalogo, catalogos_cambiados, registrar_medidas, medidas_sin_decision, propuestas_confirmables, confirmar_medidas y ramas de medir) contra los requisitos de spec.md, proposal.md, design.md y README.md, sin hallazgos abiertos.
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): Conforme a las instrucciones del pedido, no se corrieron tools/verify_*.py ni la suite completa discover.
+- (20261015-140406-catalogo-confirmado) agy (gemini-3.8-flash-high): No se ejecutaron sensores ni integración en vivo con sistemas externos.
+- (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): Corrí exactamente: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null. Resultado: 39 pruebas, OK.
+- (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): Leí la spec, el diff del paquete, la implementación, tests/test_catalogo_confirmado.py, tools/verify_catalogo_confirmado.py, los catálogos agregados, README.md y los cuatro informes de revisión previos.
+- (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales fuera de las simulaciones temporales incluidas en los tests.
+- (20261015-140406-catalogo-confirmado) codex (gpt-6-luna): La clasificación incorrecta reportada aplica al caso acotado de una medida del catálogo base omitida sin error; las pruebas cubren el caso equivalente con una ruta del proyecto. No medí el costo temporal con un proyecto grande; en el flujo normal el catálogo se resuelve una vez por llamada a estado y se reutiliza.
 
 ### Históricos
 

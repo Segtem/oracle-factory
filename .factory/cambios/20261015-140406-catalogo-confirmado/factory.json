@@ -1,0 +1,401 @@
+{
+  "id": "20261015-140406-catalogo-confirmado",
+  "titulo": "Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión",
+  "capacidad": "modos",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+  "spec_sha256": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T14:13:31+00:00",
+    "documentos": {
+      "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md": "22b45e2578b7419299e50b69f91b930ea1524b1d3e17b09e3857ce225f08b301",
+      "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83"
+    }
+  },
+  "requisitos": [
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/informe.json",
+    "sha256": "c77704dd18ea079aa01998706105e6296be11651156ba3a5a08c429317fc8fdd",
+    "decisiones": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/decisiones.json",
+    "decisiones_sha256": "195fd066e5541820ea2a80bf46c9f0e61548cec2da4671a1cd832d7919cde7d9",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T15:40:58+00:00",
+    "motivo": "tres vueltas de codex y agy, a la vez. La 1: un alto (decidir con --requisito tras un catálogo cambiado figuraba como confirmación de la propuesta), cuatro medios y un bajo; todos corregidos con pruebas que fallan sin el arreglo. La 2: un medio (un archivo presente que Oracle no carga se informaba como ausente), corregido. La 3: agy nada, codex un bajo (el mismo caso para una medida del catálogo base). Las medidas de este cambio se reconfirmaron porque sus catálogos cambiaron: el propio cambio lo detectó. Suite 361 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "cdfed857abef33ddcd157e42f86f283ab9566fc0",
+      "archivos_sha256": "2326e82d55892f613dc58f160c7aef0c635d09577a79d59e1cfed1d83e8fc461"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/3f68c51/evidencia/hechos.json",
+    "hechos_sha256": "fc65187912906936783c7fd264c69cc1398932843709d7aa372281d9b32da3e4",
+    "informe": ".factory/cambios/20261015-140406-catalogo-confirmado/oracle-veredicto.txt",
+    "informe_sha256": "c108e893d3844bfc03b795e5d4f85ace7cbde77bff13ca7baa5b660b04006e7a",
+    "cuando": "2026-10-15T15:41:12+00:00",
+    "contexto": {
+      "head": "3276bf0a3822ff2b7f8743471e0d5800f3a97cf9",
+      "archivos_sha256": "2326e82d55892f613dc58f160c7aef0c635d09577a79d59e1cfed1d83e8fc461"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T14:04:06+00:00",
+      "capacidad": "modos"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T14:13:31+00:00",
+      "documentos": {
+        "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md": "22b45e2578b7419299e50b69f91b930ea1524b1d3e17b09e3857ce225f08b301",
+        "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T14:13:41+00:00",
+      "ids": [
+        "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:20:32+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:20:32+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T14:23:57+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T14:23:57+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T14:29:42+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "0e22578",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T14:44:11+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "0e22578",
+      "resultado": "ok",
+      "hallazgos": 5
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:49:25+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:49:25+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T14:50:31+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T14:50:31+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T14:56:33+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "4e12cf2",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T15:09:25+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4e12cf2",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T15:19:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "3f68c51",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T15:27:11+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "3f68c51",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T15:27:38+00:00",
+      "decision": "aprobar",
+      "candidato": "3f68c51"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T15:40:58+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "c77704dd18ea079aa01998706105e6296be11651156ba3a5a08c429317fc8fdd",
+      "decisiones_sha256": "195fd066e5541820ea2a80bf46c9f0e61548cec2da4671a1cd832d7919cde7d9"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:41:12+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "fc65187912906936783c7fd264c69cc1398932843709d7aa372281d9b32da3e4"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:43:15+00:00",
+      "oracle": ".factory/cambios/20261015-140406-catalogo-confirmado/oracle-veredicto.txt",
+      "revision": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T15:43:15+00:00",
+      "capacidad": "modos",
+      "spec": "openspec/specs/modos/spec.md"
+    }
+  ],
+  "tipos": {
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": "funcional",
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "funcional"
+  },
+  "medidas": {
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-15T14:50:31+00:00",
+      "sha256": "54dce4dd97c0eaef73d54d507c44b8f23e405a000d18d267ce8a0d889b8108a1",
+      "catalogos": {
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": "e126dba4ecf5db81dff325e0d2865dfa93455efaca3e28cebfdf873e672415a2",
+        "factory_catalogo.corrida_completa": "d2735c20c97cee8d357706b3fd5960ef2f08693d695c989f9544d80b4fc977d6"
+      },
+      "archivos_catalogo": {
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": "catalogos/factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.oracle",
+        "factory_catalogo.corrida_completa": "catalogos/factory_catalogo.corrida_completa.oracle"
+      }
+    },
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-15T14:50:31+00:00",
+      "sha256": "55a7d179796d3448c4276db3f8a69b8445bf5155557b4a3d4ca8502efded59f8",
+      "catalogos": {
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "c16559b3c2682ceb611d8b565d337ebd899506053f9bb2945f0a28a7bf79172d",
+        "factory_catalogo.corrida_completa": "d2735c20c97cee8d357706b3fd5960ef2f08693d695c989f9544d80b4fc977d6"
+      },
+      "archivos_catalogo": {
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "catalogos/factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo.oracle",
+        "factory_catalogo.corrida_completa": "catalogos/factory_catalogo.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "firma": "oracle_factory/cli.py|una medida del catálogo base omitida por oracle se informa como ausente",
+      "motivo": "Acepto el riesgo: Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-15T15:40:55+00:00",
+      "candidato": "3f68c51"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T15:43:15+00:00"
+  },
+  "archivo": {
+    "capacidad": "modos",
+    "spec": "openspec/specs/modos/spec.md",
+    "cuando": "2026-10-15T15:43:15+00:00"
+  }
+}

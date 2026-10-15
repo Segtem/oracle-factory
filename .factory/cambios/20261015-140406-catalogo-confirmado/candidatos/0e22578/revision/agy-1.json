@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/0e22578",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "0e2257862e7c2100b3093347da79d405827ea504",
+  "diff_sha256": "22f1419a65736630a68d6940b09ea16ba46aa8cc17d591e66fc810eaf909e39e",
+  "context_sha256": "e2b31240c3aa6e3997b81d1ef42bb1bc2dd8ede0f77f92c399f0435f82dfc7d3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas indicada: tests.test_catalogo_confirmado, tests.test_cli_piloto y tests.test_modos con unittest.",
+    "Se realizaron pruebas de mutación manuales y verificación de casos extremos en copias/entornos locales.",
+    "No se ejecutaron las herramientas tools/verify_*.py ni la suite completa discover, conforme a las instrucciones del pedido.",
+    "No se ejecutaron sensores ni integración en vivo con sistemas externos."
+  ],
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Propuesta con catálogo cambiado se confirma indebidamente como decisión del agente al decidir con medir --requisito",
+      "explanation": "El requisito «una propuesta de medidas no se confirma si cambió el catálogo» establece que si el catálogo cambia antes de la confirmación, no debe confirmarse tal cual y debe avisar para que se decida. Aunque confirmar_medidas (líneas 2611-2615) avisa e impide la confirmación masiva, si el operador sigue el aviso y decide el requisito con medir --requisito usando las mismas medidas (rama nuevo_r == r, líneas 2490-2523), la lógica en la línea 2513 (forma = confirmo if via == persona and pendiente and pendiente[sha256] == huella and not pendiente.get(descartada) else decidio) no comprueba catalogos_cambiados(pendiente, original). Como el archivo del requisito no cambió, se atribuye forma: confirmo y se emite que las medidas fueron confirmadas tal como las propuso el agente, confirmando formalmente una propuesta cuyo catálogo base ya no es el que el agente evaluó.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2496,
+        "end_line": 2505,
+        "side": "head"
+      },
+      "trigger": "Un agente propone medidas en modo confirmacion, el archivo de catálogo de una medida cambia, y una persona corre medir --requisito para decidir.",
+      "evidence": "En pruebas de integración, tras modificar el catálogo de notas.casos_ejecutados y correr medir como persona, Factory emite «Medidas de ... confirmadas tal como las propuso claude-code» y registra forma: confirmo en vez de decidio.",
+      "related_requirement": "una propuesta de medidas no se confirma si cambió el catálogo",
+      "status": "pendiente",
+      "verification": "Ejecutar medir como persona sobre un requisito con propuesta previa cuyo catálogo cambió; verificar que el evento y registro adopten forma decidio y no confirmo."
+    },
+    {
+      "id": "agy-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Medida que desaparece del catálogo no nombra su archivo en estado y produce indicación de recuperación impracticable",
+      "explanation": "El requisito «una decisión de medidas deja de valer si cambia el catálogo» exige: «Si alguno cambia o desaparece del catálogo efectivo, la decisión SHALL dejar de valer: estado SHALL mostrarla pendiente nombrando la medida y su archivo, y juzgar SHALL NOT usarla. Volver a decidir con las mismas medidas SHALL registrar una decisión nueva». Sin embargo, registrar_medidas guarda únicamente las huellas SHA-256 ({id: sha256}) y descarta las rutas. Cuando una medida desaparece del catálogo, archivos_de_medidas devuelve None para esa clave, por lo que nombre(m) (línea 1353) no puede recuperar la ruta y formatea «ya no está en el catálogo», incumpliendo la promesa de nombrar el archivo. Adicionalmente, el mensaje en medidas_sin_decision instruye «volvé a decidirla con medir y las mismas medidas», lo cual falla indefectiblemente con FactoryError (línea 2464) porque la medida ya no existe en el catálogo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1351,
+        "end_line": 1355,
+        "side": "head"
+      },
+      "trigger": "Una medida registrada en una decisión previa es borrada del archivo de catálogo o su archivo .oracle es eliminado.",
+      "evidence": "Al borrar notas.resultados.oracle, estado muestra «el catálogo de notas.resultados (ya no está en el catálogo) cambió después de la decisión registrada; volvé a decidirla con medir y las mismas medidas». Al intentar correr medir con esa medida, se rechaza con «FactoryError: medidas inexistentes o no efectivas en este proyecto: notas.resultados».",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Eliminar una medida de catalogos/ y consultar estado, comprobando la ausencia del archivo en el mensaje y el fallo de medir al intentar re-decidir."
+    },
+    {
+      "id": "agy-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Resolución repetida y no cacheada del catálogo efectivo en estado escala con el número de requisitos",
+      "explanation": "archivos_de_medidas (líneas 1326-1332) invoca catalogo_efectivo(resolver([--proyecto, str(ROOT)])) sin caché en cada invocación. catalogos_cambiados lo llama para cada requisito analizado en medidas_sin_decision y cada propuesta en propuestas_confirmables. Durante la ejecución de oracle-factory estado, tanto pendientes_actuales como _pasos ejecutan estas comprobaciones, resolviendo y leyendo del disco todos los archivos de catalogos/ al menos 2*N veces (siendo N la cantidad de requisitos importados), a pesar de que datos_estado ya dispone del inventario resuelto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1326,
+        "end_line": 1333,
+        "side": "head"
+      },
+      "trigger": "Ejecución de oracle-factory estado o mostrar() en un proyecto con múltiples requisitos.",
+      "evidence": "Con un único requisito importado, una sola invocación de mostrar() ejecuta catalogo_efectivo 2 veces completas. Con 10 requisitos, se generan más de 20 resoluciones completas de disco.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Instrumentar catalogo_efectivo y observar la cantidad de lecturas de disco al consultar estado con múltiples requisitos."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Omisión de pruebas para medidas desaparecidas y mutaciones supervivientes en test_catalogo_confirmado.py",
+      "explanation": "La suite de pruebas tests/test_catalogo_confirmado.py no comprueba el comportamiento ante medidas que desaparecen del catálogo efectivo (solo altera el alcance mediante cambiar_alcance). La prueba de mutación M2 (eliminar la detección de medidas ausentes en catalogos_cambiados comprobando solo actuales[m] is not None) sobrevive a la suite con los 4 tests pasando exitosamente (Ran 4 tests ... OK). De igual forma, eliminar el manejo de excepciones try-except ante catálogos ilegibles en catalogos_cambiados (M3) sobrevive sin ser detectado por ninguna prueba.",
+      "location": {
+        "file": "tests/test_catalogo_confirmado.py",
+        "start_line": 58,
+        "end_line": 93,
+        "side": "head"
+      },
+      "trigger": "Ejecución de la suite unittest con mutaciones que anulan la detección de medidas eliminadas o errores de lectura.",
+      "evidence": "Mutaciones M2 y M3 ejecutadas con éxito: `Ran 4 tests in 1.748s - OK` a pesar de que el código mutado ignora completamente la desaparición de medidas.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Mutar catalogos_cambiados para ignorar medidas ausentes y ejecutar tests.test_catalogo_confirmado comprobando que no falla."
+    },
+    {
+      "id": "agy-5",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Rutas absolutas no portables en nombres de archivo para medidas del catálogo base o externas",
+      "explanation": "En catalogos_cambiados, la función nombre(m) (línea 1353) formatea la ruta con r.relative_to(ROOT).as_posix() if r and r.is_relative_to(ROOT) else r or ya no está en el catálogo. Si una medida proviene del catálogo base de Oracle o de una biblioteca externa fuera de ROOT, r.is_relative_to(ROOT) es falso, provocando que se imprima la ruta absoluta completa del sistema de archivos local en los mensajes de estado y avisos, rompiendo la portabilidad e introduciendo rutas locales de la máquina.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1351,
+        "end_line": 1354,
+        "side": "head"
+      },
+      "trigger": "Cambio o reporte de una medida provista por un catálogo externo o catálogo base de Oracle fuera del árbol del proyecto.",
+      "evidence": "Para cualquier Path r que no esté bajo ROOT, la expresión evalúa a r directamente en lugar de una representación relativa o canónica.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Asociar una medida ubicada fuera de ROOT y verificar que estado imprime una ruta absoluta del entorno local."
+    }
+  ]
+}
