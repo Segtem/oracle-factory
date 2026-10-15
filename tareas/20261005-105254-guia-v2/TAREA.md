@@ -1,6 +1,6 @@
 # Guía de colaboración v2 con las fricciones del piloto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: colaboracion, piloto
 
@@ -14,3 +14,7 @@ Corregir en `docs/colaboracion.md` y en las plantillas las fricciones 2, 3, 4, 5
 - **Registro de una integración de varios cambios:** `integracion.md` va en la tarea de un cambio y las otras lo referencian; `tareas/integracion-*` no es un ID válido de Task.
 - **Riesgos aceptados por frente:** revisarlos otra vez contra el candidato integrado (R1-01).
 - **`oracle cobertura --con`:** cuándo usarlo como verificación previa, sin registro.
+
+### Nota (2026-10-15 13:49:49 UTC)
+
+Hecha en el cambio 20261007-115805-web-y-docs (cerrado): el requisito guia_de_colaboracion_sin_las_fricciones_del_piloto de openspec/specs/web resuelve las fricciones 2, 3, 4, 5, 9 y 10 en docs/colaboracion.md. La tarea había quedado abierta; se cierra el 2026-10-15.
