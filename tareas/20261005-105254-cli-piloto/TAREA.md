@@ -1,6 +1,6 @@
 # Pulir la CLI de Factory con lo observado en el piloto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: colaboracion, piloto, cli
 
@@ -26,3 +26,7 @@ Revisado el 2026-10-12: ya están las plantillas (ADDED, sin «Brian»), la fuen
 ### Nota (2026-10-15 10:54:52 UTC)
 
 Revisado el 2026-10-15: la nota del 2026-10-12 se equivocaba con las plantillas. El ejemplo notas ya trae ## ADDED Requirements, pero la plantilla genérica de nuevo (oracle_factory/cli.py, función nuevo) sigue sin él y su proposal dice «decisión de Brian/equipo»; se vio en cada cambio de esta semana. Falta, entonces: esa plantilla; medir avisa que reemplaza y señala huérfanas; --listar separa medidas del proyecto y meta; ejemplo notas con las meta.
+
+### Nota (2026-10-15 12:26:32 UTC)
+
+Hecho en el cambio 20261015-105600-cli-piloto (merge 1277422): plantilla de nuevo con ## ADDED Requirements, Tipo: funcional y sin «Brian»; medir dice qué medidas reemplaza y cuáles quedan sin requisito (sin afirmarlo si hay requisitos o carpetas ilegibles); medir --listar separa las del proyecto de las del catálogo base de Oracle. Lo que queda, el ejemplo notas con las meta, pasa a la tarea notas-meta.
