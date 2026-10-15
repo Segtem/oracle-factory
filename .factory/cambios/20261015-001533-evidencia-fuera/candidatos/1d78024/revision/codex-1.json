@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-evidencia-fuera/.factory/local/revisiones/1d78024",
+  "base": "9a6913be3f7c58d22ffe664367e3c41b86dea52c",
+  "head": "1d78024b0afeb6c37e377cfed0ccec5bcbbe8331",
+  "diff_sha256": "77613a77eaf79f412f8a18a8cbe16586d9774a8e51d1b046ba4c82f50cf77311",
+  "context_sha256": "d4a241e20003784e9539f01bf02db164e0eddb4a2e66496e493786578abc9707",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "EVF-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El caso de tamaño no busca la cadena contenida en el archivo omitido",
+      "explanation": "El verificador cuenta e8_archivos_grandes_omitidos_y_formas_equivalentes como evidencia del escenario de archivo grande. Ese test crea grande.md con «aguja-grande» (tests/test_estructura.py:408), pero en la ejecución donde comprueba «1 archivo(s) omitido(s)» busca «STRASSE»; después busca «aguja-lejana» y sólo comprueba el fragmento, sin volver a verificar el contador. Por lo tanto no prueba el escenario especificado: que un archivo que supera el límite y contiene el texto buscado quede omitido y que la salida informe ese omitido.",
+      "location": {
+        "file": "tools/verify_evidencia_fuera.py",
+        "start_line": 20,
+        "end_line": 20,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/verify_evidencia_fuera.py con la suite sin cambios: su contrato enumera ese test como uno de los cinco casos completos de buscar_en_todo_el_proyecto, aunque el test no combina archivo grande, aguja presente en ese archivo y aserción del contador para esa aguja.",
+      "evidence": "En tests/test_estructura.py, el contenido de grande.md termina en «aguja-grande»; la aserción del contador sigue a la búsqueda de «STRASSE» (líneas 408 y 412-415). La búsqueda posterior es «aguja-lejana» y su aserción sólo verifica que aparezca en el fragmento (líneas 416-417).",
+      "related_requirement": "buscar en todo el proyecto — Scenario: archivos que no se pudieron leer",
+      "status": "pendiente",
+      "verification": "Revisado estáticamente el test referido y el mapeo CONTRACTS. Se ejecutó el comando unittest solicitado; no se ejecutó tools/verify_evidencia_fuera.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente: cd /home/workstation/Dev/factory-evidencia-fuera && /home/workstation/Dev/factory-evidencia-fuera/.venv/bin/python -m unittest tests.test_evidencia_fuera tests.test_estructura </dev/null (33 tests, OK).",
+    "No corrí tools/verify_*.py ni la suite completa.",
+    "No hice mutaciones; la revisión fue estática del diff, del código y de las pruebas."
+  ]
+}
