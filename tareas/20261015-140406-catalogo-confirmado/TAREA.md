@@ -23,3 +23,11 @@ Medidas de modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_camb
 ### Nota (2026-10-15 14:20:32 UTC)
 
 Medidas de modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo: factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo, factory_catalogo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 14:23:57 UTC)
+
+Medidas de modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 14:23:57 UTC)
+
+Medidas de modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo: Brian Hollweg (persona, confirmo, modo confirmacion).
