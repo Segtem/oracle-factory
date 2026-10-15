@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/51a67b8",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "51a67b8ecfdcf39442fd042e9acf301ec6a98d86",
+  "diff_sha256": "cd05ab979cdadd5cd62a6c0afcfd273f8b27c5ec2ef6d9612d7c5b2953e42c04",
+  "context_sha256": "d08ea067ab0b08eea18df9c10ed41ffbb735b607e55667fcf41a95a4151fda03",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLUE-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un requisito ilegible hace que una medida parezca no utilizada",
+      "explanation": "medidas_en_uso omite los archivos .requisito que lanzan OSError o ValueError y continúa con un inventario parcial. Si otro requisito del proyecto usa una medida antigua pero no se puede leer, la CLI puede incluirla en “Quedan sin ningún requisito del proyecto que las use”, aunque sí está referenciada. El aviso promete una afirmación sobre todos los requisitos del proyecto; omitir los que no se pudieron leer produce un falso positivo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2358,
+        "end_line": 2359,
+        "side": "head"
+      },
+      "trigger": "El requisito medido deja de usar una medida; otro archivo requisitos/*.requisito la menciona pero requisito.cargar falla (por ejemplo, sintaxis inválida o archivo inaccesible).",
+      "evidence": "La cláusula except (OSError, ValueError) continúa sin registrar incertidumbre ni abortar. Reproducción aislada sobre una copia temporal: un archivo ilegible con la referencia medido_por notas.resultados hizo que medidas_en_uso devolviera [] y que notas.resultados quedara clasificada como no usada. tests/test_cli_piloto.py cubre una referencia válida en otro requisito, pero no este caso.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "Reproducción manual aislada con ROOT apuntando a una carpeta temporal; el checkout candidato no fue modificado. La suite solicitada pasó: 19 tests, OK."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite indicada: python -m unittest tests.test_cli_piloto tests.test_cli_humana; 19 tests pasaron. El comando se corrió desde /home/workstation/Dev/factory-cli-piloto, cuyos archivos de CLI y tests coinciden por SHA-256 con los del checkout candidato.",
+    "No se ejecutó tools/verify_cli_piloto.py ni la suite completa, según la indicación.",
+    "Se revisaron el diff y el contexto entregados por Oracle Clue; los archivos excluidos por el paquete no se revisaron.",
+    "La reproducción del caso ilegible usó una carpeta temporal y no modificó el producto."
+  ]
+}

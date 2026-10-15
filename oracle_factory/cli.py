@@ -2347,17 +2347,17 @@ def bloqueo_medidas(identificador: str):
         ruta.unlink()
 
 
-def medidas_en_uso(excepto: str) -> set[str]:
-    """Las medidas que nombra algún requisito del proyecto, salvo `excepto`; un archivo que no se lee no aporta."""
+def medidas_en_uso(excepto: str) -> tuple[set[str], list[str]]:
+    """Las medidas que nombra algún requisito del proyecto, salvo `excepto`, y los requisitos que no se pudieron leer."""
     from oracle_metalenguaje.nucleo import requisito
-    usadas = set()
-    for ruta in (ROOT / 'requisitos').glob('*.requisito'):
+    usadas, ilegibles = set(), []
+    for ruta in sorted((ROOT / 'requisitos').glob('*.requisito')):
         if ruta.stem != excepto:
             try:
                 usadas.update(requisito.cargar(ruta).medido_por)
             except (OSError, ValueError):
-                continue
-    return usadas
+                ilegibles.append(ruta.name)
+    return usadas, ilegibles
 
 
 def inventario_medidas(estado: dict):
@@ -2536,8 +2536,12 @@ def medir(identificador: str, *, requisito_id: str | None = None,
     print(f'Asociación guardada: {ruta}')
     if r.medido_por and set(r.medido_por) != set(medidas):
         print(f'Reemplaza las medidas que tenía ({", ".join(r.medido_por)}) por: {", ".join(medidas)}')
-        sueltas = [m for m in r.medido_por if m not in medidas and m not in medidas_en_uso(excepto=requisito_id)]
-        if sueltas:
+        usadas, ilegibles = medidas_en_uso(excepto=requisito_id)
+        sueltas = [m for m in r.medido_por if m not in medidas and m not in usadas]
+        if sueltas and ilegibles:  # alguno de esos podría usarlas: no se afirma que quedaron sueltas
+            print(f'No pude leer {len(ilegibles)} requisito(s) del proyecto ({", ".join(ilegibles)}); no sé si '
+                  + ', '.join(sueltas) + ' queda(n) sin requisito que las use')
+        elif sueltas:
             print('Quedan sin ningún requisito del proyecto que las use: ' + ', '.join(sueltas))
     print('SIN MEDIR: ' + (limite or 'sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas'))
     print('Revisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.')

@@ -44,7 +44,11 @@ class CliPiloto(Base):
         propuesta = (carpeta / 'proposal.md').read_text()
         self.assertNotIn('Brian', propuesta)
         self.assertIn('una persona del equipo', propuesta)
-        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'completar'):
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'completar.*proposal.md'):
+            f.aprobar_spec(ident)
+        # Con la propuesta completa, la spec también se rechaza por sus propios TODO.
+        (carpeta / 'proposal.md').write_text(propuesta.replace('TODO: ', ''))
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, 'completar.*spec.md'):
             f.aprobar_spec(ident)
 
     def test_cp1_la_plantilla_completada_se_importa(self):
@@ -59,7 +63,7 @@ class CliPiloto(Base):
         estado = f.leer(ident)[1]
         [rid] = estado['requisitos']
         self.assertTrue(rid.endswith('.comportamiento_principal'))
-        self.assertEqual((estado.get('tipos') or {}).get(rid, 'funcional'), 'funcional')
+        self.assertEqual(estado['tipos'], {rid: 'funcional'})
         self.assertIn('guardar cada nota', (self.root / 'requisitos' / f'{rid}.requisito').read_text())
 
     # --- cp2: medir dice qué medidas reemplaza -----------------------------------------------------------------------------
@@ -75,6 +79,12 @@ class CliPiloto(Base):
         salida = self.medir(ident, uno, otra)
         self.assertIn(f'Reemplaza las medidas que tenía (notas.casos_ejecutados, notas.resultados) por: {otra}', salida)
         self.assertIn('Quedan sin ningún requisito del proyecto que las use: notas.casos_ejecutados\n', salida)
+        # Con un requisito que no se puede leer, no se afirma que una medida quedó suelta: podría usarla.
+        (self.root / 'requisitos' / 'roto.requisito').write_text('esto no es un requisito\n')
+        salida = self.medir(ident, uno, 'notas.casos_ejecutados')
+        self.assertIn(f'Reemplaza las medidas que tenía ({otra}) por: notas.casos_ejecutados', salida)
+        self.assertIn(f'No pude leer 1 requisito(s) del proyecto (roto.requisito); no sé si {otra} queda(n)', salida)
+        self.assertNotIn('Quedan sin', salida)
 
     def test_cp2_la_primera_vez_no_hay_nada_que_reemplazar(self):
         ident, (uno, *_) = self.con_notas()
@@ -92,8 +102,8 @@ class CliPiloto(Base):
         f.medir(ident, listar_opciones=True)
         salida = self.salida()
         proyecto, base = salida.split('Medidas del proyecto:\n', 1)[1].split('Del catálogo base de Oracle (', 1)
-        self.assertIn('notas.casos_ejecutados\n  Archivo: ', proyecto)
-        self.assertIn('notas.resultados\n  Archivo: ', proyecto)
+        for mid in ('notas.casos_ejecutados', 'notas.resultados'):  # con archivo, umbral, ámbito y alcance
+            self.assertRegex(proyecto, rf'{mid}\n  Archivo: .+\n  Umbral: .+ · según .+\n  Ámbito: universal\n  Alcance: .+\n')
         self.assertNotIn('meta.', proyecto)
         lineas = [l for l in base.splitlines()[1:] if l.startswith('  ') and not l.startswith('   ')]
         cantidad = int(base.split(';', 1)[0])

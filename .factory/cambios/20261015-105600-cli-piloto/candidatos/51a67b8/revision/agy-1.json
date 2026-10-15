@@ -1,0 +1,133 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/51a67b8",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "51a67b8ecfdcf39442fd042e9acf301ec6a98d86",
+  "diff_sha256": "cd05ab979cdadd5cd62a6c0afcfd273f8b27c5ec2ef6d9612d7c5b2953e42c04",
+  "context_sha256": "d08ea067ab0b08eea18df9c10ed41ffbb735b607e55667fcf41a95a4151fda03",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Por indicación explícita, se ejecutaron en primer plano las pruebas unitarias focalizadas `python -m unittest tests.test_cli_piloto tests.test_cli_humana`, sin correr `tools/verify_*.py` ni la suite completa del repositorio.",
+    "Las verificaciones de mutación y análisis de supervivencia de defectos se realizaron sobre copias aisladas en el directorio de trabajo del revisor."
+  ],
+  "findings": [
+    {
+      "id": "silenciamiento-errores-medidas-en-uso",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Silenciamiento indiscriminado de errores en medidas_en_uso genera falsos avisos de medidas sin requisito",
+      "explanation": "La función `medidas_en_uso` captura de forma genérica `(OSError, ValueError)` y continúa (`continue`) ante cualquier fallo al cargar archivos `.requisito` de `requisitos/`. Si un archivo existente no puede leerse (por ejemplo, errores de permisos, I/O o sintaxis en otro cambio en paralelo), las medidas que dicho requisito utiliza no se incorporan a `usadas`. Como consecuencia, cuando otro requisito del proyecto reemplaza una medida que también era usada por el requisito no legible, `medir` informa erróneamente que la medida queda sin ningún requisito del proyecto que la use (`Quedan sin ningún requisito del proyecto que las use`), sin alertar al usuario sobre la existencia de requisitos ilegibles en el proyecto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2356,
+        "end_line": 2359,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory medir` reemplazando una medida cuando existe en `requisitos/` algún archivo `.requisito` ilegible o corrupto que también utiliza dicha medida.",
+      "evidence": "En `oracle_factory/cli.py` (L2356-2359): `try: usadas.update(requisito.cargar(ruta).medido_por) except (OSError, ValueError): continue`. Si creamos un archivo en `requisitos/otro.requisito` corrupto o sin permisos que use `notas.resultados`, al desasociar `notas.resultados` de otro requisito, `medir` anuncia `Quedan sin ningún requisito del proyecto que las use: notas.resultados` a pesar de que el proyecto sí cuenta con un requisito para esa medida, silenciando la falla de lectura.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "Crear un archivo corrupto o ilegible en `requisitos/` y ejecutar `medir` desasociando una medida. Observar que `medir` concluye sin advertencia y anuncia erróneamente que la medida quedó sin requisito."
+    },
+    {
+      "id": "inconsistencia-orden-escritura-excepto-redundante",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Orden de escritura previa en disco vuelve redundante la guarda excepto y realiza I/O redundante en la comprensión",
+      "explanation": "En `medir`, la escritura del requisito en disco (`escribir_atomico(ruta, datos, esperado=original)`) ocurre en L2534, ANTES del cálculo de medidas sueltas en L2539. Dado que en L2534 el archivo en disco ya fue sobrescrito con las nuevas `medidas`, dicho archivo ya no contiene las medidas salientes (`m not in medidas`). Por lo tanto, el filtro `if ruta.stem != excepto:` dentro de `medidas_en_uso` resulta redundante, y mutaciones como cambiar dicha condición a `if True:` sobreviven a la suite de tests. Adicionalmente, la comprensión `[m for m in r.medido_por if m not in medidas and m not in medidas_en_uso(excepto=requisito_id)]` reejecuta `medidas_en_uso(...)` —con su recorrido de disco y parseo de todos los `.requisito`— por cada medida retirada, en lugar de precalcular el conjunto una sola vez.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2537,
+        "end_line": 2541,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `medir` desasociando múltiples medidas en un proyecto con numerosos requisitos.",
+      "evidence": "En `oracle_factory/cli.py`, L2534 escribe atómicamente los nuevos datos antes de L2539. La condición `if ruta.stem != excepto:` en L2355 fue mutada a `if True:` y todos los tests de `tests.test_cli_piloto` pasaron exitosamente sin notar la diferencia, demostrando que la guarda no cumple función con el archivo ya escrito en disco.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "Reemplazar `if ruta.stem != excepto:` por `if True:` en una copia local y correr `python -m unittest tests.test_cli_piloto`, observando que ningún test falla."
+    },
+    {
+      "id": "test-debilitado-estado-tipos-requisito",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Aserción con valor por defecto en test_cp1_la_plantilla_completada_se_importa enmascara ausencia de tipo en el registro",
+      "explanation": "El requisito 'la plantilla de un cambio nuevo trae la forma de OpenSpec' exige que al aprobarse e importarse la plantilla completada 'se importa un requisito funcional'. En `tests/test_cli_piloto.py`, L62 comprueba esto mediante `self.assertEqual((estado.get('tipos') or {}).get(rid, 'funcional'), 'funcional')`. El uso de `'funcional'` como valor por defecto en `.get(rid, 'funcional')` causa que la aserción sea tautológica si `rid` no está presente en `estado['tipos']` o si `estado` carece de la clave `'tipos'`. Una mutación que elimina el registro de `estado['tipos']` en `importar` sobrevive a esta prueba sin fallar.",
+      "location": {
+        "file": "tests/test_cli_piloto.py",
+        "start_line": 60,
+        "end_line": 63,
+        "side": "head"
+      },
+      "trigger": "Mutar `oracle_factory/cli.py` en la función `importar` para omitir la asignación `estado['tipos'] = ...` y ejecutar `tests.test_cli_piloto`.",
+      "evidence": "Al comentar la línea 641 de `oracle_factory/cli.py` (`# estado['tipos'] = ...`), `test_cp1_la_plantilla_completada_se_importa` sigue dando OK (código de salida 0) debido al fallback en `.get(rid, 'funcional')`.",
+      "related_requirement": "la plantilla de un cambio nuevo trae la forma de OpenSpec",
+      "status": "pendiente",
+      "verification": "Comentar `estado['tipos'] = ...` en `cli.py` y ejecutar `tests.test_cli_piloto`; verificar que pasa sin detectar la omisión."
+    },
+    {
+      "id": "test-no-verifica-detalles-medidas-proyecto",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Test test_cp3_un_proyecto_con_medidas_propias no verifica umbral, ámbito ni alcance de medidas de proyecto",
+      "explanation": "El requisito de la spec establece que `medir ID --listar` 'SHALL mostrar primero las medidas del proyecto, con archivo, umbral, ámbito y alcance'. Sin embargo, `test_cp3_un_proyecto_con_medidas_propias` sólo verifica que la salida contenga `notas.casos_ejecutados\\n  Archivo: ` y `notas.resultados\\n  Archivo: `, omitiendo verificar que aparezcan las etiquetas `Umbral:`, `Ámbito:` o `Alcance:`. Si la implementación omite estos campos o introduce regresiones en su formateo, la prueba no lo detecta.",
+      "location": {
+        "file": "tests/test_cli_piloto.py",
+        "start_line": 95,
+        "end_line": 98,
+        "side": "head"
+      },
+      "trigger": "Modificar `oracle_factory/cli.py` (L2409) para no imprimir `Umbral`, `Ámbito` o `Alcance` en las medidas del proyecto.",
+      "evidence": "Mutando L2409 en `oracle_factory/cli.py` a `print(f\"{mid}\\n  Archivo: {catalogo.entradas[mid].ruta}\")`, la prueba `test_cp3_un_proyecto_con_medidas_propias` pasa exitosamente, dejando sin comprobar tres de las cuatro propiedades comprometidas en el requisito.",
+      "related_requirement": "medir --listar separa las medidas del proyecto de las del catálogo base",
+      "status": "pendiente",
+      "verification": "Modificar L2409 en `cli.py` para imprimir sólo el archivo y ejecutar `tests.test_cli_piloto`; confirmar que la prueba sobrevive."
+    },
+    {
+      "id": "test-no-aisla-rechazo-por-todo-en-spec",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Test test_cp1_un_cambio_recien_creado no comprueba que spec.md sea rechazada por sus propios TODO",
+      "explanation": "El escenario 'un cambio recién creado' de la spec compromete que 'aprobar-spec la rechaza por los TODO'. En `test_cp1_un_cambio_recien_creado`, se ejecuta `aprobar_spec` sobre el cambio intacto. Como `aprobar_spec` evalúa secuencialmente `(proposal.md, spec, tasks.md)`, la ejecución se detiene inmediatamente ante el TODO de `proposal.md` ('hay que completar y revisar primero: .../proposal.md'). Si la plantilla de `spec.md` no contuviera ninguna marca `TODO:` (es decir, viniera precompletada por error), este test no detectaría el defecto y seguiría pasando.",
+      "location": {
+        "file": "tests/test_cli_piloto.py",
+        "start_line": 47,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Eliminar los marcadores `TODO:` de la plantilla de `spec.md` en `nuevo` (L346, 349-351 de `oracle_factory/cli.py`) y ejecutar `test_cp1_un_cambio_recien_creado`.",
+      "evidence": "Al mutar la plantilla de `spec.md` en `cli.py` eliminando todos los `TODO:`, `test_cp1_un_cambio_recien_creado` y `test_cp1_la_plantilla_completada_se_importa` continúan pasando sin fallos.",
+      "related_requirement": "la plantilla de un cambio nuevo trae la forma de OpenSpec",
+      "status": "pendiente",
+      "verification": "Eliminar `TODO:` de `spec.md` en `cli.py` y correr `python -m unittest tests.test_cli_piloto`; confirmar que la prueba pasa."
+    },
+    {
+      "id": "requisito-sintetico-manual-en-prueba-cp2",
+      "kind": "pregunta",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "El escenario de reemplazo de medidas simula el segundo requisito escribiendo directamente en disco",
+      "explanation": "En `test_cp2_reemplazar_las_medidas_de_un_requisito`, el segundo requisito que comparte la medida `notas.resultados` no es creado mediante el flujo real de Factory (`nuevo`, `aprobar-spec`, `importar`), sino inyectando directamente un archivo sintético `.requisito` en `self.root / 'requisitos'`. Aunque el archivo `tools/verify_cli_piloto.py` declara esto en sus límites (`LIMITES: Otro requisito que usa una medida se arma escribiendo su archivo; no se prueba con dos cambios reales`), la prueba no valida la interacción entre múltiples cambios reales en el proyecto.",
+      "location": {
+        "file": "tests/test_cli_piloto.py",
+        "start_line": 69,
+        "end_line": 73,
+        "side": "head"
+      },
+      "trigger": "Inspección de `test_cp2_reemplazar_las_medidas_de_un_requisito` en `tests/test_cli_piloto.py` (L69-73).",
+      "evidence": "L72 de `tests/test_cli_piloto.py`: `(self.root / 'requisitos' / f\"{otro}.requisito\").write_text(...)` escribe directamente el archivo en vez de ejercitar la CLI con dos cambios concurrentes o una spec multirequisito.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "Verificar la existencia de escritura manual en L72 de `tests/test_cli_piloto.py` y la declaración en L27 de `tools/verify_cli_piloto.py`."
+    }
+  ]
+}
