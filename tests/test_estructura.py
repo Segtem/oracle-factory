@@ -415,6 +415,10 @@ class Estructura(unittest.TestCase):
         self.assertIn('1 archivo(s) omitido(s)', salida)  # el grande no se leyó y se avisa
         f.comando_buscar('aguja-lejana', 50)
         self.assertIn('aguja-lejana', self.salida())  # el fragmento muestra donde está el texto
+        f.comando_buscar('aguja-grande', 50)  # el texto que sólo está en el archivo grande: no aparece y se avisa
+        salida = self.salida()
+        self.assertNotIn('grande.md', salida)
+        self.assertIn('1 archivo(s) omitido(s)', salida)
 
     # --- e9: listar con filtros -------------------------------------------------------------------------------------------
     def test_e9_filtro_de_abiertos(self):

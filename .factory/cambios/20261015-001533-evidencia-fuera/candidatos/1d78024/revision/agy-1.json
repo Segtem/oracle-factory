@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-evidencia-fuera/.factory/local/revisiones/1d78024",
+  "base": "9a6913be3f7c58d22ffe664367e3c41b86dea52c",
+  "head": "1d78024b0afeb6c37e377cfed0ccec5bcbbe8331",
+  "diff_sha256": "77613a77eaf79f412f8a18a8cbe16586d9774a8e51d1b046ba4c82f50cf77311",
+  "context_sha256": "d4a241e20003784e9539f01bf02db164e0eddb4a2e66496e493786578abc9707",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exclusivamente el conjunto de pruebas unitarias indicado: cd /home/workstation/Dev/factory-evidencia-fuera && /home/workstation/Dev/factory-evidencia-fuera/.venv/bin/python -m unittest tests.test_evidencia_fuera tests.test_estructura </dev/null (33 pruebas en 9.1s, resultado OK). No se corrió la suite completa de pruebas ni scripts verify_* (por indicación expresa).",
+    "Se realizaron pruebas de mutación manuales en copias aisladas dentro de la carpeta de trabajo del revisor para contrastar la sensibilidad de las pruebas (test_ef1 y casos e8 de test_estructura): mutaciones que reactivan el recorrido de evidencia/ o clue/, o que alteran el orden del filtrado frente al límite de tamaño de archivo (LIMITE_ARCHIVO), fueron invalidadas (KILLED) por test_ef1. No se hallaron defectos ni regresiones en la implementación de oracle_factory/estructura.py: buscar.",
+    "Se constató que rutas históricas en tareas/ con extensión .md (anteriores a la Fase 2) se siguen recorriendo según lo previsto en el diseño y los límites declarados en tools/verify_evidencia_fuera.py, mientras que los JSON de tareas/ continúan siendo omitidos.",
+    "Se comprobó que los informes y pedidos de revisión bajo .factory/cambios/<ID>/candidatos/<sha>/revision/ se siguen recorriendo correctamente y no son afectados por el filtro de candidatos.",
+    "Se verificó la consistencia de catálogos Oracle (factory_busqueda.buscar_en_todo_el_proyecto y factory_busqueda.corrida_completa) y el requisito estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto frente a la especificación aprobada.",
+    "No se hallaron defectos, inconsistencias ni discrepancias con la especificación (findings queda vacía)."
+  ]
+}

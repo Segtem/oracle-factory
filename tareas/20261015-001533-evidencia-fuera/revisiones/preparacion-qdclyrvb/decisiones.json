@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "8a05d4c9f2c673b4b4c5117b379309a5caf6dc6686c170f1a1c8cb13163a6574",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy, a la vez. La 1: agy nada; codex un medio (el caso de tamaño no buscaba el texto del archivo omitido), corregido en el mismo caso e8 y comprobado con una mutación que saca el límite. La 2 no encontró nada. buscar saltea evidencia/ y clue/ de los candidatos y sigue leyendo revision/; en el repositorio, «severidad» pasó de 386 a 286 coincidencias. Suite 347 y evidencia en verde.",
+  "decisiones": []
+}

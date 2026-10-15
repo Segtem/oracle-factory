@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-evidencia-fuera/.factory/local/revisiones/a326e9a",
+  "base": "9a6913be3f7c58d22ffe664367e3c41b86dea52c",
+  "head": "a326e9a751757e6d42b6a07fd267c100645a0458",
+  "diff_sha256": "27b67cd01ecc8f211f4cab943391d8c27013908ed14ffbfaa08ea62c19ec87e3",
+  "context_sha256": "36e7a0fb4881c36782ac2cdeb647f9dcf45901f8c852d6ee9605f23f01edf9c1",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática de la spec y del diff del paquete, con foco en oracle_factory/estructura.py: buscar, tests/test_estructura.py (e8), tests/test_evidencia_fuera.py (ef1), tools/verify_evidencia_fuera.py y catalogos/factory_busqueda.*.oracle. No se detectaron defectos; por eso findings queda vacía.",
+    "Se ejecutó exactamente el comando solicitado: cd /home/workstation/Dev/factory-evidencia-fuera && /home/workstation/Dev/factory-evidencia-fuera/.venv/bin/python -m unittest tests.test_evidencia_fuera tests.test_estructura </dev/null; 33 pruebas, OK. El HEAD de ese directorio es eaa716470206e110a1809c72039be7d20e042a17, distinto del candidato; los cuatro archivos centrales ejecutados (oracle_factory/estructura.py, tests/test_estructura.py, tests/test_evidencia_fuera.py y tools/verify_evidencia_fuera.py) coinciden byte por byte con los del candidato a326e9a751757e6d42b6a07fd267c100645a0458.",
+    "No se ejecutaron tools/verify_*.py ni la suite completa, según la indicación. No se hicieron mutaciones manuales.",
+    "Se revisó que el cambio de producto sólo altera el recorrido de buscar; resumen y donde no aparecen en el diff. Se inspeccionó donde y no se observó efecto de este cambio sobre su recorrido.",
+    "Los 10 archivos excluidos del paquete bajo .factory y tareas no se revisaron, conforme a la instrucción de alcance."
+  ]
+}

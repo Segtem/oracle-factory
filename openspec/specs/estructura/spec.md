@@ -160,9 +160,9 @@ Tipo: funcional
 - THEN Factory lo rechaza nombrando los tipos válidos
 
 ### Requirement: buscar en todo el proyecto
-Origen: 20261005-132144-jerarquia-de · estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto
+Origen: 20261015-001533-evidencia-fuera · estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto
 Tipo: funcional
-`oracle-factory buscar TEXTO` SHALL buscar en propuestas, specs, requisitos, tareas y registros de Factory, y SHALL mostrar por resultado la ruta, la línea y el cambio al que pertenece.
+`oracle-factory buscar TEXTO` SHALL buscar en propuestas, specs, requisitos, tareas y registros de Factory, y SHALL mostrar por resultado la ruta, la línea y el cambio al que pertenece. SHALL NOT recorrer la evidencia ni los paquetes de Clue de los candidatos (`evidencia/` y `clue/`), ni los JSON de `tareas/`: están atados a hashes y no se leen de corrido; los informes y pedidos de `revision/` sí se recorren.
 
 #### Scenario: texto presente en varios cambios
 - GIVEN un texto que aparece en la spec de un cambio y en la tarea de otro
@@ -178,6 +178,11 @@ Tipo: funcional
 - GIVEN un texto con «Straße» en un archivo
 - WHEN se busca «STRASSE»
 - THEN aparece el resultado
+
+#### Scenario: la evidencia no aparece
+- GIVEN un texto que aparece en la evidencia de un candidato, en un paquete de Clue y en un informe de revisión del mismo candidato
+- WHEN se busca
+- THEN aparece sólo el del informe, y la evidencia y el paquete no cuentan como omitidos por tamaño
 
 ### Requirement: listar con filtros
 Origen: 20261005-132144-jerarquia-de · estructura_cd7e5b6c4f15e5d8b.listar_con_filtros

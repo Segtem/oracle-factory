@@ -179,8 +179,12 @@ def buscar(raiz: Path, texto: str, maximo: int = 200) -> tuple[list[str], int, i
                       if p.is_file() and p.suffix in SUFIJOS_TEXTO and not p.is_symlink())
     lineas, total, omitidos = [], 0, 0
     for archivo in archivos:
-        # tareas/: sólo los textos de las tareas; la evidencia en JSON es enorme y está atada a hashes.
-        if archivo.relative_to(raiz).parts[0] == 'tareas' and archivo.suffix != '.md':
+        # tareas/: sólo los textos de las tareas; la evidencia en JSON es enorme y está atada a hashes. Lo mismo la evidencia
+        # y los paquetes de Clue de cada candidato: se leen con las herramientas que los usan, no de corrido.
+        partes = archivo.relative_to(raiz).parts
+        if (partes[0] == 'tareas' and archivo.suffix != '.md') or (
+                partes[:2] == (DIR, 'cambios') and len(partes) > 6 and partes[3] == 'candidatos'
+                and partes[5] in ('evidencia', 'clue')):
             continue
         try:
             if archivo.stat().st_size > LIMITE_ARCHIVO:

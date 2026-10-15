@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-evidencia-fuera/.factory/local/revisiones/a326e9a",
+  "base": "9a6913be3f7c58d22ffe664367e3c41b86dea52c",
+  "head": "a326e9a751757e6d42b6a07fd267c100645a0458",
+  "diff_sha256": "27b67cd01ecc8f211f4cab943391d8c27013908ed14ffbfaa08ea62c19ec87e3",
+  "context_sha256": "36e7a0fb4881c36782ac2cdeb647f9dcf45901f8c852d6ee9605f23f01edf9c1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exclusivamente el conjunto de pruebas unitarias indicado en primer plano: cd /home/workstation/Dev/factory-evidencia-fuera && /home/workstation/Dev/factory-evidencia-fuera/.venv/bin/python -m unittest tests.test_evidencia_fuera tests.test_estructura </dev/null (33 pruebas en ~9.2s, resultado OK). No se ejecutó tools/verify_*.py ni la suite completa del proyecto según la indicación expresa de la revisión.",
+    "Se realizaron pruebas de mutación manuales en un entorno temporal aislado dentro de la carpeta del revisor para contrastar la sensibilidad de los tests frente a alteraciones en oracle_factory/estructura.py: mutaciones que deshabilitan el filtrado de evidencia/, que deshabilitan el filtrado de clue/, que omiten por error revision/, que evalúan el límite de tamaño (LIMITE_ARCHIVO) antes de descartar evidencia/clue, o que modifican la profundidad del recorrido (len(partes) > 6 a > 7), fueron todas invalidadas (KILLED) por test_ef1_la_evidencia_no_aparece.",
+    "Se verificó la resolución del hallazgo EVF-001 de la vuelta anterior: en tests/test_estructura.py:418-422, test_e8_archivos_grandes_omitidos_y_formas_equivalentes ahora busca de forma explícita «aguja-grande» (cadena que sólo existe en el archivo grande que supera LIMITE_ARCHIVO), confirmando tanto que dicho archivo no aparece en los resultados como que se notifica correctamente el archivo omitido por tamaño.",
+    "Se comprobó que los informes y pedidos de revisión en .factory/cambios/<ID>/candidatos/<sha>/revision/ se siguen recorriendo sin verse afectados por el filtro, tanto en formato JSON como Markdown, reportando adecuadamente las coincidencias y el ID de cambio correspondiente.",
+    "Se constató que otros comandos y utilidades que no forman parte de la propuesta (donde, resumen) no fueron modificados y mantienen su comportamiento íntegro, respetando el alcance definido.",
+    "Se validó la consistencia formal entre la especificación (openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md), el requisito (requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto.requisito), los catálogos Oracle (catalogos/factory_busqueda.buscar_en_todo_el_proyecto.oracle y catalogos/factory_busqueda.corrida_completa.oracle) y el script sensor tools/verify_evidencia_fuera.py.",
+    "No se hallaron defectos, discrepancias ni regresiones en la implementación ni en las pruebas (la lista findings se mantiene vacía)."
+  ]
+}
