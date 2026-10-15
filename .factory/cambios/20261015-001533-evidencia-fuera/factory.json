@@ -2,7 +2,7 @@
   "id": "20261015-001533-evidencia-fuera",
   "titulo": "buscar no recorre la evidencia ni los paquetes de Clue",
   "capacidad": "estructura",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md",
   "spec_sha256": "61f0f7c1de351d797f9247aa034a754ad8a2adf885cbde001958a7e45f24bd3f",
   "spec_aprobada": {
@@ -16,7 +16,9 @@
       "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md": "61f0f7c1de351d797f9247aa034a754ad8a2adf885cbde001958a7e45f24bd3f"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +43,22 @@
         "openspec/changes/20261015-001533-evidencia-fuera/proposal.md": "e361b7c994ae0c9fb11baf208da90c413091e0d00f5c091c2bcd0a36a1e6e1e3",
         "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md": "61f0f7c1de351d797f9247aa034a754ad8a2adf885cbde001958a7e45f24bd3f"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T00:16:24+00:00",
+      "ids": [
+        "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
