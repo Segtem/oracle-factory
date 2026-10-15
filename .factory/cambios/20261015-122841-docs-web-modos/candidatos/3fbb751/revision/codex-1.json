@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs-web-modos/.factory/local/revisiones/3fbb751",
+  "base": "d700c62c657a82430943e7cacc4adb8cb4a7bb45",
+  "head": "3fbb751a22efb1f2ad93a149d5e4234804658a9e",
+  "diff_sha256": "82ad3d8f96b69546f621ac7db840a27fe14e7cf7523253b29493e19dca417a68",
+  "context_sha256": "df8415720b89c8f720f8df25e0390fbbb51269df5cba9a62294ee0879434d1b8",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido",
+      "explanation": "En `test_mw1_la_pagina_y_el_documento_estan_completos`, la página se valida comprobando que existan los siete `id` y que un conjunto de palabras clave aparezca en el texto global. No se asocia el contenido esperado con cada sección. Una página que deje vacías seis secciones y coloque todo el contenido en la primera incumple el escenario de que la página contenga las secciones de modos, quién decide, tipos, estado, cambio, ejemplo y límites, pero satisface estas aserciones.",
+      "location": {
+        "file": "tests/test_modos_web.py",
+        "start_line": 112,
+        "end_line": 123,
+        "side": "head"
+      },
+      "trigger": "Sobre una copia, mover el contenido de las secciones `quien-decide`, `tipos`, `estado`, `cambiar`, `ejemplo` y `limites` dentro de `modos`, dejando las seis secciones vacías y sus ids intactos; ejecutar `python -m unittest tests.test_modos_web`.",
+      "evidence": "Mutación aplicada sólo en `/tmp/mode-review-mutation/site/modos.html`: conservé los siete ids, concatené sus contenidos dentro de la primera sección y dejé vacías las otras seis. Las cuatro pruebas de `tests.test_modos_web` pasaron. El test actual comprueba ids con `pagina.ids` (línea 112), y busca temas sólo en el texto agregado `pagina.texto` (líneas 119–123), por lo que no detecta la distribución vacía.",
+      "related_requirement": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "status": "pendiente",
+      "verification": "Repetir la mutación en una copia y ejecutar `python -m unittest tests.test_modos_web`; con el código actual pasan las cuatro pruebas. Añadir aserciones que vinculen los temas/contenidos a sus secciones debería hacer fallar esta mutación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `/home/workstation/Dev/factory-docs-web-modos/.venv/bin/python -m unittest tests.test_modos_web tests.test_web` desde la raíz indicada: 13 pruebas, todas pasaron.",
+    "Corrí también `tests.test_modos_web` sobre una copia mutada en `/tmp`; la mutación descrita sobrevivió.",
+    "Revisé estáticamente `docs/modos.md`, `site/modos.html`, `site/index.html`, `README.md`, `site/style.css`, la implementación de modos/CLI, los tests, `tools/verify_docs_web_modos.py` y los tres catálogos Factory.",
+    "No ejecuté `tools/verify_docs_web_modos.py`, la suite completa ni un navegador/viewport móvil, según el alcance pedido; la adaptación móvil se evaluó leyendo las media queries y el contenedor horizontal de la tabla."
+  ]
+}
