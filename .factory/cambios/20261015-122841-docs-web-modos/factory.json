@@ -2,10 +2,20 @@
   "id": "20261015-122841-docs-web-modos",
   "titulo": "Docs y web: los modos de trabajo y quién decide qué",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T12:31:35+00:00",
+    "documentos": {
+      "openspec/changes/20261015-122841-docs-web-modos/proposal.md": "f19f953b4449da55c550f7c932103e14b453b29de11e38be372568904d3d0ccf",
+      "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-15T12:28:41+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T12:31:35+00:00",
+      "documentos": {
+        "openspec/changes/20261015-122841-docs-web-modos/proposal.md": "f19f953b4449da55c550f7c932103e14b453b29de11e38be372568904d3d0ccf",
+        "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
