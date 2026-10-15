@@ -27,3 +27,15 @@ Medidas de estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente
 ### Nota (2026-10-15 16:27:37 UTC)
 
 Medidas de estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara: factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 16:30:22 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 16:30:22 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 16:30:22 UTC)
+
+Medidas de estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara: Brian Hollweg (persona, confirmo, modo confirmacion).
