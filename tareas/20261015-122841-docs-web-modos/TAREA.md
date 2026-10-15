@@ -1,6 +1,6 @@
 # Docs y web: los modos de trabajo y quién decide qué
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-15 13:52:09 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261015-122841-docs-web-modos/oracle-veredicto.txt.
+
+### Nota (2026-10-15 13:56:54 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
