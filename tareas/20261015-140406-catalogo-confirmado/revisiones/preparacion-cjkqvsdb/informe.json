@@ -1,0 +1,88 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261015-140406-catalogo-confirmado",
+  "contexto": {
+    "head": "eb3899def43af7f8ebb1f523a941c1541549760a",
+    "archivos_sha256": "2326e82d55892f613dc58f160c7aef0c635d09577a79d59e1cfed1d83e8fc461"
+  },
+  "documentos": {
+    "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md": "22b45e2578b7419299e50b69f91b930ea1524b1d3e17b09e3857ce225f08b301",
+    "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_catalogo.corrida_completa.oracle",
+    "catalogos/factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.oracle",
+    "catalogos/factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo.oracle",
+    "openspec/changes/20261015-140406-catalogo-confirmado/design.md",
+    "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md",
+    "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+    "openspec/changes/20261015-140406-catalogo-confirmado/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.requisito",
+    "requisitos/modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo.requisito",
+    "tests/test_catalogo_confirmado.py",
+    "tools/verify_catalogo_confirmado.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 361 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/3f68c51/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/3f68c51/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/3f68c51/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0e22578: agy (gemini-3.8-flash-high), 5 hallazgos: agy-1 (alta), agy-2 (media), agy-3 (media), agy-4 (media), agy-5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/0e22578/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0e22578: codex (gpt-6-luna), 1 hallazgo: CC-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/0e22578/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4e12cf2: agy (gemini-3.8-flash-high), 1 hallazgo: agy-2-1 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/4e12cf2/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4e12cf2: codex (gpt-6-luna), 1 hallazgo: CC2-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-140406-catalogo-confirmado/candidatos/4e12cf2/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cc1–cc2 en proyectos temporales, Linux, con el ejemplo notas y Oracle 0.38.1. El cambio de catálogo que se prueba es el del alcance de una medida del proyecto, que desaparezca y que no se pueda leer; cualquier cambio de bytes del archivo cuenta igual, y no se prueba una actualización del catálogo base de Oracle.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas indicada en primer plano: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null, completando 39 pruebas exitosas (OK).",
+    "agy (gemini-3.8-flash-high): Se ejecutó una batería de pruebas de mutación manuales en memoria (run_mutations.py) para evaluar la sensibilidad de tests/test_catalogo_confirmado.py ante regresiones (anulación de detección de cambios, supresión de clasificación 'no_carga', supresión de clasificación 'falta', omisión del manejo de catálogo ilegible, aceptación de propuestas con catálogo cambiado o sin huella en propuestas_confirmables); todas las mutaciones fueron detectadas y eliminadas por la suite.",
+    "agy (gemini-3.8-flash-high): Se comprobó que las observaciones de las vueltas anteriores (agy-1 a agy-5, CC-001 de la vuelta 1, y agy-2-1 y CC2-001 de la vuelta 2) se encuentran efectivamente resueltas sin regresiones: se distingue 'cambió', 'falta', 'no_carga' e 'ilegible'; los archivos presentes pero no cargados se señalan correctamente; la resolución del catálogo efectivo se realiza una sola vez por consulta; y la anotación de tipos en describir_cambios es consistente.",
+    "agy (gemini-3.8-flash-high): Se contrastó la implementación de oracle_factory/cli.py (archivos_de_medidas, huellas_de_catalogo, catalogos_cambiados, registrar_medidas, medidas_sin_decision, propuestas_confirmables, confirmar_medidas y ramas de medir) contra los requisitos de spec.md, proposal.md, design.md y README.md, sin hallazgos abiertos.",
+    "agy (gemini-3.8-flash-high): Conforme a las instrucciones del pedido, no se corrieron tools/verify_*.py ni la suite completa discover.",
+    "agy (gemini-3.8-flash-high): No se ejecutaron sensores ni integración en vivo con sistemas externos.",
+    "codex (gpt-6-luna): Corrí exactamente: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null. Resultado: 39 pruebas, OK.",
+    "codex (gpt-6-luna): Leí la spec, el diff del paquete, la implementación, tests/test_catalogo_confirmado.py, tools/verify_catalogo_confirmado.py, los catálogos agregados, README.md y los cuatro informes de revisión previos.",
+    "codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales fuera de las simulaciones temporales incluidas en los tests.",
+    "codex (gpt-6-luna): La clasificación incorrecta reportada aplica al caso acotado de una medida del catálogo base omitida sin error; las pruebas cubren el caso equivalente con una ruta del proyecto. No medí el costo temporal con un proyecto grande; en el flujo normal el catálogo se resuelve una vez por llamada a estado y se reutiliza."
+  ],
+  "hallazgos": [
+    {
+      "id": "CC3-001",
+      "descripcion": "Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "ubicacion": "oracle_factory/cli.py:1371",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261015-140406-catalogo-confirmado/candidatos/3f68c51/revision/codex-1.json, validado con oracle-clue; severidad baja. `nombre_de_archivo` (líneas 1339-1341) transforma rutas ajenas a ROOT en «catálogo base de Oracle, <nombre>»; `con_huellas` guarda esa etiqueta en archivos_catalogo. En líneas 1371-1372 se comprueba exclusivamente `(ROOT / viejo).is_file()`, y en 1373 esa etiqueta se usa como ruta informada cuando la entrada actual es None. El test `tests/test_catalogo_confirmado.py::test_cc1_cambia_el_catalogo_de_una_medida_confirmada` simula la omisión con `casos` bajo `self.root` (líneas 85-88), así que su archivo sí se encuentra bajo ROOT."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

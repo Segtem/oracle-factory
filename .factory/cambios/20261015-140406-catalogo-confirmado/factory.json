@@ -246,6 +246,16 @@
       "candidato": "3f68c51",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T15:27:38+00:00",
+      "decision": "aprobar",
+      "candidato": "3f68c51"
     }
   ],
   "tipos": {
@@ -286,5 +296,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy, a la vez. La 1: un alto (decidir con --requisito tras un catálogo cambiado figuraba como confirmación de la propuesta), cuatro medios y un bajo; todos corregidos con pruebas que fallan sin el arreglo. La 2: un medio (un archivo presente que Oracle no carga se informaba como ausente), corregido. La 3: agy nada, codex un bajo (el mismo caso para una medida del catálogo base). Las medidas de este cambio se reconfirmaron porque sus catálogos cambiaron: el propio cambio lo detectó. Suite 361 y evidencia en verde.",
+      "candidato": "3f68c51",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T15:27:38+00:00"
+    }
+  }
 }
