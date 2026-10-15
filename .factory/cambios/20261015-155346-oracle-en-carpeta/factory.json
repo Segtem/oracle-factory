@@ -2,10 +2,20 @@
   "id": "20261015-155346-oracle-en-carpeta",
   "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
   "capacidad": "estructura",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T16:15:06+00:00",
+    "documentos": {
+      "openspec/changes/20261015-155346-oracle-en-carpeta/proposal.md": "f119ed560850fd9106d893ccb9f77aada1a0144978369b2eb3aa8f58af43e741",
+      "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-15T15:53:46+00:00",
       "capacidad": "estructura"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T16:15:06+00:00",
+      "documentos": {
+        "openspec/changes/20261015-155346-oracle-en-carpeta/proposal.md": "f119ed560850fd9106d893ccb9f77aada1a0144978369b2eb3aa8f58af43e741",
+        "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
