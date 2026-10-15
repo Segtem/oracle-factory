@@ -137,6 +137,16 @@
       "candidato": "a326e9a",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T00:55:46+00:00",
+      "decision": "aprobar",
+      "candidato": "a326e9a"
     }
   ],
   "tipos": {
@@ -152,5 +162,15 @@
       "sha256": "709c3cf298991b77e3e611d840944ac3c3d68ff5d1e19cfce90fc191c3102c2b"
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy, a la vez. La 1: agy nada; codex un medio (el caso de tamaño no buscaba el texto del archivo omitido), corregido en el mismo caso e8 y comprobado con una mutación que saca el límite. La 2 no encontró nada. buscar saltea evidencia/ y clue/ de los candidatos y sigue leyendo revision/; en el repositorio, «severidad» pasó de 386 a 286 coincidencias. Suite 347 y evidencia en verde.",
+      "candidato": "a326e9a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T00:55:46+00:00"
+    }
+  }
 }
