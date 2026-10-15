@@ -67,6 +67,25 @@ class CatalogoConfirmado(Base):
         self.assertNotIn('notas.casos_ejecutados (', texto)  # sólo la que cambió
         with self.assertRaisesRegex(f.FactoryError, 'sin una decisión vigente.*notas.resultados'):
             f.juzgar(ident, self.root / 'hechos.json')
+        # Las rutas se guardan relativas al proyecto; una del catálogo base de Oracle se nombra sin la ruta de esta máquina.
+        self.assertEqual(f.leer(ident)[1]['medidas'][rid]['archivos_catalogo']['notas.resultados'], archivo)
+        self.assertEqual(f.nombre_de_archivo(Path('/otra/maquina/oracle/catalogo/meta.x.oracle')),
+                         'catálogo base de Oracle, meta.x.oracle')
+        # Una medida que desaparece del catálogo: se nombra con el archivo que tenía y no se piden las mismas medidas.
+        (self.root / archivo).unlink()
+        texto = self.estado(ident)
+        self.assertIn(f'notas.resultados ({archivo}, ya no está en el catálogo) cambió', texto)
+        self.assertIn('revisá el catálogo y volvé a decidirla con medir', texto)
+        # Un archivo de catálogo que no se puede leer: Oracle deja afuera las medidas del proyecto, y la decisión no se da
+        # por vigente.
+        (self.root / archivo).write_text('esto no es una medida\n')
+        [(r, motivo)] = f.medidas_sin_decision(f.leer(ident)[1])
+        self.assertEqual(r, rid)
+        self.assertIn('notas.resultados', motivo)
+        with patch.object(f, 'archivos_de_medidas', side_effect=ValueError('catálogo ilegible')):  # y si Oracle falla
+            [(_, motivo)] = f.medidas_sin_decision(f.leer(ident)[1])
+        self.assertIn('no pude leer el catálogo', motivo)
+        self.assertIn('no se pudo comparar con la decisión registrada', motivo)
 
     def test_cc1_volver_a_decidir_con_las_mismas_medidas(self):
         ident, rid = self.con_notas()
@@ -106,7 +125,21 @@ class CatalogoConfirmado(Base):
         self.assertIn(f'Aviso: {rid} o el catálogo de sus medidas cambió después de la propuesta; no se confirma', salida)
         self.assertIn('No hay medidas propuestas pendientes de confirmar', salida)
         self.assertNotIn(rid, f.leer(ident)[1].get('medidas') or {})
-        # El agente la propone otra vez con el catálogo nuevo: ya no es «la misma propuesta», y se puede confirmar.
+        # Si la persona la decide igual con medir --requisito, queda como decisión suya, no como confirmación de la propuesta.
+        self.medir(ident, rid)
+        self.assertEqual(f.leer(ident)[1]['medidas'][rid]['forma'], 'decidio')
+
+    def test_cc2_una_propuesta_anterior_sin_huellas(self):
+        ident, rid = self.con_notas()
+        self.medir(ident, rid, agente='claude-code')
+        carpeta, estado = f.leer(ident)
+        del estado['medidas_pendientes'][rid]['catalogos']  # como la guardaba Factory antes de este cambio
+        f.guardar(carpeta, estado)
+        self.assertEqual(f.propuestas_confirmables(f.leer(ident)[1]), [])  # no se sabe qué catálogo vio el agente
+        with self.escribe('1'):
+            f.confirmar_medidas(ident)
+        self.assertIn(f'Aviso: {rid} o el catálogo de sus medidas cambió después de la propuesta', self.salida())
+        # El agente la propone otra vez: ahora con huellas, y se puede confirmar.
         self.assertNotIn('ya está registrada', self.medir(ident, rid, agente='claude-code'))
         self.assertEqual(f.propuestas_confirmables(f.leer(ident)[1]), [rid])
 

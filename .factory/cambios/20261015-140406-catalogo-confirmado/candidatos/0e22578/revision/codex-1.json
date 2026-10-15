@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/0e22578",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "0e2257862e7c2100b3093347da79d405827ea504",
+  "diff_sha256": "22f1419a65736630a68d6940b09ea16ba46aa8cc17d591e66fc810eaf909e39e",
+  "context_sha256": "e2b31240c3aa6e3997b81d1ef42bb1bc2dd8ede0f77f92c399f0435f82dfc7d3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CC-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "Una propuesta anterior sin huellas de catálogo sigue siendo confirmable tras cambiar la medida",
+      "explanation": "Las propuestas pendientes que ya existían antes de este cambio no tienen el campo `catalogos`. `catalogos_cambiados` devuelve una lista vacía para cualquier registro sin ese campo, por lo que `propuestas_confirmables` las considera vigentes siempre que no haya cambiado el archivo `.requisito`. Si el archivo de una medida cambia después de que se creó una de esas propuestas y antes de que una persona ejecute `medir --confirmar`, el flujo la incluye entre las confirmables y la registra como confirmada, aunque no puede comprobar que la persona esté aceptando la versión de catálogo que vio el agente. La spec reserva explícitamente la compatibilidad sin huella para decisiones anteriores; para las propuestas promete que un cambio previo a la confirmación impide confirmarlas tal cual. El caso no está cubierto por los tests, que crean propuestas nuevas con huellas antes de mutar el catálogo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1343,
+        "end_line": 1344,
+        "side": "head"
+      },
+      "trigger": "Con una versión anterior de Factory, dejar una propuesta de agente pendiente para un requisito y no confirmarla. Actualizar Factory sin recrear la propuesta, cambiar los bytes de uno de los catálogos nombrados por el requisito sin tocar el `.requisito` y ejecutar `medir ID --confirmar`.",
+      "evidence": "En `catalogos_cambiados`, `if not viejas: return []` clasifica una propuesta sin `catalogos` como si no hubiera cambios. `propuestas_confirmables` (líneas 2601–2603) la acepta cuando coincide el hash del requisito y `confirmar_medidas` pasa esa lista a `medir`; en la rama de asociación sin cambios, `medir` registra la decisión de la persona. `tests/test_catalogo_confirmado.py::test_cc2_el_catalogo_cambia_entre_la_propuesta_y_la_confirmacion` sólo comprueba una propuesta creada por el código nuevo (línea 99 verifica que tenga las huellas), así que no ejercita la propuesta pendiente heredada.",
+      "related_requirement": "una propuesta de medidas no se confirma si cambió el catálogo",
+      "status": "pendiente",
+      "verification": "Revisión estática del flujo y de la prueba indicada. No ejecuté una mutación de propuesta heredada en una copia; la secuencia se deriva de los predicados citados. La suite solicitada pasó, pero no incluye este estado histórico."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null`; pasaron 38 pruebas.",
+    "No corrí `tools/verify_*.py` ni la suite completa, según lo indicado. No ejecuté mutaciones manuales sobre una copia.",
+    "La prueba nueva cubre cambios de alcance en catálogos del proyecto, no eliminaciones de medidas, catálogos base de Oracle ni propuestas heredadas sin huella. La revisión estática indica que la ruta de catálogo ausente se marca como cambio; no hice una ejecución mutante para verificar ese caso.",
+    "`estado` vuelve a resolver y cargar el catálogo efectivo desde `catalogos_cambiados` por cada requisito con decisión y huellas. No medí el tiempo con un proyecto grande; el impacto depende de la cantidad de requisitos y del catálogo."
+  ]
+}

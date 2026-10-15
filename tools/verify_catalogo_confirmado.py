@@ -19,12 +19,13 @@ CONTRACTS = {
     'una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo': ['cc1_cambia_el_catalogo_de_una_medida_confirmada',
                                                                     'cc1_volver_a_decidir_con_las_mismas_medidas',
                                                                     'cc1_una_decision_anterior_sin_huella_de_catalogos'],
-    'una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo': ['cc2_el_catalogo_cambia_entre_la_propuesta_y_la_confirmacion'],
+    'una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo': ['cc2_el_catalogo_cambia_entre_la_propuesta_y_la_confirmacion',
+                                                                      'cc2_una_propuesta_anterior_sin_huellas'],
 }
 PREFIX = 'test_catalogo_confirmado.CatalogoConfirmado.test_'
 LIMITES = ('Escenarios cc1–cc2 en proyectos temporales, Linux, con el ejemplo notas y Oracle 0.38.1. El cambio de '
-           'catálogo que se prueba es el del alcance de una medida del proyecto; cualquier cambio de bytes del archivo cuenta '
-           'igual, y no se prueba una actualización del catálogo base de Oracle.')
+           'catálogo que se prueba es el del alcance de una medida del proyecto, que desaparezca y que no se pueda leer; '
+           'cualquier cambio de bytes del archivo cuenta igual, y no se prueba una actualización del catálogo base de Oracle.')
 
 
 def fuentes():

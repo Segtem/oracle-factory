@@ -1,6 +1,6 @@
 medida factory_catalogo.corrida_completa:
     de catalogo_corrida c
-    donde c.completa == 1 y c.casos == 4
+    donde c.completa == 1 y c.casos == 5
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
     requiere catalogo_corrida
