@@ -2,7 +2,7 @@
   "id": "20261015-155346-oracle-en-carpeta",
   "titulo": "El proyecto Oracle puede estar en una carpeta del proyecto",
   "capacidad": "estructura",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md",
   "spec_sha256": "98993a403ec8ec322a72538f099324f5bc843e5e4e94c63a57062309942c0056",
   "spec_aprobada": {
@@ -290,6 +290,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "04610fee24bb09d94c1bf28c083405ca09db0a793978224894a5d933e33c9522"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T19:22:06+00:00",
+      "oracle": ".factory/cambios/20261015-155346-oracle-en-carpeta/oracle-veredicto.txt",
+      "revision": "tareas/20261015-155346-oracle-en-carpeta/revisiones/registro-y1zbjnms/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T19:22:06+00:00",
+      "capacidad": "estructura",
+      "spec": "openspec/specs/estructura/spec.md"
     }
   ],
   "tipos": {
@@ -348,5 +368,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T19:22:06+00:00"
+  },
+  "archivo": {
+    "capacidad": "estructura",
+    "spec": "openspec/specs/estructura/spec.md",
+    "cuando": "2026-10-15T19:22:06+00:00"
+  }
 }

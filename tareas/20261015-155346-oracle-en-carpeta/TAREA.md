@@ -1,6 +1,6 @@
 # El proyecto Oracle puede estar en una carpeta del proyecto
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-15 19:21:46 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261015-155346-oracle-en-carpeta/oracle-veredicto.txt.
+
+### Nota (2026-10-15 19:22:06 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
