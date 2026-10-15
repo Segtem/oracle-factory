@@ -70,10 +70,11 @@ class CliPiloto(Base):
     def test_cp2_reemplazar_las_medidas_de_un_requisito(self):
         ident, (uno,) = self.con_notas()
         self.medir(ident, uno, 'notas.casos_ejecutados', 'notas.resultados')
-        # Otro requisito del proyecto (de otro cambio) que también usa notas.resultados.
+        # Otro requisito del proyecto (de otro cambio, en una subcarpeta, que Oracle también carga) que usa notas.resultados.
         otro = uno.rsplit('.', 1)[0] + '.otra_promesa'
         texto = (self.root / 'requisitos' / f'{uno}.requisito').read_text().replace(uno, otro)
-        (self.root / 'requisitos' / f'{otro}.requisito').write_text(
+        (self.root / 'requisitos' / 'otros').mkdir()
+        (self.root / 'requisitos' / 'otros' / f'{otro}.requisito').write_text(
             texto.replace('notas.casos_ejecutados, notas.resultados', 'notas.resultados'))
         otra = 'proceso.' + next(m.split('.', 1)[1] for m in self.catalogo() if m.startswith('proceso.'))
         salida = self.medir(ident, uno, otra)

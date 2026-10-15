@@ -2351,12 +2351,13 @@ def medidas_en_uso(excepto: str) -> tuple[set[str], list[str]]:
     """Las medidas que nombra algún requisito del proyecto, salvo `excepto`, y los requisitos que no se pudieron leer."""
     from oracle_metalenguaje.nucleo import requisito
     usadas, ilegibles = set(), []
-    for ruta in sorted((ROOT / 'requisitos').glob('*.requisito')):
-        if ruta.stem != excepto:
+    propio = ROOT / 'requisitos' / f'{excepto}.requisito'
+    for ruta in sorted((ROOT / 'requisitos').rglob('*.requisito')):  # también en subcarpetas, como los carga Oracle
+        if ruta != propio:
             try:
                 usadas.update(requisito.cargar(ruta).medido_por)
             except (OSError, ValueError):
-                ilegibles.append(ruta.name)
+                ilegibles.append(ruta.relative_to(ROOT / 'requisitos').as_posix())
     return usadas, ilegibles
 
 
