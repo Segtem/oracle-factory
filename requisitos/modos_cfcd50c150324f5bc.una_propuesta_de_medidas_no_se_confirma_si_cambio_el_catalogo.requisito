@@ -1,0 +1,4 @@
+requisito modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo:
+    texto "Tipo: funcional Una propuesta de medidas de un agente SHALL guardar la misma huella. Si un catálogo cambia antes de que una persona la confirme, `medir ID --confirmar` SHALL NOT confirmarla tal cual y SHALL avisar que cambió."
+    fuente "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md#una propuesta de medidas no se confirma si cambió el catálogo"
+    sin_medir "sin medida todavía; escenarios: «el catálogo cambia entre la propuesta y la confirmación»"

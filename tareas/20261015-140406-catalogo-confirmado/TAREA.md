@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261015-140406-catalogo-confirmado. Modo de trabajo:
 ### Nota (2026-10-15 14:13:31 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-15 14:13:41 UTC)
+
+Requisitos importados: modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo (funcional), modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

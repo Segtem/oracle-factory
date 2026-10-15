@@ -1323,8 +1323,40 @@ def pendientes(estado: dict) -> list[str]:
     return faltan
 
 
+def archivos_de_medidas(contenido: bytes) -> dict[str, Path | None]:
+    """{medida: su archivo en el catálogo efectivo} para las medidas que nombra el requisito; None si no está."""
+    from oracle_metalenguaje.nucleo import requisito
+    from oracle_metalenguaje.nucleo.proyecto import resolver, catalogo_efectivo
+    medidas = requisito.Requisito.de_datos(requisito.leer(contenido.decode("utf-8"))).medido_por
+    catalogo = catalogo_efectivo(resolver(["--proyecto", str(ROOT)]))
+    return {m: Path(catalogo.entradas[m].ruta) if m in catalogo else None for m in medidas}
+
+
+def huellas_de_catalogo(contenido: bytes) -> dict[str, str | None]:
+    return {m: sha256(r.read_bytes()) if r else None for m, r in archivos_de_medidas(contenido).items()}
+
+
+def catalogos_cambiados(registro: dict, contenido: bytes) -> list[str]:
+    """«medida (archivo)» de cada medida cuyo archivo cambió o ya no está desde el registro; vacía si el registro no
+    guardó huellas, porque no se puede comparar."""
+    viejas = registro.get("catalogos")
+    if not viejas:
+        return []
+    try:
+        archivos = archivos_de_medidas(contenido)
+        actuales = {m: sha256(r.read_bytes()) if r else None for m, r in archivos.items()}
+    except (OSError, ValueError):
+        return sorted(f"{m} (no pude leer el catálogo)" for m in viejas)  # sin leerlo no se puede dar por igual
+
+    def nombre(m):
+        r = archivos.get(m)
+        return f"{m} ({r.relative_to(ROOT).as_posix() if r and r.is_relative_to(ROOT) else r or 'ya no está en el catálogo'})"
+    return sorted(nombre(m) for m in set(viejas) | set(actuales) if actuales.get(m) is None or actuales.get(m) != viejas.get(m))
+
+
 def registrar_medidas(estado: dict, rid: str, forma: str, motivo: str | None, contenido: bytes) -> dict:
-    registro = {**registro_decision(estado, forma, motivo), "sha256": sha256(contenido)}
+    registro = {**registro_decision(estado, forma, motivo), "sha256": sha256(contenido),
+                "catalogos": huellas_de_catalogo(contenido)}
     estado.setdefault("medidas", {})[rid] = registro
     return registro
 
@@ -1347,6 +1379,9 @@ def medidas_sin_decision(estado: dict) -> list[tuple[str, str]]:
         elif medidas[rid].get("sha256") not in (None, sha256(contenido)):
             # None: decisión anterior a que se guardara el hash; no se puede comparar.
             faltan.append((rid, "cambió después de la decisión registrada; volvé a decidirla con medir"))
+        elif cambiadas := catalogos_cambiados(medidas[rid], contenido):
+            faltan.append((rid, "el catálogo de " + ", ".join(cambiadas) + " cambió después de la decisión registrada; "
+                           "volvé a decidirla con medir y las mismas medidas"))
     return faltan
 
 
@@ -2455,14 +2490,16 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         pendiente = (estado.get('medidas_pendientes') or {}).get(requisito_id)
         registro = (estado.get('medidas') or {}).get(requisito_id)
         huella = sha256(original)
-        if registro and registro.get('sha256') in (None, huella) and not pendiente:
+        if registro and registro.get('sha256') in (None, huella) and not pendiente and not catalogos_cambiados(registro, original):
             print('Sin cambios en la asociación; conservé la revisión y el juicio existentes.')
             return
         if via == 'propone':
-            if pendiente and pendiente['sha256'] == huella and not pendiente.get('descartada'):
+            if (pendiente and pendiente['sha256'] == huella and not pendiente.get('descartada')
+                    and not catalogos_cambiados(pendiente, original)):
                 print('Sin cambios: la propuesta ya está registrada, a la espera de una persona.')
                 return
-            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': huella, **actor(), 'cuando': ahora()}
+            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': huella, 'catalogos': huellas_de_catalogo(original),
+                                                                         **actor(), 'cuando': ahora()}
             (estado.get('medidas') or {}).pop(requisito_id, None)
             evento(estado, 'medidas_propuestas', forma='propuso', requisito=requisito_id, medidas=medidas)
             escribir_atomico(ruta_registro(carpeta), bytes_json(estado), esperado=registro_original)
@@ -2528,7 +2565,8 @@ def medir(identificador: str, *, requisito_id: str | None = None,
         # Invalidar primero: si falla después la escritura, nunca queda un verde anterior vigente.
         estado.update(revision=None, oracle=None, fase='requisitos_importados')
         if via == 'propone':
-            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': sha256(datos), **actor(), 'cuando': ahora()}
+            estado.setdefault('medidas_pendientes', {})[requisito_id] = {'sha256': sha256(datos), 'catalogos': huellas_de_catalogo(datos),
+                                                                         **actor(), 'cuando': ahora()}
             (estado.get('medidas') or {}).pop(requisito_id, None)
         else:
             (estado.get('medidas_pendientes') or {}).pop(requisito_id, None)
@@ -2561,7 +2599,8 @@ def propuestas_confirmables(estado: dict) -> list[str]:
         ruta = ROOT / "requisitos" / f"{r}.requisito"
         return sha256(ruta.read_bytes()) if ruta.is_file() else None  # un requisito que falta no se puede confirmar
     return sorted(r for r, p in (estado.get("medidas_pendientes") or {}).items()
-                  if not p.get("descartada") and actual(r) == p["sha256"])
+                  if not p.get("descartada") and actual(r) == p["sha256"]
+                  and not catalogos_cambiados(p, (ROOT / "requisitos" / f"{r}.requisito").read_bytes()))
 
 
 def confirmar_medidas(identificador: str) -> None:
@@ -2572,7 +2611,7 @@ def confirmar_medidas(identificador: str) -> None:
     pendientes = propuestas_confirmables(estado)
     cambiadas = sorted(set(propuestas) - set(pendientes))
     for rid in cambiadas:
-        print(f"Aviso: {rid} cambió después de la propuesta; no se confirma acá. Revisalo con oracle-factory medir "
+        print(f"Aviso: {rid} o el catálogo de sus medidas cambió después de la propuesta; no se confirma acá. Revisalo con oracle-factory medir "
               f"{identificador} --listar y decidilo con medir --requisito.")
     if not pendientes:
         print("No hay medidas propuestas pendientes de confirmar.")

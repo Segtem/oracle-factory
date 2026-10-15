@@ -101,7 +101,7 @@ Usar Python 3, Git y las herramientas instaladas. La integración se probó con 
 
 Antes de registrar la revisión, terminar los cambios y crear el commit del producto. La CLI guarda HEAD y una huella de archivos versionados y nuevos no ignorados. Si cambia el código, la spec, las medidas o la evidencia (la huella de archivos), repetir la revisión/juicio. Un commit que sólo toca registros de tareas no invalida: se guarda el commit revisado y `estado` avisa cuando el HEAD actual es otro con el producto idéntico. Los registros de tareas y los informes generados en el paquete no se incluyen en la huella del producto, pero los informes se verifican por hash propio. Los archivos ignorados y dependencias externas quedan fuera de esa huella; los submódulos no están soportados.
 
-Renovar la aprobación de propuesta/spec invalida la importación, la revisión y el veredicto anteriores. Una asociación de medidas diferente invalida la revisión y el juicio. Las confirmaciones interactivas son un protocolo del operador: registran el usuario del sistema, sin autenticar de forma independiente a una persona.
+Renovar la aprobación de propuesta/spec invalida la importación, la revisión y el veredicto anteriores. Una asociación de medidas diferente invalida la revisión y el juicio. Una decisión de medidas también deja de valer si después cambia el archivo de alguna de sus medidas (umbral, filtro, alcance): `estado` la marca y se vuelve a decidir con `medir` y las mismas medidas. Las confirmaciones interactivas son un protocolo del operador: registran el usuario del sistema, sin autenticar de forma independiente a una persona.
 
 
 ## Pruebas

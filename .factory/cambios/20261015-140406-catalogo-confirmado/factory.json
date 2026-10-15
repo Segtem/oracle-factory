@@ -2,7 +2,7 @@
   "id": "20261015-140406-catalogo-confirmado",
   "titulo": "Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión",
   "capacidad": "modos",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
   "spec_sha256": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md": "22b45e2578b7419299e50b69f91b930ea1524b1d3e17b09e3857ce225f08b301",
         "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T14:13:41+00:00",
+      "ids": [
+        "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": "funcional",
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
