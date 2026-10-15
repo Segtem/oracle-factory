@@ -135,6 +135,8 @@ class OracleEnCarpeta(Proyecto):
         (afuera / 'oracle.json').write_text('{}')
         (self.root / 'enlace').symlink_to(afuera)
         for carpeta, causa in ((str(self.root / 'medidas'), 'relativa al proyecto, sin ..'), ('../afuera', 'relativa al proyecto, sin ..'),
+                               ('\\afuera', 'relativa al proyecto, sin ..'), ('C:/afuera', 'relativa al proyecto, sin ..'),
+                               ('medidas\\..\\..', 'relativa al proyecto, sin ..'),
                                ('vacia', 'ahí no hay un proyecto Oracle'), ('enlace', 'ahí no hay un proyecto Oracle')):
             self.config(oracle=carpeta)
             antes = self.arbol()
@@ -202,8 +204,9 @@ class OracleEnCarpeta(Proyecto):
         with mirar:
             ident, _ = self.cambio_juzgado(medidas=('notas.casos_conocidos', 'notas.resultados'))
         coberturas = [a for a in llamadas if a[:2] == ['oracle', 'cobertura']]
-        self.assertTrue(coberturas)
+        self.assertEqual(len(coberturas), 2)  # la cobertura y la cobertura con los hechos
         self.assertTrue(all('--confiar-escalares' in a for a in coberturas))
+        self.assertEqual(f.con_escalares(), ['--confiar-escalares'])
         self.assertEqual(f.leer(ident)[1]['oracle']['codigo'], 0)
         veredicto = (self.root / f.leer(ident)[1]['oracle']['informe']).read_text()
         self.assertIn('notas.casos_conocidos', veredicto)
@@ -215,11 +218,16 @@ class OracleEnCarpeta(Proyecto):
         ident, rid = self.cambio_juzgado(medidas=('notas.casos_conocidos', 'notas.resultados'))
         self.config(confiar_escalares=False)
         hechos = self.root / f.leer(ident)[1]['oracle']['hechos']
+        self.assertEqual(f.con_escalares(), [])  # sin la clave, Factory no pasa --confiar-escalares
         llamadas, mirar = self.llamadas_a_oracle()
         with mirar, contextlib.redirect_stderr(io.StringIO()), self.assertRaises(f.FactoryError) as error:
             f.juzgar(ident, hechos)
-        self.assertTrue(all('--confiar-escalares' not in a for a in llamadas))  # Factory no lo pasa
-        self.assertIn('no se pudo comparar', str(error.exception))  # y la decisión no se usa sin poder cargar el catálogo
+        # El error de Oracle (no ejecuta escalares externas sin confianza) llega a la persona, con la clave que lo resuelve,
+        # antes de correr nada: ninguna llamada a Oracle ni un juicio a medias.
+        self.assertIn('repetí con `--confiar-escalares`', str(error.exception))
+        self.assertIn('"confiar_escalares": true', str(error.exception))
+        self.assertEqual([a for a in llamadas if a[0] == 'oracle'], [])
+        self.assertEqual(f.leer(ident)[1]['oracle']['codigo'], 0)  # el juicio anterior no se toca
         # medir, que carga el catálogo, dice la causa y la clave que lo resuelve; estado no se cae.
         with self.assertRaises(f.FactoryError) as error:
             f.medir(ident, listar_opciones=True)

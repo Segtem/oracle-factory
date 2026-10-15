@@ -92,13 +92,22 @@ def guardar(carpeta: Path, estado: dict) -> None:
     escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))  # un corte no lo trunca
 
 
+def carpeta_relativa(carpeta: str) -> PurePosixPath | None:
+    """La carpeta como ruta relativa al proyecto, o None si es absoluta (en POSIX o Windows), tiene .. o barras invertidas."""
+    relativa = PurePosixPath(carpeta)
+    if (relativa.is_absolute() or PureWindowsPath(carpeta).is_absolute() or PureWindowsPath(carpeta).drive
+            or "\\" in carpeta or ".." in relativa.parts):
+        return None
+    return relativa
+
+
 def proyecto_oracle() -> Path:
     """La carpeta del proyecto Oracle: la raíz, o la que dice "oracle" en .factory/config.json."""
     carpeta = config_proyecto()["oracle"]
     if carpeta in (".", ""):
         return ROOT
-    relativa = PurePosixPath(carpeta)
-    if relativa.is_absolute() or PureWindowsPath(carpeta).drive or ".." in relativa.parts:
+    relativa = carpeta_relativa(carpeta)
+    if relativa is None:
         raise FactoryError(f'.factory/config.json: "oracle" es una carpeta relativa al proyecto, sin ..; dice «{carpeta}»')
     ruta = ROOT / relativa
     if ruta.resolve() != ROOT / relativa or not (ruta / "oracle.json").is_file():  # un enlace que sale, o sin proyecto Oracle
@@ -1279,6 +1288,10 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
 
 def juzgar(identificador: str, hechos: Path) -> None:
     carpeta, estado = abierto(identificador)
+    try:  # escalares sin declarar o que no cargan: su causa antes que nada; lo demás lo dicen las comprobaciones que siguen
+        catalogo_del_proyecto()
+    except (OSError, ValueError):
+        pass
     if estado.get("medidas_pendientes"):
         raise FactoryError("hay medidas sin confirmar por una persona; no cuentan para el juicio: "
                            + ", ".join(estado["medidas_pendientes"]))
@@ -1309,7 +1322,9 @@ def juzgar(identificador: str, hechos: Path) -> None:
     huella = sha256(hechos.read_bytes())
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
     if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
-        raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado")
+        detalle = (cobertura.stderr or cobertura.stdout).strip() if cobertura.returncode else ""
+        raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado"
+                           + (f": {detalle[:500]}" if detalle else ""))
     p = ejecutar(["oracle", "cobertura", "--con", str(hechos), "--proyecto", str(proyecto_oracle()), *con_escalares()])
     sys.stdout.write(p.stdout)
     if p.stderr:
@@ -2181,8 +2196,8 @@ def inicializar(oracle: str | None = None) -> None:
         print(f"Aviso: esta carpeta está dentro del proyecto Factory {afuera}; init crea un proyecto anidado y los comandos "
               "usarán el más cercano.", file=sys.stderr)
     if oracle is not None:
-        relativa = PurePosixPath(oracle)
-        if (oracle in ("", ".") or relativa.is_absolute() or PureWindowsPath(oracle).drive or ".." in relativa.parts
+        relativa = carpeta_relativa(oracle)
+        if (oracle in ("", ".") or relativa is None
                 or (ROOT / relativa).resolve() != ROOT / relativa or not (ROOT / relativa / "oracle.json").is_file()):
             raise FactoryError(f"--oracle es la carpeta de un proyecto Oracle que ya existe dentro de este proyecto "
                                f"(con oracle.json); «{oracle}» no lo es. No creé nada")

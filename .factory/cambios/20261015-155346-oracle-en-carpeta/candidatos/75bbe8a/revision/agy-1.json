@@ -1,0 +1,77 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/75bbe8a",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "75bbe8aa680427b0e83e7a61665a0f4af010917e",
+  "diff_sha256": "c1c676113ef26befe2998bba072aa271f088a5b6f5451fb68d8f8b5744323b56",
+  "context_sha256": "b83f7472bb20b12b3d2f84bd3f7cb4d2ccba2ca9cd62831ff88eee421e7eb5af",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "juzgar-bloqueado-sin-confiar-escalares",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "juzgar es bloqueado antes de invocar a Oracle y no transmite su error cuando no se declara confiar_escalares",
+      "explanation": "El requisito 'los escalares del proyecto se ejecutan sólo si el proyecto lo declara' (Scenario: sin declararlo) promete: «GIVEN el mismo proyecto sin la clave confiar_escalares / WHEN se juzga / THEN Factory no pasa --confiar-escalares y el error de Oracle llega a la persona». En oracle_factory/cli.py, juzgar ejecuta medidas_sin_decision(estado) (línea 1285) previo a cualquier invocación de Oracle. Cuando escalares.py existe y confiar_escalares es false (o no está configurada), catalogo_del_proyecto() falla con EscalaresNoConfiables (FactoryError). Aunque en catalogos_cambiados se añadió la captura de FactoryError, la función devuelve todas las medidas viejas como 'ilegible' y describir_cambios concluye que la decisión 'no se pudo comparar con la decisión registrada', por lo que medidas_sin_decision reporta medidas sin decisión vigente. En consecuencia, juzgar aborta en la línea 1286 con FactoryError ('hay medidas sin una decisión vigente; no cuentan para el juicio...'). Las llamadas a oracle cobertura (líneas 1310 y 1313) resultan inalcanzables en este escenario: Factory jamás llega a invocar a Oracle sin --confiar-escalares y el error nativo de Oracle ('ESCALARES EXTERNAS NO EJECUTADAS...') nunca llega a la persona, siendo interceptado y reemplazado por un error interno de validación de gates de Factory.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1310,
+        "end_line": 1313,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory juzgar <id> --con <hechos.json> en un cambio de un proyecto que contiene escalares.py sin haber configurado \"confiar_escalares\": true.",
+      "evidence": "Al ejecutar f.juzgar(ident, hechos) con confiar_escalares=False tras haber medido un cambio, se capturó FactoryError: 'hay medidas sin una decisión vigente; no cuentan para el juicio: ... no se pudo comparar con la decisión registrada'. Al inspeccionar las llamadas al subproceso oracle cobertura, se registraron exactamente 0 llamadas (lista vacía). Factory abortó en la línea 1286 sin llegar a ejecutar las líneas 1310 ni 1313.",
+      "related_requirement": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "status": "pendiente",
+      "verification": "Instrumentar f.ejecutar en test_oc3_sin_declararlo y comprobar la cantidad de llamadas a 'oracle cobertura' durante f.juzgar, o verificar si f.juzgar lanza 'hay medidas sin una decisión vigente' antes de llamar al sensor/CLI de Oracle."
+    },
+    {
+      "id": "test-oc3-sin-declararlo-asercion-vacia",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_oc3_sin_declararlo pasa por vacuidad sin ejecutar llamadas a Oracle y sobrevive a mutaciones en juzgar",
+      "explanation": "test_oc3_sin_declararlo en tests/test_oracle_en_carpeta.py intenta probar el escenario 'sin declararlo'. Para ello mide y juzga con confiar_escalares=True, luego fija confiar_escalares=False y vuelve a invocar f.juzgar(ident, hechos) dentro de un context manager que espía llamadas_a_oracle(). Sin embargo, como f.juzgar aborta antes de ejecutar Oracle debido al bloqueo de medidas_sin_decision, la lista llamadas queda completamente vacía ([]). La aserción self.assertTrue(all('--confiar-escalares' not in a for a in llamadas)) es una verdad vacua que se cumple para cualquier condición sobre una lista vacía, sin verificar que Factory ejecute Oracle omitiendo el flag. Además, el test comprueba explícitamente self.assertIn('no se pudo comparar', str(error.exception)), verificando el error de gate interno de Factory en vez de la respuesta de Oracle. Como prueba de mutación directa, al modificar con_escalares() en cli.py para devolver siempre incondicionalmente ['--confiar-escalares'], test_oc3_sin_declararlo (y la totalidad de los 6 tests de test_oracle_en_carpeta.py) pasa sin fallar, demostrando que la suite no es sensible a la omisión de --confiar-escalares.",
+      "location": {
+        "file": "tests/test_oracle_en_carpeta.py",
+        "start_line": 218,
+        "end_line": 223,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests/test_oracle_en_carpeta.py::OracleEnCarpeta::test_oc3_sin_declararlo.",
+      "evidence": "En una ejecución controlada de test_oc3_sin_declararlo, len(llamadas) tras f.juzgar es 0. Al aplicar un monkeypatch sobre f.con_escalares retornando siempre ['--confiar-escalares'], el test suite completo pasa con 'Ran 6 tests in ... OK'.",
+      "related_requirement": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara",
+      "status": "pendiente",
+      "verification": "Revisar len(llamadas) durante el bloque with mirar en test_oc3_sin_declararlo, o aplicar una mutación en con_escalares() retornando ['--confiar-escalares'] y verificar si el test detecta la falla."
+    },
+    {
+      "id": "escape-rutas-windows-en-oracle",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "La validación de rutas Windows en proyecto_oracle e inicializar permite evasión con .. y rutas absolutas mediante separadores de barra invertida",
+      "explanation": "La spec exige que: «Una carpeta absoluta, que sale del proyecto o sin oracle.json SHALL rechazarse con la causa». En oracle_factory/cli.py (líneas 100-102 en proyecto_oracle y 2184-2186 en inicializar), se intenta prevenir rutas inválidas usando PurePosixPath y PureWindowsPath(carpeta).drive. No obstante: 1) En Windows, las rutas con barra invertida inicial como '\\afuera' no tienen letra de unidad (drive == '') pero son rutas absolutas respecto de la raíz de la unidad (PureWindowsPath('\\afuera').is_absolute() es True). Al evaluarse relativa.is_absolute() sobre PurePosixPath en POSIX, no se detecta como absoluta; al unirse con ROOT en Windows (Path('C:/repo') / PurePosixPath('\\afuera')), la ruta resultante es 'C:\\afuera', escapando del proyecto. 2) Rutas que usan separadores Windows con traversal como '..\\afuera' o 'medidas\\..\\afuera' no son detectadas por '..' in relativa.parts porque PurePosixPath no divide por barra invertida (parts resulta ('..\\\\afuera',)), y nunca se verifica '..' in PureWindowsPath(carpeta).parts. Esto permite que rutas que escapan del proyecto en entornos Windows o configuradas con separadores Windows evadan la validación de rechazo temprano.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 100,
+        "end_line": 102,
+        "side": "head"
+      },
+      "trigger": "Configurar en .factory/config.json o pasar a --oracle una ruta con separadores Windows que inicie con barra invertida (e.g. '\\afuera') o contenga secuencias de escape con barra invertida (e.g. '..\\afuera').",
+      "evidence": "En evaluación con pathlib: PurePosixPath('..\\\\afuera').parts es ('..\\\\afuera',), por lo que '..' in relativa.parts evalúa a False y PureWindowsPath('..\\\\afuera').drive evalúa a '', saltando el filtro inicial. En Windows, PureWindowsPath('C:/repo') / '\\\\afuera' resulta en PureWindowsPath('C:\\\\afuera'), saliendo de ROOT.",
+      "related_requirement": "el_proyecto_oracle_puede_estar_en_una_carpeta",
+      "status": "pendiente",
+      "verification": "Ejecutar proyecto_oracle() con config conteniendo 'oracle': '..\\\\afuera' y verificar si arroja el error de 'es una carpeta relativa al proyecto, sin ..' o si elude dicha comprobación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: cd /home/workstation/Dev/factory-oracle-en-carpeta && /home/workstation/Dev/factory-oracle-en-carpeta/.venv/bin/python -m unittest tests.test_oracle_en_carpeta tests.test_estructura </dev/null.",
+    "No se ejecutó tools/verify_*.py ni la suite completa de pruebas por indicación expresa.",
+    "Se realizaron pruebas de mutación manuales en el entorno del revisor para contrastar la sensibilidad de las pruebas frente al contrato."
+  ]
+}

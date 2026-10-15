@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-oracle-en-carpeta/.factory/local/revisiones/75bbe8a",
+  "base": "eb2682643518ff1d51dafc8180b2742f63685b2b",
+  "head": "75bbe8aa680427b0e83e7a61665a0f4af010917e",
+  "diff_sha256": "c1c676113ef26befe2998bba072aa271f088a5b6f5451fb68d8f8b5744323b56",
+  "context_sha256": "b83f7472bb20b12b3d2f84bd3f7cb4d2ccba2ca9cd62831ff88eee421e7eb5af",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "OC-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "juzgar no entrega el error de Oracle cuando faltan escalares confiables",
+      "explanation": "El escenario de la spec dice que, si el proyecto no declara `confiar_escalares`, Factory no pasa `--confiar-escalares` y el error de Oracle llega a la persona. En el flujo de prueba, las medidas fueron registradas con el catálogo que incluía el escalar confiable; al quitar la clave, `juzgar` llama primero a `medidas_sin_decision`. La lectura del catálogo sin confianza falla, `catalogos_cambiados` lo reduce a `ilegible` y Factory aborta diciendo que la decisión no se pudo comparar, antes de ejecutar Oracle. Si se llega a la primera llamada de cobertura y Oracle falla, su `stderr` tampoco se muestra: sólo se lanza el error genérico de cobertura. El test afirma expresamente que el resultado es «no se pudo comparar», por lo que no verifica el resultado prometido de Oracle ni que su error llegue a la persona.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1310,
+        "end_line": 1312,
+        "side": "head"
+      },
+      "trigger": "Cree una medida que usa un escalar del proyecto, mídala con `confiar_escalares: true`, luego cambie la configuración a `false` o quite la clave y ejecute `juzgar` sobre el cambio. El camino del test termina en la validación de vigencia de las medidas antes de ejecutar `oracle cobertura`; no se expone el error de Oracle.",
+      "evidence": "`oracle_factory/cli.py::juzgar` comprueba `medidas_sin_decision(estado)` antes de las llamadas Oracle (líneas 1285-1287). `catalogos_cambiados` captura `FactoryError` al cargar el catálogo y lo convierte en estado `ilegible` (líneas 1408-1410); `describir_cambios` describe que no se pudo comparar. Después, la primera llamada de cobertura (línea 1310) sólo imprime stdout/stderr si llega a la segunda llamada, y ante retorno distinto de cero lanza un error genérico (1311-1312). `tests/test_oracle_en_carpeta.py::test_oc3_sin_declararlo` espera `FactoryError` con «no se pudo comparar» (219-222) y sólo comprueba que ninguna llamada registrada contenga `--confiar-escalares`; como la lista queda vacía por el rechazo previo, esa aserción pasa sin probar la invocación de Oracle sin la opción ni la propagación de su error.",
+      "related_requirement": "los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara / Scenario: sin declararlo",
+      "status": "pendiente",
+      "verification": "Inspección estática del flujo `juzgar`, `medidas_sin_decision`, `catalogos_cambiados` y del test oc3. No pude ejecutar las pruebas del candidato: el comando exacto solicitado terminó con `ValueError: Empty module name` al interpretar el `.` final como nombre de módulo. No corrí mutaciones."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec y propuesta, el diff del paquete y el código del candidato. Revisé los tres requisitos, `oracle_factory/cli.py`, `oracle_factory/estructura.py`, `tests/test_oracle_en_carpeta.py`, `tools/verify_oracle_en_carpeta.py`, catálogos `factory_carpeta`, `docs/estructura.md` y la dependencia oracle-metalenguaje 0.38.2.",
+    "Corrí exactamente el comando de pruebas indicado desde `/home/workstation/Dev/factory-oracle-en-carpeta`; unittest falló antes de ejecutar pruebas con `ValueError: Empty module name` por el argumento `.` final. No ejecuté una variante del comando, `tools/verify_*.py` ni la suite completa.",
+    "No hice mutaciones manuales. El test de init invoca `inicializar('medidas')` directamente en vez de llamar la CLI `init --oracle`; la delegación del parser a esa función sí aparece en el diff y no encontré un defecto funcional en ella.",
+    "No revisé los 10 archivos excluidos de registros/evidencia Factory ni los repositorios consumidores Jam y LyraGASP."
+  ]
+}
