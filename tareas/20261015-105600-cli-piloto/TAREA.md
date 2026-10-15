@@ -27,3 +27,15 @@ Medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza: factory_pilot
 ### Nota (2026-10-15 11:01:10 UTC)
 
 Medidas de cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base: factory_piloto.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base, factory_piloto.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-15 11:02:10 UTC)
+
+Medidas de cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 11:02:10 UTC)
+
+Medidas de cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-15 11:02:11 UTC)
+
+Medidas de cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base: Brian Hollweg (persona, confirmo, modo confirmacion).
