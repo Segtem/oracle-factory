@@ -2,7 +2,7 @@
   "id": "20261015-122841-docs-web-modos",
   "titulo": "Docs y web: los modos de trabajo y quién decide qué",
   "capacidad": "web",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md",
   "spec_sha256": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+    "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261015-122841-docs-web-modos/proposal.md": "f19f953b4449da55c550f7c932103e14b453b29de11e38be372568904d3d0ccf",
         "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md": "306ae5e0379124f38a3013cb051121ccbc4e3cf318076b0663a664d2649ea39c"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-15T12:32:13+00:00",
+      "ids": [
+        "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+        "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo": "funcional",
+    "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

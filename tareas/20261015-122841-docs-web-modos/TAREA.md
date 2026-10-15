@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261015-122841-docs-web-modos. Modo de trabajo: conf
 ### Nota (2026-10-15 12:31:35 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-15 12:32:13 UTC)
+
+Requisitos importados: web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo (funcional), web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

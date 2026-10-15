@@ -1,0 +1,4 @@
+requisito web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo:
+    texto "Tipo: funcional La tabla de quién decide de `site/modos.html` y la de `docs/modos.md` SHALL decir, para cada decisión y cada modo, lo mismo que `modos.via_agente`: que decide el agente, que el agente propone y una persona confirma, o que decide sólo una persona."
+    fuente "openspec/changes/20261015-122841-docs-web-modos/specs/web/spec.md#la tabla de quién decide coincide con el código"
+    sin_medir "sin medida todavía; escenarios: «las tablas dicen lo que hace el código», «una celda equivocada se detecta»"
