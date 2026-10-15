@@ -1,6 +1,6 @@
 # Documentación y web: la persona sabe qué se está construyendo
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 40
 - ETIQUETAS: docs, web, modos
 
@@ -18,3 +18,7 @@ Depende de `20261005-105331-modos-de-trabajo` (documentar lo implementado, no lo
 ### Nota (2026-10-15 10:54:52 UTC)
 
 Al 2026-10-15 su dependencia (modos-de-trabajo) está cerrada.
+
+### Nota (2026-10-15 13:59:39 UTC)
+
+Hecha en el cambio 20261015-122841-docs-web-modos (merge 035b948): docs/modos.md y site/modos.html (enlazada desde la tarjeta de la portada; el README enlaza el documento), con los tres modos, quién decide qué (tabla comprobada contra modos.via_agente), tipos y tipos_obligatorios, cómo leer estado, cambiar de modo, el ejemplo de Factory hecha con Factory y los límites. El piloto con agentes no sirve de ejemplo: es anterior a los modos.
