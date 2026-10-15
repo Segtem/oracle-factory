@@ -1,0 +1,91 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261015-105600-cli-piloto",
+  "contexto": {
+    "head": "be4127c1bdc94531f3cb0edfe229a1a98a1716a6",
+    "archivos_sha256": "97e7128911432ea2128a1a0879f6302585730c2fb22d93a3d5432723f81f001f"
+  },
+  "documentos": {
+    "openspec/changes/20261015-105600-cli-piloto/proposal.md": "6cd39615325e8c5a1179add24b886b736abe59d6c098c58ecd7324b5f455cbca",
+    "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_piloto.corrida_completa.oracle",
+    "catalogos/factory_piloto.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec.oracle",
+    "catalogos/factory_piloto.medir_dice_que_medidas_reemplaza.oracle",
+    "catalogos/factory_piloto.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base.oracle",
+    "openspec/changes/20261015-105600-cli-piloto/design.md",
+    "openspec/changes/20261015-105600-cli-piloto/proposal.md",
+    "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md",
+    "openspec/changes/20261015-105600-cli-piloto/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec.requisito",
+    "requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza.requisito",
+    "requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base.requisito",
+    "tests/test_cli_piloto.py",
+    "tools/verify_cli_piloto.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 352 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/1adc75b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/1adc75b/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/1adc75b/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 51a67b8: agy (gemini-3.8-flash-high), 6 hallazgos: silenciamiento-errores-medidas-en-uso (media), inconsistencia-orden-escritura-excepto-redundante (baja), test-debilitado-estado-tipos-requisito (media), test-no-verifica-detalles-medidas-proyecto (media), test-no-aisla-rechazo-por-todo-en-spec (baja), requisito-sintetico-manual-en-prueba-cp2 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/51a67b8/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 51a67b8: codex (gpt-6-luna), 1 hallazgo: CLUE-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/51a67b8/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0692644: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/0692644/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0692644: codex (gpt-6-luna), 1 hallazgo: CLUE-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/0692644/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 233cbc5: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/233cbc5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 233cbc5: codex (gpt-6-luna), 1 hallazgo: CLUE-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261015-105600-cli-piloto/candidatos/233cbc5/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cp1–cp3 en proyectos temporales, Linux, con el ejemplo notas y el catálogo base de Oracle 0.38.1. Otro requisito que usa una medida se arma escribiendo su archivo; no se prueba con dos cambios reales.",
+    "agy (gemini-3.8-flash-high): Por indicación explícita, se ejecutaron exactamente en primer plano las pruebas unitarias focalizadas: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null (19 pruebas OK). No se ejecutó tools/verify_cli_piloto.py ni la suite completa del repositorio.",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la spec (findings vacía). Se verificó la subsanación del hallazgo CLUE-001 de la vuelta 3: en oracle_factory/cli.py se utiliza os.walk con onerror para capturar errores de acceso a subdirectorios de requisitos/ y registrarlos en ilegibles (con barra final), evitando que medir señale erróneamente medidas como huérfanas ante la falta de permisos de lectura. La prueba test_cp2_reemplazar_las_medidas_de_un_requisito en tests/test_cli_piloto.py verifica de forma efectiva este comportamiento mediante una subcarpeta con permisos 000.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta, la spec, el diff del paquete en candidate 1adc75b, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos en catalogos/factory_piloto.*.oracle y el README.md. Se comprobó que la plantilla de nuevo trae ## ADDED Requirements y Tipo: funcional, habla de 'una persona del equipo' y se sigue rechazando con TODO; medir --listar separa limpiamente las medidas del proyecto de las del catálogo base de Oracle usando origen.clase == 'catalogo_base'; y medir informa reemplazo y medidas sueltas únicamente cuando corresponde.",
+    "agy (gemini-3.8-flash-high): Se ejecutó un análisis de mutaciones a mano sobre copias aisladas en el espacio de trabajo del revisor (13 mutaciones que cubren los 3 requisitos de la spec); el 100% de las mutaciones introducidas fue detectado y eliminado por la suite de pruebas.",
+    "codex (gpt-6-luna): Se revisaron la propuesta y los tres requisitos de la spec contra el diff, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos factory_piloto y README.md. No se ejecutó tools/verify_cli_piloto.py ni tools/verify_*.py ni la suite completa, según la indicación.",
+    "codex (gpt-6-luna): Se ejecutó exactamente: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null. Resultado: 19 tests, OK. SHA-256 confirmó que los archivos de CLI, tests, verificador y README en ese checkout coinciden con los del candidato.",
+    "codex (gpt-6-luna): Las seis revisiones previas fueron contrastadas: CLUE-001 de la vuelta 1 (requisito ilegible) y vuelta 2 (requisitos anidados) están atendidos; el caso de carpeta no accesible señalado en la vuelta 3 se contempla mediante os.walk(onerror=...) y la prueba cp2 lo cubre. No se encontraron regresiones de esos hallazgos.",
+    "codex (gpt-6-luna): No se hicieron mutaciones. Los archivos excluidos por el paquete no se revisaron; no se modificó el checkout del candidato."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

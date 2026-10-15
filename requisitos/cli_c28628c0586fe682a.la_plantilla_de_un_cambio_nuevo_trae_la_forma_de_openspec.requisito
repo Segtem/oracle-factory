@@ -1,0 +1,4 @@
+requisito cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec:
+    texto "Tipo: funcional `oracle-factory nuevo` SHALL crear una spec con `## ADDED Requirements` y un requisito con `Tipo: funcional`, y una propuesta cuyas decisiones humanas no nombran a una persona en particular. Mientras tengan TODO, `aprobar-spec` SHALL seguir rechazándolas."
+    fuente "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md#la plantilla de un cambio nuevo trae la forma de OpenSpec"
+    medido_por factory_piloto.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec, factory_piloto.corrida_completa

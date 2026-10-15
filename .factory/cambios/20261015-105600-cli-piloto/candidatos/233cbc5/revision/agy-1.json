@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/233cbc5",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "233cbc546376f44caa850f5cd0d9e56e83025e1c",
+  "diff_sha256": "fec17c0300c9d26657303592c1317702ad57720e480b5b40d5c7ac411142110f",
+  "context_sha256": "3eb49e3fe441b6be962387ff49dd55c87358441cded3ade4f5fb37dbb7adb497",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Por indicación explícita, se ejecutaron en primer plano las pruebas unitarias focalizadas: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null (19 tests OK). No se ejecutó tools/verify_cli_piloto.py ni la suite completa del repositorio.",
+    "No se encontraron defectos ni discrepancias con la especificación (findings vacía). Se verificó el cierre definitivo de CLUE-001 (vuelta 2): medidas_en_uso ahora recorre subcarpetas recursivamente con rglob('*.requisito'), excluye con precisión el archivo propio bajo ROOT/requisitos, y reporta las rutas relativas en caso de archivos ilegibles. La prueba cp2 ubica el requisito adicional en una subcarpeta (requisitos/otros/), comprobando la cobertura del inventario.",
+    "Se contrastaron los 3 requisitos de la spec contra la implementación en oracle_factory/cli.py, las pruebas en tests/test_cli_piloto.py, los catálogos en catalogos/ y el sensor en tools/verify_cli_piloto.py. Se constató que la plantilla en nuevo se rechaza con TODO y se importa completada con tipo funcional, que el origen del catálogo base se distingue por origen.clase == 'catalogo_base' mostrando las del proyecto con archivo, umbral, ámbito y alcance y las base en una línea cada una, y que el reemplazo de medidas discrimina adecuadamente medidas en uso, medidas no utilizadas y casos con requisitos ilegibles.",
+    "Se realizó un análisis de mutación sistemático sobre copias aisladas en el directorio de trabajo del revisor (18 mutaciones aplicadas a nuevo, medidas_en_uso, medir y medir --listar); los 18 mutantes fueron eliminados por la suite de pruebas sin supervivencia de defectos."
+  ],
+  "findings": []
+}

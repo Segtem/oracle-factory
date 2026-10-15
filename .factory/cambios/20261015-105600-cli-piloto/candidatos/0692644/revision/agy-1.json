@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/0692644",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "0692644be83dd595ac9622f2d35d5783c10b77a0",
+  "diff_sha256": "0dc1d11993befd9b5a80dc468c0a86bca01c90a207daa89b36ef1c3b3282e319",
+  "context_sha256": "84f689f8e256586d68784669cf4686b107825e62393822f0a9804fb60dd6c039",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Por indicación explícita, se ejecutaron en primer plano las pruebas unitarias focalizadas: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null (19 tests OK). No se ejecutó tools/verify_cli_piloto.py ni la suite completa del repositorio.",
+    "No se registraron hallazgos nuevos (findings vacía) debido a que todos los defectos reportados en la vuelta 1 fueron subsanados de manera efectiva y verificable en este candidato: se manejan requisitos ilegibles sin afirmar falsamente que una medida quedó suelta; el inventario de medidas en uso se evalúa una sola vez; el registro exige correspondencia estricta de tipos funcionales; se comprueba el rechazo independiente por TODO en la spec; y se verifican exhaustivamente archivo, umbral, ámbito y alcance en medir --listar.",
+    "El análisis de mutaciones y sensibilidad de pruebas se realizó en copias aisladas dentro del directorio de trabajo del revisor, comprobando que las aserciones detectan omisiones o regresiones en la implementación."
+  ],
+  "findings": []
+}

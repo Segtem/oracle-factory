@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/0692644",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "0692644be83dd595ac9622f2d35d5783c10b77a0",
+  "diff_sha256": "0dc1d11993befd9b5a80dc468c0a86bca01c90a207daa89b36ef1c3b3282e319",
+  "context_sha256": "84f689f8e256586d68784669cf4686b107825e62393822f0a9804fb60dd6c039",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLUE-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El inventario omite requisitos anidados al determinar qué medidas siguen en uso",
+      "explanation": "`medir` promete señalar una medida retirada sólo cuando ningún otro requisito del proyecto la usa. `medidas_en_uso` recorre `requisitos/*.requisito` con `glob`, que excluye archivos en subdirectorios. Oracle sí carga requisitos de forma recursiva (`cargar_requisitos` usa `rglob`), así que un requisito válido como `requisitos/sub/cli.otro.requisito` puede usar una medida sin entrar en este inventario. Al reemplazar la última medida que usa un requisito de nivel superior, la CLI puede afirmar erróneamente que esa medida quedó sin requisito aunque el requisito anidado la use.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2354,
+        "end_line": 2354,
+        "side": "head"
+      },
+      "trigger": "Hay un archivo `.requisito` válido bajo un subdirectorio de `requisitos/` que usa una medida antigua; al reemplazar una asociación de nivel superior, ningún archivo del primer nivel usa esa medida.",
+      "evidence": "Reproducción aislada con `ROOT` apuntando a un directorio temporal: `requisitos/sub/cli.otro.requisito` declaró `medido_por notas.resultados`. `medidas_en_uso(excepto=\"objetivo\")` devolvió `(set(), [])`, mientras `oracle_metalenguaje.nucleo.requisito.cargar_requisitos(ROOT / \"requisitos\")` encontró `cli.otro` con `notas.resultados`. La prueba cp2 arma el requisito adicional en el primer nivel, por lo que no cubre esta forma válida de organización.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "Reproducción con archivos temporales únicamente; no se modificó el checkout. Los dos módulos de pruebas indicados pasaron (19 tests, OK)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `/home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null` desde `/home/workstation/Dev/factory-cli-piloto`; 19 tests pasaron.",
+    "No se ejecutó `tools/verify_cli_piloto.py` ni la suite completa, según la indicación.",
+    "Se revisaron la propuesta, la spec, el diff y contexto del paquete, la implementación, las pruebas, el verificador, los catálogos, el README y los dos informes anteriores. No se revisaron los archivos excluidos por el paquete.",
+    "Se comprobó el hallazgo con una reproducción temporal contra el checkout candidato sin modificarlo; no se hicieron otras mutaciones de supervivencia."
+  ]
+}

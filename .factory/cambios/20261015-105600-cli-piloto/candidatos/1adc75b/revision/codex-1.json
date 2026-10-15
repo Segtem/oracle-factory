@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/1adc75b",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "1adc75b4e386285da82a8d2b698f2ef93bee1322",
+  "diff_sha256": "1a05638266ed771d0432925ed9489b1d8d1478418efcf9f0f2fc6f50a943be51",
+  "context_sha256": "b1e6ade5fe09b4a17ba0f3c83f3a04238fb23bbb8cc055bf57960d7942ef6249",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta y los tres requisitos de la spec contra el diff, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos factory_piloto y README.md. No se ejecutó tools/verify_cli_piloto.py ni tools/verify_*.py ni la suite completa, según la indicación.",
+    "Se ejecutó exactamente: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null. Resultado: 19 tests, OK. SHA-256 confirmó que los archivos de CLI, tests, verificador y README en ese checkout coinciden con los del candidato.",
+    "Las seis revisiones previas fueron contrastadas: CLUE-001 de la vuelta 1 (requisito ilegible) y vuelta 2 (requisitos anidados) están atendidos; el caso de carpeta no accesible señalado en la vuelta 3 se contempla mediante os.walk(onerror=...) y la prueba cp2 lo cubre. No se encontraron regresiones de esos hallazgos.",
+    "No se hicieron mutaciones. Los archivos excluidos por el paquete no se revisaron; no se modificó el checkout del candidato."
+  ]
+}

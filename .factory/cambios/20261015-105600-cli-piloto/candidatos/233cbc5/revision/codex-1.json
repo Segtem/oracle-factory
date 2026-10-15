@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/233cbc5",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "233cbc546376f44caa850f5cd0d9e56e83025e1c",
+  "diff_sha256": "fec17c0300c9d26657303592c1317702ad57720e480b5b40d5c7ac411142110f",
+  "context_sha256": "3eb49e3fe441b6be962387ff49dd55c87358441cded3ade4f5fb37dbb7adb497",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLUE-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "Un subdirectorio ilegible puede ocultar requisitos sin activar el aviso de incertidumbre",
+      "explanation": "`medidas_en_uso` registra como ilegibles los archivos `.requisito` que encuentra pero no puede cargar. Sin embargo, en Python 3.13 `Path.rglob` también puede suprimir errores de acceso al enumerar directorios y omitir por completo sus contenidos. Si un subdirectorio de `requisitos/` no se puede enumerar y contiene un requisito que usa una medida retirada, el recorrido no añade ese requisito a `ilegibles`; `medir` puede entonces afirmar que la medida queda sin ningún requisito que la use. La spec limita esa afirmación a los casos en que ningún otro requisito del proyecto la usa.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2354,
+        "end_line": 2354,
+        "side": "head"
+      },
+      "trigger": "En Python 3.13, reemplazar una medida cuando hay un subdirectorio dentro de `requisitos/` al que el proceso no puede acceder y cuyo requisito usa esa medida; el recorrido lo omite y `ilegibles` queda vacío.",
+      "evidence": "`medidas_en_uso` itera directamente sobre `sorted((ROOT / 'requisitos').rglob('*.requisito'))` y sólo agrega a `ilegibles` dentro del `except` que ocurre después, al cargar cada ruta hallada. Los errores suprimidos durante el recorrido no llegan al `except`. Si el archivo oculto es el único otro uso, `sueltas` contendrá la medida y `ilegibles` estará vacío, por lo que se imprime `Quedan sin ningún requisito del proyecto que las use`. La prueba de `tests/test_cli_piloto.py` cubre un archivo encontrado pero inválido, no un directorio omitido durante el recorrido.",
+      "related_requirement": "medir dice qué medidas reemplaza",
+      "status": "pendiente",
+      "verification": "No pude reproducir permisos de directorio en el contenedor, donde el usuario de ejecución tiene acceso efectivo. El caso se deriva del recorrido con pathlib en Python 3.13 y puede verificarse en una copia aislada ejecutando como un usuario sin permisos sobre un subdirectorio de requisitos que contenga una referencia a la medida retirada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente el comando indicado desde `/home/workstation/Dev/factory-cli-piloto`: `/home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null`; 19 pruebas pasaron.",
+    "Se revisaron la propuesta, la spec, los rangos y el contexto del paquete, `oracle_factory/cli.py`, `tests/test_cli_piloto.py`, `tools/verify_cli_piloto.py`, los catálogos `factory_piloto` y el README, además de las cuatro revisiones previas. El inventario recursivo de la vuelta anterior y la prueba con requisito en subcarpeta siguen presentes.",
+    "No se corrieron `tools/verify_*.py` ni la suite completa. No se revisaron los archivos excluidos por el paquete. No se hicieron mutaciones; el hallazgo es un caso de error de enumeración de directorios que no pude reproducir con permisos efectivos en este contenedor."
+  ]
+}
