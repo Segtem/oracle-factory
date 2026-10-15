@@ -76,16 +76,17 @@ class CatalogoConfirmado(Base):
         texto = self.estado(ident)
         self.assertIn(f'notas.resultados ({archivo}, ya no está en el catálogo) cambió', texto)
         self.assertIn('revisá el catálogo y volvé a decidirla con medir', texto)
-        # Un archivo de catálogo que no se puede leer: Oracle deja afuera las medidas del proyecto, y la decisión no se da
-        # por vigente.
+        # Un archivo de catálogo malformado: Oracle no lo puede leer, y la decisión no se da por vigente.
         (self.root / archivo).write_text('esto no es una medida\n')
         [(r, motivo)] = f.medidas_sin_decision(f.leer(ident)[1])
         self.assertEqual(r, rid)
-        self.assertIn('notas.resultados', motivo)
-        with patch.object(f, 'archivos_de_medidas', side_effect=ValueError('catálogo ilegible')):  # y si Oracle falla
+        self.assertIn(f'notas.resultados ({archivo}, no pude leer el catálogo)', motivo)
+        self.assertIn('no se pudo comparar con la decisión registrada; revisá el catálogo', motivo)
+        # Si Oracle saltea la medida sin fallar y el archivo sigue ahí, se dice eso y no que falta.
+        casos = self.root / f.leer(ident)[1]['medidas'][rid]['archivos_catalogo']['notas.casos_ejecutados']
+        with patch.object(f, 'archivos_de_medidas', lambda c, cat=None: {'notas.casos_ejecutados': casos, 'notas.resultados': None}):
             [(_, motivo)] = f.medidas_sin_decision(f.leer(ident)[1])
-        self.assertIn('no pude leer el catálogo', motivo)
-        self.assertIn('no se pudo comparar con la decisión registrada', motivo)
+        self.assertIn(f'notas.resultados ({archivo}, el archivo está pero Oracle no carga la medida)', motivo)
 
     def test_cc1_volver_a_decidir_con_las_mismas_medidas(self):
         ident, rid = self.con_notas()

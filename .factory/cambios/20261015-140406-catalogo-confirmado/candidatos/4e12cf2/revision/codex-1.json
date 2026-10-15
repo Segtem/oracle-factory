@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/4e12cf2",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "4e12cf2c5c42dabd8b0ac45ea52cdbab6c7a6702",
+  "diff_sha256": "b60e7b426cfd05e2873464af828c2509a9085d5d92d3aeda81227ab31d780302",
+  "context_sha256": "4e4c625ff9a66c13546030f37089fb48a18f6a424ff38d40c2010ae09de16aae",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CC2-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Un catálogo presente pero ilegible se informa como una medida ausente",
+      "explanation": "La spec pide que una decisión deje de valer tanto si el catálogo cambia o desaparece como si no se puede leer, y que `estado` identifique el archivo y la causa. Si Oracle omite del catálogo efectivo una medida porque su archivo está malformado, `archivos_de_medidas` devuelve `None` para ella. `catalogos_cambiados` trata cualquier `None` actual como `falta` y `describir_cambios` informa que ya no está en el catálogo, aunque el archivo siga presente e ilegible. Así, la persona recibe una causa incorrecta y no el aviso para revisar un catálogo ilegible.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1368,
+        "end_line": 1370,
+        "side": "head"
+      },
+      "trigger": "Confirmar medidas mientras el archivo de catálogo de una de ellas sigue en el proyecto pero tiene contenido inválido que hace que el catálogo efectivo de Oracle omita esa medida; luego consultar `estado`.",
+      "evidence": "En `catalogos_cambiados`, `actuales.get(m) is None` cae en la rama que etiqueta el caso como `falta`, y el archivo del mensaje se toma del nombre guardado previamente. `tests/test_catalogo_confirmado.py::test_cc1_cambia_el_catalogo_de_una_medida_confirmada` reproduce el catálogo malformado con `write_text('esto no es una medida\\n')` (líneas 79–84), pero sólo exige que el motivo incluya el ID de la medida. La prueba no comprueba que el aviso diga `no pude leer el catálogo` ni evita que el código lo marque como `ya no está en el catálogo`. El manejo de `ilegible` en líneas 1363–1367 sólo opera cuando ocurre una excepción, que este caso de catálogo presente y omitido no produce.",
+      "related_requirement": "una decisión de medidas deja de valer si cambia el catálogo",
+      "status": "pendiente",
+      "verification": "Corrí dos veces, desde la raíz del proyecto, exactamente `/home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null`; en ambas: 39 pruebas pasaron. La segunda salida completa quedó guardada en `tests-review.log`. La prueba modifica un catálogo temporal malformado, pero no verifica la distinción del mensaje; la conclusión se deriva de ese caso y de las ramas indicadas. No ejecuté `tools/verify_*.py` ni la suite completa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión del diff incluido en el paquete y lectura de la implementación de `oracle_factory/cli.py`, `tests/test_catalogo_confirmado.py`, `tools/verify_catalogo_confirmado.py`, los catálogos añadidos y el cambio del README.",
+    "Se ejecutaron dos veces únicamente los tres módulos de unittest indicados: 39 pruebas por corrida, ambas OK; la salida completa de la segunda corrida se guardó en `tests-review.log`.",
+    "No ejecuté `tools/verify_catalogo_confirmado.py`, otros `tools/verify_*.py` ni la suite completa. No hice una mutación manual aparte de las mutaciones temporales que cubren los tests.",
+    "Leí los dos informes de la vuelta anterior para comprobar las correcciones señaladas; no revisé los otros registros ni evidencia de Factory excluidos del paquete."
+  ]
+}

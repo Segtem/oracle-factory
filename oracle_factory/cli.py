@@ -1354,7 +1354,7 @@ def con_huellas(registro: dict, contenido: bytes) -> dict:
 
 
 def catalogos_cambiados(registro: dict, contenido: bytes, catalogo=None) -> list[tuple[str, str, str]]:
-    """(medida, archivo, qué pasó: «cambió», «falta» o «ilegible») de cada medida cuyo archivo cambió o ya no está desde
+    """(medida, archivo, qué pasó: «cambió», «falta», «no_carga» o «ilegible») de cada medida cuyo archivo cambió o ya no está desde
     el registro; vacía si el registro no guardó huellas, porque no se puede comparar."""
     viejas = registro.get("catalogos")
     if viejas is None:
@@ -1365,13 +1365,18 @@ def catalogos_cambiados(registro: dict, contenido: bytes, catalogo=None) -> list
         actuales = {m: sha256(r.read_bytes()) if r else None for m, r in archivos.items()}
     except (OSError, ValueError):  # sin leer el catálogo no se puede dar por igual
         return sorted((m, archivos_viejos.get(m) or "sin archivo", "ilegible") for m in viejas)
-    return sorted((m, nombre_de_archivo(archivos[m]) if archivos.get(m) else archivos_viejos.get(m) or "sin archivo",
-                   "cambió" if actuales.get(m) else "falta")
+    def que_paso(m):
+        if actuales.get(m):
+            return "cambió"
+        viejo = archivos_viejos.get(m)  # el archivo sigue en el proyecto pero Oracle no carga la medida: ilegible, no falta
+        return "no_carga" if viejo and (ROOT / viejo).is_file() else "falta"
+    return sorted((m, nombre_de_archivo(archivos[m]) if archivos.get(m) else archivos_viejos.get(m) or "sin archivo", que_paso(m))
                   for m in set(viejas) | set(actuales) if actuales.get(m) is None or actuales.get(m) != viejas.get(m))
 
 
-def describir_cambios(cambiadas: list[tuple[str, str, bool]]) -> str:
-    nota = {"cambió": "", "falta": ", ya no está en el catálogo", "ilegible": ", no pude leer el catálogo"}
+def describir_cambios(cambiadas: list[tuple[str, str, str]]) -> str:
+    nota = {"cambió": "", "falta": ", ya no está en el catálogo", "ilegible": ", no pude leer el catálogo",
+            "no_carga": ", el archivo está pero Oracle no carga la medida"}
     texto = "el catálogo de " + ", ".join(f"{m} ({a}{nota[que]})" for m, a, que in cambiadas)
     texto += " cambió después de la decisión registrada; " if any(q != "ilegible" for _, _, q in cambiadas) else \
         " no se pudo comparar con la decisión registrada; "
