@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-piloto/.factory/local/revisiones/1adc75b",
+  "base": "be1c691a9cc8dc6e8ae8223e883f6f4295321c83",
+  "head": "1adc75b4e386285da82a8d2b698f2ef93bee1322",
+  "diff_sha256": "1a05638266ed771d0432925ed9489b1d8d1478418efcf9f0f2fc6f50a943be51",
+  "context_sha256": "b1e6ade5fe09b4a17ba0f3c83f3a04238fb23bbb8cc055bf57960d7942ef6249",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Por indicación explícita, se ejecutaron exactamente en primer plano las pruebas unitarias focalizadas: cd /home/workstation/Dev/factory-cli-piloto && /home/workstation/Dev/factory-cli-piloto/.venv/bin/python -m unittest tests.test_cli_piloto tests.test_cli_humana </dev/null (19 pruebas OK). No se ejecutó tools/verify_cli_piloto.py ni la suite completa del repositorio.",
+    "No se encontraron defectos ni discrepancias con la spec (findings vacía). Se verificó la subsanación del hallazgo CLUE-001 de la vuelta 3: en oracle_factory/cli.py se utiliza os.walk con onerror para capturar errores de acceso a subdirectorios de requisitos/ y registrarlos en ilegibles (con barra final), evitando que medir señale erróneamente medidas como huérfanas ante la falta de permisos de lectura. La prueba test_cp2_reemplazar_las_medidas_de_un_requisito en tests/test_cli_piloto.py verifica de forma efectiva este comportamiento mediante una subcarpeta con permisos 000.",
+    "Se revisaron la propuesta, la spec, el diff del paquete en candidate 1adc75b, oracle_factory/cli.py, tests/test_cli_piloto.py, tools/verify_cli_piloto.py, los catálogos en catalogos/factory_piloto.*.oracle y el README.md. Se comprobó que la plantilla de nuevo trae ## ADDED Requirements y Tipo: funcional, habla de 'una persona del equipo' y se sigue rechazando con TODO; medir --listar separa limpiamente las medidas del proyecto de las del catálogo base de Oracle usando origen.clase == 'catalogo_base'; y medir informa reemplazo y medidas sueltas únicamente cuando corresponde.",
+    "Se ejecutó un análisis de mutaciones a mano sobre copias aisladas en el espacio de trabajo del revisor (13 mutaciones que cubren los 3 requisitos de la spec); el 100% de las mutaciones introducidas fue detectado y eliminado por la suite de pruebas."
+  ],
+  "findings": []
+}
