@@ -68,18 +68,33 @@
         "factory_busqueda.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T00:20:17+00:00",
+      "requisito": "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto",
+      "medidas": [
+        "factory_busqueda.buscar_en_todo_el_proyecto",
+        "factory_busqueda.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto": {
-      "sha256": "709c3cf298991b77e3e611d840944ac3c3d68ff5d1e19cfce90fc191c3102c2b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-15T00:19:33+00:00"
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-15T00:20:17+00:00",
+      "sha256": "709c3cf298991b77e3e611d840944ac3c3d68ff5d1e19cfce90fc191c3102c2b"
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
