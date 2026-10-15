@@ -2,7 +2,7 @@
   "id": "20261015-140406-catalogo-confirmado",
   "titulo": "Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión",
   "capacidad": "modos",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
   "spec_sha256": "828b01da97f6f40132c4d7bc87c92047ba9ee2c02857533b2ffda5682d956d83",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
     "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/informe.json",
+    "sha256": "c77704dd18ea079aa01998706105e6296be11651156ba3a5a08c429317fc8fdd",
+    "decisiones": "tareas/20261015-140406-catalogo-confirmado/revisiones/registro-wz7bp_4_/decisiones.json",
+    "decisiones_sha256": "195fd066e5541820ea2a80bf46c9f0e61548cec2da4671a1cd832d7919cde7d9",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T15:40:58+00:00",
+    "motivo": "tres vueltas de codex y agy, a la vez. La 1: un alto (decidir con --requisito tras un catálogo cambiado figuraba como confirmación de la propuesta), cuatro medios y un bajo; todos corregidos con pruebas que fallan sin el arreglo. La 2: un medio (un archivo presente que Oracle no carga se informaba como ausente), corregido. La 3: agy nada, codex un bajo (el mismo caso para una medida del catálogo base). Las medidas de este cambio se reconfirmaron porque sus catálogos cambiaron: el propio cambio lo detectó. Suite 361 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "cdfed857abef33ddcd157e42f86f283ab9566fc0",
+      "archivos_sha256": "2326e82d55892f613dc58f160c7aef0c635d09577a79d59e1cfed1d83e8fc461"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -256,6 +276,20 @@
       "cuando": "2026-10-15T15:27:38+00:00",
       "decision": "aprobar",
       "candidato": "3f68c51"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T15:40:58+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "c77704dd18ea079aa01998706105e6296be11651156ba3a5a08c429317fc8fdd",
+      "decisiones_sha256": "195fd066e5541820ea2a80bf46c9f0e61548cec2da4671a1cd832d7919cde7d9"
     }
   ],
   "tipos": {
@@ -297,14 +331,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy, a la vez. La 1: un alto (decidir con --requisito tras un catálogo cambiado figuraba como confirmación de la propuesta), cuatro medios y un bajo; todos corregidos con pruebas que fallan sin el arreglo. La 2: un medio (un archivo presente que Oracle no carga se informaba como ausente), corregido. La 3: agy nada, codex un bajo (el mismo caso para una medida del catálogo base). Las medidas de este cambio se reconfirmaron porque sus catálogos cambiaron: el propio cambio lo detectó. Suite 361 y evidencia en verde.",
-      "candidato": "3f68c51",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-15T15:27:38+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "firma": "oracle_factory/cli.py|una medida del catálogo base omitida por oracle se informa como ausente",
+      "motivo": "Acepto el riesgo: Una medida del catálogo base omitida por Oracle se informa como ausente",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-15T15:40:55+00:00",
+      "candidato": "3f68c51"
     }
-  }
+  ]
 }
