@@ -2,7 +2,7 @@
   "id": "20261015-105600-cli-piloto",
   "titulo": "CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md",
   "spec_sha256": "1bd3824a030ec41132ef5feec1a13f4e1847e064e3091732233b3453a5b9558b",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza",
     "cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261015-105600-cli-piloto/revisiones/registro-rzxn9oc3/informe.json",
+    "sha256": "b8200abfc0e7326aded3080d65adf9e3fa375fd270b0d2c33800aa56c163c011",
+    "decisiones": "tareas/20261015-105600-cli-piloto/revisiones/registro-rzxn9oc3/decisiones.json",
+    "decisiones_sha256": "81af3b15367acd7949a6b7d8b7c75c3a3a78871d35625854d213211121f3a56d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-15T12:21:43+00:00",
+    "motivo": "cuatro vueltas de codex y agy, a la vez. La 1: un medio en común (un requisito ilegible hacía afirmar que una medida quedó suelta) y tres medios y dos bajos de agy sobre pruebas débiles; todo corregido. La 2 y la 3: codex encontró dos bordes del mismo inventario (subcarpetas de requisitos/, y una subcarpeta que no se puede abrir), corregidos. Cada arreglo con una prueba que falla sin él. La 4 no encontró nada. Suite 352 y evidencia en verde.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "920a23e11926d1ad5a521031cd324a7d5ccb1f0b",
+      "archivos_sha256": "97e7128911432ea2128a1a0879f6302585730c2fb22d93a3d5432723f81f001f"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -261,6 +281,20 @@
       "cuando": "2026-10-15T12:16:35+00:00",
       "decision": "aprobar",
       "candidato": "1adc75b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-15T12:21:43+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b8200abfc0e7326aded3080d65adf9e3fa375fd270b0d2c33800aa56c163c011",
+      "decisiones_sha256": "81af3b15367acd7949a6b7d8b7c75c3a3a78871d35625854d213211121f3a56d"
     }
   ],
   "tipos": {
@@ -295,14 +329,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "cuatro vueltas de codex y agy, a la vez. La 1: un medio en común (un requisito ilegible hacía afirmar que una medida quedó suelta) y tres medios y dos bajos de agy sobre pruebas débiles; todo corregido. La 2 y la 3: codex encontró dos bordes del mismo inventario (subcarpetas de requisitos/, y una subcarpeta que no se puede abrir), corregidos. Cada arreglo con una prueba que falla sin él. La 4 no encontró nada. Suite 352 y evidencia en verde.",
-      "candidato": "1adc75b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-15T12:16:35+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
