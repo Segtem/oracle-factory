@@ -56,6 +56,34 @@
         "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
         "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T12:36:51+00:00",
+      "requisito": "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados",
+      "medidas": [
+        "factory_modos_web.los_modos_de_trabajo_estan_explicados",
+        "factory_modos_web.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T12:36:52+00:00",
+      "requisito": "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo",
+      "medidas": [
+        "factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo",
+        "factory_modos_web.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -63,5 +91,18 @@
     "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados": {
+      "sha256": "280d77ae27a9aab7da87dbd1016761daae4e7ccbbbb5b8bda6cca9a9050a3a5c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T12:36:51+00:00"
+    },
+    "web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo": {
+      "sha256": "53930e9e08a0e23af1ee6f5c2b7fa6754f9129414c70f00734eaf302849ff422",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T12:36:52+00:00"
+    }
+  }
 }
