@@ -56,6 +56,34 @@
         "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
         "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:20:32+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-15T14:20:32+00:00",
+      "requisito": "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+      "medidas": [
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo",
+        "factory_catalogo.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -63,5 +91,26 @@
     "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": {
+      "sha256": "54dce4dd97c0eaef73d54d507c44b8f23e405a000d18d267ce8a0d889b8108a1",
+      "catalogos": {
+        "factory_catalogo.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo": "e126dba4ecf5db81dff325e0d2865dfa93455efaca3e28cebfdf873e672415a2",
+        "factory_catalogo.corrida_completa": "3b1d2747ea3933b196c76ecbce8fbb1f7802d08540003acd19d9fb7347c10092"
+      },
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T14:20:32+00:00"
+    },
+    "modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": {
+      "sha256": "55a7d179796d3448c4276db3f8a69b8445bf5155557b4a3d4ca8502efded59f8",
+      "catalogos": {
+        "factory_catalogo.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo": "3923fee99a49c9e5126359622d7a7aef7b36de4cd0c79a9cef085f527d1cd69f",
+        "factory_catalogo.corrida_completa": "3b1d2747ea3933b196c76ecbce8fbb1f7802d08540003acd19d9fb7347c10092"
+      },
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-15T14:20:32+00:00"
+    }
+  }
 }
