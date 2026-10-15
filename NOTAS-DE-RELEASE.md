@@ -1,3 +1,22 @@
+# Oracle Factory 0.1.0a10
+
+- **El proyecto Oracle puede estar en una carpeta.** Un repositorio que ya tiene su proyecto Oracle en, por ejemplo, `medidas/` lo adopta con `oracle-factory init --oracle medidas`, que guarda `"oracle": "medidas"` en `.factory/config.json` sin crear nada de Oracle en la raíz. Factory importa, mide, juzga, abandona, lista (`donde`) y busca los requisitos ahí. Una carpeta absoluta, que sale del proyecto o sin `oracle.json` se rechaza con la causa. Con `"confiar_escalares": true`, Factory corre Oracle con `--confiar-escalares` y carga el catálogo con los escalares y las macros del proyecto, como `oracle cobertura`.
+- **Vueltas de revisión proporcionales.** `pedir-revision` cuenta los hallazgos por severidad y sólo un medio o más sin aceptar pide otra vuelta; `estado` ofrece también `revisar` para aceptarlos o descartarlos con motivo. Los riesgos aceptados persisten entre vueltas y van en el pedido al revisor; `revisar` reconoce uno ya aceptado. Un informe sin severidad no se guarda ni se usa.
+- **Revisores a la vez y paquete sin registros.** Varios `pedir-revision` del mismo candidato se turnan sólo en lo corto (checkout, número del paquete, evento) y el revisor corre sin esperar. El paquete de Clue deja fuera `.factory/`, `tareas/` y todo lo que no es producto (Oracle Clue 0.1.0a2, `preparar --excluir`).
+- **Trazabilidad.** `oracle-factory trazabilidad ID` cruza cada requisito con los casos que lo prueban y con las líneas que cambió el candidato, y nombra las que no tienen respaldo.
+- **JSON.** `estado`, `donde` y `resumen` con `--json` y esquema versionado (`oracle-factory.estado/1`, `.donde/1`, `.resumen/1`); `estado --json` trae también las `alternativas` del próximo paso.
+- **Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión.** La decisión y la propuesta guardan la huella del archivo de cada medida; si cambia, falta o no se puede leer, `estado` lo nombra y `juzgar` no la usa.
+- **`abandonar`**, decidido por una persona con motivo, y un **`buscar`** que no recorre la evidencia ni los paquetes de Clue.
+- **CLI:** la plantilla de `nuevo` trae `## ADDED Requirements` y `Tipo: funcional`; `medir` dice qué medidas reemplaza y cuáles quedan sin requisito; `medir --listar` separa las del proyecto de las del catálogo base de Oracle.
+- **Docs y web:** los modos de trabajo y quién decide qué, en `docs/modos.md` y `site/modos.html`, con la tabla comprobada contra el código.
+- La revisión independiente de cada cambio la hicieron Codex (GPT) y Agy (Gemini), lanzados a la vez con `pedir-revision`. Oracle sube a 0.38.2; Oracle Task sigue en 0.2.0 y Oracle Clue en 0.1.0a2. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a10-py3-none-any.whl dist/oracle_factory-0.1.0a10.tar.gz
+```
+
+La evidencia de cada cambio está en su tarea y en `.factory/cambios/`.
+
 # Oracle Factory 0.1.0a9
 
 - **Oracle Clue viene con Factory.** `oracle-clue==0.1.0a1` es dependencia fija, como `oracle-metalenguaje` y `oracle-task`. Factory lo usa desde su propio entorno, no del `PATH`. Si le falta esa distribución, da un error que dice cómo reinstalar. La instalación documentada expone también el comando `oracle-clue` (`--with-executables-from oracle-metalenguaje,oracle-task,oracle-clue`), para que quien revisa pueda correr `oracle-clue validar` a mano.
