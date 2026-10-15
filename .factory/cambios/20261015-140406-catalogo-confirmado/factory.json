@@ -218,6 +218,34 @@
       "candidato": "4e12cf2",
       "resultado": "ok",
       "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T15:19:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "3f68c51",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-15T15:27:11+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "3f68c51",
+      "resultado": "ok",
+      "hallazgos": 0
     }
   ],
   "tipos": {

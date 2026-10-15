@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-catalogo-confirmado/.factory/local/revisiones/3f68c51",
+  "base": "7f2d1493a442658f94b49db96ac6381993865951",
+  "head": "3f68c51b5c7a40675933c361fd51d30b72f9db88",
+  "diff_sha256": "04115869c4e789fdcee94d3137a23a597e232b14c2a7f3cb396c253ee5180cd1",
+  "context_sha256": "6912423bfea20dabebc51fb345a557c07ff29b419f2f1ab01a0288a501868b45",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas indicada en primer plano: cd /home/workstation/Dev/factory-catalogo-confirmado && /home/workstation/Dev/factory-catalogo-confirmado/.venv/bin/python -m unittest tests.test_catalogo_confirmado tests.test_cli_piloto tests.test_modos </dev/null, completando 39 pruebas exitosas (OK).",
+    "Se ejecutó una batería de pruebas de mutación manuales en memoria (run_mutations.py) para evaluar la sensibilidad de tests/test_catalogo_confirmado.py ante regresiones (anulación de detección de cambios, supresión de clasificación 'no_carga', supresión de clasificación 'falta', omisión del manejo de catálogo ilegible, aceptación de propuestas con catálogo cambiado o sin huella en propuestas_confirmables); todas las mutaciones fueron detectadas y eliminadas por la suite.",
+    "Se comprobó que las observaciones de las vueltas anteriores (agy-1 a agy-5, CC-001 de la vuelta 1, y agy-2-1 y CC2-001 de la vuelta 2) se encuentran efectivamente resueltas sin regresiones: se distingue 'cambió', 'falta', 'no_carga' e 'ilegible'; los archivos presentes pero no cargados se señalan correctamente; la resolución del catálogo efectivo se realiza una sola vez por consulta; y la anotación de tipos en describir_cambios es consistente.",
+    "Se contrastó la implementación de oracle_factory/cli.py (archivos_de_medidas, huellas_de_catalogo, catalogos_cambiados, registrar_medidas, medidas_sin_decision, propuestas_confirmables, confirmar_medidas y ramas de medir) contra los requisitos de spec.md, proposal.md, design.md y README.md, sin hallazgos abiertos.",
+    "Conforme a las instrucciones del pedido, no se corrieron tools/verify_*.py ni la suite completa discover.",
+    "No se ejecutaron sensores ni integración en vivo con sistemas externos."
+  ],
+  "findings": []
+}
