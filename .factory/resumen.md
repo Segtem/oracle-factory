@@ -1,4 +1,4 @@
-<!-- oracle-factory resumen sha256:fca92bde86644a70ebb6f925d3f187dbd46ff15f08daae71b9cc2e2e3210365f -->
+<!-- oracle-factory resumen sha256:e7e372ab97e80b14819d5d784485276d7636f073282a2cd53dc4d7526690548e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
@@ -55,7 +55,7 @@ Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
 | estado calcula y ofrece el próximo paso | funcional | `cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso` | factory_cli.estado_calcula_y_ofrece_el_proximo_paso, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
 | el próximo paso no se ejecuta solo | no funcional | `cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo` | factory_cli.el_proximo_paso_no_se_ejecuta_solo, factory_cli.corrida_completa | verde al cerrar el 2026-10-08 | 20261008-123018-cli-humana |
 | estado se lee como JSON | funcional | `cli_c38d280a51dea748e.estado_se_lee_como_json` | factory_cli_json.estado_se_lee_como_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
-| donde y resumen se leen como JSON | funcional | `cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json` | factory_donde.donde_y_resumen_se_leen_como_json, factory_donde.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-145018-donde-ausente |
+| donde y resumen se leen como JSON | funcional | `cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json` | factory_no_valido.donde_y_resumen_se_leen_como_json, factory_no_valido.corrida_completa | verde al cerrar el 2026-10-15 | 20261014-204205-donde-no-valido |
 | la salida de texto no cambia y los errores no se mezclan con el JSON | funcional | `cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json` | factory_cli_json.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json, factory_cli_json.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-153440-cli-json |
 
 ### decisiones
@@ -277,6 +277,9 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **cli-proximo-paso-cerrado-omite-archivos-faltantes** (20261008-123018-cli-humana): `estado` omite la recuperación de archivos faltantes en cambios cerrados. Aceptado por Brian Hollweg: Acepto el riesgo: `estado` omite la recuperación de archivos faltantes en cambios cerrados
 - **F-01** (20261013-115616-vueltas-severidad): La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos. Aceptado por Brian Hollweg: Acepto el riesgo: La ubicación ambigua trunca archivos cuyo nombre termina en dos puntos y dígitos
 - **TRZ-MODULE-GUARD-COMPOUND-001** (20261013-180751-trazabilidad): La detección de guards __main__ no contempla condiciones compuestas. Aceptado por Brian Hollweg: Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas
+
+### Históricos
+
 - **DONDE-TEST-001** (20261014-145018-donde-ausente): cj2 no prueba la excepción de situación no_valido. Aceptado por Brian Hollweg: Acepto el riesgo: cj2 no prueba la excepción de situación no_valido
 
 ## Límites declarados
@@ -500,6 +503,23 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261014-140627-severidad-ausente) codex (gpt-6-luna): Corrí exactamente los módulos solicitados: python -m unittest tests.test_severidad_ausente tests.test_vueltas; 12 tests pasaron. La salida completa está en pruebas.log.
 - (20261014-140627-severidad-ausente) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones: el checkout candidato se mantuvo de sólo lectura.
 - (20261014-140627-severidad-ausente) codex (gpt-6-luna): No encontré defectos dentro de los cambios revisados. Los cuatro casos declarados por el verificador usan IDs completos de dos módulos; Counter(expected) frente a la cantidad observada detecta omisiones y duplicados.
+- (20261014-204205-donde-no-valido) Evidencia: Escenarios cj2 en repositorios temporales, Linux, con Clue simulado. Lo ausente se prueba con los hechos de un juicio registrado que se borraron, y lo no válido con un informe de revisión que no es una ruta; donde no lista artefactos que se esperan y todavía no existen.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Sin hallazgos: se verificó que el hallazgo DONDE-NOVALIDO-TEST-001 de la vuelta 1 fue subsanado en test_cj2_donde_con_una_entrada_invalida comparando los artefactos contra el listado previo (excluyendo el informe roto) más la entrada histórica agregada, impidiendo regresiones por omisión de artefactos.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Se comprobó mediante pruebas de mutación locales que las aserciones de test_cj2_donde_con_una_entrada_invalida detectan la omisión de cualquier artefacto, la desaparición de la entrada no_valido, el etiquetado incorrecto como ausente, la omisión del archivo histórico y artefactos espurios.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Se verificó que los tres casos cj2 de tests/test_cli_json.py prueban exhaustivamente los tres escenarios definidos en openspec/changes/20261014-204205-donde-no-valido/specs/cli/spec.md.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Se verificó que el cambio de conteo en tools/verify_cli_json.py y tools/verify_donde_ausente.py ('if name in expected') aísla los sensores de tests agregados por otros cambios y sigue detectando casos faltantes, duplicados o fallidos de sus propios contratos.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Se verificó la correspondencia exacta entre catalogos/factory_no_valido.*.oracle, tools/verify_donde_no_valido.py y requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json.requisito.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite requerida en primer plano: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null (40 pruebas ejecutadas, resultado OK).
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): No se ejecutaron tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): No se modificó el checkout de revisión /home/workstation/Dev/factory-donde-no-valido/.factory/local/revisiones/97e0a37 (se mantuvo en modo de sólo lectura) ni se realizaron commits.
+- (20261014-204205-donde-no-valido) agy (gemini-3.8-flash-high): No se revisaron los 10 archivos excluidos del paquete que corresponden a registros y evidencia de Factory (.factory y tareas).
+- (20261014-204205-donde-no-valido) codex (gpt-6-luna): Revisé la spec y el diff del paquete, incluyendo tests/test_cli_json.py, oracle_factory/cli.py:datos_donde, oracle_factory/estructura.py:donde, tools/verify_donde_no_valido.py, los cambios de conteo de tools/verify_cli_json.py y tools/verify_donde_ausente.py, y los catálogos factory_no_valido.
+- (20261014-204205-donde-no-valido) codex (gpt-6-luna): Corrí exactamente: cd /home/workstation/Dev/factory-donde-no-valido && /home/workstation/Dev/factory-donde-no-valido/.venv/bin/python -m unittest tests.test_cli_json tests.test_estructura </dev/null. Resultado: 40 tests, OK.
+- (20261014-204205-donde-no-valido) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción de revisión. Tampoco hice mutaciones.
+- (20261014-204205-donde-no-valido) codex (gpt-6-luna): No revisé los archivos Factory excluidos (.factory y tareas); la revisión se limita al diff y al contexto incluido en el paquete.
+
+### Históricos
+
 - (20261014-145018-donde-ausente) Evidencia: Escenarios cj2 en repositorios temporales, Linux, con Clue simulado. Lo ausente se prueba con los hechos de un juicio registrado que se borraron; donde no lista artefactos que se esperan y todavía no existen.
 - (20261014-145018-donde-ausente) agy (gemini-3.8-flash-high): Se ejecutó exactamente la suite de pruebas solicitada en primer plano: cd /home/workstation/Dev/factory-donde-ausente && /home/workstation/Dev/factory-donde-ausente/.venv/bin/python -m unittest tests.test_cli_json </dev/null (7 pruebas ejecutadas, resultado OK).
 - (20261014-145018-donde-ausente) agy (gemini-3.8-flash-high): No se ejecutó tools/verify_donde_ausente.py, ningún script tools/verify_*.py ni la suite completa de pruebas, conforme a las instrucciones.

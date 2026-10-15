@@ -1,6 +1,6 @@
 # donde --json etiqueta no_valido una entrada inválida del registro
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-15 00:04:34 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261014-204205-donde-no-valido/oracle-veredicto.txt.
+
+### Nota (2026-10-15 00:07:05 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
