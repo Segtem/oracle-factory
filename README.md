@@ -1,4 +1,4 @@
-# Oracle Factory — 0.1.0a10 (alpha)
+# Oracle Factory — 0.1.0a11 (alpha)
 
 La visión de Oracle Factory es coordinar agentes y herramientas para producir software completo: desde una necesidad aceptada hasta código, pruebas, revisión y entrega. La persona decide el alcance, resuelve hallazgos y acepta la entrega.
 
@@ -17,14 +17,14 @@ La [revisión guiada](docs/revision-guiada.md) prepara informes pendientes, sepa
 
 ## Instalación del corte alpha
 
-El corte alpha 0.1.0a10 abre Factory a proyectos que ya tienen su proyecto Oracle en una carpeta (`"oracle": "medidas"` en `.factory/config.json`, `init --oracle`, y `confiar_escalares` para sus escalares) y fija Oracle 0.38.2. Trae vueltas de revisión proporcionales a la severidad, con riesgos aceptados que persisten y revisores que se pueden lanzar a la vez sobre un paquete sin los registros de Factory; la trazabilidad de cada requisito a sus casos y a las líneas que cambió el candidato (`trazabilidad`); `estado`, `donde` y `resumen` en JSON; `abandonar`; que una medida confirmada vuelva a pedir decisión si cambia su catálogo; y los modos de trabajo explicados en `docs/modos.md` y en el sitio. La 0.1.0a9 trajo Oracle Clue como dependencia fija: se instala con Factory, que lo usa desde su propio entorno, y todo informe de revisor se valida (ya no hay informes «sin validar»). Además, el informe más nuevo de cada revisor reemplaza a los anteriores, el menú de la decisión en `revisar` mantiene sus números y dice por qué no se puede aprobar, e `importar` deja afuera los requisitos que la spec retira. La 0.1.0a8 hizo la CLI cómoda para la persona: `oracle-factory estado ID` calcula el próximo paso según lo que está vigente (spec, medidas, revisión, juicio, cierre, o qué archivo recuperar) y en una terminal ofrece ejecutarlo; los errores nombran su causa y cómo seguir; `resumen --ver` muestra el resumen con formato; y en un clon, `python fabrica.py` usa solo el `.venv`. La 0.1.0a7 trajo las decisiones guiadas: cada decisión de una persona se toma en un menú de opciones en vez de tipear una frase; `oracle-factory revisar` registra la revisión paso a paso, con un motivo que se elige (el del agente, uno armado con los datos del cambio o uno propio); y `medir --confirmar` confirma de una vez las medidas propuestas. Suma también `pedir-revision`, que lanza un revisor configurado, valida su informe con Oracle Clue y lo guarda en el candidato. La 0.1.0a6 trajo el resumen del estado actual (`oracle-factory resumen`) y `nuevo --sufijo`; la 0.1.0a5 trajo la spec consolidada por capacidad (`openspec/specs/`, `archivar`) y la 0.1.0a4 los modos de trabajo, la revisión guiada, la vigencia por contenido, la portabilidad y la carpeta `.factory/` con `donde`, `ruta`, `buscar` y `migrar` (ver [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md)).
+El corte alpha 0.1.0a11 trae la extensión de VS Code (`editores/vscode/`, en el repositorio: una vista con los cambios abiertos, sus requisitos, revisión, veredicto y artefactos, y el próximo paso escrito en la terminal sin ejecutarlo); hace que `revisar` deje constancia de un intento cortado sin registrar, que `estado` avisa con su causa; que dos procesos que escriben el mismo registro no se pisen; y que un valor del registro que no es una ruta se informe como pendiente en vez de hacer caer `estado` y `resumen`. La 0.1.0a10 abrió Factory a proyectos que ya tienen su proyecto Oracle en una carpeta (`"oracle": "medidas"` en `.factory/config.json`, `init --oracle`, y `confiar_escalares` para sus escalares) y fijó Oracle 0.38.2. Trajo vueltas de revisión proporcionales a la severidad, con riesgos aceptados que persisten y revisores que se pueden lanzar a la vez sobre un paquete sin los registros de Factory; la trazabilidad de cada requisito a sus casos y a las líneas que cambió el candidato (`trazabilidad`); `estado`, `donde` y `resumen` en JSON; `abandonar`; que una medida confirmada vuelva a pedir decisión si cambia su catálogo; y los modos de trabajo explicados en `docs/modos.md` y en el sitio. La 0.1.0a9 trajo Oracle Clue como dependencia fija: se instala con Factory, que lo usa desde su propio entorno, y todo informe de revisor se valida (ya no hay informes «sin validar»). Además, el informe más nuevo de cada revisor reemplaza a los anteriores, el menú de la decisión en `revisar` mantiene sus números y dice por qué no se puede aprobar, e `importar` deja afuera los requisitos que la spec retira. La 0.1.0a8 hizo la CLI cómoda para la persona: `oracle-factory estado ID` calcula el próximo paso según lo que está vigente (spec, medidas, revisión, juicio, cierre, o qué archivo recuperar) y en una terminal ofrece ejecutarlo; los errores nombran su causa y cómo seguir; `resumen --ver` muestra el resumen con formato; y en un clon, `python fabrica.py` usa solo el `.venv`. La 0.1.0a7 trajo las decisiones guiadas: cada decisión de una persona se toma en un menú de opciones en vez de tipear una frase; `oracle-factory revisar` registra la revisión paso a paso, con un motivo que se elige (el del agente, uno armado con los datos del cambio o uno propio); y `medir --confirmar` confirma de una vez las medidas propuestas. Suma también `pedir-revision`, que lanza un revisor configurado, valida su informe con Oracle Clue y lo guarda en el candidato. La 0.1.0a6 trajo el resumen del estado actual (`oracle-factory resumen`) y `nuevo --sufijo`; la 0.1.0a5 trajo la spec consolidada por capacidad (`openspec/specs/`, `archivar`) y la 0.1.0a4 los modos de trabajo, la revisión guiada, la vigencia por contenido, la portabilidad y la carpeta `.factory/` con `donde`, `ruta`, `buscar` y `migrar` (ver [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md)).
 
-Está publicado en PyPI como `oracle-factory==0.1.0a10` y su wheel, con los hashes, en el [release de GitHub v0.1.0a10](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a10). Un proyecto creado con una versión anterior sigue funcionando; `oracle-factory migrar` pasa su estado a `.factory/`.
+Está publicado en PyPI como `oracle-factory==0.1.0a11` y su wheel, con los hashes, en el [release de GitHub v0.1.0a11](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a11). Un proyecto creado con una versión anterior sigue funcionando; `oracle-factory migrar` pasa su estado a `.factory/`.
 
 Para instalarlo con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a10
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a11
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
@@ -34,7 +34,7 @@ oracle-factory --proyecto ./mi-proyecto nuevo --con-ejemplo notas "Comprobar el 
 Si uv advierte sobre conflicto porque los ejecutables `oracle`, `tasks` u `oracle-clue` ya están instalados en tu sistema, podés instalarlo sin `--with-executables-from`:
 
 ```bash
-uv tool install --python 3.13 oracle-factory==0.1.0a10
+uv tool install --python 3.13 oracle-factory==0.1.0a11
 ```
 
 Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.38.2`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
@@ -45,7 +45,7 @@ Los archivos indicados con `--informe` y `--con` se interpretan desde el proyect
 
 La [guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html) recorre el ejemplo de notas en un proyecto vacío sin clonar Factory. Para desarrollo desde el checkout, `python3 fabrica.py` conserva la misma interfaz y selección de proyecto.
 
-El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a10) conserva los artefactos y sus hashes. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
+El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a11) conserva los artefactos y sus hashes. El paquete sigue siendo experimental: no coordina agentes automáticamente ni integra todavía Clue.
 
 
 ## Flujo de la POC
