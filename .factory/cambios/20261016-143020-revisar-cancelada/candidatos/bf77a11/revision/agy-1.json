@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/bf77a11",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "bf77a1155f6332f0f84253b3a3c659c7c391a43e",
+  "diff_sha256": "80c7985d9e422d674e4cb716d439e91e08fc79842eb16cc6ed7306db2f0d9e84",
+  "context_sha256": "79847cbe7c9b5635ef5cbd7883247fbad0e9dc48825af2ff0af799079379ccbc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "explanation": "El test test_rc_antes_de_mostrar_no_queda_intento declara en su docstring que 'Sin candidato con informes no hubo intento: el corte ya dice qué hacer y no se anota'. Sin embargo, al invocar self.revisar() directamente tras self.preparar(), candidato_vigente(ident) es None y la ejecución corta en la verificación temprana de candidato inexistente (línea 1179 de oracle_factory/cli.py). No se prueba el caso donde sí existe un commit candidato vigente pero este carece de informes de revisores o comprobaciones (línea 1186 de oracle_factory/cli.py). Como consecuencia, si intento.update(...) se asignara antes de dicha verificación (mutación M5), el test no detectaría la falla y un corte previo a mostrar la revisión registraría indebidamente un evento revision_cancelada.",
+      "location": {
+        "file": "tests/test_revisar_cancelada.py",
+        "start_line": 143,
+        "end_line": 149,
+        "side": "head"
+      },
+      "trigger": "Ejecutar revisar cuando hay un candidato vigente pero aún no se han producido informes ni evidencia de revisores.",
+      "evidence": "La mutación M5 (mover intento.update(...) antes de la verificación de informes de la línea 1186 de oracle_factory/cli.py) sobrevivió exitosamente a la ejecución requerida (13 tests OK). Se confirmó experimentalmente que al existir un commit con carpeta en .factory/cambios/.../candidatos/<sha>, el corte ocurre en la línea 1186 ('el candidato {sha} no tiene informes de revisores ni evidencia'), camino no alcanzado por test_rc_antes_de_mostrar_no_queda_intento.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Configurar en test_revisar_cancelada un commit candidato con carpeta de candidato pero sin informes ni evidencia, y verificar que un corte en esa instancia no guarde un evento revision_cancelada."
+    },
+    {
+      "id": "agy-7",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión",
+      "explanation": "En aviso_revision (oracle_factory/cli.py:1167), la vigencia de la revisión anterior para determinar si 'sigue valiendo la revisión anterior' se calcula evaluando 'bool(rev) and mismo_producto(rev.get(\"contexto\"), contexto_producto()) and not problemas_de_revision(estado)'. La suite de pruebas en test_rc3_una_revision_registrada_despues (tests/test_revisar_cancelada.py:92-98) comprueba la pérdida de vigencia por cambio de producto con candidato_nuevo(), pero no incluye ningún caso que pruebe la pérdida de vigencia por corrupción, alteración o pérdida de los documentos vinculados (informe o decisiones), evaluada por problemas_de_revision(estado). Si se omite la condición 'and not problemas_de_revision(estado)' (mutación M7), todos los tests continúan pasando en verde.",
+      "location": {
+        "file": "tests/test_revisar_cancelada.py",
+        "start_line": 92,
+        "end_line": 98,
+        "side": "head"
+      },
+      "trigger": "Consultar estado tras un intento cancelado cuando la revisión anterior registrada tiene su archivo de informe o decisiones alterado o ausente.",
+      "evidence": "La mutación M7 (remover 'and not problemas_de_revision(estado)' en aviso_revision) sobrevivió a la suite de pruebas requerida (13 tests OK). Al alterar deliberadamente el archivo informe.json de la revisión archivada en un entorno de prueba, se comprobó que aviso_revision efectivamente pasa a emitir 'volvé a correr oracle-factory revisar ...', pero esta ruta crítica de vigencia carece de cobertura en test_revisar_cancelada.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Agregar en test_rc3_una_revision_registrada_despues un caso donde se altere o elimine el archivo de informe archivado y se compruebe que el aviso emita 'volvé a correr oracle-factory revisar ...' en vez de 'sigue valiendo la revisión anterior'."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas por el usuario: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null (13 tests, OK).",
+    "No se ejecutó la suite completa del repositorio ni tools/verify_revisar_cancelada.py para respetar la restricción explícita de no correr la suite completa.",
+    "Se evaluaron mutaciones manuales (M1 a M9) sobre una copia aislada en el workspace del revisor para verificar qué cambios son detectados por las pruebas y cuáles sobreviven.",
+    "Se verificó la corrección del hallazgo CXL2-2 (comprobación de vigencia de la revisión previa en aviso_revision) y del hallazgo agy-6 (actualización de LIMITES en tools/verify_revisar_cancelada.py).",
+    "El hallazgo CXL2-1 (carrera compare-and-swap) no se reitera como defecto abierto por haberse acordado como limitación asumida del sensor y propuesta de cambio aparte."
+  ]
+}
