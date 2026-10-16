@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisiones/f72807d",
+  "base": "3ea53c51e2baa7e5b1ed822f4b87a9355534144b",
+  "head": "f72807d1217dc8d646dc0cf31614239fcce453d9",
+  "diff_sha256": "dc96327ac4bd09c26ede39d1ce0480240290811ae1172d4e52978883cff7d434",
+  "context_sha256": "44da82b8af6475b5652dee40de5d9d37b679e1831b68d2d483f75432d832fc19",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null; pasó con 4 tests.",
+    "No ejecuté la suite completa, tools/verify_bloqueo_registro.py ni Oracle.",
+    "No ejecuté mutaciones sobre una copia.",
+    "La revisión de código abarcó el diff y los contextos del paquete, además de rutas de escritura en oracle_factory/. Los archivos excluidos por el paquete no se revisaron.",
+    "No reabrí como hallazgos las observaciones bajas de vuelta 2 reservadas a decisión humana. La revisión estática no encontró interbloqueos ni esperas sin fin en los flujos vistos."
+  ]
+}
