@@ -19,3 +19,7 @@ Requisitos importados: revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_
 ### Nota (2026-10-16 14:40:29 UTC)
 
 Medidas de revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista: factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista, factory_cancelada.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-16 14:42:32 UTC)
+
+Medidas de revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista: Brian Hollweg (persona, confirmo, modo confirmacion).
