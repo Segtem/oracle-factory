@@ -1,0 +1,35 @@
+{
+  "vscode_caso": [
+    {
+      "requisito": "la_vista_de_factory_muestra_los_cambios_abiertos",
+      "caso": "vs1_un_proyecto_con_un_cambio_abierto",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_vista_de_factory_muestra_los_cambios_abiertos",
+      "caso": "vs1_una_carpeta_sin_factory_o_una_cli_que_falla",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "caso": "vs2_los_artefactos_de_un_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "caso": "vs3_un_paso_que_es_un_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "caso": "vs3_un_paso_que_no_es_un_comando",
+      "codigo": 0
+    }
+  ],
+  "vscode_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
