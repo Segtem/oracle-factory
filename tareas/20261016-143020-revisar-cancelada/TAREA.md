@@ -1,6 +1,6 @@
 # estado avisa cuando una revisión no se pudo registrar y por qué
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-16 16:07:47 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261016-143020-revisar-cancelada/oracle-veredicto.txt.
+
+### Nota (2026-10-16 16:08:13 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
