@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vscode/.factory/local/revisiones/e777806",
+  "base": "d6b0d4e9ca7e6ad86c84b120fb7963a6e1bfd211",
+  "head": "e777806f292b0de7d736b679dd1bcde9f1d779eb",
+  "diff_sha256": "b997491a9aacbb06293d829a5d3e9d9c2ab90c43feb56a4a2c53d5093b7abd84",
+  "context_sha256": "506b54ddc15ab736645b2d965ed3ea943bb6316db41bbfebd4d18f418d87a2b3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "R2-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "explanation": "revision() y veredicto() pasan sus rutas por abrible(), que acepta cualquier ruta existente: si tipo(ruta) devuelve \"carpeta\", el nodo recibe mostrar y extension.js asigna el comando revealInExplorer. Una carpeta no es un informe de revisión o veredicto válido; en ese caso la vista ofrece una acción en vez de marcar el artefacto no válido y quitar la acción, como exige el requisito. Las rutas a carpetas sí son válidas para otros artefactos (por ejemplo, carpetas de candidato), por lo que esta validación debe aplicarse a los campos de informe.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 55,
+        "end_line": 57,
+        "side": "head"
+      },
+      "trigger": "Configurar revision.informe o oracle.informe con una ruta de texto a una carpeta existente del proyecto y desplegar el cambio.",
+      "evidence": "Probe de modelo.js con revision.informe=\"catalogos\" (directorio existente) devolvió el nodo {\"etiqueta\":\"Revisión: aprobar\",\"mostrar\":\"catalogos\",\"icono\":\"eye\"}; getTreeItem convierte mostrar en revealInExplorer. El mismo camino se usa en veredicto() (línea 63). La spec exige marcar artefactos no válidos y no ofrecer acción de apertura.",
+      "related_requirement": "los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "status": "pendiente",
+      "verification": "Probar rutas de informe que apunten a una carpeta para revisión y veredicto; esperar un ítem marcado como no válido, sin abrir ni mostrar, y una regresión que conserve mostrar para los artefactos que sí son carpetas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí propuesta, spec, diff y los archivos de extensión, empaquetador, pruebas, doble de VS Code, verificador y catálogos incluidos. No leí los diez archivos excluidos de registros/evidencia.",
+    "Ejecuté exactamente .venv/bin/python -m unittest tests.test_vscode </dev/null desde el checkout candidato; no pudo iniciar porque .venv/bin/python no existe (exit 127). No ejecuté la suite completa, tools/verify_vscode.py ni abrí VS Code.",
+    "Hice un probe aislado de modelo.js con un path de informe que resuelve a un directorio existente; confirmó el hallazgo. No modifiqué el checkout ni realicé mutaciones sobre copias."
+  ]
+}
