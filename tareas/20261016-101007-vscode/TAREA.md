@@ -43,3 +43,7 @@ Medidas de ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_v
 ### Nota (2026-10-16 11:34:00 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)); 0 abiertos derivados; commit 16362b2f7d9198b888a50f1d214addc750b757c1; informe tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/informe.json; decisiones tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/decisiones.json.
+
+### Nota (2026-10-16 11:34:21 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261016-101007-vscode/oracle-veredicto.txt.
