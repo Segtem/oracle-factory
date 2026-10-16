@@ -29,6 +29,7 @@ class BloqueoRegistro(unittest.TestCase):
 
     def test_bl1_otro_proceso_escribe_entre_la_lectura_y_la_escritura(self):
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
+        f.LEIDOS.clear()  # como un proceso nuevo: la base sale de leer, no de lo que nuevo escribió
         carpeta, estado = f.leer(self.ident)
         otro = self.otro_proceso('''
             c, e = f.leer(ident)
@@ -45,6 +46,7 @@ class BloqueoRegistro(unittest.TestCase):
 
     def test_bl2_otro_proceso_escribe_entre_la_comparacion_y_el_reemplazo(self):
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
+        f.LEIDOS.clear()  # como un proceso nuevo: la base sale de leer, no de lo que nuevo escribió
         carpeta, estado = f.leer(self.ident)
         # El otro guarda con Factory, y se demora justo entre su comparación y su reemplazo.
         otro = self.otro_proceso('''
