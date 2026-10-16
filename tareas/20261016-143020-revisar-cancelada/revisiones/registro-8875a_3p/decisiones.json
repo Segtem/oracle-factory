@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "358a2bc2447401b51d52cab898d2394ae07fe85466ac81f99caf1d5d83d71582",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy: la 1 marcó dos altos y cuatro medios (un fallo posterior anotado como cancelado, escrituras concurrentes, un registro roto que tapaba el error) y la 2 dos medios (el aviso daba por vigente una revisión vieja), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la carrera entre comparar y reemplazar el registro es de todas las escrituras de Factory y va a una tarea aparte; la 3 sólo trae bajas",
+  "decisiones": [
+    {
+      "hallazgo_id": "agy-5",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:30+00:00"
+    },
+    {
+      "hallazgo_id": "agy-7",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:31+00:00"
+    },
+    {
+      "hallazgo_id": "CXL3-1",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:32+00:00"
+    }
+  ]
+}

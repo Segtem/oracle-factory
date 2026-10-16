@@ -70,6 +70,8 @@ Prepara el informe del candidato vigente y lo muestra en texto: evidencia, revis
 3. **La decisión:** aprobar (sólo si no queda nada abierto, la revisión está completa y todo cumple) o pedir cambios. Los números no cambian: «Aprobar» es siempre la 1, y cuando no se puede, el menú dice por qué y elegirla no registra nada.
 4. **El motivo:** el que propuso el agente, uno armado con los datos del cambio u «Otro», para escribirlo.
 
+Si `revisar` corta después de mostrar la revisión sin registrarla (un Aprobar no disponible, Cancelar, una revisión incompleta sin su límite o la entrada que se cierra), el registro guarda el intento (`revision_cancelada`, con la causa y el candidato) y `estado` avisa «el último intento de revisión (…) no se registró: <causa>» hasta que se registre una revisión; `estado --json` lo trae en `avisos`. Un agente lo mira antes de seguir.
+
 Se responde con el número de la opción; Enter solo no elige nada. Factory completa el informe y las decisiones (revisor, hash, resoluciones) y registra la revisión. El registro guarda de dónde salió el motivo (`agente`, `armado` o `persona`), también el de cada hallazgo resuelto (`origen_motivo`, opcional en los documentos completados a mano).
 
 El agente puede dejar preparada su recomendación, que la persona ve como primera opción de motivo:

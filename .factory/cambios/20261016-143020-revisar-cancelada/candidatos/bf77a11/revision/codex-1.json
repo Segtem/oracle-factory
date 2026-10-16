@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/bf77a11",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "bf77a1155f6332f0f84253b3a3c659c7c391a43e",
+  "diff_sha256": "80c7985d9e422d674e4cb716d439e91e08fc79842eb16cc6ed7306db2f0d9e84",
+  "context_sha256": "79847cbe7c9b5635ef5cbd7883247fbad0e9dc48825af2ff0af799079379ccbc",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CXL3-1",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión",
+      "explanation": "El envoltorio de revisar_paso_a_paso conserva el error original sólo si anotar_intento falla con FactoryError, OSError o ValueError. anotar_intento hace json.loads y luego asume que el resultado es un objeto y que cada evento tiene .get. Si el registro se reemplaza durante la revisión por JSON válido de otra forma (por ejemplo [], null o un evento escalar), esa suposición produce AttributeError, que no se captura; quien llamó revisar ve el error de anotación en lugar de la causa original del corte. El caso de JSON sintácticamente roto sí se captura como ValueError, pero no cubre esta forma válida incompatible.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1153,
+        "end_line": 1153,
+        "side": "head"
+      },
+      "trigger": "Después de que _revisar_paso_a_paso lanza FactoryError, el contenido del registro cambia a [] antes de anotar el intento; anotar_intento llega a la iteración de eventos.",
+      "evidence": "En la línea 1153, estado.get presupone que json.loads(leido) devolvió un dict y e.get presupone que los elementos son dict. La línea 1141 captura sólo FactoryError, OSError y ValueError; AttributeError escapa y sustituye la excepción activa. La prueba rc_anotar_no_pisa_ni_tapa sólo corrompe con texto JSON inválido o cambia permisos, y no cubre JSON válido con forma equivocada.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista: el corte debe conservar su causa y el fallo de anotarlo no debe tapar el error de la revisión.",
+      "status": "pendiente",
+      "verification": "Inspección de flujo y excepciones; no hice una mutación ejecutable del checkout. El escenario es reproducible sustituyendo el registro por [] justo antes de que anotar_intento lo lea."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null` desde la raíz del checkout candidato: 13 pruebas, OK.",
+    "No corrí la suite completa ni el sensor verify_revisar_cancelada.py.",
+    "No muté el checkout ni ejecuté una mutación en copia; el defecto informado surge del flujo de excepciones descrito en la evidencia.",
+    "Revisé los cuatro informes previos: el falso aviso tras una revisión registrada y la vigencia de “sigue valiendo” están corregidos; la limitación CXL2-1 de la ventana comparar/reemplazar sigue declarada en el sensor y fuera del alcance indicado. La prueba rc_antes_de_mostrar usa preparar(), que deja un candidato existente sin informes, por lo que no reproduje agy-5 como defecto."
+  ]
+}

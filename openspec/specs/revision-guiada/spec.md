@@ -116,3 +116,23 @@ El entregable SHALL documentar preparación, completado, decisión y renovación
 - GIVEN pruebas en repositorios temporales con herramientas reales
 - WHEN se ejecutan los casos acordados
 - THEN la evidencia identifica caso, resultado, versión y límites; las aprobaciones fixture no se atribuyen a cambios reales ni a un piloto humano.
+
+### Requirement: un intento de revisión que no se registró queda a la vista
+Origen: 20261016-143020-revisar-cancelada · revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista
+Tipo: funcional
+Cuando `revisar` corta después de mostrar la revisión sin registrarla, SHALL guardar en el registro un evento `revision_cancelada` con la causa, el candidato y la persona, sin registrar ninguna decisión. Mientras el último intento de revisión sea uno cortado, `estado` y `estado --json` (en `avisos`) SHALL avisar que no se registró, con la causa, y SHALL decir qué hacer: volver a correr revisar o, si ya hay una revisión anterior registrada, que esa sigue valiendo.
+
+#### Scenario: se elige un Aprobar no disponible
+- GIVEN un candidato con un hallazgo medio que queda abierto
+- WHEN la persona corre revisar y elige Aprobar, que no está disponible
+- THEN revisar corta sin registrar la revisión, el registro guarda revision_cancelada con la causa, y estado y estado --json avisan que el último intento no se registró, con esa causa y el comando para volver a revisar
+
+#### Scenario: se cancela o se cierra la entrada
+- GIVEN un candidato listo para revisar
+- WHEN la persona elige Cancelar, o la entrada se cierra en medio del menú
+- THEN queda revision_cancelada con su causa y estado lo avisa
+
+#### Scenario: una revisión registrada después
+- GIVEN un intento cortado y después una revisión registrada
+- WHEN se pide estado
+- THEN ya no avisa del intento cortado; y si el intento cortado vino después de una revisión registrada, el aviso dice que sigue valiendo la anterior

@@ -134,7 +134,11 @@ class ClueDependencia(_ap.Base):
             f.revisar_paso_a_paso(ident)  # completa; «1» sigue siendo Aprobar, y no está disponible
         self.assertIn('1) Aprobar — NO DISPONIBLE', salida.getvalue())
         self.assertIn('2) Pedir cambios', salida.getvalue())
-        self.assertEqual(f.ruta_registro(f.leer(ident)[0]).read_bytes(), antes)
+        # No registra ninguna decisión: el registro sólo suma el intento cortado (cambio revisar-cancelada).
+        despues = json.loads(f.ruta_registro(f.leer(ident)[0]).read_bytes())
+        intento = despues['eventos'].pop()
+        self.assertEqual((intento['accion'], intento['forma']), ('revision_cancelada', 'intento'))
+        self.assertEqual(despues, json.loads(antes))
 
     # --- k3: importar no trae lo que la spec retira ---------------------------------------------------------------------------
     def test_k3_retirados_sin_tipo_con_tipos_obligatorios(self):

@@ -1,0 +1,321 @@
+{
+  "id": "20261016-143020-revisar-cancelada",
+  "titulo": "estado avisa cuando una revisión no se pudo registrar y por qué",
+  "capacidad": "revision-guiada",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md",
+  "spec_sha256": "ae37d8dadeeca81722ddc659bddecdf4627a0854ef84c180a0028c9b0d26dc76",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T14:31:51+00:00",
+    "documentos": {
+      "openspec/changes/20261016-143020-revisar-cancelada/proposal.md": "1b8938c3586852ec7e8dea762c9f61ac12c0c4a5b40d2f448ee3023eec550fd5",
+      "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md": "ae37d8dadeeca81722ddc659bddecdf4627a0854ef84c180a0028c9b0d26dc76"
+    }
+  },
+  "requisitos": [
+    "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-143020-revisar-cancelada/revisiones/registro-8875a_3p/informe.json",
+    "sha256": "358a2bc2447401b51d52cab898d2394ae07fe85466ac81f99caf1d5d83d71582",
+    "decisiones": "tareas/20261016-143020-revisar-cancelada/revisiones/registro-8875a_3p/decisiones.json",
+    "decisiones_sha256": "f476adda5c26260375614ba51d46de2a89bea1da3e1c8fb3ab5e7b358ee560e4",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T16:07:34+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 marcó dos altos y cuatro medios (un fallo posterior anotado como cancelado, escrituras concurrentes, un registro roto que tapaba el error) y la 2 dos medios (el aviso daba por vigente una revisión vieja), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la carrera entre comparar y reemplazar el registro es de todas las escrituras de Factory y va a una tarea aparte; la 3 sólo trae bajas",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "c135a7430b8ab58979f8fd3ac3d90cd1e7c92b71",
+      "archivos_sha256": "7b4098c2390f8199d5c1ba4cb69931c3cbd3694e9d98bdd13740e1aa2bdeaaca"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/evidencia/hechos.json",
+    "hechos_sha256": "244ea0fb659f66924a9bd2c6748f8508293c87a8c996723cec26d08236911266",
+    "informe": ".factory/cambios/20261016-143020-revisar-cancelada/oracle-veredicto.txt",
+    "informe_sha256": "fa24105dcd8e63b4172a901e07088af803f49552704abc8a295498955d42aac8",
+    "cuando": "2026-10-16T16:07:47+00:00",
+    "contexto": {
+      "head": "517e125e2bcb61d2103fc320632f45b56d47d951",
+      "archivos_sha256": "7b4098c2390f8199d5c1ba4cb69931c3cbd3694e9d98bdd13740e1aa2bdeaaca"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T14:30:20+00:00",
+      "capacidad": "revision-guiada"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T14:31:51+00:00",
+      "documentos": {
+        "openspec/changes/20261016-143020-revisar-cancelada/proposal.md": "1b8938c3586852ec7e8dea762c9f61ac12c0c4a5b40d2f448ee3023eec550fd5",
+        "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md": "ae37d8dadeeca81722ddc659bddecdf4627a0854ef84c180a0028c9b0d26dc76"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T14:32:06+00:00",
+      "ids": [
+        "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T14:40:29+00:00",
+      "requisito": "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "medidas": [
+        "factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+        "factory_cancelada.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T14:42:32+00:00",
+      "requisito": "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "medidas": [
+        "factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+        "factory_cancelada.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:00:55+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "38f3611",
+      "resultado": "ok",
+      "hallazgos": 3
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:16:44+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "38f3611",
+      "resultado": "ok",
+      "hallazgos": 5
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:27:15+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "22b5a78",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:38:39+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "22b5a78",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:46:47+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "bf77a11",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T15:58:26+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "bf77a11",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T15:58:41+00:00",
+      "decision": "aprobar",
+      "candidato": "bf77a11"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T16:07:34+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "358a2bc2447401b51d52cab898d2394ae07fe85466ac81f99caf1d5d83d71582",
+      "decisiones_sha256": "f476adda5c26260375614ba51d46de2a89bea1da3e1c8fb3ab5e7b358ee560e4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T16:07:47+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "244ea0fb659f66924a9bd2c6748f8508293c87a8c996723cec26d08236911266"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T16:08:13+00:00",
+      "oracle": ".factory/cambios/20261016-143020-revisar-cancelada/oracle-veredicto.txt",
+      "revision": "tareas/20261016-143020-revisar-cancelada/revisiones/registro-8875a_3p/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T16:08:13+00:00",
+      "capacidad": "revision-guiada",
+      "spec": "openspec/specs/revision-guiada/spec.md"
+    }
+  ],
+  "tipos": {
+    "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista": "funcional"
+  },
+  "medidas": {
+    "revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-16T14:42:32+00:00",
+      "sha256": "fb3a58dc853aeada645a4f2a3c0b188c893aa9aea2b56c9c5c4bb66a6b9ca777",
+      "catalogos": {
+        "factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista": "b3d347623b364a3cec45a1ded703c4ef6284350f0c9bdf1e68152dbf62f58867",
+        "factory_cancelada.corrida_completa": "726e263853b08ee9c2936edc3fd01f3d83d823193696cf1f5b1d52f6fd63bdd1"
+      },
+      "archivos_catalogo": {
+        "factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista": "catalogos/factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista.oracle",
+        "factory_cancelada.corrida_completa": "catalogos/factory_cancelada.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_revisar_cancelada.py",
+      "titulo": "test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "firma": "tests/test_revisar_cancelada.py|testrcantesdemostrarnoquedaintento no prueba candidato existente sin informes ni evidencia",
+      "motivo": "Acepto el riesgo: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:30+00:00",
+      "candidato": "bf77a11"
+    },
+    {
+      "archivo": "tests/test_revisar_cancelada.py",
+      "titulo": "test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión",
+      "firma": "tests/test_revisar_cancelada.py|testrc3unarevisionregistradadespues no prueba la no vigencia por problemas en documentos de revisión",
+      "motivo": "Acepto el riesgo: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:31+00:00",
+      "candidato": "bf77a11"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión",
+      "firma": "oracle_factory/cli.py|un registro json válido pero con forma incorrecta puede tapar el error de la revisión",
+      "motivo": "Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T16:07:32+00:00",
+      "candidato": "bf77a11"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T16:08:13+00:00"
+  },
+  "archivo": {
+    "capacidad": "revision-guiada",
+    "spec": "openspec/specs/revision-guiada/spec.md",
+    "cuando": "2026-10-16T16:08:13+00:00"
+  }
+}

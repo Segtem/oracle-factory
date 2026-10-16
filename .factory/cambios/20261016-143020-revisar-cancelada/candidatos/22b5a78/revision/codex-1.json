@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/22b5a78",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "22b5a788a5620ce9e7e27e5bf76969d78e17008d",
+  "diff_sha256": "d761117b0c87e39f9a5f4d432859239df54cbefbe358964aaab4a02a316f65c7",
+  "context_sha256": "558e985a6bbfc6e3997f195c6a4c9139a88e6289aa181e169ea650fd38fd8823",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CXL2-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La comprobación esperado no evita una escritura concurrente en la ventana antes del replace",
+      "explanation": "anotar_intento protege su actualización comparando el registro leído con esperado, pero la comprobación y el os.replace de escribir_atomico no son una operación atómica ni están bajo un bloqueo. Si otro proceso registra una revisión después de que la comparación da igual y antes del replace, este guardado reemplaza el registro nuevo por la copia vieja más revision_cancelada. Puede borrar revision_registrada y dejar aviso de que una revisión exitosa no se registró, o perder otros cambios concurrentes. El test actual escribe antes de la comparación y sólo prueba ese orden de carrera.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1156,
+        "end_line": 1156,
+        "side": "head"
+      },
+      "trigger": "Intercalar otro escritor justo después de que escribir_atomico comprueba ruta.read_bytes() == esperado y antes de os.replace(temporal, ruta).",
+      "evidence": "anotar_intento pasa esperado=leido en oracle_factory/cli.py:1156. En escribir_atomico (líneas 2357-2359), el valor se compara y luego se hace os.replace en pasos separados; no hay lock ni segunda validación atómica. tests/test_revisar_cancelada.py:test_rc_anotar_no_pisa_ni_tapa hace que el otro proceso escriba durante la llamada a evento, antes de entrar a guardar, así que detecta cambios anteriores al compare pero no esta ventana.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista",
+      "status": "pendiente",
+      "verification": "Inspección del camino compare-then-replace y del test de carrera. Las 13 pruebas dirigidas pasan; no fuerzan una escritura concurrente entre la comparación y os.replace."
+    },
+    {
+      "id": "CXL2-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "El aviso dice que la revisión anterior sigue valiendo aunque su contexto haya quedado obsoleto",
+      "explanation": "aviso_revision elige la frase «sigue valiendo la revisión anterior» con sólo comprobar que estado contiene una revisión. El registro conserva esa revisión aunque ya no sea vigente para el producto actual: por ejemplo, si cambia un archivo del producto después de registrarla y antes de un intento cancelado, el gate de revisión la considera obsoleta, pero el aviso nuevo afirma que sigue valiendo. Eso contradice el propósito de avisar el estado real y puede inducir a continuar con una revisión que Factory no considera vigente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1165,
+        "end_line": 1166,
+        "side": "head"
+      },
+      "trigger": "Registrar una revisión; cambiar un archivo del producto para invalidar su contexto; luego iniciar y cancelar otra revisión; consultar estado.",
+      "evidence": "La rama sólo usa estado.get(\"revision\") en oracle_factory/cli.py:1165. El estado calcula por separado la vigencia con gate(..., actual is not None and mismo_producto(...)) en líneas 2027-2030; los cambios de producto hacen que esa revisión no vigente no sea la revisión que sigue valiendo para el candidato actual. Aun así el aviso usa la misma frase que para una revisión vigente.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista",
+      "status": "pendiente",
+      "verification": "Inspección de la condición del aviso y del gate de vigencia. Las pruebas rc3 prueban sólo una cancelación posterior en el mismo contexto; no cubren una revisión previa obsoleta."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff del paquete y la spec indicada; no se inspeccionaron los 10 archivos de registros/evidencia Factory excluidos.",
+    "Se ejecutó exactamente: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null desde la raíz del checkout candidato; resultado: 13 pruebas, OK.",
+    "No se corrió la suite completa ni tools/verify_revisar_cancelada.py. No se hizo mutación de código: las dos ventanas reportadas se contrastaron por inspección con las rutas de persistencia y pruebas.",
+    "La carrera compare-replace requiere una intercalación muy estrecha; no se midió su frecuencia. El hallazgo describe una posibilidad de pérdida si esa intercalación ocurre."
+  ]
+}

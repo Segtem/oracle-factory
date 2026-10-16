@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:78f3e940601d06ab62f28e7a80085191b08205a391ffe9cfae4656ff7711c440 -->
+<!-- oracle-factory resumen sha256:b0779cc995d34d1667b965ff6007d4546759b6d10db8439a1ad7a3c9879575b9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 129 requisitos vigentes · 1 cambio abierto
+18 capacidades · 130 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -205,6 +205,7 @@ Spec completa: [openspec/specs/revision-guiada/spec.md](../openspec/specs/revisi
 | conservar evidencia y comprobar vigencia | funcional | `revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia` | factory_revision_guiada.conservar_evidencia_y_comprobar_vigencia, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | mantener formato libre con declaracion explicita | funcional | `revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita` | factory_revision_guiada.mantener_formato_libre_con_declaracion_explicita, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
 | explicar y verificar los limites del recorrido | funcional | `revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido` | factory_revision_guiada.explicar_y_verificar_los_limites_del_recorrido, factory_revision_guiada.corrida_completa | verde al cerrar el 2026-10-05 | 20261004-005956-revision-guiada |
+| un intento de revisión que no se registró queda a la vista | funcional | `revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista` | factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista, factory_cancelada.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-143020-revisar-cancelada |
 
 ### revisores
 
@@ -311,6 +312,9 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **test-vs1-no-prueba-veredicto-fallido-ni-vigencia** (20261016-101007-vscode): test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven. Aceptado por Brian Hollweg: Acepto el riesgo: test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven
 - **doble-vscode-ejecuta-inline-automaticamente** (20261016-101007-vscode): vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita. Aceptado por Brian Hollweg: Acepto el riesgo: vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita
 - **R2-01** (20261016-101007-vscode): Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador. Aceptado por Brian Hollweg: Acepto el riesgo: Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador
+- **agy-5** (20261016-143020-revisar-cancelada): test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia. Aceptado por Brian Hollweg: Acepto el riesgo: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia
+- **agy-7** (20261016-143020-revisar-cancelada): test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión. Aceptado por Brian Hollweg: Acepto el riesgo: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión
+- **CXL3-1** (20261016-143020-revisar-cancelada): Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión. Aceptado por Brian Hollweg: Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión
 
 ### Históricos
 
@@ -630,6 +634,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261016-114832-informe-no-texto) codex (gpt-6-luna): No hice mutaciones: el checkout es de sólo lectura. La prueba in2 sí ejercita nueve valores (incluidos 0, False, cadena vacía, colecciones vacías y NUL), los cuatro campos, con y sin huella.
 - (20261016-114832-informe-no-texto) codex (gpt-6-luna): No encontré fallas en los escenarios: las pruebas llaman estado, resumen, donde y pasos por sus funciones de datos/flujo, y además invocan la CLI real de estado --json para in1; no invocan por subprocess los comandos CLI de resumen, donde y próximo paso.
 - (20261016-114832-informe-no-texto) codex (gpt-6-luna): El chequeo de uniones encontró ROOT / viejo en catalogos_cambiados para metadatos de rutas de catálogos; es un campo distinto de los cuatro campos de evidencia cubiertos por este requisito.
+- (20261016-143020-revisar-cancelada) Evidencia: Escenarios rc1–rc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba; la persona responde por input simulado. Un escritor concurrente entre la comparación y el reemplazo del registro no está cubierto: Factory no tiene un bloqueo del registro.
+- (20261016-143020-revisar-cancelada) agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas por el usuario: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null (13 tests, OK).
+- (20261016-143020-revisar-cancelada) agy (gemini-3.8-flash-high): No se ejecutó la suite completa del repositorio ni tools/verify_revisar_cancelada.py para respetar la restricción explícita de no correr la suite completa.
+- (20261016-143020-revisar-cancelada) agy (gemini-3.8-flash-high): Se evaluaron mutaciones manuales (M1 a M9) sobre una copia aislada en el workspace del revisor para verificar qué cambios son detectados por las pruebas y cuáles sobreviven.
+- (20261016-143020-revisar-cancelada) agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo CXL2-2 (comprobación de vigencia de la revisión previa en aviso_revision) y del hallazgo agy-6 (actualización de LIMITES en tools/verify_revisar_cancelada.py).
+- (20261016-143020-revisar-cancelada) agy (gemini-3.8-flash-high): El hallazgo CXL2-1 (carrera compare-and-swap) no se reitera como defecto abierto por haberse acordado como limitación asumida del sensor y propuesta de cambio aparte.
+- (20261016-143020-revisar-cancelada) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null` desde la raíz del checkout candidato: 13 pruebas, OK.
+- (20261016-143020-revisar-cancelada) codex (gpt-6-luna): No corrí la suite completa ni el sensor verify_revisar_cancelada.py.
+- (20261016-143020-revisar-cancelada) codex (gpt-6-luna): No muté el checkout ni ejecuté una mutación en copia; el defecto informado surge del flujo de excepciones descrito en la evidencia.
+- (20261016-143020-revisar-cancelada) codex (gpt-6-luna): Revisé los cuatro informes previos: el falso aviso tras una revisión registrada y la vigencia de “sigue valiendo” están corregidos; la limitación CXL2-1 de la ventana comparar/reemplazar sigue declarada en el sensor y fuera del alcance indicado. La prueba rc_antes_de_mostrar usa preparar(), que deja un candidato existente sin informes, por lo que no reproduje agy-5 como defecto.
 
 ### Históricos
 

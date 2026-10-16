@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261016-143020-revisar-cancelada",
+  "contexto": {
+    "head": "c135a7430b8ab58979f8fd3ac3d90cd1e7c92b71",
+    "archivos_sha256": "7b4098c2390f8199d5c1ba4cb69931c3cbd3694e9d98bdd13740e1aa2bdeaaca"
+  },
+  "documentos": {
+    "openspec/changes/20261016-143020-revisar-cancelada/proposal.md": "1b8938c3586852ec7e8dea762c9f61ac12c0c4a5b40d2f448ee3023eec550fd5",
+    "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md": "ae37d8dadeeca81722ddc659bddecdf4627a0854ef84c180a0028c9b0d26dc76"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_cancelada.corrida_completa.oracle",
+    "catalogos/factory_cancelada.un_intento_de_revision_que_no_se_registro_queda_a_la_vista.oracle",
+    "docs/revision-guiada.md",
+    "openspec/changes/20261016-143020-revisar-cancelada/design.md",
+    "openspec/changes/20261016-143020-revisar-cancelada/proposal.md",
+    "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md",
+    "openspec/changes/20261016-143020-revisar-cancelada/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista.requisito",
+    "tests/test_clue_dependencia.py",
+    "tests/test_revisar_cancelada.py",
+    "tools/verify_revisar_cancelada.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 379 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 2 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 38f3611: agy (gemini-3.8-flash-high), 5 hallazgos: agy-1 (alta), agy-2 (alta), agy-3 (media), agy-4 (baja), agy-5 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/38f3611/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 38f3611: codex (gpt-6-luna), 3 hallazgos: CXL-1 (media), CXL-2 (media), CXL-3 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/38f3611/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 22b5a78: agy (gemini-3.8-flash-high), 2 hallazgos: agy-5 (baja), agy-6 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/22b5a78/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 22b5a78: codex (gpt-6-luna), 2 hallazgos: CXL2-1 (media), CXL2-2 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/22b5a78/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios rc1–rc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba; la persona responde por input simulado. Un escritor concurrente entre la comparación y el reemplazo del registro no está cubierto: Factory no tiene un bloqueo del registro.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas por el usuario: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null (13 tests, OK).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa del repositorio ni tools/verify_revisar_cancelada.py para respetar la restricción explícita de no correr la suite completa.",
+    "agy (gemini-3.8-flash-high): Se evaluaron mutaciones manuales (M1 a M9) sobre una copia aislada en el workspace del revisor para verificar qué cambios son detectados por las pruebas y cuáles sobreviven.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo CXL2-2 (comprobación de vigencia de la revisión previa en aviso_revision) y del hallazgo agy-6 (actualización de LIMITES en tools/verify_revisar_cancelada.py).",
+    "agy (gemini-3.8-flash-high): El hallazgo CXL2-1 (carrera compare-and-swap) no se reitera como defecto abierto por haberse acordado como limitación asumida del sensor y propuesta de cambio aparte.",
+    "codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null` desde la raíz del checkout candidato: 13 pruebas, OK.",
+    "codex (gpt-6-luna): No corrí la suite completa ni el sensor verify_revisar_cancelada.py.",
+    "codex (gpt-6-luna): No muté el checkout ni ejecuté una mutación en copia; el defecto informado surge del flujo de excepciones descrito en la evidencia.",
+    "codex (gpt-6-luna): Revisé los cuatro informes previos: el falso aviso tras una revisión registrada y la vigencia de “sigue valiendo” están corregidos; la limitación CXL2-1 de la ventana comparar/reemplazar sigue declarada en el sensor y fuera del alcance indicado. La prueba rc_antes_de_mostrar usa preparar(), que deja un candidato existente sin informes, por lo que no reproduje agy-5 como defecto."
+  ],
+  "hallazgos": [
+    {
+      "id": "agy-5",
+      "descripcion": "test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "ubicacion": "tests/test_revisar_cancelada.py:143",
+      "evidencia": "agy (gemini-3.8-flash-high), .factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/revision/agy-1.json, validado con oracle-clue; severidad baja. La mutación M5 (mover intento.update(...) antes de la verificación de informes de la línea 1186 de oracle_factory/cli.py) sobrevivió exitosamente a la ejecución requerida (13 tests OK). Se confirmó experimentalmente que al existir un commit con carpeta en .factory/cambios/.../candidatos/<sha>, el corte ocurre en la línea 1186 ('el candidato {sha} no tiene informes de revisores ni evidencia'), camino no alcanzado por test_rc_antes_de_mostrar_no_queda_intento."
+    },
+    {
+      "id": "agy-7",
+      "descripcion": "test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión",
+      "ubicacion": "tests/test_revisar_cancelada.py:92",
+      "evidencia": "agy (gemini-3.8-flash-high), .factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/revision/agy-1.json, validado con oracle-clue; severidad baja. La mutación M7 (remover 'and not problemas_de_revision(estado)' en aviso_revision) sobrevivió a la suite de pruebas requerida (13 tests OK). Al alterar deliberadamente el archivo informe.json de la revisión archivada en un entorno de prueba, se comprobó que aviso_revision efectivamente pasa a emitir 'volvé a correr oracle-factory revisar ...', pero esta ruta crítica de vigencia carece de cobertura en test_revisar_cancelada."
+    },
+    {
+      "id": "CXL3-1",
+      "descripcion": "Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión",
+      "ubicacion": "oracle_factory/cli.py:1153",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/revision/codex-1.json, validado con oracle-clue; severidad baja. En la línea 1153, estado.get presupone que json.loads(leido) devolvió un dict y e.get presupone que los elementos son dict. La línea 1141 captura sólo FactoryError, OSError y ValueError; AttributeError escapa y sustituye la excepción activa. La prueba rc_anotar_no_pisa_ni_tapa sólo corrompe con texto JSON inválido o cambia permisos, y no cubre JSON válido con forma equivocada."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/38f3611",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "38f361121b61cef3c54b99945715f2685afa6bf8",
+  "diff_sha256": "43400540b250448951554b3e97d56fe539fdaeb4bcdfc85acb89bbfbe3ce9506",
+  "context_sha256": "53f9d0f3b5f6f753126bad30b402716a91e367ddd358682a5a529faf947a0d8e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Fallo posterior a persistir la revisión en revisar_paso_a_paso anota erróneamente revision_cancelada",
+      "explanation": "En revisar_paso_a_paso, el diccionario intento retiene intento['candidato'] incluso después de que revisar_guiado completó exitosamente el guardado del estado y registró la revisión (línea 1082). Si falla una operación posterior como nota_tarea (línea 1087, que lanza FactoryError con 'La revisión quedó registrada en ...; nota del tracker pendiente: ...'), siguiente (línea 1093) o el guardado de aceptados (línea 1268), revisar_paso_a_paso captura la excepción y, al evaluar 'if intento:', vuelve a leer el registro y le agrega un evento revision_cancelada. Esto viola la spec ('Cuando revisar corta después de mostrar la revisión sin registrarla, SHALL guardar [...] sin registrar ninguna decisión'). Como el último evento pasa a ser revision_cancelada, aviso_revision(estado) genera un aviso erróneo afirmando falsamente que el último intento no se registró y que sigue valiendo la revisión anterior.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1133,
+        "end_line": 1143,
+        "side": "head"
+      },
+      "trigger": "Fallo en nota_tarea (ej. indisponibilidad del tracker o error de permisos), siguiente o actualización de aceptados después de haber persistido la revisión.",
+      "evidence": "Reproducido en entorno de prueba: al simular un error en nota_tarea tras registrar, estado['revision'] contiene la decisión aprobada, pero se añade un evento revision_cancelada y avisos contiene: 'el último intento de revisión (...) no se registró: La revisión quedó registrada en ...; nota del tracker pendiente: fallo de red en tracker. Consultá estado y recuperá sólo la nota; no se revirtió el registro.; sigue valiendo la revisión anterior'.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Simular fallo en nota_tarea durante una revisión paso a paso y verificar que no se anote un evento revision_cancelada si la revisión ya fue escrita en el registro."
+    },
+    {
+      "id": "agy-2",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Anotar revision_cancelada sin control de concurrencia pisa cambios externos y anula revisiones concurrentes",
+      "explanation": "Al manejar una interrupción o corte en revisar_paso_a_paso (líneas 1139-1142), se lee el registro con leer(identificador) y se persiste inmediatamente con guardar(carpeta, estado). A diferencia de escribir_atomico(..., esperado=registro), guardar() no verifica si el archivo cambió concurrentemente. Si otro usuario o proceso modificó el registro durante la revisión (o si revisar_guiado abortó intencionalmente por detectar cambios concurrentes en revalidar), este bloque escribe revision_cancelada sobre el registro ajeno. Si el otro proceso acababa de registrar válidamente una revisión, el evento revision_cancelada se estampa como el último evento, haciendo que aviso_revision oculte la revisión recién registrada y afirme falsamente que el último intento no se registró.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1139,
+        "end_line": 1142,
+        "side": "head"
+      },
+      "trigger": "Corte o cancelación de la sesión interactiva cuando el registro en disco fue modificado concurrentemente por otro proceso.",
+      "evidence": "Reproducido en entorno de prueba: tras registrarse una revisión válida en disco desde otro proceso mientras la sesión local estaba abierta, la cancelación local añadió revision_cancelada como evento más reciente sobre el registro actualizado, activando avisos de estado que desacreditan la revisión existente.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Modificar el archivo de estado concurrentemente mientras revisar espera entrada y verificar que la cancelación no sobrescriba ni altere un estado cuyo contenido previo cambió."
+    },
+    {
+      "id": "agy-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Excepciones como JSONDecodeError al anotar revision_cancelada tapan el error original de la revisión",
+      "explanation": "En la línea 1139 de oracle_factory/cli.py se utiliza 'with contextlib.suppress(FactoryError, OSError):' con el comentario explícito '# no tapar el error de la revisión con el de anotarlo'. Sin embargo, si al ocurrir el corte el archivo de estado está corrupto, truncado o con sintaxis JSON inválida, leer(identificador) invoca json.loads() y lanza json.JSONDecodeError (que hereda de ValueError). Al no estar ValueError ni JSONDecodeError en la cláusula suppress, la excepción que se propaga es JSONDecodeError en lugar de relanzar el error original de la revisión (e), ocultando la causa real por la que cortó la revisión.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1139,
+        "end_line": 1142,
+        "side": "head"
+      },
+      "trigger": "Archivo de registro con contenido JSON corrupto o incompleto al momento de manejarse el corte de la revisión.",
+      "evidence": "Reproducido en script de prueba: cuando leer() lanza JSONDecodeError durante la captura en el bloque except, la excepción final recibida es JSONDecodeError y no el FactoryError original de la revisión cancelada.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Provocar un fallo de decodificación JSON en el registro durante la salida de revisar_paso_a_paso y comprobar que la excepción visible hacia el usuario sea la de la revisión y no JSONDecodeError."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_revisar_cancelada no prueba la interrupción por KeyboardInterrupt (Ctrl+C)",
+      "explanation": "El código en oracle_factory/cli.py (líneas 1135 y 1138) y la propuesta contemplan explícitamente KeyboardInterrupt asignando la causa 'se interrumpió antes de registrar la revisión'. No obstante, test_rc2_se_cancela_o_se_cierra_la_entrada en tests/test_revisar_cancelada.py solo comprueba la opción Cancelar del menú y EOFError(), dejando KeyboardInterrupt sin cobertura de pruebas. Una mutación manual que remueve KeyboardInterrupt del except sobrevive a toda la suite de pruebas sin fallar.",
+      "location": {
+        "file": "tests/test_revisar_cancelada.py",
+        "start_line": 53,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "Interrupción del comando revisar con Ctrl+C (KeyboardInterrupt).",
+      "evidence": "Mutación M1 (reemplazar except (FactoryError, EOFError, KeyboardInterrupt) por except (FactoryError, EOFError)) ejecutada sobre las pruebas tests.test_revisar_cancelada y tests.test_clue_dependencia sobrevivió exitosamente (12 tests OK).",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Agregar a test_rc2 un caso que simule KeyboardInterrupt durante la interacción y verificar que registre el evento con su causa exacta."
+    },
+    {
+      "id": "agy-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "explanation": "El test test_rc_antes_de_mostrar_no_queda_intento declara en su docstring que 'Sin candidato con informes no hubo intento: el corte ya dice qué hacer y no se anota'. Sin embargo, al invocar self.revisar() directamente tras self.preparar(), candidato_vigente(ident) es None y la ejecución corta en línea 1162 (sha is None). No se prueba el caso donde sí existe un commit candidato vigente pero este carece de informes de revisores o comprobaciones (línea 1169). Como consecuencia, si intento['candidato'] = sha se asignara antes de dicha verificación (mutación M5), el test no detectaría la falla.",
+      "location": {
+        "file": "tests/test_revisar_cancelada.py",
+        "start_line": 84,
+        "end_line": 90,
+        "side": "head"
+      },
+      "trigger": "Ejecutar revisar cuando hay un candidato vigente pero aún no se han producido informes ni evidencia de revisores.",
+      "evidence": "La mutación M5 (asignar intento['candidato'] = sha antes de la verificación de informes de la línea 1169) sobrevivió a la suite de pruebas requerida (12 tests OK).",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Configurar un commit candidato sin informes ni evidencia y verificar que un corte en esa instancia no guarde un evento revision_cancelada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas por el usuario: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null.",
+    "No se ejecutó la suite completa del repositorio para evitar efectos secundarios y respetar el alcance asignado.",
+    "Se evaluaron mutaciones manuales sobre copias aisladas en el workspace del revisor para verificar qué cambios sobreviven a las pruebas existentes.",
+    "El análisis se enfocó en el paquete Clue candidato 38f3611 y la spec de revisión cancelada."
+  ]
+}
