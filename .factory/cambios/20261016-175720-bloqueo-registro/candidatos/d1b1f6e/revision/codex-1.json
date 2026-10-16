@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisiones/d1b1f6e",
+  "base": "3ea53c51e2baa7e5b1ed822f4b87a9355534144b",
+  "head": "d1b1f6ece4d68eb2a6b66749e4cee6e381689731",
+  "diff_sha256": "dce4f9ddc60ec1dc2724230422e4984bff85ad1d562bb6e983f6f4a1e264b8e0",
+  "context_sha256": "24a0b4913d1c6aeb133887fdb71a7f3ad29048e905df6226f9d49c1eb756154c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "COD-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El catálogo afirma que bl3 usa un segundo proceso real, pero bl3 es monoproceso",
+      "explanation": "El alcance de esta medida dice que los tres escenarios se ejecutan «con un segundo proceso real». En tests/test_bloqueo_registro.py, sólo bl1 y bl2 invocan otro_proceso(); bl3 llama leer/guardar secuencialmente en el proceso de unittest. tools/verify_bloqueo_registro.py y el docstring del test sí distinguen correctamente bl1/bl2 del bl3 monoproceso, así que el alcance del catálogo no describe la evidencia que el sensor asocia al requisito.",
+      "location": {
+        "file": "catalogos/factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.oracle",
+        "start_line": 8,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "Comparar el alcance del catálogo con tests/test_bloqueo_registro.py::test_bl3_un_proceso_que_lee_y_escribe_varias_veces y LIMITES en tools/verify_bloqueo_registro.py.",
+      "evidence": "El catálogo, línea 8, incluye bl1 a bl3 «con un segundo proceso real». El helper otro_proceso se usa en bl1 y bl2; bl3 hace tres guardar consecutivos en el proceso actual. LIMITES en tools/verify_bloqueo_registro.py ya dice que bl3 es un solo proceso.",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Ajustar el alcance del catálogo para decir que bl1 y bl2 usan un segundo proceso real y bl3 verifica escrituras sucesivas en un solo proceso; luego comprobar que la medida y el sensor describen la misma cobertura."
+    },
+    {
+      "id": "COD-2",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El sensor vuelve a ejecutar toda la suite al medir sólo tres casos de este contrato",
+      "explanation": "El verificador construye una suite descubriendo todos los módulos de tests/ y usa result.wasSuccessful() como condición de éxito, aunque CONTRACTS sólo enumera bl1–bl3. Por eso una falla ajena al cambio hace que bloqueo_corrida quede incompleta y no produce los hechos de esta medida. Esto contradice la granularidad declarada por el contrato y hace que la evidencia dependa de pruebas que el usuario/revisor no pidió ejecutar.",
+      "location": {
+        "file": "tools/verify_bloqueo_registro.py",
+        "start_line": 45,
+        "end_line": 46,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/verify_bloqueo_registro.py cuando falle o tenga una falla transitoria cualquier test no relacionado en tests/.",
+      "evidence": "La línea 45 descubre str(ROOT / 'tests'); la línea 51 requiere result.wasSuccessful(). En cambio, expected y complete filtran los casos del contrato a bl1–bl3. El comando requerido para esta revisión ejecutó solamente tests.test_bloqueo_registro.",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Cargar sólo tests.test_bloqueo_registro en el sensor o separar el éxito general de la suite del conteo y estado de los tres casos del contrato."
+    },
+    {
+      "id": "COD-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "El flock del helper genérico serializa escrituras en carpetas globales ajenas a un cambio",
+      "explanation": "El bloqueo se toma siempre sobre ruta.parent dentro de escribir_atomico, que es un helper general, no uno limitado a factory.json. Sus otros llamadores escriben en directorios compartidos del proyecto, por ejemplo .factory/ y requisitos/ (configuración, resúmenes y requisitos), así que operaciones sobre cambios distintos o artefactos globales también compiten por el mismo flock. La propuesta/design explica que se bloquea la carpeta del registro y que una carpeta por cambio evita que cambios distintos se esperen entre sí; la implementación amplía esa espera a carpetas que no pertenecen a un cambio. La sección crítica es breve y no observé un interbloqueo, por lo que el impacto es contención innecesaria, no pérdida de datos demostrada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2366,
+        "end_line": 2368,
+        "side": "head"
+      },
+      "trigger": "Ejecutar en paralelo escrituras atómicas de Factory a archivos bajo el mismo directorio global compartido (por ejemplo .factory/ o requisitos/) que provengan de operaciones de cambios distintos.",
+      "evidence": "escribir_atomico toma flock sobre ruta.parent sin distinguir tipo de artefacto. Sus llamadores incluyen escritura de resumen/configuración y la actualización de requisitos en cli.py; las rutas de estos artefactos comparten directorios entre cambios.",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Limitar el bloqueo de directorio al registro del cambio o habilitarlo mediante parámetro explícito, y verificar que escrituras de cambios distintos en carpetas globales no comparten el lock."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null desde la raíz del checkout; resultado: 4 tests, OK.",
+    "No ejecuté la suite completa ni tools/verify_bloqueo_registro.py.",
+    "No hice mutaciones experimentales; revisé estáticamente los diffs, los llamadores de escribir_atomico y los informes de la vuelta anterior.",
+    "Las correcciones previas BLQ-1 / agy-1 (primera escritura anotada por guardar), agy-2 (archivo faltante reportado como cambio) y agy-3 (bl2 compite con guardar de otro proceso; el reemplazo está bajo LOCK_EX) aparecen cerradas en el diff y pasan el módulo dedicado.",
+    "No encontré escrituras directas del registro fuera de cli.py/migracion.py: las otras escrituras de registros examinadas usan guardar o escribir_atomico; migracion.py es el flujo excluido por la propuesta.",
+    "agy-4 está parcialmente corregido: docstring y LIMITES distinguen bl3 monoproceso, pero el alcance del catálogo conserva la afirmación incorrecta, reportada en COD-1. agy-5 persiste como contención global, reportada en COD-3. agy-7 persiste en el sensor, reportada en COD-2."
+  ]
+}

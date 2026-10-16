@@ -1,0 +1,25 @@
+{
+  "bloqueo_caso": [
+    {
+      "requisito": "dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "caso": "bl1_otro_proceso_escribe_entre_la_lectura_y_la_escritura",
+      "codigo": 0
+    },
+    {
+      "requisito": "dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "caso": "bl2_otro_proceso_escribe_entre_la_comparacion_y_el_reemplazo",
+      "codigo": 0
+    },
+    {
+      "requisito": "dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "caso": "bl3_un_proceso_que_lee_y_escribe_varias_veces",
+      "codigo": 0
+    }
+  ],
+  "bloqueo_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}

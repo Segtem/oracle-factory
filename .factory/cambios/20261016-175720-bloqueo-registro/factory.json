@@ -1,0 +1,292 @@
+{
+  "id": "20261016-175720-bloqueo-registro",
+  "titulo": "Dos procesos que escriben el mismo registro no se pisan",
+  "capacidad": "flujo",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md",
+  "spec_sha256": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T18:01:02+00:00",
+    "documentos": {
+      "openspec/changes/20261016-175720-bloqueo-registro/proposal.md": "d35242024fc4571f4b1023b4350a0f6fc9f8bcb7b6e01c1516706bf9ad18fcc2",
+      "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e"
+    }
+  },
+  "requisitos": [
+    "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/informe.json",
+    "sha256": "b711645435697a5a1f0b7c72c327f09aa9562653671abc88e12d701f6eb77250",
+    "decisiones": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/decisiones.json",
+    "decisiones_sha256": "75f1d3668adec3d54abefb12b345ad6e6f33d7a7196042206bc7f297f3c518d1",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T19:55:16+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 marcó un alto y tres medios (la primera escritura sin leer no quedaba protegida, un archivo borrado daba un error crudo, bl2 no enfrentaba dos escrituras de Factory) y la 2 un medio (bl1 no aislaba la lectura), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la 3 no encontró nada; quedan bajas de la vuelta 2 sobre el alcance del catálogo, el sensor y el flock en carpetas compartidas",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d9c38661e3fa22d05b01dbdd565c4f194efa4e1c",
+      "archivos_sha256": "102924ffcfd68fcd578283036d3e11dd8b26724eca53aea88a248e07bda78fac"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/f72807d/evidencia/hechos.json",
+    "hechos_sha256": "cdb2f9f00a843b648b4791c7353b2c5092c405ce347534ee9c9a94df32fc9557",
+    "informe": ".factory/cambios/20261016-175720-bloqueo-registro/oracle-veredicto.txt",
+    "informe_sha256": "104d401eb48231f477d0b57d3ba7dded4bc687abe86bc7ec634767a32088fc92",
+    "cuando": "2026-10-16T19:55:29+00:00",
+    "contexto": {
+      "head": "bb5460cd5b8fcd5fc72a6df041976a3272e6b9a4",
+      "archivos_sha256": "102924ffcfd68fcd578283036d3e11dd8b26724eca53aea88a248e07bda78fac"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T17:57:20+00:00",
+      "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T18:01:02+00:00",
+      "documentos": {
+        "openspec/changes/20261016-175720-bloqueo-registro/proposal.md": "d35242024fc4571f4b1023b4350a0f6fc9f8bcb7b6e01c1516706bf9ad18fcc2",
+        "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T18:01:15+00:00",
+      "ids": [
+        "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T18:05:12+00:00",
+      "requisito": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "medidas": [
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+        "factory_bloqueo.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T18:07:00+00:00",
+      "requisito": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "medidas": [
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+        "factory_bloqueo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:12:30+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "8b84fcc",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:28:51+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "8b84fcc",
+      "resultado": "ok",
+      "hallazgos": 7
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:37:07+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d1b1f6e",
+      "resultado": "ok",
+      "hallazgos": 3
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:50:05+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d1b1f6e",
+      "resultado": "ok",
+      "hallazgos": 4
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:57:31+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "f72807d",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T19:12:22+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f72807d",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T19:12:33+00:00",
+      "decision": "aprobar",
+      "candidato": "f72807d"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T19:55:16+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b711645435697a5a1f0b7c72c327f09aa9562653671abc88e12d701f6eb77250",
+      "decisiones_sha256": "75f1d3668adec3d54abefb12b345ad6e6f33d7a7196042206bc7f297f3c518d1"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T19:55:29+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "cdb2f9f00a843b648b4791c7353b2c5092c405ce347534ee9c9a94df32fc9557"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T19:57:50+00:00",
+      "oracle": ".factory/cambios/20261016-175720-bloqueo-registro/oracle-veredicto.txt",
+      "revision": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T19:57:50+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
+    }
+  ],
+  "tipos": {
+    "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "funcional"
+  },
+  "medidas": {
+    "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-16T18:07:00+00:00",
+      "sha256": "246ed6e74a5e3cc81d0d23d7efb17ed91f398bfb6a9562b6be82a4ddb53a2ac6",
+      "catalogos": {
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "35c194f8cb0a69d58716db979db50caaa2ed7407f84a645e4b9dab6a3ca6f8ae",
+        "factory_bloqueo.corrida_completa": "8d53208f3309e5c84ba2624412d3cfc4f059423f3bef928fd9bc745db8b2d4b2"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "catalogos/factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.oracle",
+        "factory_bloqueo.corrida_completa": "catalogos/factory_bloqueo.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T19:57:50+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-10-16T19:57:50+00:00"
+  }
+}

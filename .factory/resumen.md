@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:b0779cc995d34d1667b965ff6007d4546759b6d10db8439a1ad7a3c9879575b9 -->
+<!-- oracle-factory resumen sha256:89892d859edce8a1cbd4f44e6f8c86e00de4b28748ea66b3c849d1bb0b615603 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 130 requisitos vigentes · 1 cambio abierto
+18 capacidades · 131 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -108,6 +108,7 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
 |---|---|---|---|---|---|
 | un valor del registro que no es una ruta se informa sin caerse | funcional | `flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse` | factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse, factory_informe.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-114832-informe-no-texto |
+| dos procesos que escriben el mismo registro no se pisan | funcional | `flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan` | factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan, factory_bloqueo.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-175720-bloqueo-registro |
 
 ### ide
 
@@ -644,6 +645,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261016-143020-revisar-cancelada) codex (gpt-6-luna): No corrí la suite completa ni el sensor verify_revisar_cancelada.py.
 - (20261016-143020-revisar-cancelada) codex (gpt-6-luna): No muté el checkout ni ejecuté una mutación en copia; el defecto informado surge del flujo de excepciones descrito en la evidencia.
 - (20261016-143020-revisar-cancelada) codex (gpt-6-luna): Revisé los cuatro informes previos: el falso aviso tras una revisión registrada y la vigencia de “sigue valiendo” están corregidos; la limitación CXL2-1 de la ventana comparar/reemplazar sigue declarada en el sensor y fuera del alcance indicado. La prueba rc_antes_de_mostrar usa preparar(), que deja un candidato existente sin informes, por lo que no reproduje agy-5 como defecto.
+- (20261016-175720-bloqueo-registro) Evidencia: Escenarios bl1–bl3 en repositorios temporales, Linux (fcntl.flock sobre la carpeta); bl1 y bl2 con un segundo proceso de Factory real, bl3 en un solo proceso. No cubre migrar ni sistemas de archivos de red, donde flock puede no valer entre máquinas.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas por el solicitante en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null (4 pruebas pasadas en 1.518s).
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): No se ejecutó la suite completa del repositorio ni tools/verify_bloqueo_registro.py para respetar la directiva explícita de no correr la suite completa.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): El checkout del candidato f72807d se mantuvo estrictamente en modo solo lectura; todas las sondas, scripts y análisis de mutaciones se ejecutaron en copias aisladas dentro de la carpeta del revisor (/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisores/f72807d-agy-1).
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo agy-1 de la vuelta 2: en tests/test_bloqueo_registro.py se agregó f.LEIDOS.clear() en test_bl1 y test_bl2, aislando la lectura previa de nuevo() como si fuera un proceso nuevo. La mutación M7 (quitar la asignación LEIDOS[archivo] = datos en leer()) ahora MUERE efectivamente con fallas en test_bl1 y test_bl2.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Se repitió la batería de mutaciones manuales sobre el código en la carpeta del revisor: M1 (eliminar flock: MUERTA por test_bl2), M2 (reemplazar LOCK_EX por LOCK_SH: MUERTA por test_bl2), M3 (mover os.replace fuera del try/finally flock: MUERTA por test_bl2), M4 (eliminar actualización de LEIDOS en guardar: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M5 (eliminar captura de FileNotFoundError en escribir_atomico: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M6 (guardar siempre con esperado=None: MUERTA por test_bl1, test_bl1_una_escritura... y test_bl2), M7 (leer sin registrar en LEIDOS: MUERTA por test_bl1 y test_bl2), M8 (flock sólo si esperado no es None: sobrevive a los tests, pero la implementación mantiene flock incondicional), M9 (eliminar actualización de LEIDOS en escribir_atomico: sobrevive a la suite actual porque test_bl3 usa guardar y no medir/revisar_guiado, pero la implementación conserva la actualización preventiva), M10 (flock sobre archivo en lugar de carpeta: MUERTA por test_bl2).
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Se revisaron estáticamente los 3 escenarios de la spec contra el código y las pruebas: bl1 y bl2 usan un segundo proceso real mediante subprocesos aislados (otro_proceso) y verifican respectivamente la colisión entre lectura y escritura y la contención concurrente entre comparación y reemplazo bajo flock; bl3 verifica escrituras secuenciales múltiples en el mismo proceso sin colisión.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Se verificaron los puntos de atención señalados por el solicitante: las escrituras ordinarias del registro factory.json pasan uniformemente por guardar() o escribir_atomico(..., esperado=...); migrar() queda fuera de alcance según proposal.md; la resolución de rutas mediante ruta_registro(carpeta) es consistente (carpeta.name sobre ROOT) sin discrepancias entre lectura y guardado; no hay interbloqueos ya que fcntl.flock en escribir_atomico se libera inmediatamente en el bloque finally al cerrar el descriptor de la carpeta; y la creación de registros inexistentes con esperado=None opera de forma segura sin disparar falsos positivos de cambio.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): Las observaciones de severidad baja reportadas en la vuelta 2 (el alcance textual del catálogo factory_bloqueo.dos_procesos... sobre bl3, el alcance amplio del sensor verify_bloqueo_registro.py que descubre toda la suite, y el flock sobre carpetas compartidas del proyecto en escribir_atomico) están asignadas a decisión de la persona responsable según el protocolo del proyecto; no se encontraron hallazgos nuevos ni regresiones en esta vuelta 3, por lo que findings se declara vacía.
+- (20261016-175720-bloqueo-registro) agy (gemini-3.8-flash-high): No se probaron sistemas de archivos de red (NFS/CIFS) ni sistemas operativos distintos de Linux, de acuerdo con los límites declarados del cambio.
+- (20261016-175720-bloqueo-registro) codex (gpt-6-luna): Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null; pasó con 4 tests.
+- (20261016-175720-bloqueo-registro) codex (gpt-6-luna): No ejecuté la suite completa, tools/verify_bloqueo_registro.py ni Oracle.
+- (20261016-175720-bloqueo-registro) codex (gpt-6-luna): No ejecuté mutaciones sobre una copia.
+- (20261016-175720-bloqueo-registro) codex (gpt-6-luna): La revisión de código abarcó el diff y los contextos del paquete, además de rutas de escritura en oracle_factory/. Los archivos excluidos por el paquete no se revisaron.
+- (20261016-175720-bloqueo-registro) codex (gpt-6-luna): No reabrí como hallazgos las observaciones bajas de vuelta 2 reservadas a decisión humana. La revisión estática no encontró interbloqueos ni esperas sin fin en los flujos vistos.
 
 ### Históricos
 

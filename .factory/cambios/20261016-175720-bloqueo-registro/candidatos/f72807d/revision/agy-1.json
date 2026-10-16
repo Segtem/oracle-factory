@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisiones/f72807d",
+  "base": "3ea53c51e2baa7e5b1ed822f4b87a9355534144b",
+  "head": "f72807d1217dc8d646dc0cf31614239fcce453d9",
+  "diff_sha256": "dc96327ac4bd09c26ede39d1ce0480240290811ae1172d4e52978883cff7d434",
+  "context_sha256": "44da82b8af6475b5652dee40de5d9d37b679e1831b68d2d483f75432d832fc19",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas por el solicitante en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null (4 pruebas pasadas en 1.518s).",
+    "No se ejecutó la suite completa del repositorio ni tools/verify_bloqueo_registro.py para respetar la directiva explícita de no correr la suite completa.",
+    "El checkout del candidato f72807d se mantuvo estrictamente en modo solo lectura; todas las sondas, scripts y análisis de mutaciones se ejecutaron en copias aisladas dentro de la carpeta del revisor (/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisores/f72807d-agy-1).",
+    "Se verificó la corrección del hallazgo agy-1 de la vuelta 2: en tests/test_bloqueo_registro.py se agregó f.LEIDOS.clear() en test_bl1 y test_bl2, aislando la lectura previa de nuevo() como si fuera un proceso nuevo. La mutación M7 (quitar la asignación LEIDOS[archivo] = datos en leer()) ahora MUERE efectivamente con fallas en test_bl1 y test_bl2.",
+    "Se repitió la batería de mutaciones manuales sobre el código en la carpeta del revisor: M1 (eliminar flock: MUERTA por test_bl2), M2 (reemplazar LOCK_EX por LOCK_SH: MUERTA por test_bl2), M3 (mover os.replace fuera del try/finally flock: MUERTA por test_bl2), M4 (eliminar actualización de LEIDOS en guardar: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M5 (eliminar captura de FileNotFoundError en escribir_atomico: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M6 (guardar siempre con esperado=None: MUERTA por test_bl1, test_bl1_una_escritura... y test_bl2), M7 (leer sin registrar en LEIDOS: MUERTA por test_bl1 y test_bl2), M8 (flock sólo si esperado no es None: sobrevive a los tests, pero la implementación mantiene flock incondicional), M9 (eliminar actualización de LEIDOS en escribir_atomico: sobrevive a la suite actual porque test_bl3 usa guardar y no medir/revisar_guiado, pero la implementación conserva la actualización preventiva), M10 (flock sobre archivo en lugar de carpeta: MUERTA por test_bl2).",
+    "Se revisaron estáticamente los 3 escenarios de la spec contra el código y las pruebas: bl1 y bl2 usan un segundo proceso real mediante subprocesos aislados (otro_proceso) y verifican respectivamente la colisión entre lectura y escritura y la contención concurrente entre comparación y reemplazo bajo flock; bl3 verifica escrituras secuenciales múltiples en el mismo proceso sin colisión.",
+    "Se verificaron los puntos de atención señalados por el solicitante: las escrituras ordinarias del registro factory.json pasan uniformemente por guardar() o escribir_atomico(..., esperado=...); migrar() queda fuera de alcance según proposal.md; la resolución de rutas mediante ruta_registro(carpeta) es consistente (carpeta.name sobre ROOT) sin discrepancias entre lectura y guardado; no hay interbloqueos ya que fcntl.flock en escribir_atomico se libera inmediatamente en el bloque finally al cerrar el descriptor de la carpeta; y la creación de registros inexistentes con esperado=None opera de forma segura sin disparar falsos positivos de cambio.",
+    "Las observaciones de severidad baja reportadas en la vuelta 2 (el alcance textual del catálogo factory_bloqueo.dos_procesos... sobre bl3, el alcance amplio del sensor verify_bloqueo_registro.py que descubre toda la suite, y el flock sobre carpetas compartidas del proyecto en escribir_atomico) están asignadas a decisión de la persona responsable según el protocolo del proyecto; no se encontraron hallazgos nuevos ni regresiones en esta vuelta 3, por lo que findings se declara vacía.",
+    "No se probaron sistemas de archivos de red (NFS/CIFS) ni sistemas operativos distintos de Linux, de acuerdo con los límites declarados del cambio."
+  ]
+}

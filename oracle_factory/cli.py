@@ -70,6 +70,7 @@ def dir_estado(carpeta: Path) -> Path:
 
 
 AVISADOS: set[str] = set()
+LEIDOS: dict[Path, bytes] = {}  # lo último que este proceso leyó o escribió de cada registro
 
 
 def leer(identificador: str) -> tuple[Path, dict]:
@@ -81,7 +82,8 @@ def leer(identificador: str) -> tuple[Path, dict]:
         AVISADOS.add(identificador)
         print(f"Aviso: el estado de {identificador} está en el lugar anterior a la fase 2 (openspec/changes/); "
               "oracle-factory migrar lo pasa a .factory/cambios/.", file=sys.stderr)
-    return carpeta, json.loads(archivo.read_text(encoding="utf-8"))
+    LEIDOS[archivo] = datos = archivo.read_bytes()
+    return carpeta, json.loads(datos.decode("utf-8"))
 
 
 def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
@@ -89,8 +91,9 @@ def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
     destino.parent.mkdir(parents=True, exist_ok=True)
     if destino.exists() and not os.access(destino, os.W_OK):  # el reemplazo atómico saltearía la protección del archivo
         raise FactoryError(f"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico")
-    escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),  # un corte no lo trunca
-                     esperado=esperado)
+    datos = (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    escribir_atomico(destino, datos, esperado=LEIDOS.get(destino) if esperado is None else esperado)  # un corte no lo trunca
+    LEIDOS[destino] = datos  # también si no se había leído: es la base de la próxima escritura
 
 
 def carpeta_relativa(carpeta: str) -> PurePosixPath | None:
@@ -2358,9 +2361,22 @@ def escribir_atomico(ruta: Path, datos: bytes, *, esperado: bytes | None = None)
         if ruta.exists():
             os.chmod(temporal, ruta.stat().st_mode & 0o777)
         ruta_segura(ruta)
-        if esperado is not None and ruta.read_bytes() != esperado:
-            raise FactoryError(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
-        os.replace(temporal, ruta)
+        # Comparar y reemplazar, sin que otro proceso de Factory escriba en la misma carpeta en el medio. El sistema
+        # suelta el bloqueo si el proceso muere, y no deja archivos.
+        carpeta = os.open(ruta.parent, os.O_RDONLY)
+        try:
+            fcntl.flock(carpeta, fcntl.LOCK_EX)
+            try:  # un archivo que otro borró o movió también cambió
+                cambio = esperado is not None and ruta.read_bytes() != esperado
+            except FileNotFoundError:
+                cambio = True
+            if cambio:
+                raise FactoryError(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
+            os.replace(temporal, ruta)
+        finally:
+            os.close(carpeta)
+        if ruta in LEIDOS:
+            LEIDOS[ruta] = datos
     finally:
         if temporal is not None and temporal.exists():
             temporal.unlink()

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisiones/8b84fcc",
+  "base": "3ea53c51e2baa7e5b1ed822f4b87a9355534144b",
+  "head": "8b84fccf1016174f009aa7dcf7ce87a9b51e17eb",
+  "diff_sha256": "35670564f662c90f2ecdf726669bb33e270d0152bcfa7b0f0ed966f8432a7392",
+  "context_sha256": "c81ba497ad4cc5daff0e24ab8a5bf9a89160b5b39ec597af5405fe0389af1796",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "BLQ-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Una primera escritura sin leer no queda protegida contra la siguiente",
+      "explanation": "`escribir_atomico` sólo actualiza `LEIDOS` cuando la ruta ya estaba en el diccionario. Si este proceso llama `guardar` antes de `leer`, la primera escritura pasa con `esperado=None` y la escritura exitosa no guarda sus bytes como base. Después de que otro proceso lea y guarde una versión nueva, el primer proceso vuelve a llamar `guardar`; como `LEIDOS.get(destino)` sigue devolviendo `None`, reemplaza esa versión sin detectar el cambio. Esto contradice la promesa de comparar contra lo último que el proceso leyó o escribió.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2373,
+        "end_line": 2373,
+        "side": "head"
+      },
+      "trigger": "En un proceso que usa la API de Factory: llamar `guardar(carpeta, estado)` cuando el registro todavía no está en `LEIDOS`; desde un segundo proceso Factory, leer y guardar una actualización; luego volver a llamar `guardar(carpeta, estado)` en el primero sin haber llamado `leer`. La segunda escritura del primero usa `esperado=None` y pisa la actualización concurrente.",
+      "evidence": "En `oracle_factory/cli.py:94-95`, `guardar` toma `LEIDOS.get(destino)` como esperado por defecto. En el diff, `escribir_atomico` actualiza el mapa sólo bajo `if ruta in LEIDOS` (línea 2373), así que una ruta que nunca se leyó permanece ausente después de escribirla. El unittest indicado pasó (3 tests, OK), pero bl3 siempre llama `leer` antes de escribir y no cubre esta secuencia.",
+      "related_requirement": "dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Revisión estática del flujo de `LEIDOS` y `guardar`; ejecutado el comando requerido `PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null` desde la raíz del checkout: 3 tests, OK. No ejecuté una reproducción adicional con dos procesos para este disparador."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí únicamente el comando unittest solicitado para `tests.test_bloqueo_registro`; pasó con 3 tests. No ejecuté la suite completa.",
+    "Leí la spec, el diff del paquete y revisé las rutas de escritura del registro en `oracle_factory/`; no hice mutaciones sobre copias.",
+    "No ejecuté `tools/verify_bloqueo_registro.py` ni Oracle. La revisión cubre el diff empaquetado y la prueba indicada; no cubre los archivos excluidos por el paquete."
+  ]
+}
