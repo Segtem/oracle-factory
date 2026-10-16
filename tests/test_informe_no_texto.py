@@ -10,8 +10,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_estructura as _estructura  # noqa: E402
 
 f = _estructura.f
-CAMPOS = [('revision', 'informe', 'informe de revisión'), ('revision', 'decisiones', 'decisiones de revisión'),
-          ('oracle', 'informe', 'informe Oracle'), ('oracle', 'hechos', 'hechos')]
+CAMPOS = [('revision', 'informe', 'sha256', 'informe de revisión'),
+          ('revision', 'decisiones', 'decisiones_sha256', 'decisiones de revisión'),
+          ('oracle', 'informe', 'informe_sha256', 'informe Oracle'), ('oracle', 'hechos', 'hechos_sha256', 'hechos')]
+# Lo que no es una ruta de texto, también lo que Python toma por falso (null es un campo ausente, como en una revisión libre).
+VALORES = (5, ['x'], {'a': 1}, 0, False, '', [], {}, 'a\x00b')
 
 
 class InformeNoTexto(unittest.TestCase):
@@ -21,22 +24,25 @@ class InformeNoTexto(unittest.TestCase):
     cambio_medido, cambio_juzgado = _estructura.Estructura.cambio_medido, _estructura.Estructura.cambio_juzgado
     sha7 = _estructura.Estructura.sha7
 
-    def poner(self, ident, gate, campo, valor):
+    def poner(self, ident, gate, campo, valor, sin_huella=None):
         registro = self.root / '.factory/cambios' / ident / 'factory.json'
         datos = json.loads(registro.read_text())
         datos[gate][campo] = valor
+        if sin_huella:
+            datos[gate].pop(sin_huella, None)
         registro.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + '\n')
 
     def comprobar(self, ident, gate, etiqueta):
         pendientes = f.datos_estado(ident)['pendientes']
         self.assertIn(f'{etiqueta} no válido en el registro (no es una ruta de texto)', pendientes)
-        self.assertIn(ident, f.texto_resumen(None))
+        self.assertIn(f'{etiqueta} no válido en el registro', f.texto_resumen(None))
         self.assertIn('no_valido', {a['situacion'] for a in f.datos_donde(ident, None)['artefactos']})
         paso = f.pasos(ident)[0]
         if gate == 'revision':
             self.assertRegex(paso, rf'^oracle-factory (pedir-revision|revisar) {ident}\b')
         else:
-            self.assertRegex(paso, rf'^oracle-factory juzgar {ident}\b')
+            # Los hechos del candidato siguen ahí: se juzgan sin pedir una ruta por completar.
+            self.assertEqual(paso, f'oracle-factory juzgar {ident}')
 
     def test_in1_un_informe_de_revision_que_es_un_numero(self):
         ident = self.cambio_juzgado()
@@ -54,12 +60,13 @@ class InformeNoTexto(unittest.TestCase):
         ident = self.cambio_juzgado()
         registro = self.root / '.factory/cambios' / ident / 'factory.json'
         original = registro.read_text()
-        for gate, campo, etiqueta in CAMPOS:
-            for valor in (5, ['x'], {'a': 1}):
-                with self.subTest(campo=f'{gate}.{campo}', valor=valor):
-                    registro.write_text(original)
-                    self.poner(ident, gate, campo, valor)
-                    self.comprobar(ident, gate, etiqueta)
+        for gate, campo, huella, etiqueta in CAMPOS:
+            for valor in VALORES:
+                for sin_huella in (None, huella):
+                    with self.subTest(campo=f'{gate}.{campo}', valor=valor, sin_huella=bool(sin_huella)):
+                        registro.write_text(original)
+                        self.poner(ident, gate, campo, valor, sin_huella)
+                        self.comprobar(ident, gate, etiqueta)
 
 
 if __name__ == '__main__':
