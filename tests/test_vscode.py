@@ -87,29 +87,76 @@ class Vscode(unittest.TestCase):
         self.assertEqual(self.vista(sin)['arbol'], [{'etiqueta': 'Esta carpeta no es un proyecto de Factory (no tiene '
                                                      '.factory/)', 'icono': 'info'}])
         falla = Path(self.tmp.name) / 'falla.sh'
-        falla.write_text('#!/bin/sh\necho "la CLI se rompió" >&2\nexit 3\n')
+        falla.write_text('#!/bin/sh\nprintf "Traceback (most recent call last):\\n  ...\\nla CLI se rompió\\n" >&2\nexit 3\n')
         falla.chmod(0o755)
         [nodo] = self.vista(comando=str(falla))['arbol']
         self.assertEqual((nodo['etiqueta'], nodo['icono']), ('Factory falló: la CLI se rompió', 'error'))
 
     def test_vs2_los_artefactos_de_un_cambio(self):
-        ident = self.cambio_medido()
-        (self.root / 'openspec/changes' / ident / 'design.md').unlink()
+        ident = self.cambio_juzgado()  # con carpetas de candidato, informe de revisión y veredicto
+        self.assertEqual(self.estado(ident)['oracle']['codigo'], 0)
         [cambio] = self.vista()['arbol']
+        self.assertEqual(next(h for h in cambio['hijos'] if h['etiqueta'].startswith('Veredicto'))['etiqueta'],
+                         'Veredicto: exitoso')
+        # Lo que falta: design.md y el informe de revisión, borrados.
+        (self.root / 'openspec/changes' / ident / 'design.md').unlink()
+        (self.root / self.estado(ident)['revision']['informe']).unlink()
+        [cambio] = self.vista()['arbol']
+        hijos = {h['etiqueta'].split(':')[0]: h for h in cambio['hijos']}
+        self.assertNotIn('abre', hijos['Revisión'])
+        self.assertEqual(hijos['Veredicto']['abre'], self.estado(ident)['oracle']['informe'])
+        filas = f.datos_donde(ident, None)['artefactos']
+        self.assertLessEqual({'existe', 'ausente'}, {a['situacion'] for a in filas})
         [artefactos] = [h for h in cambio['hijos'] if h['etiqueta'] == 'Artefactos']
-        filas = {a['ruta']: a for a in f.datos_donde(ident, None)['artefactos']}
         self.assertEqual(len(artefactos['hijos']), len(filas))
-        self.assertEqual(filas[f'openspec/changes/{ident}/design.md']['situacion'], 'ausente')
-        for nodo, (ruta, fila) in zip(artefactos['hijos'], filas.items()):
-            self.assertEqual(nodo['etiqueta'], ruta.split('/')[-1])
-            if fila['situacion'] in ('existe', 'historico'):
-                self.assertEqual(nodo['abre'], ruta)
-                self.assertTrue((self.root / ruta).is_file())
+        carpetas = 0
+        for nodo, fila in zip(artefactos['hijos'], filas):
+            ruta = self.root / fila['ruta']
+            self.assertEqual(nodo['etiqueta'], fila['ruta'].split('/')[-1])
+            if fila['situacion'] in ('existe', 'historico') and ruta.is_file():
+                self.assertEqual((nodo.get('abre'), nodo['icono']), (fila['ruta'], 'file'))
+            elif fila['situacion'] in ('existe', 'historico') and ruta.is_dir():  # una carpeta se muestra, no se abre
+                self.assertEqual((nodo.get('muestra'), nodo['icono']), (fila['ruta'], 'folder'))
+                self.assertNotIn('abre', nodo)
+                carpetas += 1
             else:
                 self.assertNotIn('abre', nodo)
-                self.assertEqual((nodo['icono'], nodo['descripcion']), ('warning', f"{fila['gate']} · ausente"))
-        self.assertLessEqual({'proposal.md', 'spec.md', 'factory.json', 'revision.md'},
-                             {n['etiqueta'] for n in artefactos['hijos']})
+                self.assertNotIn('muestra', nodo)
+                self.assertEqual(nodo['icono'], 'warning')
+                self.assertIn(' · ', nodo['descripcion'])
+        self.assertGreater(carpetas, 0)
+        # Un valor no válido en el registro: donde lo marca (estado y resumen hoy no lo leen), y modelo.js no lo ofrece.
+        estado = f.datos_estado(ident)
+        registro = self.root / '.factory/cambios' / ident / 'factory.json'
+        datos = json.loads(registro.read_text())
+        datos['oracle']['informe'] = 5
+        registro.write_text(json.dumps(datos, ensure_ascii=False, indent=2) + '\n')
+        estado['oracle']['informe'] = 5
+        donde = f.datos_donde(ident, None)
+        self.assertIn('no_valido', {a['situacion'] for a in donde['artefactos']})
+        programa = ("const m = require(process.argv[1]); const fs = require('fs'), path = require('path');"
+                    "const [e, d, raiz] = JSON.parse(fs.readFileSync(0, 'utf8'));"
+                    "const tipo = r => { try { const s = fs.statSync(path.resolve(raiz, r));"
+                    " return s.isFile() ? 'archivo' : s.isDirectory() ? 'carpeta' : null; } catch (x) { return null; } };"
+                    "process.stdout.write(JSON.stringify(m.hijosCambio(e, d, 'oracle-factory', tipo)));")
+        r = subprocess.run([NODE, '-e', programa, str(EXTENSION / 'modelo.js')], capture_output=True, text=True,
+                           input=json.dumps([estado, donde, str(self.root)]))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        hijos = json.loads(r.stdout)
+        [veredicto] = [h for h in hijos if h['etiqueta'].startswith('Veredicto')]
+        self.assertNotIn('abrir', veredicto)
+        # Un informe vacío no es la carpeta del proyecto.
+        estado['revision']['informe'] = ''
+        r = subprocess.run([NODE, '-e', programa, str(EXTENSION / 'modelo.js')], capture_output=True, text=True,
+                           input=json.dumps([estado, donde, str(self.root)]))
+        [revision] = [h for h in json.loads(r.stdout) if h['etiqueta'].startswith('Revisión')]
+        self.assertFalse({'abrir', 'mostrar'} & set(revision))
+        [artefactos] = [h for h in hijos if h['etiqueta'] == 'Artefactos']
+        for nodo, fila in zip(artefactos['hijos'], donde['artefactos']):
+            if fila['situacion'] == 'no_valido':
+                self.assertEqual((nodo['icono'], nodo['descripcion']), ('warning', f"{fila['gate']} · no_valido"))
+                self.assertNotIn('abrir', nodo)
+                self.assertNotIn('mostrar', nodo)
 
     def test_vs3_un_paso_que_es_un_comando(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')
@@ -117,6 +164,9 @@ class Vscode(unittest.TestCase):
         [cambio] = vista['arbol']
         esperado = f'{self.cli} aprobar-spec {ident}'
         self.assertEqual((cambio['hijos'][0]['etiqueta'], cambio['hijos'][0]['contexto']), (esperado, 'paso'))
+        # Sin requisitos importados todavía, «Requisitos» no se despliega.
+        [requisitos] = [h for h in cambio['hijos'] if h['etiqueta'] == 'Requisitos']
+        self.assertEqual((requisitos['descripcion'], 'hijos' in requisitos), ('0', False))
         self.assertEqual(vista['terminal'], [{'terminal': 'Factory', 'cwd': str(self.root), 'texto': esperado,
                                               'enter': False}])
         self.assertIsNone(self.estado(ident).get('spec_aprobada'))  # escribirlo no lo decidió
@@ -126,6 +176,17 @@ class Vscode(unittest.TestCase):
         shutil.copy2(self.cli, otra)
         self.assertEqual([t['texto'] for t in self.vista(comando=str(otra))['terminal']],
                          [f"'{otra}' aprobar-spec {ident}"])
+        # Una ' en la ruta: lo que se escribe lo leen bien bash y fish (la persona lo ejecuta en su shell).
+        rara = Path(self.tmp.name) / "it's/oracle-factory"
+        rara.parent.mkdir()
+        shutil.copy2(self.cli, rara)
+        [texto] = [t['texto'] for t in self.vista(comando=str(rara))['terminal']]
+        self.assertEqual(texto, "'" + str(rara).replace("'", "'\\''") + f"' aprobar-spec {ident}")
+        for shell in ('bash', 'fish'):
+            if shutil.which(shell):
+                r = subprocess.run([shell, '-c', texto.replace(f' aprobar-spec {ident}', ' --version')],
+                                   capture_output=True, text=True, cwd=self.root)
+                self.assertEqual(r.returncode, 0, (shell, r.stderr))
 
     def test_vs3_un_paso_que_no_es_un_comando(self):
         ident = f.nuevo('Nota', con_ejemplo='notas')

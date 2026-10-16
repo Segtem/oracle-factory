@@ -27,6 +27,15 @@ function correr(raiz, args) {
     }));
 }
 
+function tipo(raiz) {
+    return ruta => {
+        try {
+            const s = fs.statSync(path.resolve(raiz, ruta));
+            return s.isFile() ? 'archivo' : s.isDirectory() ? 'carpeta' : null;
+        } catch (e) { return null; }
+    };
+}
+
 function aviso(etiqueta, icono, tooltip) {
     return [{etiqueta, icono, tooltip}];
 }
@@ -48,21 +57,24 @@ class Vista {
             if (!nodo) return modelo.raiz(await correr(raiz, ['resumen', '--json']));
             const [estado, donde] = await Promise.all([correr(raiz, ['estado', nodo.cambio, '--json']),
                                                        correr(raiz, ['donde', nodo.cambio, '--json'])]);
-            return modelo.hijosCambio(estado, donde, cli(raiz));
+            return modelo.hijosCambio(estado, donde, cli(raiz), tipo(raiz));
         } catch (e) {
-            return aviso(`Factory falló: ${e.message.split('\n')[0]}`, 'error', e.message);
+            // La última línea: la de un error de la CLI, o la de su traceback.
+            return aviso(`Factory falló: ${e.message.trim().split('\n').pop()}`, 'error', e.message);
         }
     }
 
     getTreeItem(nodo) {
         const C = vscode.TreeItemCollapsibleState;
-        const item = new vscode.TreeItem(nodo.etiqueta, nodo.hijos || nodo.cambio ? C.Collapsed : C.None);
+        const item = new vscode.TreeItem(nodo.etiqueta, (nodo.hijos && nodo.hijos.length) || nodo.cambio ? C.Collapsed : C.None);
         item.description = nodo.descripcion;
         item.tooltip = nodo.tooltip;
         if (nodo.icono) item.iconPath = new vscode.ThemeIcon(nodo.icono);
         if (nodo.comando) item.contextValue = 'paso';
         if (nodo.abrir) item.command = {command: 'vscode.open', title: 'Abrir',
-                                        arguments: [vscode.Uri.file(path.join(carpeta(), nodo.abrir))]};
+                                        arguments: [vscode.Uri.file(path.resolve(carpeta(), nodo.abrir))]};
+        else if (nodo.mostrar) item.command = {command: 'revealInExplorer', title: 'Mostrar en el explorador',
+                                               arguments: [vscode.Uri.file(path.resolve(carpeta(), nodo.mostrar))]};
         return item;
     }
 }

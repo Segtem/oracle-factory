@@ -1,13 +1,20 @@
 'use strict';
 // El árbol de la vista, armado sólo con la salida JSON de la CLI: sin `vscode`, para probarlo con node.
-// Un nodo: {etiqueta, descripcion?, tooltip?, icono?, abrir? (ruta relativa al proyecto), comando? (texto
-// para la terminal), hijos? (nodos), cambio? (id: los hijos se piden a la CLI al desplegarlo)}.
+// Un nodo: {etiqueta, descripcion?, tooltip?, icono?, abrir? (archivo, relativo al proyecto), mostrar? (carpeta),
+// comando? (texto para la terminal), hijos? (nodos), cambio? (id: los hijos se piden a la CLI al desplegarlo)}.
+// `tipo(ruta)` lo da la extensión: 'archivo', 'carpeta' o null (no está); sólo se ofrece lo que está.
 
 const PREFIJO = 'oracle-factory ';
 
 function citar(texto) {
-    // ponytail: comillas simples sin escapar una ' interna; alcanza para rutas de CLI comunes.
-    return /^[\w@%+=:,./-]+$/.test(texto) ? texto : `'${texto}'`;
+    // Entre comillas simples, con cada ' como '\'': lo leen igual bash, zsh y fish.
+    return /^[\w@%+=:,./-]+$/.test(texto) ? texto : `'${texto.replace(/'/g, "'\\''")}'`;
+}
+
+function abrible(ruta, tipo) {
+    if (typeof ruta !== 'string' || !ruta) return {};
+    const t = tipo(ruta);
+    return t === 'archivo' ? {abrir: ruta} : t === 'carpeta' ? {mostrar: ruta} : {};
 }
 
 // Un paso es un comando si empieza con la CLI; se reescribe con la que usa la extensión.
@@ -43,37 +50,38 @@ function requisito(r) {
             tooltip: r.id, icono: r.decision ? 'pass' : 'circle-outline', hijos};
 }
 
-function revision(rev) {
+function revision(rev, tipo) {
     if (!rev) return {etiqueta: 'Revisión: pendiente', icono: 'circle-outline'};
-    return {etiqueta: `Revisión: ${rev.decision}`, abrir: rev.informe || undefined,
+    return {etiqueta: `Revisión: ${rev.decision}`, ...abrible(rev.informe, tipo),
             descripcion: `${rev.hallazgos_abiertos} hallazgos abiertos${rev.vigente ? '' : ' · ya no vigente'}`,
-            tooltip: [rev.revisor, rev.informe].filter(Boolean).join('\n'), icono: rev.vigente ? 'eye' : 'warning'};
+            tooltip: [rev.revisor, rev.informe].filter(x => typeof x === 'string').join('\n'), icono: rev.vigente ? 'eye' : 'warning'};
 }
 
-function veredicto(oracle) {
+function veredicto(oracle, tipo) {
     if (!oracle) return {etiqueta: 'Veredicto: pendiente', icono: 'circle-outline'};
     const bien = oracle.codigo === 0;
-    return {etiqueta: `Veredicto: ${bien ? 'exitoso' : `código ${oracle.codigo}`}`, abrir: oracle.informe || undefined,
+    return {etiqueta: `Veredicto: ${bien ? 'exitoso' : `código ${oracle.codigo}`}`, ...abrible(oracle.informe, tipo),
             descripcion: oracle.vigente ? '' : 'ya no vigente', icono: bien && oracle.vigente ? 'pass' : 'error'};
 }
 
-function artefacto(a) {
-    const abre = a.situacion === 'existe' || a.situacion === 'historico';
-    return {etiqueta: a.ruta.split('/').pop(), descripcion: abre ? a.gate : `${a.gate} · ${a.situacion}`,
-            tooltip: [a.ruta, a.nota].filter(Boolean).join('\n'), abrir: abre ? a.ruta : undefined,
-            icono: abre ? 'file' : 'warning'};
+function artefacto(a, tipo) {
+    const destino = a.situacion === 'existe' || a.situacion === 'historico' ? abrible(a.ruta, tipo) : {};
+    const situacion = destino.abrir || destino.mostrar ? null : a.situacion === 'existe' ? 'ya no está' : a.situacion;
+    return {etiqueta: a.ruta.split('/').pop(), descripcion: situacion ? `${a.gate} · ${situacion}` : a.gate,
+            tooltip: [a.ruta, a.nota].filter(Boolean).join('\n'), ...destino,
+            icono: destino.abrir ? 'file' : destino.mostrar ? 'folder' : 'warning'};
 }
 
-function hijosCambio(estado, donde, cli) {
+function hijosCambio(estado, donde, cli, tipo) {
     const pasos = [estado.proximo_paso, ...(estado.alternativas || [])].filter(Boolean);
     return [
         ...pasos.map((p, i) => ({...paso(p, cli), descripcion: i ? 'alternativa' : 'próximo paso'})),
         {etiqueta: 'Requisitos', descripcion: String(estado.requisitos.length), icono: 'checklist',
          hijos: estado.requisitos.map(requisito)},
-        revision(estado.revision),
-        veredicto(estado.oracle),
+        revision(estado.revision, tipo),
+        veredicto(estado.oracle, tipo),
         {etiqueta: 'Artefactos', descripcion: String(donde.artefactos.length), icono: 'files',
-         hijos: donde.artefactos.map(artefacto)},
+         hijos: donde.artefactos.map(a => artefacto(a, tipo))},
     ];
 }
 

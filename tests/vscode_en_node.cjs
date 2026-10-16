@@ -41,7 +41,9 @@ async function desplegar(nodo) {
         const item = vista.getTreeItem(hijo);
         const fila = {etiqueta: item.label, descripcion: item.description, icono: item.iconPath && item.iconPath.id,
                       contexto: item.contextValue,
-                      abre: item.command ? path.relative(proyecto, item.command.arguments[0].fsPath) : undefined};
+                      [{'vscode.open': 'abre', revealInExplorer: 'muestra'}[item.command && item.command.command] || 'sin']:
+                          item.command ? path.relative(proyecto, item.command.arguments[0].fsPath) : undefined};
+        delete fila.sin;
         if (item.collapsibleState) fila.hijos = await desplegar(hijo);
         if (item.contextValue === 'paso') comandos['factory.escribirPaso'](hijo);
         salida.push(fila);
