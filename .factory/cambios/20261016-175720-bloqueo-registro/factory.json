@@ -81,6 +81,34 @@
         "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
         "factory_bloqueo.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:12:30+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "8b84fcc",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T18:28:51+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "8b84fcc",
+      "resultado": "ok",
+      "hallazgos": 7
     }
   ],
   "tipos": {

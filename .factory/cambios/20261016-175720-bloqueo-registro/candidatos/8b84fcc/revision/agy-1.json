@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisiones/8b84fcc",
+  "base": "3ea53c51e2baa7e5b1ed822f4b87a9355534144b",
+  "head": "8b84fccf1016174f009aa7dcf7ce87a9b51e17eb",
+  "diff_sha256": "35670564f662c90f2ecdf726669bb33e270d0152bcfa7b0f0ed966f8432a7392",
+  "context_sha256": "c81ba497ad4cc5daff0e24ab8a5bf9a89160b5b39ec597af5405fe0389af1796",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "guardar no registra lo escrito en LEIDOS si el archivo no fue leído previamente, permitiendo pisar cambios concurrentes",
+      "explanation": "En oracle_factory/cli.py:2373-2374, escribir_atomico actualiza la caché con `if ruta in LEIDOS: LEIDOS[ruta] = datos`. Si el registro de un cambio se escribe por primera vez o sin haber llamado previamente a leer() en ese proceso (por ejemplo tras f.nuevo() o al invocar f.guardar() sobre un registro recién creado), ruta no está en LEIDOS. En consecuencia, LEIDOS[ruta] nunca se guarda y LEIDOS queda vacío para esa ruta. Si otro proceso modifica factory.json y el primer proceso vuelve a llamar a guardar(), este calcula esperado = LEIDOS.get(destino), que resulta None. Al pasar esperado=None a escribir_atomico, se omite por completo la verificación de concurrencia y el proceso sobreescribe silenciosamente lo que escribió el otro proceso, pisando sus cambios sin lanzar ningún error. Esto incumple directamente el requisito funcional de la spec: «Cuando un proceso de Factory va a escribir el registro de un cambio y otro proceso lo cambió desde que el primero lo leyó o escribió por última vez, el primero SHALL NOT reemplazarlo».",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2373,
+        "end_line": 2374,
+        "side": "head"
+      },
+      "trigger": "Crear un cambio con nuevo() o llamar a guardar() sobre un registro no cargado previamente en LEIDOS; permitir que otro proceso modifique factory.json; luego llamar nuevamente a guardar() desde el primer proceso.",
+      "evidence": "Se verificó experimentalmente: tras f.guardar(carpeta, estado) sobre un registro nuevo, f.LEIDOS permanece vacío ({}); tras modificar el archivo en disco simulando otro proceso y llamar nuevamente a f.guardar(carpeta, estado), guardar() tiene éxito sin error y sobreescribe los cambios concurrentes. En tests/test_bloqueo_registro.py:72, test_bl3 enmascaró este fallo al forzar explícitamente f.leer(self.ident) inmediatamente después de f.nuevo().",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Registrar en LEIDOS el contenido escrito en guardar() o escribir_atomico aun cuando ruta no estuviera previamente en LEIDOS. Agregar una prueba donde un proceso crea un cambio, otro proceso escribe en su registro, y el primer proceso intenta guardar sin haber llamado a leer(), comprobando que se rechace con FactoryError."
+    },
+    {
+      "id": "agy-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "escribir_atomico lanza FileNotFoundError no controlado si el archivo a comparar fue borrado o no existe",
+      "explanation": "En oracle_factory/cli.py:2368, dentro del bloque protegido por flock, se ejecuta `if esperado is not None and ruta.read_bytes() != esperado:`. Si esperado no es None pero ruta no existe en el sistema de archivos (por ejemplo, si otro proceso o comando eliminó o movió el registro concurrentemente durante la operación), ruta.read_bytes() lanza un FileNotFoundError del sistema operativo. La excepción no es capturada como FactoryError ni informa de manera controlada que el archivo cambió durante la operación, interrumpiendo abruptamente el comando con un traceback no controlado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2368,
+        "end_line": 2369,
+        "side": "head"
+      },
+      "trigger": "Llamar a escribir_atomico(ruta, datos, esperado=...) cuando ruta ha sido eliminada o movida concurrentemente.",
+      "evidence": "Se confirmó experimentalmente ejecutando escribir_atomico sobre un archivo inexistente con esperado=b'previo': lanza FileNotFoundError: [Errno 2] No such file or directory en vez de FactoryError('el archivo cambió durante la operación').",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "En escribir_atomico, comprobar if not ruta.is_file() antes de leer cuando esperado is not None, o capturar FileNotFoundError y lanzar FactoryError(f'el archivo cambió durante la operación: {ruta}; volvé a leerlo')."
+    },
+    {
+      "id": "agy-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "test_bl2 no prueba la indivisibilidad real entre comparación y reemplazo frente a otro proceso Factory",
+      "explanation": "En tests/test_bloqueo_registro.py:47-70, test_bl2_otro_proceso_escribe_entre_la_comparacion_y_el_reemplazo no pone a competir dos operaciones de Factory. En su lugar, el subproceso 'otro' toma artificialmente un bloqueo exclusivo fcntl.flock(fd, fcntl.LOCK_EX) sobre la carpeta antes de que guardar() empiece, duerme 0.8s y escribe directo con open(ruta, 'w'). Esto provoca dos debilidades críticas demostradas por análisis de mutaciones: 1) Si en oracle_factory/cli.py se traslada os.replace(temporal, ruta) fuera del bloque try...finally de flock (separando comparación y reemplazo, que es exactamente la condición de carrera descrita en la propuesta), la prueba SOBREVIVE y sigue pasando en verde. 2) Si en cli.py:2367 se reemplaza fcntl.LOCK_EX por fcntl.LOCK_SH (bloqueo compartido que no excluye a otros escritores que usen la misma función), la prueba también SOBREVIVE porque el proceso ficticio usó LOCK_EX. Por ende, la prueba solo verifica que guardar espera ante un lock previo, pero no valida que la comparación y el reemplazo sean indivisibles frente a otro proceso Factory concurrente.",
+      "location": {
+        "file": "tests/test_bloqueo_registro.py",
+        "start_line": 47,
+        "end_line": 70,
+        "side": "head"
+      },
+      "trigger": "Mutar cli.py moviendo os.replace fuera del try/finally de flock o cambiando LOCK_EX por LOCK_SH; ejecutar tests.test_bloqueo_registro.",
+      "evidence": "Las mutaciones manuales M9 (mover os.replace fuera del bloque flock) y M6 (reemplazar LOCK_EX por LOCK_SH) sobrevivieron exitosamente la ejecución de tests.test_bloqueo_registro (Ran 3 tests in 1.369s, OK).",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Diseñar una prueba concurrente donde dos procesos usen f.guardar() sobre el mismo registro y se demuestre que el segundo proceso se bloquea y aborta debido a la atomicidad provista por el flock, y que la separación de os.replace cause que la prueba falle."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_bl3 no ejecuta un segundo proceso pese a lo declarado en el catálogo y los límites del sensor",
+      "explanation": "El alcance de la medida en catalogos/factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.oracle:8 afirma: «alcance: escenarios bl1 a bl3 en repositorios temporales, Linux, con un segundo proceso real». De igual modo, tools/verify_bloqueo_registro.py:25 declara en LIMITES: «Escenarios bl1–bl3... con un segundo proceso de Python real», y tests/test_bloqueo_registro.py:1 titula: «escenarios bl1–bl3, con un segundo proceso de verdad». Sin embargo, test_bl3_un_proceso_que_lee_y_escribe_varias_veces (líneas 71-90) se ejecuta exclusivamente en el proceso principal de prueba de forma monohilo y secuencial, sin iniciar nunca un segundo proceso con otro_proceso ni mediante subprocess. La declaración contractual de que los tres escenarios cuentan con un segundo proceso real es inexacta.",
+      "location": {
+        "file": "tests/test_bloqueo_registro.py",
+        "start_line": 71,
+        "end_line": 90,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar tests/test_bloqueo_registro.py:71-90.",
+      "evidence": "En tests/test_bloqueo_registro.py, las llamadas a self.otro_proceso ocurren únicamente en test_bl1 (línea 34) y test_bl2 (línea 51). En test_bl3 no existe ninguna invocación a otro_proceso ni concurrencia externa.",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Aclarar en el alcance del catálogo, en los límites de verify_bloqueo_registro.py y en el docstring del módulo que el segundo proceso real aplica a los escenarios bl1 y bl2, mientras que bl3 verifica la consistencia monoproceso de escrituras sucesivas."
+    },
+    {
+      "id": "agy-5",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "escribir_atomico bloquea carpetas compartidas del proyecto ajenas al cambio",
+      "explanation": "En oracle_factory/cli.py:2365-2367, escribir_atomico toma fcntl.flock incondicionalmente sobre ruta.parent. Para factory.json esto bloquea .factory/cambios/<ID>, pero escribir_atomico es un helper de uso general en cli.py utilizado también para escribir: 1) ROOT / 'requisitos' / f'{requisito_id}.requisito' en medir (línea 2771, bloquea la carpeta global requisitos/), 2) ROOT / '.factory' / 'resumen.json' y resumen.md (líneas 1756 y 1768, bloquea .factory/), 3) ROOT / '.factory' / 'config.json' (línea 2293, bloquea .factory/), y 4) openspec/specs/<capacidad>/spec.md y .factory/specs/<capacidad>.json (líneas 1657 y 1658). Al bloquear carpetas compartidas por todo el proyecto, operaciones concurrentes sobre cambios completamente distintos se serializan innecesariamente, e interrupciones en dichas carpetas pueden afectar flujos globales.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2365,
+        "end_line": 2367,
+        "side": "head"
+      },
+      "trigger": "Ejecutar concurrentemente dos comandos Factory sobre cambios distintos que escriban requisitos (medir) o resúmenes.",
+      "evidence": "Llamadas a escribir_atomico en cli.py en líneas 1756, 1768, 2293 y 2771 donde ruta.parent es .factory o requisitos.",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Limitar el bloqueo de directorio por flock exclusivamente a carpetas individuales de cambios (.factory/cambios/<ID>), o parametrizar escribir_atomico para que solo bloquee la carpeta cuando se le solicite explícitamente para el registro del cambio."
+    },
+    {
+      "id": "agy-6",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.88,
+      "title": "Redacción ambigua sobre reintento automático en docs/colaboracion.md",
+      "explanation": "En docs/colaboracion.md:92 se incorporó la afirmación: «Si dos comandos de Factory escriben el registro del mismo cambio a la vez, el segundo no pisa al primero: dice «el archivo cambió durante la operación; volvé a leerlo» y se vuelve a correr». La formulación «y se vuelve a correr» puede interpretarse equívocamente como que Factory reintenta la operación de forma automática y transparente, cuando en realidad el comando falla con FactoryError y es la persona o su agente quien debe reejecutarlo manualmente, tal como especifica proposal.md («el segundo que escribe recibe el error y vuelve a correr su comando»).",
+      "location": {
+        "file": "docs/colaboracion.md",
+        "start_line": 92,
+        "end_line": 92,
+        "side": "head"
+      },
+      "trigger": "Lectura de la sección 3 en docs/colaboracion.md.",
+      "evidence": "Texto en docs/colaboracion.md:92: «y se vuelve a correr». En proposal.md: «el segundo que escribe recibe el error y vuelve a correr su comando».",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Clarificar en docs/colaboracion.md que el comando falla con error y que quien lo ejecutó debe volver a correrlo manualmente tras volver a leer el registro."
+    },
+    {
+      "id": "agy-7",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "verify_bloqueo_registro.py ejecuta toda la suite de pruebas del repositorio en vez de aislar test_bloqueo_registro",
+      "explanation": "En tools/verify_bloqueo_registro.py:45, el arnés de evidencia del contrato ejecuta unittest.defaultTestLoader.discover(str(ROOT / 'tests')), descubriendo y corriendo la totalidad de pruebas del repositorio. Para declarar ok = True (línea 50), el sensor exige result.wasSuccessful(), lo que hace que la generación de hechos y evidencia de bloqueo-registro dependa del éxito de cientos de pruebas ajenas a este cambio. Además, en la línea 56 lee directamente (ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text() presuponiendo la estructura migrada sin pasar por los helpers de lectura.",
+      "location": {
+        "file": "tools/verify_bloqueo_registro.py",
+        "start_line": 45,
+        "end_line": 45,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/verify_bloqueo_registro.py cuando algún test no relacionado en tests/ presente una falla transitoria o de entorno.",
+      "evidence": "En tools/verify_bloqueo_registro.py:45, discover(str(ROOT / 'tests')) carga todos los tests/*.py en lugar de suite.loadTestsFromName('tests.test_bloqueo_registro').",
+      "related_requirement": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "status": "pendiente",
+      "verification": "Cargar en la suite de verify_bloqueo_registro únicamente el módulo tests.test_bloqueo_registro para desacoplar el contrato de bloqueo del resto del repositorio."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas por el solicitante en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null (3 pruebas pasadas en 1.359s).",
+    "No se ejecutó la suite completa del repositorio ni tools/verify_bloqueo_registro.py para respetar la directiva explícita de no correr la suite completa.",
+    "El checkout del candidato 8b84fcc se mantuvo estrictamente en modo solo lectura; todas las sondas, scripts y análisis de mutaciones se ejecutaron en copias aisladas dentro de la carpeta del revisor (/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisores/8b84fcc-agy-1).",
+    "Se realizaron análisis de mutaciones manuales sobre el código: M1 (eliminar flock: muerto por test_bl2), M2 (eliminar actualización de LEIDOS en escribir_atomico: muerto por test_bl3), M3 (guardar sin pasar esperado: muerto por test_bl1 y test_bl2), M4 (leer sin actualizar LEIDOS: muerto por test_bl1 y test_bl2), M5 (eliminar flock y aserción de tiempo: muerto), M6 (reemplazar LOCK_EX por LOCK_SH en escribir_atomico: SOBREVIVIÓ a las pruebas), M7 (flock sobre archivo en vez de carpeta: muerto por test_bl2), M8 (flock solo si esperado no es None: SOBREVIVIÓ a las pruebas), M9 (mover os.replace fuera del bloque flock: SOBREVIVIÓ a las pruebas).",
+    "Se comprobó experimentalmente el comportamiento ante archivos nuevos y archivos borrados, confirmando que la omisión de registrar en LEIDOS tras escrituras sin lectura previa permite sobreescrituras concurrentes no detectadas, y que escribir_atomico con esperado sobre un archivo borrado lanza FileNotFoundError no capturado.",
+    "No se probaron sistemas de archivos de red (NFS/CIFS) donde flock puede presentar semánticas distintas ni sistemas operativos distintos de Linux."
+  ]
+}

@@ -22,8 +22,8 @@ CONTRACTS = {
         'bl3_un_proceso_que_lee_y_escribe_varias_veces'],
 }
 PREFIX = 'test_bloqueo_registro.BloqueoRegistro.test_'
-LIMITES = ('Escenarios bl1–bl3 en repositorios temporales, Linux (fcntl.flock sobre la carpeta), con un segundo proceso de '
-           'Python real. No cubre migrar ni sistemas de archivos de red, donde flock puede no valer entre máquinas.')
+LIMITES = ('Escenarios bl1–bl3 en repositorios temporales, Linux (fcntl.flock sobre la carpeta); bl1 y bl2 con un segundo '
+           'proceso de Factory real, bl3 en un solo proceso. No cubre migrar ni sistemas de archivos de red, donde flock puede no valer entre máquinas.')
 
 
 def fuentes():

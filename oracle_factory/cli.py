@@ -91,8 +91,9 @@ def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
     destino.parent.mkdir(parents=True, exist_ok=True)
     if destino.exists() and not os.access(destino, os.W_OK):  # el reemplazo atómico saltearía la protección del archivo
         raise FactoryError(f"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico")
-    escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),  # un corte no lo trunca
-                     esperado=LEIDOS.get(destino) if esperado is None else esperado)
+    datos = (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
+    escribir_atomico(destino, datos, esperado=LEIDOS.get(destino) if esperado is None else esperado)  # un corte no lo trunca
+    LEIDOS[destino] = datos  # también si no se había leído: es la base de la próxima escritura
 
 
 def carpeta_relativa(carpeta: str) -> PurePosixPath | None:
@@ -2365,7 +2366,11 @@ def escribir_atomico(ruta: Path, datos: bytes, *, esperado: bytes | None = None)
         carpeta = os.open(ruta.parent, os.O_RDONLY)
         try:
             fcntl.flock(carpeta, fcntl.LOCK_EX)
-            if esperado is not None and ruta.read_bytes() != esperado:
+            try:  # un archivo que otro borró o movió también cambió
+                cambio = esperado is not None and ruta.read_bytes() != esperado
+            except FileNotFoundError:
+                cambio = True
+            if cambio:
                 raise FactoryError(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
             os.replace(temporal, ruta)
         finally:

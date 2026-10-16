@@ -1,4 +1,4 @@
-"""Dos procesos que escriben el mismo registro no se pisan: escenarios bl1–bl3, con un segundo proceso de verdad."""
+"""Dos procesos que escriben el mismo registro no se pisan: escenarios bl1–bl3; bl1 y bl2 con un segundo proceso de verdad."""
 import json
 import os
 from pathlib import Path
@@ -46,29 +46,50 @@ class BloqueoRegistro(unittest.TestCase):
     def test_bl2_otro_proceso_escribe_entre_la_comparacion_y_el_reemplazo(self):
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
         carpeta, estado = f.leer(self.ident)
-        destino = f.ruta_registro(carpeta)
-        # El otro tiene tomada la carpeta del registro y lo escribe justo antes de soltarla.
-        otro = self.otro_proceso(f'''
-            fd = os.open({str(destino.parent)!r}, os.O_RDONLY)
-            fcntl.flock(fd, fcntl.LOCK_EX)
-            print('tomada', flush=True)
-            time.sleep(0.8)
-            ruta = {str(destino)!r}
-            datos = json.load(open(ruta))
-            datos['del_otro'] = 1
-            open(ruta, 'w').write(json.dumps(datos))
-            os.close(fd)
+        # El otro guarda con Factory, y se demora justo entre su comparación y su reemplazo.
+        otro = self.otro_proceso('''
+            reemplazar = os.replace
+            def lento(origen, destino):
+                print('comparado', flush=True)
+                time.sleep(0.8)
+                reemplazar(origen, destino)
+            os.replace = lento
+            c, e = f.leer(ident)
+            e['del_otro'] = 1
+            f.guardar(c, e)
         ''')
-        self.assertEqual(otro.stdout.readline().strip(), 'tomada')
+        self.assertEqual(otro.stdout.readline().strip(), 'comparado')
         estado['de_este'] = 1
         inicio = time.monotonic()
         with self.assertRaisesRegex(f.FactoryError, 'el archivo cambió durante la operación'):
             f.guardar(carpeta, estado)
-        self.assertGreater(time.monotonic() - inicio, 0.3)  # esperó a que el otro soltara la carpeta
+        self.assertGreater(time.monotonic() - inicio, 0.3)  # esperó a que el otro terminara de reemplazar
         _, errores = otro.communicate(timeout=60)
         self.assertEqual(otro.returncode, 0, errores)
         registro = self.registro()
         self.assertEqual((registro.get('del_otro'), registro.get('de_este')), (1, None))
+
+    def test_bl1_una_escritura_sin_leer_antes_tambien_cuenta(self):
+        # Lo que el proceso escribió sin haber leído es su base para la próxima escritura.
+        self.ident = f.nuevo('Nota', con_ejemplo='notas')
+        carpeta, estado = f.leer(self.ident)
+        f.LEIDOS.clear()
+        f.guardar(carpeta, estado)  # escribe sin haber leído en este proceso
+        otro = self.otro_proceso('''
+            c, e = f.leer(ident)
+            e['del_otro'] = 1
+            f.guardar(c, e)
+        ''')
+        _, errores = otro.communicate(timeout=60)
+        self.assertEqual(otro.returncode, 0, errores)
+        estado['de_este'] = 1
+        with self.assertRaisesRegex(f.FactoryError, 'el archivo cambió durante la operación'):
+            f.guardar(carpeta, estado)
+        self.assertEqual(self.registro().get('del_otro'), 1)
+        # Y si otro lo borró, también es un archivo que cambió, no un error del sistema.
+        f.ruta_registro(carpeta).unlink()
+        with self.assertRaisesRegex(f.FactoryError, 'el archivo cambió durante la operación'):
+            f.guardar(carpeta, estado)
 
     def test_bl3_un_proceso_que_lee_y_escribe_varias_veces(self):
         self.ident = f.nuevo('Nota', con_ejemplo='notas')
