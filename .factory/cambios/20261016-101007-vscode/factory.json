@@ -58,6 +58,48 @@
         "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
         "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+      "medidas": [
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "medidas": [
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:51+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "medidas": [
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos": {
+      "sha256": "a4828be0934b565f5eb64a590d545d0bdeaac0f3ae43ac702d02741da2fbeeac",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "catalogos": {
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos": "24d77a2fe77e5d46f37cd798dee8bb99164c080915a9d6c482681b650068fb3c",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos": "catalogos/factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista": {
+      "sha256": "1aafc869203216eff5cd90ba555b18030fb29c4bd384f6386b57f7453253d1c0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "catalogos": {
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "190faf5515308482f670bab53b871bfc162b507ba5b2a8eaaedf7ec7f89b9f82",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "catalogos/factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": {
+      "sha256": "848487a892b49ed83b4ccd9a65c81924dd8da458f660f6de05995c609fb23dc1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T10:24:51+00:00",
+      "catalogos": {
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": "711ac58e27b83c357bccd258312cdf35e4b4fa57c0db9be479d1520a668b23cd",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": "catalogos/factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    }
+  }
 }

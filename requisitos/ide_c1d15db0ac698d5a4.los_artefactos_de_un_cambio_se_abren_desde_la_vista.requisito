@@ -1,4 +1,4 @@
 requisito ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista:
     texto "Tipo: funcional Bajo cada cambio, la vista SHALL listar los artefactos de `donde ID --json` con su gate y abrir el archivo al elegirlo; un artefacto ausente o no válido SHALL verse marcado y SHALL NOT ofrecer abrirse."
     fuente "openspec/changes/20261016-101007-vscode/specs/ide/spec.md#los artefactos de un cambio se abren desde la vista"
-    sin_medir "sin medida todavía; escenarios: «los artefactos de un cambio»"
+    medido_por factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista, factory_vscode.corrida_completa
