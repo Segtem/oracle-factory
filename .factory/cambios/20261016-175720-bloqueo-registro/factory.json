@@ -2,7 +2,7 @@
   "id": "20261016-175720-bloqueo-registro",
   "titulo": "Dos procesos que escriben el mismo registro no se pisan",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md",
   "spec_sha256": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e",
   "spec_aprobada": {
@@ -232,6 +232,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "cdb2f9f00a843b648b4791c7353b2c5092c405ce347534ee9c9a94df32fc9557"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T19:57:50+00:00",
+      "oracle": ".factory/cambios/20261016-175720-bloqueo-registro/oracle-veredicto.txt",
+      "revision": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T19:57:50+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -256,5 +276,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T19:57:50+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-10-16T19:57:50+00:00"
+  }
 }
