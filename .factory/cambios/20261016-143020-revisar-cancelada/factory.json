@@ -2,7 +2,7 @@
   "id": "20261016-143020-revisar-cancelada",
   "titulo": "estado avisa cuando una revisión no se pudo registrar y por qué",
   "capacidad": "revision-guiada",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md",
   "spec_sha256": "ae37d8dadeeca81722ddc659bddecdf4627a0854ef84c180a0028c9b0d26dc76",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "7b4098c2390f8199d5c1ba4cb69931c3cbd3694e9d98bdd13740e1aa2bdeaaca"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-143020-revisar-cancelada/candidatos/bf77a11/evidencia/hechos.json",
+    "hechos_sha256": "244ea0fb659f66924a9bd2c6748f8508293c87a8c996723cec26d08236911266",
+    "informe": ".factory/cambios/20261016-143020-revisar-cancelada/oracle-veredicto.txt",
+    "informe_sha256": "fa24105dcd8e63b4172a901e07088af803f49552704abc8a295498955d42aac8",
+    "cuando": "2026-10-16T16:07:47+00:00",
+    "contexto": {
+      "head": "517e125e2bcb61d2103fc320632f45b56d47d951",
+      "archivos_sha256": "7b4098c2390f8199d5c1ba4cb69931c3cbd3694e9d98bdd13740e1aa2bdeaaca"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -209,6 +221,17 @@
       "abiertos": 0,
       "sha256": "358a2bc2447401b51d52cab898d2394ae07fe85466ac81f99caf1d5d83d71582",
       "decisiones_sha256": "f476adda5c26260375614ba51d46de2a89bea1da3e1c8fb3ab5e7b358ee560e4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T16:07:47+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "244ea0fb659f66924a9bd2c6748f8508293c87a8c996723cec26d08236911266"
     }
   ],
   "tipos": {
