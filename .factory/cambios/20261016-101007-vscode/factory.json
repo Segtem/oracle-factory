@@ -195,6 +195,16 @@
       "candidato": "e777806",
       "resultado": "ok",
       "hallazgos": 3
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T11:30:41+00:00",
+      "decision": "aprobar",
+      "candidato": "e777806"
     }
   ],
   "tipos": {
@@ -252,5 +262,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)",
+      "candidato": "e777806",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T11:30:41+00:00"
+    }
+  }
 }

@@ -1,0 +1,36 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": null,
+  "actor": null,
+  "motivo": null,
+  "decisiones": [
+    {
+      "hallazgo_id": "test-vs1-no-prueba-proyecto-sin-cambios-abiertos",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    },
+    {
+      "hallazgo_id": "test-vs1-no-prueba-veredicto-fallido-ni-vigencia",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    },
+    {
+      "hallazgo_id": "doble-vscode-ejecuta-inline-automaticamente",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    },
+    {
+      "hallazgo_id": "R2-01",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    }
+  ]
+}
