@@ -137,6 +137,16 @@
       "candidato": "7198e8b",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T12:37:56+00:00",
+      "decision": "aprobar",
+      "candidato": "7198e8b"
     }
   ],
   "tipos": {
@@ -160,5 +170,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy: la vuelta 1 marcó un alto y tres medios (valores 0, False, \"\", [] y {} que se saltaban el chequeo; una revisión libre con decisiones [] seguía vigente) y dos bajos, todos corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la vuelta 2 los dos corrieron las pruebas del candidato y no encontraron nada",
+      "candidato": "7198e8b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T12:37:56+00:00"
+    }
+  }
 }
