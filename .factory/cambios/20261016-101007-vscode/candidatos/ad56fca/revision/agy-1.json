@@ -1,0 +1,154 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vscode/.factory/local/revisiones/ad56fca",
+  "base": "d6b0d4e9ca7e6ad86c84b120fb7963a6e1bfd211",
+  "head": "ad56fcaa2deba2e7aa91794d730489368fb83974",
+  "diff_sha256": "7dfd4ed4a6c374017196006c43fb57e23f1e86c87c36ccee8a5a3edc266e5664",
+  "context_sha256": "0d57d7c2f02440e333d724d242d7c3dace0a70e4fc25f3c75e0c571d93683422",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "artefactos-carpetas-ofrecen-abrir",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "modelo.js ofrece abrir con vscode.open carpetas de candidatos listadas por donde como si fueran archivos",
+      "explanation": "La spec (Requirement: los artefactos de un cambio se abren desde la vista) exige: «Bajo cada cambio, la vista SHALL listar los artefactos de donde ID --json con su gate y abrir el archivo al elegirlo; un artefacto ausente o no válido SHALL verse marcado y SHALL NOT ofrecer abrirse». En Factory, donde ID --json lista las subcarpetas existentes del candidato (.factory/cambios/<ID>/candidatos/<sha>/evidencia, clue, revision) con gate: 'candidato' y situacion: 'existe'. En modelo.js (función artefacto, líneas 62-67), toda entrada con situacion === 'existe' fija abrir: a.ruta. Luego, extension.js (líneas 65-66) asocia el comando vscode.open con la URI de esa ruta. En VS Code, vscode.open sólo abre archivos en editores y falla con error cuando se le pasa un directorio. Además, test_vs2_los_artefactos_de_un_cambio en tests/test_vscode.py no detecta esto porque se ejecuta sobre un cambio recién medido (cambio_medido()) que aún no tiene candidato ni subcarpetas generadas, y tests/vscode_en_node.cjs sólo lee item.command.arguments sin ejecutar la API real.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 62,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "Desplegar en la vista de Factory un cambio que contenga candidatos con carpetas de evidencia, clue o revision, y seleccionar el artefacto del candidato para abrirlo.",
+      "evidence": "En un cambio con evidencia generada (cambio_juzgado()), f.datos_donde(ident, None)['artefactos'] incluye {'gate': 'candidato', 'ruta': '.factory/cambios/.../candidatos/.../evidencia', 'situacion': 'existe'} donde (root / ruta).is_dir() es True y is_file() es False. modelo.hijosCambio genera para ese nodo abrir: ruta e icono: 'file', y extension.js le asigna vscode.open, que en VS Code no abre directorios.",
+      "related_requirement": "los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "status": "pendiente",
+      "verification": "Crear un cambio con evidencia generada, llamar a modelo.hijosCambio(estado, donde, 'oracle-factory') y verificar si el nodo de la carpeta evidencia tiene la propiedad abrir definida."
+    },
+    {
+      "id": "revision-veredicto-abrir-informes-ausentes",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "revision y veredicto asignan abrir informe directamente sin comprobar si el archivo existe en disco",
+      "explanation": "La spec establece que «un artefacto ausente o no válido SHALL verse marcado y SHALL NOT ofrecer abrirse». En editores/vscode/modelo.js, las funciones revision(rev) (línea 49) y veredicto(oracle) (línea 58) asignan incondicionalmente abrir: rev.informe || undefined y abrir: oracle.informe || undefined basándose exclusivamente en los datos de estado ID --json. A diferencia de donde ID --json (que computa la situación del archivo en disco), estado ID --json sólo reproduce las rutas de informe registradas en factory.json. Si el archivo de informe de revisión o veredicto es eliminado o no existe en la ruta registrada, los nodos Revisión y Veredicto en la vista continúan asignando abrir: ruta, lo que en extension.js (línea 65) provoca que se configure command: 'vscode.open', ofreciendo abrir un archivo inexistente y disparando un diálogo de error al seleccionarlo.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 47,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Desplegar un cambio donde el archivo de informe de revisión (review.md) o de veredicto (oracle-veredicto.txt) fue borrado o no se encuentra en disco.",
+      "evidence": "En un cambio revisado, al eliminar (root / rev['informe']), modelo.hijosCambio sigue retornando el nodo Revisión con abrir: rev['informe'] y getTreeItem le adjunta el comando vscode.open, en contradicción con la regla de no ofrecer abrir artefactos ausentes.",
+      "related_requirement": "los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "status": "pendiente",
+      "verification": "En un cambio con revisión, borrar el archivo del informe de revisión, generar la vista y comprobar si el ítem de revisión mantiene abrir y el comando vscode.open."
+    },
+    {
+      "id": "citar-cli-comillas-simples-sin-escapar",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "citar() envuelve en comillas simples sin escapar comillas internas en rutas de CLI",
+      "explanation": "La spec (Requirement: el próximo paso se escribe en la terminal sin ejecutarse) exige: «Para un próximo paso que es un comando de Factory, la vista SHALL ofrecer escribirlo en una terminal integrada del proyecto sin ejecutarlo, con la CLI que usa la extensión». En editores/vscode/modelo.js (líneas 8-11), la función citar(texto) encapsula la ruta entre comillas simples si no coincide con /^[\\w@%+=:,./-]+$/ ('${texto}'), reconociendo en un comentario: '// ponytail: comillas simples sin escapar una \\' interna'. Si la ruta del entorno o del ejecutable contiene comillas simples o apóstrofes (habitual en directorios de usuario como /home/o\\'connor/... o /home/.../brian\\'s repo/...), la salida en la terminal resulta en comillas no balanceadas (por ejemplo '/home/o'connor/.venv/bin/oracle-factory' aprobar-spec ID), provocando un error de sintaxis en la shell interactiva (bash/zsh) cuando el usuario pulsa Enter. En shells POSIX, las comillas simples internas dentro de comillas simples deben reemplazarse por '\\''. tests/vscode_en_node.cjs no detecta esto porque almacena la cadena en un arreglo sin evaluar la sintaxis de shell.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 8,
+        "end_line": 11,
+        "side": "head"
+      },
+      "trigger": "Abrir un proyecto en una ruta o con factory.comando que contenga apóstrofes o comillas simples y pulsar el botón para escribir el próximo paso en la terminal.",
+      "evidence": "modelo.js línea 10: citar('/tmp/d\\'arcy/oracle-factory') devuelve '/tmp/d'arcy/oracle-factory'. Al ingresar ese comando en una terminal bash (bash -c \"eval \\\"'/tmp/d'arcy/oracle-factory'\\\"\"), la shell arroja error de comilla sin cerrar (unexpected EOF while looking for matching ''').",
+      "related_requirement": "el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "status": "pendiente",
+      "verification": "Evaluar citar(\"/tmp/o'connor/bin\") y verificar si la comilla simple interna se escapa (por ejemplo '\\'') o si produce comillas no balanceadas."
+    },
+    {
+      "id": "test-vs2-no-prueba-artefactos-no-validos",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_vs2 no prueba artefactos no válidos y una mutación que los ofrece abrir sobrevive",
+      "explanation": "El requisito los_artefactos_de_un_cambio_se_abren_desde_la_vista establece: «un artefacto ausente o no válido SHALL verse marcado y SHALL NOT ofrecer abrirse». En tests/test_vscode.py, test_vs2_los_artefactos_de_un_cambio únicamente borra design.md (unlink()), probando exclusivamente la situación 'ausente'. Ningún test genera ni verifica un artefacto con situacion: 'no_valido' (por ejemplo, entradas con invalida: True en donde). Al aplicar una mutación en editores/vscode/modelo.js línea 63 (const abre = a.situacion !== 'ausente';, que hace que los artefactos no válidos ofrezcan abrirse), la suite tests.test_vscode continúa pasando completamente (la mutación sobrevive). Por lo tanto, el sensor y las pruebas asignadas al requisito en tools/verify_vscode.py no comprueban la promesa contractual sobre artefactos no válidos.",
+      "location": {
+        "file": "tests/test_vscode.py",
+        "start_line": 94,
+        "end_line": 112,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests.test_vscode tras aplicar una mutación en modelo.js que permita abrir artefactos con situacion: 'no_valido'.",
+      "evidence": "test_vs2_los_artefactos_de_un_cambio sólo prueba unlink() de design.md. Al mutar modelo.js línea 63 con const abre = a.situacion !== 'ausente';, la ejecución de .venv/bin/python -m unittest tests.test_vscode </dev/null finaliza con código 0 y 5 pruebas exitosas, demostrando que la falta de cobertura de 'no_valido' permite que sobrevivan defectos de contrato.",
+      "related_requirement": "los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "status": "pendiente",
+      "verification": "Introducir un artefacto con situacion: 'no_valido' en los datos de prueba de test_vs2 y verificar si el test valida que no tenga la propiedad abre y que se muestre con ícono 'warning'."
+    },
+    {
+      "id": "test-vs1-no-prueba-veredicto-ni-vigencia",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_vs1 no verifica veredictos exitosos, fallidos ni pérdida de vigencia en la vista",
+      "explanation": "La spec exige que la vista muestre «los cambios abiertos del proyecto, y bajo cada uno sus requisitos con sus medidas, la decisión que las respalda y el veredicto, su revisión y su próximo paso». En tests/test_vscode.py, test_vs1_un_proyecto_con_un_cambio_abierto usa self.cambio_medido() (un cambio sin juzgar) y sólo evalúa hijos['Veredicto']['etiqueta'] == 'Veredicto: pendiente'. No existe ninguna prueba para cambios con veredicto exitoso (codigo: 0), veredicto fallido (codigo != 0) ni veredictos o revisiones con vigencia vencida ('ya no vigente'). Mutaciones manuales en modelo.js líneas 55 (const bien = true; en vez de oracle.codigo === 0) y 59 (descripcion: '' ignorando oracle.vigente) sobreviven a la corrida de pruebas de test_vscode.py.",
+      "location": {
+        "file": "tests/test_vscode.py",
+        "start_line": 50,
+        "end_line": 82,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests.test_vscode tras mutar la condición de veredicto en modelo.js.",
+      "evidence": "test_vs1 sólo evalúa 'Veredicto: pendiente'. Al mutar modelo.js línea 55 (const bien = true; en vez de oracle.codigo === 0) o línea 59 (ignorando oracle.vigente), la suite de test_vscode sigue pasando completamente (las mutaciones sobreviven sin ser detectadas).",
+      "related_requirement": "la_vista_de_factory_muestra_los_cambios_abiertos",
+      "status": "pendiente",
+      "verification": "Comprobar si test_vscode.py cuenta con algún caso de prueba donde el cambio abierto tenga un veredicto registrado o evaluar si la mutación const bien = true sobrevive."
+    },
+    {
+      "id": "doble-vscode-ejecuta-inline-automaticamente",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol y no prueba clics reales",
+      "explanation": "En tests/vscode_en_node.cjs (línea 46), la función auxiliar desplegar(nodo) ejecuta automáticamente if (item.contextValue === 'paso') comandos['factory.escribirPaso'](hijo); durante la mera construcción del árbol de la vista. En la API real de VS Code, un elemento con viewItem == paso sólo muestra un botón inline en el árbol que requiere la interacción explícita del usuario para activarse. El doble simula una acción interactiva como un efecto colateral de desplegar la vista, ocultando posibles problemas en el registro del comando o en la resolución de argumentos cuando el usuario hace clic. Además, el doble no implementa el comando vscode.open ni valida las opciones de configuración de máquina (scope: 'machine'), ocultando fallos de apertura de rutas no válidas o directorios.",
+      "location": {
+        "file": "tests/vscode_en_node.cjs",
+        "start_line": 46,
+        "end_line": 47,
+        "side": "head"
+      },
+      "trigger": "Construcción del árbol con vscode_en_node.cjs en un cambio cuyo próximo paso es un comando.",
+      "evidence": "En vscode_en_node.cjs, terminal se puebla inmediatamente al invocar desplegar(undefined) en la línea 53 sin que ningún evento de usuario haya accionado el comando factory.escribirPaso.",
+      "related_requirement": "el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "status": "pendiente",
+      "verification": "Inspeccionar tests/vscode_en_node.cjs y constatar que desplegar ejecuta escribirPaso durante la iteración del árbol."
+    },
+    {
+      "id": "collapsible-state-vacio-si-sin-hijos",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "TreeItem marca estado Collapsed en arrays vacíos de hijos, mostrando flechas de despliegue vacías",
+      "explanation": "En editores/vscode/extension.js (línea 60), getTreeItem inicializa cada elemento con new vscode.TreeItem(nodo.etiqueta, nodo.hijos || nodo.cambio ? C.Collapsed : C.None). En JavaScript, un array vacío [] es 'truthy', por lo que cualquier nodo que declare hijos: [] (por ejemplo, 'Requisitos' cuando un cambio aún no tiene requisitos importados, o 'Artefactos' si donde no devuelve elementos) recibe el estado Collapsed en lugar de None. En la interfaz gráfica de VS Code, esto dibuja una flecha de despliegue que al expandirse no muestra ningún hijo, en lugar de mostrarse como un ítem terminal sin botón de expansión.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 59,
+        "end_line": 61,
+        "side": "head"
+      },
+      "trigger": "Desplegar un cambio con 0 requisitos o 0 artefactos en la vista de VS Code.",
+      "evidence": "En JavaScript: Boolean([] || undefined ? 1 : 0) retorna 1 (Collapsed). getTreeItem asigna C.Collapsed cuando nodo.hijos es [] en lugar de comprobar nodo.hijos.length, produciendo flechas de despliegue vacías en la vista.",
+      "related_requirement": "la_vista_de_factory_muestra_los_cambios_abiertos",
+      "status": "pendiente",
+      "verification": "Pasar un nodo con hijos: [] a getTreeItem y comprobar que collapsibleState es Collapsed (1) en lugar de None (0)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: .venv/bin/python -m unittest tests.test_vscode </dev/null (5 pruebas OK).",
+    "No se corrió la suite completa de pruebas ni se abrió la interfaz gráfica de VS Code por indicación expresa.",
+    "Se realizaron pruebas de mutación manuales sobre copias aisladas en el espacio de trabajo del revisor (scratch/), verificando la sensibilidad de test_vscode.py ante alteraciones en la lógica de negocio y determinando cuáles mutaciones sobreviven.",
+    "No se revisaron los archivos excluidos del paquete (.factory y tareas)."
+  ]
+}

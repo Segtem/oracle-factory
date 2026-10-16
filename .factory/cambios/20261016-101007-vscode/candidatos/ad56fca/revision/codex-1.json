@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vscode/.factory/local/revisiones/ad56fca",
+  "base": "d6b0d4e9ca7e6ad86c84b120fb7963a6e1bfd211",
+  "head": "ad56fcaa2deba2e7aa91794d730489368fb83974",
+  "diff_sha256": "7dfd4ed4a6c374017196006c43fb57e23f1e86c87c36ccee8a5a3edc266e5664",
+  "context_sha256": "0d57d7c2f02440e333d724d242d7c3dace0a70e4fc25f3c75e0c571d93683422",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "C1-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Los informes ausentes o inválidos todavía se ofrecen desde Revisión y Veredicto",
+      "explanation": "revision() y veredicto() asignan abrir directamente desde estado.revision.informe y estado.oracle.informe, sin consultar la situación que devuelve donde ni validar que la ruta exista y sea válida. Así, un informe con ruta ausente continúa teniendo un comando vscode.open; si el registro contiene un valor no textual, el comando de apertura posterior puede fallar al construir path.join. El mismo archivo aparece marcado dentro de Artefactos, pero la fila Revisión/Veredicto ofrece abrirlo por otra vía, incumpliendo que un artefacto ausente o no válido no ofrezca apertura.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 48,
+        "end_line": 57,
+        "side": "head"
+      },
+      "trigger": "En un proyecto de Factory, hacer que estado --json devuelva revision.informe (o oracle.informe) apuntando a un archivo ausente o con un valor no textual; expandir el cambio y revisar la fila Revisión o Veredicto.",
+      "evidence": "La línea 48 asigna abrir: rev.informe || undefined y la 56 hace lo mismo con oracle.informe; en cambio artefacto() solo asigna abrir cuando situacion es existe o historico (líneas 60–64). Probe de modelo.js con revision.informe=5 y un artefacto situacion=no_valido devolvió ambas cosas: la fila Revisión con abrir=5 y el artefacto marcado sin abrir. tests/test_vscode.py cubre un artefacto ausente, pero no un informe ausente/no válido.",
+      "related_requirement": "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "status": "pendiente",
+      "verification": "Derivar las filas Revisión y Veredicto del mismo registro de artefactos de donde, o validar allí ruta y situación antes de añadir abrir; agregar casos para informes ausentes y no válidos y verificar que ninguna fila relacionada ofrezca vscode.open."
+    },
+    {
+      "id": "C1-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "La ruta de CLI con apóstrofe queda mal citada en el comando de terminal",
+      "explanation": "Cuando la ruta configurada para la CLI contiene un apóstrofe, citar() la envuelve en comillas simples sin escapar ese carácter. El texto enviado a la terminal queda sintácticamente roto (o se interpreta de forma distinta según el shell), aunque la CLI se ejecuta como archivo por execFile. La prueba actual cubre una ruta con espacios, pero no una con apóstrofe.",
+      "location": {
+        "file": "editores/vscode/modelo.js",
+        "start_line": 8,
+        "end_line": 10,
+        "side": "head"
+      },
+      "trigger": "Configurar factory.comando con una ruta ejecutable que contenga apóstrofe, por ejemplo /tmp/it's/oracle-factory, y elegir Escribir en la terminal.",
+      "evidence": "Probe directo de modelo.js: comandoDe(\"oracle-factory aprobar-spec ID\", \"/tmp/it's/oracle-factory\") devolvió '/tmp/it's/oracle-factory' aprobar-spec ID, con delimitadores simples internos sin escape. tests/test_vscode.py solo verifica una ruta que contiene espacios.",
+      "related_requirement": "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "status": "pendiente",
+      "verification": "Generar quoting válido para el shell de la terminal o rechazar rutas que no se puedan representar; agregar una prueba con apóstrofe y comprobar el texto exacto enviado con Enter=false."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, spec, diff del paquete, código de extensión, modelo, empaquetador, pruebas, verify_vscode.py y catálogos factory_vscode.*.oracle. No revisé los dos archivos excluidos de registros/evidencia de Factory.",
+    "Intenté exactamente .venv/bin/python -m unittest tests.test_vscode </dev/null desde el checkout candidato; no pudo arrancar: .venv/bin/python no existe (exit 127). No ejecuté la suite completa ni tools/verify_vscode.py.",
+    "Hice probes puntuales en Node contra el modelo para una CLI con apóstrofe y un informe no textual; no abrí VS Code ni validé el comportamiento con la API real. No modifiqué el checkout ni hice mutaciones sobre copias."
+  ]
+}

@@ -1,0 +1,394 @@
+{
+  "id": "20261016-101007-vscode",
+  "titulo": "Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso",
+  "capacidad": "ide",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261016-101007-vscode/specs/ide/spec.md",
+  "spec_sha256": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T10:14:57+00:00",
+    "documentos": {
+      "openspec/changes/20261016-101007-vscode/proposal.md": "55e36624a18770ee417cfd6e1ee5e36d644601592e7b17f562631a3f0742696a",
+      "openspec/changes/20261016-101007-vscode/specs/ide/spec.md": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a"
+    }
+  },
+  "requisitos": [
+    "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+    "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+    "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/informe.json",
+    "sha256": "5de64c2e16d2eb4b9648f3acbeaf7906c252007b0ae7c725b531e5824908bd36",
+    "decisiones": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/decisiones.json",
+    "decisiones_sha256": "13ee10cea2d81ff402a33bd542a947fde38cdcd97dd000f8634d19cb49cfb1b6",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T11:34:00+00:00",
+    "motivo": "dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "16362b2f7d9198b888a50f1d214addc750b757c1",
+      "archivos_sha256": "5615d56aa2e9e81156083990f71996d560f1fb37a7806163cb9c46510192df96"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-101007-vscode/candidatos/e777806/evidencia/hechos.json",
+    "hechos_sha256": "afba09792ed465e49006f4136a49a45686d18cb6917963b3c525793c56b5c053",
+    "informe": ".factory/cambios/20261016-101007-vscode/oracle-veredicto.txt",
+    "informe_sha256": "fb525748bef48ea003a7a0b65f7063755ee51983303ab52082ed19723c3ecad3",
+    "cuando": "2026-10-16T11:34:21+00:00",
+    "contexto": {
+      "head": "2997a46954a0da8a72ff46dee035a3d2bfb71bdd",
+      "archivos_sha256": "5615d56aa2e9e81156083990f71996d560f1fb37a7806163cb9c46510192df96"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T10:10:07+00:00",
+      "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T10:14:57+00:00",
+      "documentos": {
+        "openspec/changes/20261016-101007-vscode/proposal.md": "55e36624a18770ee417cfd6e1ee5e36d644601592e7b17f562631a3f0742696a",
+        "openspec/changes/20261016-101007-vscode/specs/ide/spec.md": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T10:15:08+00:00",
+      "ids": [
+        "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+        "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+        "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+      "medidas": [
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:50+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "medidas": [
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T10:24:51+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "medidas": [
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+        "factory_vscode.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "medidas": [
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+        "factory_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+      "medidas": [
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos",
+        "factory_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "requisito": "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+      "medidas": [
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista",
+        "factory_vscode.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T10:51:47+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "ad56fca",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T11:05:19+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "ad56fca",
+      "resultado": "ok",
+      "hallazgos": 7
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T11:16:11+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e777806",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-16T11:30:26+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e777806",
+      "resultado": "ok",
+      "hallazgos": 3
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T11:30:41+00:00",
+      "decision": "aprobar",
+      "candidato": "e777806"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T11:34:00+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5de64c2e16d2eb4b9648f3acbeaf7906c252007b0ae7c725b531e5824908bd36",
+      "decisiones_sha256": "13ee10cea2d81ff402a33bd542a947fde38cdcd97dd000f8634d19cb49cfb1b6"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:34:21+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "afba09792ed465e49006f4136a49a45686d18cb6917963b3c525793c56b5c053"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:35:44+00:00",
+      "oracle": ".factory/cambios/20261016-101007-vscode/oracle-veredicto.txt",
+      "revision": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:35:44+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
+    }
+  ],
+  "tipos": {
+    "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": "funcional",
+    "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos": "funcional",
+    "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "funcional"
+  },
+  "medidas": {
+    "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "sha256": "848487a892b49ed83b4ccd9a65c81924dd8da458f660f6de05995c609fb23dc1",
+      "catalogos": {
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": "711ac58e27b83c357bccd258312cdf35e4b4fa57c0db9be479d1520a668b23cd",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse": "catalogos/factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "sha256": "a4828be0934b565f5eb64a590d545d0bdeaac0f3ae43ac702d02741da2fbeeac",
+      "catalogos": {
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos": "24d77a2fe77e5d46f37cd798dee8bb99164c080915a9d6c482681b650068fb3c",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos": "catalogos/factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    },
+    "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-16T10:46:34+00:00",
+      "sha256": "1aafc869203216eff5cd90ba555b18030fb29c4bd384f6386b57f7453253d1c0",
+      "catalogos": {
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "190faf5515308482f670bab53b871bfc162b507ba5b2a8eaaedf7ec7f89b9f82",
+        "factory_vscode.corrida_completa": "fa3fd011f554b3e9302ea5ab1adcd05876d2a02ff5f4e85b849a5e75eab4060c"
+      },
+      "archivos_catalogo": {
+        "factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista": "catalogos/factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista.oracle",
+        "factory_vscode.corrida_completa": "catalogos/factory_vscode.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_vscode.py",
+      "titulo": "test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "firma": "tests/test_vscode.py|testvs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "motivo": "Acepto el riesgo: test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:49+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "tests/test_vscode.py",
+      "titulo": "test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "firma": "tests/test_vscode.py|testvscodepy no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión y las mutaciones sobreviven",
+      "motivo": "Acepto el riesgo: test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:59+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "tests/vscode_en_node.cjs",
+      "titulo": "vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "firma": "tests/vscode_en_node.cjs|vscodeennodecjs dispara escribirpaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "motivo": "Acepto el riesgo: vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:12+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "editores/vscode/modelo.js",
+      "titulo": "Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "firma": "editores/vscode/modelo.js|los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "motivo": "Acepto el riesgo: Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:38+00:00",
+      "candidato": "e777806"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T11:35:44+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-16T11:35:44+00:00"
+  }
+}

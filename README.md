@@ -137,3 +137,15 @@ node tests/test_site.cjs
 ```
 
 La prueba usa `/usr/bin/chromium` por defecto; se puede indicar otro ejecutable con la variable `CHROMIUM`. Comprueba los controles, las decisiones, el teclado, movimiento reducido, adaptación móvil, enlaces y funcionamiento sin red.
+
+
+## Extensión de VS Code
+
+[`editores/vscode/`](editores/vscode) agrega una vista «Factory» al explorador: los cambios abiertos, sus requisitos (medidas, decisión y veredicto), su revisión, sus artefactos (un clic los abre; el que falta aparece marcado) y el próximo paso. El botón de terminal **escribe** el comando en una terminal del proyecto sin ejecutarlo: la decisión se sigue tomando en el menú de la CLI. Usa `.venv/bin/oracle-factory` del proyecto si existe, si no `oracle-factory` del `PATH`, o la configuración de usuario `factory.comando`. Sólo corre en espacios de trabajo de confianza.
+
+Se arma sin `npm`:
+
+```bash
+python3 editores/vscode/empaquetar.py
+code --install-extension editores/vscode/oracle-factory-0.1.0.vsix
+```

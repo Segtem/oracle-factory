@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-vscode/.factory/local/revisiones/e777806",
+  "base": "d6b0d4e9ca7e6ad86c84b120fb7963a6e1bfd211",
+  "head": "e777806f292b0de7d736b679dd1bcde9f1d779eb",
+  "diff_sha256": "b997491a9aacbb06293d829a5d3e9d9c2ab90c43feb56a4a2c53d5093b7abd84",
+  "context_sha256": "506b54ddc15ab736645b2d965ed3ea943bb6316db41bbfebd4d18f418d87a2b3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "test-vs1-no-prueba-proyecto-sin-cambios-abiertos",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "explanation": "La spec (Requirement: la vista de Factory muestra los cambios abiertos) exige: «La extensión de VS Code SHALL mostrar, en una vista «Factory», los cambios abiertos del proyecto... Sin un proyecto de Factory en la carpeta abierta SHALL decirlo, y si la CLI falla SHALL mostrar su error en vez de una vista vacía». En editores/vscode/modelo.js (línea 31), la función raiz(resumen) implementa if (!abiertos.length) return [{etiqueta: 'No hay cambios abiertos', icono: 'info'}];. Sin embargo, en tests/test_vscode.py, test_vs1_un_proyecto_con_un_cambio_abierto prepara un cambio cerrado y uno abandonado, pero crea inmediatamente un cambio abierto (abierto = self.cambio_medido()) antes de invocar self.vista(). Ninguno de los 5 tests de la suite comprueba cómo se visualiza un proyecto de Factory inicializado cuando no tiene cambios abiertos. Al aplicar una mutación manual en modelo.js (reemplazar la línea 31 por if (!abiertos.length) return [];, que deja el árbol completamente vacío sin mensaje informativo), la suite de pruebas completa tests.test_vscode continúa pasando con éxito (5 pruebas OK, la mutación sobrevive sin ser detectada).",
+      "location": {
+        "file": "tests/test_vscode.py",
+        "start_line": 48,
+        "end_line": 83,
+        "side": "head"
+      },
+      "trigger": "Mutar editores/vscode/modelo.js línea 31 para que retorne un arreglo vacío cuando abiertos no tiene elementos, y ejecutar las pruebas unitarias.",
+      "evidence": "En tests/test_vscode.py, test_vs1 solo evalúa vista cuando abierto ya fue creado. Tras mutar modelo.js línea 31 con if (!abiertos.length) return [];, la ejecución de .venv/bin/python -m unittest tests.test_vscode </dev/null finaliza con código 0 y 5 pruebas OK (la mutación sobrevive).",
+      "related_requirement": "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+      "status": "pendiente",
+      "verification": "Invocar self.vista() en test_vs1 antes de crear el cambio abierto (cuando solo existen cambios cerrados y abandonados) y verificar que vista['arbol'] contenga el nodo con etiqueta 'No hay cambios abiertos' e ícono 'info'."
+    },
+    {
+      "id": "test-vs1-no-prueba-veredicto-fallido-ni-vigencia",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "explanation": "La spec exige mostrar «los cambios abiertos del proyecto, y bajo cada uno sus requisitos con sus medidas, la decisión que las respalda y el veredicto, su revisión y su próximo paso». En la vuelta 2 se agregó en test_vs2 la comprobación de Veredicto: exitoso para oracle.codigo === 0. No obstante, continúa sin existir cobertura para veredictos fallidos (oracle.codigo !== 0), veredictos no vigentes (oracle.vigente === false) ni revisiones no vigentes (rev.vigente === false). Mutaciones manuales en editores/vscode/modelo.js en la línea 62 (const bien = true; en vez de oracle.codigo === 0) y en la línea 64 (descripcion: '' ignorando oracle.vigente) sobreviven a la corrida de tests.test_vscode.",
+      "location": {
+        "file": "tests/test_vscode.py",
+        "start_line": 95,
+        "end_line": 105,
+        "side": "head"
+      },
+      "trigger": "Mutar en editores/vscode/modelo.js const bien = true; o ignorar la vigencia del veredicto, y ejecutar tests.test_vscode.",
+      "evidence": "Al mutar modelo.js línea 62 (const bien = true;), la corrida de .venv/bin/python -m unittest tests.test_vscode </dev/null devuelve código 0 y 5 pruebas OK. Lo mismo ocurre al mutar la línea 64 omitiendo el texto 'ya no vigente'.",
+      "related_requirement": "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
+      "status": "pendiente",
+      "verification": "Incorporar en las pruebas un cambio con veredicto no exitoso (código distinto de 0) para verificar la etiqueta Veredicto: código <N>, y modificar el producto para desactualizar la vigencia y comprobar que la vista refleje 'ya no vigente'."
+    },
+    {
+      "id": "doble-vscode-ejecuta-inline-automaticamente",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "explanation": "En tests/vscode_en_node.cjs (línea 48), la función auxiliar desplegar(nodo) ejecuta automáticamente if (item.contextValue === 'paso') comandos['factory.escribirPaso'](hijo); durante la mera construcción del árbol de la vista. En la API real de VS Code, un elemento con viewItem == paso sólo muestra un botón inline en el árbol que requiere la interacción explícita del usuario para activarse. El doble simula una acción interactiva como un efecto colateral de desplegar la vista, ocultando eventuales problemas en el registro del comando o en la resolución de argumentos cuando el usuario hace clic. Además, el doble no ejecuta los comandos vscode.open ni revealInExplorer contra una implementación simulada de comandos de VS Code, limitándose a leer item.command.",
+      "location": {
+        "file": "tests/vscode_en_node.cjs",
+        "start_line": 47,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Construcción del árbol con vscode_en_node.cjs en un cambio cuyo próximo paso es un comando.",
+      "evidence": "En vscode_en_node.cjs, terminal se puebla inmediatamente al invocar desplegar(undefined) en la línea 56 sin que ningún evento de usuario haya accionado el comando factory.escribirPaso.",
+      "related_requirement": "ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse",
+      "status": "pendiente",
+      "verification": "Separar en vscode_en_node.cjs la fase de despliegue del árbol de la invocación de comandos interactivos, simulando de manera explícita el clic sobre el botón o la ejecución del comando registrado con su contexto correspondiente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: .venv/bin/python -m unittest tests.test_vscode </dev/null (5 pruebas OK en ~3.5s).",
+    "No se corrió la suite completa de pruebas ni tools/verify_vscode.py por indicación expresa.",
+    "No se abrió la interfaz gráfica de VS Code por indicación expresa; se validó estáticamente el empaquetado (.vsix con empaquetar.py), las declaraciones de package.json y el arnés en Node.",
+    "Se realizaron pruebas de mutación manuales sobre copias aisladas en scratch/, verificando qué alteraciones en la lógica de negocio y presentación sobreviven sin ser detectadas por test_vscode.py.",
+    "Se verificó la función citar() en shells interactivas reales (bash, fish y zsh) comprobando que las rutas con espacios, apóstrofes y caracteres especiales son interpretadas con precisión.",
+    "No se revisaron los 10 archivos excluidos del paquete (.factory y tareas)."
+  ]
+}

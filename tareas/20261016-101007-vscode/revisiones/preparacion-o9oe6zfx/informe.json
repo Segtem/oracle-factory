@@ -1,0 +1,102 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261016-101007-vscode",
+  "contexto": {
+    "head": "4f02d5ed8caa516594a3c38b5ec808295c1b2064",
+    "archivos_sha256": "5615d56aa2e9e81156083990f71996d560f1fb37a7806163cb9c46510192df96"
+  },
+  "documentos": {
+    "openspec/changes/20261016-101007-vscode/proposal.md": "55e36624a18770ee417cfd6e1ee5e36d644601592e7b17f562631a3f0742696a",
+    "openspec/changes/20261016-101007-vscode/specs/ide/spec.md": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    ".gitignore",
+    "README.md",
+    "catalogos/factory_vscode.corrida_completa.oracle",
+    "catalogos/factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse.oracle",
+    "catalogos/factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos.oracle",
+    "catalogos/factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista.oracle",
+    "editores/vscode/empaquetar.py",
+    "editores/vscode/extension.js",
+    "editores/vscode/modelo.js",
+    "editores/vscode/package.json",
+    "openspec/changes/20261016-101007-vscode/design.md",
+    "openspec/changes/20261016-101007-vscode/proposal.md",
+    "openspec/changes/20261016-101007-vscode/specs/ide/spec.md",
+    "openspec/changes/20261016-101007-vscode/tasks.md",
+    "requisitos/ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse.requisito",
+    "requisitos/ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos.requisito",
+    "requisitos/ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista.requisito",
+    "tests/test_vscode.py",
+    "tests/vscode_en_node.cjs",
+    "tools/verify_vscode.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 372 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-101007-vscode/candidatos/e777806/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 3 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ad56fca: agy (gemini-3.8-flash-high), 7 hallazgos: artefactos-carpetas-ofrecen-abrir (alta), revision-veredicto-abrir-informes-ausentes (media), citar-cli-comillas-simples-sin-escapar (media), test-vs2-no-prueba-artefactos-no-validos (media), test-vs1-no-prueba-veredicto-ni-vigencia (baja), doble-vscode-ejecuta-inline-automaticamente (baja), collapsible-state-vacio-si-sin-hijos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-101007-vscode/candidatos/ad56fca/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ad56fca: codex (gpt-6-luna), 2 hallazgos: C1-01 (media), C1-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-101007-vscode/candidatos/ad56fca/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios vs1–vs3 en proyectos temporales, Linux, con la CLI real y la extensión en node con un módulo vscode falso (árbol, abrir y terminal). No abre VS Code: la API real se verifica a mano instalando el .vsix.",
+    "agy (gemini-3.8-flash-high): Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: .venv/bin/python -m unittest tests.test_vscode </dev/null (5 pruebas OK en ~3.5s).",
+    "agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas ni tools/verify_vscode.py por indicación expresa.",
+    "agy (gemini-3.8-flash-high): No se abrió la interfaz gráfica de VS Code por indicación expresa; se validó estáticamente el empaquetado (.vsix con empaquetar.py), las declaraciones de package.json y el arnés en Node.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre copias aisladas en scratch/, verificando qué alteraciones en la lógica de negocio y presentación sobreviven sin ser detectadas por test_vscode.py.",
+    "agy (gemini-3.8-flash-high): Se verificó la función citar() en shells interactivas reales (bash, fish y zsh) comprobando que las rutas con espacios, apóstrofes y caracteres especiales son interpretadas con precisión.",
+    "agy (gemini-3.8-flash-high): No se revisaron los 10 archivos excluidos del paquete (.factory y tareas).",
+    "codex (gpt-6-luna): Leí propuesta, spec, diff y los archivos de extensión, empaquetador, pruebas, doble de VS Code, verificador y catálogos incluidos. No leí los diez archivos excluidos de registros/evidencia.",
+    "codex (gpt-6-luna): Ejecuté exactamente .venv/bin/python -m unittest tests.test_vscode </dev/null desde el checkout candidato; no pudo iniciar porque .venv/bin/python no existe (exit 127). No ejecuté la suite completa, tools/verify_vscode.py ni abrí VS Code.",
+    "codex (gpt-6-luna): Hice un probe aislado de modelo.js con un path de informe que resuelve a un directorio existente; confirmó el hallazgo. No modifiqué el checkout ni realicé mutaciones sobre copias."
+  ],
+  "hallazgos": [
+    {
+      "id": "test-vs1-no-prueba-proyecto-sin-cambios-abiertos",
+      "descripcion": "test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "ubicacion": "tests/test_vscode.py:48",
+      "evidencia": "agy (gemini-3.8-flash-high), .factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/agy-1.json, validado con oracle-clue; severidad baja. En tests/test_vscode.py, test_vs1 solo evalúa vista cuando abierto ya fue creado. Tras mutar modelo.js línea 31 con if (!abiertos.length) return [];, la ejecución de .venv/bin/python -m unittest tests.test_vscode </dev/null finaliza con código 0 y 5 pruebas OK (la mutación sobrevive)."
+    },
+    {
+      "id": "test-vs1-no-prueba-veredicto-fallido-ni-vigencia",
+      "descripcion": "test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "ubicacion": "tests/test_vscode.py:95",
+      "evidencia": "agy (gemini-3.8-flash-high), .factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/agy-1.json, validado con oracle-clue; severidad baja. Al mutar modelo.js línea 62 (const bien = true;), la corrida de .venv/bin/python -m unittest tests.test_vscode </dev/null devuelve código 0 y 5 pruebas OK. Lo mismo ocurre al mutar la línea 64 omitiendo el texto 'ya no vigente'."
+    },
+    {
+      "id": "doble-vscode-ejecuta-inline-automaticamente",
+      "descripcion": "vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "ubicacion": "tests/vscode_en_node.cjs:47",
+      "evidencia": "agy (gemini-3.8-flash-high), .factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/agy-1.json, validado con oracle-clue; severidad baja. En vscode_en_node.cjs, terminal se puebla inmediatamente al invocar desplegar(undefined) en la línea 56 sin que ningún evento de usuario haya accionado el comando factory.escribirPaso."
+    },
+    {
+      "id": "R2-01",
+      "descripcion": "Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "ubicacion": "editores/vscode/modelo.js:55",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261016-101007-vscode/candidatos/e777806/revision/codex-1.json, validado con oracle-clue; severidad baja. Probe de modelo.js con revision.informe=\"catalogos\" (directorio existente) devolvió el nodo {\"etiqueta\":\"Revisión: aprobar\",\"mostrar\":\"catalogos\",\"icono\":\"eye\"}; getTreeItem convierte mostrar en revealInExplorer. El mismo camino se usa en veredicto() (línea 63). La spec exige marcar artefactos no válidos y no ofrecer acción de apertura."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

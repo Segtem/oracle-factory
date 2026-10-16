@@ -1,0 +1,77 @@
+{
+    "name": "oracle-factory",
+    "displayName": "Oracle Factory",
+    "description": "Los cambios abiertos de Factory, sus requisitos y artefactos, y el próximo paso en la terminal",
+    "publisher": "cs50-taller",
+    "version": "0.1.0",
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "main": "./extension.js",
+    "activationEvents": [
+        "workspaceContains:.factory"
+    ],
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": false,
+            "description": "La vista corre la CLI de Factory del proyecto (.venv/bin/oracle-factory)."
+        }
+    },
+    "contributes": {
+        "views": {
+            "explorer": [
+                {
+                    "id": "factory.cambios",
+                    "name": "Factory"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "factory.refrescar",
+                "title": "Refrescar",
+                "category": "Factory",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "factory.escribirPaso",
+                "title": "Escribir en la terminal",
+                "category": "Factory",
+                "icon": "$(terminal)"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "factory.refrescar",
+                    "when": "view == factory.cambios",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "factory.escribirPaso",
+                    "when": "view == factory.cambios && viewItem == paso",
+                    "group": "inline"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "factory.escribirPaso",
+                    "when": "false"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Oracle Factory",
+            "properties": {
+                "factory.comando": {
+                    "type": "string",
+                    "default": "",
+                    "scope": "machine",
+                    "description": "La CLI de Factory. Vacío: .venv/bin/oracle-factory del proyecto si existe, si no oracle-factory del PATH. Sólo se fija en la configuración del usuario: un proyecto no puede cambiarla desde su .vscode/settings.json."
+                }
+            }
+        }
+    }
+}

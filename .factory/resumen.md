@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:3166d551d8a4f99bbfe0d6704698e5a913966e04fb5dc996479fb03013514ada -->
+<!-- oracle-factory resumen sha256:bface0128edbb84ff37cb6eba31e7ee3c5bffc050d6ba325e892acbfe0f8decf -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-16 capacidades · 125 requisitos vigentes · 1 cambio abierto
+17 capacidades · 128 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -100,6 +100,16 @@ Spec completa: [openspec/specs/estructura/spec.md](../openspec/specs/estructura/
 | el proyecto Oracle puede estar en una carpeta | funcional | `estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta` | factory_carpeta.el_proyecto_oracle_puede_estar_en_una_carpeta, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
 | init adopta un proyecto Oracle existente | funcional | `estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente` | factory_carpeta.init_adopta_un_proyecto_oracle_existente, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
 | los escalares del proyecto se ejecutan sólo si el proyecto lo declara | funcional | `estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara` | factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
+
+### ide
+
+Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la vista de Factory muestra los cambios abiertos | funcional | `ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos` | factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
+| los artefactos de un cambio se abren desde la vista | funcional | `ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista` | factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
+| el próximo paso se escribe en la terminal sin ejecutarse | funcional | `ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse` | factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
 
 ### limpieza
 
@@ -289,6 +299,10 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **TRZ-MODULE-GUARD-COMPOUND-001** (20261013-180751-trazabilidad): La detección de guards __main__ no contempla condiciones compuestas. Aceptado por Brian Hollweg: Acepto el riesgo: La detección de guards __main__ no contempla condiciones compuestas
 - **F1** (20261015-122841-docs-web-modos): mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido. Aceptado por Brian Hollweg: Acepto el riesgo: mw1 verifica que existan los anclajes, pero no que cada sección de la página tenga su contenido
 - **CC3-001** (20261015-140406-catalogo-confirmado): Una medida del catálogo base omitida por Oracle se informa como ausente. Aceptado por Brian Hollweg: Acepto el riesgo: Una medida del catálogo base omitida por Oracle se informa como ausente
+- **test-vs1-no-prueba-proyecto-sin-cambios-abiertos** (20261016-101007-vscode): test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive. Aceptado por Brian Hollweg: Acepto el riesgo: test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive
+- **test-vs1-no-prueba-veredicto-fallido-ni-vigencia** (20261016-101007-vscode): test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven. Aceptado por Brian Hollweg: Acepto el riesgo: test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven
+- **doble-vscode-ejecuta-inline-automaticamente** (20261016-101007-vscode): vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita. Aceptado por Brian Hollweg: Acepto el riesgo: vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita
+- **R2-01** (20261016-101007-vscode): Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador. Aceptado por Brian Hollweg: Acepto el riesgo: Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador
 
 ### Históricos
 
@@ -584,6 +598,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): Corrí exactamente la orden de pruebas indicada; terminó con 38 tests OK, pero el checkout principal estaba en HEAD e57ac68e9b1146a1c1f37526dfb446114a90cd77, no en el candidato a38d44b45ab84f08dc10d9f3e3850639ea75f25a. Revisé estáticamente los tests y el código del candidato; no afirmo que esa corrida los haya ejecutado.
 - (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): No corrí tools/verify_*.py ni la suite completa, según la instrucción. No hice mutaciones manuales.
 - (20261015-155346-oracle-en-carpeta) codex (gpt-6-luna): No revisé los archivos excluidos de .factory y tareas, ni ejecuté los casos en proyectos consumidores Jam o LyraGASP.
+- (20261016-101007-vscode) Evidencia: Escenarios vs1–vs3 en proyectos temporales, Linux, con la CLI real y la extensión en node con un módulo vscode falso (árbol, abrir y terminal). No abre VS Code: la API real se verifica a mano instalando el .vsix.
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): Pruebas unitarias ejecutadas exactamente según instrucciones en primer plano: .venv/bin/python -m unittest tests.test_vscode </dev/null (5 pruebas OK en ~3.5s).
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas ni tools/verify_vscode.py por indicación expresa.
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): No se abrió la interfaz gráfica de VS Code por indicación expresa; se validó estáticamente el empaquetado (.vsix con empaquetar.py), las declaraciones de package.json y el arnés en Node.
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre copias aisladas en scratch/, verificando qué alteraciones en la lógica de negocio y presentación sobreviven sin ser detectadas por test_vscode.py.
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): Se verificó la función citar() en shells interactivas reales (bash, fish y zsh) comprobando que las rutas con espacios, apóstrofes y caracteres especiales son interpretadas con precisión.
+- (20261016-101007-vscode) agy (gemini-3.8-flash-high): No se revisaron los 10 archivos excluidos del paquete (.factory y tareas).
+- (20261016-101007-vscode) codex (gpt-6-luna): Leí propuesta, spec, diff y los archivos de extensión, empaquetador, pruebas, doble de VS Code, verificador y catálogos incluidos. No leí los diez archivos excluidos de registros/evidencia.
+- (20261016-101007-vscode) codex (gpt-6-luna): Ejecuté exactamente .venv/bin/python -m unittest tests.test_vscode </dev/null desde el checkout candidato; no pudo iniciar porque .venv/bin/python no existe (exit 127). No ejecuté la suite completa, tools/verify_vscode.py ni abrí VS Code.
+- (20261016-101007-vscode) codex (gpt-6-luna): Hice un probe aislado de modelo.js con un path de informe que resuelve a un directorio existente; confirmó el hallazgo. No modifiqué el checkout ni realicé mutaciones sobre copias.
 
 ### Históricos
 
