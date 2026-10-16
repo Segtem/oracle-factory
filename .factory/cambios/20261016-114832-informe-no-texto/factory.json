@@ -2,7 +2,7 @@
   "id": "20261016-114832-informe-no-texto",
   "titulo": "Un valor del registro que no es una ruta se informa sin caerse",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
   "spec_sha256": "7b233d9e4e0d116ade7652cad73c5973c8d50a2fda05ea27581a0ac5b96e692a",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "ca6e46976f023380c9ab6b4b657ab0c4dd6141ec625f5990f2c4b70c201c2917"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/7198e8b/evidencia/hechos.json",
+    "hechos_sha256": "54ffa040eb49918c15937287264fc0fc6c90f5d557cb7d6dc2607092afa72f1d",
+    "informe": ".factory/cambios/20261016-114832-informe-no-texto/oracle-veredicto.txt",
+    "informe_sha256": "b1b8e95bb0dfa8c33f448c1d253c69f4a808399d259682c500d76ea45c5b5440",
+    "cuando": "2026-10-16T12:53:07+00:00",
+    "contexto": {
+      "head": "563311900ba1b37e290cdcc1ff0a66a60a915a61",
+      "archivos_sha256": "ca6e46976f023380c9ab6b4b657ab0c4dd6141ec625f5990f2c4b70c201c2917"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -181,6 +193,17 @@
       "abiertos": 0,
       "sha256": "9887de1915cfff97b7b34dc08947bb52fe3090e89fee6b90a267d278847633b6",
       "decisiones_sha256": "f4d6b48c4d8e4d934f599c26c74b47e252fb838036eee60339bfbbe457483d4b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T12:53:07+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "54ffa040eb49918c15937287264fc0fc6c90f5d557cb7d6dc2607092afa72f1d"
     }
   ],
   "tipos": {
