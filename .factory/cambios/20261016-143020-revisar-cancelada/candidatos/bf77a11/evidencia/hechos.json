@@ -1,0 +1,30 @@
+{
+  "cancelada_caso": [
+    {
+      "requisito": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "caso": "rc1_se_elige_un_aprobar_no_disponible",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "caso": "rc2_se_cancela_o_se_cierra_la_entrada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "caso": "rc3_una_revision_registrada_despues",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "caso": "rc_antes_de_mostrar_no_queda_intento",
+      "codigo": 0
+    }
+  ],
+  "cancelada_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}
