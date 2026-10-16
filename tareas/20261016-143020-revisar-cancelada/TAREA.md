@@ -23,3 +23,7 @@ Medidas de revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_re
 ### Nota (2026-10-16 14:42:32 UTC)
 
 Medidas de revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-16 16:07:34 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy: la 1 marcó dos altos y cuatro medios (un fallo posterior anotado como cancelado, escrituras concurrentes, un registro roto que tapaba el error) y la 2 dos medios (el aviso daba por vigente una revisión vieja), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la carrera entre comparar y reemplazar el registro es de todas las escrituras de Factory y va a una tarea aparte; la 3 sólo trae bajas); 0 abiertos derivados; commit c135a7430b8ab58979f8fd3ac3d90cd1e7c92b71; informe tareas/20261016-143020-revisar-cancelada/revisiones/registro-8875a_3p/informe.json; decisiones tareas/20261016-143020-revisar-cancelada/revisiones/registro-8875a_3p/decisiones.json.
