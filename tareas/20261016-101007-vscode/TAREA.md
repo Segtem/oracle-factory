@@ -27,3 +27,15 @@ Medidas de ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_v
 ### Nota (2026-10-16 10:24:51 UTC)
 
 Medidas de ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse: factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse, factory_vscode.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-16 10:46:34 UTC)
+
+Medidas de ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-16 10:46:34 UTC)
+
+Medidas de ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-16 10:46:34 UTC)
+
+Medidas de ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista: Brian Hollweg (persona, confirmo, modo confirmacion).
