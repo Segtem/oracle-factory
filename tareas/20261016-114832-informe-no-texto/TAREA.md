@@ -1,6 +1,6 @@
 # Un valor del registro que no es una ruta se informa sin caerse
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-16 12:53:07 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261016-114832-informe-no-texto/oracle-veredicto.txt.
+
+### Nota (2026-10-16 12:54:07 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
