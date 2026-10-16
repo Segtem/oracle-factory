@@ -2,11 +2,23 @@
   "id": "20261016-114832-informe-no-texto",
   "titulo": "Un valor del registro que no es una ruta se informa sin caerse",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "7b233d9e4e0d116ade7652cad73c5973c8d50a2fda05ea27581a0ac5b96e692a",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T11:50:55+00:00",
+    "documentos": {
+      "openspec/changes/20261016-114832-informe-no-texto/proposal.md": "2461cae67f8dd842348cb84ae36fc46977afeaea2a181a16bd66713a7287a8cb",
+      "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md": "7b233d9e4e0d116ade7652cad73c5973c8d50a2fda05ea27581a0ac5b96e692a"
+    }
+  },
+  "requisitos": [
+    "flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +31,34 @@
       "forma": "decidio",
       "cuando": "2026-10-16T11:48:32+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:50:55+00:00",
+      "documentos": {
+        "openspec/changes/20261016-114832-informe-no-texto/proposal.md": "2461cae67f8dd842348cb84ae36fc46977afeaea2a181a16bd66713a7287a8cb",
+        "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md": "7b233d9e4e0d116ade7652cad73c5973c8d50a2fda05ea27581a0ac5b96e692a"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:51:06+00:00",
+      "ids": [
+        "flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
