@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "9887de1915cfff97b7b34dc08947bb52fe3090e89fee6b90a267d278847633b6",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy: la vuelta 1 marcó un alto y tres medios (valores 0, False, \"\", [] y {} que se saltaban el chequeo; una revisión libre con decisiones [] seguía vigente) y dos bajos, todos corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la vuelta 2 los dos corrieron las pruebas del candidato y no encontraron nada",
+  "decisiones": []
+}

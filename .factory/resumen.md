@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:bface0128edbb84ff37cb6eba31e7ee3c5bffc050d6ba325e892acbfe0f8decf -->
+<!-- oracle-factory resumen sha256:78f3e940601d06ab62f28e7a80085191b08205a391ffe9cfae4656ff7711c440 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-17 capacidades · 128 requisitos vigentes · 1 cambio abierto
+18 capacidades · 129 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -100,6 +100,14 @@ Spec completa: [openspec/specs/estructura/spec.md](../openspec/specs/estructura/
 | el proyecto Oracle puede estar en una carpeta | funcional | `estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta` | factory_carpeta.el_proyecto_oracle_puede_estar_en_una_carpeta, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
 | init adopta un proyecto Oracle existente | funcional | `estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente` | factory_carpeta.init_adopta_un_proyecto_oracle_existente, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
 | los escalares del proyecto se ejecutan sólo si el proyecto lo declara | funcional | `estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara` | factory_carpeta.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara, factory_carpeta.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-155346-oracle-en-carpeta |
+
+### flujo
+
+Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| un valor del registro que no es una ruta se informa sin caerse | funcional | `flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse` | factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse, factory_informe.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-114832-informe-no-texto |
 
 ### ide
 
@@ -608,6 +616,20 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261016-101007-vscode) codex (gpt-6-luna): Leí propuesta, spec, diff y los archivos de extensión, empaquetador, pruebas, doble de VS Code, verificador y catálogos incluidos. No leí los diez archivos excluidos de registros/evidencia.
 - (20261016-101007-vscode) codex (gpt-6-luna): Ejecuté exactamente .venv/bin/python -m unittest tests.test_vscode </dev/null desde el checkout candidato; no pudo iniciar porque .venv/bin/python no existe (exit 127). No ejecuté la suite completa, tools/verify_vscode.py ni abrí VS Code.
 - (20261016-101007-vscode) codex (gpt-6-luna): Hice un probe aislado de modelo.js con un path de informe que resuelve a un directorio existente; confirmó el hallazgo. No modifiqué el checkout ni realicé mutaciones sobre copias.
+- (20261016-114832-informe-no-texto) Evidencia: Escenarios in1–in2 en repositorios temporales, Linux, con Oracle 0.38.2 real y el ejemplo notas: los cuatro campos de ruta del registro con un número, una lista o un objeto. No cubre el campo spec del registro.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Se ejecutó exactamente en primer plano desde la raíz del checkout el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-informe-no-texto/.venv/bin/python -m unittest tests.test_informe_no_texto </dev/null. Pasaron exitosamente los 2 tests de contrato (in1 e in2 con 72 subtests).
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Se comprobó la corrección efectiva de los hallazgos de la vuelta 1: INF-01 (valores falsy en decisiones_de_revision invalidados correctamente por no_es_ruta), INF-02 (detección de no_es_ruta antes del chequeo de huella), INF-03 (cobertura exhaustiva en test_in2 de 9 valores no texto con y sin huella), INF-04 (verificación en texto_resumen de la mención del campo inválido) e INF-05 (ejecución de juzgar sin --con cuando los hechos del registro no son ruta pero hay evidencia del candidato).
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Se realizaron pruebas dinámicas con 7 mutaciones a mano en copias aisladas (reversión de INF-01, reversión de INF-02, reversión de INF-05, omisión de rechazo a cadena vacía, aceptación de bytes nulos, reversión en archivos_faltantes y reversión en juicio_vigente); todas fueron detectadas y rechazadas por las pruebas.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Se comprobó dinámicamente mediante la CLI real que los subcomandos estado (tanto en salida estándar de texto como con --json), donde y resumen responden con código de salida 0 y sin excepciones ante registros con campos no válidos.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Se validó la coherencia de los catálogos Oracle factory_informe.corrida_completa.oracle y factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse.oracle con las metas del sensor tools/verify_informe_no_texto.py y el requisito formal.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del proyecto, conforme a las instrucciones recibidas.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): El checkout del candidato 7198e8b se mantuvo estrictamente en sólo lectura, sin modificaciones de archivos ni commits.
+- (20261016-114832-informe-no-texto) agy (gemini-3.8-flash-high): Revisión probabilística de código y pruebas: no constituye un veredicto de Oracle ni demuestra propiedades fuera de lo expresamente verificado.
+- (20261016-114832-informe-no-texto) codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y las dos revisiones anteriores; contrasté las cinco funciones afectadas, el buscador de uniones de valores de registro con ROOT y las pruebas y catálogos nuevos.
+- (20261016-114832-informe-no-texto) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-informe-no-texto/.venv/bin/python -m unittest tests.test_informe_no_texto </dev/null` desde la raíz del checkout; pasaron 2 pruebas. No corrí la suite completa ni tools/verify_informe_no_texto.py.
+- (20261016-114832-informe-no-texto) codex (gpt-6-luna): No hice mutaciones: el checkout es de sólo lectura. La prueba in2 sí ejercita nueve valores (incluidos 0, False, cadena vacía, colecciones vacías y NUL), los cuatro campos, con y sin huella.
+- (20261016-114832-informe-no-texto) codex (gpt-6-luna): No encontré fallas en los escenarios: las pruebas llaman estado, resumen, donde y pasos por sus funciones de datos/flujo, y además invocan la CLI real de estado --json para in1; no invocan por subprocess los comandos CLI de resumen, donde y próximo paso.
+- (20261016-114832-informe-no-texto) codex (gpt-6-luna): El chequeo de uniones encontró ROOT / viejo en catalogos_cambiados para metadatos de rutas de catálogos; es un campo distinto de los cuatro campos de evidencia cubiertos por este requisito.
 
 ### Históricos
 

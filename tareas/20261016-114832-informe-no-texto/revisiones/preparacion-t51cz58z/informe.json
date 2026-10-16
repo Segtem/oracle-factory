@@ -1,0 +1,71 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261016-114832-informe-no-texto",
+  "contexto": {
+    "head": "3c102beb8deee68cf12fe5e5898e764c83962e5f",
+    "archivos_sha256": "ca6e46976f023380c9ab6b4b657ab0c4dd6141ec625f5990f2c4b70c201c2917"
+  },
+  "documentos": {
+    "openspec/changes/20261016-114832-informe-no-texto/proposal.md": "2461cae67f8dd842348cb84ae36fc46977afeaea2a181a16bd66713a7287a8cb",
+    "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md": "7b233d9e4e0d116ade7652cad73c5973c8d50a2fda05ea27581a0ac5b96e692a"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_informe.corrida_completa.oracle",
+    "catalogos/factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse.oracle",
+    "openspec/changes/20261016-114832-informe-no-texto/design.md",
+    "openspec/changes/20261016-114832-informe-no-texto/proposal.md",
+    "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
+    "openspec/changes/20261016-114832-informe-no-texto/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse.requisito",
+    "tests/test_informe_no_texto.py",
+    "tools/verify_informe_no_texto.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 374 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/7198e8b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/7198e8b/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/7198e8b/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ae7633: agy (gemini-3.8-flash-high), 5 hallazgos: INF-01 (alta), INF-02 (media), INF-03 (media), INF-04 (baja), INF-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/4ae7633/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ae7633: codex (gpt-6-luna), 1 hallazgo: INFORME-NO-TEXTO-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-114832-informe-no-texto/candidatos/4ae7633/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios in1–in2 en repositorios temporales, Linux, con Oracle 0.38.2 real y el ejemplo notas: los cuatro campos de ruta del registro con un número, una lista o un objeto. No cubre el campo spec del registro.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente en primer plano desde la raíz del checkout el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-informe-no-texto/.venv/bin/python -m unittest tests.test_informe_no_texto </dev/null. Pasaron exitosamente los 2 tests de contrato (in1 e in2 con 72 subtests).",
+    "agy (gemini-3.8-flash-high): Se comprobó la corrección efectiva de los hallazgos de la vuelta 1: INF-01 (valores falsy en decisiones_de_revision invalidados correctamente por no_es_ruta), INF-02 (detección de no_es_ruta antes del chequeo de huella), INF-03 (cobertura exhaustiva en test_in2 de 9 valores no texto con y sin huella), INF-04 (verificación en texto_resumen de la mención del campo inválido) e INF-05 (ejecución de juzgar sin --con cuando los hechos del registro no son ruta pero hay evidencia del candidato).",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas dinámicas con 7 mutaciones a mano en copias aisladas (reversión de INF-01, reversión de INF-02, reversión de INF-05, omisión de rechazo a cadena vacía, aceptación de bytes nulos, reversión en archivos_faltantes y reversión en juicio_vigente); todas fueron detectadas y rechazadas por las pruebas.",
+    "agy (gemini-3.8-flash-high): Se comprobó dinámicamente mediante la CLI real que los subcomandos estado (tanto en salida estándar de texto como con --json), donde y resumen responden con código de salida 0 y sin excepciones ante registros con campos no válidos.",
+    "agy (gemini-3.8-flash-high): Se validó la coherencia de los catálogos Oracle factory_informe.corrida_completa.oracle y factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse.oracle con las metas del sensor tools/verify_informe_no_texto.py y el requisito formal.",
+    "agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del proyecto, conforme a las instrucciones recibidas.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato 7198e8b se mantuvo estrictamente en sólo lectura, sin modificaciones de archivos ni commits.",
+    "agy (gemini-3.8-flash-high): Revisión probabilística de código y pruebas: no constituye un veredicto de Oracle ni demuestra propiedades fuera de lo expresamente verificado.",
+    "codex (gpt-6-luna): Leí la propuesta, la spec, el diff del paquete y las dos revisiones anteriores; contrasté las cinco funciones afectadas, el buscador de uniones de valores de registro con ROOT y las pruebas y catálogos nuevos.",
+    "codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-informe-no-texto/.venv/bin/python -m unittest tests.test_informe_no_texto </dev/null` desde la raíz del checkout; pasaron 2 pruebas. No corrí la suite completa ni tools/verify_informe_no_texto.py.",
+    "codex (gpt-6-luna): No hice mutaciones: el checkout es de sólo lectura. La prueba in2 sí ejercita nueve valores (incluidos 0, False, cadena vacía, colecciones vacías y NUL), los cuatro campos, con y sin huella.",
+    "codex (gpt-6-luna): No encontré fallas en los escenarios: las pruebas llaman estado, resumen, donde y pasos por sus funciones de datos/flujo, y además invocan la CLI real de estado --json para in1; no invocan por subprocess los comandos CLI de resumen, donde y próximo paso.",
+    "codex (gpt-6-luna): El chequeo de uniones encontró ROOT / viejo en catalogos_cambiados para metadatos de rutas de catálogos; es un campo distinto de los cuatro campos de evidencia cubiertos por este requisito."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

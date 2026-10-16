@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-informe-no-texto/.factory/local/revisiones/4ae7633",
+  "base": "6a2a2b2109a91965b17e085babdd36b2d1cfcc38",
+  "head": "4ae7633e6b0340033c0d4a7beeab24facd043ff9",
+  "diff_sha256": "9f1706e27309e0a5a46e414690de95db50c322fef66f1a7c3d60996f21b32ef8",
+  "context_sha256": "dc8bcc3643c5d6e78b84f4f8567f9362f75039b534bf62ce6828d8bb78c48958",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "INF-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Valores vacíos o falsy en revision.decisiones se ignoran y hacen pasar la revisión como vigente",
+      "explanation": "En problemas_de_revision(), la guarda inicial evalúa `if not ruta and not huella: continue`. Cuando el campo revision.decisiones contiene un valor no válido pero falsy en Python (como lista vacía `[]`, diccionario vacío `{}`, cadena vacía `\"\"`, `0` o `False`) y `decisiones_sha256` no está presente o es None (habitual en revisiones libres), `not ruta` y `not huella` resultan True, por lo que el bucle salta con `continue` sin validar el campo. Además, la siguiente línea exige `if ruta and ruta_del_registro(ruta) is None:`, que evalúa a False al ser falsy. En consecuencia, problemas_de_revision() no detecta el valor no válido y devuelve una lista vacía de problemas. Esto hace que en datos_estado() y en _pasos() la revisión se considere vigente (vigente=True), no se liste ningún pendiente de campo no válido y el flujo continúe hacia el cierre en vez de rehacer la revisión, violando el requerimiento de la spec y el escenario 2 («los cuatro campos con valores que no son texto... número, lista u objeto»).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1493,
+        "end_line": 1497,
+        "side": "head"
+      },
+      "trigger": "Un cambio juzgado o en revisión con formato libre donde se asigna a revision.decisiones un valor falsy como `[]`, `{}`, `\"\"`, `0` o `False`.",
+      "evidence": "Al invocar cli.problemas_de_revision() con `estado[\"revision\"][\"decisiones\"] = []`, la función devuelve `[]` en vez de reportar `decisiones de revisión no válido en el registro (no es una ruta de texto)`. En test_in2, al agregar `[]`, `{}` o `\"\"` a los valores de prueba, la aserción falla porque el pendiente esperado no se encuentra en `f.datos_estado(ident)[\"pendientes\"]`.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "Diferenciar entre un campo no registrado (`ruta is None and huella is None`) y un valor registrado que no es texto. Reemplazar la guarda por `if ruta is not None and ruta_del_registro(ruta) is None:` para que cualquier valor no válido sea reportado independientemente de su verdad booleana."
+    },
+    {
+      "id": "INF-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Valores falsy con huella presente reportan «cambiado o sin huella» en vez de «no válido en el registro»",
+      "explanation": "En pendientes_actuales() (y análogamente en problemas_de_revision()), la condición `if ruta and ruta_del_registro(ruta) is None:` evalúa la verdad booleana de `ruta`. Cuando un campo de ruta (como oracle.informe, oracle.hechos, revision.informe o revision.decisiones) tiene un valor no válido pero falsy (`\"\"`, `[]`, `{}`) y conserva una huella registrada en el JSON, la condición `if ruta` es False. El flujo pasa al bloque `try: if not ruta or not huella or ...: faltan.append(etiqueta + \" cambiado o sin huella\")`, donde `not ruta` es True. Esto produce el mensaje erróneo de archivo cambiado o sin huella en vez del pendiente requerido por la spec («<campo> no válido en el registro (no es una ruta de texto)»).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1533,
+        "end_line": 1541,
+        "side": "head"
+      },
+      "trigger": "En un cambio juzgado, modificar oracle.informe u oracle.hechos a `\"\"`, `[]` o `{}` manteniendo el valor preexistente de su huella sha256.",
+      "evidence": "Al evaluar un registro con `oracle.informe = \"\"` y huella preservada, `pendientes_actuales()` añade `[\"informe Oracle cambiado o sin huella\"]` en lugar de `[\"informe Oracle no válido en el registro (no es una ruta de texto)\"]`.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "Comprobar `if ruta is not None and ruta_del_registro(ruta) is None:` antes del bloque que comprueba cambios de huella para asegurar que cualquier objeto o texto inválido se catalogue como no válido."
+    },
+    {
+      "id": "INF-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Escenario in2 en test_informe_no_texto.py omite colecciones vacías y valores sin texto",
+      "explanation": "El escenario 2 de la spec promete que cuando los cuatro campos guardan valores que no son texto (especificando «con un número, una lista o un objeto»), estado nombra el campo como no válido y se rehace el gate respectivo. En tests/test_informe_no_texto.py, el método test_in2_los_cuatro_campos_con_valores_que_no_son_texto únicamente prueba la tupla `(5, [\"x\"], {\"a\": 1})`. Todas son estructuras no vacías (truthy). Se omiten listas vacías `[]`, diccionarios vacíos `{}`, cadenas vacías `\"\"` y cadenas con bytes nulos `\"\\x00\"`. Esta cobertura incompleta impidió que las pruebas detectaran el defecto en el cual listas y diccionarios vacíos no son marcados como no válidos en la CLI.",
+      "location": {
+        "file": "tests/test_informe_no_texto.py",
+        "start_line": 51,
+        "end_line": 62,
+        "side": "head"
+      },
+      "trigger": "Inspección de la línea 56 de tests/test_informe_no_texto.py: `for valor in (5, [\"x\"], {\"a\": 1}):`.",
+      "evidence": "Al extender el bucle de prueba con `[]`, `{}` y `\"\"`, se producen 12 fallos de aserción en los subtests de `test_in2`.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "Incluir `[]`, `{}`, `\"\"` y `\"texto\\x00invalido\"` en la tupla de valores a iterar en `test_in2`."
+    },
+    {
+      "id": "INF-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Aserción sobre texto_resumen en comprobar() no verifica reporte del defecto",
+      "explanation": "En la función de comprobación de tests/test_informe_no_texto.py, la verificación sobre el comando resumen se limita a `self.assertIn(ident, f.texto_resumen(None))`. Esta aserción solo comprueba que el identificador del cambio esté presente en el texto de resumen.md, lo cual se cumple por defecto para cualquier cambio abierto en la lista de cambios del proyecto. No comprueba que resumen informe el defecto, que los pendientes se listen o que se detecten los artefactos inválidos en el resumen.",
+      "location": {
+        "file": "tests/test_informe_no_texto.py",
+        "start_line": 24,
+        "end_line": 34,
+        "side": "head"
+      },
+      "trigger": "Línea 27 de tests/test_informe_no_texto.py: `self.assertIn(ident, f.texto_resumen(None))`.",
+      "evidence": "Si se mutara el formato de resumen para no incluir los pendientes de los cambios abiertos, la prueba `self.assertIn(ident, f.texto_resumen(None))` continuaría pasando exitosamente sin advertir la omisión.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "Verificar en texto_resumen la presencia del mensaje de pendiente o inspeccionar el contenido de la estructura devuelta por `datos_resumen()`."
+    },
+    {
+      "id": "INF-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "_pasos() exige RUTA_DE_HECHOS manual cuando oracle.hechos es inválido aunque haya hechos del candidato",
+      "explanation": "En _pasos() de oracle_factory/cli.py, si oracle.hechos no es una ruta válida (por ejemplo un número), `juzgados` es None. La condición `sha256(del_candidato) != oracle.get(\"hechos_sha256\")` no se cumple si la huella del candidato coincide con la registrada. Al continuar, el flujo llega a la línea 2450 que devuelve `oracle-factory juzgar {ident} --con RUTA_DE_HECHOS`. Esto solicita al usuario ingresar manualmente una ruta con un placeholder en mayúsculas `RUTA_DE_HECHOS`, impidiendo que `ofrecer_siguiente()` ofrezca el comando automáticamente, a pesar de que los hechos del candidato existen en disco y están listos para ser utilizados por omisión por `oracle-factory juzgar`.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2429,
+        "end_line": 2433,
+        "side": "head"
+      },
+      "trigger": "Un cambio juzgado donde oracle.hechos se corrompe a un número pero los hechos del candidato siguen presentes en evidencia/ y coinciden con hechos_sha256.",
+      "evidence": "Llamar a `f.pasos(ident)[0]` en un estado con hechos del candidato presentes pero oracle.hechos=5 devuelve `oracle-factory juzgar {ident} --con RUTA_DE_HECHOS` en vez del comando directo `oracle-factory juzgar {ident}`.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "En _pasos(), si `juzgados is None` o no es válido, comprobar si existen `hechos_del_candidato(ident)` y devolver `oracle-factory juzgar {ident}` directamente."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Se ejecutó en primer plano el comando exacto solicitado: python3 -m unittest tests.test_informe_no_texto </dev/null, el cual falló con ModuleNotFoundError por ausencia de dependencias (oracle_metalenguaje) en el intérprete del sistema (/usr/bin/python3).",
+    "Las comprobaciones dinámicas, mutaciones y verificación de escenarios se ejecutaron en el entorno virtual .venv del repositorio (/home/workstation/Dev/factory-informe-no-texto/.venv/bin/python).",
+    "No se corrió la suite completa de pruebas del proyecto, conforme a las instrucciones.",
+    "El análisis se enfocó en los rangos modificados del candidato 4ae7633 respecto a base 6a2a2b2 y en la coherencia con spec.md y proposal.md."
+  ]
+}

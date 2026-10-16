@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-informe-no-texto/.factory/local/revisiones/4ae7633",
+  "base": "6a2a2b2109a91965b17e085babdd36b2d1cfcc38",
+  "head": "4ae7633e6b0340033c0d4a7beeab24facd043ff9",
+  "diff_sha256": "9f1706e27309e0a5a46e414690de95db50c322fef66f1a7c3d60996f21b32ef8",
+  "context_sha256": "dc8bcc3643c5d6e78b84f4f8567f9362f75039b534bf62ce6828d8bb78c48958",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "INFORME-NO-TEXTO-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Los valores falsy no se informan como rutas inválidas",
+      "explanation": "La guarda `if ruta and ruta_del_registro(ruta) is None` sólo etiqueta valores truthy rechazados por el criterio de ruta. Si el registro contiene 0, False, una cadena vacía o null, se salta esa rama y el pendiente resultante dice “cambiado o sin huella”/“sin evidencia vinculada”, no que el campo sea inválido. La misma guarda está en la validación del juicio. La spec requiere que estado nombre el campo no válido para todo valor que no sea una ruta de texto; además, la propuesta incluye expresamente la cadena vacía como inválida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1495,
+        "end_line": 1497,
+        "side": "head"
+      },
+      "trigger": "En un registro con `revision.informe` igual a 0 (también False, \"\" o null) y una huella presente, consultar `estado`; para el caso Oracle, usar el mismo valor en `oracle.informe` o `oracle.hechos`.",
+      "evidence": "Reproducción directa en el checkout: `problemas_de_revision` para `revision.informe=5` devuelve “informe de revisión no válido en el registro (no es una ruta de texto)”; para 0, False, \"\", None, [] y {} devuelve “informe de revisión cambiado o sin huella” más “revisión sin evidencia vinculada”. En la rama Oracle de `pendientes_actuales` está el mismo `if ruta` en las líneas 1535-1537. `estructura._texto` rechaza la cadena vacía y cualquier string con NUL, así que el chequeo debería basarse en presencia del campo/valor registrado y no en su truthiness.",
+      "related_requirement": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "status": "pendiente",
+      "verification": "Reproducción de función ejecutada para los valores citados. La prueba focal indicada por la persona se intentó, pero ambas pruebas fallaron al preparar el fixture por `ModuleNotFoundError: No module named 'oracle_metalenguaje'`; véase revision-notas.md."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `python3 -m unittest tests.test_informe_no_texto </dev/null`; falló antes de probar escenarios porque falta `oracle_metalenguaje` en ese intérprete.",
+    "No se corrió la suite completa ni tools/verify_informe_no_texto.py.",
+    "La reproducción directa de problemas_de_revision sí se ejecutó; no se preparó un fixture integral mutado por la dependencia ausente.",
+    "Revisión probabilística del diff: no es un veredicto de Oracle ni prueba propiedades fuera de lo inspeccionado. Los resultados y el alcance detallado están en revision-notas.md."
+  ]
+}

@@ -543,10 +543,23 @@ def contexto_producto() -> dict:
     return {"head": head.stdout.strip(), "archivos_sha256": sha256(json.dumps(archivos).encode())}
 
 
+def ruta_del_registro(valor) -> Path | None:
+    """Una ruta que guarda el registro (informe, decisiones, hechos), o None si no es texto: el criterio de donde."""
+    return ROOT / valor if estructura._texto(valor) else None
+
+
+NO_VALIDO = " no válido en el registro (no es una ruta de texto)"
+
+
+def no_es_ruta(valor) -> bool:
+    """Un campo presente que no es una ruta de texto, también 0, False, "", [] o {}; null es un campo ausente."""
+    return valor is not None and ruta_del_registro(valor) is None
+
+
 def juicio_vigente(oracle: dict, actual: dict | None) -> bool:
     """El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó."""
     def intacto(relativa, huella):
-        ruta = ROOT / relativa if relativa else None
+        ruta = ruta_del_registro(relativa)
         return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
     return (actual is not None and intacto(oracle.get("hechos"), oracle.get("hechos_sha256"))
             and intacto(oracle.get("informe"), oracle.get("informe_sha256")) and mismo_producto(oracle.get("contexto"), actual))
@@ -1482,10 +1495,13 @@ def problemas_de_revision(estado: dict) -> list[str]:
     rev, faltan = estado.get("revision") or {}, []
     for etiqueta, ruta, huella in (("informe de revisión", rev.get("informe"), rev.get("sha256")),
                                    ("decisiones de revisión", rev.get("decisiones"), rev.get("decisiones_sha256"))):
+        if no_es_ruta(ruta):
+            faltan.append(etiqueta + NO_VALIDO)
+            continue
         if not ruta and not huella:
             continue
         try:
-            if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
+            if not ruta or not huella or sha256(ruta_del_registro(ruta).read_bytes()) != huella:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
             faltan.append(etiqueta + " ausente")
@@ -1519,10 +1535,13 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
         ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
         ("hechos", oracle.get("hechos"), oracle.get("hechos_sha256")),
     ):
+        if no_es_ruta(ruta):
+            faltan.append(etiqueta + NO_VALIDO)
+            continue
         if not ruta and not huella:
             continue
         try:
-            if not ruta or not huella or sha256((ROOT / ruta).read_bytes()) != huella:
+            if not ruta or not huella or sha256(ruta_del_registro(ruta).read_bytes()) != huella:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
             if etiqueta == "hechos":
@@ -2350,7 +2369,9 @@ def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
     rev, oracle = estado.get("revision") or {}, estado.get("oracle") or {}
     rutas = [carpeta / "proposal.md", carpeta / "tasks.md", *([ROOT / estado["spec"]] if estado.get("spec") else []),
              *(requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
-             *(ROOT / r for r in (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"), oracle.get("hechos")) if r)]
+             # Un valor que no es una ruta no es un archivo que recuperar: lo nombran pendientes y se rehace su gate.
+             *(r for r in map(ruta_del_registro, (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"),
+                                                  oracle.get("hechos"))) if r)]
     return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]
 
 
@@ -2411,10 +2432,11 @@ def _pasos(identificador: str) -> str | list[str] | None:
         return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
     # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
     oracle = estado.get("oracle") or {}
-    juzgados = ROOT / oracle["hechos"] if oracle.get("hechos") else None
+    juzgados = ruta_del_registro(oracle.get("hechos"))
     try:  # hechos del candidato que no son los juzgados: juzgarlos
         del_candidato = hechos_del_candidato(ident)
-        if sha256(ruta_segura(del_candidato).read_bytes()) != oracle.get("hechos_sha256"):
+        # También si los hechos registrados no son una ruta: los del candidato se juzgan sin pedir otra.
+        if juzgados is None or sha256(ruta_segura(del_candidato).read_bytes()) != oracle.get("hechos_sha256"):
             return f"oracle-factory juzgar {ident}"
     except FactoryError:
         pass
