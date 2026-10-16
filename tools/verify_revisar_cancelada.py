@@ -23,7 +23,8 @@ CONTRACTS = {
 }
 PREFIX = 'test_revisar_cancelada.RevisarCancelada.test_'
 LIMITES = ('Escenarios rc1–rc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba; '
-           'la persona responde por input simulado. Ctrl-C se anota igual que la entrada cerrada pero no tiene prueba propia.')
+           'la persona responde por input simulado. Un escritor concurrente entre la comparación y el reemplazo del registro '
+           'no está cubierto: Factory no tiene un bloqueo del registro.')
 
 
 def fuentes():

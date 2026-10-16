@@ -1162,8 +1162,12 @@ def aviso_revision(estado: dict) -> list[str]:
                    if e.get("accion") in ("revision_registrada", "revision_cancelada")), None)
     if not ultimo or ultimo["accion"] != "revision_cancelada":
         return []
-    que = ("sigue valiendo la revisión anterior" if estado.get("revision")
-           else f"volvé a correr oracle-factory revisar {estado['id']}")
+    try:  # «sigue valiendo» con las mismas reglas de vigencia que estado y el próximo paso
+        rev = estado.get("revision") or {}
+        vigente = bool(rev) and mismo_producto(rev.get("contexto"), contexto_producto()) and not problemas_de_revision(estado)
+    except (FactoryError, OSError):
+        vigente = False
+    que = "sigue valiendo la revisión anterior" if vigente else f"volvé a correr oracle-factory revisar {estado['id']}"
     return [f"el último intento de revisión ({str(ultimo.get('cuando', ''))[:16].replace('T', ' ')}, {ultimo.get('actor')}) "
             f"no se registró: {ultimo.get('causa')}; {que}"]
 

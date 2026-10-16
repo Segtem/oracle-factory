@@ -89,6 +89,13 @@ class RevisarCancelada(_vueltas.Base):
         [aviso] = self.avisos()
         self.assertTrue(aviso.endswith('sigue valiendo la revisión anterior'), aviso)
         self.assertEqual(f.leer(self.ident)[1]['revision']['decision'], 'aprobar')
+        # Si la revisión registrada ya no vale para el producto actual (otro candidato), no dice que sigue valiendo.
+        self.candidato_nuevo()
+        self.pedir('codex', ['baja', 'Otro nombre poco claro'])
+        with self.assertRaises(f.FactoryError):
+            self.revisar('2', '1', '1', '3')
+        [aviso] = self.avisos()
+        self.assertTrue(aviso.endswith(f'volvé a correr oracle-factory revisar {self.ident}'), aviso)
 
     def test_rc_anotar_no_pisa_ni_tapa(self):
         self.preparar()

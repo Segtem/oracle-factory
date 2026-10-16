@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/22b5a78",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "22b5a788a5620ce9e7e27e5bf76969d78e17008d",
+  "diff_sha256": "d761117b0c87e39f9a5f4d432859239df54cbefbe358964aaab4a02a316f65c7",
+  "context_sha256": "558e985a6bbfc6e3997f195c6a4c9139a88e6289aa181e169ea650fd38fd8823",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia",
+      "explanation": "El test test_rc_antes_de_mostrar_no_queda_intento declara en su docstring que 'Sin candidato con informes no hubo intento: el corte ya dice qué hacer y no se anota'. Sin embargo, al invocar self.revisar() directamente tras self.preparar(), candidato_vigente(ident) es None y la ejecución corta en la verificación temprana de candidato inexistente (línea 1175 de oracle_factory/cli.py). No se prueba el caso donde sí existe un commit candidato vigente pero este carece de informes de revisores o comprobaciones (línea 1182 de oracle_factory/cli.py). Como consecuencia, si intento.update(...) se asignara antes de dicha verificación (mutación M5), el test no detectaría la falla y un corte por falta de informes registraría erróneamente un intento.",
+      "location": {
+        "file": "tests/test_revisar_cancelada.py",
+        "start_line": 136,
+        "end_line": 142,
+        "side": "head"
+      },
+      "trigger": "Ejecutar revisar cuando hay un candidato vigente pero aún no se han producido informes ni evidencia de revisores.",
+      "evidence": "La mutación M5 (mover intento.update(...) antes de la verificación de informes de la línea 1182) ejecutada sobre las pruebas tests.test_revisar_cancelada y tests.test_clue_dependencia sobrevivió exitosamente (13 tests OK).",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Configurar en test_revisar_cancelada un commit candidato sin informes ni evidencia y verificar que un corte en esa instancia no guarde un evento revision_cancelada."
+    },
+    {
+      "id": "agy-6",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "LIMITES en tools/verify_revisar_cancelada.py afirma que Ctrl-C no tiene prueba propia tras haberse incorporado en rc2",
+      "explanation": "En tools/verify_revisar_cancelada.py (líneas 25-26), la constante LIMITES declara: 'Escenarios rc1–rc3 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba; la persona responde por input simulado. Ctrl-C se anota igual que la entrada cerrada pero no tiene prueba propia.'. Esta aclaración provenía de la Vuelta 1, pero en esta Vuelta 2 se agregó a test_rc2_se_cancela_o_se_cierra_la_entrada (tests/test_revisar_cancelada.py:68-70) la prueba explícita con KeyboardInterrupt() (Ctrl-C) para cubrir la interrupción. Dado que CONTRACTS incluye dicho test como parte del contrato verificado para el requisito y exportado en resultado.json, la afirmación en LIMITES quedó desactualizada y declara erróneamente una limitación que ya ha sido cubierta por la suite.",
+      "location": {
+        "file": "tools/verify_revisar_cancelada.py",
+        "start_line": 25,
+        "end_line": 26,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tools/verify_revisar_cancelada.py para registrar los hechos y límites contractuales de la verificación.",
+      "evidence": "En tests/test_revisar_cancelada.py:68-71 se incorporó 'with self.assertRaises(KeyboardInterrupt): self.revisar(\"2\", KeyboardInterrupt())' y 'self.assertEqual(self.cancelada()[-1][\"causa\"], \"se interrumpió antes de registrar la revisión\")'. No obstante, tools/verify_revisar_cancelada.py:26 sigue declarando que Ctrl-C no tiene prueba propia.",
+      "related_requirement": "un_intento_de_revision_que_no_se_registro_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Actualizar la constante LIMITES en tools/verify_revisar_cancelada.py eliminando la afirmación obsoleta sobre la falta de prueba propia de Ctrl-C."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas por el usuario: PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null (13 tests, OK).",
+    "No se ejecutó la suite completa del repositorio ni tools/verify_revisar_cancelada.py para evitar efectos secundarios y respetar la restricción explícita de no correr la suite completa.",
+    "Se evaluaron 10 mutaciones manuales (M1 a M10) sobre una copia aislada en el workspace del revisor para verificar qué cambios son detectados por las pruebas y cuáles sobreviven.",
+    "Se verificó la resolución de los hallazgos previos agy-1/CXL-1, agy-2/CXL-2, agy-3/CXL-3 y agy-4."
+  ]
+}
