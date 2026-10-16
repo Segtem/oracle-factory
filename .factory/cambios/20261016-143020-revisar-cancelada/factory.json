@@ -165,6 +165,16 @@
       "candidato": "bf77a11",
       "resultado": "ok",
       "hallazgos": 2
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T15:58:41+00:00",
+      "decision": "aprobar",
+      "candidato": "bf77a11"
     }
   ],
   "tipos": {
@@ -188,5 +198,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy: la 1 marcó dos altos y cuatro medios (un fallo posterior anotado como cancelado, escrituras concurrentes, un registro roto que tapaba el error) y la 2 dos medios (el aviso daba por vigente una revisión vieja), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la carrera entre comparar y reemplazar el registro es de todas las escrituras de Factory y va a una tarea aparte; la 3 sólo trae bajas",
+      "candidato": "bf77a11",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T15:58:41+00:00"
+    }
+  }
 }
