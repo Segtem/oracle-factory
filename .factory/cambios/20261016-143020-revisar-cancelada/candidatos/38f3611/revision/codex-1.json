@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-revisar-cancelada/.factory/local/revisiones/38f3611",
+  "base": "5b801e1b1932bd146c3986728d6052b3fd132f9d",
+  "head": "38f361121b61cef3c54b99945715f2685afa6bf8",
+  "diff_sha256": "43400540b250448951554b3e97d56fe539fdaeb4bcdfc85acb89bbfbe3ce9506",
+  "context_sha256": "53f9d0f3b5f6f753126bad30b402716a91e367ddd358682a5a529faf947a0d8e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CXL-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un fallo posterior al registro agrega una cancelación falsa",
+      "explanation": "revisar_guiado persiste la revisión y agrega revision_registrada antes de escribir la nota del tracker. Si nota_tarea falla, lanza FactoryError indicando que la revisión ya quedó registrada; este wrapper captura también ese error y agrega revision_cancelada. El evento más reciente hace que estado diga que la revisión no se registró aunque sí se registró, contradiciendo el alcance del evento y pudiendo provocar una repetición innecesaria.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1135,
+        "end_line": 1142,
+        "side": "head"
+      },
+      "trigger": "La escritura de la nota del tracker falla después de que revisar_guiado guardó el registro de revisión.",
+      "evidence": "En oracle_factory/cli.py:1082 revisar_guiado publica el estado con evento revision_registrada; en 1086-1091, una falla de nota_tarea se convierte en FactoryError diciendo «La revisión quedó registrada». El except de 1135-1142 lo captura sin distinguirlo y agrega revision_cancelada; aviso_revision toma ese evento como el último intento.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista",
+      "status": "pendiente",
+      "verification": "Pruebas dirigidas: unittest pasó 12/12; no hay caso de nota fallida posterior al registro. Verificado por inspección de ambas rutas de control."
+    },
+    {
+      "id": "CXL-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.93,
+      "title": "Anotar una cancelación puede sobrescribir un cambio concurrente del registro",
+      "explanation": "El manejador lee el registro, añade el evento y llama guardar sin verificar que el archivo siga igual al leído. Si otro escritor registra una revisión o actualiza el estado entre la lectura y el reemplazo atómico, el guardado de la cancelación puede perder esa actualización. El reemplazo atómico evita truncar el JSON, pero no resuelve esta carrera.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1140,
+        "end_line": 1142,
+        "side": "head"
+      },
+      "trigger": "Otro proceso actualiza el registro después de leerlo en el manejador de excepciones y antes de guardar el evento cancelado.",
+      "evidence": "La secuencia nueva es leer(identificador), evento(...), guardar(carpeta, estado). guardar no recibe contenido esperado. En la ruta existente de registrar revisión guiada, la escritura usa escribir_atomico(registro_ruta, bytes_json(estado), esperado=registro), lo que muestra la protección de edición concurrente disponible en la misma unidad.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista",
+      "status": "pendiente",
+      "verification": "Pruebas dirigidas: unittest pasó 12/12; no incluyen escrituras concurrentes en esta ruta. Análisis de la secuencia de lectura y reemplazo."
+    },
+    {
+      "id": "CXL-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Si falla guardar el evento, se oculta que el intento no quedó anotado",
+      "explanation": "El bloque suppress descarta FactoryError y OSError de la lectura o escritura del evento, y luego relanza sólo el error original de revisar. Por ejemplo, si el registro es de sólo lectura, no queda revision_cancelada y la persona no recibe ningún aviso de que el registro del intento también falló. Así un corte puede quedar sin constancia y sin diagnóstico de ese fallo, contra la promesa central del cambio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1139,
+        "end_line": 1143,
+        "side": "head"
+      },
+      "trigger": "El estado no puede leerse o guardarse al manejar un corte, por ejemplo por permisos de sólo lectura o un error de filesystem.",
+      "evidence": "contextlib.suppress(FactoryError, OSError) envuelve leer, evento y guardar; tras el bloque se relanza el error original. guardar explícitamente lanza FactoryError cuando el registro es de sólo lectura. Ninguna rama comunica que no se agregó el evento.",
+      "related_requirement": "un intento de revisión que no se registró queda a la vista",
+      "status": "pendiente",
+      "verification": "Pruebas dirigidas: unittest pasó 12/12; no se prueba fallo de escritura del evento. Ruta confirmada por inspección."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente PYTHONPATH=. /home/workstation/Dev/factory-revisar-cancelada/.venv/bin/python -m unittest tests.test_revisar_cancelada tests.test_clue_dependencia </dev/null desde la raíz del checkout: 12 pruebas, OK.",
+    "No se ejecutó la suite completa ni tools/verify_revisar_cancelada.py.",
+    "No se hicieron mutaciones en copias ni se ejecutó Oracle/Clue sensor; los hallazgos de errores post-registro, concurrencia y fallo de escritura provienen del análisis de flujo de código.",
+    "Se revisaron los archivos incluidos en el paquete; .factory y tareas quedaron fuera según las exclusiones. La cobertura RC1–RC3 es sustancial, pero no cubre los tres escenarios de fallo señalados."
+  ]
+}

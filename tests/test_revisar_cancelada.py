@@ -1,9 +1,11 @@
 """Un intento de revisión que no se registró queda a la vista: escenarios rc1–rc3, con revisores de prueba y Clue real."""
 import contextlib
 import io
+import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_vueltas as _vueltas  # noqa: E402
@@ -63,6 +65,9 @@ class RevisarCancelada(_vueltas.Base):
         self.assertEqual(self.cancelada()[-1]['causa'], 'se cerró la entrada antes de registrar la revisión')
         [aviso] = self.avisos()
         self.assertIn('no se registró: se cerró la entrada antes de registrar la revisión', aviso)
+        with self.assertRaises(KeyboardInterrupt):
+            self.revisar('2', KeyboardInterrupt())  # Ctrl-C en medio del menú
+        self.assertEqual(self.cancelada()[-1]['causa'], 'se interrumpió antes de registrar la revisión')
         self.assertIsNone(f.leer(self.ident)[1].get('revision'))
 
     def test_rc3_una_revision_registrada_despues(self):
@@ -71,8 +76,12 @@ class RevisarCancelada(_vueltas.Base):
         with self.assertRaises(f.FactoryError):
             self.revisar('2', '1', '1', '3')
         self.assertEqual(len(self.avisos()), 1)
-        self.revisar('2', '1', '1', '1', '1')  # descartar; motivo; completa; Aprobar; motivo
+        # Un fallo después de registrarla (la nota del tracker) no es un intento cortado.
+        with patch.object(f, 'nota_tarea', side_effect=f.FactoryError('tracker caído')), \
+                self.assertRaisesRegex(f.FactoryError, 'La revisión quedó registrada'):
+            self.revisar('2', '1', '1', '1', '1')  # descartar; motivo; completa; Aprobar; motivo
         self.assertEqual(f.leer(self.ident)[1]['revision']['decision'], 'aprobar')
+        self.assertEqual(f.leer(self.ident)[1]['eventos'][-1]['accion'], 'revision_registrada')
         self.assertEqual(self.avisos(), [])  # la registrada es la última: no avisa
         # Un intento cortado después de una revisión registrada: ésa sigue valiendo.
         with self.assertRaises(f.FactoryError):
@@ -80,6 +89,49 @@ class RevisarCancelada(_vueltas.Base):
         [aviso] = self.avisos()
         self.assertTrue(aviso.endswith('sigue valiendo la revisión anterior'), aviso)
         self.assertEqual(f.leer(self.ident)[1]['revision']['decision'], 'aprobar')
+
+    def test_rc_anotar_no_pisa_ni_tapa(self):
+        self.preparar()
+        self.pedir('codex', ['baja', 'Un nombre poco claro'])
+        registro = f.ruta_registro(f.leer(self.ident)[0])
+        # Otro proceso escribe el registro entre que se lee y se anota el intento: no se pisa.
+        evento = f.evento
+        def otro_escribe_antes(estado, accion, *args, **kwargs):
+            if accion == 'revision_cancelada':
+                datos = json.loads(registro.read_text())
+                datos['eventos'].append({'accion': 'de_otro_proceso'})
+                registro.write_text(json.dumps(datos))
+            return evento(estado, accion, *args, **kwargs)
+        errores = io.StringIO()
+        with patch.object(f, 'evento', side_effect=otro_escribe_antes), contextlib.redirect_stderr(errores), \
+                patch('builtins.input', side_effect=['2', '1', '1', '3']), contextlib.redirect_stdout(io.StringIO()), \
+                self.assertRaisesRegex(f.FactoryError, 'revisión cancelada'):
+            f.revisar_paso_a_paso(self.ident)
+        self.assertIn('no pude anotar el intento de revisión', errores.getvalue())
+        eventos = [e['accion'] for e in f.leer(self.ident)[1]['eventos']]
+        self.assertIn('de_otro_proceso', eventos)
+        self.assertNotIn('revision_cancelada', eventos)
+        # Un registro roto o de sólo lectura: el error de la revisión sigue siendo el que se ve, y se dice que no se anotó.
+        for romper in ('corrupto', 'solo_lectura'):
+            original = registro.read_bytes()
+            errores = io.StringIO()
+            respuestas = iter(['2', '1', '1'])
+            def cancelar_y_romper(*_):  # descartar; motivo; completa; y al final rompe el registro y cancela
+                siguiente = next(respuestas, None)
+                if siguiente is not None:
+                    return siguiente
+                if romper == 'corrupto':
+                    registro.write_text('{roto')
+                else:
+                    registro.chmod(0o444)
+                return '3'
+            with self.subTest(romper=romper), contextlib.redirect_stderr(errores), \
+                    patch('builtins.input', side_effect=cancelar_y_romper), \
+                    contextlib.redirect_stdout(io.StringIO()), self.assertRaisesRegex(f.FactoryError, 'revisión cancelada'):
+                f.revisar_paso_a_paso(self.ident)
+            self.assertIn('no pude anotar el intento de revisión', errores.getvalue())
+            registro.chmod(0o644)
+            registro.write_bytes(original)
 
     def test_rc_antes_de_mostrar_no_queda_intento(self):
         # Sin candidato con informes no hubo intento: el corte ya dice qué hacer y no se anota.

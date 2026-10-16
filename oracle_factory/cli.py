@@ -84,12 +84,13 @@ def leer(identificador: str) -> tuple[Path, dict]:
     return carpeta, json.loads(archivo.read_text(encoding="utf-8"))
 
 
-def guardar(carpeta: Path, estado: dict) -> None:
+def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
     destino = ruta_registro(carpeta)
     destino.parent.mkdir(parents=True, exist_ok=True)
     if destino.exists() and not os.access(destino, os.W_OK):  # el reemplazo atómico saltearía la protección del archivo
         raise FactoryError(f"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico")
-    escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))  # un corte no lo trunca
+    escribir_atomico(destino, (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8"),  # un corte no lo trunca
+                     esperado=esperado)
 
 
 def carpeta_relativa(carpeta: str) -> PurePosixPath | None:
@@ -1136,11 +1137,23 @@ def revisar_paso_a_paso(identificador: str) -> None:
         if intento:
             causa = {EOFError: "se cerró la entrada antes de registrar la revisión",
                      KeyboardInterrupt: "se interrumpió antes de registrar la revisión"}.get(type(e), str(e))
-            with contextlib.suppress(FactoryError, OSError):  # no tapar el error de la revisión con el de anotarlo
-                carpeta, estado = leer(identificador)
-                evento(estado, "revision_cancelada", forma="intento", causa=causa, candidato=intento["candidato"])
-                guardar(carpeta, estado)
+            try:  # el error que se ve sigue siendo el de la revisión; el de anotarlo se dice aparte
+                anotar_intento(identificador, intento, causa)
+            except (FactoryError, OSError, ValueError) as error:
+                print(f"Aviso: no pude anotar el intento de revisión en el registro ({error}).", file=sys.stderr)
         raise
+
+
+def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
+    """revision_cancelada, salvo que la revisión se haya registrado igual (un fallo posterior, como la nota del tracker)."""
+    carpeta, _ = leer(identificador)
+    destino = ruta_registro(carpeta)
+    leido = destino.read_bytes()
+    estado = json.loads(leido)
+    if any(e.get("accion") == "revision_registrada" for e in (estado.get("eventos") or [])[intento["eventos"]:]):
+        return
+    evento(estado, "revision_cancelada", forma="intento", causa=causa, candidato=intento["candidato"])
+    guardar(carpeta, estado, esperado=leido)  # si otro lo escribió entretanto, no se pisa
 
 
 def aviso_revision(estado: dict) -> list[str]:
@@ -1174,7 +1187,8 @@ def _revisar_paso_a_paso(identificador: str, intento: dict) -> None:
         print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}\n      Evidencia: {c['evidencia']}")
     for limite in informe.get("limites") or []:
         print(f"  Límite: {limite}")
-    intento["candidato"] = sha  # desde acá, un corte es un intento que no se registró
+    # Desde acá, un corte es un intento que no se registró; los eventos de antes no cuentan para saber si se registró.
+    intento.update(candidato=sha, eventos=len(leer(identificador)[1].get("eventos") or []))
     persona = actor()["actor"]
     resoluciones = []
     aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or [] if a.get("firma")}
