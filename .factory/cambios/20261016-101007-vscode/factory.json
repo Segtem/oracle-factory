@@ -2,7 +2,7 @@
   "id": "20261016-101007-vscode",
   "titulo": "Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso",
   "capacidad": "ide",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261016-101007-vscode/specs/ide/spec.md",
   "spec_sha256": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos",
     "ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/informe.json",
+    "sha256": "5de64c2e16d2eb4b9648f3acbeaf7906c252007b0ae7c725b531e5824908bd36",
+    "decisiones": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/decisiones.json",
+    "decisiones_sha256": "13ee10cea2d81ff402a33bd542a947fde38cdcd97dd000f8634d19cb49cfb1b6",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T11:34:00+00:00",
+    "motivo": "dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "16362b2f7d9198b888a50f1d214addc750b757c1",
+      "archivos_sha256": "5615d56aa2e9e81156083990f71996d560f1fb37a7806163cb9c46510192df96"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -205,6 +225,20 @@
       "cuando": "2026-10-16T11:30:41+00:00",
       "decision": "aprobar",
       "candidato": "e777806"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T11:34:00+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5de64c2e16d2eb4b9648f3acbeaf7906c252007b0ae7c725b531e5824908bd36",
+      "decisiones_sha256": "13ee10cea2d81ff402a33bd542a947fde38cdcd97dd000f8634d19cb49cfb1b6"
     }
   ],
   "tipos": {
@@ -263,14 +297,43 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)",
-      "candidato": "e777806",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-16T11:30:41+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_vscode.py",
+      "titulo": "test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "firma": "tests/test_vscode.py|testvs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "motivo": "Acepto el riesgo: test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:49+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "tests/test_vscode.py",
+      "titulo": "test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "firma": "tests/test_vscode.py|testvscodepy no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión y las mutaciones sobreviven",
+      "motivo": "Acepto el riesgo: test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:59+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "tests/vscode_en_node.cjs",
+      "titulo": "vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "firma": "tests/vscode_en_node.cjs|vscodeennodecjs dispara escribirpaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "motivo": "Acepto el riesgo: vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:12+00:00",
+      "candidato": "e777806"
+    },
+    {
+      "archivo": "editores/vscode/modelo.js",
+      "titulo": "Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "firma": "editores/vscode/modelo.js|los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "motivo": "Acepto el riesgo: Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:38+00:00",
+      "candidato": "e777806"
     }
-  }
+  ]
 }

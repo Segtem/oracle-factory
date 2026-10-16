@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "5de64c2e16d2eb4b9648f3acbeaf7906c252007b0ae7c725b531e5824908bd36",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy: la vuelta 1 dejó un alto y cuatro medios, corregidos con pruebas que fallan sobre el código anterior y mutaciones; la vuelta 2 sólo trae bajas (vista sin cambios abiertos, veredicto fallido o no vigente sin probar, el doble de vscode que aprieta el botón al armar la vista, un informe que apunte a una carpeta)",
+  "decisiones": [
+    {
+      "hallazgo_id": "test-vs1-no-prueba-proyecto-sin-cambios-abiertos",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_vs1 no verifica el estado sin cambios abiertos y una mutación que deja la vista vacía sobrevive",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:49+00:00"
+    },
+    {
+      "hallazgo_id": "test-vs1-no-prueba-veredicto-fallido-ni-vigencia",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_vscode.py no cubre veredictos fallidos ni pérdida de vigencia en veredicto o revisión, y las mutaciones sobreviven",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:32:59+00:00"
+    },
+    {
+      "hallazgo_id": "doble-vscode-ejecuta-inline-automaticamente",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: vscode_en_node.cjs dispara escribirPaso automáticamente al recorrer el árbol sin simular interacción explícita",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:12+00:00"
+    },
+    {
+      "hallazgo_id": "R2-01",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Los informes que apuntan a una carpeta se ofrecen para mostrar en el explorador",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-16T11:33:38+00:00"
+    }
+  ]
+}
