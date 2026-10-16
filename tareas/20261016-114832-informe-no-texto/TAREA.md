@@ -19,3 +19,7 @@ Requisitos importados: flujo_cb386f39710102296.un_valor_del_registro_que_no_es_u
 ### Nota (2026-10-16 11:55:10 UTC)
 
 Medidas de flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse: factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse, factory_informe.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-16 11:56:00 UTC)
+
+Medidas de flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse: Brian Hollweg (persona, confirmo, modo confirmacion).
