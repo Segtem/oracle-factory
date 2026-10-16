@@ -2,7 +2,7 @@
   "id": "20261016-101007-vscode",
   "titulo": "Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso",
   "capacidad": "ide",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261016-101007-vscode/specs/ide/spec.md",
   "spec_sha256": "a89f4b7c956406aa17b2edac8ad528c2c2a9639550a4a1be69b52527e0050c2a",
   "spec_aprobada": {
@@ -262,6 +262,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "afba09792ed465e49006f4136a49a45686d18cb6917963b3c525793c56b5c053"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:35:44+00:00",
+      "oracle": ".factory/cambios/20261016-101007-vscode/oracle-veredicto.txt",
+      "revision": "tareas/20261016-101007-vscode/revisiones/registro-8w75x6gi/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T11:35:44+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
     }
   ],
   "tipos": {
@@ -358,5 +378,17 @@
       "fecha": "2026-10-16T11:33:38+00:00",
       "candidato": "e777806"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T11:35:44+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-16T11:35:44+00:00"
+  }
 }

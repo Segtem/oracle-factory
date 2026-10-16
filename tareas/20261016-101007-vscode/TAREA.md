@@ -1,6 +1,6 @@
 # Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-16 11:34:21 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261016-101007-vscode/oracle-veredicto.txt.
+
+### Nota (2026-10-16 11:35:44 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
