@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-informe-no-texto/.factory/local/revisiones/7198e8b",
+  "base": "6a2a2b2109a91965b17e085babdd36b2d1cfcc38",
+  "head": "7198e8b322ed9ddd4a91d3986aaef1c639124d3f",
+  "diff_sha256": "ac8d21ad5ee71354408e10c3f49e2f1a0d4a00eaf6569663d475e7a8567b06d0",
+  "context_sha256": "262d1cc2084de38428f3fc25e48ed4e8ff1536381994b6cccaa92b596971d26b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente en primer plano desde la raíz del checkout el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-informe-no-texto/.venv/bin/python -m unittest tests.test_informe_no_texto </dev/null. Pasaron exitosamente los 2 tests de contrato (in1 e in2 con 72 subtests).",
+    "Se comprobó la corrección efectiva de los hallazgos de la vuelta 1: INF-01 (valores falsy en decisiones_de_revision invalidados correctamente por no_es_ruta), INF-02 (detección de no_es_ruta antes del chequeo de huella), INF-03 (cobertura exhaustiva en test_in2 de 9 valores no texto con y sin huella), INF-04 (verificación en texto_resumen de la mención del campo inválido) e INF-05 (ejecución de juzgar sin --con cuando los hechos del registro no son ruta pero hay evidencia del candidato).",
+    "Se realizaron pruebas dinámicas con 7 mutaciones a mano en copias aisladas (reversión de INF-01, reversión de INF-02, reversión de INF-05, omisión de rechazo a cadena vacía, aceptación de bytes nulos, reversión en archivos_faltantes y reversión en juicio_vigente); todas fueron detectadas y rechazadas por las pruebas.",
+    "Se comprobó dinámicamente mediante la CLI real que los subcomandos estado (tanto en salida estándar de texto como con --json), donde y resumen responden con código de salida 0 y sin excepciones ante registros con campos no válidos.",
+    "Se validó la coherencia de los catálogos Oracle factory_informe.corrida_completa.oracle y factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse.oracle con las metas del sensor tools/verify_informe_no_texto.py y el requisito formal.",
+    "No se corrió la suite completa de pruebas del proyecto, conforme a las instrucciones recibidas.",
+    "El checkout del candidato 7198e8b se mantuvo estrictamente en sólo lectura, sin modificaciones de archivos ni commits.",
+    "Revisión probabilística de código y pruebas: no constituye un veredicto de Oracle ni demuestra propiedades fuera de lo expresamente verificado."
+  ]
+}
