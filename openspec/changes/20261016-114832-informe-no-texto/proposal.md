@@ -8,7 +8,7 @@ El 2026-10-16, al probar la extensión de VS Code (cambio 20261016-101007-vscode
 
 - **Un solo criterio**: una ruta del registro vale si es texto no vacío y sin bytes nulos —el mismo de `donde`—. Lo que no, no se toma por ruta.
 - **`estado` y `resumen` lo nombran**: un pendiente «<campo> no válido en el registro (no es una ruta de texto)», en vez de un traceback.
-- **El próximo paso rehace lo que ya no vale**: una revisión con un informe o unas decisiones no válidos ya no cuenta, y el paso es pedir la revisión; un juicio con un informe o unos hechos no válidos ya no vale, y el paso es juzgar.
+- **El próximo paso rehace lo que ya no vale**: una revisión con un informe o unas decisiones no válidos ya no cuenta, y el paso es rehacerla (pedir-revision, o revisar si ya hay informes de revisores); un juicio con un informe o unos hechos no válidos ya no vale, y el paso es juzgar.
 
 ## Out of scope
 
