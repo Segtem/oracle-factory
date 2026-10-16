@@ -1,0 +1,4 @@
+requisito web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad:
+    texto "Tipo: funcional La portada SHALL tener un minijuego en el que quien visita decide como persona sobre un pedido que el agente construye, con las reglas de la CLI. Con un hallazgo medio o más abierto, «Aprobar» SHALL NOT estar disponible y SHALL decir por qué. Aceptar un riesgo SHALL registrar su motivo. Unas medidas sin acordar SHALL dejar el requisito sin juicio. Al terminar, el juego SHALL mostrar el registro de quién decidió cada cosa y por qué Oracle dio verde, rojo o sin juicio. SHALL jugarse entero con teclado."
+    fuente "openspec/changes/20261016-234517-web-viva/specs/web/spec.md#el minijuego enseña las decisiones de verdad"
+    sin_medir "sin medida todavía; escenarios: «una partida que cierra en verde», «aprobar con un hallazgo abierto, y medidas sin acordar», «jugar sólo con teclado»"

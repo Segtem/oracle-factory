@@ -2,11 +2,25 @@
   "id": "20261016-234517-web-viva",
   "titulo": "Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261016-234517-web-viva/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T23:48:48+00:00",
+    "documentos": {
+      "openspec/changes/20261016-234517-web-viva/proposal.md": "c215ea0cadf2ea46a9443208fa86c5342d905c4a569b4edce3544dc2aa83ccc0",
+      "openspec/changes/20261016-234517-web-viva/specs/web/spec.md": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a"
+    }
+  },
+  "requisitos": [
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,38 @@
       "forma": "decidio",
       "cuando": "2026-10-16T23:45:17+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T23:48:48+00:00",
+      "documentos": {
+        "openspec/changes/20261016-234517-web-viva/proposal.md": "c215ea0cadf2ea46a9443208fa86c5342d905c4a569b4edce3544dc2aa83ccc0",
+        "openspec/changes/20261016-234517-web-viva/specs/web/spec.md": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T23:48:56+00:00",
+      "ids": [
+        "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+        "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+        "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad": "funcional",
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva": "funcional",
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
