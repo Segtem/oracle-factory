@@ -1,0 +1,20 @@
+{
+  "informe_caso": [
+    {
+      "requisito": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "caso": "in1_un_informe_de_revision_que_es_un_numero",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse",
+      "caso": "in2_los_cuatro_campos_con_valores_que_no_son_texto",
+      "codigo": 0
+    }
+  ],
+  "informe_corrida": [
+    {
+      "completa": 1,
+      "casos": 2
+    }
+  ]
+}
