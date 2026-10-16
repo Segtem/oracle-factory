@@ -54,11 +54,40 @@
       "ids": [
         "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-16T18:05:12+00:00",
+      "requisito": "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+      "medidas": [
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan",
+        "factory_bloqueo.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
     "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": {
+      "sha256": "246ed6e74a5e3cc81d0d23d7efb17ed91f398bfb6a9562b6be82a4ddb53a2ac6",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-16T18:05:12+00:00",
+      "catalogos": {
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "35c194f8cb0a69d58716db979db50caaa2ed7407f84a645e4b9dab6a3ca6f8ae",
+        "factory_bloqueo.corrida_completa": "8d53208f3309e5c84ba2624412d3cfc4f059423f3bef928fd9bc745db8b2d4b2"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan": "catalogos/factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.oracle",
+        "factory_bloqueo.corrida_completa": "catalogos/factory_bloqueo.corrida_completa.oracle"
+      }
+    }
+  }
 }
