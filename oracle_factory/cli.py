@@ -1125,7 +1125,37 @@ def proponer_revision(identificador: str, decision: str, motivo: str) -> None:
 
 
 def revisar_paso_a_paso(identificador: str) -> None:
-    """La revisión del candidato vigente, guiada: prepara, muestra, pregunta y registra sin editar JSON."""
+    """La revisión del candidato vigente, guiada: prepara, muestra, pregunta y registra sin editar JSON.
+
+    Un corte después de mostrar la revisión queda en el registro (revision_cancelada) y estado lo avisa.
+    """
+    intento: dict = {}
+    try:
+        _revisar_paso_a_paso(identificador, intento)
+    except (FactoryError, EOFError, KeyboardInterrupt) as e:
+        if intento:
+            causa = {EOFError: "se cerró la entrada antes de registrar la revisión",
+                     KeyboardInterrupt: "se interrumpió antes de registrar la revisión"}.get(type(e), str(e))
+            with contextlib.suppress(FactoryError, OSError):  # no tapar el error de la revisión con el de anotarlo
+                carpeta, estado = leer(identificador)
+                evento(estado, "revision_cancelada", forma="intento", causa=causa, candidato=intento["candidato"])
+                guardar(carpeta, estado)
+        raise
+
+
+def aviso_revision(estado: dict) -> list[str]:
+    """Si el último intento de revisión se cortó sin registrarse, el aviso con su causa y qué hacer."""
+    ultimo = next((e for e in reversed(estado.get("eventos") or [])
+                   if e.get("accion") in ("revision_registrada", "revision_cancelada")), None)
+    if not ultimo or ultimo["accion"] != "revision_cancelada":
+        return []
+    que = ("sigue valiendo la revisión anterior" if estado.get("revision")
+           else f"volvé a correr oracle-factory revisar {estado['id']}")
+    return [f"el último intento de revisión ({str(ultimo.get('cuando', ''))[:16].replace('T', ' ')}, {ultimo.get('actor')}) "
+            f"no se registró: {ultimo.get('causa')}; {que}"]
+
+
+def _revisar_paso_a_paso(identificador: str, intento: dict) -> None:
     abierto(identificador)
     exigir_terminal("registrar la revisión")
     sha = candidato_vigente(identificador)
@@ -1144,6 +1174,7 @@ def revisar_paso_a_paso(identificador: str) -> None:
         print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}\n      Evidencia: {c['evidencia']}")
     for limite in informe.get("limites") or []:
         print(f"  Límite: {limite}")
+    intento["candidato"] = sha  # desde acá, un corte es un intento que no se registró
     persona = actor()["actor"]
     resoluciones = []
     aceptados = {a["firma"]: a for a in leer(identificador)[1].get("aceptados") or [] if a.get("firma")}
@@ -1986,7 +2017,7 @@ def datos_estado(identificador: str) -> dict:
         "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos"),
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
-        "avisos": [] if abandonado else avisos_head(estado),
+        "avisos": [] if abandonado else avisos_head(estado) + aviso_revision(estado),
     }
 
 
@@ -2160,7 +2191,7 @@ def mostrar(identificador: str) -> None:
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
     for linea in commits_registrados(estado):
         print(linea + ".")
-    for aviso in avisos_head(estado):
+    for aviso in avisos_head(estado) + aviso_revision(estado):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
