@@ -1,0 +1,83 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261016-175720-bloqueo-registro",
+  "contexto": {
+    "head": "d9c38661e3fa22d05b01dbdd565c4f194efa4e1c",
+    "archivos_sha256": "102924ffcfd68fcd578283036d3e11dd8b26724eca53aea88a248e07bda78fac"
+  },
+  "documentos": {
+    "openspec/changes/20261016-175720-bloqueo-registro/proposal.md": "d35242024fc4571f4b1023b4350a0f6fc9f8bcb7b6e01c1516706bf9ad18fcc2",
+    "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_bloqueo.corrida_completa.oracle",
+    "catalogos/factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261016-175720-bloqueo-registro/design.md",
+    "openspec/changes/20261016-175720-bloqueo-registro/proposal.md",
+    "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md",
+    "openspec/changes/20261016-175720-bloqueo-registro/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.requisito",
+    "tests/test_bloqueo_registro.py",
+    "tools/verify_bloqueo_registro.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 383 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/f72807d/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/f72807d/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/f72807d/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8b84fcc: agy (gemini-3.8-flash-high), 7 hallazgos: agy-1 (alta), agy-2 (media), agy-3 (media), agy-4 (baja), agy-5 (baja), agy-6 (informativa), agy-7 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/8b84fcc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 8b84fcc: codex (gpt-6-luna), 1 hallazgo: BLQ-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/8b84fcc/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d1b1f6e: agy (gemini-3.8-flash-high), 4 hallazgos: agy-1 (media), agy-2 (baja), agy-3 (baja), agy-4 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/d1b1f6e/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d1b1f6e: codex (gpt-6-luna), 3 hallazgos: COD-1 (baja), COD-2 (baja), COD-3 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261016-175720-bloqueo-registro/candidatos/d1b1f6e/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios bl1–bl3 en repositorios temporales, Linux (fcntl.flock sobre la carpeta); bl1 y bl2 con un segundo proceso de Factory real, bl3 en un solo proceso. No cubre migrar ni sistemas de archivos de red, donde flock puede no valer entre máquinas.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas por el solicitante en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null (4 pruebas pasadas en 1.518s).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa del repositorio ni tools/verify_bloqueo_registro.py para respetar la directiva explícita de no correr la suite completa.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato f72807d se mantuvo estrictamente en modo solo lectura; todas las sondas, scripts y análisis de mutaciones se ejecutaron en copias aisladas dentro de la carpeta del revisor (/home/workstation/Dev/factory-bloqueo-registro/.factory/local/revisores/f72807d-agy-1).",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo agy-1 de la vuelta 2: en tests/test_bloqueo_registro.py se agregó f.LEIDOS.clear() en test_bl1 y test_bl2, aislando la lectura previa de nuevo() como si fuera un proceso nuevo. La mutación M7 (quitar la asignación LEIDOS[archivo] = datos en leer()) ahora MUERE efectivamente con fallas en test_bl1 y test_bl2.",
+    "agy (gemini-3.8-flash-high): Se repitió la batería de mutaciones manuales sobre el código en la carpeta del revisor: M1 (eliminar flock: MUERTA por test_bl2), M2 (reemplazar LOCK_EX por LOCK_SH: MUERTA por test_bl2), M3 (mover os.replace fuera del try/finally flock: MUERTA por test_bl2), M4 (eliminar actualización de LEIDOS en guardar: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M5 (eliminar captura de FileNotFoundError en escribir_atomico: MUERTA por test_bl1_una_escritura_sin_leer_antes_tambien_cuenta), M6 (guardar siempre con esperado=None: MUERTA por test_bl1, test_bl1_una_escritura... y test_bl2), M7 (leer sin registrar en LEIDOS: MUERTA por test_bl1 y test_bl2), M8 (flock sólo si esperado no es None: sobrevive a los tests, pero la implementación mantiene flock incondicional), M9 (eliminar actualización de LEIDOS en escribir_atomico: sobrevive a la suite actual porque test_bl3 usa guardar y no medir/revisar_guiado, pero la implementación conserva la actualización preventiva), M10 (flock sobre archivo en lugar de carpeta: MUERTA por test_bl2).",
+    "agy (gemini-3.8-flash-high): Se revisaron estáticamente los 3 escenarios de la spec contra el código y las pruebas: bl1 y bl2 usan un segundo proceso real mediante subprocesos aislados (otro_proceso) y verifican respectivamente la colisión entre lectura y escritura y la contención concurrente entre comparación y reemplazo bajo flock; bl3 verifica escrituras secuenciales múltiples en el mismo proceso sin colisión.",
+    "agy (gemini-3.8-flash-high): Se verificaron los puntos de atención señalados por el solicitante: las escrituras ordinarias del registro factory.json pasan uniformemente por guardar() o escribir_atomico(..., esperado=...); migrar() queda fuera de alcance según proposal.md; la resolución de rutas mediante ruta_registro(carpeta) es consistente (carpeta.name sobre ROOT) sin discrepancias entre lectura y guardado; no hay interbloqueos ya que fcntl.flock en escribir_atomico se libera inmediatamente en el bloque finally al cerrar el descriptor de la carpeta; y la creación de registros inexistentes con esperado=None opera de forma segura sin disparar falsos positivos de cambio.",
+    "agy (gemini-3.8-flash-high): Las observaciones de severidad baja reportadas en la vuelta 2 (el alcance textual del catálogo factory_bloqueo.dos_procesos... sobre bl3, el alcance amplio del sensor verify_bloqueo_registro.py que descubre toda la suite, y el flock sobre carpetas compartidas del proyecto en escribir_atomico) están asignadas a decisión de la persona responsable según el protocolo del proyecto; no se encontraron hallazgos nuevos ni regresiones en esta vuelta 3, por lo que findings se declara vacía.",
+    "agy (gemini-3.8-flash-high): No se probaron sistemas de archivos de red (NFS/CIFS) ni sistemas operativos distintos de Linux, de acuerdo con los límites declarados del cambio.",
+    "codex (gpt-6-luna): Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-registro/.venv/bin/python -m unittest tests.test_bloqueo_registro </dev/null; pasó con 4 tests.",
+    "codex (gpt-6-luna): No ejecuté la suite completa, tools/verify_bloqueo_registro.py ni Oracle.",
+    "codex (gpt-6-luna): No ejecuté mutaciones sobre una copia.",
+    "codex (gpt-6-luna): La revisión de código abarcó el diff y los contextos del paquete, además de rutas de escritura en oracle_factory/. Los archivos excluidos por el paquete no se revisaron.",
+    "codex (gpt-6-luna): No reabrí como hallazgos las observaciones bajas de vuelta 2 reservadas a decisión humana. La revisión estática no encontró interbloqueos ni esperas sin fin en los flujos vistos."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

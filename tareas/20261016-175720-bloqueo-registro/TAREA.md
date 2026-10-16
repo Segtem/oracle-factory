@@ -23,3 +23,7 @@ Medidas de flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_n
 ### Nota (2026-10-16 18:07:00 UTC)
 
 Medidas de flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-16 19:55:16 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy: la 1 marcó un alto y tres medios (la primera escritura sin leer no quedaba protegida, un archivo borrado daba un error crudo, bl2 no enfrentaba dos escrituras de Factory) y la 2 un medio (bl1 no aislaba la lectura), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la 3 no encontró nada; quedan bajas de la vuelta 2 sobre el alcance del catálogo, el sensor y el flock en carpetas compartidas); 0 abiertos derivados; commit d9c38661e3fa22d05b01dbdd565c4f194efa4e1c; informe tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/informe.json; decisiones tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/decisiones.json.

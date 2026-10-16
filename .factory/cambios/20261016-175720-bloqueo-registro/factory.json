@@ -2,7 +2,7 @@
   "id": "20261016-175720-bloqueo-registro",
   "titulo": "Dos procesos que escriben el mismo registro no se pisan",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md",
   "spec_sha256": "357e04379df21b8a2ca9644cfc38dbd15e4632df69b5536581d90c8347b99c3e",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/informe.json",
+    "sha256": "b711645435697a5a1f0b7c72c327f09aa9562653671abc88e12d701f6eb77250",
+    "decisiones": "tareas/20261016-175720-bloqueo-registro/revisiones/registro-_qrs0clz/decisiones.json",
+    "decisiones_sha256": "75f1d3668adec3d54abefb12b345ad6e6f33d7a7196042206bc7f297f3c518d1",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T19:55:16+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 marcó un alto y tres medios (la primera escritura sin leer no quedaba protegida, un archivo borrado daba un error crudo, bl2 no enfrentaba dos escrituras de Factory) y la 2 un medio (bl1 no aislaba la lectura), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la 3 no encontró nada; quedan bajas de la vuelta 2 sobre el alcance del catálogo, el sensor y el flock en carpetas compartidas",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d9c38661e3fa22d05b01dbdd565c4f194efa4e1c",
+      "archivos_sha256": "102924ffcfd68fcd578283036d3e11dd8b26724eca53aea88a248e07bda78fac"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -175,6 +195,20 @@
       "cuando": "2026-10-16T19:12:33+00:00",
       "decision": "aprobar",
       "candidato": "f72807d"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-16T19:55:16+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b711645435697a5a1f0b7c72c327f09aa9562653671abc88e12d701f6eb77250",
+      "decisiones_sha256": "75f1d3668adec3d54abefb12b345ad6e6f33d7a7196042206bc7f297f3c518d1"
     }
   ],
   "tipos": {
@@ -199,14 +233,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy: la 1 marcó un alto y tres medios (la primera escritura sin leer no quedaba protegida, un archivo borrado daba un error crudo, bl2 no enfrentaba dos escrituras de Factory) y la 2 un medio (bl1 no aislaba la lectura), corregidos con pruebas que fallan sobre el código anterior y mutaciones; la 3 no encontró nada; quedan bajas de la vuelta 2 sobre el alcance del catálogo, el sensor y el flock en carpetas compartidas",
-      "candidato": "f72807d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-16T19:12:33+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
