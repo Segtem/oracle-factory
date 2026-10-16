@@ -10,3 +10,4 @@ build/
 uv.lock
 .factory/local/
 .factory/cambios/*/candidatos/*/clue/
+*.vsix
