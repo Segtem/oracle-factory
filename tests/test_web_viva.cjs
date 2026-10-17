@@ -47,6 +47,20 @@ const ESCENARIOS = {
       assert.equal(estado, 'viva', nombre);
       assert(animaciones > 0, `${nombre} sin animación`);
     }
+    // Un personaje que rebota o salta se queda en su lugar: nunca se va a otro punto de la escena.
+    await page.evaluate(() => scrollTo(0, 0));
+    const muestras = [];
+    for (let i = 0; i < 12; i++) {
+      muestras.push(await page.locator('.pixel-scene .saluda, .pixel-scene .trabaja, .pixel-scene .salta').evaluateAll(gs =>
+        gs.map(g => { const r = g.getBoundingClientRect(), s = g.closest('.pixel-scene').getBoundingClientRect();
+                      return [(r.left - s.left) / s.width, (r.top - s.top) / s.height]; })));
+      await page.waitForTimeout(180);
+    }
+    for (let k = 0; k < muestras[0].length; k++) {
+      const xs = muestras.map(m => m[k][0]), ys = muestras.map(m => m[k][1]);
+      assert(Math.max(...xs) - Math.min(...xs) < 0.01 && Math.max(...ys) - Math.min(...ys) < 0.15,
+             `el personaje ${k} se va de su lugar: x ${xs.map(v => v.toFixed(2))} y ${ys.map(v => v.toFixed(2))}`);
+    }
     // Los personajes con nombre y su globito: los seis del elenco, también fuera de él.
     const personajes = await page.locator('.personaje').evaluateAll(ps => ps.map(p => [p.dataset.nombre,
       p.querySelector('.cara svg rect') !== null, (p.querySelector('.globo') || {}).innerText || '']));

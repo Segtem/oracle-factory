@@ -1897,8 +1897,8 @@ footer a:hover {
 /* las animaciones, sólo con la escena viva */
 @keyframes deriva { from { transform:translateX(-30px) } to { transform:translateX(250px) } }
 @keyframes cinta { to { transform:translateX(-8px) } }
-@keyframes viaja { from { transform:translate(-16px,66px) } to { transform:translate(240px,66px) } }
-@keyframes bota { 50% { transform:translateY(-2px) } }
+@keyframes viaja { 0% { transform:translate(28px,66px); opacity:0 } 8% { opacity:1 } 88% { opacity:1 } 100% { transform:translate(178px,66px); opacity:0 } }  /* el pedido sale de la persona y llega al agente */
+@keyframes bota { 50% { translate:0 -2px } }  /* translate, no transform: el transform pisaría la posición del sprite */
 @keyframes salta { 0%,70%,100% { translate:0 0 } 80% { translate:0 -5px } }
 @keyframes titila { 50% { opacity:.35 } }
 @keyframes carril { from { transform:translateX(0) } to { transform:translateX(205px) } }

@@ -27,3 +27,15 @@ Medidas de web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad: f
 ### Nota (2026-10-17 00:05:35 UTC)
 
 Medidas de web_c8800172a340333d8.los_easter_eggs_no_tapan_nada: factory_viva.los_easter_eggs_no_tapan_nada, factory_viva.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-17 00:14:18 UTC)
+
+Medidas de web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-17 00:14:18 UTC)
+
+Medidas de web_c8800172a340333d8.la_portada_es_una_fabrica_viva: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-17 00:14:18 UTC)
+
+Medidas de web_c8800172a340333d8.los_easter_eggs_no_tapan_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
