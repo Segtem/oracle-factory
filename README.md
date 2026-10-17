@@ -136,7 +136,7 @@ npm install --no-save --package-lock=false playwright@1.62.1
 node tests/test_site.cjs
 ```
 
-La prueba usa `/usr/bin/chromium` por defecto; se puede indicar otro ejecutable con la variable `CHROMIUM`. Comprueba los controles, las decisiones, el teclado, movimiento reducido, adaptación móvil, enlaces y funcionamiento sin red.
+La portada viva (escenas, personajes, el minijuego y sus secretos) tiene su propia prueba por escenario: `node tests/test_web_viva.cjs recorrer_la_portada` (los nombres están en el archivo), y la máquina del minijuego se prueba sin navegador con `node tests/test_juego.cjs`. La prueba usa `/usr/bin/chromium` por defecto; se puede indicar otro ejecutable con la variable `CHROMIUM`. Comprueba los controles, las decisiones, el teclado, movimiento reducido, adaptación móvil, enlaces y funcionamiento sin red.
 
 
 ## Extensión de VS Code
