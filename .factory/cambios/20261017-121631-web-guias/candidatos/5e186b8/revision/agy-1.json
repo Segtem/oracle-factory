@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/5e186b8",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "5e186b88ca2012e44a7cc38e6d08846d7e922b54",
+  "diff_sha256": "0dae63ec8a46d4b59a99dbaabaf2e9d807073fc7bd5c070643bde35e4599b644",
+  "context_sha256": "61f942eda7137addfd81a043bc9502129b673f33d5e872b9d7d37d22b9bcc3e4",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano con Chromium (/usr/bin/chromium) los tres escenarios solicitados de tests/test_web_guias.cjs: recorrer_cada_guia, movimiento_reducido_y_pantalla_chica y comparar_con_la_version_anterior, finalizando todos exitosamente con código 0.",
+    "Se verificó la efectiva corrección de los hallazgos de la Vuelta 2 (AGY-001/CG-001 y AGY-002): mediante mutaciones experimentales en copias de trabajo se comprobó que tests/texto_guias.cjs preserva y compara sin normalizar los saltos de línea y formato en bloques pre y code, y que tests/test_web_guias.cjs comprueba que cada guía incluya su identificador de escena propio (guia, modos y equipo).",
+    "Se verificó estáticamente la paridad bit a bit del contenido HTML preexistente en site/desde-cero.html, site/modos.html y site/colaboracion.html (excluyendo los dos scripts incorporados y los elementos marcados con data-viva), comprobando que el texto, comandos y estructura preexistente permanecen idénticos a los del commit base.",
+    "Se ejecutaron las pruebas de regresión de la portada en Chromium: tests/test_web_viva.cjs (los 6 escenarios: recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) y tests/test_site.cjs, confirmando ausencia de regresiones en la portada y en los secretos/minijuego.",
+    "Se verificaron los aspectos de accesibilidad (role=img y aria-label descriptivo en las escenas pixel art, SVGs internos con aria-hidden y focusable=false, atributos data-viva, figcaption y globitos accesibles en los personajes), la ausencia de pisado de coordenadas en sprites animados mediante el uso de propiedades CSS rotate y translate independientes, y la ausencia de desborde horizontal entre 320 y 1440 px.",
+    "Se comprobó la corrección conceptual de los textos de los globitos sobre el funcionamiento y filosofía de Oracle Factory (roles de persona vs. agente, modos de trabajo, Clue, revisión y juicios de Oracle).",
+    "No se ejecutó la suite completa de pruebas en Python de todo el repositorio ni tools/verify_web_guias.py por indicación explícita del pedido de revisión.",
+    "No se emite juicio sobre la calidad estética o artística del diseño pixel art, cuya valoración corresponde a una persona."
+  ]
+}
