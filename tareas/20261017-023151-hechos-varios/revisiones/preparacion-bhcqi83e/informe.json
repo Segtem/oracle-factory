@@ -1,0 +1,74 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261017-023151-hechos-varios",
+  "contexto": {
+    "head": "d4027794233b3041c9bad3ac438eb72ff8b86d8a",
+    "archivos_sha256": "094367a2a5b325dc1838dd5fc88e6b115dbb6d0a3d24b0dbfc2339431dd86c7b"
+  },
+  "documentos": {
+    "openspec/changes/20261017-023151-hechos-varios/proposal.md": "537794eba6a29711cb4df48818fb68d7f6f67fc6b333e58310f3111e85617f6b",
+    "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_hechos.corrida_completa.oracle",
+    "catalogos/factory_hechos.dos_sensores_no_emiten_la_misma_relacion.oracle",
+    "catalogos/factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261017-023151-hechos-varios/design.md",
+    "openspec/changes/20261017-023151-hechos-varios/proposal.md",
+    "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
+    "openspec/changes/20261017-023151-hechos-varios/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/estructura.py",
+    "pyproject.toml",
+    "requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion.requisito",
+    "requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores.requisito",
+    "tests/test_hechos_varios.py",
+    "tools/verify_collaboration.py",
+    "tools/verify_hechos_varios.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 396 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261017-023151-hechos-varios/candidatos/db4acc9/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261017-023151-hechos-varios/candidatos/db4acc9/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261017-023151-hechos-varios/candidatos/db4acc9/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 18aca3d: agy (gemini-3.8-flash-high), 7 hallazgos: AGY-HV-01 (alta), AGY-HV-02 (alta), AGY-HV-03 (media), AGY-HV-04 (media), AGY-HV-05 (baja), AGY-HV-06 (media), AGY-HV-07 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261017-023151-hechos-varios/candidatos/18aca3d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 18aca3d: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261017-023151-hechos-varios/candidatos/18aca3d/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios hv1–hv2 en repositorios temporales, Linux, con Oracle 0.39.0 real y el ejemplo notas más un segundo sensor de prueba. No prueba Jam ni LyraGASP con sus sensores reales: suben a Oracle 0.39.0 después.",
+    "agy (gemini-3.8-flash-high): Se revisaron los 16 archivos del paquete de Oracle Clue contra la propuesta y la spec de OpenSpec: oracle_factory/cli.py, oracle_factory/estructura.py, pyproject.toml, tools/verify_collaboration.py, docs/colaboracion.md, tests/test_hechos_varios.py, tools/verify_hechos_varios.py, catalogos/factory_hechos.*.oracle, requisitos/ y documentación de openspec. Se excluyeron los 10 archivos fuera del paquete (.factory y tareas).",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos de la vuelta 1 (HV-01 a HV-07) confirmando que no hay regresiones y que las correcciones funcionan efectivamente.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias del cambio tal como se instruyó: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null sobre el checkout de solo lectura (6 pruebas OK).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_hechos_varios.py directamente conforme a la indicación explícita del usuario.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en copias aisladas dentro del espacio de trabajo del revisor sobre 16 mutaciones de comportamiento prometido (15 fueron eliminadas/detectadas por la suite, y 1 sobrevivió: omisión de shlex.quote en comando_juzgar, debido a que los fixtures de prueba no contienen espacios en sus nombres de archivo, aunque se verificó empíricamente que el código maneja rutas con espacios correctamente).",
+    "agy (gemini-3.8-flash-high): Se probaron casos extremos adicionales en copias locales: juicio con tres sensores, anulación o modificación del primer sensor registrado, rutas con espacios en blanco bajo shlex.split/quote, y resiliencia ante estados anómalos o registros históricos con un solo archivo.",
+    "codex (gpt-6-luna): Leí la propuesta y los dos requisitos/escenarios; contrasté los 16 archivos versionados del diff y los rangos del paquete. Excluí los registros y la evidencia de Factory indicados fuera del paquete.",
+    "codex (gpt-6-luna): Verifiqué las correcciones de HV-01 a HV-06, en particular recuperación y repetición con todos los --con, etiqueta para sensor inválido, salida sin filas con código 0 y registro de un rojo real. Revisé compatibilidad con un solo --con, el analizador repetible, rutas con espacios mediante shlex.quote y el listado de todos los hechos en donde.",
+    "codex (gpt-6-luna): Corrí desde la raíz del checkout exactamente: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null. Resultado: 6 pruebas, OK; la salida completa está en pruebas.log.",
+    "codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_hechos_varios.py y no hice mutaciones manuales sobre copias. La revisión es análisis estático más la prueba de cambio indicada; no constituye una demostración de propiedades fuera de sus escenarios."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
