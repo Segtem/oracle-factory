@@ -1986,3 +1986,19 @@ body[data-fiesta=si] [data-estado=final] .ventana { fill:#e0705f }
   max-width:820px;
   margin-inline:auto
 }
+
+/* las guías (cambio web-guias) */
+.escena-guia {
+  max-width:820px;
+  margin:4px 0 26px
+}
+.personaje.en-guia {
+  margin:22px 0 4px;
+  max-width:560px
+}
+@keyframes balancea { 0%,100% { rotate:-3deg } 50% { rotate:3deg } }
+@keyframes viaja2 { 0% { translate:0 0; opacity:0 } 10%,85% { opacity:1 } 100% { translate:132px 0; opacity:0 } }
+.balanza { transform-box:fill-box; transform-origin:center }
+[data-estado=viva] .balanza { animation:balancea 3s steps(6) infinite }
+[data-estado=viva] .viaja2 { animation:viaja2 6s linear infinite }
+[data-estado=final] .viaja2 { translate:66px 0 }
