@@ -84,33 +84,46 @@
         "factory_guias.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "requisito": "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "medidas": [
+        "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian",
+        "factory_guias.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "requisito": "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco",
+      "medidas": [
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco",
+        "factory_guias.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": "funcional",
     "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": {
-      "sha256": "6471d8fb150f76ee37a96f262c782d8e6fc618d371c0dd89828cf34cda6a8825",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-17T12:34:56+00:00",
-      "catalogos": {
-        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "18102ef51badbededfbb3740822818dd9a0945b29fccd7fcb95f8fc65a6531ae",
-        "factory_guias.corrida_completa": "1986c295c666c8f99d3b28bf30202f7495b9987c4aca3df64d55da4f6ec09d67"
-      },
-      "archivos_catalogo": {
-        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "catalogos/factory_guias.las_guias_tienen_su_escena_y_su_elenco.oracle",
-        "factory_guias.corrida_completa": "catalogos/factory_guias.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T12:36:29+00:00",
       "sha256": "c84e4dbddb0bd903d57f2a033f57fc6d78542323a09bc7bf18889c8c47e04853",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-17T12:34:56+00:00",
       "catalogos": {
         "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian": "88376ca43f0f47ece9891c917f74cc74a0df248b63df6944b4a23f472c4ea753",
         "factory_guias.corrida_completa": "1986c295c666c8f99d3b28bf30202f7495b9987c4aca3df64d55da4f6ec09d67"
@@ -119,6 +132,23 @@
         "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian": "catalogos/factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian.oracle",
         "factory_guias.corrida_completa": "catalogos/factory_guias.corrida_completa.oracle"
       }
+    },
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "sha256": "6471d8fb150f76ee37a96f262c782d8e6fc618d371c0dd89828cf34cda6a8825",
+      "catalogos": {
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "18102ef51badbededfbb3740822818dd9a0945b29fccd7fcb95f8fc65a6531ae",
+        "factory_guias.corrida_completa": "1986c295c666c8f99d3b28bf30202f7495b9987c4aca3df64d55da4f6ec09d67"
+      },
+      "archivos_catalogo": {
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "catalogos/factory_guias.las_guias_tienen_su_escena_y_su_elenco.oracle",
+        "factory_guias.corrida_completa": "catalogos/factory_guias.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
