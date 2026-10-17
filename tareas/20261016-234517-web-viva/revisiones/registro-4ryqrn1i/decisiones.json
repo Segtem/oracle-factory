@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba",
+  "decisiones": []
+}

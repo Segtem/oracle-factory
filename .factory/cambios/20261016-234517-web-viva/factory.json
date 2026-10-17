@@ -2,7 +2,7 @@
   "id": "20261016-234517-web-viva",
   "titulo": "Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261016-234517-web-viva/specs/web/spec.md",
   "spec_sha256": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
     "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/informe.json",
+    "sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
+    "decisiones": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/decisiones.json",
+    "decisiones_sha256": "43daf4f57d1c8bea2f00527cebdf4f32e84d15bb700c7968cdf4e355a985d43b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T02:24:55+00:00",
+    "motivo": "dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4368aad14b71ac46cf6fd93e5a7bd08a3d2cd469",
+      "archivos_sha256": "9e8994f33aa923a1cb7831f80ea4087ed7f4f4595c8b4df98642832a9b7f12bb"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -205,6 +225,20 @@
       "cuando": "2026-10-17T01:01:18+00:00",
       "decision": "aprobar",
       "candidato": "74efd95"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T02:24:55+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
+      "decisiones_sha256": "43daf4f57d1c8bea2f00527cebdf4f32e84d15bb700c7968cdf4e355a985d43b"
     }
   ],
   "tipos": {
@@ -263,14 +297,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba",
-      "candidato": "74efd95",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-17T01:01:18+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
