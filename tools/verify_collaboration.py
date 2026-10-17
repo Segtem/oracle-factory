@@ -632,8 +632,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     output = args.salida.expanduser().resolve()
     versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task')}
-    if versions != {'oracle-metalenguaje': '0.38.2', 'oracle-task': '0.2.0'}:
-        parser.error('usar dependencias fijadas de Factory: oracle-metalenguaje 0.38.2 y oracle-task 0.2.0')
+    if versions != {'oracle-metalenguaje': '0.39.0', 'oracle-task': '0.2.0'}:
+        parser.error('usar dependencias fijadas de Factory: oracle-metalenguaje 0.39.0 y oracle-task 0.2.0')
     clue = shutil.which(args.clue)
     if not clue:
         parser.error('falta oracle-clue; instalar 0.1.0a2 o indicar --clue /ruta/al/ejecutable')

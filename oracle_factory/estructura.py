@@ -114,6 +114,9 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None, or
         for clave in ('informe', 'hechos'):
             if clave in oracle and oracle[clave] is not None:
                 filas.append(_entrada('juicio', oracle[clave], raiz))
+        mas = oracle.get('hechos_mas')
+        for extra in (mas if isinstance(mas, list) else [] if mas is None else [mas]):  # los demás sensores
+            filas.append(_entrada('juicio', extra.get('ruta') if isinstance(extra, dict) else extra, raiz))
     candidatos = raiz / DIR / 'cambios' / ident / 'candidatos'
     if candidatos.is_dir() and not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta
         for carpeta in sorted(candidatos.iterdir()):
