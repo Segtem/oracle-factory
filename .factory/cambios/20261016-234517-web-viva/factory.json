@@ -195,6 +195,16 @@
       "candidato": "74efd95",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T01:01:18+00:00",
+      "decision": "aprobar",
+      "candidato": "74efd95"
     }
   ],
   "tipos": {
@@ -252,5 +262,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba",
+      "candidato": "74efd95",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T01:01:18+00:00"
+    }
+  }
 }
