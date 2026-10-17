@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hechos-varios/.factory/local/revisiones/db4acc9",
+  "base": "581af766529d5ece110e3fdb0f9d24bb81cf78d3",
+  "head": "db4acc92f4eef9e13acdae3bab764fdbde1291bc",
+  "diff_sha256": "d6acb8e68446db8631c403e4b5e3e9c35624ba84d0bae616d28944a33c9d0f14",
+  "context_sha256": "31086b7149fbedb41ec50d364695fd5df62b872960a37d51e30375ddbb431e3f",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta y los dos requisitos/escenarios; contrasté los 16 archivos versionados del diff y los rangos del paquete. Excluí los registros y la evidencia de Factory indicados fuera del paquete.",
+    "Verifiqué las correcciones de HV-01 a HV-06, en particular recuperación y repetición con todos los --con, etiqueta para sensor inválido, salida sin filas con código 0 y registro de un rojo real. Revisé compatibilidad con un solo --con, el analizador repetible, rutas con espacios mediante shlex.quote y el listado de todos los hechos en donde.",
+    "Corrí desde la raíz del checkout exactamente: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null. Resultado: 6 pruebas, OK; la salida completa está en pruebas.log.",
+    "No ejecuté la suite completa ni tools/verify_hechos_varios.py y no hice mutaciones manuales sobre copias. La revisión es análisis estático más la prueba de cambio indicada; no constituye una demostración de propiedades fuera de sus escenarios."
+  ]
+}

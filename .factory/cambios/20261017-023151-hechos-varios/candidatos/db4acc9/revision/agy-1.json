@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hechos-varios/.factory/local/revisiones/db4acc9",
+  "base": "581af766529d5ece110e3fdb0f9d24bb81cf78d3",
+  "head": "db4acc92f4eef9e13acdae3bab764fdbde1291bc",
+  "diff_sha256": "d6acb8e68446db8631c403e4b5e3e9c35624ba84d0bae616d28944a33c9d0f14",
+  "context_sha256": "31086b7149fbedb41ec50d364695fd5df62b872960a37d51e30375ddbb431e3f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 16 archivos del paquete de Oracle Clue contra la propuesta y la spec de OpenSpec: oracle_factory/cli.py, oracle_factory/estructura.py, pyproject.toml, tools/verify_collaboration.py, docs/colaboracion.md, tests/test_hechos_varios.py, tools/verify_hechos_varios.py, catalogos/factory_hechos.*.oracle, requisitos/ y documentación de openspec. Se excluyeron los 10 archivos fuera del paquete (.factory y tareas).",
+    "Se verificó la resolución de los hallazgos de la vuelta 1 (HV-01 a HV-07) confirmando que no hay regresiones y que las correcciones funcionan efectivamente.",
+    "Se ejecutaron las pruebas unitarias del cambio tal como se instruyó: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null sobre el checkout de solo lectura (6 pruebas OK).",
+    "No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_hechos_varios.py directamente conforme a la indicación explícita del usuario.",
+    "Se realizaron pruebas de mutación manuales en copias aisladas dentro del espacio de trabajo del revisor sobre 16 mutaciones de comportamiento prometido (15 fueron eliminadas/detectadas por la suite, y 1 sobrevivió: omisión de shlex.quote en comando_juzgar, debido a que los fixtures de prueba no contienen espacios en sus nombres de archivo, aunque se verificó empíricamente que el código maneja rutas con espacios correctamente).",
+    "Se probaron casos extremos adicionales en copias locales: juicio con tres sensores, anulación o modificación del primer sensor registrado, rutas con espacios en blanco bajo shlex.split/quote, y resiliencia ante estados anómalos o registros históricos con un solo archivo."
+  ]
+}
