@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:56a0301fc40ea7daa4ed65960e3054a25a543375ff80777a8dd7bee9196c26cd -->
+<!-- oracle-factory resumen sha256:d3b33a3f00fd23121a3b7f3b4e321e49efaeec265fa0a99e8c19ab77df5b4ebb -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 134 requisitos vigentes · 1 cambio abierto
+18 capacidades · 136 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -109,6 +109,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 |---|---|---|---|---|---|
 | un valor del registro que no es una ruta se informa sin caerse | funcional | `flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse` | factory_informe.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse, factory_informe.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-114832-informe-no-texto |
 | dos procesos que escriben el mismo registro no se pisan | funcional | `flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan` | factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan, factory_bloqueo.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-175720-bloqueo-registro |
+| juzgar acepta los hechos de varios sensores | funcional | `flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores` | factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores, factory_hechos.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-023151-hechos-varios |
+| dos sensores no emiten la misma relación | funcional | `flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion` | factory_hechos.dos_sensores_no_emiten_la_misma_relacion, factory_hechos.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-023151-hechos-varios |
 
 ### ide
 
@@ -675,6 +677,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261016-234517-web-viva) codex (gpt-6-luna): NODE_PATH=/home/workstation/Dev/factory-web-viva/node_modules node tests/test_juego.cjs pasó (juego: ok).
 - (20261016-234517-web-viva) codex (gpt-6-luna): Se ejecutaron por separado los seis escenarios requeridos de tests/test_web_viva.cjs. Todos fallaron antes de ejecutar el escenario porque /usr/bin/chromium terminó con SIGTRAP y setsockopt: Operation not permitted; no se atribuye a la aplicación. Por la indicación de la solicitud, se completó la revisión estática y el estado es completo.
 - (20261016-234517-web-viva) codex (gpt-6-luna): No se corrió la suite completa de Python ni se hicieron mutaciones manuales. Sin hallazgos confirmados en la revisión estática; no se pudo observar en navegador el comportamiento visual, el foco y las animaciones.
+- (20261017-023151-hechos-varios) Evidencia: Escenarios hv1–hv2 en repositorios temporales, Linux, con Oracle 0.39.0 real y el ejemplo notas más un segundo sensor de prueba. No prueba Jam ni LyraGASP con sus sensores reales: suben a Oracle 0.39.0 después.
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): Se revisaron los 16 archivos del paquete de Oracle Clue contra la propuesta y la spec de OpenSpec: oracle_factory/cli.py, oracle_factory/estructura.py, pyproject.toml, tools/verify_collaboration.py, docs/colaboracion.md, tests/test_hechos_varios.py, tools/verify_hechos_varios.py, catalogos/factory_hechos.*.oracle, requisitos/ y documentación de openspec. Se excluyeron los 10 archivos fuera del paquete (.factory y tareas).
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos de la vuelta 1 (HV-01 a HV-07) confirmando que no hay regresiones y que las correcciones funcionan efectivamente.
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias del cambio tal como se instruyó: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null sobre el checkout de solo lectura (6 pruebas OK).
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_hechos_varios.py directamente conforme a la indicación explícita del usuario.
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en copias aisladas dentro del espacio de trabajo del revisor sobre 16 mutaciones de comportamiento prometido (15 fueron eliminadas/detectadas por la suite, y 1 sobrevivió: omisión de shlex.quote en comando_juzgar, debido a que los fixtures de prueba no contienen espacios en sus nombres de archivo, aunque se verificó empíricamente que el código maneja rutas con espacios correctamente).
+- (20261017-023151-hechos-varios) agy (gemini-3.8-flash-high): Se probaron casos extremos adicionales en copias locales: juicio con tres sensores, anulación o modificación del primer sensor registrado, rutas con espacios en blanco bajo shlex.split/quote, y resiliencia ante estados anómalos o registros históricos con un solo archivo.
+- (20261017-023151-hechos-varios) codex (gpt-6-luna): Leí la propuesta y los dos requisitos/escenarios; contrasté los 16 archivos versionados del diff y los rangos del paquete. Excluí los registros y la evidencia de Factory indicados fuera del paquete.
+- (20261017-023151-hechos-varios) codex (gpt-6-luna): Verifiqué las correcciones de HV-01 a HV-06, en particular recuperación y repetición con todos los --con, etiqueta para sensor inválido, salida sin filas con código 0 y registro de un rojo real. Revisé compatibilidad con un solo --con, el analizador repetible, rutas con espacios mediante shlex.quote y el listado de todos los hechos en donde.
+- (20261017-023151-hechos-varios) codex (gpt-6-luna): Corrí desde la raíz del checkout exactamente: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null. Resultado: 6 pruebas, OK; la salida completa está en pruebas.log.
+- (20261017-023151-hechos-varios) codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_hechos_varios.py y no hice mutaciones manuales sobre copias. La revisión es análisis estático más la prueba de cambio indicada; no constituye una demostración de propiedades fuera de sus escenarios.
 
 ### Históricos
 

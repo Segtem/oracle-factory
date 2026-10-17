@@ -1,6 +1,6 @@
 # Juzgar un candidato con hechos de varios sensores
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-17 04:36:38 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261017-023151-hechos-varios/oracle-veredicto.txt.
+
+### Nota (2026-10-17 11:23:56 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
