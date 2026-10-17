@@ -1,0 +1,62 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/9e97206",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "9e972068c3710c863a1d4314037b07dd69b307bb",
+  "diff_sha256": "ed6b52ff1e4e167470328fa574b86be1c9bc6a99c5063ca6fe3f359316aab2b8",
+  "context_sha256": "20d711fa271f6880f7d20bb258683b31e2abb0388e17a218d3ea5fe39e8b8043",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La normalización de texto colapsa saltos de línea y no distingue comandos en bloques de código",
+      "explanation": "El escenario de comparación (comparar_con_la_version_anterior) busca demostrar que «el texto y los comandos de las guías no cambian». Sin embargo, tests/texto_guias.cjs:16 normaliza todo texto extraído aplicando .replace(/\\s+/g, ' ').trim(), colapsando cualquier secuencia de espacios en blanco (incluidos saltos de línea \\n) en un único espacio, sin excluir los bloques <pre> ni <code>. Esto hace que comandos multilínea contiguos cuyos saltos de línea se eliminen o se unan en una sola línea (alterando completamente su sintaxis y ejecución en terminal) generen la misma cadena normalizada y no sean detectados por la comparación. Dado que la spec promete conservar los comandos y su escenario explicita: «WHEN se compara su texto y sus bloques de código... THEN son idénticos», la normalización indiscriminada de espacios impide demostrar la invariancia exacta de los bloques de comandos ejecutables.",
+      "location": {
+        "file": "tests/texto_guias.cjs",
+        "start_line": 16,
+        "end_line": 16,
+        "side": "head"
+      },
+      "trigger": "En una guía, reemplazar en un bloque code dos comandos separados por salto de línea como `git add .\\ngit commit -m \"mensaje\"` por `git add . git commit -m \"mensaje\"`. La extracción produce la misma cadena al colapsar \\s+ a un espacio, por lo que comparar_con_la_version_anterior pasa sin detectar la alteración del comando.",
+      "evidence": "En tests/texto_guias.cjs:16, n.textContent.replace(/\\s+/g, ' ').trim() se ejecuta sobre todos los nodos de texto de main, incluidos descendientes de pre y code. En tests/datos/guias-texto.json, los comandos multilínea (por ejemplo, línea 652: `git config user.name ... git config user.email ...`) aparecen congelados con los saltos de línea convertidos en espacio simple. Confirmado experimentalmente en copia local: alterando saltos de línea en pre/code, la comparación pasa con código 0.",
+      "related_requirement": "el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "status": "pendiente",
+      "verification": "Confirmado mediante análisis estático de tests/texto_guias.cjs y tests/datos/guias-texto.json, y verificado mediante mutación experimental en copia de trabajo ejecutada con Chromium."
+    },
+    {
+      "id": "AGY-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El escenario recorrer_cada_guia no valida que cada guía incluya su escena propia",
+      "explanation": "El requisito las_guias_tienen_su_escena_y_su_elenco exige que: «Cada guía (desde cero, modos y en equipo) SHALL abrir con una escena de pixel art propia que se anima al entrar en pantalla...». Sin embargo, en tests/test_web_guias.cjs:35-39, la prueba desestructura nombre = e.dataset.escena al mapear .pixel-scene, pero únicamente valida assert.equal(escenas.length, 1) y assert(dibujada && estado === 'viva' && animaciones > 0), sin comparar jamás el valor de nombre contra el identificador esperado de la escena para esa guía (guia para desde-cero.html, modos para modos.html, equipo para colaboracion.html). Si una guía referencia la escena de otra por error, la prueba reporta éxito sin advertirlo. Si bien el HTML del candidato 9e97206 declara la escena correcta en cada caso, la prueba no demuestra la propiedad exigida por la spec.",
+      "location": {
+        "file": "tests/test_web_guias.cjs",
+        "start_line": 35,
+        "end_line": 39,
+        "side": "head"
+      },
+      "trigger": "En site/desde-cero.html, modificar data-escena=\"guia\" por data-escena=\"modos\". Al ejecutar recorrer_cada_guia, la prueba finaliza con éxito (código 0) a pesar de que la guía no muestra su escena propia.",
+      "evidence": "En tests/test_web_guias.cjs:35-39, la variable nombre solo se utiliza dentro del mensaje de error de una aserción de animaciones, sin ninguna comprobación de igualdad contra la escena correspondiente. La mutación en copia de trabajo (desde-cero.html con escena modos) se ejecutó en Chromium headless y finalizó con código 0 (recorrer_cada_guia: ok).",
+      "related_requirement": "las_guias_tienen_su_escena_y_su_elenco",
+      "status": "pendiente",
+      "verification": "Confirmado por inspección de código y validado mediante mutación manual ejecutada con Chromium headless en sandbox."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano con Chromium (/usr/bin/chromium) los tres escenarios solicitados de tests/test_web_guias.cjs: recorrer_cada_guia, movimiento_reducido_y_pantalla_chica y comparar_con_la_version_anterior, todos con salida exitosa.",
+    "Se ejecutaron las pruebas de regresión de la portada en Chromium: tests/test_web_viva.cjs (los 6 escenarios: recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) y tests/test_site.cjs, confirmando ausencia de regresiones.",
+    "Se realizó una batería de mutaciones manuales sobre copias locales para evaluar la sensibilidad del conjunto de pruebas, verificando la detección de alteraciones en texto de párrafos, títulos strong, comandos en bloques code, ausencia de data-viva, reducción de personajes bajo el umbral de tres secciones, desbordes horizontales y transformaciones CSS no aisladas. Se constató la supervivencia de mutaciones en comandos con saltos de línea colapsados (AGY-001) y en el identificador de escena por guía (AGY-002).",
+    "Se verificó estáticamente la paridad bit a bit del contenido HTML preexistente (sin los elementos marcados data-viva y los scripts incorporados), confirmando que nada del texto, enlaces o estructura original fue modificado.",
+    "Se comprobó la accesibilidad (role=img, aria-label descriptivo en escenas, aria-hidden en SVGs internos, figcaption con cara y globito en personajes), la ausencia de desborde horizontal entre 320 y 1440 px y el comportamiento bajo movimiento reducido (estado final sin animaciones).",
+    "No se ejecutó la suite completa de pruebas en Python del repositorio ni tools/verify_web_guias.py por indicación explícita del pedido.",
+    "No se emite juicio sobre la calidad estética del diseño pixel art, cuya valoración corresponde a una persona."
+  ]
+}

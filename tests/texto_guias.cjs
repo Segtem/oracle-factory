@@ -13,7 +13,8 @@ async function texto(page) {
     for (let n = recorrido.nextNode(); n; n = recorrido.nextNode()) {
       const e = n.parentElement;
       if (e.closest('[data-viva], script, style')) continue;
-      const s = n.textContent.replace(/\s+/g, ' ').trim();
+      // Los comandos, tal cual: un salto de línea de menos cambia lo que se ejecuta (agy AGY-001, codex CG-001).
+      const s = e.closest('pre, code') ? n.textContent : n.textContent.replace(/\s+/g, ' ').trim();
       if (s) salida.push(s);
     }
     return salida;

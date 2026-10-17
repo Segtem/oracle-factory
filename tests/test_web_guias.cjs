@@ -37,6 +37,8 @@ const ESCENARIOS = {
       assert.equal(escenas.length, 1, guia);
       const [[nombre, estado, animaciones, dibujada]] = escenas;
       assert(dibujada && estado === 'viva' && animaciones > 0, `${guia}: ${nombre} ${estado} ${animaciones}`);
+      // Cada guía, su escena propia (agy AGY-002).
+      assert.equal(nombre, {'desde-cero.html': 'guia', 'modos.html': 'modos', 'colaboracion.html': 'equipo'}[guia], guia);
       // Al menos tres secciones con un personaje con nombre, cara y globito.
       const secciones = await page.locator('main section').evaluateAll(ss => ss.filter(s => {
         const p = s.querySelector('.personaje[data-nombre]');
