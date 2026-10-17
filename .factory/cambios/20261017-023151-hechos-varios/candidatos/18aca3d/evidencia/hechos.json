@@ -1,0 +1,35 @@
+{
+  "hechos_caso": [
+    {
+      "requisito": "juzgar_acepta_los_hechos_de_varios_sensores",
+      "caso": "hv1_un_candidato_integrado_con_dos_sensores",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_acepta_los_hechos_de_varios_sensores",
+      "caso": "hv1_uno_de_los_archivos_cambia_despues_del_juicio",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_acepta_los_hechos_de_varios_sensores",
+      "caso": "hv1_un_archivo_que_cambia_durante_el_juicio",
+      "codigo": 0
+    },
+    {
+      "requisito": "juzgar_acepta_los_hechos_de_varios_sensores",
+      "caso": "hv1_con_uno_solo_el_registro_es_el_de_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "dos_sensores_no_emiten_la_misma_relacion",
+      "caso": "hv2_dos_frentes_que_emiten_la_misma_relacion",
+      "codigo": 0
+    }
+  ],
+  "hechos_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
