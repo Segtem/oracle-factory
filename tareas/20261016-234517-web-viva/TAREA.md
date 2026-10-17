@@ -43,3 +43,7 @@ Medidas de web_c8800172a340333d8.los_easter_eggs_no_tapan_nada: Brian Hollweg (p
 ### Nota (2026-10-17 02:24:55 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba); 0 abiertos derivados; commit 4368aad14b71ac46cf6fd93e5a7bd08a3d2cd469; informe tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/informe.json; decisiones tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/decisiones.json.
+
+### Nota (2026-10-17 02:25:15 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261016-234517-web-viva/oracle-veredicto.txt.

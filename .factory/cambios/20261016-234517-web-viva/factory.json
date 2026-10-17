@@ -2,7 +2,7 @@
   "id": "20261016-234517-web-viva",
   "titulo": "Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261016-234517-web-viva/specs/web/spec.md",
   "spec_sha256": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "9e8994f33aa923a1cb7831f80ea4087ed7f4f4595c8b4df98642832a9b7f12bb"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-234517-web-viva/candidatos/74efd95/evidencia/hechos.json",
+    "hechos_sha256": "d61f831d75469c52f7fbf5b77f1702682c2953a2a3960678f4da0646f12b2e0e",
+    "informe": ".factory/cambios/20261016-234517-web-viva/oracle-veredicto.txt",
+    "informe_sha256": "9ffe8b1c58f99e3e88291d619c8c61cf93664a3a23d866f9ef9f5953dff19edc",
+    "cuando": "2026-10-17T02:25:15+00:00",
+    "contexto": {
+      "head": "e1185c88d1b1852142502a18c49fcf476a9142d8",
+      "archivos_sha256": "9e8994f33aa923a1cb7831f80ea4087ed7f4f4595c8b4df98642832a9b7f12bb"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -239,6 +251,17 @@
       "abiertos": 0,
       "sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
       "decisiones_sha256": "43daf4f57d1c8bea2f00527cebdf4f32e84d15bb700c7968cdf4e355a985d43b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:15+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d61f831d75469c52f7fbf5b77f1702682c2953a2a3960678f4da0646f12b2e0e"
     }
   ],
   "tipos": {
