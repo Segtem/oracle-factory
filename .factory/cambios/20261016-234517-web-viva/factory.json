@@ -58,6 +58,48 @@
         "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
         "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "requisito": "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+      "medidas": [
+        "factory_viva.la_portada_es_una_fabrica_viva",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "requisito": "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+      "medidas": [
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:35+00:00",
+      "requisito": "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada",
+      "medidas": [
+        "factory_viva.los_easter_eggs_no_tapan_nada",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva": {
+      "sha256": "c4a5ffb65e53c74e10bde702fb04a667281aa445c42250afd3f24d3f2f507a0c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "catalogos": {
+        "factory_viva.la_portada_es_una_fabrica_viva": "772f0e468949d23a08efbe40034696f8bfda1b5176f8b8c1c7c96154b08ab65a",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.la_portada_es_una_fabrica_viva": "catalogos/factory_viva.la_portada_es_una_fabrica_viva.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    },
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad": {
+      "sha256": "47a88ad32360b64556581113755430b48dbe685471ec4a133de74aada389f38a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "catalogos": {
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad": "675efcf2dca7c9ca4c291e70d5d90a5012cc9ae082007297cacb1f30afc7bca1",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad": "catalogos/factory_viva.el_minijuego_ensena_las_decisiones_de_verdad.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    },
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": {
+      "sha256": "86e8d863b1bd958fd4d514c5f33d79373248779733d438ec12f5ad260fe00ae3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T00:05:35+00:00",
+      "catalogos": {
+        "factory_viva.los_easter_eggs_no_tapan_nada": "3d06ade7fb10a24659f4d89c1c33e69b0365cc3fccf0dd3dfde34340927ffbef",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.los_easter_eggs_no_tapan_nada": "catalogos/factory_viva.los_easter_eggs_no_tapan_nada.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    }
+  }
 }
