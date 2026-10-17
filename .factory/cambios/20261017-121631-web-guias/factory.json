@@ -2,7 +2,7 @@
   "id": "20261017-121631-web-guias",
   "titulo": "Las guías con la fábrica viva",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261017-121631-web-guias/specs/web/spec.md",
   "spec_sha256": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
     "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/informe.json",
+    "sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
+    "decisiones": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/decisiones.json",
+    "decisiones_sha256": "f89ff9623f3e5acae3e8bccd5b36b83007c50b025f8166361597eec4df9e3775",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T13:48:03+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "85d642f9f1c42718539aa8086a1ebdad28a3b4c1",
+      "archivos_sha256": "4ee6071a4209d4458339adfcd6f2f26ad21a5ea9aef549d279118c701fd1c4c5"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -204,6 +224,20 @@
       "cuando": "2026-10-17T13:32:23+00:00",
       "decision": "aprobar",
       "candidato": "5e186b8"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T13:48:03+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
+      "decisiones_sha256": "f89ff9623f3e5acae3e8bccd5b36b83007c50b025f8166361597eec4df9e3775"
     }
   ],
   "tipos": {
@@ -245,14 +279,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos",
-      "candidato": "5e186b8",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-17T13:32:23+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

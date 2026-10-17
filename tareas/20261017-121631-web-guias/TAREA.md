@@ -31,3 +31,7 @@ Medidas de web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian
 ### Nota (2026-10-17 12:36:29 UTC)
 
 Medidas de web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-17 13:48:03 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos); 0 abiertos derivados; commit 85d642f9f1c42718539aa8086a1ebdad28a3b4c1; informe tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/informe.json; decisiones tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/decisiones.json.

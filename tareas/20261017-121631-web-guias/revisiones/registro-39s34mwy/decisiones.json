@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
+  "actor": "Brian Hollweg",
+  "motivo": "tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos",
+  "decisiones": []
+}
