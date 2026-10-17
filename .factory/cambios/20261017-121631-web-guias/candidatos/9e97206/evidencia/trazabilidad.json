@@ -1,0 +1,65 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": [
+      "test_web_guias.WebGuias.test_wg2_comparar_con_la_version_anterior"
+    ],
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": [
+      "test_web_guias.WebGuias.test_wg1_movimiento_reducido_y_pantalla_chica",
+      "test_web_guias.WebGuias.test_wg1_recorrer_cada_guia"
+    ]
+  },
+  "casos": {
+    "test_web_guias.WebGuias.test_wg1_movimiento_reducido_y_pantalla_chica": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_guias.py": [
+          16,
+          17,
+          18,
+          23,
+          24
+        ]
+      }
+    },
+    "test_web_guias.WebGuias.test_wg1_recorrer_cada_guia": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_guias.py": [
+          16,
+          17,
+          18,
+          20,
+          21
+        ]
+      }
+    },
+    "test_web_guias.WebGuias.test_wg2_comparar_con_la_version_anterior": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_guias.py": [
+          16,
+          17,
+          18,
+          26,
+          27
+        ]
+      }
+    }
+  }
+}
