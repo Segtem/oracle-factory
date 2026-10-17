@@ -2,7 +2,7 @@
   "id": "20261017-121631-web-guias",
   "titulo": "Las guías con la fábrica viva",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261017-121631-web-guias/specs/web/spec.md",
   "spec_sha256": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "4ee6071a4209d4458339adfcd6f2f26ad21a5ea9aef549d279118c701fd1c4c5"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261017-121631-web-guias/candidatos/5e186b8/evidencia/hechos.json",
+    "hechos_sha256": "f488fd1fad6e22172bb775a2467bd08c1b44792fd00744a490e29d1dd93f45ec",
+    "informe": ".factory/cambios/20261017-121631-web-guias/oracle-veredicto.txt",
+    "informe_sha256": "fc423cc98e2f07ea1fe28f0746a3237fae2d7337c85866b687cc7fd560bfc6c3",
+    "cuando": "2026-10-17T13:54:57+00:00",
+    "contexto": {
+      "head": "b06a6f22b02a4b20828be8cb610ad54d2203d9a6",
+      "archivos_sha256": "4ee6071a4209d4458339adfcd6f2f26ad21a5ea9aef549d279118c701fd1c4c5"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -238,6 +250,17 @@
       "abiertos": 0,
       "sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
       "decisiones_sha256": "f89ff9623f3e5acae3e8bccd5b36b83007c50b025f8166361597eec4df9e3775"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T13:54:57+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f488fd1fad6e22172bb775a2467bd08c1b44792fd00744a490e29d1dd93f45ec"
     }
   ],
   "tipos": {
