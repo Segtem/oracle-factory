@@ -60,4 +60,15 @@ for (const id of ['aceptar', 'acordar', 'corregir', 'riesgo', 'motivo0', 'aproba
   J.elegir(e, id);
 }
 assert.equal(J.opciones(e).length, 0);
+// Toda opción no disponible dice por qué, en cada paso de cada camino (agy-web-viva-1).
+for (const camino of [['aceptar', 'acordar', 'corregir', 'riesgo', 'motivo0', 'aprobar'], ['otra', 'aceptar', 'sin', 'seguir', 'cambios', 'aprobar']]) {
+  e = J.nuevo();
+  for (const id of camino) {
+    for (const o of J.opciones(e).filter(o => !o.disponible)) {
+      assert.equal(typeof o.porque, 'string', `${e.paso}: ${o.id}`);
+      assert.equal(J.elegir(e, o.id), o.porque);
+    }
+    J.elegir(e, id);
+  }
+}
 console.log('juego: ok');

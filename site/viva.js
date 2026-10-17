@@ -31,7 +31,7 @@
         nube(20, 10, 'nube') + nube(120, 4, 'nube lenta') +
         '<g class="humo" id="humo"></g>' +
         // la chimenea larga: un botón escondido
-        '<g class="chimenea" id="chimenea" tabindex="0" role="button" aria-label="Chimenea larga de la fábrica">' +
+        '<g class="chimenea">' +
         r(150, 10, 10, 30, C.k) + r(151, 11, 8, 29, C.c) + r(149, 8, 12, 3, C.k) + '</g>' +
         r(84, 26, 8, 14, C.k) + r(85, 27, 6, 13, C.c) +
         // el edificio con techo de sierra
@@ -42,7 +42,7 @@
         '<text x="120" y="48.6" text-anchor="middle" class="cartel">ORACLE FACTORY</text>' +
         ventanas + r(114, 64, 12, 14, C.k) + r(116, 66, 8, 12, C.Y) +
         // el gato en el techo: otro botón escondido
-        '<g class="gato" id="gato" tabindex="0" role="button" aria-label="Gato de la fábrica">' + P.g('gato', 98, 18, '') + '</g>' +
+        '<g class="gato" id="gato-sprite">' + P.g('gato', 98, 18, '') + '</g>' +
         '<g class="confeti" id="confeti"></g>' +
         // la cinta y la caja que viaja
         r(0, 80, 240, 3, C.k) + '<g class="cinta">' + cinta + '</g>' + r(0, 84, 240, 2, C.k) +
@@ -94,7 +94,7 @@
     trabajar: function () {
       return marco(240, 48, r(60, 38, 120, 4, C.N) + r(64, 42, 4, 6, C.N) + r(172, 42, 4, 6, C.N) +
         P.g('pantalla', 100, 23, '') + r(108, 30, 1, 2, C.g, ' class="cursor"') +
-        P.g('persona', 70, 22, 'quien') + P.g('agente', 140, 22, 'quien trabaja'));
+        P.g('persona', 70, 22, 'quien trabaja') + P.g('agente', 140, 22, 'quien trabaja'));
     }
   };
 
@@ -149,7 +149,7 @@
         b.dataset.opcion = o.id;
         if (!o.disponible) {
           b.setAttribute('aria-disabled', 'true');
-          b.title = o.porque;
+          if (o.porque) b.title = o.porque;
         }
         opciones.appendChild(b);
       });
@@ -208,12 +208,11 @@
     clearTimeout(globo.t);
     globo.t = setTimeout(function () { g.hidden = true; }, 4000);
   }
+  // Botones de verdad (Enter y Espacio vienen solos); el mouse no se lleva el foco de donde estaba.
   function activable(el, f) {
     if (!el) return;
+    el.addEventListener('mousedown', function (ev) { ev.preventDefault(); });
     el.addEventListener('click', f);
-    el.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); f(); }
-    });
   }
 
   function huevos() {
@@ -233,7 +232,7 @@
     var miaus = ['Miau. Yo sólo superviso.', 'Miau. Ninguna decisión pasa sin que la mire.', 'Prrr… Oracle dio verde.'];
     var vez = 0;
     activable(document.getElementById('gato'), function () {
-      var gato = document.getElementById('gato');
+      var gato = document.getElementById('gato-sprite');
       gato.classList.remove('salto');
       void gato.getBoundingClientRect();
       gato.classList.add('salto');  // con movimiento reducido no se anima: la escena nunca queda viva

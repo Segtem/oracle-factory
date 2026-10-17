@@ -61,6 +61,8 @@ const ESCENARIOS = {
       assert(Math.max(...xs) - Math.min(...xs) < 0.01 && Math.max(...ys) - Math.min(...ys) < 0.15,
              `el personaje ${k} se va de su lugar: x ${xs.map(v => v.toFixed(2))} y ${ys.map(v => v.toFixed(2))}`);
     }
+    const quietos = await page.locator('.pixel-scene .quien').evaluateAll(gs => gs.filter(g => !g.getAnimations().length).length);
+    assert.equal(quietos, 0, 'un personaje de una escena no se anima');
     // Los personajes con nombre y su globito: los seis del elenco, también fuera de él.
     const personajes = await page.locator('.personaje').evaluateAll(ps => ps.map(p => [p.dataset.nombre,
       p.querySelector('.cara svg rect') !== null, (p.querySelector('.globo') || {}).innerText || '']));
@@ -68,6 +70,12 @@ const ESCENARIOS = {
     for (const n of ['Vos', 'Agente', 'codex', 'agy', 'Oracle', 'Clue']) assert(nombres.has(n), n);
     assert(personajes.every(([, cara, globo]) => cara && globo.length > 20), JSON.stringify(personajes));
     assert(personajes.filter(([n]) => n === 'Vos' || n === 'Agente').length >= 4); // aparecen a lo largo de la página
+    for (const ancho of [320, 390, 768]) {
+      await page.setViewportSize({width: ancho, height: 900});
+      await page.waitForTimeout(400);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `desborda a ${ancho} con las escenas vivas`);
+    }
+    await page.setViewportSize({width: 1440, height: 900});
     // Las herramientas del kit con su sprite.
     assert.equal(await page.locator('.tool-icon[data-sprite] svg').count(), 6);
     assert.deepEqual([errores, externos], [[], []]);
@@ -133,6 +141,15 @@ const ESCENARIOS = {
     assert.equal(await juego.getAttribute('data-paso'), 'revision');
     await boton('Descartar el hallazgo').click();
     await juego.locator('#juego-opciones button').first().click();
+    const riesgo = boton('Aceptar el riesgo');
+    assert.equal(await riesgo.getAttribute('aria-disabled'), 'true');
+    assert.notEqual(await riesgo.getAttribute('title'), 'undefined');
+    await riesgo.focus();
+    await page.keyboard.press('Enter');
+    assert.match(await page.locator('#juego-porque').innerText(), /ya/i);
+    assert.equal(await page.evaluate(() => document.activeElement.innerText), 'Aceptar el riesgo');
+    assert.equal(await juego.getAttribute('data-paso'), 'revision');
+    // (ver abajo) ya resuelto el hallazgo, «Aceptar el riesgo» dice por qué, no tiene title «undefined» y no mueve nada
     await boton('Aprobar').click();
     // Sin medidas acordadas, el requisito queda sin juicio y no se puede cerrar.
     assert.equal(await juego.getAttribute('data-oracle'), 'sin_juicio');
@@ -192,8 +209,9 @@ const ESCENARIOS = {
       assert.equal(await escena.getAttribute('data-humo'), '5');
       assert.match(await page.locator('#globo-secreto').innerText(), /a pleno/);
       assert.equal(await page.evaluate(() => document.activeElement.id), 'chimenea');
-      // El gato, con el mouse.
+      // El gato, con el mouse: el foco sigue en la chimenea.
       await page.locator('#gato').click();
+      assert.equal(await page.evaluate(() => document.activeElement.id), 'chimenea');
       assert.equal(await escena.getAttribute('data-gato'), '1');
       assert.match(await page.locator('#globo-secreto').innerText(), /Miau/);
       // Konami, desde un enlace con foco: el foco no se mueve y la fiesta se anuncia.
@@ -213,6 +231,26 @@ const ESCENARIOS = {
       });
       assert.equal(tapado, false);
       assert.equal(await page.locator('#globo-secreto').evaluate(e => getComputedStyle(e).pointerEvents), 'none');
+      // Los secretos son botones que un lector de pantalla encuentra: fuera de toda imagen u oculto, con su nombre.
+      for (const [id, nombre] of [['chimenea', 'Chimenea larga de la fábrica'], ['gato', 'Gato de la fábrica']]) {
+        const b = page.getByRole('button', {name: nombre, exact: true});
+        assert.equal(await b.count(), 1, nombre);
+        assert.equal(await b.getAttribute('id'), id);
+        assert.equal(await b.evaluate(e => !!e.closest('[role=img], [aria-hidden=true]')), false, nombre);
+      }
+      // Cada botón está sobre su dibujo, en pantalla grande y chica.
+      for (const ancho of [1440, 390]) {
+        await page.setViewportSize({width: ancho, height: 900});
+        const solape = await page.evaluate(() => [['#chimenea', 'g.chimenea'], ['#gato', '#gato-sprite']].map(([b, s]) => {
+          const x = document.querySelector(b).getBoundingClientRect(), y = document.querySelector(s).getBoundingClientRect();
+          const ancho = Math.min(x.right, y.right) - Math.max(x.left, y.left), alto = Math.min(x.bottom, y.bottom) - Math.max(x.top, y.top);
+          return ancho > 0 && alto > 0 ? (ancho * alto) / (y.width * y.height) : 0;
+        }));
+        assert(solape.every(s => s > 0.8), `a ${ancho} px los botones no tapan sus dibujos: ${solape}`);
+      }
+      await page.setViewportSize({width: 1440, height: 900});
+      // Lo que responden se anuncia.
+      assert.equal(await page.locator('#globo-secreto').getAttribute('role'), 'status');
       if (reducido) assert.equal(await escena.evaluate(e => e.getAnimations({subtree: true}).length), 0);
       else assert((await page.locator('#confeti rect').count()) > 0);
       assert.deepEqual(errores, []);

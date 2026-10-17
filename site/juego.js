@@ -8,6 +8,8 @@
     'Es un detalle de estilo y el pedido no lo incluye.'
   ];
 
+  var YA = 'Ya resolviste el hallazgo: no queda nada que aceptar ni descartar.';
+
   function nuevo() {
     return {paso: 'pedido', propuestas: 1, medidas: null, corregido: null, hallazgo: 'abierto', motivo: null,
             revision: null, oracle: null, registro: [], fin: null};
@@ -34,8 +36,8 @@
         var abierto = e.hallazgo === 'abierto';
         return [{id: 'aprobar', texto: 'Aprobar', disponible: !abierto,
                  porque: abierto ? 'No disponible: queda 1 hallazgo medio abierto. Aceptalo como riesgo, descartalo o pedí la corrección.' : null},
-                {id: 'riesgo', texto: 'Aceptar el riesgo', disponible: abierto},
-                {id: 'descartar', texto: 'Descartar el hallazgo', disponible: abierto},
+                {id: 'riesgo', texto: 'Aceptar el riesgo', disponible: abierto, porque: abierto ? null : YA},
+                {id: 'descartar', texto: 'Descartar el hallazgo', disponible: abierto, porque: abierto ? null : YA},
                 {id: 'cambios', texto: 'Pedir cambios', disponible: true}];
       case 'motivo':
         return MOTIVOS.map(function (m, i) { return {id: 'motivo' + i, texto: m, disponible: true}; });
