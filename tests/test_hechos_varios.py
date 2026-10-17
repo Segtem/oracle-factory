@@ -73,12 +73,23 @@ class HechosVarios(unittest.TestCase):
         self.assertEqual(f.pasos(ident)[0], f'oracle-factory juzgar {ident} --con {ra} --con {rb}')
         # Si falta, también lo nombra; y uno que no es una ruta, igual.
         b.unlink()
-        self.assertTrue(any(rb in p and 'ausentes' in p for p in f.pendientes_actuales(*f.leer(ident))))
+        ausente = [p for p in f.pendientes_actuales(*f.leer(ident)) if rb in p and 'ausentes' in p]
+        self.assertEqual(len(ausente), 1)
+        self.assertIn(f'oracle-factory juzgar {ident} --con {ra} --con {rb}', ausente[0])
+        # Un archivo que falta se recupera desde Git (como con uno solo) y después se juzga con todos.
+        self.assertEqual(f.pasos(ident)[0], f'faltan archivos del cambio ({rb}): recuperalos desde Git; después: '
+                                            f'oracle-factory juzgar {ident} --con {ra} --con {rb}')
         registro = self.root / '.factory/cambios' / ident / 'factory.json'
         datos = json.loads(registro.read_text())
-        datos['oracle']['hechos_mas'] = [{'ruta': 5, 'sha256': 'x'}]
-        registro.write_text(json.dumps(datos))
-        self.assertIn('hechos no válido en el registro (no es una ruta de texto)', f.pendientes_actuales(*f.leer(ident)))
+        for malo in (5, None, ''):
+            datos['oracle']['hechos_mas'] = [{'ruta': malo, 'sha256': 'x'}]
+            registro.write_text(json.dumps(datos))
+            self.assertIn('hechos del sensor 2 de 2 no válido en el registro (no es una ruta de texto)',
+                          f.pendientes_actuales(*f.leer(ident)), malo)
+            paso = f.pasos(ident)[0]
+            self.assertEqual(paso, f'oracle-factory juzgar {ident} --con {ra} --con RUTA_DE_LOS_HECHOS')
+            self.assertNotIn('--con 5', paso)
+            self.assertNotIn('--con None', paso)
 
     def test_hv1_un_archivo_que_cambia_durante_el_juicio(self):
         ident = self.cambio_medido()
@@ -102,6 +113,18 @@ class HechosVarios(unittest.TestCase):
         f.juzgar(ident, a)  # una ruta sola, como antes
         self.assertNotIn('hechos_mas', self.estado(ident)['oracle'])
 
+    def test_hv1_un_rojo_de_verdad_con_dos_sensores_se_registra(self):
+        ident = self.cambio_medido()
+        a, b = self.dos_sensores(ident)
+        datos = json.loads(a.read_text())
+        datos['comprobacion'][0]['codigo'] = 1  # un caso que falla: notas.resultados en rojo
+        a.write_text(json.dumps(datos))
+        with self.assertRaisesRegex(f.FactoryError, 'Oracle no confirmó cada requisito'):
+            f.juzgar(ident, [a, b])
+        oracle = self.estado(ident)['oracle']
+        self.assertEqual(oracle['codigo'], 1)
+        self.assertEqual(len(oracle['hechos_mas']), 1)
+
     # --- hv2: dos sensores no emiten la misma relación ------------------------------------------------------------
     def test_hv2_dos_frentes_que_emiten_la_misma_relacion(self):
         ident = self.cambio_medido()
@@ -113,6 +136,17 @@ class HechosVarios(unittest.TestCase):
         self.assertIn(f'la relación «comprobacion» viene en «{a}» y en «{b}»', texto)
         self.assertIsNone(self.estado(ident).get('oracle'))  # no se registra un veredicto
         self.assertNotIn('oracle_ejecutado', [e['accion'] for e in self.estado(ident)['eventos']])
+        # Aunque Oracle saliera con 0: sin filas de requisito, no juzgó.
+        a2, b2 = self.dos_sensores(ident)
+        ejecutar = f.ejecutar
+        def sin_filas(args, *resto, **claves):
+            r = ejecutar(args, *resto, **claves)
+            if 'cobertura' in args and '--con' in args:
+                return subprocess.CompletedProcess(args, 0, 'nada que ver\n', '')
+            return r
+        with patch.object(f, 'ejecutar', side_effect=sin_filas), self.assertRaisesRegex(f.FactoryError, 'no pudo juzgar'):
+            f.juzgar(ident, [a2, b2])
+        self.assertIsNone(self.estado(ident).get('oracle'))
 
 
 if __name__ == '__main__':

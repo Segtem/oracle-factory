@@ -1,0 +1,154 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hechos-varios/.factory/local/revisiones/18aca3d",
+  "base": "581af766529d5ece110e3fdb0f9d24bb81cf78d3",
+  "head": "18aca3dc072849751d533948c4b71b603428343d",
+  "diff_sha256": "70b394498d5848fe4e0a1022e9f55e846a292168855645cddb7043cb1be0d95f",
+  "context_sha256": "ea08a9c862d313ca950f4d525abaea7de4788b30dc2e35021b12a1ee34b0c84e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron todos los archivos del diff: oracle_factory/cli.py, oracle_factory/estructura.py, pyproject.toml, tools/verify_collaboration.py, docs/colaboracion.md, tests/test_hechos_varios.py, tools/verify_hechos_varios.py, catalogos/factory_hechos.*.oracle, requisitos/ y la documentación openspec.",
+    "Se ejecutaron las pruebas unitarias del cambio: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null sobre el checkout de solo lectura (5 pruebas OK).",
+    "No se ejecutó la suite de pruebas completa del repositorio ni tools/verify_hechos_varios.py directamente, conforme a la indicación explícita del usuario.",
+    "Se realizaron mutaciones manuales y pruebas de supervivencia sobre copias aisladas en el workspace del revisor sin modificar el checkout."
+  ],
+  "findings": [
+    {
+      "id": "AGY-HV-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Archivos faltantes de hechos bloquean el próximo paso impidiendo repetir juzgar con los mismos archivos",
+      "explanation": "La especificación exige: «si cualquiera cambia, falta o no es una ruta, el juicio SHALL dejar de valer, estado SHALL nombrar ese archivo y el próximo paso SHALL repetir el juicio con los mismos archivos». Sin embargo, en oracle_factory/cli.py (líneas 2461-2462), la función archivos_faltantes incorpora todos los archivos de hechos_registrados(oracle). Si cualquiera de los archivos de hechos falta en disco, _pasos ejecuta la guarda temprana de la línea 2488: if faltan: return f\"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: oracle-factory estado {ident}\". En consecuencia, el flujo nunca llega a la rama que reconstruye el comando juzgar (líneas 2525-2526) y el próximo paso no es repetir el juicio con los mismos archivos (--con repetido), sino una indicación de recuperarlos desde Git (contradictoria, dado que los hechos normalmente no viajan en Git).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2459,
+        "end_line": 2465,
+        "side": "head"
+      },
+      "trigger": "Registrar un juicio con dos o más sensores y luego eliminar o perder en disco uno de los archivos de hechos.",
+      "evidence": "Al ejecutar b.unlink() sobre el segundo archivo en un cambio juzgado con dos sensores (siguiendo el test test_hv1_uno_de_los_archivos_cambia_despues_del_juicio), f.pasos(ident) retorna [\"faltan archivos del cambio (.../hechos-otro.json): recuperalos desde Git; después: oracle-factory estado ...\"] en lugar de [\"oracle-factory juzgar ... --con <ra> --con <rb>\"]. La mutación M1_archivos_faltantes_sin_hechos_mas sobrevivió a la suite test_hechos_varios porque el test solo comprueba pendientes_actuales y omitió verificar f.pasos(ident) tras b.unlink().",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Invocar f.pasos(ident) tras borrar uno de los archivos de hechos registrados y comprobar que no retorna el comando para juzgar nuevamente."
+    },
+    {
+      "id": "AGY-HV-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "El próximo paso genera argumentos --con inválidos cuando un hecho registrado no es una ruta",
+      "explanation": "La spec establece que si un hecho registrado no es una ruta «el juicio SHALL dejar de valer, estado SHALL nombrar ese archivo y el próximo paso SHALL repetir el juicio con los mismos archivos». En oracle_factory/cli.py (líneas 2524-2526), _pasos hace: return f\"oracle-factory juzgar {ident} \" + \" \".join(f\"--con {shlex.quote(str(ruta))}\" for ruta, _ in varios). Si un sensor en hechos_mas contiene un valor no-ruta (como {\"ruta\": 5} o {\"ruta\": None}), str(ruta) lo interpola directamente, generando como próximo paso un comando con \"--con 5\" o \"--con None\", que no es ejecutable ni representa un archivo válido. Para un solo hecho la lógica verifica juzgados is None; para varios no se valida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2521,
+        "end_line": 2529,
+        "side": "head"
+      },
+      "trigger": "Un estado con hechos_mas que contenga un valor no string o nulo en el campo ruta.",
+      "evidence": "Con datos[\"oracle\"][\"hechos_mas\"] = [{\"ruta\": 5, \"sha256\": \"x\"}], f.pasos(ident) retorna [\"oracle-factory juzgar <id> --con <ra> --con 5\"].",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Evaluar f.pasos(ident) con un estado corrupto donde una ruta no sea de tipo texto y comprobar la generación de \"--con 5\"."
+    },
+    {
+      "id": "AGY-HV-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "estado no nombra el sensor defectuoso cuando la ruta en el registro no es de tipo string",
+      "explanation": "La spec exige que «si cualquiera cambia, falta o no es una ruta, el juicio SHALL dejar de valer, estado SHALL nombrar ese archivo». En pendientes_actuales (líneas 1608-1610), la etiqueta se forma con: (\"hechos\" + (f\" {ruta}\" if len(registrados) > 1 and isinstance(ruta, str) else \"\"), ruta, huella). Si ruta no es un string (p. ej. el entero 5 o None), isinstance(ruta, str) es False y la etiqueta permanece como \"hechos\". Luego no_es_ruta(ruta) reporta \"hechos no válido en el registro (no es una ruta de texto)\", sin identificar qué sensor o índice de hechos_mas contenía la anomalía. Si la ruta es una cadena vacía \"\", genera \"hechos  no válido...\" con doble espacio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1604,
+        "end_line": 1614,
+        "side": "head"
+      },
+      "trigger": "Tener múltiples hechos registrados donde un elemento de hechos_mas tenga un valor no string en ruta.",
+      "evidence": "Al probar datos[\"oracle\"][\"hechos_mas\"] = [{\"ruta\": 5, \"sha256\": \"x\"}], f.pendientes_actuales() añade \"hechos no válido en el registro (no es una ruta de texto)\" sin nombrar ni indicar el valor 5 ni el archivo correspondiente.",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Ejecutar pendientes_actuales en un registro con hechos_mas conteniendo una ruta entera o nula y comprobar la etiqueta emitida."
+    },
+    {
+      "id": "AGY-HV-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Detección de «Oracle no juzgó» exige returncode != 0, dejando pasar como veredicto un juicio vacío si returncode == 0",
+      "explanation": "En oracle_factory/cli.py (línea 1422): if p.returncode and not any(re.search(r\"^[✓◐·✗?]\\s+\" + re.escape(rid) + r\"\\s\", p.stdout, re.M) for rid in estado[\"requisitos\"]): raise FactoryError(\"Oracle no pudo juzgar estos hechos; no registré un veredicto: ...\"). El comentario indica: \"Sin ninguna fila de requisito, Oracle no juzgó: no hay veredicto\". No obstante, la condición exige p.returncode != 0. Si Oracle finaliza con código 0 pero la salida no contiene ninguna fila de requisito (juicio vacío por ausencia de coincidencias o medidas desalineadas), la condición no se cumple y el código registra un veredicto fallido (código: 1) en vez de rechazar la ejecución sin veredicto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1421,
+        "end_line": 1429,
+        "side": "head"
+      },
+      "trigger": "Ejecución de oracle cobertura con returncode 0 pero sin filas que coincidan con los requisitos importados del cambio.",
+      "evidence": "La mutación M8_deteccion_no_juzgo_sin_check_returncode mostró que remover p.returncode no altera los tests actuales. Si p.returncode == 0 y p.stdout no contiene los requisitos, el código no lanza FactoryError y asigna estado[\"oracle\"] = {\"codigo\": 1, ...}.",
+      "related_requirement": "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
+      "status": "pendiente",
+      "verification": "Llamar a juzgar simulando una salida de oracle con returncode=0 y stdout sin requisitos para verificar que se registra veredicto en vez de fallar."
+    },
+    {
+      "id": "AGY-HV-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Mensaje de recuperación en pendientes_actuales asume erróneamente un único sensor ante archivos ausentes",
+      "explanation": "En oracle_factory/cli.py (líneas 1620-1623), al capturar OSError cuando un archivo de hechos no se encuentra en disco, se reporta: \"hechos ausentes ({ruta}); en esta máquina se recuperan juzgando de nuevo con los hechos del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS\". Cuando hay múltiples sensores registrados, la sugerencia de recuperación sigue mostrando la plantilla de un solo --con en singular en vez de indicar que se deben pasar los hechos de todos los sensores.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1619,
+        "end_line": 1625,
+        "side": "head"
+      },
+      "trigger": "Falta de cualquiera de los archivos de hechos en un cambio juzgado con más de un sensor.",
+      "evidence": "En test_hv1_uno_de_los_archivos_cambia_despues_del_juicio, tras b.unlink(), pendientes_actuales devuelve un mensaje sugiriendo \"oracle-factory juzgar ... --con RUTA_DE_LOS_HECHOS\" a pesar de haber dos archivos de sensores registrados.",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Borrar uno de los archivos en un cambio juzgado con dos sensores y leer el texto de pendientes_actuales."
+    },
+    {
+      "id": "AGY-HV-06",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La suite test_hechos_varios.py no prueba veredictos rojos legítimos, permitiendo silenciar fallos reales",
+      "explanation": "tests/test_hechos_varios.py no contiene ninguna prueba donde un juicio con varios sensores evalúe los requisitos y resulte legítimamente en ROJO (código 1 registrado con marcas ✗, · o ?). La falta de este caso permite que mutaciones que traten cualquier retorno no-cero de Oracle como «Oracle no juzgó» sobrevivan sin ser detectadas.",
+      "location": {
+        "file": "tests/test_hechos_varios.py",
+        "start_line": 1,
+        "end_line": 119,
+        "side": "head"
+      },
+      "trigger": "Introducir una mutación en juzgar que reemplace el chequeo de marcas de requisitos por if p.returncode: raise FactoryError(...).",
+      "evidence": "La mutación M10_juzgar_solo_check_returncode (reemplazo por if p.returncode:) sobrevivió completamente a la suite test_hechos_varios (5/5 tests pasaron).",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Correr PYTHONPATH=. python -m unittest tests.test_hechos_varios tras mutar la línea 1422 a if p.returncode: y observar que los 5 tests pasan sin fallar."
+    },
+    {
+      "id": "AGY-HV-07",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.9,
+      "title": "estructura.donde re-implementa el parseo de hechos_mas en lugar de reutilizar hechos_registrados",
+      "explanation": "El documento de diseño design.md define expresamente: «hechos_registrados(oracle) -> list[(ruta, sha256)] es el único lugar que arma la lista; la usan juicio_vigente, pendientes_actuales, archivos_faltantes, _pasos (repetir con los mismos --con), estructura.donde y datos_estado». Sin embargo, en oracle_factory/estructura.py (líneas 117-119), donde re-implementa manualmente el desempaquetado de hechos_mas con lógica ad-hoc en lugar de utilizar hechos_registrados.",
+      "location": {
+        "file": "oracle_factory/estructura.py",
+        "start_line": 114,
+        "end_line": 122,
+        "side": "head"
+      },
+      "trigger": "Inspección estática de oracle_factory/estructura.py comparada con design.md.",
+      "evidence": "Líneas 117-119 de oracle_factory/estructura.py: mas = oracle.get('hechos_mas'); for extra in (mas if isinstance(mas, list) ...): filas.append(_entrada('juicio', extra.get('ruta') ...)).",
+      "related_requirement": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "status": "pendiente",
+      "verification": "Comparar la implementación de donde en estructura.py con la prescripción de diseño en openspec/changes/20261017-023151-hechos-varios/design.md."
+    }
+  ]
+}

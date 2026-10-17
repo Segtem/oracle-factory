@@ -560,13 +560,13 @@ def no_es_ruta(valor) -> bool:
     return valor is not None and ruta_del_registro(valor) is None
 
 
-def hechos_registrados(oracle: dict) -> list[tuple]:
-    """[(ruta, sha256)] de cada archivo de hechos del juicio: el primero en `hechos`, los demás en `hechos_mas`."""
-    extra = oracle.get("hechos_mas") or []
-    if not isinstance(extra, list):
-        extra = [extra]
-    return [(oracle.get("hechos"), oracle.get("hechos_sha256"))] + [
-        (e.get("ruta"), e.get("sha256")) if isinstance(e, dict) else (e, None) for e in extra]
+hechos_registrados = estructura.hechos_registrados
+
+
+def comando_juzgar(ident: str, registrados: list[tuple]) -> str:
+    """Repetir el juicio con los mismos archivos; uno que no es una ruta queda por completar (no se ofrece ejecutar)."""
+    return f"oracle-factory juzgar {ident} " + " ".join(
+        "--con " + (shlex.quote(ruta) if estructura._texto(ruta) else "RUTA_DE_LOS_HECHOS") for ruta, _ in registrados)
 
 
 def juicio_vigente(oracle: dict, actual: dict | None) -> bool:
@@ -1410,7 +1410,7 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
     if p.stderr:
         sys.stderr.write(p.stderr)
     # Sin ninguna fila de requisito, Oracle no juzgó (por ejemplo, dos sensores con la misma relación): no hay veredicto.
-    if p.returncode and not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
+    if not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
         raise FactoryError("Oracle no pudo juzgar estos hechos; no registré un veredicto: "
                            + (p.stdout + p.stderr).strip()[:800])
     if not mismo_producto(contexto, contexto_producto()) or [sha256(a.read_bytes()) for a in hechos] != huellas:
@@ -1607,10 +1607,12 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
     registrados = hechos_registrados(oracle)
     for etiqueta, ruta, huella in (
         ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
-        *(("hechos" + (f" {ruta}" if len(registrados) > 1 and isinstance(ruta, str) else ""), ruta, huella)
-          for ruta, huella in registrados),
+        # Con varios sensores, cada uno se nombra: por su ruta, o por su lugar si la ruta no sirve.
+        *(("hechos" if len(registrados) == 1 else f"hechos {ruta}" if estructura._texto(ruta)
+           else f"hechos del sensor {i} de {len(registrados)}", ruta, huella)
+          for i, (ruta, huella) in enumerate(registrados, 1)),
     ):
-        if no_es_ruta(ruta):
+        if no_es_ruta(ruta) or etiqueta.startswith("hechos del sensor"):  # en la lista, también un null es inválido
             faltan.append(etiqueta + NO_VALIDO)
             continue
         if not ruta and not huella:
@@ -1620,8 +1622,10 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
             if etiqueta.startswith("hechos"):
+                repetir = (comando_juzgar(estado['id'], registrados) if len(registrados) > 1
+                           else f"oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
                 faltan.append(f"hechos ausentes ({ruta}); en esta máquina se recuperan juzgando de nuevo con los hechos "
-                              f"del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
+                              f"del clon: {repetir}")
             else:
                 faltan.append(etiqueta + " ausente")
     if oracle and not all(oracle.get(k) for k in ("informe", "informe_sha256", "hechos", "hechos_sha256", "contexto")):
@@ -2486,7 +2490,10 @@ def _pasos(identificador: str) -> str | list[str] | None:
     # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
     faltan = archivos_faltantes(carpeta, estado)
     if faltan:
-        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: oracle-factory estado {ident}"
+        # Con varios sensores, recuperados sus hechos, lo que sigue es juzgar otra vez con todos.
+        varios = hechos_registrados(estado.get("oracle") or {})
+        despues = comando_juzgar(ident, varios) if len(varios) > 1 else f"oracle-factory estado {ident}"
+        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: {despues}"
     try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
         exigir_spec(carpeta, estado)
     except FactoryError:
@@ -2523,7 +2530,7 @@ def _pasos(identificador: str) -> str | list[str] | None:
     juzgados = ruta_del_registro(oracle.get("hechos"))
     varios = hechos_registrados(oracle)
     if len(varios) > 1 and not juicio_vigente(oracle, contexto_producto()):
-        return f"oracle-factory juzgar {ident} " + " ".join(f"--con {shlex.quote(str(ruta))}" for ruta, _ in varios)
+        return comando_juzgar(ident, varios)
     try:  # hechos del candidato que no son los juzgados: juzgarlos
         del_candidato = hechos_del_candidato(ident)
         # También si los hechos registrados no son una ruta: los del candidato se juzgan sin pedir otra.
