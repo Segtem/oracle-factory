@@ -1,0 +1,24 @@
+{
+  "id": "20261017-135953-higiene",
+  "titulo": "Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más",
+  "capacidad": "flujo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T13:59:53+00:00",
+      "capacidad": "flujo"
+    }
+  ]
+}
