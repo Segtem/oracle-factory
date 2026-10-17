@@ -194,6 +194,16 @@
       "candidato": "5e186b8",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T13:32:23+00:00",
+      "decision": "aprobar",
+      "candidato": "5e186b8"
     }
   ],
   "tipos": {
@@ -234,5 +244,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos",
+      "candidato": "5e186b8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T13:32:23+00:00"
+    }
+  }
 }
