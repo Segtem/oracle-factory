@@ -2,11 +2,24 @@
   "id": "20261017-023151-hechos-varios",
   "titulo": "Juzgar un candidato con hechos de varios sensores",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T02:33:41+00:00",
+    "documentos": {
+      "openspec/changes/20261017-023151-hechos-varios/proposal.md": "537794eba6a29711cb4df48818fb68d7f6f67fc6b333e58310f3111e85617f6b",
+      "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc"
+    }
+  },
+  "requisitos": [
+    "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
+    "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-17T02:31:51+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:33:41+00:00",
+      "documentos": {
+        "openspec/changes/20261017-023151-hechos-varios/proposal.md": "537794eba6a29711cb4df48818fb68d7f6f67fc6b333e58310f3111e85617f6b",
+        "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:33:52+00:00",
+      "ids": [
+        "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
+        "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion": "funcional",
+    "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
