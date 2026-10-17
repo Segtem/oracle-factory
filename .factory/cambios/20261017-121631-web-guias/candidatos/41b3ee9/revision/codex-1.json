@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/41b3ee9",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "41b3ee9d63543fef0f8b7bcce767ad8278a92cc9",
+  "diff_sha256": "41e45869b2edeb347c7a5f2034048e670a8515f17137ac1bcd6127036e19ac68",
+  "context_sha256": "90c91fd00cca3e42ee1e844ef5e2418b21192299ac5772a08678b219adc68fbb",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CG-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La comparación omite texto visible fuera de su lista de elementos",
+      "explanation": "El escenario de comparación no comprueba todo el texto visible de main: solo extrae h1–h4, p, li, td, th, pre, summary, dt y dd. Por ejemplo, el título visible «Versión 0.1.0a12 y estado de publicación» de site/desde-cero.html está en un strong hijo directo de div.guide-callout, no en uno de esos elementos. Si ese texto cambia en una versión posterior, la prueba comparará la misma lista vacía para ese fragmento y seguirá pasando, aunque el requisito prometa que el texto de la guía no cambie. La implementación actual conserva ese título según la inspección del diff; el hallazgo es que el test no demuestra la promesa completa.",
+      "location": {
+        "file": "tests/texto_guias.cjs",
+        "start_line": 11,
+        "end_line": 13,
+        "side": "head"
+      },
+      "trigger": "Cambiar el texto de <strong>Versión 0.1.0a12 y estado de publicación</strong> dentro de .guide-callout en site/desde-cero.html sin modificar los párrafos. Ejecutar comparar_con_la_version_anterior: la extracción no incluye ese strong, por lo que esa mutación sobrevive a la comparación.",
+      "evidence": "El selector en tests/texto_guias.cjs:11-13 solo consulta h1-h4, p, li, td, th, pre, summary, dt y dd y luego descarta descendientes de [data-viva]. El título citado aparece en site/desde-cero.html:15 como strong directamente dentro de div.guide-callout. Ningún selector captura ese nodo.",
+      "related_requirement": "el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "status": "pendiente",
+      "verification": "Confirmado por inspección estática del selector y del HTML. La mutación descrita no se ejecutó en navegador porque Chromium terminó con SIGTRAP al iniciar en este sandbox."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, los dos requisitos, el diff/contexto del paquete y las implementaciones y pruebas indicadas; no revisé .factory ni tareas, que estaban excluidos.",
+    "Intenté los tres comandos pedidos en primer plano desde la raíz del checkout con NODE_PATH indicado. Los tres fallaron antes de ejecutar el escenario: Chromium (/usr/bin/chromium) terminó con SIGTRAP y Crashpad informó Operation not permitted. Según la instrucción de revisión, la revisión se completa estáticamente en este caso.",
+    "No corrí la suite completa de Python, según lo pedido.",
+    "No hice mutaciones en copias: Chromium no arrancó, así que no pude comprobar supervivencia de mutaciones de extremo a extremo. La mutación descrita en CG-001 se deduce del selector y el DOM inspeccionados."
+  ]
+}

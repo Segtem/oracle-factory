@@ -6,17 +6,25 @@ const path = require('node:path');
 const {pathToFileURL} = require('node:url');
 const GUIAS = ['desde-cero.html', 'modos.html', 'colaboracion.html'];
 
+// Todo nodo de texto de la guía, en orden (codex CG-001: no sólo algunos elementos), salvo scripts y lo agregado.
 async function texto(page) {
-  return page.evaluate(() => [...document.querySelectorAll('main h1, main h2, main h3, main h4, main p, main li, main td, main th, main pre, main summary, main dt, main dd')]
-    .filter(e => !e.closest('[data-viva]') && !e.closest('script'))
-    .map(e => e.textContent.replace(/\s+/g, ' ').trim()).filter(Boolean));
+  return page.evaluate(() => {
+    const salida = [], recorrido = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT);
+    for (let n = recorrido.nextNode(); n; n = recorrido.nextNode()) {
+      const e = n.parentElement;
+      if (e.closest('[data-viva], script, style')) continue;
+      const s = n.textContent.replace(/\s+/g, ' ').trim();
+      if (s) salida.push(s);
+    }
+    return salida;
+  });
 }
 
 async function leer(browser) {
   const page = await browser.newPage();
   const salida = {};
   for (const g of GUIAS) {
-    await page.goto(pathToFileURL(path.resolve(__dirname, '../site', g)).href);
+    await page.goto(pathToFileURL(path.resolve(process.env.SITIO || path.join(__dirname, '../site'), g)).href);
     salida[g] = await texto(page);
   }
   await page.close();
