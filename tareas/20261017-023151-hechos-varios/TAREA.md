@@ -23,3 +23,11 @@ Medidas de flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores: 
 ### Nota (2026-10-17 02:43:29 UTC)
 
 Medidas de flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion: factory_hechos.dos_sensores_no_emiten_la_misma_relacion, factory_hechos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-17 03:15:22 UTC)
+
+Medidas de flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-17 03:15:22 UTC)
+
+Medidas de flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores: Brian Hollweg (persona, confirmo, modo confirmacion).
