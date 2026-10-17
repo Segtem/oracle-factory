@@ -2,7 +2,7 @@
   "id": "20261016-234517-web-viva",
   "titulo": "Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones",
   "capacidad": "web",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261016-234517-web-viva/specs/web/spec.md",
   "spec_sha256": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a",
   "spec_aprobada": {
@@ -262,6 +262,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "d61f831d75469c52f7fbf5b77f1702682c2953a2a3960678f4da0646f12b2e0e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:38+00:00",
+      "oracle": ".factory/cambios/20261016-234517-web-viva/oracle-veredicto.txt",
+      "revision": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:38+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
     }
   ],
   "tipos": {
@@ -320,5 +340,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T02:25:38+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-17T02:25:38+00:00"
+  }
 }
