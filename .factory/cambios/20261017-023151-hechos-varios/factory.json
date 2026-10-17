@@ -56,6 +56,34 @@
         "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
         "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T02:43:29+00:00",
+      "requisito": "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores",
+      "medidas": [
+        "factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores",
+        "factory_hechos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T02:43:29+00:00",
+      "requisito": "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
+      "medidas": [
+        "factory_hechos.dos_sensores_no_emiten_la_misma_relacion",
+        "factory_hechos.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -63,5 +91,34 @@
     "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores": {
+      "sha256": "eb2e093230753a9914ba53d1aa55e30acb67ecf772f6a48402658a706d6c6bb3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T02:43:29+00:00",
+      "catalogos": {
+        "factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores": "f1055a09adba605b53ed26a3a5b46135836378e208f2b836df87fb4084d8c275",
+        "factory_hechos.corrida_completa": "5a106a2834cc78fc392efb594976fc5962e2b16b247c26e464fc9d9e19edaa26"
+      },
+      "archivos_catalogo": {
+        "factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores": "catalogos/factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores.oracle",
+        "factory_hechos.corrida_completa": "catalogos/factory_hechos.corrida_completa.oracle"
+      }
+    },
+    "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion": {
+      "sha256": "685df9317ee435796399380a0015a3dd3fc2c330052d5bb996cf96aa6325879d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-17T02:43:29+00:00",
+      "catalogos": {
+        "factory_hechos.dos_sensores_no_emiten_la_misma_relacion": "f874c5798a989c254ee599764c80701b2775f9cf9c1a7b678f1150b59f3a047b",
+        "factory_hechos.corrida_completa": "5a106a2834cc78fc392efb594976fc5962e2b16b247c26e464fc9d9e19edaa26"
+      },
+      "archivos_catalogo": {
+        "factory_hechos.dos_sensores_no_emiten_la_misma_relacion": "catalogos/factory_hechos.dos_sensores_no_emiten_la_misma_relacion.oracle",
+        "factory_hechos.corrida_completa": "catalogos/factory_hechos.corrida_completa.oracle"
+      }
+    }
+  }
 }
