@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-viva/.factory/local/revisiones/74efd95",
+  "base": "0afb7a6a70e97b6fe1f6c159299cfaad14805b65",
+  "head": "74efd95ebd4513bc8bfd14d092177bb3945d47e9",
+  "diff_sha256": "216d90e49df5a8eaa701ca73e2b28804fab322e9fb45cae9329ad55ecd6b1eb3",
+  "context_sha256": "3bd9ba443261e3f4e2e8b51ad438f3dc6924ed3c82606bbe61adaa09ef8e7dc9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática de los tres requisitos, la propuesta, el diff completo del paquete, el código del candidato y los casos de prueba. Las salidas extensas y el diff están en diff-review.txt.",
+    "NODE_PATH=/home/workstation/Dev/factory-web-viva/node_modules node tests/test_juego.cjs pasó (juego: ok).",
+    "Se ejecutaron por separado los seis escenarios requeridos de tests/test_web_viva.cjs. Todos fallaron antes de ejecutar el escenario porque /usr/bin/chromium terminó con SIGTRAP y setsockopt: Operation not permitted; no se atribuye a la aplicación. Por la indicación de la solicitud, se completó la revisión estática y el estado es completo.",
+    "No se corrió la suite completa de Python ni se hicieron mutaciones manuales. Sin hallazgos confirmados en la revisión estática; no se pudo observar en navegador el comportamiento visual, el foco y las animaciones."
+  ]
+}

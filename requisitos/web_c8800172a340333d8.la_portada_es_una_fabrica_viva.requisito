@@ -1,0 +1,4 @@
+requisito web_c8800172a340333d8.la_portada_es_una_fabrica_viva:
+    texto "Tipo: funcional La portada SHALL mostrar en pixel art una escena por sección y un sprite por herramienta, y SHALL presentar a la persona, el agente, los revisores, Oracle y Clue como personajes con nombre que dicen en globitos qué hace cada uno. Las escenas SHALL animarse al entrar en pantalla; con movimiento reducido SHALL NOT animarse y SHALL mostrar su estado final. La página SHALL funcionar sin red ni recursos externos y SHALL NOT desbordar horizontalmente entre 320 y 1440 px."
+    fuente "openspec/changes/20261016-234517-web-viva/specs/web/spec.md#la portada es una fábrica viva"
+    medido_por factory_viva.la_portada_es_una_fabrica_viva, factory_viva.corrida_completa

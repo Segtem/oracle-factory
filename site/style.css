@@ -1635,3 +1635,354 @@ footer a:hover {
 .modos-tabla td {
   color:var(--muted)
 }
+
+/* ---- La fábrica viva: pixel art, personajes, minijuego y secretos (cambio web-viva) ------------------------ */
+.sr-only {
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0 0 0 0);
+  white-space:nowrap
+}
+.kit-item code,.kit-item p {
+  overflow-wrap:anywhere
+}
+.px {
+  display:block;
+  image-rendering:pixelated
+}
+.pixel-scene {
+  display:block;
+  width:100%;
+  aspect-ratio:240/48;
+  margin:6px 0 30px;
+  image-rendering:pixelated
+}
+.pixel-scene svg {
+  display:block;
+  width:100%;
+  height:100%
+}
+.hero-escena {
+  grid-column:1/-1
+}
+.escena-marco {
+  position:relative
+}
+.escena-grande {
+  aspect-ratio:240/96;
+  margin:0;
+  border:2px solid var(--ink);
+  box-shadow:5px 5px 0 #dce4d3;
+  background:#e7f0dc
+}
+.cartel {
+  font:700 5px var(--mono);
+  fill:var(--green);
+  letter-spacing:.6px
+}
+.chimenea,.gato {
+  cursor:pointer;
+  outline:none
+}
+/* los secretos: botones transparentes sobre la escena, en porcentajes de su viewBox de 240×96 */
+.huevo {
+  position:absolute;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer
+}
+.huevo:focus-visible {
+  outline:3px solid var(--yellow);
+  outline-offset:2px
+}
+.chimenea-boton {
+  left:61.6%;
+  top:8.3%;
+  width:5.8%;
+  height:33.4%
+}
+.gato-boton {
+  left:40.8%;
+  top:18.8%;
+  width:6.7%;
+  height:16.7%
+}
+.tool-icon[data-sprite] svg {
+  width:34px;
+  height:34px
+}
+.tool-icon[data-sprite] {
+  font-size:0
+}
+
+/* personajes y globitos */
+.personaje {
+  display:grid;
+  grid-template-columns:56px 1fr;
+  grid-template-rows:auto 1fr;
+  column-gap:14px;
+  margin:0;
+  align-items:start
+}
+.personaje .cara {
+  grid-row:1/3;
+  width:56px;
+  height:56px
+}
+.personaje .cara svg {
+  width:100%;
+  height:100%
+}
+.personaje figcaption {
+  font:12px var(--mono);
+  color:var(--muted);
+  margin-bottom:6px
+}
+.personaje figcaption b {
+  color:var(--ink);
+  font-size:13px
+}
+.globo {
+  position:relative;
+  margin:0;
+  background:#fff;
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 #dce4d3;
+  padding:10px 12px;
+  font-size:14px;
+  line-height:1.5;
+  color:var(--ink)
+}
+.globo::before {
+  content:"";
+  position:absolute;
+  left:-8px;
+  top:12px;
+  width:8px;
+  height:8px;
+  background:var(--ink);
+  clip-path:polygon(100% 0,0 50%,100% 100%)
+}
+.reparto {
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  margin-top:22px
+}
+.reparto .personaje {
+  max-width:420px
+}
+.personaje.chico {
+  margin-top:18px;
+  max-width:440px
+}
+.personaje.chico .globo {
+  font-size:13px
+}
+.elenco {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:28px 36px
+}
+.elenco-section,.juego-section {
+  padding-top:80px
+}
+
+/* el minijuego */
+.juego {
+  background:var(--dark);
+  color:var(--paper);
+  border:2px solid var(--ink);
+  box-shadow:6px 6px 0 #c9d6bd;
+  padding:22px;
+  display:grid;
+  gap:16px
+}
+.juego-pasos {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  font:11px var(--mono);
+  letter-spacing:.06em;
+  text-transform:uppercase
+}
+.juego-pasos li {
+  padding:5px 8px;
+  border:1px solid #3c5a4e;
+  color:#8fa99a
+}
+.juego-pasos li.hecho {
+  color:var(--dark);
+  background:var(--mint);
+  border-color:var(--mint)
+}
+.juego-pasos li[aria-current] {
+  color:var(--dark);
+  background:var(--green);
+  border-color:var(--green)
+}
+.juego-pantalla {
+  display:grid;
+  grid-template-columns:72px 1fr;
+  gap:16px;
+  align-items:start
+}
+.juego-quien {
+  margin:0;
+  text-align:center;
+  font:12px var(--mono);
+  color:var(--green)
+}
+.juego-quien .cara {
+  display:block;
+  width:64px;
+  height:64px;
+  margin:0 auto 4px
+}
+.juego-quien .cara svg {
+  width:100%;
+  height:100%
+}
+.juego .globo {
+  font-size:15px
+}
+.juego-opciones {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px
+}
+.juego-opciones button {
+  font:600 14px var(--sans);
+  padding:11px 14px;
+  background:var(--green);
+  color:var(--dark);
+  border:2px solid var(--ink);
+  box-shadow:3px 3px 0 #0b1714;
+  cursor:pointer
+}
+.juego-opciones button:hover,.juego-opciones button:focus-visible {
+  background:var(--yellow);
+  outline:2px solid var(--paper);
+  outline-offset:2px
+}
+.juego-opciones button[aria-disabled=true] {
+  background:transparent;
+  color:#a5b8ad;
+  border-style:dashed;
+  border-color:#5b7b6d;
+  box-shadow:none;
+  cursor:help
+}
+.juego-porque {
+  margin:0;
+  min-height:1.4em;
+  color:var(--yellow);
+  font-size:14px
+}
+.juego-registro {
+  margin:0;
+  padding-left:22px;
+  display:grid;
+  gap:6px;
+  font-size:14px;
+  line-height:1.5
+}
+.juego-registro b {
+  color:var(--green)
+}
+.juego[data-oracle=rojo] .juego-quien {
+  color:var(--red,#e0705f)
+}
+.juego #juego-otra {
+  justify-self:start
+}
+.globo-secreto {
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:min(90%,360px);
+  font:600 13px var(--mono);
+  pointer-events:none;
+  z-index:2
+}
+.globo-secreto::before {
+  display:none
+}
+
+/* las animaciones, sólo con la escena viva */
+@keyframes deriva { from { transform:translateX(-30px) } to { transform:translateX(250px) } }
+@keyframes cinta { to { transform:translateX(-8px) } }
+@keyframes viaja { 0% { transform:translate(28px,66px); opacity:0 } 8% { opacity:1 } 88% { opacity:1 } 100% { transform:translate(178px,66px); opacity:0 } }  /* el pedido sale de la persona y llega al agente */
+@keyframes bota { 50% { translate:0 -2px } }  /* translate, no transform: el transform pisaría la posición del sprite */
+@keyframes salta { 0%,70%,100% { translate:0 0 } 80% { translate:0 -5px } }
+@keyframes titila { 50% { opacity:.35 } }
+@keyframes carril { from { transform:translateX(0) } to { transform:translateX(205px) } }
+@keyframes paradas { 0% { transform:translateX(0) } 18%,26% { transform:translateX(46px) } 40%,48% { transform:translateX(90px) } 62%,70% { transform:translateX(134px) } 84%,92% { transform:translateX(178px) } 100% { transform:translateX(205px) } }
+@keyframes sube { from { translate:0 12px } to { translate:0 0 } }
+@keyframes camina { from { translate:0 0 } to { translate:212px 0 } }
+@keyframes abre { to { transform:translate(-8px,-8px) rotate(-14deg) } }
+@keyframes brota { from { translate:0 20px; opacity:0 } to { translate:0 0; opacity:1 } }
+@keyframes humo { to { transform:translate(6px,-12px) scale(1.6); opacity:0 } }
+@keyframes gato { 40% { translate:0 -8px } }
+@keyframes cae { from { translate:0 -10px } to { translate:0 70px } }
+@keyframes fiesta { 0% { fill:#ebc36f } 33% { fill:#e0705f } 66% { fill:#b79be6 } 100% { fill:#7fb2e5 } }
+
+[data-estado=viva] .nube { animation:deriva 26s linear infinite }
+[data-estado=viva] .nube.lenta { animation-duration:40s; animation-delay:-14s }
+[data-estado=viva] .cinta { animation:cinta .5s linear infinite }
+[data-estado=viva] .viaja { animation:viaja 7s linear infinite }
+[data-estado=viva] .saluda,[data-estado=viva] .trabaja { animation:bota 1.2s steps(2) infinite }
+[data-estado=viva] .trabaja { animation-duration:.8s }
+[data-estado=viva] .ventana { animation:titila 2.4s steps(2) infinite; animation-delay:calc(var(--i)*.45s) }
+[data-estado=viva] .v0 { animation:carril 3s linear infinite }
+[data-estado=viva] .v1 { animation:carril 5s linear infinite }
+[data-estado=viva] .v2 { animation:carril 6.5s linear infinite }
+[data-estado=viva] .v3 { animation:paradas 9s linear infinite }
+[data-estado=viva] .salta { animation:salta 2.4s steps(2) infinite; animation-delay:calc(var(--i)*.4s) }
+[data-estado=viva] .parpadea,[data-estado=viva] .cursor,[data-estado=viva] .luz { animation:titila 1s steps(2) infinite }
+.sube { translate:0 12px }
+[data-estado=viva] .sube { animation:sube .5s steps(4) forwards; animation-delay:calc(.6s + var(--i)*.8s) }
+[data-estado=viva] .camina { animation:camina 3.2s steps(16) forwards }
+[data-estado=viva] .tapa { animation:abre .5s steps(3) forwards }
+.brota { opacity:0 }
+[data-estado=viva] .brota { animation:brota .6s steps(4) forwards; animation-delay:calc(.5s + var(--i)*.35s) }
+[data-estado=viva] .bocanada { animation:humo 1.8s ease-out forwards; transform-box:fill-box }
+[data-estado=viva] .gato.salto { animation:gato .5s steps(3) }
+[data-estado=viva] .pieza { animation:cae 2.2s linear infinite; animation-delay:calc(var(--i)*-.13s) }
+body[data-fiesta=si] [data-estado=viva] .ventana { animation:fiesta .8s steps(4) infinite; animation-delay:calc(var(--i)*.1s) }
+body[data-fiesta=si] [data-estado=final] .ventana { fill:#e0705f }
+
+/* el estado final, para movimiento reducido: todo en su lugar, nada se mueve */
+[data-estado=final] .viaja { transform:translate(112px,66px) }
+[data-estado=final] .sube,[data-estado=final] .brota { translate:0 0; opacity:1 }
+[data-estado=final] .camina { translate:212px 0 }
+[data-estado=final] .tapa { transform:translate(-8px,-8px) rotate(-14deg) }
+[data-estado=final] .v3 { transform:translateX(205px) }
+[data-estado=final] .viaja,[data-estado=quieta] .viaja { transform:translate(112px,66px) }
+
+@media(max-width:1000px) {
+  .elenco { grid-template-columns:repeat(2,1fr) }
+}
+@media(max-width:700px) {
+  .elenco { grid-template-columns:1fr }
+  .reparto { flex-direction:column }
+  .personaje.derecha { align-self:flex-end }
+  .juego { padding:14px }
+  .juego-pantalla { grid-template-columns:52px 1fr }
+  .juego-quien .cara { width:48px; height:48px }
+  .pixel-scene { margin-bottom:22px }
+}
+[hidden] {
+  display:none!important
+}
+.pixel-scene:not(.escena-grande) {
+  max-width:820px;
+  margin-inline:auto
+}

@@ -1,0 +1,45 @@
+{
+  "viva_caso": [
+    {
+      "requisito": "la_portada_es_una_fabrica_viva",
+      "caso": "wv1_recorrer_la_portada",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_portada_es_una_fabrica_viva",
+      "caso": "wv1_movimiento_reducido_y_pantalla_chica",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_portada_es_una_fabrica_viva",
+      "caso": "wv_el_sitio_entero_sigue_funcionando",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_minijuego_ensena_las_decisiones_de_verdad",
+      "caso": "wv2_una_partida_que_cierra_en_verde",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_minijuego_ensena_las_decisiones_de_verdad",
+      "caso": "wv2_aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_minijuego_ensena_las_decisiones_de_verdad",
+      "caso": "wv2_jugar_solo_con_teclado",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_easter_eggs_no_tapan_nada",
+      "caso": "wv3_encontrar_los_tres",
+      "codigo": 0
+    }
+  ],
+  "viva_corrida": [
+    {
+      "completa": 1,
+      "casos": 7
+    }
+  ]
+}

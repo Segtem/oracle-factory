@@ -1,0 +1,4 @@
+requisito web_c8800172a340333d8.los_easter_eggs_no_tapan_nada:
+    texto "Tipo: funcional La portada SHALL esconder al menos tres easter eggs (la chimenea, el gato de la fábrica y el código Konami). Activarlos SHALL NOT tapar texto, cambiar lo que dice la página ni romper el teclado, y con movimiento reducido SHALL NOT animar."
+    fuente "openspec/changes/20261016-234517-web-viva/specs/web/spec.md#los easter eggs no tapan nada"
+    medido_por factory_viva.los_easter_eggs_no_tapan_nada, factory_viva.corrida_completa

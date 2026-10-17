@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-viva/.factory/local/revisiones/6877eb8",
+  "base": "0afb7a6a70e97b6fe1f6c159299cfaad14805b65",
+  "head": "6877eb82c8726d16fccac94b5225c7b9ab96dfb2",
+  "diff_sha256": "909bc539266c36dec89d6211bc1d710939c4a8570fa0d3a26dda4e65ef617675",
+  "context_sha256": "bca83a945b53cc6c4036dd193f51d1477b2abc4c9d9f72af6d0493cddafa9e0a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "WV-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "Los controles de los easter eggs quedan dentro de una imagen accesible",
+      "explanation": "La escena inicial se declara como role=\"img\" y dentro de su SVG se generan la chimenea y el gato como controles role=\"button\" con tabindex y aria-label. ARIA aplana los descendientes de una imagen en el árbol de accesibilidad, por lo que esas acciones no se presentan a lectores de pantalla como botones identificables. Una persona que navega con tecnología de asistencia puede no descubrir qué elemento activa cada easter egg, aunque el foco de teclado y los eventos estén implementados.",
+      "location": {
+        "file": "site/index.html",
+        "start_line": 29,
+        "end_line": 29,
+        "side": "head"
+      },
+      "trigger": "Abrir la portada con un lector de pantalla y navegar por los controles enfocables de la escena inicial para encontrar la chimenea o el gato.",
+      "evidence": "En site/index.html:29 la escena que contiene la SVG tiene role=\"img\". site/viva.js:34-35 y :45 generan los elementos internos con role=\"button\", tabindex=\"0\" y aria-label. El rol de imagen hace que sus descendientes no conserven semántica de controles en el árbol accesible.",
+      "related_requirement": "la portada es una fábrica viva",
+      "status": "pendiente",
+      "verification": "Inspeccionar el árbol de accesibilidad en Chromium con lector de pantalla: la chimenea y el gato deberían anunciarse como botones con sus nombres y ser activables desde teclado."
+    }
+  ],
+  "review_status": "incompleto",
+  "limitations": [
+    "Revisión estática de la spec, el diff, el código y las pruebas indicadas; no se modificó el checkout.",
+    "NODE_PATH=/home/workstation/Dev/factory-web-viva/node_modules node tests/test_juego.cjs pasó (juego: ok).",
+    "Los seis escenarios solicitados de tests/test_web_viva.cjs se intentaron por separado, pero Chromium (/usr/bin/chromium) terminó al iniciar con SIGTRAP y setsockopt: Operation not permitted; no se obtuvo evidencia de comportamiento de navegador. Sus salidas completas están en test_*.log en la carpeta de revisión.",
+    "No se corrió la suite completa de Python ni tools/verify_web_viva.py. No se hicieron mutaciones manuales."
+  ]
+}

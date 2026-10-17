@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:89892d859edce8a1cbd4f44e6f8c86e00de4b28748ea66b3c849d1bb0b615603 -->
+<!-- oracle-factory resumen sha256:56a0301fc40ea7daa4ed65960e3054a25a543375ff80777a8dd7bee9196c26cd -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 131 requisitos vigentes · 1 cambio abierto
+18 capacidades · 134 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -265,6 +265,9 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | la guía desde cero sigue funcionando | no funcional | `web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando` | factory_web.la_guia_desde_cero_sigue_funcionando, factory_web.corrida_completa | verde al cerrar el 2026-10-07 | 20261007-115805-web-y-docs |
 | los modos de trabajo están explicados | funcional | `web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados` | factory_modos_web.los_modos_de_trabajo_estan_explicados, factory_modos_web.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-122841-docs-web-modos |
 | la tabla de quién decide coincide con el código | funcional | `web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo` | factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo, factory_modos_web.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-122841-docs-web-modos |
+| la portada es una fábrica viva | funcional | `web_c8800172a340333d8.la_portada_es_una_fabrica_viva` | factory_viva.la_portada_es_una_fabrica_viva, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
+| el minijuego enseña las decisiones de verdad | funcional | `web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad` | factory_viva.el_minijuego_ensena_las_decisiones_de_verdad, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
+| los easter eggs no tapan nada | funcional | `web_c8800172a340333d8.los_easter_eggs_no_tapan_nada` | factory_viva.los_easter_eggs_no_tapan_nada, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
 
 ## Cambios abiertos
 
@@ -660,6 +663,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261016-175720-bloqueo-registro) codex (gpt-6-luna): No ejecuté mutaciones sobre una copia.
 - (20261016-175720-bloqueo-registro) codex (gpt-6-luna): La revisión de código abarcó el diff y los contextos del paquete, además de rutas de escritura en oracle_factory/. Los archivos excluidos por el paquete no se revisaron.
 - (20261016-175720-bloqueo-registro) codex (gpt-6-luna): No reabrí como hallazgos las observaciones bajas de vuelta 2 reservadas a decisión humana. La revisión estática no encontró interbloqueos ni esperas sin fin en los flujos vistos.
+- (20261016-234517-web-viva) Evidencia: Escenarios wv1–wv3 en Chromium headless de Linux con Playwright 1.62.1, sin red, a 320, 390, 768, 1024 y 1440 px. Prueba la estructura, el estado de las escenas, el minijuego y los secretos; no juzga si el pixel art es lindo ni si la página es divertida: eso es de una persona. La trazabilidad sólo cubre el lado Python del arnés.
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano tests/test_juego.cjs, los 6 escenarios de tests/test_web_viva.cjs (recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) y tests/test_site.cjs en Chromium (/usr/bin/chromium).
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): Se verificó que los hallazgos de la vuelta 1 (WV-01, agy-web-viva-1 a agy-web-viva-6) quedaron efectivamente resueltos sin regresiones.
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): Se realizaron mutaciones manuales en copia aislada para verificar la sensibilidad de las pruebas (preservación de foco con ratón, posición de botones, contenedor accesible de secretos, animación de personajes, desborde horizontal bajo data-estado=viva y porqués de opciones deshabilitadas). Todas las mutaciones fueron detectadas.
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): Se comprobó la ausencia de desborde horizontal entre 320 px y 1440 px con escenas animadas.
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación (findings vacía).
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): Por indicación explícita, no se corrió la suite completa de Python (tests/*.py).
+- (20261016-234517-web-viva) agy (gemini-3.8-flash-high): El análisis se limita al diff del paquete preparado por Oracle Clue; las rutas excluidas (.factory, tareas) no forman parte de la revisión.
+- (20261016-234517-web-viva) codex (gpt-6-luna): Revisión estática de los tres requisitos, la propuesta, el diff completo del paquete, el código del candidato y los casos de prueba. Las salidas extensas y el diff están en diff-review.txt.
+- (20261016-234517-web-viva) codex (gpt-6-luna): NODE_PATH=/home/workstation/Dev/factory-web-viva/node_modules node tests/test_juego.cjs pasó (juego: ok).
+- (20261016-234517-web-viva) codex (gpt-6-luna): Se ejecutaron por separado los seis escenarios requeridos de tests/test_web_viva.cjs. Todos fallaron antes de ejecutar el escenario porque /usr/bin/chromium terminó con SIGTRAP y setsockopt: Operation not permitted; no se atribuye a la aplicación. Por la indicación de la solicitud, se completó la revisión estática y el estado es completo.
+- (20261016-234517-web-viva) codex (gpt-6-luna): No se corrió la suite completa de Python ni se hicieron mutaciones manuales. Sin hallazgos confirmados en la revisión estática; no se pudo observar en navegador el comportamiento visual, el foco y las animaciones.
 
 ### Históricos
 

@@ -1,0 +1,160 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad": [
+      "test_web_viva.WebViva.test_wv2_aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar",
+      "test_web_viva.WebViva.test_wv2_jugar_solo_con_teclado",
+      "test_web_viva.WebViva.test_wv2_una_partida_que_cierra_en_verde"
+    ],
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva": [
+      "test_web_viva.WebViva.test_wv1_movimiento_reducido_y_pantalla_chica",
+      "test_web_viva.WebViva.test_wv1_recorrer_la_portada",
+      "test_web_viva.WebViva.test_wv_el_sitio_entero_sigue_funcionando"
+    ],
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": [
+      "test_web_viva.WebViva.test_wv3_encontrar_los_tres"
+    ]
+  },
+  "casos": {
+    "test_web_viva.WebViva.test_wv1_movimiento_reducido_y_pantalla_chica": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          29,
+          30
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv1_recorrer_la_portada": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          26,
+          27
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv2_aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          37,
+          38
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv2_jugar_solo_con_teclado": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          40,
+          41
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv2_una_partida_que_cierra_en_verde": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          32,
+          33,
+          34,
+          35
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv3_encontrar_los_tres": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          22,
+          23,
+          24,
+          43,
+          44
+        ]
+      }
+    },
+    "test_web_viva.WebViva.test_wv_el_sitio_entero_sigue_funcionando": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_web_viva.py": [
+          15,
+          16,
+          17,
+          46,
+          47,
+          48
+        ]
+      }
+    }
+  }
+}

@@ -62,7 +62,7 @@ const root=path.resolve(__dirname,'../site');
    if(url.hash && url.pathname===new URL(page.url()).pathname)assert(await page.locator(url.hash).count(),`anchor ${href}`);
   }
  }checks++;
- assert.equal(await page.locator('.guide-content section').count(),9);
+ assert.equal(await page.locator('.guide-content section').count(),10);
  const target=page.locator('code[data-template]').filter({hasText:'aprobar-spec'});
  await page.locator('#change-id').fill('no es un id');assert.equal(await page.locator('#change-id').getAttribute('aria-invalid'),'true');
  const id='20260101-120000-prueba';await page.locator('#change-id').fill(id);

@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-viva/.factory/local/revisiones/6877eb8",
+  "base": "0afb7a6a70e97b6fe1f6c159299cfaad14805b65",
+  "head": "6877eb82c8726d16fccac94b5225c7b9ab96dfb2",
+  "diff_sha256": "909bc539266c36dec89d6211bc1d710939c4a8570fa0d3a26dda4e65ef617675",
+  "context_sha256": "bca83a945b53cc6c4036dd193f51d1477b2abc4c9d9f72af6d0493cddafa9e0a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano tests/test_juego.cjs y los 6 escenarios de tests/test_web_viva.cjs (recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) en Chromium (/usr/bin/chromium).",
+    "Se realizaron mutaciones manuales en copia local aislada para verificar la sensibilidad y supervivencia de defectos frente a las pruebas.",
+    "Por indicación explícita, no se corrió la suite completa de Python (tests/*.py).",
+    "El análisis se limita al diff del paquete preparado por Oracle Clue; las rutas excluidas (.factory, tareas) no forman parte de la revisión."
+  ],
+  "findings": [
+    {
+      "id": "agy-web-viva-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Opciones de revisión deshabilitadas omiten «porque», causando tooltip «undefined» y desvío de foco",
+      "explanation": "En site/juego.js (líneas 37-38), al consultar opciones en el paso revision cuando el hallazgo no está abierto, «riesgo» y «descartar» devuelven disponible: falso pero omiten la clave «porque» (queda undefined). Esto genera dos fallas: 1) en site/viva.js (línea 152), b.title = o.porque asigna undefined, lo que en el DOM de Chromium renderiza el atributo literal title=\"undefined\", viéndose como tooltip al posar el cursor. 2) Al navegar con flechas a las opciones deshabilitadas y pulsar Enter (diseñado expresamente según el código para explicar por qué no están disponibles), J.elegir devuelve undefined. En viva.js (líneas 180-182), esto limpia el mensaje de estatus (!error es verdadero) y dispara dibujar(true), lo que desvía intempestivamente el foco hacia el botón «Aprobar» en lugar de informar el porqué.",
+      "location": {
+        "file": "site/juego.js",
+        "start_line": 37,
+        "end_line": 38,
+        "side": "head"
+      },
+      "trigger": "En el minijuego, avanzar hasta la parada de Revisión, aceptar el riesgo con un motivo (o descartar o pedir cambios). Luego, pasar el mouse sobre «Aceptar el riesgo» / «Descartar el hallazgo» o seleccionarlos con teclado (flechas + Enter).",
+      "evidence": "En site/juego.js líneas 37-38: {id: \"riesgo\", texto: \"Aceptar el riesgo\", disponible: abierto} y {id: \"descartar\", texto: \"Descartar el hallazgo\", disponible: abierto} no definen «porque». En Chromium, el elemento <button> resultante tiene title=\"undefined\". Al enviar Enter, porque.textContent queda vacío y el foco es trasladado a Aprobar.",
+      "related_requirement": "el minijuego enseña las decisiones de verdad",
+      "status": "pendiente",
+      "verification": "Verificar en tests/test_juego.cjs que tras resolver el hallazgo, J.opciones(e) devuelva una cadena no vacía en la propiedad «porque» de las opciones riesgo y descartar. Verificar en tests/test_web_viva.cjs que no se genere title=\"undefined\" y que activarlas no mueva el foco a Aprobar."
+    },
+    {
+      "id": "agy-web-viva-2",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "El personaje de la persona en la escena «trabajar» tiene clase «quien» y no se anima",
+      "explanation": "En site/viva.js (línea 97), dentro de la escena «trabajar», el sprite de la persona se construye con clase «quien»: P.g('persona', 70, 22, 'quien'), mientras que el agente contiguo lleva 'quien trabaja'. En site/style.css no existe ninguna regla de animación para la clase «quien» (solo para .saluda y .trabaja). Por consiguiente, cuando la sección #trabajar entra en pantalla, el sprite de la persona permanece inmóvil. Esto contradice la descripción accesible del elemento en site/index.html (línea 112: aria-label=\"... la persona y el agente trabajan a cada lado\") y la promesa de la spec de que las escenas se animan al entrar.",
+      "location": {
+        "file": "site/viva.js",
+        "start_line": 97,
+        "end_line": 97,
+        "side": "head"
+      },
+      "trigger": "Desplazarse hasta la sección #trabajar con la página en Chromium y observar las animaciones de los personajes.",
+      "evidence": "site/viva.js línea 97 define clase 'quien'. site/style.css línea 1919 solo aplica animation:bota a .saluda y .trabaja. document.querySelector('[data-escena=\"trabajar\"] g[transform=\"translate(70 22)\"]').getAnimations().length es 0 en todo momento.",
+      "related_requirement": "la portada es una fábrica viva",
+      "status": "pendiente",
+      "verification": "Cambiar la clase a 'quien trabaja' o 'quien saluda' en site/viva.js línea 97 y comprobar que el elemento posea animaciones activas cuando data-estado=\"viva\"."
+    },
+    {
+      "id": "agy-web-viva-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "La prueba de easter eggs no comprueba el foco tras activar el gato y mutaciones que mueven el foco sobreviven",
+      "explanation": "El escenario «encontrar los tres» exige: «THEN cada uno responde, el texto de la página sigue igual y visible, y el foco sigue donde estaba». En tests/test_web_viva.cjs (líneas 195-198), se realiza await page.locator('#gato').click() pero no se comprueba la posición del foco tras el clic. Al mutar el código para que el gato desvíe el foco a otro elemento (document.querySelector('h1').focus()), la prueba sobrevive en verde. Además, en Chromium, al ser el gato un elemento SVG con tabindex=\"0\", hacer clic con el ratón traslada el foco al propio gato, en lugar de conservarlo donde estaba.",
+      "location": {
+        "file": "tests/test_web_viva.cjs",
+        "start_line": 195,
+        "end_line": 198,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tests/test_web_viva.cjs encontrar_los_tres con una mutación que desvíe el foco al activar el gato.",
+      "evidence": "En tests/test_web_viva.cjs líneas 195-198 hay aserciones para data-gato y globo-secreto, pero ninguna aserción de document.activeElement para el gato (a diferencia de chimenea y Konami). La mutación M1_gato_mueve_foco sobrevivió sin fallar.",
+      "related_requirement": "los easter eggs no tapan nada",
+      "status": "pendiente",
+      "verification": "Agregar una aserción explícita en tests/test_web_viva.cjs para comprobar el estado de document.activeElement luego de activar el gato."
+    },
+    {
+      "id": "agy-web-viva-4",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "El elemento globo-secreto carece de aria-live, impidiendo el anuncio accesible de los secretos de chimenea y gato",
+      "explanation": "En site/index.html (línea 30), el contenedor #globo-secreto no posee aria-live ni role=\"status\". Cuando una persona usuaria activa la chimenea o el gato desde el teclado o ratón, site/viva.js inserta el texto («¡Puf!», «Miau...») exclusivamente en dicho elemento. Dado que no es anunciado por lectores de pantalla ni está vinculado con aria-describedby a los botones interactivos, las personas con discapacidad visual no reciben respuesta de la activación, a diferencia del código Konami que sí actualiza #anuncio con aria-live=\"polite\".",
+      "location": {
+        "file": "site/index.html",
+        "start_line": 30,
+        "end_line": 30,
+        "side": "head"
+      },
+      "trigger": "Activar la chimenea o el gato mediante teclado (Enter o Espacio) con un lector de pantalla activo.",
+      "evidence": "site/index.html línea 30: <p id=\"globo-secreto\" class=\"globo globo-secreto\" data-huevo hidden></p> no posee atributos de accesibilidad en vivo. En viva.js líneas 203-210, la función globo() solo escribe en globo-secreto y no actualiza #anuncio.",
+      "related_requirement": "los easter eggs no tapan nada",
+      "status": "pendiente",
+      "verification": "Añadir aria-live=\"polite\" a #globo-secreto o hacer que la función globo() emita la novedad en #anuncio."
+    },
+    {
+      "id": "agy-web-viva-5",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "La comprobación de desborde horizontal a 320 px no se valida con escenas animadas (data-estado=\"viva\")",
+      "explanation": "La spec promete que la página no desborda horizontalmente entre 320 y 1440 px. Sin embargo, en tests/test_web_viva.cjs, la comprobación en múltiples resoluciones (320, 390, 768, 1024, 1440 px) se ejecuta únicamente en el escenario movimiento_reducido_y_pantalla_chica (línea 77: reducedMotion: true). En recorrer_la_portada (con movimiento normal y escenas vivas), el test solo se evalúa a 1440 px. Si un elemento genera desborde únicamente al animarse, la suite de pruebas no lo detecta.",
+      "location": {
+        "file": "tests/test_web_viva.cjs",
+        "start_line": 91,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Introducir una regla CSS que cause desborde horizontal a 320 px exclusivamente bajo el selector [data-estado=viva] y correr los tests.",
+      "evidence": "En tests/test_web_viva.cjs, el bucle for (const ancho of [320, 390, 768, 1024, 1440]) solo existe en movimiento_reducido_y_pantalla_chica. La mutación M10_desborde_solo_viva sobrevivió a todos los tests sin ser atrapada.",
+      "related_requirement": "la portada es una fábrica viva",
+      "status": "pendiente",
+      "verification": "Incluir la comprobación de scrollWidth <= innerWidth a 320 px también en recorrer_la_portada con movimiento normal."
+    },
+    {
+      "id": "agy-web-viva-6",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.95,
+      "title": "design.md describe incorrectamente que test_site.cjs contiene las nuevas pruebas",
+      "explanation": "En openspec/changes/20261016-234517-web-viva/design.md (línea 6), se afirma que «tests/test_site.cjs (Chromium con Playwright) suma el minijuego con teclado, las escenas con y sin movimiento reducido, los easter eggs y el desborde a 320 px». Sin embargo, en el commit 6877eb8, tests/test_site.cjs solo ajustó un contador de secciones de 9 a 10. Todas esas pruebas fueron ubicadas en el archivo nuevo tests/test_web_viva.cjs.",
+      "location": {
+        "file": "openspec/changes/20261016-234517-web-viva/design.md",
+        "start_line": 6,
+        "end_line": 6,
+        "side": "head"
+      },
+      "trigger": "Comparar la descripción de la arquitectura de pruebas en design.md con el diff real de tests/test_site.cjs y tests/test_web_viva.cjs.",
+      "evidence": "Diff de tests/test_site.cjs en 6877eb8 contiene únicamente el cambio de count(), 9 a 10. Las pruebas mencionadas residen en tests/test_web_viva.cjs.",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Actualizar la referencia en design.md para indicar tests/test_web_viva.cjs."
+    }
+  ]
+}

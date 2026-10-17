@@ -1,0 +1,356 @@
+{
+  "id": "20261016-234517-web-viva",
+  "titulo": "Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones",
+  "capacidad": "web",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261016-234517-web-viva/specs/web/spec.md",
+  "spec_sha256": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-16T23:48:48+00:00",
+    "documentos": {
+      "openspec/changes/20261016-234517-web-viva/proposal.md": "c215ea0cadf2ea46a9443208fa86c5342d905c4a569b4edce3544dc2aa83ccc0",
+      "openspec/changes/20261016-234517-web-viva/specs/web/spec.md": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a"
+    }
+  },
+  "requisitos": [
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/informe.json",
+    "sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
+    "decisiones": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/decisiones.json",
+    "decisiones_sha256": "43daf4f57d1c8bea2f00527cebdf4f32e84d15bb700c7968cdf4e355a985d43b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T02:24:55+00:00",
+    "motivo": "dos vueltas de codex y agy: la 1 marcó tres medios (los secretos ocultos a un lector de pantalla dentro de una imagen, opciones no disponibles sin su porqué, el clic del gato que se llevaba el foco) y bajas, corregidos con pruebas que fallan sobre el código anterior y mutaciones; en la 2 los dos terminaron sin hallazgos. Además, el rebote que mandaba los personajes a la esquina, que vio Brian, tiene su prueba",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4368aad14b71ac46cf6fd93e5a7bd08a3d2cd469",
+      "archivos_sha256": "9e8994f33aa923a1cb7831f80ea4087ed7f4f4595c8b4df98642832a9b7f12bb"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261016-234517-web-viva/candidatos/74efd95/evidencia/hechos.json",
+    "hechos_sha256": "d61f831d75469c52f7fbf5b77f1702682c2953a2a3960678f4da0646f12b2e0e",
+    "informe": ".factory/cambios/20261016-234517-web-viva/oracle-veredicto.txt",
+    "informe_sha256": "9ffe8b1c58f99e3e88291d619c8c61cf93664a3a23d866f9ef9f5953dff19edc",
+    "cuando": "2026-10-17T02:25:15+00:00",
+    "contexto": {
+      "head": "e1185c88d1b1852142502a18c49fcf476a9142d8",
+      "archivos_sha256": "9e8994f33aa923a1cb7831f80ea4087ed7f4f4595c8b4df98642832a9b7f12bb"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T23:45:17+00:00",
+      "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T23:48:48+00:00",
+      "documentos": {
+        "openspec/changes/20261016-234517-web-viva/proposal.md": "c215ea0cadf2ea46a9443208fa86c5342d905c4a569b4edce3544dc2aa83ccc0",
+        "openspec/changes/20261016-234517-web-viva/specs/web/spec.md": "29eac277e98147edccd72d3749aad3e1d3f62175754b8172d52f8ae147f3b14a"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-16T23:48:56+00:00",
+      "ids": [
+        "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+        "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+        "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "requisito": "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+      "medidas": [
+        "factory_viva.la_portada_es_una_fabrica_viva",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:34+00:00",
+      "requisito": "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+      "medidas": [
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T00:05:35+00:00",
+      "requisito": "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada",
+      "medidas": [
+        "factory_viva.los_easter_eggs_no_tapan_nada",
+        "factory_viva.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "requisito": "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad",
+      "medidas": [
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad",
+        "factory_viva.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "requisito": "web_c8800172a340333d8.la_portada_es_una_fabrica_viva",
+      "medidas": [
+        "factory_viva.la_portada_es_una_fabrica_viva",
+        "factory_viva.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "requisito": "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada",
+      "medidas": [
+        "factory_viva.los_easter_eggs_no_tapan_nada",
+        "factory_viva.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T00:22:27+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "6877eb8",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T00:38:05+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "6877eb8",
+      "resultado": "ok",
+      "hallazgos": 6
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T00:50:24+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "74efd95",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T01:01:06+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "74efd95",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T01:01:18+00:00",
+      "decision": "aprobar",
+      "candidato": "74efd95"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T02:24:55+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2d21f5cba904274e7e9eaf187a3af6b0b8b564256409f279b3b2ac4988c5d119",
+      "decisiones_sha256": "43daf4f57d1c8bea2f00527cebdf4f32e84d15bb700c7968cdf4e355a985d43b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:15+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "d61f831d75469c52f7fbf5b77f1702682c2953a2a3960678f4da0646f12b2e0e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:38+00:00",
+      "oracle": ".factory/cambios/20261016-234517-web-viva/oracle-veredicto.txt",
+      "revision": "tareas/20261016-234517-web-viva/revisiones/registro-4ryqrn1i/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T02:25:38+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
+    }
+  ],
+  "tipos": {
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad": "funcional",
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva": "funcional",
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": "funcional"
+  },
+  "medidas": {
+    "web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "sha256": "47a88ad32360b64556581113755430b48dbe685471ec4a133de74aada389f38a",
+      "catalogos": {
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad": "675efcf2dca7c9ca4c291e70d5d90a5012cc9ae082007297cacb1f30afc7bca1",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.el_minijuego_ensena_las_decisiones_de_verdad": "catalogos/factory_viva.el_minijuego_ensena_las_decisiones_de_verdad.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    },
+    "web_c8800172a340333d8.la_portada_es_una_fabrica_viva": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "sha256": "c4a5ffb65e53c74e10bde702fb04a667281aa445c42250afd3f24d3f2f507a0c",
+      "catalogos": {
+        "factory_viva.la_portada_es_una_fabrica_viva": "772f0e468949d23a08efbe40034696f8bfda1b5176f8b8c1c7c96154b08ab65a",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.la_portada_es_una_fabrica_viva": "catalogos/factory_viva.la_portada_es_una_fabrica_viva.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    },
+    "web_c8800172a340333d8.los_easter_eggs_no_tapan_nada": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T00:14:18+00:00",
+      "sha256": "86e8d863b1bd958fd4d514c5f33d79373248779733d438ec12f5ad260fe00ae3",
+      "catalogos": {
+        "factory_viva.los_easter_eggs_no_tapan_nada": "3d06ade7fb10a24659f4d89c1c33e69b0365cc3fccf0dd3dfde34340927ffbef",
+        "factory_viva.corrida_completa": "6f731e25ca5d56ba1ca375c7b9a439e32840d4db56e1b044245db2c84e108024"
+      },
+      "archivos_catalogo": {
+        "factory_viva.los_easter_eggs_no_tapan_nada": "catalogos/factory_viva.los_easter_eggs_no_tapan_nada.oracle",
+        "factory_viva.corrida_completa": "catalogos/factory_viva.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T02:25:38+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-17T02:25:38+00:00"
+  }
+}
