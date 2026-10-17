@@ -1,0 +1,4 @@
+requisito flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion:
+    texto "Tipo: funcional Si dos archivos de hechos traen la misma relación, `juzgar` SHALL NOT registrar un veredicto y SHALL mostrar el error de Oracle, que nombra la relación y los dos archivos."
+    fuente "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md#dos sensores no emiten la misma relación"
+    medido_por factory_hechos.dos_sensores_no_emiten_la_misma_relacion, factory_hechos.corrida_completa

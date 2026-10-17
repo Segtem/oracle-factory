@@ -151,6 +151,8 @@ oracle-factory --proyecto /ruta/producto-integracion estado ID_COMPLETO
 oracle-factory --proyecto /ruta/producto-integracion cerrar ID_COMPLETO
 ```
 
+Un candidato integrado suele tener un sensor por frente. No los combinen a mano: `juzgar` acepta un `--con` por sensor y Oracle los juzga juntos (`oracle-factory juzgar ID_COMPLETO --con tareas/ID_COMPLETO/hechos-consulta.json --con tareas/ID_COMPLETO/hechos-pantalla.json`). Cada relación la emite un solo sensor: si dos archivos traen la misma, `juzgar` no registra veredicto y muestra el error de Oracle con la relación y los dos archivos, porque la medida de un frente contaría filas del otro sin que Git vea ningún conflicto. El registro guarda cada archivo con su huella; si cambia cualquiera, `estado` lo nombra y el próximo paso repite el juicio con los mismos `--con`. `oracle cobertura` también acepta `--con` repetido para verificarse antes.
+
 Al cerrar, la spec del cambio se fusiona en `openspec/specs/<capacidad>/spec.md` y se regenera `.factory/resumen.md`; con eso, quien hace `git pull` ve lo vigente y el estado de los demás cambios sin leer cada propuesta.
 
 Si quedan hallazgos, registren `--decision cambios` y corrijan antes de repetir el ciclo. No usen `tasks close` para saltar los gates de Factory. Oracle sólo juzga hechos y requisitos medidos; un verde de seguimiento de Task no prueba que el producto funcione. Factory todavía no ejecuta el sensor ni demuestra automáticamente que un JSON venga del candidato actual.

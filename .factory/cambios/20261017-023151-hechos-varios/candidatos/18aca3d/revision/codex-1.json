@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hechos-varios/.factory/local/revisiones/18aca3d",
+  "base": "581af766529d5ece110e3fdb0f9d24bb81cf78d3",
+  "head": "18aca3dc072849751d533948c4b71b603428343d",
+  "diff_sha256": "70b394498d5848fe4e0a1022e9f55e846a292168855645cddb7043cb1be0d95f",
+  "context_sha256": "ea08a9c862d313ca950f4d525abaea7de4788b30dc2e35021b12a1ee34b0c84e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta, los dos requisitos y escenarios, y los 16 archivos del diff del paquete; excluí los archivos .factory/tareas y no consulté esos registros de Factory.",
+    "Corrí exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null. Resultado: 5 pruebas, OK; el comando emitió advertencias DeprecationWarning del entorno.",
+    "No corrí la suite completa ni tools/verify_hechos_varios.py; tampoco hice mutaciones manuales sobre copias. El test de contrato ejecutado cubre los dos sensores, modificación y ausencia de un archivo adicional, registro inválido, cambio durante el juicio, un solo archivo y colisión de relación.",
+    "La prueba de dos sensores usa Oracle 0.39.0 real en repositorios temporales, pero no probé sensores reales de Jam o LyraGASP. No encontré defectos con evidencia suficiente para reportar en los rangos del diff."
+  ]
+}

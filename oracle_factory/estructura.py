@@ -69,6 +69,18 @@ def _dic(valor) -> dict:
     return valor if isinstance(valor, dict) else {}
 
 
+def hechos_registrados(oracle: dict) -> list[tuple]:
+    """[(ruta, sha256)] de cada archivo de hechos del juicio: el primero en `hechos`, los demás en `hechos_mas`.
+
+    El único lugar que arma la lista: la usan la vigencia, los pendientes, el próximo paso, donde y estado.
+    """
+    extra = oracle.get('hechos_mas') or []
+    if not isinstance(extra, list):
+        extra = [extra]
+    return [(oracle.get('hechos'), oracle.get('hechos_sha256'))] + [
+        (e.get('ruta'), e.get('sha256')) if isinstance(e, dict) else (e, None) for e in extra]
+
+
 def _entrada(gate: str, ruta, raiz: Path, nota: str = '') -> dict:
     if _texto(ruta) is None:
         return {'gate': gate, 'ruta': '(valor no válido en el registro)', 'existe': False,
@@ -114,6 +126,8 @@ def donde(raiz: Path, ident: str, estado: dict, candidato: str | None = None, or
         for clave in ('informe', 'hechos'):
             if clave in oracle and oracle[clave] is not None:
                 filas.append(_entrada('juicio', oracle[clave], raiz))
+        for ruta, _ in hechos_registrados(oracle)[1:]:  # los demás sensores
+            filas.append(_entrada('juicio', ruta, raiz))
     candidatos = raiz / DIR / 'cambios' / ident / 'candidatos'
     if candidatos.is_dir() and not (raiz / DIR).is_symlink():  # un .factory enlazado no es nuestra carpeta
         for carpeta in sorted(candidatos.iterdir()):

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "54163a7eedabcfd32573ce44c87ca13620e8d6a18718cadef2a591ebc1ac6ec2",
+  "actor": "Brian Hollweg",
+  "motivo": "dos vueltas de codex y agy: en la 1 codex no encontró nada y agy marcó dos altos y tres medios (un hecho que no es ruta en el próximo paso, el sensor inválido sin nombre, un Oracle con 0 sin filas, falta de un rojo de verdad, y un hecho que falta), corregidos con pruebas que fallan sobre el código anterior y mutaciones; el hecho que falta se sigue recuperando desde Git, como decidió cli-piloto, y después se juzga con todos los --con; en la 2 los dos terminaron sin hallazgos",
+  "decisiones": []
+}

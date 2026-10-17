@@ -560,12 +560,21 @@ def no_es_ruta(valor) -> bool:
     return valor is not None and ruta_del_registro(valor) is None
 
 
+hechos_registrados = estructura.hechos_registrados
+
+
+def comando_juzgar(ident: str, registrados: list[tuple]) -> str:
+    """Repetir el juicio con los mismos archivos; uno que no es una ruta queda por completar (no se ofrece ejecutar)."""
+    return f"oracle-factory juzgar {ident} " + " ".join(
+        "--con " + (shlex.quote(ruta) if estructura._texto(ruta) else "RUTA_DE_LOS_HECHOS") for ruta, _ in registrados)
+
+
 def juicio_vigente(oracle: dict, actual: dict | None) -> bool:
     """El juicio vale si sus hechos y su informe son los registrados y el producto es el que se juzgó."""
     def intacto(relativa, huella):
         ruta = ruta_del_registro(relativa)
         return ruta is not None and ruta.is_file() and sha256(ruta.read_bytes()) == huella
-    return (actual is not None and intacto(oracle.get("hechos"), oracle.get("hechos_sha256"))
+    return (actual is not None and all(intacto(ruta, huella) for ruta, huella in hechos_registrados(oracle))
             and intacto(oracle.get("informe"), oracle.get("informe_sha256")) and mismo_producto(oracle.get("contexto"), actual))
 
 
@@ -1351,7 +1360,9 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     print(f"Informe registrado: {destino}")
     siguiente(identificador, estado["fase"])
 
-def juzgar(identificador: str, hechos: Path) -> None:
+def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
+    """Juzga con los hechos de uno o varios sensores (un archivo por sensor, `--con` repetido)."""
+    hechos = [hechos] if isinstance(hechos, Path) else list(hechos)
     carpeta, estado = abierto(identificador)
     try:  # escalares sin declarar o que no cargan: su causa antes que nada; lo demás lo dicen las comprobaciones que siguen
         catalogo_del_proyecto()
@@ -1369,32 +1380,40 @@ def juzgar(identificador: str, hechos: Path) -> None:
     exigir_spec(carpeta, estado)
     if not estado.get("requisitos"):
         raise FactoryError("importá primero los requisitos de la spec aprobada")
-    hechos = hechos.resolve()
-    if not hechos.is_file():
-        raise FactoryError(f"no encuentro los hechos del sensor: {hechos}")
-    # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
-    try:
-        ruta_hechos = hechos.relative_to(ROOT).as_posix()
-    except ValueError:
-        ruta_hechos = str(hechos)
-        print(f"Aviso: los hechos están fuera del proyecto ({hechos}); otra máquina no podrá verificarlos. "
-              "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
-    else:
-        if ejecutar(["git", "check-ignore", "-q", str(hechos)]).returncode == 0:
-            print(f"Aviso: los hechos ({ruta_hechos}) están ignorados por Git y no viajan con el repositorio; otra máquina "
-                  "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
+    hechos = [h.resolve() for h in hechos]
+    rutas = []
+    for archivo in hechos:
+        if not archivo.is_file():
+            raise FactoryError(f"no encuentro los hechos del sensor: {archivo}")
+        # Con ruta relativa al proyecto, el registro vale en cualquier clon; fuera de él, sólo en esta máquina.
+        try:
+            rutas.append(archivo.relative_to(ROOT).as_posix())
+        except ValueError:
+            rutas.append(str(archivo))
+            print(f"Aviso: los hechos están fuera del proyecto ({archivo}); otra máquina no podrá verificarlos. "
+                  "Guardalos dentro de tareas/ para que viajen con el repositorio.", file=sys.stderr)
+        else:
+            if ejecutar(["git", "check-ignore", "-q", str(archivo)]).returncode == 0:
+                print(f"Aviso: los hechos ({rutas[-1]}) están ignorados por Git y no viajan con el repositorio; otra máquina "
+                      "no podrá verificarlos. Guardalos fuera de las carpetas ignoradas, por ejemplo en tareas/.", file=sys.stderr)
     contexto = contexto_producto()
-    huella = sha256(hechos.read_bytes())
+    huellas = [sha256(archivo.read_bytes()) for archivo in hechos]
+    huella = huellas[0]
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
     if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
         detalle = (cobertura.stderr or cobertura.stdout).strip() if cobertura.returncode else ""
         raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado"
                            + (f": {detalle[:500]}" if detalle else ""))
-    p = ejecutar(["oracle", "cobertura", "--con", str(hechos), "--proyecto", str(proyecto_oracle()), *con_escalares()])
+    p = ejecutar(["oracle", "cobertura", *(a for archivo in hechos for a in ("--con", str(archivo))),
+                  "--proyecto", str(proyecto_oracle()), *con_escalares()])
     sys.stdout.write(p.stdout)
     if p.stderr:
         sys.stderr.write(p.stderr)
-    if not mismo_producto(contexto, contexto_producto()) or sha256(hechos.read_bytes()) != huella:
+    # Sin ninguna fila de requisito, Oracle no juzgó (por ejemplo, dos sensores con la misma relación): no hay veredicto.
+    if not any(re.search(r"^[✓◐·✗?]\s+" + re.escape(rid) + r"\s", p.stdout, re.M) for rid in estado["requisitos"]):
+        raise FactoryError("Oracle no pudo juzgar estos hechos; no registré un veredicto: "
+                           + (p.stdout + p.stderr).strip()[:800])
+    if not mismo_producto(contexto, contexto_producto()) or [sha256(a.read_bytes()) for a in hechos] != huellas:
         raise FactoryError("el producto o los hechos cambiaron durante el juicio; repetí la corrida")
     exigir_spec(carpeta, estado)
     informe = dir_estado(carpeta) / 'oracle-veredicto.txt'
@@ -1402,7 +1421,9 @@ def juzgar(identificador: str, hechos: Path) -> None:
     ok = p.returncode == 0 and requisitos_verdes(p.stdout, estado["requisitos"])
     estado["oracle"] = {
         "codigo": 0 if ok else 1, "codigo_oracle": p.returncode,
-        "hechos": ruta_hechos, "hechos_sha256": huella,
+        "hechos": rutas[0], "hechos_sha256": huella,
+        # Más de un sensor: los demás archivos, cada uno con su huella. Con uno solo, el registro es el de siempre.
+        **({"hechos_mas": [{"ruta": r, "sha256": h} for r, h in zip(rutas[1:], huellas[1:])]} if len(hechos) > 1 else {}),
         "informe": str(informe.relative_to(ROOT)), "informe_sha256": sha256(informe.read_bytes()),
         "cuando": ahora(), "contexto": contexto,
     }
@@ -1583,11 +1604,15 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             faltan.append(str(e))
     faltan += problemas_de_revision(estado)
     oracle = estado.get("oracle") or {}
+    registrados = hechos_registrados(oracle)
     for etiqueta, ruta, huella in (
         ("informe Oracle", oracle.get("informe"), oracle.get("informe_sha256")),
-        ("hechos", oracle.get("hechos"), oracle.get("hechos_sha256")),
+        # Con varios sensores, cada uno se nombra: por su ruta, o por su lugar si la ruta no sirve.
+        *(("hechos" if len(registrados) == 1 else f"hechos {ruta}" if estructura._texto(ruta)
+           else f"hechos del sensor {i} de {len(registrados)}", ruta, huella)
+          for i, (ruta, huella) in enumerate(registrados, 1)),
     ):
-        if no_es_ruta(ruta):
+        if no_es_ruta(ruta) or etiqueta.startswith("hechos del sensor"):  # en la lista, también un null es inválido
             faltan.append(etiqueta + NO_VALIDO)
             continue
         if not ruta and not huella:
@@ -1596,9 +1621,11 @@ def pendientes_actuales(carpeta: Path, estado: dict) -> list[str]:
             if not ruta or not huella or sha256(ruta_del_registro(ruta).read_bytes()) != huella:
                 faltan.append(etiqueta + " cambiado o sin huella")
         except OSError:
-            if etiqueta == "hechos":
+            if etiqueta.startswith("hechos"):
+                repetir = (comando_juzgar(estado['id'], registrados) if len(registrados) > 1
+                           else f"oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
                 faltan.append(f"hechos ausentes ({ruta}); en esta máquina se recuperan juzgando de nuevo con los hechos "
-                              f"del clon: oracle-factory juzgar {estado['id']} --con RUTA_DE_LOS_HECHOS")
+                              f"del clon: {repetir}")
             else:
                 faltan.append(etiqueta + " ausente")
     if oracle and not all(oracle.get(k) for k in ("informe", "informe_sha256", "hechos", "hechos_sha256", "contexto")):
@@ -2035,7 +2062,7 @@ def datos_estado(identificador: str) -> dict:
         "revision": gate(estado.get("revision"), ("decision", "hallazgos_abiertos", "revisor", "formato", "informe"),
                          actual is not None and mismo_producto((estado.get("revision") or {}).get("contexto"), actual)
                          and not problemas_de_revision(estado)),
-        "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos"),
+        "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos", "hechos_mas"),
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else avisos_head(estado) + aviso_revision(estado),
@@ -2436,7 +2463,7 @@ def archivos_faltantes(carpeta: Path, estado: dict) -> list[str]:
              *(requisitos_dir() / f"{r}.requisito" for r in estado.get("requisitos") or []),
              # Un valor que no es una ruta no es un archivo que recuperar: lo nombran pendientes y se rehace su gate.
              *(r for r in map(ruta_del_registro, (rev.get("informe"), rev.get("decisiones"), oracle.get("informe"),
-                                                  oracle.get("hechos"))) if r)]
+                                                  *(ruta for ruta, _ in hechos_registrados(oracle)))) if r)]
     return [str(p.relative_to(ROOT)) if p.is_relative_to(ROOT) else str(p) for p in rutas if not p.is_file()]
 
 
@@ -2463,7 +2490,10 @@ def _pasos(identificador: str) -> str | list[str] | None:
     # Un archivo que el registro referencia y falta no se arregla con un comando de Factory: se recupera.
     faltan = archivos_faltantes(carpeta, estado)
     if faltan:
-        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: oracle-factory estado {ident}"
+        # Con varios sensores, recuperados sus hechos, lo que sigue es juzgar otra vez con todos.
+        varios = hechos_registrados(estado.get("oracle") or {})
+        despues = comando_juzgar(ident, varios) if len(varios) > 1 else f"oracle-factory estado {ident}"
+        return f"faltan archivos del cambio ({', '.join(faltan)}): recuperalos desde Git; después: {despues}"
     try:  # sin aprobar, o la propuesta/spec cambió después de aprobarla
         exigir_spec(carpeta, estado)
     except FactoryError:
@@ -2498,6 +2528,9 @@ def _pasos(identificador: str) -> str | list[str] | None:
     # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
     oracle = estado.get("oracle") or {}
     juzgados = ruta_del_registro(oracle.get("hechos"))
+    varios = hechos_registrados(oracle)
+    if len(varios) > 1 and not juicio_vigente(oracle, contexto_producto()):
+        return comando_juzgar(ident, varios)
     try:  # hechos del candidato que no son los juzgados: juzgarlos
         del_candidato = hechos_del_candidato(ident)
         # También si los hechos registrados no son una ruta: los del candidato se juzgan sin pedir otra.
@@ -2931,7 +2964,7 @@ def construir_parser() -> argparse.ArgumentParser:
     p.add_argument('--decisiones', type=Path, help='documento de decisiones separado, sólo en modo guiado')
     p.add_argument("--hallazgos-abiertos", type=int, help='obligatorio en formato libre; se deriva en guiado')
     p = sub.add_parser("juzgar", help="correr Oracle sobre evidencia del sensor")
-    p.add_argument("id"); p.add_argument("--con", type=Path, help="hechos del sensor; por defecto, los del candidato (oracle-factory ruta ID evidencia)")
+    p.add_argument("id"); p.add_argument("--con", type=Path, action="append", help="hechos de un sensor; repetible, uno por sensor; por defecto, los del candidato (oracle-factory ruta ID evidencia)")
     return parser
 
 
@@ -2990,7 +3023,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == 'revision-preparar': preparar_revision(args.id)
         elif args.comando == "revision": revisar(args.id, ROOT / args.informe, args.revisor, args.decision, args.hallazgos_abiertos,
                                                 formato=args.formato, decisiones=ROOT / args.decisiones if args.decisiones else None)
-        elif args.comando == "juzgar": juzgar(args.id, ROOT / args.con if args.con else hechos_del_candidato(args.id))
+        elif args.comando == "juzgar": juzgar(args.id, [ROOT / c for c in args.con] if args.con else [hechos_del_candidato(args.id)])
         elif args.comando == "cerrar": cerrar(args.id)
         elif args.comando == "abandonar": abandonar(args.id, args.motivo)
         elif args.comando == "estado" and args.json: imprimir_json(datos_estado(args.id))
