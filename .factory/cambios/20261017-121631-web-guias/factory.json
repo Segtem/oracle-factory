@@ -2,11 +2,24 @@
   "id": "20261017-121631-web-guias",
   "titulo": "Las guías con la fábrica viva",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261017-121631-web-guias/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T12:20:07+00:00",
+    "documentos": {
+      "openspec/changes/20261017-121631-web-guias/proposal.md": "aa64dc31ab445d72ca1d97767cbf84a3ea472cf973f5213678d9d3251f1f634b",
+      "openspec/changes/20261017-121631-web-guias/specs/web/spec.md": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc"
+    }
+  },
+  "requisitos": [
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-17T12:16:31+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T12:20:07+00:00",
+      "documentos": {
+        "openspec/changes/20261017-121631-web-guias/proposal.md": "aa64dc31ab445d72ca1d97767cbf84a3ea472cf973f5213678d9d3251f1f634b",
+        "openspec/changes/20261017-121631-web-guias/specs/web/spec.md": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T12:20:17+00:00",
+      "ids": [
+        "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+        "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": "funcional",
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
