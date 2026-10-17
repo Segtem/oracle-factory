@@ -2,7 +2,7 @@
   "id": "20261017-023151-hechos-varios",
   "titulo": "Juzgar un candidato con hechos de varios sensores",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
   "spec_sha256": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "094367a2a5b325dc1838dd5fc88e6b115dbb6d0a3d24b0dbfc2339431dd86c7b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261017-023151-hechos-varios/candidatos/db4acc9/evidencia/hechos.json",
+    "hechos_sha256": "3a9e5d54cfc3ff25482f62ceb86d8248a8e45c0189186d24b54c777558363fe6",
+    "informe": ".factory/cambios/20261017-023151-hechos-varios/oracle-veredicto.txt",
+    "informe_sha256": "81c3f24b12dbcf25ccef5091e853452b509fa847ddeda4da1e7264c6e3c4c5b0",
+    "cuando": "2026-10-17T04:36:38+00:00",
+    "contexto": {
+      "head": "d55b6fff29f9089b2361d99cc6d22a2f4eb5e394",
+      "archivos_sha256": "094367a2a5b325dc1838dd5fc88e6b115dbb6d0a3d24b0dbfc2339431dd86c7b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -210,6 +222,17 @@
       "abiertos": 0,
       "sha256": "54163a7eedabcfd32573ce44c87ca13620e8d6a18718cadef2a591ebc1ac6ec2",
       "decisiones_sha256": "b6050882847e420864d410a3bca1049a661a61f314d00a11033c04dd623bd373"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T04:36:38+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "3a9e5d54cfc3ff25482f62ceb86d8248a8e45c0189186d24b54c777558363fe6"
     }
   ],
   "tipos": {
