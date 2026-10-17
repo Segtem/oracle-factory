@@ -2,7 +2,7 @@
   "id": "20261017-023151-hechos-varios",
   "titulo": "Juzgar un candidato con hechos de varios sensores",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
   "spec_sha256": "9ccb98ebad8e0fff6a609ea703f0796e4e249bb3166d9351cfb9656b9ebe0acc",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion",
     "flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261017-023151-hechos-varios/revisiones/registro-58fhpgwr/informe.json",
+    "sha256": "54163a7eedabcfd32573ce44c87ca13620e8d6a18718cadef2a591ebc1ac6ec2",
+    "decisiones": "tareas/20261017-023151-hechos-varios/revisiones/registro-58fhpgwr/decisiones.json",
+    "decisiones_sha256": "b6050882847e420864d410a3bca1049a661a61f314d00a11033c04dd623bd373",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T04:36:28+00:00",
+    "motivo": "dos vueltas de codex y agy: en la 1 codex no encontró nada y agy marcó dos altos y tres medios (un hecho que no es ruta en el próximo paso, el sensor inválido sin nombre, un Oracle con 0 sin filas, falta de un rojo de verdad, y un hecho que falta), corregidos con pruebas que fallan sobre el código anterior y mutaciones; el hecho que falta se sigue recuperando desde Git, como decidió cli-piloto, y después se juzga con todos los --con; en la 2 los dos terminaron sin hallazgos",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "5969b21d12bf9be49939c70db249542440277e20",
+      "archivos_sha256": "094367a2a5b325dc1838dd5fc88e6b115dbb6d0a3d24b0dbfc2339431dd86c7b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -176,6 +196,20 @@
       "cuando": "2026-10-17T04:03:37+00:00",
       "decision": "aprobar",
       "candidato": "db4acc9"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T04:36:28+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "54163a7eedabcfd32573ce44c87ca13620e8d6a18718cadef2a591ebc1ac6ec2",
+      "decisiones_sha256": "b6050882847e420864d410a3bca1049a661a61f314d00a11033c04dd623bd373"
     }
   ],
   "tipos": {
@@ -217,14 +251,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "dos vueltas de codex y agy: en la 1 codex no encontró nada y agy marcó dos altos y tres medios (un hecho que no es ruta en el próximo paso, el sensor inválido sin nombre, un Oracle con 0 sin filas, falta de un rojo de verdad, y un hecho que falta), corregidos con pruebas que fallan sobre el código anterior y mutaciones; el hecho que falta se sigue recuperando desde Git, como decidió cli-piloto, y después se juzga con todos los --con; en la 2 los dos terminaron sin hallazgos",
-      "candidato": "db4acc9",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-17T04:03:37+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

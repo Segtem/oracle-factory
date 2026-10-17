@@ -31,3 +31,7 @@ Medidas de flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion: Bri
 ### Nota (2026-10-17 03:15:22 UTC)
 
 Medidas de flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-17 04:36:28 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: dos vueltas de codex y agy: en la 1 codex no encontró nada y agy marcó dos altos y tres medios (un hecho que no es ruta en el próximo paso, el sensor inválido sin nombre, un Oracle con 0 sin filas, falta de un rojo de verdad, y un hecho que falta), corregidos con pruebas que fallan sobre el código anterior y mutaciones; el hecho que falta se sigue recuperando desde Git, como decidió cli-piloto, y después se juzga con todos los --con; en la 2 los dos terminaron sin hallazgos); 0 abiertos derivados; commit 5969b21d12bf9be49939c70db249542440277e20; informe tareas/20261017-023151-hechos-varios/revisiones/registro-58fhpgwr/informe.json; decisiones tareas/20261017-023151-hechos-varios/revisiones/registro-58fhpgwr/decisiones.json.
