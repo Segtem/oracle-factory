@@ -1,0 +1,338 @@
+{
+  "id": "20261017-121631-web-guias",
+  "titulo": "Las guías con la fábrica viva",
+  "capacidad": "web",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261017-121631-web-guias/specs/web/spec.md",
+  "spec_sha256": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T12:20:07+00:00",
+    "documentos": {
+      "openspec/changes/20261017-121631-web-guias/proposal.md": "aa64dc31ab445d72ca1d97767cbf84a3ea472cf973f5213678d9d3251f1f634b",
+      "openspec/changes/20261017-121631-web-guias/specs/web/spec.md": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc"
+    }
+  },
+  "requisitos": [
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/informe.json",
+    "sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
+    "decisiones": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/decisiones.json",
+    "decisiones_sha256": "f89ff9623f3e5acae3e8bccd5b36b83007c50b025f8166361597eec4df9e3775",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T13:48:03+00:00",
+    "motivo": "tres vueltas de codex y agy: la 1 y la 2 marcaron sólo medios sobre la prueba de que el texto no cambia (no miraba todo el texto, y aplanaba los saltos de línea de los comandos) y sobre qué escena tiene cada guía, corregidos con pruebas y mutaciones; en la 3 los dos terminaron sin hallazgos",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "85d642f9f1c42718539aa8086a1ebdad28a3b4c1",
+      "archivos_sha256": "4ee6071a4209d4458339adfcd6f2f26ad21a5ea9aef549d279118c701fd1c4c5"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261017-121631-web-guias/candidatos/5e186b8/evidencia/hechos.json",
+    "hechos_sha256": "f488fd1fad6e22172bb775a2467bd08c1b44792fd00744a490e29d1dd93f45ec",
+    "informe": ".factory/cambios/20261017-121631-web-guias/oracle-veredicto.txt",
+    "informe_sha256": "fc423cc98e2f07ea1fe28f0746a3237fae2d7337c85866b687cc7fd560bfc6c3",
+    "cuando": "2026-10-17T13:54:57+00:00",
+    "contexto": {
+      "head": "b06a6f22b02a4b20828be8cb610ad54d2203d9a6",
+      "archivos_sha256": "4ee6071a4209d4458339adfcd6f2f26ad21a5ea9aef549d279118c701fd1c4c5"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T12:16:31+00:00",
+      "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T12:20:07+00:00",
+      "documentos": {
+        "openspec/changes/20261017-121631-web-guias/proposal.md": "aa64dc31ab445d72ca1d97767cbf84a3ea472cf973f5213678d9d3251f1f634b",
+        "openspec/changes/20261017-121631-web-guias/specs/web/spec.md": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T12:20:17+00:00",
+      "ids": [
+        "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+        "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T12:34:56+00:00",
+      "requisito": "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco",
+      "medidas": [
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco",
+        "factory_guias.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T12:34:56+00:00",
+      "requisito": "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "medidas": [
+        "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian",
+        "factory_guias.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "requisito": "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "medidas": [
+        "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian",
+        "factory_guias.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "requisito": "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco",
+      "medidas": [
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco",
+        "factory_guias.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T12:42:56+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "41b3ee9",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T12:58:21+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "41b3ee9",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T13:05:57+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "9e97206",
+      "resultado": "ok",
+      "hallazgos": 1
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T13:19:14+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "9e97206",
+      "resultado": "ok",
+      "hallazgos": 2
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T13:27:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "5e186b8",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-17T13:32:09+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "5e186b8",
+      "resultado": "ok",
+      "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-17T13:32:23+00:00",
+      "decision": "aprobar",
+      "candidato": "5e186b8"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-17T13:48:03+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "91caf4d4fc86fe4c7f40c48e6ddbc73889e69797ed79c6a0b87a2f8788ec36ee",
+      "decisiones_sha256": "f89ff9623f3e5acae3e8bccd5b36b83007c50b025f8166361597eec4df9e3775"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T13:54:57+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "f488fd1fad6e22172bb775a2467bd08c1b44792fd00744a490e29d1dd93f45ec"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T14:02:28+00:00",
+      "oracle": ".factory/cambios/20261017-121631-web-guias/oracle-veredicto.txt",
+      "revision": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T14:02:28+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
+    }
+  ],
+  "tipos": {
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": "funcional",
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": "funcional"
+  },
+  "medidas": {
+    "web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "sha256": "c84e4dbddb0bd903d57f2a033f57fc6d78542323a09bc7bf18889c8c47e04853",
+      "catalogos": {
+        "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian": "88376ca43f0f47ece9891c917f74cc74a0df248b63df6944b4a23f472c4ea753",
+        "factory_guias.corrida_completa": "1986c295c666c8f99d3b28bf30202f7495b9987c4aca3df64d55da4f6ec09d67"
+      },
+      "archivos_catalogo": {
+        "factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian": "catalogos/factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian.oracle",
+        "factory_guias.corrida_completa": "catalogos/factory_guias.corrida_completa.oracle"
+      }
+    },
+    "web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-17T12:36:29+00:00",
+      "sha256": "6471d8fb150f76ee37a96f262c782d8e6fc618d371c0dd89828cf34cda6a8825",
+      "catalogos": {
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "18102ef51badbededfbb3740822818dd9a0945b29fccd7fcb95f8fc65a6531ae",
+        "factory_guias.corrida_completa": "1986c295c666c8f99d3b28bf30202f7495b9987c4aca3df64d55da4f6ec09d67"
+      },
+      "archivos_catalogo": {
+        "factory_guias.las_guias_tienen_su_escena_y_su_elenco": "catalogos/factory_guias.las_guias_tienen_su_escena_y_su_elenco.oracle",
+        "factory_guias.corrida_completa": "catalogos/factory_guias.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T14:02:28+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-17T14:02:28+00:00"
+  }
+}

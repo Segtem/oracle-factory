@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/41b3ee9",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "41b3ee9d63543fef0f8b7bcce767ad8278a92cc9",
+  "diff_sha256": "41e45869b2edeb347c7a5f2034048e670a8515f17137ac1bcd6127036e19ac68",
+  "context_sha256": "90c91fd00cca3e42ee1e844ef5e2418b21192299ac5772a08678b219adc68fbb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano con Chromium (/usr/bin/chromium) los tres escenarios de tests/test_web_guias.cjs: recorrer_cada_guia, movimiento_reducido_y_pantalla_chica y comparar_con_la_version_anterior.",
+    "Se ejecutaron las pruebas de regresión de la portada en Chromium: tests/test_web_viva.cjs (recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) y tests/test_site.cjs.",
+    "Se verificó estáticamente la paridad bit a bit del HTML preexistente (sin los elementos marcados data-viva y scripts añadidos), la validez de los roles de accesibilidad (role=img, aria-label, aria-hidden), la ausencia de pisado de transforms sobre sprites y la ausencia de desborde horizontal entre 320 y 1440 px.",
+    "No se ejecutó la suite completa de pruebas en Python de todo el repositorio (ni tools/verify_web_guias.py) por indicación explícita del pedido.",
+    "No se emite juicio sobre la calidad estética del diseño pixel art, cuya valoración corresponde a una persona."
+  ]
+}

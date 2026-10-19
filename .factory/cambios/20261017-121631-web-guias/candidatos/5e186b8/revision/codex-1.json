@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/5e186b8",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "5e186b88ca2012e44a7cc38e6d08846d7e922b54",
+  "diff_sha256": "0dae63ec8a46d4b59a99dbaabaf2e9d807073fc7bd5c070643bde35e4599b644",
+  "context_sha256": "61f942eda7137addfd81a043bc9502129b673f33d5e872b9d7d37d22b9bcc3e4",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática de la propuesta, spec, diff del candidato, tres guías, viva.js, CSS añadido, snapshot de texto, pruebas, verificador y catálogos; análisis largo en revision-notes.md.",
+    "Corrí los tres escenarios solicitados en primer plano desde la raíz del checkout. Los tres abortaron antes de cargar la página porque Chromium /usr/bin/chromium terminó con SIGTRAP; stderr indicó setsockopt: Operation not permitted en crashpad. Según la instrucción, continué con inspección estática y marqué la revisión completa.",
+    "No ejecuté la suite completa de Python ni mutaciones. No interpreto la falta de ejecución como un resultado verde. No revisé los 18 archivos de registros y evidencia de Factory excluidos."
+  ]
+}

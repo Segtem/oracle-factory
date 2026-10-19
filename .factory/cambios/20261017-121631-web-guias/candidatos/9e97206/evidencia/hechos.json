@@ -1,0 +1,25 @@
+{
+  "guias_caso": [
+    {
+      "requisito": "las_guias_tienen_su_escena_y_su_elenco",
+      "caso": "wg1_recorrer_cada_guia",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_guias_tienen_su_escena_y_su_elenco",
+      "caso": "wg1_movimiento_reducido_y_pantalla_chica",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "caso": "wg2_comparar_con_la_version_anterior",
+      "codigo": 0
+    }
+  ],
+  "guias_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}

@@ -91,6 +91,26 @@
         P.g('pantalla', 78, 10, 'brota', ' style="--i:0"') + P.g('bandera', 112, 4, 'brota', ' style="--i:1"') +
         P.g('clue', 146, 10, 'brota', ' style="--i:2"'));
     },
+    // Las guías: desde cero, modos y en equipo.
+    guia: function () {
+      return marco(240, 48, suelo(240, 38) + P.g('persona', 66, 22, 'quien saluda') +
+        '<g class="parpadea">' + P.g('pantalla', 96, 19, '') + '</g>' + P.g('agente', 130, 22, 'quien trabaja') +
+        P.g('bandera', 178, 22, 'sube', ' style="--i:1"'));
+    },
+    modos: function () {
+      return marco(240, 48, suelo(240, 38) + r(118, 14, 4, 24, C.k) + r(112, 36, 16, 2, C.k) +
+        '<g class="balanza">' + r(70, 12, 100, 2, C.N) + r(70, 14, 2, 6, C.k) + r(168, 14, 2, 6, C.k) +
+        r(62, 20, 18, 2, C.Y) + r(160, 20, 18, 2, C.Y) + '</g>' +
+        P.g('persona', 63, 22, 'quien saluda') + P.g('agente', 161, 22, 'quien trabaja'));
+    },
+    equipo: function () {
+      var cinta = '';
+      for (var j = 0; j < 26; j++) cinta += r(18 + j * 8, 37, 4, 1, C.c);
+      return marco(240, 48, r(16, 34, 208, 3, C.k) + '<g class="cinta">' + cinta + '</g>' + r(16, 38, 208, 2, C.k) +
+        P.g('persona', 4, 18, 'quien saluda') + P.g('codex', 36, 18, 'quien trabaja') +
+        P.g('caja', 40, 22, 'viaja2') +
+        P.g('agy', 188, 18, 'quien trabaja') + P.g('persona', 220, 18, 'quien saluda'));
+    },
     trabajar: function () {
       return marco(240, 48, r(60, 38, 120, 4, C.N) + r(64, 42, 4, 6, C.N) + r(172, 42, 4, 6, C.N) +
         P.g('pantalla', 100, 23, '') + r(108, 30, 1, 2, C.g, ' class="cursor"') +
@@ -217,6 +237,7 @@
 
   function huevos() {
     var escena = document.querySelector('[data-escena="inicio"]');
+    if (!escena) return;  // las guías no tienen secretos
     var humo = document.getElementById('humo'), bocanadas = 0;
     activable(document.getElementById('chimenea'), function () {
       bocanadas++;

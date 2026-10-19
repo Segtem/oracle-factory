@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-web-guias/.factory/local/revisiones/9e97206",
+  "base": "02d21c875f58ec8037dbdc55ad95c7a170b4ec7b",
+  "head": "9e972068c3710c863a1d4314037b07dd69b307bb",
+  "diff_sha256": "ed6b52ff1e4e167470328fa574b86be1c9bc6a99c5063ca6fe3f359316aab2b8",
+  "context_sha256": "20d711fa271f6880f7d20bb258683b31e2abb0388e17a218d3ea5fe39e8b8043",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CG-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La comparación normaliza los comandos y puede ocultar cambios ejecutables",
+      "explanation": "La extracción ya recorre todos los nodos de texto de main, por lo que el hueco de CG-001 de la vuelta anterior está corregido. Sin embargo, aplica la misma normalización de espacios a los bloques pre/code que al texto corriente. Al colapsar saltos de línea a espacios, la comparación puede considerar idénticos comandos cuya separación cambió y que ahora se ejecutarían de otra manera. Como el requisito promete conservar los comandos y el escenario es la única comprobación declarada para esa promesa, la prueba no acredita equivalencia de los bloques de código.",
+      "location": {
+        "file": "tests/texto_guias.cjs",
+        "start_line": 16,
+        "end_line": 16,
+        "side": "head"
+      },
+      "trigger": "En una copia de una guía, reemplazar dentro de un mismo bloque code dos líneas como `git add .\\ngit commit -m \"mensaje\"` por `git add . git commit -m \"mensaje\"`. La extracción convierte ambos contenidos en la misma cadena al reemplazar cualquier secuencia de espacios en blanco por un espacio, por lo que comparar_con_la_version_anterior no detectaría esa mutación.",
+      "evidence": "tests/texto_guias.cjs:16 aplica `n.textContent.replace(/\\s+/g, ' ').trim()` sin excluir `pre` ni `code`. Un nodo de texto de esos bloques contiene los saltos entre comandos. tests/test_web_guias.cjs:98 compara únicamente la lista devuelta por texto() contra la instantánea, y no compara el texto fuente de los bloques de código por separado.",
+      "related_requirement": "el_texto_y_los_comandos_de_las_guias_no_cambian",
+      "status": "pendiente",
+      "verification": "Confirmado por inspección estática de la extracción y del escenario. No ejecuté la mutación en Chromium porque el navegador aborta al iniciar en este sandbox. El diff del producto revisado no muestra cambios en el contenido pre/code de las guías; el hallazgo es que la prueba no detectaría esta clase de regresión."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, el paquete Clue y el diff del candidato; contrasté estáticamente las tres guías, viva.js, el CSS agregado, las pruebas y el verificador. Guardé el diff largo en revision-diff.txt.",
+    "Las tres corridas solicitadas (recorrer_cada_guia, movimiento_reducido_y_pantalla_chica, comparar_con_la_version_anterior) se intentaron con los comandos indicados desde la raíz del checkout. Chromium /usr/bin/chromium abortó antes de abrir con SIGTRAP y `setsockopt: Operation not permitted`; los escenarios no llegaron a ejecutarse.",
+    "No corrí la suite completa de Python ni ejecuté una mutación en navegador. La inspección estática confirma que la extracción ahora incluye los nodos de texto generales y el strong del callout congelado; el resto de los requisitos visuales y dinámicos queda sin verificación de ejecución en este sandbox."
+  ]
+}
