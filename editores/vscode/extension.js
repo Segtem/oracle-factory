@@ -124,7 +124,7 @@ async function mensajeDelTablero(m) {
         await vscode.window.showTextDocument(doc, {selection: new vscode.Range(linea, 0, linea, 0), preview: false});
     } else if (m.tipo === 'commit' && typeof m.sha === 'string' && /^[0-9a-f]{7,40}$/.test(m.sha)) {
         // El diff del commit en un documento sin guardar: se lee, no cambia nada.
-        const diff = await new Promise(ok => execFile('git', ['show', '--stat', '--patch', '--no-color', m.sha],
+        const diff = await new Promise(ok => execFile('git', ['show', '--stat', '--patch', '--no-color', m.sha, '--'],
             {cwd: raiz, maxBuffer: 32 << 20}, (error, stdout, stderr) => ok(error ? null : stdout)));
         if (diff === null) return vscode.window.showErrorMessage(`Factory: git no encontró el commit ${m.sha}.`);
         const doc = await vscode.workspace.openTextDocument({content: diff, language: 'diff'});

@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/5630ad5",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "5630ad587df5c1a05520a81e599001a0a37e3aa3",
+  "diff_sha256": "254e325397ca6af6649db210c534af3b22a13494fc6262c170a39ea0550af3ae",
+  "context_sha256": "a5b7c261387c9059d88c9377006d8c4d457eb09021c9bc48584e2919329c6aae",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "commits-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Un pedido de revisión se informa como revisión completada",
+      "explanation": "La salida marca un candidato como revisado si su SHA aparece en cualquier evento con campo candidato, aunque el conjunto de eventos incluye revision_pedida y ese evento sólo registra que se solicitó una revisión. Si el pedido falla, se cancela o nunca produce un informe, log --json, estado y el tablero afirman igualmente que el candidato fue revisado. Para cumplir la promesa, revisado debe depender de un resultado/informe de revisión completado, no del pedido.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 677,
+        "end_line": 677,
+        "side": "head"
+      },
+      "trigger": "Registrar un evento revision_pedida para un candidato (por ejemplo, un pedido fallido o cancelado) sin que se guarde un informe en candidatos/<sha>/revision/*.json; después consultar oracle-factory log ID --json.",
+      "evidence": "En oracle_factory/cli.py:656 se agregan a pedidos todos los e.get('candidato') sin filtrar por acción. En la línea 677, pedidos basta para revisado=True; en cambio, las solicitudes se registran como accion=revision_pedida, forma=registro (líneas 1103 y 1109), separadas de revision_registrada. Así un pedido sin informe termina con la marca revisado en log, estado y tablero.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "Inspección de código y flujo de eventos. Las pruebas especificadas pasan, pero no cubren un pedido fallido/cancelado sin informe y no verifican que la marca revisado requiera una revisión completada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff del paquete Oracle Clue y la spec/propuesta indicadas; se excluyeron los 49 archivos de registros y evidencia de Factory como pidió la persona.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; el escenario de Node incluido en test_commits corrió, por lo que Node estaba disponible.",
+    "No se ejecutó la suite completa ni tools/verify_commits.py. Se probó en un repositorio temporal la consulta con 120 candidatos: terminó en 0.206 s en este entorno; no se midieron repositorios mayores.",
+    "El diff extenso revisado está guardado en diff-review.txt; el checkout candidato no se modificó."
+  ]
+}

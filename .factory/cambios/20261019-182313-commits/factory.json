@@ -110,6 +110,58 @@
         "factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
         "factory_commits.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T18:53:39+00:00",
+      "revisor": "agy",
+      "candidato": "5630ad5",
+      "lanzamiento": "f91ddc498983"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T18:53:39+00:00",
+      "revisor": "codex",
+      "candidato": "5630ad5",
+      "lanzamiento": "b61f31ec741d"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T18:55:24+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "5630ad5",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "b61f31ec741d"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T19:12:11+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "5630ad5",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "f91ddc498983"
     }
   ],
   "tipos": {

@@ -600,27 +600,39 @@ def commits_registrados(estado: dict) -> list[str]:
 
 
 HOOK_MARCA = "# oracle-factory: une cada commit con su cambio"
-# Sin el intérprete (un .venv borrado) la llamada falla y el hook igual sale con 0: nunca impide un commit.
+# Sin el intérprete (un .venv borrado) la llamada falla y el hook igual sigue: nunca impide un commit, tampoco
+# encadenada en un hook ajeno con set -e.
 LLAMADA_HOOK = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' "
-                'trailer "$@" >/dev/null 2>&1')
+                'trailer "$1" >/dev/null 2>&1 || true')
+# prepare-commit-msg pone el trailer a un mensaje que ya viene escrito (-m, -F, merge, amend); commit-msg, al que se
+# escribe en el editor. Los dos llaman a lo mismo, y el trailer no se repite.
+HOOKS = ("prepare-commit-msg", "commit-msg")
 
 
 def instalar_hook() -> str:
-    """Instala el prepare-commit-msg de Factory en la carpeta de hooks de Git (la comparten los worktrees); nunca pisa uno ajeno."""
+    """Instala los hooks de Factory en la carpeta de hooks de Git (la comparten los worktrees); nunca pisa uno ajeno."""
     p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
     if p.returncode:
         return ("Hook de commits: este proyecto todavía no usa Git; después de git init, instalalo con "
                 "oracle-factory hooks.")
-    hook = ROOT / p.stdout.strip() / "prepare-commit-msg"
+    carpeta = ROOT / p.stdout.strip()
     llamada = LLAMADA_HOOK.format(py=shlex.quote(sys.executable))
-    if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
-        return (f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que tus commits digan de qué cambio "
-                f"son, agregale esta línea antes de su final:\n{llamada}")
-    hook.parent.mkdir(parents=True, exist_ok=True)
-    hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (trailer «Cambio: ID»). Lo instaló oracle-factory hooks; nunca impide "
-                    f"un commit.\n{llamada}\nexit 0\n", encoding="utf-8")
-    hook.chmod(0o755)
-    return f"Hook de commits en {hook}: un commit hecho con un solo cambio abierto lleva «Cambio: ID»."
+    instalados, avisos = [], []
+    for nombre in HOOKS:
+        hook = carpeta / nombre
+        if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
+            avisos.append(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que tus commits digan de "
+                          f"qué cambio son, agregale esta línea antes de su final:\n{llamada}")
+            continue
+        hook.parent.mkdir(parents=True, exist_ok=True)
+        hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (trailer «Cambio: ID»). Lo instaló oracle-factory hooks; nunca "
+                        f"impide un commit.\n{llamada}\nexit 0\n", encoding="utf-8")
+        hook.chmod(0o755)
+        instalados.append(nombre)
+    if instalados:
+        avisos.insert(0, f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio "
+                         "abierto lleva «Cambio: ID».")
+    return "\n".join(avisos)
 
 
 def cambios_abiertos() -> list[str]:
@@ -633,7 +645,16 @@ def cambios_abiertos() -> list[str]:
 def poner_trailer(archivo: str) -> None:
     """Lo llama el hook: con un solo cambio abierto en este checkout, agrega «Cambio: ID» al mensaje si no lo tiene."""
     abiertos = cambios_abiertos()
-    if len(abiertos) != 1 or re.search(r"^Cambio:", Path(archivo).read_text(encoding="utf-8", errors="replace"), re.M):
+    if len(abiertos) != 1:
+        return
+    mensaje = Path(archivo).read_text(encoding="utf-8", errors="replace")
+    # Un mensaje todavía vacío (sólo la plantilla con comentarios): se deja así, para que cerrar el editor sin escribir
+    # siga abortando el commit; commit-msg lo completa después.
+    if not any(linea.strip() and not linea.startswith("#") for linea in mensaje.splitlines()):
+        return
+    # Sólo cuenta un Cambio: del bloque de trailers, no una línea del cuerpo que empiece igual.
+    trailers = ejecutar(["git", "interpret-trailers", "--parse", archivo]).stdout
+    if re.search(r"^Cambio:", trailers, re.M | re.I):
         return
     ejecutar(["git", "interpret-trailers", "--in-place", "--trailer", f"Cambio: {abiertos[0]}", archivo])
 
@@ -653,7 +674,7 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
 
     base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
     carpetas = {c.name: c for c in base.iterdir() if c.is_dir() and not c.is_symlink()} if base.is_dir() else {}
-    pedidos = {e.get("candidato") for e in estado.get("eventos") or [] if e.get("candidato")}
+    pedidos = {e.get("candidato") for e in estado.get("eventos") or [] if e.get("candidato")}  # pedidos, no informes
     candidatos = {}  # sha completo -> nombre corto
     for corto_ in sorted(set(carpetas) | pedidos):
         sha = completo(str(corto_))
@@ -661,20 +682,23 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
             candidatos[sha] = str(corto_)
     unidos = {c[0]: (c, "trailer") for c in git_log("--all", f"--grep=^Cambio: {identificador}$")}
     deducidos = git_log("--no-walk", *candidatos) if candidatos else []
-    # El merge que integró la rama: el más viejo de HEAD que trae un candidato por su segundo padre.
-    for sha in candidatos:
-        merges = ejecutar(["git", "log", "--ancestry-path", "--merges", "--format=%H", f"{sha}..HEAD"]).stdout.split()
+    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el más viejo de main
+    # (o de HEAD, sin main) que trae un candidato por su segundo padre; uno que trajo main a otra rama no cuenta. Sin
+    # merge (fast-forward, squash) quedan sólo los candidatos. Con un candidato alcanza: los de un cambio van juntos.
+    principal = "main" if completo("main") else "HEAD"
+    if estado.get("fase") == "cerrada" and candidatos:
+        sha = next(iter(candidatos))
+        merges = ejecutar(["git", "rev-list", "--ancestry-path", "--merges", f"{sha}..{principal}"]).stdout.split()
         merge = next((m for m in reversed(merges)
                       if ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
         if merge:
             deducidos += git_log(f"{merge}^1..{merge}^2")
-            break
     for c in deducidos:
         unidos.setdefault(c[0], (c, "deducido"))
     salida = []
     for sha, ((_, autor, fecha, asunto), union) in unidos.items():
         carpeta = carpetas.get(candidatos.get(sha, ""))
-        revisado = sha in candidatos and (candidatos[sha] in pedidos or bool(carpeta and any((carpeta / "revision").glob("*.json"))))
+        revisado = bool(carpeta and any((carpeta / "revision").glob("*.json")))  # con un informe, no sólo pedido
         salida.append({"sha": sha, "corto": sha[:7], "autor": autor, "fecha": fecha, "asunto": asunto, "union": union,
                        "candidato": sha in candidatos, "revisado": revisado,
                        "evidencia": bool(carpeta and (carpeta / "evidencia").is_dir())})
