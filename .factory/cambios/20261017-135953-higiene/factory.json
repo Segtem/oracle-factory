@@ -2,7 +2,7 @@
   "id": "20261017-135953-higiene",
   "titulo": "Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
   "spec_sha256": "ca98bec0f4490f3a746e5c20797c5e9057605d581268a4b680f36c6cc7ecf546",
   "spec_aprobada": {
@@ -469,6 +469,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "ebc6b425e6a9ecf993a0d43af1a03ebe15dc9c6387373699c9c9c96a4f9058ac"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T17:44:30+00:00",
+      "oracle": ".factory/cambios/20261017-135953-higiene/oracle-veredicto.txt",
+      "revision": "tareas/20261017-135953-higiene/revisiones/registro-p4khnxxx/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T17:44:30+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -547,5 +567,17 @@
       "fecha": "2026-10-19T17:34:26+00:00",
       "candidato": "50a7a01"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T17:44:30+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-10-19T17:44:30+00:00"
+  }
 }

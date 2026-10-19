@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:7c5cc0230d374e80559f80c4512b07371fb69d78bda90fa001910f670ed1923c -->
+<!-- oracle-factory resumen sha256:ab5a384f6fe9627f8ad94893422f4cb39162021e18e96e680b1027d4d5dbd6a9 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 138 requisitos vigentes · 1 cambio abierto
+18 capacidades · 141 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -111,6 +111,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | dos procesos que escriben el mismo registro no se pisan | funcional | `flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan` | factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan, factory_bloqueo.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-175720-bloqueo-registro |
 | juzgar acepta los hechos de varios sensores | funcional | `flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores` | factory_hechos.juzgar_acepta_los_hechos_de_varios_sensores, factory_hechos.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-023151-hechos-varios |
 | dos sensores no emiten la misma relación | funcional | `flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion` | factory_hechos.dos_sensores_no_emiten_la_misma_relacion, factory_hechos.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-023151-hechos-varios |
+| un pedido de revisión cortado queda a la vista | funcional | `flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista` | factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
+| las acciones sin autor se avisan | funcional | `flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan` | factory_higiene.las_acciones_sin_autor_se_avisan, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
+| init no deja carpetas que Factory no usa | funcional | `flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa` | factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
 
 ### ide
 
@@ -323,6 +326,8 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **agy-5** (20261016-143020-revisar-cancelada): test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia. Aceptado por Brian Hollweg: Acepto el riesgo: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia
 - **agy-7** (20261016-143020-revisar-cancelada): test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión. Aceptado por Brian Hollweg: Acepto el riesgo: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión
 - **CXL3-1** (20261016-143020-revisar-cancelada): Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión. Aceptado por Brian Hollweg: Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión
+- **HG-005** (20261017-135953-higiene): test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec. Aceptado por Brian Hollweg: Acepto el riesgo: test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec
+- **HG-011** (20261017-135953-higiene): La prueba de acciones sin autor omite la importación exigida por el escenario. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario
 
 ### Históricos
 
@@ -702,6 +707,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261017-121631-web-guias) codex (gpt-6-luna): Revisión estática de la propuesta, spec, diff del candidato, tres guías, viva.js, CSS añadido, snapshot de texto, pruebas, verificador y catálogos; análisis largo en revision-notes.md.
 - (20261017-121631-web-guias) codex (gpt-6-luna): Corrí los tres escenarios solicitados en primer plano desde la raíz del checkout. Los tres abortaron antes de cargar la página porque Chromium /usr/bin/chromium terminó con SIGTRAP; stderr indicó setsockopt: Operation not permitted en crashpad. Según la instrucción, continué con inspección estática y marqué la revisión completa.
 - (20261017-121631-web-guias) codex (gpt-6-luna): No ejecuté la suite completa de Python ni mutaciones. No interpreto la falta de ejecución como un resultado verde. No revisé los 18 archivos de registros y evidencia de Factory excluidos.
+- (20261017-135953-higiene) Evidencia: Escenarios hg1–hg3 en repositorios temporales, Linux, con Oracle 0.39.0 real y revisores de prueba; el corte de hg1 es un SIGKILL al proceso de pedir-revision. No prueba el ajedrez de Brian ni otros consumidores.
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): Se ejecutaron exactamente desde la raíz del checkout las pruebas requeridas: tests.test_higiene, tests.test_tutorial y tests.test_portabilidad con Python 3.13 en primer plano (17 pruebas, OK con advertencias DeprecationWarning de oracle_metalenguaje).
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): No se ejecutó la suite completa discover de unittest ni las herramientas verify_*.py para acatar estrictamente la indicación expresa del usuario.
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): Se verificó la corrección de la vuelta 4 para HG-010: un resultado (revision_pedida con su lanzamiento) cierra exclusivamente su propio lanzamiento; el lanzamiento sin resultado permanece visible en los avisos mientras el cambio siga abierto e indica que no requiere repetición si otro pedido sobre ese candidato terminó o si se lanzó sobre otro candidato. Registros sin id de lanzamiento cierran por pareja.
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): Se verificó que siguen cerrados HG-001, HG-002, HG-003, HG-004, HG-006, HG-007 y HG-008 sin regresiones.
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): Se evaluó mediante mutación aislada en aviso_sin_autor la ausencia de verificación de la acción importar (pluralidad de acciones sin autor) en test_hg2_un_agente_que_se_olvido_de_agente.
+- (20261017-135953-higiene) agy (gemini-3.8-flash-high): Revisión probabilística independiente; los hallazgos y el análisis no constituyen veredicto de Oracle ni prueba de propiedades no medidas. Se respetaron las exclusiones del paquete (.factory, tareas).
+- (20261017-135953-higiene) codex (gpt-6-luna): Se revisaron propuesta, spec, diff y contexto del paquete, junto con los cambios de producto incluidos; no se inspeccionaron los archivos de .factory ni las tareas excluidos por el pedido.
+- (20261017-135953-higiene) codex (gpt-6-luna): Se revisaron las ocho salidas anteriores: la asociación de resultados por lanzamiento conserva el corte solapado si termina el segundo pedido primero; los registros sin id mantienen el cierre por pareja; un resultado interrumpido no cuenta como terminado; los avisos operativos de lanzamiento no aparecen en cambios cerrados o abandonados.
+- (20261017-135953-higiene) codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null` desde la raíz del checkout candidato: 17 pruebas, OK. No se ejecutó la suite completa ni verificadores adicionales.
+- (20261017-135953-higiene) codex (gpt-6-luna): No se hicieron mutaciones sobre copias. La prueba existente cubre secuencias sintéticas con dos lanzamientos del mismo revisor y candidato, candidatos distintos y resultados asociados por id; el único hallazgo es la falta de cobertura de importar en el escenario de acciones sin autor.
 
 ### Históricos
 
