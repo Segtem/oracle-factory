@@ -124,6 +124,56 @@
         "factory_quien.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T23:40:44+00:00",
+      "requisito": "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio",
+      "medidas": [
+        "factory_quien.el_trailer_elige_bien_el_cambio",
+        "factory_quien.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T23:40:45+00:00",
+      "requisito": "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "medidas": [
+        "factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+        "factory_quien.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T23:40:45+00:00",
+      "requisito": "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene",
+      "medidas": [
+        "factory_quien.un_cambio_dice_quien_lo_tiene",
+        "factory_quien.corrida_completa"
+      ]
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T23:40:54+00:00",
+      "con": [
+        "claude-code"
+      ]
     }
   ],
   "tipos": {
@@ -131,27 +181,30 @@
     "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que": "funcional",
     "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene": {
-      "sha256": "4326fbbb26bd1659af2aad9567853dec1440bd521db7f6ba49f868e3e2fae212",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T23:35:27+00:00",
+  "medidas": {
+    "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T23:40:44+00:00",
+      "sha256": "a37a209612d3b28c2305794896bea1415bc34071bb04c3a1bd96de6fd838893a",
       "catalogos": {
-        "factory_quien.un_cambio_dice_quien_lo_tiene": "3c2b31c7c89f3ed57cc82bd71bb619c4f12839eeb21dc62cb34170686ed4c332",
+        "factory_quien.el_trailer_elige_bien_el_cambio": "e08cee55916e533c552acfecf1e8a1bf2740d105d203d1b9d06e577f6525b562",
         "factory_quien.corrida_completa": "e2b19f7fd1ad59388d98dac779485f1723c76635c37e38d1f475fd525098c38d"
       },
       "archivos_catalogo": {
-        "factory_quien.un_cambio_dice_quien_lo_tiene": "catalogos/factory_quien.un_cambio_dice_quien_lo_tiene.oracle",
+        "factory_quien.el_trailer_elige_bien_el_cambio": "catalogos/factory_quien.el_trailer_elige_bien_el_cambio.oracle",
         "factory_quien.corrida_completa": "catalogos/factory_quien.corrida_completa.oracle"
       }
     },
     "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T23:40:45+00:00",
       "sha256": "d5a2a15ffb89875a95d2be86a9bd52ea9497ef907cc9d77210a814456569b727",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T23:35:27+00:00",
       "catalogos": {
         "factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que": "6b38892ce08b799e0ef98db2512388ef135e488194e7ae046888abd7a3464c61",
         "factory_quien.corrida_completa": "e2b19f7fd1ad59388d98dac779485f1723c76635c37e38d1f475fd525098c38d"
@@ -161,19 +214,29 @@
         "factory_quien.corrida_completa": "catalogos/factory_quien.corrida_completa.oracle"
       }
     },
-    "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio": {
-      "sha256": "a37a209612d3b28c2305794896bea1415bc34071bb04c3a1bd96de6fd838893a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T23:35:28+00:00",
+    "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T23:40:45+00:00",
+      "sha256": "4326fbbb26bd1659af2aad9567853dec1440bd521db7f6ba49f868e3e2fae212",
       "catalogos": {
-        "factory_quien.el_trailer_elige_bien_el_cambio": "e08cee55916e533c552acfecf1e8a1bf2740d105d203d1b9d06e577f6525b562",
+        "factory_quien.un_cambio_dice_quien_lo_tiene": "3c2b31c7c89f3ed57cc82bd71bb619c4f12839eeb21dc62cb34170686ed4c332",
         "factory_quien.corrida_completa": "e2b19f7fd1ad59388d98dac779485f1723c76635c37e38d1f475fd525098c38d"
       },
       "archivos_catalogo": {
-        "factory_quien.el_trailer_elige_bien_el_cambio": "catalogos/factory_quien.el_trailer_elige_bien_el_cambio.oracle",
+        "factory_quien.un_cambio_dice_quien_lo_tiene": "catalogos/factory_quien.un_cambio_dice_quien_lo_tiene.oracle",
         "factory_quien.corrida_completa": "catalogos/factory_quien.corrida_completa.oracle"
       }
     }
+  },
+  "medidas_pendientes": {},
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-19T23:40:54+00:00",
+    "con": [
+      "claude-code"
+    ]
   }
 }

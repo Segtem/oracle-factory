@@ -35,3 +35,15 @@ Medidas de colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_tra
 ### Nota (2026-10-19 23:35:28 UTC)
 
 Medidas de colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio: factory_quien.el_trailer_elige_bien_el_cambio, factory_quien.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-19 23:40:44 UTC)
+
+Medidas de colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 23:40:45 UTC)
+
+Medidas de colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 23:40:45 UTC)
+
+Medidas de colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene: Brian Hollweg (persona, confirmo, modo confirmacion).
