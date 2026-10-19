@@ -43,3 +43,7 @@ Medidas de flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vist
 ### Nota (2026-10-19 17:41:52 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (lanzamientos con nombre, cortados siempre a la vista con texto que dice si repetir, Ctrl-C en la validación, init sin carpetas vacías, guía en .factory/local). Quedan dos bajos iguales (HG-005, HG-011): hg2 no ejecuta importar sin --agente; el aviso es el mismo para cualquier acción sin autor y hg2 ya lo prueba con nuevo.); 0 abiertos derivados; commit b5b2d3b0202a01b3895732fa25986689611aa901; informe tareas/20261017-135953-higiene/revisiones/registro-p4khnxxx/informe.json; decisiones tareas/20261017-135953-higiene/revisiones/registro-p4khnxxx/decisiones.json.
+
+### Nota (2026-10-19 17:42:14 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261017-135953-higiene/oracle-veredicto.txt.
