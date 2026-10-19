@@ -105,9 +105,16 @@ class Higiene(_vueltas.Base):
             return {'accion': accion, 'revisor': revisor, 'candidato': candidato,
                     'cuando': f'2026-10-19T10:{minuto:02d}', **({'lanzamiento': lanzamiento} if lanzamiento else {})}
         avisos = lambda *eventos: f.aviso_lanzamientos({'id': 'X', 'eventos': list(eventos)})
-        # Cortado y pedido otra vez, como indica el aviso, hasta el final: no queda nada que avisar.
-        self.assertEqual(avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c1', 1, 'b'),
-                                ev('revision_pedida', 'codex', 'c1', 2, 'b')), [])
+        # Cortado y pedido otra vez, como indica el aviso, hasta el final (o dos a la vez y termina el segundo): el
+        # cortado sigue a la vista, pero ya no pide repetirlo.
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c1', 1, 'b'),
+                         ev('revision_pedida', 'codex', 'c1', 2, 'b'))
+        self.assertIn('(2026-10-19 10:00) sobre el candidato c1 y no dejó resultado; otro pedido del mismo revisor', aviso)
+        self.assertNotIn('volvé a pedirlo', aviso)
+        # Un «interrumpido» no es un pedido que terminó: el cortado sigue pidiendo repetirlo.
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c1', 1, 'b'),
+                         dict(ev('revision_pedida', 'codex', 'c1', 2, 'b'), resultado='interrumpido'))
+        self.assertIn('(2026-10-19 10:00) sobre el candidato c1 y no dejó resultado; volvé a pedirlo', aviso)
         # Dos lanzamientos solapados: termina el primero y el segundo se corta; el segundo sigue a la vista.
         [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c1', 1, 'b'),
                          ev('revision_pedida', 'codex', 'c1', 2, 'a'))
