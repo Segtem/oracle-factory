@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/a014d75",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "a014d75dafcce0d13bacd3b6cc99b3dcfbe60056",
+  "diff_sha256": "108f22cbffdf614f33ea58cfe286ca48d83bff678475853380bf966f2ce2d69d",
+  "context_sha256": "6a93b876e18047cc55c13550c040b95426dceacc706ff3c4b537779ab5c5db99",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Lectura y contraste de proposal.md, spec.md (openspec/changes/20261019-120156-tablero/specs/ide/spec.md), el paquete de revisión Clue (paquete-agy-1.json) y el diff en todos los archivos de producto y pruebas modificados. Se ignoraron los archivos excluidos bajo .factory/ y tareas/.",
+    "Ejecución en primer plano desde la raíz del checkout a014d75 de: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null (6 pruebas ejecutadas exitosamente, con Node.js v24.22.0 operativo). No se corrió la suite completa de pruebas.",
+    "Verificación de las correcciones de vueltas anteriores: TABLERO-002 (_cumplidos devuelve None si el juicio no está vigente), TABLERO-003 (decisiones_por_actor cuenta únicamente formas 'decidio' y 'confirmo'), TABLERO-004 (fases acumula tramos en orden e ignora tiempos negativos o zonas horarias incompatibles) y TABLERO-005/AGY-1 (vueltas_de_revision calcula la unión de candidatos con revision_pedida más revisiones registradas sin pedido intermedio).",
+    "Auditoría de seguridad y contención en editores/vscode: verificación de sanitización completa con esc() en editores/vscode/tablero.js ante inyecciones HTML/scripts en títulos, rutas, comandos y detalles; comprobación de directivas CSP estrictas con nonce criptográfico; verificación en editores/vscode/extension.js (mensajeDelTablero) de resolución canónica con fs.realpathSync para impedir la apertura de archivos fuera del proyecto, directorios o enlaces simbólicos escapados; verificación de prevención de inyección de saltos de línea para la escritura sin Enter en la terminal.",
+    "Verificación de empaquetado de la extensión de VS Code mediante editores/vscode/empaquetar.py generando el artefacto .vsix sin dependencias externas.",
+    "No se abrió VS Code en un entorno gráfico interactivo. No se realizaron modificaciones en el checkout de solo lectura a014d75."
+  ]
+}

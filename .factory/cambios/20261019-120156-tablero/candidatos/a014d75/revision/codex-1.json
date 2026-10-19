@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/a014d75",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "a014d75dafcce0d13bacd3b6cc99b3dcfbe60056",
+  "diff_sha256": "108f22cbffdf614f33ea58cfe286ca48d83bff678475853380bf966f2ce2d69d",
+  "context_sha256": "6a93b876e18047cc55c13550c040b95426dceacc706ff3c4b537779ab5c5db99",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TABLERO-006",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Una severidad ausente o desconocida se informa como hallazgo informativo",
+      "explanation": "`informes()` conserva cualquier objeto dentro de `findings` sin validar que `severity` pertenezca al conjunto admitido. `_contar_severidades()` mapea todo valor ausente o desconocido a `informativa`, de modo que un informe JSON truncado lógicamente o de formato viejo incrementa los totales informativos por cambio, por revisor y por proyecto en vez de quedar fuera del conteo o marcarse como inválido. Esto presenta una severidad que el informe no declaró.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 114,
+        "end_line": 115,
+        "side": "head"
+      },
+      "trigger": "En un informe válido como JSON, incluir `{\"findings\":[{\"title\":\"Hallazgo sin severidad\"}]}` (o `\"severity\":\"info\"`) y pedir `oracle-factory tablero --json`.",
+      "evidence": "Reproducción aislada con `metricas_del_cambio(..., [{\"revisor\":\"fixture\",\"hallazgos\":[{\"title\":\"Hallazgo sin severidad\"}]}], None)` devolvió `hallazgos_por_severidad.informativa = 1` y también `hallazgos_por_revisor.fixture.informativa = 1`. La lectura de informes sólo filtra por tipo `dict` en `oracle_factory/tablero.py:107`; la línea 114 asigna explícitamente la severidad desconocida a `informativa`.",
+      "related_requirement": "ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Reproducción aislada confirmada. Las pruebas oficiales del tablero pasaron, pero no incluyen un hallazgo con severidad ausente o ajena al conjunto permitido."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal.md, specs/ide/spec.md, el paquete de Clue y los archivos de producto y pruebas del cambio; no inspeccioné los 32 archivos de registros/evidencia excluidos por el pedido.",
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` en primer plano desde la raíz del checkout a014d75: 6 pruebas, OK; el entorno tenía Node y corrieron los casos Node incluidos en esa suite.",
+    "Revisé estáticamente la extensión y la lógica de métricas; reproduje el conteo de severidad inválida con una llamada aislada y datos sintéticos. No modifiqué el checkout ni hice mutaciones en copias.",
+    "No abrí VS Code gráfico, no ejecuté la suite completa ni Oracle sobre evidencia del producto."
+  ]
+}
