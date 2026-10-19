@@ -4,21 +4,22 @@
   "capacidad": "colaboracion",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
-  "spec_sha256": "bfb24f74598c2b1289fa9a07c57b5803bb3b38125de67948abcb46ac51cb52e6",
+  "spec_sha256": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-19T23:26:38+00:00",
+    "cuando": "2026-10-19T23:28:01+00:00",
     "documentos": {
       "openspec/changes/20261019-232444-quien/proposal.md": "a4151dae9f26e4dd935c453160bca1398d524da025feb4870c899e72f75266bc",
-      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md": "bfb24f74598c2b1289fa9a07c57b5803bb3b38125de67948abcb46ac51cb52e6"
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee"
     }
   },
   "requisitos": [
-    "colaboracion_c0aaac75387991d1f.estado_y_el_tablero_muestran_quien_trabaja_en_que",
-    "colaboracion_c0aaac75387991d1f.un_cambio_dice_quien_lo_tiene"
+    "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio",
+    "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+    "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene"
   ],
   "revision": null,
   "oracle": null,
@@ -56,11 +57,37 @@
         "colaboracion_c0aaac75387991d1f.estado_y_el_tablero_muestran_quien_trabaja_en_que",
         "colaboracion_c0aaac75387991d1f.un_cambio_dice_quien_lo_tiene"
       ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:28:01+00:00",
+      "documentos": {
+        "openspec/changes/20261019-232444-quien/proposal.md": "a4151dae9f26e4dd935c453160bca1398d524da025feb4870c899e72f75266bc",
+        "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:28:09+00:00",
+      "ids": [
+        "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio",
+        "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+        "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene"
+      ]
     }
   ],
   "tipos": {
-    "colaboracion_c0aaac75387991d1f.estado_y_el_tablero_muestran_quien_trabaja_en_que": "funcional",
-    "colaboracion_c0aaac75387991d1f.un_cambio_dice_quien_lo_tiene": "funcional"
+    "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio": "funcional",
+    "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que": "funcional",
+    "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene": "funcional"
   },
   "medidas": {},
   "medidas_pendientes": {}

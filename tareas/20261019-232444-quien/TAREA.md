@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-19 23:26:52 UTC)
 
 Requisitos importados: colaboracion_c0aaac75387991d1f.estado_y_el_tablero_muestran_quien_trabaja_en_que (funcional), colaboracion_c0aaac75387991d1f.un_cambio_dice_quien_lo_tiene (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-19 23:28:01 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-19 23:28:09 UTC)
+
+Requisitos importados: colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio (funcional), colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que (funcional), colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

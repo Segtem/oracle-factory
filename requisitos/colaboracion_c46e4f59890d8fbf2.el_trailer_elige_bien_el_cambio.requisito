@@ -1,0 +1,4 @@
+requisito colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio:
+    texto "Tipo: funcional El hook SHALL elegir el cambio del trailer `Cambio:` en este orden: si el mensaje nombra el ID de un cambio del proyecto, ése (y si nombra varios, ninguno); si no, el único cambio abierto del checkout; si hay varios abiertos, el único que tiene como responsable a la persona que hace el commit (su nombre en la configuración de Git). En cualquier otro caso SHALL NOT agregar el trailer."
+    fuente "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md#el trailer elige bien el cambio"
+    sin_medir "sin medida todavía; escenarios: «un merge que nombra el cambio que integra», «varios abiertos y uno tomado por quien commitea»"
