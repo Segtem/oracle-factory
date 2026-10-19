@@ -692,22 +692,23 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     propios = {linea.split()[0] for linea in con_trailer if identificador in linea.split()[1:]}
     unidos = {c[0]: (c, "trailer") for c in git_log(*propios, "--no-walk")} if propios else {}
     deducidos = git_log("--no-walk", *candidatos) if candidatos else []
-    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el primero, en orden
-    # topológico desde main (o master, o HEAD), que trae un candidato por su segundo padre; uno que después trajo main a
-    # otra rama viene más tarde y no cuenta. Sin merge (fast-forward, squash) quedan sólo los candidatos. Se prueba con
-    # cada candidato: uno de una rama descartada no está en la historia.
+    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el primer commit de
+    # la línea principal (primeros padres de main, master o HEAD) que contiene un candidato. Si lo trae por su segundo
+    # padre, es el merge que integró la rama; si lo trae por el primero, el cambio ya estaba en main sin merge propio
+    # (directo, fast-forward, squash) y quedan sólo los candidatos. Un merge de otras ramas nunca está en esa línea.
     principal = next((r for r in ("main", "master") if completo(r)), "HEAD")
+
+    def contiene(ref: str, sha: str) -> bool:
+        return ejecutar(["git", "merge-base", "--is-ancestor", sha, ref]).returncode == 0
+
     for sha in candidatos if estado.get("fase") == "cerrada" else ():
-        merges = ejecutar(["git", "rev-list", "--topo-order", "--reverse", "--ancestry-path", "--merges",
-                           f"{sha}..{principal}"]).stdout.split()
-        # Un merge cuyo segundo padre está en la línea principal sólo trajo main a otra rama (el cambio ya estaba en
-        # main, sin merge propio): no es el que lo integró.
-        linea = set(ejecutar(["git", "rev-list", "--first-parent", principal, "--not", f"{sha}^@"]).stdout.split())
-        merge = next((m for m in merges if completo(m + "^2") not in linea
-                      and ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
-        if merge:
+        if not contiene(principal, sha):
+            continue  # un candidato de una vuelta descartada: no está en la historia
+        merge = next((m for m in ejecutar(["git", "rev-list", "--first-parent", "--merges", "--reverse",
+                                           f"{sha}..{principal}"]).stdout.split() if contiene(m, sha)), None)
+        if merge and not contiene(merge + "^1", sha):
             deducidos += git_log(f"{merge}^1..{merge}^2")
-            break
+        break
     for c in deducidos:
         unidos.setdefault(c[0], (c, "deducido"))
     salida = []

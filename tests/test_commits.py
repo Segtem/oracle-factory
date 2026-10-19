@@ -170,7 +170,11 @@ class Commits(unittest.TestCase):
         (self.root / '.factory/cambios' / ident / 'candidatos' / descartado / 'nota.txt').write_text('descartado\n')
         self.git('add', '.')
         self.git('commit', '-q', '-m', 'viejo: anota el descartado')
+        # Antes, main integra otra rama propia: ese merge es anterior y no trae el cambio.
+        self.git('checkout', '-q', '-b', 'lateral', 'main')
+        self.commit('l.txt', 'lateral: algo')
         self.git('checkout', '-q', 'main')
+        self.git('merge', '-q', '--no-ff', 'lateral', '-m', 'Integrar lateral')
         self.git('merge', '-q', '--no-ff', 'tarea/viejo', '-m', 'Integrar viejo')
         self.cerrar_a_mano(ident)
         self.git('commit', '-qam', 'main: cerrado')
@@ -212,6 +216,16 @@ class Commits(unittest.TestCase):
         self.git('checkout', '-q', 'master')
         self.git('merge', '-q', '--no-ff', 'tercera', '-m', 'Integrar tercera')
         self.assertEqual([c['asunto'] for c in json.loads(self.cli('log', directo, '--json'))['commits']], ['directo: en master'])
+        # Una rama nacida después del cambio, mergeada en otra nacida antes, que después se integra: tampoco es del cambio.
+        self.git('checkout', '-q', '-b', 'despues', 'master')
+        self.commit('x.txt', 'despues: algo')
+        self.git('checkout', '-q', '-b', 'antes', f'{en_master}~1')
+        self.git('merge', '-q', '--no-ff', 'despues', '-m', 'Traer despues a antes')
+        self.git('checkout', '-q', 'master')
+        self.git('merge', '-q', '--no-ff', 'antes', '-m', 'Integrar antes')
+        self.assertEqual([c['asunto'] for c in json.loads(self.cli('log', directo, '--json'))['commits']], ['directo: en master'])
+        # Y el cambio integrado con su merge sigue igual.
+        self.assertEqual({c['asunto'] for c in json.loads(self.cli('log', ident, '--json'))['commits']}, set(asuntos))
 
     def test_cm2_un_cambio_abierto_con_trailer_en_estado_y_en_el_tablero(self):
         ident = self.nuevo('abierto')
