@@ -31,3 +31,7 @@ Medidas de trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_e
 ### Nota (2026-10-19 18:50:07 UTC)
 
 Medidas de trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 21:21:09 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos. Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.); 0 abiertos derivados; commit e130609d3cf50306de3f06cd4012b90a4a5b91d7; informe tareas/20261019-182313-commits/revisiones/registro-61xq7bih/informe.json; decisiones tareas/20261019-182313-commits/revisiones/registro-61xq7bih/decisiones.json.
