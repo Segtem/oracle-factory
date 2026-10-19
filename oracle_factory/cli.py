@@ -974,7 +974,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv))
     with turno_de_pedidos(identificador):  # el lanzamiento queda antes: un pedido cortado a mitad no desaparece
         _, estado = leer(identificador)
-        evento(estado, "revision_lanzada", forma="registro", revisor=nombre, candidato=sha)
+        lanzamiento = os.urandom(6).hex()  # el resultado dice qué lanzamiento cierra
+        evento(estado, "revision_lanzada", forma="registro", revisor=nombre, candidato=sha, lanzamiento=lanzamiento)
         guardar(carpeta, estado)
     hallazgos, motivo, severidades = 0, None, ""
     try:  # Ctrl-C en el revisor o en la validación: queda «interrumpido», no un lanzamiento sin resultado
@@ -997,13 +998,13 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         with turno_de_pedidos(identificador):
             _, estado = leer(identificador)
             evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"],
-                   modelo=revisor["modelo"], candidato=sha, resultado="interrumpido", hallazgos=0)
+                   modelo=revisor["modelo"], candidato=sha, resultado="interrumpido", hallazgos=0, lanzamiento=lanzamiento)
             guardar(carpeta, estado)
         raise
     with turno_de_pedidos(identificador):  # leer y guardar en el mismo turno: el evento de otro pedido no se pierde
         _, estado = leer(identificador)
         evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"],
-               modelo=revisor["modelo"], candidato=sha, resultado=resultado, hallazgos=hallazgos)
+               modelo=revisor["modelo"], candidato=sha, resultado=resultado, hallazgos=hallazgos, lanzamiento=lanzamiento)
         guardar(carpeta, estado)
     if motivo:
         raise FactoryError(f"{motivo}. La salida del revisor quedó en {registro.relative_to(ROOT)}; revision/ no cambió.")
@@ -1183,17 +1184,18 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
 def aviso_lanzamientos(estado: dict) -> list[str]:
     """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por lanzamiento.
 
-    Cada resultado cierra un lanzamiento de su revisor y candidato; un lanzamiento nuevo del mismo revisor sobre otro
-    candidato deja atrás los que quedaron abiertos sobre el anterior (pedirlo otra vez ya no los podría cerrar)."""
+    Un resultado cierra su lanzamiento y los anteriores del mismo revisor y candidato (pedirlo otra vez es lo que el
+    aviso indica); uno que empezó después sigue abierto. Un lanzamiento del mismo revisor sobre otro candidato deja
+    atrás los que quedaron abiertos sobre el anterior: pedirlo de nuevo ya no los podría cerrar."""
     abiertos: list[dict] = []
     for e in estado.get("eventos") or []:
         r, c = e.get("revisor"), e.get("candidato")
         if e.get("accion") == "revision_lanzada":
             abiertos = [a for a in abiertos if a.get("revisor") != r or a.get("candidato") == c] + [e]
         elif e.get("accion") == "revision_pedida":
-            i = next((i for i, a in enumerate(abiertos) if (a.get("revisor"), a.get("candidato")) == (r, c)), None)
-            if i is not None:
-                del abiertos[i]
+            propio = [i for i, a in enumerate(abiertos) if a.get("lanzamiento") and a.get("lanzamiento") == e.get("lanzamiento")]
+            hasta = propio[0] if propio else len(abiertos)  # un resultado sin lanzamiento (registros viejos) cierra todos
+            abiertos = [a for i, a in enumerate(abiertos) if i > hasta or (a.get("revisor"), a.get("candidato")) != (r, c)]
     return [f"el revisor {e.get('revisor')} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el "
             f"candidato {e.get('candidato')} y no dejó resultado; volvé a pedirlo con oracle-factory pedir-revision "
             f"{estado['id']} --a {e.get('revisor')}" for e in abiertos]
