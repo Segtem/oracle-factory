@@ -599,6 +599,132 @@ def commits_registrados(estado: dict) -> list[str]:
     return lineas
 
 
+HOOK_MARCA = "# oracle-factory: une cada commit con su cambio"
+# Sin el intérprete (un .venv borrado) la llamada falla y el hook igual sigue: nunca impide un commit, tampoco
+# encadenada en un hook ajeno con set -e.
+LLAMADA_HOOK = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' "
+                'trailer "$1" >/dev/null 2>&1 || true')
+# prepare-commit-msg pone el trailer a un mensaje que ya viene escrito (-m, -F, merge, amend); commit-msg, al que se
+# escribe en el editor. Los dos llaman a lo mismo, y el trailer no se repite.
+HOOKS = ("prepare-commit-msg", "commit-msg")
+
+
+def instalar_hook() -> str:
+    """Instala los hooks de Factory en la carpeta de hooks de Git (la comparten los worktrees); nunca pisa uno ajeno."""
+    p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
+    if p.returncode:
+        return ("Hook de commits: este proyecto todavía no usa Git; después de git init, instalalo con "
+                "oracle-factory hooks.")
+    carpeta = ROOT / p.stdout.strip()
+    llamada = LLAMADA_HOOK.format(py=shlex.quote(sys.executable))
+    instalados, avisos = [], []
+    for nombre in HOOKS:
+        hook = carpeta / nombre
+        if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
+            avisos.append(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que tus commits digan de "
+                          f"qué cambio son, agregale esta línea antes de su final:\n{llamada}")
+            continue
+        hook.parent.mkdir(parents=True, exist_ok=True)
+        hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (trailer «Cambio: ID»). Lo instaló oracle-factory hooks; nunca "
+                        f"impide un commit.\n{llamada}\nexit 0\n", encoding="utf-8")
+        hook.chmod(0o755)
+        instalados.append(nombre)
+    if instalados:
+        avisos.insert(0, f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio "
+                         "abierto lleva «Cambio: ID».")
+    return "\n".join(avisos)
+
+
+def cambios_abiertos() -> list[str]:
+    if not CHANGES.is_dir():
+        return []
+    return [c.name for c in sorted(CHANGES.iterdir()) if ID_RE.fullmatch(c.name) and ruta_registro(c).exists()
+            and leer(c.name)[1].get("fase") not in ("cerrada", "abandonada")]
+
+
+def poner_trailer(archivo: str) -> None:
+    """Lo llama el hook: con un solo cambio abierto en este checkout, agrega «Cambio: ID» al mensaje si no lo tiene."""
+    abiertos = cambios_abiertos()
+    if len(abiertos) != 1:
+        return
+    mensaje = Path(archivo).read_text(encoding="utf-8", errors="replace")
+    # Un mensaje todavía vacío (sólo la plantilla con comentarios): se deja así, para que cerrar el editor sin escribir
+    # siga abortando el commit; commit-msg lo completa después.
+    if not any(linea.strip() and not linea.startswith("#") for linea in mensaje.splitlines()):
+        return
+    # Sólo cuenta un Cambio: del bloque de trailers, no una línea del cuerpo que empiece igual.
+    trailers = ejecutar(["git", "interpret-trailers", "--parse", archivo]).stdout
+    if re.search(r"^Cambio:", trailers, re.M | re.I):
+        return
+    ejecutar(["git", "interpret-trailers", "--in-place", "--trailer", f"Cambio: {abiertos[0]}", archivo])
+
+
+def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
+    """Los commits del cambio, del más nuevo al más viejo: los que llevan su trailer y los deducidos de sus candidatos y
+    del merge que los integró (para lo de antes del trailer)."""
+    formato = "--format=%H%x1f%an%x1f%aI%x1f%s"
+
+    def git_log(*args: str) -> list[list[str]]:
+        p = ejecutar(["git", "log", formato, *args])
+        return [] if p.returncode else [linea.split("\x1f") for linea in p.stdout.splitlines() if linea.count("\x1f") == 3]
+
+    def completo(ref: str) -> str | None:
+        p = ejecutar(["git", "rev-parse", "--verify", "--quiet", ref + "^{commit}"])
+        return p.stdout.strip() if p.returncode == 0 else None
+
+    base = ROOT / estructura.DIR / "cambios" / identificador / "candidatos"
+    carpetas = {c.name: c for c in base.iterdir() if c.is_dir() and not c.is_symlink()} if base.is_dir() else {}
+    pedidos = {e.get("candidato") for e in estado.get("eventos") or [] if e.get("candidato")}  # pedidos, no informes
+    candidatos = {}  # sha completo -> nombre corto
+    for corto_ in sorted(set(carpetas) | pedidos):
+        sha = completo(str(corto_))
+        if sha:
+            candidatos[sha] = str(corto_)
+    unidos = {c[0]: (c, "trailer") for c in git_log("--all", f"--grep=^Cambio: {identificador}$")}
+    deducidos = git_log("--no-walk", *candidatos) if candidatos else []
+    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el más viejo de main
+    # (o de HEAD, sin main) que trae un candidato por su segundo padre; uno que trajo main a otra rama no cuenta. Sin
+    # merge (fast-forward, squash) quedan sólo los candidatos. Con un candidato alcanza: los de un cambio van juntos.
+    principal = "main" if completo("main") else "HEAD"
+    if estado.get("fase") == "cerrada" and candidatos:
+        sha = next(iter(candidatos))
+        merges = ejecutar(["git", "rev-list", "--ancestry-path", "--merges", f"{sha}..{principal}"]).stdout.split()
+        merge = next((m for m in reversed(merges)
+                      if ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
+        if merge:
+            deducidos += git_log(f"{merge}^1..{merge}^2")
+    for c in deducidos:
+        unidos.setdefault(c[0], (c, "deducido"))
+    salida = []
+    for sha, ((_, autor, fecha, asunto), union) in unidos.items():
+        carpeta = carpetas.get(candidatos.get(sha, ""))
+        revisado = bool(carpeta and any((carpeta / "revision").glob("*.json")))  # con un informe, no sólo pedido
+        salida.append({"sha": sha, "corto": sha[:7], "autor": autor, "fecha": fecha, "asunto": asunto, "union": union,
+                       "candidato": sha in candidatos, "revisado": revisado,
+                       "evidencia": bool(carpeta and (carpeta / "evidencia").is_dir())})
+    return sorted(salida, key=lambda c: dt.datetime.fromisoformat(c["fecha"]), reverse=True)
+
+
+def linea_commits(commits: list[dict]) -> str:
+    if not commits:
+        return "Commits: ninguno unido todavía (los nuevos llevan «Cambio: ID» con el hook de oracle-factory hooks)"
+    return f"Commits: {len(commits)}; el último {commits[0]['corto']} «{commits[0]['asunto']}» (oracle-factory log para verlos)"
+
+
+def comando_log(identificador: str, como_json: bool) -> None:
+    _, estado = leer(identificador)
+    commits = commits_del_cambio(identificador, estado)
+    if como_json:
+        imprimir_json({"esquema": "oracle-factory.log/1", "id": identificador, "commits": commits})
+        return
+    print(f"{identificador} — {estado.get('titulo', '')}")
+    for c in commits:
+        marcas = [c["union"]] + [m for m in ("candidato", "revisado", "evidencia") if c[m]]
+        print(f"{c['corto']}  {c['fecha'][:10]}  {c['autor']}  {c['asunto']}  [{', '.join(marcas)}]")
+    if not commits:
+        print(linea_commits(commits) + ".")
+
+
 def avisos_head(estado: dict) -> list[str]:
     """Registros vigentes cuyo HEAD no es el actual: producto idéntico, otra historia."""
     try:
@@ -2128,6 +2254,7 @@ def datos_estado(identificador: str) -> dict:
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
                                          + aviso_sin_autor(estado)),
+        "commits": commits_del_cambio(identificador, estado),
     }
 
 
@@ -2301,6 +2428,7 @@ def mostrar(identificador: str) -> None:
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
     for linea in commits_registrados(estado):
         print(linea + ".")
+    print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     for aviso in avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
@@ -2408,6 +2536,7 @@ def inicializar(oracle: str | None = None) -> None:
     print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
+    print(instalar_hook())
     print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
     print('Para recuperar cambios existentes: oracle-factory listar')
 
@@ -2979,6 +3108,11 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('pedir-revision', help='pedir una revisión independiente del candidato actual a un revisor configurado')
     q.add_argument('id'); q.add_argument('--a', dest='revisor', required=True, help='nombre del revisor en .factory/config.json')
     q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue')
+    q = sub.add_parser('log', help='los commits de un cambio: con su trailer «Cambio: ID» o deducidos de sus candidatos (sólo lectura)')
+    q.add_argument('id'); q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
+    sub.add_parser('hooks', help='instalar el hook de Git que agrega «Cambio: ID» a cada commit con un solo cambio abierto')
+    q = sub.add_parser('trailer', help='(lo llama el hook prepare-commit-msg) agregar «Cambio: ID» al mensaje de un commit')
+    q.add_argument('archivo'); q.add_argument('fuente', nargs='*')
     p = sub.add_parser('tablero', help='el tablero de comando: cada cambio abierto con su línea de tiempo, hallazgos y métricas')
     p.add_argument('--json', action='store_true', required=True, help='el tablero en JSON (lo lee la extensión de VS Code)')
     q = sub.add_parser('resumen', help='escribir .factory/resumen.md: lo vigente, los cambios abiertos, riesgos aceptados y límites')
@@ -3065,6 +3199,9 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
+        elif args.comando == "log": comando_log(args.id, args.json)
+        elif args.comando == "hooks": print(instalar_hook())
+        elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
         elif args.comando == "resumen" and args.json:
             if args.verificar or args.salida or args.ver:

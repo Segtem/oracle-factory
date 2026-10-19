@@ -1,0 +1,5 @@
+requisito trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es:
+    texto "Tipo: funcional `oracle-factory init` y `oracle-factory hooks` SHALL instalar un hook `prepare-commit-msg` que agregue el trailer `Cambio: <ID>` a cada commit hecho en un checkout con exactamente un cambio abierto, sin tocar los otros trailers ni un `Cambio:` que ya esté; con cero o más de un cambio abierto SHALL NOT agregar nada. Si en la carpeta de hooks ya hay un `prepare-commit-msg` ajeno, SHALL NOT pisarlo y SHALL decir cómo encadenarlo. El hook SHALL NOT impedir un commit, tampoco si falta el intérprete de Factory."
+    fuente "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md#cada commit nuevo dice de qué cambio es"
+    medido_por factory_commits.cada_commit_nuevo_dice_de_que_cambio_es, factory_commits.corrida_completa
+    sin_medir "sin medida todavía; escenarios: «un commit con un cambio abierto», «sin un único cambio abierto, o con un hook ajeno»"

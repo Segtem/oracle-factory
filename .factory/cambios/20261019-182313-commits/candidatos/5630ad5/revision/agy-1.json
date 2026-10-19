@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/5630ad5",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "5630ad587df5c1a05520a81e599001a0a37e3aa3",
+  "diff_sha256": "254e325397ca6af6649db210c534af3b22a13494fc6262c170a39ea0550af3ae",
+  "context_sha256": "a5b7c261387c9059d88c9377006d8c4d457eb09021c9bc48584e2919329c6aae",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas: PYTHONPATH=. python -m unittest tests.test_commits tests.test_cli_json sobre Python 3.13, Git 2.43 y Node 24.22.",
+    "No se ejecutó la suite completa de descubrimiento de tests (unittest discover -s tests) para no alterar el alcance de la revisión.",
+    "Se realizaron análisis de mutación sobre copias locales para evaluar la sensibilidad del arnés de pruebas.",
+    "No se ejecutaron pruebas en entornos Windows ni macOS."
+  ],
+  "findings": [
+    {
+      "id": "commit-interactivo-trailer-al-inicio",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "El hook prepare-commit-msg inserta el trailer al inicio en commits interactivos, impidiendo abortar el commit y corrompiendo el mensaje",
+      "explanation": "Al realizar 'git commit' sin la opción '-m' o '-F', Git invoca prepare-commit-msg con el archivo COMMIT_EDITMSG conteniendo únicamente comentarios explicativos iniciados con '#'. poner_trailer() ejecuta 'git interpret-trailers --in-place' directamente sin verificar si el mensaje sólo contiene comentarios. Como aún no hay cuerpo ni bloque de trailers, interpret-trailers ubica 'Cambio: <ID>' al inicio del archivo (o intercalado antes de los comentarios). Esto ocasiona dos problemas críticos: (1) Si el usuario sale del editor sin escribir nada para abortar el commit (comportamiento estándar de Git ante mensaje vacío), Git detecta que el archivo no está vacío y crea el commit involuntariamente con el trailer como asunto; (2) Si el usuario escribe un mensaje, el trailer queda posicionado erróneamente en la cabecera e interfiere con el descarte de comentarios de Git, persistiendo líneas de plantilla en el historial.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 633,
+        "end_line": 639,
+        "side": "head"
+      },
+      "trigger": "Ejecutar 'git commit' interactivo (sin '-m' ni '-F') y cerrar el editor sin escribir nada (o escribir un mensaje al final de la plantilla).",
+      "evidence": "Con un cambio abierto '20261019-182313-commits', al ejecutar 'git commit' interactivo y guardar el buffer por defecto (simulando abortar), el comando finaliza con código 0 y crea el commit con asunto 'Cambio: 20261019-182313-commits'. Si se edita anteponiendo asunto, las líneas de comentarios de Git (#) no son limpiadas y quedan en el cuerpo del commit.",
+      "related_requirement": "cada commit nuevo dice de qué cambio es",
+      "status": "pendiente",
+      "verification": "Verificar en un repositorio con un cambio abierto que al ejecutar 'git commit' sin mensaje y cerrar el editor, Git aborte con 'Aborting commit due to empty commit message' en lugar de confirmar el commit."
+    },
+    {
+      "id": "trailer-suprimido-por-texto-del-cuerpo",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La comprobación regex ^Cambio: en el mensaje completo suprime el trailer ante cualquier línea del cuerpo que comience con 'Cambio:'",
+      "explanation": "poner_trailer() evalúa 're.search(r\"^Cambio:\", Path(archivo).read_text(...), re.M)' sobre la totalidad del archivo para decidir si no agregar el trailer. Esta expresión regular multi-línea coincide con cualquier línea del cuerpo del commit que comience con la palabra 'Cambio:' (muy natural en español, como 'Cambio: se ajustaron las validaciones...'), aunque no pertenezca al bloque de trailers ni tenga formato de ID de Factory. En dicho caso, la función retorna inmediatamente sin añadir el trailer 'Cambio: <ID>', violando la spec que exige agregar el trailer sin tocar los otros trailers ni un 'Cambio:' que ya esté.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 635,
+        "end_line": 638,
+        "side": "head"
+      },
+      "trigger": "Hacer un commit con mensaje multilínea donde una línea del cuerpo comience con 'Cambio: ...' (e.g. 'git commit -m \"fix: error\" -m \"Cambio: corrección de cálculo\"').",
+      "evidence": "Al crear un commit con 'git commit -m \"fix: algo\" -m \"Cambio: detalle explicativo\"', 're.search(r\"^Cambio:\")' devuelve True y el commit resultante no lleva el trailer 'Cambio: <ID>', quedando desvinculado del cambio.",
+      "related_requirement": "cada commit nuevo dice de qué cambio es",
+      "status": "pendiente",
+      "verification": "Ejecutar un commit con cuerpo que incluya 'Cambio: explicación' y comprobar que 'git log -1' conserve tanto el cuerpo como el trailer 'Cambio: <ID>' al final."
+    },
+    {
+      "id": "deduccion-commits-heuristicas-merges",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.9,
+      "title": "La deducción de commits por merges incluye commits ajenos de main o pierde commits en ramas integradas sin merge",
+      "explanation": "commits_del_cambio() utiliza la heurística de buscar el merge más antiguo en f\"{sha}..HEAD\" donde 'git merge-base --is-ancestor sha m^1' dé distinto de 0 para luego tomar 'git log merge^1..merge^2'. Esta lógica falla en dos sentidos: (1) Commits deducidos de más: Si un candidato 'sha' se encuentra en main (o fue sincronizado en main), y luego una rama secundaria 'other' fusiona main ('git merge main'), en dicho merge 'm^1' es 'other' y 'm^2' es 'main', por lo que sha no es ancestro de m^1; la heurística elige este merge e incorpora en 'deducidos' todos los commits ajenos de main alcanzables por 'other..main'. (2) Commits deducidos de menos: Si la rama del cambio fue integrada mediante fast-forward (o rebase/squash, o es un cambio aún abierto no integrado en HEAD), no existe ningún commit de merge en 'sha..HEAD'; 'merge' resulta None y 'deducidos' solo contiene los candidatos explícitos, omitiendo todos los demás commits de la rama.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 664,
+        "end_line": 673,
+        "side": "head"
+      },
+      "trigger": "Consultar 'oracle-factory log <ID> --json' para un cambio cuyos candidatos están en main y existe una rama que fusionó main, o para un cambio integrado mediante fast-forward.",
+      "evidence": "Prueba empírica: Con un cambio 'X' cuyo candidato está en main seguido de 5 commits ajenos en main, al fusionar main en otra rama 'other-branch', 'commits_del_cambio' asignó a 'X' los 5 commits ajenos de main con unión 'deducido'. En contraposición, en un cambio integrado a main con '--ff-only', los commits no registrados como candidato quedaron omitidos.",
+      "related_requirement": "los commits de un cambio se ven en log, estado y el tablero",
+      "status": "pendiente",
+      "verification": "Verificar 'oracle-factory log ID --json' en ambos escenarios y constatar que no se incluyan commits de main ajenos al cambio y que no se pierdan commits de ramas integradas con fast-forward."
+    },
+    {
+      "id": "costo-cuadratico-commits-estado",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Costo excesivo de subprocesos Git y recorridos globales en datos_estado y tablero por cada candidato",
+      "explanation": "datos_estado() invoca commits_del_cambio(identificador, estado), el cual se ejecuta tanto en 'estado' como para cada cambio abierto en 'tablero --json'. Para cada candidato registrado en disco y en los eventos de factory.json, ejecuta sincrónicamente subprocesos 'git rev-parse' para validar el hash, un 'git log --all --grep=...' que barre todo el grafo del repositorio, y un bucle que ejecuta 'git log --ancestry-path' y 'git merge-base' por cada merge commit encontrado. En repositorios con múltiples cambios y candidatos, este diseño genera una multiplicación de procesos Git sincrónicos y búsquedas globales por cada llamada, degradando el rendimiento de 'estado' y del tablero de la extensión VS Code.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2230,
+        "end_line": 2235,
+        "side": "head"
+      },
+      "trigger": "Ejecutar 'oracle-factory estado <ID>' o 'oracle-factory tablero --json' en un proyecto con múltiples cambios y candidatos acumulados.",
+      "evidence": "Por cada cambio abierto, 'commits_del_cambio' ejecuta como mínimo 1 + len(candidatos) llamadas a 'git rev-parse', una llamada a 'git log --all', y len(candidatos) * O(merges) llamadas a 'git merge-base', sin cachear resultados ni omitir la deducción en cambios que ya usan trailers.",
+      "related_requirement": "los commits de un cambio se ven en log, estado y el tablero",
+      "status": "pendiente",
+      "verification": "Medir el tiempo y la cantidad de procesos git invocados por 'oracle-factory estado' o 'tablero --json' a medida que crece el número de candidatos en el historial."
+    },
+    {
+      "id": "git-show-sin-separador-rutas-extension",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "git show en extension.js omite el separador '--', fallando por ambigüedad si existe un archivo con nombre idéntico al sha",
+      "explanation": "En editores/vscode/extension.js, al recibir el mensaje 'commit' desde el tablero, se ejecuta: 'execFile(\"git\", [\"show\", \"--stat\", \"--patch\", \"--no-color\", m.sha], ...)'. Si en la raíz del espacio de trabajo existe un archivo o directorio cuyo nombre coincida con 'm.sha' (o con el hash corto de 7 caracteres), Git aborta con error 128 ('fatal: ambiguous argument ... both revision and filename'). Al fallar execFile, diff resulta null y la extensión muestra erróneamente 'Factory: git no encontró el commit <sha>' a pesar de que el commit existe y es válido. Se debe agregar el separador '--' al final del comando Git.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 127,
+        "end_line": 129,
+        "side": "head"
+      },
+      "trigger": "Hacer clic en un commit en el tablero de VS Code cuando existe un archivo en el repositorio con el mismo nombre que el SHA del commit.",
+      "evidence": "En una prueba con un commit cuyo SHA corto es '713bb7a' y creando un archivo '713bb7a' en la raíz, 'git show --stat --patch --no-color 713bb7a' falla con código 128 (argumento ambiguo), mientras que con '--' al final ejecuta con código 0.",
+      "related_requirement": "los commits de un cambio se ven en log, estado y el tablero",
+      "status": "pendiente",
+      "verification": "Crear un archivo nombrado como un SHA corto en el repositorio y verificar que al hacer clic en el commit en el tablero, VS Code abra el diff sin error de ambigüedad."
+    },
+    {
+      "id": "hook-encadenado-sin-or-true-falla-con-set-e",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "LLAMADA_HOOK carece de '|| true', bloqueando commits si se encadena en un hook ajeno con 'set -e'",
+      "explanation": "LLAMADA_HOOK está definida como '{py} -c ... trailer \"$@\" >/dev/null 2>&1'. Cuando ya existe un hook ajeno, instalar_hook() indica al usuario que agregue esa línea antes del final de su hook. Si el hook preexistente tiene la directiva 'set -e' (muy habitual en scripts POSIX de hooks) y el intérprete {py} falta, fue movido o el comando trailer sale con código de error, el fallo del comando hace que el script de shell termine inmediatamente con error, bloqueando el commit. Esto contradice el requisito 'El hook SHALL NOT impedir un commit, tampoco si falta el intérprete de Factory'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 604,
+        "end_line": 605,
+        "side": "head"
+      },
+      "trigger": "Encadenar la línea propuesta por 'oracle-factory hooks' en un script prepare-commit-msg que tenga 'set -e' cuando falta el intérprete de Factory.",
+      "evidence": "En un script con 'set -e', la ejecución de '/no/existe/python -c ... >/dev/null 2>&1' sin '|| true' produce que el script aborte con código 127, haciendo que 'git commit' falle.",
+      "related_requirement": "cada commit nuevo dice de qué cambio es",
+      "status": "pendiente",
+      "verification": "Configurar un prepare-commit-msg ajeno con 'set -e' que invoque LLAMADA_HOOK apuntando a un binario inexistente y verificar que 'git commit' complete exitosamente."
+    }
+  ]
+}
