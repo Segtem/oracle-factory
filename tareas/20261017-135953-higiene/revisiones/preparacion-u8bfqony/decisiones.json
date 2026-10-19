@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "734b5e0580bfad01e1d504811b9b466d5b7cfc9734907e3fc6f234106bf06585",
+  "actor": "Brian Hollweg",
+  "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (lanzamientos con nombre, cortados siempre a la vista con texto que dice si repetir, Ctrl-C en la validación, init sin carpetas vacías, guía en .factory/local). Quedan dos bajos iguales (HG-005, HG-011): hg2 no ejecuta importar sin --agente; el aviso es el mismo para cualquier acción sin autor y hg2 ya lo prueba con nuevo.",
+  "decisiones": [
+    {
+      "hallazgo_id": "HG-005",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:33:33+00:00"
+    },
+    {
+      "hallazgo_id": "HG-011",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:34:26+00:00"
+    }
+  ]
+}

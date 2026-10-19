@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/f4130ee",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "f4130eebb72d619f3a03f1df3ae468068d1aa087",
+  "diff_sha256": "2118b6d85ff111b4c4b2dd148f201449fc98fe2175ec809fbcff7f8b88f48b29",
+  "context_sha256": "b8f7c5d2863246475956ff71a88cb4cf1c1c265e4baedebda8a90294473c5a47",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HG-010",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El resultado de un pedido puede ocultar otro lanzamiento que sigue sin resultado",
+      "explanation": "Al procesar revision_pedida, el código encuentra el índice del lanzamiento cuyo UUID coincide y luego filtra todos los lanzamientos anteriores o iguales que tengan el mismo revisor y candidato (i <= hasta). Si hay dos pedidos simultáneos para codex/c1 y el segundo termina primero, su resultado elimina también el primer lanzamiento, aunque ese primero no tenga revision_pedida. Estado y estado --json dejan de avisar sobre él. La spec exige avisar mientras un lanzamiento no tenga resultado, y la revisión previa ya había identificado este caso para pedidos solapados; la prueba actual sólo comprueba el orden inverso (termina el primero, queda cortado el segundo).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1201,
+        "end_line": 1203,
+        "side": "head"
+      },
+      "trigger": "Registrar revision_lanzada(codex,c1,id=a), revision_lanzada(codex,c1,id=b) y luego revision_pedida(codex,c1,id=b), sin resultado para id=a. Consultar estado o aviso_lanzamientos.",
+      "evidence": "Evalué la secuencia sintética directamente contra aviso_lanzamientos: launch A, launch B, result B devuelve []. El lanzamiento A no tiene un evento revision_pedida; desaparece porque el filtro descarta todos los anteriores de la misma pareja. La secuencia cubierta en tests/test_higiene.py comprueba launch A, launch B, result A, donde B sí permanece visible, y no cubre el orden inverso.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Agregar una prueba de dos lanzamientos con UUID distintos del mismo revisor y candidato donde el segundo resultado se registre primero; el primero debe seguir avisado hasta su propio resultado."
+    },
+    {
+      "id": "HG-009",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La prueba de autor omitido no ejercita la importación que describe la spec",
+      "explanation": "El escenario de la spec requiere un cambio creado e importado sin --agente y que estado avise de las acciones sin autor. El test test_hg2_un_agente_que_se_olvido_de_agente sólo ejecuta nuevo y espera una acción cambio_creado. Por eso no comprueba que requisitos_importados también quede marcado sin_identificar ni que el aviso enumere ambas acciones y cuente dos. El helper evento parece centralizar tipo_actor, pero una regresión en el camino de importar pasaría este test.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 137,
+        "end_line": 147,
+        "side": "head"
+      },
+      "trigger": "Comparar el escenario de las acciones sin autor con el cuerpo de test_hg2_un_agente_que_se_olvido_de_agente: no invoca el subcomando importar.",
+      "evidence": "Las líneas 139-140 invocan únicamente nuevo; las aserciones 143-147 verifican tipo_actor del evento cambio_creado y un aviso de una acción. importar registra requisitos_importados en cli.py:714, pero ese camino no se ejercita en el test nuevo.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "En una prueba de integración, ejecutar nuevo e importar sin --agente ni terminal y comprobar que estado y estado --json incluyen cambio_creado y requisitos_importados, el total de dos acciones y la instrucción --agente NOMBRE."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron propuesta, spec, diff/contexto y los 26 archivos de producto del paquete; se respetaron las exclusiones de los registros y evidencia de Factory.",
+    "Se revisaron las seis salidas anteriores indicadas. En el candidato actual, HG-008 sigue conservando el aviso de c1 tras lanzar el mismo revisor sobre c2 y HG-004 no muestra avisos de lanzamientos en fases cerrada o abandonada.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null. Resultado: 17 tests, OK.",
+    "Se evaluaron secuencias sintéticas de eventos directamente en aviso_lanzamientos; no se editaron ni mutaron archivos del checkout.",
+    "No se ejecutaron la suite completa ni tools/verify_guide.py, tools/verify_higiene.py, tools/verify_installed.py o tools/verify_collaboration.py."
+  ]
+}

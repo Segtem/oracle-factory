@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/50a7a01",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "50a7a01cd979f075001961ccba703c0a05cdc71e",
+  "diff_sha256": "90dc74bc7714d1d900ba764620c98ff68cf4b9c2f6197cbe96e5dce66e4d263e",
+  "context_sha256": "d881db3e0a2a1b2dfbec561ee22981d42c5c922d5223cc44e749bd45e6b49ddc",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HG-011",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La prueba de acciones sin autor omite la importación exigida por el escenario",
+      "explanation": "El escenario de la spec describe un cambio creado e importado sin --agente. El test_hg2_un_agente_que_se_olvido_de_agente sólo ejecuta nuevo y comprueba cambio_creado; no invoca importar ni verifica el aviso que debe enumerar acciones sin autor. Una regresión en el registro o la presentación de requisitos_importados podría pasar la prueba. La implementación de aviso_sin_autor recorre genéricamente los eventos, así que esto es una carencia de cobertura, no evidencia de un fallo actual de esa función.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 144,
+        "end_line": 153,
+        "side": "head"
+      },
+      "trigger": "Ejecutar sólo la secuencia que cubre actualmente test_hg2_un_agente_que_se_olvido_de_agente: crear un cambio sin --agente y comprobar que estado avisa de cambio_creado; el test termina sin ejecutar importar.",
+      "evidence": "En tests/test_higiene.py:146-153, el proceso CLI invoca únicamente nuevo y las aserciones esperan una acción sin autor con nombre cambio_creado. La spec de flujo, escenario «un agente que se olvidó de --agente», exige un cambio creado e importado. La prueba, por tanto, no detecta una regresión específica del camino importar ni valida que el aviso enumere y cuente ambas acciones.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Extender la prueba de integración para importar el cambio también sin --agente ni persona identificada y comprobar en estado y estado --json que se informan cambio_creado y requisitos_importados, el total de dos acciones y la instrucción --agente NOMBRE."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron propuesta, spec, diff y contexto del paquete, junto con los cambios de producto incluidos; no se inspeccionaron los archivos de .factory ni las tareas excluidos por el pedido.",
+    "Se revisaron las ocho salidas anteriores: la asociación de resultados por lanzamiento conserva el corte solapado si termina el segundo pedido primero; los registros sin id mantienen el cierre por pareja; un resultado interrumpido no cuenta como terminado; los avisos operativos de lanzamiento no aparecen en cambios cerrados o abandonados.",
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null` desde la raíz del checkout candidato: 17 pruebas, OK. No se ejecutó la suite completa ni verificadores adicionales.",
+    "No se hicieron mutaciones sobre copias. La prueba existente cubre secuencias sintéticas con dos lanzamientos del mismo revisor y candidato, candidatos distintos y resultados asociados por id; el único hallazgo es la falta de cobertura de importar en el escenario de acciones sin autor."
+  ]
+}

@@ -82,7 +82,7 @@ def main():
         for block in guide['acuerdo']: commands(block)
         for block in guide['probar']: commands(block)
         fixture=guide['revisar'][0].replace('PENDIENTE','Fixture automatizado; no aprueba un proyecto real.')
-        (cwd/'.factory-demo/review.md').write_text(fixture)
+        (cwd/'.factory/local/review.md').write_text(fixture)
         for block in guide['revisar'][1:]: commands(block)
         for block in guide['cerrar']: commands(block)
         state=json.loads((cwd/'.factory/cambios'/identifiers['ID_DEL_CAMBIO']/'factory.json').read_text())

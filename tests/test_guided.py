@@ -116,7 +116,7 @@ class InicioGuiado(ProyectoTemporal):
         ignore.write_text('mis-salidas/\n')
         f.inicializar(); f.inicializar()
         self.assertEqual(config.read_bytes(), original)
-        self.assertEqual(ignore.read_text(), 'mis-salidas/\n.factory-demo/\n.factory/local/\n.factory/cambios/*/candidatos/*/clue/\n__pycache__/\n*.py[cod]\n')
+        self.assertEqual(ignore.read_text(), 'mis-salidas/\n.factory/local/\n.factory/cambios/*/candidatos/*/clue/\n__pycache__/\n*.py[cod]\n')
         self.assertNotIn('oracle caso nuevo', self.stdout.getvalue())
         self.assertIn('Próximo paso: oracle-factory nuevo --con-ejemplo notas', self.stdout.getvalue())
         self.assertIn('git init', self.stdout.getvalue())
