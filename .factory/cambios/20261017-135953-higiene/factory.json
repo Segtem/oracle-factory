@@ -2,7 +2,7 @@
   "id": "20261017-135953-higiene",
   "titulo": "Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
   "spec_sha256": "ca98bec0f4490f3a746e5c20797c5e9057605d581268a4b680f36c6cc7ecf546",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan",
     "flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261017-135953-higiene/revisiones/registro-p4khnxxx/informe.json",
+    "sha256": "734b5e0580bfad01e1d504811b9b466d5b7cfc9734907e3fc6f234106bf06585",
+    "decisiones": "tareas/20261017-135953-higiene/revisiones/registro-p4khnxxx/decisiones.json",
+    "decisiones_sha256": "b6aaa95580841abcc676f40d529d0605346ad84496a518a72ced065ee12c365a",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T17:41:52+00:00",
+    "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (lanzamientos con nombre, cortados siempre a la vista con texto que dice si repetir, Ctrl-C en la validación, init sin carpetas vacías, guía en .factory/local). Quedan dos bajos iguales (HG-005, HG-011): hg2 no ejecuta importar sin --agente; el aviso es el mismo para cualquier acción sin autor y hg2 ya lo prueba con nuevo.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "b5b2d3b0202a01b3895732fa25986689611aa901",
+      "archivos_sha256": "72d8b367b6810154c9787397e70ffe5c6fcbd36cceb7f108d4810ce1650a16b6"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -412,6 +432,20 @@
       "cuando": "2026-10-19T16:22:26+00:00",
       "decision": "aprobar",
       "candidato": "50a7a01"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T17:41:52+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "734b5e0580bfad01e1d504811b9b466d5b7cfc9734907e3fc6f234106bf06585",
+      "decisiones_sha256": "b6aaa95580841abcc676f40d529d0605346ad84496a518a72ced065ee12c365a"
     }
   ],
   "tipos": {
@@ -470,14 +504,25 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (lanzamientos con nombre, cortados siempre a la vista con texto que dice si repetir, Ctrl-C en la validación, init sin carpetas vacías, guía en .factory/local). Quedan dos bajos iguales (HG-005, HG-011): hg2 no ejecuta importar sin --agente; el aviso es el mismo para cualquier acción sin autor y hg2 ya lo prueba con nuevo.",
-      "candidato": "50a7a01",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T16:22:26+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_higiene.py",
+      "titulo": "test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "firma": "tests/test_higiene.py|testhg2unagentequeseolvidodeagente no comprueba la acción importar requerida por el escenario de la spec",
+      "motivo": "Acepto el riesgo: test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:33:33+00:00",
+      "candidato": "50a7a01"
+    },
+    {
+      "archivo": "tests/test_higiene.py",
+      "titulo": "La prueba de acciones sin autor omite la importación exigida por el escenario",
+      "firma": "tests/test_higiene.py|la prueba de acciones sin autor omite la importación exigida por el escenario",
+      "motivo": "Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:34:26+00:00",
+      "candidato": "50a7a01"
     }
-  }
+  ]
 }
