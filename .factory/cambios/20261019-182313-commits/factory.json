@@ -2,7 +2,7 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "revision_aprobada",
+  "fase": "juicio_pendiente",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
   "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
   "spec_aprobada": {
