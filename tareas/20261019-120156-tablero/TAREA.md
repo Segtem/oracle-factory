@@ -23,3 +23,11 @@ Medidas de ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_m
 ### Nota (2026-10-19 12:15:37 UTC)
 
 Medidas de ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code: factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code, factory_tablero.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-19 12:40:30 UTC)
+
+Medidas de ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 12:40:31 UTC)
+
+Medidas de ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code: Brian Hollweg (persona, confirmo, modo confirmacion).
