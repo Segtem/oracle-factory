@@ -143,3 +143,28 @@ La portada SHALL esconder al menos tres easter eggs (la chimenea, el gato de la 
 - GIVEN la portada en Chromium
 - WHEN se hace clic en la chimenea, en el gato y se teclea el código Konami
 - THEN cada uno responde, el texto de la página sigue igual y visible, y el foco sigue donde estaba
+
+### Requirement: las guías tienen su escena y su elenco
+Origen: 20261017-121631-web-guias · web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco
+Tipo: funcional
+Cada guía (desde cero, modos y en equipo) SHALL abrir con una escena de pixel art propia que se anima al entrar en pantalla, y SHALL mostrar personajes con nombre y globito en al menos tres de sus secciones. Con movimiento reducido las escenas SHALL NOT animarse y SHALL mostrar su estado final. Las guías SHALL funcionar sin red y SHALL NOT desbordar horizontalmente entre 320 y 1440 px.
+
+#### Scenario: recorrer cada guía
+- GIVEN cada una de las tres guías abierta en Chromium sin red, a 1440 px
+- WHEN se baja hasta el final
+- THEN su escena se anima al entrar, al menos tres secciones tienen un personaje con nombre y globito, y no hay pedidos a la red ni errores
+
+#### Scenario: movimiento reducido y pantalla chica
+- GIVEN cada guía con movimiento reducido, a 320 px
+- WHEN se baja hasta el final
+- THEN ninguna escena se anima, todas muestran su estado final y nada desborda horizontalmente
+
+### Requirement: el texto y los comandos de las guías no cambian
+Origen: 20261017-121631-web-guias · web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian
+Tipo: funcional
+Lo que las guías dicen y los comandos que dan SHALL ser los mismos que antes del cambio; los personajes y las escenas SHALL agregarse sin reemplazar ni mover texto.
+
+#### Scenario: comparar con la versión anterior
+- GIVEN cada guía antes y después del cambio
+- WHEN se compara su texto y sus bloques de código, sin los personajes y escenas agregados
+- THEN son idénticos

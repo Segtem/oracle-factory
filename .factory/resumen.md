@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d3b33a3f00fd23121a3b7f3b4e321e49efaeec265fa0a99e8c19ab77df5b4ebb -->
+<!-- oracle-factory resumen sha256:7c5cc0230d374e80559f80c4512b07371fb69d78bda90fa001910f670ed1923c -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 136 requisitos vigentes · 1 cambio abierto
+18 capacidades · 138 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -270,6 +270,8 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | la portada es una fábrica viva | funcional | `web_c8800172a340333d8.la_portada_es_una_fabrica_viva` | factory_viva.la_portada_es_una_fabrica_viva, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
 | el minijuego enseña las decisiones de verdad | funcional | `web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad` | factory_viva.el_minijuego_ensena_las_decisiones_de_verdad, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
 | los easter eggs no tapan nada | funcional | `web_c8800172a340333d8.los_easter_eggs_no_tapan_nada` | factory_viva.los_easter_eggs_no_tapan_nada, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
+| las guías tienen su escena y su elenco | funcional | `web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco` | factory_guias.las_guias_tienen_su_escena_y_su_elenco, factory_guias.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-121631-web-guias |
+| el texto y los comandos de las guías no cambian | funcional | `web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian` | factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian, factory_guias.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-121631-web-guias |
 
 ## Cambios abiertos
 
@@ -688,6 +690,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261017-023151-hechos-varios) codex (gpt-6-luna): Verifiqué las correcciones de HV-01 a HV-06, en particular recuperación y repetición con todos los --con, etiqueta para sensor inválido, salida sin filas con código 0 y registro de un rojo real. Revisé compatibilidad con un solo --con, el analizador repetible, rutas con espacios mediante shlex.quote y el listado de todos los hechos en donde.
 - (20261017-023151-hechos-varios) codex (gpt-6-luna): Corrí desde la raíz del checkout exactamente: PYTHONPATH=. /home/workstation/Dev/factory-hechos-varios/.venv/bin/python -m unittest tests.test_hechos_varios </dev/null. Resultado: 6 pruebas, OK; la salida completa está en pruebas.log.
 - (20261017-023151-hechos-varios) codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_hechos_varios.py y no hice mutaciones manuales sobre copias. La revisión es análisis estático más la prueba de cambio indicada; no constituye una demostración de propiedades fuera de sus escenarios.
+- (20261017-121631-web-guias) Evidencia: Escenarios wg1–wg2 en Chromium headless de Linux con Playwright 1.62.1, sin red, a 320, 390, 768, 1024 y 1440 px; el texto se compara con el que tenían las guías antes del cambio (tests/datos/guias-texto.json). No juzga si las escenas son lindas: eso es de una persona.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano con Chromium (/usr/bin/chromium) los tres escenarios solicitados de tests/test_web_guias.cjs: recorrer_cada_guia, movimiento_reducido_y_pantalla_chica y comparar_con_la_version_anterior, finalizando todos exitosamente con código 0.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se verificó la efectiva corrección de los hallazgos de la Vuelta 2 (AGY-001/CG-001 y AGY-002): mediante mutaciones experimentales en copias de trabajo se comprobó que tests/texto_guias.cjs preserva y compara sin normalizar los saltos de línea y formato en bloques pre y code, y que tests/test_web_guias.cjs comprueba que cada guía incluya su identificador de escena propio (guia, modos y equipo).
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se verificó estáticamente la paridad bit a bit del contenido HTML preexistente en site/desde-cero.html, site/modos.html y site/colaboracion.html (excluyendo los dos scripts incorporados y los elementos marcados con data-viva), comprobando que el texto, comandos y estructura preexistente permanecen idénticos a los del commit base.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas de regresión de la portada en Chromium: tests/test_web_viva.cjs (los 6 escenarios: recorrer_la_portada, movimiento_reducido_y_pantalla_chica, una_partida_que_cierra_en_verde, aprobar_con_un_hallazgo_abierto_y_medidas_sin_acordar, jugar_solo_con_teclado, encontrar_los_tres) y tests/test_site.cjs, confirmando ausencia de regresiones en la portada y en los secretos/minijuego.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se verificaron los aspectos de accesibilidad (role=img y aria-label descriptivo en las escenas pixel art, SVGs internos con aria-hidden y focusable=false, atributos data-viva, figcaption y globitos accesibles en los personajes), la ausencia de pisado de coordenadas en sprites animados mediante el uso de propiedades CSS rotate y translate independientes, y la ausencia de desborde horizontal entre 320 y 1440 px.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): Se comprobó la corrección conceptual de los textos de los globitos sobre el funcionamiento y filosofía de Oracle Factory (roles de persona vs. agente, modos de trabajo, Clue, revisión y juicios de Oracle).
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas en Python de todo el repositorio ni tools/verify_web_guias.py por indicación explícita del pedido de revisión.
+- (20261017-121631-web-guias) agy (gemini-3.8-flash-high): No se emite juicio sobre la calidad estética o artística del diseño pixel art, cuya valoración corresponde a una persona.
+- (20261017-121631-web-guias) codex (gpt-6-luna): Revisión estática de la propuesta, spec, diff del candidato, tres guías, viva.js, CSS añadido, snapshot de texto, pruebas, verificador y catálogos; análisis largo en revision-notes.md.
+- (20261017-121631-web-guias) codex (gpt-6-luna): Corrí los tres escenarios solicitados en primer plano desde la raíz del checkout. Los tres abortaron antes de cargar la página porque Chromium /usr/bin/chromium terminó con SIGTRAP; stderr indicó setsockopt: Operation not permitted en crashpad. Según la instrucción, continué con inspección estática y marqué la revisión completa.
+- (20261017-121631-web-guias) codex (gpt-6-luna): No ejecuté la suite completa de Python ni mutaciones. No interpreto la falta de ejecución como un resultado verde. No revisé los 18 archivos de registros y evidencia de Factory excluidos.
 
 ### Históricos
 

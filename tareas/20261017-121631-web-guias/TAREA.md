@@ -1,6 +1,6 @@
 # Las guías con la fábrica viva
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-17 13:54:57 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261017-121631-web-guias/oracle-veredicto.txt.
+
+### Nota (2026-10-17 14:02:28 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

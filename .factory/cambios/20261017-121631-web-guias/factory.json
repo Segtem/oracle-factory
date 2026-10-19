@@ -2,7 +2,7 @@
   "id": "20261017-121631-web-guias",
   "titulo": "Las guías con la fábrica viva",
   "capacidad": "web",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261017-121631-web-guias/specs/web/spec.md",
   "spec_sha256": "65fbc5e62c001e22712e2fbb58c1f5498808d7536d2570c55ade704c6deee0dc",
   "spec_aprobada": {
@@ -261,6 +261,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "f488fd1fad6e22172bb775a2467bd08c1b44792fd00744a490e29d1dd93f45ec"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T14:02:28+00:00",
+      "oracle": ".factory/cambios/20261017-121631-web-guias/oracle-veredicto.txt",
+      "revision": "tareas/20261017-121631-web-guias/revisiones/registro-39s34mwy/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-17T14:02:28+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
     }
   ],
   "tipos": {
@@ -302,5 +322,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-17T14:02:28+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-17T14:02:28+00:00"
+  }
 }
