@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/50a7a01",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "50a7a01cd979f075001961ccba703c0a05cdc71e",
+  "diff_sha256": "90dc74bc7714d1d900ba764620c98ff68cf4b9c2f6197cbe96e5dce66e4d263e",
+  "context_sha256": "d881db3e0a2a1b2dfbec561ee22981d42c5c922d5223cc44e749bd45e6b49ddc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exactamente desde la raíz del checkout las pruebas requeridas: tests.test_higiene, tests.test_tutorial y tests.test_portabilidad con Python 3.13 en primer plano (17 pruebas, OK con advertencias DeprecationWarning de oracle_metalenguaje).",
+    "No se ejecutó la suite completa discover de unittest ni las herramientas verify_*.py para acatar estrictamente la indicación expresa del usuario.",
+    "Se verificó la corrección de la vuelta 4 para HG-010: un resultado (revision_pedida con su lanzamiento) cierra exclusivamente su propio lanzamiento; el lanzamiento sin resultado permanece visible en los avisos mientras el cambio siga abierto e indica que no requiere repetición si otro pedido sobre ese candidato terminó o si se lanzó sobre otro candidato. Registros sin id de lanzamiento cierran por pareja.",
+    "Se verificó que siguen cerrados HG-001, HG-002, HG-003, HG-004, HG-006, HG-007 y HG-008 sin regresiones.",
+    "Se evaluó mediante mutación aislada en aviso_sin_autor la ausencia de verificación de la acción importar (pluralidad de acciones sin autor) en test_hg2_un_agente_que_se_olvido_de_agente.",
+    "Revisión probabilística independiente; los hallazgos y el análisis no constituyen veredicto de Oracle ni prueba de propiedades no medidas. Se respetaron las exclusiones del paquete (.factory, tareas)."
+  ],
+  "findings": [
+    {
+      "id": "HG-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "explanation": "El escenario de la spec «un agente que se olvidó de --agente» promete explícitamente: «GIVEN un cambio creado e importado sin --agente y sin una persona identificada WHEN se pide estado THEN avisa que esas acciones quedaron sin autor y cómo identificarlo la próxima vez». En tests/test_higiene.py:144-155, la prueba test_hg2_un_agente_que_se_olvido_de_agente únicamente ejecuta el subcomando nuevo (acción cambio_creado). No ejecuta la acción importar (requisitos_importados), dejando sin verificación en integración la acumulación y el formateo en plural («acciones quedaron sin autor (cambio_creado, requisitos_importados)») requeridos por el escenario de la especificación.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 144,
+        "end_line": 155,
+        "side": "head"
+      },
+      "trigger": "Contraste de las acciones ejercitadas en test_hg2_un_agente_que_se_olvido_de_agente frente al escenario GIVEN en openspec/changes/20261017-135953-higiene/specs/flujo/spec.md.",
+      "evidence": "En tests/test_higiene.py:144-155, el test solo invoca [*PYTHON_CLI, 'nuevo', ...], omitiendo el paso de importación previsto en el contrato. Una mutación en aviso_sin_autor que devuelve siempre una cadena singular fija ('1 acción quedó sin autor (cambio_creado)...') sobrevive a la ejecución de las 17 pruebas unitarias sin fallar.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Completar test_hg2 incorporando el paso de importación sin --agente (tras la debida aprobación de spec) y comprobar que el estado devuelva '2 acciones quedaron sin autor (cambio_creado, requisitos_importados)'."
+    }
+  ]
+}
