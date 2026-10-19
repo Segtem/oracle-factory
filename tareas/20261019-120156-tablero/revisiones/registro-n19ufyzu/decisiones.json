@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "e1fa93aeac08b0822e77e537b25389a6f3ac502e579237cf4c17af65179575ea",
+  "actor": "Brian Hollweg",
+  "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (archivos sólo del proyecto con enlaces resueltos, comandos de una línea, informes reemplazados, juicio vigente, decisiones por actor, fases por tramos, vueltas a mano). En la última vuelta agy no dejó hallazgos y codex uno bajo (TABLERO-006: una severidad ausente se cuenta como informativa).",
+  "decisiones": [
+    {
+      "hallazgo_id": "TABLERO-006",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:44:50+00:00"
+    }
+  ]
+}

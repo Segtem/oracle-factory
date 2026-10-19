@@ -2,7 +2,7 @@
   "id": "20261019-120156-tablero",
   "titulo": "El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas",
   "capacidad": "ide",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
   "spec_sha256": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
     "ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261019-120156-tablero/revisiones/registro-n19ufyzu/informe.json",
+    "sha256": "e1fa93aeac08b0822e77e537b25389a6f3ac502e579237cf4c17af65179575ea",
+    "decisiones": "tareas/20261019-120156-tablero/revisiones/registro-n19ufyzu/decisiones.json",
+    "decisiones_sha256": "b9737f6ea8bb153c92d03391dfc6befc1b996397704e4165419b598bcfca2e50",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T17:44:57+00:00",
+    "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (archivos sólo del proyecto con enlaces resueltos, comandos de una línea, informes reemplazados, juicio vigente, decisiones por actor, fases por tramos, vueltas a mano). En la última vuelta agy no dejó hallazgos y codex uno bajo (TABLERO-006: una severidad ausente se cuenta como informativa).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "dab28454f257dd84567772129db9d51018fb8d47",
+      "archivos_sha256": "7fda0987892577db40bf70de0ec7a823d4724c442eaa4c1a4da4ee90f585b374"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -246,6 +266,20 @@
       "cuando": "2026-10-19T16:59:15+00:00",
       "decision": "aprobar",
       "candidato": "a014d75"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T17:44:57+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "e1fa93aeac08b0822e77e537b25389a6f3ac502e579237cf4c17af65179575ea",
+      "decisiones_sha256": "b9737f6ea8bb153c92d03391dfc6befc1b996397704e4165419b598bcfca2e50"
     }
   ],
   "tipos": {
@@ -287,14 +321,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (archivos sólo del proyecto con enlaces resueltos, comandos de una línea, informes reemplazados, juicio vigente, decisiones por actor, fases por tramos, vueltas a mano). En la última vuelta agy no dejó hallazgos y codex uno bajo (TABLERO-006: una severidad ausente se cuenta como informativa).",
-      "candidato": "a014d75",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T16:59:15+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/tablero.py",
+      "titulo": "Una severidad ausente o desconocida se informa como hallazgo informativo",
+      "firma": "oracle_factory/tablero.py|una severidad ausente o desconocida se informa como hallazgo informativo",
+      "motivo": "Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-19T17:44:50+00:00",
+      "candidato": "a014d75"
     }
-  }
+  ]
 }

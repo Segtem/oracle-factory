@@ -1,0 +1,110 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261019-120156-tablero",
+  "contexto": {
+    "head": "dab28454f257dd84567772129db9d51018fb8d47",
+    "archivos_sha256": "7fda0987892577db40bf70de0ec7a823d4724c442eaa4c1a4da4ee90f585b374"
+  },
+  "documentos": {
+    "openspec/changes/20261019-120156-tablero/proposal.md": "11ac245762c259357f20fda2f07c5ca8fd6dfde6c09c367f7a1e4814ac352357",
+    "openspec/changes/20261019-120156-tablero/specs/ide/spec.md": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_tablero.corrida_completa.oracle",
+    "catalogos/factory_tablero.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.oracle",
+    "catalogos/factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code.oracle",
+    "editores/vscode/empaquetar.py",
+    "editores/vscode/extension.js",
+    "editores/vscode/modelo.js",
+    "editores/vscode/package.json",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261019-120156-tablero/design.md",
+    "openspec/changes/20261019-120156-tablero/proposal.md",
+    "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
+    "openspec/changes/20261019-120156-tablero/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/tablero.py",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.requisito",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code.requisito",
+    "tests/tablero_en_node.cjs",
+    "tests/test_tablero.py",
+    "tools/verify_tablero.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 405 pruebas, 6 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/a014d75/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/a014d75/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/a014d75/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b08b14c: agy (gemini-3.8-flash-high), 8 hallazgos: AGY-1 (alta), AGY-2 (alta), AGY-3 (media), AGY-4 (media), AGY-5 (media), AGY-6 (baja), AGY-7 (baja), AGY-8 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/b08b14c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b08b14c: codex (gpt-6-luna), 1 hallazgo: TABLERO-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/b08b14c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 508e473: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/508e473/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 508e473: codex (gpt-6-luna), 2 hallazgos: TABLERO-002 (media), TABLERO-003 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/508e473/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato e40275f: codex (gpt-6-luna), 1 hallazgo: TABLERO-004 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/e40275f/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d572631: agy (gemini-3.8-flash-high), 1 hallazgo: AGY-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/d572631/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d572631: codex (gpt-6-luna), 1 hallazgo: TABLERO-005 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-120156-tablero/candidatos/d572631/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tb1–tb2 en repositorios temporales, Linux, con Oracle 0.39.0 real y revisores de prueba; el panel corre en node con un vscode falso (HTML, mensajes y vigía): la API real de VS Code se verifica a mano con el .vsix.",
+    "agy (gemini-3.8-flash-high): Lectura y contraste de proposal.md, spec.md (openspec/changes/20261019-120156-tablero/specs/ide/spec.md), el paquete de revisión Clue (paquete-agy-1.json) y el diff en todos los archivos de producto y pruebas modificados. Se ignoraron los archivos excluidos bajo .factory/ y tareas/.",
+    "agy (gemini-3.8-flash-high): Ejecución en primer plano desde la raíz del checkout a014d75 de: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null (6 pruebas ejecutadas exitosamente, con Node.js v24.22.0 operativo). No se corrió la suite completa de pruebas.",
+    "agy (gemini-3.8-flash-high): Verificación de las correcciones de vueltas anteriores: TABLERO-002 (_cumplidos devuelve None si el juicio no está vigente), TABLERO-003 (decisiones_por_actor cuenta únicamente formas 'decidio' y 'confirmo'), TABLERO-004 (fases acumula tramos en orden e ignora tiempos negativos o zonas horarias incompatibles) y TABLERO-005/AGY-1 (vueltas_de_revision calcula la unión de candidatos con revision_pedida más revisiones registradas sin pedido intermedio).",
+    "agy (gemini-3.8-flash-high): Auditoría de seguridad y contención en editores/vscode: verificación de sanitización completa con esc() en editores/vscode/tablero.js ante inyecciones HTML/scripts en títulos, rutas, comandos y detalles; comprobación de directivas CSP estrictas con nonce criptográfico; verificación en editores/vscode/extension.js (mensajeDelTablero) de resolución canónica con fs.realpathSync para impedir la apertura de archivos fuera del proyecto, directorios o enlaces simbólicos escapados; verificación de prevención de inyección de saltos de línea para la escritura sin Enter en la terminal.",
+    "agy (gemini-3.8-flash-high): Verificación de empaquetado de la extensión de VS Code mediante editores/vscode/empaquetar.py generando el artefacto .vsix sin dependencias externas.",
+    "agy (gemini-3.8-flash-high): No se abrió VS Code en un entorno gráfico interactivo. No se realizaron modificaciones en el checkout de solo lectura a014d75.",
+    "codex (gpt-6-luna): Leí proposal.md, specs/ide/spec.md, el paquete de Clue y los archivos de producto y pruebas del cambio; no inspeccioné los 32 archivos de registros/evidencia excluidos por el pedido.",
+    "codex (gpt-6-luna): Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` en primer plano desde la raíz del checkout a014d75: 6 pruebas, OK; el entorno tenía Node y corrieron los casos Node incluidos en esa suite.",
+    "codex (gpt-6-luna): Revisé estáticamente la extensión y la lógica de métricas; reproduje el conteo de severidad inválida con una llamada aislada y datos sintéticos. No modifiqué el checkout ni hice mutaciones en copias.",
+    "codex (gpt-6-luna): No abrí VS Code gráfico, no ejecuté la suite completa ni Oracle sobre evidencia del producto."
+  ],
+  "hallazgos": [
+    {
+      "id": "TABLERO-006",
+      "descripcion": "Una severidad ausente o desconocida se informa como hallazgo informativo",
+      "ubicacion": "oracle_factory/tablero.py:114",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261019-120156-tablero/candidatos/a014d75/revision/codex-1.json, validado con oracle-clue; severidad baja. Reproducción aislada con `metricas_del_cambio(..., [{\"revisor\":\"fixture\",\"hallazgos\":[{\"title\":\"Hallazgo sin severidad\"}]}], None)` devolvió `hallazgos_por_severidad.informativa = 1` y también `hallazgos_por_revisor.fixture.informativa = 1`. La lectura de informes sólo filtra por tipo `dict` en `oracle_factory/tablero.py:107`; la línea 114 asigna explícitamente la severidad desconocida a `informativa`."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
