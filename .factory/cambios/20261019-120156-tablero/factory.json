@@ -2,11 +2,24 @@
   "id": "20261019-120156-tablero",
   "titulo": "El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas",
   "capacidad": "ide",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T12:03:13+00:00",
+    "documentos": {
+      "openspec/changes/20261019-120156-tablero/proposal.md": "11ac245762c259357f20fda2f07c5ca8fd6dfde6c09c367f7a1e4814ac352357",
+      "openspec/changes/20261019-120156-tablero/specs/ide/spec.md": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b"
+    }
+  },
+  "requisitos": [
+    "ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+    "ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-19T12:01:56+00:00",
       "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T12:03:13+00:00",
+      "documentos": {
+        "openspec/changes/20261019-120156-tablero/proposal.md": "11ac245762c259357f20fda2f07c5ca8fd6dfde6c09c367f7a1e4814ac352357",
+        "openspec/changes/20261019-120156-tablero/specs/ide/spec.md": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T12:03:26+00:00",
+      "ids": [
+        "ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+        "ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas": "funcional",
+    "ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
