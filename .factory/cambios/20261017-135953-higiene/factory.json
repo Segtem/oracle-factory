@@ -100,6 +100,45 @@
         "factory_higiene.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T11:57:07+00:00",
+      "requisito": "flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa",
+      "medidas": [
+        "factory_higiene.init_no_deja_carpetas_que_factory_no_usa",
+        "factory_higiene.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T11:57:07+00:00",
+      "requisito": "flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan",
+      "medidas": [
+        "factory_higiene.las_acciones_sin_autor_se_avisan",
+        "factory_higiene.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T11:57:07+00:00",
+      "requisito": "flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista",
+      "medidas": [
+        "factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista",
+        "factory_higiene.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,27 +146,30 @@
     "flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan": "funcional",
     "flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista": {
-      "sha256": "7ee73f60246f0b038ae15f65342e68a1536a2c13f3b9dd86737027854a5ae417",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T11:53:28+00:00",
+  "medidas": {
+    "flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T11:57:07+00:00",
+      "sha256": "1e940609cfaa45e8a54bebbd939fd45a1f39e84ce152ccf2c78953fb0b11a87c",
       "catalogos": {
-        "factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista": "662a849f5226ff88ad64f7eb8376719200185098de20fe5bc91149aa97e5472a",
+        "factory_higiene.init_no_deja_carpetas_que_factory_no_usa": "167c62e912e9006154ebe8759691062f5f9c09d081165447284d9d8a3e584800",
         "factory_higiene.corrida_completa": "9b5d809c18043e05a494accbf15bf0a1436a22849501d52274665f4ac3909c39"
       },
       "archivos_catalogo": {
-        "factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista": "catalogos/factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista.oracle",
+        "factory_higiene.init_no_deja_carpetas_que_factory_no_usa": "catalogos/factory_higiene.init_no_deja_carpetas_que_factory_no_usa.oracle",
         "factory_higiene.corrida_completa": "catalogos/factory_higiene.corrida_completa.oracle"
       }
     },
     "flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T11:57:07+00:00",
       "sha256": "fa017e21f97818f103b9ddc7e4f5a9eb94a72654ccc1f53964f1474ffd860032",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T11:53:28+00:00",
       "catalogos": {
         "factory_higiene.las_acciones_sin_autor_se_avisan": "ed5bfbd4f43bcfff920a271a4a182acbb8bfbf4c35cf52cd4dbc5955e74213e0",
         "factory_higiene.corrida_completa": "9b5d809c18043e05a494accbf15bf0a1436a22849501d52274665f4ac3909c39"
@@ -137,19 +179,22 @@
         "factory_higiene.corrida_completa": "catalogos/factory_higiene.corrida_completa.oracle"
       }
     },
-    "flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa": {
-      "sha256": "1e940609cfaa45e8a54bebbd939fd45a1f39e84ce152ccf2c78953fb0b11a87c",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T11:53:28+00:00",
+    "flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T11:57:07+00:00",
+      "sha256": "7ee73f60246f0b038ae15f65342e68a1536a2c13f3b9dd86737027854a5ae417",
       "catalogos": {
-        "factory_higiene.init_no_deja_carpetas_que_factory_no_usa": "167c62e912e9006154ebe8759691062f5f9c09d081165447284d9d8a3e584800",
+        "factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista": "662a849f5226ff88ad64f7eb8376719200185098de20fe5bc91149aa97e5472a",
         "factory_higiene.corrida_completa": "9b5d809c18043e05a494accbf15bf0a1436a22849501d52274665f4ac3909c39"
       },
       "archivos_catalogo": {
-        "factory_higiene.init_no_deja_carpetas_que_factory_no_usa": "catalogos/factory_higiene.init_no_deja_carpetas_que_factory_no_usa.oracle",
+        "factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista": "catalogos/factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista.oracle",
         "factory_higiene.corrida_completa": "catalogos/factory_higiene.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

@@ -27,3 +27,15 @@ Medidas de flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan: factory_hig
 ### Nota (2026-10-19 11:53:28 UTC)
 
 Medidas de flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa: factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-19 11:57:07 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 11:57:07 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-19 11:57:07 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista: Brian Hollweg (persona, confirmo, modo confirmacion).
