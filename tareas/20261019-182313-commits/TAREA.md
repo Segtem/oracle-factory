@@ -1,6 +1,6 @@
 # Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -51,3 +51,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-19 23:03:17 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261019-182313-commits/oracle-veredicto.txt.
+
+### Nota (2026-10-19 23:03:44 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

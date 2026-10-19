@@ -2,7 +2,7 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
   "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
   "spec_aprobada": {
@@ -566,6 +566,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "32a06ca137fe744855f962c14988db5bcb455860974d8b5e9637b38ad2ce4e88"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:44+00:00",
+      "oracle": ".factory/cambios/20261019-182313-commits/oracle-veredicto.txt",
+      "revision": "tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:44+00:00",
+      "capacidad": "trazabilidad",
+      "spec": "openspec/specs/trazabilidad/spec.md"
     }
   ],
   "tipos": {
@@ -607,5 +627,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T23:03:44+00:00"
+  },
+  "archivo": {
+    "capacidad": "trazabilidad",
+    "spec": "openspec/specs/trazabilidad/spec.md",
+    "cuando": "2026-10-19T23:03:44+00:00"
+  }
 }

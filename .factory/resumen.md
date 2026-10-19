@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ab5a384f6fe9627f8ad94893422f4cb39162021e18e96e680b1027d4d5dbd6a9 -->
+<!-- oracle-factory resumen sha256:3fe34591e449b6d84db5bcc0e5d9b83a108cecb0e0c6225658f58c3bff85ec7c -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 141 requisitos vigentes · 1 cambio abierto
+18 capacidades · 143 requisitos vigentes · 2 cambios abiertos
 
 ## Lo vigente
 
@@ -244,6 +244,8 @@ Spec completa: [openspec/specs/trazabilidad/spec.md](../openspec/specs/trazabili
 | el sensor registra qué líneas ejecuta cada caso | funcional | `trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso` | factory_trazabilidad.el_sensor_registra_que_lineas_ejecuta_cada_caso, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
 | trazabilidad cruza los casos con el diff del candidato | funcional | `trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato` | factory_trazabilidad.trazabilidad_cruza_los_casos_con_el_diff_del_candidato, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
 | los límites de la trazabilidad se declaran | funcional | `trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran` | factory_trazabilidad.los_limites_de_la_trazabilidad_se_declaran, factory_trazabilidad.corrida_completa | verde al cerrar el 2026-10-13 | 20261013-180751-trazabilidad |
+| cada commit nuevo dice de qué cambio es | funcional | `trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es` | factory_commits.cada_commit_nuevo_dice_de_que_cambio_es, factory_commits.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-182313-commits |
+| los commits de un cambio se ven en log, estado y el tablero | funcional | `trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero` | factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero, factory_commits.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-182313-commits |
 
 ### vigencia
 
@@ -287,6 +289,13 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
+
+### 20261019-120156-tablero — El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas
+
+Fase `oracle_verde` · modo `confirmacion` · capacidad `ide` · [propuesta](../openspec/changes/20261019-120156-tablero/proposal.md)
+
+- revision desactualizado respecto del producto
+- oracle desactualizado respecto del producto
 
 ## Cambios abandonados
 
@@ -718,6 +727,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261017-135953-higiene) codex (gpt-6-luna): Se revisaron las ocho salidas anteriores: la asociación de resultados por lanzamiento conserva el corte solapado si termina el segundo pedido primero; los registros sin id mantienen el cierre por pareja; un resultado interrumpido no cuenta como terminado; los avisos operativos de lanzamiento no aparecen en cambios cerrados o abandonados.
 - (20261017-135953-higiene) codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null` desde la raíz del checkout candidato: 17 pruebas, OK. No se ejecutó la suite completa ni verificadores adicionales.
 - (20261017-135953-higiene) codex (gpt-6-luna): No se hicieron mutaciones sobre copias. La prueba existente cubre secuencias sintéticas con dos lanzamientos del mismo revisor y candidato, candidatos distintos y resultados asociados por id; el único hallazgo es la falta de cobertura de importar en el escenario de acciones sin autor.
+- (20261019-182313-commits) Evidencia: Escenarios cm1–cm2 en repositorios temporales, Linux, con git real (el hook corre en cada commit) y Oracle 0.39.0; el panel corre en node con un vscode falso: la API real de VS Code se verifica a mano con el .vsix.
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Revisión acotada de la vuelta 6 sobre el candidato 84e599f frente a la vuelta 5 (32e0ca5, que ya contaba con 0 hallazgos en ambas revisiones).
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Se comprobó mediante git diff que el único cambio en archivos de producto o especificación fue la eliminación de la línea sin_medir en requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.requisito.
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Se verificó que el requisito cada_commit_nuevo_dice_de_que_cambio_es queda correctamente medido por factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, con catálogos existentes y correspondencia exacta con los escenarios cm1 en tools/verify_commits.py.
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Se comprobó con oracle-factory estado --json que ambos requisitos del cambio están formalmente confirmados por la persona y que no quedan requisitos sin medir ni pendientes de medición.
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits </dev/null (4 pruebas pasaron satisfactoriamente en 3.01s).
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): Se ejecutaron complementariamente tests.test_commits tests.test_cli_json (12 pruebas OK en 7.64s).
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de la POC ni tools/verify_commits.py en el checkout del candidato para mantener la revisión corta y preservar el estado de sólo lectura.
+- (20261019-182313-commits) agy (gemini-3.8-flash-high): No se hallaron defectos ni regresiones; la lista de hallazgos se entrega vacía.
+- (20261019-182313-commits) codex (gpt-6-luna): Se leyeron la propuesta, la spec y el diff del paquete Clue; se contrastaron las promesas de los dos requisitos con el código, tests, tools y catálogos incluidos. No se revisaron los registros .factory ni tareas excluidos del paquete.
+- (20261019-182313-commits) codex (gpt-6-luna): Se confirmó que el requisito actual declara medidas para factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, y que la primera cuenta los dos escenarios cm1 mientras la corrida completa exige los cuatro escenarios y fuentes estables.
+- (20261019-182313-commits) codex (gpt-6-luna): Se comparó el código de producto de 32e0ca5 con 84e599f; no hay diferencias en README, catálogos, editores, oracle_factory, tests, tools ni configuración de producto. El único cambio funcional posterior en el diff completo es trazabilidad/registro, fuera del paquete de producto.
+- (20261019-182313-commits) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; el escenario del panel en Node pasó dentro de la suite.
+- (20261019-182313-commits) codex (gpt-6-luna): No se ejecutaron la suite completa ni tools/verify_commits.py. No se hicieron mutaciones en esta vuelta porque el código y las pruebas de producto son idénticos a la vuelta 5; la comparación está documentada en revision-notas.md.
+- (20261019-182313-commits) codex (gpt-6-luna): Los informes pedidos de 32e0ca5 (vuelta 5) están completos y sin hallazgos. No se revisaron decisiones ni registros de Factory que están fuera del alcance indicado.
 
 ### Históricos
 
