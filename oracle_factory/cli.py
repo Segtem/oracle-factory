@@ -976,8 +976,23 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         _, estado = leer(identificador)
         evento(estado, "revision_lanzada", forma="registro", revisor=nombre, candidato=sha)
         guardar(carpeta, estado)
-    try:
+    hallazgos, motivo, severidades = 0, None, ""
+    try:  # Ctrl-C en el revisor o en la validación: queda «interrumpido», no un lanzamiento sin resultado
         resultado = revisores_mod.ejecutar_revisor(argv, trabajo, registro, revisor["tope_minutos"])
+        if resultado == "tope":
+            motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
+        elif resultado == "no_inicia":
+            motivo = f"no se pudo iniciar el revisor ({argv[0]})"
+        elif not informe.is_file():
+            resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
+        else:
+            p = ejecutar(["oracle-clue", "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
+            if p.returncode:
+                resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"
+            else:
+                datos = json.loads(informe.read_text(encoding="utf-8"))
+                hallazgos = len(datos.get("findings") or [])
+                severidades = preparacion.contar_severidades(datos.get("findings") or [])
     except KeyboardInterrupt:
         with turno_de_pedidos(identificador):
             _, estado = leer(identificador)
@@ -985,21 +1000,6 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
                    modelo=revisor["modelo"], candidato=sha, resultado="interrumpido", hallazgos=0)
             guardar(carpeta, estado)
         raise
-    hallazgos, motivo, severidades = 0, None, ""
-    if resultado == "tope":
-        motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
-    elif resultado == "no_inicia":
-        motivo = f"no se pudo iniciar el revisor ({argv[0]})"
-    elif not informe.is_file():
-        resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
-    else:
-        p = ejecutar(["oracle-clue", "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
-        if p.returncode:
-            resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"
-        else:
-            datos = json.loads(informe.read_text(encoding="utf-8"))
-            hallazgos = len(datos.get("findings") or [])
-            severidades = preparacion.contar_severidades(datos.get("findings") or [])
     with turno_de_pedidos(identificador):  # leer y guardar en el mismo turno: el evento de otro pedido no se pierde
         _, estado = leer(identificador)
         evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"],
@@ -1181,17 +1181,22 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
 
 
 def aviso_lanzamientos(estado: dict) -> list[str]:
-    """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por revisor y candidato."""
-    abiertos: dict[tuple, dict] = {}
+    """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por lanzamiento.
+
+    Cada resultado cierra un lanzamiento de su revisor y candidato; un lanzamiento nuevo del mismo revisor sobre otro
+    candidato deja atrás los que quedaron abiertos sobre el anterior (pedirlo otra vez ya no los podría cerrar)."""
+    abiertos: list[dict] = []
     for e in estado.get("eventos") or []:
-        clave = (e.get("revisor"), e.get("candidato"))
+        r, c = e.get("revisor"), e.get("candidato")
         if e.get("accion") == "revision_lanzada":
-            abiertos[clave] = e
+            abiertos = [a for a in abiertos if a.get("revisor") != r or a.get("candidato") == c] + [e]
         elif e.get("accion") == "revision_pedida":
-            abiertos.pop(clave, None)
-    return [f"el revisor {r} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el candidato {c} y no dejó "
-            f"resultado; volvé a pedirlo con oracle-factory pedir-revision {estado['id']} --a {r}"
-            for (r, c), e in abiertos.items()]
+            i = next((i for i, a in enumerate(abiertos) if (a.get("revisor"), a.get("candidato")) == (r, c)), None)
+            if i is not None:
+                del abiertos[i]
+    return [f"el revisor {e.get('revisor')} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el "
+            f"candidato {e.get('candidato')} y no dejó resultado; volvé a pedirlo con oracle-factory pedir-revision "
+            f"{estado['id']} --a {e.get('revisor')}" for e in abiertos]
 
 
 def aviso_sin_autor(estado: dict) -> list[str]:

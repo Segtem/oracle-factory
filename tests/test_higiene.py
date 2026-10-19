@@ -68,6 +68,7 @@ class Higiene(_vueltas.Base):
         [aviso] = self.avisos('no dejó resultado')
         self.assertIn(f"el revisor lento se lanzó ({lanzada['cuando'][:16].replace('T', ' ')}) sobre el candidato {sha}", aviso)
         self.assertIn(f'Aviso: {aviso}.', self.estado_texto())
+        self.lanzamientos_solapados_y_candidatos_que_quedan_atras()
 
     def test_hg1_un_revisor_que_termina_o_se_interrumpe(self):
         self.preparar()
@@ -82,6 +83,37 @@ class Higiene(_vueltas.Base):
         ultimo = self.eventos()[-1]
         self.assertEqual((ultimo['accion'], ultimo['resultado']), ('revision_pedida', 'interrumpido'))
         self.assertEqual(self.avisos('no dejó resultado'), [])
+        # Ctrl-C cuando el revisor ya terminó y Clue valida su informe: también queda «interrumpido».
+        ejecutar = f.ejecutar
+
+        def clue_cortado(argv, *a, **k):
+            if argv[:2] == ['oracle-clue', 'validar']:
+                raise KeyboardInterrupt
+            return ejecutar(argv, *a, **k)
+        with patch.object(f, 'ejecutar', side_effect=clue_cortado), \
+                contextlib.redirect_stdout(io.StringIO()), self.assertRaises(KeyboardInterrupt):
+            f.pedir_revision(self.ident, 'codex', base=self.base)
+        ultimo = self.eventos()[-1]
+        self.assertEqual((ultimo['accion'], ultimo['resultado']), ('revision_pedida', 'interrumpido'))
+        self.assertEqual(self.avisos('no dejó resultado'), [])
+
+    def lanzamientos_solapados_y_candidatos_que_quedan_atras(self):
+        def ev(accion, revisor, candidato, cuando):
+            return {'accion': accion, 'revisor': revisor, 'candidato': candidato, 'cuando': f'2026-10-19T10:{cuando:02d}'}
+        avisos = lambda *eventos: f.aviso_lanzamientos({'id': 'X', 'eventos': list(eventos)})
+        # Dos lanzamientos del mismo revisor y candidato y un solo resultado: el otro sigue a la vista.
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'codex', 'c1', 1),
+                         ev('revision_pedida', 'codex', 'c1', 2))
+        self.assertIn('el revisor codex se lanzó (2026-10-19 10:0', aviso)
+        # Cortado sobre c1 y lanzado otra vez sobre c2: el de c1 quedó atrás (pedirlo de nuevo ya no lo cerraría).
+        self.assertEqual(avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'codex', 'c2', 1),
+                                ev('revision_pedida', 'codex', 'c2', 2)), [])
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'codex', 'c2', 1))
+        self.assertIn('sobre el candidato c2', aviso)
+        # Otro revisor sobre otro candidato no deja atrás a éste.
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'agy', 'c2', 1),
+                         ev('revision_pedida', 'agy', 'c2', 2))
+        self.assertIn('el revisor codex', aviso)
 
     # --- hg2: las acciones sin autor se avisan --------------------------------------------------------------------
     def test_hg2_un_agente_que_se_olvido_de_agente(self):
