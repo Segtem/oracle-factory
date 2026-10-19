@@ -1182,23 +1182,35 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
 
 
 def aviso_lanzamientos(estado: dict) -> list[str]:
-    """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por lanzamiento.
+    """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por lanzamiento, mientras el
+    cambio siga abierto.
 
     Un resultado cierra su lanzamiento y los anteriores del mismo revisor y candidato (pedirlo otra vez es lo que el
-    aviso indica); uno que empezó después sigue abierto. Un lanzamiento del mismo revisor sobre otro candidato deja
-    atrás los que quedaron abiertos sobre el anterior: pedirlo de nuevo ya no los podría cerrar."""
+    aviso indica); uno que empezó después sigue abierto. Uno cortado sobre un candidato que el mismo revisor ya dejó
+    atrás sigue a la vista, pero sin pedir que se repita: pedirlo de nuevo revisaría el candidato nuevo, no ése."""
+    if estado.get("fase") in ("cerrada", "abandonada"):
+        return []
     abiertos: list[dict] = []
+    ultimo: dict = {}  # el último candidato sobre el que se lanzó cada revisor
     for e in estado.get("eventos") or []:
         r, c = e.get("revisor"), e.get("candidato")
         if e.get("accion") == "revision_lanzada":
-            abiertos = [a for a in abiertos if a.get("revisor") != r or a.get("candidato") == c] + [e]
+            abiertos.append(e)
+            ultimo[r] = c
         elif e.get("accion") == "revision_pedida":
             propio = [i for i, a in enumerate(abiertos) if a.get("lanzamiento") and a.get("lanzamiento") == e.get("lanzamiento")]
             hasta = propio[0] if propio else len(abiertos)  # un resultado sin lanzamiento (registros viejos) cierra todos
             abiertos = [a for i, a in enumerate(abiertos) if i > hasta or (a.get("revisor"), a.get("candidato")) != (r, c)]
-    return [f"el revisor {e.get('revisor')} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el "
-            f"candidato {e.get('candidato')} y no dejó resultado; volvé a pedirlo con oracle-factory pedir-revision "
-            f"{estado['id']} --a {e.get('revisor')}" for e in abiertos]
+    avisos = []
+    for e in abiertos:
+        r, c = e.get("revisor"), e.get("candidato")
+        texto = f"el revisor {r} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el candidato {c} y no dejó resultado"
+        if ultimo.get(r) == c:
+            texto += f"; volvé a pedirlo con oracle-factory pedir-revision {estado['id']} --a {r}"
+        else:
+            texto += f"; después se lanzó sobre el candidato {ultimo.get(r)}, así que no hace falta repetirlo"
+        avisos.append(texto)
+    return avisos
 
 
 def aviso_sin_autor(estado: dict) -> list[str]:

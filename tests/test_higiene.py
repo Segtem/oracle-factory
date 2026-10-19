@@ -115,11 +115,19 @@ class Higiene(_vueltas.Base):
         # Registros de antes del lanzamiento con nombre: el resultado cierra los de su revisor y candidato.
         self.assertEqual(avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'codex', 'c1', 1),
                                 ev('revision_pedida', 'codex', 'c1', 2)), [])
-        # Cortado sobre c1 y lanzado otra vez sobre c2: el de c1 quedó atrás (pedirlo de nuevo ya no lo cerraría).
-        self.assertEqual(avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c2', 1, 'b'),
-                                ev('revision_pedida', 'codex', 'c2', 2, 'b')), [])
-        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c2', 1, 'b'))
-        self.assertIn('(2026-10-19 10:01) sobre el candidato c2', aviso)
+        # Cortado sobre c1 y lanzado otra vez sobre c2, que termina: el de c1 sigue a la vista, sin pedir que se repita
+        # (pedirlo de nuevo revisaría c2, no c1).
+        [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c2', 1, 'b'),
+                         ev('revision_pedida', 'codex', 'c2', 2, 'b'))
+        self.assertIn('(2026-10-19 10:00) sobre el candidato c1 y no dejó resultado; después se lanzó sobre el candidato c2', aviso)
+        self.assertNotIn('volvé a pedirlo', aviso)
+        corte_viejo, corte_nuevo = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'codex', 'c2', 1, 'b'))
+        self.assertIn('no hace falta repetirlo', corte_viejo)
+        self.assertIn('(2026-10-19 10:01) sobre el candidato c2 y no dejó resultado; volvé a pedirlo', corte_nuevo)
+        # En un cambio cerrado o abandonado ya no se avisa.
+        for fase in ('cerrada', 'abandonada'):
+            self.assertEqual(f.aviso_lanzamientos({'id': 'X', 'fase': fase,
+                                                   'eventos': [ev('revision_lanzada', 'codex', 'c1', 0, 'a')]}), [])
         # Otro revisor sobre otro candidato no deja atrás a éste.
         [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0, 'a'), ev('revision_lanzada', 'agy', 'c2', 1, 'b'),
                          ev('revision_pedida', 'agy', 'c2', 2, 'b'))
