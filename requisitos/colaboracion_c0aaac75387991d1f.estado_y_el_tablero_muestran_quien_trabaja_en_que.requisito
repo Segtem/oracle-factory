@@ -1,0 +1,4 @@
+requisito colaboracion_c0aaac75387991d1f.estado_y_el_tablero_muestran_quien_trabaja_en_que:
+    texto "Tipo: funcional `estado` (y `--json`) SHALL mostrar por cambio la persona responsable y desde cuándo, los agentes declarados y los que actuaron en las últimas 24 horas con su última acción, y los revisores lanzados sin resultado. El tablero SHALL mostrarlo en cada cambio y SHALL mostrar, para el proyecto, los cambios abiertos agrupados por responsable, con los que no tienen responsable aparte."
+    fuente "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md#estado y el tablero muestran quién trabaja en qué"
+    sin_medir "sin medida todavía; escenarios: «un cambio con persona, agentes y un revisor en curso», «quién está en qué en el proyecto»"

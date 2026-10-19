@@ -1,0 +1,4 @@
+requisito colaboracion_c0aaac75387991d1f.un_cambio_dice_quien_lo_tiene:
+    texto "Tipo: funcional `oracle-factory tomar ID` SHALL registrar como responsable a la persona que lo corre desde su terminal, con los agentes que declara con `--con`, y `soltar ID` SHALL liberarlo. Si otra persona ya es responsable, `tomar` SHALL NOT reemplazarla salvo con `--relevo`, que SHALL dejar constancia de quién lo tenía. Un agente con `--agente` SHALL NOT quedar como responsable: SHALL quedar sumado como agente del cambio. Sin terminal ni `--agente`, `tomar` SHALL negarse."
+    fuente "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md#un cambio dice quién lo tiene"
+    sin_medir "sin medida todavía; escenarios: «tomar, soltar y relevar», «un agente se suma»"
