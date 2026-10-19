@@ -1,0 +1,4 @@
+requisito flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan:
+    texto "Tipo: funcional Si el registro de un cambio tiene acciones sin autor identificado, `estado` y `estado --json` SHALL avisar cuántas y cuáles, y que un agente las hace con `--agente NOMBRE`."
+    fuente "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md#las acciones sin autor se avisan"
+    sin_medir "sin medida todavía; escenarios: «un agente que se olvidó de --agente»"
