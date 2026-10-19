@@ -2,7 +2,7 @@
   "id": "20261019-120156-tablero",
   "titulo": "El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas",
   "capacidad": "ide",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
   "spec_sha256": "8077e3a51a6a7b49abb7b67b134cc5b330732f2eb054d541b1bac04de701e09b",
   "spec_aprobada": {
@@ -303,6 +303,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "305888793a5d322ea72b995f166c361363fdc1849853bb3d343ddd5bde6d6ee9"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:33+00:00",
+      "oracle": ".factory/cambios/20261019-120156-tablero/oracle-veredicto.txt",
+      "revision": "tareas/20261019-120156-tablero/revisiones/registro-n19ufyzu/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:33+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
     }
   ],
   "tipos": {
@@ -355,5 +375,17 @@
       "fecha": "2026-10-19T17:44:50+00:00",
       "candidato": "a014d75"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T23:03:32+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-19T23:03:33+00:00"
+  }
 }
