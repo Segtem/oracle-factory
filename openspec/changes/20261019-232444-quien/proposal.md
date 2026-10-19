@@ -16,6 +16,9 @@ colaborativo (después vienen presencia y chat con Live Share).
 - `estado` (y `--json`) y el tablero muestran, por cambio, la persona responsable, los agentes declarados y los que
   actuaron hace poco, los revisores lanzados sin resultado, y la última actividad de cada uno. El tablero suma, para el
   proyecto, quién está en qué.
+- El trailer `Cambio:` de cada commit elige mejor: primero el cambio que el mensaje nombra (un merge «Integrar <ID>»),
+  después el único abierto, y con varios abiertos el que tomó la persona que commitea. Hoy un merge de un cambio en
+  `main` se marcó con otro, el único que estaba abierto (`907fe15`, marcado con `coordinar-dos`).
 - Los tests que usan Git no pueden tocar un repositorio que los contenga (lo que pasó el 2026-10-19 con una rama
   `tarea/viejo` creada en el worktree real).
 
