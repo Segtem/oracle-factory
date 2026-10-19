@@ -617,22 +617,27 @@ def instalar_hook() -> str:
                 "oracle-factory hooks.")
     carpeta = ROOT / p.stdout.strip()
     llamada = LLAMADA_HOOK.format(py=shlex.quote(sys.executable))
-    instalados, avisos = [], []
+    # Con un hook ajeno, en cualquiera de los dos, Factory no pone ninguno (y saca el suyo): la persona decide si
+    # encadena la línea en el suyo.
+    ajenos = [carpeta / n for n in HOOKS if (carpeta / n).exists()
+              and HOOK_MARCA not in (carpeta / n).read_text(encoding="utf-8", errors="replace")]
+    if ajenos:
+        for nombre in HOOKS:
+            if carpeta / nombre not in ajenos and (carpeta / nombre).exists():
+                (carpeta / nombre).unlink()
+        return "\n".join(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué ni instalé los de Factory. Para "
+                         f"que tus commits digan de qué cambio son, agregale esta línea antes de su final:\n{llamada}"
+                         for hook in ajenos)
+    instalados = []
     for nombre in HOOKS:
         hook = carpeta / nombre
-        if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
-            avisos.append(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que tus commits digan de "
-                          f"qué cambio son, agregale esta línea antes de su final:\n{llamada}")
-            continue
         hook.parent.mkdir(parents=True, exist_ok=True)
         hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (trailer «Cambio: ID»). Lo instaló oracle-factory hooks; nunca "
                         f"impide un commit.\n{llamada}\nexit 0\n", encoding="utf-8")
         hook.chmod(0o755)
         instalados.append(nombre)
-    if instalados:
-        avisos.insert(0, f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio "
-                         "abierto lleva «Cambio: ID».")
-    return "\n".join(avisos)
+    return (f"Hook de commits en {carpeta} ({', '.join(instalados)}): un commit hecho con un solo cambio abierto lleva "
+            "«Cambio: ID».")
 
 
 def cambios_abiertos() -> list[str]:
@@ -647,10 +652,11 @@ def poner_trailer(archivo: str) -> None:
     abiertos = cambios_abiertos()
     if len(abiertos) != 1:
         return
-    mensaje = Path(archivo).read_text(encoding="utf-8", errors="replace")
-    # Un mensaje todavía vacío (sólo la plantilla con comentarios): se deja así, para que cerrar el editor sin escribir
-    # siga abortando el commit; commit-msg lo completa después.
-    if not any(linea.strip() and not linea.startswith("#") for linea in mensaje.splitlines()):
+    # Un mensaje todavía vacío (sólo comentarios, con el carácter de comentario que use este Git): se deja así, para
+    # que cerrar el editor sin escribir siga abortando el commit; commit-msg lo completa después.
+    vacio = subprocess.run(["git", "stripspace", "--strip-comments"], cwd=ROOT, input=Path(archivo).read_bytes(),
+                           capture_output=True, check=False)
+    if vacio.returncode or not vacio.stdout.strip():
         return
     # Sólo cuenta un Cambio: del bloque de trailers, no una línea del cuerpo que empiece igual.
     trailers = ejecutar(["git", "interpret-trailers", "--parse", archivo]).stdout
@@ -680,19 +686,29 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
         sha = completo(str(corto_))
         if sha:
             candidatos[sha] = str(corto_)
-    unidos = {c[0]: (c, "trailer") for c in git_log("--all", f"--grep=^Cambio: {identificador}$")}
+    # --grep encuentra la línea en cualquier parte del mensaje; cuenta sólo si está en el bloque de trailers.
+    con_trailer = set(ejecutar(["git", "log", "--all", f"--grep=^Cambio: {identificador}$",
+                                "--format=%H %(trailers:key=Cambio,valueonly,separator=%x20)"]).stdout.splitlines())
+    propios = {linea.split()[0] for linea in con_trailer if identificador in linea.split()[1:]}
+    unidos = {c[0]: (c, "trailer") for c in git_log(*propios, "--no-walk")} if propios else {}
     deducidos = git_log("--no-walk", *candidatos) if candidatos else []
-    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el más viejo de main
-    # (o de HEAD, sin main) que trae un candidato por su segundo padre; uno que trajo main a otra rama no cuenta. Sin
-    # merge (fast-forward, squash) quedan sólo los candidatos. Con un candidato alcanza: los de un cambio van juntos.
-    principal = "main" if completo("main") else "HEAD"
-    if estado.get("fase") == "cerrada" and candidatos:
-        sha = next(iter(candidatos))
-        merges = ejecutar(["git", "rev-list", "--ancestry-path", "--merges", f"{sha}..{principal}"]).stdout.split()
-        merge = next((m for m in reversed(merges)
-                      if ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
-        if merge:
+    # El merge que integró la rama, en un cambio cerrado (uno abierto no se integró: no se busca): el primer commit de
+    # la línea principal (primeros padres de main, master o HEAD) que contiene un candidato. Si lo trae por su segundo
+    # padre, es el merge que integró la rama; si lo trae por el primero, el cambio ya estaba en main sin merge propio
+    # (directo, fast-forward, squash) y quedan sólo los candidatos. Un merge de otras ramas nunca está en esa línea.
+    principal = next((r for r in ("main", "master") if completo(r)), "HEAD")
+
+    def contiene(ref: str, sha: str) -> bool:
+        return ejecutar(["git", "merge-base", "--is-ancestor", sha, ref]).returncode == 0
+
+    for sha in candidatos if estado.get("fase") == "cerrada" else ():
+        if not contiene(principal, sha):
+            continue  # un candidato de una vuelta descartada: no está en la historia
+        merge = next((m for m in ejecutar(["git", "rev-list", "--first-parent", "--merges", "--reverse",
+                                           f"{sha}..{principal}"]).stdout.split() if contiene(m, sha)), None)
+        if merge and not contiene(merge + "^1", sha):
             deducidos += git_log(f"{merge}^1..{merge}^2")
+        break
     for c in deducidos:
         unidos.setdefault(c[0], (c, "deducido"))
     salida = []

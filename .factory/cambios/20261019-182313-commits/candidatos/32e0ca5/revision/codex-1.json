@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/32e0ca5",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "32e0ca57fd8a08d3fa6c0f7bc0e0ddc496c0bd8f",
+  "diff_sha256": "f72d96cf9d026424437812fa69d50f6388d9bcb4e34ac33aa5d0a436c1043228",
+  "context_sha256": "e0e4a180a2399c3d102aa437fa87ac640d3fb896557209243c405cae68cda96c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se contrastaron los dos requisitos y sus escenarios con el diff y el código del candidato en oracle_factory/cli.py, oracle_factory/tablero.py, editores/vscode/tablero.js, editores/vscode/extension.js, README.md, tests/test_commits.py, tests/tablero_en_node.cjs, tests/datos/cli_texto/estado.txt, tools/verify_commits.py y los catálogos factory_commits.*.oracle; los 81 archivos de Factory excluidos no se revisaron.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; Node se ejecutó dentro del caso del tablero.",
+    "Se revisó la regresión de integración: por cada candidato existente en la historia cerrada, la búsqueda recorre sólo merges de primeros padres de main/master/HEAD; los candidatos fuera de la historia principal no se eligen como integrador, y se distingue que el candidato entre por el segundo padre o ya esté en el primero. El caso de regresión está cubierto por test_cm2_un_cambio_cerrado_de_antes_del_trailer.",
+    "Se inspeccionaron los casos de hook ajeno, core.hooksPath/worktree en la ruta de resolución, fallo del intérprete, commit interactivo vacío, trailer existente, texto Cambio: en el cuerpo, amend, valores de SHA no válidos y apertura de git show con separador --. No se hicieron mutaciones manuales sobre una copia.",
+    "No se ejecutó la suite completa ni tools/verify_commits.py. La inspección/revisión no demuestra propiedades no medidas ni sustituye decisiones humanas."
+  ]
+}

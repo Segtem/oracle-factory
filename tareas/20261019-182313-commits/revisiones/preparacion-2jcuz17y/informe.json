@@ -1,0 +1,134 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261019-182313-commits",
+  "contexto": {
+    "head": "08368ab18f8d743680e42a846a1363f052774640",
+    "archivos_sha256": "be5e87b23c6860d1c73f54516f8b7bbcd27da2a54929c39131183a465763ec8c"
+  },
+  "documentos": {
+    "openspec/changes/20261019-182313-commits/proposal.md": "2dcd8af7c9cfb9c6abcf21af529623d7f91ab5c9307d9cf7653a619f95f7826d",
+    "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
+    "catalogos/factory_commits.corrida_completa.oracle",
+    "catalogos/factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.oracle",
+    "catalogos/factory_tablero.corrida_completa.oracle",
+    "catalogos/factory_tablero.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.oracle",
+    "catalogos/factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code.oracle",
+    "editores/vscode/empaquetar.py",
+    "editores/vscode/extension.js",
+    "editores/vscode/modelo.js",
+    "editores/vscode/package.json",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261019-120156-tablero/design.md",
+    "openspec/changes/20261019-120156-tablero/proposal.md",
+    "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
+    "openspec/changes/20261019-120156-tablero/tasks.md",
+    "openspec/changes/20261019-182313-commits/design.md",
+    "openspec/changes/20261019-182313-commits/proposal.md",
+    "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
+    "openspec/changes/20261019-182313-commits/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/tablero.py",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.requisito",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code.requisito",
+    "requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.requisito",
+    "requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.requisito",
+    "tests/datos/cli_texto/estado.txt",
+    "tests/tablero_en_node.cjs",
+    "tests/test_commits.py",
+    "tests/test_tablero.py",
+    "tools/verify_commits.py",
+    "tools/verify_tablero.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 414 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/84e599f/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/84e599f/revision/agy-2.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/84e599f/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5630ad5: agy (gemini-3.8-flash-high), 6 hallazgos: commit-interactivo-trailer-al-inicio (alta), trailer-suprimido-por-texto-del-cuerpo (media), deduccion-commits-heuristicas-merges (alta), costo-cuadratico-commits-estado (media), git-show-sin-separador-rutas-extension (baja), hook-encadenado-sin-or-true-falla-con-set-e (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/5630ad5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5630ad5: codex (gpt-6-luna), 1 hallazgo: commits-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/5630ad5/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 069b7dc: agy (gemini-3.8-flash-high), 4 hallazgos: hook-ajeno-no-respetado-instala-commit-msg (alta), commit-interactivo-falla-abortar-con-commentchar (alta), deduccion-commits-falla-con-candidato-abandonado (alta), deduccion-commits-atribuye-commits-ajenos-en-repos-con-master (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/069b7dc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 069b7dc: codex (gpt-6-luna), 2 hallazgos: hook-ajeno-sigue-trailer (media), log-cuerpo-clasificado-como-trailer (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/069b7dc/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9b40877: agy (gemini-3.8-flash-high), 1 hallazgo: deduccion-commits-falsos-merges-ajenos (alta)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/9b40877/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9b40877: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/9b40877/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a2ccce4: agy (gemini-3.8-flash-high), 2 hallazgos: deduccion-commits-falsos-merges-entre-ramas (alta), commits-estado-costo-candidatos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/a2ccce4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a2ccce4: codex (gpt-6-luna), 1 hallazgo: commits-estado-costo-candidatos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/a2ccce4/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 32e0ca5: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/32e0ca5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 32e0ca5: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/32e0ca5/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cm1–cm2 en repositorios temporales, Linux, con git real (el hook corre en cada commit) y Oracle 0.39.0; el panel corre en node con un vscode falso: la API real de VS Code se verifica a mano con el .vsix.",
+    "agy (gemini-3.8-flash-high): Revisión acotada de la vuelta 6 sobre el candidato 84e599f frente a la vuelta 5 (32e0ca5, que ya contaba con 0 hallazgos en ambas revisiones).",
+    "agy (gemini-3.8-flash-high): Se comprobó mediante git diff que el único cambio en archivos de producto o especificación fue la eliminación de la línea sin_medir en requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.requisito.",
+    "agy (gemini-3.8-flash-high): Se verificó que el requisito cada_commit_nuevo_dice_de_que_cambio_es queda correctamente medido por factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, con catálogos existentes y correspondencia exacta con los escenarios cm1 en tools/verify_commits.py.",
+    "agy (gemini-3.8-flash-high): Se comprobó con oracle-factory estado --json que ambos requisitos del cambio están formalmente confirmados por la persona y que no quedan requisitos sin medir ni pendientes de medición.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits </dev/null (4 pruebas pasaron satisfactoriamente en 3.01s).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron complementariamente tests.test_commits tests.test_cli_json (12 pruebas OK en 7.64s).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de la POC ni tools/verify_commits.py en el checkout del candidato para mantener la revisión corta y preservar el estado de sólo lectura.",
+    "agy (gemini-3.8-flash-high): No se hallaron defectos ni regresiones; la lista de hallazgos se entrega vacía.",
+    "codex (gpt-6-luna): Se leyeron la propuesta, la spec y el diff del paquete Clue; se contrastaron las promesas de los dos requisitos con el código, tests, tools y catálogos incluidos. No se revisaron los registros .factory ni tareas excluidos del paquete.",
+    "codex (gpt-6-luna): Se confirmó que el requisito actual declara medidas para factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, y que la primera cuenta los dos escenarios cm1 mientras la corrida completa exige los cuatro escenarios y fuentes estables.",
+    "codex (gpt-6-luna): Se comparó el código de producto de 32e0ca5 con 84e599f; no hay diferencias en README, catálogos, editores, oracle_factory, tests, tools ni configuración de producto. El único cambio funcional posterior en el diff completo es trazabilidad/registro, fuera del paquete de producto.",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; el escenario del panel en Node pasó dentro de la suite.",
+    "codex (gpt-6-luna): No se ejecutaron la suite completa ni tools/verify_commits.py. No se hicieron mutaciones en esta vuelta porque el código y las pruebas de producto son idénticos a la vuelta 5; la comparación está documentada en revision-notas.md.",
+    "codex (gpt-6-luna): Los informes pedidos de 32e0ca5 (vuelta 5) están completos y sin hallazgos. No se revisaron decisiones ni registros de Factory que están fuera del alcance indicado."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

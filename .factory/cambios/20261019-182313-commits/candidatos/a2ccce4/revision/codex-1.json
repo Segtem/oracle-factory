@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/a2ccce4",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "a2ccce4eaf7f7caadea327c46bb0c2714b5b4167",
+  "diff_sha256": "8986a7ef5077295a6bb74f68eb0ebc722734fad09ed008671a99a314fed5f785",
+  "context_sha256": "6b3fd8b7e3777072d166f69287657f8a60cdade24c8562046b579ce8258a4e9c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "commits-estado-costo-candidatos",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "El log de cambios cerrados repite recorridos de toda la historia por candidato",
+      "explanation": "Para un cambio cerrado, commits_del_cambio ejecuta rev-list sha..principal y vuelve a construir la línea first-parent para cada candidato. Si el cambio tiene muchos candidatos registrados pero no hay un merge integrador (por ejemplo, integración por fast-forward/squash o candidatos descartados), el bucle no encuentra un merge y no corta; cada candidato vuelve a recorrer una parte grande de la historia. Esto escala aproximadamente con candidatos × historia y se ejecuta al consultar log/estado, haciendo que el resumen del cambio se vuelva lento en repositorios con muchas vueltas/candidatos. En una prueba sintética de 100 candidatos sin merge, la función tardó 0,24 s en este entorno; la prueba muestra el patrón, pero no mide repositorios grandes.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 700,
+        "end_line": 707,
+        "side": "head"
+      },
+      "trigger": "Consultar `oracle-factory log ID` o `estado ID` para un cambio cerrado con muchas carpetas/eventos de candidatos válidos y una historia larga, sin merge integrador (p. ej. candidatos descartados o integración fast-forward/squash).",
+      "evidence": "El bucle de líneas 700–707 itera por cada SHA candidato y lanza `git rev-list --topo-order --reverse --ancestry-path --merges sha..principal` y `git rev-list --first-parent principal --not sha^@` en cada iteración. Cuando no hay merge integrador, `merge` queda vacío y nunca se ejecuta el `break` de la línea 710, de modo que repite ambos recorridos para todos los candidatos. En una copia temporal sintética con 100 commits candidatos sobre main, cambio cerrado y sin merge, la invocación directa de `commits_del_cambio` demoró 0,24 s.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "Se ejecutó la prueba sintética en un repositorio temporal, sin alterar el checkout candidato. La suite pedida pasó, pero sus casos contienen pocos candidatos y no miden escala. No se midieron historiales de miles de candidatos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff del paquete Oracle Clue, la propuesta y los dos requisitos con sus escenarios; los registros y evidencias de Factory excluidos quedaron fuera de la revisión.",
+    "Se ejecutó exactamente desde la raíz del checkout: `PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null`. Resultado: 12 pruebas, OK; el caso del tablero en Node corrió.",
+    "La prueba de rendimiento fue una copia sintética temporal de 100 candidatos sin merge (0,24 s). No se ejecutó la suite completa ni tools/verify_commits.py, y no se midieron historiales mayores.",
+    "Se comprobó la regresión de deducción de merges de sincronización: los escenarios de main/master y cambio directo en main incluidos en test_cm2_un_cambio_cerrado_de_antes_del_trailer pasan.",
+    "No se editaron ni se escribieron commits en el checkout candidato."
+  ]
+}

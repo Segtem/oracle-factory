@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/a2ccce4",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "a2ccce4eaf7f7caadea327c46bb0c2714b5b4167",
+  "diff_sha256": "8986a7ef5077295a6bb74f68eb0ebc722734fad09ed008671a99a314fed5f785",
+  "context_sha256": "6b3fd8b7e3777072d166f69287657f8a60cdade24c8562046b579ce8258a4e9c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null (12 pruebas pasaron satisfactoriamente en Linux con Python 3.13, Git 2.43 y Node 24.22).",
+    "El escenario de Node incluido en tests/test_commits.py corrió con éxito, confirmando la integración del tablero y la extensión VS Code.",
+    "No se ejecutó la suite completa de tests de la POC (unittest discover -s tests) ni tools/verify_commits.py para acotar la revisión al diff del candidato y sus contratos.",
+    "Se realizaron análisis empíricos y pruebas de mutación en repositorios temporales locales para verificar hooks ajenos, core.hooksPath, worktrees, commits interactivos, squash, amend, core.commentChar y topologías complejas de merge.",
+    "Las verificaciones se llevaron a cabo en Linux; no se probaron entornos Windows ni macOS. El checkout candidato quedó sin modificaciones."
+  ],
+  "findings": [
+    {
+      "id": "deduccion-commits-falsos-merges-entre-ramas",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.96,
+      "title": "La deducción de commits por merges en cambios cerrados atribuye commits ajenos cuando una rama secundaria fusiona otra rama que bifurcó tras el cambio",
+      "explanation": "En oracle_factory/cli.py (líneas 700-708), la corrección de la vuelta 3 intentó evitar que los merges de sincronización ('git merge main') se elijan como merge integrador descartando aquellos donde completo(m + '^2') pertenezca a 'linea' (la línea de --first-parent principal). Sin embargo, esta comprobación asume de manera restrictiva que la rama secundaria siempre fusiona directamente 'principal'. Si en el repositorio un cambio cerrado se implementó directamente en main (o mediante fast-forward/squash, sin merge commit propio), y con posterioridad una rama secundaria 'rama_a' bifurca de main incorporando dicho cambio, mientras que otra rama 'rama_b' (bifurcada antes del cambio) fusiona 'rama_a' ('git merge rama_a'), el merge resultante 'm' en 'rama_b' cumple: (1) is-ancestor sha m^1 != 0 (porque 'rama_b' no contiene el cambio), y (2) completo(m + '^2') not in linea (porque el segundo padre m^2 es la punta de 'rama_a', que no pertenece al --first-parent de main). Por lo tanto, commits_del_cambio selecciona erróneamente 'Merge rama_a en rama_b' como si fuese el merge integrador del cambio viejo y ejecuta git log m^1..m^2. Esto provoca que todos los commits de 'rama_a' (ajenos al cambio cerrado) se atribuyan como 'union: deducido' al cambio viejo en oracle-factory log, oracle-factory estado y el tablero de VS Code. La causa de fondo es que se busca un merge integrador en la historia para commits que ya se encontraban en la rama principal, y que un merge que integra un cambio a principal debe ser un commit que pertenezca a la línea principal (--first-parent principal), no un merge interno entre ramas secundarias.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 700,
+        "end_line": 708,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio cerrado integrado directamente en main o mediante fast-forward (sin merge propio). Que exista una rama secundaria 'rama_a' bifurcada después del cambio con commits propios, y otra rama 'rama_b' bifurcada antes del cambio que ejecute 'git merge rama_a' y posteriormente se integre a main. Consultar 'oracle-factory log <ID> --json'.",
+      "evidence": "En un repositorio de prueba con un cambio cerrado 'directo' en main, una rama 'rama_a' con 2 commits ajenos bifurcó de main después del cambio. Otra rama 'rama_b' bifurcó antes del cambio, ejecutó 'git merge rama_a' ('Merge rama_a en rama_b') y se fusionó a main. Al ejecutar 'oracle-factory log <ID> --json', commits_del_cambio seleccionó 'Merge rama_a en rama_b' e incorporó los commits ajenos 'rama_a: commit ajeno 1' y 'rama_a: commit ajeno 2' marcados con unión 'deducido'.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "En un repositorio Git con rama 'main', registrar y cerrar un cambio con un commit directo en main sin merge integrador. Crear una rama 'rama_a' después del cambio con commits propios. Crear una rama 'rama_b' antes del cambio, ejecutar 'git merge rama_a' en 'rama_b', e integrar 'rama_b' a main. Ejecutar 'oracle-factory log <ID> --json' y verificar que los commits de 'rama_a' no aparezcan atribuidos al cambio cerrado."
+    },
+    {
+      "id": "commits-estado-costo-candidatos",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "commits_del_cambio recalcula la línea de primer padre y recorre la historia de merges por cada candidato en cambios cerrados",
+      "explanation": "En oracle_factory/cli.py (líneas 700-707), para cambios cerrados se itera sobre cada candidato registrado ejecutando 'git rev-list --topo-order --reverse --ancestry-path --merges {sha}..{principal}' y 'git rev-list --first-parent principal --not {sha}^@'. Cuando un cambio cerrado no tiene merge integrador (cambios hechos directamente en main, squash, fast-forward o candidatos de ramas descartadas), el bucle nunca encuentra un merge y no ejecuta el break (línea 710), recomputando en cada iteración la lista de merges y el conjunto de la línea first-parent completa. En repositorios con cambios que acumulan múltiples candidatos, esto genera una multiplicación innecesaria de subprocesos y recorridos de la historia de Git en cada llamada a 'oracle-factory log' o 'oracle-factory estado'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 700,
+        "end_line": 707,
+        "side": "head"
+      },
+      "trigger": "Consultar 'oracle-factory log <ID>' o 'oracle-factory estado <ID>' para un cambio cerrado que tenga múltiples candidatos registrados sin merge integrador en la historia.",
+      "evidence": "En líneas 700–707, para cada candidato se ejecutan subprocesos independientes de 'git rev-list' para buscar merges y para calcular 'linea'. Ante múltiples candidatos sin merge integrador, se ejecutan repetidas llamadas a 'git rev-list' sobre la historia sin reutilizar resultados ni verificar previamente si el candidato ya reside en la línea principal.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "Registrar múltiples candidatos en un cambio cerrado sin merge y verificar la cantidad de subprocesos 'git rev-list' ejecutados durante la consulta de 'oracle-factory log <ID>' o 'estado <ID>'."
+    }
+  ]
+}

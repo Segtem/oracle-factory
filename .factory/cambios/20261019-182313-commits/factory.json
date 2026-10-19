@@ -2,7 +2,7 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "requisitos_importados",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
   "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/informe.json",
+    "sha256": "793ee9b3efaa3e4dad7a8fb46d2cdf9aa5d5195421adf1ba1e86d0e96a2c3079",
+    "decisiones": "tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/decisiones.json",
+    "decisiones_sha256": "3113d526e20274358b9e3639e43fbf330cd61a8ac6926bfb0f2d54e353e1d33b",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T23:03:08+00:00",
+    "motivo": "Seis vueltas de codex y agy; en las dos últimas ninguno dejó hallazgos (la 6 sólo quitó la marca sin_medir del primer requisito). Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "08368ab18f8d743680e42a846a1363f052774640",
+      "archivos_sha256": "be5e87b23c6860d1c73f54516f8b7bbcd27da2a54929c39131183a465763ec8c"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261019-182313-commits/candidatos/84e599f/evidencia/hechos.json",
+    "hechos_sha256": "32a06ca137fe744855f962c14988db5bcb455860974d8b5e9637b38ad2ce4e88",
+    "informe": ".factory/cambios/20261019-182313-commits/oracle-veredicto.txt",
+    "informe_sha256": "75e8d6e73aa575b72022c2bc3a6c3fee44cc7a66bb16a930a0ee319ac846f4cb",
+    "cuando": "2026-10-19T23:03:17+00:00",
+    "contexto": {
+      "head": "c421af2f95d30c4f9378815aee6a503a12917e5a",
+      "archivos_sha256": "be5e87b23c6860d1c73f54516f8b7bbcd27da2a54929c39131183a465763ec8c"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -162,6 +194,398 @@
       "resultado": "ok",
       "hallazgos": 6,
       "lanzamiento": "f91ddc498983"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T19:18:59+00:00",
+      "revisor": "agy",
+      "candidato": "069b7dc",
+      "lanzamiento": "ee6fa0cff759"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T19:18:59+00:00",
+      "revisor": "codex",
+      "candidato": "069b7dc",
+      "lanzamiento": "1975e4b57d1a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T19:20:38+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "069b7dc",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "1975e4b57d1a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T19:50:34+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "069b7dc",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "ee6fa0cff759"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:05:16+00:00",
+      "revisor": "agy",
+      "candidato": "9b40877",
+      "lanzamiento": "5798aa5c0ba5"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:05:16+00:00",
+      "revisor": "codex",
+      "candidato": "9b40877",
+      "lanzamiento": "9e9a79f8fe74"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:06:19+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "9b40877",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9e9a79f8fe74"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:25:56+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "9b40877",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "5798aa5c0ba5"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:48:00+00:00",
+      "revisor": "agy",
+      "candidato": "a2ccce4",
+      "lanzamiento": "a1f3e69247bf"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:48:00+00:00",
+      "revisor": "codex",
+      "candidato": "a2ccce4",
+      "lanzamiento": "5e91eda4827b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T20:50:18+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a2ccce4",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "5e91eda4827b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:00:02+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "a2ccce4",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "a1f3e69247bf"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:04:47+00:00",
+      "revisor": "codex",
+      "candidato": "32e0ca5",
+      "lanzamiento": "985e517ee420"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:04:47+00:00",
+      "revisor": "agy",
+      "candidato": "32e0ca5",
+      "lanzamiento": "42beda31d2cd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:06:19+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "32e0ca5",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "985e517ee420"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:20:33+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "32e0ca5",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "42beda31d2cd"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T21:20:46+00:00",
+      "decision": "aprobar",
+      "candidato": "32e0ca5"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T21:21:09+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "b3c7ba9d0d41f428bfe73613b0dbaf75edd4fded922e9f39dbadd4c31fdbfef8",
+      "decisiones_sha256": "da1783b9e4c2bf900cd0987b540868a6a28011ecffe5afbf92b96737d87d8ef4"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T21:21:45+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "medidas": [
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
+        "factory_commits.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T21:22:32+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "medidas": [
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
+        "factory_commits.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:26:54+00:00",
+      "revisor": "agy",
+      "candidato": "84e599f",
+      "lanzamiento": "35bee1a24846"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:26:54+00:00",
+      "revisor": "codex",
+      "candidato": "84e599f",
+      "lanzamiento": "0a29d6bc432a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:28:02+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "84e599f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "0a29d6bc432a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:56:54+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "84e599f",
+      "resultado": "tope",
+      "hallazgos": 0,
+      "lanzamiento": "35bee1a24846"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:57:07+00:00",
+      "revisor": "agy",
+      "candidato": "84e599f",
+      "lanzamiento": "3e03eb117482"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:59:56+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "84e599f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3e03eb117482"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T23:00:07+00:00",
+      "decision": "aprobar",
+      "candidato": "84e599f"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T23:03:08+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "793ee9b3efaa3e4dad7a8fb46d2cdf9aa5d5195421adf1ba1e86d0e96a2c3079",
+      "decisiones_sha256": "3113d526e20274358b9e3639e43fbf330cd61a8ac6926bfb0f2d54e353e1d33b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:17+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "32a06ca137fe744855f962c14988db5bcb455860974d8b5e9637b38ad2ce4e88"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:44+00:00",
+      "oracle": ".factory/cambios/20261019-182313-commits/oracle-veredicto.txt",
+      "revision": "tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:44+00:00",
+      "capacidad": "trazabilidad",
+      "spec": "openspec/specs/trazabilidad/spec.md"
     }
   ],
   "tipos": {
@@ -169,22 +593,6 @@
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "funcional"
   },
   "medidas": {
-    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-19T18:50:07+00:00",
-      "sha256": "610a769afc100121017949a253c4ca1e3c0e85f7a37a2a93921b21e6448d5b87",
-      "catalogos": {
-        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "2418170d1f8af0e8662deec34f57348ca50bf3488f5784e82abbffd7269a0d0b",
-        "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
-      },
-      "archivos_catalogo": {
-        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
-        "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
-      }
-    },
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": {
       "actor": "Brian Hollweg",
       "tipo_actor": "persona",
@@ -200,7 +608,36 @@
         "factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "catalogos/factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.oracle",
         "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
       }
+    },
+    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T21:22:32+00:00",
+      "sha256": "dfa099fcf393a63bf4bf0ca51d378574b083cabd6eac297d01a7c61a1cb2acd0",
+      "catalogos": {
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "2418170d1f8af0e8662deec34f57348ca50bf3488f5784e82abbffd7269a0d0b",
+        "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
+      },
+      "archivos_catalogo": {
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
+        "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
+      }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T23:03:44+00:00"
+  },
+  "archivo": {
+    "capacidad": "trazabilidad",
+    "spec": "openspec/specs/trazabilidad/spec.md",
+    "cuando": "2026-10-19T23:03:44+00:00"
+  }
 }

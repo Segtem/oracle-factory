@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/069b7dc",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "069b7dc99f68646e9dcea70bd3ace80378a290aa",
+  "diff_sha256": "6cf4a9921ba2b499f9750045e45a5aa01e744b5b770985ccc30c62fc130282f9",
+  "context_sha256": "52f03f2306e098dea06b183a2be088c52f1b973965b7da530435a8a22a6e3453",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "hook-ajeno-sigue-trailer",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "El hook commit-msg agrega el trailer aunque prepare-commit-msg sea ajeno",
+      "explanation": "instalar_hook() salta el archivo prepare-commit-msg ajeno y avisa cómo encadenarlo, pero continúa el bucle y crea commit-msg de Factory si ese archivo no existía. Git ejecuta commit-msg en ese mismo commit y LLAMADA_HOOK llama a trailer, que agrega Cambio: <ID> cuando hay un único cambio abierto. Esto contradice el escenario de la spec para un hook ajeno, que exige que el commit no lleve trailer mientras el hook existente queda intacto. La prueba actual verifica que el hook ajeno no se sobrescriba y que se muestre el aviso, pero no hace un commit después para comprobar el resultado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 621,
+        "end_line": 629,
+        "side": "head"
+      },
+      "trigger": "En un repositorio con un solo cambio abierto, dejar un prepare-commit-msg ajeno y sin commit-msg, correr oracle-factory hooks y luego crear un commit normal.",
+      "evidence": "El bucle de HOOKS hace continue sólo para el archivo ajeno en la iteración prepare-commit-msg (líneas 623-626); en la iteración siguiente escribe commit-msg con LLAMADA_HOOK (líneas 627-629). Ese hook llama trailer para el mensaje y no depende de que prepare-commit-msg sea de Factory.",
+      "related_requirement": "cada commit nuevo dice de qué cambio es",
+      "status": "pendiente",
+      "verification": "En el escenario indicado, comprobar que el archivo prepare-commit-msg conserva byte por byte su contenido, que hooks avisa, y que un commit posterior no recibe Cambio: <ID> hasta que la persona encadene explícitamente el hook ajeno."
+    },
+    {
+      "id": "log-cuerpo-clasificado-como-trailer",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "log clasifica como trailer una línea idéntica que aparece sólo en el cuerpo",
+      "explanation": "La selección de commits con unión trailer usa git log --all --grep=^Cambio: <ID>$. --grep busca en el mensaje completo del commit, no sólo en el bloque de trailers. Por eso un commit anterior al hook cuyo cuerpo contiene una línea exacta Cambio: <ID> aparece como unido por trailer aunque git interpret-trailers no lo reconoce como tal. El log presenta una forma de unión incorrecta y puede incluir ese commit como propio del cambio sin ser candidato ni haber sido deducido de su merge.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 683,
+        "end_line": 683,
+        "side": "head"
+      },
+      "trigger": "Consultar oracle-factory log ID --json cuando exista un commit alcanzable desde una referencia cuyo cuerpo tenga una línea exacta Cambio: <ID> en un párrafo que no sea el bloque final de trailers.",
+      "evidence": "En un repositorio temporal, un mensaje con asunto, cuerpo y la última línea Cambio: 20261019-182313-commits hizo que git log --grep=^Cambio: 20261019-182313-commits$ devolviera el commit; git log -1 --format=%(trailers:key=Cambio,valueonly) devolvió vacío. commits_del_cambio usa esa búsqueda --grep y etiqueta todo resultado con union=trailer.",
+      "related_requirement": "los commits de un cambio se ven en log, estado y el tablero",
+      "status": "pendiente",
+      "verification": "Crear un commit sin trailer real cuyo cuerpo contenga una línea exacta Cambio: <ID>; comparar oracle-factory log --json con la salida de git interpret-trailers --parse y verificar que no se marque como union=trailer."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó la spec, la propuesta, el diff y el contexto del paquete Oracle Clue; se excluyeron los registros y la evidencia de Factory indicados por la solicitud. El diff completo quedó en diff-review.txt dentro de esta carpeta.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; la prueba de Node incluida corrió.",
+    "Se reprodujo en un repositorio temporal que rev-parse --git-path hooks respeta core.hooksPath y que git log --grep busca también en el cuerpo del mensaje; la reproducción de hooks ajenos se confirmó por flujo de código, no se ejecutó un commit de mutación.",
+    "No se ejecutó la suite completa ni tools/verify_commits.py, ni se probaron Windows/macOS. El checkout candidato quedó sin cambios."
+  ]
+}

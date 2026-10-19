@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/32e0ca5",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "32e0ca57fd8a08d3fa6c0f7bc0e0ddc496c0bd8f",
+  "diff_sha256": "f72d96cf9d026424437812fa69d50f6388d9bcb4e34ac33aa5d0a436c1043228",
+  "context_sha256": "e0e4a180a2399c3d102aa437fa87ac640d3fb896557209243c405cae68cda96c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null (12 pruebas pasaron satisfactoriamente en Linux con Python 3.13, Git 2.43 y Node 24.22).",
+    "El escenario de Node incluido en tests/test_commits.py (tablero_en_node.cjs) corrió con éxito, confirmando la integración del panel HTML, los mensajes de commits y la extensión de VS Code sin manipulación ni mutación del checkout.",
+    "No se ejecutó la suite completa de tests de la POC (unittest discover -s tests) ni tools/verify_commits.py directamente en el checkout de revisión para preservar el estado de sólo lectura del candidato y acotar la revisión al diff del candidato y sus contratos.",
+    "Se llevaron a cabo pruebas de mutación manuales en una copia aislada del código dentro de la carpeta del revisor para verificar la sensibilidad de la suite ante alteraciones en: supresión de validaciones de trailers con múltiples cambios abiertos, mensajes vacíos con core.commentChar, duplicación en amend, pisado de hooks ajenos, descarte de candidatos no integrados, detección de merges que vienen por primer padre, y validación regex de sha en extension.js (8 de 9 mutaciones resultaron eliminadas inmediatamente por los tests; la mutación sobreviviente M7 confirmó que en cambios abiertos no se ejecutan búsquedas de merge).",
+    "Se comprobó que el hallazgo alto de la vuelta 4 (deduccion-commits-falsos-merges-entre-ramas) y el costo con múltiples candidatos (commits-estado-costo-candidatos) quedaron efectivamente corregidos sin regresiones en repositorios con master, branches múltiples o sincronizaciones intermedias.",
+    "No se hallaron defectos ni inconsistencias con respecto a la propuesta y la spec de trazabilidad; por lo tanto, la lista de hallazgos se entrega vacía."
+  ],
+  "findings": []
+}

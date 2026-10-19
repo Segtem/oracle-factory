@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/84e599f",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "84e599f29b5d74ae9d058732d8f863aa5d78d4f9",
+  "diff_sha256": "52c0243fe0881e80ee19a5ff18a534bfc2bed9216994902d0011add2e34ae59a",
+  "context_sha256": "9a0a43983609be05f6c73e0e518fbf09d94d72aac86ae9fbfcfdcb1322841fcf",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron la propuesta, la spec y el diff del paquete Clue; se contrastaron las promesas de los dos requisitos con el código, tests, tools y catálogos incluidos. No se revisaron los registros .factory ni tareas excluidos del paquete.",
+    "Se confirmó que el requisito actual declara medidas para factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, y que la primera cuenta los dos escenarios cm1 mientras la corrida completa exige los cuatro escenarios y fuentes estables.",
+    "Se comparó el código de producto de 32e0ca5 con 84e599f; no hay diferencias en README, catálogos, editores, oracle_factory, tests, tools ni configuración de producto. El único cambio funcional posterior en el diff completo es trazabilidad/registro, fuera del paquete de producto.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; el escenario del panel en Node pasó dentro de la suite.",
+    "No se ejecutaron la suite completa ni tools/verify_commits.py. No se hicieron mutaciones en esta vuelta porque el código y las pruebas de producto son idénticos a la vuelta 5; la comparación está documentada en revision-notas.md.",
+    "Los informes pedidos de 32e0ca5 (vuelta 5) están completos y sin hallazgos. No se revisaron decisiones ni registros de Factory que están fuera del alcance indicado."
+  ]
+}
