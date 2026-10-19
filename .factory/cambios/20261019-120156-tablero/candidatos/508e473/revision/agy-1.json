@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/508e473",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "508e4738640cd8d9a7dd4b76a591691640e38abc",
+  "diff_sha256": "e6dd091946087bc20a5d229d847b7d08924c89d949e958464c0c9317a060f1d2",
+  "context_sha256": "6ba28a9d58726acb7377788afefa97e77c8fe35114fb5826023e7d04f593f4fb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias y de integración de tablero mediante: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null (6 pruebas ejecutadas y superadas con éxito).",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a las instrucciones del pedido.",
+    "El arnés de Node (tests/tablero_en_node.cjs) se ejecutó para validar la generación de HTML, Content Security Policy, escape de entidades, despacho de mensajes y reactividad del FileSystemWatcher ante cambios de factory.json.",
+    "No se probó la extensión sobre una interfaz gráfica real de VS Code; la interacción con la API de VS Code se evaluó estáticamente y mediante el mock en Node, además del empaquetado del archivo .vsix con editores/vscode/empaquetar.py.",
+    "Se excluyeron de la revisión del producto los 10 archivos de registros y evidencia bajo .factory/ y tareas/, tal como declara el paquete de Clue."
+  ]
+}

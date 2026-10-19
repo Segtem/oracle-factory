@@ -110,15 +110,16 @@ class Tablero(unittest.TestCase):
         self.assertEqual(m['hallazgos_por_revisor']['codex']['media'], 1)
         self.assertEqual([f_['fase'] for f_ in m['fases']], ['acuerdo', 'medidas'])
         self.assertEqual(m['requisitos'], {'total': 1, 'medidos': 1, 'cumplidos': None})
-        self.assertGreater(m['acciones_por_actor']['persona'], 0)
+        self.assertGreater(m['decisiones_por_actor']['persona'], 0)
         # Las del proyecto cuentan los dos cambios: el cerrado también.
         p = datos['proyecto']
         self.assertEqual(p['cambios'], {'abiertos': 1, 'cerrados': 1, 'abandonados': 0})
         self.assertIsNotNone(p['mediana_horas_hasta_cierre'])
         self.assertEqual(p['hallazgos_por_revisor']['agy']['alta'], 1)
         cerrado = json.loads((self.root / '.factory/cambios' / self.cerrado / 'factory.json').read_text())
-        acciones = sum(1 for e in cerrado['eventos'] if e.get('tipo_actor') == 'persona') + m['acciones_por_actor']['persona']
-        self.assertEqual(p['acciones_por_actor']['persona'], acciones)
+        decisiones = sum(1 for e in cerrado['eventos'] if e.get('tipo_actor') == 'persona'
+                         and e.get('forma') in ('decidio', 'confirmo')) + m['decisiones_por_actor']['persona']
+        self.assertEqual(p['decisiones_por_actor']['persona'], decisiones)
 
     def test_tb1_un_proyecto_sin_cambios(self):
         with tempfile.TemporaryDirectory() as d:
@@ -200,20 +201,29 @@ class Tablero(unittest.TestCase):
 class Metricas(unittest.TestCase):
     def test_tb1_una_fase_que_vuelve_atras_no_cuenta(self):
         from oracle_factory import tablero
-        eventos = [{'accion': 'cambio_creado', 'cuando': '2026-10-01T10:00:00+00:00', 'tipo_actor': 'agente'},
-                   {'accion': 'spec_aprobada', 'cuando': '2026-10-01T11:00:00+00:00', 'tipo_actor': 'persona'},
+        eventos = [{'accion': 'cambio_creado', 'cuando': '2026-10-01T10:00:00+00:00', 'tipo_actor': 'agente', 'forma': 'decidio'},
+                   {'accion': 'spec_aprobada', 'cuando': '2026-10-01T11:00:00+00:00', 'tipo_actor': 'persona', 'forma': 'decidio'},
+                   # una propuesta y un registro de revisor no son decisiones
+                   {'accion': 'medidas_propuestas', 'cuando': '2026-10-01T11:10:00+00:00', 'tipo_actor': 'agente', 'forma': 'propuso'},
+                   {'accion': 'revision_pedida', 'cuando': '2026-10-01T11:20:00+00:00', 'tipo_actor': 'agente', 'forma': 'registro'},
                    {'accion': 'revision_registrada', 'decision': 'aprobar', 'cuando': '2026-10-01T12:00:00+00:00',
-                    'tipo_actor': 'persona'},
+                    'tipo_actor': 'persona', 'forma': 'confirmo'},
                    # medidas vueltas a decidir después de la revisión
-                   {'accion': 'medidas_confirmadas', 'cuando': '2026-10-01T13:00:00+00:00', 'tipo_actor': 'persona'}]
+                   {'accion': 'medidas_confirmadas', 'cuando': '2026-10-01T13:00:00+00:00', 'tipo_actor': 'persona', 'forma': 'confirmo'}]
         m = tablero.metricas_del_cambio({'eventos': eventos, 'requisitos': []}, [], None)
         self.assertEqual([(f['fase'], f['horas']) for f in m['fases']], [('acuerdo', 1.0), ('medidas', 2.0)])
-        self.assertEqual(m['acciones_por_actor'], {'persona': 3, 'agente': 1, 'sin_identificar': 0})
+        self.assertEqual(m['decisiones_por_actor'], {'persona': 3, 'agente': 1, 'sin_identificar': 0})
         self.assertEqual(m['vueltas_de_revision'], 1)  # revisada a mano, sin revisores pedidos: una vuelta
         # Un registro viejo con una fecha sin zona horaria: esa fase no tiene duración, y el tablero no se cae.
         viejo = [dict(eventos[0], cuando='2026-10-01T10:00:00')] + eventos[1:]
         m = tablero.metricas_del_cambio({'eventos': viejo, 'requisitos': []}, [], None)
         self.assertEqual([f['fase'] for f in m['fases']], ['medidas'])
+        # Los requisitos cumplidos salen del juicio sólo si sigue vigente.
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / 'informe.txt').write_text('✓ dom.uno  ok\n✗ dom.dos  falla\n')
+            self.assertEqual(tablero._cumplidos(Path(d), {'informe': 'informe.txt', 'vigente': True}, ['dom.uno', 'dom.dos']), 1)
+            self.assertEqual(tablero._cumplidos(Path(d), {'informe': 'informe.txt'}, ['dom.uno', 'dom.dos']), 1)  # cerrado
+            self.assertIsNone(tablero._cumplidos(Path(d), {'informe': 'informe.txt', 'vigente': False}, ['dom.uno']))
         # Un informe pedido otra vez en el mismo candidato reemplaza al anterior de ese revisor: no se cuenta dos veces.
         with tempfile.TemporaryDirectory() as d:
             raiz = Path(d)

@@ -17,6 +17,7 @@ DECISIONES = ("aprobar-spec", "medir", "revisar", "cerrar", "abandonar")
 # Los hitos de un cambio, en orden; cada fase va de un hito al siguiente.
 FASES = (("acuerdo", "creado", "spec"), ("medidas", "spec", "medidas"), ("construcción y revisión", "medidas", "revision"),
          ("juicio", "revision", "juicio"), ("cierre", "juicio", "cierre"))
+FORMAS_DE_DECIDIR = ("decidio", "confirmo")
 SEVERIDADES = ("critica", "alta", "media", "baja", "informativa")
 
 
@@ -98,8 +99,8 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
              for nombre, a, b in FASES if a in h and b in h
              for horas in [_horas(h[a], h[b])] if horas is not None and horas >= 0]
     actores = {"persona": 0, "agente": 0, "sin_identificar": 0}
-    for e in eventos:
-        if e.get("tipo_actor") in actores:
+    for e in eventos:  # sólo decisiones: no propuestas, registros de un revisor ni migraciones
+        if e.get("forma") in FORMAS_DE_DECIDIR and e.get("tipo_actor") in actores:
             actores[e["tipo_actor"]] += 1
     por_revisor: dict[str, dict[str, int]] = {}
     for informe in todos_los_informes:
@@ -119,7 +120,7 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
         "hallazgos_por_severidad": _contar_severidades([x for i in todos_los_informes for x in i["hallazgos"]]),
         "hallazgos_por_revisor": por_revisor,
         "riesgos_aceptados": len(estado.get("aceptados") or []),
-        "acciones_por_actor": actores,
+        "decisiones_por_actor": actores,
         "requisitos": {"total": len(requisitos), "medidos": medidos, "cumplidos": cumplidos},
     }
 
@@ -136,8 +137,10 @@ def _paso(texto: str | None) -> dict | None:
 
 
 def _cumplidos(raiz: Path, oracle: dict | None, requisitos: list[str]) -> int | None:
-    """Cuántos requisitos marcó Oracle con ✓ en el último juicio registrado; None si no hubo juicio."""
+    """Cuántos requisitos marcó Oracle con ✓ en el último juicio registrado; None si no hubo juicio o no está vigente."""
     informe = (oracle or {}).get("informe")
+    if (oracle or {}).get("vigente") is False:  # un juicio de otro producto u otros hechos ya no dice qué se cumple
+        return None
     if not isinstance(informe, str) or not (raiz / informe).is_file():
         return None
     texto = (raiz / informe).read_text(encoding="utf-8", errors="replace")
@@ -171,7 +174,7 @@ def armar(cli) -> dict:
             if metricas["vueltas_de_revision"]:
                 con_revision += 1
                 en_una_vuelta += metricas["vueltas_de_revision"] == 1
-        for k, n in metricas["acciones_por_actor"].items():
+        for k, n in metricas["decisiones_por_actor"].items():
             actores_proyecto[k] += n
         for revisor, cuenta in metricas["hallazgos_por_revisor"].items():
             total = revisores_proyecto.setdefault(revisor, {s: 0 for s in SEVERIDADES})
@@ -231,6 +234,6 @@ def armar(cli) -> dict:
             "primera_vuelta": {"cerrados_con_revision": con_revision, "en_una_vuelta": en_una_vuelta,
                                "proporcion": round(en_una_vuelta / con_revision, 3) if con_revision else None},
             "hallazgos_por_revisor": revisores_proyecto,
-            "acciones_por_actor": actores_proyecto,
+            "decisiones_por_actor": actores_proyecto,
         },
     }

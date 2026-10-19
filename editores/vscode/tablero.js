@@ -86,11 +86,11 @@ function barras(cuenta) {
 
 function metricas(m) {
     const fases = m.fases.map(f => `<li>${esc(f.fase)}: <b>${horas(f.horas)}</b></li>`).join('') || '<li>Ninguna fase cerrada todavía.</li>';
-    const a = m.acciones_por_actor;
+    const a = m.decisiones_por_actor;
     return `<div class="metricas">
 <div><h4>Tiempo por fase</h4><ul>${fases}</ul></div>
 <div><h4>Revisión</h4><p><b>${m.vueltas_de_revision}</b> vueltas · <b>${m.riesgos_aceptados}</b> riesgos aceptados</p>${barras(m.hallazgos_por_severidad)}</div>
-<div><h4>Quién hizo qué</h4><p><b>${a.persona}</b> persona · <b>${a.agente}</b> agente${a.sin_identificar ? ` · <b class="aviso-texto">${a.sin_identificar}</b> sin autor` : ''}</p></div>
+<div><h4>Quién decidió</h4><p><b>${a.persona}</b> persona · <b>${a.agente}</b> agente${a.sin_identificar ? ` · <b class="aviso-texto">${a.sin_identificar}</b> sin autor` : ''}</p></div>
 <div><h4>Requisitos</h4><p><b>${m.requisitos.medidos}</b> de ${m.requisitos.total} medidos${m.requisitos.cumplidos != null ? ` · <b>${m.requisitos.cumplidos}</b> cumplen` : ''}</p></div>
 </div>`;
 }

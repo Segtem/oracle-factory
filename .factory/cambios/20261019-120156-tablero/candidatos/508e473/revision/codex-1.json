@@ -1,0 +1,45 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/508e473",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "508e4738640cd8d9a7dd4b76a591691640e38abc",
+  "diff_sha256": "e6dd091946087bc20a5d229d847b7d08924c89d949e958464c0c9317a060f1d2",
+  "context_sha256": "6ba28a9d58726acb7377788afefa97e77c8fe35114fb5826023e7d04f593f4fb",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "TABLERO-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El tablero suma requisitos cumplidos desde un juicio marcado como no vigente",
+      "explanation": "`datos_estado()` devuelve `oracle.vigente` para indicar si el informe todavía corresponde al producto y a los hechos actuales. `armar()` pasa ese objeto a `_cumplidos()`, pero `_cumplidos()` sólo comprueba que el archivo exista y cuenta sus marcas ✓; no consulta `vigente`. Así, si cambió el producto o el informe de Oracle quedó desactualizado, las métricas del tablero siguen mostrando requisitos cumplidos con evidencia obsoleta, aunque el estado de Factory identifica el juicio como no vigente.",
+      "location": {"file": "oracle_factory/tablero.py", "start_line": 164, "end_line": 165, "side": "head"},
+      "trigger": "Tener un informe Oracle previo con una línea ✓ para un requisito y luego cambiar el producto (o los hechos) para que `datos_estado()` devuelva `oracle.vigente: false`; pedir `tablero --json`.",
+      "evidence": "Reproduje `_cumplidos()` con un archivo de informe que contiene `✓ ide.req descripción` y `oracle={\"informe\":\"informe.txt\",\"vigente\":false}`: devolvió 1. En el flujo real de `armar`, la expresión de la línea 164 pasa el objeto `oracle` sin filtrar su bandera `vigente`.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "El caso mínimo devuelve 1 para un juicio con `vigente: false`; `armar()` entrega ese dato directamente a `_cumplidos()`. Verificar con un cambio temporal: juzgar, modificar un archivo de producto y volver a consultar `tablero --json`; los cumplidos no deberían atribuirse al juicio ya no vigente."
+    },
+    {
+      "id": "TABLERO-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La métrica de decisiones por actor cuenta todos los eventos del registro",
+      "explanation": "La spec promete métricas de decisiones de persona y agente, pero este bucle suma cada evento que tenga `tipo_actor`, sin distinguir decisiones de eventos informativos o de proceso. Acciones como `cambio_creado`, `requisitos_importados` y `oracle_ejecutado` también incrementan el mismo contador que una aprobación o una decisión de revisión. La métrica resultante representa cantidad de eventos atribuidos, no decisiones tomadas por cada actor.",
+      "location": {"file": "oracle_factory/tablero.py", "start_line": 100, "end_line": 103, "side": "head"},
+      "trigger": "Consultar métricas de un cambio cuya línea de tiempo incluya eventos informativos y decisiones, por ejemplo creación, importación de requisitos, juicio y aprobación de spec.",
+      "evidence": "El bucle sólo comprueba `e.get(\"tipo_actor\") in actores` y suma uno; no inspecciona `accion` ni un campo que clasifique el evento como decisión. `oracle_factory/cli.py` emite eventos como `requisitos_importados` y `oracle_ejecutado` con actor, por lo que ambos se contabilizan junto con las decisiones.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Construir un registro con una decisión y varios eventos de proceso para el mismo actor; comparar el contador con la cantidad de decisiones registradas. Actualmente aumenta por cada evento, incluido `oracle_ejecutado`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` desde la raíz del checkout; las 6 pruebas pasaron y Node estuvo disponible para los casos de la extensión.",
+    "Reproduje el caso de informe Oracle no vigente mediante una llamada aislada a `_cumplidos()` con un archivo temporal; no modifiqué el checkout.",
+    "Revisé estáticamente las rutas de HTML/CSP, validación de apertura de archivos, comandos de terminal, informes, métricas y vigía. No abrí VS Code gráfico ni ejecuté la suite completa ni Oracle contra evidencia del producto."
+  ]
+}
