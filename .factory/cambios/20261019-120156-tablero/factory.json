@@ -236,6 +236,16 @@
       "candidato": "a014d75",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T16:59:15+00:00",
+      "decision": "aprobar",
+      "candidato": "a014d75"
     }
   ],
   "tipos": {
@@ -276,5 +286,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Cinco vueltas de codex y agy; todos los medios y altos corregidos con pruebas que fallan sobre el código anterior y mutantes muertos (archivos sólo del proyecto con enlaces resueltos, comandos de una línea, informes reemplazados, juicio vigente, decisiones por actor, fases por tramos, vueltas a mano). En la última vuelta agy no dejó hallazgos y codex uno bajo (TABLERO-006: una severidad ausente se cuenta como informativa).",
+      "candidato": "a014d75",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-19T16:59:15+00:00"
+    }
+  }
 }
