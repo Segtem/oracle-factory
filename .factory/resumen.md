@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:7ed8a8cba63cac1f0f6163ca9d3b6c41fafa995c7d907f4915ebbe18b94f5af1 -->
+<!-- oracle-factory resumen sha256:44526bfb1c732760dde828140523791346cfa613f49ef4c9b9f652ea60c972ad -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 143 requisitos vigentes · 1 cambio abierto
+18 capacidades · 143 requisitos vigentes · 2 cambios abiertos
 
 ## Lo vigente
 
@@ -289,6 +289,13 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
+
+### 20261019-182313-commits — Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `trazabilidad` · [propuesta](../openspec/changes/20261019-182313-commits/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
