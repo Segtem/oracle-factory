@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-19 10:01:04 UTC)
 
 Requisitos importados: flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa (funcional), flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan (funcional), flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-19 11:53:28 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista: factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista, factory_higiene.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-19 11:53:28 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan: factory_higiene.las_acciones_sin_autor_se_avisan, factory_higiene.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-19 11:53:28 UTC)
+
+Medidas de flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa: factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
