@@ -1,0 +1,30 @@
+{
+  "commits_caso": [
+    {
+      "requisito": "cada_commit_nuevo_dice_de_que_cambio_es",
+      "caso": "cm1_un_commit_con_un_cambio_abierto",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_commit_nuevo_dice_de_que_cambio_es",
+      "caso": "cm1_sin_un_unico_cambio_abierto_o_con_un_hook_ajeno",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "caso": "cm2_un_cambio_cerrado_de_antes_del_trailer",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "caso": "cm2_un_cambio_abierto_con_trailer_en_estado_y_en_el_tablero",
+      "codigo": 0
+    }
+  ],
+  "commits_corrida": [
+    {
+      "completa": 1,
+      "casos": 4
+    }
+  ]
+}
