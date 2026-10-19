@@ -1,0 +1,4 @@
+requisito ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code:
+    texto "Tipo: funcional La extensión de VS Code SHALL tener un panel «Tablero de Factory» que muestre ese JSON: primero lo que necesita una decisión de la persona, con un botón que escribe el comando en una terminal del proyecto sin ejecutarlo; la línea de tiempo; los hallazgos, que al elegirlos SHALL abrir su archivo en su línea; los requisitos, que SHALL abrir su `.requisito` y el catálogo de cada medida; los avisos y las métricas. SHALL funcionar sin red, SHALL actualizarse cuando cambia el registro de un cambio y SHALL NOT tomar decisiones."
+    fuente "openspec/changes/20261019-120156-tablero/specs/ide/spec.md#el tablero se ve y se usa en VS Code"
+    medido_por factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code, factory_tablero.corrida_completa

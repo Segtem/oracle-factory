@@ -1,0 +1,40 @@
+{
+  "tablero_caso": [
+    {
+      "requisito": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "caso": "tb1_un_cambio_con_revision_y_hallazgos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "caso": "tb1_un_proyecto_sin_cambios",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "caso": "tb1_una_fase_que_vuelve_atras_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "caso": "tb1_que_es_una_decision_de_la_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_se_ve_y_se_usa_en_vs_code",
+      "caso": "tb2_abrir_el_tablero_y_seguir_un_hallazgo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_se_ve_y_se_usa_en_vs_code",
+      "caso": "tb2_un_registro_que_cambia",
+      "codigo": 0
+    }
+  ],
+  "tablero_corrida": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ]
+}

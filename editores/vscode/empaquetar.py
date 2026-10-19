@@ -15,7 +15,7 @@ import zipfile
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-ARCHIVOS = ("package.json", "extension.js", "modelo.js")
+ARCHIVOS = ("package.json", "extension.js", "modelo.js", "tablero.js")
 
 MANIFIESTO = """<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">

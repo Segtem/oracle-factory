@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/e40275f",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "e40275ff106e66275e68aa18e39b8f6e337ffa1f",
+  "diff_sha256": "3625d7a9be8b814317a81bb1c2d02f6acd7e70e311d39c421ac621a59fba78ae",
+  "context_sha256": "807ef30a098a0f2aba63540e21a339470403c4fcdf254deb14cd61f0b42189e2",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TABLERO-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "Los tiempos por fase se asignan mal cuando se vuelven a elegir medidas",
+      "explanation": "`hitos()` reemplaza el hito de medidas cada vez que aparece `medidas_confirmadas`/`medidas_elegidas` y conserva sólo la última aprobación de revisión. `metricas_del_cambio()` calcula cada fase como un único intervalo entre esos hitos. Si, tras revisar, se vuelven a elegir medidas (flujo permitido; cambiar una asociación invalida la revisión), el intervalo anterior a la revisión queda absorbido por la fase medidas y se pierde su tiempo de construcción/revisión. La métrica deja de representar el tiempo en cada fase del registro.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 48,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "En un cambio, registrar spec a las 01:00, medidas a las 02:00, revisión aprobada a las 03:00, volver a confirmar medidas a las 04:00, aprobar revisión a las 05:00 y luego juzgar/cerrar.",
+      "evidence": "Reproduje `metricas_del_cambio()` con esos eventos y fechas. Devuelve `medidas: 3.0 h` (01:00–04:00) y `construcción y revisión: 1.0 h` (04:00–05:00); el intervalo de construcción/revisión de 02:00–03:00 no se cuenta y se atribuye a medidas. `hitos()` asigna `hitos[\"medidas\"] = cuando` en cada evento y `hitos[\"revision\"] = cuando` en cada aprobación; las fases se forman una sola vez a partir de esos valores.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Reproducción aislada desde el checkout e40275f llamando a `metricas_del_cambio` con ocho eventos cronológicos, sin modificar el checkout. El resultado asignó 3 horas a medidas y 1 hora a construcción/revisión."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal.md, specs/ide/spec.md, el diff del paquete y el código y pruebas de oracle_factory/tablero.py, oracle_factory/cli.py, editores/vscode/, tests/test_tablero.py, tests/tablero_en_node.cjs, tools/verify_tablero.py, README.md y catalogos/factory_tablero.*.oracle. No revisé los 18 archivos excluidos de registros/evidencia de Factory.",
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` en primer plano desde la raíz del checkout e40275f: 6 pruebas, OK; Node estuvo disponible.",
+    "Reproduje en una llamada aislada con eventos sintéticos que volver a confirmar medidas tras una revisión aprobada distorsiona los tiempos por fase; no modifiqué el checkout ni hice mutaciones de código.",
+    "Revisé estáticamente la generación HTML/CSP y escape, resolución de rutas/symlinks, terminal sin Enter, informes, vigía y empaquetado. No abrí una sesión gráfica de VS Code ni ejecuté la suite completa.",
+    "Verifiqué que TABLERO-002 permanece corregido (`_cumplidos` devuelve None si `vigente` es false) y TABLERO-003 permanece corregido (decisiones cuentan sólo formas `decidio`/`confirmo`)."
+  ]
+}

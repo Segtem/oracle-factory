@@ -1,0 +1,5 @@
+# Design
+
+- `oracle_factory/tablero.py` arma el JSON (`oracle-factory.tablero/1`) sólo con lo que ya lee la CLI: `datos_estado`, `datos_donde`, los eventos del registro, los informes de revisión del candidato vigente (los mismos que usa `revision-preparar`) y `resumen`. Las métricas se cuentan de los eventos (fechas, actores, `revision_pedida` con sus hallazgos), así que también valen para los cambios cerrados.
+- La extensión suma un comando y un panel (`WebviewPanel`): `extension.js` corre `oracle-factory tablero --json` y le pasa el JSON a `tablero.js`, que arma el HTML puro (sin red, con la Content Security Policy de VS Code y los colores del tema). Los clics vuelven por `postMessage`: abrir `archivo:línea`, abrir un `.requisito` o un catálogo, escribir un comando en la terminal sin Enter. Se refresca con el mismo vigía de `factory.json` que la vista.
+- Las pruebas: el JSON con proyectos temporales y la CLI de verdad; el HTML y los mensajes del panel en node con el `vscode` falso de la extensión, como la vista.

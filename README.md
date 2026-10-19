@@ -141,11 +141,11 @@ La portada viva (escenas, personajes, el minijuego y sus secretos) tiene su prop
 
 ## Extensión de VS Code
 
-[`editores/vscode/`](editores/vscode) agrega una vista «Factory» al explorador: los cambios abiertos, sus requisitos (medidas, decisión y veredicto), su revisión, sus artefactos (un clic los abre; el que falta aparece marcado) y el próximo paso. El botón de terminal **escribe** el comando en una terminal del proyecto sin ejecutarlo: la decisión se sigue tomando en el menú de la CLI. Usa `.venv/bin/oracle-factory` del proyecto si existe, si no `oracle-factory` del `PATH`, o la configuración de usuario `factory.comando`. Sólo corre en espacios de trabajo de confianza.
+[`editores/vscode/`](editores/vscode) agrega una vista «Factory» al explorador: los cambios abiertos, sus requisitos (medidas, decisión y veredicto), su revisión, sus artefactos (un clic los abre; el que falta aparece marcado) y el próximo paso. El botón de terminal **escribe** el comando en una terminal del proyecto sin ejecutarlo: la decisión se sigue tomando en el menú de la CLI. Usa `.venv/bin/oracle-factory` del proyecto si existe, si no `oracle-factory` del `PATH`, o la configuración de usuario `factory.comando`. Sólo corre en espacios de trabajo de confianza. El botón de tablero (o *Factory: Abrir el tablero*) abre el **tablero de comando**: por cada cambio abierto, lo que necesita tu decisión con su comando, los hallazgos de los revisores (un clic abre `archivo:línea`), los requisitos con sus medidas, los avisos, la línea de tiempo y las métricas del cambio y del proyecto; se rehace solo cuando cambia un registro. Lo arma `oracle-factory tablero --json`.
 
 Se arma sin `npm`:
 
 ```bash
 python3 editores/vscode/empaquetar.py
-code --install-extension editores/vscode/oracle-factory-0.1.0.vsix
+code --install-extension editores/vscode/oracle-factory-0.2.0.vsix
 ```

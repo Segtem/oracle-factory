@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/b08b14c",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "b08b14caed917358ba3e2d20d58dc978d262336e",
+  "diff_sha256": "781408a15f43e5e70a10817df4ec29b60889c5de0279fe56e6c6ddfa6fcc8d84",
+  "context_sha256": "92abb2139dc4afa29deac805fb7b2e1a6f71edbd7a271f47f7f8f5161adcd806",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TABLERO-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un symlink permite abrir archivos fuera del proyecto",
+      "explanation": "La validación limita la ruta léxica con path.resolve y startsWith, pero no resuelve el destino del archivo. Un enlace simbólico situado dentro del proyecto puede apuntar fuera de la raíz y VS Code sigue el enlace al abrirlo. Esto contradice la garantía del manejador de abrir sólo archivos del proyecto y la promesa de abrir el archivo seleccionado dentro del proyecto.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 115,
+        "end_line": 117,
+        "side": "head"
+      },
+      "trigger": "Crear dentro del proyecto un symlink, por ejemplo docs/secreto -> /etc/passwd, y enviar al webview {\"tipo\":\"abrir\",\"archivo\":\"docs/secreto\",\"linea\":1}; la ruta resuelta léxicamente permanece bajo la raíz, por lo que el guard pasa.",
+      "evidence": "En las líneas 115-116 destino se calcula con path.resolve y sólo se comprueba el prefijo raíz + separador. La línea 117 pasa esa misma ruta a vscode.workspace.openTextDocument sin comprobar fs.realpath ni el destino canónico. Reproducción con el arnés tests/tablero_en_node.cjs y un symlink de prueba: el manejador registró la apertura de \"escape\" aunque su destino real era /etc/passwd.",
+      "related_requirement": "ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code",
+      "status": "pendiente",
+      "verification": "Reproducido en una copia de prueba dentro de la carpeta de revisión: el symlink interno apunta a /etc/passwd y el arnés registra la apertura; no se abrió ni modificó el archivo externo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null desde la raíz del checkout: 6 pruebas, OK; Node estuvo disponible.",
+    "La comprobación de symlink usó el arnés con un vscode falso y un proyecto temporal; no ejecuté una instancia gráfica de VS Code.",
+    "No corrí la suite completa ni herramientas de Oracle sobre el producto. Los informes JSON rotos se descartan en informes(); no forcé por separado casos de registros históricos rotos."
+  ]
+}

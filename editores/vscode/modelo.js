@@ -19,7 +19,8 @@ function abrible(ruta, tipo) {
 
 // Un paso es un comando si empieza con la CLI; se reescribe con la que usa la extensión.
 function comandoDe(paso, cli) {
-    return typeof paso === 'string' && paso.startsWith(PREFIJO) ? `${citar(cli)} ${paso.slice(PREFIJO.length)}` : null;
+    // Sin saltos de línea: en la terminal cada uno es un Enter, y el comando se escribe sin ejecutarse.
+    return typeof paso === 'string' && paso.startsWith(PREFIJO) && !/[\r\n]/.test(paso) ? `${citar(cli)} ${paso.slice(PREFIJO.length)}` : null;
 }
 
 function quien(decision) {

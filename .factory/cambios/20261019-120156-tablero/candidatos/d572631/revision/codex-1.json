@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/d572631",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "d572631374f2a2b031b04c924e25ac2f309144af",
+  "diff_sha256": "507cb95848e273d80557e4d21c833ae6e3d6994b5440b8009f92d37c6bf09940",
+  "context_sha256": "a6b96d076043d9fa7b1b40bcb96581425a6f0880879dacf75659862c52c4006c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "TABLERO-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "Las vueltas ignoran revisiones manuales cuando también hubo pedidos automáticos",
+      "explanation": "`vueltas_de_revision` cuenta candidatos presentes en eventos `revision_pedida`. Sólo si ese conteo es cero usa los eventos `revision_registrada` como una vuelta. Por eso, en un cambio con una revisión automática pedida para un candidato y una revisión manual de otro candidato, el contador queda en una aunque hubo dos vueltas. La revisión manual registrada por `revisar` no lleva `candidato` en su evento, de modo que esta métrica no puede asociarla a la vuelta correcta ni corregir el total. El resultado también puede inflar la métrica de primera vuelta del proyecto al clasificar ese cierre como una sola vuelta.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 132,
+        "end_line": 134,
+        "side": "head"
+      },
+      "trigger": "Registrar `revision_pedida` para el candidato c1, avanzar a c2 y registrar la revisión manual de c2 con `oracle-factory revisar`; consultar `tablero --json`.",
+      "evidence": "Reproducción aislada de `metricas_del_cambio` con un evento `revision_pedida` (candidato c1) y un `revision_registrada` manual devuelve `vueltas_de_revision: 1`. El respaldo que cuenta revisiones registradas sólo corre con `if not vueltas`; además, el evento `revision_registrada` emitido por `revisar` no incluye el candidato, mientras que `revision_pedida` sí lo incluye.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Reproduje la función con los dos eventos anteriores en una invocación aislada; devolvió 1. Inspeccioné `oracle_factory/cli.py`: el evento `revision_pedida` registra `candidato=sha`, pero `revision_registrada` no registra el candidato. La prueba existente sólo comprueba el caso exclusivamente manual y el caso con pedidos por candidato por separado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y los archivos de producto y pruebas incluidos en el paquete; no revisé los 24 archivos excluidos de `.factory/` y `tareas/`.",
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` en primer plano desde la raíz del checkout d572631: 6 pruebas, OK; Node estuvo disponible.",
+    "Verifiqué que TABLERO-002 y TABLERO-003 siguen corregidos; revisé el conteo por fases corregido, el escape HTML/CSP, la apertura de rutas y symlinks, el envío de comandos sin saltos de línea, la actualización del vigía y el descarte de informes JSON rotos. No abrí VS Code gráfico, no ejecuté la suite completa ni corrí Oracle sobre evidencia del producto.",
+    "No hice cambios al checkout ni mutaciones de código; la reproducción fue una llamada aislada con eventos sintéticos."
+  ]
+}

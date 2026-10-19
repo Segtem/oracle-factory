@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:ab5a384f6fe9627f8ad94893422f4cb39162021e18e96e680b1027d4d5dbd6a9 -->
+<!-- oracle-factory resumen sha256:7ed8a8cba63cac1f0f6163ca9d3b6c41fafa995c7d907f4915ebbe18b94f5af1 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 141 requisitos vigentes · 1 cambio abierto
+18 capacidades · 143 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -124,6 +124,8 @@ Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
 | la vista de Factory muestra los cambios abiertos | funcional | `ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos` | factory_vscode.la_vista_de_factory_muestra_los_cambios_abiertos, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
 | los artefactos de un cambio se abren desde la vista | funcional | `ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista` | factory_vscode.los_artefactos_de_un_cambio_se_abren_desde_la_vista, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
 | el próximo paso se escribe en la terminal sin ejecutarse | funcional | `ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse` | factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
+| el tablero junta todo lo de cada cambio y sus métricas | funcional | `ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas` | factory_tablero.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas, factory_tablero.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-120156-tablero |
+| el tablero se ve y se usa en VS Code | funcional | `ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code` | factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code, factory_tablero.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-120156-tablero |
 
 ### limpieza
 
@@ -328,6 +330,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **CXL3-1** (20261016-143020-revisar-cancelada): Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión. Aceptado por Brian Hollweg: Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión
 - **HG-005** (20261017-135953-higiene): test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec. Aceptado por Brian Hollweg: Acepto el riesgo: test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec
 - **HG-011** (20261017-135953-higiene): La prueba de acciones sin autor omite la importación exigida por el escenario. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario
+- **TABLERO-006** (20261019-120156-tablero): Una severidad ausente o desconocida se informa como hallazgo informativo. Aceptado por Brian Hollweg: Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo
 
 ### Históricos
 
@@ -718,6 +721,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261017-135953-higiene) codex (gpt-6-luna): Se revisaron las ocho salidas anteriores: la asociación de resultados por lanzamiento conserva el corte solapado si termina el segundo pedido primero; los registros sin id mantienen el cierre por pareja; un resultado interrumpido no cuenta como terminado; los avisos operativos de lanzamiento no aparecen en cambios cerrados o abandonados.
 - (20261017-135953-higiene) codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null` desde la raíz del checkout candidato: 17 pruebas, OK. No se ejecutó la suite completa ni verificadores adicionales.
 - (20261017-135953-higiene) codex (gpt-6-luna): No se hicieron mutaciones sobre copias. La prueba existente cubre secuencias sintéticas con dos lanzamientos del mismo revisor y candidato, candidatos distintos y resultados asociados por id; el único hallazgo es la falta de cobertura de importar en el escenario de acciones sin autor.
+- (20261019-120156-tablero) Evidencia: Escenarios tb1–tb2 en repositorios temporales, Linux, con Oracle 0.39.0 real y revisores de prueba; el panel corre en node con un vscode falso (HTML, mensajes y vigía): la API real de VS Code se verifica a mano con el .vsix.
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): Lectura y contraste de proposal.md, spec.md (openspec/changes/20261019-120156-tablero/specs/ide/spec.md), el paquete de revisión Clue (paquete-agy-1.json) y el diff en todos los archivos de producto y pruebas modificados. Se ignoraron los archivos excluidos bajo .factory/ y tareas/.
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): Ejecución en primer plano desde la raíz del checkout a014d75 de: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null (6 pruebas ejecutadas exitosamente, con Node.js v24.22.0 operativo). No se corrió la suite completa de pruebas.
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): Verificación de las correcciones de vueltas anteriores: TABLERO-002 (_cumplidos devuelve None si el juicio no está vigente), TABLERO-003 (decisiones_por_actor cuenta únicamente formas 'decidio' y 'confirmo'), TABLERO-004 (fases acumula tramos en orden e ignora tiempos negativos o zonas horarias incompatibles) y TABLERO-005/AGY-1 (vueltas_de_revision calcula la unión de candidatos con revision_pedida más revisiones registradas sin pedido intermedio).
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): Auditoría de seguridad y contención en editores/vscode: verificación de sanitización completa con esc() en editores/vscode/tablero.js ante inyecciones HTML/scripts en títulos, rutas, comandos y detalles; comprobación de directivas CSP estrictas con nonce criptográfico; verificación en editores/vscode/extension.js (mensajeDelTablero) de resolución canónica con fs.realpathSync para impedir la apertura de archivos fuera del proyecto, directorios o enlaces simbólicos escapados; verificación de prevención de inyección de saltos de línea para la escritura sin Enter en la terminal.
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): Verificación de empaquetado de la extensión de VS Code mediante editores/vscode/empaquetar.py generando el artefacto .vsix sin dependencias externas.
+- (20261019-120156-tablero) agy (gemini-3.8-flash-high): No se abrió VS Code en un entorno gráfico interactivo. No se realizaron modificaciones en el checkout de solo lectura a014d75.
+- (20261019-120156-tablero) codex (gpt-6-luna): Leí proposal.md, specs/ide/spec.md, el paquete de Clue y los archivos de producto y pruebas del cambio; no inspeccioné los 32 archivos de registros/evidencia excluidos por el pedido.
+- (20261019-120156-tablero) codex (gpt-6-luna): Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null` en primer plano desde la raíz del checkout a014d75: 6 pruebas, OK; el entorno tenía Node y corrieron los casos Node incluidos en esa suite.
+- (20261019-120156-tablero) codex (gpt-6-luna): Revisé estáticamente la extensión y la lógica de métricas; reproduje el conteo de severidad inválida con una llamada aislada y datos sintéticos. No modifiqué el checkout ni hice mutaciones en copias.
+- (20261019-120156-tablero) codex (gpt-6-luna): No abrí VS Code gráfico, no ejecuté la suite completa ni Oracle sobre evidencia del producto.
 
 ### Históricos
 

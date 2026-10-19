@@ -6,6 +6,8 @@ const {execFile} = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const modelo = require('./modelo');
+const tablero = require('./tablero');
+const crypto = require('crypto');
 
 function carpeta() {
     // ponytail: la primera carpeta del espacio de trabajo; multi-raíz cuando haga falta.
@@ -87,6 +89,54 @@ function escribirPaso(nodo) {
     terminal.sendText(nodo.comando, false);  // sin Enter: la persona lo lee y lo ejecuta
 }
 
+// El tablero de comando: un panel que se arma con `oracle-factory tablero --json` y se rehace cuando cambia un registro.
+let panel = null;
+
+async function pintarTablero() {
+    if (!panel) return;
+    const nonce = crypto.randomBytes(16).toString('base64');
+    const raiz = carpeta();
+    if (!raiz || !fs.existsSync(path.join(raiz, '.factory'))) {
+        panel.webview.html = tablero.error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).', {nonce});
+        return;
+    }
+    try {
+        panel.webview.html = tablero.html(await correr(raiz, ['tablero', '--json']), {nonce, cspSource: panel.webview.cspSource});
+    } catch (e) {
+        panel.webview.html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
+    }
+}
+
+// Lo que pide el panel: abrir un archivo del proyecto (nunca uno de afuera) o escribir un comando sin ejecutarlo.
+async function mensajeDelTablero(m) {
+    const raiz = carpeta();
+    if (!m || !raiz) return;
+    if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
+        // Con los enlaces resueltos: un symlink del proyecto que apunta afuera tampoco se abre, ni una carpeta.
+        let destino;
+        try {
+            const real = fs.realpathSync(raiz);
+            destino = fs.realpathSync(path.resolve(raiz, m.archivo));
+            if (!destino.startsWith(real + path.sep) || !fs.statSync(destino).isFile()) return;
+        } catch (e) { return; }
+        const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(destino));
+        const linea = Number.isInteger(m.linea) && m.linea > 0 ? m.linea - 1 : 0;
+        await vscode.window.showTextDocument(doc, {selection: new vscode.Range(linea, 0, linea, 0), preview: false});
+    } else if (m.tipo === 'terminal' && typeof m.comando === 'string') {
+        const comando = modelo.comandoDe(m.comando, cli(raiz));
+        if (comando) escribirPaso({comando});
+    }
+}
+
+function abrirTablero() {
+    if (panel) { panel.reveal(); return pintarTablero(); }
+    panel = vscode.window.createWebviewPanel('factory.tablero', 'Tablero de Factory', vscode.ViewColumn.One,
+                                            {enableScripts: true, retainContextWhenHidden: true});
+    panel.webview.onDidReceiveMessage(mensajeDelTablero);
+    panel.onDidDispose(() => { panel = null; });
+    return pintarTablero();
+}
+
 function activate(context) {
     const vista = new Vista();
     const vigia = vscode.workspace.createFileSystemWatcher('**/.factory/cambios/**/factory.json');
@@ -94,8 +144,14 @@ function activate(context) {
         vscode.window.registerTreeDataProvider('factory.cambios', vista),
         vscode.commands.registerCommand('factory.refrescar', () => vista.refrescar()),
         vscode.commands.registerCommand('factory.escribirPaso', escribirPaso),
-        vigia, vigia.onDidChange(() => vista.refrescar()), vigia.onDidCreate(() => vista.refrescar()),
-        vigia.onDidDelete(() => vista.refrescar()));
+        vscode.commands.registerCommand('factory.tablero', abrirTablero),
+        vigia, vigia.onDidChange(() => refrescar()), vigia.onDidCreate(() => refrescar()),
+        vigia.onDidDelete(() => refrescar()));
+
+    function refrescar() {
+        vista.refrescar();
+        pintarTablero();
+    }
 }
 
 module.exports = {activate, deactivate() {}};
