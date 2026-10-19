@@ -47,3 +47,7 @@ Medidas de trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_e
 ### Nota (2026-10-19 23:03:08 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Seis vueltas de codex y agy; en las dos últimas ninguno dejó hallazgos (la 6 sólo quitó la marca sin_medir del primer requisito). Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.); 0 abiertos derivados; commit 08368ab18f8d743680e42a846a1363f052774640; informe tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/informe.json; decisiones tareas/20261019-182313-commits/revisiones/registro-jpiyr2ld/decisiones.json.
+
+### Nota (2026-10-19 23:03:17 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261019-182313-commits/oracle-veredicto.txt.

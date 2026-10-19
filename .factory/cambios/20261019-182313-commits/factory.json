@@ -2,7 +2,7 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
   "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "be5e87b23c6860d1c73f54516f8b7bbcd27da2a54929c39131183a465763ec8c"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261019-182313-commits/candidatos/84e599f/evidencia/hechos.json",
+    "hechos_sha256": "32a06ca137fe744855f962c14988db5bcb455860974d8b5e9637b38ad2ce4e88",
+    "informe": ".factory/cambios/20261019-182313-commits/oracle-veredicto.txt",
+    "informe_sha256": "75e8d6e73aa575b72022c2bc3a6c3fee44cc7a66bb16a930a0ee319ac846f4cb",
+    "cuando": "2026-10-19T23:03:17+00:00",
+    "contexto": {
+      "head": "c421af2f95d30c4f9378815aee6a503a12917e5a",
+      "archivos_sha256": "be5e87b23c6860d1c73f54516f8b7bbcd27da2a54929c39131183a465763ec8c"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -543,6 +555,17 @@
       "abiertos": 0,
       "sha256": "793ee9b3efaa3e4dad7a8fb46d2cdf9aa5d5195421adf1ba1e86d0e96a2c3079",
       "decisiones_sha256": "3113d526e20274358b9e3639e43fbf330cd61a8ac6926bfb0f2d54e353e1d33b"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:03:17+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "32a06ca137fe744855f962c14988db5bcb455860974d8b5e9637b38ad2ce4e88"
     }
   ],
   "tipos": {
