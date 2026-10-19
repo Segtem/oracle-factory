@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/9b40877",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "9b408778bc0b223ff9d45f759299077c733f15cd",
+  "diff_sha256": "ea7a1757963d57ec66cb5cf5b93543ea626dba51cd528c0d78f65f76b02b8e45",
+  "context_sha256": "15007ea8b4d52be7eadea17765e06ea19df40097e65e85ee834d0c7b3b9a3e67",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null (12 pruebas pasaron satisfactoriamente en Linux con Python 3.13, Git 2.43 y Node 24.22).",
+    "El escenario de Node incluido en tests/test_commits.py corrió con éxito, confirmando la integración del tablero y la extensión VS Code.",
+    "No se ejecutó la suite completa de tests de la POC (unittest discover -s tests) ni tools/verify_commits.py para acotar la revisión al diff del candidato y sus contratos.",
+    "Se realizaron análisis empíricos y de mutación en repositorios temporales locales para verificar el comportamiento con hooks ajenos, core.commentChar, core.hooksPath, worktrees, commits interactivos, squash, amend y topologías de merge.",
+    "Las verificaciones se llevaron a cabo en Linux; no se probaron entornos Windows ni macOS. El checkout candidato quedó sin modificaciones."
+  ],
+  "findings": [
+    {
+      "id": "deduccion-commits-falsos-merges-ajenos",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "La deducción de commits por merges en cambios cerrados atribuye commits ajenos de main tras un merge de sincronización en otra rama",
+      "explanation": "En oracle_factory/cli.py (líneas 700-707), la deducción de commits para cambios cerrados busca el merge integrador mediante 'git rev-list --topo-order --reverse --ancestry-path --merges {sha}..{principal}' seleccionando el primer merge commit 'm' donde 'git merge-base --is-ancestor sha m^1' dé distinto de 0, para luego incorporar 'git log m^1..m^2'. Esta lógica asume erróneamente que cualquier merge en la historia que incorpore 'sha' por su segundo padre ('m^2') corresponde al merge que integró la rama del cambio en 'principal'. Si un cambio cerrado no tuvo un merge commit propio que lo integrara (por ejemplo, por haberse desarrollado directamente en main, integrado mediante fast-forward o squash), y con posterioridad una rama secundaria 'other' bifurcada antes del cambio sincroniza la rama principal ejecutando 'git merge main', dicho merge de sincronización ('Traer main a other') entra en la historia de 'principal' al fusionarse 'other'. En ese merge, el primer padre m^1 es 'other' (que no contiene 'sha') y el segundo padre m^2 es 'main' (que sí lo contiene). Por ende, 'is-ancestor sha m^1' devuelve código distinto de cero y la heurística elige ese merge de sincronización como si fuera el merge integrador del cambio viejo, ejecutando 'git log other..main'. Esto provoca que 'commits_del_cambio' atribuya como deducidos del cambio viejo todos los commits ajenos realizados en 'main' entre la bifurcación de 'other' y su sincronización, contaminando 'log', 'estado' y el tablero de VS Code con commits ajenos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 700,
+        "end_line": 707,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio cerrado integrado sin commit de merge en main (o cuyos candidatos residan en main). Que exista una rama secundaria bifurcada antes de dicho cambio que luego ejecute 'git merge main' y sea fusionada a main. Consultar 'oracle-factory log <ID> --json'.",
+      "evidence": "En un repositorio de prueba con un cambio cerrado 'viejo' en main ('viejo: commit 1') seguido de tres commits ajenos en main ('main ajeno 0', 'main ajeno 1', 'main ajeno 2'), una rama 'other' sincronizó main ('git merge main') y luego se integró a main ('git merge other'). Al consultar 'oracle-factory log viejo --json', commits_del_cambio seleccionó el merge de sincronización 'Traer main a other' e incluyó los tres commits ajenos de main ('main ajeno 0', 'main ajeno 1', 'main ajeno 2') clasificados con union='deducido'.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "En un repositorio con rama principal 'main', registrar y cerrar un cambio con un commit en main sin merge integrador. Crear commits ajenos posteriores en main. Crear una rama bifurcada antes del cambio, ejecutar 'git merge main', e integrarla a main. Ejecutar 'oracle-factory log <ID> --json' y verificar que los commits ajenos de main no aparezcan asignados al cambio."
+    }
+  ]
+}

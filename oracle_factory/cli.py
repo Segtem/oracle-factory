@@ -700,8 +700,11 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     for sha in candidatos if estado.get("fase") == "cerrada" else ():
         merges = ejecutar(["git", "rev-list", "--topo-order", "--reverse", "--ancestry-path", "--merges",
                            f"{sha}..{principal}"]).stdout.split()
-        merge = next((m for m in merges
-                      if ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
+        # Un merge cuyo segundo padre está en la línea principal sólo trajo main a otra rama (el cambio ya estaba en
+        # main, sin merge propio): no es el que lo integró.
+        linea = set(ejecutar(["git", "rev-list", "--first-parent", principal, "--not", f"{sha}^@"]).stdout.split())
+        merge = next((m for m in merges if completo(m + "^2") not in linea
+                      and ejecutar(["git", "merge-base", "--is-ancestor", sha, m + "^1"]).returncode != 0), None)
         if merge:
             deducidos += git_log(f"{merge}^1..{merge}^2")
             break

@@ -195,6 +195,24 @@ class Commits(unittest.TestCase):
         self.assertEqual((registros['corto'], registros['candidato'], registros['revisado']), (pedido, True, False))
         self.assertIn(f'{candidato}  ', self.cli('log', ident))
 
+        # Un cambio hecho directo en master, sin merge propio; después otra rama trae master y se integra: ese merge
+        # no es del cambio, que queda con sus candidatos.
+        self.git('checkout', '-q', 'master')
+        directo = self.nuevo('directo')
+        self.commit('d1.txt', 'directo: en master')
+        en_master = self.git('rev-parse', '--short=7', 'HEAD')
+        (self.root / '.factory/cambios' / directo / 'candidatos' / en_master).mkdir(parents=True)
+        (self.root / '.factory/cambios' / directo / 'candidatos' / en_master / 'nota.txt').write_text('candidato\n')
+        self.cerrar_a_mano(directo)
+        self.git('add', '.')
+        self.git('commit', '-q', '-m', 'directo: cerrado')
+        self.git('checkout', '-q', '-b', 'tercera', f'{en_master}~1')
+        self.commit('t.txt', 'tercera: algo')
+        self.git('merge', '-q', '--no-ff', 'master', '-m', 'Traer master a tercera')
+        self.git('checkout', '-q', 'master')
+        self.git('merge', '-q', '--no-ff', 'tercera', '-m', 'Integrar tercera')
+        self.assertEqual([c['asunto'] for c in json.loads(self.cli('log', directo, '--json'))['commits']], ['directo: en master'])
+
     def test_cm2_un_cambio_abierto_con_trailer_en_estado_y_en_el_tablero(self):
         ident = self.nuevo('abierto')
         self.assertIn('Commits: ninguno unido todavía', self.cli('estado', ident))

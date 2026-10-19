@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/9b40877",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "9b408778bc0b223ff9d45f759299077c733f15cd",
+  "diff_sha256": "ea7a1757963d57ec66cb5cf5b93543ea626dba51cd528c0d78f65f76b02b8e45",
+  "context_sha256": "15007ea8b4d52be7eadea17765e06ea19df40097e65e85ee834d0c7b3b9a3e67",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null` desde la raíz del checkout: 12 tests OK; el caso que usa Node también corrió.",
+    "Revisé el diff y el código de hook, selección de commits, estado, tablero y apertura del diff; no corrí la suite completa ni hice mutaciones manuales fuera de las pruebas.",
+    "Las vueltas previas contenían observaciones pendientes en sus informes; comprobé en el código y las pruebas de esta vuelta que las dos correcciones señaladas (hook ajeno y falso trailer en cuerpo), además de commentChar y selección de merge/candidatos, estén cubiertas. No encontré defectos reproducibles adicionales dentro del alcance."
+  ]
+}
