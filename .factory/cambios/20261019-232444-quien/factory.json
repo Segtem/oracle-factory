@@ -1,0 +1,24 @@
+{
+  "id": "20261019-232444-quien",
+  "titulo": "Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero",
+  "capacidad": "colaboracion",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T23:24:44+00:00",
+      "capacidad": "colaboracion"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+# Capability: colaboracion
+
+## ADDED Requirements
+
+### Requirement: un cambio dice quién lo tiene
+Tipo: funcional
+`oracle-factory tomar ID` SHALL registrar como responsable a la persona que lo corre desde su terminal, con los agentes que declara con `--con`, y `soltar ID` SHALL liberarlo. Si otra persona ya es responsable, `tomar` SHALL NOT reemplazarla salvo con `--relevo`, que SHALL dejar constancia de quién lo tenía. Un agente con `--agente` SHALL NOT quedar como responsable: SHALL quedar sumado como agente del cambio. Sin terminal ni `--agente`, `tomar` SHALL negarse.
+
+#### Scenario: tomar, soltar y relevar
+- GIVEN un cambio abierto sin responsable
+- WHEN una persona corre tomar ID --con claude-code, otra persona intenta tomarlo y después lo toma con --relevo, y la última lo suelta
+- THEN el registro dice quién lo tomó con qué agente, el segundo intento sin --relevo se niega sin cambiar nada, el relevo dice de quién venía y al soltarlo queda sin responsable
+
+#### Scenario: un agente se suma
+- GIVEN un cambio con una persona responsable
+- WHEN un agente corre --agente codex tomar ID, y alguien corre tomar sin terminal ni --agente
+- THEN codex queda como agente del cambio y la persona sigue responsable, y el segundo se niega
+
+### Requirement: estado y el tablero muestran quién trabaja en qué
+Tipo: funcional
+`estado` (y `--json`) SHALL mostrar por cambio la persona responsable y desde cuándo, los agentes declarados y los que actuaron en las últimas 24 horas con su última acción, y los revisores lanzados sin resultado. El tablero SHALL mostrarlo en cada cambio y SHALL mostrar, para el proyecto, los cambios abiertos agrupados por responsable, con los que no tienen responsable aparte.
+
+#### Scenario: un cambio con persona, agentes y un revisor en curso
+- GIVEN un cambio tomado por una persona con claude-code, con una acción reciente de codex y un revisor lanzado sin resultado
+- WHEN se pide oracle-factory estado ID --json y tablero --json
+- THEN aparecen la persona, claude-code y codex con su última acción, y el revisor en curso
+
+#### Scenario: quién está en qué en el proyecto
+- GIVEN dos cambios abiertos, uno tomado y otro sin responsable
+- WHEN se abre el tablero
+- THEN el tomado aparece bajo su persona y el otro como sin responsable
