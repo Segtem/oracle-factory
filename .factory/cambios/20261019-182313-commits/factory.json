@@ -84,19 +84,46 @@
         "factory_commits.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T18:50:07+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "medidas": [
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
+        "factory_commits.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T18:50:07+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "medidas": [
+        "factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+        "factory_commits.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": "funcional",
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T18:50:07+00:00",
       "sha256": "610a769afc100121017949a253c4ca1e3c0e85f7a37a2a93921b21e6448d5b87",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T18:38:05+00:00",
       "catalogos": {
         "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "2418170d1f8af0e8662deec34f57348ca50bf3488f5784e82abbffd7269a0d0b",
         "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
@@ -107,10 +134,12 @@
       }
     },
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T18:50:07+00:00",
       "sha256": "e712f172d686ca6848bd26edb3c9133d0deaa00c0808b650b6b03d85f91a7a5f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-19T18:38:05+00:00",
       "catalogos": {
         "factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "adfe41736478a13b17ad43731d5dd72beb1a4bfdaa70e8232229d19ec8f12dbb",
         "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
@@ -120,5 +149,6 @@
         "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
