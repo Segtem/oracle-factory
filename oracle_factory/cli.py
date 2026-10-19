@@ -972,7 +972,19 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
                                                          "checkout": checkout})
     print(f"Revisor {nombre} ({revisor['proveedor']}, {revisor['modelo']}) sobre el candidato {sha}; tope {revisor['tope_minutos']} min.")
     print("Comando: " + " ".join(a if len(a) < 80 else a[:77] + "..." for a in argv))
-    resultado = revisores_mod.ejecutar_revisor(argv, trabajo, registro, revisor["tope_minutos"])
+    with turno_de_pedidos(identificador):  # el lanzamiento queda antes: un pedido cortado a mitad no desaparece
+        _, estado = leer(identificador)
+        evento(estado, "revision_lanzada", forma="registro", revisor=nombre, candidato=sha)
+        guardar(carpeta, estado)
+    try:
+        resultado = revisores_mod.ejecutar_revisor(argv, trabajo, registro, revisor["tope_minutos"])
+    except KeyboardInterrupt:
+        with turno_de_pedidos(identificador):
+            _, estado = leer(identificador)
+            evento(estado, "revision_pedida", forma="registro", revisor=nombre, proveedor=revisor["proveedor"],
+                   modelo=revisor["modelo"], candidato=sha, resultado="interrumpido", hallazgos=0)
+            guardar(carpeta, estado)
+        raise
     hallazgos, motivo, severidades = 0, None, ""
     if resultado == "tope":
         motivo = f"el revisor no terminó dentro del tope de {revisor['tope_minutos']} minutos"
@@ -1166,6 +1178,30 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
         return
     evento(estado, "revision_cancelada", forma="intento", causa=causa, candidato=intento["candidato"])
     guardar(carpeta, estado, esperado=leido)  # si otro lo escribió entretanto, no se pisa
+
+
+def aviso_lanzamientos(estado: dict) -> list[str]:
+    """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por revisor y candidato."""
+    abiertos: dict[tuple, dict] = {}
+    for e in estado.get("eventos") or []:
+        clave = (e.get("revisor"), e.get("candidato"))
+        if e.get("accion") == "revision_lanzada":
+            abiertos[clave] = e
+        elif e.get("accion") == "revision_pedida":
+            abiertos.pop(clave, None)
+    return [f"el revisor {r} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el candidato {c} y no dejó "
+            f"resultado; volvé a pedirlo con oracle-factory pedir-revision {estado['id']} --a {r}"
+            for (r, c), e in abiertos.items()]
+
+
+def aviso_sin_autor(estado: dict) -> list[str]:
+    """Acciones que quedaron sin autor: corridas sin --agente y sin una terminal de una persona."""
+    sin = [e.get("accion") for e in estado.get("eventos") or [] if e.get("tipo_actor") == "sin_identificar"]
+    if not sin:
+        return []
+    cuales = ", ".join(dict.fromkeys(sin))
+    return [f"{len(sin)} {'acción quedó' if len(sin) == 1 else 'acciones quedaron'} sin autor ({cuales}): un agente las "
+            "hace con --agente NOMBRE, y una persona desde su terminal"]
 
 
 def aviso_revision(estado: dict) -> list[str]:
@@ -2065,7 +2101,8 @@ def datos_estado(identificador: str) -> dict:
         "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos", "hechos_mas"),
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
-        "avisos": [] if abandonado else avisos_head(estado) + aviso_revision(estado),
+        "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
+                                         + aviso_sin_autor(estado)),
     }
 
 
@@ -2239,7 +2276,7 @@ def mostrar(identificador: str) -> None:
     print("Pendiente: " + ("; ".join(pendientes_actuales(carpeta, estado)) or "ninguno"))
     for linea in commits_registrados(estado):
         print(linea + ".")
-    for aviso in avisos_head(estado) + aviso_revision(estado):
+    for aviso in avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
@@ -2281,6 +2318,9 @@ Más detalle en `docs/estructura.md` del repositorio de Factory, y `oracle-facto
 """
 
 
+SIN_USO_DE_ORACLE = ("corpus", "relaciones", "diferencial")
+
+
 def inicializar(oracle: str | None = None) -> None:
     """Prepara Factory en ROOT. Con `oracle`, adopta el proyecto Oracle que ya está en esa carpeta en vez de crear uno en la raíz."""
     marca = ROOT / estructura.DIR
@@ -2304,10 +2344,15 @@ def inicializar(oracle: str | None = None) -> None:
     oracle_raiz = ("catalogos", "corpus", "diferencial", "relaciones", "requisitos", "macros", "oracle.json")
     for nombre in propios + (() if oracle else oracle_raiz):
         ruta_segura(ROOT / nombre)
+    de_antes = {nombre for nombre in SIN_USO_DE_ORACLE if (ROOT / nombre).exists()}
     for comando in (["tasks", "init", str(ROOT), "--sin-readme"], *([] if oracle else [["oracle", "init", str(ROOT)]])):
         resultado = ejecutar(comando)
         if resultado.returncode:
             raise FactoryError(resultado.stderr or resultado.stdout)
+    for nombre in SIN_USO_DE_ORACLE:  # las crea `oracle init` y Factory no las usa: vacías, sólo confunden
+        carpeta = ROOT / nombre
+        if nombre not in de_antes and carpeta.is_dir() and not carpeta.is_symlink() and not any(carpeta.iterdir()):
+            carpeta.rmdir()
     ruta_segura(CHANGES).mkdir(parents=True, exist_ok=True)
     for sub in ('cambios', 'local'):
         ruta_segura(ROOT / estructura.DIR / sub).mkdir(parents=True, exist_ok=True)
@@ -2324,7 +2369,7 @@ def inicializar(oracle: str | None = None) -> None:
         leeme.write_text(LEEME_FACTORY, encoding='utf-8')
     ignore = ruta_segura(ROOT / '.gitignore')
     contenido = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
-    pendientes = [line for line in ('.factory-demo/', estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE, '__pycache__/', '*.py[cod]')
+    pendientes = [line for line in (estructura.IGNORAR_LOCAL, estructura.IGNORAR_CLUE, '__pycache__/', '*.py[cod]')
                   if line not in contenido.splitlines()]
     if pendientes:
         with ignore.open('a', encoding='utf-8') as archivo:
@@ -2602,7 +2647,7 @@ def listar(fase: str | None = None, abiertos: bool = False, cerrados: bool = Fal
 
 @contextmanager
 def bloqueo_medidas(identificador: str):
-    ruta = ruta_segura(ROOT / '.factory-demo' / 'locks' / (identificador + '.medir.lock'))
+    ruta = ruta_segura(ROOT / estructura.DIR / 'local' / 'locks' / (identificador + '.medir.lock'))
     ruta.parent.mkdir(parents=True, exist_ok=True)
     try:
         descriptor = os.open(ruta, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
