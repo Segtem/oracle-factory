@@ -30,6 +30,7 @@ from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import revision as documentos_revision
+from . import tablero as tablero_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
 ROOT = Path.cwd().resolve()
@@ -2909,6 +2910,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('pedir-revision', help='pedir una revisión independiente del candidato actual a un revisor configurado')
     q.add_argument('id'); q.add_argument('--a', dest='revisor', required=True, help='nombre del revisor en .factory/config.json')
     q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue')
+    p = sub.add_parser('tablero', help='el tablero de comando: cada cambio abierto con su línea de tiempo, hallazgos y métricas')
+    p.add_argument('--json', action='store_true', required=True, help='el tablero en JSON (lo lee la extensión de VS Code)')
     q = sub.add_parser('resumen', help='escribir .factory/resumen.md: lo vigente, los cambios abiertos, riesgos aceptados y límites')
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si el resumen falta o quedó viejo')
     q.add_argument('--salida', type=Path, help='otra ruta dentro del proyecto (fuera de .factory/ cuenta en la huella)')
@@ -2993,6 +2996,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
+        elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
         elif args.comando == "resumen" and args.json:
             if args.verificar or args.salida or args.ver:
                 raise FactoryError("--json no se combina con --verificar, --salida ni --ver")

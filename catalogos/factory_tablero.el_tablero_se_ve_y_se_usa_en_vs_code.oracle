@@ -1,0 +1,8 @@
+medida factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code:
+    de tablero_caso c
+    donde c.requisito == "el_tablero_se_ve_y_se_usa_en_vs_code" y c.codigo == 0
+    resumen contar(1)
+    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_tablero.py; asociar junto a corrida_completa"
+    requiere tablero_caso
+    ambito universal
+    alcance "escenarios tb2 en repositorios temporales, Linux, con Oracle 0.39.0 real; el panel en node con un vscode falso"

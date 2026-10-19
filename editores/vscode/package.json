@@ -3,7 +3,7 @@
     "displayName": "Oracle Factory",
     "description": "Los cambios abiertos de Factory, sus requisitos y artefactos, y el próximo paso en la terminal",
     "publisher": "cs50-taller",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -34,6 +34,12 @@
                 "icon": "$(refresh)"
             },
             {
+                "command": "factory.tablero",
+                "title": "Abrir el tablero",
+                "category": "Factory",
+                "icon": "$(dashboard)"
+            },
+            {
                 "command": "factory.escribirPaso",
                 "title": "Escribir en la terminal",
                 "category": "Factory",
@@ -42,6 +48,11 @@
         ],
         "menus": {
             "view/title": [
+                {
+                    "command": "factory.tablero",
+                    "when": "view == factory.cambios",
+                    "group": "navigation"
+                },
                 {
                     "command": "factory.refrescar",
                     "when": "view == factory.cambios",
