@@ -2,11 +2,24 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-19T18:27:07+00:00",
+    "documentos": {
+      "openspec/changes/20261019-182313-commits/proposal.md": "2dcd8af7c9cfb9c6abcf21af529623d7f91ab5c9307d9cf7653a619f95f7826d",
+      "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f"
+    }
+  },
+  "requisitos": [
+    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+    "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-19T18:23:13+00:00",
       "capacidad": "trazabilidad"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T18:27:07+00:00",
+      "documentos": {
+        "openspec/changes/20261019-182313-commits/proposal.md": "2dcd8af7c9cfb9c6abcf21af529623d7f91ab5c9307d9cf7653a619f95f7826d",
+        "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-19T18:28:40+00:00",
+      "ids": [
+        "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+        "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": "funcional",
+    "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
