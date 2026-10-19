@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/069b7dc",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "069b7dc99f68646e9dcea70bd3ace80378a290aa",
+  "diff_sha256": "6cf4a9921ba2b499f9750045e45a5aa01e744b5b770985ccc30c62fc130282f9",
+  "context_sha256": "52f03f2306e098dea06b183a2be088c52f1b973965b7da530435a8a22a6e3453",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null (12 pruebas pasaron satisfactoriamente en Linux con Python 3.13, Git 2.43 y Node 24.22).",
+    "El escenario de Node incluido en test_commits corrió con éxito, confirmando la disponibilidad de Node.js.",
+    "No se ejecutó la suite completa de tests de la POC ni tools/verify_commits.py para acotar la revisión al diff del candidato y sus contratos.",
+    "Se realizaron análisis empíricos y mutaciones en repositorios temporales locales para verificar el comportamiento con hooks ajenos, configuración de core.commentChar, topologías de merge y deducción de commits.",
+    "Las verificaciones se llevaron a cabo en Linux; no se probaron entornos Windows ni macOS."
+  ],
+  "findings": [
+    {
+      "id": "hook-ajeno-no-respetado-instala-commit-msg",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "Al detectar un prepare-commit-msg ajeno, Factory instala commit-msg e inserta el trailer igualmente, violando la spec",
+      "explanation": "El requisito funcional 'cada commit nuevo dice de qué cambio es' y su escenario 'sin un único cambio abierto, o con un hook ajeno' prometen contractualmente: 'Si en la carpeta de hooks ya hay un prepare-commit-msg ajeno, SHALL NOT pisarlo y SHALL decir cómo encadenarlo' y 'THEN el commit no lleva trailer, y el hook ajeno queda igual con un aviso de cómo encadenarlo' (ratificado en proposal.md: 'Si un hook ajeno ya existe, Factory no lo encadena solo: la persona decide'). Sin embargo, en instalar_hook(), el bucle itera sobre HOOKS = ('prepare-commit-msg', 'commit-msg'). Si prepare-commit-msg es ajeno, emite el aviso correspondiente pero en la siguiente iteración instala commit-msg en .git/hooks/commit-msg. Dado que commit-msg invoca poner_trailer, cualquier commit posterior (por ejemplo git commit -m) recibe el trailer 'Cambio: <ID>' sin que la persona haya decidido encadenar nada. Además, la prueba test_cm1_sin_un_unico_cambio_abierto_o_con_un_hook_ajeno verifica el mensaje de hooks pero elude deliberadamente realizar un commit en presencia del hook ajeno.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 620,
+        "end_line": 635,
+        "side": "head"
+      },
+      "trigger": "Tener un repositorio con un cambio abierto y un hook prepare-commit-msg preexistente ajeno a Factory. Ejecutar oracle-factory init u oracle-factory hooks y luego hacer un commit con 'git commit -m \"...\"'.",
+      "evidence": "En un repositorio de prueba con prepare-commit-msg ajeno y un cambio abierto, ejecutar init instaló commit-msg. Luego, 'git commit -m \"mensaje\"' generó un commit con el trailer 'Cambio: <ID>' al final, contradiciendo el escenario de la spec donde el commit no debe llevar trailer. En test_commits.py línea 110 se comprueba la salida de la CLI pero se omite verificar el commit.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "status": "pendiente",
+      "verification": "Configurar un prepare-commit-msg ajeno en un proyecto con un cambio abierto, ejecutar oracle-factory hooks, realizar un commit con 'git commit -m \"test\"' y verificar que el mensaje resultante no contenga el trailer 'Cambio:'."
+    },
+    {
+      "id": "commit-interactivo-falla-abortar-con-commentchar",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "poner_trailer hardcodea '#' para descartar comentarios, impidiendo abortar commits interactivos si se configura core.commentChar",
+      "explanation": "Para evitar que prepare-commit-msg inserte el trailer antes de abrir el editor, poner_trailer() verifica: 'if not any(linea.strip() and not linea.startswith(\"#\") for linea in mensaje.splitlines()): return'. Esta comprobación asume que los comentarios siempre inician con '#'. Git permite configurar el carácter de comentario mediante 'core.commentChar' (o 'core.commentString'). Si un usuario o repositorio configura 'core.commentChar' con otro carácter (por ejemplo ';'), la plantilla que Git genera contiene líneas de comentario iniciadas con ';'. poner_trailer() las evalúa como texto del usuario, no retorna en prepare-commit-msg y ejecuta 'git interpret-trailers --in-place --trailer ...'. Esto coloca 'Cambio: <ID>' en el archivo antes de lanzar el editor. Cuando el usuario cierra el editor sin escribir nada (para abortar), Git comprueba que el archivo no está vacío y confirma el commit involuntariamente con el trailer como asunto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 650,
+        "end_line": 654,
+        "side": "head"
+      },
+      "trigger": "Configurar 'git config core.commentChar \";\"' en un repositorio con un cambio abierto y ejecutar 'git commit' interactivo cerrando el editor sin escribir contenido.",
+      "evidence": "Prueba empírica con core.commentChar = ';': ejecutar 'git commit' con GIT_EDITOR=true (guardar buffer inicial) finalizó con código 0 y confirmó un commit con mensaje 'Cambio: <ID>', en lugar de abortar con 'Aborting commit due to empty commit message'.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "status": "pendiente",
+      "verification": "Configurar core.commentChar con un carácter distinto de '#' y verificar que al ejecutar 'git commit' interactivo y cerrar el editor sin escribir texto, Git aborte la operación sin crear ningún commit."
+    },
+    {
+      "id": "deduccion-commits-falla-con-candidato-abandonado",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "La deducción toma un único candidato al azar en orden alfabético, perdiendo los commits deducidos si ese candidato no está en el merge",
+      "explanation": "En commits_del_cambio() (líneas 689-695), para cambios cerrados se ejecuta: 'sha = next(iter(candidatos))' asumiendo que 'con un candidato alcanza: los de un cambio van juntos'. Dado que candidatos es un diccionario ordenado por hash corto lexicográfico, si un cambio cerrado cuenta con múltiples candidatos (por ejemplo, vuelta 1 rechazada en una rama descartada o rebaseada, y vuelta 2 aceptada e integrada), y el hash del candidato descartado resulta alfabéticamente anterior al candidato integrado, sha toma el candidato descartado. Como ese candidato no es ancestro de principal, 'git rev-list --ancestry-path' devuelve una lista vacía y merge resulta None. Al no iterar sobre los demás candidatos, no se deduce el merge de la rama y se omiten todos los commits de la rama integrada en log --json, estado y el tablero.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 688,
+        "end_line": 696,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio cerrado con más de un candidato registrado, donde un candidato de una rama descartada o rebaseada tiene un hash corto alfabéticamente menor que el candidato que fue efectivamente integrado a la rama principal. Consultar 'oracle-factory log <ID> --json'.",
+      "evidence": "Prueba empírica: en un cambio cerrado con candidato descartado '0256990' y candidato integrado '9003179', sha seleccionó '0256990'. merges resultó vacío y la salida de log --json únicamente incluyó los candidatos individuales, perdiendo 'feature commit 1' y los demás commits de la rama integrada.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "Registrar en un cambio cerrado dos candidatos (uno en un commit no integrado y otro en la rama integrada con merge a main, asegurando que el no integrado ordene primero lexicográficamente) y verificar que 'oracle-factory log ID --json' deduzca la totalidad de los commits de la rama integrada."
+    },
+    {
+      "id": "deduccion-commits-atribuye-commits-ajenos-en-repos-con-master",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "En repositorios con rama principal distinta de main (master), la deducción contra HEAD atribuye commits ajenos de ramas secundarias",
+      "explanation": "La línea 688 define: principal = 'main' if completo('main') else 'HEAD'. En repositorios donde la rama principal se llama master (o cualquier otro nombre estándar distinto de main), completo('main') evalúa a None, asignando principal = 'HEAD'. Si una persona consulta log, estado o el tablero mientras está posicionada en una rama de desarrollo secundaria ('otra') que bifurcó antes del cambio y luego incorporó la rama principal mediante 'git merge master', la búsqueda de merges en f'{sha}..HEAD' encuentra ese merge de sincronización ('Traer master a otra'). En dicho merge, el candidato del cambio viejo no es ancestro de m^1 (la rama secundaria), por lo que la heurística lo elige como el merge integrador e incorpora a través de 'git log m^1..m^2' commits ajenos de master que no pertenecen al cambio cerrado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 688,
+        "end_line": 696,
+        "side": "head"
+      },
+      "trigger": "Repositorio con rama principal master (sin rama main). Un cambio cerrado integrado a master. Otra rama secundaria que bifurcó antes de ese cambio y luego hizo 'git merge master'. Consultar 'oracle-factory log <ID> --json' desde dicha rama.",
+      "evidence": "Prueba empírica en un repositorio con rama master: al consultar log del cambio cerrado desde la rama 'otra', commits_del_cambio incluyó commits ajenos de master posteriores al cambio ('master: ajeno 2') marcados con unión 'deducido'.",
+      "related_requirement": "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero",
+      "status": "pendiente",
+      "verification": "Ejecutar la consulta en un repositorio con rama master desde una rama secundaria que haya fusionado master y verificar que no se incluyan commits ajenos a la rama integrada del cambio."
+    }
+  ]
+}

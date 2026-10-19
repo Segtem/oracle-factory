@@ -105,17 +105,31 @@ class Commits(unittest.TestCase):
         for nombre in ('prepare-commit-msg', 'commit-msg'):
             (hooks / nombre).write_text(f'#!/bin/sh\nset -e\n{sugerida}\nexit 0\n')
         self.assertNotIn('Cambio:', self.commit('d2.txt', 'ajeno con set -e'))
-        hook = hooks / 'prepare-commit-msg'
-        # Un hook ajeno no se pisa: hooks avisa cómo encadenarlo.
-        hook.write_text('#!/bin/sh\necho ajeno >/dev/null\n')
-        salida = self.cli('hooks')
-        self.assertIn('no es de Factory; no lo toqué', salida)
-        self.assertIn('trailer "$1" >/dev/null 2>&1 || true', salida)
-        self.assertEqual(hook.read_text(), '#!/bin/sh\necho ajeno >/dev/null\n')
-        # El de Factory se reinstala sobre sí mismo.
-        hook.write_text('#!/bin/sh\n# oracle-factory: une cada commit con su cambio (viejo)\nexit 0\n')
+        # Un hook ajeno (aunque sea uno solo de los dos) no se pisa, Factory no pone el otro y saca el suyo: el commit no
+        # lleva trailer y hooks avisa cómo encadenarlo.
+        for nombre in ('prepare-commit-msg', 'commit-msg'):
+            (hooks / nombre).unlink()
         self.assertIn('Hook de commits en', self.cli('hooks'))
-        self.assertIn(f'Cambio: {uno}', self.commit('e.txt', 'otra vez con hook'))
+        ajeno = '#!/bin/sh\necho ajeno >/dev/null\n'
+        (hooks / 'prepare-commit-msg').write_text(ajeno)
+        salida = self.cli('hooks')
+        self.assertIn('no es de Factory; no lo toqué ni instalé los de Factory', salida)
+        self.assertIn('trailer "$1" >/dev/null 2>&1 || true', salida)
+        self.assertEqual((hooks / 'prepare-commit-msg').read_text(), ajeno)
+        self.assertFalse((hooks / 'commit-msg').exists())
+        self.assertNotIn('Cambio:', self.commit('e.txt', 'con un hook ajeno'))
+        # Sin el ajeno, el de Factory se instala (y se reinstala sobre sí mismo).
+        (hooks / 'prepare-commit-msg').write_text('#!/bin/sh\n# oracle-factory: une cada commit con su cambio (viejo)\nexit 0\n')
+        self.assertIn('Hook de commits en', self.cli('hooks'))
+        self.assertIn(f'Cambio: {uno}', self.commit('f.txt', 'otra vez con hook'))
+        # Con otro carácter de comentario, cerrar el editor sin escribir sigue abortando.
+        self.git('config', 'core.commentChar', ';')
+        (self.root / 'g.txt').write_text('g\n')
+        self.git('add', '.')
+        antes = self.git('rev-parse', 'HEAD')
+        vacio = subprocess.run(['git', 'commit'], cwd=self.root, env={**ENTORNO, 'GIT_EDITOR': 'true'}, capture_output=True, text=True)
+        self.assertNotEqual(vacio.returncode, 0)
+        self.assertEqual(self.git('rev-parse', 'HEAD'), antes)
 
     # --- cm2: los commits de un cambio se ven en log, estado y el tablero ------------------------------------------
     def test_cm2_un_cambio_cerrado_de_antes_del_trailer(self):
@@ -142,18 +156,38 @@ class Commits(unittest.TestCase):
         registro.write_text(json.dumps(datos))
         self.git('add', '.')
         self.git('commit', '-q', '-m', 'viejo: el pedido')
+        # Un candidato de una vuelta descartada (otra rama que nunca se integró), que se ordena antes que el bueno.
+        self.git('checkout', '-q', '-b', 'descartada', 'tarea/viejo~1')
+        for i in range(200):
+            self.git('commit', '-q', '--allow-empty', '-m', f'descartada {i}')
+            descartado = self.git('rev-parse', '--short=7', 'HEAD')
+            if descartado < candidato:
+                break
+            self.git('reset', '-q', '--hard', 'HEAD~1')
+        self.assertLess(descartado, candidato)
+        self.git('checkout', '-q', 'tarea/viejo')
+        (self.root / '.factory/cambios' / ident / 'candidatos' / descartado).mkdir()
+        (self.root / '.factory/cambios' / ident / 'candidatos' / descartado / 'nota.txt').write_text('descartado\n')
+        self.git('add', '.')
+        self.git('commit', '-q', '-m', 'viejo: anota el descartado')
         self.git('checkout', '-q', 'main')
         self.git('merge', '-q', '--no-ff', 'tarea/viejo', '-m', 'Integrar viejo')
         self.cerrar_a_mano(ident)
         self.git('commit', '-qam', 'main: cerrado')
+        # Un commit que nombra el cambio en el cuerpo, no en sus trailers, no es del cambio.
+        self.git('commit', '-q', '--allow-empty', '-m', 'main: menciona', '-m', f'Cambio: {ident}\nera otro asunto.',
+                 '-m', 'Fin.')
+        self.git('branch', '-m', 'main', 'master')  # la rama principal también puede llamarse master
         # Otra rama que trae main después: su merge no es el del cambio, aunque se mire desde ella.
-        self.git('checkout', '-q', '-b', 'otra', 'HEAD~2')
+        self.git('checkout', '-q', '-b', 'otra', 'HEAD~3')
         self.commit('o.txt', 'otra: algo')
-        self.git('merge', '-q', '--no-ff', 'main', '-m', 'Traer main a otra')
+        self.git('merge', '-q', '--no-ff', 'master', '-m', 'Traer master a otra')
         datos = json.loads(self.cli('log', ident, '--json'))
         self.assertEqual(datos['esquema'], 'oracle-factory.log/1')
         asuntos = {c['asunto']: c for c in datos['commits']}
-        self.assertEqual(set(asuntos), {'viejo: primero', 'Traer main', 'viejo: registros', 'viejo: el pedido'})  # ni main ni init
+        self.assertEqual(set(asuntos), {'viejo: primero', 'Traer main', 'viejo: registros', 'viejo: el pedido',
+                                        'viejo: anota el descartado', 'descartada ' + str(i)})  # ni main ni init
+        self.assertEqual(asuntos['descartada ' + str(i)]['union'], 'deducido')  # el candidato descartado, por sí mismo
         self.assertEqual({c['union'] for c in datos['commits']}, {'deducido'})
         primero = asuntos['viejo: primero']
         self.assertEqual((primero['corto'], primero['candidato'], primero['revisado']), (candidato, True, True))
