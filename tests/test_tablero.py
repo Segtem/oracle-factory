@@ -211,13 +211,34 @@ class Metricas(unittest.TestCase):
                    # medidas vueltas a decidir después de la revisión
                    {'accion': 'medidas_confirmadas', 'cuando': '2026-10-01T13:00:00+00:00', 'tipo_actor': 'persona', 'forma': 'confirmo'}]
         m = tablero.metricas_del_cambio({'eventos': eventos, 'requisitos': []}, [], None)
-        self.assertEqual([(f['fase'], f['horas']) for f in m['fases']], [('acuerdo', 1.0), ('medidas', 2.0)])
+        # Medidas vueltas a decidir después de aprobar la revisión: el tramo de después cuenta como juicio (ahí estaba)
+        # y el cambio vuelve a construcción y revisión, que todavía no terminó.
+        self.assertEqual([(f['fase'], f['horas']) for f in m['fases']], [('acuerdo', 1.0), ('medidas', 1.0), ('juicio', 1.0)])
+        hora = lambda h: f'2026-10-01T{h:02d}:00:00+00:00'
+        ida_y_vuelta = [{'accion': 'cambio_creado', 'cuando': hora(0)}, {'accion': 'spec_aprobada', 'cuando': hora(1)},
+                        {'accion': 'medidas_confirmadas', 'cuando': hora(2)},
+                        {'accion': 'revision_registrada', 'decision': 'aprobar', 'cuando': hora(3)},
+                        {'accion': 'medidas_confirmadas', 'cuando': hora(4)},
+                        {'accion': 'revision_registrada', 'decision': 'pedir_cambios', 'cuando': hora(5)},
+                        {'accion': 'revision_registrada', 'decision': 'aprobar', 'cuando': hora(7)},
+                        {'accion': 'oracle_ejecutado', 'codigo': 0, 'cuando': hora(8)}, {'accion': 'cierre', 'cuando': hora(10)}]
+        m2 = tablero.metricas_del_cambio({'eventos': ida_y_vuelta, 'requisitos': []}, [], None)
+        self.assertEqual([(f['fase'], f['horas']) for f in m2['fases']],
+                         [('acuerdo', 1.0), ('medidas', 1.0), ('construcción y revisión', 4.0), ('juicio', 2.0), ('cierre', 2.0)])
+        self.assertEqual(m2['horas_hasta_cierre'], 10.0)
+        # Un reloj que va hacia atrás (un registro copiado de otra máquina) no resta tiempo, y un cambio_creado repetido
+        # no corre el comienzo.
+        raro = ida_y_vuelta[:1] + [{'accion': 'cambio_creado', 'cuando': hora(3)}, {'accion': 'spec_aprobada', 'cuando': hora(1)}] \
+            + ida_y_vuelta[2:]
+        m3 = tablero.metricas_del_cambio({'eventos': raro, 'requisitos': []}, [], None)
+        self.assertEqual([(f['fase'], f['horas']) for f in m3['fases']][:2], [('acuerdo', 3.0), ('medidas', 1.0)])
+        self.assertEqual(m3['horas_hasta_cierre'], 10.0)
         self.assertEqual(m['decisiones_por_actor'], {'persona': 3, 'agente': 1, 'sin_identificar': 0})
         self.assertEqual(m['vueltas_de_revision'], 1)  # revisada a mano, sin revisores pedidos: una vuelta
         # Un registro viejo con una fecha sin zona horaria: esa fase no tiene duración, y el tablero no se cae.
         viejo = [dict(eventos[0], cuando='2026-10-01T10:00:00')] + eventos[1:]
         m = tablero.metricas_del_cambio({'eventos': viejo, 'requisitos': []}, [], None)
-        self.assertEqual([f['fase'] for f in m['fases']], ['medidas'])
+        self.assertEqual([f['fase'] for f in m['fases']], ['medidas', 'juicio'])
         # Los requisitos cumplidos salen del juicio sólo si sigue vigente.
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / 'informe.txt').write_text('✓ dom.uno  ok\n✗ dom.dos  falla\n')

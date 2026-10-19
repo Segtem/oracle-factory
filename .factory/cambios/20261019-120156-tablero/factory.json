@@ -166,6 +166,20 @@
       "candidato": "508e473",
       "resultado": "ok",
       "hallazgos": 0
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T13:50:35+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "e40275f",
+      "resultado": "ok",
+      "hallazgos": 1
     }
   ],
   "tipos": {

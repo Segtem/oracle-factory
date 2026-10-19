@@ -14,9 +14,9 @@ from statistics import median
 ESQUEMA = "oracle-factory.tablero/1"
 # Las decisiones que espera una persona: el tablero las pone arriba.
 DECISIONES = ("aprobar-spec", "medir", "revisar", "cerrar", "abandonar")
-# Los hitos de un cambio, en orden; cada fase va de un hito al siguiente.
-FASES = (("acuerdo", "creado", "spec"), ("medidas", "spec", "medidas"), ("construcción y revisión", "medidas", "revision"),
-         ("juicio", "revision", "juicio"), ("cierre", "juicio", "cierre"))
+# La fase en la que entra un cambio con cada hito; con el cierre sale de todas.
+FASES = {"creado": "acuerdo", "spec": "medidas", "medidas": "construcción y revisión", "revision": "juicio",
+         "juicio": "cierre"}
 FORMAS_DE_DECIDIR = ("decidio", "confirmo")
 SEVERIDADES = ("critica", "alta", "media", "baja", "informativa")
 
@@ -36,24 +36,50 @@ def _horas(desde, hasta) -> float | None:
         return None
 
 
+def _hito(e: dict) -> str | None:
+    accion = e.get("accion")
+    if accion == "cambio_creado":
+        return "creado"
+    if accion in ("spec_aprobada", "spec_aceptada_en_conversacion"):
+        return "spec"
+    if accion in ("medidas_confirmadas", "medidas_elegidas"):
+        return "medidas"
+    if accion == "revision_registrada" and e.get("decision") == "aprobar":
+        return "revision"
+    if accion == "oracle_ejecutado" and e.get("codigo") == 0:
+        return "juicio"
+    return "cierre" if accion == "cierre" else None
+
+
 def hitos(eventos: list[dict]) -> dict[str, str]:
-    """Cuándo pasó cada hito del cambio: el primer acuerdo, la última decisión de medidas, de revisión, de juicio verde."""
+    """Cuándo pasó cada hito del cambio por primera vez (el cierre, la última)."""
     hitos: dict[str, str] = {}
     for e in eventos:
-        accion, cuando = e.get("accion"), e.get("cuando")
-        if accion == "cambio_creado":
-            hitos.setdefault("creado", cuando)
-        elif accion in ("spec_aprobada", "spec_aceptada_en_conversacion"):
-            hitos.setdefault("spec", cuando)
-        elif accion in ("medidas_confirmadas", "medidas_elegidas"):
-            hitos["medidas"] = cuando
-        elif accion == "revision_registrada" and e.get("decision") == "aprobar":
-            hitos["revision"] = cuando
-        elif accion == "oracle_ejecutado" and e.get("codigo") == 0:
-            hitos["juicio"] = cuando
-        elif accion == "cierre":
-            hitos["cierre"] = cuando
+        h = _hito(e)
+        if h == "cierre":
+            hitos["cierre"] = e.get("cuando")
+        elif h:
+            hitos.setdefault(h, e.get("cuando"))
     return hitos
+
+
+def fases(eventos: list[dict]) -> list[dict]:
+    """El tiempo en cada fase, sumando cada vez que el cambio estuvo en ella: si después de una revisión se vuelven a
+    elegir medidas, el cambio vuelve a construcción y revisión, y ese tramo cuenta ahí. Sólo las fases de las que el
+    cambio ya salió; un tramo con fechas que no se pueden comparar o que van hacia atrás no cuenta."""
+    tramos: dict[str, dict] = {}
+    actual = desde = None
+    for e in eventos:
+        h = _hito(e)
+        if not h:
+            continue
+        if actual:
+            horas = _horas(desde, e.get("cuando"))
+            if horas is not None and horas >= 0:
+                t = tramos.setdefault(actual, {"fase": actual, "desde": desde, "hasta": None, "horas": 0.0})
+                t["hasta"], t["horas"] = e.get("cuando"), round(t["horas"] + horas, 2)
+        actual, desde = FASES.get(h), e.get("cuando")
+    return [tramos[f] for f in dict.fromkeys(FASES.values()) if f in tramos]
 
 
 def informes(raiz: Path, carpeta_cambio: Path) -> list[dict]:
@@ -93,11 +119,6 @@ def _contar_severidades(hallazgos: list[dict]) -> dict[str, int]:
 def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos: int | None) -> dict:
     eventos = estado.get("eventos") or []
     h = hitos(eventos)
-    # Una fase que «termina» antes de empezar no se recorrió en orden (por ejemplo, medidas vueltas a decidir
-    # después de una revisión vieja), o cuyas fechas no se pueden comparar: no cuenta ni da una duración inventada.
-    fases = [{"fase": nombre, "desde": h[a], "hasta": h[b], "horas": horas}
-             for nombre, a, b in FASES if a in h and b in h
-             for horas in [_horas(h[a], h[b])] if horas is not None and horas >= 0]
     actores = {"persona": 0, "agente": 0, "sin_identificar": 0}
     for e in eventos:  # sólo decisiones: no propuestas, registros de un revisor ni migraciones
         if e.get("forma") in FORMAS_DE_DECIDIR and e.get("tipo_actor") in actores:
@@ -114,7 +135,7 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
     requisitos = estado.get("requisitos") or []
     medidos = sum(1 for rid in requisitos if (estado.get("medidas") or {}).get(rid))
     return {
-        "fases": fases,
+        "fases": fases(eventos),
         "horas_hasta_cierre": _horas(h.get("creado"), h.get("cierre")),
         "vueltas_de_revision": vueltas,
         "hallazgos_por_severidad": _contar_severidades([x for i in todos_los_informes for x in i["hallazgos"]]),
