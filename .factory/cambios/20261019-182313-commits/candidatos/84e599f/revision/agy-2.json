@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-commits/.factory/local/revisiones/84e599f",
+  "base": "f95ca1238a0976fffd99f79cfcc5b2f58af8a068",
+  "head": "84e599f29b5d74ae9d058732d8f863aa5d78d4f9",
+  "diff_sha256": "52c0243fe0881e80ee19a5ff18a534bfc2bed9216994902d0011add2e34ae59a",
+  "context_sha256": "9a0a43983609be05f6c73e0e518fbf09d94d72aac86ae9fbfcfdcb1322841fcf",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión acotada de la vuelta 6 sobre el candidato 84e599f frente a la vuelta 5 (32e0ca5, que ya contaba con 0 hallazgos en ambas revisiones).",
+    "Se comprobó mediante git diff que el único cambio en archivos de producto o especificación fue la eliminación de la línea sin_medir en requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.requisito.",
+    "Se verificó que el requisito cada_commit_nuevo_dice_de_que_cambio_es queda correctamente medido por factory_commits.cada_commit_nuevo_dice_de_que_cambio_es y factory_commits.corrida_completa, con catálogos existentes y correspondencia exacta con los escenarios cm1 en tools/verify_commits.py.",
+    "Se comprobó con oracle-factory estado --json que ambos requisitos del cambio están formalmente confirmados por la persona y que no quedan requisitos sin medir ni pendientes de medición.",
+    "Se ejecutaron las pruebas unitarias: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits </dev/null (4 pruebas pasaron satisfactoriamente en 3.01s).",
+    "Se ejecutaron complementariamente tests.test_commits tests.test_cli_json (12 pruebas OK en 7.64s).",
+    "No se ejecutó la suite completa de la POC ni tools/verify_commits.py en el checkout del candidato para mantener la revisión corta y preservar el estado de sólo lectura.",
+    "No se hallaron defectos ni regresiones; la lista de hallazgos se entrega vacía."
+  ],
+  "findings": []
+}

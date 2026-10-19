@@ -421,6 +421,84 @@
         "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
         "factory_commits.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:26:54+00:00",
+      "revisor": "agy",
+      "candidato": "84e599f",
+      "lanzamiento": "35bee1a24846"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:26:54+00:00",
+      "revisor": "codex",
+      "candidato": "84e599f",
+      "lanzamiento": "0a29d6bc432a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T21:28:02+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "84e599f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "0a29d6bc432a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:56:54+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "84e599f",
+      "resultado": "tope",
+      "hallazgos": 0,
+      "lanzamiento": "35bee1a24846"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:57:07+00:00",
+      "revisor": "agy",
+      "candidato": "84e599f",
+      "lanzamiento": "3e03eb117482"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-19T22:59:56+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "84e599f",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3e03eb117482"
     }
   ],
   "tipos": {
