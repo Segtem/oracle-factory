@@ -128,10 +128,17 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
         cuenta = por_revisor.setdefault(informe["revisor"], {s: 0 for s in SEVERIDADES})
         for s, n in _contar_severidades(informe["hallazgos"]).items():
             cuenta[s] += n
-    # Una vuelta por candidato revisado; una revisión registrada a mano (sin revisores pedidos) es al menos una.
-    vueltas = len({e.get("candidato") for e in eventos if e.get("accion") == "revision_pedida"})
-    if not vueltas and any(e.get("accion") == "revision_registrada" for e in eventos):
-        vueltas = 1
+    # Una vuelta por candidato al que se le pidieron revisores, más cada revisión registrada sin revisores pedidos desde
+    # la anterior (una vuelta a mano: su evento no dice el candidato).
+    pedidos, a_mano, desde_la_anterior = set(), 0, False
+    for e in eventos:
+        if e.get("accion") == "revision_pedida":
+            pedidos.add(e.get("candidato"))
+            desde_la_anterior = True
+        elif e.get("accion") == "revision_registrada":
+            a_mano += not desde_la_anterior
+            desde_la_anterior = False
+    vueltas = len(pedidos) + a_mano
     requisitos = estado.get("requisitos") or []
     medidos = sum(1 for rid in requisitos if (estado.get("medidas") or {}).get(rid))
     return {

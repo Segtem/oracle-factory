@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/d572631",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "d572631374f2a2b031b04c924e25ac2f309144af",
+  "diff_sha256": "507cb95848e273d80557e4d21c833ae6e3d6994b5440b8009f92d37c6bf09940",
+  "context_sha256": "a6b96d076043d9fa7b1b40bcb96581425a6f0880879dacf75659862c52c4006c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Las vueltas de revisión no cuentan revisiones manuales si hubo pedidos automáticos ni distinguen múltiples revisiones manuales",
+      "explanation": "La métrica vueltas_de_revision calcula las vueltas a partir del conjunto de candidatos presentes en eventos revision_pedida (línea 132: vueltas = len({e.get('candidato') for e in eventos if e.get('accion') == 'revision_pedida'})). Si ese conjunto no está vacío, el bloque de respaldo (líneas 133–134: if not vueltas and any(e.get('accion') == 'revision_registrada' for e in eventos): vueltas = 1) no se ejecuta. Por consiguiente, si un cambio tiene revisiones automáticas pedidas para un candidato (c1) y posteriormente se crea otro candidato (c2) cuya revisión es registrada manualmente con oracle-factory revisar o revision, vueltas permanece en 1 y la revisión manual del nuevo candidato es ignorada. Asimismo, si un cambio se revisa exclusivamente por vía manual a través de varios candidatos (por ejemplo, revisiones sucesivas con pedir_cambios en c1, pedir_cambios en c2 y aprobación en c3), vueltas queda fijado en 1 en vez de reflejar las 3 vueltas reales. Al cerrarse el cambio, la métrica del proyecto evalúa en_una_vuelta += metricas['vueltas_de_revision'] == 1, clasificando erróneamente cambios con múltiples vueltas como cerrados en una sola vuelta.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 132,
+        "end_line": 134,
+        "side": "head"
+      },
+      "trigger": "Registrar revision_pedida para el candidato c1, crear c2 y registrar una revisión manual de c2 con revision_registrada (o registrar múltiples eventos revision_registrada en diferentes candidatos sin pedir-revision); luego consultar oracle-factory tablero --json.",
+      "evidence": "En oracle_factory/tablero.py (líneas 132–134):\n    vueltas = len({e.get(\"candidato\") for e in eventos if e.get(\"accion\") == \"revision_pedida\"})\n    if not vueltas and any(e.get(\"accion\") == \"revision_registrada\" for e in eventos):\n        vueltas = 1\nAl ejecutar metricas_del_cambio con eventos = [{'accion': 'revision_pedida', 'candidato': 'c1'}, {'accion': 'revision_registrada', 'decision': 'cambios'}, {'accion': 'revision_registrada', 'decision': 'aprobar'}], devuelve vueltas_de_revision: 1 en lugar de 2. Igualmente, con eventos que contienen tres revisiones manuales sin revisiones pedidas, devuelve vueltas_de_revision: 1. Al cerrarse el cambio, armar() evalúa metricas['vueltas_de_revision'] == 1 e incrementa en_una_vuelta, distorsionando la proporción de primera vuelta en las métricas del proyecto.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Se verificó ejecutando metricas_del_cambio de manera aislada con secuencias mixtas (revisiones pedidas + revisiones manuales en nuevos candidatos) y exclusivamente manuales con múltiples iteraciones; en ambos casos el valor resultante fue 1. Se revisó oracle_factory/cli.py confirmando que el evento revision_registrada no incluye candidato en sus datos de evento. La prueba existente en tests/test_tablero.py sólo cubre casos aislados con pedidos por candidato o una única revisión manual sin pedidos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Lectura y contraste de proposal.md, spec.md (specs/ide/spec.md), el diff del paquete paquete-agy-1.json y los archivos de producto y pruebas modificados. Se omitieron los 24 archivos de registros y evidencia excluidos bajo .factory/ y tareas/.",
+    "Ejecución en primer plano desde la raíz del checkout d572631 de: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null. Se ejecutaron 6 pruebas con resultado OK; entorno con Node.js operativo.",
+    "Verificación de correcciones previas: TABLERO-002 (requisitos cumplidos devuelven None si el juicio no está vigente), TABLERO-003 (decisiones por actor cuentan exclusivamente eventos con forma 'decidio' o 'confirmo') y TABLERO-004 (recorrido de hitos en fases() acumulando tramos en orden e ignorando tramos hacia atrás o incomparables).",
+    "Auditoría de seguridad y robustez: comprobación del escape HTML y CSP con nonce en editores/vscode/tablero.js ante inyecciones en títulos, rutas, comandos y detalles; comprobación de resolución canónica y contención de rutas/symlinks en editores/vscode/extension.js (mensajeDelTablero); comprobación de bloqueo de saltos de línea para envío de comandos sin Enter a la terminal; verificación de que informes rotos o malformados se ignoran sin abortar el armado del tablero.",
+    "No se abrió VS Code en entorno gráfico interactivo, no se corrió la suite completa de pruebas ni se ejecutó el sensor de verificación de Oracle. No se realizaron modificaciones en el checkout de candidato d572631."
+  ]
+}

@@ -235,6 +235,16 @@ class Metricas(unittest.TestCase):
         self.assertEqual(m3['horas_hasta_cierre'], 10.0)
         self.assertEqual(m['decisiones_por_actor'], {'persona': 3, 'agente': 1, 'sin_identificar': 0})
         self.assertEqual(m['vueltas_de_revision'], 1)  # revisada a mano, sin revisores pedidos: una vuelta
+        vueltas = lambda *acciones: tablero.metricas_del_cambio({'eventos': [
+            {'accion': a, 'candidato': c} if a == 'revision_pedida' else {'accion': a} for a, c in acciones],
+            'requisitos': []}, [], None)['vueltas_de_revision']
+        P, R = 'revision_pedida', 'revision_registrada'
+        # Pedida en c1 y registrada; después revisada a mano: dos vueltas.
+        self.assertEqual(vueltas((P, 'c1'), (P, 'c1'), (R, None), (R, None)), 2)
+        # Tres revisiones a mano, una por candidato: tres vueltas.
+        self.assertEqual(vueltas((R, None), (R, None), (R, None)), 3)
+        # Dos vueltas con revisores pedidos y una sola revisión registrada al final: dos.
+        self.assertEqual(vueltas((P, 'c1'), (P, 'c2'), (P, 'c2'), (R, None)), 2)
         # Un registro viejo con una fecha sin zona horaria: esa fase no tiene duración, y el tablero no se cae.
         viejo = [dict(eventos[0], cuando='2026-10-01T10:00:00')] + eventos[1:]
         m = tablero.metricas_del_cambio({'eventos': viejo, 'requisitos': []}, [], None)
