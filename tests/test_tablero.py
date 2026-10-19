@@ -146,7 +146,15 @@ class Tablero(unittest.TestCase):
                     {'tipo': 'abrir', 'archivo': f'requisitos/{rid}.requisito', 'linea': None},
                     {'tipo': 'abrir', 'archivo': 'catalogos/notas.resultados.oracle', 'linea': None},
                     {'tipo': 'abrir', 'archivo': '../../etc/passwd', 'linea': 1},  # fuera del proyecto: no se abre
+                    {'tipo': 'abrir', 'archivo': '.factory/local/enlace-afuera', 'linea': 1},  # un symlink que apunta afuera, tampoco
+                    {'tipo': 'abrir', 'archivo': '.', 'linea': 1},  # ni la carpeta del proyecto
+                    {'tipo': 'abrir', 'archivo': 'catalogos', 'linea': 1},  # ni una carpeta de adentro
+                    {'tipo': 'terminal', 'comando': 'oracle-factory estado X\ntouch pwned'},  # dos líneas: no se escribe
                     {'tipo': 'terminal', 'comando': cambio['alternativas'][0]['comando']}]
+        afuera = Path(self.tmp.name) / 'secreto.txt'
+        afuera.write_text('fuera del proyecto\n')
+        (self.root / '.factory/local').mkdir(parents=True, exist_ok=True)  # ignorada por git: no cambia el estado
+        (self.root / '.factory/local/enlace-afuera').symlink_to(afuera)
         r = subprocess.run([NODE, str(SOURCE / 'tests/tablero_en_node.cjs'), str(EXTENSION), str(self.root),
                             json.dumps(mensajes), str(cli)], capture_output=True, text=True, timeout=120)
         self.assertEqual(r.returncode, 0, r.stderr)
@@ -201,6 +209,20 @@ class Metricas(unittest.TestCase):
         m = tablero.metricas_del_cambio({'eventos': eventos, 'requisitos': []}, [], None)
         self.assertEqual([(f['fase'], f['horas']) for f in m['fases']], [('acuerdo', 1.0), ('medidas', 2.0)])
         self.assertEqual(m['acciones_por_actor'], {'persona': 3, 'agente': 1, 'sin_identificar': 0})
+        self.assertEqual(m['vueltas_de_revision'], 1)  # revisada a mano, sin revisores pedidos: una vuelta
+        # Un registro viejo con una fecha sin zona horaria: esa fase no tiene duración, y el tablero no se cae.
+        viejo = [dict(eventos[0], cuando='2026-10-01T10:00:00')] + eventos[1:]
+        m = tablero.metricas_del_cambio({'eventos': viejo, 'requisitos': []}, [], None)
+        self.assertEqual([f['fase'] for f in m['fases']], ['medidas'])
+        # Un informe pedido otra vez en el mismo candidato reemplaza al anterior de ese revisor: no se cuenta dos veces.
+        with tempfile.TemporaryDirectory() as d:
+            raiz = Path(d)
+            for candidato, nombre, n in (('c1', 'codex-1', 1), ('c2', 'codex-1', 2), ('c2', 'codex-2', 3), ('c2', 'agy-1', 1)):
+                ruta = raiz / 'candidatos' / candidato / 'revision' / f'{nombre}.json'
+                ruta.parent.mkdir(parents=True, exist_ok=True)
+                ruta.write_text(json.dumps({'findings': [{'severity': 'media', 'title': f'h{i}'} for i in range(n)]}))
+            vistos = [(i['candidato'], i['revisor'], len(i['hallazgos'])) for i in tablero.informes(raiz, raiz)]
+            self.assertEqual(sorted(vistos), [('c1', 'codex', 1), ('c2', 'agy', 1), ('c2', 'codex', 3)])
 
     def test_tb1_que_es_una_decision_de_la_persona(self):
         from oracle_factory import tablero

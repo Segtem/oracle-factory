@@ -1,0 +1,173 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero/.factory/local/revisiones/b08b14c",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "b08b14caed917358ba3e2d20d58dc978d262336e",
+  "diff_sha256": "781408a15f43e5e70a10817df4ec29b60889c5de0279fe56e6c6ddfa6fcc8d84",
+  "context_sha256": "92abb2139dc4afa29deac805fb7b2e1a6f71edbd7a271f47f7f8f5161adcd806",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-1",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "mensajeDelTablero no valida symlinks que apuntan fuera del proyecto ni restringe la apertura del directorio raíz",
+      "explanation": "En editores/vscode/extension.js (líneas 114–119), mensajeDelTablero valida la ruta con path.resolve(raiz, m.archivo) y comprueba if (destino !== raiz && !destino.startsWith(raiz + path.sep)) return;. Sin embargo, path.resolve sólo resuelve segmentos léxicos (.. y .) pero no resuelve enlaces simbólicos (symlinks). Si un archivo o directorio dentro del repositorio es un symlink hacia un archivo externo fuera del proyecto (e.g. link -> /etc/passwd), destino comienza con raiz + path.sep y pasa la validación sin invocar fs.realpathSync, permitiendo que vscode.workspace.openTextDocument abra archivos arbitrarios del sistema fuera del proyecto. Adicionalmente, si m.archivo es '' o '.', destino es igual a raiz, por lo que destino !== raiz es falso y se elude la guarda, intentando abrir el directorio raíz del proyecto con openTextDocument.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 114,
+        "end_line": 119,
+        "side": "head"
+      },
+      "trigger": "Enviar desde el webview un mensaje {tipo: 'abrir', archivo: 'symlink_externo'} o {tipo: 'abrir', archivo: '.'}.",
+      "evidence": "En Node.js, path.resolve(raiz, 'symlink') produce una ruta dentro del árbol sintáctico de raiz, por lo que destino.startsWith(raiz + path.sep) es true aunque el destino canónico resuelto por fs.realpathSync apunte a /etc/passwd fuera del proyecto.",
+      "related_requirement": "el_tablero_se_ve_y_se_usa_en_vs_code",
+      "status": "pendiente",
+      "verification": "Crear un symlink dentro del proyecto hacia un archivo externo fuera de él y despachar el mensaje abrir; la guarda de mensajeDelTablero no bloquea la apertura."
+    },
+    {
+      "id": "AGY-2",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Informes reemplazados de un mismo revisor sobre el candidato vigente se duplican en la tabla y en las métricas",
+      "explanation": "En oracle_factory/tablero.py (líneas 58–70 y 170–182), la función informes recopila indiscriminadamente todos los archivos candidatos/*/revision/*.json. En Factory (cli.py líneas 858–868 y 779), cuando se pide revisión más de una vez para el mismo revisor en un mismo candidato (e.g. codex-1.json y codex-2.json), el informe con el mayor número de ejecución reemplaza a los anteriores. No obstante, tablero.py no implementa este filtro de informes reemplazados. Como consecuencia: (1) cambio['hallazgos'] acumula y muestra los hallazgos obsoletos de codex-1.json junto a los de codex-2.json en la tabla del panel de VS Code; y (2) metricas_del_cambio y las métricas del proyecto suman los hallazgos de ambos informes, inflando artificialmente el conteo por revisor y por severidad.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 58,
+        "end_line": 70,
+        "side": "head"
+      },
+      "trigger": "Ejecutar pedir-revision dos veces consecutivas para el mismo revisor sobre el candidato vigente, generando <revisor>-1.json y <revisor>-2.json.",
+      "evidence": "Al invocar pedir_revision dos veces sobre un mismo candidato con el revisor codex, tablero --json lista en hallazgos tanto los de codex-1.json como los de codex-2.json, y metricas['hallazgos_por_revisor']['codex'] devuelve la suma de las dos ejecuciones.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Colocar dos informes codex-1.json y codex-2.json en revision/ de un mismo candidato; tablero.informes devuelve ambos y armar incluye los hallazgos de ambos informes."
+    },
+    {
+      "id": "AGY-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "vueltas_de_revision ignora revisiones registradas por personas y excluye cambios cerrados de la métrica primera_vuelta",
+      "explanation": "En oracle_factory/tablero.py línea 102, vueltas_de_revision se cuenta exclusivamente como len({e.get('candidato') for e in eventos if e.get('accion') == 'revision_pedida'}). En Factory, las revisiones humanas o informes externos (como los de CodeRabbit según el protocolo de AGENTS.md) se registran directamente mediante oracle-factory revisar, emitiendo el evento revision_registrada sin emitir revision_pedida. En estos cambios, vueltas_de_revision resulta 0. Además, en las líneas 155–157, las métricas del proyecto evalúan if metricas['vueltas_de_revision']: con_revision += 1; en_una_vuelta += metricas['vueltas_de_revision'] == 1, por lo que todo cambio cerrado que fue revisado y aprobado mediante la vía de revisión humana es completamente omitido de cerrados_con_revision y del cálculo de primera_vuelta.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 102,
+        "end_line": 102,
+        "side": "head"
+      },
+      "trigger": "Consultar tablero --json en un proyecto donde un cambio fue revisado y aprobado con oracle-factory revisar (sin usar pedir-revision).",
+      "evidence": "En un cambio cerrado con revisión aprobada generada por cambio_cerrado(), metricas['vueltas_de_revision'] es 0 y proyecto['primera_vuelta']['cerrados_con_revision'] permanece en 0.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Inspeccionar el JSON de tablero en un proyecto con cambios cerrados mediante revisar; comprobar que vueltas_de_revision es 0 y cerrados_con_revision es 0."
+    },
+    {
+      "id": "AGY-4",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "_horas no captura TypeError al restar datetimes con y sin zona horaria, provocando la caída de tablero --json",
+      "explanation": "En oracle_factory/tablero.py líneas 30–33, _horas parsea los strings a datetime mediante _cuando y calcula (b - a).total_seconds(). Si un cambio contiene eventos de registros antiguos o importados donde un timestamp es offset-naive (sin zona horaria, e.g. '2026-10-01T10:00:00') y otro es offset-aware (con zona horaria, e.g. '2026-10-01T11:00:00+00:00'), la resta b - a lanza TypeError: can't subtract offset-naive and offset-aware datetimes. Al no capturar TypeError en _horas, la excepción aborta la ejecución de oracle-factory tablero --json, fallando ante registros viejos.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 30,
+        "end_line": 33,
+        "side": "head"
+      },
+      "trigger": "Tener un cambio en openspec/changes cuyo factory.json contenga en eventos timestamps con y sin zona horaria.",
+      "evidence": "Llamar a tablero.metricas_del_cambio con eventos que combinen '2026-10-01T10:00:00+00:00' y '2026-10-01T11:00:00' interrumpe el proceso con TypeError.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Ejecutar tablero._horas('2026-10-01T10:00:00+00:00', '2026-10-01T11:00:00') en Python y verificar que lanza TypeError no controlado."
+    },
+    {
+      "id": "AGY-5",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "Inyección de saltos de línea en mensajeDelTablero con tipo terminal provoca ejecución inmediata de comandos",
+      "explanation": "En editores/vscode/extension.js líneas 120–123 y línea 89, el manejador mensajeDelTablero recibe {tipo: 'terminal', comando} y ejecuta escribirPaso({comando}), invocando terminal.sendText(nodo.comando, false). El segundo parámetro false de VS Code sólo impide que VS Code agregue un retorno de carro al final de la cadena, pero si m.comando contiene caracteres de salto de línea (\n o \r), el pseudoterminal de la shell interpreta cada salto como una pulsación de Enter y ejecuta de inmediato las líneas precedentes. La extensión no valida ni sanitiza saltos de línea antes de despachar a la terminal, incumpliendo la garantía de que el comando se escribe sin ejecutarse.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 120,
+        "end_line": 123,
+        "side": "head"
+      },
+      "trigger": "Recibir desde el webview un mensaje {tipo: 'terminal', comando: 'oracle-factory medir x --confirmar\\ncomando_arbitrario\\n'}.",
+      "evidence": "En el API de VS Code, terminal.sendText con saltos de línea intermedios o finales ejecuta inmediatamente cada línea en el proceso interactivo de la terminal.",
+      "related_requirement": "el_tablero_se_ve_y_se_usa_en_vs_code",
+      "status": "pendiente",
+      "verification": "Enviar a mensajeDelTablero un comando que contenga '\\n'; verificar que se pasa íntegro a terminal.sendText sin rechazar ni eliminar los saltos de línea."
+    },
+    {
+      "id": "AGY-6",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Las pruebas de test_tablero no comprueban _cumplidos ni validan las métricas acumuladas tras un nuevo candidato",
+      "explanation": "En tests/test_tablero.py, la prueba test_tb1_un_cambio_con_revision_y_hallazgos (línea 112) valida cumplidos únicamente como None. El escenario no ejecuta ningún juicio de Oracle con informe de requisitos (oracle_ejecutado con ✓), dejando la lógica de _cumplidos en tablero.py sin cobertura de aserción (una mutación donde _cumplidos retorne siempre None sobrevive a la suite). Asimismo, en las líneas 95–99, tras crear un candidato nuevo y volver a pedir revisión a codex, el test verifica únicamente vueltas_de_revision == 2 pero no aserta nuevo['metricas']['hallazgos_por_severidad'] ni nuevo['metricas']['hallazgos_por_revisor'], permitiendo que la acumulación errónea de hallazgos de candidatos anteriores pasara inadvertida.",
+      "location": {
+        "file": "tests/test_tablero.py",
+        "start_line": 95,
+        "end_line": 112,
+        "side": "head"
+      },
+      "trigger": "Reemplazar _cumplidos en oracle_factory/tablero.py por def _cumplidos(*args): return None y ejecutar unittest tests.test_tablero.",
+      "evidence": "Al aplicar la mutación def _cumplidos(*args): return None en tablero.py, todos los 6 tests de test_tablero continúan pasando exitosamente sin detectar la omisión.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Comprobar que en CONTRACTS de tools/verify_tablero.py ningún caso genera o verifica requisitos cumplidos con valor numérico."
+    },
+    {
+      "id": "AGY-7",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "_contar_severidades clasifica severidades desconocidas o ausentes como informativa",
+      "explanation": "En oracle_factory/tablero.py líneas 75–78, _contar_severidades asigna cualquier hallazgo cuya severidad no esté en SEVERIDADES a 'informativa'. En las reglas de revisión de Factory (oracle_factory/preparacion.py línea 84 y test_vueltas.py), un hallazgo sin severidad o con severidad desconocida nunca se considera bajo, ya que la pérdida de metadatos de severidad no debe catalogar un hallazgo grave como benigno. Al clasificarlo como informativa, el tablero minimiza severidades no reconocidas en el resumen de métricas.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 75,
+        "end_line": 78,
+        "side": "head"
+      },
+      "trigger": "Procesar un informe de revisor con hallazgos con severidad desconocida ('rara') o nula.",
+      "evidence": "tablero._contar_severidades([{'severity': 'desconocida'}]) incrementa la cuenta de informativa a 1 en lugar de mantenerla en una categoría sin clasificar o no baja.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Llamar a _contar_severidades con un hallazgo de severidad no estándar y constatar que se totaliza en informativa."
+    },
+    {
+      "id": "AGY-8",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.80,
+      "title": "re.sub en informes trunca nombres de revisores que terminan legítimamente en dígitos",
+      "explanation": "En oracle_factory/tablero.py línea 67, el nombre del revisor se deduce mediante re.sub(r'-\\d+$', '', ruta.stem). Esta expresión asume que el sufijo numérico siempre es el número de intento generado por pedir-revision (<nombre>-<n>.json). Si un revisor configurado o informe externo tiene un nombre que finaliza en guión y dígito (e.g. gpt-4.json o claude-3.json), la función mutila el nombre a 'gpt' o 'claude'.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 67,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "Disponer de un informe en revision/ denominado gpt-4.json o claude-3.json.",
+      "evidence": "re.sub(r'-\\d+$', '', Path('gpt-4.json').stem) evalúa a 'gpt'.",
+      "related_requirement": "el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas",
+      "status": "pendiente",
+      "verification": "Ejecutar tablero.informes sobre una ruta con gpt-4.json y verificar que el revisor reportado es 'gpt'.",
+      "status": "pendiente"
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de pruebas unitarias indicada: PYTHONPATH=. /home/workstation/Dev/factory-tablero/.venv/bin/python -m unittest tests.test_tablero </dev/null desde la raíz del checkout b08b14c, con Node.js disponible para el arnés de prueba de editores/vscode/.",
+    "No se ejecutó la suite completa del proyecto de acuerdo con las instrucciones de la revisión.",
+    "La extensión de VS Code se evaluó de forma estática y dinámica a través del entorno de prueba en Node.js (tablero_en_node.cjs) con mocks de la API de VS Code; no se interactuó con una sesión gráfica interactiva de VS Code."
+  ]
+}

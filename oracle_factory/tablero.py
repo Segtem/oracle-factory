@@ -29,7 +29,10 @@ def _cuando(texto) -> datetime | None:
 
 def _horas(desde, hasta) -> float | None:
     a, b = _cuando(desde), _cuando(hasta)
-    return round((b - a).total_seconds() / 3600, 2) if a and b else None
+    try:
+        return round((b - a).total_seconds() / 3600, 2) if a and b else None
+    except TypeError:  # un registro viejo sin zona horaria contra uno con zona: no se pueden comparar
+        return None
 
 
 def hitos(eventos: list[dict]) -> dict[str, str]:
@@ -53,18 +56,26 @@ def hitos(eventos: list[dict]) -> dict[str, str]:
 
 
 def informes(raiz: Path, carpeta_cambio: Path) -> list[dict]:
-    """Cada informe de revisor de todos los candidatos del cambio: [{revisor, candidato, ruta, hallazgos}]."""
+    """Cada informe de revisor de todos los candidatos del cambio: [{revisor, candidato, ruta, hallazgos}].
+
+    Como en revision-preparar, el informe más nuevo de un revisor en un candidato (<revisor>-<n>.json) reemplaza a
+    los anteriores del mismo revisor en ese candidato: los reemplazados no cuentan."""
+    ultimo: dict[tuple, tuple[int, Path]] = {}
+    for ruta in carpeta_cambio.glob("candidatos/*/revision/*.json"):
+        m = re.fullmatch(r"(.+)-(\d+)\.json", ruta.name)
+        clave = (ruta.parent, m[1] if m else ruta.stem)
+        n = int(m[2]) if m else 0
+        if clave not in ultimo or n > ultimo[clave][0]:
+            ultimo[clave] = (n, ruta)
     salida = []
-    for ruta in sorted(carpeta_cambio.glob("candidatos/*/revision/*.json")):
-        if ruta.name.endswith(".pedido.md"):
-            continue
+    for (_, revisor), (_, ruta) in sorted(ultimo.items(), key=lambda x: x[1][1]):
         try:
             datos = json.loads(ruta.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
         if not isinstance(datos, dict) or not isinstance(datos.get("findings"), list):
             continue
-        salida.append({"revisor": re.sub(r"-\d+$", "", ruta.stem), "candidato": ruta.parent.parent.name,
+        salida.append({"revisor": revisor, "candidato": ruta.parent.parent.name,
                        "ruta": ruta.relative_to(raiz).as_posix(),
                        "hallazgos": [h for h in datos["findings"] if isinstance(h, dict)]})
     return salida
@@ -82,9 +93,10 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
     eventos = estado.get("eventos") or []
     h = hitos(eventos)
     # Una fase que «termina» antes de empezar no se recorrió en orden (por ejemplo, medidas vueltas a decidir
-    # después de una revisión vieja): no cuenta como hecha ni da una duración negativa.
-    fases = [{"fase": nombre, "desde": h[a], "hasta": h[b], "horas": _horas(h[a], h[b])}
-             for nombre, a, b in FASES if a in h and b in h and (_horas(h[a], h[b]) or 0) >= 0]
+    # después de una revisión vieja), o cuyas fechas no se pueden comparar: no cuenta ni da una duración inventada.
+    fases = [{"fase": nombre, "desde": h[a], "hasta": h[b], "horas": horas}
+             for nombre, a, b in FASES if a in h and b in h
+             for horas in [_horas(h[a], h[b])] if horas is not None and horas >= 0]
     actores = {"persona": 0, "agente": 0, "sin_identificar": 0}
     for e in eventos:
         if e.get("tipo_actor") in actores:
@@ -94,12 +106,16 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
         cuenta = por_revisor.setdefault(informe["revisor"], {s: 0 for s in SEVERIDADES})
         for s, n in _contar_severidades(informe["hallazgos"]).items():
             cuenta[s] += n
+    # Una vuelta por candidato revisado; una revisión registrada a mano (sin revisores pedidos) es al menos una.
+    vueltas = len({e.get("candidato") for e in eventos if e.get("accion") == "revision_pedida"})
+    if not vueltas and any(e.get("accion") == "revision_registrada" for e in eventos):
+        vueltas = 1
     requisitos = estado.get("requisitos") or []
     medidos = sum(1 for rid in requisitos if (estado.get("medidas") or {}).get(rid))
     return {
         "fases": fases,
         "horas_hasta_cierre": _horas(h.get("creado"), h.get("cierre")),
-        "vueltas_de_revision": len({e.get("candidato") for e in eventos if e.get("accion") == "revision_pedida"}),
+        "vueltas_de_revision": vueltas,
         "hallazgos_por_severidad": _contar_severidades([x for i in todos_los_informes for x in i["hallazgos"]]),
         "hallazgos_por_revisor": por_revisor,
         "riesgos_aceptados": len(estado.get("aceptados") or []),

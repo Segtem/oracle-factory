@@ -112,8 +112,13 @@ async function mensajeDelTablero(m) {
     const raiz = carpeta();
     if (!m || !raiz) return;
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
-        const destino = path.resolve(raiz, m.archivo);
-        if (destino !== raiz && !destino.startsWith(raiz + path.sep)) return;
+        // Con los enlaces resueltos: un symlink del proyecto que apunta afuera tampoco se abre, ni una carpeta.
+        let destino;
+        try {
+            const real = fs.realpathSync(raiz);
+            destino = fs.realpathSync(path.resolve(raiz, m.archivo));
+            if (!destino.startsWith(real + path.sep) || !fs.statSync(destino).isFile()) return;
+        } catch (e) { return; }
         const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(destino));
         const linea = Number.isInteger(m.linea) && m.linea > 0 ? m.linea - 1 : 0;
         await vscode.window.showTextDocument(doc, {selection: new vscode.Range(linea, 0, linea, 0), preview: false});
