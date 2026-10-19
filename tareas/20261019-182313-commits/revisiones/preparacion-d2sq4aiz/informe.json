@@ -1,0 +1,121 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261019-182313-commits",
+  "contexto": {
+    "head": "acd9138214ac883660b825e41cb5e3596b45bdd8",
+    "archivos_sha256": "c21d06f379cf84498baa7fddebbe39802df163cd4416511145c61fed75e718ac"
+  },
+  "documentos": {
+    "openspec/changes/20261019-182313-commits/proposal.md": "2dcd8af7c9cfb9c6abcf21af529623d7f91ab5c9307d9cf7653a619f95f7826d",
+    "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
+    "catalogos/factory_commits.corrida_completa.oracle",
+    "catalogos/factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.oracle",
+    "catalogos/factory_tablero.corrida_completa.oracle",
+    "catalogos/factory_tablero.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.oracle",
+    "catalogos/factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code.oracle",
+    "editores/vscode/empaquetar.py",
+    "editores/vscode/extension.js",
+    "editores/vscode/modelo.js",
+    "editores/vscode/package.json",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261019-120156-tablero/design.md",
+    "openspec/changes/20261019-120156-tablero/proposal.md",
+    "openspec/changes/20261019-120156-tablero/specs/ide/spec.md",
+    "openspec/changes/20261019-120156-tablero/tasks.md",
+    "openspec/changes/20261019-182313-commits/design.md",
+    "openspec/changes/20261019-182313-commits/proposal.md",
+    "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
+    "openspec/changes/20261019-182313-commits/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/tablero.py",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas.requisito",
+    "requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code.requisito",
+    "requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.requisito",
+    "requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.requisito",
+    "tests/datos/cli_texto/estado.txt",
+    "tests/tablero_en_node.cjs",
+    "tests/test_commits.py",
+    "tests/test_tablero.py",
+    "tools/verify_commits.py",
+    "tools/verify_tablero.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 414 pruebas, 4 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/32e0ca5/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/32e0ca5/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/32e0ca5/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5630ad5: agy (gemini-3.8-flash-high), 6 hallazgos: commit-interactivo-trailer-al-inicio (alta), trailer-suprimido-por-texto-del-cuerpo (media), deduccion-commits-heuristicas-merges (alta), costo-cuadratico-commits-estado (media), git-show-sin-separador-rutas-extension (baja), hook-encadenado-sin-or-true-falla-con-set-e (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/5630ad5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5630ad5: codex (gpt-6-luna), 1 hallazgo: commits-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/5630ad5/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 069b7dc: agy (gemini-3.8-flash-high), 4 hallazgos: hook-ajeno-no-respetado-instala-commit-msg (alta), commit-interactivo-falla-abortar-con-commentchar (alta), deduccion-commits-falla-con-candidato-abandonado (alta), deduccion-commits-atribuye-commits-ajenos-en-repos-con-master (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/069b7dc/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 069b7dc: codex (gpt-6-luna), 2 hallazgos: hook-ajeno-sigue-trailer (media), log-cuerpo-clasificado-como-trailer (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/069b7dc/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9b40877: agy (gemini-3.8-flash-high), 1 hallazgo: deduccion-commits-falsos-merges-ajenos (alta)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/9b40877/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9b40877: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/9b40877/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a2ccce4: agy (gemini-3.8-flash-high), 2 hallazgos: deduccion-commits-falsos-merges-entre-ramas (alta), commits-estado-costo-candidatos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/a2ccce4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a2ccce4: codex (gpt-6-luna), 1 hallazgo: commits-estado-costo-candidatos (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-182313-commits/candidatos/a2ccce4/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cm1–cm2 en repositorios temporales, Linux, con git real (el hook corre en cada commit) y Oracle 0.39.0; el panel corre en node con un vscode falso: la API real de VS Code se verifica a mano con el .vsix.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias especificadas exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null (12 pruebas pasaron satisfactoriamente en Linux con Python 3.13, Git 2.43 y Node 24.22).",
+    "agy (gemini-3.8-flash-high): El escenario de Node incluido en tests/test_commits.py (tablero_en_node.cjs) corrió con éxito, confirmando la integración del panel HTML, los mensajes de commits y la extensión de VS Code sin manipulación ni mutación del checkout.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de tests de la POC (unittest discover -s tests) ni tools/verify_commits.py directamente en el checkout de revisión para preservar el estado de sólo lectura del candidato y acotar la revisión al diff del candidato y sus contratos.",
+    "agy (gemini-3.8-flash-high): Se llevaron a cabo pruebas de mutación manuales en una copia aislada del código dentro de la carpeta del revisor para verificar la sensibilidad de la suite ante alteraciones en: supresión de validaciones de trailers con múltiples cambios abiertos, mensajes vacíos con core.commentChar, duplicación en amend, pisado de hooks ajenos, descarte de candidatos no integrados, detección de merges que vienen por primer padre, y validación regex de sha en extension.js (8 de 9 mutaciones resultaron eliminadas inmediatamente por los tests; la mutación sobreviviente M7 confirmó que en cambios abiertos no se ejecutan búsquedas de merge).",
+    "agy (gemini-3.8-flash-high): Se comprobó que el hallazgo alto de la vuelta 4 (deduccion-commits-falsos-merges-entre-ramas) y el costo con múltiples candidatos (commits-estado-costo-candidatos) quedaron efectivamente corregidos sin regresiones en repositorios con master, branches múltiples o sincronizaciones intermedias.",
+    "agy (gemini-3.8-flash-high): No se hallaron defectos ni inconsistencias con respecto a la propuesta y la spec de trazabilidad; por lo tanto, la lista de hallazgos se entrega vacía.",
+    "codex (gpt-6-luna): Se contrastaron los dos requisitos y sus escenarios con el diff y el código del candidato en oracle_factory/cli.py, oracle_factory/tablero.py, editores/vscode/tablero.js, editores/vscode/extension.js, README.md, tests/test_commits.py, tests/tablero_en_node.cjs, tests/datos/cli_texto/estado.txt, tools/verify_commits.py y los catálogos factory_commits.*.oracle; los 81 archivos de Factory excluidos no se revisaron.",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; Node se ejecutó dentro del caso del tablero.",
+    "codex (gpt-6-luna): Se revisó la regresión de integración: por cada candidato existente en la historia cerrada, la búsqueda recorre sólo merges de primeros padres de main/master/HEAD; los candidatos fuera de la historia principal no se eligen como integrador, y se distingue que el candidato entre por el segundo padre o ya esté en el primero. El caso de regresión está cubierto por test_cm2_un_cambio_cerrado_de_antes_del_trailer.",
+    "codex (gpt-6-luna): Se inspeccionaron los casos de hook ajeno, core.hooksPath/worktree en la ruta de resolución, fallo del intérprete, commit interactivo vacío, trailer existente, texto Cambio: en el cuerpo, amend, valores de SHA no válidos y apertura de git show con separador --. No se hicieron mutaciones manuales sobre una copia.",
+    "codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_commits.py. La inspección/revisión no demuestra propiedades no medidas ni sustituye decisiones humanas."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
