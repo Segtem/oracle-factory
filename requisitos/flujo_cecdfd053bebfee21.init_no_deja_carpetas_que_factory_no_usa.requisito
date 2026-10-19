@@ -1,0 +1,4 @@
+requisito flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa:
+    texto "Tipo: funcional `init` SHALL NOT dejar en el proyecto carpetas de Oracle vacías que Factory no usa (`corpus`, `relaciones`, `diferencial`) si las creó al inicializar, y SHALL NOT tocar las que ya existían. El bloqueo de `medir` SHALL vivir dentro de `.factory/local/` y el `.gitignore` que arma `init` SHALL NOT nombrar `.factory-demo/`."
+    fuente "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md#init no deja carpetas que Factory no usa"
+    medido_por factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa

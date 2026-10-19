@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/208b2ec",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "208b2ecc9905fb2be8426dd95fc7223b3426321d",
+  "diff_sha256": "43c990b5b49b878ce8002632ba7212ceb81a0b9b55f156a82e6354517f7dcd73",
+  "context_sha256": "354f1105b7cf90747191a23495a5554ad797b7396c7024526f3fd1a12c21c184",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HG-008",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Un lanzamiento cortado desaparece del aviso al lanzar al mismo revisor sobre otro candidato",
+      "explanation": "Cuando llega un evento revision_lanzada, aviso_lanzamientos filtra de abiertos todos los lanzamientos del mismo revisor cuyo candidato no sea el actual (línea 1194). Así, si una revisión de c1 quedó cortada y luego se lanza el mismo revisor sobre c2, el lanzamiento de c1 se elimina aunque nunca haya tenido revision_pedida. Que después termine la revisión de c2 no produce resultado para c1; aun así, el aviso de c1 no vuelve a aparecer. Esto contradice la promesa de avisar mientras cada lanzamiento no tenga resultado. La prueba lanzamientos_solapados_y_candidatos_que_quedan_atras afirma explícitamente que la secuencia c1 abierto, c2 lanzado, resultado c2 no deja avisos (tests/test_higiene.py:122-125), institucionalizando la pérdida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1193,
+        "end_line": 1194,
+        "side": "head"
+      },
+      "trigger": "Registrar revision_lanzada para el revisor R y candidato c1; dejar ese proceso sin resultado. Luego registrar revision_lanzada para R y c2, y revision_pedida para R/c2 con el id de ese lanzamiento. Consultar estado o aviso_lanzamientos.",
+      "evidence": "Simulación en memoria con eventos launch(R,c1,id=a), launch(R,c2,id=b), result(R,c2,id=b): aviso_lanzamientos devuelve []. El evento de c1 no se cierra ni por resultado propio ni por uno de su pareja; se descarta durante el segundo lanzamiento. La spec «un pedido de revisión cortado queda a la vista» requiere que un lanzamiento sin resultado siga avisándose.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "En un registro con c1 abierto, iniciar y completar una revisión de c2 debe conservar un aviso para c1 hasta que exista un resultado atribuible al lanzamiento c1; revisar que el test de candidatos distintos compruebe esa retención."
+    },
+    {
+      "id": "HG-009",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "El test de acciones sin autor no ejecuta importar como promete el escenario",
+      "explanation": "El escenario de la spec exige un cambio creado e importado sin --agente. El nuevo test_hg2_un_agente_que_se_olvido_de_agente sólo lanza nuevo y verifica el evento cambio_creado (líneas 129-139); no importa el cambio ni comprueba el aviso correspondiente a una acción importar. Por eso una regresión que dejara de registrar o advertir esa acción seguiría pasando esta prueba de contrato.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 129,
+        "end_line": 139,
+        "side": "head"
+      },
+      "trigger": "Revisar el escenario de la spec frente a las acciones ejercitadas por test_hg2_un_agente_que_se_olvido_de_agente; el test pasa sin invocar el subcomando importar.",
+      "evidence": "El cuerpo del test invoca la CLI con nuevo en la línea 131 y espera cambio_creado en la línea 137. No hay ejecución de importar en el método ni en el helper llamado por él.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Agregar a una prueba el flujo importar sin --agente y afirmar en estado/estado --json que el aviso incluye importar y la cantidad correcta de acciones sin autor."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se inspeccionaron propuesta, spec, los 26 archivos del paquete y los cuatro informes de revisión previos indicados.",
+    "Se ejecutó exactamente: PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null desde la raíz del checkout; resultado: 17 tests, OK.",
+    "Se evaluaron secuencias sintéticas de lanzamientos y resultados en memoria; no se editaron ni mutaron archivos del checkout.",
+    "No se ejecutaron la suite completa ni tools/verify_guide.py, tools/verify_higiene.py, tools/verify_installed.py o tools/verify_collaboration.py.",
+    "No se revisaron los archivos de Factory y tareas excluidos por el usuario."
+  ]
+}

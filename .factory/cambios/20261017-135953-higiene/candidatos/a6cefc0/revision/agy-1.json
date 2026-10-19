@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/a6cefc0",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "a6cefc015d501d152f75f93e05695e10a7c6f5f5",
+  "diff_sha256": "74750e009c3fbcb095bad42b48bf825f77a556cdd9623700448fd669241648d5",
+  "context_sha256": "a87f998f41060bef383b5bc197a95b0cfed8c5ffdf0a76ffcf23228312304317",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas: tests.test_higiene, tests.test_tutorial y tests.test_portabilidad con Python 3.13 en primer plano desde la raíz del checkout.",
+    "No se ejecutó la suite completa de tests discover de unittest por indicación expresa del usuario.",
+    "Se validó la extracción de texto de las guías (tests/texto_guias.cjs) comparándolo con tests/datos/guias-texto.json.",
+    "Se realizaron análisis estáticos y pruebas de mutación manuales en una copia local aislada sobre el manejo de avisos, interrupciones y ciclo de vida de los lanzamientos."
+  ],
+  "findings": [
+    {
+      "id": "HG-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Lanzamiento cortado en candidato anterior queda permanentemente abierto y desorienta con aviso falso tras completarse la revisión en un candidato posterior",
+      "explanation": "aviso_lanzamientos(estado) indexa los lanzamientos pendientes en un diccionario por la clave (revisor, candidato). Si un pedido de revisión se lanzó sobre un candidato c1 y quedó cortado sin resultado, y luego el desarrollo avanza a un candidato posterior c2 donde el mismo revisor es ejecutado y completa su revisión satisfactoriamente (o se interrumpe), la clave (revisor, c2) se cierra pero la clave (revisor, c1) permanece abierta indefinidamente. Esto genera dos efectos defectuosos: 1) el lanzamiento sobre c1 sigue figurando como pendiente de resultado a pesar de que el cambio ya cuenta con la revisión completa y vigente de ese revisor sobre su producto actual; 2) el mensaje emitido instruye: «volvé a pedirlo con oracle-factory pedir-revision {id} --a {r}», lo cual es un aviso falso e imposible de subsanar, ya que pedir-revision opera invariablemente sobre el candidato vigente (c2), por lo que volver a solicitarlo jamás cerrará el aviso sobre c1.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1183,
+        "end_line": 1191,
+        "side": "head"
+      },
+      "trigger": "Lanzar un revisor sobre un candidato c1, interrumpir el proceso de modo que quede evento revision_lanzada sin revision_pedida, commitear cambios en el producto para originar el candidato c2, y ejecutar pedir-revision con el mismo revisor sobre c2 hasta su terminación. Al consultar estado, persiste el aviso sobre c1.",
+      "evidence": "En oracle_factory/cli.py:1183-1191: abiertos se construye con clave = (e.get('revisor'), e.get('candidato')). Al completarse la revisión sobre c2, se remueve únicamente (r, c2). Probado experimentalmente: para eventos [revision_lanzada(r1, c1), revision_lanzada(r1, c2), revision_pedida(r1, c2)], aviso_lanzamientos retorna ['el revisor r1 se lanzó (...) sobre el candidato c1 y no dejó resultado; volvé a pedirlo con oracle-factory pedir-revision ID --a r1']. Un posterior pedir-revision sobre el cambio ejecuta sobre c2 y no retira el aviso.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Confirmado por análisis estático del algoritmo de aviso_lanzamientos y verificado mediante prueba programática de secuencia de eventos en entorno de pruebas aislado."
+    },
+    {
+      "id": "HG-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Múltiples lanzamientos del mismo revisor en un mismo candidato ocultan pedidos cortados si uno solo finaliza",
+      "explanation": "aviso_lanzamientos(estado) almacena los lanzamientos en abiertos[clave] = e donde clave es una tupla fija (revisor, candidato). Si se lanzan dos pedidos para el mismo revisor y candidato (por ejemplo, pedidos concurrentes en pestañas/sesiones paralelas permitidos por turno_de_pedidos, o relanzamientos), el segundo evento revision_lanzada sobrescribe la entrada del primero en el diccionario abiertos. Cuando uno de los dos pedidos finaliza y registra revision_pedida, abiertos.pop(clave, None) remueve la entrada única. En consecuencia, si el otro pedido fue cortado a mitad (o aún no termina), queda silenciado sin emitir advertencia alguna, vulnerando la spec: «Mientras un lanzamiento no tenga resultado, estado y estado --json (en avisos) SHALL avisar qué revisor se lanzó, cuándo y sobre qué candidato, y que no dejó resultado».",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1183,
+        "end_line": 1188,
+        "side": "head"
+      },
+      "trigger": "Registrar dos eventos revision_lanzada para un mismo revisor y candidato, seguido de un único evento revision_pedida para ese par.",
+      "evidence": "En oracle_factory/cli.py:1182-1188: abiertos es dict[tuple, dict]. Probado en Python: con eventos [revision_lanzada(r1, c1, 10:00), revision_lanzada(r1, c1, 10:01), revision_pedida(r1, c1, 10:02)], aviso_lanzamientos devuelve [], ignorando el lanzamiento cortado.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Verificado experimentalmente con simulación de eventos en entorno de prueba."
+    },
+    {
+      "id": "HG-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "KeyboardInterrupt durante validación con Clue en pedir_revision omite registrar «interrumpido» y deja el lanzamiento sin resultado",
+      "explanation": "La spec establece en su escenario «un revisor que termina, o se interrumpe con Ctrl-C»: «GIVEN un cambio con un candidato WHEN un revisor termina, o el pedido se interrumpe con Ctrl-C THEN queda su resultado (o «interrumpido») y estado no avisa de un lanzamiento sin resultado». Sin embargo, en pedir_revision (líneas 979-987), el bloque try...except KeyboardInterrupt cubre exclusivamente la invocación a revisores_mod.ejecutar_revisor(...). La etapa siguiente (líneas 996-1002), en la cual se ejecuta oracle-clue validar como subproceso y se lee el informe JSON, se encuentra fuera del bloque try. Si el revisor ya terminó y el operador presiona Ctrl-C durante la validación de Clue, la excepción KeyboardInterrupt no es interceptada, nunca se registra revision_pedida(resultado=\"interrumpido\") y pedir_revision aborta. El registro conserva revision_lanzada sin resultado y estado avisa falsamente que el revisor no dejó resultado, a pesar de que terminó y el pedido fue interrumpido.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 979,
+        "end_line": 987,
+        "side": "head"
+      },
+      "trigger": "Interrumpir el comando pedir-revision con Ctrl-C mientras se ejecuta oracle-clue validar.",
+      "evidence": "En oracle_factory/cli.py:979-1007, ejecutar([\"oracle-clue\", \"validar\", ...]) en la línea 996 no está protegido por try...except KeyboardInterrupt. La prueba test_hg1_un_revisor_que_termina_o_se_interrumpe en tests/test_higiene.py no detecta este fallo porque simula Ctrl-C mockeando ejecutar_revisor con side_effect=KeyboardInterrupt.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Confirmado por análisis estático del alcance del bloque try...except en pedir_revision."
+    },
+    {
+      "id": "HG-004",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "datos_estado y mostrar emiten avisos de pedir revisión y de acciones sin autor sobre cambios en fase cerrada",
+      "explanation": "En datos_estado (líneas 2102-2104) y mostrar (líneas 2279-2280), los avisos devueltos por aviso_lanzamientos y aviso_sin_autor se incluyen en avisos siempre que el cambio no esté abandonado (fase != \"abandonada\"). Cuando un cambio ya ha sido cerrado (fase == \"cerrada\"), el estado sigue emitiendo avisos instando a ejecutar: «volvé a pedirlo con oracle-factory pedir-revision {id} --a {r}». Dicha recomendación es contradictoria y genera una acción fallida para el usuario, dado que invocar pedir-revision sobre un cambio cerrado invoca abierto(identificador) y genera de inmediato FactoryError: el cambio ya está cerrado; creá una nueva tarea.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2102,
+        "end_line": 2104,
+        "side": "head"
+      },
+      "trigger": "Cerrar un cambio que contenga en su historial un lanzamiento cortado o acciones sin --agente, y luego consultar oracle-factory estado <id> o datos_estado.",
+      "evidence": "En oracle_factory/cli.py:2102-2104, \"avisos\": [] if abandonado else ... solo descarta avisos si abandonado es True (fase == \"abandonada\"), ignorando la fase \"cerrada\". Al ejecutar el comando sugerido en un cambio cerrado, abierto() arroja FactoryError.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Verificado programáticamente evaluando datos_estado en un estado cerrado con eventos de lanzamiento pendientes."
+    },
+    {
+      "id": "HG-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "explanation": "El escenario de la spec «un agente que se olvidó de --agente» establece expresamente: «GIVEN un cambio creado e importado sin --agente y sin una persona identificada WHEN se pide estado THEN avisa que esas acciones quedaron sin autor y cómo identificarlo la próxima vez». En tests/test_higiene.py:87-106, la prueba test_hg2_un_agente_que_se_olvido_de_agente únicamente ejecuta la acción nuevo (cambio_creado). No ejecuta importar (requisitos_importados), dejando sin verificación el comportamiento en plural (múltiples acciones sin autor agrupadas) prometido explícitamente en el escenario.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 87,
+        "end_line": 106,
+        "side": "head"
+      },
+      "trigger": "Inspección de la implementación de test_hg2_un_agente_que_se_olvido_de_agente frente al escenario de spec.md.",
+      "evidence": "En tests/test_higiene.py:87-97, sólo se invoca [PYTHON_CLI, \"nuevo\", ...], omitiendo el paso de importación especificado en el escenario GIVEN.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Confirmado por contrastación directa entre tests/test_higiene.py:87-106 y openspec/changes/20261017-135953-higiene/specs/flujo/spec.md:23-27."
+    }
+  ]
+}

@@ -26,7 +26,7 @@ Ejecución de pruebas y sensor:
 
 ```sh
 uv run --no-project --python 3.13 python -m unittest discover -s examples/notas -p "test_*.py" -v
-uv run --no-project --python 3.13 python examples/notas/sensor.py --salida .factory-demo/hechos.json
+uv run --no-project --python 3.13 python examples/notas/sensor.py --salida .factory/local/hechos.json
 ```
 
 El sensor observa exactamente los tres casos declarados. Enlazar medidas no prueba por sí mismo su pertinencia ni el cumplimiento del requisito; el código del sensor, la elección de casos y los límites de las reglas requieren criterio y revisión humanos.

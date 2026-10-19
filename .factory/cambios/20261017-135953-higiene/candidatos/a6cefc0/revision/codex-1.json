@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/a6cefc0",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "a6cefc015d501d152f75f93e05695e10a7c6f5f5",
+  "diff_sha256": "74750e009c3fbcb095bad42b48bf825f77a556cdd9623700448fd669241648d5",
+  "context_sha256": "a87f998f41060bef383b5bc197a95b0cfed8c5ffdf0a76ffcf23228312304317",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HIG-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un resultado cierra todos los lanzamientos del mismo revisor y candidato",
+      "explanation": "aviso_lanzamientos usa (revisor, candidato) como clave única. El segundo lanzamiento pisa al primero y cualquier revision_pedida de esa pareja elimina la clave. Con dos procesos concurrentes para el mismo revisor y candidato, un solo proceso que termine hace desaparecer el aviso aunque el otro haya quedado cortado. Así estado/estado --json puede ocultar un lanzamiento sin resultado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1187,
+        "end_line": 1191,
+        "side": "head"
+      },
+      "trigger": "Lanzar dos procesos pedir-revision con el mismo nombre de revisor y el mismo SHA de candidato; dejar que uno registre revision_pedida y cortar el otro antes de registrar resultado; consultar estado.",
+      "evidence": "Reproducción mínima en memoria con eventos revision_lanzada(codex, abc), revision_lanzada(codex, abc), revision_pedida(codex, abc): aviso_lanzamientos devuelve []. La implementación muestra la colisión en abiertos[clave] (línea 1189) y el borrado de la pareja entera con abiertos.pop(clave, None) (línea 1191). La prueba tests/test_higiene.py cubre un pedido cortado aislado y un pedido que termina/interrumpe, pero no dos lanzamientos solapados de la misma pareja.",
+      "related_requirement": "un pedido de revisión cortado queda a la vista",
+      "status": "pendiente",
+      "verification": "Revisar la correlación de cada resultado con una identidad de lanzamiento, y añadir escenario con dos lanzamientos concurrentes idénticos donde termina sólo uno; estado debe conservar aviso para el otro."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null` desde la raíz del checkout: 17 tests, OK.",
+    "No ejecuté la suite completa ni los verificadores tools/verify_guide.py, tools/verify_installed.py, tools/verify_collaboration.py o tools/verify_higiene.py.",
+    "Revisé el diff del paquete y sus contextos; no inspeccioné los dos archivos excluidos de registros Factory/tareas.",
+    "El escenario concurrente se comprobó ejercitando aviso_lanzamientos en memoria con eventos sintéticos; no se lanzó una reproducción multiproceso modificando un checkout.",
+    "Revisión probabilística de defectos; no es un veredicto de Oracle ni prueba de propiedades no medidas."
+  ]
+}

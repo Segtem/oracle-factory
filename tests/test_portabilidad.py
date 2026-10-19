@@ -103,7 +103,7 @@ class Portabilidad(unittest.TestCase):
     # --- p2: advertir cuando los hechos no viajan ------------------------------------------
     def test_p2_hechos_ignorados_por_git(self):
         ident = self.cambio_medido()
-        hechos = self.sensor(self.root / '.factory-demo' / 'hechos.json')  # carpeta que inicializar() ignora
+        hechos = self.sensor(self.root / '.factory' / 'local' / 'hechos.json')  # carpeta que inicializar() ignora
         avisos = self.juzgar_avisando(ident, hechos)
         self.assertIn('ignorados por Git', avisos)
         self.assertEqual(self.estado(ident)['fase'], 'oracle_verde')  # se advierte y se sigue

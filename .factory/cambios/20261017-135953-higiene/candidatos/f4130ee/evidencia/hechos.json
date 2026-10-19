@@ -1,0 +1,35 @@
+{
+  "higiene_caso": [
+    {
+      "requisito": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "caso": "hg1_un_revisor_que_se_corta_sin_terminar",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "caso": "hg1_un_revisor_que_termina_o_se_interrumpe",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_acciones_sin_autor_se_avisan",
+      "caso": "hg2_un_agente_que_se_olvido_de_agente",
+      "codigo": 0
+    },
+    {
+      "requisito": "init_no_deja_carpetas_que_factory_no_usa",
+      "caso": "hg3_un_proyecto_nuevo",
+      "codigo": 0
+    },
+    {
+      "requisito": "init_no_deja_carpetas_que_factory_no_usa",
+      "caso": "hg3_un_proyecto_con_carpetas_de_oracle_propias",
+      "codigo": 0
+    }
+  ],
+  "higiene_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

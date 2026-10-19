@@ -269,7 +269,7 @@ class Demo:
         pending.write_text('preservar trabajo de A\n')
         self.git(repo, 'add', pending.name)
         index = self.git(repo, 'write-tree').stdout
-        lock = repo / '.factory-demo/locks' / (ident + '.medir.lock')
+        lock = repo / '.factory/local/locks' / (ident + '.medir.lock')
         lock.parent.mkdir(parents=True, exist_ok=True)
         # Proceso fixture conocido que deja un lock y termina; no se infiere por edad.
         exited = self.run(repo, sys.executable, '-c', 'import os,sys; os.close(os.open(sys.argv[1],os.O_CREAT|os.O_EXCL|os.O_WRONLY,0o600))', lock)

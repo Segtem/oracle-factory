@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/208b2ec",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "208b2ecc9905fb2be8426dd95fc7223b3426321d",
+  "diff_sha256": "43c990b5b49b878ce8002632ba7212ceb81a0b9b55f156a82e6354517f7dcd73",
+  "context_sha256": "354f1105b7cf90747191a23495a5554ad797b7396c7024526f3fd1a12c21c184",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exactamente desde la raíz del checkout las pruebas unitarias requeridas: tests.test_higiene, tests.test_tutorial y tests.test_portabilidad con Python 3.13 en primer plano (17 pruebas, OK con advertencias DeprecationWarning de oracle_metalenguaje).",
+    "No se ejecutó la suite completa discover de unittest ni las herramientas verify_*.py para respetar la indicación expresa del usuario.",
+    "Se verificó la corrección de la vuelta 2 para HG-006 y HG-007: se confirmó que cada evento revision_lanzada cuenta con un id 'lanzamiento' repetido en revision_pedida, y que aviso_lanzamientos cierra debidamente el lanzamiento actual y los anteriores del mismo revisor y candidato, manteniendo abiertos los posteriores, y que los resultados sin id cierran todos los de su par. No se detectaron regresiones en dichos escenarios.",
+    "Se evaluaron mutaciones manuales sobre copias locales aisladas respecto de la retención de avisos en fase cerrada y el formateo singular/plural en aviso_sin_autor.",
+    "Revisión probabilística independiente; los hallazgos y el análisis no constituyen veredicto de Oracle ni prueban propiedades no medidas. Se respetaron las exclusiones del paquete."
+  ],
+  "findings": [
+    {
+      "id": "HG-004",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "datos_estado y mostrar emiten avisos de pedir revisión y de acciones sin autor sobre cambios en fase cerrada",
+      "explanation": "En datos_estado (líneas 2111-2112) y mostrar (líneas 2286-2287), los avisos devueltos por aviso_lanzamientos y aviso_sin_autor se incluyen en avisos siempre que el cambio no esté abandonado (fase != 'abandonada'). Cuando un cambio ya ha sido cerrado (fase == 'cerrada'), el estado continúa emitiendo avisos instando a ejecutar: «volvé a pedirlo con oracle-factory pedir-revision {id} --a {r}» o informando sobre acciones huérfanas de agentes. Dicha recomendación es contradictoria y fallida en la práctica: invocar pedir-revision sobre un cambio cerrado ejecuta abierto(identificador), el cual arroja FactoryError ('el cambio ya está cerrado; creá una nueva tarea'). Los avisos operacionales no deben emitirse sobre cambios en fase cerrada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2111,
+        "end_line": 2112,
+        "side": "head"
+      },
+      "trigger": "Cerrar un cambio que contenga en su historial un lanzamiento cortado o acciones sin --agente, y luego consultar oracle-factory estado <id> o datos_estado.",
+      "evidence": "En oracle_factory/cli.py:2111-2112, 'avisos': [] if abandonado else ... solo descarta avisos si abandonado es True (fase == 'abandonada'), ignorando la fase 'cerrada'. Una mutación que suprime avisos en fase cerrada sobrevive a las 17 pruebas unitarias sin fallos. Al ejecutar pedir_revision sobre un cambio cerrado, abierto() genera FactoryError de forma inmediata impidiendo resolver el aviso.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Consultar datos_estado y mostrar en un cambio en fase cerrada que contenga eventos de lanzamientos cortados o acciones sin autor en el registro; no deben emitirse avisos recomendando acciones sobre un cambio ya cerrado."
+    },
+    {
+      "id": "HG-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "explanation": "El escenario de la spec «un agente que se olvidó de --agente» establece expresamente: «GIVEN un cambio creado e importado sin --agente y sin una persona identificada WHEN se pide estado THEN avisa que esas acciones quedaron sin autor y cómo identificarlo la próxima vez». En tests/test_higiene.py:129-148, la prueba test_hg2_un_agente_que_se_olvido_de_agente únicamente ejecuta la acción nuevo (cambio_creado). No ejecuta la acción importar (requisitos_importados), dejando sin verificación el comportamiento en plural (múltiples acciones sin autor agrupadas) prometido explícitamente en el escenario de la especificación.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 129,
+        "end_line": 148,
+        "side": "head"
+      },
+      "trigger": "Inspección de la implementación de test_hg2_un_agente_que_se_olvido_de_agente frente al escenario GIVEN en openspec/changes/20261017-135953-higiene/specs/flujo/spec.md.",
+      "evidence": "En tests/test_higiene.py:129-138, sólo se invoca [PYTHON_CLI, 'nuevo', ...], omitiendo el paso de importación especificado en el escenario GIVEN. Una mutación en aviso_sin_autor que devuelve siempre un texto en singular hardcodeado ('1 acción quedó sin autor (cambio_creado)...') sobrevive a la suite de tests requerida.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Incorporar en test_hg2 el paso de importación sin --agente y verificar que el aviso reporte '2 acciones quedaron sin autor (cambio_creado, requisitos_importados)'."
+    }
+  ]
+}

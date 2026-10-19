@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/823450c",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "823450c88ecff26f03c18e2b57d1c7fad75ff02b",
+  "diff_sha256": "dad9922347574a5d4086cfcc540c3c9e58d8678deaa33fb03a663b7383f634e0",
+  "context_sha256": "45326d4fac9fb9c2a7d69d34c1dd32d4e574333d0f48cce02be39beada7a2087",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HG-004",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "El aviso de revisión pendiente recomienda una acción imposible en cambios cerrados",
+      "explanation": "aviso_lanzamientos siempre redacta la salida como «volvé a pedirlo con oracle-factory pedir-revision …». datos_estado incluye ese aviso para toda fase salvo abandonada y mostrar también lo imprime en cambios cerrados. Si un cambio cierra conservando un lanzamiento sin resultado, estado y estado --json muestran la instrucción, pero pedir_revision llama a abierto(), que rechaza la fase cerrada con «el cambio ya está cerrado; creá una nueva tarea». El aviso no ofrece un siguiente paso válido para resolver el pendiente y confunde a quien consulta el estado histórico.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1197,
+        "end_line": 1199,
+        "side": "head"
+      },
+      "trigger": "Cerrar un cambio que conserve un evento revision_lanzada sin revision_pedida para ese revisor/candidato; luego consultar estado o estado --json y seguir el pedir-revision indicado.",
+      "evidence": "La plantilla de aviso en oracle_factory/cli.py:1197-1199 instruye volver a ejecutar pedir-revision. datos_estado añade aviso_lanzamientos salvo si el cambio está abandonado (líneas 2109-2110) y mostrar lo añade también para fases cerradas (línea 2284). abierto() en líneas 442-448 arroja FactoryError para fase == \"cerrada\", por lo que el comando recomendado no puede ejecutarse.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Confirmado por inspección del flujo estado → aviso_lanzamientos → pedir_revision/abierto. Las líneas señaladas están dentro del rango cambiado del diff. No se modificó el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-higiene/.venv/bin/python -m unittest tests.test_higiene tests.test_tutorial tests.test_portabilidad </dev/null; resultado: 17 tests, OK (con advertencias DeprecationWarning de oracle_metalenguaje).",
+    "No se ejecutó la suite completa ni otros verificadores.",
+    "Se contrastaron propuesta, spec, diff del paquete y las dos revisiones anteriores. Los casos de lanzamientos duplicados del mismo revisor/candidato, candidato posterior y revisor distinto se ejercitan con eventos sintéticos en tests/test_higiene.py; esos tests pasaron. No hice mutaciones adicionales sobre copias.",
+    "Revisión probabilística; el hallazgo no es un veredicto de Oracle ni prueba propiedades no medidas. Se respetaron las exclusiones del paquete."
+  ]
+}

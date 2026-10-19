@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-higiene/.factory/local/revisiones/823450c",
+  "base": "ed923396a2815fbae4a3a497cbb22fc54291e32a",
+  "head": "823450c88ecff26f03c18e2b57d1c7fad75ff02b",
+  "diff_sha256": "dad9922347574a5d4086cfcc540c3c9e58d8678deaa33fb03a663b7383f634e0",
+  "context_sha256": "45326d4fac9fb9c2a7d69d34c1dd32d4e574333d0f48cce02be39beada7a2087",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas: tests.test_higiene, tests.test_tutorial y tests.test_portabilidad con Python 3.13 en primer plano desde la raíz del checkout (17 pruebas, OK).",
+    "No se ejecutó la suite completa discover de unittest ni las herramientas verify_*.py para preservar la indicación expresa del usuario.",
+    "Se evaluaron mutaciones controladas en memoria sobre copias locales aisladas respecto de la retención de lanzamientos en aviso_lanzamientos, el manejo de avisos en fase cerrada y el comportamiento de aviso_sin_autor ante múltiples acciones.",
+    "Se inspeccionaron los 26 archivos del paquete de Clue, la propuesta, la especificación de flujo y las revisiones previas de la vuelta 1 (a6cefc0)."
+  ],
+  "findings": [
+    {
+      "id": "HG-006",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "Reejecución de pedir-revision sobre el mismo candidato tras un corte no cierra el lanzamiento y emite permanentemente un aviso falso aunque el revisor haya terminado",
+      "explanation": "aviso_lanzamientos almacena los lanzamientos pendientes en la lista abiertos. Al registrarse un nuevo evento revision_lanzada (líneas 1191-1192), la condición de retención es: abiertos = [a for a in abiertos if a.get('revisor') != r or a.get('candidato') == c] + [e]. Si un revisor r fue cortado previamente sobre el candidato c, su lanzamiento quedó en abiertos. estado avisa e instruye al usuario: «volvé a pedirlo con oracle-factory pedir-revision {id} --a {r}». Al reejecutar pedir-revision sobre el mismo candidato c, se genera un segundo evento revision_lanzada(r, c); como a.get('candidato') == c es True para el lanzamiento anterior, este se conserva y se agrega el nuevo (abiertos queda con 2 elementos). Al completar la revisión y registrarse revision_pedida(r, c), la línea 1194 (next) toma el primer elemento coincidentemente más antiguo (índice 0, el cortado) y lo remueve, dejando en abiertos el segundo lanzamiento (¡el que acaba de terminar y dejar el informe!). Esto causa: 1) estado y estado --json continúan avisando que el revisor r se lanzó sobre el candidato c (con la marca temporal de la segunda ejecución) y no dejó resultado, contradiciendo directamente el escenario de la spec «un revisor que termina, o se interrumpe con Ctrl-C» («THEN queda su resultado (...) y estado no avisa de un lanzamiento sin resultado»); 2) el aviso genera un bucle irresoluble, pues cada reintento exitoso sobre el mismo candidato suma 1 lanzamiento y 1 resultado manteniendo len(abiertos) == 1, impidiendo limpiar el aviso falso en ese candidato.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1191,
+        "end_line": 1196,
+        "side": "head"
+      },
+      "trigger": "Lanzar un revisor r sobre un candidato c y cortar el proceso antes de que deje resultado. Consultar estado y seguir la instrucción ejecutando oracle-factory pedir-revision {id} --a {r} hasta su finalización exitosa. Consultar estado nuevamente.",
+      "evidence": "Probado con eventos sintéticos y secuencia de ejecución: eventos = [revision_lanzada(codex, c1, 10:00), revision_lanzada(codex, c1, 10:05), revision_pedida(codex, c1, 10:10)]. aviso_lanzamientos devuelve: ['el revisor codex se lanzó (2026-10-19 10:05) sobre el candidato c1 y no dejó resultado; volvé a pedirlo con oracle-factory pedir-revision X --a codex']. El lanzamiento que terminó a las 10:10 figura como cortado a las 10:05.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Ejecutar la secuencia de reintento sobre el mismo candidato y verificar que al finalizar la revisión con éxito, aviso_lanzamientos no devuelva advertencias pendientes para ese revisor y candidato."
+    },
+    {
+      "id": "HG-007",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "lanzamientos_solapados_y_candidatos_que_quedan_atras convalida en su aserción el aviso espurio tras un reintento exitoso",
+      "explanation": "En tests/test_higiene.py:104-108, lanzamientos_solapados_y_candidatos_que_quedan_atras define la prueba unitaria: [aviso] = avisos(ev('revision_lanzada', 'codex', 'c1', 0), ev('revision_lanzada', 'codex', 'c1', 1), ev('revision_pedida', 'codex', 'c1', 2)); self.assertIn('el revisor codex se lanzó (2026-10-19 10:0', aviso). Esta prueba convalida como correcto que tras dos lanzamientos y un resultado el aviso deba persistir, y utiliza un prefijo truncado ('2026-10-19 10:0') que camufla que la marca temporal mostrada corresponde al segundo lanzamiento (10:01), el cual sí fue concluido por el resultado de 10:02. Esto enmascara la discrepancia con el escenario de la spec donde un revisor que termina no debe dejar aviso.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 104,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Inspección de las aserciones de lanzamientos_solapados_y_candidatos_que_quedan_atras frente al escenario «un revisor que termina, o se interrumpe con Ctrl-C» de la spec.",
+      "evidence": "En tests/test_higiene.py:105-107, se afirma que len(avisos) == 1 ante dos lanzamientos y un resultado del mismo revisor y candidato, institucionalizando el aviso falso post-reintento.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Modificar la prueba para distinguir entre lanzamientos simultáneos en curso y una reejecución que concluye con informe válido para ese candidato."
+    },
+    {
+      "id": "HG-004",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "datos_estado y mostrar emiten avisos de pedir revisión y de acciones sin autor sobre cambios en fase cerrada",
+      "explanation": "En datos_estado (líneas 2109-2110) y mostrar (líneas 2284-2285), los avisos devueltos por aviso_lanzamientos y aviso_sin_autor se incluyen siempre que el cambio no esté abandonado (fase != 'abandonada'). Cuando un cambio ya ha sido cerrado (fase == 'cerrada'), el estado continúa emitiendo avisos instando a ejecutar: «volvé a pedirlo con oracle-factory pedir-revision {id} --a {r}» o informando sobre acciones huérfanas de agentes. Dicha recomendación es inaplicable y fallida, ya que invocar pedir-revision sobre un cambio cerrado invoca abierto(identificador) y genera de inmediato FactoryError: el cambio ya está cerrado; creá una nueva tarea.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2108,
+        "end_line": 2111,
+        "side": "head"
+      },
+      "trigger": "Cerrar un cambio que contenga en su historial un lanzamiento cortado o acciones sin --agente, y luego consultar oracle-factory estado <id> o datos_estado.",
+      "evidence": "En oracle_factory/cli.py:2109-2110, 'avisos': [] if abandonado else ... solo descarta avisos si abandonado es True (fase == 'abandonada'), ignorando la fase 'cerrada'. Una mutación que suprime avisos en fase cerrada sobrevive a las 17 pruebas unitarias sin fallos.",
+      "related_requirement": "un_pedido_de_revision_cortado_queda_a_la_vista",
+      "status": "pendiente",
+      "verification": "Evaluar datos_estado y mostrar en un cambio en fase cerrada con eventos de lanzamientos cortados o acciones sin autor en el registro; no deben emitirse avisos que soliciten acciones sobre un cambio cerrado."
+    },
+    {
+      "id": "HG-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec",
+      "explanation": "El escenario de la spec «un agente que se olvidó de --agente» establece expresamente: «GIVEN un cambio creado e importado sin --agente y sin una persona identificada WHEN se pide estado THEN avisa que esas acciones quedaron sin autor y cómo identificarlo la próxima vez». En tests/test_higiene.py:119-138, la prueba test_hg2_un_agente_que_se_olvido_de_agente únicamente ejecuta la acción nuevo (cambio_creado). No ejecuta importar (requisitos_importados), dejando sin verificación el comportamiento en plural (múltiples acciones sin autor agrupadas) prometido explícitamente en el escenario.",
+      "location": {
+        "file": "tests/test_higiene.py",
+        "start_line": 119,
+        "end_line": 138,
+        "side": "head"
+      },
+      "trigger": "Inspección de la implementación de test_hg2_un_agente_que_se_olvido_de_agente frente al escenario de spec.md.",
+      "evidence": "En tests/test_higiene.py:119-129, sólo se invoca [PYTHON_CLI, 'nuevo', ...], omitiendo el paso de importación especificado en el escenario GIVEN. Una mutación en aviso_sin_autor que devuelve siempre un texto hardcodeado en singular ('1 acción quedó sin autor (cambio_creado)...') sobrevive a la suite de tests requerida.",
+      "related_requirement": "las_acciones_sin_autor_se_avisan",
+      "status": "pendiente",
+      "verification": "Incorporar en test_hg2 el paso de importación sin --agente y verificar que el aviso reporte '2 acciones quedaron sin autor (cambio_creado, requisitos_importados)'."
+    }
+  ]
+}
