@@ -2,7 +2,7 @@
   "id": "20261019-182313-commits",
   "titulo": "Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero",
   "capacidad": "trazabilidad",
-  "fase": "juicio_pendiente",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
   "spec_sha256": "31f469fe6b57e16a1dfabed991b201f5a4ee592cb6af59f7d14122282f28623f",
   "spec_aprobada": {
@@ -20,27 +20,7 @@
     "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero"
   ],
-  "revision": {
-    "formato": "guiado",
-    "revisor": "Brian Hollweg",
-    "decision": "aprobar",
-    "hallazgos_abiertos": 0,
-    "informe": "tareas/20261019-182313-commits/revisiones/registro-61xq7bih/informe.json",
-    "sha256": "b3c7ba9d0d41f428bfe73613b0dbaf75edd4fded922e9f39dbadd4c31fdbfef8",
-    "decisiones": "tareas/20261019-182313-commits/revisiones/registro-61xq7bih/decisiones.json",
-    "decisiones_sha256": "da1783b9e4c2bf900cd0987b540868a6a28011ecffe5afbf92b96737d87d8ef4",
-    "actor": "Brian Hollweg",
-    "tipo_actor": "persona",
-    "forma": "confirmo",
-    "modo": "confirmacion",
-    "cuando": "2026-10-19T21:21:09+00:00",
-    "motivo": "Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos. Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.",
-    "origen_motivo": "agente",
-    "contexto": {
-      "head": "e130609d3cf50306de3f06cd4012b90a4a5b91d7",
-      "archivos_sha256": "c21d06f379cf84498baa7fddebbe39802df163cd4416511145c61fed75e718ac"
-    }
-  },
+  "revision": null,
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -414,6 +394,33 @@
       "abiertos": 0,
       "sha256": "b3c7ba9d0d41f428bfe73613b0dbaf75edd4fded922e9f39dbadd4c31fdbfef8",
       "decisiones_sha256": "da1783b9e4c2bf900cd0987b540868a6a28011ecffe5afbf92b96737d87d8ef4"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T21:21:45+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "medidas": [
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
+        "factory_commits.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-19T21:22:32+00:00",
+      "requisito": "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es",
+      "medidas": [
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es",
+        "factory_commits.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -421,22 +428,6 @@
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "funcional"
   },
   "medidas": {
-    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-19T18:50:07+00:00",
-      "sha256": "610a769afc100121017949a253c4ca1e3c0e85f7a37a2a93921b21e6448d5b87",
-      "catalogos": {
-        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "2418170d1f8af0e8662deec34f57348ca50bf3488f5784e82abbffd7269a0d0b",
-        "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
-      },
-      "archivos_catalogo": {
-        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
-        "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
-      }
-    },
     "trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": {
       "actor": "Brian Hollweg",
       "tipo_actor": "persona",
@@ -450,6 +441,22 @@
       },
       "archivos_catalogo": {
         "factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero": "catalogos/factory_commits.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.oracle",
+        "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
+      }
+    },
+    "trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-19T21:22:32+00:00",
+      "sha256": "dfa099fcf393a63bf4bf0ca51d378574b083cabd6eac297d01a7c61a1cb2acd0",
+      "catalogos": {
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "2418170d1f8af0e8662deec34f57348ca50bf3488f5784e82abbffd7269a0d0b",
+        "factory_commits.corrida_completa": "8b1f588d98773b90b083ea4b002354e879cca74d527a4e65eebd4b02eb0d55e4"
+      },
+      "archivos_catalogo": {
+        "factory_commits.cada_commit_nuevo_dice_de_que_cambio_es": "catalogos/factory_commits.cada_commit_nuevo_dice_de_que_cambio_es.oracle",
         "factory_commits.corrida_completa": "catalogos/factory_commits.corrida_completa.oracle"
       }
     }
