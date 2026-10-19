@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "793ee9b3efaa3e4dad7a8fb46d2cdf9aa5d5195421adf1ba1e86d0e96a2c3079",
+  "actor": "Brian Hollweg",
+  "motivo": "Seis vueltas de codex y agy; en las dos últimas ninguno dejó hallazgos (la 6 sólo quitó la marca sin_medir del primer requisito). Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.",
+  "decisiones": []
+}
