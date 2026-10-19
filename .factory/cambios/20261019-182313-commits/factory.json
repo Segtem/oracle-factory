@@ -499,6 +499,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "3e03eb117482"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-19T23:00:07+00:00",
+      "decision": "aprobar",
+      "candidato": "84e599f"
     }
   ],
   "tipos": {
@@ -540,5 +550,14 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Seis vueltas de codex y agy; en las dos últimas ninguno dejó hallazgos (la 6 sólo quitó la marca sin_medir del primer requisito). Corregido con pruebas que fallan sin cada corrección: commit-msg para el mensaje del editor (cerrarlo vacío sigue abortando, también con core.commentChar), con un hook ajeno no se instala ninguno, la línea encadenable no corta con set -e, el trailer se confirma en el bloque de trailers, revisado exige informe, y la deducción busca el merge en la línea principal. Límite conocido: con commit.template una plantilla sin editar ya no aborta el commit.",
+      "candidato": "84e599f",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-19T23:00:07+00:00"
+    }
+  }
 }
