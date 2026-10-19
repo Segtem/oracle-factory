@@ -250,6 +250,7 @@ def armar(cli) -> dict:
                                                       "abiertos", "codigo", "requisito", "medidas", "causa")}}
                                 for e in estado.get("eventos") or []],
             "hallazgos": hallazgos, "requisitos": requisitos,
+            "commits": datos["commits"],
             "artefactos": cli.datos_donde(ident, None)["artefactos"],
             "metricas": metricas,
         })

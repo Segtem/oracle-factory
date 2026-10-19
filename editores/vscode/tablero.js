@@ -56,6 +56,15 @@ function hallazgos(cambio) {
     return `<table><thead><tr><th>Severidad</th><th>Revisor</th><th>Dónde</th><th>Hallazgo</th><th>Estado</th></tr></thead><tbody>${filas}</tbody></table>`;
 }
 
+function commits(cambio) {
+    const lista = cambio.commits || [];
+    if (!lista.length) return '<p class="vacio">Ningún commit unido todavía: los nuevos llevan «Cambio: ID» con el hook de <code>oracle-factory hooks</code>.</p>';
+    const filas = lista.map(c => `<tr><td><button type="button" class="enlace" data-commit="${esc(c.sha)}">${esc(c.corto)}</button></td>
+<td>${esc(c.asunto)}</td><td>${esc(c.autor)}</td><td>${hora(c.fecha)}</td>
+<td>${esc([c.union, c.candidato && 'candidato', c.revisado && 'revisado', c.evidencia && 'evidencia'].filter(Boolean).join(' · '))}</td></tr>`).join('');
+    return `<table><thead><tr><th>Commit</th><th>Asunto</th><th>Autor</th><th>Cuándo</th><th>Unión</th></tr></thead><tbody>${filas}</tbody></table>`;
+}
+
 function requisitos(cambio) {
     if (!cambio.requisitos.length) return '<p class="vacio">Todavía no hay requisitos importados.</p>';
     return `<ul class="requisitos">${cambio.requisitos.map(r => {
@@ -102,6 +111,7 @@ function cambio(c) {
 ${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)).join('')}${avisos}
 <h3>Hallazgos</h3>${hallazgos(c)}
 <h3>Requisitos</h3>${requisitos(c)}
+<h3>Commits (${(c.commits || []).length})</h3>${commits(c)}
 <h3>Métricas</h3>${metricas(c.metricas)}
 <details><summary>Línea de tiempo (${c.linea_de_tiempo.length})</summary>${linea(c)}</details>
 </section>`;
@@ -165,6 +175,7 @@ document.addEventListener('click', ev => {
   if (!b) return;
   if (b.dataset.abrir) vscode.postMessage({tipo: 'abrir', archivo: b.dataset.abrir, linea: b.dataset.linea ? Number(b.dataset.linea) : null});
   if (b.dataset.comando) vscode.postMessage({tipo: 'terminal', comando: b.dataset.comando});
+  if (b.dataset.commit) vscode.postMessage({tipo: 'commit', sha: b.dataset.commit});
 });
 </script></body></html>`;
 }
