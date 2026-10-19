@@ -9,6 +9,7 @@ const ACCIONES = {
     revision_propuesta: 'Revisión propuesta', revision_registrada: 'Revisión registrada', revision_cancelada: 'Revisión sin registrar',
     oracle_ejecutado: 'Juicio de Oracle', cierre: 'Cerrado', archivado: 'Archivado', abandono: 'Abandonado',
     abandono_propuesto: 'Abandono propuesto',
+    tomado: 'Tomado', soltado: 'Soltado', agente_sumado: 'Agente sumado',
 };
 const ETAPAS = [['acuerdo', 'Spec'], ['medidas', 'Medidas'], ['construcción y revisión', 'Revisión'], ['juicio', 'Juicio'], ['cierre', 'Cierre']];
 const SEVERIDADES = ['critica', 'alta', 'media', 'baja', 'informativa'];
@@ -54,6 +55,18 @@ function hallazgos(cambio) {
 <td>${abrir(h.archivo, h.linea, h.archivo ? `${h.archivo}${h.linea ? ':' + h.linea : ''}` : '(sin archivo)')}</td>
 <td>${esc(h.titulo)}</td><td>${h.estado === 'aceptado' ? 'riesgo aceptado' : 'abierto'}</td></tr>`).join('');
     return `<table><thead><tr><th>Severidad</th><th>Revisor</th><th>Dónde</th><th>Hallazgo</th><th>Estado</th></tr></thead><tbody>${filas}</tbody></table>`;
+}
+
+function quien(cambio) {
+    const q = cambio.quien;
+    if (!q) return '';
+    const r = q.responsable
+        ? `<b>${esc(q.responsable.persona)}</b> desde ${hora(q.responsable.desde)}`
+        : '<span class="aviso-texto">sin responsable</span> (<code>oracle-factory tomar ID</code>)';
+    const agentes = q.agentes.map(a => `<li><b>${esc(a.nombre)}</b>${a.declarado ? ' (declarado)' : ''}${a.ultima_accion
+        ? ` · ${esc(ACCIONES[a.ultima_accion] || a.ultima_accion)} ${hora(a.cuando)}` : ''}</li>`).join('');
+    const revisores = q.revisores_en_curso.map(v => `<li>revisando: <b>${esc(v.revisor)}</b> sobre ${esc(v.candidato)} desde ${hora(v.cuando)}</li>`).join('');
+    return `<div class="quien"><p>Responsable: ${r}</p>${agentes || revisores ? `<ul>${agentes}${revisores}</ul>` : ''}</div>`;
 }
 
 function commits(cambio) {
@@ -108,7 +121,7 @@ function cambio(c) {
     const avisos = c.avisos.length ? `<ul class="avisos">${c.avisos.map(a => `<li>⚠ ${esc(a)}</li>`).join('')}</ul>` : '';
     return `<section class="cambio" data-cambio="${esc(c.id)}">
 <header><h2>${esc(c.titulo)}</h2><p class="id">${esc(c.id)} · ${esc(c.fase)} · modo ${esc(c.modo)}${c.candidato ? ` · candidato ${esc(c.candidato)}` : ''}</p>${etapas(c)}</header>
-${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)).join('')}${avisos}
+${quien(c)}${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)).join('')}${avisos}
 <h3>Hallazgos</h3>${hallazgos(c)}
 <h3>Requisitos</h3>${requisitos(c)}
 <h3>Commits (${(c.commits || []).length})</h3>${commits(c)}
@@ -125,6 +138,9 @@ function proyecto(p) {
 <div><h4>Cambios</h4><p><b>${p.cambios.abiertos}</b> abiertos · <b>${p.cambios.cerrados}</b> cerrados · <b>${p.cambios.abandonados}</b> abandonados</p></div>
 <div><h4>Hasta el cierre</h4><p>mediana <b>${horas(p.mediana_horas_hasta_cierre)}</b></p></div>
 <div><h4>Primera vuelta</h4><p>${v.proporcion == null ? '—' : `<b>${v.en_una_vuelta}</b> de ${v.cerrados_con_revision} cerraron en una vuelta`}</p></div>
+<div><h4>Quién está en qué</h4><ul class="revisores">${Object.entries(p.por_responsable || {}).map(([persona, ids]) =>
+    `<li><b>${esc(persona)}</b>: ${ids.map(esc).join(', ')}</li>`).join('')}${(p.sin_responsable || []).length
+    ? `<li><span class="aviso-texto">sin responsable</span>: ${p.sin_responsable.map(esc).join(', ')}</li>` : ''}</ul></div>
 <div><h4>Qué encontró cada revisor</h4><ul class="revisores">${revisores}</ul></div>
 </div></section>`;
 }
@@ -149,6 +165,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;p
 .revisores{list-style:none;padding:0}.requisitos{padding-left:18px}.requisitos li{margin:4px 0}.quien{opacity:.75;font-size:12px}
 .linea{list-style:none;padding:0;font-size:13px}.linea li{padding:4px 0 4px 10px;border-left:3px solid var(--vscode-panel-border,#555)}.linea li.actor-persona{border-left-color:var(--vscode-charts-green,#2e7d32)}.linea li.actor-agente{border-left-color:var(--vscode-charts-blue,#2563eb)}.linea li.actor-sin_identificar{border-left-color:var(--vscode-charts-orange,#d97706)}
 .linea time{font-family:var(--vscode-editor-font-family);opacity:.7}.linea small{display:block;opacity:.8}.vacio{opacity:.7}
+.quien{margin:8px 0}.quien p{margin:0}.quien ul{margin:4px 0 0;padding-left:18px;font-size:13px}
 .marca{width:28px;height:28px;image-rendering:pixelated}`;
 }
 

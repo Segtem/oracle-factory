@@ -640,6 +640,92 @@ def instalar_hook() -> str:
             "«Cambio: ID».")
 
 
+def tomar(identificador: str, con: list[str] | None = None, relevo: bool = False) -> None:
+    """Una persona se registra como responsable del cambio (con sus agentes); un agente se suma al cambio."""
+    carpeta, estado = abierto(identificador)
+    quien_actua = actor()
+    if quien_actua["tipo_actor"] == "sin_identificar":
+        raise FactoryError("tomar un cambio lo hace una persona desde su terminal, o un agente que se suma con "
+                           "--agente NOMBRE; la entrada por pipe no identifica a nadie")
+    if quien_actua["tipo_actor"] == "agente":
+        evento(estado, "agente_sumado", forma="registro", agente=AGENTE)
+        guardar(carpeta, estado)
+        print(f"{AGENTE} quedó como agente de {identificador}; responsable: "
+              f"{(estado.get('responsable') or {}).get('persona') or 'nadie todavía'}.")
+        return
+    persona, previo = quien_actua["actor"], estado.get("responsable") or {}
+    if previo.get("persona") and previo["persona"] != persona and not relevo:
+        raise FactoryError(f"{identificador} lo tiene {previo['persona']} desde {previo.get('desde', '')[:16].replace('T', ' ')}; "
+                           f"acordalo con esa persona y tomalo con oracle-factory tomar {identificador} --relevo. No cambié nada")
+    agentes = sorted(set(con or []))
+    estado["responsable"] = {"persona": persona, "desde": ahora(), "con": agentes}
+    datos = {"con": agentes, **({"relevo_de": previo["persona"]} if previo.get("persona") and previo["persona"] != persona else {})}
+    evento(estado, "tomado", forma="registro", **datos)
+    guardar(carpeta, estado)
+    print(f"{persona} tiene {identificador}" + (f", con {', '.join(agentes)}" if agentes else "")
+          + (f" (relevo de {datos['relevo_de']})" if "relevo_de" in datos else "") + ".")
+
+
+def soltar(identificador: str) -> None:
+    carpeta, estado = abierto(identificador)
+    previo = (estado.get("responsable") or {}).get("persona")
+    if not previo:
+        print(f"{identificador} no tiene responsable; no cambié nada.")
+        return
+    if actor()["tipo_actor"] != "persona" or actor()["actor"] != previo:
+        raise FactoryError(f"{identificador} lo tiene {previo}: lo suelta esa persona desde su terminal, o otra lo toma "
+                           f"con --relevo. No cambié nada")
+    estado["responsable"] = None
+    evento(estado, "soltado", forma="registro")
+    guardar(carpeta, estado)
+    print(f"{previo} soltó {identificador}; queda sin responsable.")
+
+
+ACTIVIDAD_RECIENTE = dt.timedelta(hours=24)
+
+
+def quien_del_cambio(estado: dict) -> dict:
+    """Quién trabaja en el cambio, sólo con su registro: la persona responsable, sus agentes (declarados, sumados o
+    que actuaron en las últimas 24 horas, con su última acción) y los revisores lanzados sin resultado."""
+    responsable = estado.get("responsable") or None
+    eventos = estado.get("eventos") or []
+    limite = dt.datetime.now(dt.timezone.utc) - ACTIVIDAD_RECIENTE
+    declarados = set((responsable or {}).get("con") or [])
+    declarados |= {e.get("agente") for e in eventos if e.get("accion") == "agente_sumado" and e.get("agente")}
+    ultimas: dict[str, dict] = {}
+    for e in eventos:  # una migración de registros (limpiar rutas, archivar viejos) no es trabajar en el cambio
+        if e.get("tipo_actor") == "agente" and e.get("actor") and e.get("forma") != "migracion":
+            ultimas[e["actor"]] = e
+    agentes = []
+    for nombre in sorted(declarados | set(ultimas)):
+        ultima = ultimas.get(nombre)
+        try:
+            reciente = bool(ultima) and dt.datetime.fromisoformat(ultima["cuando"]) >= limite
+        except (KeyError, TypeError, ValueError):
+            reciente = False
+        if nombre in declarados or reciente:
+            agentes.append({"nombre": nombre, "declarado": nombre in declarados,
+                            "ultima_accion": (ultima or {}).get("accion"), "cuando": (ultima or {}).get("cuando")})
+    return {"responsable": responsable, "agentes": agentes,
+            "revisores_en_curso": [{"revisor": e.get("revisor"), "candidato": e.get("candidato"), "cuando": e.get("cuando")}
+                                   for e in lanzamientos_abiertos(estado)],
+            "ultima_actividad": ({k: eventos[-1].get(k) for k in ("actor", "tipo_actor", "accion", "cuando")}
+                                 if eventos else None)}
+
+
+def linea_quien(q: dict) -> str:
+    r = q["responsable"]
+    partes = [f"Responsable: {r['persona']} desde {str(r.get('desde', ''))[:16].replace('T', ' ')}" if r
+              else "Responsable: nadie (oracle-factory tomar ID)"]
+    if q["agentes"]:
+        partes.append("agentes: " + ", ".join(
+            a["nombre"] + (f" ({a['ultima_accion']} {str(a['cuando'])[:16].replace('T', ' ')})" if a["ultima_accion"] else "")
+            for a in q["agentes"]))
+    if q["revisores_en_curso"]:
+        partes.append("revisando: " + ", ".join(f"{v['revisor']} sobre {v['candidato']}" for v in q["revisores_en_curso"]))
+    return "; ".join(partes)
+
+
 def cambios_abiertos() -> list[str]:
     if not CHANGES.is_dir():
         return []
@@ -647,11 +733,23 @@ def cambios_abiertos() -> list[str]:
             and leer(c.name)[1].get("fase") not in ("cerrada", "abandonada")]
 
 
-def poner_trailer(archivo: str) -> None:
-    """Lo llama el hook: con un solo cambio abierto en este checkout, agrega «Cambio: ID» al mensaje si no lo tiene."""
+def cambio_del_commit(mensaje: str) -> str | None:
+    """El cambio de un commit: el que nombra su mensaje (si nombra uno solo del proyecto); si no, el único abierto; con
+    varios abiertos, el único que tiene como responsable a quien commitea (su user.name de Git). Si no, ninguno."""
+    nombrados = {i for i in re.findall(r"\b\d{8}-\d{6}-[a-z0-9_]+(?:-[a-z0-9_]+)*", mensaje)
+                 if (CHANGES / i).is_dir() and ruta_registro(CHANGES / i).exists()}
+    if nombrados:
+        return nombrados.pop() if len(nombrados) == 1 else None
     abiertos = cambios_abiertos()
-    if len(abiertos) != 1:
-        return
+    if len(abiertos) == 1:
+        return abiertos[0]
+    yo = subprocess.run(["git", "config", "user.name"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+    mios = [i for i in abiertos if yo and (leer(i)[1].get("responsable") or {}).get("persona") == yo]
+    return mios[0] if len(mios) == 1 else None
+
+
+def poner_trailer(archivo: str) -> None:
+    """Lo llama el hook: agrega «Cambio: ID» al mensaje si no lo tiene, con el cambio que elige cambio_del_commit."""
     # Un mensaje todavía vacío (sólo comentarios, con el carácter de comentario que use este Git): se deja así, para
     # que cerrar el editor sin escribir siga abortando el commit; commit-msg lo completa después.
     vacio = subprocess.run(["git", "stripspace", "--strip-comments"], cwd=ROOT, input=Path(archivo).read_bytes(),
@@ -662,7 +760,9 @@ def poner_trailer(archivo: str) -> None:
     trailers = ejecutar(["git", "interpret-trailers", "--parse", archivo]).stdout
     if re.search(r"^Cambio:", trailers, re.M | re.I):
         return
-    ejecutar(["git", "interpret-trailers", "--in-place", "--trailer", f"Cambio: {abiertos[0]}", archivo])
+    cambio = cambio_del_commit(vacio.stdout.decode("utf-8", errors="replace"))
+    if cambio:
+        ejecutar(["git", "interpret-trailers", "--in-place", "--trailer", f"Cambio: {cambio}", archivo])
 
 
 def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
@@ -1324,6 +1424,20 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
     guardar(carpeta, estado, esperado=leido)  # si otro lo escribió entretanto, no se pisa
 
 
+def lanzamientos_abiertos(estado: dict) -> list[dict]:
+    """Los revisores lanzados que todavía no dejaron resultado, con las mismas reglas que aviso_lanzamientos."""
+    abiertos: list[dict] = []
+    for e in estado.get("eventos") or []:
+        r, c = e.get("revisor"), e.get("candidato")
+        if e.get("accion") == "revision_lanzada":
+            abiertos.append(e)
+        elif e.get("accion") == "revision_pedida":
+            propio = [a for a in abiertos if a.get("lanzamiento") and a.get("lanzamiento") == e.get("lanzamiento")]
+            abiertos = [a for a in abiertos if a not in propio] if propio else \
+                [a for a in abiertos if (a.get("revisor"), a.get("candidato")) != (r, c)]
+    return abiertos
+
+
 def aviso_lanzamientos(estado: dict) -> list[str]:
     """Revisores lanzados que no dejaron resultado (el pedido se cortó a mitad): uno por lanzamiento, mientras el
     cambio siga abierto.
@@ -1333,22 +1447,15 @@ def aviso_lanzamientos(estado: dict) -> list[str]:
     o se lanzó sobre otro, el aviso lo dice y no pide repetirlo (eso revisaría el candidato nuevo, no ése)."""
     if estado.get("fase") in ("cerrada", "abandonada"):
         return []
-    abiertos: list[dict] = []
     ultimo: dict = {}  # el último candidato sobre el que se lanzó cada revisor
     terminados: set = set()  # (revisor, candidato) con un resultado
     for e in estado.get("eventos") or []:
-        r, c = e.get("revisor"), e.get("candidato")
         if e.get("accion") == "revision_lanzada":
-            abiertos.append(e)
-            ultimo[r] = c
-        elif e.get("accion") == "revision_pedida":
-            if e.get("resultado") != "interrumpido":
-                terminados.add((r, c))
-            propio = [a for a in abiertos if a.get("lanzamiento") and a.get("lanzamiento") == e.get("lanzamiento")]
-            abiertos = [a for a in abiertos if a not in propio] if propio else \
-                [a for a in abiertos if (a.get("revisor"), a.get("candidato")) != (r, c)]
+            ultimo[e.get("revisor")] = e.get("candidato")
+        elif e.get("accion") == "revision_pedida" and e.get("resultado") != "interrumpido":
+            terminados.add((e.get("revisor"), e.get("candidato")))
     avisos = []
-    for e in abiertos:
+    for e in lanzamientos_abiertos(estado):
         r, c = e.get("revisor"), e.get("candidato")
         texto = f"el revisor {r} se lanzó ({str(e.get('cuando', ''))[:16].replace('T', ' ')}) sobre el candidato {c} y no dejó resultado"
         if ultimo.get(r) != c:
@@ -2271,6 +2378,7 @@ def datos_estado(identificador: str) -> dict:
         "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
                                          + aviso_sin_autor(estado)),
         "commits": commits_del_cambio(identificador, estado),
+        "quien": quien_del_cambio(estado),
     }
 
 
@@ -2445,6 +2553,7 @@ def mostrar(identificador: str) -> None:
     for linea in commits_registrados(estado):
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
+    print(linea_quien(quien_del_cambio(estado)) + ".")
     for aviso in avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
@@ -3124,6 +3233,11 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('pedir-revision', help='pedir una revisión independiente del candidato actual a un revisor configurado')
     q.add_argument('id'); q.add_argument('--a', dest='revisor', required=True, help='nombre del revisor en .factory/config.json')
     q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue')
+    q = sub.add_parser('tomar', help='registrarte como responsable de un cambio (con --con AGENTE); un agente con --agente se suma')
+    q.add_argument('id'); q.add_argument('--con', action='append', metavar='AGENTE', help='el agente con el que trabajás (repetible)')
+    q.add_argument('--relevo', action='store_true', help='tomarlo aunque lo tenga otra persona, con quien ya lo acordaste')
+    q = sub.add_parser('soltar', help='dejar de ser responsable de un cambio')
+    q.add_argument('id')
     q = sub.add_parser('log', help='los commits de un cambio: con su trailer «Cambio: ID» o deducidos de sus candidatos (sólo lectura)')
     q.add_argument('id'); q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
     sub.add_parser('hooks', help='instalar el hook de Git que agrega «Cambio: ID» a cada commit con un solo cambio abierto')
@@ -3216,6 +3330,8 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
         elif args.comando == "log": comando_log(args.id, args.json)
+        elif args.comando == "tomar": tomar(args.id, args.con, args.relevo)
+        elif args.comando == "soltar": soltar(args.id)
         elif args.comando == "hooks": print(instalar_hook())
         elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
