@@ -2,7 +2,7 @@
   "id": "20261020-141303-sesion",
   "titulo": "La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar",
   "capacidad": "ide",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
   "spec_sha256": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-141303-sesion/revisiones/registro-55cp0cs_/informe.json",
+    "sha256": "ba6cae59b7f67ff539df1be03fb8fd595f403e8e54698bad4a9d10f94a6dc4dd",
+    "decisiones": "tareas/20261020-141303-sesion/revisiones/registro-55cp0cs_/decisiones.json",
+    "decisiones_sha256": "ac79090e7621e557bf2d248ebbd0a7f03a9405ef97b64d294f3e75cad5f5ff3e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T16:11:11+00:00",
+    "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: nunca se llama a share() con una sesión abierta o abriéndose (lo encontró Brian probando y un doble clic), copiar el enlace usa el guardado o el comando de Live Share, el enlace viejo se olvida al terminar, el invitado que espera puede salir, y Role.None no es anfitrión. Queda un bajo de codex: unirse acepta un enlace de vscode.dev/liveshare/ sin identificador (Live Share lo rechaza al entrar). Que los botones hagan lo que dicen en VS Code real lo probó Brian.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "e5b8bd3025f3e916152bae5097875308019e4fe3",
+      "archivos_sha256": "bdb55a7f280be880a42b2678bfc87c565ed3793cce1e8ecfd7b9491004a33cd2"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -295,6 +315,20 @@
       "cuando": "2026-10-20T15:48:40+00:00",
       "decision": "aprobar",
       "candidato": "fd78949"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:11+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "ba6cae59b7f67ff539df1be03fb8fd595f403e8e54698bad4a9d10f94a6dc4dd",
+      "decisiones_sha256": "ac79090e7621e557bf2d248ebbd0a7f03a9405ef97b64d294f3e75cad5f5ff3e"
     }
   ],
   "tipos": {
@@ -326,14 +360,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: nunca se llama a share() con una sesión abierta o abriéndose (lo encontró Brian probando y un doble clic), copiar el enlace usa el guardado o el comando de Live Share, el enlace viejo se olvida al terminar, el invitado que espera puede salir, y Role.None no es anfitrión. Queda un bajo de codex: unirse acepta un enlace de vscode.dev/liveshare/ sin identificador (Live Share lo rechaza al entrar). Que los botones hagan lo que dicen en VS Code real lo probó Brian.",
-      "candidato": "fd78949",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T15:48:40+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "editores/vscode/liveshare.js",
+      "titulo": "Acepta un enlace vscode.dev sin identificador de sesión",
+      "firma": "editores/vscode/liveshare.js|acepta un enlace vscodedev sin identificador de sesión",
+      "motivo": "Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-20T16:11:09+00:00",
+      "candidato": "fd78949"
     }
-  }
+  ]
 }

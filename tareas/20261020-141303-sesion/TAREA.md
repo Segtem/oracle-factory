@@ -35,3 +35,7 @@ Medidas de ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tabl
 ### Nota (2026-10-20 14:46:17 UTC)
 
 Medidas de ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 16:11:11 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: nunca se llama a share() con una sesión abierta o abriéndose (lo encontró Brian probando y un doble clic), copiar el enlace usa el guardado o el comando de Live Share, el enlace viejo se olvida al terminar, el invitado que espera puede salir, y Role.None no es anfitrión. Queda un bajo de codex: unirse acepta un enlace de vscode.dev/liveshare/ sin identificador (Live Share lo rechaza al entrar). Que los botones hagan lo que dicen en VS Code real lo probó Brian.); 0 abiertos derivados; commit e5b8bd3025f3e916152bae5097875308019e4fe3; informe tareas/20261020-141303-sesion/revisiones/registro-55cp0cs_/informe.json; decisiones tareas/20261020-141303-sesion/revisiones/registro-55cp0cs_/decisiones.json.
