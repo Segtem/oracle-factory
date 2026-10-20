@@ -2,11 +2,25 @@
   "id": "20261020-140603-kb",
   "titulo": "El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?",
   "capacidad": "conocimiento",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T14:48:20+00:00",
+    "documentos": {
+      "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+    }
+  },
+  "requisitos": [
+    "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+    "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,79 @@
       "forma": "decidio",
       "cuando": "2026-10-20T14:06:03+00:00",
       "capacidad": "conocimiento"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:47:19+00:00",
+      "documentos": {
+        "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+        "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:47:19+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:48:20+00:00",
+      "documentos": {
+        "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+        "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:48:20+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:48:31+00:00",
+      "ids": [
+        "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+        "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+        "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa": "funcional",
+    "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea": "funcional",
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T14:48:20+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
