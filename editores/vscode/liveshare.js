@@ -61,6 +61,10 @@ class Sesion {
 
     async preparar() {
         this.servicio = this.proxy = null;
+        // El enlace guardado es el de la sesión en la que se compartió: si se terminó (también fuera del tablero) o es
+        // otra sesión, ya no vale.
+        const id = this.api.session && this.api.session.id;
+        if (!this.rol() || (this.idDelEnlace && id && id !== this.idDelEnlace)) this.enlace = this.idDelEnlace = null;
         if (this.rol() === 1) {
             this.servicio = await this.api.shareService(SERVICIO);
             if (this.servicio) {
@@ -93,9 +97,16 @@ class Sesion {
 
     async compartir() {
         if (!this.api) return;
-        if (this.rol()) return this.al.cambio();  // ya hay sesión: no se comparte otra vez (Live Share lo rechaza)
-        const uri = await this.api.share();  // Live Share avisa y copia el enlace
-        this.enlace = uri ? uri.toString() : null;
+        // Ya hay sesión, o se está abriendo (un doble clic): no se comparte otra vez (Live Share lo rechaza y la deja a medias).
+        if (this.rol() || this.compartiendo) return this.al.cambio();
+        this.compartiendo = true;
+        try {
+            const uri = await this.api.share();  // Live Share avisa y copia el enlace
+            this.enlace = uri ? uri.toString() : null;
+            this.idDelEnlace = this.api.session && this.api.session.id;
+        } finally {
+            this.compartiendo = false;
+        }
         this.al.cambio();
     }
 

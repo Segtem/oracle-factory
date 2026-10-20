@@ -1,0 +1,20 @@
+{
+  "sesion_caso": [
+    {
+      "requisito": "la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "caso": "se1_compartir_terminar_y_unirse",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "caso": "se1_sin_live_share",
+      "codigo": 0
+    }
+  ],
+  "sesion_corrida": [
+    {
+      "completa": 0,
+      "casos": 2
+    }
+  ]
+}

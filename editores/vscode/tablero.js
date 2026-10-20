@@ -206,7 +206,8 @@ function marca() {
 
 // La página entera. `nonce` y `cspSource` los da la extensión: sin red, y sólo corre el script de la página.
 function html(datos, {nonce, cspSource}) {
-    const cuerpo = datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
+    const cuerpo = datos.esperando ? '<p class="vacio">Esperando el tablero de quien comparte la sesión de Live Share…</p>'
+        : datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
         : '<p class="vacio">No hay cambios abiertos. Empezá uno con <code>oracle-factory nuevo</code>.</p>';
     return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
@@ -215,7 +216,7 @@ function html(datos, {nonce, cspSource}) {
 <h1>${marca()} Tablero de Factory</h1>
 ${sesion(datos.sesion)}
 ${cuerpo}
-${proyecto(datos.proyecto)}
+${datos.proyecto ? proyecto(datos.proyecto) : ''}
 <script nonce="${nonce}">
 const vscode = acquireVsCodeApi();
 document.addEventListener('click', ev => {

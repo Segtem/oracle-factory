@@ -20,12 +20,17 @@ const ls = {
     onDidChangeSession: emisor(), onDidChangePeers: emisor(),
     async share(opciones) {
         llamadas.push(opciones && opciones.suppressNotification ? 'share (sin aviso)' : 'share');
-        this.session = {role: 1, user: {displayName: 'Ana'}};
+        await espera(60);  // la red: un doble clic llega mientras se abre
+        this.session = {role: 1, id: 's1', user: {displayName: 'Ana'}};
         this.onDidChangeSession.disparar({});
         return {toString: () => 'https://prod.liveshare.vsengsaas.visualstudio.com/join?SESION1'};
     },
     async end() { llamadas.push('end'); this.session = {role: 0, user: {displayName: 'Ana'}}; this.onDidChangeSession.disparar({}); },
-    async join(uri) { llamadas.push(`join ${uri.toString()}`); },
+    async join(uri) {
+        llamadas.push(`join ${uri.toString()}`);
+        this.session = {role: 2, id: 'otra', user: {displayName: 'Ana'}};
+        this.onDidChangeSession.disparar({});
+    },
     async shareService() { return {onRequest() {}, onNotify() {}, notify() {}}; },
     async getSharedService() { return null; },
 };
@@ -92,7 +97,8 @@ async function hasta(cond, que) {
     } else {
         await hasta(() => html.includes('data-sesion="compartir"'), 'ofrece compartir');
         vistas.inicio = html;
-        await panel.recibir({tipo: 'sesion', accion: 'compartir'});
+        // Un doble clic: dos pedidos de compartir a la vez abren una sola sesión.
+        await Promise.all([panel.recibir({tipo: 'sesion', accion: 'compartir'}), panel.recibir({tipo: 'sesion', accion: 'compartir'})]);
         await hasta(() => html.includes('data-sesion="terminar"'), 'ofrece terminar');
         vistas.compartida = html;
         await panel.recibir({tipo: 'sesion', accion: 'compartir'});  // ya compartida: no empieza otra
@@ -100,9 +106,29 @@ async function hasta(cond, que) {
         await panel.recibir({tipo: 'sesion', accion: 'copiar'});  // copiar otra vez no le pide nada a Live Share
         await hasta(() => html.includes('join?SESION1</code>'), 'muestra el enlace');
         vistas.conEnlace = html;
+        // Se termina y se abre otra desde la paleta: el enlace viejo ya no se muestra ni se copia.
+        ls.session = {role: 0, user: {displayName: 'Ana'}};
+        ls.onDidChangeSession.disparar({});
+        await hasta(() => html.includes('data-sesion="compartir"'), 'sin sesión');
+        ls.session = {role: 1, id: 's2', user: {displayName: 'Ana'}};
+        ls.onDidChangeSession.disparar({});
+        await hasta(() => html.includes('En la sesión'), 'la sesión nueva');
+        vistas.otraSesion = html;
+        await panel.recibir({tipo: 'sesion', accion: 'copiar'});
+        await panel.recibir({tipo: 'sesion', accion: 'terminar'});
+        await hasta(() => html.includes('data-sesion="compartir"'), 'sin sesión otra vez');
         await panel.recibir({tipo: 'sesion', accion: 'terminar'});
         await hasta(() => html.includes('data-sesion="compartir"'), 'vuelve a ofrecer compartir');
-        for (let i = 0; i < enlaces.length; i++) await panel.recibir({tipo: 'sesion', accion: 'unirse'});
+        for (let i = 0; i < enlaces.length; i++) {
+            await panel.recibir({tipo: 'sesion', accion: 'unirse'});
+            if (ls.session.role === 2) {
+                // Entró como invitado y el tablero de quien comparte no llegó: espera, con «Salir de la sesión».
+                await hasta(() => html.includes('Esperando el tablero'), 'el invitado espera');
+                vistas.invitado = html;
+                await panel.recibir({tipo: 'sesion', accion: 'terminar'});
+                await hasta(() => html.includes('data-sesion="unirse"'), 'salió');
+            }
+        }
     }
     process.stdout.write(JSON.stringify({vistas, llamadas, errores, ejecutados, avisos, portapapeles}));
 })().catch(e => { console.error(e); process.exit(1); });

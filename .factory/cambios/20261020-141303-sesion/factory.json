@@ -166,6 +166,21 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "24059e7d73bf"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T15:08:34+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "677f045",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "a5b675d0dca3"
     }
   ],
   "tipos": {

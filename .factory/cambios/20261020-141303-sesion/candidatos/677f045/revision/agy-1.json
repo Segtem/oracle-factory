@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/677f045",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "677f04524f3a879092c541757abefe8d22d1f834",
+  "diff_sha256": "d0fc7762dd3322b121a19292ae13c53f5326cae08b524c87b3690cc3057898ad",
+  "context_sha256": "da95807eab29f3626f226b5abe80d4e6397757d5cb84d0be6b170e228eb5faec",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El enlace de la sesión persiste al terminar externamente y se muestra/copia en sesiones futuras",
+      "explanation": "En editores/vscode/liveshare.js, this.enlace almacena el URI retornado por api.share() al compartir desde el tablero. La limpieza this.enlace = null se ejecuta exclusivamente en el método terminar() (línea 110), invocado solo si la persona hace clic en «Terminar sesión» en el tablero. Si la sesión se termina externamente (desde la paleta de comandos con «Live Share: End Collaboration Session», por cierre de ventana o desconexión), el evento onDidChangeSession dispara preparar(), pero preparar() no limpia this.enlace. Si más adelante la anfitriona inicia una nueva sesión externamente (desde la paleta), this.rol() vuelve a ser 1 pero this.enlace conserva el enlace caduco de la sesión anterior. En consecuencia, enlaceDeLaSesion() (líneas 104-106) y estado() (líneas 126-127) exponen el enlace obsoleto, el tablero muestra dicho enlace y «Copiar enlace» copia al portapapeles una URL inválida de una sesión ya cerrada en lugar de advertir que no se dispone del enlace.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 104,
+        "end_line": 111,
+        "side": "head"
+      },
+      "trigger": "1. Compartir una sesión desde el tablero con «Compartir sesión». 2. Finalizar la sesión externamente desde la paleta de comandos de Live Share. 3. Abrir una nueva sesión desde la paleta de comandos. 4. Observar el tablero de Factory o pulsar «Copiar enlace».",
+      "evidence": "En editores/vscode/liveshare.js:108-111, this.enlace = null solo se ejecuta en terminar(). En preparar() (líneas 62-87) no se restablece this.enlace. Se verificó en Node.js que tras finalizar la primera sesión externamente (role: 0) e iniciar una nueva externamente (role: 1, id: 'sesion-2'), sesion.enlaceDeLaSesion() y sesion.estado().enlace conservan y retornan el enlace de la primera sesión.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Reproducido mediante script de prueba en Node.js donde tras s.compartir(), se emite onDidChangeSession con {role: 0} y luego {role: 1, id: 'sesion-2'}; s.enlaceDeLaSesion() devolvió la URL de la sesión anterior en lugar de null."
+    },
+    {
+      "id": "F-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Invocaciones concurrentes de «Compartir sesión» ejecutan api.share() en paralelo mientras se abre una sesión",
+      "explanation": "El diseño y las indicaciones del cambio establecen que nunca debe llamarse a api.share() con una sesión abierta o en proceso de apertura, ya que Live Share falla y deja la sesión a medias. En editores/vscode/liveshare.js (líneas 94-100), compartir() verifica if (this.rol()) return this.al.cambio(); antes de invocar await this.api.share(). Sin embargo, compartir() es asíncrona y la resolución de share() insume tiempo de red mientras this.rol() sigue siendo 0. Si el usuario hace doble clic sobre «Compartir sesión» o se envían mensajes simultáneos antes de que finalice la primera llamada, ambas llamadas superan la condición if (this.rol()) y ejecutan api.share() en paralelo. No existe un bloqueo o bandera en vuelo (por ejemplo, this.compartiendo) para evitar la reentrada.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 94,
+        "end_line": 100,
+        "side": "head"
+      },
+      "trigger": "Pulsar dos veces rápidamente el botón «Compartir sesión» en el tablero o despachar dos mensajes consecutivos {tipo: 'sesion', accion: 'compartir'} antes de que finalice la promesa de api.share().",
+      "evidence": "En editores/vscode/liveshare.js:94-100 no se implementa cerrojo de estado en vuelo. Se ejecutó una prueba en Node.js invocando Promise.all([s.compartir(), s.compartir()]) con un retardo simulado en share(); mockLs.share() se ejecutó 2 veces concurrentemente.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Comprobado en Node.js instanciando Sesion con share() asíncrono y disparando dos llamadas concurrentes a compartir(); share() fue invocado 2 veces en simultáneo."
+    },
+    {
+      "id": "F-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El tablero no ofrece «Salir de la sesión» al invitado mientras espera el servicio de Factory del anfitrión",
+      "explanation": "La especificación exige que el tablero ofrezca para el invitado la acción «Salir de la sesión». En editores/vscode/extension.js (líneas 118-120), cuando una persona se une a una sesión como invitada pero el anfitrión aún no dispone del servicio Factory (sesion.esInvitado() && !invitado), pintarTablero() renderiza tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce}). Dicha vista estática (editores/vscode/tablero.js:240-245) sólo contiene un texto explicativo: carece de la sección de sesión, del botón «Salir de la sesión» y de scripts de eventos. Si el anfitrión no usa Factory o tarda en iniciar, el invitado queda atrapado en la pantalla de error sin opción en el tablero para salir de la sesión, frustrando el propósito de proveer controles de sesión a usuarios sin acceso a la barra de estado.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 118,
+        "end_line": 120,
+        "side": "head"
+      },
+      "trigger": "Unirse como invitado a una sesión de Live Share cuyo anfitrión no tiene la extensión de Factory activa o tarda en iniciar el servicio, y abrir el tablero.",
+      "evidence": "En editores/vscode/extension.js:118-120 se bifurca a tablero.error() que no incluye botones de sesión. En editores/vscode/tablero.js:240-245, error() devuelve únicamente <h1>Tablero de Factory</h1><p>${esc(mensaje)}</p> sin botones ni script para postMessage.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Verificado inspeccionando la plantilla de tablero.error() y el flujo de pintarTablero() ante un invitado sin servicio."
+    },
+    {
+      "id": "F-004",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Las pruebas de test_sesion.py y sesion_en_node.cjs no prueban el rol invitado ni «Salir de la sesión»",
+      "explanation": "El requisito la_sesion_de_live_share_se_maneja_desde_el_tablero establece que el tablero ofrecerá «Salir de la sesión» como invitado. Sin embargo, en tests/sesion_en_node.cjs (línea 28), la simulación de ls.join(uri) sólo hace llamadas.push('join ...') sin actualizar ls.session al rol 2 ni emitir onDidChangeSession. Debido a esto, ni sesion_en_node.cjs ni tests/test_sesion.py prueban jamás la presencia ni el comportamiento de «Salir de la sesión». Una mutación manual en editores/vscode/tablero.js:134 que altera o elimina completamente el botón «Salir de la sesión» sobrevive a la ejecución de unittest sin fallos.",
+      "location": {
+        "file": "tests/sesion_en_node.cjs",
+        "start_line": 28,
+        "end_line": 29,
+        "side": "head"
+      },
+      "trigger": "Ejecutar las pruebas unitarias con mutaciones que eliminen o modifiquen el botón «Salir de la sesión» en editores/vscode/tablero.js.",
+      "evidence": "En tests/sesion_en_node.cjs:28, ls.join no actualiza el estado de la sesión. Una mutación manual en tablero.js:134 reemplazando 'Salir de la sesión' por 'Texto Inventado' superó exitosamente la suite test_sesion (OK en 4.8s).",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Mutación manual en copia local de editores/vscode/tablero.js verificada con PYTHONPATH=. python -m unittest tests.test_sesion comprobando supervivencia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exactamente las pruebas unitarias indicadas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null, completando 7 pruebas exitosamente (OK en 18.2s).",
+    "No se corrió la suite completa de pruebas del repositorio ni tools/verify_sesion.py, respetando las instrucciones del pedido de revisión.",
+    "Se verificó que los botones añadidos no modifican los registros de Factory (.factory/cambios/.../factory.json).",
+    "Se verificó que enlaceDeLiveShare restringe el ingreso exclusivamente a URLs https bajo prod.liveshare.vsengsaas.visualstudio.com y vscode.dev/liveshare/.",
+    "Se verificó que el diagnóstico en liveshare.js no registra nombres de usuarios ni identificadores personales de sesión.",
+    "Se efectuaron mutaciones manuales en copias de trabajo aisladas en Node.js y Python evaluando la cobertura de las pruebas frente a regresiones en rolDe, terminar(), Salir de la sesión y OutputChannel."
+  ]
+}

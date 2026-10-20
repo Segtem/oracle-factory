@@ -46,7 +46,13 @@ class Sesion(unittest.TestCase):
         self.assertIn('data-sesion="compartir">Compartir sesión', salida['vistas']['inicio'])
         self.assertIn('data-sesion="unirse">Unirse a una sesión', salida['vistas']['inicio'])
         self.assertIn('data-sesion="terminar">Terminar sesión', salida['vistas']['compartida'])
-        self.assertEqual(salida['llamadas'], ['share', 'end', f'join {ENLACE}', 'join https://vscode.dev/liveshare/XYZ'])
+        self.assertEqual(salida['llamadas'], ['share', 'end', f'join {ENLACE}', 'end', 'join https://vscode.dev/liveshare/XYZ', 'end'])
+        # La sesión que vino después no muestra el enlace de la anterior, y copiarlo usa el comando de Live Share.
+        self.assertNotIn('SESION1', salida['vistas']['otraSesion'])
+        self.assertEqual(salida['ejecutados'], [['liveshare.collaboration.copyLink']])
+        # El invitado que espera el tablero de quien comparte puede salir de la sesión.
+        self.assertIn('Esperando el tablero de quien comparte', salida['vistas']['invitado'])
+        self.assertIn('data-sesion="terminar">Salir de la sesión', salida['vistas']['invitado'])
         # El enlace de la sesión: se ve en el tablero, se copia y se avisa.
         sesion1 = 'https://prod.liveshare.vsengsaas.visualstudio.com/join?SESION1'
         self.assertIn(f'<code>{sesion1}</code>', salida['vistas']['conEnlace'])

@@ -116,7 +116,9 @@ async function pintarTablero() {
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
     let html;
     if (sesion && sesion.esInvitado() && !invitado) {
-        html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
+        // Mientras llega el tablero de quien comparte: la sesión, con «Salir de la sesión».
+        html = tablero.html({esperando: true, cambios: [], sesion: {...sesion.estado(), invitado: false}},
+                            {nonce, cspSource: panel.webview.cspSource});
     } else {
         try {
             const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
