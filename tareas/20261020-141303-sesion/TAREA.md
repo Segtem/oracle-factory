@@ -19,3 +19,15 @@ Requisitos importados: ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_d
 ### Nota (2026-10-20 14:20:27 UTC)
 
 Medidas de ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero: factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero, factory_sesion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-20 14:43:54 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261020-141303-sesion/specs/ide/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-20 14:44:04 UTC)
+
+Requisitos importados: ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-20 14:44:11 UTC)
+
+Medidas de ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero: factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero, factory_sesion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

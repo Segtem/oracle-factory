@@ -4,20 +4,20 @@
   "capacidad": "ide",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
-  "spec_sha256": "60d8b229275a236821bacaa63196ba32fb8d2cdb83bc47930e542fcf1eb601e3",
+  "spec_sha256": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-20T14:13:38+00:00",
+    "cuando": "2026-10-20T14:43:54+00:00",
     "documentos": {
-      "openspec/changes/20261020-141303-sesion/proposal.md": "846f2988212eb2e0335b9026b12936be818894d499e93a32bbf52856c617e84a",
-      "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "60d8b229275a236821bacaa63196ba32fb8d2cdb83bc47930e542fcf1eb601e3"
+      "openspec/changes/20261020-141303-sesion/proposal.md": "4fa3a7f74ce2e516805831d25c5290f34a51e1b7bb37ba6a8e231a8aaead921c",
+      "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c"
     }
   },
   "requisitos": [
-    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero"
+    "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero"
   ],
   "revision": null,
   "oracle": null,
@@ -79,10 +79,47 @@
         "factory_sesion.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:43:54+00:00",
+      "documentos": {
+        "openspec/changes/20261020-141303-sesion/proposal.md": "4fa3a7f74ce2e516805831d25c5290f34a51e1b7bb37ba6a8e231a8aaead921c",
+        "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:44:04+00:00",
+      "ids": [
+        "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T14:44:11+00:00",
+      "requisito": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "medidas": [
+        "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+        "factory_sesion.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
-    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero": "funcional"
+    "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero": "funcional"
   },
   "responsable": {
     "persona": "Brian Hollweg",
@@ -93,11 +130,11 @@
   },
   "medidas": {},
   "medidas_pendientes": {
-    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero": {
-      "sha256": "d76543534da9751ebd4045df32f656acbbc7a8e7b58bf28518c75c5f245f86c0",
+    "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero": {
+      "sha256": "643e174f03a5df9e76de21412918fbcbd908953cda4a8af3f4fd4505859ec75e",
       "actor": "claude-code",
       "tipo_actor": "agente",
-      "cuando": "2026-10-20T14:20:27+00:00",
+      "cuando": "2026-10-20T14:44:11+00:00",
       "catalogos": {
         "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero": "4197a3284125fb6d09a357295b07216413a06bb21f8d8c452a05e8d351aad38f",
         "factory_sesion.corrida_completa": "9adf6a2f9934a062c86c4fd8acc393288dbb6fa0f4ad61f59058e2b41b7a028d"
