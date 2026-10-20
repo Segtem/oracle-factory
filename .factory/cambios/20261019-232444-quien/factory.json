@@ -2,7 +2,7 @@
   "id": "20261019-232444-quien",
   "titulo": "Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero",
   "capacidad": "colaboracion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
   "spec_sha256": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
     "colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261019-232444-quien/revisiones/registro-j8_0th0c/informe.json",
+    "sha256": "5a5dc4c4d567ab4dbf9ba8d8855d9922045b1948d4621163a4a4abc2ca87bd7d",
+    "decisiones": "tareas/20261019-232444-quien/revisiones/registro-j8_0th0c/decisiones.json",
+    "decisiones_sha256": "519dc929bc60bb9fe395b62fc28ab76181c682d73fac299f0224467b4e8acb6a",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T00:21:36+00:00",
+    "motivo": "Apruebo el candidato b25339a; 0 hallazgos de los revisores; evidencia del candidato: 420 pruebas, 6 casos de contrato; 2 vueltas anteriores registradas.",
+    "origen_motivo": "armado",
+    "contexto": {
+      "head": "4e4aafe5beec77621c820e8d58fb0072b03bc719",
+      "archivos_sha256": "619b2921f4b674450393c33a24db59855b2b60999db296e5b5703cee8ac3f1bd"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -288,6 +308,34 @@
       "cuando": "2026-10-20T00:17:28+00:00",
       "decision": "aprobar",
       "candidato": "b25339a"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T00:17:53+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5a5dc4c4d567ab4dbf9ba8d8855d9922045b1948d4621163a4a4abc2ca87bd7d",
+      "decisiones_sha256": "c436890c38009e8e6d79b49d14332e70122724bb6dda9e560c426f31763e7a32"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T00:21:36+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5a5dc4c4d567ab4dbf9ba8d8855d9922045b1948d4621163a4a4abc2ca87bd7d",
+      "decisiones_sha256": "519dc929bc60bb9fe395b62fc28ab76181c682d73fac299f0224467b4e8acb6a"
     }
   ],
   "tipos": {
@@ -353,14 +401,5 @@
       "claude-code"
     ]
   },
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos vueltas de codex y agy; en la segunda ninguno dejó hallazgos. Corregido en la primera con pruebas que fallan sin cada corrección: un agente no declarado con actividad reciente aparece (también en el tablero), una fecha futura no es reciente y una sin zona se lee en UTC, con dos cambios tomados no hay trailer, y los tests con git no salen del temporal. QN-001 (un pedido interrumpido como revisor en curso) no se cambió: interrumpido es un pedido que terminó, la regla de higiene; los revisores la aceptaron en la vuelta 2.",
-      "candidato": "b25339a",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T00:17:28+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

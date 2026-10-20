@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "5a5dc4c4d567ab4dbf9ba8d8855d9922045b1948d4621163a4a4abc2ca87bd7d",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de codex y agy; en la segunda ninguno dejó hallazgos. Corregido en la primera con pruebas que fallan sin cada corrección: un agente no declarado con actividad reciente aparece (también en el tablero), una fecha futura no es reciente y una sin zona se lee en UTC, con dos cambios tomados no hay trailer, y los tests con git no salen del temporal. QN-001 (un pedido interrumpido como revisor en curso) no se cambió: interrumpido es un pedido que terminó, la regla de higiene; los revisores la aceptaron en la vuelta 2.",
+  "decisiones": []
+}

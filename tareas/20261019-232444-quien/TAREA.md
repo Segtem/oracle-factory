@@ -47,3 +47,11 @@ Medidas de colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_tra
 ### Nota (2026-10-19 23:40:45 UTC)
 
 Medidas de colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 00:17:53 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy; en la segunda ninguno dejó hallazgos. Corregido en la primera con pruebas que fallan sin cada corrección: un agente no declarado con actividad reciente aparece (también en el tablero), una fecha futura no es reciente y una sin zona se lee en UTC, con dos cambios tomados no hay trailer, y los tests con git no salen del temporal. QN-001 (un pedido interrumpido como revisor en curso) no se cambió: interrumpido es un pedido que terminó, la regla de higiene; los revisores la aceptaron en la vuelta 2.); 0 abiertos derivados; commit 4e4aafe5beec77621c820e8d58fb0072b03bc719; informe tareas/20261019-232444-quien/revisiones/registro-j940dxht/informe.json; decisiones tareas/20261019-232444-quien/revisiones/registro-j940dxht/decisiones.json.
+
+### Nota (2026-10-20 00:21:36 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato b25339a; 0 hallazgos de los revisores; evidencia del candidato: 420 pruebas, 6 casos de contrato; 2 vueltas anteriores registradas.); 0 abiertos derivados; commit 4e4aafe5beec77621c820e8d58fb0072b03bc719; informe tareas/20261019-232444-quien/revisiones/registro-j8_0th0c/informe.json; decisiones tareas/20261019-232444-quien/revisiones/registro-j8_0th0c/decisiones.json.
