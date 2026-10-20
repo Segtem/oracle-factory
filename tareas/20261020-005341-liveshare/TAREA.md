@@ -39,3 +39,7 @@ Medidas de ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte: Br
 ### Nota (2026-10-20 09:55:52 UTC)
 
 Medidas de ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 12:25:53 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: el autor de un mensaje tiene que ser un invitado conectado y queda quién lo guardó, el invitado no abre rutas que salen del espacio compartido (tampoco de Windows), espera el servicio sin usar su disco, los pedidos validan sus argumentos y el comando de un invitado no puede traer operadores de shell. Límites declarados: el invitado necesita la extensión (no la CLI); con varios invitados uno podría usar el nombre de otro (bajo LS-SEC-01-R3); --de desde una terminal local también puede escribir un nombre, como cualquiera que edite el registro; la sesión real de Live Share la verifica una persona.); 0 abiertos derivados; commit 5aff8a50583ed722d3f605227c599c389b4033c5; informe tareas/20261020-005341-liveshare/revisiones/registro-vp46tdc6/informe.json; decisiones tareas/20261020-005341-liveshare/revisiones/registro-vp46tdc6/decisiones.json.
