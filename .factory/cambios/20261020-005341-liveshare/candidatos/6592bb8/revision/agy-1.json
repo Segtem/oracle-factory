@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-liveshare/.factory/local/revisiones/6592bb8",
+  "base": "2d5ed6a4055c0c41ffd822198f1e078052043cef",
+  "head": "6592bb84ac8dbe787bde67f96281273347439d6d",
+  "diff_sha256": "965d497eb19f91ab2159c30f38358cbbadad54fee0a397bc670c94307d325eaa",
+  "context_sha256": "a3faa6f26893c7fa1d5e840ee356bf4e7fcd2850fbd5188326b1de246dfc1aa6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "LS-SEC-01",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Suplantación de identidad en el chat de Live Share mediante nombres falsos en el RPC",
+      "explanation": "El servicio compartido \"oracle-factory\" del anfitrión expone el manejador onRequest(\"mensaje\", ([cambio, texto, de]) => this.al.mensaje(cambio, texto, de)). El parámetro \"de\" proviene directamente de la llamada RPC del cliente invitado en sesion.pedir(\"mensaje\", [m.cambio, m.texto, sesion.yo()]). El anfitrión no valida en absoluto que el nombre \"de\" recibido coincida con algún invitado conectado en this.api.peers ni impide que un invitado envíe el nombre del propio anfitrión o cualquier identidad arbitraria de hasta 100 caracteres. Luego, guardarMensaje() ejecuta oracle-factory mensaje ID TEXTO --de NOMBRE, grabando en el registro permanente factory.json que el autor fue esa identidad suplantada con via=\"live-share\". Esto incumple la promesa de la especificación: «un mensaje SHALL llegar a todos los conectados, y el anfitrión SHALL guardarlo en el registro con el nombre que da Live Share».",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 48,
+        "end_line": 53,
+        "side": "head"
+      },
+      "trigger": "Un invitado en la sesión de Live Share envía un mensaje invocando proxy.request(\"mensaje\", [cambio, texto, \"Ana Anfitriona\"]) o cualquier nombre arbitrario.",
+      "evidence": "Prueba ejecutada con mock en Node: un invitado conectado como \"Iván Invitado\" envió solicitudes RPC con de=\"Ana Anfitriona\" y de=\"Fantasma\". Ambas fueron aceptadas por el anfitrión y grabadas en factory.json como [\"Ana Anfitriona\", \"...\", \"live-share\"] y [\"Fantasma\", \"...\", \"live-share\"] sin rechazo ni advertencia.",
+      "related_requirement": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "status": "pendiente",
+      "verification": "Validar en el anfitrión que \"de\" no sea el nombre del propio anfitrión y pertenezca al conjunto de nombres de usuarios conectados en this.api.peers (o extraer el remitente autenticado de la sesión de Live Share en vez de confiar en el argumento provisto por el cliente)."
+    },
+    {
+      "id": "LS-SEC-02",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Filtro de apertura de archivos en el invitado no neutraliza barras invertidas (path traversal en Windows)",
+      "explanation": "Al hacer clic en un enlace de archivo, mensajeDelTablero() valida la ruta para el invitado usando exclusivamente path.posix.normalize(m.archivo) y comprueba path.posix.isAbsolute(normal) || normal === \"..\" || normal.startsWith(\"../\"). En entornos Windows, las barras invertidas (\"\\\") no son tratadas como separadores de directorios por path.posix, por lo que rutas con traversal como \"..\\..\\archivo\" devuelven isAbsolute=false y startsWith(\"../\")=false, superando la validación y permitiendo escapar de la raíz compartida al resolverse en el sistema de archivos subyacente. A diferencia de carpeta_relativa en cli.py o path_ok en clue que rechazan explícitamente \"\\\" y letras de unidad, acá no se verifica la presencia de barras invertidas ni letras de unidad.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 152,
+        "end_line": 158,
+        "side": "head"
+      },
+      "trigger": "Un invitado intenta abrir una ruta con separadores de Windows como \"..\\..\\secret.txt\" o \"C:\\Windows\\win.ini\".",
+      "evidence": "Evaluación en Node: path.posix.normalize(\"..\\\\..\\\\secret.txt\") resulta en \"..\\..\\secret.txt\"; isAbsolute es false y startsWith(\"../\") es false, evadiendo completamente la condición de bloqueo de la línea 156.",
+      "related_requirement": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "status": "pendiente",
+      "verification": "Rechazar rutas que contengan \"\\\", letras de unidad (ej. /^[a-zA-Z]:/) o normalizar reemplazando \"\\\" por \"/\" antes de validar."
+    },
+    {
+      "id": "LS-BUG-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El invitado ejecuta datosLocales y falla con error si el servicio de Live Share aún no está disponible",
+      "explanation": "En pintarTablero (línea 109), se define \"const invitado = Boolean(sesion && sesion.invitadoConServicio());\". La función invitadoConServicio() exige this.rol() === 2 && this.proxy && this.proxy.isServiceAvailable. Si un invitado abre el tablero antes de que el servicio compartido \"oracle-factory\" haya completado su conexión o si el proxy no está disponible de inmediato, \"invitado\" evalúa a false. En consecuencia, la línea 111 salta al bloque else y ejecuta await datosLocales(), el cual busca .factory/ en la máquina local del invitado, falla con \"Esta carpeta no es un proyecto de Factory (no tiene .factory/)\" y muestra una pantalla de error en el webview. El mismo problema ocurre en mensajeDelTablero (línea 148), donde acciones del invitado caen en la lógica local si isServiceAvailable es false.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 108,
+        "end_line": 116,
+        "side": "head"
+      },
+      "trigger": "El invitado abre el tablero de Factory cuando la sesión de Live Share ya tiene rol de invitado pero el servicio compartido aún está inicializándose o temporalmente no disponible.",
+      "evidence": "En liveshare.js, sesion.rol() es 2 pero sesion.invitadoConServicio() devuelve false si proxy.isServiceAvailable es false. Al evaluar datos = invitado ? ... : await datosLocales(), datosLocales() arroja Error(\"Esta carpeta no es un proyecto de Factory (no tiene .factory/).\"), que termina pintando tablero.error.",
+      "related_requirement": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "status": "pendiente",
+      "verification": "Determinar la condición de invitado por el rol de la sesión (sesion.rol() === 2) y no por la disponibilidad momentánea del servicio; mostrar un estado de espera o conexión si el servicio aún no está disponible."
+    },
+    {
+      "id": "LS-BUG-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta de validación de tipo de argumentos en los manejadores onRequest provoca excepciones no capturadas",
+      "explanation": "En liveshare.js, los manejadores del servicio compartido usan desestructuración directa de arreglos en la firma: ([comando]) => ..., ([cambio, texto, de]) => ..., ([sha]) => ... Si un cliente o proxy remoto envía una petición con un argumento nulo, indefinido, numérico u objeto no iterable (ej. proxy.request(\"terminal\", null)), el motor de JavaScript lanza un TypeError síncrono no capturado (\"object null is not iterable\") al intentar desestructurar el parámetro antes de ingresar a la función. Dado que el código declara en la línea 48 que «Lo que llega de un invitado se valida acá», la falta de verificación de Array.isArray o de manejo defensivo de argumentos no iterables deja expuesto el servicio a caídas por llamadas RPC malformadas.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 49,
+        "end_line": 53,
+        "side": "head"
+      },
+      "trigger": "Un cliente o extensión remota invoca request(\"terminal\", null), request(\"mensaje\", null) o request(\"diff\", null).",
+      "evidence": "Ejecución en Node: handlers[\"terminal\"](null) y handlers[\"mensaje\"](null) lanzan TypeError: object null is not iterable (cannot read property Symbol(Symbol.iterator)).",
+      "related_requirement": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "status": "pendiente",
+      "verification": "Verificar Array.isArray(args) antes de desestructurar los argumentos en onRequest."
+    },
+    {
+      "id": "LS-DISC-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Prueba test_ls3 no verifica la visualización de los mensajes en el tablero de la persona anfitriona",
+      "explanation": "El escenario de la especificación (\"un mensaje desde la terminal y uno desde el chat\") exige: «THEN el registro tiene los dos mensajes con su autor, el del invitado con su nombre de Live Share, los dos se ven en el tablero de los dos, y las métricas de decisiones no cambian». Sin embargo, en test_ls3_un_mensaje_desde_la_terminal_y_uno_desde_el_chat, la verificación de HTML se realiza exclusivamente dentro de un bucle sobre una tupla de un solo elemento: for vista in (\"ivanConMensaje\",):. La vista del anfitrión con los mensajes recibidos nunca es guardada en vistas por tests/liveshare_en_node.cjs ni es afirmada en el test de Python. Por lo tanto, la prueba no verifica la promesa de que ambos mensajes se vean en el tablero de ambas personas.",
+      "location": {
+        "file": "tests/test_liveshare.py",
+        "start_line": 97,
+        "end_line": 104,
+        "side": "head"
+      },
+      "trigger": "Ejecución de test_ls3_un_mensaje_desde_la_terminal_y_uno_desde_el_chat.",
+      "evidence": "En tests/liveshare_en_node.cjs (líneas 152-159) se asigna vistas.ivanConMensaje pero nunca vistas.anaConMensaje. En tests/test_liveshare.py línea 97 sólo se itera (\"ivanConMensaje\",), omitiendo la comprobación del HTML de la persona anfitriona.",
+      "related_requirement": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "status": "pendiente",
+      "verification": "Capturar la vista del anfitrión tras la recepción del mensaje en liveshare_en_node.cjs y afirmar en test_liveshare.py que los mensajes son visibles tanto en \"ivanConMensaje\" como en \"anaConMensaje\"."
+    },
+    {
+      "id": "LS-DISC-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El parámetro --de permite omitir el requisito de terminal interactiva sin validar procedencia de Live Share",
+      "explanation": "La especificación establece: «oracle-factory mensaje ID \"texto\" SHALL guardar el mensaje en el registro del cambio con su autor (una persona desde su terminal o un agente con --agente), y SHALL negarse sin terminal ni --agente salvo que lo envíe la extensión por Live Share con el nombre que da Live Share». No obstante, en cli.py mensaje(), cuando se pasa --de, el código entra a la rama if de is not None sin verificar terminal_interactiva() ni autenticar que la llamada provenga efectivamente de la extensión o de una sesión de Live Share activa. Como resultado, cualquier comando ejecutado desde un script, pipe o proceso no interactivo puede especificar --de <nombre> para saltarse la restricción de terminal interactiva y registrar mensajes atribuidos a terceros con via=\"live-share\", incluso fuera de VS Code y sin Live Share instalado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 691,
+        "end_line": 701,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory mensaje ID \"texto\" --de \"Nombre\" desde un pipe o proceso sin tty.",
+      "evidence": "Ejecución en Python con terminal_interactiva simulada en False: f.mensaje(t.ident, \"mensaje por pipe\", de=\"Infiltrado\") se ejecutó sin error y guardó en el registro el evento con actor=\"Infiltrado\" y via=\"live-share\".",
+      "related_requirement": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "status": "pendiente",
+      "verification": "Asegurar que las llamadas con --de verifiquen un mecanismo de autenticación local o token efímero generado por la extensión, o documentar y restringir el uso no interactivo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias tests.test_liveshare y tests.test_tablero en primer plano con el entorno virtual del proyecto (Python 3.13) y Node.js v24.22.0.",
+    "Se verificó de forma dinámica mediante scripts aislados la suplantación de nombres en el RPC de Live Share, el manejo de excepciones por payloads no iterables, el comportamiento de la CLI sin tty ante --de y el comportamiento de normalización de rutas.",
+    "No se corrió la suite completa de pruebas del repositorio, en estricto cumplimiento de las indicaciones de revisión.",
+    "No se realizaron pruebas con instancias reales de VS Code conectadas a los servidores de Live Share entre dos máquinas físicas distintas (la verificación automática utiliza el mock provisto sobre repositorio temporal)."
+  ]
+}

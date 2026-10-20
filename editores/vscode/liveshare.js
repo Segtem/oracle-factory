@@ -46,10 +46,16 @@ class Sesion {
             this.servicio = await this.api.shareService(SERVICIO);
             if (this.servicio) {
                 // Lo que llega de un invitado se valida acá, del lado de quien tiene el proyecto.
+                const lista = args => (Array.isArray(args) ? args : []);
                 this.servicio.onRequest('tablero', () => this.al.tablero());
-                this.servicio.onRequest('terminal', ([comando]) => typeof comando === 'string' && this.al.terminal(comando));
-                this.servicio.onRequest('mensaje', ([cambio, texto, de]) => this.al.mensaje(cambio, texto, de));
-                this.servicio.onRequest('diff', ([sha]) => this.al.diff(sha));
+                this.servicio.onRequest('terminal', args => typeof lista(args)[0] === 'string' && this.al.terminal(lista(args)[0]));
+                // El autor de un mensaje tiene que ser un invitado conectado: Live Share no dice quién hizo el pedido,
+                // así que con varios invitados uno podría usar el nombre de otro (no el de quien comparte).
+                this.servicio.onRequest('mensaje', args => {
+                    const [cambio, texto, de] = lista(args);
+                    return this.invitados().includes(de) ? this.al.mensaje(cambio, texto, de) : false;
+                });
+                this.servicio.onRequest('diff', args => this.al.diff(lista(args)[0]));
             }
         } else if (this.rol() === 2) {
             this.proxy = await this.api.getSharedService(SERVICIO);
@@ -68,6 +74,16 @@ class Sesion {
         if (!s || !s.role) return {estado: 'sin-sesion'};
         return {estado: 'activa', rol: ROL[s.role], yo: nombre(s.user),
                 otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[p.role] || 'invitado'}))};
+    }
+
+    // Para quien comparte, los demás de la sesión son sus invitados (peers no la incluye a ella).
+    invitados() {
+        return (this.api && this.api.peers || []).map(p => nombre(p.user));
+    }
+
+    // Un invitado cuyo servicio todavía no está: espera, no usa el disco local (no tiene el proyecto).
+    esInvitado() {
+        return this.rol() === 2;
     }
 
     yo() {

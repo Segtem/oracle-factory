@@ -107,6 +107,10 @@ async function pintarTablero() {
     const nonce = crypto.randomBytes(16).toString('base64');
     const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    if (sesion && sesion.esInvitado() && !invitado) {
+        panel.webview.html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
+        return;
+    }
     try {
         const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
         panel.webview.html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
@@ -146,14 +150,17 @@ function guardarMensaje(cambio, texto, de) {
 async function mensajeDelTablero(m) {
     if (!m) return;
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    if (sesion && sesion.esInvitado() && !invitado) return;  // sin el servicio de quien comparte, nada que hacer
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
         const linea = Number.isInteger(m.linea) && m.linea > 0 ? m.linea - 1 : 0;
         let uri;
         if (invitado) {
             // El espacio compartido no es un disco local: sólo rutas relativas que no suben.
+            // Ni barras invertidas ni unidades (una ruta de Windows), ni absolutas, ni que suban.
             const normal = path.posix.normalize(m.archivo);
             const carpetas = vscode.workspace.workspaceFolders;
-            if (path.posix.isAbsolute(normal) || normal === '..' || normal.startsWith('../') || !carpetas || !carpetas.length) return;
+            if (/[\\:]/.test(m.archivo) || path.posix.isAbsolute(normal) || normal === '..' || normal.startsWith('../')
+                || !carpetas || !carpetas.length) return;
             uri = vscode.Uri.joinPath(carpetas[0].uri, normal);
         } else {
             const raiz = carpeta();

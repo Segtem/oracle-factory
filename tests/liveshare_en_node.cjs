@@ -141,6 +141,8 @@ async function hasta(cond, que) {
     // El invitado elige un hallazgo, un camino que sube, y un comando.
     await ivan.panel.recibir({tipo: 'abrir', archivo: hallazgo.archivo, linea: hallazgo.linea});
     await ivan.panel.recibir({tipo: 'abrir', archivo: '../../etc/passwd', linea: 1});
+    await ivan.panel.recibir({tipo: 'abrir', archivo: '..\\..\\secreto.txt', linea: 1});
+    await ivan.panel.recibir({tipo: 'abrir', archivo: 'C:\\Windows\\win.ini', linea: 1});
     await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}`});
     await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}\ntouch pwned`});
 
@@ -150,6 +152,23 @@ async function hasta(cond, que) {
     await hasta(() => ivan.panel.webview.html.includes('revisá el hook'), 'el invitado ve su mensaje');
     await hasta(() => ana.panel.webview.html.includes('revisá el hook'), 'la anfitriona ve el mensaje');
     vistas.ivanConMensaje = ivan.panel.webview.html;
+    vistas.anaConMensaje = ana.panel.webview.html;
+    // Un pedido con el nombre de otra persona (la anfitriona, o alguien que no está) no se guarda.
+    const pedidos = servicios['oracle-factory'].pedidos;
+    const falsos = [await pedidos.mensaje([cambio, 'soy Ana', 'Ana Anfitriona']), await pedidos.mensaje([cambio, 'soy otro', 'Nadie']),
+                    await pedidos.mensaje('no es una lista'), await pedidos.terminal(null)];
+
+    // Otro invitado que entra cuando el servicio todavía no está: espera, no busca el proyecto en su disco.
+    const lsTarde = liveShare(2, 'Tina Tarde');
+    lsTarde.getSharedService = async () => ({isServiceAvailable: false, onDidChangeIsServiceAvailable: emisor(), onNotify() {},
+                                            request: async () => { throw new Error('sin servicio'); }});
+    const tina = vscodeFalso({carpeta: '/no/existe', uriCarpeta: {fsPath: '/', scheme: 'vsls'}, comando: '/no/existe/oracle-factory', ls: lsTarde});
+    cargar(tina);
+    await espera(50);
+    await tina.comandos['factory.tablero']();
+    await hasta(() => tina.panel.webview.html.includes('Esperando el tablero'), 'el invitado tardío espera');
+    await tina.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}`});
+    vistas.tina = tina.panel.webview.html;
 
     // El invitado se va.
     lsAnfitriona.peers = [];
@@ -158,5 +177,6 @@ async function hasta(cond, que) {
     vistas.anaSinIvan = ana.panel.webview.html;
 
     process.stdout.write(JSON.stringify({vistas, ivan: {abiertos: ivan.abiertos, terminal: ivan.terminal, errores: ivan.errores},
-                                         ana: {terminal: ana.terminal, errores: ana.errores}}));
+                                         ana: {terminal: ana.terminal, errores: ana.errores}, falsos,
+                                         tina: {terminal: tina.terminal, errores: tina.errores}}));
 })().catch(e => { console.error(e); process.exit(1); });

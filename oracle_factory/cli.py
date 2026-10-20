@@ -693,7 +693,10 @@ def mensaje(identificador: str, texto: str, de: str | None = None) -> None:
         if AGENTE or not de or len(de) > 100:
             raise FactoryError("--de es para la extensión de VS Code (un mensaje de Live Share, con un nombre de hasta "
                                "100 caracteres) y no se combina con --agente; no guardé nada")
-        evento(estado, "mensaje", forma="mensaje", texto=texto, actor=de, tipo_actor="persona", via="live-share")
+        # Factory no autentica a nadie: el nombre es el que dio Live Share al anfitrión, y queda quién lo guardó.
+        guardado_por = subprocess.run(["git", "config", "user.name"], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        evento(estado, "mensaje", forma="mensaje", texto=texto, actor=de, tipo_actor="persona", via="live-share",
+               guardado_por=guardado_por or getpass.getuser())
     else:
         if actor()["tipo_actor"] == "sin_identificar":
             raise FactoryError("un mensaje lo escribe una persona desde su terminal o un agente con --agente NOMBRE; "

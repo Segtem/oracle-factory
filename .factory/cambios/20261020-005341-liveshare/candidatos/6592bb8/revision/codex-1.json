@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-liveshare/.factory/local/revisiones/6592bb8",
+  "base": "2d5ed6a4055c0c41ffd822198f1e078052043cef",
+  "head": "6592bb84ac8dbe787bde67f96281273347439d6d",
+  "diff_sha256": "965d497eb19f91ab2159c30f38358cbbadad54fee0a397bc670c94307d325eaa",
+  "context_sha256": "a3faa6f26893c7fa1d5e840ee356bf4e7fcd2850fbd5188326b1de246dfc1aa6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.97,
+      "title": "El invitado necesita tener instalada la extensión para abrir el tablero",
+      "explanation": "El servicio Live Share del anfitrión sólo publica respuestas de datos; el webview y su comando de apertura pertenecen a esta extensión. En una máquina invitada sin la extensión no hay código que abra el panel, cree el proxy ni solicite esos datos. La prueba automatizada carga `extension.js` también en el invitado, así que demuestra el caso sin CLI local, no el requisito explícito de que el invitado pueda ver el tablero sin Factory instalado.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 111,
+        "end_line": 112,
+        "side": "head"
+      },
+      "trigger": "Un invitado se une desde VS Code sin instalar la extensión Oracle Factory e intenta abrir el tablero compartido.",
+      "evidence": "La única ruta que crea el HTML del tablero es `pintarTablero()` en la extensión: solicita `sesion.pedir('tablero', [])` sólo cuando esta extensión ya está activa como invitado. `liveshare.js` publica un servicio RPC de datos, no una interfaz remota. Además, `tests/liveshare_en_node.cjs` carga explícitamente la extensión para Iván antes de abrir `factory.tablero`, por lo que no cubre la ausencia de la extensión. Esto deja sin cumplir el escenario `el_invitado_ve_el_tablero_de_quien_comparte` tal como está escrito.",
+      "related_requirement": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "status": "pendiente",
+      "verification": "Inspección del flujo de activación y renderizado y de la prueba falsa. Reproducir en una sesión real con un invitado sin la extensión: no existe allí el comando/panel local que consume el servicio."
+    },
+    {
+      "id": "F2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "El autor del chat puede falsificarse",
+      "explanation": "El nombre del autor llega como un argumento ordinario de la petición del invitado y se persiste como persona sin contrastarlo con los peers o con una identidad autenticada de Live Share. Además, la CLI acepta `--de` desde cualquier invocación y sólo comprueba que no haya un agente, que el nombre no esté vacío y que sea corto. Un invitado puede atribuir mensajes a otra persona, o cualquier usuario local puede ejecutar `oracle-factory mensaje ID texto --de 'Brian'`; el registro versionado pierde fiabilidad de autoría.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 51,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "Un invitado envía una petición `mensaje` con `de` igual al nombre de otra persona; alternativamente, alguien corre el comando CLI con `--de` desde su terminal.",
+      "evidence": "El handler `onRequest('mensaje', ([cambio, texto, de]) => this.al.mensaje(cambio, texto, de))` confía en `de` recibido por la red. `extension.js` lo pasa directamente como `--de` a la CLI. En `oracle_factory/cli.py:691-696`, `mensaje()` no comprueba que la llamada provenga de la extensión ni que el nombre coincida con un participante autenticado; registra ese valor con `tipo_actor='persona'` y `via='live-share'`. Las pruebas sólo envían el nombre esperado de Iván y no intentan suplantar a otro autor.",
+      "related_requirement": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "status": "pendiente",
+      "verification": "Revisión estática del handler RPC, el puente `execFile` y la validación de `mensaje()`. No hice cambios ni mutaciones en el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null` desde la raíz del checkout candidato; pasaron 11 pruebas.",
+    "No ejecuté la suite completa ni `tools/verify_liveshare.py`, que ejecuta la suite completa.",
+    "El Live Share de las pruebas es falso y ejecuta la extensión en ambos lados; no probé la API real ni dos máquinas. No hice mutaciones porque la revisión encontró defectos por inspección y las pruebas delimitadas pasaron.",
+    "Revisé el diff del paquete y los archivos producto pedidos; omití los dos archivos de Factory excluidos por el paquete, tal como se indicó."
+  ]
+}

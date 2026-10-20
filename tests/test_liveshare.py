@@ -74,6 +74,9 @@ class LiveShare(unittest.TestCase):
         self.assertEqual([(t['texto'].split()[-2:], t['enter']) for t in ana['terminal']], [(['estado', self.ident], False)])
         self.assertEqual(ivan['terminal'], [])
         self.assertEqual(f.leer(self.ident)[1].get('revision'), None)  # el tablero no decidió nada
+        # Un invitado que entra antes de que esté el servicio espera, sin buscar el proyecto en su disco ni escribir nada.
+        self.assertIn('Esperando el tablero de quien comparte', v['tina'])
+        self.assertEqual((salida['tina']['terminal'], salida['tina']['errores']), ([], []))
 
     # --- ls3: el chat queda en el cambio ---------------------------------------------------------------------------
     @unittest.skipUnless(_tablero.NODE, 'hace falta node')
@@ -94,9 +97,15 @@ class LiveShare(unittest.TestCase):
         self.assertEqual([(e['actor'], e['tipo_actor'], e['texto'], e.get('via')) for e in mensajes], [
             (mensajes[0]['actor'], 'persona', 'hola', None), ('claude-code', 'agente', 'terminé las pruebas', None),
             ('Iván Invitado', 'persona', 'revisá el hook <b>ya</b>', 'live-share')])
-        for vista in ('ivanConMensaje',):
+        self.assertEqual(mensajes[-1]['guardado_por'], f.subprocess.run(['git', 'config', 'user.name'], cwd=self.root,
+                                                                         capture_output=True, text=True).stdout.strip() or f.getpass.getuser())
+        # Con un nombre que no es el de un invitado conectado (la anfitriona, o alguien que no está), no se guarda.
+        self.assertEqual(salida['falsos'], [False, False, False, False])
+        self.assertNotIn('soy Ana', json.dumps(f.leer(self.ident)[1]['eventos']))
+        for vista in ('ivanConMensaje', 'anaConMensaje'):
             html = salida['vistas'][vista]
-            self.assertIn('<b>Iván Invitado</b> <small>(live-share)</small>: revisá el hook &lt;b&gt;ya&lt;/b&gt;', html)
+            self.assertIn('<b>Iván Invitado</b> <small>(live-share, guardado por ', html)
+            self.assertIn(': revisá el hook &lt;b&gt;ya&lt;/b&gt;', html)
             self.assertIn('<b>claude-code</b>: terminé las pruebas', html)
             self.assertIn(f'<form class="escribir" data-cambio="{self.ident}">', html)
         # Los mensajes no son decisiones.

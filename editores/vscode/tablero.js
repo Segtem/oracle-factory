@@ -130,7 +130,7 @@ function sesion(s) {
 // El chat del cambio: los mensajes del registro; en una sesión de Live Share, una caja para escribir.
 function chat(c, s) {
     const mensajes = c.linea_de_tiempo.filter(e => e.accion === 'mensaje').map(e =>
-        `<li><time>${hora(e.cuando)}</time> <b>${esc(e.actor)}</b>${e.detalle && e.detalle.via ? ` <small>(${esc(e.detalle.via)})</small>` : ''}: ${esc(e.detalle && e.detalle.texto)}</li>`).join('');
+        `<li><time>${hora(e.cuando)}</time> <b>${esc(e.actor)}</b>${e.detalle && e.detalle.via ? ` <small>(${esc(e.detalle.via)}${e.detalle.guardado_por ? `, guardado por ${esc(e.detalle.guardado_por)}` : ''})</small>` : ''}: ${esc(e.detalle && e.detalle.texto)}</li>`).join('');
     const caja = s && s.estado === 'activa'
         ? `<form class="escribir" data-cambio="${esc(c.id)}"><input name="texto" maxlength="2000" aria-label="Mensaje para ${esc(c.id)}" placeholder="Escribí un mensaje (queda en el cambio: sin secretos)"><button type="submit">Enviar</button></form>`
         : `<p class="vacio">Desde la terminal: <code>oracle-factory mensaje ${esc(c.id)} "…"</code>; en una sesión de Live Share, acá.</p>`;
