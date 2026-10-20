@@ -1,0 +1,4 @@
+requisito ide_c2103597a7eea615c.el_chat_queda_en_el_cambio:
+    texto "Tipo: funcional `oracle-factory mensaje ID \"texto\"` SHALL guardar el mensaje en el registro del cambio con su autor (una persona desde su terminal o un agente con `--agente`), y SHALL negarse sin terminal ni `--agente` salvo que lo envíe la extensión por Live Share con el nombre que da Live Share. En una sesión, el tablero de cada cambio SHALL tener un chat: un mensaje SHALL llegar a todos los conectados, y el anfitrión SHALL guardarlo en el registro. Los mensajes SHALL verse en la línea de tiempo del cambio y SHALL NOT contar como decisiones."
+    fuente "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md#el chat queda en el cambio"
+    sin_medir "sin medida todavía; escenarios: «un mensaje desde la terminal y uno desde el chat», «un mensaje sin autor»"

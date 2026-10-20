@@ -2,11 +2,25 @@
   "id": "20261020-005341-liveshare",
   "titulo": "El tablero en pair programming: presencia, tablero compartido y chat con Live Share",
   "capacidad": "ide",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T01:54:00+00:00",
+    "documentos": {
+      "openspec/changes/20261020-005341-liveshare/proposal.md": "1533b867f73f6023a23fbc72b5bf1f4660a0e59857305ea231da4ef8bb9d7961",
+      "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340"
+    }
+  },
+  "requisitos": [
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,56 @@
       "forma": "decidio",
       "cuando": "2026-10-20T00:53:41+00:00",
       "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T01:54:00+00:00",
+      "documentos": {
+        "openspec/changes/20261020-005341-liveshare/proposal.md": "1533b867f73f6023a23fbc72b5bf1f4660a0e59857305ea231da4ef8bb9d7961",
+        "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T01:54:00+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T01:54:08+00:00",
+      "ids": [
+        "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+        "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+        "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio": "funcional",
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte": "funcional",
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T01:54:00+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

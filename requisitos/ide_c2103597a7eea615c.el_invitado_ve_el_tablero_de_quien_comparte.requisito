@@ -1,0 +1,4 @@
+requisito ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte:
+    texto "Tipo: funcional En una sesión de Live Share, el tablero del anfitrión SHALL publicarse a los invitados: un invitado SHALL ver el mismo tablero aunque no tenga Factory instalado, y SHALL verlo rehecho cuando cambia un registro del anfitrión. Sus enlaces SHALL abrir los archivos compartidos, y el botón de un comando SHALL pedirle al anfitrión que lo escriba en su terminal «Factory» sin ejecutarlo, con la misma validación que el panel local. El tablero SHALL NOT tomar decisiones."
+    fuente "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md#el invitado ve el tablero de quien comparte"
+    sin_medir "sin medida todavía; escenarios: «un invitado sin Factory»"
