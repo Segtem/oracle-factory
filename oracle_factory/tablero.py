@@ -247,7 +247,8 @@ def armar(cli) -> dict:
                                  "tipo_actor": e.get("tipo_actor"), "forma": e.get("forma"),
                                  "detalle": {k: v for k, v in e.items()
                                              if k in ("revisor", "candidato", "resultado", "hallazgos", "decision",
-                                                      "abiertos", "codigo", "requisito", "medidas", "causa")}}
+                                                      "abiertos", "codigo", "requisito", "medidas", "causa",
+                                                      "texto", "via")}}
                                 for e in estado.get("eventos") or []],
             "hallazgos": hallazgos, "requisitos": requisitos,
             "commits": datos["commits"],

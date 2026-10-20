@@ -147,9 +147,11 @@ La portada viva (escenas, personajes, el minijuego y sus secretos) tiene su prop
 
 **Quién trabaja en qué.** `oracle-factory tomar ID --con claude-code` te registra como responsable del cambio, con el agente con el que trabajás; si otra persona ya lo tiene, hace falta `--relevo` (queda constancia de quién lo tenía), y `soltar ID` lo libera. Un agente que corre `--agente NOMBRE tomar ID` se suma al cambio sin quedar como responsable. Es un acuerdo registrado, no un candado. `estado` y el tablero muestran, por cambio, la persona responsable, sus agentes (los declarados y los que actuaron en las últimas 24 horas, con su última acción) y los revisores en curso; el tablero muestra también quién está en qué en todo el proyecto.
 
+**De a dos, con Live Share.** Con la extensión [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) en una sesión, el tablero (extensión 0.3.0) muestra quién está conectado y con qué rol. Quien comparte publica su tablero: un invitado lo ve aunque no tenga Factory, se rehace cuando cambia un registro, sus enlaces abren los archivos compartidos y el botón de un comando lo escribe, sin Enter, en la terminal «Factory» de quien comparte. Cada cambio tiene un chat; los mensajes quedan en su registro con el nombre que da Live Share (no escribas secretos: se versionan). Desde la terminal, `oracle-factory mensaje ID "texto"` deja un mensaje como persona o, con `--agente`, como agente. Sin Live Share el tablero sigue igual.
+
 Se arma sin `npm`:
 
 ```bash
 python3 editores/vscode/empaquetar.py
-code --install-extension editores/vscode/oracle-factory-0.2.0.vsix
+code --install-extension editores/vscode/oracle-factory-0.3.0.vsix
 ```

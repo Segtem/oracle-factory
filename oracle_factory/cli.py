@@ -681,6 +681,28 @@ def soltar(identificador: str) -> None:
     print(f"{previo} soltó {identificador}; queda sin responsable.")
 
 
+def mensaje(identificador: str, texto: str, de: str | None = None) -> None:
+    """Un mensaje en el registro del cambio. Sin --de, lo firma el actor de siempre (persona con terminal o agente);
+    --de lo usa la extensión de VS Code para un mensaje que llegó por Live Share, con el nombre que da Live Share."""
+    carpeta, estado = abierto(identificador)
+    texto = (texto or "").strip()
+    if not texto or len(texto) > 2000:
+        raise FactoryError("el mensaje tiene que tener texto y hasta 2000 caracteres; no guardé nada")
+    if de is not None:
+        de = de.strip()
+        if AGENTE or not de or len(de) > 100:
+            raise FactoryError("--de es para la extensión de VS Code (un mensaje de Live Share, con un nombre de hasta "
+                               "100 caracteres) y no se combina con --agente; no guardé nada")
+        evento(estado, "mensaje", forma="mensaje", texto=texto, actor=de, tipo_actor="persona", via="live-share")
+    else:
+        if actor()["tipo_actor"] == "sin_identificar":
+            raise FactoryError("un mensaje lo escribe una persona desde su terminal o un agente con --agente NOMBRE; "
+                               "la entrada por pipe no identifica a nadie. No guardé nada")
+        evento(estado, "mensaje", forma="mensaje", texto=texto)
+    guardar(carpeta, estado)
+    print(f"Mensaje guardado en {identificador}.")
+
+
 ACTIVIDAD_RECIENTE = dt.timedelta(hours=24)
 
 
@@ -3241,6 +3263,9 @@ def construir_parser() -> argparse.ArgumentParser:
     q = sub.add_parser('tomar', help='registrarte como responsable de un cambio (con --con AGENTE); un agente con --agente se suma')
     q.add_argument('id'); q.add_argument('--con', action='append', metavar='AGENTE', help='el agente con el que trabajás (repetible)')
     q.add_argument('--relevo', action='store_true', help='tomarlo aunque lo tenga otra persona, con quien ya lo acordaste')
+    q = sub.add_parser('mensaje', help='dejar un mensaje en el registro del cambio (queda versionado: sin secretos)')
+    q.add_argument('id'); q.add_argument('texto')
+    q.add_argument('--de', metavar='NOMBRE', help='(la usa la extensión de VS Code) el autor de un mensaje que llegó por Live Share')
     q = sub.add_parser('soltar', help='dejar de ser responsable de un cambio')
     q.add_argument('id')
     q = sub.add_parser('log', help='los commits de un cambio: con su trailer «Cambio: ID» o deducidos de sus candidatos (sólo lectura)')
@@ -3337,6 +3362,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "log": comando_log(args.id, args.json)
         elif args.comando == "tomar": tomar(args.id, args.con, args.relevo)
         elif args.comando == "soltar": soltar(args.id)
+        elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)
         elif args.comando == "hooks": print(instalar_hook())
         elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
