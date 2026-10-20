@@ -1,0 +1,63 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/cac6f72",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "cac6f72573eac84d2c01793f78618f7888df0142",
+  "diff_sha256": "129ab0bfe6e986b3aab60855030c14cb437658a87a917f1f51abe1548311a66e",
+  "context_sha256": "c855a64814038359948458cba917ea22d5a90aeec86a208cb61ca8c27f3bf22f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "rolDe clasifica Role.None (0) como anfitrión si la sesión conserva un id",
+      "explanation": "En la API de Live Share (vsls), el enum Role define Role.None = 0, Role.Host = 1, Role.Guest = 2. En editores/vscode/liveshare.js:12-18, rolDe(x, conId) solo comprueba x === 1 || x === 2 y las cadenas 'host', '1', 'guest', '2'. Si x es 0 (o 'none', '0'), no coincide con ninguna condición y recae en 'return conId ? 1 : 0;'. Como Sesion.rol() invoca rolDe(s.role, s.id), si la sesión finaliza externamente o se encuentra inactiva pero preserva el identificador de sesión (s.id), rolDe retorna 1 (anfitrión). Como consecuencia, la extensión cree erróneamente que la sesión continúa activa: Sesion.estado() reporta {estado: 'activa', rol: 'anfitrión'}, Sesion.compartir() rechaza iniciar una nueva sesión ('if (this.rol()) return'), Sesion.unirse() rechaza unirse ('if (this.rol()) return false') y Sesion.preparar() no limpia this.enlace ni this.idDelEnlace porque !this.rol() evalúa a false. Las pruebas unitarias en tests/sesion_en_node.cjs omitieron la propiedad id al simular la finalización de sesión; al conservar id: 's1' con role: 0, test_se1_compartir_terminar_y_unirse falla.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 12,
+        "end_line": 18,
+        "side": "head"
+      },
+      "trigger": "Desconectarse o terminar externamente una sesión de Live Share cuando la sesión mantiene su id y establece role: 0 (Role.None), o contar con un objeto de sesión con id asignado y role: 0.",
+      "evidence": "En Node.js: rolDe(0, 's1') devuelve 1 y rolDe('None', 's1') devuelve 1. Al instanciar Sesion con mockApi.session = { role: 0, id: 's1', user: { displayName: 'Ana' } }, sesion.rol() reportó 1, sesion.estado().estado permaneció 'activa' y sesion.compartir() quedó bloqueado. Al mutar tests/sesion_en_node.cjs para que ls.session retenga id: 's1' al terminar, test_se1_compartir_terminar_y_unirse falló con AssertionError: 'no pasó: ofrece compartir'. Además, mutar 'return conId ? 1 : 0;' por 'return 0;' superó las 7 pruebas unitarias de unittest sin fallos, demostrando falta de cobertura sobre ese caso.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Ajustar rolDe para que x === 0 || t === '0' || t === 'none' devuelva 0 explícitamente antes del fallback de conId. Añadir una prueba que simule api.session con role: 0 e id persistido, confirmando que rol() retorne 0 y el tablero ofrezca 'Compartir sesión'."
+    },
+    {
+      "id": "F-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "enlaceDeLiveShare rechaza URLs legítimas de sesiones web de Live Share (vscode.dev)",
+      "explanation": "El requisito funcional la_sesion_de_live_share_se_maneja_desde_el_tablero establece que «Unirse a una sesión» debe solicitar el enlace y 'SHALL aceptar sólo un enlace https de Live Share'. En editores/vscode/liveshare.js:27-28, enlaceDeLiveShare restringe las URLs bajo el host vscode.dev exigiendo que url.pathname.startsWith('/liveshare/'). Sin embargo, las invitaciones de Live Share generadas para clientes en el navegador (VS Code for the Web en vscode.dev) utilizan el formato https://vscode.dev/editor/liveshare/<SESSION_ID> o con parámetros de consulta https://vscode.dev/liveshare?sessionId=<SESSION_ID>. Al carecer de prefijo /liveshare/ directo en el pathname, la función rechaza dichos enlaces oficiales con 'Factory: ese no es un enlace de una sesión de Live Share.' impidiendo a los invitados unirse desde el tablero.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 24,
+        "end_line": 29,
+        "side": "head"
+      },
+      "trigger": "Seleccionar «Unirse a una sesión» en el tablero e ingresar un enlace de Live Share Web como https://vscode.dev/editor/liveshare/<SESSION_ID> o https://vscode.dev/liveshare?sessionId=<SESSION_ID>.",
+      "evidence": "Se ejecutó enlaceDeLiveShare en Node.js: enlaceDeLiveShare('https://vscode.dev/editor/liveshare/12345') devolvió false y enlaceDeLiveShare('https://vscode.dev/liveshare?sessionId=12345') devolvió false, a pesar de ser URLs válidas del servicio de Live Share en la web.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Actualizar enlaceDeLiveShare para aceptar rutas que coincidan con /editor/liveshare/ o /liveshare sin barra final pero con query parameters. Agregar casos en los tests unitarios con estos formatos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la especificación, el diff del paquete y el código de editores/vscode/liveshare.js, editores/vscode/extension.js, editores/vscode/tablero.js, editores/vscode/package.json, README.md, tests/sesion_en_node.cjs, tests/test_sesion.py, tools/verify_sesion.py y los catálogos en catalogos/.",
+    "Se verificaron los hallazgos de la vuelta 1: C1 de codex (resuelto con copiarConLiveShare y botón data-sesion='copiar' sin invocar share()), F-001 (resuelto con idDelEnlace, sujeto al defecto de rolDe), F-002 (resuelto con cerrojo de estado compartiendo), F-003 (resuelto ofreciendo vista con 'Salir de la sesión' al invitado mientras espera) y F-004 (resuelto con cobertura del rol invitado en sesion_en_node.cjs y test_sesion.py).",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias especificadas desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null, obteniendo OK en 7 pruebas (19.157 s).",
+    "No se corrió la suite completa de pruebas del repositorio ni tools/verify_sesion.py, en cumplimiento estricto de las directivas.",
+    "Se comprobó que ningún botón de la sesión modifica registros ni archivos bajo .factory/.",
+    "Se comprobó que el enlace de la sesión está protegido contra inyecciones HTML en el tablero (esc() aplicado y CSP estricta con nonce).",
+    "Se comprobó que diagnostico() no registra nombres de usuario ni identificadores personales de sesión.",
+    "Se realizaron mutaciones manuales en copias de trabajo aisladas evaluando la respuesta de la suite y la supervivencia de mutaciones en rolDe y copiarConLiveShare."
+  ]
+}

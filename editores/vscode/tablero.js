@@ -120,11 +120,18 @@ function metricas(m) {
 
 // La sesión de Live Share: quién está y con qué rol. Sin Live Share o sin sesión, una línea.
 function sesion(s) {
-    if (!s || s.estado === 'sin-live-share') return '<p class="sesion vacio">Sin Live Share: para trabajar de a dos, instalalo y compartí la sesión.</p>';
-    if (s.estado === 'sin-sesion') return '<p class="sesion vacio">Sin sesión de Live Share.</p>';
+    const boton = (accion, texto) => `<button type="button" class="terminal" data-sesion="${accion}">${texto}</button>`;
+    if (!s || s.estado === 'sin-live-share')
+        return `<p class="sesion vacio">Sin Live Share: para trabajar de a dos, instalalo y compartí la sesión. ${boton('instalar', 'Instalar Live Share')}</p>`;
+    if (s.estado === 'sin-sesion')
+        return `<p class="sesion">Sin sesión de Live Share. ${boton('compartir', 'Compartir sesión')} ${boton('unirse', 'Unirse a una sesión')}</p>`;
     const gente = [`<li><b>${esc(s.yo)}</b> (vos, ${esc(s.rol)})</li>`, ...s.otros.map(o => `<li><b>${esc(o.nombre)}</b> (${esc(o.rol)})</li>`)];
     return `<div class="sesion"><h2>En la sesión</h2><ul>${gente.join('')}</ul>${s.invitado
-        ? '<p class="vacio">Ves el tablero de quien comparte; los comandos se escriben en su terminal «Factory».</p>' : ''}</div>`;
+        ? '<p class="vacio">Ves el tablero de quien comparte; los comandos se escriben en su terminal «Factory».</p>' : ''}${
+        s.rol === 'anfitrión' ? `<p>${s.enlace
+            ? `Para que alguien entre, pasale el enlace: <code>${esc(s.enlace)}</code> ${boton('copiar', 'Copiar enlace')}`
+            : `Para que alguien entre, pasale el enlace de la sesión: ${boton('copiar', 'Copiar enlace')}`} ${
+            boton('terminar', 'Terminar sesión')}</p>` : boton('terminar', 'Salir de la sesión')}</div>`;
 }
 
 // El chat del cambio: los mensajes del registro; en una sesión de Live Share, una caja para escribir.
@@ -199,7 +206,8 @@ function marca() {
 
 // La página entera. `nonce` y `cspSource` los da la extensión: sin red, y sólo corre el script de la página.
 function html(datos, {nonce, cspSource}) {
-    const cuerpo = datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
+    const cuerpo = datos.esperando ? '<p class="vacio">Esperando el tablero de quien comparte la sesión de Live Share…</p>'
+        : datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
         : '<p class="vacio">No hay cambios abiertos. Empezá uno con <code>oracle-factory nuevo</code>.</p>';
     return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
@@ -208,7 +216,7 @@ function html(datos, {nonce, cspSource}) {
 <h1>${marca()} Tablero de Factory</h1>
 ${sesion(datos.sesion)}
 ${cuerpo}
-${proyecto(datos.proyecto)}
+${datos.proyecto ? proyecto(datos.proyecto) : ''}
 <script nonce="${nonce}">
 const vscode = acquireVsCodeApi();
 document.addEventListener('click', ev => {
@@ -217,6 +225,7 @@ document.addEventListener('click', ev => {
   if (b.dataset.abrir) vscode.postMessage({tipo: 'abrir', archivo: b.dataset.abrir, linea: b.dataset.linea ? Number(b.dataset.linea) : null});
   if (b.dataset.comando) vscode.postMessage({tipo: 'terminal', comando: b.dataset.comando});
   if (b.dataset.commit) vscode.postMessage({tipo: 'commit', sha: b.dataset.commit});
+  if (b.dataset.sesion) vscode.postMessage({tipo: 'sesion', accion: b.dataset.sesion});
 });
 document.addEventListener('submit', ev => {
   const f = ev.target.closest('form.escribir');

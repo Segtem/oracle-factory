@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/fd78949",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "fd78949538a86b31748a9322f5b7c0555d9c7391",
+  "diff_sha256": "1efce5c53241c286566ac65b7ede308e19784bce15c167870930244f751aa967",
+  "context_sha256": "38374c186a21800bde62564c4a4907a3ea8adb80e6b6f102e5e49efd4604b568",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), el paquete Clue y el diff completo entre base (7390206) y head (fd78949) abarcando editores/vscode/liveshare.js, editores/vscode/extension.js, editores/vscode/tablero.js, editores/vscode/package.json, README.md, tests/sesion_en_node.cjs, tests/test_sesion.py, tools/verify_sesion.py y catalogos/factory_sesion.*.oracle.",
+    "Se verificaron exhaustivamente las correcciones acumuladas de vueltas anteriores: C1 (copiar enlace ejecuta comando de Live Share sin llamar a share()), F-001 de vuelta 1 (limpieza de enlace al terminar externamente con !this.rol()), F-002 de vuelta 1 (cerrojo this.compartiendo ante doble clic o reentradas concurrentes), F-003 de vuelta 1 (invitado que espera ve «Salir de la sesión» sin quedar atrapado), F-004 de vuelta 1 (cobertura del rol invitado y salida en sesion_en_node.cjs y test_sesion.py), y F-001 de vuelta 2 (rolDe clasifica Role.None, 'none' y '0' como 0 incluso con id, y roles desconocidos como no anfitriones). Todas las correcciones permanecen intactas y sin regresiones.",
+    "Se comprobó que api.share() nunca se invoca con una sesión abierta ni en curso de apertura (protegido por if (this.rol() || this.compartiendo)), que «Unirse a una sesión» restringe el acceso estrictamente a URLs https de Live Share mediante enlaceDeLiveShare, que no existe riesgo de inyección HTML/XSS en el panel por el enlace (escapado con esc() y política CSP con nonce), que ningún botón de sesión altera registros ni archivos bajo .factory/, y que diagnostico() no registra nombres de usuario ni identificadores personales de sesión.",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias requeridas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null, completando 7 pruebas exitosamente (OK en 18.9s).",
+    "No se corrió la suite completa de pruebas del repositorio ni tools/verify_sesion.py, en estricto cumplimiento de las directivas recibidas.",
+    "Se ejecutaron pruebas de mutación manual en una copia de trabajo aislada en Node.js y Python alterando rolDe, el cerrojo this.compartiendo, la limpieza de enlaces en preparar(), el texto de «Salir de la sesión», el filtro de enlaceDeLiveShare y la expresión regular de copiarConLiveShare; todas las mutaciones fueron detectadas y fallaron en la suite (atrapadas 7 de 7).",
+    "No se encontraron defectos residuales, discrepancias con la spec ni regresiones en el código del candidato."
+  ]
+}

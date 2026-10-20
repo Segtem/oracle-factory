@@ -94,6 +94,11 @@ function escribirPaso(nodo) {
 // En una sesión de Live Share, un invitado lo pide a quien comparte (ver liveshare.js).
 let panel = null;
 let sesion = null;
+let salida = null;  // Output → Oracle Factory: lo que dice Live Share, para diagnosticar
+
+function anotar(texto) {
+    if (salida) salida.appendLine(`${new Date().toISOString()} ${texto}`);
+}
 
 function datosLocales() {
     const raiz = carpeta();
@@ -102,21 +107,30 @@ function datosLocales() {
     return correr(raiz, ['tablero', '--json']);
 }
 
+let pintura = 0;  // cada pedido de repintar tiene su número: si llega uno más nuevo, el viejo no escribe
+
 async function pintarTablero() {
     if (!panel) return;
+    const esta = ++pintura;
     const nonce = crypto.randomBytes(16).toString('base64');
-    const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    let html;
     if (sesion && sesion.esInvitado() && !invitado) {
-        panel.webview.html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
-        return;
+        // Mientras llega el tablero de quien comparte: la sesión, con «Salir de la sesión».
+        html = tablero.html({esperando: true, cambios: [], sesion: {...sesion.estado(), invitado: false}},
+                            {nonce, cspSource: panel.webview.cspSource});
+    } else {
+        try {
+            const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
+            // La sesión se lee después de los datos: lo que cambió mientras corría la CLI también se ve.
+            const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
+            if (sesion) anotar(sesion.diagnostico());
+            html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
+        } catch (e) {
+            html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
+        }
     }
-    try {
-        const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
-        panel.webview.html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
-    } catch (e) {
-        panel.webview.html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
-    }
+    if (panel && esta === pintura) panel.webview.html = html;
 }
 
 function diffLocal(sha) {
@@ -152,6 +166,28 @@ function guardarMensaje(cambio, texto, de) {
 // ejecutarlo o mandar un mensaje. Un invitado lo hace a través de quien comparte.
 async function mensajeDelTablero(m) {
     if (!m) return;
+    if (m.tipo === 'sesion' && sesion) {  // los botones de la sesión de Live Share (también para un invitado que espera)
+        if (m.accion === 'instalar') await sesion.instalar();
+        else if (m.accion === 'compartir') await sesion.compartir();
+        else if (m.accion === 'terminar') await sesion.terminar();
+        else if (m.accion === 'copiar') {
+            const enlace = sesion.enlaceDeLaSesion();
+            if (!enlace) {
+                if (await sesion.copiarConLiveShare()) return;  // Live Share lo copia y avisa
+                return vscode.window.showErrorMessage('Factory: no tengo el enlace de esta sesión; lo copió Live Share al compartirla.');
+            }
+            await vscode.env.clipboard.writeText(enlace);
+            vscode.window.showInformationMessage(`Enlace de la sesión copiado: ${enlace}`);
+            pintarTablero();
+        }
+        else if (m.accion === 'unirse') {
+            const enlace = await vscode.window.showInputBox({prompt: 'El enlace de la sesión de Live Share que te pasaron',
+                                                             placeHolder: 'https://prod.liveshare.vsengsaas.visualstudio.com/join?…'});
+            if (enlace && !(await sesion.unirse(enlace)))
+                vscode.window.showErrorMessage('Factory: ese no es un enlace de una sesión de Live Share.');
+        }
+        return;
+    }
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
     if (sesion && sesion.esInvitado() && !invitado) return;  // sin el servicio de quien comparte, nada que hacer
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
@@ -205,6 +241,7 @@ function abrirTablero() {
 
 function activate(context) {
     const vista = new Vista();
+    salida = vscode.window.createOutputChannel ? vscode.window.createOutputChannel('Oracle Factory') : null;
     sesion = new Sesion(vscode, {
         tablero: datosLocales, terminal: comando => escribirComando(comando, true), mensaje: guardarMensaje, diff: diffLocal,
         cambio: () => pintarTablero(),
