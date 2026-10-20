@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:c3efe0346e1ac170a7e2f096435e4ded1d5c38e914a5431a4ced2e4a7ca9ac03 -->
+<!-- oracle-factory resumen sha256:43fdc48315b5e462f0ed2256c83899d69b7485377f4d451b94b03eb232c2e917 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-19 capacidades · 151 requisitos vigentes · 1 cambio abierto
+19 capacidades · 152 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -139,6 +139,7 @@ Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
 | el tablero muestra quién está en la sesión | funcional | `ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion` | factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
 | el invitado ve el tablero de quien comparte | funcional | `ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte` | factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
 | el chat queda en el cambio | funcional | `ide_c2103597a7eea615c.el_chat_queda_en_el_cambio` | factory_liveshare.el_chat_queda_en_el_cambio, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
+| la sesión de Live Share se maneja desde el tablero | funcional | `ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero` | factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero, factory_sesion.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-141303-sesion |
 
 ### limpieza
 
@@ -347,6 +348,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **HG-011** (20261017-135953-higiene): La prueba de acciones sin autor omite la importación exigida por el escenario. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario
 - **TABLERO-006** (20261019-120156-tablero): Una severidad ausente o desconocida se informa como hallazgo informativo. Aceptado por Brian Hollweg: Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo
 - **LS-SEC-01-R3** (20261020-005341-liveshare): Un invitado puede atribuir su mensaje a otro invitado conectado. Aceptado por Brian Hollweg: Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado
+- **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
 
 ### Históricos
 
@@ -786,6 +788,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-005341-liveshare) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_liveshare.py`.
 - (20261020-005341-liveshare) codex (gpt-6-luna): La prueba y la reproducción adicional usan Live Share simulado; no probé la API real ni una sesión entre dos máquinas.
 - (20261020-005341-liveshare) codex (gpt-6-luna): No edité el checkout. Revisé propuesta, spec, el diff y archivos producto incluidos en el paquete; no revisé los archivos .factory/tareas excluidos. Revisé también los informes previos: el rechazo de rutas con barras invertidas, la espera al servicio y el filtro de operadores de shell siguen presentes.
+- (20261020-141303-sesion) Evidencia: Escenarios se1 en repositorios temporales, Linux, con Oracle 0.39.0; Live Share es falso, en node: que share, end, join y extension.open hagan lo que dicen en VS Code lo verifica una persona.
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), el paquete Clue y el diff completo entre base (7390206) y head (fd78949) abarcando editores/vscode/liveshare.js, editores/vscode/extension.js, editores/vscode/tablero.js, editores/vscode/package.json, README.md, tests/sesion_en_node.cjs, tests/test_sesion.py, tools/verify_sesion.py y catalogos/factory_sesion.*.oracle.
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se verificaron exhaustivamente las correcciones acumuladas de vueltas anteriores: C1 (copiar enlace ejecuta comando de Live Share sin llamar a share()), F-001 de vuelta 1 (limpieza de enlace al terminar externamente con !this.rol()), F-002 de vuelta 1 (cerrojo this.compartiendo ante doble clic o reentradas concurrentes), F-003 de vuelta 1 (invitado que espera ve «Salir de la sesión» sin quedar atrapado), F-004 de vuelta 1 (cobertura del rol invitado y salida en sesion_en_node.cjs y test_sesion.py), y F-001 de vuelta 2 (rolDe clasifica Role.None, 'none' y '0' como 0 incluso con id, y roles desconocidos como no anfitriones). Todas las correcciones permanecen intactas y sin regresiones.
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se comprobó que api.share() nunca se invoca con una sesión abierta ni en curso de apertura (protegido por if (this.rol() \|\| this.compartiendo)), que «Unirse a una sesión» restringe el acceso estrictamente a URLs https de Live Share mediante enlaceDeLiveShare, que no existe riesgo de inyección HTML/XSS en el panel por el enlace (escapado con esc() y política CSP con nonce), que ningún botón de sesión altera registros ni archivos bajo .factory/, y que diagnostico() no registra nombres de usuario ni identificadores personales de sesión.
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano exactamente las pruebas unitarias requeridas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null, completando 7 pruebas exitosamente (OK en 18.9s).
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del repositorio ni tools/verify_sesion.py, en estricto cumplimiento de las directivas recibidas.
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manual en una copia de trabajo aislada en Node.js y Python alterando rolDe, el cerrojo this.compartiendo, la limpieza de enlaces en preparar(), el texto de «Salir de la sesión», el filtro de enlaceDeLiveShare y la expresión regular de copiarConLiveShare; todas las mutaciones fueron detectadas y fallaron en la suite (atrapadas 7 de 7).
+- (20261020-141303-sesion) agy (gemini-3.8-flash-high): No se encontraron defectos residuales, discrepancias con la spec ni regresiones en el código del candidato.
+- (20261020-141303-sesion) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.
+- (20261020-141303-sesion) codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.
+- (20261020-141303-sesion) codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos.
 
 ### Históricos
 

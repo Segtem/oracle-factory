@@ -2,7 +2,7 @@
   "id": "20261020-141303-sesion",
   "titulo": "La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar",
   "capacidad": "ide",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
   "spec_sha256": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c",
   "spec_aprobada": {
@@ -352,6 +352,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "1dd3f8d266e2851924003dd3fa42929b9f51e03b06edc290f5f1c3fddbcf8769"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T16:16:41+00:00",
+      "oracle": ".factory/cambios/20261020-141303-sesion/oracle-veredicto.txt",
+      "revision": "tareas/20261020-141303-sesion/revisiones/registro-55cp0cs_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T16:16:41+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
     }
   ],
   "tipos": {
@@ -394,5 +414,17 @@
       "fecha": "2026-10-20T16:11:09+00:00",
       "candidato": "fd78949"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T16:16:41+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-20T16:16:41+00:00"
+  }
 }
