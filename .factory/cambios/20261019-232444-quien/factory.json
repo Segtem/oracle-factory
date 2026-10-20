@@ -2,7 +2,7 @@
   "id": "20261019-232444-quien",
   "titulo": "Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
   "spec_sha256": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "619b2921f4b674450393c33a24db59855b2b60999db296e5b5703cee8ac3f1bd"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261019-232444-quien/candidatos/b25339a/evidencia/hechos.json",
+    "hechos_sha256": "ac0409dd5ecc5ff18c59afb895cbe1c944253b3f9f40713dfc780b618d5ec002",
+    "informe": ".factory/cambios/20261019-232444-quien/oracle-veredicto.txt",
+    "informe_sha256": "19dbde125dd35020f20de904597a3020f75d8f5917d9d9a5202b73cf113903a8",
+    "cuando": "2026-10-20T00:21:44+00:00",
+    "contexto": {
+      "head": "930597c2592ce7a2a728f99571ffae42931c008f",
+      "archivos_sha256": "619b2921f4b674450393c33a24db59855b2b60999db296e5b5703cee8ac3f1bd"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -336,6 +348,17 @@
       "abiertos": 0,
       "sha256": "5a5dc4c4d567ab4dbf9ba8d8855d9922045b1948d4621163a4a4abc2ca87bd7d",
       "decisiones_sha256": "519dc929bc60bb9fe395b62fc28ab76181c682d73fac299f0224467b4e8acb6a"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T00:21:44+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ac0409dd5ecc5ff18c59afb895cbe1c944253b3f9f40713dfc780b618d5ec002"
     }
   ],
   "tipos": {
