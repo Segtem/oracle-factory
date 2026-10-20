@@ -2300,11 +2300,9 @@ def por_que(referencia: str, como_json: bool) -> None:
     if ident:
         e = cambios[ident]
         v = kb_mod.veredictos(ROOT, e.get("oracle"))
-        motivo_revision = (e.get("revision") or {}).get("motivo")
         decisiones = [{"accion": x.get("accion"), "actor": x.get("actor"), "tipo_actor": x.get("tipo_actor"),
-                       "cuando": x.get("cuando"), "decision": x.get("decision"),
-                       "motivo": motivo_revision if x.get("accion") == "revision_registrada" else None}
-                      for x in e.get("eventos") or [] if x.get("forma") in kb_mod.DECIDE]
+                       "cuando": x.get("cuando"), "decision": x.get("decision"), "motivo": motivo}
+                      for x, motivo in kb_mod.decisiones(e)]
         hallazgos = [{"revisor": i["revisor"], "candidato": i["candidato"], "severidad": h.get("severity"), "titulo": h.get("title")}
                      for i in tablero_mod.informes(ROOT, ROOT / estructura.DIR / "cambios" / ident)
                      for h in i["hallazgos"] if isinstance(h.get("location"), dict) and h["location"].get("file") == archivo]

@@ -61,6 +61,25 @@ def _encabezado(campos: dict) -> str:
     return "---\n" + MARCA + "\n" + "".join(f"{k}: {json.dumps(v, ensure_ascii=False)}\n" for k, v in campos.items()) + "---\n"
 
 
+def decisiones(estado: dict) -> list[tuple[dict, str | None]]:
+    """Las decisiones del registro (decidió o confirmó), cada una con su motivo: el del evento si lo trae, o el de su
+    sección del registro para la última de su tipo (la revisión, el abandono, el cierre, las medidas de un requisito)."""
+    eventos = [e for e in estado.get("eventos") or [] if e.get("forma") in DECIDE]
+    seccion = {"revision_registrada": (estado.get("revision") or {}).get("motivo"),
+               "abandono": (estado.get("abandono") or {}).get("motivo"), "cierre": (estado.get("cierre") or {}).get("motivo")}
+    ultimos = {e.get("accion"): e for e in eventos}
+    ultimos_medidas = {e.get("requisito"): e for e in eventos if e.get("accion") in ("medidas_confirmadas", "medidas_elegidas")}
+    salida = []
+    for e in eventos:
+        motivo = e.get("motivo")
+        if not motivo and ultimos.get(e.get("accion")) is e:
+            motivo = seccion.get(e.get("accion"))
+        if not motivo and ultimos_medidas.get(e.get("requisito")) is e:
+            motivo = ((estado.get("medidas") or {}).get(e.get("requisito")) or {}).get("motivo")
+        salida.append((e, motivo if isinstance(motivo, str) and motivo.strip() else None))
+    return salida
+
+
 def nota_de_cambio(cli, ident: str, estado: dict) -> str:
     raiz = cli.ROOT
     v = veredictos(raiz, estado.get("oracle"))
@@ -68,21 +87,20 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
     lineas = [_encabezado({"id": ident, "fase": estado.get("fase"), "capacidad": estado.get("capacidad")}),
               f"# {_texto(estado.get('titulo') or ident)}", "", AVISO, "",
               f"- Fase: {estado.get('fase')}", f"- Capacidad: {estado.get('capacidad') or '—'}",
-              f"- Responsable: {r['persona'] + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}"]
+              f"- Responsable: {_texto(r['persona']) + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}"]
     if estado.get("spec"):
         lineas.append(f"- Spec: [{estado['spec']}](../../{estado['spec']})")
     lineas += ["", "## Requisitos", ""]
     lineas += [f"- [[requisitos/{rid}]] — {v.get(rid, 'sin juicio')}" for rid in sorted(estado.get("requisitos") or [])] or ["- Ninguno importado."]
     lineas += ["", "## Decisiones", ""]
-    motivo_revision = (estado.get("revision") or {}).get("motivo")
-    decisiones = [e for e in estado.get("eventos") or [] if e.get("forma") in DECIDE]
-    for e in decisiones:
-        extra = f" — {e.get('decision')}" if e.get("decision") else ""
-        if e.get("accion") == "revision_registrada" and motivo_revision and e is [d for d in decisiones if d.get("accion") == "revision_registrada"][-1]:
-            extra += f": {_texto(motivo_revision)}"
+    tomadas = decisiones(estado)
+    for e, motivo in tomadas:
+        extra = f" — {_texto(e.get('decision'))}" if e.get("decision") else ""
+        if motivo:
+            extra += f"{':' if extra else ' —'} {_texto(motivo)}"
         lineas.append(f"- {_fecha(e.get('cuando'))} · {NOMBRES.get(e.get('accion'), _texto(e.get('accion')))} · "
                       f"{_texto(e.get('actor'))} ({_texto(e.get('tipo_actor'))}){extra}")
-    if not decisiones:
+    if not tomadas:
         lineas.append("- Ninguna todavía.")
     lineas += ["", "## Riesgos aceptados", ""]
     lineas += [f"- `{' '.join(str(a.get('archivo') or '').replace('`', "'").split())}`: {_texto(a.get('titulo'))} — aceptado por {_texto(a.get('actor'))}: {_texto(a.get('motivo'))}"
@@ -170,7 +188,7 @@ def armar(cli, solo: str | None = None) -> dict[str, str]:
 
 
 # --- notas humanas -----------------------------------------------------------------------------------------------
-def fuentes_de(nota: Path) -> list[str]:
+def _fuentes_crudas(nota: Path) -> list[str]:
     """Las fuentes del frontmatter de una nota: `fuentes: [a, b]` o una lista con guiones."""
     texto = nota.read_text(encoding="utf-8", errors="replace")
     if not texto.startswith("---\n") or "\n---" not in texto[4:]:
@@ -183,11 +201,16 @@ def fuentes_de(nota: Path) -> list[str]:
     return [x.strip()[1:].strip().strip("'\"") for x in m[1].splitlines() if x.strip()] if m else []
 
 
+def fuentes_de(nota: Path) -> list[str]:
+    """Las fuentes del frontmatter de una nota: `fuentes: [a, b]` o una lista con guiones; `./x` es `x`."""
+    return [f[2:] if f.startswith("./") else f for f in _fuentes_crudas(nota)]
+
+
 def huella_de_fuente(cli, fuente: str) -> str | None:
     """La huella de una fuente: un archivo (su contenido), un requisito (su .requisito) o un cambio (su spec)."""
     raiz = cli.ROOT
     archivo = cli.requisitos_dir() / f"{fuente}.requisito"
-    if archivo.is_file():
+    if re.fullmatch(r"[a-z0-9_]+\.[a-z0-9_]+", fuente) and archivo.is_file():  # un id: no sale de requisitos/
         return sha(archivo.read_bytes())
     if cli.ID_RE.fullmatch(fuente) and cli.ruta_registro(cli.CHANGES / fuente).exists():
         # Lo que se sabe del cambio, como lo muestra su nota generada: decisiones, riesgos, fase, requisitos, mensajes.

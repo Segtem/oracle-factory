@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d55ff5c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d55ff5ccdf20aa053e6e20b0bb156ef59980a36c",
+  "diff_sha256": "d29afd1630439b9b78809982e46326fdee409a09742c7c80d2759215f89d6918",
+  "context_sha256": "bc9ee95159e59720a24aaf12038b0ea2b867da9270f0fc3ee1c92ee83fa71786",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "KB3-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "La nota de un cambio abierto no enumera sus commits",
+      "explanation": "La spec pide una nota por cambio con commits y mensajes. Para toda fase distinta de cerrada o abandonada, esta rama escribe sólo una instrucción para consultar `oracle-factory log ID`; no incluye los commits del cambio abierto en la nota. Así, un cambio abierto con commits queda representado sin sus commits en el vault.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 103,
+        "end_line": 103,
+        "side": "head"
+      },
+      "trigger": "Generar `kb/` cuando existe un cambio abierto que ya tiene al menos un commit asociado, con trailer o deducido, y leer `kb/cambios/<ID>.md`.",
+      "evidence": "En `nota_de_cambio`, los commits se enumeran únicamente bajo la rama `fase == \"cerrada\"` (líneas 91–99); para cambios abiertos la línea 103 emite sólo `En curso: oracle-factory log <ID>`. La sección Mensajes sí se genera después. `tests/test_kb.py::test_kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto` sólo comprueba el texto “En curso” y no exige que la nota abierta contenga sus commits.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar un commit a un cambio abierto, ejecutar `oracle-factory kb` y comprobar que la nota del cambio enumera ese commit y su asunto además del enlace al log."
+    },
+    {
+      "id": "KB3-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "Una nota generada sobrante evade la verificación si se quita su marca",
+      "explanation": "La verificación detecta archivos sobrantes consultando `generadas_en_disco()`, que sólo reconoce notas si conservan la marca del generador entre los primeros 200 bytes. Una nota huérfana dentro de `kb/cambios/` o `kb/requisitos/` puede editarse y quitarle la marca; entonces no se compara ni se reporta como sobrante, aunque `kb/` ya no coincide con el registro.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2158,
+        "end_line": 2158,
+        "side": "head"
+      },
+      "trigger": "Dejar un archivo huérfano en `kb/cambios/` o `kb/requisitos/`, quitar de sus primeros 200 bytes `generado: oracle-factory kb` y ejecutar `oracle-factory kb --verificar`.",
+      "evidence": "`generadas_en_disco` enumera README y Markdown de las carpetas generadas, pero incorpora cada ruta sólo si encuentra `kb_mod.MARCA` en el prefijo leído. Tanto `comando_kb` como `refrescar_kb` usan este conjunto para reportar o quitar sobrantes. Reproducción aislada en TemporaryDirectory: `generadas_en_disco()` devolvió `[]` para `kb/cambios/huérfana.md` sin la marca.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar una prueba con un archivo extra sin la marca en las carpetas reservadas a notas generadas; `kb --verificar` debe fallar y reportar la ruta."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente la prueba enfocada solicitada desde la raíz del checkout: `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null`; resultado: 6 tests, OK. Los casos kb3 pasaron, incluido el puente Node con vscode falso.",
+    "No corrí la suite completa ni pruebas de rendimiento del recálculo del vault por cada guardar.",
+    "No edité el checkout. Comprobé el bypass del archivo huérfano en un TemporaryDirectory; no hice mutaciones adicionales.",
+    "No comprobé renderizado visual en Obsidian; los tests verifican que los destinos wikilink existan como archivos.",
+    "Contrasté las correcciones reportadas en las vueltas anteriores: tramo con todos los candidatos y explicación, rutas git -z con espacios, huella de fuente ID por nota derivada, y salida Abandonado; sin regresión observada en el código o en la prueba enfocada."
+  ]
+}

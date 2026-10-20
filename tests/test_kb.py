@@ -78,6 +78,10 @@ class Conocimiento(unittest.TestCase):
         self.assertIn('`examples/notas/notas.py`: Un nombre poco claro — aceptado por Persona fixture: se renombra en otro cambio', nota)
         self.assertIn('generado: oracle-factory kb', nota)
         self.assertIn('— aprobar: la evidencia cubre los dos escenarios', nota)
+        # El motivo de otras decisiones también: el de un abandono, el de unas medidas.
+        estado = json.loads((self.root / '.factory/cambios' / cerrado / 'factory.json').read_text())
+        self.assertEqual([m for _, m in f.kb_mod.decisiones({**estado, 'abandono': {'motivo': 'ya no hace falta'},
+                          'eventos': estado['eventos'] + [{'accion': 'abandono', 'forma': 'decidio'}]})][-1], 'ya no hace falta')
         # Los commits del cambio cerrado, hasta su cierre: uno antes (con su trailer) entra, el merge de después no.
         registro = self.root / '.factory/cambios' / cerrado / 'factory.json'
         self.git('commit', '-q', '--allow-empty', '-m', 'notas: antes del cierre', '-m', f'Cambio: {cerrado}')
@@ -233,6 +237,13 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(codigo, 1)
         self.assertIn(f'{rota}: su fuente no/existe.py no existe', errores)
         self.assertIn(f'{guia} está por revisar', errores)
+        # Una fuente con forma de requisito no sale de requisitos/ (ni con .. ni absoluta), y ./x es x.
+        afuera = Path(self.tmp.name) / 'externo.requisito'
+        afuera.write_text('requisito x.y:\n')
+        self.assertIsNone(f.kb_mod.huella_de_fuente(f, str(afuera.with_suffix(''))))
+        self.assertIsNone(f.kb_mod.huella_de_fuente(f, '../externo'))
+        punto = self.nota_humana('punto.md', ['./examples/notas/notas.py'])
+        self.assertEqual(f.kb_mod.fuentes_de(self.root / punto), ['examples/notas/notas.py'])
         # Un cambio como fuente: vence cuando cambia lo que se sabe de él (una decisión, un riesgo), no sólo su spec.
         decision = self.nota_humana('decision.md', [self.ident])
         self.assertEqual(self.revisada(decision)[0], 0)
