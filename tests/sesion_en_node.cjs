@@ -39,7 +39,7 @@ const vscode = {
     Uri: {file: p => ({fsPath: p}), parse: t => ({toString: () => t})},
     Range: class {},
     env: {clipboard: {writeText: async t => { portapapeles.push(t); }}},
-    extensions: {getExtension: id => (conLiveShare === 'con' && id === 'ms-vsliveshare.vsliveshare'
+    extensions: {getExtension: id => (conLiveShare !== 'sin' && id === 'ms-vsliveshare.vsliveshare'
         ? {isActive: true, exports: {getApi: async () => ls}} : undefined)},
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
@@ -75,7 +75,16 @@ async function hasta(cond, que) {
     await espera(50);
     await comandos['factory.tablero']();
     const vistas = {};
-    if (conLiveShare !== 'con') {
+    if (conLiveShare === 'ya-compartida') {
+        // Live Share ya compartía (desde la paleta) y da el rol como texto: el tablero lo ve y no comparte otra vez.
+        ls.session = {role: 'Host', id: 'sesion-de-la-paleta', user: {displayName: 'Ana'}};
+        ls.onDidChangeSession.disparar({});
+        await hasta(() => html.includes('En la sesión'), 've la sesión');
+        await panel.recibir({tipo: 'sesion', accion: 'compartir'});
+        await panel.recibir({tipo: 'sesion', accion: 'copiar'});
+        await hasta(() => html.includes('join?SESION1</code>'), 'muestra el enlace');
+        vistas.inicio = html;
+    } else if (conLiveShare !== 'con') {
         await hasta(() => html.includes('data-sesion="instalar"'), 'ofrece instalar');
         vistas.inicio = html;
         await panel.recibir({tipo: 'sesion', accion: 'instalar'});

@@ -7,6 +7,16 @@ const VERSION_API = '1.0.4753';  // la del paquete vsls que documenta esta API
 const SERVICIO = 'oracle-factory';
 const ROL = {1: 'anfitrión', 2: 'invitado'};
 
+// El rol, venga como número (la API de vsls) o como texto («Host», «Guest»). Una sesión con id y sin rol conocido es
+// la de quien la compartió.
+function rolDe(x, conId) {
+    if (x === 1 || x === 2) return x;
+    const t = String(x == null ? '' : x).toLowerCase();
+    if (t === 'host' || t === '1') return 1;
+    if (t === 'guest' || t === '2') return 2;
+    return conId ? 1 : 0;
+}
+
 function nombre(usuario) {
     return (usuario && (usuario.displayName || usuario.userName || usuario.emailAddress)) || 'sin nombre';
 }
@@ -45,7 +55,8 @@ class Sesion {
     }
 
     rol() {
-        return (this.api && this.api.session && this.api.session.role) || 0;
+        const s = this.api && this.api.session;
+        return s ? rolDe(s.role, s.id) : 0;
     }
 
     async preparar() {
@@ -81,7 +92,8 @@ class Sesion {
     }
 
     async compartir() {
-        if (!this.api || this.rol()) return;
+        if (!this.api) return;
+        if (this.rol()) return this.al.cambio();  // ya hay sesión: no se comparte otra vez (Live Share lo rechaza)
         const uri = await this.api.share();  // Live Share avisa y copia el enlace
         this.enlace = uri ? uri.toString() : null;
         this.al.cambio();
@@ -113,9 +125,19 @@ class Sesion {
     estado() {
         if (!this.api) return {estado: 'sin-live-share'};
         const s = this.api.session;
-        if (!s || !s.role) return {estado: 'sin-sesion'};
-        return {estado: 'activa', rol: ROL[s.role], yo: nombre(s.user), enlace: s.role === 1 ? this.enlace : null,
-                otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[p.role] || 'invitado'}))};
+        const rol = this.rol();
+        if (!rol) return {estado: 'sin-sesion'};
+        return {estado: 'activa', rol: ROL[rol], yo: nombre(s.user), enlace: rol === 1 ? this.enlace : null,
+                otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[rolDe(p.role)] || 'invitado'}))};
+    }
+
+    // Para el diagnóstico (Output → Oracle Factory): lo que dice Live Share, sin nombres.
+    diagnostico() {
+        if (!this.api) return 'Live Share: sin API (no está instalado, o no dio la API pedida)';
+        const s = this.api.session || {};
+        return `Live Share: rol ${JSON.stringify(s.role)} (leído ${this.rol()}), id ${s.id ? 'sí' : 'no'}, ` +
+               `${(this.api.peers || []).length} más en la sesión, servicio ${this.servicio ? 'publicado' : 'no'}, ` +
+               `proxy ${this.proxy ? (this.proxy.isServiceAvailable ? 'disponible' : 'esperando') : 'no'}`;
     }
 
     // Para quien comparte, los demás de la sesión son sus invitados (peers no la incluye a ella).
@@ -145,4 +167,4 @@ class Sesion {
     }
 }
 
-module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API, enlaceDeLiveShare};
+module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API, enlaceDeLiveShare, rolDe};

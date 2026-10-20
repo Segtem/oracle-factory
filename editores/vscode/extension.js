@@ -94,6 +94,11 @@ function escribirPaso(nodo) {
 // En una sesión de Live Share, un invitado lo pide a quien comparte (ver liveshare.js).
 let panel = null;
 let sesion = null;
+let salida = null;  // Output → Oracle Factory: lo que dice Live Share, para diagnosticar
+
+function anotar(texto) {
+    if (salida) salida.appendLine(`${new Date().toISOString()} ${texto}`);
+}
 
 function datosLocales() {
     const raiz = carpeta();
@@ -102,21 +107,28 @@ function datosLocales() {
     return correr(raiz, ['tablero', '--json']);
 }
 
+let pintura = 0;  // cada pedido de repintar tiene su número: si llega uno más nuevo, el viejo no escribe
+
 async function pintarTablero() {
     if (!panel) return;
+    const esta = ++pintura;
     const nonce = crypto.randomBytes(16).toString('base64');
-    const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    let html;
     if (sesion && sesion.esInvitado() && !invitado) {
-        panel.webview.html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
-        return;
+        html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
+    } else {
+        try {
+            const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
+            // La sesión se lee después de los datos: lo que cambió mientras corría la CLI también se ve.
+            const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
+            if (sesion) anotar(sesion.diagnostico());
+            html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
+        } catch (e) {
+            html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
+        }
     }
-    try {
-        const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
-        panel.webview.html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
-    } catch (e) {
-        panel.webview.html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
-    }
+    if (panel && esta === pintura) panel.webview.html = html;
 }
 
 function diffLocal(sha) {
@@ -224,6 +236,7 @@ function abrirTablero() {
 
 function activate(context) {
     const vista = new Vista();
+    salida = vscode.window.createOutputChannel ? vscode.window.createOutputChannel('Oracle Factory') : null;
     sesion = new Sesion(vscode, {
         tablero: datosLocales, terminal: comando => escribirComando(comando, true), mensaje: guardarMensaje, diff: diffLocal,
         cambio: () => pintarTablero(),
