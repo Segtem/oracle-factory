@@ -1,0 +1,24 @@
+{
+  "id": "20261020-141303-sesion",
+  "titulo": "La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar",
+  "capacidad": "ide",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:13:03+00:00",
+      "capacidad": "ide"
+    }
+  ]
+}
