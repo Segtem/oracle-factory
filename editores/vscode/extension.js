@@ -152,6 +152,18 @@ function guardarMensaje(cambio, texto, de) {
 // ejecutarlo o mandar un mensaje. Un invitado lo hace a través de quien comparte.
 async function mensajeDelTablero(m) {
     if (!m) return;
+    if (m.tipo === 'sesion' && sesion) {  // los botones de la sesión de Live Share (también para un invitado que espera)
+        if (m.accion === 'instalar') await sesion.instalar();
+        else if (m.accion === 'compartir') await sesion.compartir();
+        else if (m.accion === 'terminar') await sesion.terminar();
+        else if (m.accion === 'unirse') {
+            const enlace = await vscode.window.showInputBox({prompt: 'El enlace de la sesión de Live Share que te pasaron',
+                                                             placeHolder: 'https://prod.liveshare.vsengsaas.visualstudio.com/join?…'});
+            if (enlace && !(await sesion.unirse(enlace)))
+                vscode.window.showErrorMessage('Factory: ese no es un enlace de una sesión de Live Share.');
+        }
+        return;
+    }
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
     if (sesion && sesion.esInvitado() && !invitado) return;  // sin el servicio de quien comparte, nada que hacer
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {

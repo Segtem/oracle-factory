@@ -11,6 +11,13 @@ function nombre(usuario) {
     return (usuario && (usuario.displayName || usuario.userName || usuario.emailAddress)) || 'sin nombre';
 }
 
+function enlaceDeLiveShare(texto) {
+    let url;
+    try { url = new URL(String(texto || '').trim()); } catch (e) { return false; }
+    return url.protocol === 'https:' && (url.hostname === 'prod.liveshare.vsengsaas.visualstudio.com'
+        || (url.hostname === 'vscode.dev' && url.pathname.startsWith('/liveshare/')));
+}
+
 class Sesion {
     // al: {tablero(): Promise<datos>, terminal(comando), mensaje(cambio, texto, de), diff(sha): Promise<texto|null>, cambio()}
     constructor(vscode, al) {
@@ -67,6 +74,26 @@ class Sesion {
         this.al.cambio();
     }
 
+    // Los botones del tablero para la sesión. Ninguno toca un registro de Factory.
+    async instalar() {
+        await this.vscode.commands.executeCommand('extension.open', ID_LIVE_SHARE);
+    }
+
+    async compartir() {
+        if (this.api && !this.rol()) await this.api.share();  // Live Share avisa y copia el enlace
+    }
+
+    async terminar() {
+        if (this.api && this.rol()) await this.api.end();
+    }
+
+    // Sólo un enlace https de Live Share: el de su servicio o el de vscode.dev.
+    async unirse(enlace) {
+        if (!this.api || this.rol() || !enlaceDeLiveShare(enlace)) return false;
+        await this.api.join(this.vscode.Uri.parse(enlace.trim()));
+        return true;
+    }
+
     // Para el tablero: quién está y con qué rol.
     estado() {
         if (!this.api) return {estado: 'sin-live-share'};
@@ -103,4 +130,4 @@ class Sesion {
     }
 }
 
-module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API};
+module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API, enlaceDeLiveShare};
