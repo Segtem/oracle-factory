@@ -31,3 +31,7 @@ Requisitos importados: ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_d
 ### Nota (2026-10-20 14:44:11 UTC)
 
 Medidas de ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero: factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero, factory_sesion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-20 14:46:17 UTC)
+
+Medidas de ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero: Brian Hollweg (persona, confirmo, modo confirmacion).
