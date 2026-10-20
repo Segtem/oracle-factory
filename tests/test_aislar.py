@@ -71,7 +71,12 @@ class Aislar(_vueltas.Base):
         with patch.object(f, 'ejecutar', side_effect=clue_falla), self.assertRaises(f.FactoryError):
             f.pedir_revision(self.ident, 'travieso', base=self.base)
         self.assertTrue((self.root / '.factory/local/revisiones' / f'{sha}-travieso-3').is_dir())  # el clon que quedó
+        # Otro revisor con un nombre que empieza igual no corre la numeración de éste, y un hueco tampoco la repite.
+        (self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'clue' / 'paquete-travieso-largo-9.json').write_text('{}')
+        (self.root / '.factory/local/revisiones' / f'{sha}-travieso-7').mkdir()
+        # El clon no depende de los objetos del repositorio (no hay alternates): un gc no lo deja sin el candidato.
+        self.assertFalse((self.root / '.factory/local/revisiones' / f'{sha}-travieso-1/.git/objects/info/alternates').exists())
         # --base con el nombre de una rama: el clon no tiene la rama, pero la base va como SHA.
         self.git('branch', 'base-con-nombre', self.base)
         f.pedir_revision(self.ident, 'travieso', base='base-con-nombre')
-        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-4.json').is_file())
+        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-8.json').is_file())

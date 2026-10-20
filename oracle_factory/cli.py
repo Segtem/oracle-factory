@@ -1207,21 +1207,24 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
-        # El número cuenta también los clones que quedaron de un pedido que falló antes de su paquete: un reintento no
-        # choca con ellos.
-        n = max(len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))), len(list(revisiones.glob(f"{sha}-{nombre}-*")))) + 1
+        # El siguiente número de este revisor (exacto: «codex» no cuenta los de «codex-rapido»), mirando sus paquetes y
+        # también sus clones, que pueden haber quedado de un pedido que falló antes de su paquete.
+        usados = [int(m[1]) for x in [*clue_dir.glob("paquete-*.json"), *revisiones.glob(f"{sha}-*")]
+                  for m in [re.fullmatch(rf"(?:paquete-{re.escape(nombre)}-|{sha}-{re.escape(nombre)}-)(\d+)(?:\.json)?", x.name)] if m]
+        n = max(usados, default=0) + 1
         paquete = clue_dir / f"paquete-{nombre}-{n}.json"
         # Un clon aparte por pedido, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y
-        # lo que un revisor hiciera con git ahí le caería encima; y dos revisores no comparten checkout. --shared usa los
-        # objetos del repositorio (no copia nada). Un checkout viejo (un worktree de antes) ya no se usa.
+        # lo que un revisor hiciera con git ahí le caería encima; y dos revisores no comparten checkout. --local enlaza los
+        # objetos en el mismo disco (no copia nada) y el clon no depende de ellos: un gc del repositorio no lo deja sin el
+        # candidato. Un checkout viejo (un worktree de antes) ya no se usa.
         checkout = revisiones / f"{sha}-{nombre}-{n}"
         if checkout.exists():
             raise FactoryError(f"el checkout {checkout.relative_to(ROOT)} ya existe; borralo o pedí la revisión otra vez")
-        p = ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(checkout)])
+        p = ejecutar(["git", "clone", "--quiet", "--local", "--no-checkout", str(ROOT), str(checkout)])
         if not p.returncode:
             p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
-        if not p.returncode:  # sin remoto: un push desde el checkout no llega al repositorio
-            p = ejecutar(["git", "-C", str(checkout), "remote", "remove", "origin"])
+        for remoto in ejecutar(["git", "-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:
+            p = ejecutar(["git", "-C", str(checkout), "remote", "remove", remoto])  # sin remoto: un push no llega al repositorio
         if p.returncode:
             raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
