@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261020-140603-kb",
+  "contexto": {
+    "head": "12fd0f6c2fcaddb0187076271ad2aa6d822146e0",
+    "archivos_sha256": "14065042cd64fc0cd3d49b07e50e3f17a25bda8d146164695073726ed1479b37"
+  },
+  "documentos": {
+    "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+    "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_kb.corrida_completa.oracle",
+    "catalogos/factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa.oracle",
+    "catalogos/factory_kb.por_que_existe_una_linea.oracle",
+    "catalogos/factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes.oracle",
+    "editores/vscode/extension.js",
+    "editores/vscode/package.json",
+    "openspec/changes/20261020-140603-kb/design.md",
+    "openspec/changes/20261020-140603-kb/proposal.md",
+    "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+    "openspec/changes/20261020-140603-kb/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/kb.py",
+    "requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.requisito",
+    "requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.requisito",
+    "requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes.requisito",
+    "tests/porque_en_node.cjs",
+    "tests/test_kb.py",
+    "tools/verify_kb.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 431 pruebas, 6 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d730c42/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d730c42/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 3 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d730c42/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 240cbdf: agy (gemini-3.8-flash-high), 6 hallazgos: KB-01 (media), KB-02 (media), KB-03 (media), KB-04 (media), KB-05 (baja), KB-06 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/240cbdf/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 240cbdf: codex (gpt-6-luna), 4 hallazgos: C-01 (media), C-02 (media), C-03 (media), C-04 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/240cbdf/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 98afd62: agy (gemini-3.8-flash-high), 4 hallazgos: KB-2-01 (media), KB-2-02 (media), KB-2-03 (baja), KB-2-04 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/98afd62/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 98afd62: codex (gpt-6-luna), 3 hallazgos: KB-V2-01 (media), KB-V2-02 (media), KB-V2-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/98afd62/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d55ff5c: agy (gemini-3.8-flash-high), 5 hallazgos: KB-3-01 (media), KB-3-02 (media), KB-3-03 (baja), KB-3-04 (baja), KB-3-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d55ff5c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d55ff5c: agy (gemini-3.8-flash-high), 3 hallazgos: KB-3-01 (media), KB-3-02 (media), KB-3-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d55ff5c/revision/agy-2.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d55ff5c: codex (gpt-6-luna), 2 hallazgos: KB3-01 (media), KB3-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d55ff5c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato d55ff5c: codex (gpt-6-luna), 1 hallazgo: KB-V3-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/d55ff5c/revision/codex-2.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9541c7d: agy (gemini-3.8-flash-high), 2 hallazgos: KB-4-01 (media), KB-4-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/9541c7d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9541c7d: codex (gpt-6-luna), 3 hallazgos: KB4-01 (media), KB4-02 (media), KB4-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/9541c7d/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a75093c: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/a75093c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a75093c: codex (gpt-6-luna), 3 hallazgos: KB5-01 (media), KB5-02 (baja), KB5-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-140603-kb/candidatos/a75093c/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios kb1–kb3 en repositorios temporales, Linux, con git real y Oracle 0.39.0; la extensión corre en node con un vscode falso. Que el vault se lea bien en Obsidian y que las notas humanas digan lo correcto lo juzga una persona.",
+    "agy (gemini-3.8-flash-high): Se revisaron en detalle todos los archivos modificados y agregados del candidato d730c42 contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py, los catálogos en catalogos/ y las notas generadas en kb/.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo KB5-01 de la vuelta 5: commits_del_cambio extrae la fecha de commit mediante %cI (fecha_commit), y nota_de_cambio filtra los commits usando _antes(c['fecha_commit'], corte). Se comprobó mediante prueba de mutación y análisis de código que commits retrodatados o cherry-picks que ingresan después de una decisión registrada no son incorporados a la nota de un cambio abierto ni cerrado, manteniéndose la estabilidad temporal prometida para el vault.",
+    "agy (gemini-3.8-flash-high): Se comprobó que el vault generado en kb/ no se desfasa ni depende del momento de generación: para cambios abiertos, los commits posteriores a la última decisión no entran en la nota sino hasta la decisión subsiguiente; para cambios cerrados, el corte temporal del cierre excluye commits posteriores e integraciones por merge posterior, manteniendo la nota inalterable.",
+    "agy (gemini-3.8-flash-high): Se verificó que oracle-factory kb --verificar no escribe ni modifica ningún archivo en disco al detectar inconsistencias, y falla adecuadamente reportando notas faltantes, notas modificadas a mano o desactualizadas, notas generadas sobrantes, y notas humanas con fuentes inexistentes o pendientes de revisión. Se comprobó sobre el repositorio del candidato d730c42 que las 233 notas generadas y de personas se encuentran al día.",
+    "agy (gemini-3.8-flash-high): Se comprobó la seguridad en la resolución de fuentes (huella_de_fuente): tanto las fuentes de tipo archivo como de requisito son restringidas al ámbito del proyecto mediante verificación estricta de rutas relativas y resolución canónica (is_relative_to), impidiendo la lectura de archivos fuera del repositorio aun mediante enlaces simbólicos o secuencias ../.",
+    "agy (gemini-3.8-flash-high): Se verificó que el marcado de notas humanas como revisadas (oracle-factory kb revisada) exige de forma estricta una terminal interactiva humana (sys.stdin.isatty()) y rechaza de plano invocaciones con --agente.",
+    "agy (gemini-3.8-flash-high): Se verificó la precisión de oracle-factory por-que: localiza correctamente el cambio asociado a una línea a través de blame, trailer Cambio: <ID>, deducción por candidatos/merge o por tramo acotado entre propuesta y candidato, reportando explícitamente cuando una línea no pertenece a ningún cambio de Factory sin atribuirla erróneamente.",
+    "agy (gemini-3.8-flash-high): Se comprobó que _texto() previene la inyección de Markdown o wikilinks Obsidian espurios en títulos, decisiones, riesgos, commits y mensajes del registro.",
+    "agy (gemini-3.8-flash-high): Se midió el costo computacional de regenerar el vault: la actualización incremental con solo=identificador en guardar() toma menos de 1 ms, y la regeneración completa en refrescar_kb() toma menos de 5 ms, escribiendo de forma atómica únicamente los archivos cuyos bytes hayan cambiado.",
+    "agy (gemini-3.8-flash-high): Se verificó la exclusión en es_producto() de las notas generadas en kb/ (README.md, cambios/*.md, requisitos/*.md), preservando a kb/notas/ como producto versionado.",
+    "agy (gemini-3.8-flash-high): Se comprobó la integración de la extensión de VS Code (editores/vscode/): comando factory.porQue en menú contextual y paleta, delegación a la CLI, visualización en documento Markdown de sólo lectura y versión 0.4.0 en package.json y README.md.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente según las instrucciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas pasaron, OK; Git y Node.js disponibles en el entorno).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_kb.py, de acuerdo con las instrucciones de la revisión.",
+    "agy (gemini-3.8-flash-high): No se editó el checkout de sólo lectura ni se realizaron commits ni decisiones reservadas a personas.",
+    "codex (gpt-6-luna): Revisé la propuesta y la spec, el diff/contexto del paquete, el código fuente y los informes previos de las vueltas indicadas; el detalle ampliado está en analisis.md y diff-completo.txt.",
+    "codex (gpt-6-luna): Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas, OK. La salida completa está en tests-test_kb.log; Node se ejecutó dentro de la prueba.",
+    "codex (gpt-6-luna): Comprobé estáticamente la regresión de atribución por tramo y la huérfana sin marca; no hice mutaciones en el checkout ni armé un repositorio temporal para esas dos pruebas.",
+    "codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_kb.py, y no medí el costo del refresco con un repositorio grande.",
+    "codex (gpt-6-luna): El corte de commits corregido compara fecha_commit (%cI) y la prueba cubre un cherry-pick/commit con fecha de autor anterior pero fecha de committer posterior; esos casos pasan. No vi regresión en las verificaciones de rutas de fuentes o en las pruebas de notas humanas.",
+    "codex (gpt-6-luna): No edité el checkout del candidato ni hice commits ni tomé decisiones por la persona."
+  ],
+  "hallazgos": [
+    {
+      "id": "KB6-01",
+      "descripcion": "por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "ubicacion": "oracle_factory/cli.py:2347",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261020-140603-kb/candidatos/d730c42/revision/codex-1.json, validado con oracle-clue; severidad media. `dentro_del_tramo` devuelve verdadero sólo con `merge-base --is-ancestor alta sha` y `merge-base --is-ancestor sha candidato`; no consulta el diff del cambio ni un registro que vincule ese commit. Después `por_que` asigna el primer cambio que satisface esa condición y devuelve sus requisitos/decisiones. La docstring de `dentro_del_tramo` (líneas 2340-2342) reconoce que un commit ajeno dentro de ese intervalo también cae allí. Esto contradice el escenario de la spec que exige decir que la línea no pertenece a ningún cambio si el commit está fuera de los commits de cualquier cambio."
+    },
+    {
+      "id": "KB6-02",
+      "descripcion": "Una nota huérfana pierde detección si se le quita la marca generada",
+      "ubicacion": "oracle_factory/cli.py:2158",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261020-140603-kb/candidatos/d730c42/revision/codex-1.json, validado con oracle-clue; severidad baja. El filtro de líneas 2158-2160 sólo agrega rutas con `kb_mod.MARCA`. `comando_kb` calcula sobrantes mediante `generadas_en_disco() - set(notas)`, así que la huérfana sin marca queda fuera. El mismo defecto aparece en la revisión previa `a75093c` (KB5-02) y aún está en este candidato."
+    },
+    {
+      "id": "KB6-03",
+      "descripcion": "Los comandos mutadores recalculan el vault varias veces",
+      "ubicacion": "oracle_factory/cli.py:99",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261020-140603-kb/candidatos/d730c42/revision/codex-1.json, validado con oracle-clue; severidad baja. `guardar` llama `actualizar_kb` en las líneas 99-100; `actualizar_kb` invoca `armar(..., solo=identificador)` (2164-2169). Después del comando, `main` llama `refrescar_kb` (3644), que invoca `armar` completo (2182-2184). La revisión `a75093c` ya señaló esta repetición como KB5-03; la ruta sigue en el candidato. No medí tiempos, así que el impacto práctico depende del tamaño del registro."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
