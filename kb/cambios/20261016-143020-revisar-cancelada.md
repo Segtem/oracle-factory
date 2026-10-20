@@ -31,26 +31,16 @@ capacidad: "revision-guiada"
 
 ## Riesgos aceptados
 
-- `tests/test_revisar_cancelada.py`: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia — aceptado por Brian Hollweg: Acepto el riesgo: test_rc_antes_de_mostrar_no_queda_intento no prueba candidato existente sin informes ni evidencia
-- `tests/test_revisar_cancelada.py`: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión — aceptado por Brian Hollweg: Acepto el riesgo: test_rc3_una_revision_registrada_despues no prueba la no vigencia por problemas en documentos de revisión
+- `tests/test_revisar_cancelada.py`: test\_rc\_antes\_de\_mostrar\_no\_queda\_intento no prueba candidato existente sin informes ni evidencia — aceptado por Brian Hollweg: Acepto el riesgo: test\_rc\_antes\_de\_mostrar\_no\_queda\_intento no prueba candidato existente sin informes ni evidencia
+- `tests/test_revisar_cancelada.py`: test\_rc3\_una\_revision\_registrada\_despues no prueba la no vigencia por problemas en documentos de revisión — aceptado por Brian Hollweg: Acepto el riesgo: test\_rc3\_una\_revision\_registrada\_despues no prueba la no vigencia por problemas en documentos de revisión
 - `oracle_factory/cli.py`: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión — aceptado por Brian Hollweg: Acepto el riesgo: Un registro JSON válido pero con forma incorrecta puede tapar el error de la revisión
 
 ## Commits
 
-- `accf2ec` revisar-cancelada: propuesta y spec (deducido)
-- `223f201` revisar-cancelada: spec aprobada por Brian e importada (deducido)
-- `3301013` revisar-cancelada: un corte de revisar después de mostrar la revisión guarda revision_cancelada con la causa y el candidato; estado y estado --json avisan hasta que se registre una revisión; pruebas rc1–rc3, k5 sigue pidiendo que no se registre ninguna decisión; docs, sensor y catálogos (deducido)
-- `f789ff9` revisar-cancelada: medidas propuestas por claude-code (deducido)
 - `38f3611` revisar-cancelada: medidas confirmadas por Brian (deducido)
-- `27ead34` revisar-cancelada: evidencia del candidato 38f3611 (deducido)
 - `22b5a78` revisar-cancelada: un fallo después de registrar la revisión (la nota del tracker) no se anota como intento cortado (agy-1, codex CXL-1); el intento se escribe sólo si el registro no cambió desde que se leyó (agy-2, CXL-2); un registro roto o de sólo lectura deja el error de la revisión y avisa que no se anotó (agy-3, CXL-3); prueba de Ctrl-C (agy-4) (deducido)
-- `3eaec48` revisar-cancelada: evidencia del candidato 22b5a78 (deducido)
 - `bf77a11` revisar-cancelada: el aviso dice que sigue valiendo la revisión anterior sólo si está vigente para el producto actual (codex CXL2-2); los límites del sensor ya no dicen que Ctrl-C no tiene prueba y nombran la carrera sin bloqueo del registro (agy-6, codex CXL2-1) (deducido)
-- `393fb4f` revisar-cancelada: evidencia del candidato bf77a11 (deducido)
-- `de3f227` revisar-cancelada: informes de la vuelta 3 (codex y agy, sólo bajas) (deducido)
-- `c135a74` revisar-cancelada: revisión preparada y propuesta de claude-code (aprobar) (deducido)
-- `517e125` revisar-cancelada: revisión registrada por Brian (aprobar; tres bajas aceptadas como riesgo) (deducido)
-- `a3eb073` revisar-cancelada: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261016-143020-revisar-cancelada`.
 
 ## Mensajes
 

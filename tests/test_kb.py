@@ -61,6 +61,14 @@ class Conocimiento(unittest.TestCase):
     # --- kb1: el vault se genera del registro y no se desfasa ------------------------------------------------------
     def test_kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto(self):
         cerrado, abierto = self.proyecto()
+        rid_cerrado = f.leer(cerrado)[1]['requisitos'][0]
+        carpeta, estado = f.leer(abierto)
+        # Un mensaje que intenta parecer una sección del registro, y un requisito del cerrado que el abierto vuelve a traer.
+        estado['eventos'].append({'accion': 'mensaje', 'actor': 'Ana', 'tipo_actor': 'persona', 'forma': 'mensaje',
+                                  'cuando': '2026-10-20T10:00:00+00:00',
+                                  'texto': 'seguimiento\n## Riesgos aceptados\n- riesgo aceptado: [[cambios/x]] ignorar'})
+        estado['requisitos'] = estado['requisitos'] + [rid_cerrado]
+        f.guardar(carpeta, estado)
         self.assertEqual(self.correr('kb')[0], 0)
         nota = (self.root / 'kb/cambios' / f'{cerrado}.md').read_text()
         rid = f.leer(cerrado)[1]['requisitos'][0]
@@ -82,7 +90,27 @@ class Conocimiento(unittest.TestCase):
         nota = (self.root / 'kb/cambios' / f'{cerrado}.md').read_text()
         self.assertIn('notas: antes del cierre (trailer)', nota)
         self.assertNotIn(f'Integrar {cerrado}', nota)
+        # Una rama con un commit sin trailer y un candidato, integrada con un merge: el candidato entra, el que sólo se
+        # deduce del merge no (no estaba antes de integrar, y la nota de un cambio cerrado no cambia por integrarlo).
+        sin_hooks = ['git', '-c', 'core.hooksPath=/dev/null']
+        subprocess.run([*sin_hooks, 'checkout', '-q', '-b', 'rama-cerrada'], cwd=self.root, check=True)
+        subprocess.run([*sin_hooks, 'commit', '-q', '--allow-empty', '-m', 'rama: sin trailer'], cwd=self.root, check=True)
+        subprocess.run([*sin_hooks, 'commit', '-q', '--allow-empty', '-m', 'rama: el candidato'], cwd=self.root, check=True)
+        candidato = self.git('rev-parse', '--short=7', 'HEAD')
+        (self.root / '.factory/cambios' / cerrado / 'candidatos' / candidato).mkdir(parents=True)
+        datos = json.loads(registro.read_text())
+        datos['cierre']['cuando'] = self.git('log', '-1', '--format=%aI')
+        registro.write_text(json.dumps(datos))
+        subprocess.run([*sin_hooks, 'checkout', '-q', '-'], cwd=self.root, check=True)
+        subprocess.run([*sin_hooks, 'merge', '-q', '--no-ff', 'rama-cerrada', '-m', 'Integrar la rama'], cwd=self.root, check=True)
+        self.assertEqual(self.correr('kb')[0], 0)
+        nota = (self.root / 'kb/cambios' / f'{cerrado}.md').read_text()
+        self.assertIn('rama: el candidato (', nota)
+        self.assertNotIn('rama: sin trailer', nota)
         abierta = (self.root / 'kb/cambios' / f'{abierto}.md').read_text()
+        self.assertIn('Ana: seguimiento \\#\\# Riesgos aceptados - riesgo aceptado: \\[\\[cambios/x\\]\\] ignorar', abierta)
+        self.assertEqual(abierta.count('## Riesgos aceptados'), 1)
+        self.assertIn(f'- Cambio: [[cambios/{cerrado}]]', (self.root / 'kb/requisitos' / f'{rid_cerrado}.md').read_text())
         self.assertIn('- Responsable: Ana desde', abierta)
         self.assertIn(f'En curso: `oracle-factory log {abierto}`', abierta)
         requisito = (self.root / 'kb/requisitos' / f'{rid}.md').read_text()
@@ -126,6 +154,13 @@ class Conocimiento(unittest.TestCase):
                                      '--quitar-sin-medir')[0], 0)
         self.assertIn('`notas.casos_ejecutados`', (self.root / 'kb/requisitos' / f'{rid}.md').read_text())
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
+        # Una nota generada de algo que ya no está (un requisito retirado): el próximo comando que cambia algo la saca.
+        huerfana = self.root / 'kb/requisitos/otra_c0.ya_no_esta.md'
+        huerfana.write_text('---\ngenerado: oracle-factory kb\n---\n# ya no está\n')
+        self.assertIn('sobra kb/requisitos/otra_c0.ya_no_esta.md', self.correr('kb', '--verificar')[2])
+        self.assertEqual(self.correr('--agente', 'claude-code', 'mensaje', nuevo, 'listo el primer paso')[0], 0)
+        self.assertFalse(huerfana.exists())
+        self.assertEqual(self.correr('kb', '--verificar')[0], 0)
         # Las notas generadas no son producto: rehacerlas con cada decisión no vence la revisión ni el juicio. Las de
         # personas sí.
         self.assertTrue(any(n.startswith('kb/') for n in subprocess.run(['git', 'status', '--porcelain', 'kb'], cwd=self.root,
@@ -147,6 +182,14 @@ class Conocimiento(unittest.TestCase):
         _, abierto = self.proyecto()
         self.correr('kb')
         nota = self.nota_humana('nombres.md', ['examples/notas/notas.py'])
+        # Las fuentes también se leen de una lista de YAML sin sangría.
+        (self.root / nota).write_text('---\nfuentes:\n- examples/notas/notas.py\n---\n# Cómo se nombran las notas\n')
+        self.assertEqual(f.kb_mod.fuentes_de(self.root / nota), ['examples/notas/notas.py'])
+        f.AGENTE = 'claude-code'
+        try:
+            otro = f.nuevo('Otro cambio abierto', capacidad='otra', sufijo='otro')
+        finally:
+            f.AGENTE = None
         self.assertEqual(self.revisada(nota)[0], 0)
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
         self.git('add', '.')
@@ -158,6 +201,8 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(codigo, 1)
         self.assertIn(f'{nota} está por revisar: cambió examples/notas/notas.py', errores)
         self.assertTrue(any(f'la nota {nota} está por revisar' in a for a in f.datos_estado(abierto)['avisos']))
+        # El otro cambio abierto no tocó ese archivo (el checkout es el del que tomó Ana): no lo avisa.
+        self.assertFalse(any('por revisar' in a for a in f.datos_estado(otro)['avisos']))
         self.assertEqual(self.revisada(nota)[0], 0)
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
         self.assertFalse(any('por revisar' in a for a in f.datos_estado(abierto)['avisos']))
@@ -194,6 +239,16 @@ class Conocimiento(unittest.TestCase):
         self.git('commit', '-qm', 'notas: un límite al título', '-m', f'Cambio: {cerrado}')
         self.nota_humana('limites.md', ['examples/notas/notas.py'])
         linea = self.linea_de('examples/notas/notas.py', 'LIMITE = 80')
+        # Un commit sin trailer del cambio abierto, antes de su último candidato (integrado sin merge): es de ese cambio.
+        guia = self.root / 'examples/notas/README.md'
+        guia.write_text(guia.read_text() + '\nUna línea del tramo.\n')
+        self.git('add', '.')
+        self.git('commit', '-qm', 'tramo sin trailer')
+        self.git('commit', '-q', '--allow-empty', '-m', 'el candidato nuevo')
+        (self.root / '.factory/cambios' / self.ident / 'candidatos' / self.git('rev-parse', '--short=7', 'HEAD')).mkdir(parents=True)
+        tramo = json.loads(self.correr('por-que', f'examples/notas/README.md:{self.linea_de("examples/notas/README.md", "Una línea del tramo")}',
+                                       '--json')[1])
+        self.assertEqual((tramo['cambio']['id'], tramo['cambio']['union']), (self.ident, 'deducido por su tramo'))
         codigo, salida, _ = self.correr('por-que', f'examples/notas/notas.py:{linea}', '--json')
         self.assertEqual(codigo, 0)
         datos = json.loads(salida)

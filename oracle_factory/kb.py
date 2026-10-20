@@ -26,6 +26,12 @@ def sha(datos: bytes) -> str:
     return hashlib.sha256(datos).hexdigest()
 
 
+def _texto(valor) -> str:
+    """Un texto del registro (título, mensaje, motivo) en una sola línea y sin sintaxis de Markdown: no puede abrir
+    un encabezado, una viñeta ni un enlace que parezca del registro."""
+    return re.sub(r"([\\`*_\[\]#<>|!~])", r"\\\1", " ".join(str(valor or "").split()))
+
+
 def _fecha(cuando) -> str:
     return str(cuando or "")[:16].replace("T", " ")
 
@@ -60,7 +66,7 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
     v = veredictos(raiz, estado.get("oracle"))
     r = estado.get("responsable") or {}
     lineas = [_encabezado({"id": ident, "fase": estado.get("fase"), "capacidad": estado.get("capacidad")}),
-              f"# {estado.get('titulo') or ident}", "", AVISO, "",
+              f"# {_texto(estado.get('titulo') or ident)}", "", AVISO, "",
               f"- Fase: {estado.get('fase')}", f"- Capacidad: {estado.get('capacidad') or '—'}",
               f"- Responsable: {r['persona'] + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}"]
     if estado.get("spec"):
@@ -73,26 +79,29 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
     for e in decisiones:
         extra = f" — {e.get('decision')}" if e.get("decision") else ""
         if e.get("accion") == "revision_registrada" and motivo_revision and e is [d for d in decisiones if d.get("accion") == "revision_registrada"][-1]:
-            extra += f": {motivo_revision}"
-        lineas.append(f"- {_fecha(e.get('cuando'))} · {NOMBRES.get(e.get('accion'), e.get('accion'))} · "
-                      f"{e.get('actor')} ({e.get('tipo_actor')}){extra}")
+            extra += f": {_texto(motivo_revision)}"
+        lineas.append(f"- {_fecha(e.get('cuando'))} · {NOMBRES.get(e.get('accion'), _texto(e.get('accion')))} · "
+                      f"{_texto(e.get('actor'))} ({_texto(e.get('tipo_actor'))}){extra}")
     if not decisiones:
         lineas.append("- Ninguna todavía.")
     lineas += ["", "## Riesgos aceptados", ""]
-    lineas += [f"- `{a.get('archivo')}`: {a.get('titulo')} — aceptado por {a.get('actor')}: {a.get('motivo')}"
+    lineas += [f"- `{' '.join(str(a.get('archivo') or '').replace('`', "'").split())}`: {_texto(a.get('titulo'))} — aceptado por {_texto(a.get('actor'))}: {_texto(a.get('motivo'))}"
                for a in estado.get("aceptados") or []] or ["- Ninguno."]
     lineas += ["", "## Commits", ""]
     if estado.get("fase") == "cerrada":
-        # Hasta el cierre: el merge que lo integra viene después y no cambia esta nota.
+        # Sólo lo que no cambia con el merge que lo integra después: los commits con su trailer hasta el cierre y sus
+        # candidatos (los deducidos del merge aparecen recién al integrarlo, y cambiarían esta nota).
         cierre = str((estado.get("cierre") or {}).get("cuando") or "")
-        commits = [c for c in cli.commits_del_cambio(ident, estado) if not cierre or _antes(c["fecha"], cierre)]
-        lineas += [f"- `{c['corto']}` {c['asunto']} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
-            or ["- Ninguno unido."]
+        commits = [c for c in cli.commits_del_cambio(ident, estado) if (c["union"] == "trailer" or c["candidato"])
+                   and (not cierre or _antes(c["fecha"], cierre))]
+        lineas += [f"- `{c['corto']}` {_texto(c['asunto'])} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
+            or ["- Ninguno con su trailer ni candidato."]
+        lineas.append(f"- Todos, también los que se deducen al integrarlo: `oracle-factory log {ident}`.")
     else:
         lineas.append(f"- En curso: `oracle-factory log {ident}`.")
     mensajes = [e for e in estado.get("eventos") or [] if e.get("accion") == "mensaje"]
     lineas += ["", "## Mensajes", ""]
-    lineas += [f"- {_fecha(e.get('cuando'))} · {e.get('actor')}: {e.get('texto')}" for e in mensajes] or ["- Ninguno."]
+    lineas += [f"- {_fecha(e.get('cuando'))} · {_texto(e.get('actor'))}: {_texto(e.get('texto'))}" for e in mensajes] or ["- Ninguno."]
     return "\n".join(lineas) + "\n"
 
 
@@ -134,7 +143,7 @@ def armar(cli, solo: str | None = None) -> dict[str, str]:
     de_cambio: dict[str, tuple[str, dict]] = {}
     for ident, estado in cambios:
         for rid in estado.get("requisitos") or []:
-            de_cambio[rid] = (ident, estado)  # el último que lo importó
+            de_cambio.setdefault(rid, (ident, estado))  # el que lo trajo: los cambios van en orden de creación
     salida: dict[str, str] = {}
     for ident, estado in cambios:
         if solo is None or ident == solo:
@@ -150,7 +159,7 @@ def armar(cli, solo: str | None = None) -> dict[str, str]:
     indice = [_encabezado({}), "# Conocimiento del proyecto", "", AVISO,
               "Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory kb --verificar` avisa las que vencieron.",
               "", "## Cambios", ""]
-    indice += [f"- [[cambios/{i}]] — {e.get('titulo') or i} ({e.get('fase')})" for i, e in cambios] or ["- Ninguno."]
+    indice += [f"- [[cambios/{i}]] — {_texto(e.get('titulo') or i)} ({e.get('fase')})" for i, e in cambios] or ["- Ninguno."]
     indice += ["", "## Requisitos", ""]
     indice += [f"- [[requisitos/{rid}]]{'' if rid in vigentes else ' (ya no vigente)'}" for rid in sorted(set(vigentes) | set(de_cambio))] \
         or ["- Ninguno."]
@@ -168,7 +177,7 @@ def fuentes_de(nota: Path) -> list[str]:
     m = re.search(r"^fuentes:\s*\[(.*)\]\s*$", cabeza, re.M)
     if m:
         return [x.strip().strip("'\"") for x in m[1].split(",") if x.strip()]
-    m = re.search(r"^fuentes:\s*\n((?:\s+-\s.*\n?)+)", cabeza + "\n", re.M)
+    m = re.search(r"^fuentes:[ \t]*\n((?:[ \t]*-\s.*\n?)+)", cabeza + "\n", re.M)
     return [x.strip()[1:].strip().strip("'\"") for x in m[1].splitlines() if x.strip()] if m else []
 
 

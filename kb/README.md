@@ -43,7 +43,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261014-125953-estado-revisar-medios]] — estado ofrece revisar cuando quedan hallazgos medios (cerrada)
 - [[cambios/20261014-140627-severidad-ausente]] — Spec de revisores: un informe sin severidad no se guarda (cerrada)
 - [[cambios/20261014-145018-donde-ausente]] — Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está (cerrada)
-- [[cambios/20261014-204205-donde-no-valido]] — donde --json etiqueta no_valido una entrada inválida del registro (cerrada)
+- [[cambios/20261014-204205-donde-no-valido]] — donde --json etiqueta no\_valido una entrada inválida del registro (cerrada)
 - [[cambios/20261015-001533-evidencia-fuera]] — buscar no recorre la evidencia ni los paquetes de Clue (cerrada)
 - [[cambios/20261015-105600-cli-piloto]] — CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado (cerrada)
 - [[cambios/20261015-122841-docs-web-modos]] — Docs y web: los modos de trabajo y quién decide qué (cerrada)

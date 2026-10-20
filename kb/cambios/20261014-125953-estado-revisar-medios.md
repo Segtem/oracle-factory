@@ -35,18 +35,9 @@ capacidad: "revisores"
 
 ## Commits
 
-- `aa62cee` estado-revisar-medios: propuesta y spec (deducido)
-- `52c5223` estado-revisar-medios: spec aprobada por Brian (deducido)
-- `3f06a27` estado-revisar-medios: medidas propuestas por claude-code (deducido)
-- `b7ce849` estado-revisar-medios: el próximo paso trae alternativas; con medios sin aceptar, revisar. Pruebas er1, sensor y catálogos (deducido)
 - `98851d6` estado-revisar-medios: medidas confirmadas por Brian (deducido)
-- `753348f` estado-revisar-medios: evidencia (deducido)
 - `612a6e2` estado-revisar-medios: estado por la CLI (texto y --json), aviso con un medio, filtro de MAYÚSCULAS probado y docs exactas (codex R1-R2, agy H01-H02) (deducido)
-- `7ec32cb` estado-revisar-medios: evidencia del candidato nuevo (deducido)
-- `5a83948` estado-revisar-medios: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `6b1d5fb` estado-revisar-medios: informes de la vuelta 2 (deducido)
-- `15a20b7` estado-revisar-medios: veredicto Oracle (deducido)
-- `8e9d8c8` estado-revisar-medios: revisión registrada por Brian (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-125953-estado-revisar-medios`.
 
 ## Mensajes
 

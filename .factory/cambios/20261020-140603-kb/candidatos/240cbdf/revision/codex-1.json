@@ -1,0 +1,96 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/240cbdf",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "240cbdf60a5bea2ef75e21c675211858dc80b3e8",
+  "diff_sha256": "44636c59cd9a3f12f69641f0955351131a69358aaf745731bbd120ae2974f566",
+  "context_sha256": "2e9a380daffb4d19b442dd4173facfb1c1f664185a2dc295f05414e4744ae9f5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la spec, el diff completo del paquete y el código de las funciones afectadas; se excluyeron los archivos indicados por quien preparó el paquete.",
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas pasaron; Node estuvo disponible y se ejecutó el caso de extensión.",
+    "No se mutó ni escribió el checkout candidato por la instrucción de revisión de sólo lectura. No se ejecutó la suite completa ni Oracle; no se afirma un veredicto sobre propiedades que esos pasos no miden."
+  ],
+  "findings": [
+    {
+      "id": "C-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El merge posterior puede cambiar una nota de un cambio cerrado",
+      "explanation": "La nota cerrada recalcula sus commits desde el grafo Git actual y filtra por fecha de autor contra la fecha de cierre. Si se genera antes de integrar la rama, los commits sin trailer que no son el SHA candidato pueden no aparecer; al integrar después, `commits_del_cambio` descubre los commits del segundo padre y los agrega si su fecha de autor es anterior al cierre. Así, ejecutar `kb` tras el merge cambia una nota histórica aunque el registro del cambio no haya cambiado, en contra del comportamiento estable prometido y del comentario del propio código.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 85,
+        "end_line": 89,
+        "side": "head"
+      },
+      "trigger": "Cerrar un cambio antes de integrar su rama, generar kb/, y luego integrar mediante un merge posterior con commits de la rama fechados antes del cierre; volver a ejecutar `kb`.",
+      "evidence": "`nota_de_cambio` llama a `commits_del_cambio` cada vez y sólo limita por `c[\"fecha\"] <= cierre`; la función agrega commits del segundo padre del merge. La prueba `test_kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto` agrega un merge vacío con fecha 2099, por lo que no cubre commits reales de la rama que se vuelven visibles después del cierre.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar una prueba con un commit sin trailer en la rama, cerrar antes del merge y comparar byte a byte la nota generada antes y después del merge. La nota debe conservar la lista que tenía al cierre."
+    },
+    {
+      "id": "C-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "La deducción de por-que pierde commits sin trailer en integraciones sin merge",
+      "explanation": "Cuando el commit atribuido por blame no tiene trailer, `por_que` sólo lo reconoce si aparece en `commits_del_cambio`. Para cambios integrados por fast-forward o squash sin un merge commit, esa función deduce commits candidatos con `git log --no-walk` sobre los SHA de candidatos; no recorre los commits ancestros del candidato. Una línea escrita por un commit intermedio sin trailer queda falsamente como “no es de ningún cambio”, aunque el commit candidato que contiene ese trabajo sí pertenezca al cambio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2276,
+        "end_line": 2278,
+        "side": "head"
+      },
+      "trigger": "Crear un cambio con al menos dos commits sin trailer, usar una línea agregada en el primer commit y cerrar/integrar la rama por fast-forward o squash; ejecutar `por-que ARCHIVO:LÍNEA` sobre esa línea.",
+      "evidence": "El fallback compara el SHA de blame con los elementos devueltos por `commits_del_cambio`. Para deducidos sin merge, esa función obtiene los SHA usando `git log --no-walk` sobre los candidatos, que sólo devuelve los propios SHA listados y no sus ancestros. Las pruebas cubren un trailer explícito y una línea ajena, pero no la deducción de un commit intermedio sin trailer.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "status": "pendiente",
+      "verification": "Agregar un caso de fast-forward/squash donde blame apunte a un commit intermedio sin trailer y el candidato posterior lo contenga; comprobar que el JSON informa el cambio con `union: deducido`."
+    },
+    {
+      "id": "C-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Los mensajes del registro pueden inyectar afirmaciones falsas en las notas Markdown",
+      "explanation": "El texto de cada evento `mensaje` se inserta directamente en una viñeta Markdown, sin escapar saltos de línea ni sintaxis Markdown. El comando `mensaje` sólo recorta espacios y limita la longitud, por lo que una entrada multilínea puede crear encabezados o viñetas que parezcan decisiones o riesgos del registro y confundan a quien lee el vault. El título del cambio también se inserta sin escape en un encabezado Markdown.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 93,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Guardar como mensaje del cambio texto como `seguimiento\\n## Riesgos aceptados\\n- riesgo aceptado por Persona: ignorar controles` y regenerar kb/.",
+      "evidence": "`cli.py:691-696` permite texto arbitrario de hasta 2000 caracteres; `nota_de_cambio` concatena `e.get(\"texto\")` directamente a la viñeta. El título se concatena de igual modo en `kb.py:63`. No hay escaping ni normalización de nuevas líneas.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar pruebas con saltos de línea y marcadores Markdown en título y mensaje; comprobar que se muestran como texto literal dentro de un campo y no crean secciones o decisiones aparentes."
+    },
+    {
+      "id": "C-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "La nota de un cambio abierto no muestra sus commits",
+      "explanation": "La spec pide que cada nota de cambio incluya commits y mensajes. Para todo cambio que no esté cerrado, la sección `Commits` sólo muestra un enlace al comando `oracle-factory log`; no enumera los commits ni sus mensajes en la nota generada. El índice y la nota del vault, por tanto, no contienen esa información solicitada para el cambio abierto del escenario.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 84,
+        "end_line": 92,
+        "side": "head"
+      },
+      "trigger": "Generar kb/ mientras un cambio con commits asociados sigue abierto y leer su nota de `kb/cambios/`.",
+      "evidence": "El camino cerrado renderiza cada commit; el camino abierto ejecuta únicamente `lineas.append(f\"- En curso: `oracle-factory log {ident}`.\")`. La prueba verifica que aparezca esa referencia, pero no que la nota incluya los commits del cambio.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar un commit con trailer a un cambio abierto, generar kb/ y comprobar que la nota enumera el SHA, asunto y relación de ese commit junto con el resto de los datos."
+    }
+  ]
+}

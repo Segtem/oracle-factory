@@ -2178,13 +2178,13 @@ def refrescar_kb(comando: str, identificador: str | None) -> None:
     los requisitos después del registro (medir, importar), así que guardar() no alcanza."""
     if comando in SOLO_LECTURA or not (ROOT / kb_mod.DIR).is_dir():
         return
-    if identificador and ID_RE.fullmatch(identificador):
-        actualizar_kb(identificador)
-    else:
-        try:
-            escribir_kb(kb_mod.armar(sys.modules[__name__]))
-        except Exception as e:  # noqa: BLE001
-            print(f"Aviso: no pude actualizar kb/ ({type(e).__name__}: {e}); corré oracle-factory kb.", file=sys.stderr)
+    try:  # entero: un abandono o un requisito retirado dejan notas que sobran
+        notas = kb_mod.armar(sys.modules[__name__])
+        escribir_kb(notas)
+        for rel in generadas_en_disco() - set(notas):
+            (ROOT / rel).unlink()
+    except Exception as e:  # noqa: BLE001
+        print(f"Aviso: no pude actualizar kb/ ({type(e).__name__}: {e}); corré oracle-factory kb.", file=sys.stderr)
 
 
 def comando_kb(verificar: bool) -> None:
@@ -2238,9 +2238,14 @@ def kb_revisada(nota: str) -> None:
 
 
 def tocados_por(identificador: str, estado: dict) -> set[str]:
-    """Lo que un cambio abierto tocó: los archivos distintos de main (con lo que no se commiteó), sus requisitos y su ID."""
-    base = ejecutar(["git", "merge-base", "HEAD", "main"]).stdout.strip()
-    archivos = set(ejecutar(["git", "diff", "--name-only", base]).stdout.split()) if base else set()
+    """Lo que un cambio abierto tocó: los archivos de sus commits, lo que no se commiteó si es el cambio de este checkout
+    (el que tomaría un commit nuevo), sus requisitos y su ID."""
+    archivos: set[str] = set()
+    for c in commits_del_cambio(identificador, estado):
+        archivos |= set(ejecutar(["git", "show", "--name-only", "--format=", c["sha"]]).stdout.split())
+    if cambio_del_commit("") == identificador:
+        archivos |= set(ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.split())
+        archivos |= set(ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.split())
     return archivos | set(estado.get("requisitos") or []) | {identificador}
 
 
@@ -2276,6 +2281,9 @@ def por_que(referencia: str, como_json: bool) -> None:
     if not ident:  # sin trailer: el cambio cuyos commits (de sus candidatos o su merge) lo contienen
         ident = next((i for i, e in cambios.items() if any(c["sha"] == completo_ for c in commits_del_cambio(i, e))), None)
         union = "deducido" if ident else None
+    if not ident:  # integrado sin merge (fast-forward, squash): el tramo desde que se creó su propuesta hasta su último candidato
+        ident = next((i for i in cambios if dentro_del_tramo(i, cambios[i], completo_)), None)
+        union = "deducido por su tramo" if ident else None
     notas = [n["nota"] for n in kb_mod.estado_de_notas(sys.modules[__name__]) if archivo in n["fuentes"]]
     datos = {"esquema": "oracle-factory.por-que/1", "archivo": archivo, "linea": linea, "commit": commit, "cambio": None,
              "notas": notas}
@@ -2315,6 +2323,18 @@ def por_que(referencia: str, como_json: bool) -> None:
             print(f"  hallazgo de {h['revisor']} ({h['severidad']}) sobre el candidato {h['candidato']}: {h['titulo']}")
     for n in notas:
         print(f"  nota: {n}")
+
+
+def dentro_del_tramo(identificador: str, estado: dict, sha: str) -> bool:
+    candidatos = [c for c in commits_del_cambio(identificador, estado) if c["candidato"]]
+    if not candidatos:
+        return False
+    alta = ejecutar(["git", "log", "--diff-filter=A", "--format=%H", "--", f"openspec/changes/{identificador}/proposal.md"]).stdout.split()
+    if not alta:
+        return False
+    desde, hasta = alta[-1], candidatos[0]["sha"]  # el commit que la creó; el candidato más nuevo
+    es = lambda a, b: ejecutar(["git", "merge-base", "--is-ancestor", a, b]).returncode == 0
+    return es(desde, sha) and es(sha, hasta)
 
 
 def _fecha_corta(cuando) -> str:

@@ -37,18 +37,9 @@ capacidad: "revisores"
 
 ## Commits
 
-- `05d02d9` revision-simultanea: propuesta y spec (deducido)
-- `6fa0e32` revision-simultanea: spec aprobada por Brian (deducido)
-- `946550f` revision-simultanea: turno por cambio en pedir-revision, pruebas rs1–rs2, sensor y catálogos (deducido)
-- `6b01fe1` revision-simultanea: medidas propuestas por claude-code (deducido)
 - `5b949fc` revision-simultanea: medidas confirmadas por Brian (deducido)
-- `57cea2e` revision-simultanea: evidencia del candidato 5b949fc (deducido)
 - `f9b6d27` revision-simultanea: las pruebas fuerzan la carrera del evento y que el revisor corra fuera del turno (agy H-01, H-02) (deducido)
-- `e511111` revision-simultanea: evidencia del candidato nuevo (deducido)
-- `c770dc3` revision-simultanea: informes de la vuelta 2 (deducido)
-- `52b7ceb` revision-simultanea: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `c115859` revision-simultanea: revisión registrada por Brian (deducido)
-- `59064ef` revision-simultanea: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-100834-revision-simultanea`.
 
 ## Mensajes
 

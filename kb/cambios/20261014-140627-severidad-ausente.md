@@ -35,18 +35,9 @@ capacidad: "revisores"
 
 ## Commits
 
-- `94f7ab0` severidad-ausente: propuesta y spec (MODIFIED del corte de vueltas) (deducido)
-- `b573b68` severidad-ausente: spec aprobada por Brian (deducido)
-- `3ee7395` severidad-ausente: medidas propuestas por claude-code (deducido)
-- `6dc80a2` severidad-ausente: pruebas sa1 de punta a punta, sensor y catálogos (deducido)
 - `4f96d64` severidad-ausente: medidas confirmadas por Brian (deducido)
-- `dd8d0f8` severidad-ausente: evidencia (deducido)
 - `d0d0e36` severidad-ausente: la vuelta se decide con el informe que queda (agy F-02) y vs1 lee el próximo paso de estado por la CLI (agy F-04, codex F-01) (deducido)
-- `b4e4b39` severidad-ausente: evidencia del candidato nuevo (deducido)
-- `67a647a` severidad-ausente: informes de la vuelta 2 (deducido)
-- `273e7fa` severidad-ausente: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `4c39792` severidad-ausente: revisión registrada por Brian (deducido)
-- `e9be534` severidad-ausente: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-140627-severidad-ausente`.
 
 ## Mensajes
 

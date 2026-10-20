@@ -39,22 +39,10 @@ capacidad: "modos"
 
 ## Commits
 
-- `1c5881c` catalogo-confirmado: propuesta y spec (deducido)
-- `0d6a482` catalogo-confirmado: spec aprobada por Brian (deducido)
-- `9ba4359` catalogo-confirmado: la decisión y la propuesta de medidas guardan la huella del archivo de cada medida; si cambia, deja de valer (estado lo nombra, juzgar no la usa, --confirmar avisa); pruebas cc1–cc2, sensor y catálogos (deducido)
-- `e7f5bd7` catalogo-confirmado: medidas propuestas por claude-code (deducido)
 - `0e22578` catalogo-confirmado: medidas confirmadas por Brian (deducido)
-- `a19bb1c` catalogo-confirmado: evidencia (deducido)
-- `a81383d` catalogo-confirmado: decidir con --requisito tras un catálogo cambiado no figura como confirmación (agy-1); una propuesta sin huellas no se confirma tal cual (codex CC-001); la medida que falta o el catálogo ilegible se nombran con su archivo relativo (agy-2, agy-5); un catálogo por llamada (agy-3); pruebas de esos casos (agy-4) (deducido)
-- `310b32c` catalogo-confirmado: medidas propuestas de nuevo por claude-code (los catálogos cambiaron después de la confirmación) (deducido)
 - `4e12cf2` catalogo-confirmado: medidas confirmadas de nuevo por Brian (deducido)
-- `4a0debd` catalogo-confirmado: evidencia del candidato nuevo (deducido)
 - `3f68c51` catalogo-confirmado: un archivo que sigue ahí pero Oracle no carga no se informa como ausente (codex CC2-001); anotación de tipo (agy) (deducido)
-- `9e25b3f` catalogo-confirmado: evidencia del candidato nuevo (deducido)
-- `eb3899d` catalogo-confirmado: informes de la vuelta 3 (deducido)
-- `cdfed85` catalogo-confirmado: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `3276bf0` catalogo-confirmado: revisión registrada por Brian (el bajo CC3-001 aceptado como riesgo) (deducido)
-- `9662b51` catalogo-confirmado: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261015-140406-catalogo-confirmado`.
 
 ## Mensajes
 

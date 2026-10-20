@@ -35,20 +35,10 @@ capacidad: "flujo"
 
 ## Commits
 
-- `f695aa7` bloqueo-registro: propuesta y spec (deducido)
-- `35061e1` bloqueo-registro: spec aprobada por Brian e importada (deducido)
-- `38eafd3` bloqueo-registro: guardar compara con lo último que el proceso leyó o escribió del registro; escribir_atomico compara y reemplaza con flock sobre la carpeta; pruebas bl1–bl3 con un segundo proceso real, docs de colaboración, sensor y catálogos (deducido)
-- `f8a0b7d` bloqueo-registro: medidas propuestas por claude-code (deducido)
 - `8b84fcc` bloqueo-registro: medidas confirmadas por Brian (deducido)
-- `42ef39b` bloqueo-registro: evidencia del candidato 8b84fcc (deducido)
 - `d1b1f6e` bloqueo-registro: guardar anota lo que escribió aunque no lo haya leído antes (agy-1, codex BLQ-1); un archivo borrado entretanto es un archivo que cambió (agy-2); bl2 enfrenta dos guardar de Factory, demorado entre comparar y reemplazar (agy-3); límites y docs más precisos (agy-4, agy-6) (deducido)
-- `e522416` bloqueo-registro: evidencia del candidato d1b1f6e (deducido)
 - `f72807d` bloqueo-registro: bl1 y bl2 parten de un proceso que no escribió el registro, así que prueban que leer fija la base (agy-1 de la vuelta 2) (deducido)
-- `1f61a9d` bloqueo-registro: evidencia del candidato f72807d (deducido)
-- `9bdf039` bloqueo-registro: informes de la vuelta 3 (codex y agy, sin hallazgos) (deducido)
-- `d9c3866` bloqueo-registro: revisión preparada y propuesta de claude-code (aprobar) (deducido)
-- `31c7bdf` bloqueo-registro: veredicto Oracle (deducido)
-- `bb5460c` bloqueo-registro: revisión registrada por Brian (aprobar) (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261016-175720-bloqueo-registro`.
 
 ## Mensajes
 

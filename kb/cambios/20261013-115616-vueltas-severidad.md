@@ -39,19 +39,10 @@ capacidad: "revisores"
 
 ## Commits
 
-- `c8bea3e` 20261013-115616-vueltas-severidad: propuesta, spec y diseño (corte por severidad y riesgos aceptados que persisten) (deducido)
-- `36b81cd` 20261013-115616-vueltas-severidad: spec aprobada por Brian (deducido)
-- `3b0e5c2` vueltas-severidad: medidas propuestas por claude-code (deducido)
-- `e253750` vueltas-severidad: corte de vueltas por severidad y riesgos aceptados que persisten entre vueltas (deducido)
 - `43f9d4d` vueltas-severidad: medidas confirmadas por Brian (deducido)
 - `0dda62b` vueltas-severidad: firma sin puntuación ni títulos vacíos, un aceptado por firma y aviso si no hay corte (deducido)
-- `85a063d` vueltas-severidad: informes de la vuelta 1 y evidencia de 0dda62b (deducido)
 - `6d60612` vueltas-severidad: un hallazgo repetido se decide una vez, la firma conserva los símbolos y se guarda el aceptado sin firma (deducido)
-- `34f04fd` vueltas-severidad: informes de la vuelta 2 y evidencia de 6d60612 (deducido)
-- `f6598b2` vueltas-severidad: informes de la vuelta 3 (agy 0, codex 1 baja: no hace falta otra vuelta) (deducido)
-- `522d26e` vueltas-severidad: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `374d640` vueltas-severidad: veredicto Oracle (deducido)
-- `4dcfc20` vueltas-severidad: revisión registrada por Brian (F-01 bajo aceptado como riesgo) (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261013-115616-vueltas-severidad`.
 
 ## Mensajes
 

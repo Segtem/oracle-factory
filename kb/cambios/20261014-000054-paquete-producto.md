@@ -37,18 +37,9 @@ capacidad: "revisores"
 
 ## Commits
 
-- `7339a78` 20261014-000054-paquete-producto: propuesta, spec y diseño; oracle-clue fijado en 0.1.0a2 (deducido)
-- `161768a` paquete-producto: spec aprobada por Brian (deducido)
-- `cfe6c39` paquete-producto: pedir-revision excluye del paquete de Clue lo que no es producto y Factory comprueba las exclusiones (deducido)
-- `477c21a` paquete-producto: medidas propuestas por claude-code (deducido)
 - `eef8ecc` paquete-producto: medidas confirmadas por Brian (deducido)
-- `9812988` paquete-producto: evidencia del candidato (deducido)
 - `e919597` paquete-producto: siempre se excluyen los registros; sin producto, pedir-revision explica cómo revisar con --base; estado avisa (deducido)
-- `dbcf80a` paquete-producto: informes de la vuelta 1 y evidencia del candidato nuevo (deducido)
-- `2a9f4ae` paquete-producto: informes de la vuelta 2 (codex y agy sin hallazgos; agy reintentado tras un 503) (deducido)
-- `247f5f9` paquete-producto: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `2a44fda` paquete-producto: revisión registrada por Brian (deducido)
-- `e188dd0` paquete-producto: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-000054-paquete-producto`.
 
 ## Mensajes
 

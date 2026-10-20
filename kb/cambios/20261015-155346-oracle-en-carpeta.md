@@ -39,20 +39,10 @@ capacidad: "estructura"
 
 ## Commits
 
-- `3652ee8` oracle-en-carpeta: propuesta y spec; Factory fija oracle-metalenguaje 0.38.2 (deducido)
-- `488c446` oracle-en-carpeta: spec aprobada por Brian (deducido)
-- `a481df9` oracle-en-carpeta: proyecto Oracle configurable ("oracle"), init --oracle, confiar_escalares, catálogo con macros y escalares como oracle cobertura; pruebas oc1–oc3, sensor, catálogos y docs (deducido)
-- `c5fcb20` oracle-en-carpeta: medidas propuestas por claude-code (deducido)
 - `af991ba` oracle-en-carpeta: medidas confirmadas por Brian (deducido)
-- `378cac3` oracle-en-carpeta: evidencia (deducido)
 - `75bbe8a` oracle-en-carpeta: buscar no oculta una carpeta inválida (agy, codex OC-001); init respeta la carpeta ya configurada (agy); estado no se cae si los escalares no se pueden cargar y la prueba sin declararlos pasa por juzgar (agy) (deducido)
-- `0d324eb` oracle-en-carpeta: evidencia del candidato nuevo (deducido)
 - `a38d44b` oracle-en-carpeta: juzgar entrega el error de Oracle con escalares sin declarar y el detalle de una cobertura que falla (agy, codex OC-001); la prueba ya no pasa por vacuidad; se rechazan rutas con barras invertidas o absolutas de Windows (agy) (deducido)
-- `e57ac68` oracle-en-carpeta: evidencia del candidato nuevo (deducido)
-- `154abdb` oracle-en-carpeta: informes de la vuelta 3 (deducido)
-- `92bebd7` oracle-en-carpeta: revisión preparada y aprobación propuesta por claude-code (deducido)
-- `a95860a` oracle-en-carpeta: revisión registrada por Brian (deducido)
-- `d66d634` oracle-en-carpeta: veredicto Oracle (deducido)
+- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261015-155346-oracle-en-carpeta`.
 
 ## Mensajes
 

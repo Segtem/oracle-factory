@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/240cbdf",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "240cbdf60a5bea2ef75e21c675211858dc80b3e8",
+  "diff_sha256": "44636c59cd9a3f12f69641f0955351131a69358aaf745731bbd120ae2974f566",
+  "context_sha256": "2e9a380daffb4d19b442dd4173facfb1c1f664185a2dc295f05414e4744ae9f5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "KB-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "tocados_por comprueba el HEAD del espacio de trabajo en vez de los cambios del identificador",
+      "explanation": "La función tocados_por(identificador, estado) calcula los archivos modificados haciendo git diff --name-only contra el merge-base de HEAD con main, ignorando por completo el argumento identificador. Cuando hay más de un cambio abierto o el usuario no tiene checkout en la rama de identificador (por ejemplo si está en main o en la rama de otro cambio), estado <id> produce falsos positivos o falsos negativos: 1) Si está en main, archivos queda vacío y estado no advierte que el cambio tocó fuentes de notas por revisar; 2) Si está en otra rama (ej. cambio B) y consulta estado de cambio A, los archivos de la rama B se le atribuyen erróneamente a cambio A, mostrando el aviso «la nota ... está por revisar: este cambio tocó ...» en un cambio que jamás tocó ese archivo. Esto incumple la promesa de la spec: «estado SHALL avisarla en los cambios abiertos que tocaron esa fuente».",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2240,
+        "end_line": 2244,
+        "side": "head"
+      },
+      "trigger": "Tener más de un cambio abierto en el proyecto y consultar oracle-factory estado OTRO_CAMBIO desde una rama de trabajo que modificó archivos observados por una nota humana.",
+      "evidence": "En oracle_factory/cli.py:2240-2244, base = ejecutar(['git', 'merge-base', 'HEAD', 'main']).stdout.strip() y archivos = set(ejecutar(['git', 'diff', '--name-only', base]).stdout.split()). En un test con dos cambios abiertos donde el primero modificó examples/notas/notas.py y el segundo no lo tocó, datos_estado(otro)['avisos'] emite erróneamente: ['la nota kb/notas/nombres.md está por revisar: este cambio tocó examples/notas/notas.py; marcala con oracle-factory kb revisada kb/notas/nombres.md'].",
+      "related_requirement": "una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Reproducido en script de prueba montando el fixture con dos cambios abiertos: el cambio no relacionado reporta el aviso como propio debido al uso de HEAD en tocados_por."
+    },
+    {
+      "id": "KB-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "fuentes_de no reconoce listas YAML sin sangría previa (- elemento) ignorando sus fuentes",
+      "explanation": "La expresión regular utilizada en fuentes_de para extraer fuentes en formato lista (r\"^fuentes:\\s*\\n((?:\\s+-\\s.*\\n?)+)\") exige obligatoriamente al menos un espacio en blanco (\\s+) antes del guión. En YAML estándar, una lista en bloque debajo de una clave puede no tener sangría (fuentes:\\n- archivo.py). Al no cumplirse la sangría requerida por el regex, fuentes_de devuelve una lista vacía []. Como consecuencia, la CLI informa que la nota «(no declara fuentes)» al marcarla revisada, nunca guarda huellas de sus fuentes, y la nota jamás queda «por revisar» cuando se modifican los archivos declarados, burlando silenciosamente el mecanismo de vencimiento de notas humanas.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 171,
+        "end_line": 172,
+        "side": "head"
+      },
+      "trigger": "Crear una nota en kb/notas/ con frontmatter YAML estándar con lista de fuentes sin indentación previa: fuentes:\\n- archivo.py.",
+      "evidence": "En oracle_factory/kb.py:171-172, re.search(r\"^fuentes:\\s*\\n((?:\\s+-\\s.*\\n?)+)\", cabeza + \"\\n\", re.M). Probado con una nota que declara fuentes:\\n- examples/notas/notas.py: oracle-factory kb revisada imprime «kb/notas/guia.md revisada por Ana (no declara fuentes)», y tras modificar examples/notas/notas.py en un cambio abierto, oracle-factory kb --verificar devuelve código 0 sin detectar que la nota venció.",
+      "related_requirement": "una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Reproducido creando una nota con lista sin indentación, marcándola revisada y confirmando que kb --verificar no reporta cambios tras alterar el archivo fuente."
+    },
+    {
+      "id": "KB-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "armar asigna cada requisito al último cambio que lo importó en vez del cambio que lo trajo",
+      "explanation": "La spec promete en el requisito el_vault_se_genera_del_registro_y_no_se_desfasa que kb escribe «una nota por requisito (texto, medidas, cambio que lo trajo y si está vigente)». Sin embargo, la implementación en armar() usa el diccionario de_cambio[rid] = (ident, estado) con el comentario explícito «# el último que lo importó». Si un requisito introducido y verificado por un cambio A es posteriormente importado o tocado por un cambio posterior B, la nota en kb/requisitos/<rid>.md sustituye el enlace del cambio originario por [[cambios/B]]. Además, si el cambio B es un cambio abierto que todavía no ejecutó Oracle, veredicto retrocede a «sin juicio», borrando de la nota el veredicto alcanzado al cerrar el cambio que lo trajo.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 135,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "Tener un requisito verificado en un cambio cerrado que luego es importado en un cambio posterior abierto.",
+      "evidence": "En oracle_factory/kb.py:135-137: for ident, estado in cambios: for rid in estado.get('requisitos') or []: de_cambio[rid] = (ident, estado). Probado importando el requisito de un cambio cerrado con veredicto 'cumple' en un cambio abierto: la nota generada en kb/requisitos/ pasa a mostrar 'Cambio: [[cambios/<abierto>]]' y 'Veredicto: sin juicio'.",
+      "related_requirement": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Reproducido en script verificando que un cambio posterior suplanta al originario en la nota generada de requisitos y reinicia el veredicto a 'sin juicio'."
+    },
+    {
+      "id": "KB-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "actualizar_kb no elimina notas huérfanas al abandonar un cambio o retirar requisitos",
+      "explanation": "La spec promete que «el vault SHALL regenerarse solo en cada decisión que cambia el estado de un cambio» y que «kb --verificar SHALL fallar, sin escribir, si kb/ no coincide con el registro». Cuando se toma una decisión que descarta o retira requisitos (como oracle-factory abandonar, que elimina de requisitos/ los archivos .requisito que ya no se usan), actualizar_kb solo llama a escribir_kb, la cual solo escribe archivos pero jamás desvincula ni borra notas obsoletas de kb/requisitos/. En consecuencia, las notas .md de los requisitos retirados continúan en disco con datos viejos («Vigente: sí»), provocando que inmediatamente después de abandonar el cambio, cualquier llamada a oracle-factory kb --verificar falle con código 1 («sobra ...» o «no coincide con el registro»), bloqueando la fábrica hasta que una persona corra oracle-factory kb a mano.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2163,
+        "end_line": 2169,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory abandonar en un cambio que tenía requisitos importados propios.",
+      "evidence": "En oracle_factory/cli.py:2163-2169, actualizar_kb ejecuta escribir_kb(kb_mod.armar(..., solo=identificador)), sin ejecutar el unlink() que sí hace comando_kb(verificar=False). En una prueba ejecutando abandonar(abierto), kb --verificar falla inmediatamente con código 1 indicando que la nota del requisito desvinculado no coincide con el registro.",
+      "related_requirement": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Reproducido corriendo abandonar() sobre un cambio abierto con requisitos; el subsiguiente kb --verificar falla debido a notas sobrantes no eliminadas."
+    },
+    {
+      "id": "KB-05",
+      "kind": "seguridad",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Inyección de formato Markdown y wikilinks no saneados desde el texto de mensajes",
+      "explanation": "En nota_de_cambio(), los mensajes del cambio se incorporan interpolando directamente e.get('texto') en una línea de lista Markdown (- fecha · autor: texto). Dado que oracle-factory mensaje y el chat de Live Share permiten mensajes multilínea de hasta 2000 caracteres, un mensaje que incluya saltos de línea rompe el elemento de lista e inyecta encabezados Markdown arbitrarios (como secciones ## Requisitos o ## Decisiones espurias) o wikilinks ficticios (ej. [[requisitos/fantasma]]). Esto no solo falsea la apariencia y estructura semántica de la nota generada en Obsidian, sino que quiebra la integridad referencial del vault, haciendo fallar aserciones y herramientas de validación de wikilinks (como la comprobación en test_kb.py:93-94).",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 93,
+        "end_line": 96,
+        "side": "head"
+      },
+      "trigger": "Registrar un mensaje mediante oracle-factory mensaje o Live Share conteniendo saltos de línea y sintaxis de encabezados o wikilinks.",
+      "evidence": "En oracle_factory/kb.py:93-96: lineas += [f\"- {_fecha(e.get('cuando'))} · {e.get('actor')}: {e.get('texto')}\" for e in mensajes]. Al enviar un mensaje con 'Probando\\n\\n## Requisitos\\n- [[requisitos/fantasma]] — cumple', la nota kb/cambios/<id>.md genera una segunda sección ## Requisitos y un enlace que no resuelve a ningún archivo.",
+      "related_requirement": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Reproducido en prueba registrando un mensaje con wikilinks ficticios y observando la generación de enlaces rotos en la nota generada."
+    },
+    {
+      "id": "KB-06",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "Llamada prematura y redundante a actualizar_kb en guardar() antes de escribir requisitos",
+      "explanation": "guardar() invoca actualizar_kb(estado['id']) en cada guardado de registro. En comandos como importar o medir, los archivos .requisito se escriben en disco después de llamar a guardar(), lo que ocasiona que actualizar_kb genere notas de requisitos con información incompleta o desactualizada. Por esa razón el candidato debió agregar además refrescar_kb() al término de main(). Esta duplicación hace que se ejecute una actualización prematura e incoherente en guardar() y una segunda actualización al final del comando, generando escrituras atómicas redundantes y un reescaneo completo del registro de cambios del proyecto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 99,
+        "end_line": 100,
+        "side": "head"
+      },
+      "trigger": "Ejecutar comandos como importar o medir, o comandos con múltiples llamadas a guardar() como cerrar.",
+      "evidence": "En oracle_factory/cli.py:99-100: if (ROOT / kb_mod.DIR).is_dir() and estado.get('id'): actualizar_kb(estado['id']). Comparado con las líneas 2176-2188 donde refrescar_kb explicita: «Algunos comandos escriben los requisitos después del registro (medir, importar), así que guardar() no alcanza».",
+      "related_requirement": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Inspección de la secuencia de ejecución de guardar() y refrescar_kb() en el flujo de comandos de cli.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout exactamente el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas exitosamente, incluyendo test_kb3_una_linea_escrita_en_un_cambio_cerrado que corre tests/porque_en_node.cjs con Node.js).",
+    "Pruebas no ejecutadas: no se ejecutó la suite completa de pruebas ni tools/verify_kb.py directamente, respetando estrictamente la indicación de revisión.",
+    "Mutaciones y pruebas de fallos: se implementaron y verificaron casos de prueba y mutaciones controladas en el entorno local sobre los módulos cli.py y kb.py, corroborando la existencia y reproducibilidad de los hallazgos reportados.",
+    "Alcance de exclusiones: se respetaron las exclusiones del paquete de Clue (archivos en .factory, tareas y notas generadas en kb/ que no constituyen producto)."
+  ]
+}
