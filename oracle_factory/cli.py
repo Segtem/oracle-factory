@@ -31,6 +31,7 @@ from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
+from . import kb as kb_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
 ROOT = Path.cwd().resolve()
@@ -95,6 +96,8 @@ def guardar(carpeta: Path, estado: dict, esperado: bytes | None = None) -> None:
     datos = (json.dumps(estado, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     escribir_atomico(destino, datos, esperado=LEIDOS.get(destino) if esperado is None else esperado)  # un corte no lo trunca
     LEIDOS[destino] = datos  # también si no se había leído: es la base de la próxima escritura
+    if (ROOT / kb_mod.DIR).is_dir() and estado.get("id"):
+        actualizar_kb(estado["id"])
 
 
 def carpeta_relativa(carpeta: str) -> PurePosixPath | None:
@@ -2130,6 +2133,172 @@ def comando_resumen(verificar: bool, salida: Path | None, ver: bool = False) -> 
         print(texto, end="")
 
 
+def escribir_kb(notas: dict[str, str]) -> list[str]:
+    """Escribe las notas que cambiaron; devuelve sus rutas."""
+    escritas = []
+    for rel, texto in notas.items():
+        ruta = ruta_segura(ROOT / rel)
+        datos = texto.encode("utf-8")
+        if not ruta.is_file() or ruta.read_bytes() != datos:
+            ruta.parent.mkdir(parents=True, exist_ok=True)
+            escribir_atomico(ruta, datos)
+            escritas.append(rel)
+    return escritas
+
+
+def generadas_en_disco() -> set[str]:
+    """Las notas de kb/ que dicen ser generadas (las de cambios/ y requisitos/, y el índice)."""
+    base = ROOT / kb_mod.DIR
+    salida = set()
+    for ruta in [base / "README.md", *base.glob("cambios/*.md"), *base.glob("requisitos/*.md")]:
+        if ruta.is_file() and kb_mod.MARCA in ruta.read_text(encoding="utf-8", errors="replace")[:200]:
+            salida.add(ruta.relative_to(ROOT).as_posix())
+    return salida
+
+
+def actualizar_kb(identificador: str) -> None:
+    """Después de guardar un registro: las notas de ese cambio, sus requisitos y el índice. Si falla, la decisión ya está
+    hecha y `oracle-factory kb` la repara."""
+    try:
+        escribir_kb(kb_mod.armar(sys.modules[__name__], solo=identificador))
+    except Exception as e:  # noqa: BLE001
+        print(f"Aviso: no pude actualizar kb/ ({type(e).__name__}: {e}); corré oracle-factory kb.", file=sys.stderr)
+
+
+def comando_kb(verificar: bool) -> None:
+    notas = kb_mod.armar(sys.modules[__name__])
+    if not verificar:
+        escritas = escribir_kb(notas)
+        sobran = sorted(generadas_en_disco() - set(notas))
+        for rel in sobran:
+            (ROOT / rel).unlink()
+        print(f"kb/: {len(notas)} notas generadas ({len(escritas)} escritas, {len(sobran)} quitadas). "
+              "Las de personas van en kb/notas/ con sus fuentes:.")
+        return
+    problemas = []
+    for rel, texto in sorted(notas.items()):
+        ruta = ROOT / rel
+        if not ruta.is_file():
+            problemas.append(f"falta {rel}")
+        elif ruta.read_bytes() != texto.encode("utf-8"):
+            problemas.append(f"{rel} no coincide con el registro (quedó vieja o se editó a mano)")
+    problemas += [f"sobra {rel}: es una nota generada de algo que ya no está" for rel in sorted(generadas_en_disco() - set(notas))]
+    for n in kb_mod.estado_de_notas(sys.modules[__name__]):
+        if n["faltan"]:
+            problemas.append(f"{n['nota']}: su fuente {', '.join(n['faltan'])} no existe")
+        if n["cambiaron"]:
+            problemas.append(f"{n['nota']} está por revisar: cambió {', '.join(n['cambiaron'])} desde que se revisó; "
+                             f"actualizala si hace falta y marcala con oracle-factory kb revisada {n['nota']}")
+    if problemas:
+        raise FactoryError("kb/ no está al día:\n- " + "\n- ".join(problemas) + "\nLas generadas se rehacen con oracle-factory kb.")
+    print(f"kb/ está al día: {len(notas)} notas generadas y las de personas revisadas.")
+
+
+def kb_revisada(nota: str) -> None:
+    """Una persona marca una nota de kb/notas/ como revisada: guarda la huella de sus fuentes de este momento."""
+    if AGENTE:
+        raise FactoryError("marcar una nota como revisada lo decide una persona, sin --agente")
+    exigir_terminal("marcar una nota como revisada")
+    relativa = carpeta_relativa(nota)
+    ruta = ROOT / relativa if relativa is not None else None
+    if ruta is None or not ruta.is_file() or ruta.parent != ROOT / kb_mod.DIR / "notas":
+        raise FactoryError(f"{nota} no es una nota de kb/notas/; no marqué nada")
+    fuentes = kb_mod.fuentes_de(ruta)
+    huellas_ = {f: kb_mod.huella_de_fuente(sys.modules[__name__], f) for f in fuentes}
+    faltan = [f for f, h in huellas_.items() if h is None]
+    if faltan:
+        raise FactoryError(f"{nota}: su fuente {', '.join(faltan)} no existe; corregí la nota antes de marcarla revisada")
+    todas = kb_mod.huellas(sys.modules[__name__])
+    todas[relativa.as_posix()] = {"fuentes": huellas_, "revisada_por": actor()["actor"], "cuando": ahora()}
+    escribir_atomico(kb_mod.ruta_huellas(sys.modules[__name__]),
+                     (json.dumps(todas, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8"))
+    print(f"{nota} revisada por {actor()['actor']}" + (f", con sus fuentes {', '.join(fuentes)}." if fuentes else " (no declara fuentes)."))
+
+
+def tocados_por(identificador: str, estado: dict) -> set[str]:
+    """Lo que un cambio abierto tocó: los archivos distintos de main (con lo que no se commiteó), sus requisitos y su ID."""
+    base = ejecutar(["git", "merge-base", "HEAD", "main"]).stdout.strip()
+    archivos = set(ejecutar(["git", "diff", "--name-only", base]).stdout.split()) if base else set()
+    return archivos | set(estado.get("requisitos") or []) | {identificador}
+
+
+def aviso_notas(identificador: str, estado: dict) -> list[str]:
+    if estado.get("fase") in ("cerrada", "abandonada") or not (ROOT / kb_mod.DIR / "notas").is_dir():
+        return []
+    tocados = tocados_por(identificador, estado)
+    return [f"la nota {n['nota']} está por revisar: este cambio tocó {', '.join(sorted(set(n['cambiaron']) & tocados))}; "
+            f"marcala con oracle-factory kb revisada {n['nota']}"
+            for n in kb_mod.estado_de_notas(sys.modules[__name__]) if set(n["cambiaron"]) & tocados]
+
+
+def por_que(referencia: str, como_json: bool) -> None:
+    """Del commit que escribió una línea a su cambio, sus requisitos, decisiones, riesgos, hallazgos y notas."""
+    m = re.fullmatch(r"(.+):(\d+)", referencia or "")
+    relativa = carpeta_relativa(m[1]) if m else None
+    if not m or relativa is None or not (ROOT / relativa).is_file():
+        raise FactoryError("por-que espera ARCHIVO:LÍNEA de un archivo del proyecto (por ejemplo oracle_factory/cli.py:120)")
+    archivo, linea = relativa.as_posix(), int(m[2])
+    p = ejecutar(["git", "blame", "--porcelain", "-L", f"{linea},{linea}", "--", archivo])
+    if p.returncode or not p.stdout:
+        raise FactoryError(f"git no pudo decir quién escribió {archivo}:{linea}: {(p.stderr or '').strip()[:200]}")
+    sha_ = p.stdout.split()[0]
+    if set(sha_) == {"0"}:
+        datos = {"esquema": "oracle-factory.por-que/1", "archivo": archivo, "linea": linea, "commit": None, "cambio": None}
+        return imprimir_json(datos) if como_json else print(f"{archivo}:{linea} todavía no está en un commit.")
+    l = ejecutar(["git", "log", "-1", "--format=%H%x1f%an%x1f%aI%x1f%s%x1f%(trailers:key=Cambio,valueonly,separator=%x20)", sha_])
+    completo_, autor, fecha, asunto, trailer = (l.stdout.rstrip("\n").split("\x1f") + [""] * 5)[:5]
+    commit = {"sha": completo_, "corto": completo_[:7], "autor": autor, "fecha": fecha, "asunto": asunto}
+    cambios = {i: e for i, e in kb_mod.cambios_del_proyecto(sys.modules[__name__])}
+    ident = next((t for t in trailer.split() if t in cambios), None)
+    union = "trailer" if ident else None
+    if not ident:  # sin trailer: el cambio cuyos commits (de sus candidatos o su merge) lo contienen
+        ident = next((i for i, e in cambios.items() if any(c["sha"] == completo_ for c in commits_del_cambio(i, e))), None)
+        union = "deducido" if ident else None
+    notas = [n["nota"] for n in kb_mod.estado_de_notas(sys.modules[__name__]) if archivo in n["fuentes"]]
+    datos = {"esquema": "oracle-factory.por-que/1", "archivo": archivo, "linea": linea, "commit": commit, "cambio": None,
+             "notas": notas}
+    if ident:
+        e = cambios[ident]
+        v = kb_mod.veredictos(ROOT, e.get("oracle"))
+        motivo_revision = (e.get("revision") or {}).get("motivo")
+        decisiones = [{"accion": x.get("accion"), "actor": x.get("actor"), "tipo_actor": x.get("tipo_actor"),
+                       "cuando": x.get("cuando"), "decision": x.get("decision"),
+                       "motivo": motivo_revision if x.get("accion") == "revision_registrada" else None}
+                      for x in e.get("eventos") or [] if x.get("forma") in kb_mod.DECIDE]
+        hallazgos = [{"revisor": i["revisor"], "candidato": i["candidato"], "severidad": h.get("severity"), "titulo": h.get("title")}
+                     for i in tablero_mod.informes(ROOT, ROOT / estructura.DIR / "cambios" / ident)
+                     for h in i["hallazgos"] if isinstance(h.get("location"), dict) and h["location"].get("file") == archivo]
+        datos["cambio"] = {"id": ident, "titulo": e.get("titulo"), "fase": e.get("fase"), "union": union,
+                           "requisitos": [{"id": r, "veredicto": v.get(r, "sin juicio")} for r in e.get("requisitos") or []],
+                           "decisiones": decisiones,
+                           "riesgos_aceptados": [{"titulo": a.get("titulo"), "actor": a.get("actor"), "motivo": a.get("motivo")}
+                                                 for a in e.get("aceptados") or [] if a.get("archivo") == archivo],
+                           "hallazgos": hallazgos}
+    if como_json:
+        return imprimir_json(datos)
+    print(f"{archivo}:{linea} — commit {commit['corto']} de {autor} ({fecha[:10]}): {asunto}")
+    c = datos["cambio"]
+    if not c:
+        print("Esa línea no es de ningún cambio de Factory: su commit no lleva «Cambio:» ni está entre los de un cambio.")
+    else:
+        print(f"Cambio {c['id']} ({c['union']}) — {c['titulo']} [{c['fase']}]")
+        for r in c["requisitos"]:
+            print(f"  requisito {r['id']}: {r['veredicto']}")
+        for d in c["decisiones"]:
+            print(f"  {_fecha_corta(d['cuando'])} {kb_mod.NOMBRES.get(d['accion'], d['accion'])} — {d['actor']} ({d['tipo_actor']})"
+                  + (f": {d['decision']}" if d["decision"] else "") + (f" — {d['motivo']}" if d["motivo"] else ""))
+        for a in c["riesgos_aceptados"]:
+            print(f"  riesgo aceptado en este archivo: {a['titulo']} — {a['actor']}: {a['motivo']}")
+        for h in c["hallazgos"]:
+            print(f"  hallazgo de {h['revisor']} ({h['severidad']}) sobre el candidato {h['candidato']}: {h['titulo']}")
+    for n in notas:
+        print(f"  nota: {n}")
+
+
+def _fecha_corta(cuando) -> str:
+    return str(cuando or "")[:16].replace("T", " ")
+
+
 def actualizar_resumen() -> None:
     """Después de cerrar o archivar: si falla, lo cerrado ya está hecho y `resumen` lo repara."""
     try:
@@ -2406,7 +2575,7 @@ def datos_estado(identificador: str) -> dict:
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
-                                         + aviso_sin_autor(estado)),
+                                         + aviso_sin_autor(estado) + aviso_notas(identificador, estado)),
         "commits": commits_del_cambio(identificador, estado),
         "quien": quien_del_cambio(estado),
     }
@@ -2584,7 +2753,8 @@ def mostrar(identificador: str) -> None:
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
-    for aviso in avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado):
+    for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
+                  + aviso_notas(identificador, estado)):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
@@ -3271,6 +3441,12 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--de', metavar='NOMBRE', help='(la usa la extensión de VS Code) el autor de un mensaje que llegó por Live Share')
     q = sub.add_parser('soltar', help='dejar de ser responsable de un cambio')
     q.add_argument('id')
+    q = sub.add_parser('kb', help='escribir kb/ desde el registro (o --verificar); kb revisada NOTA marca una nota de personas')
+    q.add_argument('accion', nargs='?', choices=['revisada'], help='revisada: marcar revisada una nota de kb/notas/')
+    q.add_argument('nota', nargs='?', help='la nota de kb/notas/ (con revisada)')
+    q.add_argument('--verificar', action='store_true', help='no escribe; falla si kb/ no coincide con el registro o hay notas por revisar')
+    q = sub.add_parser('por-que', help='por qué existe una línea: su commit, su cambio, sus requisitos, decisiones, riesgos y notas')
+    q.add_argument('referencia', metavar='ARCHIVO:LÍNEA'); q.add_argument('--json', action='store_true', help='imprimir JSON con esquema versionado')
     q = sub.add_parser('log', help='los commits de un cambio: con su trailer «Cambio: ID» o deducidos de sus candidatos (sólo lectura)')
     q.add_argument('id'); q.add_argument('--json', action='store_true', help='imprimir un objeto JSON con esquema versionado')
     sub.add_parser('hooks', help='instalar el hook de Git que agrega «Cambio: ID» a cada commit con un solo cambio abierto')
@@ -3363,6 +3539,12 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "migrar": comando_migrar(args.verificar)
         elif args.comando == "archivar": archivar()
         elif args.comando == "log": comando_log(args.id, args.json)
+        elif args.comando == "kb" and args.accion == "revisada":
+            if not args.nota:
+                raise FactoryError("kb revisada espera la nota: oracle-factory kb revisada kb/notas/NOMBRE.md")
+            kb_revisada(args.nota)
+        elif args.comando == "kb": comando_kb(args.verificar)
+        elif args.comando == "por-que": por_que(args.referencia, args.json)
         elif args.comando == "tomar": tomar(args.id, args.con, args.relevo)
         elif args.comando == "soltar": soltar(args.id)
         elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)

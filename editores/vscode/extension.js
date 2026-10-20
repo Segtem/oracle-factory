@@ -203,6 +203,21 @@ function abrirTablero() {
     return pintarTablero();
 }
 
+// ¿Por qué existe esta línea? La respuesta de `oracle-factory por-que` en un documento sin guardar: se lee, no cambia nada.
+async function porQue() {
+    const raiz = carpeta();
+    const editor = vscode.window.activeTextEditor;
+    if (!raiz || !editor) return vscode.window.showErrorMessage('Factory: abrí un archivo del proyecto y poné el cursor en la línea.');
+    const relativo = path.relative(raiz, editor.document.uri.fsPath);
+    if (!relativo || relativo.startsWith('..') || path.isAbsolute(relativo))
+        return vscode.window.showErrorMessage('Factory: ese archivo no es del proyecto.');
+    const linea = editor.selection.active.line + 1;
+    const texto = await new Promise(ok => execFile(cli(raiz), ['por-que', `${relativo.split(path.sep).join('/')}:${linea}`],
+        {cwd: raiz, maxBuffer: 8 << 20}, (error, stdout, stderr) => ok(error ? `Factory: ${(stderr || error.message).trim()}` : stdout)));
+    const doc = await vscode.workspace.openTextDocument({content: texto, language: 'markdown'});
+    await vscode.window.showTextDocument(doc, {preview: true});
+}
+
 function activate(context) {
     const vista = new Vista();
     sesion = new Sesion(vscode, {
@@ -216,6 +231,7 @@ function activate(context) {
         vscode.commands.registerCommand('factory.refrescar', () => vista.refrescar()),
         vscode.commands.registerCommand('factory.escribirPaso', escribirPaso),
         vscode.commands.registerCommand('factory.tablero', abrirTablero),
+        vscode.commands.registerCommand('factory.porQue', porQue),
         vigia, vigia.onDidChange(() => refrescar()), vigia.onDidCreate(() => refrescar()),
         vigia.onDidDelete(() => refrescar()));
 

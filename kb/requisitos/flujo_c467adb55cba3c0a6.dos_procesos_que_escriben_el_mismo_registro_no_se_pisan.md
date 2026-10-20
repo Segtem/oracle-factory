@@ -1,0 +1,18 @@
+---
+generado: oracle-factory kb
+id: "flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan"
+vigente: true
+---
+
+# dos procesos que escriben el mismo registro no se pisan
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan`
+- Vigente: sí
+- Cambio: [[cambios/20261016-175720-bloqueo-registro]]
+- Veredicto: cumple
+- Medidas: `factory_bloqueo.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan`, `factory_bloqueo.corrida_completa`
+- Fuente: openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md#dos procesos que escriben el mismo registro no se pisan
+
+Tipo: funcional Cuando un proceso de Factory va a escribir el registro de un cambio y otro proceso lo cambió desde que el primero lo leyó o escribió por última vez, el primero SHALL NOT reemplazarlo y SHALL decir que el archivo cambió durante la operación; el cambio del otro proceso SHALL quedar. La comparación y el reemplazo SHALL ser una sola operación frente a otro proceso de Factory que escribe en la misma carpeta. Un mismo proceso que lee y escribe el registro varias veces SHALL seguir funcionando como antes.

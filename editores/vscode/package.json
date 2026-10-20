@@ -3,7 +3,7 @@
     "displayName": "Oracle Factory",
     "description": "Los cambios abiertos de Factory, sus requisitos y artefactos, y el próximo paso en la terminal",
     "publisher": "cs50-taller",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -45,6 +45,11 @@
                 "title": "Escribir en la terminal",
                 "category": "Factory",
                 "icon": "$(terminal)"
+            },
+            {
+                "command": "factory.porQue",
+                "title": "¿Por qué existe esta línea?",
+                "category": "Factory"
             }
         ],
         "menus": {
@@ -71,6 +76,12 @@
                 {
                     "command": "factory.escribirPaso",
                     "when": "false"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "factory.porQue",
+                    "group": "navigation"
                 }
             ]
         },
