@@ -277,6 +277,28 @@
       "resultado": "ok",
       "hallazgos": 4,
       "lanzamiento": "82893386e8bb"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:27:53+00:00",
+      "revisor": "agy",
+      "candidato": "d55ff5c",
+      "lanzamiento": "ac15f18a3808"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:27:53+00:00",
+      "revisor": "codex",
+      "candidato": "d55ff5c",
+      "lanzamiento": "ffa9ca4049b2"
     }
   ],
   "tipos": {
