@@ -896,9 +896,19 @@ def requisitos_verdes(salida: str, requisitos: list[str]) -> bool:
     return bool(requisitos) and all(filas.get(rid) == ["✓"] for rid in requisitos)
 
 
+def specs_de_otra_capacidad(carpeta: Path, estado: dict) -> list[str]:
+    """Specs del cambio que no son la de su capacidad: Factory importa una sola, así que las otras se perderían."""
+    propia = (ROOT / estado["spec"]).resolve()
+    return sorted(p.relative_to(ROOT).as_posix() for p in (carpeta / "specs").glob("*/spec.md") if p.resolve() != propia)
+
+
 def aprobar_spec(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     spec = ROOT / estado["spec"]
+    otras = specs_de_otra_capacidad(carpeta, estado)
+    if otras:
+        raise FactoryError(f"este cambio es de la capacidad {estado['capacidad']} y Factory importa sólo su spec ({estado['spec']}); "
+                           f"{', '.join(otras)} no se importaría. Pasá sus requisitos a esa spec o sacala, y aprobá de nuevo")
     for archivo in (carpeta / "proposal.md", spec, carpeta / "tasks.md"):
         if not archivo.is_file() or "TODO:" in archivo.read_text(encoding="utf-8"):
             raise FactoryError(f"hay que completar y revisar primero: {archivo.relative_to(ROOT)}")
@@ -978,6 +988,15 @@ def importar(identificador: str) -> None:
         raise FactoryError("no pude asociar el tipo de estos requisitos a la spec: " + ", ".join(sin_tipo))
     for rid in ids:
         fuente_relativa(requisitos_dir() / f"{rid}.requisito")
+    # Una importación anterior de este cambio (otra versión de la spec, con otro dominio): sus requisitos ya no son
+    # promesas del cambio. El dominio es propio de este cambio, así que no se toca el de otro.
+    anteriores = sorted({i for e in estado.get("eventos") or [] if e.get("accion") == "requisitos_importados"
+                         for i in e.get("ids") or []} - set(ids))
+    quitados = [rid for rid in anteriores if (requisitos_dir() / f"{rid}.requisito").is_file()]
+    for rid in quitados:
+        (requisitos_dir() / f"{rid}.requisito").unlink()
+    if quitados:
+        print("Quité de requisitos/ los de la importación anterior de este cambio: " + ", ".join(quitados))
     estado["requisitos"] = ids
     estado["tipos"] = {i: tipos[i.split(".", 1)[1]] for i in ids}
     for clave in ("medidas", "medidas_pendientes"):
@@ -1498,6 +1517,22 @@ def aviso_lanzamientos(estado: dict) -> list[str]:
     return avisos
 
 
+def sin_medir_con_medidas(estado: dict) -> list[str]:
+    """Requisitos con medidas decididas cuyo .requisito todavía tiene sin_medir: juzgar no pasaría la cobertura."""
+    salida = []
+    for rid in estado.get("requisitos") or []:
+        ruta = requisitos_dir() / f"{rid}.requisito"
+        if (estado.get("medidas") or {}).get(rid) and ruta.is_file() and re.search(r"(?m)^\s+sin_medir ", ruta.read_text(encoding="utf-8")):
+            salida.append(rid)
+    return salida
+
+
+def aviso_sin_medir(identificador: str, estado: dict) -> list[str]:
+    return [f"{rid} tiene sus medidas decididas pero todavía dice «sin medir», y juzgar no va a pasar la cobertura: "
+            f"proponé las mismas medidas con oracle-factory --agente NOMBRE medir {identificador} --requisito {rid} "
+            "--medida … --quitar-sin-medir, o declará por qué queda sin medir" for rid in sin_medir_con_medidas(estado)]
+
+
 def aviso_sin_autor(estado: dict) -> list[str]:
     """Acciones que quedaron sin autor: corridas sin --agente y sin una terminal de una persona."""
     sin = [e.get("accion") for e in estado.get("eventos") or [] if e.get("tipo_actor") == "sin_identificar"]
@@ -1742,8 +1777,11 @@ def juzgar(identificador: str, hechos: Path | list[Path]) -> None:
     cobertura = ejecutar(["oracle", "cobertura", "--proyecto", str(proyecto_oracle()), *con_escalares()])
     if cobertura.returncode or not requisitos_verdes(cobertura.stdout, estado["requisitos"]):
         detalle = (cobertura.stderr or cobertura.stdout).strip() if cobertura.returncode else ""
+        faltan = sin_medir_con_medidas(estado)
         raise FactoryError("Oracle todavía no tiene cobertura completa de cada requisito importado"
-                           + (f": {detalle[:500]}" if detalle else ""))
+                           + (f": {detalle[:500]}" if detalle else "")
+                           + (f". Todavía dicen «sin medir»: {', '.join(faltan)} (proponé sus medidas con --quitar-sin-medir)"
+                              if faltan else ""))
     p = ejecutar(["oracle", "cobertura", *(a for archivo in hechos for a in ("--con", str(archivo))),
                   "--proyecto", str(proyecto_oracle()), *con_escalares()])
     sys.stdout.write(p.stdout)
@@ -2406,7 +2444,7 @@ def datos_estado(identificador: str) -> dict:
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
-                                         + aviso_sin_autor(estado)),
+                                         + aviso_sin_autor(estado) + aviso_sin_medir(identificador, estado)),
         "commits": commits_del_cambio(identificador, estado),
         "quien": quien_del_cambio(estado),
     }
@@ -2584,7 +2622,8 @@ def mostrar(identificador: str) -> None:
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
-    for aviso in avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado):
+    for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
+                  + aviso_sin_medir(identificador, estado)):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
