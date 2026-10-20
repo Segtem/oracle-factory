@@ -98,7 +98,8 @@ class Conocimiento(unittest.TestCase):
         datos['cierre']['cuando'] = self.despues_del_ultimo_commit()
         registro.write_text(json.dumps(datos))
         subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', f'Integrar {cerrado}',
-                        '-m', f'Cambio: {cerrado}', '--date', '2099-01-01T00:00:00+00:00'], cwd=self.root, check=True)
+                        '-m', f'Cambio: {cerrado}'], cwd=self.root, check=True,
+                       env={**f.os.environ, 'GIT_AUTHOR_DATE': self.en(30), 'GIT_COMMITTER_DATE': self.en(30)})
         self.assertEqual(self.correr('kb')[0], 0)
         nota = (self.root / 'kb/cambios' / f'{cerrado}.md').read_text()
         self.assertIn('notas: antes del cierre (trailer)', nota)
@@ -131,9 +132,17 @@ class Conocimiento(unittest.TestCase):
         self.assertIn(f"`{candidato['corto']}` {candidato['asunto']}", abierta)
         # Un commit con su trailer después de la última decisión entra recién con la decisión siguiente: el vault no se
         # desfasa por commitear.
-        self.git('commit', '-q', '--allow-empty', '-m', 'abierto: después de decidir', '-m', f'Cambio: {abierto}', '--date', self.en(10))
+        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: después de decidir',
+                        '-m', f'Cambio: {abierto}'], cwd=self.root, check=True,
+                       env={**f.os.environ, 'GIT_AUTHOR_DATE': self.en(10), 'GIT_COMMITTER_DATE': self.en(10)})
         self.assertEqual(self.correr('kb')[0], 0)
         self.assertNotIn('abierto: después de decidir', (self.root / 'kb/cambios' / f'{abierto}.md').read_text())
+        # Uno con fecha de autor vieja (un cherry-pick) que entró después de la decisión tampoco entra.
+        subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', 'abierto: retrodatado',
+                        '-m', f'Cambio: {abierto}'], cwd=self.root, check=True,
+                       env={**f.os.environ, 'GIT_AUTHOR_DATE': '2001-01-01T00:00:00+00:00', 'GIT_COMMITTER_DATE': self.en(12)})
+        self.assertEqual(self.correr('kb')[0], 0)
+        self.assertNotIn('abierto: retrodatado', (self.root / 'kb/cambios' / f'{abierto}.md').read_text())
         carpeta, estado = f.leer(abierto)
         f.evento(estado, 'agente_sumado', forma='registro', agente='codex')
         estado['eventos'][-1]['cuando'] = self.en(20)

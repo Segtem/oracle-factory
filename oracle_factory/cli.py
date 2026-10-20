@@ -804,11 +804,11 @@ def poner_trailer(archivo: str) -> None:
 def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     """Los commits del cambio, del más nuevo al más viejo: los que llevan su trailer y los deducidos de sus candidatos y
     del merge que los integró (para lo de antes del trailer)."""
-    formato = "--format=%H%x1f%an%x1f%aI%x1f%s"
+    formato = "--format=%H%x1f%an%x1f%aI%x1f%cI%x1f%s"  # la fecha de autor y la de cuando se hizo el commit
 
     def git_log(*args: str) -> list[list[str]]:
         p = ejecutar(["git", "log", formato, *args])
-        return [] if p.returncode else [linea.split("\x1f") for linea in p.stdout.splitlines() if linea.count("\x1f") == 3]
+        return [] if p.returncode else [linea.split("\x1f") for linea in p.stdout.splitlines() if linea.count("\x1f") == 4]
 
     def completo(ref: str) -> str | None:
         p = ejecutar(["git", "rev-parse", "--verify", "--quiet", ref + "^{commit}"])
@@ -848,10 +848,11 @@ def commits_del_cambio(identificador: str, estado: dict) -> list[dict]:
     for c in deducidos:
         unidos.setdefault(c[0], (c, "deducido"))
     salida = []
-    for sha, ((_, autor, fecha, asunto), union) in unidos.items():
+    for sha, ((_, autor, fecha, fecha_commit, asunto), union) in unidos.items():
         carpeta = carpetas.get(candidatos.get(sha, ""))
         revisado = bool(carpeta and any((carpeta / "revision").glob("*.json")))  # con un informe, no sólo pedido
-        salida.append({"sha": sha, "corto": sha[:7], "autor": autor, "fecha": fecha, "asunto": asunto, "union": union,
+        salida.append({"sha": sha, "corto": sha[:7], "autor": autor, "fecha": fecha, "fecha_commit": fecha_commit,
+                       "asunto": asunto, "union": union,
                        "candidato": sha in candidatos, "revisado": revisado,
                        "evidencia": bool(carpeta and (carpeta / "evidencia").is_dir())})
     return sorted(salida, key=lambda c: dt.datetime.fromisoformat(c["fecha"]), reverse=True)

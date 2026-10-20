@@ -115,7 +115,7 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
         lineas.append(f"- Abandonado: `oracle-factory log {ident}`.")
     else:
         commits = [c for c in cli.commits_del_cambio(ident, estado) if (c["union"] == "trailer" or c["candidato"])
-                   and (not corte or _antes(c["fecha"], corte))]
+                   and (not corte or _antes(c["fecha_commit"], corte))]  # cuándo entró, no la fecha de autor (cherry-pick)
         lineas += [f"- `{c['corto']}` {_texto(c['asunto'])} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
             or ["- Ninguno con su trailer ni candidato."]
         lineas.append(f"- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log {ident}`.")
