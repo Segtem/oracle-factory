@@ -105,6 +105,16 @@ class Sesion {
         return this.rol() === 1 ? this.enlace : null;
     }
 
+    // Una sesión que no abrió el tablero (desde la paleta): el enlace lo copia Live Share con su propio comando, que se
+    // busca entre los de VS Code (liveshare.…copy…link…). Devuelve si lo encontró.
+    async copiarConLiveShare() {
+        if (this.rol() !== 1 || !this.vscode.commands.getCommands) return false;
+        const id = (await this.vscode.commands.getCommands(true)).find(c => /^liveshare\./i.test(c) && /copy/i.test(c) && /link/i.test(c));
+        if (!id) return false;
+        await this.vscode.commands.executeCommand(id);
+        return true;
+    }
+
     async terminar() {
         if (this.api && this.rol()) await this.api.end();
         this.enlace = null;

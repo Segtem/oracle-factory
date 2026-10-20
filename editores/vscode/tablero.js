@@ -130,7 +130,7 @@ function sesion(s) {
         ? '<p class="vacio">Ves el tablero de quien comparte; los comandos se escriben en su terminal «Factory».</p>' : ''}${
         s.rol === 'anfitrión' ? `<p>${s.enlace
             ? `Para que alguien entre, pasale el enlace: <code>${esc(s.enlace)}</code> ${boton('copiar', 'Copiar enlace')}`
-            : 'Para que alguien entre, pasale el enlace que copió Live Share al compartir (lo podés copiar otra vez con su comando de copiar el enlace).'} ${
+            : `Para que alguien entre, pasale el enlace de la sesión: ${boton('copiar', 'Copiar enlace')}`} ${
             boton('terminar', 'Terminar sesión')}</p>` : boton('terminar', 'Salir de la sesión')}</div>`;
 }
 

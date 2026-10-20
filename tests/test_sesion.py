@@ -53,12 +53,14 @@ class Sesion(unittest.TestCase):
         self.assertIn('data-sesion="copiar">Copiar enlace', salida['vistas']['compartida'])
         self.assertEqual(salida['portapapeles'], [sesion1, sesion1])
         self.assertEqual(salida['avisos'], [f'Enlace de la sesión copiado: {sesion1}'] * 2)
-        # Una sesión que ya se compartió desde la paleta, con el rol como texto: a Live Share no se le pide nada otra vez
-        # (lo rechaza con «command '…' already exists» y deja la sesión a medias), y el tablero dice de dónde sale el enlace.
+        # Una sesión que ya se compartió desde la paleta, con el rol como texto: a Live Share no se le pide compartir otra
+        # vez (lo rechaza con «command '…' already exists» y deja la sesión a medias).
         ya = self.correr('ya-compartida')
         self.assertIn('<b>Ana</b> (vos, anfitrión)', ya['vistas']['inicio'])
-        self.assertNotIn('data-sesion="copiar"', ya['vistas']['inicio'])
+        self.assertIn('data-sesion="copiar">Copiar enlace', ya['vistas']['inicio'])
+        # Sin enlace propio, «Copiar enlace» usa el comando de Live Share que lo copia; a share() no se le pide nada.
         self.assertEqual((ya['llamadas'], ya['portapapeles']), ([], []))
+        self.assertEqual(ya['ejecutados'], [['liveshare.collaboration.copyLink']])
         self.assertEqual(salida['errores'], ['Factory: ese no es un enlace de una sesión de Live Share.'] * len(otros))
         self.assertEqual(salida['llamadas'].count('share'), 1)  # compartir con la sesión abierta no comparte otra vez
 

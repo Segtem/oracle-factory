@@ -60,6 +60,7 @@ const vscode = {
         },
     },
     commands: {registerCommand: (id, f) => { comandos[id] = f; return nada(); },
+               getCommands: async () => ['workbench.action.files.save', 'liveshare.collaboration.copyLink', 'liveshare.end'],
                executeCommand: async (...args) => { ejecutados.push(args); }},
 };
 const requerir = Module.prototype.require;
@@ -82,7 +83,7 @@ async function hasta(cond, que) {
         await hasta(() => html.includes('En la sesión'), 've la sesión');
         await panel.recibir({tipo: 'sesion', accion: 'compartir'});
         await panel.recibir({tipo: 'sesion', accion: 'copiar'});
-        await hasta(() => html.includes('que copió Live Share al compartir'), 'explica de dónde sale el enlace');
+        await hasta(() => html.includes('data-sesion="copiar"'), 'ofrece copiar el enlace');
         vistas.inicio = html;
     } else if (conLiveShare !== 'con') {
         await hasta(() => html.includes('data-sesion="instalar"'), 'ofrece instalar');

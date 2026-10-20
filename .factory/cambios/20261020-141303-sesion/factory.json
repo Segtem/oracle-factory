@@ -129,6 +129,43 @@
         "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero",
         "factory_sesion.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:50:16+00:00",
+      "revisor": "codex",
+      "candidato": "677f045",
+      "lanzamiento": "24059e7d73bf"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:50:16+00:00",
+      "revisor": "agy",
+      "candidato": "677f045",
+      "lanzamiento": "a5b675d0dca3"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:52:15+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "677f045",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "24059e7d73bf"
     }
   ],
   "tipos": {
