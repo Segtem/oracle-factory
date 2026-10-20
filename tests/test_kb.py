@@ -126,6 +126,13 @@ class Conocimiento(unittest.TestCase):
                                      '--quitar-sin-medir')[0], 0)
         self.assertIn('`notas.casos_ejecutados`', (self.root / 'kb/requisitos' / f'{rid}.md').read_text())
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
+        # Las notas generadas no son producto: rehacerlas con cada decisión no vence la revisión ni el juicio. Las de
+        # personas sí.
+        self.assertTrue(any(n.startswith('kb/') for n in subprocess.run(['git', 'status', '--porcelain', 'kb'], cwd=self.root,
+                                                                       capture_output=True, text=True).stdout.split()))
+        self.assertEqual([n for n in f.cambios_locales_de_producto() if n.startswith('kb/')], [])
+        self.assertFalse(f.es_producto('kb/README.md') or f.es_producto(f'kb/cambios/{nuevo}.md') or f.es_producto(f'kb/requisitos/{rid}.md'))
+        self.assertTrue(f.es_producto('kb/notas/guia.md'))
         # Una nota generada editada a mano: la verificación falla y no la toca.
         nota = self.root / 'kb/cambios' / f'{nuevo}.md'
         nota.write_text(nota.read_text() + '\nUna línea a mano.\n')

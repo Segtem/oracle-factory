@@ -472,8 +472,12 @@ def es_producto(nombre: str) -> bool:
     # contara, archivar los cambios anteriores vencería la revisión del último integrado. Las demás de openspec/specs/ sí cuentan.
     gestionada = (len(partes) == 4 and partes[:2] == ("openspec", "specs") and partes[3] == "spec.md"
                   and (ROOT / estructura.DIR / "specs" / f"{partes[2]}.json").is_file())
-    return not (partes[0] in ("tareas", estructura.DIR) or gestionada or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
-                and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}))
+    # Las notas generadas de kb/ se derivan del registro y se rehacen con cada decisión: si contaran, cada decisión
+    # vencería la revisión y el juicio. Las de personas (kb/notas/) sí son producto.
+    generada = partes[:1] == (kb_mod.DIR,) and (partes[1:] == ("README.md",) or (len(partes) == 3 and partes[1] in ("cambios", "requisitos")))
+    return not (partes[0] in ("tareas", estructura.DIR) or gestionada or generada
+                or (len(partes) == 4 and partes[:2] == ("openspec", "changes")
+                    and partes[-1] in {"factory.json", "review.md", "oracle-veredicto.txt"}))
 
 
 def cambios_locales_de_producto() -> list[str]:

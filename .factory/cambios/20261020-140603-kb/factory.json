@@ -134,6 +134,45 @@
         "factory_kb.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "medidas": [
+        "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa",
+        "factory_kb.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "medidas": [
+        "factory_kb.por_que_existe_una_linea",
+        "factory_kb.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "medidas": [
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+        "factory_kb.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -148,13 +187,14 @@
       "claude-code"
     ]
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
       "sha256": "36f49e5cc63438e4ad9ef0b0c3f22b668c2494ac4f154c80727c1df2c64a08e5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T15:00:35+00:00",
       "catalogos": {
         "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa": "10c6501223ee095d82a7840f82d197d93b9c50f564488b95861b467a22daaf4d",
         "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
@@ -164,25 +204,13 @@
         "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
       }
     },
-    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes": {
-      "sha256": "a2ba000c4203de93266af769ba6814310c86c85e683ed7851b56e6c1f1ccf84d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T15:00:35+00:00",
-      "catalogos": {
-        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "2cff501bd0674485c0eea531051f56cb399b13bfdccc036fb839a362229e285e",
-        "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
-      },
-      "archivos_catalogo": {
-        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "catalogos/factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes.oracle",
-        "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
-      }
-    },
     "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
       "sha256": "d14a87122181718f371c88975a1e7e2a1f211429217c7a9a6793a2b059cab5f1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T15:00:36+00:00",
       "catalogos": {
         "factory_kb.por_que_existe_una_linea": "11ae6ef8128c3e013fb06d0e39d7c1d66cbf5298292cd05c68ef2349ea005edd",
         "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
@@ -191,6 +219,23 @@
         "factory_kb.por_que_existe_una_linea": "catalogos/factory_kb.por_que_existe_una_linea.oracle",
         "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
       }
+    },
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "sha256": "a2ba000c4203de93266af769ba6814310c86c85e683ed7851b56e6c1f1ccf84d",
+      "catalogos": {
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "2cff501bd0674485c0eea531051f56cb399b13bfdccc036fb839a362229e285e",
+        "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
+      },
+      "archivos_catalogo": {
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "catalogos/factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes.oracle",
+        "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

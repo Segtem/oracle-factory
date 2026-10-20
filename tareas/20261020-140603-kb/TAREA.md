@@ -31,3 +31,15 @@ Medidas de conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_s
 ### Nota (2026-10-20 15:00:36 UTC)
 
 Medidas de conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea: factory_kb.por_que_existe_una_linea, factory_kb.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-20 16:11:21 UTC)
+
+Medidas de conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 16:11:21 UTC)
+
+Medidas de conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 16:11:21 UTC)
+
+Medidas de conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes: Brian Hollweg (persona, confirmo, modo confirmacion).
