@@ -1,4 +1,4 @@
 requisito flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos:
     texto "Tipo: funcional `importar` SHALL quitar de `requisitos/` los requisitos que una importación anterior del mismo cambio escribió y la nueva ya no trae, y SHALL NOT tocar los requisitos de otros cambios."
     fuente "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md#reimportar no deja requisitos huérfanos"
-    sin_medir "sin medida todavía; escenarios: «una spec aprobada otra vez»"
+    medido_por factory_avisos.reimportar_no_deja_requisitos_huerfanos, factory_avisos.corrida_completa

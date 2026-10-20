@@ -1,4 +1,4 @@
 requisito flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo:
     texto "Tipo: funcional `estado` (y `--json`) SHALL avisar, en cuanto un requisito tiene sus medidas decididas y su `.requisito` todavía dice `sin_medir`, cuál es y qué hacer; y el error de cobertura de `juzgar` SHALL nombrar esos requisitos."
     fuente "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md#un requisito que quedó sin medir se avisa a tiempo"
-    sin_medir "sin medida todavía; escenarios: «medidas confirmadas con la marca todavía puesta»"
+    medido_por factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa
