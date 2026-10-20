@@ -128,8 +128,10 @@ function sesion(s) {
     const gente = [`<li><b>${esc(s.yo)}</b> (vos, ${esc(s.rol)})</li>`, ...s.otros.map(o => `<li><b>${esc(o.nombre)}</b> (${esc(o.rol)})</li>`)];
     return `<div class="sesion"><h2>En la sesión</h2><ul>${gente.join('')}</ul>${s.invitado
         ? '<p class="vacio">Ves el tablero de quien comparte; los comandos se escriben en su terminal «Factory».</p>' : ''}${
-        s.rol === 'anfitrión' ? `<p>Para que alguien entre, pasale el enlace${s.enlace ? `: <code>${esc(s.enlace)}</code>` : ''}. ${
-            boton('copiar', 'Copiar enlace')} ${boton('terminar', 'Terminar sesión')}</p>` : boton('terminar', 'Salir de la sesión')}</div>`;
+        s.rol === 'anfitrión' ? `<p>${s.enlace
+            ? `Para que alguien entre, pasale el enlace: <code>${esc(s.enlace)}</code> ${boton('copiar', 'Copiar enlace')}`
+            : 'Para que alguien entre, pasale el enlace que copió Live Share al compartir (lo podés copiar otra vez con su comando de copiar el enlace).'} ${
+            boton('terminar', 'Terminar sesión')}</p>` : boton('terminar', 'Salir de la sesión')}</div>`;
 }
 
 // El chat del cambio: los mensajes del registro; en una sesión de Live Share, una caja para escribir.

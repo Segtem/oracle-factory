@@ -51,15 +51,16 @@ class Sesion(unittest.TestCase):
         sesion1 = 'https://prod.liveshare.vsengsaas.visualstudio.com/join?SESION1'
         self.assertIn(f'<code>{sesion1}</code>', salida['vistas']['conEnlace'])
         self.assertIn('data-sesion="copiar">Copiar enlace', salida['vistas']['compartida'])
-        self.assertEqual(salida['portapapeles'], [sesion1])
-        self.assertEqual(salida['avisos'], [f'Enlace de la sesión copiado: {sesion1}'])
-        # Una sesión que ya se compartió desde la paleta, con el rol como texto: no se comparte otra vez (Live Share lo
-        # rechaza con «command 'liveshare.comments.createThread' already exists») y el enlace se pide sin aviso.
+        self.assertEqual(salida['portapapeles'], [sesion1, sesion1])
+        self.assertEqual(salida['avisos'], [f'Enlace de la sesión copiado: {sesion1}'] * 2)
+        # Una sesión que ya se compartió desde la paleta, con el rol como texto: a Live Share no se le pide nada otra vez
+        # (lo rechaza con «command '…' already exists» y deja la sesión a medias), y el tablero dice de dónde sale el enlace.
         ya = self.correr('ya-compartida')
         self.assertIn('<b>Ana</b> (vos, anfitrión)', ya['vistas']['inicio'])
-        self.assertEqual(ya['llamadas'], ['share (sin aviso)'])
-        self.assertEqual(ya['portapapeles'], [sesion1])
+        self.assertNotIn('data-sesion="copiar"', ya['vistas']['inicio'])
+        self.assertEqual((ya['llamadas'], ya['portapapeles']), ([], []))
         self.assertEqual(salida['errores'], ['Factory: ese no es un enlace de una sesión de Live Share.'] * len(otros))
+        self.assertEqual(salida['llamadas'].count('share'), 1)  # compartir con la sesión abierta no comparte otra vez
 
     @unittest.skipUnless(_tablero.NODE, 'hace falta node')
     def test_se1_sin_live_share(self):

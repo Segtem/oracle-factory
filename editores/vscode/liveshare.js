@@ -99,14 +99,10 @@ class Sesion {
         this.al.cambio();
     }
 
-    // El enlace de la sesión compartida: si ya se compartió, Live Share lo vuelve a dar (sin repetir su aviso).
-    async enlaceDeLaSesion() {
-        if (!this.api || this.rol() !== 1) return null;
-        if (!this.enlace) {
-            const uri = await this.api.share({suppressNotification: true});
-            this.enlace = uri ? uri.toString() : null;
-        }
-        return this.enlace;
+    // El enlace de la sesión que compartió el tablero. No se le vuelve a pedir a Live Share: llamar otra vez a share()
+    // con una sesión abierta intenta empezar otra, falla y deja la actual a medias (lo vio Brian el 2026-10-20).
+    enlaceDeLaSesion() {
+        return this.rol() === 1 ? this.enlace : null;
     }
 
     async terminar() {

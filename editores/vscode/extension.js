@@ -169,8 +169,8 @@ async function mensajeDelTablero(m) {
         else if (m.accion === 'compartir') await sesion.compartir();
         else if (m.accion === 'terminar') await sesion.terminar();
         else if (m.accion === 'copiar') {
-            const enlace = await sesion.enlaceDeLaSesion();
-            if (!enlace) return vscode.window.showErrorMessage('Factory: Live Share no dio el enlace de la sesión.');
+            const enlace = sesion.enlaceDeLaSesion();
+            if (!enlace) return vscode.window.showErrorMessage('Factory: no tengo el enlace de esta sesión; lo copió Live Share al compartirla.');
             await vscode.env.clipboard.writeText(enlace);
             vscode.window.showInformationMessage(`Enlace de la sesión copiado: ${enlace}`);
             pintarTablero();

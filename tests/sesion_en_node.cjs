@@ -82,7 +82,7 @@ async function hasta(cond, que) {
         await hasta(() => html.includes('En la sesión'), 've la sesión');
         await panel.recibir({tipo: 'sesion', accion: 'compartir'});
         await panel.recibir({tipo: 'sesion', accion: 'copiar'});
-        await hasta(() => html.includes('join?SESION1</code>'), 'muestra el enlace');
+        await hasta(() => html.includes('que copió Live Share al compartir'), 'explica de dónde sale el enlace');
         vistas.inicio = html;
     } else if (conLiveShare !== 'con') {
         await hasta(() => html.includes('data-sesion="instalar"'), 'ofrece instalar');
@@ -96,6 +96,7 @@ async function hasta(cond, que) {
         vistas.compartida = html;
         await panel.recibir({tipo: 'sesion', accion: 'compartir'});  // ya compartida: no empieza otra
         await panel.recibir({tipo: 'sesion', accion: 'copiar'});
+        await panel.recibir({tipo: 'sesion', accion: 'copiar'});  // copiar otra vez no le pide nada a Live Share
         await hasta(() => html.includes('join?SESION1</code>'), 'muestra el enlace');
         vistas.conEnlace = html;
         await panel.recibir({tipo: 'sesion', accion: 'terminar'});
