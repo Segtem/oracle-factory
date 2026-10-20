@@ -18,7 +18,12 @@ SOURCE = Path(__file__).resolve().parents[1]
 
 
 class Quien(unittest.TestCase):
-    setUp, git = _archivo.Archivo.setUp, _archivo.Archivo.git
+    git = _archivo.Archivo.git
+
+    def setUp(self):
+        _archivo.Archivo.setUp(self)
+        # Los registros se commitean en el temporal: git no puede subir a un repositorio que lo contenga.
+        self.assertEqual(Path(self.git('rev-parse', '--show-toplevel')).resolve(), self.root.resolve())
 
     def nuevo(self, sufijo):
         f.AGENTE = 'claude-code'
@@ -92,11 +97,25 @@ class Quien(unittest.TestCase):
         # Un agente que actuó hace dos días y no está declarado ya no cuenta.
         estado['eventos'].insert(0, {'accion': 'medidas_propuestas', 'actor': 'viejo-agente', 'tipo_actor': 'agente',
                                      'cuando': '2020-01-01T00:00:00+00:00'})
+        # gemini actuó hace un rato sin declararse: cuenta. Uno con la fecha en el futuro (otro reloj) no, y uno sin zona
+        # horaria de hace una hora sí (Factory escribe en UTC).
+        hace_un_rato = (f.dt.datetime.now(f.dt.timezone.utc) - f.dt.timedelta(hours=1)).isoformat(timespec='seconds')
+        estado['eventos'].insert(1, {'accion': 'medidas_propuestas', 'actor': 'gemini', 'tipo_actor': 'agente', 'cuando': hace_un_rato})
+        estado['eventos'].insert(1, {'accion': 'medidas_propuestas', 'actor': 'futuro', 'tipo_actor': 'agente',
+                                     'cuando': '2999-01-01T00:00:00+00:00'})
+        estado['eventos'].insert(1, {'accion': 'medidas_propuestas', 'actor': 'sin-zona', 'tipo_actor': 'agente',
+                                     'cuando': hace_un_rato[:19]})
         f.guardar(carpeta, estado)
         q = f.datos_estado(ident)['quien']
         self.assertEqual(q['responsable']['persona'], 'Ana')
         self.assertEqual({a['nombre']: (a['declarado'], a['ultima_accion']) for a in q['agentes']},
-                         {'claude-code': (True, 'cambio_creado'), 'codex': (True, 'agente_sumado')})
+                         {'claude-code': (True, 'cambio_creado'), 'codex': (True, 'agente_sumado'),
+                          'gemini': (False, 'medidas_propuestas'), 'sin-zona': (False, 'medidas_propuestas')})
+        self.git('add', '.')
+        self.git('commit', '-qm', 'registros')
+        [cambio] = _tablero.cli_json(self.root, 'tablero', '--json')['cambios']
+        self.assertEqual(cambio['quien']['agentes'], q['agentes'])
+        self.assertEqual(cambio['quien']['revisores_en_curso'], q['revisores_en_curso'])
         self.assertEqual(q['revisores_en_curso'], [{'revisor': 'agy', 'candidato': 'abc1234',
                                                      'cuando': estado['eventos'][-1]['cuando']}])
         texto = io.StringIO()
@@ -160,6 +179,12 @@ class Trailer(unittest.TestCase):
         datos['responsable'] = {'persona': 'Persona fixture', 'desde': '2026-10-19T10:00:00+00:00', 'con': []}
         registro.write_text(json.dumps(datos))
         self.assertIn(f'Cambio: {mio}', self.commit('b.txt', 'lo que tomé'))
+        # Si tomó los dos, no se sabe cuál: sin trailer.
+        registro = self.root / '.factory/cambios' / otro / 'factory.json'
+        datos = json.loads(registro.read_text())
+        datos['responsable'] = {'persona': 'Persona fixture', 'desde': '2026-10-19T10:00:00+00:00', 'con': []}
+        registro.write_text(json.dumps(datos))
+        self.assertNotIn('Cambio:', self.commit('b2.txt', 'tomé los dos'))
         # Otra persona, que no tomó ninguno: sin trailer.
         self.git('config', 'user.name', 'Otra persona')
         self.assertNotIn('Cambio:', self.commit('c.txt', 'no tomé nada'))

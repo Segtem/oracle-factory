@@ -19,6 +19,7 @@ function esc(texto) {
 }
 
 function hora(iso) {
+    if (!iso) return '—';
     const d = new Date(iso);
     return isNaN(d) ? esc(iso) : d.toLocaleString('es-AR', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'});
 }

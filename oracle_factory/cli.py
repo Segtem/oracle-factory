@@ -689,7 +689,7 @@ def quien_del_cambio(estado: dict) -> dict:
     que actuaron en las últimas 24 horas, con su última acción) y los revisores lanzados sin resultado."""
     responsable = estado.get("responsable") or None
     eventos = estado.get("eventos") or []
-    limite = dt.datetime.now(dt.timezone.utc) - ACTIVIDAD_RECIENTE
+    hoy = dt.datetime.now(dt.timezone.utc)
     declarados = set((responsable or {}).get("con") or [])
     declarados |= {e.get("agente") for e in eventos if e.get("accion") == "agente_sumado" and e.get("agente")}
     ultimas: dict[str, dict] = {}
@@ -700,9 +700,13 @@ def quien_del_cambio(estado: dict) -> dict:
     for nombre in sorted(declarados | set(ultimas)):
         ultima = ultimas.get(nombre)
         try:
-            reciente = bool(ultima) and dt.datetime.fromisoformat(ultima["cuando"]) >= limite
+            cuando = dt.datetime.fromisoformat(ultima["cuando"]) if ultima else None
         except (KeyError, TypeError, ValueError):
-            reciente = False
+            cuando = None
+        if cuando and cuando.tzinfo is None:
+            cuando = cuando.replace(tzinfo=dt.timezone.utc)  # un registro viejo sin zona: Factory escribe en UTC
+        # Una fecha futura (otro reloj) no es «hace poco»: cuenta hasta cinco minutos de diferencia.
+        reciente = bool(cuando) and hoy - ACTIVIDAD_RECIENTE <= cuando <= hoy + dt.timedelta(minutes=5)
         if nombre in declarados or reciente:
             agentes.append({"nombre": nombre, "declarado": nombre in declarados,
                             "ultima_accion": (ultima or {}).get("accion"), "cuando": (ultima or {}).get("cuando")})
@@ -1425,7 +1429,8 @@ def anotar_intento(identificador: str, intento: dict, causa: str) -> None:
 
 
 def lanzamientos_abiertos(estado: dict) -> list[dict]:
-    """Los revisores lanzados que todavía no dejaron resultado, con las mismas reglas que aviso_lanzamientos."""
+    """Los revisores lanzados que todavía no dejaron resultado, con las mismas reglas que aviso_lanzamientos. Un pedido
+    «interrumpido» (Ctrl-C) ya terminó: no sigue en curso ni se avisa como cortado."""
     abiertos: list[dict] = []
     for e in estado.get("eventos") or []:
         r, c = e.get("revisor"), e.get("candidato")
