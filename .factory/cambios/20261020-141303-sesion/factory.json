@@ -285,6 +285,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c9e751eecff8"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T15:48:40+00:00",
+      "decision": "aprobar",
+      "candidato": "fd78949"
     }
   ],
   "tipos": {
@@ -315,5 +325,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: nunca se llama a share() con una sesión abierta o abriéndose (lo encontró Brian probando y un doble clic), copiar el enlace usa el guardado o el comando de Live Share, el enlace viejo se olvida al terminar, el invitado que espera puede salir, y Role.None no es anfitrión. Queda un bajo de codex: unirse acepta un enlace de vscode.dev/liveshare/ sin identificador (Live Share lo rechaza al entrar). Que los botones hagan lo que dicen en VS Code real lo probó Brian.",
+      "candidato": "fd78949",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T15:48:40+00:00"
+    }
+  }
 }

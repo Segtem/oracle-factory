@@ -1,0 +1,90 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261020-141303-sesion",
+  "contexto": {
+    "head": "4d8fa36294b6852a2ef2777960ce2107a85c79e3",
+    "archivos_sha256": "bdb55a7f280be880a42b2678bfc87c565ed3793cce1e8ecfd7b9491004a33cd2"
+  },
+  "documentos": {
+    "openspec/changes/20261020-141303-sesion/proposal.md": "4fa3a7f74ce2e516805831d25c5290f34a51e1b7bb37ba6a8e231a8aaead921c",
+    "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_sesion.corrida_completa.oracle",
+    "catalogos/factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero.oracle",
+    "editores/vscode/extension.js",
+    "editores/vscode/liveshare.js",
+    "editores/vscode/package.json",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261020-141303-sesion/design.md",
+    "openspec/changes/20261020-141303-sesion/proposal.md",
+    "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
+    "openspec/changes/20261020-141303-sesion/tasks.md",
+    "requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero.requisito",
+    "tests/sesion_en_node.cjs",
+    "tests/test_sesion.py",
+    "tools/verify_sesion.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 427 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/fd78949/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/fd78949/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/fd78949/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 677f045: agy (gemini-3.8-flash-high), 4 hallazgos: F-001 (media), F-002 (media), F-003 (media), F-004 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/677f045/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 677f045: codex (gpt-6-luna), 1 hallazgo: C1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/677f045/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cac6f72: agy (gemini-3.8-flash-high), 2 hallazgos: F-001 (media), F-002 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/cac6f72/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cac6f72: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-141303-sesion/candidatos/cac6f72/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios se1 en repositorios temporales, Linux, con Oracle 0.39.0; Live Share es falso, en node: que share, end, join y extension.open hagan lo que dicen en VS Code lo verifica una persona.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), el paquete Clue y el diff completo entre base (7390206) y head (fd78949) abarcando editores/vscode/liveshare.js, editores/vscode/extension.js, editores/vscode/tablero.js, editores/vscode/package.json, README.md, tests/sesion_en_node.cjs, tests/test_sesion.py, tools/verify_sesion.py y catalogos/factory_sesion.*.oracle.",
+    "agy (gemini-3.8-flash-high): Se verificaron exhaustivamente las correcciones acumuladas de vueltas anteriores: C1 (copiar enlace ejecuta comando de Live Share sin llamar a share()), F-001 de vuelta 1 (limpieza de enlace al terminar externamente con !this.rol()), F-002 de vuelta 1 (cerrojo this.compartiendo ante doble clic o reentradas concurrentes), F-003 de vuelta 1 (invitado que espera ve «Salir de la sesión» sin quedar atrapado), F-004 de vuelta 1 (cobertura del rol invitado y salida en sesion_en_node.cjs y test_sesion.py), y F-001 de vuelta 2 (rolDe clasifica Role.None, 'none' y '0' como 0 incluso con id, y roles desconocidos como no anfitriones). Todas las correcciones permanecen intactas y sin regresiones.",
+    "agy (gemini-3.8-flash-high): Se comprobó que api.share() nunca se invoca con una sesión abierta ni en curso de apertura (protegido por if (this.rol() || this.compartiendo)), que «Unirse a una sesión» restringe el acceso estrictamente a URLs https de Live Share mediante enlaceDeLiveShare, que no existe riesgo de inyección HTML/XSS en el panel por el enlace (escapado con esc() y política CSP con nonce), que ningún botón de sesión altera registros ni archivos bajo .factory/, y que diagnostico() no registra nombres de usuario ni identificadores personales de sesión.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron en primer plano exactamente las pruebas unitarias requeridas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null, completando 7 pruebas exitosamente (OK en 18.9s).",
+    "agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del repositorio ni tools/verify_sesion.py, en estricto cumplimiento de las directivas recibidas.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron pruebas de mutación manual en una copia de trabajo aislada en Node.js y Python alterando rolDe, el cerrojo this.compartiendo, la limpieza de enlaces en preparar(), el texto de «Salir de la sesión», el filtro de enlaceDeLiveShare y la expresión regular de copiarConLiveShare; todas las mutaciones fueron detectadas y fallaron en la suite (atrapadas 7 de 7).",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos residuales, discrepancias con la spec ni regresiones en el código del candidato.",
+    "codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.",
+    "codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.",
+    "codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos."
+  ],
+  "hallazgos": [
+    {
+      "id": "F-001",
+      "descripcion": "Acepta un enlace vscode.dev sin identificador de sesión",
+      "ubicacion": "editores/vscode/liveshare.js:29",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261020-141303-sesion/candidatos/fd78949/revision/codex-1.json, validado con oracle-clue; severidad baja. `enlaceDeLiveShare()` devuelve true por `url.pathname.startsWith('/liveshare/')` aunque no haya ningún segmento después de la barra final; `Sesion.unirse()` pasa la URL a `api.join()`. `tests/test_sesion.py` cubre `https://vscode.dev/liveshare/XYZ` y rutas web ajenas, pero no el prefijo vacío."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
