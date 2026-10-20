@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-liveshare/.factory/local/revisiones/87b1a6a",
+  "base": "2d5ed6a4055c0c41ffd822198f1e078052043cef",
+  "head": "87b1a6abb566afaa781e5f098c0509b06456d644",
+  "diff_sha256": "c91a8160a7471a02643340b13c3706b6596ff884284cc72b37dcfe530cf9a89c",
+  "context_sha256": "47b0c130c718bfee3861e4c5c3f33458876945779c7bc6a5b339754e243f71fc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas (PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null) desde la raíz del checkout candidato 87b1a6a; las 11 pruebas terminaron exitosamente (OK).",
+    "No se corrió la suite completa de pruebas del repositorio ni tools/verify_liveshare.py, respetando las instrucciones del pedido de revisión.",
+    "Las pruebas de integración de Live Share se validaron mediante el simulador en Node.js (tests/liveshare_en_node.cjs) y no sobre una sesión real entre dos máquinas físicas conectadas a los servicios en la nube de Microsoft.",
+    "Se realizaron pruebas de mutación manuales en copias aisladas para 5 componentes críticos (validación de comandos de invitados, filtrado de autor de mensajes RPC, prevención de path traversal, restricción de mensajes sin terminal interactiva ni agente, y exclusión de mensajes como decisiones métricas); las 5 mutaciones fueron detectadas y eliminadas por la suite de pruebas.",
+    "Se verificó la corrección de LS-SEC-07: en editores/vscode/extension.js, escribirComando() restringe los pedidos de invitados mediante la expresión regular /^[\\p{L}\\p{N} ._/:=-]+$/u impidiendo operadores de shell, mientras que el anfitrión conserva la invocación estándar a través del panel local.",
+    "No se identificaron nuevos defectos, vulnerabilidades ni regresiones respecto a las vueltas previas ni respecto a los 3 requisitos de la especificación (ide_c2103597a7eea615c: el_tablero_muestra_quien_esta_en_la_sesion, el_invitado_ve_el_tablero_de_quien_comparte, el_chat_queda_en_el_cambio). Por tanto, findings queda vacía."
+  ]
+}

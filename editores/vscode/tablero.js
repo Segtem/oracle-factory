@@ -9,7 +9,7 @@ const ACCIONES = {
     revision_propuesta: 'Revisión propuesta', revision_registrada: 'Revisión registrada', revision_cancelada: 'Revisión sin registrar',
     oracle_ejecutado: 'Juicio de Oracle', cierre: 'Cerrado', archivado: 'Archivado', abandono: 'Abandonado',
     abandono_propuesto: 'Abandono propuesto',
-    tomado: 'Tomado', soltado: 'Soltado', agente_sumado: 'Agente sumado',
+    tomado: 'Tomado', soltado: 'Soltado', agente_sumado: 'Agente sumado', mensaje: 'Mensaje',
 };
 const ETAPAS = [['acuerdo', 'Spec'], ['medidas', 'Medidas'], ['construcción y revisión', 'Revisión'], ['juicio', 'Juicio'], ['cierre', 'Cierre']];
 const SEVERIDADES = ['critica', 'alta', 'media', 'baja', 'informativa'];
@@ -94,7 +94,7 @@ function linea(cambio) {
     return `<ol class="linea">${eventos.map(e => {
         const d = e.detalle || {};
         const extra = [d.revisor, d.resultado, d.hallazgos != null ? `${d.hallazgos} hallazgos` : null, d.decision,
-                       d.codigo != null ? `código ${d.codigo}` : null, d.causa].filter(x => x != null && x !== '').map(esc).join(' · ');
+                       d.codigo != null ? `código ${d.codigo}` : null, d.causa, d.texto, d.via].filter(x => x != null && x !== '').map(esc).join(' · ');
         return `<li class="actor-${esc(e.tipo_actor)}"><time>${hora(e.cuando)}</time> <b>${esc(ACCIONES[e.accion] || e.accion)}</b>
 <span class="quien">${esc(e.actor)}${e.tipo_actor === 'sin_identificar' ? ' ⚠' : ''}</span>${extra ? `<small>${extra}</small>` : ''}</li>`;
     }).join('')}</ol>`;
@@ -118,7 +118,26 @@ function metricas(m) {
 </div>`;
 }
 
-function cambio(c) {
+// La sesión de Live Share: quién está y con qué rol. Sin Live Share o sin sesión, una línea.
+function sesion(s) {
+    if (!s || s.estado === 'sin-live-share') return '<p class="sesion vacio">Sin Live Share: para trabajar de a dos, instalalo y compartí la sesión.</p>';
+    if (s.estado === 'sin-sesion') return '<p class="sesion vacio">Sin sesión de Live Share.</p>';
+    const gente = [`<li><b>${esc(s.yo)}</b> (vos, ${esc(s.rol)})</li>`, ...s.otros.map(o => `<li><b>${esc(o.nombre)}</b> (${esc(o.rol)})</li>`)];
+    return `<div class="sesion"><h2>En la sesión</h2><ul>${gente.join('')}</ul>${s.invitado
+        ? '<p class="vacio">Ves el tablero de quien comparte; los comandos se escriben en su terminal «Factory».</p>' : ''}</div>`;
+}
+
+// El chat del cambio: los mensajes del registro; en una sesión de Live Share, una caja para escribir.
+function chat(c, s) {
+    const mensajes = c.linea_de_tiempo.filter(e => e.accion === 'mensaje').map(e =>
+        `<li><time>${hora(e.cuando)}</time> <b>${esc(e.actor)}</b>${e.detalle && e.detalle.via ? ` <small>(${esc(e.detalle.via)}${e.detalle.guardado_por ? `, guardado por ${esc(e.detalle.guardado_por)}` : ''})</small>` : ''}: ${esc(e.detalle && e.detalle.texto)}</li>`).join('');
+    const caja = s && s.estado === 'activa'
+        ? `<form class="escribir" data-cambio="${esc(c.id)}"><input name="texto" maxlength="2000" aria-label="Mensaje para ${esc(c.id)}" placeholder="Escribí un mensaje (queda en el cambio: sin secretos)"><button type="submit">Enviar</button></form>`
+        : `<p class="vacio">Desde la terminal: <code>oracle-factory mensaje ${esc(c.id)} "…"</code>; en una sesión de Live Share, acá.</p>`;
+    return `${mensajes ? `<ol class="chat">${mensajes}</ol>` : '<p class="vacio">Sin mensajes.</p>'}${caja}`;
+}
+
+function cambio(c, s) {
     const avisos = c.avisos.length ? `<ul class="avisos">${c.avisos.map(a => `<li>⚠ ${esc(a)}</li>`).join('')}</ul>` : '';
     return `<section class="cambio" data-cambio="${esc(c.id)}">
 <header><h2>${esc(c.titulo)}</h2><p class="id">${esc(c.id)} · ${esc(c.fase)} · modo ${esc(c.modo)}${c.candidato ? ` · candidato ${esc(c.candidato)}` : ''}</p>${etapas(c)}</header>
@@ -126,6 +145,7 @@ ${quien(c)}${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)
 <h3>Hallazgos</h3>${hallazgos(c)}
 <h3>Requisitos</h3>${requisitos(c)}
 <h3>Commits (${(c.commits || []).length})</h3>${commits(c)}
+<h3>Chat</h3>${chat(c, s)}
 <h3>Métricas</h3>${metricas(c.metricas)}
 <details><summary>Línea de tiempo (${c.linea_de_tiempo.length})</summary>${linea(c)}</details>
 </section>`;
@@ -167,6 +187,8 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;p
 .linea{list-style:none;padding:0;font-size:13px}.linea li{padding:4px 0 4px 10px;border-left:3px solid var(--vscode-panel-border,#555)}.linea li.actor-persona{border-left-color:var(--vscode-charts-green,#2e7d32)}.linea li.actor-agente{border-left-color:var(--vscode-charts-blue,#2563eb)}.linea li.actor-sin_identificar{border-left-color:var(--vscode-charts-orange,#d97706)}
 .linea time{font-family:var(--vscode-editor-font-family);opacity:.7}.linea small{display:block;opacity:.8}.vacio{opacity:.7}
 .quien{margin:8px 0}.quien p{margin:0}.quien ul{margin:4px 0 0;padding-left:18px;font-size:13px}
+.sesion{border:1px dashed var(--vscode-panel-border,#555);padding:6px 12px;margin:10px 0}.sesion h2{font-size:14px}.sesion ul{margin:4px 0;padding-left:18px}
+.chat{list-style:none;padding:0;font-size:13px}.chat li{padding:3px 0}.escribir{display:flex;gap:6px;margin-top:6px}.escribir input{flex:1;background:var(--vscode-input-background);color:var(--vscode-input-foreground);border:1px solid var(--vscode-input-border,#555);padding:4px}
 .marca{width:28px;height:28px;image-rendering:pixelated}`;
 }
 
@@ -177,13 +199,14 @@ function marca() {
 
 // La página entera. `nonce` y `cspSource` los da la extensión: sin red, y sólo corre el script de la página.
 function html(datos, {nonce, cspSource}) {
-    const cuerpo = datos.cambios.length ? datos.cambios.map(cambio).join('')
+    const cuerpo = datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
         : '<p class="vacio">No hay cambios abiertos. Empezá uno con <code>oracle-factory nuevo</code>.</p>';
     return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Tablero de Factory</title>
 <style nonce="${nonce}">${estilo()}</style></head><body>
 <h1>${marca()} Tablero de Factory</h1>
+${sesion(datos.sesion)}
 ${cuerpo}
 ${proyecto(datos.proyecto)}
 <script nonce="${nonce}">
@@ -194,6 +217,14 @@ document.addEventListener('click', ev => {
   if (b.dataset.abrir) vscode.postMessage({tipo: 'abrir', archivo: b.dataset.abrir, linea: b.dataset.linea ? Number(b.dataset.linea) : null});
   if (b.dataset.comando) vscode.postMessage({tipo: 'terminal', comando: b.dataset.comando});
   if (b.dataset.commit) vscode.postMessage({tipo: 'commit', sha: b.dataset.commit});
+});
+document.addEventListener('submit', ev => {
+  const f = ev.target.closest('form.escribir');
+  if (!f) return;
+  ev.preventDefault();
+  const texto = f.elements.texto.value.trim();
+  if (texto) vscode.postMessage({tipo: 'mensaje', cambio: f.dataset.cambio, texto});
+  f.elements.texto.value = '';
 });
 </script></body></html>`;
 }

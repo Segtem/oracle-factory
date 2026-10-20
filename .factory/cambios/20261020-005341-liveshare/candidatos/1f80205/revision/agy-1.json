@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-liveshare/.factory/local/revisiones/1f80205",
+  "base": "2d5ed6a4055c0c41ffd822198f1e078052043cef",
+  "head": "1f80205de35ab52157fe9954cfa46ec2612bb45f",
+  "diff_sha256": "0c8aaafa0e6754b2f6fc9c13aff28ef973a4955346f642b4849c6296f9059706",
+  "context_sha256": "391e8d587a05524628bcd1778e7188b45b5555ea8ee5fd8cf59c0237b4d39d2d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias autorizadas (PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null) desde la raíz del checkout candidato 1f80205; las 11 pruebas pasaron exitosamente en 19 segundos.",
+    "No se corrió la suite completa de pruebas del repositorio ni tools/verify_liveshare.py, en estricto cumplimiento de las instrucciones de revisión.",
+    "Las pruebas de integración de Live Share corren sobre el simulador Node.js (tests/liveshare_en_node.cjs) y no sobre una sesión real de Live Share entre dos instancias físicas de VS Code conectadas a los servicios en la nube de Microsoft.",
+    "No se detectaron defectos, inconsistencias con la especificación ni regresiones de seguridad en el candidato 1f80205. Todas las correcciones de la primera vuelta (LS-SEC-01/F2, LS-SEC-02, LS-BUG-03, LS-BUG-04, LS-DISC-05, F1 y LS-DISC-06) fueron verificadas satisfactoriamente, por lo que la lista findings está vacía."
+  ]
+}

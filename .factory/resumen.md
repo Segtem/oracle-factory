@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a875cf5b25b89176cbd6bacc29e79e88c18e4074df4bf23684b9110010614e3e -->
+<!-- oracle-factory resumen sha256:c3efe0346e1ac170a7e2f096435e4ded1d5c38e914a5431a4ced2e4a7ca9ac03 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-19 capacidades · 148 requisitos vigentes · 1 cambio abierto
+19 capacidades · 151 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -136,6 +136,9 @@ Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
 | el próximo paso se escribe en la terminal sin ejecutarse | funcional | `ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse` | factory_vscode.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse, factory_vscode.corrida_completa | verde al cerrar el 2026-10-16 | 20261016-101007-vscode |
 | el tablero junta todo lo de cada cambio y sus métricas | funcional | `ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas` | factory_tablero.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas, factory_tablero.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-120156-tablero |
 | el tablero se ve y se usa en VS Code | funcional | `ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code` | factory_tablero.el_tablero_se_ve_y_se_usa_en_vs_code, factory_tablero.corrida_completa | verde al cerrar el 2026-10-19 | 20261019-120156-tablero |
+| el tablero muestra quién está en la sesión | funcional | `ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion` | factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
+| el invitado ve el tablero de quien comparte | funcional | `ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte` | factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
+| el chat queda en el cambio | funcional | `ide_c2103597a7eea615c.el_chat_queda_en_el_cambio` | factory_liveshare.el_chat_queda_en_el_cambio, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
 
 ### limpieza
 
@@ -343,6 +346,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **HG-005** (20261017-135953-higiene): test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec. Aceptado por Brian Hollweg: Acepto el riesgo: test_hg2_un_agente_que_se_olvido_de_agente no comprueba la acción importar requerida por el escenario de la spec
 - **HG-011** (20261017-135953-higiene): La prueba de acciones sin autor omite la importación exigida por el escenario. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario
 - **TABLERO-006** (20261019-120156-tablero): Una severidad ausente o desconocida se informa como hallazgo informativo. Aceptado por Brian Hollweg: Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo
+- **LS-SEC-01-R3** (20261020-005341-liveshare): Un invitado puede atribuir su mensaje a otro invitado conectado. Aceptado por Brian Hollweg: Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado
 
 ### Históricos
 
@@ -771,6 +775,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261019-232444-quien) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null` desde la raíz del checkout b25339a: 10 pruebas, OK. La prueba de tablero en Node se ejecutó y no fue omitida.
 - (20261019-232444-quien) codex (gpt-6-luna): Inspeccioné las rutas de identidad, relevo y liberación; selección del trailer con IDs, varios cambios y user.name vacío; normalización y límites temporales; escape de valores en el HTML; y aislamiento de los repositorios Git temporales. No encontré un defecto reproducible ni una regresión en esos puntos.
 - (20261019-232444-quien) codex (gpt-6-luna): No ejecuté la suite completa, tools/verify_quien.py ni Oracle. No hice mutaciones: el checkout candidato permaneció sin cambios; el informe se validará con oracle-clue.
+- (20261020-005341-liveshare) Evidencia: Escenarios ls1–ls3 en repositorios temporales, Linux, con Oracle 0.39.0; la sesión es un Live Share falso que conecta dos VS Code falsos en node: la API real de Live Share y dos máquinas de verdad las verifica una persona.
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias especificadas (PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null) desde la raíz del checkout candidato 87b1a6a; las 11 pruebas terminaron exitosamente (OK).
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del repositorio ni tools/verify_liveshare.py, respetando las instrucciones del pedido de revisión.
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): Las pruebas de integración de Live Share se validaron mediante el simulador en Node.js (tests/liveshare_en_node.cjs) y no sobre una sesión real entre dos máquinas físicas conectadas a los servicios en la nube de Microsoft.
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales en copias aisladas para 5 componentes críticos (validación de comandos de invitados, filtrado de autor de mensajes RPC, prevención de path traversal, restricción de mensajes sin terminal interactiva ni agente, y exclusión de mensajes como decisiones métricas); las 5 mutaciones fueron detectadas y eliminadas por la suite de pruebas.
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): Se verificó la corrección de LS-SEC-07: en editores/vscode/extension.js, escribirComando() restringe los pedidos de invitados mediante la expresión regular /^[\\p{L}\\p{N} ._/:=-]+$/u impidiendo operadores de shell, mientras que el anfitrión conserva la invocación estándar a través del panel local.
+- (20261020-005341-liveshare) agy (gemini-3.8-flash-high): No se identificaron nuevos defectos, vulnerabilidades ni regresiones respecto a las vueltas previas ni respecto a los 3 requisitos de la especificación (ide_c2103597a7eea615c: el_tablero_muestra_quien_esta_en_la_sesion, el_invitado_ve_el_tablero_de_quien_comparte, el_chat_queda_en_el_cambio). Por tanto, findings queda vacía.
+- (20261020-005341-liveshare) codex (gpt-6-luna): Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null` desde la raíz del checkout candidato: 11 pruebas pasaron. Node arrancó y ejecutó las pruebas de Live Share.
+- (20261020-005341-liveshare) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_liveshare.py`.
+- (20261020-005341-liveshare) codex (gpt-6-luna): La prueba y la reproducción adicional usan Live Share simulado; no probé la API real ni una sesión entre dos máquinas.
+- (20261020-005341-liveshare) codex (gpt-6-luna): No edité el checkout. Revisé propuesta, spec, el diff y archivos producto incluidos en el paquete; no revisé los archivos .factory/tareas excluidos. Revisé también los informes previos: el rechazo de rutas con barras invertidas, la espera al servicio y el filtro de operadores de shell siguen presentes.
 
 ### Históricos
 

@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "079cf167633499c54a70c0ac08e8459286a12cf5d8bd423a8d66141a96063c13",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: el autor de un mensaje tiene que ser un invitado conectado y queda quién lo guardó, el invitado no abre rutas que salen del espacio compartido (tampoco de Windows), espera el servicio sin usar su disco, los pedidos validan sus argumentos y el comando de un invitado no puede traer operadores de shell. Límites declarados: el invitado necesita la extensión (no la CLI); con varios invitados uno podría usar el nombre de otro (bajo LS-SEC-01-R3); --de desde una terminal local también puede escribir un nombre, como cualquiera que edite el registro; la sesión real de Live Share la verifica una persona.",
+  "decisiones": [
+    {
+      "hallazgo_id": "LS-SEC-01-R3",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-20T12:25:46+00:00"
+    }
+  ]
+}

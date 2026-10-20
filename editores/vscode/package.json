@@ -3,7 +3,7 @@
     "displayName": "Oracle Factory",
     "description": "Los cambios abiertos de Factory, sus requisitos y artefactos, y el próximo paso en la terminal",
     "publisher": "cs50-taller",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "engines": {
         "vscode": "^1.75.0"
     },
@@ -12,6 +12,7 @@
         "workspaceContains:.factory"
     ],
     "capabilities": {
+        "virtualWorkspaces": true,
         "untrustedWorkspaces": {
             "supported": false,
             "description": "La vista corre la CLI de Factory del proyecto (.venv/bin/oracle-factory)."

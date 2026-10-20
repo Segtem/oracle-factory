@@ -8,6 +8,7 @@ const path = require('path');
 const modelo = require('./modelo');
 const tablero = require('./tablero');
 const crypto = require('crypto');
+const {Sesion} = require('./liveshare');
 
 function carpeta() {
     // ponytail: la primera carpeta del espacio de trabajo; multi-raíz cuando haga falta.
@@ -90,48 +91,106 @@ function escribirPaso(nodo) {
 }
 
 // El tablero de comando: un panel que se arma con `oracle-factory tablero --json` y se rehace cuando cambia un registro.
+// En una sesión de Live Share, un invitado lo pide a quien comparte (ver liveshare.js).
 let panel = null;
+let sesion = null;
+
+function datosLocales() {
+    const raiz = carpeta();
+    if (!raiz || !fs.existsSync(path.join(raiz, '.factory')))
+        return Promise.reject(new Error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).'));
+    return correr(raiz, ['tablero', '--json']);
+}
 
 async function pintarTablero() {
     if (!panel) return;
     const nonce = crypto.randomBytes(16).toString('base64');
-    const raiz = carpeta();
-    if (!raiz || !fs.existsSync(path.join(raiz, '.factory'))) {
-        panel.webview.html = tablero.error('Esta carpeta no es un proyecto de Factory (no tiene .factory/).', {nonce});
+    const presencia = sesion ? sesion.estado() : {estado: 'sin-live-share'};
+    const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    if (sesion && sesion.esInvitado() && !invitado) {
+        panel.webview.html = tablero.error('Esperando el tablero de quien comparte la sesión de Live Share…', {nonce});
         return;
     }
     try {
-        panel.webview.html = tablero.html(await correr(raiz, ['tablero', '--json']), {nonce, cspSource: panel.webview.cspSource});
+        const datos = invitado ? await sesion.pedir('tablero', []) : await datosLocales();
+        panel.webview.html = tablero.html({...datos, sesion: {...presencia, invitado}}, {nonce, cspSource: panel.webview.cspSource});
     } catch (e) {
         panel.webview.html = tablero.error(`Factory falló: ${e.message.trim().split('\n').pop()}`, {nonce});
     }
 }
 
-// Lo que pide el panel: abrir un archivo del proyecto (nunca uno de afuera) o escribir un comando sin ejecutarlo.
-async function mensajeDelTablero(m) {
+function diffLocal(sha) {
     const raiz = carpeta();
-    if (!m || !raiz) return;
+    if (!raiz || typeof sha !== 'string' || !/^[0-9a-f]{7,40}$/.test(sha)) return Promise.resolve(null);
+    return new Promise(ok => execFile('git', ['show', '--stat', '--patch', '--no-color', sha, '--'],
+        {cwd: raiz, maxBuffer: 32 << 20}, (error, stdout) => ok(error ? null : stdout)));
+}
+
+// Un comando que viene del panel (propio o de un invitado): sólo `oracle-factory …` de una línea, escrito sin Enter.
+// El de un invitado, además, sin operadores de shell: sólo letras, números, espacios y . _ / : = -, como los pasos de
+// Factory (un `; rm …` no llega a la terminal de quien comparte).
+function escribirComando(texto, deUnInvitado = false) {
+    if (deUnInvitado && (typeof texto !== 'string' || !/^[\p{L}\p{N} ._/:=-]+$/u.test(texto))) return false;
+    const raiz = carpeta();
+    const comando = raiz && modelo.comandoDe(texto, cli(raiz));
+    if (comando) escribirPaso({comando});
+    return Boolean(comando);
+}
+
+// Un mensaje del chat: lo guarda la CLI de quien tiene el proyecto, con el nombre que da Live Share (la CLI valida el
+// texto y el nombre; acá sólo el tipo, porque llega de otra máquina).
+function guardarMensaje(cambio, texto, de) {
+    const raiz = carpeta();
+    if (!raiz || typeof cambio !== 'string' || !/^\d{8}-\d{6}-[a-z0-9_-]+$/.test(cambio) || typeof texto !== 'string'
+        || typeof de !== 'string')
+        return Promise.resolve(false);
+    return new Promise(ok => execFile(cli(raiz), ['mensaje', cambio, texto, '--de', de], {cwd: raiz},
+        error => ok(!error)));
+}
+
+// Lo que pide el panel: abrir un archivo del proyecto (nunca uno de afuera), ver un commit, escribir un comando sin
+// ejecutarlo o mandar un mensaje. Un invitado lo hace a través de quien comparte.
+async function mensajeDelTablero(m) {
+    if (!m) return;
+    const invitado = Boolean(sesion && sesion.invitadoConServicio());
+    if (sesion && sesion.esInvitado() && !invitado) return;  // sin el servicio de quien comparte, nada que hacer
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
-        // Con los enlaces resueltos: un symlink del proyecto que apunta afuera tampoco se abre, ni una carpeta.
-        let destino;
-        try {
-            const real = fs.realpathSync(raiz);
-            destino = fs.realpathSync(path.resolve(raiz, m.archivo));
-            if (!destino.startsWith(real + path.sep) || !fs.statSync(destino).isFile()) return;
-        } catch (e) { return; }
-        const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(destino));
         const linea = Number.isInteger(m.linea) && m.linea > 0 ? m.linea - 1 : 0;
+        let uri;
+        if (invitado) {
+            // El espacio compartido no es un disco local: sólo rutas relativas que no suben.
+            // Ni barras invertidas ni unidades (una ruta de Windows), ni absolutas, ni que suban.
+            const normal = path.posix.normalize(m.archivo);
+            const carpetas = vscode.workspace.workspaceFolders;
+            if (/[\\:]/.test(m.archivo) || path.posix.isAbsolute(normal) || normal === '..' || normal.startsWith('../')
+                || !carpetas || !carpetas.length) return;
+            uri = vscode.Uri.joinPath(carpetas[0].uri, normal);
+        } else {
+            const raiz = carpeta();
+            if (!raiz) return;
+            // Con los enlaces resueltos: un symlink del proyecto que apunta afuera tampoco se abre, ni una carpeta.
+            try {
+                const real = fs.realpathSync(raiz);
+                const destino = fs.realpathSync(path.resolve(raiz, m.archivo));
+                if (!destino.startsWith(real + path.sep) || !fs.statSync(destino).isFile()) return;
+                uri = vscode.Uri.file(destino);
+            } catch (e) { return; }
+        }
+        const doc = await vscode.workspace.openTextDocument(uri);
         await vscode.window.showTextDocument(doc, {selection: new vscode.Range(linea, 0, linea, 0), preview: false});
     } else if (m.tipo === 'commit' && typeof m.sha === 'string' && /^[0-9a-f]{7,40}$/.test(m.sha)) {
         // El diff del commit en un documento sin guardar: se lee, no cambia nada.
-        const diff = await new Promise(ok => execFile('git', ['show', '--stat', '--patch', '--no-color', m.sha, '--'],
-            {cwd: raiz, maxBuffer: 32 << 20}, (error, stdout, stderr) => ok(error ? null : stdout)));
-        if (diff === null) return vscode.window.showErrorMessage(`Factory: git no encontró el commit ${m.sha}.`);
+        const diff = invitado ? await sesion.pedir('diff', [m.sha]) : await diffLocal(m.sha);
+        if (typeof diff !== 'string') return vscode.window.showErrorMessage(`Factory: git no encontró el commit ${m.sha}.`);
         const doc = await vscode.workspace.openTextDocument({content: diff, language: 'diff'});
         await vscode.window.showTextDocument(doc, {preview: true});
     } else if (m.tipo === 'terminal' && typeof m.comando === 'string') {
-        const comando = modelo.comandoDe(m.comando, cli(raiz));
-        if (comando) escribirPaso({comando});
+        if (invitado) await sesion.pedir('terminal', [m.comando]);
+        else escribirComando(m.comando);
+    } else if (m.tipo === 'mensaje' && typeof m.cambio === 'string' && typeof m.texto === 'string' && sesion && sesion.yo()) {
+        const ok = invitado ? await sesion.pedir('mensaje', [m.cambio, m.texto, sesion.yo()])
+            : await guardarMensaje(m.cambio, m.texto, sesion.yo());
+        if (!ok) vscode.window.showErrorMessage('Factory: no se pudo guardar el mensaje.');
     }
 }
 
@@ -146,6 +205,11 @@ function abrirTablero() {
 
 function activate(context) {
     const vista = new Vista();
+    sesion = new Sesion(vscode, {
+        tablero: datosLocales, terminal: comando => escribirComando(comando, true), mensaje: guardarMensaje, diff: diffLocal,
+        cambio: () => pintarTablero(),
+    });
+    sesion.iniciar(context.extension ? context.extension.id : 'cs50-taller.oracle-factory');
     const vigia = vscode.workspace.createFileSystemWatcher('**/.factory/cambios/**/factory.json');
     context.subscriptions.push(
         vscode.window.registerTreeDataProvider('factory.cambios', vista),
@@ -158,6 +222,7 @@ function activate(context) {
     function refrescar() {
         vista.refrescar();
         pintarTablero();
+        sesion.avisarCambio();  // los invitados piden el tablero otra vez
     }
 }
 

@@ -1,0 +1,485 @@
+{
+  "id": "20261020-005341-liveshare",
+  "titulo": "El tablero en pair programming: presencia, tablero compartido y chat con Live Share",
+  "capacidad": "ide",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md",
+  "spec_sha256": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T01:54:00+00:00",
+    "documentos": {
+      "openspec/changes/20261020-005341-liveshare/proposal.md": "1533b867f73f6023a23fbc72b5bf1f4660a0e59857305ea231da4ef8bb9d7961",
+      "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340"
+    }
+  },
+  "requisitos": [
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-005341-liveshare/revisiones/registro-vp46tdc6/informe.json",
+    "sha256": "079cf167633499c54a70c0ac08e8459286a12cf5d8bd423a8d66141a96063c13",
+    "decisiones": "tareas/20261020-005341-liveshare/revisiones/registro-vp46tdc6/decisiones.json",
+    "decisiones_sha256": "1c938a149083d22a5f8321ddbf8d1654956df52cf0d731d7197ba103083c19c8",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T12:25:52+00:00",
+    "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: el autor de un mensaje tiene que ser un invitado conectado y queda quién lo guardó, el invitado no abre rutas que salen del espacio compartido (tampoco de Windows), espera el servicio sin usar su disco, los pedidos validan sus argumentos y el comando de un invitado no puede traer operadores de shell. Límites declarados: el invitado necesita la extensión (no la CLI); con varios invitados uno podría usar el nombre de otro (bajo LS-SEC-01-R3); --de desde una terminal local también puede escribir un nombre, como cualquiera que edite el registro; la sesión real de Live Share la verifica una persona.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "5aff8a50583ed722d3f605227c599c389b4033c5",
+      "archivos_sha256": "ceb1a54abf42b7ab46fad32b9dda0a287979628b304dc1b747f58c97a00a37d8"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261020-005341-liveshare/candidatos/87b1a6a/evidencia/hechos.json",
+    "hechos_sha256": "1ca81529ed0a84377c6cd300004e3d3a77f7d7c8f648436899388fb162dc128f",
+    "informe": ".factory/cambios/20261020-005341-liveshare/oracle-veredicto.txt",
+    "informe_sha256": "b4160b6d40d3ff9936e37835ca7d49bf604e147f2bc9281d5320414e691e5b78",
+    "cuando": "2026-10-20T12:26:03+00:00",
+    "contexto": {
+      "head": "78e9e1f69b554eace4ba22f9bcbaa2d21e6726e5",
+      "archivos_sha256": "ceb1a54abf42b7ab46fad32b9dda0a287979628b304dc1b747f58c97a00a37d8"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T00:53:41+00:00",
+      "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T01:54:00+00:00",
+      "documentos": {
+        "openspec/changes/20261020-005341-liveshare/proposal.md": "1533b867f73f6023a23fbc72b5bf1f4660a0e59857305ea231da4ef8bb9d7961",
+        "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md": "58d01e39472dfd22867206aa16a2457121b45ed23d3eedd5c668027fc001d340"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T01:54:00+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T01:54:08+00:00",
+      "ids": [
+        "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+        "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+        "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion",
+      "medidas": [
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "medidas": [
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "medidas": [
+        "factory_liveshare.el_chat_queda_en_el_cambio",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "medidas": [
+        "factory_liveshare.el_chat_queda_en_el_cambio",
+        "factory_liveshare.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "medidas": [
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte",
+        "factory_liveshare.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion",
+      "medidas": [
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion",
+        "factory_liveshare.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:00:07+00:00",
+      "revisor": "agy",
+      "candidato": "6592bb8",
+      "lanzamiento": "f523c6c004ff"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:00:07+00:00",
+      "revisor": "codex",
+      "candidato": "6592bb8",
+      "lanzamiento": "b235d880bd8f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:01:53+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "6592bb8",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "b235d880bd8f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:17:04+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "6592bb8",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "f523c6c004ff"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:24:39+00:00",
+      "revisor": "agy",
+      "candidato": "1f80205",
+      "lanzamiento": "9b5f85d940ef"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:24:39+00:00",
+      "revisor": "codex",
+      "candidato": "1f80205",
+      "lanzamiento": "06f55e79d9ca"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:26:45+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "1f80205",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "06f55e79d9ca"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:33:51+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "1f80205",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9b5f85d940ef"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:38:33+00:00",
+      "revisor": "codex",
+      "candidato": "87b1a6a",
+      "lanzamiento": "4b7c2061730f"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:38:33+00:00",
+      "revisor": "agy",
+      "candidato": "87b1a6a",
+      "lanzamiento": "e1950bdf791c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:40:15+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "87b1a6a",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "4b7c2061730f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T10:51:07+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "87b1a6a",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "e1950bdf791c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T10:51:23+00:00",
+      "decision": "aprobar",
+      "candidato": "87b1a6a"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T12:25:52+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "079cf167633499c54a70c0ac08e8459286a12cf5d8bd423a8d66141a96063c13",
+      "decisiones_sha256": "1c938a149083d22a5f8321ddbf8d1654956df52cf0d731d7197ba103083c19c8"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T12:26:03+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1ca81529ed0a84377c6cd300004e3d3a77f7d7c8f648436899388fb162dc128f"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T12:26:50+00:00",
+      "oracle": ".factory/cambios/20261020-005341-liveshare/oracle-veredicto.txt",
+      "revision": "tareas/20261020-005341-liveshare/revisiones/registro-vp46tdc6/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T12:26:50+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
+    }
+  ],
+  "tipos": {
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio": "funcional",
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte": "funcional",
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T01:54:00+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "sha256": "0bb722d3a13b5cbcf98f23f3454704c7adf56f1ca0684eb48c276035896587c1",
+      "catalogos": {
+        "factory_liveshare.el_chat_queda_en_el_cambio": "4d4501ceb2501ed6a1cd65b65c77e8a9ed2d4ce3fc832bdaf7ad82aa79b4750d",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_chat_queda_en_el_cambio": "catalogos/factory_liveshare.el_chat_queda_en_el_cambio.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    },
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "sha256": "60ca0c49f15f76ad806098d6ea61116b5d4046b9333e84a26d68538f11d65ce8",
+      "catalogos": {
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte": "70fc96ebd713ff1918cb69dade6324813301dc5541ef9ec38ff16199ea28bed8",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte": "catalogos/factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    },
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T09:55:52+00:00",
+      "sha256": "fb08f49bd600a73da3e80fa5980bdb425ccf828278aa16c65b53ab4fce1b6404",
+      "catalogos": {
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion": "083417df8b90bd34f5756480cf60a1296896190f466ed51ab84d6a908acf3a7d",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion": "catalogos/factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "editores/vscode/liveshare.js",
+      "titulo": "Un invitado puede atribuir su mensaje a otro invitado conectado",
+      "firma": "editores/vscode/liveshare.js|un invitado puede atribuir su mensaje a otro invitado conectado",
+      "motivo": "Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-20T12:25:46+00:00",
+      "candidato": "87b1a6a"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T12:26:49+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-20T12:26:50+00:00"
+  }
+}
