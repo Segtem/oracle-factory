@@ -1,4 +1,4 @@
 requisito ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion:
     texto "Tipo: funcional Cuando hay una sesión de Live Share, el tablero SHALL mostrar quién está conectado (la propia persona y las demás) con su rol de anfitrión o invitado, y SHALL actualizarse cuando alguien entra o sale. Sin la extensión de Live Share, o sin sesión, el tablero SHALL funcionar como sin esta capacidad y decirlo en una línea."
     fuente "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md#el tablero muestra quién está en la sesión"
-    sin_medir "sin medida todavía; escenarios: «una sesión con un invitado que entra y sale», «sin Live Share»"
+    medido_por factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion, factory_liveshare.corrida_completa

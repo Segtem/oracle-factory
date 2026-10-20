@@ -69,6 +69,48 @@
         "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
         "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion",
+      "medidas": [
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "medidas": [
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "requisito": "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio",
+      "medidas": [
+        "factory_liveshare.el_chat_queda_en_el_cambio",
+        "factory_liveshare.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -84,5 +126,48 @@
     ]
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion": {
+      "sha256": "fb08f49bd600a73da3e80fa5980bdb425ccf828278aa16c65b53ab4fce1b6404",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "catalogos": {
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion": "083417df8b90bd34f5756480cf60a1296896190f466ed51ab84d6a908acf3a7d",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion": "catalogos/factory_liveshare.el_tablero_muestra_quien_esta_en_la_sesion.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    },
+    "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte": {
+      "sha256": "60ca0c49f15f76ad806098d6ea61116b5d4046b9333e84a26d68538f11d65ce8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "catalogos": {
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte": "70fc96ebd713ff1918cb69dade6324813301dc5541ef9ec38ff16199ea28bed8",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte": "catalogos/factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    },
+    "ide_c2103597a7eea615c.el_chat_queda_en_el_cambio": {
+      "sha256": "0bb722d3a13b5cbcf98f23f3454704c7adf56f1ca0684eb48c276035896587c1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T02:06:21+00:00",
+      "catalogos": {
+        "factory_liveshare.el_chat_queda_en_el_cambio": "4d4501ceb2501ed6a1cd65b65c77e8a9ed2d4ce3fc832bdaf7ad82aa79b4750d",
+        "factory_liveshare.corrida_completa": "e675d1952ce42f796947f3e2d493754c9b971d33b4d1cf92a74eb4a6a1049d62"
+      },
+      "archivos_catalogo": {
+        "factory_liveshare.el_chat_queda_en_el_cambio": "catalogos/factory_liveshare.el_chat_queda_en_el_cambio.oracle",
+        "factory_liveshare.corrida_completa": "catalogos/factory_liveshare.corrida_completa.oracle"
+      }
+    }
+  }
 }
