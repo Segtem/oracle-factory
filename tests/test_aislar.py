@@ -76,7 +76,16 @@ class Aislar(_vueltas.Base):
         (self.root / '.factory/local/revisiones' / f'{sha}-travieso-7').mkdir()
         # El clon no depende de los objetos del repositorio (no hay alternates): un gc no lo deja sin el candidato.
         self.assertFalse((self.root / '.factory/local/revisiones' / f'{sha}-travieso-1/.git/objects/info/alternates').exists())
+        f.pedir_revision(self.ident, 'travieso', base=self.base)
+        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-8.json').is_file())
+        # En un clon nuevo del proyecto no están los paquetes ni los checkouts (son locales): el número sale también de los
+        # informes y pedidos versionados, y un pedido nuevo no pisa ninguno.
+        import shutil
+        shutil.rmtree(self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'clue')
+        shutil.rmtree(self.root / '.factory/local/revisiones')
+        f.pedir_revision(self.ident, 'travieso', base=self.base)
+        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-9.json').is_file())
         # --base con el nombre de una rama: el clon no tiene la rama, pero la base va como SHA.
         self.git('branch', 'base-con-nombre', self.base)
         f.pedir_revision(self.ident, 'travieso', base='base-con-nombre')
-        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-8.json').is_file())
+        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-10.json').is_file())

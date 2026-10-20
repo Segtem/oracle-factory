@@ -10,7 +10,7 @@ ahí; el 2026-10-20 un revisor probó un nombre raro con `git config user.name` 
 
 ## What changes
 
-- El checkout de revisión es un clon local aparte (`git clone --shared`, sin copiar objetos) en el commit del candidato:
+- El checkout de revisión es un clon local aparte (`git clone --local`: en el mismo disco enlaza los objetos, sin copiarlos, y no depende de ellos) en el commit del candidato:
   su configuración, sus ramas y sus hooks son suyos. Lo que un revisor haga con git ahí no cambia el repositorio.
 - Cada pedido tiene su propio clon (`.factory/local/revisiones/<sha>-<revisor>-<n>`): dos revisores no comparten checkout,
   y un checkout viejo (un worktree de antes) ya no se usa. El clon no tiene remoto, y antes de validar el informe vuelve

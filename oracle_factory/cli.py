@@ -1207,10 +1207,12 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
-        # El siguiente número de este revisor (exacto: «codex» no cuenta los de «codex-rapido»), mirando sus paquetes y
-        # también sus clones, que pueden haber quedado de un pedido que falló antes de su paquete.
-        usados = [int(m[1]) for x in [*clue_dir.glob("paquete-*.json"), *revisiones.glob(f"{sha}-*")]
-                  for m in [re.fullmatch(rf"(?:paquete-{re.escape(nombre)}-|{sha}-{re.escape(nombre)}-)(\d+)(?:\.json)?", x.name)] if m]
+        # El siguiente número de este revisor (exacto: «codex» no cuenta los de «codex-rapido»), mirando sus informes y
+        # pedidos (versionados: en un clon nuevo no están los paquetes ni los checkouts, que son locales), sus paquetes y
+        # sus clones, que pueden haber quedado de un pedido que falló antes de su paquete.
+        nombre_ = re.escape(nombre)
+        usados = [int(m[1]) for x in [*revision_dir.glob(f"{nombre}-*"), *clue_dir.glob("paquete-*.json"), *revisiones.glob(f"{sha}-*")]
+                  for m in [re.fullmatch(rf"(?:{nombre_}-|paquete-{nombre_}-|{sha}-{nombre_}-)(\d+)(?:\.json|\.pedido\.md)?", x.name)] if m]
         n = max(usados, default=0) + 1
         paquete = clue_dir / f"paquete-{nombre}-{n}.json"
         # Un clon aparte por pedido, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y
