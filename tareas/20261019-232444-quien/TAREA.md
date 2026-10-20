@@ -1,6 +1,6 @@
 # Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -59,3 +59,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-20 00:21:44 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261019-232444-quien/oracle-veredicto.txt.
+
+### Nota (2026-10-20 00:29:14 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
