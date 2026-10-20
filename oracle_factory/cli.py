@@ -2165,6 +2165,24 @@ def actualizar_kb(identificador: str) -> None:
         print(f"Aviso: no pude actualizar kb/ ({type(e).__name__}: {e}); corré oracle-factory kb.", file=sys.stderr)
 
 
+SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
+               "trailer", "hooks", "init", "ejemplo"}
+
+
+def refrescar_kb(comando: str, identificador: str | None) -> None:
+    """Al terminar un comando que cambió algo: las notas de ese cambio (o todas, si tocó varios). Algunos comandos escriben
+    los requisitos después del registro (medir, importar), así que guardar() no alcanza."""
+    if comando in SOLO_LECTURA or not (ROOT / kb_mod.DIR).is_dir():
+        return
+    if identificador and ID_RE.fullmatch(identificador):
+        actualizar_kb(identificador)
+    else:
+        try:
+            escribir_kb(kb_mod.armar(sys.modules[__name__]))
+        except Exception as e:  # noqa: BLE001
+            print(f"Aviso: no pude actualizar kb/ ({type(e).__name__}: {e}); corré oracle-factory kb.", file=sys.stderr)
+
+
 def comando_kb(verificar: bool) -> None:
     notas = kb_mod.armar(sys.modules[__name__])
     if not verificar:
@@ -3588,6 +3606,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "estado":
             mostrar(args.id)
             return ofrecer_siguiente(args.id)
+        refrescar_kb(args.comando, getattr(args, "id", None))
         return 0
     except ModuleNotFoundError as e:
         if not (e.name or "").startswith("oracle_metalenguaje"):

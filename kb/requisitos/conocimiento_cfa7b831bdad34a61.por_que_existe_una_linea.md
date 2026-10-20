@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261020-140603-kb]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «una línea escrita en un cambio cerrado», «una línea que no es de ningún cambio»
+- Medidas: `factory_kb.por_que_existe_una_linea`, `factory_kb.corrida_completa`
 - Fuente: openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md#por qué existe una línea
 
 Tipo: funcional `oracle-factory por-que ARCHIVO:LÍNEA` (y `--json`) SHALL ir del commit que escribió esa línea a su cambio (por el trailer, o deducido de sus commits) y SHALL mostrar sus requisitos con su veredicto, las decisiones con quién, cuándo y su motivo, los riesgos aceptados y hallazgos sobre ese archivo, y las notas humanas que lo tienen como fuente; si la línea no es de ningún cambio, SHALL decirlo con su commit. La extensión de VS Code SHALL mostrarlo para la línea del cursor sin modificar nada.

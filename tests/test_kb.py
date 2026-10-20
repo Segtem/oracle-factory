@@ -119,6 +119,13 @@ class Conocimiento(unittest.TestCase):
         self.assertIn('Spec aprobada', (self.root / 'kb/cambios' / f'{nuevo}.md').read_text())
         self.assertIn(f'[[cambios/{nuevo}]]', (self.root / 'kb/README.md').read_text())
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
+        # importar y medir escriben los requisitos después del registro: al terminar el comando, el vault también está al día.
+        self.assertEqual(self.correr('--agente', 'claude-code', 'importar', nuevo)[0], 0)
+        [rid] = f.leer(nuevo)[1]['requisitos']
+        self.assertEqual(self.correr('--agente', 'claude-code', 'medir', nuevo, '--requisito', rid, '--medida', 'notas.casos_ejecutados',
+                                     '--quitar-sin-medir')[0], 0)
+        self.assertIn('`notas.casos_ejecutados`', (self.root / 'kb/requisitos' / f'{rid}.md').read_text())
+        self.assertEqual(self.correr('kb', '--verificar')[0], 0)
         # Una nota generada editada a mano: la verificación falla y no la toca.
         nota = self.root / 'kb/cambios' / f'{nuevo}.md'
         nota.write_text(nota.read_text() + '\nUna línea a mano.\n')
