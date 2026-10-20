@@ -145,6 +145,8 @@ async function hasta(cond, que) {
     await ivan.panel.recibir({tipo: 'abrir', archivo: 'C:\\Windows\\win.ini', linea: 1});
     await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}`});
     await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}\ntouch pwned`});
+    await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado ${cambio}; touch pwned`});
+    await ivan.panel.recibir({tipo: 'terminal', comando: `oracle-factory estado $(touch pwned)`});
 
     // Un mensaje del invitado: lo guarda la anfitriona con el nombre de Live Share.
     await ivan.panel.recibir({tipo: 'mensaje', cambio, texto: 'revisá el hook <b>ya</b>'});

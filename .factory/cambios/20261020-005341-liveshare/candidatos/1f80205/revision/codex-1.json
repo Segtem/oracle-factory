@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-liveshare/.factory/local/revisiones/1f80205",
+  "base": "2d5ed6a4055c0c41ffd822198f1e078052043cef",
+  "head": "1f80205de35ab52157fe9954cfa46ec2612bb45f",
+  "diff_sha256": "0c8aaafa0e6754b2f6fc9c13aff28ef973a4955346f642b4849c6296f9059706",
+  "context_sha256": "391e8d587a05524628bcd1778e7188b45b5555ea8ee5fd8cf59c0237b4d39d2d",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "LS-SEC-07",
+      "kind": "seguridad",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "El pedido remoto puede agregar operadores de shell al comando escrito en la terminal del anfitrión",
+      "explanation": "El manejador RPC de `terminal` acepta cualquier string y `escribirComando()` lo entrega a `modelo.comandoDe()`. Ese filtro sólo exige que el texto empiece exactamente con `oracle-factory ` y no tenga CR/LF; no rechaza operadores como `;`, `&&`, `|`, redirecciones o sustituciones de shell. Así, un invitado conectado puede pedir que se escriba, por ejemplo, `oracle-factory estado 20261020-005341-liveshare; echo añadido-por-invitado`, y el anfitrión verá una línea que contiene una segunda orden. `sendText(..., false)` no la ejecuta automáticamente, por lo que el anfitrión todavía tiene que revisar y pulsar Enter; aun así, el filtro permite que una petición descrita como comando Factory ponga shell arbitrario en la terminal compartida.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 132,
+        "end_line": 133,
+        "side": "head"
+      },
+      "trigger": "Un invitado envía al webview un pedido `terminal` con `oracle-factory estado <ID>; <otra orden>` (o `oracle-factory estado <ID> && <otra orden>`). El anfitrión abre el tablero y recibe el texto en la terminal Factory.",
+      "evidence": "En el rango modificado, `escribirComando()` comprueba sólo el resultado booleano de `modelo.comandoDe(texto, cli(raiz))`. En `editores/vscode/modelo.js:21-23`, ese helper acepta cualquier cadena que empiece con `oracle-factory ` y no contenga saltos de línea; concatena intacto todo el sufijo. `editores/vscode/extension.js:90` usa `terminal.sendText(nodo.comando, false)`: el pedido no pulsa Enter, pero los operadores permanecen en la línea para cuando la persona decida ejecutarla. La prueba sólo intenta un comando Factory simple y uno multilínea (`tests/liveshare_en_node.cjs:146-147`), no operadores en una sola línea.",
+      "related_requirement": "ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte",
+      "status": "pendiente",
+      "verification": "Inspección estática de los validadores y del envío a la terminal. No hice una mutación ni escribí en el checkout candidato. Rechazar sintaxis de shell adicional o construir el comando desde una lista permitida de argumentos; agregar un caso de una sola línea con `;` o `&&` que compruebe que no se escribe en la terminal."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-liveshare/.venv/bin/python -m unittest tests.test_liveshare tests.test_tablero </dev/null` desde la raíz del checkout candidato: 11 pruebas, todas pasaron. Node arrancó y las pruebas de Live Share se ejecutaron.",
+    "No corrí la suite completa ni otras pruebas o mutaciones. Dejé el diff completo del paquete en `review_diff.txt` en la carpeta de revisión.",
+    "La revisión de Live Share usa el mock de dos VS Code y no cubre la API real ni dos máquinas físicas. No probé la interacción manual con el terminal VS Code.",
+    "Inspeccioné los tres requisitos y los archivos de producto incluidos en el paquete, además de contrastar las correcciones previas y los hallazgos de la vuelta anterior. Omití los 10 archivos Factory excluidos indicados por la persona."
+  ]
+}

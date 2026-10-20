@@ -127,7 +127,10 @@ function diffLocal(sha) {
 }
 
 // Un comando que viene del panel (propio o de un invitado): sólo `oracle-factory …` de una línea, escrito sin Enter.
-function escribirComando(texto) {
+// El de un invitado, además, sin operadores de shell: sólo letras, números, espacios y . _ / : = -, como los pasos de
+// Factory (un `; rm …` no llega a la terminal de quien comparte).
+function escribirComando(texto, deUnInvitado = false) {
+    if (deUnInvitado && (typeof texto !== 'string' || !/^[\p{L}\p{N} ._/:=-]+$/u.test(texto))) return false;
     const raiz = carpeta();
     const comando = raiz && modelo.comandoDe(texto, cli(raiz));
     if (comando) escribirPaso({comando});
@@ -203,7 +206,7 @@ function abrirTablero() {
 function activate(context) {
     const vista = new Vista();
     sesion = new Sesion(vscode, {
-        tablero: datosLocales, terminal: escribirComando, mensaje: guardarMensaje, diff: diffLocal,
+        tablero: datosLocales, terminal: comando => escribirComando(comando, true), mensaje: guardarMensaje, diff: diffLocal,
         cambio: () => pintarTablero(),
     });
     sesion.iniciar(context.extension ? context.extension.id : 'cs50-taller.oracle-factory');
