@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261019-232444-quien",
+  "contexto": {
+    "head": "74831d1821130cf54e9ef8c68cfbd4110190f4a9",
+    "archivos_sha256": "619b2921f4b674450393c33a24db59855b2b60999db296e5b5703cee8ac3f1bd"
+  },
+  "documentos": {
+    "openspec/changes/20261019-232444-quien/proposal.md": "a4151dae9f26e4dd935c453160bca1398d524da025feb4870c899e72f75266bc",
+    "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md": "843d0693c1052d518bc1f0faea22f6d7712ef7b80e3434e15856c725d39bffee"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_quien.corrida_completa.oracle",
+    "catalogos/factory_quien.el_trailer_elige_bien_el_cambio.oracle",
+    "catalogos/factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que.oracle",
+    "catalogos/factory_quien.un_cambio_dice_quien_lo_tiene.oracle",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261019-232444-quien/design.md",
+    "openspec/changes/20261019-232444-quien/proposal.md",
+    "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+    "openspec/changes/20261019-232444-quien/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/tablero.py",
+    "requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio.requisito",
+    "requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que.requisito",
+    "requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene.requisito",
+    "tests/datos/cli_texto/estado.txt",
+    "tests/test_commits.py",
+    "tests/test_quien.py",
+    "tools/verify_quien.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 420 pruebas, 6 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-232444-quien/candidatos/b25339a/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-232444-quien/candidatos/b25339a/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-232444-quien/candidatos/b25339a/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 1e6459f: agy (gemini-3.8-flash-high), 5 hallazgos: qn-01 (alta), qn-02 (media), qn-03 (media), qn-04 (baja), qn-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-232444-quien/candidatos/1e6459f/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 1e6459f: codex (gpt-6-luna), 2 hallazgos: QN-001 (media), QN-002 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261019-232444-quien/candidatos/1e6459f/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios qn1–qn3 en repositorios temporales, Linux, con git real (el hook corre en cada commit) y Oracle 0.39.0; el panel corre en node con un vscode falso. Tomar un cambio es un acuerdo registrado, no un candado: no se prueba con dos máquinas.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas especificadas en las indicaciones en primer plano desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null (10 pruebas pasadas exitosamente, incluyendo la ejecución del tablero en Node.js).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas para acatar la restricción de las instrucciones de revisión.",
+    "agy (gemini-3.8-flash-high): Se contrastó la implementación de oracle_factory/cli.py, oracle_factory/tablero.py, editores/vscode/tablero.js, README.md, tests/test_quien.py, tests/test_commits.py, tests/datos/cli_texto/estado.txt, catalogos/ y tools/verify_quien.py contra los 3 requisitos de la spec colaboracion.",
+    "agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: qn-01 (agente no declarado con actividad reciente y tablero --json probado), qn-02/QN-002 (límite temporal superior para fechas futuras y lectura en UTC para fechas naive), qn-03 (omisión de trailer cuando quien commitea tiene múltiples cambios tomados), qn-04 (verificación de rev-parse --show-toplevel en Quien.setUp) y qn-05 (hora vacía en panel formatea como guion largo). Se confirmó que QN-001 se mantiene conforme a diseño con docstring explícito en lanzamientos_abiertos.",
+    "agy (gemini-3.8-flash-high): Se verificó la ausencia de inyección HTML en editores/vscode/tablero.js (valores variables saneados con esc()), la imposibilidad de que actores no humanos queden como responsable o pisen asignaciones ajenas sin --relevo, la correcta prioridad de trailers de commit y que los tests con Git respeten los límites del temporal.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manual en copias temporales aisladas comprobando que las aserciones de tests.test_quien y tests.test_commits fallan ante regresiones de estas propiedades.",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias pendientes respecto a la spec y los requisitos prometidos; la lista findings se entrega vacía.",
+    "codex (gpt-6-luna): Leí la propuesta, la spec, el diff completo del paquete y los archivos de producto y pruebas indicados; los 10 archivos excluidos de registros y evidencia de Factory no se revisaron.",
+    "codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null` desde la raíz del checkout b25339a: 10 pruebas, OK. La prueba de tablero en Node se ejecutó y no fue omitida.",
+    "codex (gpt-6-luna): Inspeccioné las rutas de identidad, relevo y liberación; selección del trailer con IDs, varios cambios y user.name vacío; normalización y límites temporales; escape de valores en el HTML; y aislamiento de los repositorios Git temporales. No encontré un defecto reproducible ni una regresión en esos puntos.",
+    "codex (gpt-6-luna): No ejecuté la suite completa, tools/verify_quien.py ni Oracle. No hice mutaciones: el checkout candidato permaneció sin cambios; el informe se validará con oracle-clue."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

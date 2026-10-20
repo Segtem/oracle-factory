@@ -278,6 +278,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "83b767b4ce87"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T00:17:28+00:00",
+      "decision": "aprobar",
+      "candidato": "b25339a"
     }
   ],
   "tipos": {
@@ -342,5 +352,15 @@
     "con": [
       "claude-code"
     ]
+  },
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos vueltas de codex y agy; en la segunda ninguno dejó hallazgos. Corregido en la primera con pruebas que fallan sin cada corrección: un agente no declarado con actividad reciente aparece (también en el tablero), una fecha futura no es reciente y una sin zona se lee en UTC, con dos cambios tomados no hay trailer, y los tests con git no salen del temporal. QN-001 (un pedido interrumpido como revisor en curso) no se cambió: interrumpido es un pedido que terminó, la regla de higiene; los revisores la aceptaron en la vuelta 2.",
+      "candidato": "b25339a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T00:17:28+00:00"
+    }
   }
 }
