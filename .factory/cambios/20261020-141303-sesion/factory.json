@@ -203,6 +203,36 @@
       "revisor": "agy",
       "candidato": "cac6f72",
       "lanzamiento": "4439d505c19c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T15:10:59+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "cac6f72",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "6f397fb076f0"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T15:31:11+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "cac6f72",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "4439d505c19c"
     }
   ],
   "tipos": {

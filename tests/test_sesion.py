@@ -61,6 +61,12 @@ class Sesion(unittest.TestCase):
         self.assertEqual(salida['avisos'], [f'Enlace de la sesión copiado: {sesion1}'] * 2)
         # Una sesión que ya se compartió desde la paleta, con el rol como texto: a Live Share no se le pide compartir otra
         # vez (lo rechaza con «command '…' already exists» y deja la sesión a medias).
+        # El rol, como número o como texto; Role.None (0) es sin sesión aunque quede un id.
+        r = subprocess.run([_tablero.NODE, '-e', 'const {rolDe} = require(process.argv[1]); console.log(JSON.stringify(['
+                            '[0, "s"], ["None", "s"], ["0", "s"], [1, null], ["Host", null], [2, null], ["Guest", null], '
+                            '[undefined, "s"], [undefined, null], ["raro", "s"]].map(([x, id]) => rolDe(x, id))))',
+                            str(_tablero.EXTENSION / 'liveshare.js')], capture_output=True, text=True, timeout=60)
+        self.assertEqual(json.loads(r.stdout), [0, 0, 0, 1, 1, 2, 2, 1, 0, 0])
         ya = self.correr('ya-compartida')
         self.assertIn('<b>Ana</b> (vos, anfitrión)', ya['vistas']['inicio'])
         self.assertIn('data-sesion="copiar">Copiar enlace', ya['vistas']['inicio'])

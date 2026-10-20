@@ -10,11 +10,12 @@ const ROL = {1: 'anfitrión', 2: 'invitado'};
 // El rol, venga como número (la API de vsls) o como texto («Host», «Guest»). Una sesión con id y sin rol conocido es
 // la de quien la compartió.
 function rolDe(x, conId) {
-    if (x === 1 || x === 2) return x;
+    if (x === 0 || x === 1 || x === 2) return x;
     const t = String(x == null ? '' : x).toLowerCase();
+    if (t === 'none' || t === '0') return 0;  // Role.None: sin sesión, aunque quede un id
     if (t === 'host' || t === '1') return 1;
     if (t === 'guest' || t === '2') return 2;
-    return conId ? 1 : 0;
+    return x == null && conId ? 1 : 0;  // sin rol informado pero con sesión: la de quien la compartió
 }
 
 function nombre(usuario) {

@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/cac6f72",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "cac6f72573eac84d2c01793f78618f7888df0142",
+  "diff_sha256": "129ab0bfe6e986b3aab60855030c14cb437658a87a917f1f51abe1548311a66e",
+  "context_sha256": "c855a64814038359948458cba917ea22d5a90aeec86a208cb61ca8c27f3bf22f",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta y la spec, el diff del paquete y las implementaciones/pruebas de liveshare.js, extension.js, tablero.js, package.json, README, tests/test_sesion.py, tests/sesion_en_node.cjs, tools/verify_sesion.py y catalogos/factory_sesion.*.oracle.",
+    "Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null. Resultado: Ran 7 tests; OK.",
+    "La prueba ejercita VS Code y Live Share falsos en Node. No ejecuté una sesión real de VS Code/Live Share ni tools/verify_sesion.py ni la suite completa.",
+    "No hice mutaciones manuales. Inspeccioné las rutas de sesión y la aserción del doble clic; no encontré defectos residuales dentro del alcance revisado."
+  ]
+}
