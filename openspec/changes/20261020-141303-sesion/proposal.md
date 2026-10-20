@@ -11,7 +11,9 @@ puede ofrecer la acción que sigue.
 - Sin Live Share instalado, el tablero ofrece «Instalar Live Share», que abre la extensión en VS Code para instalarla.
 - Con Live Share y sin sesión, ofrece «Compartir sesión» (la empieza y Live Share copia el enlace, como siempre) y
   «Unirse a una sesión» (pide el enlace y entra como invitado).
-- Como anfitrión, ofrece «Terminar sesión»; como invitado, «Salir de la sesión».
+- Como anfitrión, muestra el enlace de la sesión con «Copiar enlace» (al portapapeles, y en un aviso) para pasárselo a la
+  otra persona, y ofrece «Terminar sesión»; como invitado, «Salir de la sesión».
+- Brian lo pidió al probarlo (2026-10-20): «falta que una vez creada la sesión pueda copiar el vínculo para compartir».
 
 ## Out of scope
 
