@@ -1,0 +1,40 @@
+{
+  "kb_caso": [
+    {
+      "requisito": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "caso": "kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "caso": "kb1_el_vault_queda_viejo",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "caso": "kb2_una_guia_cuyo_archivo_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "caso": "kb2_revisar_sin_terminal_o_una_fuente_que_no_existe",
+      "codigo": 0
+    },
+    {
+      "requisito": "por_que_existe_una_linea",
+      "caso": "kb3_una_linea_escrita_en_un_cambio_cerrado",
+      "codigo": 0
+    },
+    {
+      "requisito": "por_que_existe_una_linea",
+      "caso": "kb3_una_linea_que_no_es_de_ningun_cambio",
+      "codigo": 0
+    }
+  ],
+  "kb_corrida": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ]
+}
