@@ -1,0 +1,115 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-quien/.factory/local/revisiones/1e6459f",
+  "base": "907fe1505fb695101e9d0e9c5306be3623afadbc",
+  "head": "1e6459f550a49714285da45cb7ede8cd56c34e95",
+  "diff_sha256": "32d2165bdbb53ed36fc4cc6b33cdfb7a87f058ee49e1b8ed57782f6ecca54b77",
+  "context_sha256": "ffa479209a17b7c2dfdc944ee04805bf8f39847b92779d62683a5d768a723b55",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas especificadas en las instrucciones con Git y Node.js en primer plano: PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null desde la raíz del checkout.",
+    "No se ejecutó la suite completa de tests de la fábrica para respetar las indicaciones de revisión.",
+    "No se ejecutaron pruebas de red distribuida o concurrencia multiproceso real (fuera del alcance declarado de candado)."
+  ],
+  "findings": [
+    {
+      "id": "qn-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "test_qn2_un_cambio_con_persona_agentes_y_un_revisor_en_curso no prueba un agente no declarado con actividad reciente y sobrevive la mutación que elimina or reciente",
+      "explanation": "El escenario de la spec «un cambio con persona, agentes y un revisor en curso» exige: «GIVEN un cambio tomado por una persona con claude-code, con una acción reciente de codex y un revisor lanzado sin resultado; WHEN se pide oracle-factory estado ID --json y tablero --json; THEN aparecen la persona, claude-code y codex con su última acción, y el revisor en curso». Sin embargo, en tests/test_quien.py el test ejecuta f.AGENTE = 'codex'; f.tomar(ident), lo cual genera un evento agente_sumado e incorpora a codex como agente declarado (declarado: True). El test no prueba un agente que haya actuado en las últimas 24 horas sin haber sido declarado ni sumado. Además, el test no pide ni valida tablero --json como estipula el escenario. Debido a esto, mutar quien_del_cambio en oracle_factory/cli.py eliminando la condición or reciente (dejando únicamente if nombre in declarados:) sobrevive con los 10 tests en verde.",
+      "location": {
+        "file": "tests/test_quien.py",
+        "side": "head",
+        "start_line": 80,
+        "end_line": 108
+      },
+      "trigger": "Ejecutar la suite de tests contra una versión mutada de oracle_factory/cli.py donde se elimine 'or reciente' en quien_del_cambio, o contrastar la inicialización de codex en test_qn2_un_cambio_con_persona_agentes_y_un_revisor_en_curso con el escenario de la spec.",
+      "evidence": "En tests/test_quien.py:84-88, codex es sumado mediante f.tomar(ident), por lo que en líneas 98-99 se aserta {'claude-code': (True, 'cambio_creado'), 'codex': (True, 'agente_sumado')}. Ambos figuran con declarado: True. Al mutar cli.py:706 reemplazando 'if nombre in declarados or reciente:' por 'if nombre in declarados:', todos los tests de tests.test_quien y tests.test_commits pasan exitosamente.",
+      "related_requirement": "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "status": "pendiente",
+      "verification": "Modificar una copia de oracle_factory/cli.py:706 para omitir 'or reciente' y ejecutar PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null; la prueba completa pasa sin detectar la ausencia de soporte a agentes recientes no declarados."
+    },
+    {
+      "id": "qn-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "quien_del_cambio no restringe la cota superior temporal y clasifica eventos futuros como actividad reciente de las últimas 24 horas",
+      "explanation": "El requisito establece mostrar «los agentes declarados y los que actuaron en las últimas 24 horas con su última acción». En oracle_factory/cli.py, la variable limite se calcula como ahora - 24 horas, y la condición de actividad reciente evalúa dt.datetime.fromisoformat(ultima[\"cuando\"]) >= limite. No existe validación de que la fecha sea menor o igual a la actual, por lo que cualquier acción registrada con una fecha en el futuro (por reloj adelantado o inconsistencia temporal) se considera erróneamente dentro de las últimas 24 horas. Adicionalmente, si el timestamp no incluye offset de zona horaria (offset-naive), fromisoformat produce un datetime naive que al compararse con limite (aware) produce TypeError, cayendo en el bloque except y marcando reciente = False aun cuando la acción haya ocurrido minutos atrás.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "side": "head",
+        "start_line": 701,
+        "end_line": 708
+      },
+      "trigger": "Registrar en el estado de un cambio un evento de agente con timestamp posterior al momento actual o en formato ISO naive sin offset UTC.",
+      "evidence": "En oracle_factory/cli.py:703, dt.datetime.fromisoformat(ultima[\"cuando\"]) >= limite. Con una fecha como 2099-01-01T00:00:00+00:00, la expresión devuelve True. Con una fecha naive como 2026-10-19T20:00:00, se produce TypeError: can't compare offset-naive and offset-aware datetimes y la línea 705 asigna reciente = False.",
+      "related_requirement": "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "status": "pendiente",
+      "verification": "Invocar quien_del_cambio con un evento fechado en el futuro y comprobar que el agente es listado en agentes como activo reciente."
+    },
+    {
+      "id": "qn-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_qn3_varios_abiertos_y_uno_tomado_por_quien_commitea no valida la omisión de trailer cuando la persona committer tomó más de un cambio abierto",
+      "explanation": "La spec para el trailer exige: «si hay varios abiertos, el único que tiene como responsable a la persona que hace el commit (su nombre en la configuración de Git). En cualquier otro caso SHALL NOT agregar el trailer». El test test_qn3_varios_abiertos_y_uno_tomado_por_quien_commitea sólo comprueba el caso donde la persona tomó exactamente uno y la otra no tomó ninguno. No evalúa el escenario donde la persona que commitea tiene como responsable más de un cambio abierto simultáneamente. Por ende, la mutación en oracle_factory/cli.py:748 de return mios[0] if len(mios) == 1 else None a return mios[0] if len(mios) >= 1 else None sobrevive sin ser detectada por los tests.",
+      "location": {
+        "file": "tests/test_quien.py",
+        "side": "head",
+        "start_line": 154,
+        "end_line": 167
+      },
+      "trigger": "Reemplazar en oracle_factory/cli.py:748 la comprobación len(mios) == 1 por len(mios) >= 1 y correr tests.test_quien tests.test_commits.",
+      "evidence": "En tests/test_quien.py:155, únicamente se crean mio y otro, asignando responsable sólo a mio. Al modificar cli.py para devolver mios[0] cuando len(mios) >= 1, las pruebas pasan 10/10.",
+      "related_requirement": "colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio",
+      "status": "pendiente",
+      "verification": "Ejecutar PYTHONPATH=. python -m unittest tests.test_quien tests.test_commits </dev/null sobre una copia donde len(mios) == 1 se relaje a len(mios) >= 1 y verificar que ningún test falla."
+    },
+    {
+      "id": "qn-04",
+      "kind": "regresion",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "tests/test_quien.py no configura GIT_CEILING_DIRECTORIES ni verifica rev-parse --show-toplevel en class Quien",
+      "explanation": "La propuesta y el diseño del cambio establecen como objetivo que las pruebas con Git nunca toquen un repositorio que las contenga, tras el incidente del 2026-10-19 donde se creó una rama tarea/viejo en el worktree real. El diseño estipulaba un ayudante común que fijara GIT_CEILING_DIRECTORIES y comprobara git rev-parse --show-toplevel. Sin embargo, esto sólo se agregó en tests/test_commits.py. En tests/test_quien.py, la clase Quien hereda de _archivo.Archivo sin fijar GIT_CEILING_DIRECTORIES en su entorno ni verificar el toplevel antes de ejecutar comandos git (como git config user.name, git add y git commit), omitiendo la protección requerida contra escaladas accidentales al repositorio contenedor.",
+      "location": {
+        "file": "tests/test_quien.py",
+        "side": "head",
+        "start_line": 20,
+        "end_line": 22
+      },
+      "trigger": "Revisar la configuración de entorno en setUp y la ejecución de comandos git en tests/test_quien.py:Quien frente a tests/test_commits.py:Commits.",
+      "evidence": "En tests/test_quien.py:21, setUp, git = _archivo.Archivo.setUp, _archivo.Archivo.git. A diferencia de tests/test_commits.py:17, 28, en _archivo.Archivo no se define GIT_CEILING_DIRECTORIES ni se comprueba self.assertEqual(Path(self.git('rev-parse', '--show-toplevel')).resolve(), self.root.resolve()).",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Comprobar que en tests/test_quien.py la clase Quien no cuenta con la variable de entorno GIT_CEILING_DIRECTORIES ni la aserción de rev-parse --show-toplevel presentes en Commits."
+    },
+    {
+      "id": "qn-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "hora(iso) en editores/vscode/tablero.js formatea timestamps nulos como 31/12/1969",
+      "explanation": "En editores/vscode/tablero.js, la función quien(cambio) pasa fechas como q.responsable.desde y v.cuando a hora(iso). En JavaScript, new Date(null) genera la fecha epoch (1970-01-01T00:00:00Z, que en huso horario local UTC-3 se expresa como 31/12/1969 21:00). Dado que isNaN(new Date(null)) es falso, hora(null) retorna '31/12, 09:00 p. m.' en lugar de una cadena vacía. Si un cambio o revisor en curso contiene un campo cuando o desde nulo en el JSON del estado, el panel HTML renderiza una fecha visible espuria de 1969.",
+      "location": {
+        "file": "editores/vscode/tablero.js",
+        "side": "head",
+        "start_line": 63,
+        "end_line": 69
+      },
+      "trigger": "Renderizar el panel con un objeto quien donde responsable.desde o revisores_en_curso[].cuando sea null.",
+      "evidence": "En Node.js, new Date(null).toLocaleString('es-AR', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'}) produce '31/12, 09:00 p. m.'. En tablero.js:64 y 68 se invoca hora(q.responsable.desde) y hora(v.cuando) sin comprobar previamente si el valor es null o vacío.",
+      "related_requirement": "colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "status": "pendiente",
+      "verification": "Ejecutar node -e 'function hora(iso) { const d = new Date(iso); return isNaN(d) ? \"\" : d.toLocaleString(\"es-AR\"); } console.log(hora(null))' y comprobar que produce una fecha de diciembre de 1969."
+    }
+  ]
+}

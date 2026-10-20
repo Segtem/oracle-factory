@@ -1,0 +1,40 @@
+{
+  "quien_caso": [
+    {
+      "requisito": "un_cambio_dice_quien_lo_tiene",
+      "caso": "Quien.test_qn1_tomar_soltar_y_relevar",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_cambio_dice_quien_lo_tiene",
+      "caso": "Quien.test_qn1_un_agente_se_suma",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "caso": "Quien.test_qn2_un_cambio_con_persona_agentes_y_un_revisor_en_curso",
+      "codigo": 0
+    },
+    {
+      "requisito": "estado_y_el_tablero_muestran_quien_trabaja_en_que",
+      "caso": "Quien.test_qn2_quien_esta_en_que_en_el_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_trailer_elige_bien_el_cambio",
+      "caso": "Trailer.test_qn3_un_merge_que_nombra_el_cambio_que_integra",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_trailer_elige_bien_el_cambio",
+      "caso": "Trailer.test_qn3_varios_abiertos_y_uno_tomado_por_quien_commitea",
+      "codigo": 0
+    }
+  ],
+  "quien_corrida": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ]
+}

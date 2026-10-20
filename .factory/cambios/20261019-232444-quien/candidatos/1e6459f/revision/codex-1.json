@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-quien/.factory/local/revisiones/1e6459f",
+  "base": "907fe1505fb695101e9d0e9c5306be3623afadbc",
+  "head": "1e6459f550a49714285da45cb7ede8cd56c34e95",
+  "diff_sha256": "32d2165bdbb53ed36fc4cc6b33cdfb7a87f058ee49e1b8ed57782f6ecca54b77",
+  "context_sha256": "ffa479209a17b7c2dfdc944ee04805bf8f39847b92779d62683a5d768a723b55",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "QN-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Una revisión interrumpida se quita de los revisores en curso",
+      "explanation": "lanzamientos_abiertos elimina el lanzamiento ante cualquier evento revision_pedida. pedir_revision registra resultado=\"interrumpido\" cuando el proceso se corta sin entregar informe; ese evento no es un resultado y aviso_lanzamientos incluso lo trata como interrumpido, pero el lanzamiento ya fue eliminado aquí. Por eso estado --json y tablero omiten al revisor aunque siga sin resultado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1434,
+        "end_line": 1436,
+        "side": "head"
+      },
+      "trigger": "En un cambio abierto, registrar revision_lanzada para revisor/candidato/lanzamiento x y luego revision_pedida con el mismo lanzamiento y resultado=\"interrumpido\" (camino producido por una revisión cancelada).",
+      "evidence": "Reproducción en memoria con esos dos eventos: lanzamientos_abiertos devuelve []. La implementación de pedir_revision en oracle_factory/cli.py registra resultado=\"interrumpido\" al abortarse la ejecución antes del resultado. Contradice «revisores lanzados sin resultado» del requisito de estado y tablero.",
+      "related_requirement": "estado y el tablero muestran quién trabaja en qué",
+      "status": "pendiente",
+      "verification": "Reproducido llamando lanzamientos_abiertos con una secuencia revision_lanzada → revision_pedida(interrumpido); retorna lista vacía."
+    },
+    {
+      "id": "QN-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una actividad fechada en el futuro cuenta como reciente",
+      "explanation": "El filtro sólo comprueba que cuando sea posterior al límite de hace 24 horas. Una fecha futura también satisface esa condición, por lo que un reloj adelantado o una fecha malformada válida puede mantener a un agente en el tablero como si hubiera actuado recientemente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 702,
+        "end_line": 704,
+        "side": "head"
+      },
+      "trigger": "En un cambio sin agentes declarados, agregar una acción de tipo_actor=\"agente\" con un cuando ISO posterior al momento actual, por ejemplo ahora + 30 días.",
+      "evidence": "Reproducción en memoria de quien_del_cambio con una acción de codex fechada 30 días en el futuro: devuelve codex en agentes con declarado=false. El requisito limita la actividad a las últimas 24 horas.",
+      "related_requirement": "estado y el tablero muestran quién trabaja en qué",
+      "status": "pendiente",
+      "verification": "Reproducido llamando quien_del_cambio con cuando = datetime.now(UTC) + 30 días; el agente aparece en la salida."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null` desde la raíz del checkout candidato: 10 pruebas, OK; no hubo skips, así que el caso de tablero en Node se ejecutó.",
+    "No corrí la suite completa ni herramientas de Oracle sobre el producto; el alcance fue el diff del paquete, sus pruebas y las rutas solicitadas.",
+    "Verifiqué HTML de editores/vscode/tablero.js: los valores variables de persona, agente, revisor e IDs que se insertan en el panel se pasan por esc; no encontré inyección reproducible.",
+    "Las reproducciones de hallazgos usaron secuencias sintéticas en memoria; no muté ni edité el checkout candidato.",
+    "Los dos archivos excluidos de registros/evidencia de Factory no se revisaron."
+  ]
+}

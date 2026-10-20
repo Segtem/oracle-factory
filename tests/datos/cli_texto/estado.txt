@@ -5,6 +5,7 @@ Requisitos Oracle: notas_c<h>.titulo_valido
 Pendiente: veredicto Oracle exitoso con evidencia
 revisión registrada sobre el commit <sha7>.
 Commits: 1; el último <sha7> «producto» (oracle-factory log para verlos).
+Responsable: nadie (oracle-factory tomar ID).
 Aviso: revisión registrada en <sha7>; HEAD actual <sha7> con el producto idéntico.
 Aprobación spec: sí, <actor> (persona, decidio, modo confirmacion)
 Revisión: <actor> / aprobar / 0 abiertos

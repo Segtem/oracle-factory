@@ -12,7 +12,9 @@ SOURCE = Path(__file__).resolve().parents[1]
 PYTHON_CLI = [sys.executable, '-c', 'import sys; from oracle_factory.cli import main; sys.exit(main())']
 NODE = shutil.which('node')
 ENTORNO = {**os.environ, 'PYTHONPATH': str(SOURCE), 'GIT_AUTHOR_NAME': 'Persona fixture', 'GIT_AUTHOR_EMAIL': 'p@example.invalid',
-           'GIT_COMMITTER_NAME': 'Persona fixture', 'GIT_COMMITTER_EMAIL': 'p@example.invalid'}
+           'GIT_COMMITTER_NAME': 'Persona fixture', 'GIT_COMMITTER_EMAIL': 'p@example.invalid',
+           # git no sube más allá de la carpeta temporal: un test nunca toca el repositorio que lo contiene.
+           'GIT_CEILING_DIRECTORIES': str(Path(tempfile.gettempdir()).resolve())}
 CON_AUTOR = 'Co-Authored-By: Agente fixture <agente@example.invalid>'
 
 
@@ -23,6 +25,7 @@ class Commits(unittest.TestCase):
         self.root = Path(self.tmp.name) / 'producto'
         self.root.mkdir()
         self.git('init', '-q', '-b', 'main')
+        self.assertEqual(Path(self.git('rev-parse', '--show-toplevel')).resolve(), self.root.resolve())
         self.instalado = self.cli('init')
         self.git('add', '.')
         self.git('commit', '-qm', 'init')

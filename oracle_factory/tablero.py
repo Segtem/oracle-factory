@@ -251,6 +251,7 @@ def armar(cli) -> dict:
                                 for e in estado.get("eventos") or []],
             "hallazgos": hallazgos, "requisitos": requisitos,
             "commits": datos["commits"],
+            "quien": datos["quien"],
             "artefactos": cli.datos_donde(ident, None)["artefactos"],
             "metricas": metricas,
         })
@@ -264,5 +265,10 @@ def armar(cli) -> dict:
                                "proporcion": round(en_una_vuelta / con_revision, 3) if con_revision else None},
             "hallazgos_por_revisor": revisores_proyecto,
             "decisiones_por_actor": actores_proyecto,
+            # Quién está en qué: los cambios abiertos por persona responsable, y los que no tienen.
+            "por_responsable": {persona: [c["id"] for c in cambios if (c["quien"]["responsable"] or {}).get("persona") == persona]
+                                for persona in sorted({c["quien"]["responsable"]["persona"] for c in cambios
+                                                       if c["quien"]["responsable"]})},
+            "sin_responsable": [c["id"] for c in cambios if not c["quien"]["responsable"]],
         },
     }

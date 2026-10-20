@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:f4016e85cc7beb6285d6dff3f6a15ec9f9b02052d0ede8745492a344949b056c -->
+<!-- oracle-factory resumen sha256:a875cf5b25b89176cbd6bacc29e79e88c18e4074df4bf23684b9110010614e3e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-18 capacidades · 145 requisitos vigentes · 1 cambio abierto
+19 capacidades · 148 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -60,6 +60,16 @@ Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
 | la plantilla de un cambio nuevo trae la forma de OpenSpec | funcional | `cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec` | factory_piloto.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
 | medir dice qué medidas reemplaza | funcional | `cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza` | factory_piloto.medir_dice_que_medidas_reemplaza, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
 | medir --listar separa las medidas del proyecto de las del catálogo base | funcional | `cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base` | factory_piloto.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
+
+### colaboracion
+
+Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaboracion/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| un cambio dice quién lo tiene | funcional | `colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene` | factory_quien.un_cambio_dice_quien_lo_tiene, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
+| estado y el tablero muestran quién trabaja en qué | funcional | `colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que` | factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
+| el trailer elige bien el cambio | funcional | `colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio` | factory_quien.el_trailer_elige_bien_el_cambio, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 
 ### decisiones
 
@@ -749,6 +759,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261019-182313-commits) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-commits/.venv/bin/python -m unittest tests.test_commits tests.test_cli_json </dev/null. Resultado: 12 pruebas, OK; el escenario del panel en Node pasó dentro de la suite.
 - (20261019-182313-commits) codex (gpt-6-luna): No se ejecutaron la suite completa ni tools/verify_commits.py. No se hicieron mutaciones en esta vuelta porque el código y las pruebas de producto son idénticos a la vuelta 5; la comparación está documentada en revision-notas.md.
 - (20261019-182313-commits) codex (gpt-6-luna): Los informes pedidos de 32e0ca5 (vuelta 5) están completos y sin hallazgos. No se revisaron decisiones ni registros de Factory que están fuera del alcance indicado.
+- (20261019-232444-quien) Evidencia: Escenarios qn1–qn3 en repositorios temporales, Linux, con git real (el hook corre en cada commit) y Oracle 0.39.0; el panel corre en node con un vscode falso. Tomar un cambio es un acuerdo registrado, no un candado: no se prueba con dos máquinas.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas especificadas en las indicaciones en primer plano desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null (10 pruebas pasadas exitosamente, incluyendo la ejecución del tablero en Node.js).
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas para acatar la restricción de las instrucciones de revisión.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): Se contrastó la implementación de oracle_factory/cli.py, oracle_factory/tablero.py, editores/vscode/tablero.js, README.md, tests/test_quien.py, tests/test_commits.py, tests/datos/cli_texto/estado.txt, catalogos/ y tools/verify_quien.py contra los 3 requisitos de la spec colaboracion.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: qn-01 (agente no declarado con actividad reciente y tablero --json probado), qn-02/QN-002 (límite temporal superior para fechas futuras y lectura en UTC para fechas naive), qn-03 (omisión de trailer cuando quien commitea tiene múltiples cambios tomados), qn-04 (verificación de rev-parse --show-toplevel en Quien.setUp) y qn-05 (hora vacía en panel formatea como guion largo). Se confirmó que QN-001 se mantiene conforme a diseño con docstring explícito en lanzamientos_abiertos.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): Se verificó la ausencia de inyección HTML en editores/vscode/tablero.js (valores variables saneados con esc()), la imposibilidad de que actores no humanos queden como responsable o pisen asignaciones ajenas sin --relevo, la correcta prioridad de trailers de commit y que los tests con Git respeten los límites del temporal.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manual en copias temporales aisladas comprobando que las aserciones de tests.test_quien y tests.test_commits fallan ante regresiones de estas propiedades.
+- (20261019-232444-quien) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias pendientes respecto a la spec y los requisitos prometidos; la lista findings se entrega vacía.
+- (20261019-232444-quien) codex (gpt-6-luna): Leí la propuesta, la spec, el diff completo del paquete y los archivos de producto y pruebas indicados; los 10 archivos excluidos de registros y evidencia de Factory no se revisaron.
+- (20261019-232444-quien) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null` desde la raíz del checkout b25339a: 10 pruebas, OK. La prueba de tablero en Node se ejecutó y no fue omitida.
+- (20261019-232444-quien) codex (gpt-6-luna): Inspeccioné las rutas de identidad, relevo y liberación; selección del trailer con IDs, varios cambios y user.name vacío; normalización y límites temporales; escape de valores en el HTML; y aislamiento de los repositorios Git temporales. No encontré un defecto reproducible ni una regresión en esos puntos.
+- (20261019-232444-quien) codex (gpt-6-luna): No ejecuté la suite completa, tools/verify_quien.py ni Oracle. No hice mutaciones: el checkout candidato permaneció sin cambios; el informe se validará con oracle-clue.
 
 ### Históricos
 

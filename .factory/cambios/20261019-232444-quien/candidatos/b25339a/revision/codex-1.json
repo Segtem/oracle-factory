@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-quien/.factory/local/revisiones/b25339a",
+  "base": "907fe1505fb695101e9d0e9c5306be3623afadbc",
+  "head": "b25339afa58502fbd1b28e06db853b0a3e9ecaef",
+  "diff_sha256": "0b961298802c1712dcb978ddb93a9a5541ad33a63cdd65319d20272c8d8ca4b0",
+  "context_sha256": "129b6da8be3db9e35ff93d88125c14cbebe9c04476e88fd20be8fc5772020f8b",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff completo del paquete y los archivos de producto y pruebas indicados; los 10 archivos excluidos de registros y evidencia de Factory no se revisaron.",
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-quien/.venv/bin/python -m unittest tests.test_quien tests.test_commits </dev/null` desde la raíz del checkout b25339a: 10 pruebas, OK. La prueba de tablero en Node se ejecutó y no fue omitida.",
+    "Inspeccioné las rutas de identidad, relevo y liberación; selección del trailer con IDs, varios cambios y user.name vacío; normalización y límites temporales; escape de valores en el HTML; y aislamiento de los repositorios Git temporales. No encontré un defecto reproducible ni una regresión en esos puntos.",
+    "No ejecuté la suite completa, tools/verify_quien.py ni Oracle. No hice mutaciones: el checkout candidato permaneció sin cambios; el informe se validará con oracle-clue."
+  ]
+}
