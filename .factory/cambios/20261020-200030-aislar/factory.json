@@ -2,11 +2,23 @@
   "id": "20261020-200030-aislar",
   "titulo": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
   "capacidad": "revisores",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T20:01:13+00:00",
+    "documentos": {
+      "openspec/changes/20261020-200030-aislar/proposal.md": "3d816c1a55adb0e431ff9110d6eb8e320b97cb5a7a7e1528cbb00d9fd72ee38b",
+      "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f"
+    }
+  },
+  "requisitos": [
+    "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +31,52 @@
       "forma": "decidio",
       "cuando": "2026-10-20T20:00:30+00:00",
       "capacidad": "revisores"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T20:01:13+00:00",
+      "documentos": {
+        "openspec/changes/20261020-200030-aislar/proposal.md": "3d816c1a55adb0e431ff9110d6eb8e320b97cb5a7a7e1528cbb00d9fd72ee38b",
+        "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T20:01:13+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T20:01:23+00:00",
+      "ids": [
+        "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T20:01:13+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
