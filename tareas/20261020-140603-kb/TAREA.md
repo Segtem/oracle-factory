@@ -43,3 +43,7 @@ Medidas de conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea: Brian Hollwe
 ### Nota (2026-10-20 16:11:21 UTC)
 
 Medidas de conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 19:55:23 UTC)
+
+Revisión guiada Persona [[cambios/inexistente]]: aprobar; registrada por Persona [[cambios/inexistente]] (persona, confirmo, modo confirmacion; motivo: Seis vueltas de codex y agy; en las dos últimas agy no dejó hallazgos y codex sólo KB6-01. Corregido con pruebas que fallan sin cada corrección: las notas generadas no son producto, el vault se rehace al terminar cada comando y quita lo que sobra, la nota de un cambio no cambia por commitear ni por integrarlo (commits con trailer y candidatos hasta la última decisión, por la fecha del commit), las fuentes no salen del proyecto (tampoco por enlaces), cada decisión lleva su motivo, y títulos y mensajes no inyectan Markdown. KB6-01 (el tramo puede atribuir un commit ajeno) es el precio de encontrar el cambio de una rama integrada sin merge (C-02): por-que lo marca «deducido por su tramo» y lo advierte; con el hook los commits nuevos llevan su trailer.); 0 abiertos derivados; commit 0fa097bd5f8220eece98bb2368e40f22cfcaff4c; informe tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/informe.json; decisiones tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/decisiones.json.

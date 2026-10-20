@@ -2,7 +2,7 @@
   "id": "20261020-140603-kb",
   "titulo": "El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?",
   "capacidad": "conocimiento",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
   "spec_sha256": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
     "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Persona [[cambios/inexistente]]",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/informe.json",
+    "sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
+    "decisiones": "tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/decisiones.json",
+    "decisiones_sha256": "b92a1a23f15a5160bc7ffebc96c510e8654b5b2ed6c2e8af38bc7e848bed36c4",
+    "actor": "Persona [[cambios/inexistente]]",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T19:55:23+00:00",
+    "motivo": "Seis vueltas de codex y agy; en las dos últimas agy no dejó hallazgos y codex sólo KB6-01. Corregido con pruebas que fallan sin cada corrección: las notas generadas no son producto, el vault se rehace al terminar cada comando y quita lo que sobra, la nota de un cambio no cambia por commitear ni por integrarlo (commits con trailer y candidatos hasta la última decisión, por la fecha del commit), las fuentes no salen del proyecto (tampoco por enlaces), cada decisión lleva su motivo, y títulos y mensajes no inyectan Markdown. KB6-01 (el tramo puede atribuir un commit ajeno) es el precio de encontrar el cambio de una rama integrada sin merge (C-02): por-que lo marca «deducido por su tramo» y lo advierte; con el hook los commits nuevos llevan su trailer.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "0fa097bd5f8220eece98bb2368e40f22cfcaff4c",
+      "archivos_sha256": "14065042cd64fc0cd3d49b07e50e3f17a25bda8d146164695073726ed1479b37"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -547,6 +567,20 @@
       "cuando": "2026-10-20T19:01:00+00:00",
       "decision": "aprobar",
       "candidato": "d730c42"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Persona [[cambios/inexistente]]",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T19:55:23+00:00",
+      "formato": "guiado",
+      "revisor": "Persona [[cambios/inexistente]]",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
+      "decisiones_sha256": "b92a1a23f15a5160bc7ffebc96c510e8654b5b2ed6c2e8af38bc7e848bed36c4"
     }
   ],
   "tipos": {
@@ -612,14 +646,34 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Seis vueltas de codex y agy; en las dos últimas agy no dejó hallazgos y codex sólo KB6-01. Corregido con pruebas que fallan sin cada corrección: las notas generadas no son producto, el vault se rehace al terminar cada comando y quita lo que sobra, la nota de un cambio no cambia por commitear ni por integrarlo (commits con trailer y candidatos hasta la última decisión, por la fecha del commit), las fuentes no salen del proyecto (tampoco por enlaces), cada decisión lleva su motivo, y títulos y mensajes no inyectan Markdown. KB6-01 (el tramo puede atribuir un commit ajeno) es el precio de encontrar el cambio de una rama integrada sin merge (C-02): por-que lo marca «deducido por su tramo» y lo advierte; con el hook los commits nuevos llevan su trailer.",
-      "candidato": "d730c42",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T19:01:00+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "firma": "oracle_factory/cli.py|porque puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "motivo": "Acepto el riesgo: por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:19+00:00",
+      "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Una nota huérfana pierde detección si se le quita la marca generada",
+      "firma": "oracle_factory/cli.py|una nota huérfana pierde detección si se le quita la marca generada",
+      "motivo": "Acepto el riesgo: Una nota huérfana pierde detección si se le quita la marca generada",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:20+00:00",
+      "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Los comandos mutadores recalculan el vault varias veces",
+      "firma": "oracle_factory/cli.py|los comandos mutadores recalculan el vault varias veces",
+      "motivo": "Acepto el riesgo: Los comandos mutadores recalculan el vault varias veces",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:21+00:00",
+      "candidato": "d730c42"
     }
-  }
+  ]
 }
