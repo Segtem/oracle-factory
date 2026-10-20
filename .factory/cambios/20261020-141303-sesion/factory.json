@@ -2,11 +2,23 @@
   "id": "20261020-141303-sesion",
   "titulo": "La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar",
   "capacidad": "ide",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "60d8b229275a236821bacaa63196ba32fb8d2cdb83bc47930e542fcf1eb601e3",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T14:13:38+00:00",
+    "documentos": {
+      "openspec/changes/20261020-141303-sesion/proposal.md": "846f2988212eb2e0335b9026b12936be818894d499e93a32bbf52856c617e84a",
+      "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "60d8b229275a236821bacaa63196ba32fb8d2cdb83bc47930e542fcf1eb601e3"
+    }
+  },
+  "requisitos": [
+    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +31,52 @@
       "forma": "decidio",
       "cuando": "2026-10-20T14:13:03+00:00",
       "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:13:38+00:00",
+      "documentos": {
+        "openspec/changes/20261020-141303-sesion/proposal.md": "846f2988212eb2e0335b9026b12936be818894d499e93a32bbf52856c617e84a",
+        "openspec/changes/20261020-141303-sesion/specs/ide/spec.md": "60d8b229275a236821bacaa63196ba32fb8d2cdb83bc47930e542fcf1eb601e3"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:13:39+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:14:05+00:00",
+      "ids": [
+        "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T14:13:39+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
