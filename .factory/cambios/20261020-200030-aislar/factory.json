@@ -10,9 +10,9 @@
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-20T20:01:13+00:00",
+    "cuando": "2026-10-20T22:17:50+00:00",
     "documentos": {
-      "openspec/changes/20261020-200030-aislar/proposal.md": "3d816c1a55adb0e431ff9110d6eb8e320b97cb5a7a7e1528cbb00d9fd72ee38b",
+      "openspec/changes/20261020-200030-aislar/proposal.md": "212a5e33948c18048a8ab9c37477d1b823af629f49a332c1b90f1269848f6dcb",
       "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f"
     }
   },
@@ -196,6 +196,29 @@
       "resultado": "ok",
       "hallazgos": 3,
       "lanzamiento": "332e640079a9"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T22:17:50+00:00",
+      "documentos": {
+        "openspec/changes/20261020-200030-aislar/proposal.md": "212a5e33948c18048a8ab9c37477d1b823af629f49a332c1b90f1269848f6dcb",
+        "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T22:18:05+00:00",
+      "ids": [
+        "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio"
+      ]
     }
   ],
   "tipos": {

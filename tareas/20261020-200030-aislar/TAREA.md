@@ -23,3 +23,11 @@ Medidas de revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repo
 ### Nota (2026-10-20 21:11:26 UTC)
 
 Medidas de revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-20 22:17:50 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261020-200030-aislar/specs/revisores/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-20 22:18:06 UTC)
+
+Requisitos importados: revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
