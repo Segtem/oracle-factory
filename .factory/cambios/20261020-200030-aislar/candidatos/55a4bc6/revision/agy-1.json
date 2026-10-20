@@ -1,0 +1,84 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/55a4bc6-agy-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "55a4bc6f410dcaa956367ef23dc8054230638dea",
+  "diff_sha256": "b6481811d26c25c65a7b4cc5dbc8dca433fff2134a5a59714165d3e627ef7c71",
+  "context_sha256": "7572b37acae48c4653f18d12aed81e69c6a9ca9c2faf23bba3977bc3f3d1d2c2",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-007",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Fallo durante la preparación de Clue deja un clon huérfano que bloquea permanentemente futuros reintentos",
+      "explanation": "En oracle_factory/cli.py, pedir_revision calcula n contando los paquetes previos según clue_dir.glob('paquete-{nombre}-*.json') (línea 1210). Luego define checkout = revisiones / f'{sha}-{nombre}-{n}' (línea 1215), comprueba if checkout.exists(): raise FactoryError(...) (línea 1216), crea el clon con git clone (línea 1218) y llama a oracle-clue preparar para generar el archivo del paquete (línea 1223). Si oracle-clue preparar falla (por ejemplo, si el candidato no modifica archivos fuera de exclusiones, o ante cualquier error de Clue o interrupción previa a escribir el paquete), el directorio checkout queda creado en disco, pero el paquete nunca se escribe. Al reintentar la operación (incluso siguiendo el mensaje de Factory que indica 'pedí la revisión con --base en un commit anterior a ese código'), n se vuelve a calcular sobre el mismo glob de paquetes y obtiene el mismo valor n. La comprobación if checkout.exists() se dispara y aborta con FactoryError indicando 'el checkout ... ya existe; borralo o pedí la revisión otra vez'. Como n no avanza sin el archivo de paquete, cualquier reintento sin borrado manual falla indefinidamente, y el mensaje 'o pedí la revisión otra vez' es engañoso.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1210,
+        "end_line": 1224,
+        "side": "head"
+      },
+      "trigger": "Ejecutar pedir-revision cuando la preparación de Clue falla (por ejemplo, por diff vacío fuera de exclusiones) y luego reintentar el comando con la base corregida.",
+      "evidence": "Se comprobó mediante prueba automatizada en tests/test_vueltas: tras un primer intento donde Clue falló por diff vacío fuera de exclusiones, el segundo intento con una base correcta falló con: 'oracle_factory.cli.FactoryError: el checkout .factory/local/revisiones/3911652-dummy-1 ya existe; borralo o pedí la revisión otra vez'.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "En oracle_factory/cli.py, asegurar que si la preparación de Clue falla, el clon checkout sea eliminado (e.g. shutil.rmtree(checkout, ignore_errors=True)), o calcular n teniendo en cuenta tanto los paquetes como los directorios de checkout existentes en disco."
+    },
+    {
+      "id": "F-008",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "proposal.md contradice la implementación al prometer que los checkouts antiguos como worktrees se siguen usando",
+      "explanation": "En openspec/changes/20261020-200030-aislar/proposal.md, la línea 15 declara expresamente bajo 'What changes': '- Un checkout viejo (un worktree de antes) se sigue usando como está.'. Sin embargo, tras los hallazgos de la vuelta 1 (F-003, F-005, AISLAR-001) que evidenciaron que reutilizar worktrees violaba el aislamiento del repositorio principal, la implementación en oracle_factory/cli.py fue modificada para no reutilizarlos jamás: la línea 1214 documenta '# Un checkout viejo (un worktree de antes) ya no se usa.' y la línea 1215 crea siempre un clon nuevo con ruta '<sha>-<nombre>-<n>', ignorando y abandonando cualquier checkout preexistente en '<sha>'. proposal.md no fue actualizado y quedó en contradicción directa con el código del producto y el protocolo de Factory.",
+      "location": {
+        "file": "openspec/changes/20261020-200030-aislar/proposal.md",
+        "start_line": 13,
+        "end_line": 16,
+        "side": "head"
+      },
+      "trigger": "Contrastar las declaraciones de proposal.md frente a la implementación de resolución de checkouts en oracle_factory/cli.py.",
+      "evidence": "En proposal.md:15 figura '- Un checkout viejo (un worktree de antes) se sigue usando como está.', en tanto que en oracle_factory/cli.py:1214 se afirma '# Un checkout viejo (un worktree de antes) ya no se usa.' y se crea incondicionalmente un clon independiente en cada pedido.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Actualizar openspec/changes/20261020-200030-aislar/proposal.md para eliminar la afirmación de que los checkouts viejos se siguen usando como worktrees, reflejando fielmente la regla de no reutilización implementada."
+    },
+    {
+      "id": "F-009",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "El checkout clonado mantiene un control remoto 'origin' apuntando al repositorio raíz, permitiendo que un push modifique el repositorio",
+      "explanation": "El requisito el_checkout_de_un_revisor_no_toca_el_repositorio exige que lo que el revisor haga con Git en su checkout no modifique la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees. Al inicializar el clon mediante git clone --shared (cli.py:1218), Git configura automáticamente en el checkout un remoto 'origin' cuya URL apunta a la ruta absoluta del repositorio del proyecto (ROOT). Si el revisor (o un script/agente que corra en él) ejecuta git push origin <rama>, la operación se transmite por el transporte local hacia el repositorio raíz y crea o modifica ramas y referencias en el repositorio del proyecto, vulnerando el aislamiento prometido.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1218,
+        "end_line": 1222,
+        "side": "head"
+      },
+      "trigger": "Ejecución de git push origin <rama> desde el interior del checkout de revisión hacia el repositorio principal.",
+      "evidence": "Se comprobó experimentalmente que al ejecutar git push origin mi-rama dentro de un clon creado con git clone --shared str(ROOT), la rama mi-rama fue creada inmediatamente en el repositorio principal ROOT.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "En oracle_factory/cli.py, tras clonar el repositorio para el revisor, desvincular el remoto o inhabilitar push (por ejemplo, ejecutando git -C str(checkout) remote remove origin o configurando remote.origin.pushurl a una ruta nula o inválida)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), las tareas (tasks.md) y el diff del paquete de Oracle Clue en paquete-agy-1.json correspondiente al candidato 55a4bc6.",
+    "Se examinó el código modificado en oracle_factory/cli.py, las pruebas añadidas en tests/test_aislar.py, tests/test_revisores.py, la herramienta tools/verify_aislar.py y los catálogos en catalogos/.",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias indicadas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null, obteniendo OK en 17 pruebas (10.488 s).",
+    "No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_aislar.py, en estricto cumplimiento de las indicaciones del usuario.",
+    "Se comprobó el cierre de los hallazgos de la vuelta 1: F-001 y F-002 (resueltos con git checkout --force --detach head en cli.py:1275 antes de validar con Clue); F-003 (resuelto al aislar checkouts bajo <sha>-<revisor>-<n>); F-004 (resuelto al traducir --base a SHA canónico en cli.py:1198-1202); F-006 (riesgo bajo de recolección de basura verificado experimentalmente con git prune; tolerado al vivir el candidato en ramas y ser el clon efímero).",
+    "Se identificó que la corrección de F-005/AISLAR-001 (no reutilizar worktrees viejos) introduce una discrepancia no sincronizada con proposal.md (reportado como F-008).",
+    "Se analizó el aislamiento de Git en el checkout clonado frente al repositorio principal y otros worktrees (configuración, ramas, commits, hooks y HEAD), detectando la presencia del remoto origin activo hacia ROOT (reportado como F-009).",
+    "Se detectó el fallo de reintento cuando la preparación de Clue no llega a escribir el paquete (reportado como F-007).",
+    "Se verificó la compatibilidad con rutas que contienen espacios y directorios de proyecto con espacios.",
+    "Se llevaron a cabo mutaciones manuales sobre copias aisladas comprobando que la supresión de git checkout --force --detach en cli.py o de la resolución de --base provocan fallos reproducibles en tests/test_aislar.py."
+  ]
+}

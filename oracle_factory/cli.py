@@ -1207,7 +1207,9 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
-        n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
+        # El número cuenta también los clones que quedaron de un pedido que falló antes de su paquete: un reintento no
+        # choca con ellos.
+        n = max(len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))), len(list(revisiones.glob(f"{sha}-{nombre}-*")))) + 1
         paquete = clue_dir / f"paquete-{nombre}-{n}.json"
         # Un clon aparte por pedido, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y
         # lo que un revisor hiciera con git ahí le caería encima; y dos revisores no comparten checkout. --shared usa los
@@ -1218,6 +1220,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         p = ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(checkout)])
         if not p.returncode:
             p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
+        if not p.returncode:  # sin remoto: un push desde el checkout no llega al repositorio
+            p = ejecutar(["git", "-C", str(checkout), "remote", "remove", "origin"])
         if p.returncode:
             raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
