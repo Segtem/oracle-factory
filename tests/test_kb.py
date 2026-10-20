@@ -201,9 +201,20 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(codigo, 1)
         self.assertIn(f'{nota} está por revisar: cambió examples/notas/notas.py', errores)
         self.assertTrue(any(f'la nota {nota} está por revisar' in a for a in f.datos_estado(abierto)['avisos']))
+        # Una fuente con espacios en su ruta también se reconoce como tocada.
+        espaciada = self.root / 'docs/guia de inicio.md'
+        espaciada.parent.mkdir(exist_ok=True)
+        espaciada.write_text('Guía.\n')
+        self.git('add', '.')
+        self.git('commit', '-qm', 'una guía con espacios')
+        nota2 = self.nota_humana('inicio.md', ['docs/guia de inicio.md'])
+        self.assertEqual(self.revisada(nota2)[0], 0)
+        espaciada.write_text('Guía, cambiada.\n')
+        self.assertTrue(any(f'la nota {nota2} está por revisar' in a for a in f.datos_estado(abierto)['avisos']))
         # El otro cambio abierto no tocó ese archivo (el checkout es el del que tomó Ana): no lo avisa.
         self.assertFalse(any('por revisar' in a for a in f.datos_estado(otro)['avisos']))
         self.assertEqual(self.revisada(nota)[0], 0)
+        self.assertEqual(self.revisada(nota2)[0], 0)
         self.assertEqual(self.correr('kb', '--verificar')[0], 0)
         self.assertFalse(any('por revisar' in a for a in f.datos_estado(abierto)['avisos']))
 
@@ -222,6 +233,14 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(codigo, 1)
         self.assertIn(f'{rota}: su fuente no/existe.py no existe', errores)
         self.assertIn(f'{guia} está por revisar', errores)
+        # Un cambio como fuente: vence cuando cambia lo que se sabe de él (una decisión, un riesgo), no sólo su spec.
+        decision = self.nota_humana('decision.md', [self.ident])
+        self.assertEqual(self.revisada(decision)[0], 0)
+        self.assertNotIn(f'{decision} está por revisar', self.correr('kb', '--verificar')[2])
+        carpeta, estado = f.leer(self.ident)
+        estado['aceptados'] = [{'archivo': 'x.py', 'titulo': 't', 'actor': 'Ana', 'motivo': 'm', 'firma': 'f'}]
+        f.guardar(carpeta, estado)
+        self.assertIn(f'{decision} está por revisar: cambió {self.ident}', self.correr('kb', '--verificar')[2])
         codigo, _, errores = self.revisada(rota)
         self.assertEqual(codigo, 1)
         self.assertIn('no/existe.py no existe', errores)
@@ -249,6 +268,7 @@ class Conocimiento(unittest.TestCase):
         tramo = json.loads(self.correr('por-que', f'examples/notas/README.md:{self.linea_de("examples/notas/README.md", "Una línea del tramo")}',
                                        '--json')[1])
         self.assertEqual((tramo['cambio']['id'], tramo['cambio']['union']), (self.ident, 'deducido por su tramo'))
+        self.assertIn('puede ser otro trabajo de ese tiempo', self.correr('por-que', f'examples/notas/README.md:{self.linea_de("examples/notas/README.md", "Una línea del tramo")}')[1])
         codigo, salida, _ = self.correr('por-que', f'examples/notas/notas.py:{linea}', '--json')
         self.assertEqual(codigo, 0)
         datos = json.loads(salida)

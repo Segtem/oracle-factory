@@ -2240,13 +2240,23 @@ def kb_revisada(nota: str) -> None:
 def tocados_por(identificador: str, estado: dict) -> set[str]:
     """Lo que un cambio abierto tocó: los archivos de sus commits, lo que no se commiteó si es el cambio de este checkout
     (el que tomaría un commit nuevo), sus requisitos y su ID."""
-    archivos: set[str] = set()
-    for c in commits_del_cambio(identificador, estado):
-        archivos |= set(ejecutar(["git", "show", "--name-only", "--format=", c["sha"]]).stdout.split())
+    archivos = archivos_de(c["sha"] for c in commits_del_cambio(identificador, estado))
     if cambio_del_commit("") == identificador:
-        archivos |= set(ejecutar(["git", "diff", "--name-only", "HEAD"]).stdout.split())
-        archivos |= set(ejecutar(["git", "ls-files", "--others", "--exclude-standard"]).stdout.split())
+        archivos |= nombres(["git", "diff", "--name-only", "-z", "HEAD"])
+        archivos |= nombres(["git", "ls-files", "-z", "--others", "--exclude-standard"])
     return archivos | set(estado.get("requisitos") or []) | {identificador}
+
+
+def nombres(comando: list[str]) -> set[str]:
+    """Las rutas de una salida de git con -z (una ruta puede tener espacios)."""
+    return {n for n in ejecutar(comando).stdout.split("\0") if n}
+
+
+def archivos_de(commits) -> set[str]:
+    salida: set[str] = set()
+    for sha in commits:
+        salida |= nombres(["git", "show", "-z", "--name-only", "--format=", sha])
+    return salida
 
 
 def aviso_notas(identificador: str, estado: dict) -> list[str]:
@@ -2312,6 +2322,8 @@ def por_que(referencia: str, como_json: bool) -> None:
         print("Esa línea no es de ningún cambio de Factory: su commit no lleva «Cambio:» ni está entre los de un cambio.")
     else:
         print(f"Cambio {c['id']} ({c['union']}) — {c['titulo']} [{c['fase']}]")
+        if c["union"] == "deducido por su tramo":
+            print("  (deducido porque el commit cae entre la propuesta y un candidato del cambio, sin «Cambio:»: puede ser otro trabajo de ese tiempo)")
         for r in c["requisitos"]:
             print(f"  requisito {r['id']}: {r['veredicto']}")
         for d in c["decisiones"]:
@@ -2326,15 +2338,15 @@ def por_que(referencia: str, como_json: bool) -> None:
 
 
 def dentro_del_tramo(identificador: str, estado: dict, sha: str) -> bool:
-    candidatos = [c for c in commits_del_cambio(identificador, estado) if c["candidato"]]
-    if not candidatos:
-        return False
+    """Si un commit sin trailer cae en el tramo de un cambio: después del commit que creó su propuesta y antes de alguno
+    de sus candidatos. Es una deducción: un commit ajeno hecho en esa rama en ese tiempo también cae, y por eso la unión
+    dice «por su tramo» (con el hook, los commits nuevos llevan su trailer y no llegan acá)."""
+    candidatos = [c["sha"] for c in commits_del_cambio(identificador, estado) if c["candidato"]]
     alta = ejecutar(["git", "log", "--diff-filter=A", "--format=%H", "--", f"openspec/changes/{identificador}/proposal.md"]).stdout.split()
-    if not alta:
+    if not candidatos or not alta:
         return False
-    desde, hasta = alta[-1], candidatos[0]["sha"]  # el commit que la creó; el candidato más nuevo
     es = lambda a, b: ejecutar(["git", "merge-base", "--is-ancestor", a, b]).returncode == 0
-    return es(desde, sha) and es(sha, hasta)
+    return es(alta[-1], sha) and any(es(sha, c) for c in candidatos)
 
 
 def _fecha_corta(cuando) -> str:

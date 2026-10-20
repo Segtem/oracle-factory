@@ -97,6 +97,8 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
         lineas += [f"- `{c['corto']}` {_texto(c['asunto'])} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
             or ["- Ninguno con su trailer ni candidato."]
         lineas.append(f"- Todos, también los que se deducen al integrarlo: `oracle-factory log {ident}`.")
+    elif estado.get("fase") == "abandonada":
+        lineas.append(f"- Abandonado: `oracle-factory log {ident}`.")
     else:
         lineas.append(f"- En curso: `oracle-factory log {ident}`.")
     mensajes = [e for e in estado.get("eventos") or [] if e.get("accion") == "mensaje"]
@@ -188,8 +190,8 @@ def huella_de_fuente(cli, fuente: str) -> str | None:
     if archivo.is_file():
         return sha(archivo.read_bytes())
     if cli.ID_RE.fullmatch(fuente) and cli.ruta_registro(cli.CHANGES / fuente).exists():
-        spec = cli.leer(fuente)[1].get("spec")
-        return sha((raiz / spec).read_bytes()) if spec and (raiz / spec).is_file() else sha(fuente.encode())
+        # Lo que se sabe del cambio, como lo muestra su nota generada: decisiones, riesgos, fase, requisitos, mensajes.
+        return sha(nota_de_cambio(cli, fuente, cli.leer(fuente)[1]).encode("utf-8"))
     relativa = cli.carpeta_relativa(fuente)
     if relativa is not None and (raiz / relativa).is_file() and (raiz / relativa).resolve().is_relative_to(raiz.resolve()):
         return sha((raiz / relativa).read_bytes())

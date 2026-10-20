@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/98afd62",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "98afd620b1004c853dbd5c052b76e8eb89c758f0",
+  "diff_sha256": "469b86372fd10e2fa32824bbb696924817ae2ba278ee21d302bad71d438372f9",
+  "context_sha256": "46fe4203ee4287587187070b5a93c0d4b8e5bc52126dad57af165bbc12d44fc7",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "KB-V2-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "por-que no atribuye commits ubicados dentro del tramo de un cambio",
+      "explanation": "El escenario cubierto por la spec (y por la prueba agregada) no logra atribuir un commit sin trailer al cambio aunque esté entre el commit que creó su propuesta y el candidato más nuevo. La prueba `test_kb3_una_linea_escrita_en_un_cambio_cerrado` falla antes de comprobar ese resultado: `tramo[\"cambio\"]` es `None`, por lo que `por-que` informa que no pertenece a ningún cambio. Esto deja sin cumplir la deducción requerida para commits integrados sin trailer.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2328,
+        "end_line": 2337,
+        "side": "head"
+      },
+      "trigger": "Crear una propuesta de cambio, luego un commit de producto sin trailer y luego un candidato más nuevo; ejecutar `oracle-factory por-que ARCHIVO:LÍNEA --json` sobre una línea escrita por el commit intermedio.",
+      "evidence": "La prueba enfocada requerida (`PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null`) falla en `tests/test_kb.py:251`: `tramo[\"cambio\"]` es `None` (TypeError). `dentro_del_tramo` en las líneas citadas es la última ruta de deducción para ese caso; el resultado observado contradice el `assertEqual` que esperaba `(self.ident, \"deducido por su tramo\")`.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "status": "pendiente",
+      "verification": "Corregir la atribución y repetir la prueba enfocada; confirmar que el JSON incluye el ID correcto y `union: \"deducido por su tramo\"` para el commit intermedio."
+    },
+    {
+      "id": "KB-V2-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "Cambios usados como fuente sólo vencen si cambia su spec",
+      "explanation": "La propuesta permite declarar como fuente un ID de cambio y promete que una fuente queda por revisar cuando cambia su contenido. Para un ID, `huella_de_fuente` sólo calcula el hash de la spec (o del propio ID si no hay spec). Si después de marcar la nota revisada cambia el registro del cambio —por ejemplo, una decisión, responsable, riesgo aceptado o fase— pero la spec permanece igual, el hash no varía y ni `kb --verificar` ni `estado` detectan que la fuente cambió.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 190,
+        "end_line": 192,
+        "side": "head"
+      },
+      "trigger": "Marcar revisada una nota cuya fuente es el ID de un cambio; registrar luego una decisión o cambiar otro dato del registro sin editar su spec; ejecutar `kb --verificar` y `estado`.",
+      "evidence": "La propuesta declara explícitamente que las fuentes pueden ser “cambios que describen” y que si una fuente cambia la nota queda por revisar. La rama para IDs lee el campo `spec` y hashea sólo ese archivo; no incorpora `factory.json` ni el estado derivado del cambio a la huella.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Agregar una prueba con una fuente ID: marcar la nota revisada, cambiar sólo un dato del registro del cambio y comprobar que la verificación falla y el estado del cambio abierto avisa la nota."
+    },
+    {
+      "id": "KB-V2-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Una nota generada sobrante deja de detectarse si se quita su marca",
+      "explanation": "La detección de notas generadas sobrantes depende exclusivamente de que el texto contenga `generado: oracle-factory kb` en los primeros 200 bytes. Si una nota de un cambio o requisito que ya no existe fue editada y se quitó esa marca, `kb --verificar` no la reporta y `refrescar_kb` tampoco la elimina, aunque está en un directorio reservado a notas generadas. Así el vault puede conservar una nota huérfana sin que la verificación lo detecte.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2153,
+        "end_line": 2159,
+        "side": "head"
+      },
+      "trigger": "Dejar una nota huérfana en `kb/cambios/` o `kb/requisitos/` y quitarle su marca de generación; ejecutar `oracle-factory kb --verificar` o un comando que refresque el vault.",
+      "evidence": "`generadas_en_disco` enumera README y Markdown bajo los directorios generados, pero agrega una ruta al resultado sólo si encuentra la marca en el contenido. `comando_kb` y `refrescar_kb` usan ese conjunto para detectar y borrar sobrantes; sin la marca la ruta desaparece del control.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar una prueba que cree una nota sobrante en `kb/cambios/` o `kb/requisitos/` sin marca y compruebe que `--verificar` falla y el refresco la quita."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí proposal/spec, el diff y contexto del paquete, código de las rutas solicitadas, pruebas del cambio y los dos informes previos.",
+    "Corrí exactamente la prueba enfocada indicada: terminó con error (6 tests, 1 error) en el escenario de deducción de por-que; por eso las aserciones posteriores de integración con VS Code/Node de ese test no se alcanzaron.",
+    "No corrí la suite completa ni hice mutaciones en una copia.",
+    "Las correcciones KB-01–04 y C-01–03 se contrastaron con el código y las pruebas, sin regresión observada en esa lectura."
+  ]
+}
