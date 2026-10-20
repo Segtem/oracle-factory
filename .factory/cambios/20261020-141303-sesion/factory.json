@@ -65,6 +65,20 @@
       "ids": [
         "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T14:20:27+00:00",
+      "requisito": "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "medidas": [
+        "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+        "factory_sesion.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -78,5 +92,20 @@
     ]
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "ide_c93aca46050e3b387.la_sesion_de_live_share_se_maneja_desde_el_tablero": {
+      "sha256": "d76543534da9751ebd4045df32f656acbbc7a8e7b58bf28518c75c5f245f86c0",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T14:20:27+00:00",
+      "catalogos": {
+        "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero": "4197a3284125fb6d09a357295b07216413a06bb21f8d8c452a05e8d351aad38f",
+        "factory_sesion.corrida_completa": "9adf6a2f9934a062c86c4fd8acc393288dbb6fa0f4ad61f59058e2b41b7a028d"
+      },
+      "archivos_catalogo": {
+        "factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero": "catalogos/factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero.oracle",
+        "factory_sesion.corrida_completa": "catalogos/factory_sesion.corrida_completa.oracle"
+      }
+    }
+  }
 }
