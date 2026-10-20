@@ -7,3 +7,11 @@
 ### Nota (2026-10-20 17:31:43 UTC)
 
 OpenSpec: openspec/changes/20261020-173143-avisos. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-20 17:46:54 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261020-173143-avisos/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-20 17:48:57 UTC)
+
+Requisitos importados: flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos (funcional), flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo (funcional), flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
