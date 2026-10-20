@@ -1195,23 +1195,31 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         if p.returncode:
             raise FactoryError("no encuentro la rama main para la base del paquete; indicá --base REF")
         base = p.stdout.strip()
-    checkout = estructura.ruta_canonica(ROOT, identificador, "checkout", sha)
+    else:  # el clon del revisor no tiene las ramas del repositorio: la base va como SHA
+        p = ejecutar(["git", "rev-parse", "--verify", "--quiet", base + "^{commit}"])
+        if p.returncode:
+            raise FactoryError(f"--base {base} no es un commit de este repositorio")
+        base = p.stdout.strip()
     clue_dir = estructura.ruta_canonica(ROOT, identificador, "clue", sha)
     revision_dir = estructura.ruta_canonica(ROOT, identificador, "revision", sha)
-    for d in (checkout.parent, clue_dir):  # revision/ se crea sólo con un informe válido
+    revisiones = estructura.ruta_canonica(ROOT, identificador, "checkout", sha).parent
+    for d in (revisiones, clue_dir):  # revision/ se crea sólo con un informe válido
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
-        if not checkout.exists():
-            # Un clon aparte, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y lo que
-            # un revisor hiciera con git ahí le caería encima. --shared usa los objetos del repositorio (no copia nada).
-            p = ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(checkout)])
-            if not p.returncode:
-                p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
-            if p.returncode:
-                raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
         paquete = clue_dir / f"paquete-{nombre}-{n}.json"
+        # Un clon aparte por pedido, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y
+        # lo que un revisor hiciera con git ahí le caería encima; y dos revisores no comparten checkout. --shared usa los
+        # objetos del repositorio (no copia nada). Un checkout viejo (un worktree de antes) ya no se usa.
+        checkout = revisiones / f"{sha}-{nombre}-{n}"
+        if checkout.exists():
+            raise FactoryError(f"el checkout {checkout.relative_to(ROOT)} ya existe; borralo o pedí la revisión otra vez")
+        p = ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(checkout)])
+        if not p.returncode:
+            p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
+        if p.returncode:
+            raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
                       *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
     if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
@@ -1263,6 +1271,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         elif not informe.is_file():
             resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
         else:
+            # Si el revisor movió el HEAD de su checkout (una rama, un commit), se valida contra el candidato.
+            ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--force", "--detach", head])
             p = ejecutar(["oracle-clue", "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
             if p.returncode:
                 resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"

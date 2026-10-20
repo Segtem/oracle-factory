@@ -9,17 +9,16 @@ import test_vueltas as _vueltas  # noqa: E402
 
 f = _vueltas.f
 
-# Antes de dejar su informe, el revisor cambia user.name, crea una rama y hace un commit en su checkout (y vuelve al
-# candidato, como pide el pedido).
+# Antes de dejar su informe, el revisor cambia user.name, crea una rama, hace un commit y deja un archivo suelto en su
+# checkout, sin volver al candidato.
 TRAVIESO = r'''
 import json, subprocess, sys
 checkout, paquete, informe = sys.argv[1], sys.argv[2], sys.argv[3]
 git = lambda *a: subprocess.run(["git", "-C", checkout, *a], check=True, capture_output=True)
-inicio = subprocess.run(["git", "-C", checkout, "rev-parse", "HEAD"], check=True, capture_output=True, text=True).stdout.strip()
 git("config", "user.name", "Persona [[cambios/inexistente]]")
 git("checkout", "-q", "-b", "rama-del-revisor")
 git("-c", "user.email=r@example.invalid", "commit", "-q", "--allow-empty", "-m", "un commit del revisor")
-git("checkout", "-q", "--detach", inicio)  # vuelve al candidato: Clue valida el informe contra el checkout
+open(checkout + "/un-archivo-suelto.txt", "w").write("del revisor\n")  # y deja algo suelto
 p = json.load(open(paquete))
 json.dump({"schema_version": "oracle-clue.review/v1", "repo": p["repo"], "base": p["base"], "head": p["head"],
            "diff_sha256": p["diff_sha256"], "context_sha256": p["context_sha256"],
@@ -45,10 +44,19 @@ class Aislar(_vueltas.Base):
         self.git('commit', '-qm', 'el revisor')
         antes = (self.git('rev-parse', 'HEAD'), self.git('branch', '--list'), self.git('config', 'user.name'))
         f.pedir_revision(self.ident, 'travieso', base=self.base)
+        # Un segundo pedido (otro revisor, o el mismo otra vez) tiene su propio checkout: no ve lo que dejó el primero.
+        f.pedir_revision(self.ident, 'travieso', base=self.base)
         self.assertEqual((self.git('rev-parse', 'HEAD'), self.git('branch', '--list'), self.git('config', 'user.name')), antes)
         self.assertNotIn('rama-del-revisor', self.git('branch', '--all'))
         self.assertEqual(self.git('worktree', 'list').count('\n'), 0)  # ningún worktree nuevo
-        [pedida] = [e for e in f.leer(self.ident)[1]['eventos'] if e['accion'] == 'revision_pedida']
-        self.assertEqual(pedida['resultado'], 'ok')
+        pedidas = [e for e in f.leer(self.ident)[1]['eventos'] if e['accion'] == 'revision_pedida']
+        self.assertEqual([e['resultado'] for e in pedidas], ['ok', 'ok'])
         sha = f.candidato_vigente(self.ident)
-        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-1.json').is_file())
+        for n in (1, 2):
+            self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / f'revision/travieso-{n}.json').is_file())
+        checkouts = sorted(p.name for p in (self.root / '.factory/local/revisiones').iterdir())
+        self.assertEqual(checkouts, [f'{sha}-travieso-1', f'{sha}-travieso-2'])
+        # --base con el nombre de una rama: el clon no tiene la rama, pero la base va como SHA.
+        self.git('branch', 'base-con-nombre', self.base)
+        f.pedir_revision(self.ident, 'travieso', base='base-con-nombre')
+        self.assertTrue((self.root / '.factory/cambios' / self.ident / 'candidatos' / sha / 'revision/travieso-3.json').is_file())
