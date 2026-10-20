@@ -1,0 +1,24 @@
+{
+  "id": "20261020-005341-liveshare",
+  "titulo": "El tablero en pair programming: presencia, tablero compartido y chat con Live Share",
+  "capacidad": "ide",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T00:53:41+00:00",
+      "capacidad": "ide"
+    }
+  ]
+}
