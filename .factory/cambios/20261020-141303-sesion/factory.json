@@ -2,7 +2,7 @@
   "id": "20261020-141303-sesion",
   "titulo": "La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar",
   "capacidad": "ide",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
   "spec_sha256": "35c4ec63f27911e61d873d15ed2350bde26b131b50c2eb8267c4f48c3a83e97c",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "bdb55a7f280be880a42b2678bfc87c565ed3793cce1e8ecfd7b9491004a33cd2"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261020-141303-sesion/candidatos/fd78949/evidencia/hechos.json",
+    "hechos_sha256": "1dd3f8d266e2851924003dd3fa42929b9f51e03b06edc290f5f1c3fddbcf8769",
+    "informe": ".factory/cambios/20261020-141303-sesion/oracle-veredicto.txt",
+    "informe_sha256": "9c487fb1311543a30456720ca9f4cdebf2f71cec6e358188c31fdb09f135ab20",
+    "cuando": "2026-10-20T16:11:42+00:00",
+    "contexto": {
+      "head": "905cb3f203a51e34884afd7ca7f9b70cf9b1eb04",
+      "archivos_sha256": "bdb55a7f280be880a42b2678bfc87c565ed3793cce1e8ecfd7b9491004a33cd2"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -329,6 +341,17 @@
       "abiertos": 0,
       "sha256": "ba6cae59b7f67ff539df1be03fb8fd595f403e8e54698bad4a9d10f94a6dc4dd",
       "decisiones_sha256": "ac79090e7621e557bf2d248ebbd0a7f03a9405ef97b64d294f3e75cad5f5ff3e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T16:11:42+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1dd3f8d266e2851924003dd3fa42929b9f51e03b06edc290f5f1c3fddbcf8769"
     }
   ],
   "tipos": {
