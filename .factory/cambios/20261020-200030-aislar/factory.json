@@ -65,6 +65,20 @@
       "ids": [
         "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T20:05:46+00:00",
+      "requisito": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "medidas": [
+        "factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio",
+        "factory_aislar.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -78,5 +92,20 @@
     ]
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio": {
+      "sha256": "0af4431dbb3fe770afab0e436a3ef10136ad6efd4ce48a9021ec456cf45d4668",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-20T20:05:46+00:00",
+      "catalogos": {
+        "factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio": "877865254c0f141c302c650a805aaa7c13e5bf08f1c69478ae1bc7f0a726a6a2",
+        "factory_aislar.corrida_completa": "f92e202bd6764bc284e9fc9e9948090eaa283a7573827f7b619a90b63e743aba"
+      },
+      "archivos_catalogo": {
+        "factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio": "catalogos/factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio.oracle",
+        "factory_aislar.corrida_completa": "catalogos/factory_aislar.corrida_completa.oracle"
+      }
+    }
+  }
 }

@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-20 20:01:23 UTC)
 
 Requisitos importados: revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-20 20:05:46 UTC)
+
+Medidas de revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio: factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio, factory_aislar.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
