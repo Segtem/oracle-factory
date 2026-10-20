@@ -1203,7 +1203,11 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
         if not checkout.exists():
-            p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
+            # Un clon aparte, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y lo que
+            # un revisor hiciera con git ahí le caería encima. --shared usa los objetos del repositorio (no copia nada).
+            p = ejecutar(["git", "clone", "--quiet", "--shared", "--no-checkout", str(ROOT), str(checkout)])
+            if not p.returncode:
+                p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
             if p.returncode:
                 raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
