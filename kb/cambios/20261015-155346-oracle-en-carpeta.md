@@ -42,7 +42,7 @@ capacidad: "estructura"
 - `af991ba` oracle-en-carpeta: medidas confirmadas por Brian (deducido)
 - `75bbe8a` oracle-en-carpeta: buscar no oculta una carpeta inválida (agy, codex OC-001); init respeta la carpeta ya configurada (agy); estado no se cae si los escalares no se pueden cargar y la prueba sin declararlos pasa por juzgar (agy) (deducido)
 - `a38d44b` oracle-en-carpeta: juzgar entrega el error de Oracle con escalares sin declarar y el detalle de una cobertura que falla (agy, codex OC-001); la prueba ya no pasa por vacuidad; se rechazan rutas con barras invertidas o absolutas de Windows (agy) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261015-155346-oracle-en-carpeta`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261015-155346-oracle-en-carpeta`.
 
 ## Mensajes
 

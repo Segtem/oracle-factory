@@ -42,7 +42,7 @@ capacidad: "revisores"
 - `43f9d4d` vueltas-severidad: medidas confirmadas por Brian (deducido)
 - `0dda62b` vueltas-severidad: firma sin puntuación ni títulos vacíos, un aceptado por firma y aviso si no hay corte (deducido)
 - `6d60612` vueltas-severidad: un hallazgo repetido se decide una vez, la firma conserva los símbolos y se guarda el aceptado sin firma (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261013-115616-vueltas-severidad`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261013-115616-vueltas-severidad`.
 
 ## Mensajes
 

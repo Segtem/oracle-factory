@@ -106,19 +106,19 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
     lineas += [f"- `{' '.join(str(a.get('archivo') or '').replace('`', "'").split())}`: {_texto(a.get('titulo'))} — aceptado por {_texto(a.get('actor'))}: {_texto(a.get('motivo'))}"
                for a in estado.get("aceptados") or []] or ["- Ninguno."]
     lineas += ["", "## Commits", ""]
-    if estado.get("fase") == "cerrada":
-        # Sólo lo que no cambia con el merge que lo integra después: los commits con su trailer hasta el cierre y sus
-        # candidatos (los deducidos del merge aparecen recién al integrarlo, y cambiarían esta nota).
-        cierre = str((estado.get("cierre") or {}).get("cuando") or "")
-        commits = [c for c in cli.commits_del_cambio(ident, estado) if (c["union"] == "trailer" or c["candidato"])
-                   and (not cierre or _antes(c["fecha"], cierre))]
-        lineas += [f"- `{c['corto']}` {_texto(c['asunto'])} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
-            or ["- Ninguno con su trailer ni candidato."]
-        lineas.append(f"- Todos, también los que se deducen al integrarlo: `oracle-factory log {ident}`.")
-    elif estado.get("fase") == "abandonada":
+    # Hasta el cierre o, en uno abierto, hasta su última decisión: un commit nuevo entra con la decisión siguiente (que es
+    # cuando el vault se rehace), y el merge que lo integra después no lo cambia. Sólo los que llevan su trailer y sus
+    # candidatos: los que se deducen de un merge aparecen recién al integrarlo.
+    eventos = estado.get("eventos") or []
+    corte = str((estado.get("cierre") or {}).get("cuando") or (eventos[-1].get("cuando") if eventos else "") or "")
+    if estado.get("fase") == "abandonada":
         lineas.append(f"- Abandonado: `oracle-factory log {ident}`.")
     else:
-        lineas.append(f"- En curso: `oracle-factory log {ident}`.")
+        commits = [c for c in cli.commits_del_cambio(ident, estado) if (c["union"] == "trailer" or c["candidato"])
+                   and (not corte or _antes(c["fecha"], corte))]
+        lineas += [f"- `{c['corto']}` {_texto(c['asunto'])} ({c['union']})" for c in sorted(commits, key=lambda c: (c["fecha"], c["sha"]))] \
+            or ["- Ninguno con su trailer ni candidato."]
+        lineas.append(f"- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log {ident}`.")
     mensajes = [e for e in estado.get("eventos") or [] if e.get("accion") == "mensaje"]
     lineas += ["", "## Mensajes", ""]
     lineas += [f"- {_fecha(e.get('cuando'))} · {_texto(e.get('actor'))}: {_texto(e.get('texto'))}" for e in mensajes] or ["- Ninguno."]
@@ -128,7 +128,8 @@ def nota_de_cambio(cli, ident: str, estado: dict) -> str:
 def _antes(fecha: str, cierre: str) -> bool:
     from datetime import datetime
     try:
-        return datetime.fromisoformat(fecha) <= datetime.fromisoformat(cierre)
+        # Estricto: un commit del mismo segundo que la decisión pudo hacerse después de rehacer el vault.
+        return datetime.fromisoformat(fecha) < datetime.fromisoformat(cierre)
     except (TypeError, ValueError):
         return True
 
@@ -210,13 +211,14 @@ def huella_de_fuente(cli, fuente: str) -> str | None:
     """La huella de una fuente: un archivo (su contenido), un requisito (su .requisito) o un cambio (su spec)."""
     raiz = cli.ROOT
     archivo = cli.requisitos_dir() / f"{fuente}.requisito"
-    if re.fullmatch(r"[a-z0-9_]+\.[a-z0-9_]+", fuente) and archivo.is_file():  # un id: no sale de requisitos/
+    adentro = lambda ruta: ruta.resolve().is_relative_to(raiz.resolve())  # un enlace simbólico tampoco sale del proyecto
+    if re.fullmatch(r"[a-z0-9_]+\.[a-z0-9_]+", fuente) and archivo.is_file() and adentro(archivo):  # un id: no sale de requisitos/
         return sha(archivo.read_bytes())
     if cli.ID_RE.fullmatch(fuente) and cli.ruta_registro(cli.CHANGES / fuente).exists():
         # Lo que se sabe del cambio, como lo muestra su nota generada: decisiones, riesgos, fase, requisitos, mensajes.
         return sha(nota_de_cambio(cli, fuente, cli.leer(fuente)[1]).encode("utf-8"))
     relativa = cli.carpeta_relativa(fuente)
-    if relativa is not None and (raiz / relativa).is_file() and (raiz / relativa).resolve().is_relative_to(raiz.resolve()):
+    if relativa is not None and (raiz / relativa).is_file() and adentro(raiz / relativa):
         return sha((raiz / relativa).read_bytes())
     return None
 

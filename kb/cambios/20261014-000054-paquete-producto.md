@@ -39,7 +39,7 @@ capacidad: "revisores"
 
 - `eef8ecc` paquete-producto: medidas confirmadas por Brian (deducido)
 - `e919597` paquete-producto: siempre se excluyen los registros; sin producto, pedir-revision explica cómo revisar con --base; estado avisa (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-000054-paquete-producto`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261014-000054-paquete-producto`.
 
 ## Mensajes
 

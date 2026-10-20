@@ -42,7 +42,7 @@ capacidad: "modos"
 - `0e22578` catalogo-confirmado: medidas confirmadas por Brian (deducido)
 - `4e12cf2` catalogo-confirmado: medidas confirmadas de nuevo por Brian (deducido)
 - `3f68c51` catalogo-confirmado: un archivo que sigue ahí pero Oracle no carga no se informa como ausente (codex CC2-001); anotación de tipo (agy) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261015-140406-catalogo-confirmado`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261015-140406-catalogo-confirmado`.
 
 ## Mensajes
 

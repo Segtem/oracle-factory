@@ -37,7 +37,7 @@ capacidad: "revisores"
 
 - `98851d6` estado-revisar-medios: medidas confirmadas por Brian (deducido)
 - `612a6e2` estado-revisar-medios: estado por la CLI (texto y --json), aviso con un medio, filtro de MAYÚSCULAS probado y docs exactas (codex R1-R2, agy H01-H02) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-125953-estado-revisar-medios`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261014-125953-estado-revisar-medios`.
 
 ## Mensajes
 

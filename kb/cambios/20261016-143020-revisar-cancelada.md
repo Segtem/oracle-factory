@@ -40,7 +40,7 @@ capacidad: "revision-guiada"
 - `38f3611` revisar-cancelada: medidas confirmadas por Brian (deducido)
 - `22b5a78` revisar-cancelada: un fallo después de registrar la revisión (la nota del tracker) no se anota como intento cortado (agy-1, codex CXL-1); el intento se escribe sólo si el registro no cambió desde que se leyó (agy-2, CXL-2); un registro roto o de sólo lectura deja el error de la revisión y avisa que no se anotó (agy-3, CXL-3); prueba de Ctrl-C (agy-4) (deducido)
 - `bf77a11` revisar-cancelada: el aviso dice que sigue valiendo la revisión anterior sólo si está vigente para el producto actual (codex CXL2-2); los límites del sensor ya no dicen que Ctrl-C no tiene prueba y nombran la carrera sin bloqueo del registro (agy-6, codex CXL2-1) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261016-143020-revisar-cancelada`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261016-143020-revisar-cancelada`.
 
 ## Mensajes
 

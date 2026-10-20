@@ -37,7 +37,7 @@ capacidad: "revisores"
 
 - `4f96d64` severidad-ausente: medidas confirmadas por Brian (deducido)
 - `d0d0e36` severidad-ausente: la vuelta se decide con el informe que queda (agy F-02) y vs1 lee el próximo paso de estado por la CLI (agy F-04, codex F-01) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-140627-severidad-ausente`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261014-140627-severidad-ausente`.
 
 ## Mensajes
 

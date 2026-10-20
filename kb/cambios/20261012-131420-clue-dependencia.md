@@ -59,7 +59,7 @@ capacidad: "autoproduccion"
 - `e62557b` 20261012-131420-clue-dependencia: medidas confirmadas por Brian (deducido)
 - `e200bab` 20261012-131420-clue-dependencia: el más nuevo de cada revisor reemplaza a los anteriores aunque no se pueda usar (hallazgo de codex-1 sobre e62557b) (deducido)
 - `010f58a` 20261012-131420-clue-dependencia: un JSON que no es objeto en revision/ se avisa (hallazgo de codex-1 y agy-1 sobre e200bab) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261012-131420-clue-dependencia`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261012-131420-clue-dependencia`.
 
 ## Mensajes
 

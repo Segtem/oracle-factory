@@ -50,7 +50,7 @@ capacidad: "decisiones"
 - `792efe2` 20261007-223645-decisiones-guiadas: el motivo propuesto por el agente va en motivos\_propuestos, no en propuestas (DGUI-05 de agy-1 sobre 449b8eb) (deducido)
 - `349adaa` 20261007-223645-decisiones-guiadas: revisar pregunta si la revisión está completa en vez de suponerlo (DGUI-06 de codex-1 sobre 792efe2) (deducido)
 - `e88250b` 20261007-223645-decisiones-guiadas: el menú acepta sólo dígitos ASCII (DGUI-07 de codex-1 sobre 349adaa) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261007-223645-decisiones-guiadas`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261007-223645-decisiones-guiadas`.
 
 ## Mensajes
 

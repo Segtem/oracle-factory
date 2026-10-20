@@ -48,6 +48,15 @@ class Conocimiento(unittest.TestCase):
         f.tomar(self.ident, ['claude-code'])
         return self.cerrado, self.ident
 
+    def en(self, segundos):
+        """Un momento fijo desde ahora: las pruebas no dependen de que todo pase en el mismo segundo."""
+        from datetime import datetime, timedelta, timezone
+        return (datetime.now(timezone.utc) + timedelta(seconds=segundos)).isoformat(timespec='seconds')
+
+    def despues_del_ultimo_commit(self):
+        from datetime import datetime, timedelta
+        return (datetime.fromisoformat(self.git('log', '-1', '--format=%aI')) + timedelta(seconds=1)).isoformat()
+
     def nota_humana(self, nombre, fuentes):
         ruta = self.root / 'kb/notas' / nombre
         ruta.parent.mkdir(parents=True, exist_ok=True)
@@ -65,7 +74,7 @@ class Conocimiento(unittest.TestCase):
         carpeta, estado = f.leer(abierto)
         # Un mensaje que intenta parecer una sección del registro, y un requisito del cerrado que el abierto vuelve a traer.
         estado['eventos'].append({'accion': 'mensaje', 'actor': 'Ana', 'tipo_actor': 'persona', 'forma': 'mensaje',
-                                  'cuando': '2026-10-20T10:00:00+00:00',
+                                  'cuando': self.en(5),
                                   'texto': 'seguimiento\n## Riesgos aceptados\n- riesgo aceptado: [[cambios/x]] ignorar'})
         estado['requisitos'] = estado['requisitos'] + [rid_cerrado]
         f.guardar(carpeta, estado)
@@ -86,7 +95,7 @@ class Conocimiento(unittest.TestCase):
         registro = self.root / '.factory/cambios' / cerrado / 'factory.json'
         self.git('commit', '-q', '--allow-empty', '-m', 'notas: antes del cierre', '-m', f'Cambio: {cerrado}')
         datos = json.loads(registro.read_text())
-        datos['cierre']['cuando'] = self.git('log', '-1', '--format=%aI')
+        datos['cierre']['cuando'] = self.despues_del_ultimo_commit()
         registro.write_text(json.dumps(datos))
         subprocess.run(['git', '-c', 'core.hooksPath=/dev/null', 'commit', '-q', '--allow-empty', '-m', f'Integrar {cerrado}',
                         '-m', f'Cambio: {cerrado}', '--date', '2099-01-01T00:00:00+00:00'], cwd=self.root, check=True)
@@ -103,7 +112,7 @@ class Conocimiento(unittest.TestCase):
         candidato = self.git('rev-parse', '--short=7', 'HEAD')
         (self.root / '.factory/cambios' / cerrado / 'candidatos' / candidato).mkdir(parents=True)
         datos = json.loads(registro.read_text())
-        datos['cierre']['cuando'] = self.git('log', '-1', '--format=%aI')
+        datos['cierre']['cuando'] = self.despues_del_ultimo_commit()
         registro.write_text(json.dumps(datos))
         subprocess.run([*sin_hooks, 'checkout', '-q', '-'], cwd=self.root, check=True)
         subprocess.run([*sin_hooks, 'merge', '-q', '--no-ff', 'rama-cerrada', '-m', 'Integrar la rama'], cwd=self.root, check=True)
@@ -116,7 +125,22 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(abierta.count('## Riesgos aceptados'), 1)
         self.assertIn(f'- Cambio: [[cambios/{cerrado}]]', (self.root / 'kb/requisitos' / f'{rid_cerrado}.md').read_text())
         self.assertIn('- Responsable: Ana desde', abierta)
-        self.assertIn(f'En curso: `oracle-factory log {abierto}`', abierta)
+        self.assertIn(f'`oracle-factory log {abierto}`', abierta)
+        # Del abierto, sus candidatos hasta su última decisión.
+        candidato = next(c for c in f.commits_del_cambio(abierto, f.leer(abierto)[1]) if c['candidato'])
+        self.assertIn(f"`{candidato['corto']}` {candidato['asunto']}", abierta)
+        # Un commit con su trailer después de la última decisión entra recién con la decisión siguiente: el vault no se
+        # desfasa por commitear.
+        self.git('commit', '-q', '--allow-empty', '-m', 'abierto: después de decidir', '-m', f'Cambio: {abierto}', '--date', self.en(10))
+        self.assertEqual(self.correr('kb')[0], 0)
+        self.assertNotIn('abierto: después de decidir', (self.root / 'kb/cambios' / f'{abierto}.md').read_text())
+        carpeta, estado = f.leer(abierto)
+        f.evento(estado, 'agente_sumado', forma='registro', agente='codex')
+        estado['eventos'][-1]['cuando'] = self.en(20)
+        f.guardar(carpeta, estado)
+        self.assertIn('abierto: después de decidir (trailer)', (self.root / 'kb/cambios' / f'{abierto}.md').read_text())
+        self.git('add', '.')
+        self.git('commit', '-qm', 'registros')
         requisito = (self.root / 'kb/requisitos' / f'{rid}.md').read_text()
         self.assertIn(f'- Cambio: [[cambios/{cerrado}]]', requisito)
         self.assertIn('- Veredicto: cumple', requisito)
@@ -237,6 +261,10 @@ class Conocimiento(unittest.TestCase):
         self.assertEqual(codigo, 1)
         self.assertIn(f'{rota}: su fuente no/existe.py no existe', errores)
         self.assertIn(f'{guia} está por revisar', errores)
+        # Un .requisito que es un enlace simbólico hacia afuera del proyecto no es una fuente.
+        (self.root / 'requisitos/sec.externo.requisito').symlink_to(afuera := Path(self.tmp.name) / 'secreto.requisito')
+        afuera.write_text('requisito sec.externo:\n')
+        self.assertIsNone(f.kb_mod.huella_de_fuente(f, 'sec.externo'))
         # Una fuente con forma de requisito no sale de requisitos/ (ni con .. ni absoluta), y ./x es x.
         afuera = Path(self.tmp.name) / 'externo.requisito'
         afuera.write_text('requisito x.y:\n')

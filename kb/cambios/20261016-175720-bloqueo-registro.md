@@ -38,7 +38,7 @@ capacidad: "flujo"
 - `8b84fcc` bloqueo-registro: medidas confirmadas por Brian (deducido)
 - `d1b1f6e` bloqueo-registro: guardar anota lo que escribió aunque no lo haya leído antes (agy-1, codex BLQ-1); un archivo borrado entretanto es un archivo que cambió (agy-2); bl2 enfrenta dos guardar de Factory, demorado entre comparar y reemplazar (agy-3); límites y docs más precisos (agy-4, agy-6) (deducido)
 - `f72807d` bloqueo-registro: bl1 y bl2 parten de un proceso que no escribió el registro, así que prueban que leer fija la base (agy-1 de la vuelta 2) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261016-175720-bloqueo-registro`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261016-175720-bloqueo-registro`.
 
 ## Mensajes
 

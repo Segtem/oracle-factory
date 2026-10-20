@@ -39,7 +39,7 @@ capacidad: "revisores"
 
 - `5b949fc` revision-simultanea: medidas confirmadas por Brian (deducido)
 - `f9b6d27` revision-simultanea: las pruebas fuerzan la carrera del evento y que el revisor corra fuera del turno (agy H-01, H-02) (deducido)
-- Todos, también los que se deducen al integrarlo: `oracle-factory log 20261014-100834-revision-simultanea`.
+- Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261014-100834-revision-simultanea`.
 
 ## Mensajes
 
