@@ -47,6 +47,12 @@ class Sesion(unittest.TestCase):
         self.assertIn('data-sesion="unirse">Unirse a una sesión', salida['vistas']['inicio'])
         self.assertIn('data-sesion="terminar">Terminar sesión', salida['vistas']['compartida'])
         self.assertEqual(salida['llamadas'], ['share', 'end', f'join {ENLACE}', 'join https://vscode.dev/liveshare/XYZ'])
+        # El enlace de la sesión: se ve en el tablero, se copia y se avisa.
+        sesion1 = 'https://prod.liveshare.vsengsaas.visualstudio.com/join?SESION1'
+        self.assertIn(f'<code>{sesion1}</code>', salida['vistas']['conEnlace'])
+        self.assertIn('data-sesion="copiar">Copiar enlace', salida['vistas']['compartida'])
+        self.assertEqual(salida['portapapeles'], [sesion1])
+        self.assertEqual(salida['avisos'], [f'Enlace de la sesión copiado: {sesion1}'])
         self.assertEqual(salida['errores'], ['Factory: ese no es un enlace de una sesión de Live Share.'] * len(otros))
 
     @unittest.skipUnless(_tablero.NODE, 'hace falta node')

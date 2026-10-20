@@ -156,6 +156,13 @@ async function mensajeDelTablero(m) {
         if (m.accion === 'instalar') await sesion.instalar();
         else if (m.accion === 'compartir') await sesion.compartir();
         else if (m.accion === 'terminar') await sesion.terminar();
+        else if (m.accion === 'copiar') {
+            const enlace = await sesion.enlaceDeLaSesion();
+            if (!enlace) return vscode.window.showErrorMessage('Factory: Live Share no dio el enlace de la sesión.');
+            await vscode.env.clipboard.writeText(enlace);
+            vscode.window.showInformationMessage(`Enlace de la sesión copiado: ${enlace}`);
+            pintarTablero();
+        }
         else if (m.accion === 'unirse') {
             const enlace = await vscode.window.showInputBox({prompt: 'El enlace de la sesión de Live Share que te pasaron',
                                                              placeHolder: 'https://prod.liveshare.vsengsaas.visualstudio.com/join?…'});

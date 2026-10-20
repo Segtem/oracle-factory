@@ -26,6 +26,7 @@ class Sesion {
         this.api = null;
         this.servicio = null;
         this.proxy = null;
+        this.enlace = null;  // el de la sesión que compartimos, para mostrarlo y copiarlo
     }
 
     async iniciar(idExtension) {
@@ -80,11 +81,25 @@ class Sesion {
     }
 
     async compartir() {
-        if (this.api && !this.rol()) await this.api.share();  // Live Share avisa y copia el enlace
+        if (!this.api || this.rol()) return;
+        const uri = await this.api.share();  // Live Share avisa y copia el enlace
+        this.enlace = uri ? uri.toString() : null;
+        this.al.cambio();
+    }
+
+    // El enlace de la sesión compartida: si ya se compartió, Live Share lo vuelve a dar (sin repetir su aviso).
+    async enlaceDeLaSesion() {
+        if (!this.api || this.rol() !== 1) return null;
+        if (!this.enlace) {
+            const uri = await this.api.share({suppressNotification: true});
+            this.enlace = uri ? uri.toString() : null;
+        }
+        return this.enlace;
     }
 
     async terminar() {
         if (this.api && this.rol()) await this.api.end();
+        this.enlace = null;
     }
 
     // Sólo un enlace https de Live Share: el de su servicio o el de vscode.dev.
@@ -99,7 +114,7 @@ class Sesion {
         if (!this.api) return {estado: 'sin-live-share'};
         const s = this.api.session;
         if (!s || !s.role) return {estado: 'sin-sesion'};
-        return {estado: 'activa', rol: ROL[s.role], yo: nombre(s.user),
+        return {estado: 'activa', rol: ROL[s.role], yo: nombre(s.user), enlace: s.role === 1 ? this.enlace : null,
                 otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[p.role] || 'invitado'}))};
     }
 

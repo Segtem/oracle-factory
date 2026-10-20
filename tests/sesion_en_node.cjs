@@ -18,7 +18,12 @@ const llamadas = [];
 const ls = {
     session: {role: 0, user: {displayName: 'Ana'}}, peers: [],
     onDidChangeSession: emisor(), onDidChangePeers: emisor(),
-    async share() { llamadas.push('share'); this.session = {role: 1, user: {displayName: 'Ana'}}; this.onDidChangeSession.disparar({}); return {}; },
+    async share(opciones) {
+        llamadas.push(opciones && opciones.suppressNotification ? 'share (sin aviso)' : 'share');
+        this.session = {role: 1, user: {displayName: 'Ana'}};
+        this.onDidChangeSession.disparar({});
+        return {toString: () => 'https://prod.liveshare.vsengsaas.visualstudio.com/join?SESION1'};
+    },
     async end() { llamadas.push('end'); this.session = {role: 0, user: {displayName: 'Ana'}}; this.onDidChangeSession.disparar({}); },
     async join(uri) { llamadas.push(`join ${uri.toString()}`); },
     async shareService() { return {onRequest() {}, onNotify() {}, notify() {}}; },
@@ -27,12 +32,13 @@ const ls = {
 const nada = () => ({dispose() {}});
 let panel = null, html = '';
 const pedidos = [...enlaces];
-const comandos = {}, errores = [], ejecutados = [];
+const comandos = {}, errores = [], ejecutados = [], avisos = [], portapapeles = [];
 const vscode = {
     EventEmitter: class { constructor() { this.event = nada; } fire() {} },
     TreeItem: class {}, TreeItemCollapsibleState: {None: 0, Collapsed: 1}, ThemeIcon: class {}, ViewColumn: {One: 1},
     Uri: {file: p => ({fsPath: p}), parse: t => ({toString: () => t})},
     Range: class {},
+    env: {clipboard: {writeText: async t => { portapapeles.push(t); }}},
     extensions: {getExtension: id => (conLiveShare === 'con' && id === 'ms-vsliveshare.vsliveshare'
         ? {isActive: true, exports: {getApi: async () => ls}} : undefined)},
     workspace: {
@@ -43,6 +49,7 @@ const vscode = {
     window: {
         terminals: [], registerTreeDataProvider: nada,
         showErrorMessage: m => { errores.push(m); },
+        showInformationMessage: m => { avisos.push(m); },
         showInputBox: async () => pedidos.shift(),
         createWebviewPanel: () => {
             let recibir = null;
@@ -79,9 +86,12 @@ async function hasta(cond, que) {
         await hasta(() => html.includes('data-sesion="terminar"'), 'ofrece terminar');
         vistas.compartida = html;
         await panel.recibir({tipo: 'sesion', accion: 'compartir'});  // ya compartida: no empieza otra
+        await panel.recibir({tipo: 'sesion', accion: 'copiar'});
+        await hasta(() => html.includes('join?SESION1</code>'), 'muestra el enlace');
+        vistas.conEnlace = html;
         await panel.recibir({tipo: 'sesion', accion: 'terminar'});
         await hasta(() => html.includes('data-sesion="compartir"'), 'vuelve a ofrecer compartir');
         for (let i = 0; i < enlaces.length; i++) await panel.recibir({tipo: 'sesion', accion: 'unirse'});
     }
-    process.stdout.write(JSON.stringify({vistas, llamadas, errores, ejecutados}));
+    process.stdout.write(JSON.stringify({vistas, llamadas, errores, ejecutados, avisos, portapapeles}));
 })().catch(e => { console.error(e); process.exit(1); });
