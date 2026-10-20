@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/fd78949",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "fd78949538a86b31748a9322f5b7c0555d9c7391",
+  "diff_sha256": "1efce5c53241c286566ac65b7ede308e19784bce15c167870930244f751aa967",
+  "context_sha256": "38374c186a21800bde62564c4a4907a3ea8adb80e6b6f102e5e49efd4604b568",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.94,
+      "title": "Acepta un enlace vscode.dev sin identificador de sesión",
+      "explanation": "La validación sólo exige que la ruta empiece con `/liveshare/`. Por eso acepta `https://vscode.dev/liveshare/`, que no contiene una ruta o identificador de invitación, y `unirse()` llama a `api.join()` con esa URL. El requisito promete aceptar sólo enlaces de una sesión de Live Share; este caso mal formado debería rechazarse antes de llamar a la API.",
+      "location": {
+        "file": "editores/vscode/liveshare.js",
+        "start_line": 29,
+        "end_line": 29,
+        "side": "head"
+      },
+      "trigger": "En el botón «Unirse a una sesión», introducir `https://vscode.dev/liveshare/`.",
+      "evidence": "`enlaceDeLiveShare()` devuelve true por `url.pathname.startsWith('/liveshare/')` aunque no haya ningún segmento después de la barra final; `Sesion.unirse()` pasa la URL a `api.join()`. `tests/test_sesion.py` cubre `https://vscode.dev/liveshare/XYZ` y rutas web ajenas, pero no el prefijo vacío.",
+      "related_requirement": "la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Confirmado por inspección del flujo; no se mutó el checkout. Las pruebas indicadas pasan, pero no incluyen esta entrada."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.",
+    "No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.",
+    "Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos."
+  ]
+}
