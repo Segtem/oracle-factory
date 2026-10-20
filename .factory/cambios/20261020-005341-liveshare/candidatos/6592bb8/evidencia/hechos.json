@@ -1,0 +1,35 @@
+{
+  "liveshare_caso": [
+    {
+      "requisito": "el_tablero_muestra_quien_esta_en_la_sesion",
+      "caso": "ls1_una_sesion_con_un_invitado_que_entra_y_sale",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_muestra_quien_esta_en_la_sesion",
+      "caso": "ls1_sin_live_share",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_invitado_ve_el_tablero_de_quien_comparte",
+      "caso": "ls2_un_invitado_sin_factory",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_chat_queda_en_el_cambio",
+      "caso": "ls3_un_mensaje_desde_la_terminal_y_uno_desde_el_chat",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_chat_queda_en_el_cambio",
+      "caso": "ls3_un_mensaje_sin_autor",
+      "codigo": 0
+    }
+  ],
+  "liveshare_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
