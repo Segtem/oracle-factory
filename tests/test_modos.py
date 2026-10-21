@@ -199,7 +199,7 @@ class Modos(unittest.TestCase):
 
     def test_m4_lectura_del_estado(self):
         self.test_m3_autonomo()
-        ident = next(p.name for p in (self.root / 'openspec/changes').iterdir())
+        ident = next(p.name for p in (self.root / 'openspec/changes').iterdir() if p.is_dir())
         self.stdout.truncate(0); self.stdout.seek(0)
         f.mostrar(ident)
         salida = self.stdout.getvalue()

@@ -8,6 +8,12 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import test_archivo as _archivo  # noqa: E402
+
+f = _archivo.f
 
 SOURCE = Path(__file__).resolve().parents[1]
 CLI = [sys.executable, '-c', 'import sys; from oracle_factory.cli import main; sys.exit(main())']
@@ -98,6 +104,72 @@ class Clones(unittest.TestCase):
         registro = json.loads((ana / '.factory/cambios' / ident / 'factory.json').read_text())
         textos = sorted(e['texto'] for e in registro['eventos'] if e['accion'] == 'mensaje')
         self.assertEqual(textos, sorted(f'mensaje {i}' for i in range(12)))
+
+    # --- cl1: una regla del proyecto que ignora una carpeta de Factory se avisa -----------------------------------
+    def test_cl1_una_carpeta_ignorada_se_avisa(self):
+        otro = Path(self.tmp.name) / 'otro'
+        otro.mkdir()
+        self.git(otro, 'init', '-q', '-b', 'main')
+        (otro / '.gitignore').write_text('tareas/\n')
+        r = self.cli(otro, 'init')
+        self.assertIn('Aviso: Git ignora tareas/ (.gitignore:1:tareas/)', r.stderr)
+        self.assertNotIn('Git ignora catalogos', r.stderr)
+
+
+class Reintento(unittest.TestCase):
+    """cl3, determinista: otro proceso escribe el registro justo antes de que tomar, soltar o mensaje lo guarden."""
+    setUp, git = _archivo.Archivo.setUp, _archivo.Archivo.git
+
+    def como(self, persona):
+        subprocess.run(['git', 'config', 'user.name', persona], cwd=self.root, check=True)
+
+    def a_destiempo(self, ident, veces=1):
+        """guardar, pero antes otro proceso agrega un mensaje al registro (las primeras `veces`)."""
+        real, llamadas = f.guardar, []
+
+        def guardar(carpeta, estado, *args, **kwargs):
+            if len(llamadas) < veces:
+                llamadas.append(1)
+                ruta = self.root / '.factory/cambios' / ident / 'factory.json'
+                otro = json.loads(ruta.read_text())
+                otro['eventos'].append({'accion': 'mensaje', 'texto': f'de otro {len(llamadas)}', 'cuando': f.ahora()})
+                ruta.write_text(json.dumps(otro, ensure_ascii=False, indent=2) + '\n')
+            return real(carpeta, estado, *args, **kwargs)
+        return patch.object(f, 'guardar', guardar)
+
+    def test_cl3_tomar_y_soltar_reintentan(self):
+        f.AGENTE = 'claude-code'
+        try:
+            ident = f.nuevo('Concurrido', capacidad='calc', sufijo='uno')
+        finally:
+            f.AGENTE = None
+        self.como('Ana')
+        with self.a_destiempo(ident), patch.object(f.time, 'sleep'):
+            f.tomar(ident)
+        with self.a_destiempo(ident), patch.object(f.time, 'sleep'):
+            f.soltar(ident)
+        eventos = f.leer(ident)[1]['eventos']
+        self.assertEqual([e.get('texto') for e in eventos if e['accion'] == 'mensaje'], ['de otro 1', 'de otro 1'])
+        self.assertEqual([e['accion'] for e in eventos][-1], 'soltado')
+        self.assertIsNone(f.leer(ident)[1]['responsable'])
+        # Vuelve a comprobar sus reglas: si mientras tanto lo tomó otra persona, Beto no lo pisa.
+        self.como('Beto')
+        real = f.guardar
+
+        def lo_toma_ana(carpeta, estado, *args, **kwargs):
+            ruta = self.root / '.factory/cambios' / ident / 'factory.json'
+            otro = json.loads(ruta.read_text())
+            otro['responsable'] = {'persona': 'Ana', 'desde': f.ahora(), 'con': []}
+            ruta.write_text(json.dumps(otro, ensure_ascii=False, indent=2) + '\n')
+            return real(carpeta, estado, *args, **kwargs)
+        with patch.object(f, 'guardar', lo_toma_ana), patch.object(f.time, 'sleep'), \
+                self.assertRaisesRegex(f.FactoryError, 'lo tiene Ana'):
+            f.tomar(ident)
+        # Si nunca logra escribir, falla claro y no guarda nada.
+        with self.a_destiempo(ident, veces=99), patch.object(f.time, 'sleep'), \
+                self.assertRaisesRegex(f.FactoryError, 'cambió 20 veces .*no guardé nada'):
+            f.mensaje(ident, 'nunca')
+        self.assertNotIn('nunca', [e.get('texto') for e in f.leer(ident)[1]['eventos']])
 
 
 if __name__ == '__main__':

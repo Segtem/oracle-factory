@@ -16,11 +16,12 @@ import json  # noqa: E402
 
 CAMBIO = '20261021-101907-clones'
 CONTRACTS = {
-    'un_clon_recien_hecho_puede_trabajar': ['cl1_la_segunda_persona_clona_el_proyecto'],
-    'dos_clones_no_generan_el_mismo_id': ['cl2_dos_cambios_en_el_mismo_segundo'],
-    'escribir_a_la_vez_no_obliga_a_repetir': ['cl3_doce_mensajes_a_la_vez'],
+    'un_clon_recien_hecho_puede_trabajar': ['Clones.test_cl1_la_segunda_persona_clona_el_proyecto',
+                                            'Clones.test_cl1_una_carpeta_ignorada_se_avisa'],
+    'dos_clones_no_generan_el_mismo_id': ['Clones.test_cl2_dos_cambios_en_el_mismo_segundo'],
+    'escribir_a_la_vez_no_obliga_a_repetir': ['Clones.test_cl3_doce_mensajes_a_la_vez', 'Reintento.test_cl3_tomar_y_soltar_reintentan'],
 }
-PREFIX = 'test_clones.Clones.test_'
+PREFIX = 'test_clones.'
 LIMITES = ('Escenarios cl1–cl3 en repositorios temporales, Linux, con git real, un repositorio central y procesos simultáneos; '
            'la unión de registros editados en dos ramas es otro cambio.')
 

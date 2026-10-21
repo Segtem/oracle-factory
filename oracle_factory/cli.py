@@ -2968,6 +2968,10 @@ def inicializar(oracle: str | None = None) -> None:
                           raiz_oracle / "requisitos", raiz_oracle / "macros"):
         if carpeta_vacia.is_dir() and not any(carpeta_vacia.iterdir()):
             (ruta_segura(carpeta_vacia) / ".gitkeep").write_text("", encoding="utf-8")
+        regla = ejecutar(["git", "check-ignore", "-v", "--", str(carpeta_vacia / ".gitkeep")])
+        if not regla.returncode:  # un .gitignore del proyecto la excluye: Factory no pisa esa regla, pero avisa
+            print(f"Aviso: Git ignora {carpeta_vacia.relative_to(ROOT)}/ ({regla.stdout.split(chr(9))[0].strip()}): quien "
+                  "clone el proyecto no la va a tener. Si es de Factory, sacá esa regla del .gitignore.", file=sys.stderr)
     print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
     print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; proyecto Oracle: {ROOT / (oracle or "")}.')
     print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
