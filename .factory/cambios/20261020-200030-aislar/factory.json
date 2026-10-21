@@ -2,7 +2,7 @@
   "id": "20261020-200030-aislar",
   "titulo": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
   "capacidad": "revisores",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md",
   "spec_sha256": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "b630de6a1f1ddb3c7fe64ac89fe33010ad1e17b514edd2a66845b3fbc70eef95"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261020-200030-aislar/candidatos/0ac9092/evidencia/hechos.json",
+    "hechos_sha256": "8b7f4433639d7130896e4d837035df6379af27e31607f1a9f3cac8f0c4a251af",
+    "informe": ".factory/cambios/20261020-200030-aislar/oracle-veredicto.txt",
+    "informe_sha256": "36f25e6f0d372f6a321e6bacbdcd5ac64e88a1bfeb118150236a5ece5b7ab399",
+    "cuando": "2026-10-21T00:34:03+00:00",
+    "contexto": {
+      "head": "3cd3dc182340c5f44518f3700a15d9795db9e9a7",
+      "archivos_sha256": "b630de6a1f1ddb3c7fe64ac89fe33010ad1e17b514edd2a66845b3fbc70eef95"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -442,6 +454,17 @@
       "abiertos": 0,
       "sha256": "85090a3f8ec3b1328b7c7c2d723eb76f4d29211fcc8d3dae0aa4ad8b8389c0fd",
       "decisiones_sha256": "97c51a7186326af1dc2af04a347934e0440bc9d346618be707980629b7f044ed"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T00:34:03+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "8b7f4433639d7130896e4d837035df6379af27e31607f1a9f3cac8f0c4a251af"
     }
   ],
   "tipos": {

@@ -43,3 +43,7 @@ Requisitos importados: revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_
 ### Nota (2026-10-21 00:33:50 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos, y en ninguna vuelta cambió el user.name ni las ramas del repositorio. Corregido con pruebas que fallan sin cada corrección: el checkout es un clon --local por pedido, sin remotos ni alternates (un gc no lo rompe), vuelve al candidato antes de validar, --base se traduce a SHA, y el número del pedido es el más alto exacto del revisor mirando informes versionados, paquetes y clones. Queda bajo (aceptado en la vuelta 1, F-006): aislar al revisor del resto del disco es cosa de su sandbox.); 0 abiertos derivados; commit e6b528e7d6a9f1102c206c3bacd3d200d6f174ff; informe tareas/20261020-200030-aislar/revisiones/registro-n2enjd_g/informe.json; decisiones tareas/20261020-200030-aislar/revisiones/registro-n2enjd_g/decisiones.json.
+
+### Nota (2026-10-21 00:34:03 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261020-200030-aislar/oracle-veredicto.txt.
