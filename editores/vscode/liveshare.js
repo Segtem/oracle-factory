@@ -7,8 +7,26 @@ const VERSION_API = '1.0.4753';  // la del paquete vsls que documenta esta API
 const SERVICIO = 'oracle-factory';
 const ROL = {1: 'anfitrión', 2: 'invitado'};
 
+// El rol, venga como número (la API de vsls) o como texto («Host», «Guest»). Una sesión con id y sin rol conocido es
+// la de quien la compartió.
+function rolDe(x, conId) {
+    if (x === 0 || x === 1 || x === 2) return x;
+    const t = String(x == null ? '' : x).toLowerCase();
+    if (t === 'none' || t === '0') return 0;  // Role.None: sin sesión, aunque quede un id
+    if (t === 'host' || t === '1') return 1;
+    if (t === 'guest' || t === '2') return 2;
+    return x == null && conId ? 1 : 0;  // sin rol informado pero con sesión: la de quien la compartió
+}
+
 function nombre(usuario) {
     return (usuario && (usuario.displayName || usuario.userName || usuario.emailAddress)) || 'sin nombre';
+}
+
+function enlaceDeLiveShare(texto) {
+    let url;
+    try { url = new URL(String(texto || '').trim()); } catch (e) { return false; }
+    return url.protocol === 'https:' && (url.hostname === 'prod.liveshare.vsengsaas.visualstudio.com'
+        || (url.hostname === 'vscode.dev' && url.pathname.startsWith('/liveshare/')));
 }
 
 class Sesion {
@@ -19,6 +37,7 @@ class Sesion {
         this.api = null;
         this.servicio = null;
         this.proxy = null;
+        this.enlace = null;  // el de la sesión que compartimos, para mostrarlo y copiarlo
     }
 
     async iniciar(idExtension) {
@@ -37,11 +56,14 @@ class Sesion {
     }
 
     rol() {
-        return (this.api && this.api.session && this.api.session.role) || 0;
+        const s = this.api && this.api.session;
+        return s ? rolDe(s.role, s.id) : 0;
     }
 
     async preparar() {
         this.servicio = this.proxy = null;
+        // El enlace guardado es el de la sesión en la que se compartió: si se terminó (también fuera del tablero), ya no vale.
+        if (!this.rol()) this.enlace = null;
         if (this.rol() === 1) {
             this.servicio = await this.api.shareService(SERVICIO);
             if (this.servicio) {
@@ -67,13 +89,70 @@ class Sesion {
         this.al.cambio();
     }
 
+    // Los botones del tablero para la sesión. Ninguno toca un registro de Factory.
+    async instalar() {
+        await this.vscode.commands.executeCommand('extension.open', ID_LIVE_SHARE);
+    }
+
+    async compartir() {
+        if (!this.api) return;
+        // Ya hay sesión, o se está abriendo (un doble clic): no se comparte otra vez (Live Share lo rechaza y la deja a medias).
+        if (this.rol() || this.compartiendo) return this.al.cambio();
+        this.compartiendo = true;
+        try {
+            const uri = await this.api.share();  // Live Share avisa y copia el enlace
+            this.enlace = uri ? uri.toString() : null;
+        } finally {
+            this.compartiendo = false;
+        }
+        this.al.cambio();
+    }
+
+    // El enlace de la sesión que compartió el tablero. No se le vuelve a pedir a Live Share: llamar otra vez a share()
+    // con una sesión abierta intenta empezar otra, falla y deja la actual a medias (lo vio Brian el 2026-10-20).
+    enlaceDeLaSesion() {
+        return this.rol() === 1 ? this.enlace : null;
+    }
+
+    // Una sesión que no abrió el tablero (desde la paleta): el enlace lo copia Live Share con su propio comando, que se
+    // busca entre los de VS Code (liveshare.…copy…link…). Devuelve si lo encontró.
+    async copiarConLiveShare() {
+        if (this.rol() !== 1 || !this.vscode.commands.getCommands) return false;
+        const id = (await this.vscode.commands.getCommands(true)).find(c => /^liveshare\./i.test(c) && /copy/i.test(c) && /link/i.test(c));
+        if (!id) return false;
+        await this.vscode.commands.executeCommand(id);
+        return true;
+    }
+
+    async terminar() {
+        if (this.api && this.rol()) await this.api.end();
+        this.enlace = null;
+    }
+
+    // Sólo un enlace https de Live Share: el de su servicio o el de vscode.dev.
+    async unirse(enlace) {
+        if (!this.api || this.rol() || !enlaceDeLiveShare(enlace)) return false;
+        await this.api.join(this.vscode.Uri.parse(enlace.trim()));
+        return true;
+    }
+
     // Para el tablero: quién está y con qué rol.
     estado() {
         if (!this.api) return {estado: 'sin-live-share'};
         const s = this.api.session;
-        if (!s || !s.role) return {estado: 'sin-sesion'};
-        return {estado: 'activa', rol: ROL[s.role], yo: nombre(s.user),
-                otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[p.role] || 'invitado'}))};
+        const rol = this.rol();
+        if (!rol) return {estado: 'sin-sesion'};
+        return {estado: 'activa', rol: ROL[rol], yo: nombre(s.user), enlace: rol === 1 ? this.enlace : null,
+                otros: (this.api.peers || []).map(p => ({nombre: nombre(p.user), rol: ROL[rolDe(p.role)] || 'invitado'}))};
+    }
+
+    // Para el diagnóstico (Output → Oracle Factory): lo que dice Live Share, sin nombres.
+    diagnostico() {
+        if (!this.api) return 'Live Share: sin API (no está instalado, o no dio la API pedida)';
+        const s = this.api.session || {};
+        return `Live Share: rol ${JSON.stringify(s.role)} (leído ${this.rol()}), id ${s.id ? 'sí' : 'no'}, ` +
+               `${(this.api.peers || []).length} más en la sesión, servicio ${this.servicio ? 'publicado' : 'no'}, ` +
+               `proxy ${this.proxy ? (this.proxy.isServiceAvailable ? 'disponible' : 'esperando') : 'no'}`;
     }
 
     // Para quien comparte, los demás de la sesión son sus invitados (peers no la incluye a ella).
@@ -103,4 +182,4 @@ class Sesion {
     }
 }
 
-module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API};
+module.exports = {Sesion, ID_LIVE_SHARE, SERVICIO, VERSION_API, enlaceDeLiveShare, rolDe};

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/dd13a13",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "dd13a13dd7d9893da15649f1fde39f1351622ee4",
+  "diff_sha256": "c77c9f776c4d75b1471fc9712ca39d45d0bd491b61cd645ee8d45cae790f93e0",
+  "context_sha256": "07c386d98147e756a9fd0d365b142790e89bafec87f5134ca1729420a6209ad9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AISLAR-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "Un checkout de revisión antiguo puede seguir siendo un worktree compartido",
+      "explanation": "La rama de creación sólo clona cuando el path canónico no existe. Si ese path ya contiene el worktree creado por la versión anterior para el mismo candidato, la función continúa usándolo; no lo migra ni rechaza. Cambiar user.name o crear ramas desde ese checkout vuelve a afectar la configuración o las refs del repositorio del proyecto, en contra del requisito para cada checkout de revisor. La prueba nueva sólo prepara un repositorio temporal sin checkout previo y no detecta esta ruta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1205,
+        "end_line": 1205,
+        "side": "head"
+      },
+      "trigger": "Actualizar a esta versión y pedir una revisión para un candidato cuyo .factory/local/revisiones/<sha> ya existe como worktree creado por la versión anterior; luego cambiar user.name o crear una rama desde el checkout que recibe el revisor.",
+      "evidence": "En oracle_factory/cli.py:1205 se omite toda preparación cuando checkout.exists() es verdadero. La llamada a git clone --shared sólo está en esa rama condicional (líneas 1208-1210). En tests/test_aislar.py el caso ai1 prepara el repositorio y prueba sólo el checkout recién creado; no instala un worktree preexistente. La spec exige un repositorio aparte por revisor y el aislamiento de configuración y ramas.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Inspección estática de la condición de reutilización y de test_ai1; la pareja de suites solicitada pasó, pero no incluye el escenario con un worktree preexistente."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null desde la raíz del checkout candidato: 17 tests, OK. No ejecuté la suite completa.",
+    "No hice mutaciones manuales sobre copias. Revisé rutas con espacios por el uso de argumentos separados en subprocess, pero no corrí una prueba específica; tampoco experimenté con gc, eliminación de worktrees ni la migración de un checkout viejo.",
+    "El reporte es una revisión probabilística; el test exitoso no demuestra propiedades fuera de los casos ejercitados."
+  ]
+}

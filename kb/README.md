@@ -62,6 +62,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261019-232444-quien]] — Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero (cerrada)
 - [[cambios/20261020-005341-liveshare]] — El tablero en pair programming: presencia, tablero compartido y chat con Live Share (cerrada)
 - [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (revision_aprobada)
+- [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
+- [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
 
 ## Requisitos
 
@@ -158,6 +160,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/ide_c2103597a7eea615c.el_chat_queda_en_el_cambio]]
 - [[requisitos/ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte]]
 - [[requisitos/ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion]]
+- [[requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code]]
 - [[requisitos/landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia]] (ya no vigente)
@@ -208,6 +211,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista]]
 - [[requisitos/revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato]]
 - [[requisitos/revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes]]
+- [[requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio]]
 - [[requisitos/revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio]]
 - [[requisitos/revisores_c466ac292a9f99ce6.el_revisor_no_decide]]
 - [[requisitos/revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision]]

@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-sesion/.factory/local/revisiones/677f045",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "677f04524f3a879092c541757abefe8d22d1f834",
+  "diff_sha256": "d0fc7762dd3322b121a19292ae13c53f5326cae08b524c87b3690cc3057898ad",
+  "context_sha256": "da95807eab29f3626f226b5abe80d4e6397757d5cb84d0be6b170e228eb5faec",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "C1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Un anfitrión de una sesión ya abierta no puede copiar el enlace desde el tablero",
+      "explanation": "Cuando Live Share ya tiene una sesión de anfitrión (por ejemplo, iniciada desde la paleta antes de abrir el tablero), el tablero reconoce la sesión pero no muestra el enlace ni el botón «Copiar enlace». La vista ofrece sólo una instrucción para copiarlo con el comando de Live Share. La spec promete al anfitrión el enlace y su acción de copia desde el tablero; la capacidad sólo funciona para sesiones cuyo enlace se guardó en memoria al iniciarlas con este tablero.",
+      "location": {
+        "file": "editores/vscode/tablero.js",
+        "start_line": 131,
+        "end_line": 134,
+        "side": "head"
+      },
+      "trigger": "Abrir el tablero mientras Live Share ya está compartiendo como anfitrión, o empezar a compartir desde la paleta y luego abrir el tablero; intentar copiar el enlace desde el panel.",
+      "evidence": "En esas condiciones Sesion.enlace sigue siendo null: sólo se asigna en liveshare.js:97-98 después de api.share() invocado desde el tablero. tablero.js:131-134 entonces muestra la rama sin enlace, sin data-sesion=\"copiar\". Además, tests/sesion_en_node.cjs simula la sesión ya compartida desde la paleta y tests/test_sesion.py verifica explícitamente que no aparecen el botón ni una copia (portapapeles vacío), confirmando el comportamiento.",
+      "related_requirement": "ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero",
+      "status": "pendiente",
+      "verification": "Mantener o recuperar el enlace de una sesión anfitriona preexistente mediante una API soportada, o hacer que el tablero pueda copiarlo desde la acción requerida. Añadir una prueba que abra la sesión desde la paleta y compruebe enlace visible y copia desde el panel."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff del paquete y el código/pruebas del candidato para liveshare.js, extension.js, tablero.js, package.json, README, tests/test_sesion.py, tests/sesion_en_node.cjs, tools/verify_sesion.py y el catálogo de Factory.",
+    "Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null. Resultado: 7 pruebas, OK (18.219 s).",
+    "La ejecución prueba una API Live Share falsa en Node y un VS Code falso; no hice una sesión con VS Code/Live Share reales ni ejecuté la suite completa.",
+    "No hice mutaciones manuales. El informe contiene un hallazgo de revisión estática corroborado por la prueba del caso de sesión ya abierta."
+  ]
+}

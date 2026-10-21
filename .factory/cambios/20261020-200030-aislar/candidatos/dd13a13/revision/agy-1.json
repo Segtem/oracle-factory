@@ -1,0 +1,140 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/dd13a13",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "dd13a13dd7d9893da15649f1fde39f1351622ee4",
+  "diff_sha256": "c77c9f776c4d75b1471fc9712ca39d45d0bd491b61cd645ee8d45cae790f93e0",
+  "context_sha256": "07c386d98147e756a9fd0d365b142790e89bafec87f5134ca1729420a6209ad9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Clue rechaza el informe de revisión si el revisor crea una rama y hace commit sin restaurar HEAD manualmente",
+      "explanation": "La especificación del cambio (requisito el_checkout_de_un_revisor_no_toca_el_repositorio y su escenario ai1) promete que el revisor puede cambiar su configuración, crear ramas y hacer commits en el checkout sin alterar el repositorio principal, y que «su informe SHALL validarse como siempre». Sin embargo, pedir_revision crea el clon con git clone --shared y desacopla HEAD inicialmente (líneas 1208-1210), pero tras ejecutar al revisor (ejecutar_revisor) invoca directamente oracle-clue validar sin restaurar HEAD al commit del candidato. Al validar, Clue reejecuta prepare(), el cual resuelve head = resolve_commit(repo, 'HEAD'). Si el revisor creó una rama y realizó un commit (e.g. git checkout -b mi-rama; git commit -m ...), el HEAD del checkout apunta a ese nuevo commit y no coincide con el bundle preparado (bundle['head']), haciendo que Clue falle con ClueError('el paquete no coincide con el repositorio/contexto actual'). En consecuencia, pedir_revision falla con FactoryError y rechaza el informe del revisor.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1208,
+        "end_line": 1212,
+        "side": "head"
+      },
+      "trigger": "Un revisor independiente que, al examinar o experimentar en su checkout de prueba, crea una rama y realiza un commit (como prescribe textualmente el escenario ai1) y finaliza su tarea sin ejecutar manualmente git checkout --detach <candidato>.",
+      "evidence": "Al mutar tests/test_aislar.py para comentar la línea 20 de TRAVIESO (que hace git checkout -q --detach inicio), el test test_ai1_un_revisor_que_juega_con_git_en_su_checkout falla con: 'oracle_factory.cli.FactoryError: Clue rechazó el informe: CLUE: el paquete no coincide con el repositorio/contexto actual'.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "En oracle_factory/cli.py, antes de invocar oracle-clue validar (o inmediatamente después de ejecutar_revisor), asegurar que el checkout retorne al commit head mediante git -C str(checkout) checkout --quiet --detach head. Verificar retirando la línea de desacoplamiento manual en TRAVIESO dentro de tests/test_aislar.py y comprobando que la prueba unitaria pase exitosamente."
+    },
+    {
+      "id": "F-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba ai1 enmascara el fallo de validación forzando que el revisor de prueba limpie su propio HEAD",
+      "explanation": "En tests/test_aislar.py, el script del revisor de prueba (TRAVIESO) incluye en la línea 20 la instrucción: `git('checkout', '-q', '--detach', inicio)  # vuelve al candidato: Clue valida el informe contra el checkout`. Esta reversión manual dentro del propio revisor enmascara el defecto de que pedir_revision no aísla la validación de Clue frente a los movimientos de HEAD del revisor. La especificación exige que pedir-revision soporte que el revisor juegue con git y que su informe se valide igualmente; la prueba no valida este comportamiento de forma robusta, sino que depende de que el código inspeccionado o el revisor revierta voluntariamente su checkout.",
+      "location": {
+        "file": "tests/test_aislar.py",
+        "start_line": 15,
+        "end_line": 21,
+        "side": "head"
+      },
+      "trigger": "Ejecutar pruebas unitarias donde el revisor ficticio no restaure voluntariamente su checkout al commit del candidato.",
+      "evidence": "El comentario explícito en la línea 20 `# vuelve al candidato: Clue valida el informe contra el checkout` confirma que la instrucción fue agregada para sortear la validación estricta de Clue. Al suprimir dicha línea en una ejecución de prueba, test_ai1 falla sistemáticamente.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Eliminar la línea 20 de tests/test_aislar.py y hacer que pedir_revision garantice que el checkout se encuentre en el estado esperado para Clue sin cooperación del revisor."
+    },
+    {
+      "id": "F-003",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.9,
+      "title": "pedir_revision reutiliza el mismo directorio de checkout para múltiples revisiones sin restaurarlo ni aislar revisores entre sí",
+      "explanation": "La especificación promete que 'pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte'. Sin embargo, la ruta canónica del checkout es única por candidato (ROOT / .factory / local / revisiones / <sha7>). En la línea 1205 de cli.py, se comprueba `if not checkout.exists():`. Si ya existe el checkout (por ejemplo, al pedir una revisión a un segundo revisor para el mismo candidato, o en pedidos sucesivos), no se clona ni se ejecuta `git checkout --detach head`. Como consecuencia: (1) las ramas, commits o configuraciones introducidas por el primer revisor persisten en el checkout del segundo revisor, rompiendo el aislamiento entre revisores; (2) si el primer revisor dejó HEAD en su propia rama, oracle-clue preparar para el segundo revisor generará un paquete basado en el commit del primer revisor en vez del candidato, paquete que luego será descartado por material_del_candidato por no coincidir con el candidato; (3) el cerrojo turno_de_pedidos se libera antes de ejecutar_revisor, de modo que pedidos simultáneos a revisores distintos operan concurrentemente sobre el mismo árbol de trabajo y el mismo .git.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1205,
+        "end_line": 1212,
+        "side": "head"
+      },
+      "trigger": "Invocar pedir-revision para dos revisores distintos sobre el mismo candidato (ej. revisor 1 y revisor 2), o pedir una segunda revisión cuando el primer revisor creó ramas o modificó el checkout.",
+      "evidence": "Al ejecutar pedir_revision con un segundo revisor sobre el mismo candidato tras la ejecución de travieso en test_aislar.py, la preparación del paquete para el segundo revisor toma el commit creado por el primer revisor (Bundle 2 head != Cand head) o falla al intentar recrear ramas existentes en el checkout compartido.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Crear un checkout verdaderamente independiente para cada revisor (por ejemplo, incorporando el nombre del revisor en la ruta del checkout) o restaurar y limpiar íntegramente el checkout compartido antes de cada preparación de paquete y ejecución de revisión."
+    },
+    {
+      "id": "F-004",
+      "kind": "regresion",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "pedir_revision con --base apuntando a una rama falla en oracle-clue preparar al no existir la rama local en el clon",
+      "explanation": "El diseño en design.md asume que 'La base del paquete de Clue es un SHA, que el clon tiene'. No obstante, pedir_revision admite el parámetro base (proveniente de la opción de CLI --base REF). Con la implementación anterior (git worktree add), el checkout compartía todas las ramas del repositorio del proyecto, por lo que nombres de ramas como 'main', 'develop' o ramas de tarea eran directamente resolubles por oracle-clue. Con git clone --shared, el clon nuevo sólo cuenta con la rama activa y referencias remotas origin/*, careciendo de ramas locales para otras ramas del repositorio. Al pasar un nombre de rama como base a oracle-clue preparar --repo checkout --base <rama>, Clue ejecuta git rev-parse dentro del clon y falla con 'fatal: Se necesitó una revisión singular', abortando el pedido de revisión con FactoryError.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1208,
+        "end_line": 1212,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory pedir-revision con la opción --base <nombre-de-rama> (por ejemplo, una rama base diferente a la rama por defecto del clon).",
+      "evidence": "En un entorno con una rama 'base-personalizada', invocar pedir_revision con base='base-personalizada' falló con: 'oracle_factory.cli.FactoryError: oracle-clue no pudo preparar el paquete: CLUE: Git no pudo completar rev-parse: fatal: Se necesitó una revisión singular'.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "En pedir_revision, resolver el parámetro base a su SHA canónico en el repositorio ROOT (ej. ejecutar(['git', 'rev-parse', '--verify', base + '^{commit}'])) antes de pasarlo a oracle-clue preparar."
+    },
+    {
+      "id": "F-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.85,
+      "title": "Checkouts preexistentes que eran worktrees se conservan como tales, vulnerando el aislamiento prometido",
+      "explanation": "En proposal.md se indica que 'Un checkout viejo (un worktree de antes) se sigue usando como está'. Sin embargo, la especificación promete formalmente: 'pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout ... SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees'. En cli.py:1205, `if not checkout.exists():` no verifica si el checkout existente es un worktree (donde .git es un archivo en lugar de un directorio). Si un candidato ya contaba con un checkout en formato worktree previo a este cambio, pedir_revision lo utiliza sin migrarlo ni clonarlo. En consecuencia, si se solicita una revisión sobre ese candidato, cualquier comando de git ejecutado por el revisor (como git config user.name o git branch) modificará el repositorio principal, reintroduciendo los defectos que el cambio busca prevenir.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1205,
+        "end_line": 1208,
+        "side": "head"
+      },
+      "trigger": "Ejecutar pedir-revision sobre un candidato que ya posee un checkout creado previamente como git worktree.",
+      "evidence": "En un checkout donde `.git` es un archivo que referencia a `gitdir: .../worktrees/...`, `if not checkout.exists()` resulta falso. Las operaciones `git config user.name` ejecutadas dentro de él modifican inmediatamente `.git/config` del repositorio raíz.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Comprobar en pedir_revision si checkout.exists() corresponde a un worktree (`(checkout / '.git').is_file()`), y en tal caso eliminarlo/desvincularlo y crear un clon con --shared como corresponde a la nueva especificación."
+    },
+    {
+      "id": "F-006",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Riesgo de corrupción en el clon (alternates) por recolección de basura si el commit del candidato no pertenece a una rama",
+      "explanation": "Al clonar con `git clone --shared`, el checkout no copia los objetos sino que configura `.git/objects/info/alternates` apuntando a los objetos del repositorio origen. En Git, los worktrees son estructuras registradas de primer nivel en `.git/worktrees/`, por lo que git gc y git maintenance protegen activamente cualquier objeto alcanzable desde cualquier worktree. En cambio, Git no tiene registro alguno de clones externos que usen alternates. Si el candidato fue generado en un commit desacoplado (por ejemplo, en un worktree que posteriormente se elimina con git worktree remove, o tras un rebase/amend de la rama donde nació el candidato), dicho commit queda huérfano en el repositorio origen. Una ejecución posterior de git gc (o git maintenance run --auto) purgará el objeto del candidato. A partir de ese momento, el clon del revisor quedará corrupto ('fatal: Not a valid object name'), impidiendo revalidar informes o consultar el candidato con Clue.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1206,
+        "end_line": 1210,
+        "side": "head"
+      },
+      "trigger": "Eliminar el worktree o la rama donde se creó el commit del candidato y ejecutar git gc / git prune en el repositorio principal, intentando luego validar o utilizar el checkout del revisor.",
+      "evidence": "Se verificó creando un commit desacoplado en un worktree temporal, clonando con --shared, eliminando el worktree con git worktree remove y ejecutando git prune --expire=now en el repositorio principal: 'git cat-file -p <head>' en el clon falló con 'fatal: Not a valid object name'.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Establecer una referencia git interna en el repositorio principal para anclar el commit de cada candidato activo (e.g. `refs/factory/candidatos/<sha>`), protegiendo sus objetos de la recolección de basura mientras el checkout compartido dependa de ellos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md) y el diff del paquete de Oracle Clue en paquete-agy-1.json correspondiente al candidato dd13a13.",
+    "Se examinó exhaustivamente el código modificado en oracle_factory/cli.py, las pruebas añadidas en tests/test_aislar.py, la herramienta de verificación tools/verify_aislar.py y los catálogos en catalogos/.",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias indicadas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null, obteniendo OK en 17 pruebas (9.970 s).",
+    "No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_aislar.py, en estricto cumplimiento de las indicaciones del usuario.",
+    "Se analizó el aislamiento de Git en el checkout clonado frente al repositorio principal y otros worktrees (configuración, ramas, commits, hooks y HEAD).",
+    "Se verificó el comportamiento de Git alternates frente a git gc, git prune y eliminación de worktrees origen.",
+    "Se verificó la compatibilidad con rutas que contienen espacios.",
+    "Se verificó la interacción con checkouts preexistentes que operaban bajo git worktree.",
+    "Se llevaron a cabo mutaciones experimentales en entornos de prueba aislados comprobando que la eliminación del reseteo voluntario de HEAD en TRAVIESO provoca la falla de validación de Clue, y que el paso de nombres de ramas a --base falla en el clon compartido."
+  ]
+}

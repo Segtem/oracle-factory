@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/3fbe3c9-codex-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "3fbe3c9373402801e2e5a57a1b6c5d4cb54f1111",
+  "diff_sha256": "2f12d886bd04e26b1e97ebd200bd59c345d3761b985fa5ee75428b5929fb4199",
+  "context_sha256": "2ba1bc5f7d23c6720ebcb9323745feadd453d34d4caff3f2f757e944dd23c1ec",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AISLAR-010",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El clon compartido pierde el candidato si el origen poda sus objetos",
+      "explanation": "git clone --shared crea un clon separado en configuración y refs, pero sus objetos siguen dependiendo del almacén del repositorio fuente mediante objects/info/alternates. Si el candidato sólo es alcanzable desde un worktree que se elimina (o queda inalcanzable por otro motivo) y el repositorio fuente ejecuta una poda de GC, el clon del revisor deja de poder resolver ese commit. El informe puede no validarse o el revisor puede quedarse sin su checkout antes de terminar. Esto no ocurre en la prueba ai1: no elimina el worktree/origen ni corre GC. La limitación afecta la disponibilidad de la revisión bajo esa secuencia; no contradice que el clon no copie objetos, pero la implementación no conserva el checkout prometido frente a la poda del almacén compartido.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1215,
+        "end_line": 1220,
+        "side": "head"
+      },
+      "trigger": "Crear un candidato que sólo sea alcanzable desde un worktree detached, pedir una revisión (crea el clon compartido), eliminar ese worktree o mover/eliminar su única referencia y ejecutar git gc --prune=now en el repositorio que almacena los objetos antes de que termine la revisión; luego intentar resolver el SHA del candidato desde el clon.",
+      "evidence": "Reproducción aislada en /tmp con rutas que contienen espacios: git clone --shared --no-checkout creó .git/objects/info/alternates apuntando al origen. Tras dejar el commit del candidato inalcanzable, expirar reflogs y correr git gc --prune=now en el origen, `git -C <clon> cat-file -e <sha>^{commit}` falló (“candidate unavailable after source gc --prune=now”). No se modificó el checkout del candidato ni configuración Git de otro repositorio.",
+      "related_requirement": "el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Reproducido con un repositorio y clon desechables en /tmp. La prueba solicitada pasó; el caso GC/objeto inalcanzable no forma parte de ella."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null` desde la raíz del checkout: 17 pruebas, OK.",
+    "Hice una reproducción de GC con `git clone --shared` en un repositorio temporal bajo /tmp, incluyendo una ruta con espacios. El candidato dejó de resolverse tras `git gc --prune=now` en el origen.",
+    "No ejecuté la suite completa ni tools/verify_aislar.py, según la instrucción. No hice mutaciones en el checkout revisado.",
+    "Revisé en el diff la asignación de pedido independiente, el descarte de worktrees viejos, el retiro de origin, la normalización del HEAD antes de validar y el escenario de Clue; la revisión no autentica ejecución o aislamiento del sandbox fuera de las pruebas indicadas."
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261020-200030-aislar",
+  "contexto": {
+    "head": "e6b528e7d6a9f1102c206c3bacd3d200d6f174ff",
+    "archivos_sha256": "b630de6a1f1ddb3c7fe64ac89fe33010ad1e17b514edd2a66845b3fbc70eef95"
+  },
+  "documentos": {
+    "openspec/changes/20261020-200030-aislar/proposal.md": "823f5a5bfd93454881711ab2ca65a0ce8bb3160a2d8a8fc91572475ee8ef5bfd",
+    "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_aislar.corrida_completa.oracle",
+    "catalogos/factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio.oracle",
+    "openspec/changes/20261020-200030-aislar/design.md",
+    "openspec/changes/20261020-200030-aislar/proposal.md",
+    "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md",
+    "openspec/changes/20261020-200030-aislar/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.requisito",
+    "tests/test_aislar.py",
+    "tests/test_revisores.py",
+    "tools/verify_aislar.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 428 pruebas, 1 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/0ac9092/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/0ac9092/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/0ac9092/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato dd13a13: agy (gemini-3.8-flash-high), 6 hallazgos: F-001 (alta), F-002 (media), F-003 (alta), F-004 (media), F-005 (media), F-006 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/dd13a13/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato dd13a13: codex (gpt-6-luna), 1 hallazgo: AISLAR-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/dd13a13/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 55a4bc6: agy (gemini-3.8-flash-high), 3 hallazgos: F-007 (alta), F-008 (media), F-009 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/55a4bc6/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 55a4bc6: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/55a4bc6/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3fbe3c9: agy (gemini-3.8-flash-high), 3 hallazgos: F-010 (alta), F-011 (media), F-012 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/3fbe3c9/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3fbe3c9: codex (gpt-6-luna), 1 hallazgo: AISLAR-010 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/3fbe3c9/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f6c282d: agy (gemini-3.8-flash-high), 2 hallazgos: F-013 (alta), F-014 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/f6c282d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f6c282d: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-200030-aislar/candidatos/f6c282d/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenario ai1 en un repositorio temporal, Linux, con Clue y Oracle reales y un revisor de prueba que juega con git en su checkout; aislar al revisor del resto del disco es cosa de su sandbox.",
+    "agy (gemini-3.8-flash-high): Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.",
+    "agy (gemini-3.8-flash-high): Se verificó que el aislamiento del clon local previene modificaciones en el repositorio principal y sus worktrees (configuración, ramas, commits, HEAD, hooks y remotos eliminados).",
+    "agy (gemini-3.8-flash-high): Se verificó experimentalmente que git clone --local no genera archivos alternates (.git/objects/info/alternates) y que operaciones de recolección de basura agresiva (git gc --prune=now) o remoción de worktrees en el repositorio de origen no comprometen la integridad de los objetos del candidato en el clon.",
+    "agy (gemini-3.8-flash-high): Se probó la robustez ante rutas con espacios en el repositorio y checkout.",
+    "agy (gemini-3.8-flash-high): Se ejecutó la suite solicitada en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null (17 pruebas, OK).",
+    "agy (gemini-3.8-flash-high): Se implementaron 5 mutaciones sobre copias aisladas para validar la sensibilidad de las pruebas (MUT-01: --shared en vez de --local; MUT-02: omitir eliminación de remotos; MUT-03: omitir restauración de HEAD antes de Clue; MUT-04: omitir revisión de revision_dir; MUT-05: omitir resolución de --base a SHA). Todas las mutaciones fueron detectadas y provocaron fallas en las pruebas.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite de pruebas completa del proyecto ni tools/verify_aislar.py, respetando la instrucción de no ejecutar la suite completa. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.",
+    "codex (gpt-6-luna): Revisé proposal.md, spec.md, el diff completo del paquete y el flujo de pedir_revision/validación en oracle_factory/cli.py, además de tests/test_aislar.py, tests/test_revisores.py, tools/verify_aislar.py y los catálogos Oracle añadidos.",
+    "codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores desde la raíz del checkout: 17 pruebas, OK. Un intento inicial desde la carpeta del informe no encontró el módulo tests; lo repetí desde la raíz indicada y pasó.",
+    "codex (gpt-6-luna): Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.",
+    "codex (gpt-6-luna): No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.",
+    "codex (gpt-6-luna): No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

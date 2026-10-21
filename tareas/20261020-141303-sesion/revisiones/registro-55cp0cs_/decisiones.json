@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "ba6cae59b7f67ff539df1be03fb8fd595f403e8e54698bad4a9d10f94a6dc4dd",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de codex y agy; en la última no quedan medios ni altos. Corregido con pruebas que fallan sin cada corrección: nunca se llama a share() con una sesión abierta o abriéndose (lo encontró Brian probando y un doble clic), copiar el enlace usa el guardado o el comando de Live Share, el enlace viejo se olvida al terminar, el invitado que espera puede salir, y Role.None no es anfitrión. Queda un bajo de codex: unirse acepta un enlace de vscode.dev/liveshare/ sin identificador (Live Share lo rechaza al entrar). Que los botones hagan lo que dicen en VS Code real lo probó Brian.",
+  "decisiones": [
+    {
+      "hallazgo_id": "F-001",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-20T16:11:09+00:00"
+    }
+  ]
+}

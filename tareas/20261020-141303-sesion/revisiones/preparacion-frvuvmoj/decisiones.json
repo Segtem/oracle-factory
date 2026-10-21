@@ -1,0 +1,15 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": null,
+  "actor": null,
+  "motivo": null,
+  "decisiones": [
+    {
+      "hallazgo_id": "F-001",
+      "estado": null,
+      "motivo": null,
+      "actor": null,
+      "fecha": null
+    }
+  ]
+}
