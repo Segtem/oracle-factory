@@ -633,6 +633,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c2ff4e3f468e"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T00:58:51+00:00",
+      "decision": "aprobar",
+      "candidato": "b24afc9"
     }
   ],
   "tipos": {
@@ -698,7 +708,16 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.",
+      "candidato": "b24afc9",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-21T00:58:51+00:00"
+    }
+  },
   "aceptados": [
     {
       "archivo": "oracle_factory/cli.py",
