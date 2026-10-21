@@ -562,38 +562,35 @@
         "factory_banco.el_banco_informa_sus_numeros",
         "factory_banco.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T20:42:12+00:00",
+      "requisito": "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+      "medidas": [
+        "factory_banco.el_banco_informa_sus_numeros",
+        "factory_banco.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T20:42:12+00:00",
+      "requisito": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "medidas": [
+        "factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+        "factory_banco.corrida_completa"
+      ]
     }
   ],
-  "medidas_pendientes": {
-    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez": {
-      "sha256": "7f755379c61e0ba4436629998aaa694d85b2293429001d25b1f40b4d11e74af1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-21T20:28:15+00:00",
-      "catalogos": {
-        "factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez": "fa584bac4c3d662b8504f76f3f99a948f7eb905c6ed9945b4fd440bf89a3bcd7",
-        "factory_banco.corrida_completa": "c04554e4534aa71ed5113d59bcfdd58de3569c19c62dd138798c5a5947b67f60"
-      },
-      "archivos_catalogo": {
-        "factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez": "catalogos/factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez.oracle",
-        "factory_banco.corrida_completa": "catalogos/factory_banco.corrida_completa.oracle"
-      }
-    },
-    "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros": {
-      "sha256": "b76a091f95a29ff0189f144abc40c8051b8fad83959349a1350e62bea97faac7",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-21T20:28:16+00:00",
-      "catalogos": {
-        "factory_banco.el_banco_informa_sus_numeros": "0f96b8ed89d622f3ae495cfc36a30c4e3810453df317205302ccaf37622cc65f",
-        "factory_banco.corrida_completa": "c04554e4534aa71ed5113d59bcfdd58de3569c19c62dd138798c5a5947b67f60"
-      },
-      "archivos_catalogo": {
-        "factory_banco.el_banco_informa_sus_numeros": "catalogos/factory_banco.el_banco_informa_sus_numeros.oracle",
-        "factory_banco.corrida_completa": "catalogos/factory_banco.corrida_completa.oracle"
-      }
-    }
-  },
+  "medidas_pendientes": {},
   "medidas": {
     "colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos": {
       "actor": "Brian Hollweg",
@@ -705,6 +702,38 @@
       "archivos_catalogo": {
         "factory_colaboracion.revision_vinculada_a_una_version": "catalogos/factory_colaboracion.revision_vinculada_a_una_version.oracle",
         "factory_colaboracion.corrida_completa": "catalogos/factory_colaboracion.corrida_completa.oracle"
+      }
+    },
+    "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T20:42:12+00:00",
+      "sha256": "b76a091f95a29ff0189f144abc40c8051b8fad83959349a1350e62bea97faac7",
+      "catalogos": {
+        "factory_banco.el_banco_informa_sus_numeros": "0f96b8ed89d622f3ae495cfc36a30c4e3810453df317205302ccaf37622cc65f",
+        "factory_banco.corrida_completa": "c04554e4534aa71ed5113d59bcfdd58de3569c19c62dd138798c5a5947b67f60"
+      },
+      "archivos_catalogo": {
+        "factory_banco.el_banco_informa_sus_numeros": "catalogos/factory_banco.el_banco_informa_sus_numeros.oracle",
+        "factory_banco.corrida_completa": "catalogos/factory_banco.corrida_completa.oracle"
+      }
+    },
+    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T20:42:12+00:00",
+      "sha256": "7f755379c61e0ba4436629998aaa694d85b2293429001d25b1f40b4d11e74af1",
+      "catalogos": {
+        "factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez": "fa584bac4c3d662b8504f76f3f99a948f7eb905c6ed9945b4fd440bf89a3bcd7",
+        "factory_banco.corrida_completa": "c04554e4534aa71ed5113d59bcfdd58de3569c19c62dd138798c5a5947b67f60"
+      },
+      "archivos_catalogo": {
+        "factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez": "catalogos/factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez.oracle",
+        "factory_banco.corrida_completa": "catalogos/factory_banco.corrida_completa.oracle"
       }
     }
   },

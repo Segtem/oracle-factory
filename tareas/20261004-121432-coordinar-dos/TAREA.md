@@ -189,3 +189,11 @@ Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la
 ### Nota (2026-10-21 20:28:16 UTC)
 
 Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 20:42:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:42:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
