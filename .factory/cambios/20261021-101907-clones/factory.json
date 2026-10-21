@@ -2,7 +2,7 @@
   "id": "20261021-101907-clones",
   "titulo": "Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
   "spec_sha256": "329e5390293cf8da8b7775ed2baee6ea788dbf32db0661a39c55ff4e937ef379",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "3d291a8c6db4111daf423b44c5447b96b9057f90c7d8a300ce3101e1ada3ea3a"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261021-101907-clones/candidatos/cb447d3/evidencia/hechos.json",
+    "hechos_sha256": "397d1ef7629da478f54e6ee2046a1ab54b762dda87327030b35f7de851d33f88",
+    "informe": ".factory/cambios/20261021-101907-clones/oracle-veredicto.txt",
+    "informe_sha256": "b9ff6e5ff9ee877384746d5f7085916bb32bfe571797d0ff4f2e62e34b1ea947",
+    "cuando": "2026-10-21T15:18:16+00:00",
+    "contexto": {
+      "head": "757dbc36e9b6e4c516b3d1ac1c0adbbc1e94943c",
+      "archivos_sha256": "3d291a8c6db4111daf423b44c5447b96b9057f90c7d8a300ce3101e1ada3ea3a"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -401,6 +413,17 @@
       "abiertos": 0,
       "sha256": "938114d516ec131bdc658e869935386a0066ad1ee3bddea56abd4149fe8b53f0",
       "decisiones_sha256": "5d043a5dd3a58de05f9c89f7536d777d5ea9968702b7f357bc7d94a32647fd96"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T15:18:16+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "397d1ef7629da478f54e6ee2046a1ab54b762dda87327030b35f7de851d33f88"
     }
   ],
   "tipos": {

@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id`
 - Vigente: sí
 - Cambio: [[cambios/20261021-101907-clones]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_clones.dos_clones_no_generan_el_mismo_id`, `factory_clones.corrida_completa`
 - Fuente: openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md#dos clones no generan el mismo ID
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir`
 - Vigente: sí
 - Cambio: [[cambios/20261021-101907-clones]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_clones.escribir_a_la_vez_no_obliga_a_repetir`, `factory_clones.corrida_completa`
 - Fuente: openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md#escribir a la vez no obliga a repetir
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar`
 - Vigente: sí
 - Cambio: [[cambios/20261021-101907-clones]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_clones.un_clon_recien_hecho_puede_trabajar`, `factory_clones.corrida_completa`
 - Fuente: openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md#un clon recién hecho puede trabajar
 

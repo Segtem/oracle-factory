@@ -75,3 +75,7 @@ Medidas de colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar: B
 ### Nota (2026-10-21 15:17:43 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy: la 1 dejó 2 medios (CLONES-01, CLONES-001) y un bajo (CLONES-02), corregidos con pruebas y mutaciones muertas; la 2 no dejó medios ni altos. Queda una baja para decidir: CLONES-03 (cl2 no fuerza que los dos IDs caigan en el mismo segundo).); 0 abiertos derivados; commit 6f08a34fdd4d78e5d637e7582fa9fda2b713d733; informe tareas/20261021-101907-clones/revisiones/registro-nsoz_mjh/informe.json; decisiones tareas/20261021-101907-clones/revisiones/registro-nsoz_mjh/decisiones.json.
+
+### Nota (2026-10-21 15:18:16 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261021-101907-clones/oracle-veredicto.txt.
