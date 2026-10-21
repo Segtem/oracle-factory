@@ -95,7 +95,7 @@ class Revisores(Base):
         self.assertEqual(len(json.loads(destino.read_text())['findings']), 1)
         self.assertTrue((self.carpeta() / 'revision' / 'prueba-1.pedido.md').is_file())
         self.assertTrue((self.carpeta() / 'clue' / 'paquete-prueba-1.json').is_file())
-        self.assertTrue((self.root / '.factory/local/revisiones' / self.git('rev-parse', 'HEAD')[:7]).is_dir())  # el checkout
+        self.assertTrue((self.root / '.factory/local/revisiones' / f"{self.git('rev-parse', 'HEAD')[:7]}-prueba-1").is_dir())  # su checkout
 
     def test_v1_guardar_el_informe_no_cambia_de_candidato(self):
         self.preparar()

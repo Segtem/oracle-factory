@@ -1,0 +1,83 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/3fbe3c9-agy-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "3fbe3c9373402801e2e5a57a1b6c5d4cb54f1111",
+  "diff_sha256": "2f12d886bd04e26b1e97ebd200bd59c345d3761b985fa5ee75428b5929fb4199",
+  "context_sha256": "34f60c85ee0905c7442e1d042227531c993133c8c4f94a34981f0cf4a0abf6bb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-010",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Cálculo de secuencia n mediante len() bloquea indefinidamente reintentos o sobrescribe informes ante huecos o limpieza de clones",
+      "explanation": "En la corrección de F-007, se reemplazó el cálculo de n por `n = max(len(list(clue_dir.glob(f'paquete-{nombre}-*.json'))), len(list(revisiones.glob(f'{sha}-{nombre}-*')))) + 1` (oracle_factory/cli.py:1212). Contar la cantidad de elementos con len() asume erróneamente que las secuencias son continuas y sin huecos. Si un pedido previo falla antes de su paquete (ej. en oracle-clue preparar), se genera un clon pero no un paquete; el reintento subsiguiente avanza al siguiente entero n+1 y completa la revisión, dejando una discontinuidad en la numeración de paquetes (ej. existen paquetes 1, 2 y 4, pero no 3). Si posteriormente se elimina el clon huérfano intermedio (siguiendo textualmente la indicación de error de Factory: «el checkout ... ya existe; borralo o pedí la revisión otra vez» o mediante limpieza en .factory/local/revisiones/), la cantidad de checkouts baja a 3 y la de paquetes es 3. Al solicitar un nuevo pedido, max(3, 3) + 1 calcula n = 4. Como el checkout 4 ya existe: (1) if checkout.exists() aborta con FactoryError («el checkout ... ya existe; borralo o pedí la revisión otra vez»); (2) al reintentar sin borrar («pedí la revisión otra vez»), n vuelve a calcularse en 4 en cada invocación, quedando permanentemente bloqueado; (3) si se borra el checkout 4 («borralo»), la fórmula vuelve a arrojar n = 4 (max(3, 2) + 1 = 4), creando el clon 4 pero abortando en oracle-clue preparar con «[Errno 17] File exists: '.../paquete-4.json'» o sobrescribiendo el paquete e informe de la revisión 4 anterior, imposibilitando alcanzar el pedido 5.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1210,
+        "end_line": 1219,
+        "side": "head"
+      },
+      "trigger": "Tener un pedido de revisión que falló antes de preparar su paquete, realizar un pedido posterior exitoso con el índice subsiguiente (generando un hueco en la secuencia), eliminar el clon huérfano fallido y solicitar una nueva revisión para el mismo revisor.",
+      "evidence": "Se verificó en tests/test_aislar.py: tras la falla en el pedido 3 y el éxito del pedido 4 (con paquete y revisión travieso-4), al eliminar el clon huérfano travieso-3 y llamar a pedir_revision(ident, 'travieso'), la función calculó n = 4 y abortó con 'oracle_factory.cli.FactoryError: el checkout .factory/local/revisiones/d4a4d89-travieso-4 ya existe; borralo o pedí la revisión otra vez'. Al reintentar, arrojó idéntico error; y al eliminar el checkout travieso-4, volvió a calcular n = 4 y abortó con 'oracle-clue no pudo preparar el paquete: CLUE: [Errno 17] File exists: .../clue/paquete-travieso-4.json', impidiendo avanzar.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Calcular n obteniendo el valor máximo de los sufijos numéricos existentes en los nombres de paquetes y checkouts (ej. n = max(indices, default=0) + 1 con expresiones regulares estrictas), y asegurar la eliminación automática (shutil.rmtree) del clon checkout si la preparación de Clue falla."
+    },
+    {
+      "id": "F-011",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Patrones glob paquete-{nombre}-*.json y {sha}-{nombre}-* colisionan entre revisores cuyos nombres comparten prefijo",
+      "explanation": "El validador de configuración en oracle_factory/revisores.py:31 admite nombres de revisor según la expresión r'[a-z][a-z0-9-]{0,39}', permitiendo nombres compuestos con guiones (ej. codex y codex-rapido, o agy y agy-pro). En oracle_factory/cli.py:1212, los patrones glob `clue_dir.glob(f'paquete-{nombre}-*.json')` y `revisiones.glob(f'{sha}-{nombre}-*')` emplean un comodín que no restringe la coincidencia al delimitador numérico. Como resultado, para el revisor 'codex', el comodín coincide con archivos y directorios de 'codex-rapido' (ej. paquete-codex-rapido-1.json y {sha}-codex-rapido-1). Las ejecuciones del revisor con nombre más largo inflan artificialmente el contador del revisor prefijo, provocando que su numeración salte índices iniciales y que la limpieza de checkouts de un revisor altere la secuencia del otro, generando colisiones o bloqueos de ejecución.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1210,
+        "end_line": 1215,
+        "side": "head"
+      },
+      "trigger": "Configurar en .factory/config.json dos revisores donde el nombre de uno es prefijo del otro (ej. codex y codex-rapido), y solicitar revisiones para ambos sobre el mismo candidato.",
+      "evidence": "Se verificó con un caso de prueba donde al existir paquete-travieso-rapido-1.json y abcdef1-travieso-rapido-1, la invocación de clue_dir.glob('paquete-travieso-*.json') y revisiones.glob('abcdef1-travieso-*') arrojó las rutas de travieso-rapido, asignando indebidamente n = 2 al primer pedido de revisión de travieso.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Filtrar los archivos en clue_dir y revisiones mediante expresiones regulares que requieran que al nombre exacto del revisor le siga un guión y únicamente caracteres numéricos (ej. rf'^paquete-{re.escape(nombre)}-(\\d+)\\.json$' y rf'^{re.escape(sha)}-{re.escape(nombre)}-(\\d+)$')."
+    },
+    {
+      "id": "F-012",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "git remote remove origin aborta el pedido de revisión si el entorno Git tiene configurado clone.defaultRemoteName",
+      "explanation": "En oracle_factory/cli.py:1224, la implementación asume que todo clon Git crea un remoto denominado origin y ejecuta incondicionalmente `git -C str(checkout) remote remove origin`. Git permite configurar globalmente el nombre por defecto del remoto creado al clonar mediante la directiva `clone.defaultRemoteName` (ej. 'upstream' o 'fuente'). Si el entorno de ejecución tiene configurada dicha opción, el clon no posee ningún remoto 'origin'. En consecuencia, el comando falla con código de retorno 2 ('error: No existe el remoto \\'origin\\'') y la comprobación de error en la línea 1225 (`if p.returncode: raise FactoryError(...)`) aborta la preparación del pedido de revisión con FactoryError, impidiendo la ejecución de revisiones en tales entornos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1223,
+        "end_line": 1226,
+        "side": "head"
+      },
+      "trigger": "Invocar pedir-revision en un sistema que tenga configurado clone.defaultRemoteName en Git a un nombre distinto de origin (ej. git config --global clone.defaultRemoteName upstream).",
+      "evidence": "Se verificó ejecutando `git -c clone.defaultRemoteName=upstream clone --quiet --shared --no-checkout <repo> <checkout>`: la ejecución inmediata de `git -C <checkout> remote remove origin` falló con código 2 y mensaje 'error: No existe el remoto \\'origin\\'', lo cual desencadena la excepción FactoryError en pedir_revision.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Eliminar de forma dinámica los remotos listados por `git remote`, o pasar `-c clone.defaultRemoteName=origin` en la invocación de `git clone` para garantizar que el remoto creado responda siempre al nombre origin antes de su remoción."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md) y el diff del paquete de Oracle Clue en paquete-agy-1.json correspondiente al candidato 3fbe3c9.",
+    "Se examinó el código modificado en oracle_factory/cli.py, las pruebas añadidas en tests/test_aislar.py, tests/test_revisores.py, la herramienta tools/verify_aislar.py y los catálogos en catalogos/.",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias indicadas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null, obteniendo OK en 17 pruebas (10.352 s).",
+    "No se ejecutó la suite completa de pruebas del repositorio ni tools/verify_aislar.py, en estricto cumplimiento de las indicaciones del usuario.",
+    "Se verificó el estado de cierre de las vueltas anteriores: F-001 y F-002 (resueltos con git checkout --force --detach head en cli.py:1279 antes de validar con Clue); F-003 (resuelto al crear un clon independiente por pedido bajo <sha>-<revisor>-<n>); F-004 (resuelto al traducir --base a SHA canónico en cli.py:1198-1202); F-005 (resuelto al no reutilizar checkouts antiguos bajo <sha>); F-006 (riesgo residual documentado por alternates si el candidato no pertenece a una rama y se ejecuta git prune); F-008 (resuelto al actualizar proposal.md); F-009 (resuelto al eliminar el remoto origin tras clonar).",
+    "Se analizó la corrección de F-007 (cálculo de n para contemplar clones huérfanos), detectándose que el uso de len() sobre globs no anclados introduce fallos críticos de bloqueo/sobrescritura ante huecos de numeración (F-010) y colisiones entre nombres de revisores que comparten prefijo (F-011).",
+    "Se analizó la remoción estática de origin detectándose incompatibilidad con clone.defaultRemoteName (F-012).",
+    "Se comprobó el aislamiento del repositorio raíz frente a modificaciones en el checkout (configuración git, ramas, commits, hooks y HEAD) y la compatibilidad con rutas conteniendo espacios.",
+    "Se ejecutaron mutaciones experimentales en copias de trabajo aisladas confirmando los fallos de F-010, F-011 y F-012."
+  ]
+}

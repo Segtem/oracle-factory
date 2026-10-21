@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/0ac9092-agy-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "0ac90922bc1b66c6462b0e052dc2ce8033cdba50",
+  "diff_sha256": "d7a177caea6d38695116b93712a6fac012d437378c14375f74b175aa0c8f8e11",
+  "context_sha256": "4f9fb8bfcf636b0a73d6da526ee95bbd2f0db1e8774bcce42486145e599407e3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.",
+    "Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.",
+    "Se verificó que el aislamiento del clon local previene modificaciones en el repositorio principal y sus worktrees (configuración, ramas, commits, HEAD, hooks y remotos eliminados).",
+    "Se verificó experimentalmente que git clone --local no genera archivos alternates (.git/objects/info/alternates) y que operaciones de recolección de basura agresiva (git gc --prune=now) o remoción de worktrees en el repositorio de origen no comprometen la integridad de los objetos del candidato en el clon.",
+    "Se probó la robustez ante rutas con espacios en el repositorio y checkout.",
+    "Se ejecutó la suite solicitada en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null (17 pruebas, OK).",
+    "Se implementaron 5 mutaciones sobre copias aisladas para validar la sensibilidad de las pruebas (MUT-01: --shared en vez de --local; MUT-02: omitir eliminación de remotos; MUT-03: omitir restauración de HEAD antes de Clue; MUT-04: omitir revisión de revision_dir; MUT-05: omitir resolución de --base a SHA). Todas las mutaciones fueron detectadas y provocaron fallas en las pruebas.",
+    "No se ejecutó la suite de pruebas completa del proyecto ni tools/verify_aislar.py, respetando la instrucción de no ejecutar la suite completa. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron."
+  ]
+}

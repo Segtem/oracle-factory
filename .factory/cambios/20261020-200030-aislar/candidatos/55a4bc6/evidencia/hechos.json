@@ -1,0 +1,15 @@
+{
+  "aislar_caso": [
+    {
+      "requisito": "el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "caso": "ai1_un_revisor_que_juega_con_git_en_su_checkout",
+      "codigo": 0
+    }
+  ],
+  "aislar_corrida": [
+    {
+      "completa": 1,
+      "casos": 1
+    }
+  ]
+}

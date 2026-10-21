@@ -1195,19 +1195,40 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         if p.returncode:
             raise FactoryError("no encuentro la rama main para la base del paquete; indicá --base REF")
         base = p.stdout.strip()
-    checkout = estructura.ruta_canonica(ROOT, identificador, "checkout", sha)
+    else:  # el clon del revisor no tiene las ramas del repositorio: la base va como SHA
+        p = ejecutar(["git", "rev-parse", "--verify", "--quiet", base + "^{commit}"])
+        if p.returncode:
+            raise FactoryError(f"--base {base} no es un commit de este repositorio")
+        base = p.stdout.strip()
     clue_dir = estructura.ruta_canonica(ROOT, identificador, "clue", sha)
     revision_dir = estructura.ruta_canonica(ROOT, identificador, "revision", sha)
-    for d in (checkout.parent, clue_dir):  # revision/ se crea sólo con un informe válido
+    revisiones = estructura.ruta_canonica(ROOT, identificador, "checkout", sha).parent
+    for d in (revisiones, clue_dir):  # revision/ se crea sólo con un informe válido
         ruta_segura(d).mkdir(parents=True, exist_ok=True)
     excluir = exclusiones_del_paquete(base, head)
     with turno_de_pedidos(identificador):  # otro pedido simultáneo no crea el mismo checkout ni toma el mismo número
-        if not checkout.exists():
-            p = ejecutar(["git", "worktree", "add", "--detach", str(checkout), head])
-            if p.returncode:
-                raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
-        n = len(list(clue_dir.glob(f"paquete-{nombre}-*.json"))) + 1
+        # El siguiente número de este revisor (exacto: «codex» no cuenta los de «codex-rapido»), mirando sus informes y
+        # pedidos (versionados: en un clon nuevo no están los paquetes ni los checkouts, que son locales), sus paquetes y
+        # sus clones, que pueden haber quedado de un pedido que falló antes de su paquete.
+        nombre_ = re.escape(nombre)
+        usados = [int(m[1]) for x in [*revision_dir.glob(f"{nombre}-*"), *clue_dir.glob("paquete-*.json"), *revisiones.glob(f"{sha}-*")]
+                  for m in [re.fullmatch(rf"(?:{nombre_}-|paquete-{nombre_}-|{sha}-{nombre_}-)(\d+)(?:\.json|\.pedido\.md)?", x.name)] if m]
+        n = max(usados, default=0) + 1
         paquete = clue_dir / f"paquete-{nombre}-{n}.json"
+        # Un clon aparte por pedido, no un worktree: un worktree comparte la configuración y las ramas del repositorio, y
+        # lo que un revisor hiciera con git ahí le caería encima; y dos revisores no comparten checkout. --local enlaza los
+        # objetos en el mismo disco (no copia nada) y el clon no depende de ellos: un gc del repositorio no lo deja sin el
+        # candidato. Un checkout viejo (un worktree de antes) ya no se usa.
+        checkout = revisiones / f"{sha}-{nombre}-{n}"
+        if checkout.exists():
+            raise FactoryError(f"el checkout {checkout.relative_to(ROOT)} ya existe; borralo o pedí la revisión otra vez")
+        p = ejecutar(["git", "clone", "--quiet", "--local", "--no-checkout", str(ROOT), str(checkout)])
+        if not p.returncode:
+            p = ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--detach", head])
+        for remoto in ejecutar(["git", "-C", str(checkout), "remote"]).stdout.split() if not p.returncode else []:
+            p = ejecutar(["git", "-C", str(checkout), "remote", "remove", remoto])  # sin remoto: un push no llega al repositorio
+        if p.returncode:
+            raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
                       *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
     if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
@@ -1259,6 +1280,8 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
         elif not informe.is_file():
             resultado, motivo = "sin_informe", f"el revisor no dejó el informe en {informe}"
         else:
+            # Si el revisor movió el HEAD de su checkout (una rama, un commit), se valida contra el candidato.
+            ejecutar(["git", "-C", str(checkout), "checkout", "--quiet", "--force", "--detach", head])
             p = ejecutar(["oracle-clue", "validar", str(informe), "--paquete", str(paquete), "--repo", str(checkout)])
             if p.returncode:
                 resultado, motivo = "rechazado", f"Clue rechazó el informe: {(p.stderr or p.stdout).strip()[:500]}"
