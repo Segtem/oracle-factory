@@ -30,7 +30,7 @@ class ProyectoTemporal(unittest.TestCase):
         f.inicializar()
 
     def tasks(self):
-        return list((self.root / 'tareas').iterdir())
+        return [p for p in (self.root / 'tareas').iterdir() if p.is_dir()]  # .gitkeep no es una tarea
 
     def crear(self):
         return f.nuevo('Un título de nota', con_ejemplo='notas')

@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "cb447d3a0401c3915e786d8b2b4e77d8a7254e57",
+  "diff_sha256": "842e4752aed3754cd650fd94ecf374b7170bd358cfd3143e221740ac9f51d397",
+  "context_sha256": "6c2cc39be3b8eba355d2186892253ecaeae4bee548927e448fa185aa060b4f65",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLONES-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La prueba de IDs no fuerza que ambos clones creen en el mismo segundo",
+      "explanation": "El caso se llama `test_cl2_dos_cambios_en_el_mismo_segundo`, pero sólo inicia dos procesos con `ThreadPoolExecutor` y después comprueba que los IDs sean distintos y terminen en `-igual`. No sincroniza la ejecución en el límite de creación del ID ni comprueba que los componentes de fecha y hora coincidan o que cada ID cumpla el patrón y tenga los tres caracteres aleatorios esperados. Si las invocaciones caen en segundos diferentes, IDs con sólo el sufijo original también serían distintos y la prueba podría pasar sin demostrar la promesa central del escenario. El código revisado sí antepone tres caracteres; el hallazgo es que esta prueba no verifica determinísticamente ese comportamiento.",
+      "location": {
+        "file": "tests/test_clones.py",
+        "start_line": 74,
+        "end_line": 84,
+        "side": "head"
+      },
+      "trigger": "Ejecutar las dos invocaciones en lados distintos de un cambio de segundo, o mutar en una copia la generación para omitir el componente aleatorio y dejar que cada proceso obtenga un timestamp distinto.",
+      "evidence": "En las líneas 78–84 se envían dos procesos sin barrera; las únicas aserciones sobre IDs son que difieran y terminen en `-igual`. No se comparan sus prefijos de timestamp ni se valida `ID_RE` o la longitud del tramo aleatorio. El comando solicitado `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` pasó (5 pruebas, OK); esa corrida no demuestra que ambos IDs se hayan creado en el mismo segundo.",
+      "related_requirement": "colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id",
+      "status": "pendiente",
+      "verification": "Inspección estática del caso y ejecución del comando indicado. No hice una mutación en copia. Para probarlo de forma determinista, fijar el reloj de creación o inyectar el generador y sincronizar ambos procesos, y verificar igualdad del prefijo temporal, tres caracteres al azar, `ID_RE` y el sufijo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` desde la raíz del checkout candidato: 5 pruebas, OK.",
+    "No se ejecutó la suite completa ni `tools/verify_clones.py`, conforme a la instrucción.",
+    "Se inspeccionaron el paquete, la spec, la propuesta, el diff del producto, las pruebas afectadas y las revisiones anteriores. No se editaron archivos ni se hicieron commits en el checkout candidato.",
+    "No hice mutaciones manuales sobre copias. La prueba de ID se evaluó por inspección: su ejecución paralela no fuerza ni demuestra que ambos procesos usaron el mismo segundo.",
+    "No se repitió CLONES-01: `init` conserva la regla del proyecto, avisa mediante `git check-ignore` si un `.gitkeep` queda ignorado, y la prueba añadida cubre el aviso para `tareas/`. Los recorridos principales de cambios filtran por ID o por directorio; se actualizó el consumidor de `iterdir` en `tests/test_modos.py` y no vi otra regresión por `.gitkeep` en el alcance revisado.",
+    "El reintento de `mensaje`, `tomar` y `soltar` vuelve a ejecutar la función completa al recibir `ArchivoCambiado`; las reglas de titularidad se comprueban tras volver a leer. `tests.test_clones` cubre reintentos para tomar y soltar, además de mensajes simultáneos y el agotamiento de reintentos."
+  ]
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:71616f5ac2e1c8e245d47750ff3ed696ef44a19cb1f12d1afa8ea79ac63d958f -->
+<!-- oracle-factory resumen sha256:d8560eeaf231f755fc836e0f5a66bf083bab2ad248062748afb79c954f72b114 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 159 requisitos vigentes · 1 cambio abierto
+20 capacidades · 162 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -70,6 +70,9 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | un cambio dice quién lo tiene | funcional | `colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene` | factory_quien.un_cambio_dice_quien_lo_tiene, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | estado y el tablero muestran quién trabaja en qué | funcional | `colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que` | factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | el trailer elige bien el cambio | funcional | `colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio` | factory_quien.el_trailer_elige_bien_el_cambio, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
+| un clon recién hecho puede trabajar | funcional | `colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar` | factory_clones.un_clon_recien_hecho_puede_trabajar, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| dos clones no generan el mismo ID | funcional | `colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id` | factory_clones.dos_clones_no_generan_el_mismo_id, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| escribir a la vez no obliga a repetir | funcional | `colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir` | factory_clones.escribir_a_la_vez_no_obliga_a_repetir, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
 
 ### conocimiento
 
@@ -365,6 +368,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **KB7-01** (20261020-140603-kb): Un merge posterior al cierre puede cambiar los commits de la nota generada. Aceptado por Brian Hollweg: Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada
 - **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
 - **AVISOS-R1** (20261020-173143-avisos): aprobar-spec no detecta specs bajo directorios enlazados. Aceptado por Brian Hollweg: Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados
+- **CLONES-03** (20261021-101907-clones): La prueba de IDs no fuerza que ambos clones creen en el mismo segundo. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo
 
 ### Históricos
 
@@ -862,6 +866,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-200030-aislar) codex (gpt-6-luna): Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.
 - (20261020-200030-aislar) codex (gpt-6-luna): No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.
 - (20261020-200030-aislar) codex (gpt-6-luna): No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
+- (20261021-101907-clones) Evidencia: Escenarios cl1–cl3 en repositorios temporales, Linux, con git real, un repositorio central y procesos simultáneos; la unión de registros editados en dos ramas es otro cambio.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se ejecutó exactamente 'PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null' desde la raíz del checkout (/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-agy-1), con 5 pruebas superadas exitosamente.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_clones.py por instrucción expresa de la revisión.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se realizaron 8 mutaciones manuales (M1 a M8) en copias de trabajo aisladas en el directorio del revisor, cubriendo la ausencia de reintentos en tomar/soltar/mensaje, omisión de verificación de reglas de titularidad en reintentos, omisión del prefijo al azar en nuevo, falta de creación de directorios faltantes, falta de .gitkeep y falta de avisos ante carpetas ignoradas. Todas las mutaciones fueron detectadas y eliminadas por tests.test_clones.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos previos (CLONES-01, CLONES-001 y CLONES-02) comprobando que las reglas del .gitignore no se pisan pero se advierten, que tomar/soltar tienen cobertura determinista de reintentos y respeto de reglas, y que la presencia de .gitkeep no es interpretada como cambio ni tarea.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): La evaluación de colisión entre los tres caracteres aleatorios es probabilística (1 en 46.656 combinaciones para un mismo segundo y sufijo).
+- (20261021-101907-clones) codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` desde la raíz del checkout candidato: 5 pruebas, OK.
+- (20261021-101907-clones) codex (gpt-6-luna): No se ejecutó la suite completa ni `tools/verify_clones.py`, conforme a la instrucción.
+- (20261021-101907-clones) codex (gpt-6-luna): Se inspeccionaron el paquete, la spec, la propuesta, el diff del producto, las pruebas afectadas y las revisiones anteriores. No se editaron archivos ni se hicieron commits en el checkout candidato.
+- (20261021-101907-clones) codex (gpt-6-luna): No hice mutaciones manuales sobre copias. La prueba de ID se evaluó por inspección: su ejecución paralela no fuerza ni demuestra que ambos procesos usaron el mismo segundo.
+- (20261021-101907-clones) codex (gpt-6-luna): No se repitió CLONES-01: `init` conserva la regla del proyecto, avisa mediante `git check-ignore` si un `.gitkeep` queda ignorado, y la prueba añadida cubre el aviso para `tareas/`. Los recorridos principales de cambios filtran por ID o por directorio; se actualizó el consumidor de `iterdir` en `tests/test_modos.py` y no vi otra regresión por `.gitkeep` en el alcance revisado.
+- (20261021-101907-clones) codex (gpt-6-luna): El reintento de `mensaje`, `tomar` y `soltar` vuelve a ejecutar la función completa al recibir `ArchivoCambiado`; las reglas de titularidad se comprueban tras volver a leer. `tests.test_clones` cubre reintentos para tomar y soltar, además de mensajes simultáneos y el agotamiento de reintentos.
 
 ### Históricos
 

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-clones/.factory/local/revisiones/ab26db1-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "ab26db147ba4e0b69407979ffd376cc335939ac0",
+  "diff_sha256": "dbb921dd32fe2ce538ef8fd472571a6b11423cb0fe9bd4a1e33b2189416db180",
+  "context_sha256": "e601a7770ed76366e5edd9e56cd656468686ce77da33225804e6571eee60e1e1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "CLONES-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba de contrato omite la concurrencia y reintentos en 'tomar' y 'soltar' exigidos por la spec",
+      "explanation": "El requisito colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir en openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md exige textualmente: «'mensaje', 'tomar' y 'soltar' SHALL reintentar solos cuando el registro del cambio cambió mientras escribían, volviendo a leerlo y a comprobar sus reglas, de modo que escrituras simultáneas sobre un mismo registro se guarden todas sin que nadie las repita; y SHALL fallar con un mensaje claro si no lo logran tras varios intentos». Sin embargo, tests/test_clones.py únicamente comprueba 'mensaje' en test_cl3_doce_mensajes_a_la_vez (líneas 90-101), sin probar en ningún momento escrituras simultáneas ni reintentos en 'tomar' o 'soltar'. Asimismo, tools/verify_clones.py y catalogos/factory_clones.escribir_a_la_vez_no_obliga_a_repetir.oracle asocian este requisito únicamente a dicho caso (cl3), dejando sin verificación contractual a 'tomar' y 'soltar'.",
+      "location": {
+        "file": "tests/test_clones.py",
+        "start_line": 90,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Ejecución de pruebas de mutación manual retirando el decorador @reintentar_si_cambia de tomar() y de soltar() en oracle_factory/cli.py.",
+      "evidence": "Al mutar copias de oracle_factory/cli.py eliminando @reintentar_si_cambia de tomar() (mutación M5) o de soltar() (mutación M6), la suite 'PYTHONPATH=. python -m unittest tests.test_clones' continúa ejecutando los 3 casos y pasando con código 0 (OK) sin advertir la falta del reintento en esos comandos, de modo que ambas mutaciones sobreviven.",
+      "related_requirement": "colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir",
+      "status": "pendiente",
+      "verification": "Extender tests/test_clones.py para incluir escenarios de escrituras simultáneas con 'tomar' (por ejemplo, agentes sumándose concurrentemente o personas disputando la titularidad sin --relevo) y 'soltar', y registrar esos casos en CONTRACTS de tools/verify_clones.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente 'PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null' desde la raíz del checkout (/home/workstation/Dev/factory-clones/.factory/local/revisiones/ab26db1-agy-1).",
+    "No se ejecutó la suite completa de tests ni tools/verify_clones.py por instrucción expresa de la revisión.",
+    "Se realizaron pruebas de concurrencia y análisis de mutaciones manuales (M1 a M6) en copias aisladas bajo el espacio de trabajo del revisor."
+  ]
+}
