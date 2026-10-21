@@ -227,6 +227,84 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "bd4ecddcec5f"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:29:37+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar",
+      "medidas": [
+        "factory_clones.un_clon_recien_hecho_puede_trabajar",
+        "factory_clones.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:29:37+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id",
+      "medidas": [
+        "factory_clones.dos_clones_no_generan_el_mismo_id",
+        "factory_clones.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:29:38+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir",
+      "medidas": [
+        "factory_clones.escribir_a_la_vez_no_obliga_a_repetir",
+        "factory_clones.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:34:57+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id",
+      "medidas": [
+        "factory_clones.dos_clones_no_generan_el_mismo_id",
+        "factory_clones.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:34:57+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir",
+      "medidas": [
+        "factory_clones.escribir_a_la_vez_no_obliga_a_repetir",
+        "factory_clones.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:34:57+00:00",
+      "requisito": "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar",
+      "medidas": [
+        "factory_clones.un_clon_recien_hecho_puede_trabajar",
+        "factory_clones.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -247,11 +325,11 @@
       "tipo_actor": "persona",
       "forma": "confirmo",
       "modo": "confirmacion",
-      "cuando": "2026-10-21T14:07:49+00:00",
+      "cuando": "2026-10-21T14:34:57+00:00",
       "sha256": "2b4a5a8683a9026025f6e7d330a0133e9a6494953367ee92f344fc7fa882af97",
       "catalogos": {
         "factory_clones.dos_clones_no_generan_el_mismo_id": "bdaca2d39510fdf7f8f8756e5a2059ba02607fa611564dd0586c809581e18e4e",
-        "factory_clones.corrida_completa": "b1fcb49652ced73f59debd8235956edda1c5557daaa57695bf565fca2af947d7"
+        "factory_clones.corrida_completa": "0ff4da7e0efe796f6f2f98b142cea791793f033cabe435f71b44a57cbfa65d69"
       },
       "archivos_catalogo": {
         "factory_clones.dos_clones_no_generan_el_mismo_id": "catalogos/factory_clones.dos_clones_no_generan_el_mismo_id.oracle",
@@ -263,11 +341,11 @@
       "tipo_actor": "persona",
       "forma": "confirmo",
       "modo": "confirmacion",
-      "cuando": "2026-10-21T14:07:49+00:00",
+      "cuando": "2026-10-21T14:34:57+00:00",
       "sha256": "2f9490656b365d88f90e097af90ed5f1642055c3520f3c55a6602854d2014c2e",
       "catalogos": {
-        "factory_clones.escribir_a_la_vez_no_obliga_a_repetir": "61a3934bf53e1dee0fd452d91f1f00c4549d4253eb2bc52cd313d3daec22f79a",
-        "factory_clones.corrida_completa": "b1fcb49652ced73f59debd8235956edda1c5557daaa57695bf565fca2af947d7"
+        "factory_clones.escribir_a_la_vez_no_obliga_a_repetir": "d3594350586b0c1b78ea2dd549140be8280fed2b6f9626692c147822694d14cd",
+        "factory_clones.corrida_completa": "0ff4da7e0efe796f6f2f98b142cea791793f033cabe435f71b44a57cbfa65d69"
       },
       "archivos_catalogo": {
         "factory_clones.escribir_a_la_vez_no_obliga_a_repetir": "catalogos/factory_clones.escribir_a_la_vez_no_obliga_a_repetir.oracle",
@@ -279,11 +357,11 @@
       "tipo_actor": "persona",
       "forma": "confirmo",
       "modo": "confirmacion",
-      "cuando": "2026-10-21T14:07:49+00:00",
+      "cuando": "2026-10-21T14:34:57+00:00",
       "sha256": "59c455ea5c400c6f5058ce27b715afc9820ed18dbd1190e408dd498121cc6b4d",
       "catalogos": {
-        "factory_clones.un_clon_recien_hecho_puede_trabajar": "091b6da1839956231e69452131f4e98bda0733150f98235eebf05b7b89a3fe27",
-        "factory_clones.corrida_completa": "b1fcb49652ced73f59debd8235956edda1c5557daaa57695bf565fca2af947d7"
+        "factory_clones.un_clon_recien_hecho_puede_trabajar": "38a7c34ee07b04e6185132e3fb4d9d2426844febdd5538ee3ca17f876026efb5",
+        "factory_clones.corrida_completa": "0ff4da7e0efe796f6f2f98b142cea791793f033cabe435f71b44a57cbfa65d69"
       },
       "archivos_catalogo": {
         "factory_clones.un_clon_recien_hecho_puede_trabajar": "catalogos/factory_clones.un_clon_recien_hecho_puede_trabajar.oracle",
