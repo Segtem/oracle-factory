@@ -1,0 +1,8 @@
+medida factory_banco.el_banco_informa_sus_numeros:
+    de banco_corrida c
+    donde c.informe == 1 y c.real_aparte == 1
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el informe tiene por escenario sus numeros, la semilla y las versiones, y una corrida real queda aparte marcada no reproducible; asociar junto a corrida_completa"
+    requiere banco_corrida
+    ambito universal
+    alcance "formato del informe comprobado por tools/verify_banco.py con una corrida real de muestra; la corrida piloto con agentes reales se registra aparte"

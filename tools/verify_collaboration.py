@@ -327,11 +327,11 @@ class Demo:
                     'colision_cambios': collision_changes,
                     'limite': 'Clones locales en una máquina; la migración la hace B como fixture, no una persona. '
                               'Las referencias se buscan con tasks refs, que sólo ve menciones textuales. '
-                              'La colisión de cambios Factory se mide antes de aceptar la spec: un cambio con spec aceptada '
-                              'o requisitos importados necesita además renovar la aceptación y reimportar, que no se observa.'})
+                              'Los cambios Factory ya no chocan: su ID lleva tres caracteres al azar.'})
 
     def collision_changes(self, base):
-        """Dos cambios Factory nuevos con el mismo ID, creados a la vez en clones distintos."""
+        """Dos cambios Factory nuevos con el mismo sufijo, creados en el mismo segundo en clones distintos: los tres
+        caracteres al azar de su ID los separan y se integran sin conflicto."""
         for attempt in range(3):
             pair = base / f'choque-cambios{attempt}'
             pair.mkdir()
@@ -343,14 +343,12 @@ class Demo:
             a, b = pair / 'a', pair / 'b'
             for path in [a, b]:
                 self.git(pair, 'clone', '--no-hardlinks', origin, path)
-                # Git no versiona carpetas vacías: un clon de un proyecto sin cambios no trae tareas/. init lo repone.
-                self.factory(path, 'init')
             time.sleep(1 - time.time() % 1)
             # En paralelo: dos ejecuciones seguidas pueden caer en segundos distintos.
             jobs = []
             for path in [a, b]:
-                argv = [str(x) for x in (sys.executable, ROOT / 'fabrica.py', '--proyecto', path,
-                                         'nuevo', '--capacidad', 'colision', 'Frente compartido fixture')]
+                argv = [str(x) for x in (sys.executable, ROOT / 'fabrica.py', '--proyecto', path, 'nuevo', '--capacidad',
+                                         'colision', '--sufijo', 'colision', 'Frente compartido fixture')]
                 jobs.append((path, argv, subprocess.Popen(argv, cwd=path, env=self.env, stdout=subprocess.PIPE,
                                                           stderr=subprocess.PIPE, text=True, encoding='utf-8')))
             ids = []
@@ -361,50 +359,19 @@ class Demo:
                 if process.returncode:
                     raise AssertionError(f'{argv}: {err}\n{out}')
                 ids.append(re.search(r'Cambio creado: (\S+)', out)[1])
-            if ids[0] == ids[1]:
+            if ids[0][:15] == ids[1][:15]:
                 break
         else:
-            raise AssertionError('tres intentos sin coincidir en el segundo: ' + repr(ids))
-        old = ids[0]
-        proposal, spec = f'openspec/changes/{old}/proposal.md', f'openspec/changes/{old}/specs/colision/spec.md'
+            raise AssertionError('tres intentos sin caer en el mismo segundo: ' + repr(ids))
+        self.check(ids[0] != ids[1] and all(x.endswith('-colision') for x in ids),
+                   'dos cambios del mismo segundo y el mismo sufijo tienen IDs distintos')
         for path, who in [(a, 'A'), (b, 'B')]:
-            for name in (proposal, spec):
-                with (path / name).open('a', encoding='utf-8') as out:
-                    out.write(f'\nAporte de {who}\n')
-            self.commit(path, f'{who} crea su cambio {old}')
+            self.commit(path, f'{who} crea su cambio')
         self.git(a, 'fetch', b, 'main')
-        before = self.git(a, 'rev-parse', 'HEAD').stdout.strip()
-        clash = self.git(a, 'merge', 'FETCH_HEAD', expected=1)
-        self.check('CONFLICT (add/add)' in clash.stdout and self.git(a, 'rev-parse', 'HEAD').stdout.strip() == before,
-                   'mismo ID de cambio Factory en dos clones produce conflicto add/add sin avanzar HEAD')
-        self.save('colision-cambios.patch', self.git(a, 'diff').stdout)
-        self.git(a, 'merge', '--abort')
-        ours = self.git(a, 'show', f'HEAD:{proposal}').stdout
-        theirs = self.git(a, 'show', f'FETCH_HEAD:{proposal}').stdout
-        self.check('Aporte de A' in ours and 'Aporte de B' in theirs, 'ambos originales del cambio recuperables')
-        self.save('colision-cambios-original-a.md', ours)
-        self.save('colision-cambios-original-b.md', theirs)
-        # Migración fixture: B crea un cambio con otra identidad, traslada su contenido y retira el que choca.
-        migrated = self.factory(b, 'nuevo', '--capacidad', 'colision', 'Frente compartido fixture de B')
-        new = re.search(r'Cambio creado: (\S+)', migrated.stdout)[1]
-        self.check(new != old, 'la identidad nueva del cambio difiere de la colisionada')
-        for name in ('proposal.md', 'specs/colision/spec.md'):
-            (b / 'openspec/changes' / new / name).write_text((b / 'openspec/changes' / old / name).read_text(encoding='utf-8'),
-                                                            encoding='utf-8')
-        self.git(b, 'rm', '-rq', f'openspec/changes/{old}', f'tareas/{old}')
-        migration = self.commit(b, f'B migra su cambio de {old} a {new}')
-        self.git(a, 'fetch', b, 'main')
-        self.git(a, 'merge', '--no-ff', '-m', 'integración tras migrar la identidad del cambio', 'FETCH_HEAD')
-        self.task(a, 'review', '--json')
+        self.git(a, 'merge', '--no-ff', '-m', 'integración de los dos cambios', 'FETCH_HEAD')
         listed = self.factory(a, 'listar').stdout
-        self.check(old in listed and new in listed, 'listar muestra los dos cambios con identidades distintas')
-        self.check((a / proposal).read_text(encoding='utf-8') == ours
-                   and 'Aporte de B' in (a / 'openspec/changes' / new / 'proposal.md').read_text(encoding='utf-8')
-                   and 'Aporte de B' not in (a / proposal).read_text(encoding='utf-8'),
-                   'integración conserva ambos cambios sin fusionar sus identidades')
-        self.check('espera_aprobacion_spec' in self.factory(a, 'estado', new).stdout,
-                   'el cambio migrado es consultable y sigue sin spec aceptada')
-        return {'id_colisionado': old, 'id_migrado': new, 'migracion': migration, 'intentos': attempt + 1,
+        self.check(all(x in listed for x in ids), 'listar muestra los dos cambios, integrados sin conflicto')
+        return {'ids': ids, 'mismo_segundo': True, 'intentos': attempt + 1,
                 'candidato': self.git(a, 'rev-parse', 'HEAD').stdout.strip()}
 
     def collision(self, base, origin):

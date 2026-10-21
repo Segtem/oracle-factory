@@ -1,6 +1,7 @@
 """El banco de concurrencia: dos personas con sus agentes sobre un mismo proyecto, a la vez y de a turnos.
 
     python tools/banco.py --salida CARPETA [--semilla N] [--solo ESCENARIO ...]
+    python tools/banco.py --salida CARPETA --real FILAS.json   # una corrida con agentes reales, aparte
 
 Cada escenario arma un repositorio central (bare) con un proyecto de Factory, y dos clones: Ana y Beto, cada uno con su
 identidad de Git, sus hooks y un agente de prueba (agente-ana, agente-beto). Las decisiones de una persona se toman en una
@@ -545,11 +546,16 @@ def main(argv=None) -> int:
     parser.add_argument('--salida', type=Path, required=True)
     parser.add_argument('--semilla', type=int, default=20261021)
     parser.add_argument('--solo', nargs='*')
+    parser.add_argument('--real', type=Path, help='registrar una corrida con agentes reales: un JSON con sus filas, en el '
+                                                  'mismo formato; queda en banco-real.json/.txt, marcada no reproducible')
     args = parser.parse_args(argv)
     args.salida.mkdir(parents=True, exist_ok=True)
-    datos = informe(correr(args.semilla, args.solo), args.semilla)
-    (args.salida / 'banco.json').write_text(json.dumps(datos, ensure_ascii=False, indent=2) + '\n')
-    (args.salida / 'banco.txt').write_text(texto(datos))
+    real = args.real is not None
+    filas = json.loads(args.real.read_text(encoding='utf-8')) if real else correr(args.semilla, args.solo)
+    datos = informe(filas, args.semilla, real=real)
+    nombre = 'banco-real' if real else 'banco'
+    (args.salida / f'{nombre}.json').write_text(json.dumps(datos, ensure_ascii=False, indent=2) + '\n')
+    (args.salida / f'{nombre}.txt').write_text(texto(datos))
     print(texto(datos), end='')
     return 0
 
