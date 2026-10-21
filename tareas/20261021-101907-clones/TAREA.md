@@ -1,6 +1,6 @@
 # Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -79,3 +79,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-21 15:18:16 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261021-101907-clones/oracle-veredicto.txt.
+
+### Nota (2026-10-21 15:21:46 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
