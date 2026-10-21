@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar`
 - Vigente: sí
 - Cambio: [[cambios/20261021-140625-unir]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_unir.lo_generado_no_choca_al_integrar`, `factory_unir.corrida_completa`
 - Fuente: openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md#lo generado no choca al integrar
 

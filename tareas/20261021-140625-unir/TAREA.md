@@ -67,3 +67,7 @@ Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_d
 ### Nota (2026-10-21 17:52:24 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cuatro vueltas de codex y agy: la 1 dejó 10 hallazgos (3 altos), la 2 nueve medios o más (la unión mezclaba las partes de una decisión: se reescribió para unir cada decisión entera), la 3 uno (eventos perdidos por una rama), todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 4 no dejó ningún hallazgo.); 0 abiertos derivados; commit c546625ce229569816bfa84b12ae0e5e81a942d2; informe tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/informe.json; decisiones tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/decisiones.json.
+
+### Nota (2026-10-21 17:52:52 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261021-140625-unir/oracle-veredicto.txt.

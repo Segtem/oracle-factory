@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona`
 - Vigente: sí
 - Cambio: [[cambios/20261021-140625-unir]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona`, `factory_unir.corrida_completa`
 - Fuente: openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md#si las dos ramas decidieron distinto, decide una persona
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada`
 - Vigente: sí
 - Cambio: [[cambios/20261021-140625-unir]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada`, `factory_unir.corrida_completa`
 - Fuente: openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md#el registro de un cambio editado en dos ramas se une sin perder nada
 

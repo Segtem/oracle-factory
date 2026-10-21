@@ -2,7 +2,7 @@
   "id": "20261021-140625-unir",
   "titulo": "Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
   "spec_sha256": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261021-140625-unir/candidatos/7e6e506/evidencia/hechos.json",
+    "hechos_sha256": "e59b2c01dd800bebeaf90221a0eb258c3ae5302dd822c0a41ae33dccccd1849e",
+    "informe": ".factory/cambios/20261021-140625-unir/oracle-veredicto.txt",
+    "informe_sha256": "b77180eadf7c9d814c9fb3d78bb99f9c10df1c1d39aeac999a6f7a5bf58f746e",
+    "cuando": "2026-10-21T17:52:52+00:00",
+    "contexto": {
+      "head": "21191339f556428b32bdd472968733e4197806dd",
+      "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -480,6 +492,17 @@
       "abiertos": 0,
       "sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
       "decisiones_sha256": "0b90aa7e79ea69024b5b107da388c43061eb9213fde5f09c242563a03c69d483"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T17:52:52+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e59b2c01dd800bebeaf90221a0eb258c3ae5302dd822c0a41ae33dccccd1849e"
     }
   ],
   "tipos": {
