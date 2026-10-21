@@ -1,0 +1,22 @@
+Banco de concurrencia — semilla 20261021
+
+ok       s0_clon_recien_hecho         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 0.4 s
+ok       s1_paralelo_disjunto         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s
+ok       s2_mismo_archivo             conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.2 s
+           conflicto al integrar tarea/enteros: calc.py
+ok       s3_semantico                 conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.5 s
+           pasan solos y fallan juntos: lo detectan las pruebas de quien integra (Factory no corre nada al mergear)
+ok       s4_tomar_a_la_vez            conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           responsable en cada clon después de tomar a la vez: {'Ana': 'Ana', 'Beto': 'Beto'}
+           el pull unió el registro sin conflicto de texto
+ok       s5_decisiones_simultaneas    conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 0.7 s
+ok       s6_mismo_id                  conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           IDs: ['20261021-200608-yu0-igual', '20261021-200608-i0w-igual']
+           los IDs salieron distintos en el mismo segundo: los separan los caracteres al azar
+ok       s7_generados                 conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.8 s
+ok       a1_relevo_atrasado           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s
+ok       a2_evidencia_vieja           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 1 · 1.1 s
+           al traer main, el candidato viejo deja de estar vigente: hay que producir evidencia otra vez
+ok       a3_registro_en_dos_ramas     conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+ok       a4_mensajes_de_a_turnos      conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.6 s
+ok       a5_trailers_y_vault_en_otro_clon conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s

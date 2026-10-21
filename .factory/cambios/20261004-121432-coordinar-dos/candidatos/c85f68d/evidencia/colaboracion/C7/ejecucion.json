@@ -1,0 +1,525 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "init"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Factory inicializada en /tmp/factory-colaboracion-xmowgqpf/C7/producto. No se crearon commits ni aprobaciones.\nAcuerdos: /tmp/factory-colaboracion-xmowgqpf/C7/producto/openspec/changes; tareas: /tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas; proyecto Oracle: /tmp/factory-colaboracion-xmowgqpf/C7/producto.\nCarpeta propia de Factory: /tmp/factory-colaboracion-xmowgqpf/C7/producto/.factory (versionada, salvo local/, que Git ignora).\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nHook de commits: este proyecto todavía no usa Git; después de git init, instalalo con oracle-factory hooks.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "nuevo",
+        "--con-ejemplo",
+        "notas",
+        "Fixture colaboración C7"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Cambio creado: 20261021-200558-7f2-notas\nModo de trabajo: confirmacion\nTarea: /tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-colaboracion-xmowgqpf/C7/producto/openspec/changes/20261021-200558-7f2-notas\nEjemplo y catálogos preparados en /tmp/factory-colaboracion-xmowgqpf/C7/producto/examples/notas y /tmp/factory-colaboracion-xmowgqpf/C7/producto/catalogos. No se ejecutó el programa.\nPróximo paso humano: revisar /tmp/factory-colaboracion-xmowgqpf/C7/producto/openspec/changes/20261021-200558-7f2-notas/proposal.md y /tmp/factory-colaboracion-xmowgqpf/C7/producto/openspec/changes/20261021-200558-7f2-notas/specs/notas/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "aprobar-spec",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": "1\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "openspec/changes/20261021-200558-7f2-notas/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261021-200558-7f2-notas/specs/notas/spec.md (SHA-256 b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\nModo de trabajo: confirmacion. Aceptar reinicia importación, revisión y veredicto de este cambio.\n\nAprobar la propuesta y la spec de 20261021-200558-7f2-notas\n  1) Aprobar — reinicia importación, revisión y veredicto de este cambio\n  2) Cancelar — no registra nada\nElegí 1-2: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "importar",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "+ notas_c14c25efce8e8c311.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n\n1 requisitos escritos en /tmp/factory-colaboracion-xmowgqpf/C7/producto/requisitos\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261021-200558-7f2-notas --listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "medir",
+        "20261021-200558-7f2-notas",
+        "--requisito",
+        "notas_c14c25efce8e8c311.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": "",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-xmowgqpf/C7/producto/requisitos/notas_c14c25efce8e8c311.titulo_valido.requisito\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "20261021-200558-7f2-notas: base fixture aceptada sólo para el arnés"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "3dbe3fea1f06ced37a13c162ec32083d4c757603\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "examples/notas",
+        "-v"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "examples/notas/sensor.py",
+        "--salida",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Hechos de 3 casos escritos en /tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "revision",
+        "20261021-200558-7f2-notas",
+        "--informe",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/informe-fixture.md",
+        "--revisor",
+        "Fixture automatizado",
+        "--decision",
+        "aprobar",
+        "--hallazgos-abiertos",
+        "0"
+      ],
+      "stdin_fixture": "1\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.\nRevisor: Fixture automatizado; decisión: aprobar; abiertos: 0; commit: 3dbe3fea1f06ced37a13c162ec32083d4c757603\n\nRegistrar la revisión de 20261021-200558-7f2-notas con la decisión «aprobar»\n  1) Registrar — queda como decisión tuya, con el informe y las resoluciones indicados\n  2) Cancelar — no registra nada\nElegí 1-2: Informe registrado: /tmp/factory-colaboracion-xmowgqpf/C7/producto/.factory/cambios/20261021-200558-7f2-notas/review.md\nPróximo paso: oracle-factory juzgar 20261021-200558-7f2-notas --con RUTA_DE_HECHOS\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "juzgar",
+        "20261021-200558-7f2-notas",
+        "--con",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "✓ notas_c14c25efce8e8c311.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /tmp/factory-colaboracion-xmowgqpf/C7/producto/.factory/cambios/20261021-200558-7f2-notas/oracle-veredicto.txt\nPróximo paso: oracle-factory cerrar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "estado",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "20261021-200558-7f2-notas — Fixture colaboración C7\nFase: oracle_verde\nModo de trabajo: confirmacion\nRequisitos Oracle: notas_c14c25efce8e8c311.titulo_valido\nPendiente: ninguno\nrevisión registrada sobre el commit 3dbe3fe.\nveredicto Oracle registrado sobre el commit 3dbe3fe.\nCommits: ninguno unido todavía (los nuevos llevan «Cambio: ID» con el hook de oracle-factory hooks).\nResponsable: nadie (oracle-factory tomar ID).\nAviso: 3 acciones quedaron sin autor (cambio_creado, requisitos_importados, oracle_ejecutado): un agente las hace con --agente NOMBRE, y una persona desde su terminal.\nAprobación spec: sí, workstation (persona, decidio, modo confirmacion)\nRevisión: Fixture automatizado / aprobar / 0 abiertos\nFormato de revisión: libre; declaración humana sin validación estructural\nOracle: código 0 (.factory/cambios/20261021-200558-7f2-notas/oracle-veredicto.txt)\nRevisión registrada por: workstation (persona, decidio, modo confirmacion)\nMedidas de notas_c14c25efce8e8c311.titulo_valido: workstation (persona, decidio, modo confirmacion)\nPróximo paso: oracle-factory cerrar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "medir",
+        "20261021-200558-7f2-notas",
+        "--requisito",
+        "notas_c14c25efce8e8c311.titulo_valido",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": "",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-xmowgqpf/C7/producto/requisitos/notas_c14c25efce8e8c311.titulo_valido.requisito\nReemplaza las medidas que tenía (notas.casos_ejecutados, notas.resultados) por: notas.resultados\nQuedan sin ningún requisito del proyecto que las use: notas.casos_ejecutados\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "medir",
+        "20261021-200558-7f2-notas",
+        "--requisito",
+        "notas_c14c25efce8e8c311.titulo_valido",
+        "--medida",
+        "notas.casos_ejecutados",
+        "--medida",
+        "notas.resultados",
+        "--quitar-sin-medir"
+      ],
+      "stdin_fixture": "",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Asociación guardada: /tmp/factory-colaboracion-xmowgqpf/C7/producto/requisitos/notas_c14c25efce8e8c311.titulo_valido.requisito\nReemplaza las medidas que tenía (notas.resultados) por: notas.casos_ejecutados, notas.resultados\nSIN MEDIR: sin límite adicional declarado; revisá la pertinencia y el alcance de las medidas\nRevisión y juicio anteriores invalidados. Ejecutá pruebas/sensor, registrá la versión y renová la revisión antes de juzgar.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "asociación renovada"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "852e9df625a876215d2f8b0e4f979c828178542a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "examples/notas",
+        "-v"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "test_acepta_titulo_con_texto (test_notas.Notas.test_acepta_titulo_con_texto) ... ok\ntest_rechaza_solo_espacios (test_notas.Notas.test_rechaza_solo_espacios) ... ok\ntest_rechaza_titulo_vacio (test_notas.Notas.test_rechaza_titulo_vacio) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "examples/notas/sensor.py",
+        "--salida",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Hechos de 3 casos escritos en /tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "revision",
+        "20261021-200558-7f2-notas",
+        "--informe",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/informe-fixture.md",
+        "--revisor",
+        "Fixture automatizado",
+        "--decision",
+        "aprobar",
+        "--hallazgos-abiertos",
+        "0"
+      ],
+      "stdin_fixture": "1\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato: libre; declaración humana sin validación estructural del contenido, alcance ni límites.\nRevisor: Fixture automatizado; decisión: aprobar; abiertos: 0; commit: 852e9df625a876215d2f8b0e4f979c828178542a\n\nRegistrar la revisión de 20261021-200558-7f2-notas con la decisión «aprobar»\n  1) Registrar — queda como decisión tuya, con el informe y las resoluciones indicados\n  2) Cancelar — no registra nada\nElegí 1-2: Informe registrado: /tmp/factory-colaboracion-xmowgqpf/C7/producto/.factory/cambios/20261021-200558-7f2-notas/review.md\nPróximo paso: oracle-factory juzgar 20261021-200558-7f2-notas --con RUTA_DE_HECHOS\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "juzgar",
+        "20261021-200558-7f2-notas",
+        "--con",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto/tareas/20261021-200558-7f2-notas/hechos-fixture.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "✓ notas_c14c25efce8e8c311.titulo_valido   cumple · notas.casos_ejecutados cumple, notas.resultados cumple\n\n1 requisitos: 1 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 0 sin juicio · 0 sin medir · 0 con medidas inexistentes\nInforme Oracle: /tmp/factory-colaboracion-xmowgqpf/C7/producto/.factory/cambios/20261021-200558-7f2-notas/oracle-veredicto.txt\nPróximo paso: oracle-factory cerrar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "estado",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "20261021-200558-7f2-notas — Fixture colaboración C7\nFase: oracle_verde\nModo de trabajo: confirmacion\nRequisitos Oracle: notas_c14c25efce8e8c311.titulo_valido\nPendiente: ninguno\nrevisión registrada sobre el commit 852e9df.\nveredicto Oracle registrado sobre el commit 852e9df.\nCommits: ninguno unido todavía (los nuevos llevan «Cambio: ID» con el hook de oracle-factory hooks).\nResponsable: nadie (oracle-factory tomar ID).\nAviso: 4 acciones quedaron sin autor (cambio_creado, requisitos_importados, oracle_ejecutado): un agente las hace con --agente NOMBRE, y una persona desde su terminal.\nAprobación spec: sí, workstation (persona, decidio, modo confirmacion)\nRevisión: Fixture automatizado / aprobar / 0 abiertos\nFormato de revisión: libre; declaración humana sin validación estructural\nOracle: código 0 (.factory/cambios/20261021-200558-7f2-notas/oracle-veredicto.txt)\nRevisión registrada por: workstation (persona, decidio, modo confirmacion)\nMedidas de notas_c14c25efce8e8c311.titulo_valido: workstation (persona, decidio, modo confirmacion)\nPróximo paso: oracle-factory cerrar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "cerrar",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "FACTORY BLOQUEADA: no se puede cerrar: la propuesta/spec cambió o su aprobación es antigua; renová la aceptación; revision desactualizado respecto del producto; oracle desactualizado respecto del producto\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "aprobar-spec",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": "1\n",
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "openspec/changes/20261021-200558-7f2-notas/proposal.md (SHA-256 9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a)\n# Comprobar el título de una nota\n\n## Why\nQuiero evitar guardar notas cuyo título no permita reconocerlas.\n\n## What changes\nAceptar títulos con texto y rechazar los vacíos o formados solo por espacios.\n\n## Out of scope\nEsta primera prueba no incluye una pantalla, una base de datos ni sincronización.\n\n## Human decisions\nLa persona revisa estos tres casos y decide si representan el comportamiento esperado.\n\nopenspec/changes/20261021-200558-7f2-notas/specs/notas/spec.md (SHA-256 01e30345273b409d43e06e30f755e101c37f789d3e9e244fa6cd2004218fffe0)\n# Capability: notas\n\n## ADDED Requirements\n\n### Requirement: titulo valido\nThe system SHALL reject empty or whitespace-only titles and accept titles containing text.\n\n#### Scenario: título vacío\n- WHEN el título es una cadena vacía\n- THEN no se puede guardar la nota\n\n#### Scenario: título con espacios\n- WHEN el título contiene solo espacios\n- THEN no se puede guardar la nota\n\n#### Scenario: título con texto\n- WHEN el título es Mi nota\n- THEN se puede guardar la nota\n\n### Requirement: conservar texto\nThe system SHALL preserve note text.\n#### Scenario: texto\n- THEN el texto permanece\n\nModo de trabajo: confirmacion. Aceptar reinicia importación, revisión y veredicto de este cambio.\n\nAprobar la propuesta y la spec de 20261021-200558-7f2-notas\n  1) Aprobar — reinicia importación, revisión y veredicto de este cambio\n  2) Cancelar — no registra nada\nElegí 1-2: Alcance aprobado; sus requisitos todavía deben importarse y medirse.\nPróximo paso: oracle-factory importar 20261021-200558-7f2-notas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-xmowgqpf/C7/producto",
+        "importar",
+        "20261021-200558-7f2-notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "+ notas_c55f0f095b6e31404.titulo_valido   sin medida todavía; escenarios: «título vacío», «título con espacios», «título con texto»\n+ notas_c55f0f095b6e31404.conservar_texto   sin medida todavía; escenarios: «texto»\n\n2 requisitos escritos en /tmp/factory-colaboracion-xmowgqpf/C7/producto/requisitos\nQuité de requisitos/ los de la importación anterior de este cambio: notas_c14c25efce8e8c311.titulo_valido\nLa persona debe revisar medidas y límites de cada requisito.\nPróximo paso: oracle-factory medir 20261021-200558-7f2-notas --listar\n",
+      "stderr": ""
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "gates completos en fixture sobre candidato vigente",
+      "cumple": true
+    },
+    {
+      "comprobacion": "cambiar medidas invalida revisión y juicio",
+      "cumple": true
+    },
+    {
+      "comprobacion": "gates completos en fixture sobre candidato vigente",
+      "cumple": true
+    },
+    {
+      "comprobacion": "spec modificada necesita nueva aceptación",
+      "cumple": true
+    },
+    {
+      "comprobacion": "aceptación nueva descarta validaciones dependientes",
+      "cumple": true
+    },
+    {
+      "comprobacion": "importación aísla nueva spec y conserva requisitos sin medir",
+      "cumple": true
+    }
+  ]
+}

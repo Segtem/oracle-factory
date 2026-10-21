@@ -1,0 +1,21 @@
+{
+  "id": "20261021-200554-relevo",
+  "misma_identidad": true,
+  "colision": {
+    "id_colisionado": "20261021-200555-frente",
+    "id_migrado": "20261021-200555-frente-b",
+    "migracion": "f79bc788b441347ed91cebe133f60c05f5643cc9",
+    "intentos": 1,
+    "candidato": "8ac7170bb101ff29c7c1efe8bb4e3b0d98e7b99d"
+  },
+  "colision_cambios": {
+    "ids": [
+      "20261021-200556-n12-colision",
+      "20261021-200556-b4x-colision"
+    ],
+    "mismo_segundo": true,
+    "intentos": 1,
+    "candidato": "1e685f6f93cfac4d3c2195f5d2ef49f249122bc6"
+  },
+  "limite": "Clones locales en una máquina; la migración la hace B como fixture, no una persona. Las referencias se buscan con tasks refs, que sólo ve menciones textuales. Los cambios Factory ya no chocan: su ID lleva tres caracteres al azar."
+}

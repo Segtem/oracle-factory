@@ -1,0 +1,3 @@
+Banco de concurrencia — semilla 20261021 (corrida real, no reproducible)
+
+ok       s0_clon_recien_hecho         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 0.4 s
