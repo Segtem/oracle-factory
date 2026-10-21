@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261021-140625-unir",
+  "contexto": {
+    "head": "c546625ce229569816bfa84b12ae0e5e81a942d2",
+    "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
+  },
+  "documentos": {
+    "openspec/changes/20261021-140625-unir/proposal.md": "a434512d20677af2c6897bf7ec9dc5389148dda708c03367c3fcb0b206bc84c1",
+    "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_unir.corrida_completa.oracle",
+    "catalogos/factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.oracle",
+    "catalogos/factory_unir.lo_generado_no_choca_al_integrar.oracle",
+    "catalogos/factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona.oracle",
+    "openspec/changes/20261021-140625-unir/design.md",
+    "openspec/changes/20261021-140625-unir/proposal.md",
+    "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+    "openspec/changes/20261021-140625-unir/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/unir.py",
+    "requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.requisito",
+    "requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.requisito",
+    "requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.requisito",
+    "tests/test_commits.py",
+    "tests/test_unir.py",
+    "tools/verify_unir.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 441 pruebas, 7 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/7e6e506/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/7e6e506/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/7e6e506/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a192c6b: agy (gemini-3.8-flash-high), 8 hallazgos: agy-01 (alta), agy-02 (alta), agy-03 (alta), agy-04 (media), agy-05 (media), agy-06 (media), agy-07 (baja), agy-08 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/a192c6b/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato a192c6b: codex (gpt-6-luna), 2 hallazgos: UNIR-001 (media), UNIR-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/a192c6b/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bdd54bd: agy (gemini-3.8-flash-high), 8 hallazgos: agy-01 (alta), agy-02 (alta), agy-03 (alta), agy-04 (media), agy-05 (media), agy-06 (media), agy-07 (baja), agy-08 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/bdd54bd/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bdd54bd: codex (gpt-6-luna), 1 hallazgo: codex-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/bdd54bd/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9e23d80: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/9e23d80/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9e23d80: codex (gpt-6-luna), 1 hallazgo: codex-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-140625-unir/candidatos/9e23d80/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios un1–un3 en repositorios temporales, Linux, con git real, un repositorio central y dos clones con los hooks instalados; la unión pura con registros armados a mano.",
+    "agy (gemini-3.8-flash-high): Se leyeron la propuesta (openspec/changes/20261021-140625-unir/proposal.md), la especificación (openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md), el paquete de Oracle Clue y el diff completo de producto.",
+    "agy (gemini-3.8-flash-high): Se excluyeron los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, notas kb indicadas y tareas), según las instrucciones.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` en primer plano desde la raíz del checkout candidato 7e6e506; las 7 pruebas pasaron exitosamente.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de codex-01 de la vuelta 3: en oracle_factory/unir.py, los eventos son tratados como historial append-only (`sacado = set() if en_orden else ...`), de modo que nunca se borran aunque una rama los haya omitido, el historial común de base se incluye en `propios` en su orden previo a la combinación con `heapq.merge` por `cuando`, y los pendientes resueltos siguen sin reaparecer al evaluar listas con `en_orden=False`.",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre una copia aislada en la carpeta del revisor (`mutaciones/`) cubriendo 10 casos en oracle_factory/unir.py y oracle_factory/cli.py (sacado incondicionalmente vacío, aplicación de sacado a eventos, omisión de base en el recorrido de eventos, reordenamiento por serialización JSON, supresión de POR_ENTRADA, omisión del limpiado de pendientes en evento, omisión de git update-ref en rehacer_generado, supresión de la verificación de HEAD^2 en post-commit, retorno con código de error en unir_registro y vaciado de aviso_union). Todas las mutaciones fueron detectadas y matadas por la suite de tests.test_unir.",
+    "agy (gemini-3.8-flash-high): Se comprobaron estáticamente y mediante reproducciones controladas en repositorios temporales los mecanismos de post-merge con MERGE_HEAD, post-commit tras resolución de conflictos, actualización de ramas que no son main, detección de hooks ajenos mediante marcas, preservación y no duplicación de entradas en .gitattributes, y regeneración de artefactos generados (.factory/resumen.md y kb/) sin incluir notas de personas (kb/notas/).",
+    "agy (gemini-3.8-flash-high): No se editó el checkout candidato ni se modificó la configuración de Git de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_unir.py, conforme a las instrucciones.",
+    "codex (gpt-6-luna): Se leyó la propuesta, la spec, el diff y el contexto incluido en el paquete; se contrastaron los tres requisitos con la lógica, los hooks, las pruebas focalizadas, los verificadores, los catálogos y el README.",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null; resultado: 7 pruebas, OK.",
+    "codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_unir.py; tampoco se hicieron mutaciones manuales.",
+    "codex (gpt-6-luna): Se revisaron como regresiones las observaciones de vueltas anteriores sobre divergencias de fase, fusión/pérdida de eventos, orden del historial, pendientes resueltos, instalación de atributos y errores de hooks. No se encontró una regresión reproducible."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

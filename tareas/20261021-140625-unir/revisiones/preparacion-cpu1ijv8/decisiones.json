@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
+  "actor": "Brian Hollweg",
+  "motivo": "Cuatro vueltas de codex y agy: la 1 dejó 10 hallazgos (3 altos), la 2 nueve medios o más (la unión mezclaba las partes de una decisión: se reescribió para unir cada decisión entera), la 3 uno (eventos perdidos por una rama), todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 4 no dejó ningún hallazgo.",
+  "decisiones": []
+}

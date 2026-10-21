@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-clones/.factory/local/revisiones/ab26db1-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "ab26db147ba4e0b69407979ffd376cc335939ac0",
+  "diff_sha256": "dbb921dd32fe2ce538ef8fd472571a6b11423cb0fe9bd4a1e33b2189416db180",
+  "context_sha256": "8118d2435e4eff5fc4c43c3e0ab8efb1d1a69cc45a43cd73b6029563121411d5",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "CLONES-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Los .gitkeep no vuelven versionables carpetas ignoradas",
+      "explanation": "`inicializar` escribe `.gitkeep` en las carpetas vacías sin consultar si Git las ignora. En una copia temporal con reglas `tareas/` y `catalogos/` en `.gitignore`, `init` terminó correctamente, pero `git check-ignore -v` marcó ambos `.gitkeep` como ignorados y `git add -A` no versionó ninguna de esas carpetas. El clon resultante no recibe esas rutas pese a que la promesa es que `init` deje versionables las carpetas que crea; las reglas existentes de `.gitignore` prevalecen sobre el archivo marcador.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2969,
+        "end_line": 2970,
+        "side": "head"
+      },
+      "trigger": "Antes de `init`, agregar una regla de exclusión que cubra una de las carpetas vacías creadas por Factory (por ejemplo `tareas/` o `catalogos/`); ejecutar `init` y luego `git add -A`.",
+      "evidence": "Sonda manual en un directorio temporal: `init` devolvió 0; `git check-ignore -v tareas/.gitkeep` informó `.gitignore:1:tareas/`, y `catalogos/.gitkeep` informó `.gitignore:2:catalogos/`. Tras `git add -A`, `git ls-files` no contenía esas carpetas. No se modificó el checkout candidato.",
+      "related_requirement": "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar",
+      "status": "pendiente",
+      "verification": "Reproducido con `init` en copia temporal y Git real; no probado con una copia remota clonada."
+    },
+    {
+      "id": "CLONES-02",
+      "kind": "regresion",
+      "severity": "baja",
+      "confidence": 0.87,
+      "title": "Una prueba existente puede interpretar .gitkeep como un cambio",
+      "explanation": "El nuevo marcador se crea en `openspec/changes` durante `init`. `tests/test_modos.py::test_m4_lectura_del_estado` invoca el escenario que crea un cambio y luego toma `next(p.name for p in .../openspec/changes.iterdir())` sin filtrar por directorio ni por `ID_RE`; si la iteración devuelve primero la entrada creada por `init` (orden de creación en los sistemas Linux usados por las pruebas), llama `mostrar(\".gitkeep\")`, que rechaza el identificador. La prueba no fue ajustada junto con los otros consumidores de `iterdir` que sí excluyen el marcador.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2970,
+        "end_line": 2970,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `test_m4_lectura_del_estado` después de inicializar el proyecto; cuando `.gitkeep` sea la primera entrada de `openspec/changes`, la prueba pasa ese nombre a `mostrar`.",
+      "evidence": "La prueba existente estática obtiene la primera entrada sin filtro en `tests/test_modos.py:202`; en el mismo test, `setUp` llama a `f.inicializar()` y el escenario ejecutado antes de esa línea crea un cambio. `inicializar` añade `.gitkeep` a `CHANGES` antes de ese cambio. No ejecuté esa prueba porque la instrucción limitó las pruebas al comando de `tests.test_clones`.",
+      "related_requirement": "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar",
+      "status": "pendiente",
+      "verification": "Inferido de los consumidores y del orden de creación observado; la prueba individual no se ejecutó."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` desde la raíz del checkout: 3 pruebas, OK.",
+    "No se ejecutó la suite completa ni otras pruebas, conforme a la instrucción.",
+    "Se verificó en una carpeta temporal el caso de `.gitignore` que excluye carpetas con `.gitkeep`; el checkout candidato permaneció intacto.",
+    "La evaluación de colisión entre los tres caracteres aleatorios es probabilística; las pruebas cubren IDs distintos en una carrera de dos procesos, no una garantía matemática de unicidad para todas las parejas posibles."
+  ]
+}

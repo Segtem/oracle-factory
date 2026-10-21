@@ -1,0 +1,604 @@
+{
+  "id": "20261021-140625-unir",
+  "titulo": "Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace",
+  "capacidad": "colaboracion",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+  "spec_sha256": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T14:08:06+00:00",
+    "documentos": {
+      "openspec/changes/20261021-140625-unir/proposal.md": "a434512d20677af2c6897bf7ec9dc5389148dda708c03367c3fcb0b206bc84c1",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf"
+    }
+  },
+  "requisitos": [
+    "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+    "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+    "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/informe.json",
+    "sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
+    "decisiones": "tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/decisiones.json",
+    "decisiones_sha256": "0b90aa7e79ea69024b5b107da388c43061eb9213fde5f09c242563a03c69d483",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T17:52:24+00:00",
+    "motivo": "Cuatro vueltas de codex y agy: la 1 dejó 10 hallazgos (3 altos), la 2 nueve medios o más (la unión mezclaba las partes de una decisión: se reescribió para unir cada decisión entera), la 3 uno (eventos perdidos por una rama), todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 4 no dejó ningún hallazgo.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "c546625ce229569816bfa84b12ae0e5e81a942d2",
+      "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261021-140625-unir/candidatos/7e6e506/evidencia/hechos.json",
+    "hechos_sha256": "e59b2c01dd800bebeaf90221a0eb258c3ae5302dd822c0a41ae33dccccd1849e",
+    "informe": ".factory/cambios/20261021-140625-unir/oracle-veredicto.txt",
+    "informe_sha256": "b77180eadf7c9d814c9fb3d78bb99f9c10df1c1d39aeac999a6f7a5bf58f746e",
+    "cuando": "2026-10-21T17:52:52+00:00",
+    "contexto": {
+      "head": "21191339f556428b32bdd472968733e4197806dd",
+      "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T14:06:25+00:00",
+      "capacidad": "colaboracion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T14:08:06+00:00",
+      "documentos": {
+        "openspec/changes/20261021-140625-unir/proposal.md": "a434512d20677af2c6897bf7ec9dc5389148dda708c03367c3fcb0b206bc84c1",
+        "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T14:08:06+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T14:08:33+00:00",
+      "ids": [
+        "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+        "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+        "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:21:38+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "medidas": [
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+        "factory_unir.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:21:39+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "medidas": [
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+        "factory_unir.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:21:40+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "medidas": [
+        "factory_unir.lo_generado_no_choca_al_integrar",
+        "factory_unir.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:23:53+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "medidas": [
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:23:53+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "medidas": [
+        "factory_unir.lo_generado_no_choca_al_integrar",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T14:23:53+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "medidas": [
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T14:28:06+00:00",
+      "revisor": "codex",
+      "candidato": "a192c6b",
+      "lanzamiento": "d14a7496bccf"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T14:28:06+00:00",
+      "revisor": "agy",
+      "candidato": "a192c6b",
+      "lanzamiento": "ae29ad0be1bc"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T14:29:50+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a192c6b",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "d14a7496bccf"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T14:46:27+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "a192c6b",
+      "resultado": "ok",
+      "hallazgos": 8,
+      "lanzamiento": "ae29ad0be1bc"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:56:21+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "medidas": [
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:56:22+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "medidas": [
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:56:23+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "medidas": [
+        "factory_unir.lo_generado_no_choca_al_integrar",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "medidas": [
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "medidas": [
+        "factory_unir.lo_generado_no_choca_al_integrar",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "requisito": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "medidas": [
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+        "factory_unir.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:17:28+00:00",
+      "revisor": "agy",
+      "candidato": "bdd54bd",
+      "lanzamiento": "0ec8e672a389"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:17:28+00:00",
+      "revisor": "codex",
+      "candidato": "bdd54bd",
+      "lanzamiento": "0e03ce59b3a5"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:19:36+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "bdd54bd",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "0e03ce59b3a5"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:40:46+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "bdd54bd",
+      "resultado": "ok",
+      "hallazgos": 8,
+      "lanzamiento": "0ec8e672a389"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:54:07+00:00",
+      "revisor": "agy",
+      "candidato": "9e23d80",
+      "lanzamiento": "1596bc43562e"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:54:07+00:00",
+      "revisor": "codex",
+      "candidato": "9e23d80",
+      "lanzamiento": "e76125cb07a5"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T15:55:50+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "9e23d80",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "e76125cb07a5"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T16:10:04+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "9e23d80",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "1596bc43562e"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T16:21:16+00:00",
+      "revisor": "codex",
+      "candidato": "7e6e506",
+      "lanzamiento": "0512f9658364"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T16:21:16+00:00",
+      "revisor": "agy",
+      "candidato": "7e6e506",
+      "lanzamiento": "66df3e96c098"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T16:22:42+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "7e6e506",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "0512f9658364"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T16:32:55+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7e6e506",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "66df3e96c098"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T16:33:07+00:00",
+      "decision": "aprobar",
+      "candidato": "7e6e506"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T17:52:24+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
+      "decisiones_sha256": "0b90aa7e79ea69024b5b107da388c43061eb9213fde5f09c242563a03c69d483"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T17:52:52+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e59b2c01dd800bebeaf90221a0eb258c3ae5302dd822c0a41ae33dccccd1849e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T18:05:23+00:00",
+      "oracle": ".factory/cambios/20261021-140625-unir/oracle-veredicto.txt",
+      "revision": "tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T18:05:23+00:00",
+      "capacidad": "colaboracion",
+      "spec": "openspec/specs/colaboracion/spec.md"
+    }
+  ],
+  "tipos": {
+    "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada": "funcional",
+    "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar": "funcional",
+    "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-21T14:08:06+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {
+    "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "sha256": "7bcab088fe0f0ad597cec5a402f0ba0f13e65c25cef1ca82c456c5ca3f25e199",
+      "catalogos": {
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada": "8262f68a08247a1ede3187486b887f44ed2b8c838f6adb99406699301d9348a2",
+        "factory_unir.corrida_completa": "ccc7aeb44f07c7f2e7c62129be190b38de3d80a20779dc8931cdcdde98ebb3ac"
+      },
+      "archivos_catalogo": {
+        "factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada": "catalogos/factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.oracle",
+        "factory_unir.corrida_completa": "catalogos/factory_unir.corrida_completa.oracle"
+      }
+    },
+    "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "sha256": "a242f5a59fc7cd3c30e4a2af919c6455ba09c502cb81efe6a7ac57c5e0890cea",
+      "catalogos": {
+        "factory_unir.lo_generado_no_choca_al_integrar": "d23f8919171be806c6858b174719d8b90e138864092f5ce0bdce818fb6003037",
+        "factory_unir.corrida_completa": "ccc7aeb44f07c7f2e7c62129be190b38de3d80a20779dc8931cdcdde98ebb3ac"
+      },
+      "archivos_catalogo": {
+        "factory_unir.lo_generado_no_choca_al_integrar": "catalogos/factory_unir.lo_generado_no_choca_al_integrar.oracle",
+        "factory_unir.corrida_completa": "catalogos/factory_unir.corrida_completa.oracle"
+      }
+    },
+    "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T15:13:15+00:00",
+      "sha256": "b6e0b2a3939f607e94ba28d2eed07acb1b3caceed9aea8016d1a79250df9b196",
+      "catalogos": {
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona": "3cefb09aa2bf0a7792178ce83643178ff5df53668168562284db1be0b935fdd6",
+        "factory_unir.corrida_completa": "ccc7aeb44f07c7f2e7c62129be190b38de3d80a20779dc8931cdcdde98ebb3ac"
+      },
+      "archivos_catalogo": {
+        "factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona": "catalogos/factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona.oracle",
+        "factory_unir.corrida_completa": "catalogos/factory_unir.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T18:05:22+00:00"
+  },
+  "archivo": {
+    "capacidad": "colaboracion",
+    "spec": "openspec/specs/colaboracion/spec.md",
+    "cuando": "2026-10-21T18:05:23+00:00"
+  }
+}

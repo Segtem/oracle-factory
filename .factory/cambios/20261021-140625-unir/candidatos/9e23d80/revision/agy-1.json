@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/9e23d80-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "9e23d8046d85a2c0d7f9fc6d9f7db68c2628b94b",
+  "diff_sha256": "8b341e740e3ac51e120f630881fb237b73edeb2a52a9ee090d93368e996a475b",
+  "context_sha256": "ad5739a9144ae000d8c7f2eb29a0ee29c9fee0b49099e8a73d2a3e6475b3c953",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null desde la raíz del checkout 9e23d80; las 7 pruebas pasaron exitosamente.",
+    "Se realizaron pruebas de mutación aisladas sobre copias locales para verificar que la suite de test_unir detecta y mata mutaciones en unir.py (sacado vacío, omisión de POR_ENTRADA, reordenamiento por json, RESUELVE de fase/spec_sha256, eventos de unión, listas de suma y pendientes) y en cli.py (limpieza de pendientes en evento, verificación de HEAD^2 en post-commit, omisión de commits en rehacer_generado, fallo en unir_registro y avisos de unión en estado). Todas las mutaciones probadas fueron detectadas y fallaron.",
+    "Se contrastaron exhaustivamente las correcciones de la Vuelta 3 contra los defectos identificados en las vueltas previas (a192c6b y bdd54bd), confirmando que las divergencias en medidas, fases, cierres, aprobaciones de spec, supresión de claves con _FALTA y conservación de orden de eventos con heapq.merge funcionan según la spec.",
+    "No se editó el checkout del candidato ni se modificó la configuración de Git de ningún repositorio.",
+    "No se corrió la suite completa de pruebas del repositorio, conforme a las instrucciones específicas del usuario."
+  ]
+}

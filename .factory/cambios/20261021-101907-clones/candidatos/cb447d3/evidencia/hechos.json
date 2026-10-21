@@ -1,0 +1,35 @@
+{
+  "clones_caso": [
+    {
+      "requisito": "un_clon_recien_hecho_puede_trabajar",
+      "caso": "Clones.test_cl1_la_segunda_persona_clona_el_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_clon_recien_hecho_puede_trabajar",
+      "caso": "Clones.test_cl1_una_carpeta_ignorada_se_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "dos_clones_no_generan_el_mismo_id",
+      "caso": "Clones.test_cl2_dos_cambios_en_el_mismo_segundo",
+      "codigo": 0
+    },
+    {
+      "requisito": "escribir_a_la_vez_no_obliga_a_repetir",
+      "caso": "Clones.test_cl3_doce_mensajes_a_la_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "escribir_a_la_vez_no_obliga_a_repetir",
+      "caso": "Reintento.test_cl3_tomar_y_soltar_reintentan",
+      "codigo": 0
+    }
+  ],
+  "clones_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}

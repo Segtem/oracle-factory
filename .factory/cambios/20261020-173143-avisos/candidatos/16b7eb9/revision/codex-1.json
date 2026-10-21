@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos/.factory/local/revisiones/16b7eb9-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "16b7eb96c7bc771233cbc08bbe0c2b0272d2b190",
+  "diff_sha256": "c9960e6dc46429040c28e114f6c34385794c8f4ae538c8c49793789799dea5cc",
+  "context_sha256": "36bd4aac1da4887ae55f71f6db85c75e64a01732e6d6c7689436e8b43d84f987",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AVISOS-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La aprobación no detecta specs anidadas bajo specs/",
+      "explanation": "La spec promete que aprobar-spec se niegue cuando el cambio contiene en specs/ una spec de otra capacidad y que la nombre. El filtro usa glob(\"*/spec.md\"), que sólo visita un nivel. Una spec válida para el importador en specs/otra/subcapacidad/spec.md queda fuera del filtro; aprobar-spec continúa y el requisito de esa capacidad no se importa, por lo que vuelve a perderse en silencio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 910,
+        "end_line": 910,
+        "side": "head"
+      },
+      "trigger": "Crear specs/otra/subcapacidad/spec.md con una spec de una capacidad distinta de la principal y correr aprobar-spec para el cambio.",
+      "evidence": "La prueba manual aisló specs_de_otra_capacidad en un directorio temporal con specs/otra/subcapacidad/spec.md: devolvió []. aprobar-spec invoca ese filtro en las líneas 916–919. tests/test_avisos.py cubre sólo specs/dos/spec.md en el nivel directo (líneas 30–36), así que el caso anidado sobrevive a esa prueba.",
+      "related_requirement": "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "status": "pendiente",
+      "verification": "Reproducido con una copia temporal, sin modificar el checkout; el ayudante devolvió una lista vacía para la spec anidada. La prueba indicada abajo pasó, pero no cubre esta ruta."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null desde la raíz del checkout: 3 pruebas, OK.",
+    "No ejecuté la suite completa ni tools/verify_avisos.py; este último hace unittest discovery de toda tests/. Revisé estáticamente su contenido, los tres sensores Oracle y el código de avisos/cobertura.",
+    "La reproducción manual del filtro usó un directorio temporal; el checkout candidato permaneció sin cambios."
+  ]
+}

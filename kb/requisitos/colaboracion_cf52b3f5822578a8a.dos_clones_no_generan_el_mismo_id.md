@@ -1,0 +1,18 @@
+---
+generado: oracle-factory kb
+id: "colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id"
+vigente: true
+---
+
+# dos clones no generan el mismo id
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id`
+- Vigente: sí
+- Cambio: [[cambios/20261021-101907-clones]]
+- Veredicto: cumple
+- Medidas: `factory_clones.dos_clones_no_generan_el_mismo_id`, `factory_clones.corrida_completa`
+- Fuente: openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md#dos clones no generan el mismo ID
+
+Tipo: funcional El ID de un cambio nuevo SHALL llevar tres caracteres al azar antes del sufijo y SHALL seguir terminando en el sufijo, de modo que dos clones que crean un cambio en el mismo segundo con el mismo sufijo no generen el mismo ID.

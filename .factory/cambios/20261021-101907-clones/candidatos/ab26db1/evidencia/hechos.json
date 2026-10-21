@@ -1,0 +1,25 @@
+{
+  "clones_caso": [
+    {
+      "requisito": "un_clon_recien_hecho_puede_trabajar",
+      "caso": "cl1_la_segunda_persona_clona_el_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "dos_clones_no_generan_el_mismo_id",
+      "caso": "cl2_dos_cambios_en_el_mismo_segundo",
+      "codigo": 0
+    },
+    {
+      "requisito": "escribir_a_la_vez_no_obliga_a_repetir",
+      "caso": "cl3_doce_mensajes_a_la_vez",
+      "codigo": 0
+    }
+  ],
+  "clones_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}

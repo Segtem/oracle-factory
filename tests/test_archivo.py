@@ -298,7 +298,7 @@ class Archivo(unittest.TestCase):
         with patch.object(f, 'ejecutar', falla_al_cerrar_la_tarea), self.assertRaises(f.FactoryError):
             self.cambio_cerrado()  # el cierre no se completó
         self.assertFalse((self.root / 'openspec/specs/notas').exists())  # y nada quedó fusionado
-        ident = f.leer(sorted(p.name for p in (self.root / 'openspec/changes').iterdir())[0])[1]['id']
+        ident = f.leer(sorted(p.name for p in (self.root / 'openspec/changes').iterdir() if p.is_dir())[0])[1]['id']
         with self.escribe('1'):
             f.cerrar(ident)  # el reintento no choca con su propia fusión
         self.assertEqual(self.consolidada().count('### Requirement: titulo valido'), 1)

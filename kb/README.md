@@ -63,7 +63,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261020-005341-liveshare]] — El tablero en pair programming: presencia, tablero compartido y chat con Live Share (cerrada)
 - [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (cerrada)
 - [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
+- [[cambios/20261020-173143-avisos]] — Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir (cerrada)
 - [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
+- [[cambios/20261021-101907-clones]] — Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan (cerrada)
+- [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (cerrada)
 
 ## Requisitos
 
@@ -101,12 +104,6 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir]]
 - [[requisitos/cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json]]
 - [[requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.relevo_recuperable]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
@@ -119,6 +116,12 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/colaboracion_cf0b1719108ccce04.relevo_recuperable]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona]]
+- [[requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id]]
+- [[requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir]]
+- [[requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]
@@ -156,6 +159,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente]]
 - [[requisitos/estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos]]
 - [[requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto]]
+- [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]
+- [[requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo]]
+- [[requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio]]
 - [[requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion]]
 - [[requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores]]
 - [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]

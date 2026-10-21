@@ -1,0 +1,25 @@
+{
+  "avisos_caso": [
+    {
+      "requisito": "una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "caso": "av1_un_cambio_con_dos_specs",
+      "codigo": 0
+    },
+    {
+      "requisito": "reimportar_no_deja_requisitos_huerfanos",
+      "caso": "av2_una_spec_aprobada_otra_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+      "caso": "av3_medidas_confirmadas_con_la_marca_todavia_puesta",
+      "codigo": 0
+    }
+  ],
+  "avisos_corrida": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ]
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:405c06216d02218b5339e65ba1d665e052c3d62cb8d3dab06dd49acb77da4350 -->
+<!-- oracle-factory resumen sha256:2c66057411069e31e2bbb3b403c6e81655e8097b6ac663f7242a2fc8b401f3ee -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 156 requisitos vigentes · 1 cambio abierto
+20 capacidades · 165 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -70,6 +70,12 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | un cambio dice quién lo tiene | funcional | `colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene` | factory_quien.un_cambio_dice_quien_lo_tiene, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | estado y el tablero muestran quién trabaja en qué | funcional | `colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que` | factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | el trailer elige bien el cambio | funcional | `colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio` | factory_quien.el_trailer_elige_bien_el_cambio, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
+| un clon recién hecho puede trabajar | funcional | `colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar` | factory_clones.un_clon_recien_hecho_puede_trabajar, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| dos clones no generan el mismo ID | funcional | `colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id` | factory_clones.dos_clones_no_generan_el_mismo_id, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| escribir a la vez no obliga a repetir | funcional | `colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir` | factory_clones.escribir_a_la_vez_no_obliga_a_repetir, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| el registro de un cambio editado en dos ramas se une sin perder nada | funcional | `colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada` | factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
+| si las dos ramas decidieron distinto, decide una persona | funcional | `colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona` | factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
+| lo generado no choca al integrar | funcional | `colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar` | factory_unir.lo_generado_no_choca_al_integrar, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
 
 ### conocimiento
 
@@ -134,6 +140,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | un pedido de revisión cortado queda a la vista | funcional | `flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista` | factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
 | las acciones sin autor se avisan | funcional | `flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan` | factory_higiene.las_acciones_sin_autor_se_avisan, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
 | init no deja carpetas que Factory no usa | funcional | `flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa` | factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
+| una spec de otra capacidad no se pierde en silencio | funcional | `flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio` | factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
+| reimportar no deja requisitos huérfanos | funcional | `flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos` | factory_avisos.reimportar_no_deja_requisitos_huerfanos, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
+| un requisito que quedó sin medir se avisa a tiempo | funcional | `flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo` | factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
 
 ### ide
 
@@ -315,7 +324,6 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 
 - revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
-- medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
 
 ## Cambios abandonados
 
@@ -361,6 +369,8 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **LS-SEC-01-R3** (20261020-005341-liveshare): Un invitado puede atribuir su mensaje a otro invitado conectado. Aceptado por Brian Hollweg: Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado
 - **KB7-01** (20261020-140603-kb): Un merge posterior al cierre puede cambiar los commits de la nota generada. Aceptado por Brian Hollweg: Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada
 - **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
+- **AVISOS-R1** (20261020-173143-avisos): aprobar-spec no detecta specs bajo directorios enlazados. Aceptado por Brian Hollweg: Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados
+- **CLONES-03** (20261021-101907-clones): La prueba de IDs no fuerza que ambos clones creen en el mismo segundo. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo
 
 ### Históricos
 
@@ -829,6 +839,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-141303-sesion) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.
 - (20261020-141303-sesion) codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.
 - (20261020-141303-sesion) codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos.
+- (20261020-173143-avisos) Evidencia: Escenarios av1–av3 en repositorios temporales, Linux, con Oracle 0.39.0.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se revisaron proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle catalogos/factory_avisos.*.oracle, el diff en oracle_factory/cli.py y los tests en tests/test_avisos.py y tools/verify_avisos.py contra los tres requisitos prometidos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null (3 pruebas ejecutadas, OK).
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: AV-01/AVISOS-1 (specs anidadas o enlazadas en specs_de_otra_capacidad), AV-02 (instrucción clara y viable en aviso_sin_medir eliminando la opción inviable de 'declarar por qué queda sin medir'), AV-04 (cobertura en test_av1 de múltiples specs ajenas y ordenamiento) y AV-05 (validación del sufijo de sugerencia en juzgar dentro de test_av3). AV-03 se mantiene reservado para la decisión humana por indicación expresa.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se comprobó que importar nunca elimina requisitos de otros cambios ni los de la spec nueva: el cálculo anteriores = sorted({i for e in estado.get('eventos') or [] if e.get('accion') == 'requisitos_importados' for i in e.get('ids') or []} - set(ids)) aísla por dominio único dependiente del hash de identificador y spec_sha256, y descuenta explícitamente los IDs entrantes (- set(ids)). Se verificó con pruebas adicionales con slugs idénticos entre cambios distintos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó que aprobar-spec no registra nada en disco al negarse: la validación de specs_de_otra_capacidad aborta antes de menús interactivos, eventos o llamadas a guardar(). Se comprobó que el estado completo del repositorio permanece idéntico byte por byte tras el rechazo.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó el comportamiento de specs_de_otra_capacidad frente a rutas variadas en specs/ (specs directas en specs/spec.md, rutas anidadas profundas, directorios con espacios y enlaces simbólicos rotos o válidos), confirmando que son identificadas y ordenadas alfabéticamente.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó que aviso_sin_medir y sin_medir_con_medidas no emiten falsas alarmas: requisitos recién importados sin medidas decididas, requisitos con medidas decididas con --quitar-sin-medir, propuestas de agentes pendientes de confirmación, y requisitos de otros cambios no disparan avisos espurios.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se evaluó una batería de 10 mutaciones manuales sobre un clon aislado (M1 sorted omitido en specs_de_otra_capacidad, M2 glob en vez de rglob, M3 omitir != estado['spec'], M4 omitir - set(ids) en importar, M5 omitir unlink en importar, M6 omitir verificación de estado['medidas'] en sin_medir_con_medidas, M7 omitir regex en sin_medir_con_medidas, M8 omitir sugerencia en juzgar, M9 omitir faltan en juzgar, M10 vaciar aviso_sin_medir). Las 10 mutaciones fueron detectadas y eliminadas por tests/test_avisos.py.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): No se registraron nuevos hallazgos en esta vuelta al cumplirse íntegramente las especificaciones y contratos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_avisos.py, conforme a las instrucciones recibidas. Esta revisión es probabilística y no reemplaza la decisión humana ni constituye un veredicto de Oracle.
+- (20261020-173143-avisos) codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null desde la raíz del checkout candidato: 3 pruebas, OK.
+- (20261020-173143-avisos) codex (gpt-6-luna): No corrí la suite completa ni tools/verify_avisos.py.
+- (20261020-173143-avisos) codex (gpt-6-luna): Hice una reproducción aislada de pathlib en un directorio temporal para la ruta con enlace a directorio; no muté el checkout, no hice commits ni cambié configuración de Git.
+- (20261020-173143-avisos) codex (gpt-6-luna): Los tres escenarios cubiertos por las pruebas pasan; el hallazgo es un caso de ruta no cubierto.
 - (20261020-200030-aislar) Evidencia: Escenario ai1 en un repositorio temporal, Linux, con Clue y Oracle reales y un revisor de prueba que juega con git en su checkout; aislar al revisor del resto del disco es cosa de su sandbox.
 - (20261020-200030-aislar) agy (gemini-3.8-flash-high): Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.
 - (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.
@@ -843,6 +868,31 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-200030-aislar) codex (gpt-6-luna): Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.
 - (20261020-200030-aislar) codex (gpt-6-luna): No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.
 - (20261020-200030-aislar) codex (gpt-6-luna): No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
+- (20261021-101907-clones) Evidencia: Escenarios cl1–cl3 en repositorios temporales, Linux, con git real, un repositorio central y procesos simultáneos; la unión de registros editados en dos ramas es otro cambio.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se ejecutó exactamente 'PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null' desde la raíz del checkout (/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-agy-1), con 5 pruebas superadas exitosamente.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_clones.py por instrucción expresa de la revisión.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se realizaron 8 mutaciones manuales (M1 a M8) en copias de trabajo aisladas en el directorio del revisor, cubriendo la ausencia de reintentos en tomar/soltar/mensaje, omisión de verificación de reglas de titularidad en reintentos, omisión del prefijo al azar en nuevo, falta de creación de directorios faltantes, falta de .gitkeep y falta de avisos ante carpetas ignoradas. Todas las mutaciones fueron detectadas y eliminadas por tests.test_clones.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos previos (CLONES-01, CLONES-001 y CLONES-02) comprobando que las reglas del .gitignore no se pisan pero se advierten, que tomar/soltar tienen cobertura determinista de reintentos y respeto de reglas, y que la presencia de .gitkeep no es interpretada como cambio ni tarea.
+- (20261021-101907-clones) agy (gemini-3.8-flash-high): La evaluación de colisión entre los tres caracteres aleatorios es probabilística (1 en 46.656 combinaciones para un mismo segundo y sufijo).
+- (20261021-101907-clones) codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` desde la raíz del checkout candidato: 5 pruebas, OK.
+- (20261021-101907-clones) codex (gpt-6-luna): No se ejecutó la suite completa ni `tools/verify_clones.py`, conforme a la instrucción.
+- (20261021-101907-clones) codex (gpt-6-luna): Se inspeccionaron el paquete, la spec, la propuesta, el diff del producto, las pruebas afectadas y las revisiones anteriores. No se editaron archivos ni se hicieron commits en el checkout candidato.
+- (20261021-101907-clones) codex (gpt-6-luna): No hice mutaciones manuales sobre copias. La prueba de ID se evaluó por inspección: su ejecución paralela no fuerza ni demuestra que ambos procesos usaron el mismo segundo.
+- (20261021-101907-clones) codex (gpt-6-luna): No se repitió CLONES-01: `init` conserva la regla del proyecto, avisa mediante `git check-ignore` si un `.gitkeep` queda ignorado, y la prueba añadida cubre el aviso para `tareas/`. Los recorridos principales de cambios filtran por ID o por directorio; se actualizó el consumidor de `iterdir` en `tests/test_modos.py` y no vi otra regresión por `.gitkeep` en el alcance revisado.
+- (20261021-101907-clones) codex (gpt-6-luna): El reintento de `mensaje`, `tomar` y `soltar` vuelve a ejecutar la función completa al recibir `ArchivoCambiado`; las reglas de titularidad se comprueban tras volver a leer. `tests.test_clones` cubre reintentos para tomar y soltar, además de mensajes simultáneos y el agotamiento de reintentos.
+- (20261021-140625-unir) Evidencia: Escenarios un1–un3 en repositorios temporales, Linux, con git real, un repositorio central y dos clones con los hooks instalados; la unión pura con registros armados a mano.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se leyeron la propuesta (openspec/changes/20261021-140625-unir/proposal.md), la especificación (openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md), el paquete de Oracle Clue y el diff completo de producto.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se excluyeron los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, notas kb indicadas y tareas), según las instrucciones.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` en primer plano desde la raíz del checkout candidato 7e6e506; las 7 pruebas pasaron exitosamente.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se verificó la corrección de codex-01 de la vuelta 3: en oracle_factory/unir.py, los eventos son tratados como historial append-only (`sacado = set() if en_orden else ...`), de modo que nunca se borran aunque una rama los haya omitido, el historial común de base se incluye en `propios` en su orden previo a la combinación con `heapq.merge` por `cuando`, y los pendientes resueltos siguen sin reaparecer al evaluar listas con `en_orden=False`.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre una copia aislada en la carpeta del revisor (`mutaciones/`) cubriendo 10 casos en oracle_factory/unir.py y oracle_factory/cli.py (sacado incondicionalmente vacío, aplicación de sacado a eventos, omisión de base en el recorrido de eventos, reordenamiento por serialización JSON, supresión de POR_ENTRADA, omisión del limpiado de pendientes en evento, omisión de git update-ref en rehacer_generado, supresión de la verificación de HEAD^2 en post-commit, retorno con código de error en unir_registro y vaciado de aviso_union). Todas las mutaciones fueron detectadas y matadas por la suite de tests.test_unir.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se comprobaron estáticamente y mediante reproducciones controladas en repositorios temporales los mecanismos de post-merge con MERGE_HEAD, post-commit tras resolución de conflictos, actualización de ramas que no son main, detección de hooks ajenos mediante marcas, preservación y no duplicación de entradas en .gitattributes, y regeneración de artefactos generados (.factory/resumen.md y kb/) sin incluir notas de personas (kb/notas/).
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): No se editó el checkout candidato ni se modificó la configuración de Git de ningún repositorio.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_unir.py, conforme a las instrucciones.
+- (20261021-140625-unir) codex (gpt-6-luna): Se leyó la propuesta, la spec, el diff y el contexto incluido en el paquete; se contrastaron los tres requisitos con la lógica, los hooks, las pruebas focalizadas, los verificadores, los catálogos y el README.
+- (20261021-140625-unir) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null; resultado: 7 pruebas, OK.
+- (20261021-140625-unir) codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_unir.py; tampoco se hicieron mutaciones manuales.
+- (20261021-140625-unir) codex (gpt-6-luna): Se revisaron como regresiones las observaciones de vueltas anteriores sobre divergencias de fase, fusión/pérdida de eventos, orden del historial, pendientes resueltos, instalación de atributos y errores de hooks. No se encontró una regresión reproducible.
 
 ### Históricos
 

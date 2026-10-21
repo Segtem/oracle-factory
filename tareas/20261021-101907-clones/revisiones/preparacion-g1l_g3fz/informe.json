@@ -1,0 +1,83 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261021-101907-clones",
+  "contexto": {
+    "head": "6f08a34fdd4d78e5d637e7582fa9fda2b713d733",
+    "archivos_sha256": "3d291a8c6db4111daf423b44c5447b96b9057f90c7d8a300ce3101e1ada3ea3a"
+  },
+  "documentos": {
+    "openspec/changes/20261021-101907-clones/proposal.md": "27a377db248b41ff0584ea674fe687d64b1a3618d98689839a14b53c80d31d7a",
+    "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md": "329e5390293cf8da8b7775ed2baee6ea788dbf32db0661a39c55ff4e937ef379"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_clones.corrida_completa.oracle",
+    "catalogos/factory_clones.dos_clones_no_generan_el_mismo_id.oracle",
+    "catalogos/factory_clones.escribir_a_la_vez_no_obliga_a_repetir.oracle",
+    "catalogos/factory_clones.un_clon_recien_hecho_puede_trabajar.oracle",
+    "openspec/changes/20261021-101907-clones/design.md",
+    "openspec/changes/20261021-101907-clones/proposal.md",
+    "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
+    "openspec/changes/20261021-101907-clones/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.requisito",
+    "requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir.requisito",
+    "requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar.requisito",
+    "tests/test_archivo.py",
+    "tests/test_clones.py",
+    "tests/test_guided.py",
+    "tests/test_modos.py",
+    "tools/verify_clones.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 439 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-101907-clones/candidatos/cb447d3/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-101907-clones/candidatos/cb447d3/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-101907-clones/candidatos/cb447d3/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ab26db1: agy (gemini-3.8-flash-high), 1 hallazgo: CLONES-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-101907-clones/candidatos/ab26db1/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ab26db1: codex (gpt-6-luna), 2 hallazgos: CLONES-01 (media), CLONES-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-101907-clones/candidatos/ab26db1/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios cl1–cl3 en repositorios temporales, Linux, con git real, un repositorio central y procesos simultáneos; la unión de registros editados en dos ramas es otro cambio.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente 'PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null' desde la raíz del checkout (/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-agy-1), con 5 pruebas superadas exitosamente.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_clones.py por instrucción expresa de la revisión.",
+    "agy (gemini-3.8-flash-high): Se realizaron 8 mutaciones manuales (M1 a M8) en copias de trabajo aisladas en el directorio del revisor, cubriendo la ausencia de reintentos en tomar/soltar/mensaje, omisión de verificación de reglas de titularidad en reintentos, omisión del prefijo al azar en nuevo, falta de creación de directorios faltantes, falta de .gitkeep y falta de avisos ante carpetas ignoradas. Todas las mutaciones fueron detectadas y eliminadas por tests.test_clones.",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución de los hallazgos previos (CLONES-01, CLONES-001 y CLONES-02) comprobando que las reglas del .gitignore no se pisan pero se advierten, que tomar/soltar tienen cobertura determinista de reintentos y respeto de reglas, y que la presencia de .gitkeep no es interpretada como cambio ni tarea.",
+    "agy (gemini-3.8-flash-high): La evaluación de colisión entre los tres caracteres aleatorios es probabilística (1 en 46.656 combinaciones para un mismo segundo y sufijo).",
+    "codex (gpt-6-luna): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` desde la raíz del checkout candidato: 5 pruebas, OK.",
+    "codex (gpt-6-luna): No se ejecutó la suite completa ni `tools/verify_clones.py`, conforme a la instrucción.",
+    "codex (gpt-6-luna): Se inspeccionaron el paquete, la spec, la propuesta, el diff del producto, las pruebas afectadas y las revisiones anteriores. No se editaron archivos ni se hicieron commits en el checkout candidato.",
+    "codex (gpt-6-luna): No hice mutaciones manuales sobre copias. La prueba de ID se evaluó por inspección: su ejecución paralela no fuerza ni demuestra que ambos procesos usaron el mismo segundo.",
+    "codex (gpt-6-luna): No se repitió CLONES-01: `init` conserva la regla del proyecto, avisa mediante `git check-ignore` si un `.gitkeep` queda ignorado, y la prueba añadida cubre el aviso para `tareas/`. Los recorridos principales de cambios filtran por ID o por directorio; se actualizó el consumidor de `iterdir` en `tests/test_modos.py` y no vi otra regresión por `.gitkeep` en el alcance revisado.",
+    "codex (gpt-6-luna): El reintento de `mensaje`, `tomar` y `soltar` vuelve a ejecutar la función completa al recibir `ArchivoCambiado`; las reglas de titularidad se comprueban tras volver a leer. `tests.test_clones` cubre reintentos para tomar y soltar, además de mensajes simultáneos y el agotamiento de reintentos."
+  ],
+  "hallazgos": [
+    {
+      "id": "CLONES-03",
+      "descripcion": "La prueba de IDs no fuerza que ambos clones creen en el mismo segundo",
+      "ubicacion": "tests/test_clones.py:74",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261021-101907-clones/candidatos/cb447d3/revision/codex-1.json, validado con oracle-clue; severidad baja. En las líneas 78–84 se envían dos procesos sin barrera; las únicas aserciones sobre IDs son que difieran y terminen en `-igual`. No se comparan sus prefijos de timestamp ni se valida `ID_RE` o la longitud del tramo aleatorio. El comando solicitado `PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null` pasó (5 pruebas, OK); esa corrida no demuestra que ambos IDs se hayan creado en el mismo segundo."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
