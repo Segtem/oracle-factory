@@ -1,0 +1,18 @@
+---
+generado: oracle-factory kb
+id: "estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente"
+vigente: true
+---
+
+# init adopta un proyecto oracle existente
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente`
+- Vigente: sí
+- Cambio: [[cambios/20261015-155346-oracle-en-carpeta]]
+- Veredicto: cumple
+- Medidas: `factory_carpeta.init_adopta_un_proyecto_oracle_existente`, `factory_carpeta.corrida_completa`
+- Fuente: openspec/changes/20261015-155346-oracle-en-carpeta/specs/estructura/spec.md#init adopta un proyecto Oracle existente
+
+Tipo: funcional `oracle-factory init --oracle CARPETA` SHALL inicializar Factory sobre un proyecto Oracle que ya está en esa carpeta: SHALL guardar la carpeta en la configuración y SHALL NOT crear `oracle.json`, `requisitos/` ni catálogos en la raíz; las tareas que ya existen en `tareas/` SHALL quedar como están.

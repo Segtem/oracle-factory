@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d730c42",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d730c427e43d0ea98964a34f3e0cfdaa3fe85335",
+  "diff_sha256": "ece2cb69f7a7e2d8ca60a42419c0a8a63e98981dda4a06eac99634fd1dc62846",
+  "context_sha256": "58a9b1a79a06ed3a6d061ca131fa5f5dbdf1d6c7781d8cfe16250a8caadd63d3",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "KB6-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "explanation": "Cuando el commit de una línea no tiene trailer ni aparece entre los commits candidatos del cambio, `por_que` intenta deducirlo por tramo. La condición sólo comprueba que el commit descienda del commit que agregó la propuesta y sea ancestro de algún candidato. Eso también se cumple para trabajo ajeno sobre la rama compartida, o para un commit ajeno integrado antes del candidato; la salida lo presenta como un cambio de Factory aunque no haya evidencia que lo relacione. La función incluso documenta esa ambigüedad, pero el resultado sigue asignando el cambio.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2347,
+        "end_line": 2348,
+        "side": "head"
+      },
+      "trigger": "Crear la propuesta en una rama compartida, hacer luego un commit sin trailer para otro trabajo y después un candidato del cambio que descienda de ambos; ejecutar `por-que` sobre una línea escrita por el commit ajeno.",
+      "evidence": "`dentro_del_tramo` devuelve verdadero sólo con `merge-base --is-ancestor alta sha` y `merge-base --is-ancestor sha candidato`; no consulta el diff del cambio ni un registro que vincule ese commit. Después `por_que` asigna el primer cambio que satisface esa condición y devuelve sus requisitos/decisiones. La docstring de `dentro_del_tramo` (líneas 2340-2342) reconoce que un commit ajeno dentro de ese intervalo también cae allí. Esto contradice el escenario de la spec que exige decir que la línea no pertenece a ningún cambio si el commit está fuera de los commits de cualquier cambio.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "status": "pendiente",
+      "verification": "En un repositorio Git temporal, crear y confirmar proposal.md; confirmar luego un commit ajeno sin trailer que agrega una línea; confirmar después un candidato del cambio descendiente de ambos. Consultar `por-que` sobre la línea ajena y comprobar que no se atribuya al cambio sin vínculo registrado."
+    },
+    {
+      "id": "KB6-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una nota huérfana pierde detección si se le quita la marca generada",
+      "explanation": "`generadas_en_disco` sólo registra Markdown de `kb/README.md`, `kb/cambios/` y `kb/requisitos/` si todavía contiene la marca de generación. Si un elemento deja de existir en el registro y su nota huérfana fue editada para quitar esa marca, `kb --verificar` no la incluye entre las sobrantes y puede informar que el vault está al día aunque haya un archivo extra en una carpeta reservada a notas generadas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2158,
+        "end_line": 2160,
+        "side": "head"
+      },
+      "trigger": "Dejar una nota obsoleta en `kb/cambios/` o `kb/requisitos/`, quitar `generado: oracle-factory kb` de sus primeros 200 bytes y ejecutar `oracle-factory kb --verificar`.",
+      "evidence": "El filtro de líneas 2158-2160 sólo agrega rutas con `kb_mod.MARCA`. `comando_kb` calcula sobrantes mediante `generadas_en_disco() - set(notas)`, así que la huérfana sin marca queda fuera. El mismo defecto aparece en la revisión previa `a75093c` (KB5-02) y aún está en este candidato.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "En un proyecto temporal con `kb/` generado, retirar de un cambio un requisito o cambio para dejar la nota huérfana; quitar la marca de generación y correr `kb --verificar`. Debe informar la ruta sobrante y preservar el archivo."
+    },
+    {
+      "id": "KB6-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Los comandos mutadores recalculan el vault varias veces",
+      "explanation": "Con `kb/` presente, cada `guardar()` arma y escribe las notas del cambio. Al final del mismo comando, `refrescar_kb()` vuelve a armar las notas de todos los cambios y escribir el vault completo; un comando con varios guardados repite el trabajo varias veces antes de ese armado completo. `armar()` vuelve a leer registros y consulta commits de Git para cada cambio. A medida que crece el historial, una decisión sencilla paga cómputo y procesos Git duplicados.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 99,
+        "end_line": 100,
+        "side": "head"
+      },
+      "trigger": "Generar `kb/` y luego ejecutar un comando mutador que guarde el registro varias veces, por ejemplo un flujo con varios cambios de estado; instrumentar llamadas a `armar` y subprocessos Git.",
+      "evidence": "`guardar` llama `actualizar_kb` en las líneas 99-100; `actualizar_kb` invoca `armar(..., solo=identificador)` (2164-2169). Después del comando, `main` llama `refrescar_kb` (3644), que invoca `armar` completo (2182-2184). La revisión `a75093c` ya señaló esta repetición como KB5-03; la ruta sigue en el candidato. No medí tiempos, así que el impacto práctico depende del tamaño del registro.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Instrumentar `armar` y los procesos Git en un proyecto temporal con varios cambios; ejecutar un comando mutador con más de un guardado. Comprobar que cada estado final se calcula una sola vez y medir la latencia cuando crezca el historial."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta y la spec, el diff/contexto del paquete, el código fuente y los informes previos de las vueltas indicadas; el detalle ampliado está en analisis.md y diff-completo.txt.",
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas, OK. La salida completa está en tests-test_kb.log; Node se ejecutó dentro de la prueba.",
+    "Comprobé estáticamente la regresión de atribución por tramo y la huérfana sin marca; no hice mutaciones en el checkout ni armé un repositorio temporal para esas dos pruebas.",
+    "No ejecuté la suite completa ni tools/verify_kb.py, y no medí el costo del refresco con un repositorio grande.",
+    "El corte de commits corregido compara fecha_commit (%cI) y la prueba cubre un cherry-pick/commit con fecha de autor anterior pero fecha de committer posterior; esos casos pasan. No vi regresión en las verificaciones de rutas de fuentes o en las pruebas de notas humanas.",
+    "No edité el checkout del candidato ni hice commits ni tomé decisiones por la persona."
+  ]
+}

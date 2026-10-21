@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/98afd62",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "98afd620b1004c853dbd5c052b76e8eb89c758f0",
+  "diff_sha256": "469b86372fd10e2fa32824bbb696924817ae2ba278ee21d302bad71d438372f9",
+  "context_sha256": "46fe4203ee4287587187070b5a93c0d4b8e5bc52126dad57af165bbc12d44fc7",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "KB-2-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "dentro_del_tramo en por_que atribuye erróneamente commits fuera de cambios o de cambios concurrentes",
+      "explanation": "La función dentro_del_tramo comprueba únicamente si un commit sha es ancestro del candidato más nuevo de un cambio (hasta) y descendiente del commit que introdujo su proposal.md (desde), usando git merge-base --is-ancestor. Sin embargo, no verifica en absoluto si sha modificó archivos pertenecientes a ese cambio, ni si pertenece a otro cambio concurrente más acotado. Esto provoca dos fallas graves: 1) Si durante el período en que un cambio está abierto se realiza un commit sin trailer totalmente ajeno (por ejemplo una corrección o mantenimiento en un archivo no relacionado), por_que concluye erróneamente que la línea pertenece a ese cambio con union: 'deducido por su tramo', violando el requisito y escenario explícito de la spec («Scenario: una línea que no es de ningún cambio: THEN dice que esa línea no es de ningún cambio de Factory y nombra su commit»). 2) Si dos cambios se desarrollan en paralelo (donde el cambio A se crea antes y cierra después que el cambio B), cualquier commit intermedio sin trailer del cambio B es absorbido y atribuido falsamente al cambio A, ya que la lista de cambios se itera en orden cronológico y el intervalo topológico de A abarca por completo al de B.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2328,
+        "end_line": 2337,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory por-que ARCHIVO:LINEA sobre una línea escrita por un commit sin trailer que no pertenece a ningún cambio (o que pertenece a un cambio concurrente), pero cuya topología en Git se sitúa entre la propuesta y el candidato de otro cambio.",
+      "evidence": "En oracle_factory/cli.py:2328-2337, dentro_del_tramo evalúa es(desde, sha) and es(sha, hasta). En una prueba controlada creando un commit suelto 'unrelated commit sin trailer' sobre unrelated.txt antes de registrar un candidato en un cambio abierto, por-que unrelated.txt:1 --json devuelve {\"cambio\": {\"id\": \"<abierto>\", \"union\": \"deducido por su tramo\"}} en lugar de cambio: null. Asimismo, con dos cambios paralelos A y B, un commit intermedio de B en archivo_b.txt es atribuido a A con union: 'deducido por su tramo'.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "status": "pendiente",
+      "verification": "Reproducido en prueba automatizada creando un commit ajeno sin trailer antes de un candidato; comprobar que por-que reporta que la línea no es de ningún cambio de Factory en vez de inventar una atribución mediante dentro_del_tramo."
+    },
+    {
+      "id": "KB-2-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "tocados_por fragmenta nombres de archivos con espacios con split() impidiendo que estado avise notas por revisar",
+      "explanation": "La función tocados_por calcula los archivos afectados por un cambio abierto ejecutando git show --name-only, git diff --name-only y git ls-files. En las tres llamadas se utiliza el método .split() sin argumentos sobre stdout. A diferencia de .splitlines(), .split() divide por cualquier carácter de espacio en blanco. En consecuencia, si un archivo o directorio contiene espacios (por ejemplo docs/guia de inicio.py), tocados_por genera fragmentos separados ('docs/guia', 'de', 'inicio.py'). Como la lista n['cambiaron'] de una nota humana en kb/notas/ almacena la ruta completa, la intersección set(n['cambiaron']) & tocados queda vacía. De este modo, aviso_notas no genera ningún aviso y oracle-factory estado oculta silenciosamente que el cambio modificó las fuentes observadas por la nota humana, incumpliendo el requisito de la spec.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2244,
+        "end_line": 2248,
+        "side": "head"
+      },
+      "trigger": "Modificar en un cambio abierto un archivo cuya ruta contenga espacios (por ejemplo docs/guia de inicio.py) cuando existe una nota humana en kb/notas/ que declara ese archivo como fuente.",
+      "evidence": "En oracle_factory/cli.py:2244-2248, archivos |= set(ejecutar([...]).stdout.split()). En una prueba creando docs/guia de inicio.py con nota humana asociada en kb/notas/espacio.md, al modificar el archivo en el cambio abierto, tocados_por devuelve {'docs/guia', 'de', 'inicio.py'} (sin 'docs/guia de inicio.py') y datos_estado(abierto)['avisos'] resulta en [] sin avisar que la nota quedó por revisar.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Crear una nota en kb/notas/ con una fuente que contenga espacios en su ruta, modificarla en un cambio abierto y comprobar que tocados_por incluya la ruta exacta sin dividir y estado emita el aviso correspondiente."
+    },
+    {
+      "id": "KB-2-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "guardar reescanea el vault innecesariamente y deja notas huérfanas al abandonar cambios vía API",
+      "explanation": "La función guardar() invoca incondicionalmente actualizar_kb(estado['id']) si existe el directorio kb/. Esta llamada ejecuta armar(cli, solo=identificador), lo que fuerza a leer todos los registros JSON de .factory/cambios/ del proyecto y reconstruir kb/README.md en cada guardado. En comandos como importar, medir y abandonar, los archivos .requisito en disco se modifican con posterioridad a guardar(), por lo que actualizar_kb genera notas incompletas o erróneas. Específicamente al invocar abandonar() directamente mediante la API de Python, actualizar_kb genera las notas de requisitos con vigente: sí antes de que se borren los archivos .requisito en disco, y como actualizar_kb no elimina notas huérfanas (tarea delegada a refrescar_kb al final de main()), el vault queda desfasado con notas sobrantes que hacen fallar inmediatamente a kb --verificar con código 1. Por último, en comandos normales de CLI como cerrar, armar() se ejecuta de forma redundante hasta tres veces por invocación.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 99,
+        "end_line": 100,
+        "side": "head"
+      },
+      "trigger": "Ejecutar f.abandonar() programáticamente mediante la API de Python sobre un cambio abierto con requisitos, o ejecutar comandos que guardan múltiples veces como cerrar.",
+      "evidence": "En oracle_factory/cli.py:99-100: if (ROOT / kb_mod.DIR).is_dir() and estado.get(\"id\"): actualizar_kb(estado[\"id\"]). Al ejecutar f.abandonar(abierto) en un fixture y llamar luego a kb --verificar, el comando falla con código 1: 'sobra kb/requisitos/...: es una nota generada de algo que ya no está' y 'README.md no coincide con el registro'.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Llamar a f.abandonar() en un proyecto con kb/ inicializado y comprobar que kb --verificar pase sin requerir la ejecución de comandos adicionales de CLI."
+    },
+    {
+      "id": "KB-2-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "nota_de_cambio describe los commits de un cambio abandonado como «En curso»",
+      "explanation": "En nota_de_cambio(), la sección ## Commits sólo distingue entre estado.get('fase') == 'cerrada' y el bloque else. Para todo cambio cuya fase no sea cerrada (lo que incluye a los cambios con fase 'abandonada'), la nota generada en kb/cambios/<id>.md imprime la viñeta «- En curso: oracle-factory log {ident}.». Los cambios abandonados ya no están en curso ni abiertos en el tracker de tareas, por lo que la afirmación en la nota del vault contradice el estado real del registro.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 91,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Generar kb/ en un proyecto que cuenta con al menos un cambio en fase abandonada y consultar kb/cambios/<id_abandonado>.md.",
+      "evidence": "En oracle_factory/kb.py:91-101: if estado.get(\"fase\") == \"cerrada\": ... else: lineas.append(f\"- En curso: oracle-factory log {ident}.\"). En una prueba con un cambio abandonado, su nota generada exhibe la línea '- En curso: oracle-factory log ...' en la sección Commits a pesar de que su encabezado indica 'Fase: abandonada'.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Generar notas en un proyecto con un cambio abandonado y comprobar que la sección Commits no describa el cambio como 'En curso'."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout exactamente el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas exitosamente, incluyendo el test de extensión en Node.js con tests/porque_en_node.cjs).",
+    "Pruebas no ejecutadas: no se ejecutó la suite completa de pruebas ni tools/verify_kb.py directamente, respetando estrictamente la indicación de revisión.",
+    "Mutaciones y pruebas de fallos: se realizaron pruebas y mutaciones manuales controladas en el directorio de trabajo del revisor sobre copias de los módulos de la CLI y de kb, reproduciendo con éxito cada uno de los hallazgos reportados.",
+    "Alcance de exclusiones: se respetaron rigurosamente las exclusiones indicadas del paquete (archivos en .factory, tareas y notas generadas en kb/ que no constituyen producto)."
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/a75093c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "a75093ca979f1966b479858e198bb6a8937ac691",
+  "diff_sha256": "14758893610337af22b8fe051b8fdff7c1b45f656d13567e5cb9750817212a3e",
+  "context_sha256": "e623fbec66980242e9a0371f5b54951bb1f7d9f2afb5bad228c314d86dde2c7d",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "KB5-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El corte temporal de commits compara la fecha de autor, no cuándo entró el commit",
+      "explanation": "La nota abierta/cerrada filtra los commits con `_antes(c[\"fecha\"], corte)`. `commits_del_cambio` llena `fecha` desde el marcador Git `%aI` (fecha de autor). Un commit creado o integrado después de la última decisión puede llevar una fecha de autor anterior —por ejemplo, en un cherry-pick o un commit retrodatado— y entonces entra en la nota como si hubiera existido antes del corte. Al regenerar, el contenido puede cambiar después de una decisión/cierre, contra el corte estable prometido para el vault.",
+      "location": {"file": "oracle_factory/kb.py", "start_line": 117, "end_line": 118, "side": "head"},
+      "trigger": "Asociar a un cambio un commit con fecha de autor anterior a la última decisión y fecha de committer posterior; regenerar `kb/` después de que ese commit esté visible en el historial del cambio.",
+      "evidence": "`oracle_factory/cli.py:807` define `formato = \"--format=%H%x1f%an%x1f%aI%x1f%s\"`, así que `c[\"fecha\"]` es `%aI`. `oracle_factory/kb.py:117-118` filtra por ese campo frente al corte. Lo reproduje llamando `nota_de_cambio` con fecha de autor 11:00 y corte 12:00 para un commit con committer date 13:00: la nota incluyó `commit realmente posterior al corte`.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "En una copia temporal, crear un commit para el cambio con `%aI` anterior y `%cI` posterior a la última decisión, regenerar el vault y comprobar que el commit no se incorpore a esa nota cerrada/abierta; después crear una decisión nueva y comprobar la regla de corte con la fecha de commit que el producto adopte."
+    },
+    {
+      "id": "KB5-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una nota sobrante sin la marca de generación evade `kb --verificar`",
+      "explanation": "`generadas_en_disco()` excluye cualquier Markdown de `kb/README.md`, `kb/cambios/` o `kb/requisitos/` que no conserve la marca en los primeros 200 bytes. `comando_kb --verificar` busca sobrantes sólo en ese conjunto. Una nota huérfana editada a mano y sin la marca no se detecta, así que la verificación puede pasar aunque `kb/` no coincida con el registro.",
+      "location": {"file": "oracle_factory/cli.py", "start_line": 2157, "end_line": 2159, "side": "head"},
+      "trigger": "Dejar una nota generada obsoleta en `kb/cambios/` o `kb/requisitos/`, quitar `generado: oracle-factory kb` de sus primeros 200 bytes y ejecutar `oracle-factory kb --verificar`.",
+      "evidence": "`generadas_en_disco` sólo agrega `ruta` al conjunto si `kb_mod.MARCA in ruta.read_text(...)[:200]`; `comando_kb` calcula sobrantes en cli.py:2207 con ese conjunto menos las notas esperadas. Revisé que el hallazgo KB4-03 de `9541c7d/revision/codex-1.json` sigue presente en esta versión.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Crear una nota Markdown sobrante en una carpeta generada, quitarle la marca y comprobar que `kb --verificar` la nombre como sobrante sin escribir ni borrar el archivo."
+    },
+    {
+      "id": "KB5-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "Cada guardado vuelve a armar el vault y el comando lo repite al terminar",
+      "explanation": "Cuando `kb/` existe, `guardar()` arma y escribe las notas del cambio de inmediato. Después `main()` llama a `refrescar_kb()` para cualquier comando mutador, que vuelve a ejecutar `armar()` para todos los cambios y a escribir el vault completo. En comandos con varios guardados se repite el cálculo por cada guardado y otra vez al final. `armar()` relee los registros del proyecto y consulta los commits al construir notas, por lo que el costo crece con cambios/historial y es trabajo duplicado en el flujo normal.",
+      "location": {"file": "oracle_factory/cli.py", "start_line": 99, "end_line": 100, "side": "head"},
+      "trigger": "Usar un proyecto que ya tiene `kb/` y correr un comando mutador que guarda el registro una o más veces; contar invocaciones a `armar` y llamadas Git para el comando.",
+      "evidence": "`guardar()` invoca `actualizar_kb(estado[\"id\"])` en cli.py:99-100. `actualizar_kb` llama `armar(..., solo=identificador)` en cli.py:2163-2169. Luego `main()` ejecuta `refrescar_kb` tras el comando (cli.py:3643), y `refrescar_kb` llama a `armar()` sin filtro en cli.py:2181-2184. `armar()` carga todos los cambios y construye sus notas con `commits_del_cambio` (kb.py:151-188, 83-125). No se midieron tiempos.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Instrumentar en una copia temporal `armar` y los subprocesos Git, correr un comando mutador con varios guardados y comprobar que cada estado final se calcula una sola vez. Medir el costo con un registro de muchos cambios para determinar impacto práctico."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, spec, diff/contexto del paquete, código, pruebas y los informes previos indicados; el detalle está en analisis.md.",
+    "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas, OK; el caso Node de integración se ejecutó.",
+    "Reproduje en memoria el corte erróneo con fecha de autor anterior y committer date posterior; no muté el checkout ni hice otras mutaciones temporales.",
+    "No ejecuté la suite completa ni `tools/verify_kb.py`; tampoco medí rendimiento a escala.",
+    "KB4-01 (symlink externo para fuente requisito) y KB4-02 (lista commits abierta con corte estricto) están corregidos en los casos cubiertos; KB4-03 (huérfana sin marca) sigue sin corregirse.",
+    "No edité el checkout ni hice commits o decisiones."
+  ]
+}

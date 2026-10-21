@@ -1,0 +1,81 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/9541c7d",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "9541c7d47a5090324417370ea9066a8bd5cc497c",
+  "diff_sha256": "5f36f18cf597e4e55dbbd07e0dc98fdd4398482c7a2ad9b2569f0b4b714c2c39",
+  "context_sha256": "be5c0936dcdd3bdc14089164eaafddeb413246d0f19bb8c8b2c87bd7c9e71302",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "KB4-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Las fuentes-requisito pueden seguir un symlink fuera del proyecto",
+      "explanation": "La rama que reconoce una fuente con forma de ID de requisito limita los componentes del nombre, pero lee `requisitos/<id>.requisito` sin comprobar dónde resuelve el archivo. Un `.requisito` dentro de `requisitos/` que sea symlink a un archivo externo se acepta como fuente existente y se usa para generar la huella. Esto evade la comprobación de contención aplicada a fuentes de archivos comunes y permite marcar una nota como revisada con una fuente que está fuera del proyecto.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 213,
+        "end_line": 214,
+        "side": "head"
+      },
+      "trigger": "Crear `requisitos/foo.bar.requisito` como symlink a un archivo fuera de la raíz del proyecto; declarar `fuentes: [foo.bar]` en `kb/notas/guia.md` y ejecutar `oracle-factory kb revisada kb/notas/guia.md` o `kb --verificar`.",
+      "evidence": "`huella_de_fuente` comprueba el formato del ID y `archivo.is_file()`, y luego retorna `sha(archivo.read_bytes())`; no comprueba `archivo.resolve().is_relative_to(raiz.resolve())`. Reproduje el comportamiento en un repositorio temporal con un symlink `requisitos/foo.bar.requisito` a `outside.requisito`: la función aceptó la fuente y devolvió el SHA-256 del destino externo. La comprobación de contención de las fuentes de archivo está en las líneas 218–220, pero no cubre esta rama.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Agregar una prueba temporal que apunte un requisito simbólico fuera de la raíz. La fuente debe considerarse inexistente/inválida y `kb revisada` debe negarse; confirmar que no se lee ni se acepta el destino externo."
+    },
+    {
+      "id": "KB4-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La nota de un cambio abierto sigue omitiendo sus commits",
+      "explanation": "La spec pide que la nota de cada cambio incluya commits y mensajes. Para un cambio abierto, `nota_de_cambio` solo escribe una referencia a `oracle-factory log ID`; no enumera los commits ya asociados al cambio. Por eso el vault no contiene esa información en la nota abierta, aunque el registro ya la tenga. Este es el hallazgo KB3-01 de Codex de la vuelta anterior y sigue sin cambio.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 121,
+        "end_line": 121,
+        "side": "head"
+      },
+      "trigger": "Asociar al menos un commit a un cambio en curso, ejecutar `oracle-factory kb` y leer `kb/cambios/<ID>.md`.",
+      "evidence": "La rama de fase cerrada enumera commits en líneas 108–117. En cambio, la rama general para cambios abiertos emite solamente `En curso: oracle-factory log <ID>` en la línea 121. La prueba `tests/test_kb.py::test_kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto` comprueba el enlace al log, pero no que la nota abierta enumere commits.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "En una prueba con un commit asociado a un cambio abierto, ejecutar `kb` y exigir que la nota enumere su hash corto y asunto, además de la referencia al log."
+    },
+    {
+      "id": "KB4-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una nota generada sobrante sigue evadiendo --verificar si pierde la marca",
+      "explanation": "La detección de notas generadas sobrantes depende de encontrar la marca del generador en los primeros 200 bytes. Si una nota huérfana de `kb/cambios/` o `kb/requisitos/` fue editada y perdió esa marca, `generadas_en_disco()` no la incluye; por lo tanto `kb --verificar` no la reporta como sobrante. Es el hallazgo KB-V3-01 del informe previo y sigue presente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2158,
+        "end_line": 2159,
+        "side": "head"
+      },
+      "trigger": "Dejar en `kb/cambios/` o `kb/requisitos/` una nota generada que ya no corresponde al registro, quitarle `generado: oracle-factory kb` de los primeros 200 bytes y ejecutar `oracle-factory kb --verificar`.",
+      "evidence": "`generadas_en_disco()` enumera las rutas Markdown de las carpetas generadas, pero sólo agrega las que conservan `kb_mod.MARCA` en el prefijo. `comando_kb` calcula `sobran` usando ese conjunto menos las notas de `armar()`, así que la nota huérfana sin marca nunca entra al cálculo. El informe previo `d55ff5c/revision/codex-2.json` ya documentó el mismo caso.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Agregar un caso temporal con una nota sobrante en una carpeta reservada, quitarle la marca y comprobar que `kb --verificar` falla informando la ruta sin modificar el archivo."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y el contexto del paquete, además de los informes de las vueltas anteriores indicados por la persona. Contrasté los módulos kb.py y cli.py, la extensión, README, catálogos, pruebas y tools/verify_kb.py.",
+    "Corrí exactamente desde la raíz del checkout: `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null`; resultado: 6 pruebas, OK. Git y Node estaban disponibles; el caso Node de la extensión se ejecutó dentro de esa prueba.",
+    "Reproduje la aceptación de un symlink hacia un requisito externo en un directorio temporal, sin modificar el checkout candidato. No hice otras mutaciones manuales.",
+    "No corrí la suite completa ni tools/verify_kb.py, según el alcance indicado. No evalué visualmente el vault en Obsidian ni medí rendimiento del recálculo.",
+    "Las correcciones indicadas para el candidato anterior siguen presentes en el código revisado: los IDs de requisito se limitan por formato y se buscan bajo requisitos/, los motivos de decisiones se recuperan de sus eventos/secciones, el responsable pasa por _texto y el prefijo ./ se normaliza. El escape residual por symlink se describe en KB4-01. KB3-01 de Codex sobre commits de cambios abiertos sigue pendiente como KB4-02.",
+    "No edité el checkout ni hice commits.",
+    "Revisé en el código la regresión sobre la marca de una nota sobrante (KB4-03), ya reportada en la vuelta anterior; no repetí esa mutación manual."
+  ]
+}

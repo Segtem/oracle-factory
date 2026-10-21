@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d55ff5c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d55ff5ccdf20aa053e6e20b0bb156ef59980a36c",
+  "diff_sha256": "d29afd1630439b9b78809982e46326fdee409a09742c7c80d2759215f89d6918",
+  "context_sha256": "bc9ee95159e59720a24aaf12038b0ea2b867da9270f0fc3ee1c92ee83fa71786",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "KB-3-01",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "huella_de_fuente no restringe fuentes de requisitos a requisitos/ permitiendo resolver rutas fuera del proyecto",
+      "explanation": "En huella_de_fuente(), la verificación de fuentes de requisitos resuelve la ruta mediante `archivo = cli.requisitos_dir() / f'{fuente}.requisito'` e invoca `sha(archivo.read_bytes())` si el archivo existe. A diferencia de las fuentes de archivos (líneas 195-197), donde se valida `carpeta_relativa(fuente)` impidiendo rutas absolutas y secuencias de escape con `..` mediante `is_relative_to(raiz.resolve())`, el camino de requisitos no valida la sintaxis de `fuente` ni verifica que `archivo.resolve()` permanezca dentro de `requisitos_dir()`. En consecuencia, si una nota humana en `kb/notas/` declara como fuente una ruta absoluta o con `..` hacia un archivo fuera del proyecto con sufijo `.requisito` (por ejemplo `/tmp/prueba.requisito`), `huella_de_fuente` lee y computa el hash SHA-256 de archivos arbitrarios del sistema fuera del repositorio. Esto permite que `oracle-factory kb revisada` registre huellas de archivos externos y que `kb --verificar` dependa de rutas privadas o externas, violando la frontera de portabilidad y contención del proyecto.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 188,
+        "end_line": 191,
+        "side": "head"
+      },
+      "trigger": "Declarar en el frontmatter de una nota en `kb/notas/` una fuente con ruta absoluta o con `..` que resuelve a un archivo externo con sufijo `.requisito`, y ejecutar `oracle-factory kb revisada` o `oracle-factory kb --verificar`.",
+      "evidence": "Al evaluar `Path('/ruta/repo/requisitos') / '/tmp/externo.requisito'`, el operador de `Path` devuelve `/tmp/externo.requisito` descartando la carpeta `requisitos/`. Si el archivo existe en el sistema, `huella_de_fuente` devuelve exitosamente su SHA-256 en lugar de `None`.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Crear una nota en `kb/notas/` con una fuente externa hacia un archivo `.requisito` fuera de la raíz del proyecto y verificar que tanto `kb revisada` como `kb --verificar` informan que la fuente no existe."
+    },
+    {
+      "id": "KB-3-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "refrescar_kb reconstruye incondicionalmente todo el vault y guardar() reescanea el proyecto en cada guardado",
+      "explanation": "La función `refrescar_kb(comando, identificador)` recibe el parámetro `identificador` con la intención declarada de refrescar únicamente ese cambio («las notas de ese cambio (o todas, si tocó varios)»), pero ignora `identificador` y ejecuta incondicionalmente `kb_mod.armar(sys.modules[__name__])` sin `solo`. Esto regenera las 233 notas de todo el vault al término de cada comando mutante (como `tomar`, `soltar`, `mensaje`, `modo`, `medir`), ejecutando más de 440 llamadas a subprocesos Git para consultar el historial de los 50 cambios cerrados. Además, cada llamada a `guardar()` en `cli.py` invoca preventivamente `actualizar_kb(estado['id'])`, leyendo y parseando todos los JSON de `openspec/changes/` del proyecto para rehacer `kb/README.md` antes de que `refrescar_kb` vuelva a reescribir todo el vault, generando una degradación en tiempo de ejecución que escala con el número de cambios históricos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2181,
+        "end_line": 2185,
+        "side": "head"
+      },
+      "trigger": "Ejecutar cualquier comando que guarde el registro (como `oracle-factory mensaje`, `tomar` o `cerrar`) en un proyecto con decenas de cambios cerrados y medir las invocaciones a Git y a `armar()`.",
+      "evidence": "Durante una corrida de `armar(cli)` sin `solo`, se registraron 443 llamadas a `subprocess.run` exclusivamente para consultar Git sobre cambios cerrados (`commits_del_cambio`). En comandos como `cerrar`, `guardar` se invoca dos veces seguido de `refrescar_kb`, disparando la reconstrucción de notas tres veces consecutivas.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Comprobar que `refrescar_kb` utiliza `solo=identificador` cuando se pasa un identificador específico evitando reconstruir cambios ajenos no modificados, y optimizar o consolidar las invocaciones en `guardar()`."
+    },
+    {
+      "id": "KB-3-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "nota_de_cambio no sanea el nombre del responsable inyectando formato Markdown en la nota generada",
+      "explanation": "En `nota_de_cambio()`, la viñeta de responsable se construye como `f\"- Responsable: {r['persona'] + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}\"`. A diferencia de los actores de eventos de decisión (línea 84: `_texto(e.get('actor'))`), riesgos aceptados (línea 88: `_texto(a.get('actor'))`) y mensajes (línea 106: `_texto(e.get('actor'))`), el valor `r['persona']` no se procesa mediante `_texto()`. Si el nombre configurado en Git (`user.name`) contiene caracteres especiales de Markdown como corchetes `[[...]]`, comillas invertidas o barras, estos se insertan literalmente en `kb/cambios/<id>.md`, pudiendo romper enlaces de Obsidian o alterar la sintaxis de la nota generada.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 71,
+        "end_line": 71,
+        "side": "head"
+      },
+      "trigger": "Configurar un nombre de usuario en Git con corchetes o sintaxis Markdown (`git config user.name 'Persona [[cambios/inexistente]]'`), tomar un cambio con `oracle-factory tomar` y generar el vault con `oracle-factory kb`.",
+      "evidence": "En `oracle_factory/kb.py`, la línea 71 concatena `r['persona']` directamente sin la función `_texto()`, mientras que todas las demás ocurrencias de actores en la misma función utilizan `_texto()` para escapar corchetes, viñetas y formato.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Asignar un responsable con corchetes en su nombre, generar `kb/` y verificar que los corchetes aparecen escapados con contrabarra en `kb/cambios/<id>.md` impidiendo la creación de wikilinks falsos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout exactamente el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas exitosamente, incluyendo el test de extensión en Node.js v24.22.0 con tests/porque_en_node.cjs).",
+    "Pruebas no ejecutadas: no se ejecutó la suite completa de pruebas ni tools/verify_kb.py directamente, respetando estrictamente la indicación de revisión.",
+    "Mutaciones y pruebas de fallos: se realizaron pruebas y mutaciones manuales controladas en el directorio de trabajo del revisor sobre copias de los módulos de la CLI y de kb, reproduciendo con éxito cada uno de los hallazgos reportados.",
+    "Alcance de exclusiones: se respetaron rigurosamente las exclusiones indicadas del paquete (archivos en .factory, tareas y notas generadas en kb/ que no constituyen producto)."
+  ]
+}

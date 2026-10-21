@@ -1,0 +1,254 @@
+---
+generado: oracle-factory kb
+---
+
+# Conocimiento del proyecto
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory kb --verificar` avisa las que vencieron.
+
+## Cambios
+
+- [[cambios/20261002-204916-validar-el-flujo]] — Validar el flujo humano de Oracle Factory (abandonada)
+- [[cambios/20261002-222858-explicar-oracle]] — Explicar Oracle Factory como flujo humano de producción de software (abandonada)
+- [[cambios/20261002-224749-revision-poc]] — Corregir los controles de la POC (abandonada)
+- [[cambios/20261002-234439-dist-uv]] — Preparar distribución de Factory con uv y selección de proyecto (abandonada)
+- [[cambios/20261003-185925-migrar-task]] — Migrar el tracker a Oracle Task (abandonada)
+- [[cambios/20261003-235610-web-rigurosa]] — Web precisa de Oracle Factory (abandonada)
+- [[cambios/20261004-005956-elegir-medidas]] — Elección de medidas (cerrada)
+- [[cambios/20261004-005956-inicio-guiado]] — Inicio guiado (cerrada)
+- [[cambios/20261004-005956-revision-guiada]] — Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada)
+- [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (requisitos_importados)
+- [[cambios/20261005-105331-modos-de-trabajo]] — Modos de trabajo según quién decide los requisitos (cerrada)
+- [[cambios/20261005-132144-jerarquia-de]] — Jerarquía de carpetas y comandos para encontrar las cosas (cerrada)
+- [[cambios/20261005-154433-la-vigencia-de]] — La vigencia de una revisión depende del contenido del producto (cerrada)
+- [[cambios/20261005-184427-los-registros-de]] — Los registros de Factory funcionan en otra máquina (cerrada)
+- [[cambios/20261005-193914-quitar-la-ruta]] — Quitar la ruta privada de los registros ya publicados (cerrada)
+- [[cambios/20261006-004456-fase-2-de-la]] — Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/ (cerrada)
+- [[cambios/20261006-161029-archivar-al]] — Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/ (cerrada)
+- [[cambios/20261007-003414-resumen-del]] — Resumen del estado actual: una vista corta y regenerable de lo vigente (cerrada)
+- [[cambios/20261007-115805-web-y-docs]] — La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes (cerrada)
+- [[cambios/20261007-150043-autoproduccion]] — Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores (cerrada)
+- [[cambios/20261007-192608-revisores]] — Pedir una revisión independiente desde Factory (cerrada)
+- [[cambios/20261007-223645-decisiones-guiadas]] — Decisiones guiadas: menú y opciones en vez de frases (cerrada)
+- [[cambios/20261008-123018-cli-humana]] — La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso (cerrada)
+- [[cambios/20261012-131420-clue-dependencia]] — Oracle Clue como dependencia fija de Factory (cerrada)
+- [[cambios/20261012-214104-ruta-vigente]] — ruta apunta al candidato vigente, no a HEAD (cerrada)
+- [[cambios/20261013-011811-abandonar]] — Abandonar un cambio con motivo, decidido por una persona (cerrada)
+- [[cambios/20261013-115616-vueltas-severidad]] — Vueltas de revisión proporcionales y riesgos aceptados que persisten (cerrada)
+- [[cambios/20261013-153440-cli-json]] — Salidas en JSON de estado, donde y resumen (cerrada)
+- [[cambios/20261013-180751-trazabilidad]] — Trazabilidad por candidato: requisito, casos y líneas cambiadas (cerrada)
+- [[cambios/20261014-000054-paquete-producto]] — El paquete de revisión deja fuera lo que no es producto (cerrada)
+- [[cambios/20261014-100834-revision-simultanea]] — pedir-revision tolera pedidos simultáneos sobre el mismo candidato (cerrada)
+- [[cambios/20261014-125953-estado-revisar-medios]] — estado ofrece revisar cuando quedan hallazgos medios (cerrada)
+- [[cambios/20261014-140627-severidad-ausente]] — Spec de revisores: un informe sin severidad no se guarda (cerrada)
+- [[cambios/20261014-145018-donde-ausente]] — Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está (cerrada)
+- [[cambios/20261014-204205-donde-no-valido]] — donde --json etiqueta no\_valido una entrada inválida del registro (cerrada)
+- [[cambios/20261015-001533-evidencia-fuera]] — buscar no recorre la evidencia ni los paquetes de Clue (cerrada)
+- [[cambios/20261015-105600-cli-piloto]] — CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado (cerrada)
+- [[cambios/20261015-122841-docs-web-modos]] — Docs y web: los modos de trabajo y quién decide qué (cerrada)
+- [[cambios/20261015-140406-catalogo-confirmado]] — Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión (cerrada)
+- [[cambios/20261015-155346-oracle-en-carpeta]] — El proyecto Oracle puede estar en una carpeta del proyecto (cerrada)
+- [[cambios/20261016-101007-vscode]] — Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso (cerrada)
+- [[cambios/20261016-114832-informe-no-texto]] — Un valor del registro que no es una ruta se informa sin caerse (cerrada)
+- [[cambios/20261016-143020-revisar-cancelada]] — estado avisa cuando una revisión no se pudo registrar y por qué (cerrada)
+- [[cambios/20261016-175720-bloqueo-registro]] — Dos procesos que escriben el mismo registro no se pisan (cerrada)
+- [[cambios/20261016-234517-web-viva]] — Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones (cerrada)
+- [[cambios/20261017-023151-hechos-varios]] — Juzgar un candidato con hechos de varios sensores (cerrada)
+- [[cambios/20261017-121631-web-guias]] — Las guías con la fábrica viva (cerrada)
+- [[cambios/20261017-135953-higiene]] — Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más (cerrada)
+- [[cambios/20261019-120156-tablero]] — El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas (cerrada)
+- [[cambios/20261019-182313-commits]] — Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero (cerrada)
+- [[cambios/20261019-232444-quien]] — Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero (cerrada)
+- [[cambios/20261020-005341-liveshare]] — El tablero en pair programming: presencia, tablero compartido y chat con Live Share (cerrada)
+- [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (cerrada)
+- [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
+- [[cambios/20261020-173143-avisos]] — Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir (requisitos_importados)
+- [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
+
+## Requisitos
+
+- [[requisitos/archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo]]
+- [[requisitos/archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte]]
+- [[requisitos/archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido]]
+- [[requisitos/archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona]]
+- [[requisitos/archivo_cbf6802991c3ba673.este_repositorio_queda_archivado]]
+- [[requisitos/archivo_cbf6802991c3ba673.la_spec_de_un_cambio_se_fusiona_al_cerrarlo]]
+- [[requisitos/archivo_cbf6802991c3ba673.lo_cerrado_no_se_mueve_ni_se_reescribe]]
+- [[requisitos/archivo_cbf6802991c3ba673.los_comandos_de_lectura_muestran_el_archivo]]
+- [[requisitos/archivo_cbf6802991c3ba673.se_distingue_lo_vigente_de_lo_reemplazado]]
+- [[requisitos/archivo_cbf6802991c3ba673.un_conflicto_impide_cerrar]]
+- [[requisitos/archivo_cbf6802991c3ba673.una_capacidad_con_un_solo_nombre]]
+- [[requisitos/autoproduccion_c73955279aeb460eb.el_borrador_de_decisiones_no_decide]]
+- [[requisitos/autoproduccion_c73955279aeb460eb.este_repositorio_produce_en_la_carpeta_del_candidato]]
+- [[requisitos/autoproduccion_c73955279aeb460eb.juzgar_encuentra_la_evidencia_del_candidato]]
+- [[requisitos/autoproduccion_c73955279aeb460eb.los_informes_se_validan_o_se_marcan]]
+- [[requisitos/autoproduccion_c73955279aeb460eb.revision_preparar_arma_el_informe_desde_los_revisores]]
+- [[requisitos/autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores]]
+- [[requisitos/autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros]]
+- [[requisitos/autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira]]
+- [[requisitos/autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan]]
+- [[requisitos/autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory]]
+- [[requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec]]
+- [[requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza]]
+- [[requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base]]
+- [[requisitos/cli_c38d280a51dea748e.donde_y_resumen_se_leen_como_json]]
+- [[requisitos/cli_c38d280a51dea748e.estado_se_lee_como_json]]
+- [[requisitos/cli_c38d280a51dea748e.la_salida_de_texto_no_cambia_y_los_errores_no_se_mezclan_con_el_json]]
+- [[requisitos/cli_c3bcb178e77c1d111.el_proximo_paso_no_se_ejecuta_solo]]
+- [[requisitos/cli_c3bcb178e77c1d111.el_resumen_se_ve_con_formato]]
+- [[requisitos/cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso]]
+- [[requisitos/cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto]]
+- [[requisitos/cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir]]
+- [[requisitos/cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json]]
+- [[requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.relevo_recuperable]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo]]
+- [[requisitos/colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version]]
+- [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
+- [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
+- [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
+- [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
+- [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
+- [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]
+- [[requisitos/decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez]]
+- [[requisitos/decisiones_c59754a250f5b3593.el_motivo_se_elige]]
+- [[requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu]]
+- [[requisitos/decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta]]
+- [[requisitos/decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona]]
+- [[requisitos/distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado]] (ya no vigente)
+- [[requisitos/distribution_c01af4be8811ed3bb.entregar_artefactos_verificables]] (ya no vigente)
+- [[requisitos/distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto]] (ya no vigente)
+- [[requisitos/documentacion_c3d226d369499e32e.correspondencia_con_el_producto]]
+- [[requisitos/documentacion_c3d226d369499e32e.guia_reproducible]]
+- [[requisitos/documentacion_c3d226d369499e32e.limites_de_la_evidencia]]
+- [[requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory]]
+- [[requisitos/estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado]]
+- [[requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory]]
+- [[requisitos/estructura2_c1bed25594460b383.la_migracion_conserva_el_significado]]
+- [[requisitos/estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares]]
+- [[requisitos/estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido]]
+- [[requisitos/estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada]]
+- [[requisitos/estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando]]
+- [[requisitos/estructura_c01f2e6fb0af5aed6.el_proyecto_oracle_puede_estar_en_una_carpeta]]
+- [[requisitos/estructura_c01f2e6fb0af5aed6.init_adopta_un_proyecto_oracle_existente]]
+- [[requisitos/estructura_c01f2e6fb0af5aed6.los_escalares_del_proyecto_se_ejecutan_solo_si_el_proyecto_lo_declara]]
+- [[requisitos/estructura_c91cd5dcd8ff74c7d.ruta_canonica_para_producir_artefactos]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.buscar_en_todo_el_proyecto]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.carpeta_propia_de_factory]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.descubrir_la_raiz_del_proyecto]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.donde_esta_cada_artefacto]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.estructura_documentada]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.listar_con_filtros]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.lo_versionado_y_lo_local]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.respetar_lo_existente]]
+- [[requisitos/estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos]]
+- [[requisitos/estructura_cf958b9e26632fd9e.buscar_en_todo_el_proyecto]]
+- [[requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos]]
+- [[requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo]]
+- [[requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio]]
+- [[requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion]]
+- [[requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores]]
+- [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]
+- [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
+- [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
+- [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
+- [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]
+- [[requisitos/ide_c1d15db0ac698d5a4.el_proximo_paso_se_escribe_en_la_terminal_sin_ejecutarse]]
+- [[requisitos/ide_c1d15db0ac698d5a4.la_vista_de_factory_muestra_los_cambios_abiertos]]
+- [[requisitos/ide_c1d15db0ac698d5a4.los_artefactos_de_un_cambio_se_abren_desde_la_vista]]
+- [[requisitos/ide_c2103597a7eea615c.el_chat_queda_en_el_cambio]]
+- [[requisitos/ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte]]
+- [[requisitos/ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion]]
+- [[requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero]]
+- [[requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas]]
+- [[requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code]]
+- [[requisitos/landing_page_c27184b22c91734e3.comparar_enfoques_para_visitantes_sin_experiencia]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.distinguir_responsabilidades_y_madurez_de_herramientas]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.explicar_la_produccion_de_software_con_oracle_factory]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.funcionar_como_sitio_estatico_autonomo]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.guiar_desde_cero_con_herramientas_disponibles]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.mostrar_puntos_de_control_humanos]] (ya no vigente)
+- [[requisitos/landing_page_c27184b22c91734e3.ofrecer_una_animacion_accesible_y_controlable]] (ya no vigente)
+- [[requisitos/limpieza_c6ac32e7f17eb48b5.la_evidencia_no_se_reescribe]]
+- [[requisitos/limpieza_c6ac32e7f17eb48b5.las_decisiones_conservan_su_integridad]]
+- [[requisitos/limpieza_c6ac32e7f17eb48b5.limpieza_repetible_y_verificable]]
+- [[requisitos/limpieza_c6ac32e7f17eb48b5.los_registros_no_llevan_la_ruta_privada]]
+- [[requisitos/measurement_choice_cd6122f3d28654919.asociacion_explicita_y_valida]]
+- [[requisitos/measurement_choice_cd6122f3d28654919.invalidar_evidencia_anterior]]
+- [[requisitos/measurement_choice_cd6122f3d28654919.preservar_requisito_ante_error]]
+- [[requisitos/modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos]]
+- [[requisitos/modos_c45a4802846932222.cambio_de_modo_con_invalidacion]]
+- [[requisitos/modos_c45a4802846932222.decisiones_segun_el_modo]]
+- [[requisitos/modos_c45a4802846932222.modo_explicito_por_cambio]]
+- [[requisitos/modos_c45a4802846932222.tipo_de_requisito]]
+- [[requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo]]
+- [[requisitos/modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo]]
+- [[requisitos/onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion]]
+- [[requisitos/onboarding_ca007f9416d32e171.preservar_archivos_existentes]]
+- [[requisitos/onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso]]
+- [[requisitos/portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan]]
+- [[requisitos/portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa]]
+- [[requisitos/portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto]]
+- [[requisitos/portabilidad_cbe858e976e618573.pendiente_que_explica_como_recuperarse]]
+- [[requisitos/portabilidad_cbe858e976e618573.respetar_los_registros_existentes]]
+- [[requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado]]
+- [[requisitos/portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra]]
+- [[requisitos/resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas]]
+- [[requisitos/resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente]]
+- [[requisitos/resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice]]
+- [[requisitos/resumen_cd337f49861c862e9.este_repositorio_tiene_su_resumen_al_dia]]
+- [[requisitos/resumen_cd337f49861c862e9.riesgos_aceptados_y_limites_declarados]]
+- [[requisitos/resumen_cd337f49861c862e9.se_actualiza_al_cerrar_y_al_archivar]]
+- [[requisitos/resumen_cd337f49861c862e9.se_sabe_cuando_quedo_viejo]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.conservar_evidencia_y_comprobar_vigencia]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.derivar_pendientes_de_decisiones_separadas]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.explicar_y_verificar_los_limites_del_recorrido]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.mantener_formato_libre_con_declaracion_explicita]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.preparar_documentos_pendientes_sin_aprobar]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada]]
+- [[requisitos/revision_guiada_c5794e24f22c4deb6.validar_informe_guiado_y_su_alcance_declarado]]
+- [[requisitos/revision_guiada_c804320abe8bb0c1d.un_intento_de_revision_que_no_se_registro_queda_a_la_vista]]
+- [[requisitos/revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato]]
+- [[requisitos/revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes]]
+- [[requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio]]
+- [[requisitos/revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio]]
+- [[requisitos/revisores_c466ac292a9f99ce6.el_revisor_no_decide]]
+- [[requisitos/revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision]]
+- [[requisitos/revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez]]
+- [[requisitos/revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe]]
+- [[requisitos/revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual]]
+- [[requisitos/revisores_c466ac292a9f99ce6.revisores_configurables]]
+- [[requisitos/revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad]]
+- [[requisitos/revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado]]
+- [[requisitos/revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas]]
+- [[requisitos/revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto]]
+- [[requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete]]
+- [[requisitos/revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad]]
+- [[requisitos/revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios]]
+- [[requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es]]
+- [[requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero]]
+- [[requisitos/trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso]]
+- [[requisitos/trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran]]
+- [[requisitos/trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato]]
+- [[requisitos/vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra]]
+- [[requisitos/vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido]]
+- [[requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes]]
+- [[requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto]]
+- [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]
+- [[requisitos/web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada]]
+- [[requisitos/web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto]]
+- [[requisitos/web_c5a0a7128a6a24b88.la_guia_desde_cero_sigue_funcionando]]
+- [[requisitos/web_c5a0a7128a6a24b88.la_web_explica_como_trabajar_entre_varias_personas_con_sus_agentes]]
+- [[requisitos/web_c5a0a7128a6a24b88.lo_que_la_web_nombra_existe]]
+- [[requisitos/web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian]]
+- [[requisitos/web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco]]
+- [[requisitos/web_c8800172a340333d8.el_minijuego_ensena_las_decisiones_de_verdad]]
+- [[requisitos/web_c8800172a340333d8.la_portada_es_una_fabrica_viva]]
+- [[requisitos/web_c8800172a340333d8.los_easter_eggs_no_tapan_nada]]
+- [[requisitos/web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo]]
+- [[requisitos/web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados]]

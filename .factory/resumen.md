@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:43fdc48315b5e462f0ed2256c83899d69b7485377f4d451b94b03eb232c2e917 -->
+<!-- oracle-factory resumen sha256:ace27cdf9b6b709db5cd97ab5b3d8d58bd25f5b62e49a151a25a7cfaf8d504ea -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-19 capacidades · 152 requisitos vigentes · 1 cambio abierto
+20 capacidades · 156 requisitos vigentes · 2 cambios abiertos
 
 ## Lo vigente
 
@@ -70,6 +70,16 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | un cambio dice quién lo tiene | funcional | `colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene` | factory_quien.un_cambio_dice_quien_lo_tiene, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | estado y el tablero muestran quién trabaja en qué | funcional | `colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que` | factory_quien.estado_y_el_tablero_muestran_quien_trabaja_en_que, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
 | el trailer elige bien el cambio | funcional | `colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio` | factory_quien.el_trailer_elige_bien_el_cambio, factory_quien.corrida_completa | verde al cerrar el 2026-10-20 | 20261019-232444-quien |
+
+### conocimiento
+
+Spec completa: [openspec/specs/conocimiento/spec.md](../openspec/specs/conocimiento/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| el vault se genera del registro y no se desfasa | funcional | `conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa` | factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
+| una nota humana vence cuando cambian sus fuentes | funcional | `conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes` | factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
+| por qué existe una línea | funcional | `conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea` | factory_kb.por_que_existe_una_linea, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
 
 ### decisiones
 
@@ -250,6 +260,7 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | pedidos de revisión simultáneos sobre el mismo candidato | funcional | `revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato` | factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
 | un pedido interrumpido no traba los siguientes | funcional | `revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes` | factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
 | estado ofrece revisar cuando quedan hallazgos medios | funcional | `revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios` | factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-125953-estado-revisar-medios |
+| el checkout de un revisor no toca el repositorio | funcional | `revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio` | factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio, factory_aislar.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-200030-aislar |
 
 ### trazabilidad
 
@@ -306,6 +317,14 @@ Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` 
 - veredicto Oracle exitoso con evidencia
 - medidas de 5 requisitos: sin decisión registrada; registrala con medir y las mismas medidas
 
+### 20261020-173143-avisos — Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `flujo` · [propuesta](../openspec/changes/20261020-173143-avisos/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
+- medidas de 3 requisitos: propuestas por claude-code, sin confirmar por una persona
+
 ## Cambios abandonados
 
 No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
@@ -348,6 +367,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **HG-011** (20261017-135953-higiene): La prueba de acciones sin autor omite la importación exigida por el escenario. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de acciones sin autor omite la importación exigida por el escenario
 - **TABLERO-006** (20261019-120156-tablero): Una severidad ausente o desconocida se informa como hallazgo informativo. Aceptado por Brian Hollweg: Acepto el riesgo: Una severidad ausente o desconocida se informa como hallazgo informativo
 - **LS-SEC-01-R3** (20261020-005341-liveshare): Un invitado puede atribuir su mensaje a otro invitado conectado. Aceptado por Brian Hollweg: Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado
+- **KB7-01** (20261020-140603-kb): Un merge posterior al cierre puede cambiar los commits de la nota generada. Aceptado por Brian Hollweg: Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada
 - **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
 
 ### Históricos
@@ -788,6 +808,24 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-005341-liveshare) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_liveshare.py`.
 - (20261020-005341-liveshare) codex (gpt-6-luna): La prueba y la reproducción adicional usan Live Share simulado; no probé la API real ni una sesión entre dos máquinas.
 - (20261020-005341-liveshare) codex (gpt-6-luna): No edité el checkout. Revisé propuesta, spec, el diff y archivos producto incluidos en el paquete; no revisé los archivos .factory/tareas excluidos. Revisé también los informes previos: el rechazo de rutas con barras invertidas, la espera al servicio y el filtro de operadores de shell siguen presentes.
+- (20261020-140603-kb) Evidencia: Escenarios kb1–kb3 en repositorios temporales, Linux, con git real y Oracle 0.39.0; la extensión corre en node con un vscode falso. Que el vault se lea bien en Obsidian y que las notas humanas digan lo correcto lo juzga una persona.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se revisaron en detalle los archivos incluidos en el paquete de revisión y su diff contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py, catálogos en catalogos/ y las notas generadas en kb/.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se comprobó que la integración de main (commit de merge b24afc9, que incorporó el aislamiento de checkouts de revisores y botones de Live Share) y la reescritura de autor en siete commits no alteraron la semántica ni el funcionamiento del vault ni de por-que; la versión de la extensión se mantuvo correctamente en 0.4.0 en package.json y README.md.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se verificó la vigencia y estabilidad de las notas generadas en el repositorio (237 notas generadas y de personas): oracle-factory kb --verificar pasó exitosamente reportando todas las notas al día.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se verificó que los riesgos aceptados previamente por Brian (KB6-01: atribución por tramo de commits ajenos sin trailer; KB6-02: nota huérfana sin marca generada; KB6-03: recálculo múltiple del vault en comandos mutadores) se mantienen dentro de los términos acordados sin empeoramiento ni cambios no previstos.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se comprobó que el vault no se desfasa con commits posteriores a decisiones en cambios abiertos ni con merges posteriores al cierre de cambios cerrados: nota_de_cambio filtra por _antes(c['fecha_commit'], corte) usando fecha_commit (%cI) y sólo incluye commits con trailer o candidatos, omitiendo los deducidos por merge.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se verificó que kb --verificar falla en modo sólo lectura (sin tocar ni escribir archivos) ante notas generadas modificadas a mano, notas faltantes, notas huérfanas con marca generada y notas humanas con fuentes inexistentes o pendientes de revisión.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se comprobó la seguridad estricta en la resolución de huella_de_fuente: tanto fuentes de archivos como de requisitos se confinan al ámbito del proyecto mediante is_relative_to(), rechazando rutas absolutas, secuencias ../ y enlaces simbólicos hacia afuera del repositorio.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se verificó que oracle-factory kb revisada exige terminal interactiva (exigir_terminal) y rechaza invocaciones automáticas con --agente.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se verificó el comportamiento de oracle-factory por-que (y su formato --json): localiza el cambio y sus decisiones, requisitos con veredicto, riesgos y hallazgos relevantes a través de blame y commits (trailer, deducidos o por tramo), distinguiendo adecuadamente líneas que no pertenecen a ningún cambio de Factory.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se realizaron cuatro pruebas de mutación manuales sobre una copia temporal del código (cambio de fecha_commit a fecha de autor, remoción de verificación adentro(archivo), remoción de exclusión de notas generadas en es_producto, y omisión de exigir_terminal en kb_revisada); todas las mutaciones fueron detectadas y provocaron fallos en tests.test_kb.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente según las instrucciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas pasaron, OK; Git y Node.js funcionales en el entorno).
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_kb.py, de acuerdo con las instrucciones de la revisión.
+- (20261020-140603-kb) agy (gemini-3.8-flash-high): No se editó el checkout de sólo lectura del candidato ni se realizaron commits ni decisiones reservadas a personas.
+- (20261020-140603-kb) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas, resultado OK. La prueba de Node de la extensión está dentro de esos casos y pasó.
+- (20261020-140603-kb) codex (gpt-6-luna): No corrí la suite completa ni `tools/verify_kb.py`; hice revisión estática adicional de los flujos señalados y de los informes anteriores.
+- (20261020-140603-kb) codex (gpt-6-luna): No ejecuté una mutación funcional aislada para el caso del merge; el hallazgo se basa en el flujo de `commits_del_cambio`, el filtro temporal de `nota_de_cambio` y la brecha concreta de la prueba existente.
+- (20261020-140603-kb) codex (gpt-6-luna): No reporté los tres riesgos que la persona declaró aceptados ni los archivos excluidos del paquete.
 - (20261020-141303-sesion) Evidencia: Escenarios se1 en repositorios temporales, Linux, con Oracle 0.39.0; Live Share es falso, en node: que share, end, join y extension.open hagan lo que dicen en VS Code lo verifica una persona.
 - (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se revisaron la propuesta (proposal.md), la especificación (spec.md), el diseño (design.md), el paquete Clue y el diff completo entre base (7390206) y head (fd78949) abarcando editores/vscode/liveshare.js, editores/vscode/extension.js, editores/vscode/tablero.js, editores/vscode/package.json, README.md, tests/sesion_en_node.cjs, tests/test_sesion.py, tools/verify_sesion.py y catalogos/factory_sesion.*.oracle.
 - (20261020-141303-sesion) agy (gemini-3.8-flash-high): Se verificaron exhaustivamente las correcciones acumuladas de vueltas anteriores: C1 (copiar enlace ejecuta comando de Live Share sin llamar a share()), F-001 de vuelta 1 (limpieza de enlace al terminar externamente con !this.rol()), F-002 de vuelta 1 (cerrojo this.compartiendo ante doble clic o reentradas concurrentes), F-003 de vuelta 1 (invitado que espera ve «Salir de la sesión» sin quedar atrapado), F-004 de vuelta 1 (cobertura del rol invitado y salida en sesion_en_node.cjs y test_sesion.py), y F-001 de vuelta 2 (rolDe clasifica Role.None, 'none' y '0' como 0 incluso con id, y roles desconocidos como no anfitriones). Todas las correcciones permanecen intactas y sin regresiones.
@@ -799,6 +837,20 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-141303-sesion) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.
 - (20261020-141303-sesion) codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.
 - (20261020-141303-sesion) codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos.
+- (20261020-200030-aislar) Evidencia: Escenario ai1 en un repositorio temporal, Linux, con Clue y Oracle reales y un revisor de prueba que juega con git en su checkout; aislar al revisor del resto del disco es cosa de su sandbox.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó que el aislamiento del clon local previene modificaciones en el repositorio principal y sus worktrees (configuración, ramas, commits, HEAD, hooks y remotos eliminados).
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó experimentalmente que git clone --local no genera archivos alternates (.git/objects/info/alternates) y que operaciones de recolección de basura agresiva (git gc --prune=now) o remoción de worktrees en el repositorio de origen no comprometen la integridad de los objetos del candidato en el clon.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se probó la robustez ante rutas con espacios en el repositorio y checkout.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se ejecutó la suite solicitada en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null (17 pruebas, OK).
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se implementaron 5 mutaciones sobre copias aisladas para validar la sensibilidad de las pruebas (MUT-01: --shared en vez de --local; MUT-02: omitir eliminación de remotos; MUT-03: omitir restauración de HEAD antes de Clue; MUT-04: omitir revisión de revision_dir; MUT-05: omitir resolución de --base a SHA). Todas las mutaciones fueron detectadas y provocaron fallas en las pruebas.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): No se ejecutó la suite de pruebas completa del proyecto ni tools/verify_aislar.py, respetando la instrucción de no ejecutar la suite completa. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
+- (20261020-200030-aislar) codex (gpt-6-luna): Revisé proposal.md, spec.md, el diff completo del paquete y el flujo de pedir_revision/validación en oracle_factory/cli.py, además de tests/test_aislar.py, tests/test_revisores.py, tools/verify_aislar.py y los catálogos Oracle añadidos.
+- (20261020-200030-aislar) codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores desde la raíz del checkout: 17 pruebas, OK. Un intento inicial desde la carpeta del informe no encontró el módulo tests; lo repetí desde la raíz indicada y pasó.
+- (20261020-200030-aislar) codex (gpt-6-luna): Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.
+- (20261020-200030-aislar) codex (gpt-6-luna): No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.
+- (20261020-200030-aislar) codex (gpt-6-luna): No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
 
 ### Históricos
 

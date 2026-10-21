@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/f6c282d-agy-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "f6c282dcde9f953060dd15032a2197a382518949",
+  "diff_sha256": "981c1e037599270c2911eb3900f1efab05fa70407e83b2462b8214c40a88dc21",
+  "context_sha256": "28eee529cd3aba5bc2e4e774515f021cf3eb9a77c5a1b962e37239d309fe08cd",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "F-013",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "Cálculo de secuencia n omite revision/ y sobrescribe informes y pedidos previos al limpiar cachés o en clones limpios",
+      "explanation": "En oracle_factory/cli.py:1212-1214, el cálculo de `usados` para determinar el siguiente número de pedido n inspecciona únicamente los paquetes generados en clue_dir (`paquete-*.json`) y los clones en revisiones (`{sha}-*`): `usados = [int(m[1]) for x in [*clue_dir.glob('paquete-*.json'), *revisiones.glob(f'{sha}-*')] ...]`. Sin embargo, tanto clue_dir (.factory/cambios/*/candidatos/*/clue/) como revisiones (.factory/local/revisiones/) son directorios transitorios excluidos explícitamente del repositorio por .gitignore. Por el contrario, los informes de revisión validados y sus pedidos ({nombre}-{n}.json y {nombre}-{n}.pedido.md) se guardan y versionan de forma duradera en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/). Si un usuario realiza un clon limpio del repositorio, crea un worktree secundario o efectúa una limpieza de temporales locales, clue_dir y revisiones quedan vacíos mientras que revision_dir conserva los informes históricos comprometidos. Al solicitar una revisión para ese revisor (pedir_revision), usados evalúa a lista vacía [], asignando n = 1. Luego de que Clue valida el nuevo informe, la línea 1305 ejecuta `destino = revision_dir / f'{nombre}-{n}.json'` y sobrescribe destructivamente el informe versionado previo ({nombre}-1.json) y su archivo {nombre}-1.pedido.md en lugar de generar el pedido subsiguiente n = 2. De igual forma, ante huecos de paquetes o clones borrados, ignorar los números existentes en revision_dir ocasiona colisiones y sobrescritura de revisiones históricas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1210,
+        "end_line": 1215,
+        "side": "head"
+      },
+      "trigger": "Contar con un informe previo registrado en revision_dir (ej. prueba-1.json o codex-1.json), ejecutar en un clon limpio o sin los directorios ignorados clue/ y .factory/local/revisiones/, y solicitar una nueva revisión para el mismo revisor con pedir_revision.",
+      "evidence": "Se reprodujo mediante prueba unitaria basada en test_revisores.py: tras emitir prueba-1.json y confirmarlo en el repositorio, se eliminaron las carpetas transitorias .factory/local/revisiones y clue/; al invocar nuevamente pedir_revision, la función calculó n = 1 en vez de n = 2 y sobrescribió destructivamente prueba-1.json (cambiando su contenido previo), fallando la aserción de creación de prueba-2.json.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Incluir en la lista de usados los archivos existentes en revision_dir que coincidan con rf'{re.escape(nombre)}-(\\d+)\\.json', asegurando que la numeración respete los informes ya guardados independientemente de si los paquetes transitorios o clones temporales fueron eliminados."
+    },
+    {
+      "id": "F-014",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "proposal.md contradice el diseño y la implementación al seguir declarando git clone --shared",
+      "explanation": "En openspec/changes/20261020-200030-aislar/proposal.md:13-14, el documento declara: «- El checkout de revisión es un clon local aparte (`git clone --shared`, sin copiar objetos) en el commit del candidato: su configuración, sus ramas y sus hooks son suyos. Lo que un revisor haga con git ahí no cambia el repositorio.». Sin embargo, en la vuelta 4 se corrigió el defecto AISLAR-010 reemplazando `--shared` por `--local` en oracle_factory/cli.py:1223 para evitar la creación de objects/info/alternates y prevenir que una recolección de basura (git gc) o el borrado de un worktree purguen el commit del candidato. design.md:3 fue actualizado para reflejar `git clone --quiet --local --no-checkout` y tests/test_aislar.py:78 verifica expresamente que alternates no exista. proposal.md no fue actualizado y mantiene la referencia a git clone --shared, contradiciendo el diseño técnico aprobado y la implementación.",
+      "location": {
+        "file": "openspec/changes/20261020-200030-aislar/proposal.md",
+        "start_line": 13,
+        "end_line": 15,
+        "side": "head"
+      },
+      "trigger": "Lectura y cotejo de proposal.md frente a design.md, oracle_factory/cli.py y tests/test_aislar.py.",
+      "evidence": "proposal.md:13 estipula «(`git clone --shared`, sin copiar objetos)», mientras que design.md:3 documenta «git clone --quiet --local --no-checkout» y cli.py:1223 ejecuta «git clone --quiet --local --no-checkout», verificado con test_aislar.py:78 que comprueba la ausencia de alternates.",
+      "related_requirement": "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio",
+      "status": "pendiente",
+      "verification": "Actualizar openspec/changes/20261020-200030-aislar/proposal.md:13 reemplazando `git clone --shared` por `git clone --local` (o eliminando la mención específica al flag para describir clon local en el mismo disco sin alternates), alineándolo con design.md."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los documentos proposal.md, spec.md, design.md y tasks.md bajo openspec/changes/20261020-200030-aislar/, el código modificado en oracle_factory/cli.py, las pruebas en tests/test_aislar.py y tests/test_revisores.py, la herramienta tools/verify_aislar.py, los catálogos en catalogos/ y el paquete Oracle Clue paquete-agy-1.json del candidato f6c282d.",
+    "Se ejecutaron en primer plano exactamente las pruebas unitarias indicadas desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null, obteniendo OK en las 17 pruebas (10.508 s).",
+    "No se ejecutó la suite completa ni tools/verify_aislar.py, en estricto cumplimiento de la instrucción.",
+    "Se comprobó el cierre y no regresión de hallazgos previos: F-001 y F-002 (HEAD restaurado con checkout --force --detach head antes de validar con Clue); F-003 (clon independiente por pedido); F-004 (--base resuelto a SHA canónico); F-005 (descarte de worktrees previos); F-007 (contemplación de clones huérfanos); F-008 (actualización previa de proposal.md sobre worktrees viejos); F-009 (eliminación de remotos); F-010 y F-011 (cálculo de n con regex anclado y nombre escapado); F-012 (remoción iterativa de todos los remotos detectados); AISLAR-010 (uso de git clone --local que enlaza objetos sin alternates, resistente a gc/poda).",
+    "Se verificó mediante pruebas de mutación y reproducciones aisladas en entornos temporales que la omisión de revision_dir en el cálculo de usados (F-013) provoca la sobrescritura no deseada de informes históricos versionados cuando no están presentes los directorios transitorios excluidos por .gitignore, y se identificó la inconsistencia documental residual en proposal.md (F-014)."
+  ]
+}

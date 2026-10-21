@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d55ff5c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d55ff5ccdf20aa053e6e20b0bb156ef59980a36c",
+  "diff_sha256": "d29afd1630439b9b78809982e46326fdee409a09742c7c80d2759215f89d6918",
+  "context_sha256": "bc9ee95159e59720a24aaf12038b0ea2b867da9270f0fc3ee1c92ee83fa71786",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "KB-3-01",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "huella_de_fuente permite escape del repositorio hacia archivos .requisito arbitrarios del sistema",
+      "explanation": "En oracle_factory/kb.py:189-191, huella_de_fuente calcula la ruta del requisito como archivo = cli.requisitos_dir() / f\"{fuente}.requisito\". A diferencia de las fuentes de tipo archivo (líneas 195-197), donde se valida que la ruta sea relativa y no escape del proyecto (cli.carpeta_relativa(fuente) y (raiz / relativa).resolve().is_relative_to(raiz.resolve())), y de los cambios (línea 192), donde se valida el formato con cli.ID_RE.fullmatch(fuente), las fuentes de requisitos no comprueban que fuente no contenga secuencias de escape de directorio (..) ni rutas absolutas. Debido al comportamiento de pathlib.Path.__truediv__, si fuente es una ruta absoluta (ej. /tmp/externo) o contiene suficientes niveles de .. (ej. ../../../../../../tmp/externo), archivo resuelve a una ruta externa al repositorio. Si dicho archivo existe en el sistema con extensión .requisito, huella_de_fuente lee su contenido y calcula su SHA-256, permitiendo a una nota humana en kb/notas/ referenciar y monitorear archivos fuera del espacio de trabajo del proyecto.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 189,
+        "end_line": 191,
+        "side": "head"
+      },
+      "trigger": "Declarar en una nota de kb/notas/ una fuente absoluta o con traversal que termine en un archivo existente en el sistema con extensión .requisito (ej. fuentes: [/tmp/externo]), y ejecutar oracle-factory kb revisada o oracle-factory kb --verificar.",
+      "evidence": "En kb.py:189-191: archivo = cli.requisitos_dir() / f\"{fuente}.requisito\"; if archivo.is_file(): return sha(archivo.read_bytes()). Al probar con /tmp/test_leak.requisito creado en el sistema, kb.huella_de_fuente(cli, \"/tmp/test_leak\") lee el archivo fuera del checkout y devuelve su hash sha256 en vez de rechazarlo.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Crear una nota en kb/notas/ con una fuente externa absoluta hacia un archivo .requisito y verificar que kb --verificar la reporte como fuente inexistente o inválida sin acceder a rutas fuera del proyecto."
+    },
+    {
+      "id": "KB-3-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "nota_de_cambio y por-que descartan el motivo de las decisiones que no sean de revisión (como abandono)",
+      "explanation": "El requisito promete que las notas generadas en kb/cambios/ registran «decisiones con quién, cuándo y su motivo», y que por-que muestra «las decisiones con quién, cuándo y su motivo». Sin embargo, en oracle_factory/kb.py:77-84 y oracle_factory/cli.py:2303-2307, la extracción del motivo se limita exclusivamente a motivo_revision = (estado.get(\"revision\") or {}).get(\"motivo\") y sólo se asocia a eventos con accion == \"revision_registrada\". Al abandonar un cambio mediante oracle-factory abandonar, una persona obligatoriamente elige o escribe un motivo que queda guardado en estado[\"abandono\"][\"motivo\"]. Tanto en la nota generada kb/cambios/<id>.md como en el resultado de oracle-factory por-que (en JSON y texto), el evento de abandono aparece sin su motivo (\"motivo\": null), perdiéndose la justificación registrada por la persona al descartar el cambio.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 77,
+        "end_line": 84,
+        "side": "head"
+      },
+      "trigger": "Abandonar un cambio abierto con oracle-factory abandonar <id> indicando un motivo; luego inspeccionar la nota generada kb/cambios/<id>.md o ejecutar oracle-factory por-que <archivo>:<linea> --json sobre una línea de ese cambio.",
+      "evidence": "En kb.py:81-82 sólo se comprueba accion == \"revision_registrada\": if e.get(\"accion\") == \"revision_registrada\" and motivo_revision ...: extra += f\": {_texto(motivo_revision)}\". En cli.py:2306: \"motivo\": motivo_revision if x.get(\"accion\") == \"revision_registrada\" else None. En un cambio abandonado con motivo registrado en estado[\"abandono\"][\"motivo\"], la sección ## Decisiones de kb/cambios/ omite por completo el motivo del abandono.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Abandonar un cambio con motivo, ejecutar oracle-factory kb y comprobar que la nota generada y oracle-factory por-que incluyan el motivo del abandono en la decisión."
+    },
+    {
+      "id": "KB-3-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "Inyección de enlaces y formato Markdown no saneado en nota_de_cambio a través del nombre de responsable",
+      "explanation": "En oracle_factory/kb.py:71, la línea que describe al responsable del cambio interpola directamente r[\"persona\"] sin pasar por la función _texto(): f\"- Responsable: {r['persona'] + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}\". En todas las demás secciones de nota_de_cambio (título, decisiones, mensajes, riesgos aceptados), los nombres de actores y títulos son saneados con _texto(valor) para prevenir que caracteres como [, ], #, *, o _ alteren la estructura del documento. Dado que r[\"persona\"] proviene de git config user.name al tomar un cambio (oracle-factory tomar), si un usuario tiene caracteres especiales o wikilinks en su nombre de Git (por ejemplo Ana [[requisitos/fantasma]]), estos se emiten sin escapar en la nota generada kb/cambios/<id>.md. Esto genera wikilinks espurios hacia notas inexistentes que corrompen el grafo de Obsidian y causan fallos en comprobaciones de integridad de enlaces.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 71,
+        "end_line": 71,
+        "side": "head"
+      },
+      "trigger": "Configurar git config user.name \"Usuario [[requisitos/invalido]]\", ejecutar oracle-factory tomar <id> y luego oracle-factory kb.",
+      "evidence": "En oracle_factory/kb.py:71: f\"- Responsable: {r['persona'] + ' desde ' + _fecha(r.get('desde')) if r.get('persona') else 'nadie'}\", a diferencia de las líneas 83, 88 y 106 donde se utiliza sistemáticamente _texto(actor). Un test con r[\"persona\"] = \"Ana [[requisitos/fantasma]]\" genera el texto literal sin escapar.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Asignar un responsable cuyo nombre contenga [[enlace]] o sintaxis Markdown y verificar que kb/cambios/<id>.md escape los corchetes como \\[\\[enlace\\]\\]."
+    },
+    {
+      "id": "KB-3-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta de normalización en rutas de fuentes (ej. prefijo './') impide que estado avise notas por revisar y que por-que las asocie",
+      "explanation": "En oracle_factory/kb.py:179-183, fuentes_de extrae las cadenas de fuentes del frontmatter de una nota humana sin normalizar las rutas de archivo. Si una nota declara como fuente ./archivo.py en lugar de archivo.py, huella_de_fuente tiene éxito (porque PurePosixPath normaliza internamente), y kb --verificar detecta cambios. Sin embargo, estado_de_notas almacena en n[\"fuentes\"] y n[\"cambiaron\"] la cadena literal \"./archivo.py\". Por su parte, tocados_por() obtiene rutas limpias desde Git (\"archivo.py\"). En aviso_notas() (cli.py:2266-2268), la intersección set(n[\"cambiaron\"]) & tocados resulta vacía, por lo que oracle-factory estado nunca avisa en el cambio abierto que la nota quedó por revisar. De igual forma, en por_que() (cli.py:2297), la comprobación if archivo in n[\"fuentes\"] falla al comparar \"archivo.py\" con \"./archivo.py\", omitiendo la nota en la respuesta.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 179,
+        "end_line": 183,
+        "side": "head"
+      },
+      "trigger": "Declarar una nota en kb/notas/ con fuentes: [./archivo.py] o una ruta con prefijo relativo innecesario; modificar archivo.py en un cambio abierto y consultar oracle-factory estado u oracle-factory por-que archivo.py:linea.",
+      "evidence": "Al declarar fuentes: [./oracle_factory/cli.py], estado_de_notas devuelve {\"fuentes\": [\"./oracle_factory/cli.py\"]}. La intersección set([\"./oracle_factory/cli.py\"]) & {\"oracle_factory/cli.py\"} es vacía, anulando el aviso en estado.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Crear una nota con fuentes: [./archivo.py], modificar archivo.py en un cambio abierto y comprobar que oracle-factory estado emita el aviso y oracle-factory por-que liste la nota."
+    },
+    {
+      "id": "KB-3-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "refrescar_kb reconstruye incondicionalmente todo el vault en cada comando mutador ignorando el identificador del cambio",
+      "explanation": "La función refrescar_kb(comando: str, identificador: str | None) recibe el identificador del cambio en el cual operó el comando de CLI (cli.py:3645). Su docstring afirma que reconstruye «las notas de ese cambio (o todas, si tocó varios)». Sin embargo, en la línea 2182 ejecuta incondicionalmente notas = kb_mod.armar(sys.modules[__name__]) sin pasar el parámetro solo=identificador. Esto fuerza a regenerar las 233 notas del repositorio (operación que demora ~0.47 segundos) al término de cualquier comando mutador cotidiano (como tomar, soltar, mensaje, aprobar-spec), incluso cuando el cambio afectado ya fue guardado y actualizado puntualmente por guardar(). Asimismo, durante oracle-factory archivar, la combinación de actualizar_kb en cada guardar() individual con la reconstrucción completa final en refrescar_kb produce lecturas O(N*M) sobre todos los registros del proyecto.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2181,
+        "end_line": 2186,
+        "side": "head"
+      },
+      "trigger": "Ejecutar comandos frecuentes de cambio de estado como oracle-factory mensaje <id> \"ok\" o oracle-factory tomar <id> en un proyecto con cientos de notas en kb/.",
+      "evidence": "En oracle_factory/cli.py:2176-2187, el parámetro identificador no se utiliza. La llamada kb_mod.armar(sys.modules[__name__]) sin argumentos regenera todas las notas del repositorio (~0.47s en el checkout actual), añadiendo latencia innecesaria en cada comando.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Ejecutar un comando puntual como oracle-factory mensaje y verificar que no se regenere la totalidad de las notas del repositorio."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout exactamente el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas exitosamente en 9.0s, incluyendo los tests de contrato kb1, kb2, kb3 y el arnés de VS Code en Node.js con tests/porque_en_node.cjs).",
+    "Pruebas no ejecutadas: no se ejecutó la suite completa de pruebas ni tools/verify_kb.py directamente, respetando estrictamente la indicación de revisión.",
+    "Mutaciones y pruebas de fallos: se realizaron reproducciones programáticas controladas de mutaciones y casos límite sobre los módulos oracle_factory/kb.py y oracle_factory/cli.py, reproduciendo con éxito cada uno de los 5 hallazgos reportados.",
+    "Alcance de exclusiones: se respetaron rigurosamente las exclusiones indicadas del paquete (archivos en .factory, tareas y notas generadas en kb/ que no constituyen producto)."
+  ]
+}
