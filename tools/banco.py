@@ -42,7 +42,7 @@ PERSONAS = ('Ana', 'Beto')
 # Lo que cada orden tiene que dejar en el registro de su cambio.
 DEJA = {'nuevo': 'cambio_creado', 'tomar': ('tomado', 'agente_sumado'), 'soltar': 'soltado', 'mensaje': 'mensaje',
         'aprobar-spec': 'spec_aprobada', 'importar': 'requisitos_importados', 'revision': 'revision_registrada',
-        'decidir-union': 'union_decidida'}
+        'decidir-union': 'union_decidida', 'juzgar': 'oracle_ejecutado', 'medir': ('medidas_elegidas', 'medidas_confirmadas')}
 NO_PRODUCTO = ('.factory/', 'tareas/', 'kb/', 'openspec/', 'requisitos/', 'catalogos/', 'macros/', '.gitattributes')
 AGENTES = ('agente-ana', 'agente-beto', 'oracle-factory')
 
@@ -425,7 +425,7 @@ def s4_tomar_a_la_vez(e: Escenario) -> None:
         e.detectado('nunca')
         e.defecto(f'de los dos push, no chocó exactamente uno: {rechazos}')
         return
-    e.detectado('al_integrar')
+    e.detectado('antes')  # el push rechazado lo frena antes de cualquier merge en main
     segundo = e.beto if rechazos[1] else e.ana
     if segundo.git('pull', '-q', '--no-rebase', 'origin', 'tarea/compartido', ok=False).returncode:
         e.defecto('dos «tomar» del mismo cambio chocan en factory.json al sincronizar')
@@ -555,7 +555,8 @@ def s7_generados(e: Escenario) -> None:
         e.ana.git('merge', '--abort', ok=False)
         return
     if 'Rehacer lo generado' in e.ana.git('log', '-3', '--format=%s').stdout:
-        e.nota('Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (no es trabajo de nadie)')
+        e.fila['rehecho'] += 1  # lo hizo Factory solo, pero se hizo dos veces
+        e.nota('Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (automático: nadie tuvo que hacerlo)')
     for orden in (['kb', '--verificar'], ['resumen', '--verificar']):
         if e.ana.agente_hace(*orden, ok=False).returncode:
             e.defecto(f'después de integrar, {" ".join(orden)} falla')
@@ -596,25 +597,34 @@ def a1_relevo_atrasado(e: Escenario) -> None:
 
 
 def a2_evidencia_vieja(e: Escenario) -> None:
-    """Beto tiene evidencia y una revisión aprobada de su candidato; Ana integra antes un cambio de producto. Al traer
-    main, ni la evidencia ni la revisión valen, y Factory no deja cerrar con ellas."""
+    """Beto tiene su candidato revisado y juzgado por Oracle con su evidencia; Ana integra antes un cambio de producto.
+    Al traer main, ni la revisión ni el juicio valen, y Factory no deja cerrar con ellos; Beto rehace los dos y vuelven a
+    valer."""
     e.final = e.beto
     e.beto.git('checkout', '-q', '-b', 'tarea/lento')
     ident = e.beto.nuevo_cambio('lento', 'Un cambio que tarda')
+    e.beto.escribir('catalogos/banco.lento.oracle',
+                    'medida banco.lento:\n    de lento_caso c\n    donde c.codigo == 0\n    resumen contar(1)\n'
+                    '    umbral == 1 segun contrato porque "el caso del banco pasa"\n    requiere lento_caso\n'
+                    '    ambito universal\n    alcance "banco"\n')
+    [requisito] = e.beto.registro(ident)['requisitos']
+    e.beto.decide('medir', ident, '--requisito', requisito, '--medida', 'banco.lento', '--quitar-sin-medir')
     e.beto.escribir('lento.py', 'X = 1\n')
-    e.beto.commit('lento: producto')
-    sha = e.beto.git('rev-parse', '--short=7', 'HEAD').stdout.strip()
-    evidencia = e.beto.dir / '.factory/cambios' / ident / 'candidatos' / sha / 'evidencia'
-    evidencia.mkdir(parents=True)
-    (evidencia / 'resultado.json').write_text('{"exitoso": true}\n')
-    informe = e.beto.dir / 'tareas' / ident / 'revision.md'
-    informe.write_text('Revisión del banco: sin hallazgos.\n')
-    e.beto.decide('revision', ident, '--informe', str(informe), '--revisor', 'Beto', '--decision', 'aprobar',
-                  '--hallazgos-abiertos', '0')
-    e.beto.commit('lento: evidencia y revisión')
-    antes = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
-    if not (antes.get('revision') or {}).get('vigente'):
-        e.defecto(f'la revisión recién registrada no figura vigente: {antes.get("revision")}')
+    e.beto.commit('lento: producto y su medida')
+
+    def revisar_y_juzgar() -> dict:
+        """Evidencia del candidato actual, su revisión y el juicio de Oracle: lo que Beto hace (y rehace)."""
+        evidencia = Path(e.beto.agente_hace('ruta', ident, 'evidencia').stdout.strip())
+        evidencia.mkdir(parents=True, exist_ok=True)
+        (evidencia / 'hechos.json').write_text('{"lento_caso": [{"codigo": 0}]}\n')
+        e.beto.revisar(ident)
+        e.beto.agente_hace('juzgar', ident)
+        e.beto.commit('lento: evidencia, revisión y juicio')
+        return json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
+    antes = revisar_y_juzgar()
+    if not ((antes.get('revision') or {}).get('vigente') and (antes.get('oracle') or {}).get('vigente')
+            and (antes.get('oracle') or {}).get('codigo') == 0):
+        e.defecto(f'la revisión o el juicio recién hechos no figuran vigentes: {antes.get("revision")}, {antes.get("oracle")}')
         return
     # Ana integra antes un cambio de producto.
     e.ana.escribir('calc.py', 'def sumar(a, b):\n    return b + a\n')
@@ -624,30 +634,24 @@ def a2_evidencia_vieja(e: Escenario) -> None:
     if 'b + a' not in (e.beto.dir / 'calc.py').read_text():
         e.defecto('después de traer main, Beto no ve el cambio de producto que dejó Ana')
     despues = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
-    if despues.get('candidato') == sha:
-        e.fila['evidencia_vieja_aceptada'] += 1
-        e.defecto('después de traer main con otro producto, el candidato viejo sigue vigente')
-    if (despues.get('revision') or {}).get('vigente'):
-        e.fila['evidencia_vieja_aceptada'] += 1
-        e.defecto('después de traer main con otro producto, la revisión vieja sigue vigente')
+    for gate in ('revision', 'oracle'):
+        if (despues.get(gate) or {}).get('vigente'):
+            e.fila['evidencia_vieja_aceptada'] += 1
+            e.defecto(f'después de traer main con otro producto, {gate} sigue vigente')
     if e.beto.decide('cerrar', ident, ok=False).returncode == 0:
         e.fila['evidencia_vieja_aceptada'] += 1
-        e.defecto('Factory dejó cerrar con la evidencia y la revisión viejas')
+        e.defecto('Factory dejó cerrar con la revisión y el juicio viejos')
     if e.fila['evidencia_vieja_aceptada']:
         return
     e.detectado('antes')
-    # Beto rehace: evidencia del candidato nuevo y otra revisión; con eso vuelven a valer.
-    nuevo = e.beto.git('rev-parse', '--short=7', 'HEAD').stdout.strip()
-    (e.beto.dir / '.factory/cambios' / ident / 'candidatos' / nuevo / 'evidencia').mkdir(parents=True)
-    (e.beto.dir / '.factory/cambios' / ident / 'candidatos' / nuevo / 'evidencia' / 'resultado.json').write_text('{"exitoso": true}\n')
-    e.beto.revisar(ident)
-    e.beto.commit('lento: evidencia y revisión otra vez')
-    if (json.loads(e.beto.agente_hace('estado', ident, '--json').stdout).get('revision') or {}).get('vigente'):
+    nuevo = revisar_y_juzgar()
+    if (nuevo.get('revision') or {}).get('vigente') and (nuevo.get('oracle') or {}).get('vigente'):
         e.fila['rehecho'] += 1
-        e.nota('al traer main, el candidato y la revisión viejos dejaron de valer y cerrar se negó; Beto produjo evidencia y '
-               'revisó otra vez, y la revisión nueva vale')
+        e.nota('al traer main, la revisión y el juicio de Oracle viejos dejaron de valer y cerrar se negó; Beto produjo '
+               'evidencia, revisó y juzgó otra vez, y lo nuevo vale')
     else:
-        e.defecto('después de rehacer la evidencia y la revisión, la revisión nueva no figura vigente')
+        e.defecto(f'después de rehacerlos, la revisión o el juicio nuevos no figuran vigentes: {nuevo.get("revision")}, '
+                  f'{nuevo.get("oracle")}')
 
 
 def a3_registro_en_dos_ramas(e: Escenario) -> None:
