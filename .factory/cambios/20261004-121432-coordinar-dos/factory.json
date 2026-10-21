@@ -2,7 +2,7 @@
   "id": "20261004-121432-coordinar-dos",
   "titulo": "Coordinar dos personas con sus agentes sin interferencias",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
   "spec_sha256": "4a5d844686d0e321df91abdd9d4b89ec21d58f4056c38891825e3fad9335cad1",
   "spec_aprobada": {
@@ -48,7 +48,25 @@
       "archivos_sha256": "f6c2136ea9aab4a7b2931f79264a04fc6d1cd19d749c3a435fa0ffcc8e001dd0"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261004-121432-coordinar-dos/candidatos/b016935/evidencia/colaboracion/hechos.json",
+    "hechos_sha256": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5",
+    "hechos_mas": [
+      {
+        "ruta": ".factory/cambios/20261004-121432-coordinar-dos/candidatos/b016935/evidencia/banco/hechos.json",
+        "sha256": "2a7ae45021f6ae961f80759793eb7da24b0d32b552827ea98c0f9da142dab6b8"
+      }
+    ],
+    "informe": ".factory/cambios/20261004-121432-coordinar-dos/oracle-veredicto.txt",
+    "informe_sha256": "00324dfbf179839b84e25e7ceccccc5e20a480a9e71019bad5f1a1f5da22e4e6",
+    "cuando": "2026-10-21T22:21:02+00:00",
+    "contexto": {
+      "head": "9ac889c267ac04e7036e7f04c2b3d6b8b25efb57",
+      "archivos_sha256": "f6c2136ea9aab4a7b2931f79264a04fc6d1cd19d749c3a435fa0ffcc8e001dd0"
+    }
+  },
   "eventos": [
     {
       "accion": "cambio_creado",
@@ -944,6 +962,17 @@
       "abiertos": 0,
       "sha256": "be15ece893c0fb7257f7c8a07601ef8bfb300795ca8902fd20dd7e7aab047128",
       "decisiones_sha256": "188fe66c040e0d11a6171772a302ba0b9f7c30c770726981b62647a485cf97e4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T22:21:02+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5"
     }
   ],
   "medidas_pendientes": {},

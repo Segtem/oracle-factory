@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente`
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_colaboracion.integracion_serializada_y_evidencia_vigente`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#integracion serializada y evidencia vigente
 

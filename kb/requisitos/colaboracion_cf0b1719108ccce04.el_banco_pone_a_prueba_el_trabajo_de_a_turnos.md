@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos`
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos`, `factory_banco.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#el banco pone a prueba el trabajo de a turnos
 

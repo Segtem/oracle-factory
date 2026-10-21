@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cf0b1719108ccce04.relevo_recuperable`
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_colaboracion.relevo_recuperable`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#relevo recuperable
 
