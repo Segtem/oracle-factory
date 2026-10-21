@@ -43,3 +43,7 @@ Medidas de flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_si
 ### Nota (2026-10-21 15:17:23 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy: la 1 dejó 3 medios (AVISOS-1, AV-01, AV-02), corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 2 no dejó medios ni altos. Quedan dos bajas para decidir: AV-03 (el aviso busca sin_medir con una expresión regular) y AVISOS-R1 (una spec bajo un directorio enlazado dentro de specs/ no se detecta).); 0 abiertos derivados; commit 51bc1343cdc70ba24cc4277d61d033cbeadc1711; informe tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/informe.json; decisiones tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/decisiones.json.
+
+### Nota (2026-10-21 15:18:14 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261020-173143-avisos/oracle-veredicto.txt.
