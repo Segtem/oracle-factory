@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
+  "actor": "Brian Hollweg",
+  "motivo": "Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.",
+  "decisiones": [
+    {
+      "hallazgo_id": "KB7-01",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T10:00:10+00:00"
+    }
+  ]
+}

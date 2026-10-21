@@ -23,23 +23,23 @@
   ],
   "revision": {
     "formato": "guiado",
-    "revisor": "Persona [[cambios/inexistente]]",
+    "revisor": "Brian Hollweg",
     "decision": "aprobar",
     "hallazgos_abiertos": 0,
-    "informe": "tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/informe.json",
-    "sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
-    "decisiones": "tareas/20261020-140603-kb/revisiones/registro-yg0mru5g/decisiones.json",
-    "decisiones_sha256": "b92a1a23f15a5160bc7ffebc96c510e8654b5b2ed6c2e8af38bc7e848bed36c4",
-    "actor": "Persona [[cambios/inexistente]]",
+    "informe": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/informe.json",
+    "sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
+    "decisiones": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/decisiones.json",
+    "decisiones_sha256": "2608d0961e1196186147959393bd07f215bc0e6d055e706275dc2009f0832e96",
+    "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "confirmo",
     "modo": "confirmacion",
-    "cuando": "2026-10-20T19:55:23+00:00",
-    "motivo": "Seis vueltas de codex y agy; en las dos últimas agy no dejó hallazgos y codex sólo KB6-01. Corregido con pruebas que fallan sin cada corrección: las notas generadas no son producto, el vault se rehace al terminar cada comando y quita lo que sobra, la nota de un cambio no cambia por commitear ni por integrarlo (commits con trailer y candidatos hasta la última decisión, por la fecha del commit), las fuentes no salen del proyecto (tampoco por enlaces), cada decisión lleva su motivo, y títulos y mensajes no inyectan Markdown. KB6-01 (el tramo puede atribuir un commit ajeno) es el precio de encontrar el cambio de una rama integrada sin merge (C-02): por-que lo marca «deducido por su tramo» y lo advierte; con el hook los commits nuevos llevan su trailer.",
+    "cuando": "2026-10-21T10:00:13+00:00",
+    "motivo": "Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.",
     "origen_motivo": "agente",
     "contexto": {
-      "head": "0fa097bd5f8220eece98bb2368e40f22cfcaff4c",
-      "archivos_sha256": "14065042cd64fc0cd3d49b07e50e3f17a25bda8d146164695073726ed1479b37"
+      "head": "9878848706ccd66d6107d75ae1bd64cde25aeb4c",
+      "archivos_sha256": "3849a6e167efb57e937a18d3c5d0eac744e8099975461c0fcffb616fd39d0d5f"
     }
   },
   "oracle": null,
@@ -643,6 +643,20 @@
       "cuando": "2026-10-21T00:58:51+00:00",
       "decision": "aprobar",
       "candidato": "b24afc9"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T10:00:13+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
+      "decisiones_sha256": "2608d0961e1196186147959393bd07f215bc0e6d055e706275dc2009f0832e96"
     }
   ],
   "tipos": {
@@ -708,16 +722,7 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.",
-      "candidato": "b24afc9",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-21T00:58:51+00:00"
-    }
-  },
+  "motivos_propuestos": {},
   "aceptados": [
     {
       "archivo": "oracle_factory/cli.py",
@@ -745,6 +750,15 @@
       "actor": "Persona [[cambios/inexistente]]",
       "fecha": "2026-10-20T19:55:21+00:00",
       "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/kb.py",
+      "titulo": "Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "firma": "oracle_factory/kb.py|un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "motivo": "Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T10:00:10+00:00",
+      "candidato": "b24afc9"
     }
   ]
 }
