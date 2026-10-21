@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "cb447d3a0401c3915e786d8b2b4e77d8a7254e57",
+  "diff_sha256": "842e4752aed3754cd650fd94ecf374b7170bd358cfd3143e221740ac9f51d397",
+  "context_sha256": "88750b49f2f37795a52465cdcdf74ae588526c3fc1ddb6592c8199c32ba3cf71",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente 'PYTHONPATH=. /home/workstation/Dev/factory-clones/.venv/bin/python -m unittest tests.test_clones </dev/null' desde la raíz del checkout (/home/workstation/Dev/factory-clones/.factory/local/revisiones/cb447d3-agy-1), con 5 pruebas superadas exitosamente.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_clones.py por instrucción expresa de la revisión.",
+    "Se realizaron 8 mutaciones manuales (M1 a M8) en copias de trabajo aisladas en el directorio del revisor, cubriendo la ausencia de reintentos en tomar/soltar/mensaje, omisión de verificación de reglas de titularidad en reintentos, omisión del prefijo al azar en nuevo, falta de creación de directorios faltantes, falta de .gitkeep y falta de avisos ante carpetas ignoradas. Todas las mutaciones fueron detectadas y eliminadas por tests.test_clones.",
+    "Se verificó la resolución de los hallazgos previos (CLONES-01, CLONES-001 y CLONES-02) comprobando que las reglas del .gitignore no se pisan pero se advierten, que tomar/soltar tienen cobertura determinista de reintentos y respeto de reglas, y que la presencia de .gitkeep no es interpretada como cambio ni tarea.",
+    "La evaluación de colisión entre los tres caracteres aleatorios es probabilística (1 en 46.656 combinaciones para un mismo segundo y sufijo)."
+  ]
+}
