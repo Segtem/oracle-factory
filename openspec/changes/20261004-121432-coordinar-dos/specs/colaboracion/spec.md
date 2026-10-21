@@ -84,3 +84,31 @@ El entregable SHALL incluir un arnés en repositorios temporales, hechos observa
 - GIVEN la demostración automatizada completa
 - WHEN dos personas realizan el piloto con sus agentes
 - THEN se registran relevos, bloqueos, decisiones y dificultades observadas por separado; hasta realizarlo, la usabilidad humana permanece pendiente y no se declara demostrada por la simulación.
+
+### Requirement: el banco pone a prueba el trabajo a la vez
+Tipo: funcional
+El banco de concurrencia SHALL correr, con dos personas en dos clones con su identidad de Git y un agente de prueba cada una, en un orden reproducible por una semilla y también con procesos simultáneos, estos escenarios: frentes en paralelo sobre archivos distintos; el mismo archivo; cambios que pasan solos y fallan juntos; dos `tomar` a la vez; decisiones simultáneas sobre un mismo registro; dos cambios con el mismo ID creados en dos clones; y los archivos que Factory genera y ambos tocan. En cada uno SHALL comprobar que no se pierde ni se atribuye a otra persona ninguna decisión, que un conflicto se detecta a más tardar al integrar y que ninguna evidencia o revisión vieja se da por vigente.
+
+#### Scenario: dos personas a la vez
+- GIVEN un proyecto de prueba y dos personas con sus clones y agentes de prueba
+- WHEN el banco corre los escenarios sincrónicos con una semilla, y otra vez con procesos simultáneos
+- THEN cada escenario termina sin decisiones perdidas ni mal atribuidas, con sus conflictos detectados a más tardar al integrar y sin evidencia vieja vigente, y la misma semilla da el mismo resultado
+
+### Requirement: el banco pone a prueba el trabajo de a turnos
+Tipo: funcional
+El banco SHALL correr, en una semana simulada con sesiones que se alternan, estos escenarios: un relevo que la otra persona retoma desde un clon atrasado; evidencia y revisión que quedan viejas cuando la otra persona integra antes; el registro de un mismo cambio editado en dos ramas; mensajes en paralelo; y trailers y vault en clones distintos. En cada uno SHALL comprobar lo mismo que en el trabajo a la vez, y además que quien retoma ve el estado que dejó la otra persona.
+
+#### Scenario: una semana de a turnos
+- GIVEN dos personas que se pasan tareas a lo largo de una semana simulada
+- WHEN el banco corre los escenarios asincrónicos
+- THEN quien retoma ve el estado de la otra, ningún registro pierde eventos al integrar, y la evidencia y la revisión viejas se piden de nuevo
+
+### Requirement: el banco informa sus números
+Tipo: funcional
+El banco SHALL dejar un informe (JSON y texto) con, por escenario, su resultado, si hubo conflicto y cuándo se detectó (antes, en o después del merge), las decisiones perdidas o mal atribuidas, la evidencia vieja aceptada y el trabajo rehecho, con la semilla y las versiones usadas; y una corrida con agentes reales SHALL poder registrarse con el mismo formato, marcada como no reproducible.
+
+#### Scenario: leer el informe
+- GIVEN una corrida del banco y una corrida con agentes reales registrada
+- WHEN se abre el informe
+- THEN cada escenario tiene sus números, la semilla y las versiones, y la corrida real aparece aparte y marcada como no reproducible
+
