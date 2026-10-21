@@ -2,11 +2,27 @@
   "id": "20261021-235127-fjn-rag",
   "titulo": "RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida",
   "capacidad": "conocimiento",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T23:54:12+00:00",
+    "documentos": {
+      "openspec/changes/20261021-235127-fjn-rag/proposal.md": "bb67ae7647dd5ca31ec6ab6dda8735409e250d12d5a1c2557f07373512dcdf71",
+      "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6"
+    }
+  },
+  "requisitos": [
+    "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo",
+    "conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso",
+    "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+    "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
+    "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +35,42 @@
       "forma": "decidio",
       "cuando": "2026-10-21T23:51:27+00:00",
       "capacidad": "conocimiento"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T23:54:12+00:00",
+      "documentos": {
+        "openspec/changes/20261021-235127-fjn-rag/proposal.md": "bb67ae7647dd5ca31ec6ab6dda8735409e250d12d5a1c2557f07373512dcdf71",
+        "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T23:56:39+00:00",
+      "ids": [
+        "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo",
+        "conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso",
+        "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+        "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
+        "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo": "funcional",
+    "conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso": "funcional",
+    "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro": "funcional",
+    "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto": "funcional",
+    "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
