@@ -17,6 +17,7 @@ detalle. El informe es banco.json y banco.txt.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from importlib import metadata
 import json
@@ -38,6 +39,11 @@ CLI = [sys.executable, '-c', 'import sys; from oracle_factory.cli import main; s
 DETECCIONES = ('ninguno', 'antes', 'al_integrar', 'despues', 'nunca')
 ID = re.compile(r'^\d{8}-\d{6}-[a-z0-9_-]+$')
 PERSONAS = ('Ana', 'Beto')
+# Lo que cada orden tiene que dejar en el registro de su cambio.
+DEJA = {'nuevo': 'cambio_creado', 'tomar': ('tomado', 'agente_sumado'), 'soltar': 'soltado', 'mensaje': 'mensaje',
+        'aprobar-spec': 'spec_aprobada', 'importar': 'requisitos_importados', 'revision': 'revision_registrada',
+        'decidir-union': 'union_decidida'}
+NO_PRODUCTO = ('.factory/', 'tareas/', 'kb/', 'openspec/', 'requisitos/', 'catalogos/', 'macros/', '.gitattributes')
 AGENTES = ('agente-ana', 'agente-beto', 'oracle-factory')
 
 
@@ -85,20 +91,35 @@ class Persona:
     def _ident(self, args) -> str | None:
         return next((a for a in args if ID.match(str(a)) and (self.dir / '.factory/cambios' / a).is_dir()), None)
 
-    def _antes(self, args) -> set:
+    def _antes(self, args) -> Counter:
         ident = self._ident(args)
-        return {clave(x) for x in self.registro(ident)['eventos']} if ident else set()
+        return Counter(clave(x) for x in self.registro(ident)['eventos']) if ident else Counter()
 
-    def _anotar(self, args, antes: set, autor: str, p) -> None:
+    def _anotar(self, args, antes: Counter, autor: str, p) -> None:
         ident = self._ident(args) or (self.banco.ultimo_cambio(self) if args and args[0] == 'nuevo' else None)
         if p.returncode or not ident:
             return
-        nuevos = [x for x in self.registro(ident)['eventos'] if clave(x) not in antes]
+        # Lo nuevo es lo que sobra respecto de antes: dos eventos iguales del mismo segundo cuentan dos veces.
+        quedan, nuevos = Counter(antes), []
+        for x in self.registro(ident)['eventos']:
+            if quedan[clave(x)]:
+                quedan[clave(x)] -= 1
+            else:
+                nuevos.append(x)
         if args[0] == 'mensaje':  # con otros procesos escribiendo a la vez, el suyo es el de su texto
             nuevos = [x for x in nuevos if x.get('accion') == 'mensaje' and x.get('texto') == args[2]]
+        esperada = DEJA.get(args[0])
+        acciones = esperada if isinstance(esperada, tuple) else (esperada,)
+        if esperada and not any(x.get('accion') in acciones for x in nuevos):
+            self.banco.fila['decisiones_perdidas'] += 1
+            self.banco.defecto(f'{autor}: «{args[0]}» terminó bien pero no dejó {esperada} en {ident}')
         for x in nuevos:
-            if x.get('actor') == autor or args[0] == 'mensaje':
-                self.banco.esperados.append((ident, clave(x), autor, self))
+            if x.get('actor') == 'oracle-factory':
+                continue
+            if x.get('actor') != autor:
+                self.banco.fila['mal_atribuidas'] += 1
+                self.banco.defecto(f'{autor}: «{args[0]}» quedó en {ident} a nombre de {x.get("actor")}')
+            self.banco.esperados.append((ident, clave(x), autor, self))
 
     def registro(self, ident: str) -> dict:
         return json.loads((self.dir / '.factory/cambios' / ident / 'factory.json').read_text())
@@ -112,6 +133,13 @@ class Persona:
         self.git('add', '-A')
         self.git('commit', '-q', '-m', mensaje)
         return self.git('rev-parse', 'HEAD').stdout.strip()
+
+    def revisar(self, ident: str) -> None:
+        """La persona registra una revisión aprobada de su candidato (el commit actual)."""
+        informe = self.dir / 'tareas' / ident / 'revision.md'
+        informe.write_text(f'Revisión del banco de {self.git("rev-parse", "HEAD").stdout.strip()}: sin hallazgos.\n')
+        self.decide('revision', ident, '--informe', str(informe), '--revisor', self.nombre, '--decision', 'aprobar',
+                    '--hallazgos-abiertos', '0')
 
     def nuevo_cambio(self, sufijo: str, titulo: str) -> str:
         """Un cambio con su spec aprobada por la persona y sus requisitos importados por su agente."""
@@ -141,6 +169,7 @@ class Escenario:
         self.esperados: list = []  # (cambio, evento sin autor, autor, persona en cuyo clon se escribió)
         self.final: Persona | None = None  # donde todo tiene que haber llegado al terminar (quien integra), si lo hay
         self.traza: list = []  # el orden en que corrió lo que se intercala
+        self.revisadas = 0  # cambios cuya vigencia de revisión y juicio se comprobó
         self.armar()
         self.ana, self.beto = Persona(self, 'Ana'), Persona(self, 'Beto')
         for p in (self.ana, self.beto):
@@ -187,6 +216,21 @@ class Escenario:
             resultados[i] = f(*a)
         return resultados
 
+    def producto_cambio(self, p: 'Persona', desde: str) -> list[str]:
+        """Los archivos de producto (no de Factory) que cambiaron entre un commit y el HEAD del clon."""
+        return [f for f in p.git('diff', '--name-only', desde, 'HEAD').stdout.split() if not f.startswith(NO_PRODUCTO)]
+
+    def vigencia(self, p: 'Persona', ident: str) -> None:
+        """Una revisión o un juicio que Factory da por vigentes no pueden ser de un producto distinto del que hay."""
+        datos = json.loads(p.agente_hace('estado', ident, '--json').stdout)
+        self.revisadas += 1
+        for gate in ('revision', 'oracle'):
+            g = datos.get(gate) or {}
+            if g.get('vigente') and g.get('head') and self.producto_cambio(p, g['head']):
+                self.fila['evidencia_vieja_aceptada'] += 1
+                self.defecto(f'{ident}: {gate} figura vigente en el clon de {p.nombre} aunque el producto cambió '
+                             f'desde {g["head"][:7]}: {self.producto_cambio(p, g["head"])}')
+
     def ultimo_cambio(self, p: 'Persona') -> str | None:
         cambios = sorted((x for x in (p.dir / '.factory/cambios').iterdir() if x.is_dir()), key=lambda x: x.stat().st_mtime)
         return cambios[-1].name if cambios else None
@@ -213,11 +257,13 @@ class Escenario:
                 if x.get('actor') not in (*PERSONAS, *AGENTES, 'Banco'):
                     self.fila['mal_atribuidas'] += 1
                     self.defecto(f'en {ident} hay un evento de «{x.get("actor")}», que no es nadie del banco')
+        for (nombre, ident) in vistos:
+            self.vigencia(self.ana if nombre == 'Ana' else self.beto, ident)
         malas = sum(self.fila[k] for k in ('decisiones_perdidas', 'mal_atribuidas', 'evidencia_vieja_aceptada'))
         if malas and self.fila['resultado'] == 'ok':  # un número malo nunca queda en un escenario ok
             self.defecto(f'{malas} decisiones perdidas, mal atribuidas o evidencia vieja aceptada')
-        self.nota(f'auditadas {len(self.esperados)} decisiones: ninguna perdida ni mal atribuida' if self.fila['resultado'] == 'ok'
-                  else f'auditadas {len(self.esperados)} decisiones')
+        self.nota(f'auditadas {len(self.esperados)} decisiones y la vigencia de {self.revisadas} cambios'
+                  + (': nada perdido, mal atribuido ni viejo' if self.fila['resultado'] == 'ok' else ''))
 
     def defecto(self, texto: str) -> None:
         self.fila['resultado'] = 'defecto'
@@ -235,11 +281,20 @@ class Escenario:
         quien.git('checkout', '-q', 'main')
         quien.git('pull', '-q', '--no-rebase', 'origin', 'main')
         quien.git('fetch', '-q', 'origin', rama)
+        antes = quien.git('rev-parse', 'HEAD').stdout.strip()
         p = quien.git('merge', '--no-ff', '-q', '-m', f'Integrar {rama}', f'origin/{rama}', ok=False)
         if p.returncode:
             self.detectado('al_integrar')
             en_conflicto = quien.git('diff', '--name-only', '--diff-filter=U').stdout.split()
             self.nota(f'conflicto al integrar {rama}: ' + (', '.join(en_conflicto) or (p.stderr or p.stdout).strip()[-300:]))
+            return False
+        # Como pide la guía: las pruebas, después de un merge limpio y antes de publicarlo. Si fallan, no se publica.
+        fallan = [t.name for t in sorted(quien.dir.glob('test_*.py'))
+                  if subprocess.run([sys.executable, t.name], cwd=quien.dir, capture_output=True).returncode]
+        if fallan:
+            self.detectado('al_integrar')
+            self.nota(f'al integrar {rama}, antes de publicar, fallan {fallan}: el merge se deshace')
+            quien.git('reset', '-q', '--hard', antes)
             return False
         quien.git('push', '-q', 'origin', 'main')
         return True
@@ -271,6 +326,8 @@ def s1_paralelo_disjunto(e: Escenario) -> None:
         p.decide('tomar', ident)
         p.escribir(archivo, f'# {archivo}\n')
         p.commit(f'{sufijo}: {archivo}')
+        p.revisar(ident)  # revisada sobre su rama: al integrar la del otro, deja de valer
+        p.commit(f'{sufijo}: revisión')
         p.git('push', '-q', 'origin', f'tarea/{sufijo}')
         return ident, eventos_de(p.registro(ident))
     e.final = e.ana
@@ -294,14 +351,16 @@ def s1_paralelo_disjunto(e: Escenario) -> None:
 
 
 def s2_mismo_archivo(e: Escenario) -> None:
-    """Los dos tocan la misma línea de calc.py en sus cambios: el conflicto se ve al integrar, no después."""
+    """Los dos tocan, a la vez, la misma línea de calc.py en sus cambios: el conflicto se ve al integrar, no después."""
     e.final = e.ana
-    for p, sufijo, cuerpo in ((e.ana, 'redondeo', 'round(a + b, 2)'), (e.beto, 'enteros', 'int(a) + int(b)')):
+
+    def frente(p: Persona, sufijo: str, cuerpo: str) -> None:
         p.git('checkout', '-q', '-b', f'tarea/{sufijo}')
         p.nuevo_cambio(sufijo, f'Sumar con {sufijo}')
         p.escribir('calc.py', f'def sumar(a, b):\n    return {cuerpo}\n')
         p.commit(f'{sufijo}: calc.py')
         p.git('push', '-q', 'origin', f'tarea/{sufijo}')
+    e.a_la_vez(('Ana', frente, e.ana, 'redondeo', 'round(a + b, 2)'), ('Beto', frente, e.beto, 'enteros', 'int(a) + int(b)'))
     e.integrar(e.ana, 'tarea/redondeo')
     if e.integrar(e.ana, 'tarea/enteros'):
         e.detectado('nunca')
@@ -310,18 +369,24 @@ def s2_mismo_archivo(e: Escenario) -> None:
 
 
 def s3_semantico(e: Escenario) -> None:
-    """Ana renombra sumar; Beto agrega un uso de sumar. Cada uno pasa sus pruebas; juntos fallan."""
+    """A la vez, Ana renombra sumar y Beto agrega un uso de sumar. Cada uno pasa sus pruebas; juntos fallan, y quien
+    integra lo ve en las pruebas del merge, antes de publicarlo."""
     e.final = e.ana
-    e.ana.git('checkout', '-q', '-b', 'tarea/renombrar')
-    e.ana.nuevo_cambio('renombrar', 'Renombrar sumar a suma')
-    e.ana.escribir('calc.py', 'def suma(a, b):\n    return a + b\n')
-    e.ana.escribir('test_calc.py', 'import calc\n\nassert calc.suma(2, 3) == 5\n')
-    e.ana.commit('renombrar: suma')
-    e.beto.git('checkout', '-q', '-b', 'tarea/doble')
-    e.beto.nuevo_cambio('doble', 'Agregar doble')
-    e.beto.escribir('doble.py', 'import calc\n\ndef doble(a):\n    return calc.sumar(a, a)\n')
-    e.beto.escribir('test_doble.py', 'import doble\n\nassert doble.doble(2) == 4\n')
-    e.beto.commit('doble: doble.py')
+
+    def renombrar() -> None:
+        e.ana.git('checkout', '-q', '-b', 'tarea/renombrar')
+        e.ana.nuevo_cambio('renombrar', 'Renombrar sumar a suma')
+        e.ana.escribir('calc.py', 'def suma(a, b):\n    return a + b\n')
+        e.ana.escribir('test_calc.py', 'import calc\n\nassert calc.suma(2, 3) == 5\n')
+        e.ana.commit('renombrar: suma')
+
+    def doble() -> None:
+        e.beto.git('checkout', '-q', '-b', 'tarea/doble')
+        e.beto.nuevo_cambio('doble', 'Agregar doble')
+        e.beto.escribir('doble.py', 'import calc\n\ndef doble(a):\n    return calc.sumar(a, a)\n')
+        e.beto.escribir('test_doble.py', 'import doble\n\nassert doble.doble(2) == 4\n')
+        e.beto.commit('doble: doble.py')
+    e.a_la_vez(('Ana', renombrar), ('Beto', doble))
     solos = e.pruebas_pasan(e.ana) and subprocess.run([sys.executable, 'test_doble.py'], cwd=e.beto.dir).returncode == 0
     if not solos:
         e.defecto('las pruebas no pasaban por separado: el escenario no prueba lo que dice')
@@ -329,19 +394,20 @@ def s3_semantico(e: Escenario) -> None:
     for p, rama in ((e.ana, 'tarea/renombrar'), (e.beto, 'tarea/doble')):
         p.git('push', '-q', 'origin', rama)
     e.integrar(e.ana, 'tarea/renombrar')
-    e.integrar(e.ana, 'tarea/doble')
-    juntos = subprocess.run([sys.executable, 'test_doble.py'], cwd=e.ana.dir, capture_output=True).returncode == 0
-    if juntos:
-        e.defecto('el escenario semántico no falló junto')
+    publicado = e.ana.git('rev-parse', 'origin/main').stdout.strip()
+    if e.integrar(e.ana, 'tarea/doble'):
+        e.detectado('despues')
+        e.defecto('dos cambios que fallan juntos se publicaron en main')
         return
-    # Al integrar, el protocolo pide correr las pruebas antes de dar el merge por bueno: ahí se ve.
-    e.detectado('al_integrar')
-    e.nota('pasan solos y fallan juntos: lo detectan las pruebas de quien integra (Factory no corre nada al mergear)')
+    if e.ana.git('ls-remote', 'origin', 'main').stdout.split()[0] != publicado:
+        e.defecto('el merge que falla las pruebas llegó a publicarse')
+    e.nota('pasan solos y fallan juntos: lo ven las pruebas de quien integra, antes de publicar (Factory no corre nada al mergear)')
 
 
 def s4_tomar_a_la_vez(e: Escenario) -> None:
-    """Ana crea un cambio y lo sube; Ana y Beto lo toman a la vez desde sus clones. Al juntar las ramas Factory no elige
-    responsable: avisa, Beto lo releva acordado con Ana, y el cambio se integra con las dos tomas en su historia."""
+    """Ana crea un cambio y lo sube; Ana y Beto lo toman a la vez desde sus clones y suben a la vez. Al juntar las ramas
+    Factory no elige responsable: avisa, quien perdió la carrera releva al otro, acordado, y el cambio se integra con
+    todas las tomas en su historia."""
     e.final = e.ana
     e.ana.git('checkout', '-q', '-b', 'tarea/compartido')
     ident = e.ana.nuevo_cambio('compartido', 'Un cambio para dos')
@@ -350,32 +416,37 @@ def s4_tomar_a_la_vez(e: Escenario) -> None:
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/compartido', 'origin/tarea/compartido')
     e.a_la_vez(('Ana', e.ana.decide, 'tomar', ident), ('Beto', e.beto.decide, 'tomar', ident))
-    for p in (e.ana, e.beto):
+
+    def subir(p: Persona) -> int:
         p.commit(f'compartido: lo tomó {p.nombre}')
-    e.ana.git('push', '-q', 'origin', 'tarea/compartido')
-    if not e.beto.git('push', '-q', 'origin', 'tarea/compartido', ok=False).returncode:
+        return p.git('push', '-q', 'origin', 'tarea/compartido', ok=False).returncode
+    rechazos = e.a_la_vez(('Ana', subir, e.ana), ('Beto', subir, e.beto))
+    if sorted(bool(r) for r in rechazos) != [False, True]:
         e.detectado('nunca')
-        e.defecto('el segundo push no chocó')
+        e.defecto(f'de los dos push, no chocó exactamente uno: {rechazos}')
         return
     e.detectado('al_integrar')
-    if e.beto.git('pull', '-q', '--no-rebase', 'origin', 'tarea/compartido', ok=False).returncode:
+    segundo = e.beto if rechazos[1] else e.ana
+    if segundo.git('pull', '-q', '--no-rebase', 'origin', 'tarea/compartido', ok=False).returncode:
         e.defecto('dos «tomar» del mismo cambio chocan en factory.json al sincronizar')
         return
-    registro = e.beto.registro(ident)
+    registro = segundo.registro(ident)
     if [x.get('campo') for x in registro.get('pendientes_de_union') or []] != ['responsable']:
         e.defecto(f'al unir las dos tomas, Factory no dejó el responsable para decidir: {registro.get("pendientes_de_union")}')
-    if 'al unir dos ramas, responsable' not in e.beto.agente_hace('estado', ident).stdout:
+    if 'al unir dos ramas, responsable' not in segundo.agente_hace('estado', ident).stdout:
         e.defecto('estado no avisa que el responsable quedó sin decidir')
-    # Lo acuerdan: Beto lo releva. El aviso se va y queda constancia.
-    e.beto.decide('tomar', ident, '--relevo')
-    registro = e.beto.registro(ident)
-    if registro.get('pendientes_de_union') or registro['responsable']['persona'] != 'Beto':
+    # Lo acuerdan: quien subió segundo lo releva. El aviso se va y queda constancia.
+    segundo.decide('tomar', ident, '--relevo')
+    registro = segundo.registro(ident)
+    if registro.get('pendientes_de_union') or registro['responsable']['persona'] != segundo.nombre:
         e.defecto('el relevo acordado no resolvió el responsable')
-    e.beto.commit('compartido: Beto lo releva, acordado')
-    e.beto.git('push', '-q', 'origin', 'tarea/compartido')
-    if e.integrar(e.ana, 'tarea/compartido'):
-        tomas = [x.get('actor') for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'tomado']
-        e.nota(f'integrado en main con las tomas de {tomas}')
+    segundo.commit(f'compartido: {segundo.nombre} lo releva, acordado')
+    segundo.git('push', '-q', 'origin', 'tarea/compartido')
+    if not e.integrar(e.ana, 'tarea/compartido'):
+        e.defecto('el cambio tomado por los dos no se pudo integrar después del relevo')
+        return
+    tomas = [x.get('actor') for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'tomado']
+    e.nota(f'subió segundo {segundo.nombre}; integrado en main con las tomas de {tomas}')
 
 
 def s5_decisiones_simultaneas(e: Escenario) -> None:
@@ -431,23 +502,49 @@ def s6_mismo_id(e: Escenario) -> None:
     e.integrar(e.ana, 'tarea/igual-ana')
     if not e.integrar(e.ana, 'tarea/igual-beto'):
         e.defecto('dos cambios con IDs distintos chocaron al integrar')
+        return
+    # Y si dos cambios distintos llegan con el mismo ID (los de un Factory de antes de los caracteres al azar): Beto
+    # crea el suyo y le pone el ID del de Ana. Al integrar no se pueden mezclar en silencio.
+    e.beto.git('checkout', '-q', '-b', 'tarea/mismo-id', 'main')  # su main de antes de que Ana integrara
+    otro = e.beto.nuevo_cambio('otro', 'Otro cambio de Beto')
+    for raiz in ('openspec/changes', 'tareas', '.factory/cambios'):
+        (e.beto.dir / raiz / otro).rename(e.beto.dir / raiz / ids[0])
+    for f in [x for x in e.beto.dir.rglob('*') if x.is_file() and '.git' not in x.parts and ids[0] in str(x)]:
+        f.write_text(f.read_text(encoding='utf-8').replace(otro, ids[0]), encoding='utf-8')
+    e.beto.commit('mismo-id: otro cambio con el ID del de Ana')
+    e.beto.git('push', '-q', 'origin', 'tarea/mismo-id')
+    e.esperados = [x for x in e.esperados if x[0] != otro]  # su registro ahora vive con otro ID: lo comprueba lo de abajo
+    if e.integrar(e.ana, 'tarea/mismo-id'):
+        registro = e.ana.registro(ids[0])
+        if registro.get('pendientes_de_union'):
+            e.detectado('al_integrar')
+            e.nota(f'dos cambios con el mismo ID: al integrar, Factory no los mezcló en silencio, avisa '
+                   f'{[x["campo"] for x in registro["pendientes_de_union"]]}')
+        else:
+            e.detectado('nunca')
+            e.defecto('dos cambios distintos con el mismo ID se mezclaron al integrar sin aviso')
+    else:
+        e.nota('dos cambios con el mismo ID chocan al integrar: Git lo frena')
+        e.ana.git('merge', '--abort', ok=False)
 
 
 def s7_generados(e: Escenario) -> None:
-    """Dos cambios integrados uno tras otro tocan resumen.md y kb/: con los hooks de Factory no chocan, porque después del
-    merge se rehacen solos (en un commit aparte, sin trabajo de nadie)."""
+    """Dos cambios hechos a la vez tocan resumen.md y kb/: con los hooks de Factory no chocan al integrar, porque después
+    del merge se rehacen solos (en un commit aparte, sin trabajo de nadie)."""
     e.final = e.ana
     e.ana.agente_hace('kb')  # el vault se genera una vez en main y lo trae cada clon
     e.ana.agente_hace('resumen')
     e.ana.commit('el vault')
     e.ana.git('push', '-q', 'origin', 'main')
     e.beto.git('pull', '-q', '--no-rebase', 'origin', 'main')
-    for p, sufijo in ((e.ana, 'uno'), (e.beto, 'dos')):
+
+    def frente(p: Persona, sufijo: str) -> None:
         p.git('checkout', '-q', '-b', f'tarea/{sufijo}')
         p.nuevo_cambio(sufijo, f'El cambio {sufijo}')
         p.agente_hace('resumen')
         p.commit(f'{sufijo}: el cambio')
         p.git('push', '-q', 'origin', f'tarea/{sufijo}')
+    e.a_la_vez(('Ana', frente, e.ana, 'uno'), ('Beto', frente, e.beto, 'dos'))
     e.integrar(e.ana, 'tarea/uno')
     if not e.integrar(e.ana, 'tarea/dos'):
         e.defecto('los archivos generados chocaron al integrar aunque Factory los rehace después del merge')
@@ -520,6 +617,8 @@ def a2_evidencia_vieja(e: Escenario) -> None:
     e.ana.commit('otro: calc.py')
     e.ana.git('push', '-q', 'origin', 'main')
     e.beto.git('pull', '-q', '--no-rebase', 'origin', 'main')
+    if 'b + a' not in (e.beto.dir / 'calc.py').read_text():
+        e.defecto('después de traer main, Beto no ve el cambio de producto que dejó Ana')
     despues = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
     if despues.get('candidato') == sha:
         e.fila['evidencia_vieja_aceptada'] += 1
@@ -530,11 +629,21 @@ def a2_evidencia_vieja(e: Escenario) -> None:
     if e.beto.decide('cerrar', ident, ok=False).returncode == 0:
         e.fila['evidencia_vieja_aceptada'] += 1
         e.defecto('Factory dejó cerrar con la evidencia y la revisión viejas')
-    if e.fila['evidencia_vieja_aceptada'] == 0:
-        e.detectado('antes')
-        e.nota('al traer main, el candidato y la revisión viejos dejan de estar vigentes y cerrar se niega: hay que '
-               'producir evidencia y revisar otra vez')
+    if e.fila['evidencia_vieja_aceptada']:
+        return
+    e.detectado('antes')
+    # Beto rehace: evidencia del candidato nuevo y otra revisión; con eso vuelven a valer.
+    nuevo = e.beto.git('rev-parse', '--short=7', 'HEAD').stdout.strip()
+    (e.beto.dir / '.factory/cambios' / ident / 'candidatos' / nuevo / 'evidencia').mkdir(parents=True)
+    (e.beto.dir / '.factory/cambios' / ident / 'candidatos' / nuevo / 'evidencia' / 'resultado.json').write_text('{"exitoso": true}\n')
+    e.beto.revisar(ident)
+    e.beto.commit('lento: evidencia y revisión otra vez')
+    if (json.loads(e.beto.agente_hace('estado', ident, '--json').stdout).get('revision') or {}).get('vigente'):
         e.fila['rehecho'] += 1
+        e.nota('al traer main, el candidato y la revisión viejos dejaron de valer y cerrar se negó; Beto produjo evidencia y '
+               'revisó otra vez, y la revisión nueva vale')
+    else:
+        e.defecto('después de rehacer la evidencia y la revisión, la revisión nueva no figura vigente')
 
 
 def a3_registro_en_dos_ramas(e: Escenario) -> None:
@@ -574,11 +683,14 @@ def a4_mensajes_de_a_turnos(e: Escenario) -> None:
     e.ana.git('push', '-q', '-u', 'origin', 'tarea/charla')
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/charla', '--track', 'origin/tarea/charla')
-    escritos = []
+    escritos, dia_de = [], {}
     for dia in range(1, 4):
+        # Días de verdad distintos: lo escrito el mismo segundo en dos ramas no tiene un orden que Factory pueda saber.
+        time.sleep(1 - time.time() % 1)
         hoy = e.a_la_vez(*[(f'día {dia}: {p.nombre}', lambda p=p, t=f'día {dia}: {p.nombre}': (p.agente_hace('mensaje', ident, t), t)[1])
                            for p in (e.ana, e.beto)])
         escritos += hoy
+        dia_de.update({t: dia for t in hoy})
         for p in e.azar.sample([e.ana, e.beto], 2):  # quién sincroniza primero sale de la semilla
             p.commit(f'charlas: día {dia}')
             p.git('pull', '-q', '--no-rebase', 'origin', 'tarea/charla')
@@ -591,8 +703,9 @@ def a4_mensajes_de_a_turnos(e: Escenario) -> None:
     e.fila['decisiones_perdidas'] = len(set(escritos) - set(vistos))
     if sorted(vistos) != sorted(escritos):
         e.defecto(f'los mensajes quedaron {vistos}, no {escritos}')
-    if [x.get('cuando') for x in eventos] != sorted(x.get('cuando') for x in eventos):
-        e.defecto('los mensajes no quedaron en el orden en que se escribieron')
+    dias = [dia_de.get(t, 0) for t in vistos]
+    if dias != sorted(dias):  # lo del mismo día no tiene orden entre sí; lo de un día va antes que lo del siguiente
+        e.defecto(f'los mensajes no quedaron en el orden de los días en que se escribieron: {vistos}')
 
 
 def a5_trailers_y_vault_en_otro_clon(e: Escenario) -> None:
