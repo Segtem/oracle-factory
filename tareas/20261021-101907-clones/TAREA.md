@@ -15,3 +15,23 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-21 13:51:29 UTC)
 
 Requisitos importados: colaboracion_c6487e15539740e17.dos_clones_no_generan_el_mismo_id (funcional), colaboracion_c6487e15539740e17.escribir_a_la_vez_no_obliga_a_repetir (funcional), colaboracion_c6487e15539740e17.un_clon_recien_hecho_puede_trabajar (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-21 14:05:35 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-21 14:05:57 UTC)
+
+Requisitos importados: colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id (funcional), colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir (funcional), colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-21 14:06:03 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar: factory_clones.un_clon_recien_hecho_puede_trabajar, factory_clones.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:06:04 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id: factory_clones.dos_clones_no_generan_el_mismo_id, factory_clones.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:06:05 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir: factory_clones.escribir_a_la_vez_no_obliga_a_repetir, factory_clones.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
