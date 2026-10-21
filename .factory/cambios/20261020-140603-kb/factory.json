@@ -1,0 +1,819 @@
+{
+  "id": "20261020-140603-kb",
+  "titulo": "El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?",
+  "capacidad": "conocimiento",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+  "spec_sha256": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-20T14:48:20+00:00",
+    "documentos": {
+      "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+    }
+  },
+  "requisitos": [
+    "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+    "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/informe.json",
+    "sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
+    "decisiones": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/decisiones.json",
+    "decisiones_sha256": "2608d0961e1196186147959393bd07f215bc0e6d055e706275dc2009f0832e96",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T10:00:13+00:00",
+    "motivo": "Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "9878848706ccd66d6107d75ae1bd64cde25aeb4c",
+      "archivos_sha256": "3849a6e167efb57e937a18d3c5d0eac744e8099975461c0fcffb616fd39d0d5f"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261020-140603-kb/candidatos/b24afc9/evidencia/hechos.json",
+    "hechos_sha256": "a45a2f07b0433919fb1a3b993abc3144ca702cf5dda09c74c88aae8c05f65654",
+    "informe": ".factory/cambios/20261020-140603-kb/oracle-veredicto.txt",
+    "informe_sha256": "7deeffcdb1fde97d30f2d167420448fcc96717b566a2b148bebd059bedb110cf",
+    "cuando": "2026-10-21T10:00:27+00:00",
+    "contexto": {
+      "head": "541d0080f356c9730ff31d3023d0b7730dab14e1",
+      "archivos_sha256": "3849a6e167efb57e937a18d3c5d0eac744e8099975461c0fcffb616fd39d0d5f"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:06:03+00:00",
+      "capacidad": "conocimiento"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:47:19+00:00",
+      "documentos": {
+        "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+        "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:47:19+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:48:20+00:00",
+      "documentos": {
+        "openspec/changes/20261020-140603-kb/proposal.md": "135da7f8d12c6a8063ba1e8f27fad08443dd7295551f9a51755dd781ae8f848f",
+        "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T14:48:20+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-20T14:48:31+00:00",
+      "ids": [
+        "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+        "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+        "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T15:00:35+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "medidas": [
+        "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa",
+        "factory_kb.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T15:00:36+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "medidas": [
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+        "factory_kb.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T15:00:36+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "medidas": [
+        "factory_kb.por_que_existe_una_linea",
+        "factory_kb.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "medidas": [
+        "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa",
+        "factory_kb.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea",
+      "medidas": [
+        "factory_kb.por_que_existe_una_linea",
+        "factory_kb.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "requisito": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "medidas": [
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+        "factory_kb.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:19:51+00:00",
+      "revisor": "agy",
+      "candidato": "240cbdf",
+      "lanzamiento": "776bffbaaf82"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:19:51+00:00",
+      "revisor": "codex",
+      "candidato": "240cbdf",
+      "lanzamiento": "06258923a227"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:21:54+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "240cbdf",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "06258923a227"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:45:22+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "240cbdf",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "776bffbaaf82"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:56:42+00:00",
+      "revisor": "agy",
+      "candidato": "98afd62",
+      "lanzamiento": "82893386e8bb"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:56:42+00:00",
+      "revisor": "codex",
+      "candidato": "98afd62",
+      "lanzamiento": "e07f4a0e960b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T16:59:51+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "98afd62",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "e07f4a0e960b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:18:01+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "98afd62",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "82893386e8bb"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:27:53+00:00",
+      "revisor": "agy",
+      "candidato": "d55ff5c",
+      "lanzamiento": "ac15f18a3808"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:27:53+00:00",
+      "revisor": "codex",
+      "candidato": "d55ff5c",
+      "lanzamiento": "ffa9ca4049b2"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:29:26+00:00",
+      "revisor": "codex",
+      "candidato": "d55ff5c",
+      "lanzamiento": "d979452e257b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:29:26+00:00",
+      "revisor": "agy",
+      "candidato": "d55ff5c",
+      "lanzamiento": "55efccc4dcf6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:30:07+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d55ff5c",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "ffa9ca4049b2"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:30:34+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d55ff5c",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "d979452e257b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:49:17+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d55ff5c",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "ac15f18a3808"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:58:08+00:00",
+      "revisor": "agy",
+      "candidato": "9541c7d",
+      "lanzamiento": "99c3d351d86b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:58:08+00:00",
+      "revisor": "codex",
+      "candidato": "9541c7d",
+      "lanzamiento": "7c08005abb8c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T17:59:00+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d55ff5c",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "55efccc4dcf6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:00:15+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "9541c7d",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "7c08005abb8c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:17:15+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "9541c7d",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "99c3d351d86b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:31:21+00:00",
+      "revisor": "codex",
+      "candidato": "a75093c",
+      "lanzamiento": "f3caa66b391d"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:31:21+00:00",
+      "revisor": "agy",
+      "candidato": "a75093c",
+      "lanzamiento": "497f2dc308dd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:33:36+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "a75093c",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "f3caa66b391d"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:42:37+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "a75093c",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "497f2dc308dd"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:51:25+00:00",
+      "revisor": "agy",
+      "candidato": "d730c42",
+      "lanzamiento": "8b5c3728df35"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:51:25+00:00",
+      "revisor": "codex",
+      "candidato": "d730c42",
+      "lanzamiento": "e1eacb99061f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T18:53:22+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "d730c42",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "e1eacb99061f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-20T19:00:31+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d730c42",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "8b5c3728df35"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-20T19:01:00+00:00",
+      "decision": "aprobar",
+      "candidato": "d730c42"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Persona [[cambios/inexistente]]",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-20T19:55:23+00:00",
+      "formato": "guiado",
+      "revisor": "Persona [[cambios/inexistente]]",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
+      "decisiones_sha256": "b92a1a23f15a5160bc7ffebc96c510e8654b5b2ed6c2e8af38bc7e848bed36c4"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:47:54+00:00",
+      "revisor": "agy",
+      "candidato": "b24afc9",
+      "lanzamiento": "c2ff4e3f468e"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:47:54+00:00",
+      "revisor": "codex",
+      "candidato": "b24afc9",
+      "lanzamiento": "7e97b0b01fe9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:49:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "b24afc9",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "7e97b0b01fe9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:58:26+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "b24afc9",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c2ff4e3f468e"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T00:58:51+00:00",
+      "decision": "aprobar",
+      "candidato": "b24afc9"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T10:00:13+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
+      "decisiones_sha256": "2608d0961e1196186147959393bd07f215bc0e6d055e706275dc2009f0832e96"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:27+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a45a2f07b0433919fb1a3b993abc3144ca702cf5dda09c74c88aae8c05f65654"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:51+00:00",
+      "oracle": ".factory/cambios/20261020-140603-kb/oracle-veredicto.txt",
+      "revision": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:51+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
+    }
+  ],
+  "tipos": {
+    "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa": "funcional",
+    "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea": "funcional",
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-20T14:48:20+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {
+    "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "sha256": "36f49e5cc63438e4ad9ef0b0c3f22b668c2494ac4f154c80727c1df2c64a08e5",
+      "catalogos": {
+        "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa": "10c6501223ee095d82a7840f82d197d93b9c50f564488b95861b467a22daaf4d",
+        "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
+      },
+      "archivos_catalogo": {
+        "factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa": "catalogos/factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa.oracle",
+        "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
+      }
+    },
+    "conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "sha256": "d14a87122181718f371c88975a1e7e2a1f211429217c7a9a6793a2b059cab5f1",
+      "catalogos": {
+        "factory_kb.por_que_existe_una_linea": "11ae6ef8128c3e013fb06d0e39d7c1d66cbf5298292cd05c68ef2349ea005edd",
+        "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
+      },
+      "archivos_catalogo": {
+        "factory_kb.por_que_existe_una_linea": "catalogos/factory_kb.por_que_existe_una_linea.oracle",
+        "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
+      }
+    },
+    "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-20T16:11:21+00:00",
+      "sha256": "a2ba000c4203de93266af769ba6814310c86c85e683ed7851b56e6c1f1ccf84d",
+      "catalogos": {
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "2cff501bd0674485c0eea531051f56cb399b13bfdccc036fb839a362229e285e",
+        "factory_kb.corrida_completa": "cf03d0a3487d9ac34265f1f294ac3198b051dd3007ca14e381f854904a4a752c"
+      },
+      "archivos_catalogo": {
+        "factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes": "catalogos/factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes.oracle",
+        "factory_kb.corrida_completa": "catalogos/factory_kb.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "firma": "oracle_factory/cli.py|porque puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "motivo": "Acepto el riesgo: por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:19+00:00",
+      "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Una nota huérfana pierde detección si se le quita la marca generada",
+      "firma": "oracle_factory/cli.py|una nota huérfana pierde detección si se le quita la marca generada",
+      "motivo": "Acepto el riesgo: Una nota huérfana pierde detección si se le quita la marca generada",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:20+00:00",
+      "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Los comandos mutadores recalculan el vault varias veces",
+      "firma": "oracle_factory/cli.py|los comandos mutadores recalculan el vault varias veces",
+      "motivo": "Acepto el riesgo: Los comandos mutadores recalculan el vault varias veces",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:21+00:00",
+      "candidato": "d730c42"
+    },
+    {
+      "archivo": "oracle_factory/kb.py",
+      "titulo": "Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "firma": "oracle_factory/kb.py|un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "motivo": "Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T10:00:10+00:00",
+      "candidato": "b24afc9"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T10:00:51+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-21T10:00:51+00:00"
+  }
+}

@@ -1,0 +1,18 @@
+---
+generado: oracle-factory kb
+id: "estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos"
+vigente: true
+---
+
+# ruta canonica para producir artefactos
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `estructura_cd7e5b6c4f15e5d8b.ruta_canonica_para_producir_artefactos`
+- Vigente: sí
+- Cambio: [[cambios/20261005-132144-jerarquia-de]]
+- Veredicto: cumple
+- Medidas: `factory_estructura.ruta_canonica_para_producir_artefactos`, `factory_estructura.corrida_completa`
+- Fuente: openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#ruta canonica para producir artefactos
+
+Tipo: funcional `oracle-factory ruta ID TIPO` SHALL imprimir la ruta canónica para producir un artefacto de ese tipo (evidencia, clue, revision o checkout) sobre el HEAD actual, nombrando la carpeta del candidato con los 7 primeros caracteres del hash completo del commit, sin crear ni modificar archivos.

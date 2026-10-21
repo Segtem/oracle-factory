@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d55ff5c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d55ff5ccdf20aa053e6e20b0bb156ef59980a36c",
+  "diff_sha256": "d29afd1630439b9b78809982e46326fdee409a09742c7c80d2759215f89d6918",
+  "context_sha256": "bc9ee95159e59720a24aaf12038b0ea2b867da9270f0fc3ee1c92ee83fa71786",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "KB-V3-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.99,
+      "title": "Una nota sobrante sin la marca de generación queda invisible para --verificar",
+      "explanation": "generadas_en_disco sólo agrega README.md y archivos Markdown de kb/cambios/ y kb/requisitos/ cuando su contenido todavía incluye la marca MARCA en los primeros 200 caracteres. Si una nota generada huérfana pierde esa marca al editarse, no aparece en el conjunto comparado con armar(). Por eso kb --verificar no informa la nota sobrante y refrescar_kb tampoco la elimina; el directorio reservado conserva una nota vieja sin control.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2157,
+        "end_line": 2159,
+        "side": "head"
+      },
+      "trigger": "Dejar en kb/cambios/ o kb/requisitos/ una nota generada de un cambio o requisito que ya no existe y editarla quitando «generado: oracle-factory kb»; ejecutar oracle-factory kb --verificar o un comando que refresque kb/.",
+      "evidence": "En oracle_factory/cli.py:2157-2159, generadas_en_disco descarta toda ruta cuyo contenido no contiene kb_mod.MARCA en los primeros 200 caracteres. Reproducción en una carpeta temporal: con kb/cambios/20200101-000000-fantasma.md existente y contenido «# Nota sobrante editada», la función devolvió [] y no incluyó esa ruta. comando_kb calcula sobrantes sólo con generadas_en_disco() - set(notas), de modo que ese archivo queda sin reportar; refrescar_kb emplea la misma diferencia para borrar.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Reproducido manualmente sobre un directorio temporal de la carpeta del revisor, sin alterar el checkout candidato: el archivo huérfano sin marca existe y generadas_en_disco() devuelve un conjunto vacío. Confirmar el arreglo agregando un caso que quite la marca a una nota sobrante y compruebe que --verificar falla sin escribirla y el refresco la elimina."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la propuesta, la spec, el diff y el contexto del paquete; revisé los módulos kb.py y cli.py, la extensión VS Code, las pruebas, verify_kb.py y las correcciones informadas en vueltas previas.",
+    "Corrí desde la raíz del checkout exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null`: 6 pruebas, OK; incluye el caso de Node de la extensión.",
+    "Hice una reproducción manual de la detección de una nota huérfana sin marca en un directorio temporal propio. No corrí la suite completa ni tools/verify_kb.py por la instrucción de alcance. Las pruebas actuales sí cubren huérfanas que conservan la marca, pero no la mutación que sustenta el hallazgo.",
+    "No edité ni hice commits en el checkout candidato; los archivos de detalle y reproducción quedaron en la carpeta local del revisor."
+  ]
+}

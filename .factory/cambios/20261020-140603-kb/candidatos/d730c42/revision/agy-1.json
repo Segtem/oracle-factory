@@ -1,0 +1,30 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/d730c42",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "d730c427e43d0ea98964a34f3e0cfdaa3fe85335",
+  "diff_sha256": "ece2cb69f7a7e2d8ca60a42419c0a8a63e98981dda4a06eac99634fd1dc62846",
+  "context_sha256": "58a9b1a79a06ed3a6d061ca131fa5f5dbdf1d6c7781d8cfe16250a8caadd63d3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron en detalle todos los archivos modificados y agregados del candidato d730c42 contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py, los catálogos en catalogos/ y las notas generadas en kb/.",
+    "Se verificó la corrección del hallazgo KB5-01 de la vuelta 5: commits_del_cambio extrae la fecha de commit mediante %cI (fecha_commit), y nota_de_cambio filtra los commits usando _antes(c['fecha_commit'], corte). Se comprobó mediante prueba de mutación y análisis de código que commits retrodatados o cherry-picks que ingresan después de una decisión registrada no son incorporados a la nota de un cambio abierto ni cerrado, manteniéndose la estabilidad temporal prometida para el vault.",
+    "Se comprobó que el vault generado en kb/ no se desfasa ni depende del momento de generación: para cambios abiertos, los commits posteriores a la última decisión no entran en la nota sino hasta la decisión subsiguiente; para cambios cerrados, el corte temporal del cierre excluye commits posteriores e integraciones por merge posterior, manteniendo la nota inalterable.",
+    "Se verificó que oracle-factory kb --verificar no escribe ni modifica ningún archivo en disco al detectar inconsistencias, y falla adecuadamente reportando notas faltantes, notas modificadas a mano o desactualizadas, notas generadas sobrantes, y notas humanas con fuentes inexistentes o pendientes de revisión. Se comprobó sobre el repositorio del candidato d730c42 que las 233 notas generadas y de personas se encuentran al día.",
+    "Se comprobó la seguridad en la resolución de fuentes (huella_de_fuente): tanto las fuentes de tipo archivo como de requisito son restringidas al ámbito del proyecto mediante verificación estricta de rutas relativas y resolución canónica (is_relative_to), impidiendo la lectura de archivos fuera del repositorio aun mediante enlaces simbólicos o secuencias ../.",
+    "Se verificó que el marcado de notas humanas como revisadas (oracle-factory kb revisada) exige de forma estricta una terminal interactiva humana (sys.stdin.isatty()) y rechaza de plano invocaciones con --agente.",
+    "Se verificó la precisión de oracle-factory por-que: localiza correctamente el cambio asociado a una línea a través de blame, trailer Cambio: <ID>, deducción por candidatos/merge o por tramo acotado entre propuesta y candidato, reportando explícitamente cuando una línea no pertenece a ningún cambio de Factory sin atribuirla erróneamente.",
+    "Se comprobó que _texto() previene la inyección de Markdown o wikilinks Obsidian espurios en títulos, decisiones, riesgos, commits y mensajes del registro.",
+    "Se midió el costo computacional de regenerar el vault: la actualización incremental con solo=identificador en guardar() toma menos de 1 ms, y la regeneración completa en refrescar_kb() toma menos de 5 ms, escribiendo de forma atómica únicamente los archivos cuyos bytes hayan cambiado.",
+    "Se verificó la exclusión en es_producto() de las notas generadas en kb/ (README.md, cambios/*.md, requisitos/*.md), preservando a kb/notas/ como producto versionado.",
+    "Se comprobó la integración de la extensión de VS Code (editores/vscode/): comando factory.porQue en menú contextual y paleta, delegación a la CLI, visualización en documento Markdown de sólo lectura y versión 0.4.0 en package.json y README.md.",
+    "Se ejecutaron las pruebas unitarias exactamente según las instrucciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas pasaron, OK; Git y Node.js disponibles en el entorno).",
+    "No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_kb.py, de acuerdo con las instrucciones de la revisión.",
+    "No se editó el checkout de sólo lectura ni se realizaron commits ni decisiones reservadas a personas."
+  ]
+}

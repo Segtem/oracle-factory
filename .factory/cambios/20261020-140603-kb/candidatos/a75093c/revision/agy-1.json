@@ -1,0 +1,30 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/a75093c",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "a75093ca979f1966b479858e198bb6a8937ac691",
+  "diff_sha256": "14758893610337af22b8fe051b8fdff7c1b45f656d13567e5cb9750817212a3e",
+  "context_sha256": "e623fbec66980242e9a0371f5b54951bb1f7d9f2afb5bad228c314d86dde2c7d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron en detalle todos los archivos modificados y agregados del candidato a75093c contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py, los catálogos en catalogos/ y las notas generadas en kb/.",
+    "Se verificó la corrección de KB-4-01 / KB4-01: huella_de_fuente ahora exige que tanto los archivos de requisitos como los archivos comunes resuelvan dentro del proyecto mediante adentro = lambda ruta: ruta.resolve().is_relative_to(raiz.resolve()). Se comprobó que un symlink en requisitos/ apuntando hacia un archivo externo es rechazado (retorna None), impidiendo que se lean fuentes fuera del proyecto.",
+    "Se verificó la corrección de KB4-02: la nota de un cambio abierto en kb/cambios/<ID>.md lista ahora sus commits con trailer y sus candidatos anteriores a su última decisión registrada (eventos[-1]['cuando']), mientras que un cambio cerrado lista los anteriores a su cierre (estado['cierre']['cuando']). El corte temporal con _antes es estricto (<), por lo que un commit realizado en el mismo segundo o posteriormente a la decisión no entra de inmediato en la nota y no desfasa el vault; entra automáticamente con la decisión siguiente cuando el vault se rehace en guardar().",
+    "Se comprobó que el merge posterior al cierre de un cambio no altera la nota del cambio cerrado en el vault, ya que los commits deducidos por el merge que carecen de trailer o condición de candidato son excluidos de la lista de commits de la nota y remitidos a oracle-factory log.",
+    "Se verificó que kb --verificar falla sin modificar archivos ante notas generadas editadas a mano o desactualizadas, y que reporta fuentes inexistentes o notas pendientes de revisión.",
+    "Se comprobó que kb revisada rechaza ejecuciones con --agente o sin terminal interactiva, exigiendo que la confirmación sea tomada exclusivamente por una persona física.",
+    "Se verificó que por-que atribuye líneas de manera precisa a través del blame de Git, priorizando trailers explícitos, deducción por candidatos/merge y delimitación de tramo histórico, reportando apropiadamente commits ajenos a Factory sin asociar cambios espurios.",
+    "Se verificó que _texto() sanea eficazmente cadenas del registro evitando inyecciones de Markdown (escapa caracteres especiales y unifica saltos de línea).",
+    "Se comprobó que la optimización de guardar() con solo=identificador en armar() reduce el tiempo de actualización incremental a menos de 20 ms, refrescando únicamente el cambio afectado, sus requisitos y el índice, y que refrescar_kb al final de comandos mutadores limpia notas sobrantes.",
+    "Se confirmó que es_producto excluye las notas generadas de kb/ (README.md, cambios/*.md, requisitos/*.md) para evitar invalidar revisiones o evidencias ante actualizaciones del vault, manteniendo como producto a las notas humanas en kb/notas/.",
+    "Se ejecutaron las pruebas unitarias exactamente según las indicaciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas, OK; Git y Node.js disponibles en el entorno).",
+    "Se ejecutó oracle-factory kb --verificar sobre el propio repositorio candidato a75093c, verificando que las 233 notas generadas están al día.",
+    "No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_kb.py, siguiendo las instrucciones recibidas.",
+    "No se editó el checkout de sólo lectura ni se realizaron commits ni decisiones reservadas a personas."
+  ]
+}

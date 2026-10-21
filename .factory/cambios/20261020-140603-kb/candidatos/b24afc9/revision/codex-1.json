@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/b24afc9-codex-1",
+  "base": "cd8691002ae3b52d067fb464e2aab2117e40400e",
+  "head": "b24afc9283ea5910699e28d0e29a0e2e4da7ddd3",
+  "diff_sha256": "9a94ef5c29086bafd64a517191cbc95add3f36193953919645c25941cb92930c",
+  "context_sha256": "dbc97e75cfd048ae897091e27387e30734c09ecf13207896e3f53aae29c17746",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "KB7-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "Un merge posterior al cierre puede cambiar los commits de la nota generada",
+      "explanation": "La nota vuelve a consultar los commits deducidos de Git al regenerarse. Antes de integrar una rama, solo tiene el commit candidato; después del merge, `commits_del_cambio` puede descubrir también los commits anteriores de esa rama. El filtro por fecha de committer los incluye si ocurrieron antes del cierre. Por eso integrar después del cierre puede modificar `kb/cambios/<id>.md` y hacer fallar `kb --verificar`, aunque no cambió el registro del cambio. Esto contradice que el vault no dependa de cuándo se genera y que el merge posterior no lo desfase.",
+      "location": {"file": "oracle_factory/kb.py", "start_line": 117, "end_line": 119, "side": "head"},
+      "trigger": "Crear una rama con un commit sin trailer y un commit candidato antes del cierre; cerrar el cambio sin integrar la rama; generar el vault; luego integrar la rama con un merge posterior y volver a correr `oracle-factory kb --verificar`.",
+      "evidence": "`nota_de_cambio` llama a `cli.commits_del_cambio` cada vez y filtra por `fecha_commit < cierre` (líneas 117–118). La función `commits_del_cambio` agrega el rango del segundo padre del merge cuando descubre la integración de un candidato de un cambio cerrado. Antes del merge, el commit sin trailer no está entre los candidatos ni los commits con trailer; después del merge entra en ese rango y, por tener fecha de committer anterior al cierre, aparece en la nota. La prueba `test_kb1_un_proyecto_con_un_cambio_cerrado_y_otro_abierto` solo comprueba commits de rama fechados después del cierre, que el filtro excluye; no cubre commits de rama creados antes del cierre e integrados después.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "En un repositorio temporal, generar la nota del cambio cerrado antes del merge con un commit de rama sin trailer anterior al cierre y un candidato; integrar la rama después del cierre y regenerar. La nota y el resultado de `kb --verificar` deben permanecer iguales a los de antes del merge."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null` desde la raíz del checkout: 6 pruebas, resultado OK. La prueba de Node de la extensión está dentro de esos casos y pasó.",
+    "No corrí la suite completa ni `tools/verify_kb.py`; hice revisión estática adicional de los flujos señalados y de los informes anteriores.",
+    "No ejecuté una mutación funcional aislada para el caso del merge; el hallazgo se basa en el flujo de `commits_del_cambio`, el filtro temporal de `nota_de_cambio` y la brecha concreta de la prueba existente.",
+    "No reporté los tres riesgos que la persona declaró aceptados ni los archivos excluidos del paquete."
+  ]
+}

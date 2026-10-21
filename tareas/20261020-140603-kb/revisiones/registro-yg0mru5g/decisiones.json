@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
+  "actor": "Persona [[cambios/inexistente]]",
+  "motivo": "Seis vueltas de codex y agy; en las dos últimas agy no dejó hallazgos y codex sólo KB6-01. Corregido con pruebas que fallan sin cada corrección: las notas generadas no son producto, el vault se rehace al terminar cada comando y quita lo que sobra, la nota de un cambio no cambia por commitear ni por integrarlo (commits con trailer y candidatos hasta la última decisión, por la fecha del commit), las fuentes no salen del proyecto (tampoco por enlaces), cada decisión lleva su motivo, y títulos y mensajes no inyectan Markdown. KB6-01 (el tramo puede atribuir un commit ajeno) es el precio de encontrar el cambio de una rama integrada sin merge (C-02): por-que lo marca «deducido por su tramo» y lo advierte; con el hook los commits nuevos llevan su trailer.",
+  "decisiones": [
+    {
+      "hallazgo_id": "KB6-01",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: por-que puede atribuir un commit ajeno por caer entre propuesta y candidato",
+      "origen_motivo": "armado",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:19+00:00"
+    },
+    {
+      "hallazgo_id": "KB6-02",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Una nota huérfana pierde detección si se le quita la marca generada",
+      "origen_motivo": "armado",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:20+00:00"
+    },
+    {
+      "hallazgo_id": "KB6-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Los comandos mutadores recalculan el vault varias veces",
+      "origen_motivo": "armado",
+      "actor": "Persona [[cambios/inexistente]]",
+      "fecha": "2026-10-20T19:55:21+00:00"
+    }
+  ]
+}

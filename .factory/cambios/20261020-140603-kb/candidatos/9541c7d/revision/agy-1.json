@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/9541c7d",
+  "base": "7390206ac92dcff902bcd6796182b952850abf87",
+  "head": "9541c7d47a5090324417370ea9066a8bd5cc497c",
+  "diff_sha256": "5f36f18cf597e4e55dbbd07e0dc98fdd4398482c7a2ad9b2569f0b4b714c2c39",
+  "context_sha256": "be5c0936dcdd3bdc14089164eaafddeb413246d0f19bb8c8b2c87bd7c9e71302",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "KB-4-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "huella_de_fuente permite que fuentes de tipo requisito sigan enlaces simbólicos hacia archivos fuera del proyecto",
+      "explanation": "La función huella_de_fuente restringe sintácticamente los IDs de requisito con re.fullmatch(r\"[a-z0-9_]+\\.[a-z0-9_]+\", fuente) y comprueba archivo.is_file(), pero no verifica que la ruta resuelta permanezca dentro de la raíz del proyecto (archivo.resolve().is_relative_to(raiz.resolve())). Si en requisitos/<id>.requisito existe un enlace simbólico que apunta a un archivo externo al repositorio, huella_de_fuente lo lee y calcula su hash SHA-256. En comparación, la comprobación de fuentes de tipo archivo (líneas 219–221) sí valida (raiz / relativa).resolve().is_relative_to(raiz.resolve()). Esto permite que una nota humana en kb/notas/ declare como fuente un ID de requisito que en realidad referencia y monitoriza un archivo fuera del proyecto.",
+      "location": {
+        "file": "oracle_factory/kb.py",
+        "start_line": 213,
+        "end_line": 215,
+        "side": "head"
+      },
+      "trigger": "Crear un enlace simbólico requisitos/sec.externo.requisito apuntando a un archivo fuera del repositorio; declarar fuentes: [sec.externo] en una nota de kb/notas/ y ejecutar oracle-factory kb revisada kb/notas/... o oracle-factory kb --verificar.",
+      "evidence": "Se comprobó en un entorno de prueba creando un symlink en requisitos/ hacia un archivo fuera del proyecto: huella_de_fuente(cli, 'sec.externo') aceptó el symlink, leyó el archivo externo y devolvió su hash SHA-256 en vez de retornar None o rechazarlo como fuente inexistente.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes",
+      "status": "pendiente",
+      "verification": "Exigir que archivo.resolve().is_relative_to(raiz.resolve()) sea verdadero en la rama de requisitos de huella_de_fuente. Comprobar con una prueba que si un .requisito es un symlink a un archivo externo, huella_de_fuente retorne None, kb revisada lo rechace como fuente inexistente y kb --verificar reporte el error nombrando la nota y la fuente."
+    },
+    {
+      "id": "KB-4-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Una nota sobrante sin la marca de generación no es detectada por kb --verificar",
+      "explanation": "generadas_en_disco() sólo recopila notas de kb/cambios/*.md y kb/requisitos/*.md si contienen la marca MARCA dentro de los primeros 200 caracteres (cli.py:2158). Si una nota generada huérfana (por ejemplo, de un cambio o requisito retirado) es editada y pierde esa marca, o si se deposita un archivo .md sin dicha marca en los directorios reservados para notas generadas, generadas_en_disco() lo omite. En consecuencia, sobran no lo incluye y oracle-factory kb --verificar pasa exitosamente a pesar de que el contenido de kb/ difiere del registro del proyecto y contiene archivos no producto desatendidos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2157,
+        "end_line": 2159,
+        "side": "head"
+      },
+      "trigger": "Crear o editar una nota huérfana en kb/cambios/ o kb/requisitos/ sin la marca generado: oracle-factory kb y ejecutar oracle-factory kb --verificar.",
+      "evidence": "generadas_en_disco() filtra con kb_mod.MARCA in ruta.read_text(...)[:200]. Si un archivo en kb/cambios/ no tiene la marca, no forma parte del conjunto retornado. Dado que comando_kb reporta sobrantes basándose exclusivamente en generadas_en_disco() - set(notas), el archivo huérfano queda invisible para la verificación y no se elimina en refrescar_kb.",
+      "related_requirement": "conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa",
+      "status": "pendiente",
+      "verification": "Asegurar que kb --verificar señale cualquier archivo .md sobrante en kb/cambios/ o kb/requisitos/ independientemente de si conserva la marca, o advertir de su presencia si no coincide con las notas generadas activas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los archivos modificados y agregados del candidato 9541c7d contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py y los catálogos en catalogos/.",
+    "Se comprobó la corrección de los hallazgos de la vuelta 3: KB-3-01 (formato de IDs de requisito), KB-3-02 (recuperación de motivos en kb.decisiones para revisión, abandono, cierre y medidas), KB-3-03 (saneamiento de r['persona'] mediante _texto()) y KB-3-04 (normalización de prefijo ./ en fuentes_de). Se identificó que persiste una vía residual de escape por enlaces simbólicos en fuentes de requisitos (KB-4-01).",
+    "Se confirmó que la omisión de commits individuales en la nota de cambios abiertos (KB3-01 / KB4-02 de Codex) corresponde a una decisión explícita de diseño orientada a preservar la estabilidad del vault y evitar su desincronización en cada commit intermedio, remitiendo al comando oracle-factory log.",
+    "Se ejecutaron las pruebas unitarias exactamente según las indicaciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas ejecutadas, OK; Git y Node disponibles en el entorno).",
+    "No se ejecutó la suite de pruebas completa del proyecto ni tools/verify_kb.py, de acuerdo con las instrucciones recibidas.",
+    "No se modificó el checkout de sólo lectura ni se realizaron commits ni decisiones reservadas a personas."
+  ]
+}
