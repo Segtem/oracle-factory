@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos/.factory/local/revisiones/fc3fe52-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "fc3fe526d95411b8be7ea30abf0915c2539b5e01",
+  "diff_sha256": "baaf6080ab5fa7eadbce95e6e402d68f6236f242aea834a6521ba0c35606cebf",
+  "context_sha256": "f80466308aa4525fd538083b69b398e17af377aeb5154d6ba622265f703dace8",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle catalogos/factory_avisos.*.oracle, el diff en oracle_factory/cli.py y los tests en tests/test_avisos.py y tools/verify_avisos.py contra los tres requisitos prometidos.",
+    "Se ejecutaron las pruebas unitarias exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null (3 pruebas ejecutadas, OK).",
+    "Se verificaron las correcciones de la vuelta 1: AV-01/AVISOS-1 (specs anidadas o enlazadas en specs_de_otra_capacidad), AV-02 (instrucción clara y viable en aviso_sin_medir eliminando la opción inviable de 'declarar por qué queda sin medir'), AV-04 (cobertura en test_av1 de múltiples specs ajenas y ordenamiento) y AV-05 (validación del sufijo de sugerencia en juzgar dentro de test_av3). AV-03 se mantiene reservado para la decisión humana por indicación expresa.",
+    "Se comprobó que importar nunca elimina requisitos de otros cambios ni los de la spec nueva: el cálculo anteriores = sorted({i for e in estado.get('eventos') or [] if e.get('accion') == 'requisitos_importados' for i in e.get('ids') or []} - set(ids)) aísla por dominio único dependiente del hash de identificador y spec_sha256, y descuenta explícitamente los IDs entrantes (- set(ids)). Se verificó con pruebas adicionales con slugs idénticos entre cambios distintos.",
+    "Se verificó que aprobar-spec no registra nada en disco al negarse: la validación de specs_de_otra_capacidad aborta antes de menús interactivos, eventos o llamadas a guardar(). Se comprobó que el estado completo del repositorio permanece idéntico byte por byte tras el rechazo.",
+    "Se verificó el comportamiento de specs_de_otra_capacidad frente a rutas variadas en specs/ (specs directas en specs/spec.md, rutas anidadas profundas, directorios con espacios y enlaces simbólicos rotos o válidos), confirmando que son identificadas y ordenadas alfabéticamente.",
+    "Se verificó que aviso_sin_medir y sin_medir_con_medidas no emiten falsas alarmas: requisitos recién importados sin medidas decididas, requisitos con medidas decididas con --quitar-sin-medir, propuestas de agentes pendientes de confirmación, y requisitos de otros cambios no disparan avisos espurios.",
+    "Se evaluó una batería de 10 mutaciones manuales sobre un clon aislado (M1 sorted omitido en specs_de_otra_capacidad, M2 glob en vez de rglob, M3 omitir != estado['spec'], M4 omitir - set(ids) en importar, M5 omitir unlink en importar, M6 omitir verificación de estado['medidas'] en sin_medir_con_medidas, M7 omitir regex en sin_medir_con_medidas, M8 omitir sugerencia en juzgar, M9 omitir faltan en juzgar, M10 vaciar aviso_sin_medir). Las 10 mutaciones fueron detectadas y eliminadas por tests/test_avisos.py.",
+    "No se registraron nuevos hallazgos en esta vuelta al cumplirse íntegramente las especificaciones y contratos.",
+    "No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_avisos.py, conforme a las instrucciones recibidas. Esta revisión es probabilística y no reemplaza la decisión humana ni constituye un veredicto de Oracle."
+  ]
+}
