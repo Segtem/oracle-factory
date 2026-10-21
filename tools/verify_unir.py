@@ -19,8 +19,9 @@ CONTRACTS = {
     'el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada': ['Unir.test_un1_mensajes_en_dos_ramas',
                                                                              'UnirPuro.test_lo_de_una_sola_rama_se_toma'],
     'si_las_dos_ramas_decidieron_distinto_decide_una_persona': [
-        'Unir.test_un2_dos_personas_lo_toman', 'UnirPuro.test_lo_que_las_dos_cambiaron_distinto_queda_pendiente'],
-    'lo_generado_no_choca_al_integrar': ['Unir.test_un3_lo_generado_se_rehace'],
+        'Unir.test_un2_dos_personas_lo_toman', 'Unir.test_un2_dos_fases',
+        'UnirPuro.test_lo_que_las_dos_cambiaron_distinto_queda_pendiente'],
+    'lo_generado_no_choca_al_integrar': ['Unir.test_un3_lo_generado_se_rehace', 'Unir.test_un3_con_conflicto_de_texto'],
 }
 PREFIX = 'test_unir.'
 LIMITES = ('Escenarios un1–un3 en repositorios temporales, Linux, con git real, un repositorio central y dos clones con los '

@@ -2,8 +2,8 @@
 
 Puro: recibe la versión común y las de las dos ramas, y devuelve la unión. Los eventos (y los riesgos aceptados) de las
 dos ramas quedan todos, sin repetirse y en orden. Lo que cambió una sola rama se toma de esa rama. Lo que las dos ramas
-cambiaron distinto no se elige: queda el valor de la rama que integra y el de la otra va a `pendientes_de_union`, para que
-lo decida una persona.
+cambiaron distinto no se elige (tampoco la fase): queda el valor de la rama que integra y el de la otra va a
+`pendientes_de_union`, para que lo decida una persona.
 """
 from __future__ import annotations
 
@@ -18,10 +18,9 @@ RESUELVE = {
     "medidas_pendientes": (("medidas_propuestas", "medidas_confirmadas", "medidas_elegidas"), "volvé a proponer o decidir las medidas con oracle-factory medir {id}"),
     "revision": (("revision_registrada",), "que una persona registre la revisión otra vez con oracle-factory revisar {id}"),
     "oracle": (("oracle_ejecutado",), "juzgá otra vez con oracle-factory juzgar {id}"),
-    "cierre": (("cierre",), "decidan si el cambio está cerrado; cerralo otra vez con oracle-factory cerrar {id}"),
 }
-# Campos que se derivan de las decisiones: se toma el de la rama que integra, sin pedir nada.
-DERIVADOS = ("fase",)
+# Lo que ninguna otra decisión resuelve (dos fases, dos cierres) lo elige una persona entre las dos versiones.
+DECIDIR = "elegí cuál vale con oracle-factory decidir-union {id} {campo} nuestro (o suyo)"
 
 
 def _clave(x) -> str:
@@ -38,7 +37,14 @@ def _sumar(*listas) -> list:
     return salida
 
 
-def _unir(base, nuestro, suyo, camino: str, pendientes: list):
+def _sumar3(base, nuestro, suyo) -> list:
+    """Lo de las dos ramas, salvo lo que estaba en la base y una de las dos sacó (un pendiente ya resuelto no vuelve)."""
+    en = [{_clave(x) for x in lista or []} for lista in (nuestro, suyo)]
+    sacado = {_clave(x) for x in base or []} - (en[0] & en[1])
+    return [x for x in _sumar(nuestro, suyo) if _clave(x) not in sacado]
+
+
+def _unir(base, nuestro, suyo, camino: tuple, pendientes: list):
     if nuestro == suyo:
         return nuestro
     if nuestro == base:
@@ -49,25 +55,23 @@ def _unir(base, nuestro, suyo, camino: str, pendientes: list):
         base = base if isinstance(base, dict) else {}
         salida = {}
         for k in list(dict.fromkeys([*nuestro, *suyo])):
-            sub = f"{camino}.{k}" if camino else k
             if k in LISTAS_QUE_SE_SUMAN and not camino:
-                juntos = _sumar(base.get(k), nuestro.get(k), suyo.get(k))
-                salida[k] = sorted(juntos, key=lambda e: (str(e.get("cuando", "")), _clave(e))) if k == "eventos" else juntos
+                juntos = _sumar3(base.get(k), nuestro.get(k), suyo.get(k))
+                if juntos:  # una lista que quedó vacía no se escribe
+                    salida[k] = sorted(juntos, key=lambda e: (str(e.get("cuando", "")), _clave(e))) if k == "eventos" else juntos
                 continue
-            valor = _unir(base.get(k), nuestro.get(k), suyo.get(k), sub, pendientes)
+            valor = _unir(base.get(k), nuestro.get(k), suyo.get(k), (*camino, k), pendientes)
             if valor is not None or k in nuestro:
                 salida[k] = valor
         return salida
-    if camino.split(".")[0] in DERIVADOS:
-        return nuestro
-    pendientes.append({"campo": camino, "nuestro": nuestro, "suyo": suyo})
+    pendientes.append({"campo": ".".join(camino), "camino": list(camino), "nuestro": nuestro, "suyo": suyo})
     return nuestro
 
 
 def unir(base: dict, nuestro: dict, suyo: dict) -> dict:
     """La unión de los tres registros (base puede ser {} si el cambio se creó en las dos ramas a la vez)."""
     pendientes: list = []
-    salida = _unir(base or {}, nuestro, suyo, "", pendientes)
+    salida = _unir(base or {}, nuestro, suyo, (), pendientes)
     if pendientes:
         salida["pendientes_de_union"] = _sumar(salida.get("pendientes_de_union"), pendientes)
         salida.setdefault("eventos", []).append({"accion": "union_con_decisiones", "forma": "registro", "actor": "oracle-factory",
@@ -77,11 +81,18 @@ def unir(base: dict, nuestro: dict, suyo: dict) -> dict:
     return salida
 
 
-def resueltos_por(accion: str) -> tuple[str, ...]:
-    """Los primeros tramos de campo que una decisión resuelve."""
-    return tuple(campo for campo, (acciones, _) in RESUELVE.items() if accion in acciones)
+def resueltos_por(accion: str, requisito: str | None = None) -> tuple[tuple, ...]:
+    """Los caminos que una decisión resuelve: las medidas de un requisito resuelven sólo las de ese requisito."""
+    return tuple((campo, requisito) if campo.startswith("medidas") and requisito else (campo,)
+                 for campo, (acciones, _) in RESUELVE.items() if accion in acciones)
+
+
+def resuelto(pendiente: dict, caminos: tuple[tuple, ...]) -> bool:
+    camino = tuple(pendiente.get("camino") or pendiente.get("campo", "").split("."))
+    return any(camino[:len(c)] == c for c in caminos)
 
 
 def como_resolver(campo: str, ident: str) -> str:
     raiz = campo.split(".")[0]
-    return RESUELVE.get(raiz, ((), "decidan cuál vale y registrenlo con la decisión que corresponde"))[1].format(id=ident)
+    decidir = DECIDIR.format(id=ident, campo=campo)
+    return f"{RESUELVE[raiz][1].format(id=ident)}, o {decidir}" if raiz in RESUELVE else decidir

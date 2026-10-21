@@ -195,9 +195,9 @@ def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
     estado.setdefault("eventos", []).append({
         "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": ahora(), **datos})
     # Lo que quedó sin decidir al unir dos ramas lo resuelve la decisión que corresponde.
-    resueltos = unir_mod.resueltos_por(accion)
+    resueltos = unir_mod.resueltos_por(accion, datos.get("requisito"))
     if resueltos and estado.get("pendientes_de_union"):
-        quedan = [x for x in estado["pendientes_de_union"] if x.get("campo", "").split(".")[0] not in resueltos]
+        quedan = [x for x in estado["pendientes_de_union"] if not unir_mod.resuelto(x, resueltos)]
         if quedan:
             estado["pendientes_de_union"] = quedan
         else:
@@ -630,6 +630,10 @@ ATRIBUTOS = (".factory/cambios/*/factory.json merge=oracle-factory-registro",
              "kb/cambios/*.md merge=oracle-factory-generado", "kb/requisitos/*.md merge=oracle-factory-generado")
 LLAMADA_POST_MERGE = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' "
                       "rehacer-generado >/dev/null 2>&1 || true")
+# Un merge con conflictos termina con git commit, y ahí Git no corre post-merge: post-commit lo hace si fue un merge.
+LLAMADA_POST_COMMIT = "git rev-parse -q --verify HEAD^2 >/dev/null && " + LLAMADA_POST_MERGE
+# Lo que se rehace (y se commitea) después de integrar: nunca una nota de personas de kb/notas/.
+GENERADO_KB = ("kb/README.md", "kb/cambios", "kb/requisitos")
 
 
 def instalar_union() -> str:
@@ -643,22 +647,28 @@ def instalar_union() -> str:
         ejecutar(["git", "config", f"merge.{nombre}.driver", f"{py} -c {codigo} {orden}"])
     atributos = ROOT / ".gitattributes"
     actual = atributos.read_text(encoding="utf-8") if atributos.is_file() else ""
-    faltan = [linea for linea in ATRIBUTOS if linea not in actual.splitlines()]
+    presentes = {" ".join(linea.split()) for linea in actual.splitlines()}  # otro espaciado es la misma línea
+    faltan = [linea for linea in ATRIBUTOS if linea not in presentes]
     if faltan:
         bloque = ([ATRIBUTOS_MARCA] if ATRIBUTOS_MARCA not in actual else []) + faltan
         atributos.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n",
                              encoding="utf-8")
     p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
-    hook = ROOT / p.stdout.strip() / "post-merge"
-    if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
-        return (f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que lo generado se rehaga al integrar, "
-                f"agregale esta línea antes de su final:\n{LLAMADA_POST_MERGE.format(py=py)}")
-    hook.parent.mkdir(parents=True, exist_ok=True)
-    hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (rehace lo generado después de integrar). Lo instaló oracle-factory hooks.\n"
-                    f"{LLAMADA_POST_MERGE.format(py=py)}\nexit 0\n", encoding="utf-8")
-    hook.chmod(0o755)
+    avisos = []
+    for nombre, llamada in (("post-merge", LLAMADA_POST_MERGE), ("post-commit", LLAMADA_POST_COMMIT)):
+        hook = ROOT / p.stdout.strip() / nombre
+        if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
+            avisos.append(f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que lo generado se rehaga al "
+                          f"integrar, agregale esta línea antes de su final:\n{llamada.format(py=py)}")
+            continue
+        hook.parent.mkdir(parents=True, exist_ok=True)
+        hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (rehace lo generado después de integrar). Lo instaló oracle-factory hooks.\n"
+                        f"{llamada.format(py=py)}\nexit 0\n", encoding="utf-8")
+        hook.chmod(0o755)
+    if avisos:
+        return "\n".join(avisos)
     return ("Al integrar, el registro de un cambio editado en dos ramas se une con Factory (sin perder eventos) y lo generado "
-            "se rehace después del merge (.gitattributes y post-merge).")
+            "se rehace después del merge (.gitattributes, post-merge y post-commit).")
 
 
 def unir_registro(base: str, nuestro: str, suyo: str) -> int:
@@ -683,7 +693,7 @@ def rehacer_generado() -> None:
         escribir_kb(notas)
         for rel in generadas_en_disco() - set(notas):
             (ROOT / rel).unlink()
-    rutas = [str(ruta_resumen().relative_to(ROOT))] + ([kb_mod.DIR] if (ROOT / kb_mod.DIR).is_dir() else [])
+    rutas = [str(ruta_resumen().relative_to(ROOT))] + [r for r in GENERADO_KB if (ROOT / r).exists()]
     if ejecutar(["git", "status", "--porcelain", "--", *rutas]).stdout.strip():
         # Dentro del post-merge Git todavía tiene MERGE_HEAD y no deja commitear rutas sueltas: el commit se arma a mano,
         # con el índice que dejó el merge más lo rehecho, y con un solo padre.
@@ -693,6 +703,32 @@ def rehacer_generado() -> None:
         if hecho.returncode or ejecutar(["git", "update-ref", "HEAD", hecho.stdout.strip()]).returncode:
             raise FactoryError(f"no pude commitear lo rehecho después de integrar: {(hecho.stderr or '').strip()}")
         print("Rehice resumen.md y kb/ después de integrar, en un commit aparte.")
+
+
+def decidir_union(identificador: str, campo: str, cual: str) -> None:
+    """Una persona elige cuál de las dos versiones vale de algo que dos ramas decidieron distinto (también en un cambio
+    cerrado: dos cierres se eligen acá)."""
+    carpeta, estado = leer(identificador)
+    pendiente = next((x for x in estado.get("pendientes_de_union") or [] if x.get("campo") == campo), None)
+    if pendiente is None:
+        raise FactoryError(f"{identificador} no tiene nada pendiente de unir en {campo}; no cambié nada")
+    valor = pendiente[cual]
+    confirmar_persona((f"¿Vale la versión {cual} de {campo} en {identificador}?",
+                       f"Sí, la {cual}: {json.dumps(valor, ensure_ascii=False)[:120]}", "queda esa y se borra el aviso"),
+                      "no elegí nada")
+    destino, camino = estado, pendiente.get("camino") or campo.split(".")
+    for k in camino[:-1]:
+        destino = destino.setdefault(k, {})
+    if valor is None:
+        destino.pop(camino[-1], None)
+    else:
+        destino[camino[-1]] = valor
+    estado["pendientes_de_union"] = [x for x in estado["pendientes_de_union"] if x is not pendiente]
+    if not estado["pendientes_de_union"]:
+        estado.pop("pendientes_de_union")
+    evento(estado, "union_decidida", campo=campo, eligio=cual)
+    guardar(carpeta, estado)
+    print(f"En {identificador}, {campo} quedó con la versión {cual}.")
 
 
 def aviso_union(identificador: str, estado: dict) -> list[str]:
@@ -2279,7 +2315,7 @@ def actualizar_kb(identificador: str) -> None:
 
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
-               "trailer", "hooks", "init", "ejemplo"}
+               "trailer", "hooks", "init", "ejemplo", "unir-registro", "unir-generado", "rehacer-generado"}
 
 
 def refrescar_kb(comando: str, identificador: str | None) -> None:
@@ -2735,7 +2771,7 @@ def datos_estado(identificador: str) -> dict:
         "oracle": gate(estado.get("oracle"), ("codigo", "informe", "hechos", "hechos_mas"),
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
-        "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
+        "avisos": aviso_union(identificador, estado) if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
                                          + aviso_sin_autor(estado) + aviso_notas(identificador, estado)
                                          + aviso_union(identificador, estado)),
         "commits": commits_del_cambio(identificador, estado),
@@ -2907,6 +2943,8 @@ def mostrar(identificador: str) -> None:
         print(f"{estado['id']} — {estado['titulo']}\nFase: abandonada\nAbandonado por: {quien(estado.get('abandono'))}")
         quitados = (estado.get("abandono") or {}).get("requisitos_quitados") or []
         print("Requisitos quitados de requisitos/: " + (", ".join(quitados) or "ninguno"))
+        for aviso in aviso_union(identificador, estado):  # dos ramas pudieron decidir distinto también sobre esto
+            print(f"Aviso: {aviso}.")
         return
     print(f"{estado['id']} — {estado['titulo']}\nFase: {estado['fase']}\nModo de trabajo: {modo_de(estado)}")
     print("Requisitos Oracle: " + (", ".join(estado.get("requisitos", [])) or "todavía no importados"))
@@ -3610,6 +3648,8 @@ def construir_parser() -> argparse.ArgumentParser:
         q = sub.add_parser(nombre, help=ayuda)
         q.add_argument('base'); q.add_argument('nuestro'); q.add_argument('suyo'); q.add_argument('ruta', nargs='?')
     sub.add_parser('rehacer-generado', help='(lo llama el post-merge) rehacer resumen.md y kb/ y commitearlos aparte')
+    q = sub.add_parser('decidir-union', help='elegir cuál de las dos versiones vale de algo que dos ramas decidieron distinto')
+    q.add_argument('id'); q.add_argument('campo'); q.add_argument('cual', choices=['nuestro', 'suyo'])
     q = sub.add_parser('kb', help='escribir kb/ desde el registro (o --verificar); kb revisada NOTA marca una nota de personas')
     q.add_argument('accion', nargs='?', choices=['revisada'], help='revisada: marcar revisada una nota de kb/notas/')
     q.add_argument('nota', nargs='?', help='la nota de kb/notas/ (con revisada)')
@@ -3721,6 +3761,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
         elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
         elif args.comando == "rehacer-generado": rehacer_generado()
+        elif args.comando == "decidir-union": decidir_union(args.id, args.campo, args.cual)
         elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
         elif args.comando == "resumen" and args.json:

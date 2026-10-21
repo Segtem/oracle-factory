@@ -1,0 +1,173 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/a192c6b-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "a192c6bad05df83edd2086910dba7bcc25e318dc",
+  "diff_sha256": "0bf7a745324212e6b620ff1aa2cc5410cf7645f9b92d39115f26d452224fb306",
+  "context_sha256": "939982eed03f766f6f113a1d11ada775c1f0ae1ae2047a5601628434572cb31a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exclusivamente la suite focalizada tests.test_unir en el checkout candidato según indicación.",
+    "No se ejecutó la suite general de pruebas ni el ciclo completo de empaquetado para preservar el entorno.",
+    "Se realizaron análisis estáticos, pruebas de mutación manuales y pruebas de integración con Git en repositorios temporales aislados dentro del directorio del revisor.",
+    "El entorno verificado fue Linux x86_64 con Python 3.13 y Git 2.47."
+  ],
+  "findings": [
+    {
+      "id": "agy-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "El hook post-merge no se ejecuta tras resolver conflictos de merge, dejando resumen.md y kb/ desactualizados",
+      "explanation": "El merge driver `unir-generado` no actualiza el archivo en el índice (%A queda intacto saliendo con 0), delegando la actualización a `rehacer_generado()` en el hook `post-merge`. Sin embargo, Git solo invoca `post-merge` tras un merge automático sin conflictos. Si la integración encuentra un conflicto de contenido en cualquier archivo del proyecto (código, documentación, etc.), `git merge` se detiene; la persona resuelve el conflicto y concluye la integración ejecutando `git commit`. En esa circunstancia Git NO ejecuta `post-merge`. Por lo tanto, `resumen.md` y las notas de `kb/` permanecen desactualizados con la versión de la rama local, y las verificaciones `resumen --verificar` y `kb --verificar` fallan inmediatamente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 676,
+        "end_line": 695,
+        "side": "head"
+      },
+      "trigger": "Integrar dos ramas que editaron el cambio cuando además existe un conflicto de texto en un archivo ajeno a los generados (ej. código del producto); resolver el conflicto y hacer `git commit`.",
+      "evidence": "Reproducción en repositorio temporal: al resolver un conflicto en `codigo.txt` y hacer `git commit`, `post-merge` nunca se invocó; `.factory/resumen.md` no incluyó el cambio de la otra rama y `resumen --verificar` falló con exit code 1; `kb --verificar` falló con código 1 indicando que `kb/README.md` no coincide con el registro.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "status": "pendiente",
+      "verification": "Ejecutar una integración entre dos ramas con un conflicto en un archivo rastreado, resolverlo con `git commit` y verificar que `.factory/resumen.md` y `kb/README.md` quedan viejos y sus verificadores fallan."
+    },
+    {
+      "id": "agy-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Factory elige silenciosamente la fase de la rama local cuando ambas ramas divergieron en fase",
+      "explanation": "La propuesta (línea 17) establece expresamente: «Si las dos ramas decidieron distinto sobre lo mismo (dos responsables, dos aprobaciones de spec, dos medidas de un mismo requisito, dos revisiones, dos juicios, dos fases), Factory no elige: deja las dos versiones anotadas en el registro, estado lo avisa con qué hay que decidir, y la decisión queda en una persona». Contrariamente a esto, `unir.py` define `DERIVADOS = (\"fase\",)` y en `_unir` devuelve directamente `nuestro` sin registrar el desacuerdo en `pendientes_de_union` ni emitir alerta. Si por ejemplo una rama abandonó el cambio (`fase: abandonada`) y la otra lo cerró o avanzó (`fase: revision`), Factory elige en silencio la fase de la rama que integra, pudiendo dejar un estado inconsistente (ej. `fase: revision` pero con metadatos de `abandono` presentes).",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 61,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Integrar dos ramas donde cada una avanzó el cambio a una fase diferente (ej. una abandona y la otra revisa).",
+      "evidence": "Al evaluar `unir({'fase': 'impl'}, {'fase': 'revision'}, {'fase': 'abandonada', 'abandono': {'actor': 'Beto'}})` se obtiene `fase: revision`, `pendientes_de_union: None` y se conserva el objeto `abandono` en silencio. La mutación en `unir.py` para incluir otros campos en `DERIVADOS` sobrevive a la suite de tests.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Llamar a `unir.unir` con registros base, nuestro y suyo que tengan fases incompatibles y verificar que no se genera advertencia en `pendientes_de_union`."
+    },
+    {
+      "id": "agy-03",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Resolver la medida de un requisito borra los pendientes de unión de todos los demás requisitos",
+      "explanation": "Los campos en conflicto de medidas se registran bajo la ruta `medidas.<requisito_id>`. En `cli.py` (`evento()`), al registrar una decisión de medidas (`medidas_confirmadas` o `medidas_elegidas`), se evalúa `resueltos_por(accion)`, que devuelve `('medidas', 'medidas_pendientes')`. El filtrado descarta todo pendiente cuyo primer segmento coincida: `x.get('campo', '').split('.')[0] not in resueltos`. Esto provoca que confirmar las medidas de UN único requisito elimine de `pendientes_de_union` los pendientes de unión de TODOS los requisitos del cambio. Las divergencias no confirmadas en los restantes requisitos quedan descartadas en silencio, conservando los valores de `nuestro` sin decisión humana.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 198,
+        "end_line": 204,
+        "side": "head"
+      },
+      "trigger": "Dos ramas con medidas divergentes en dos requisitos distintos (`medidas.req1` y `medidas.req2`). Tras la unión, la persona resuelve únicamente `req1`.",
+      "evidence": "Al llamar `cli.evento(estado, 'medidas_confirmadas', requisito='req1')` con un estado que contiene `medidas.req1` y `medidas.req2` en `pendientes_de_union`, la clave `pendientes_de_union` desaparece por completo.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Configurar un estado con pendientes para múltiples requisitos, emitir `medidas_confirmadas` con un solo requisito y constatar que se borran todos los pendientes de medidas."
+    },
+    {
+      "id": "agy-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "`_sumar` incluye la versión base resucitando pendientes de unión ya resueltos en ramas previas",
+      "explanation": "En `oracle_factory/unir.py`, la constante `LISTAS_QUE_SE_SUMAN` agrupa `('eventos', 'aceptados', 'pendientes_de_union')`. En la línea 54, la combinación de listas se realiza llamando a `_sumar(base.get(k), nuestro.get(k), suyo.get(k))`. Si en la base común existía un pendiente de unión (o un riesgo aceptado) y en la rama `nuestro` fue resuelto y eliminado de `pendientes_de_union`, `_sumar` vuelve a incorporar el elemento proveniente de `base.get(k)`. Como consecuencia, un conflicto ya zanjado por una persona reaparece tras integrar una rama secundaria que no tocó dicho conflicto.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 53,
+        "end_line": 56,
+        "side": "head"
+      },
+      "trigger": "Un cambio acumula un conflicto en `pendientes_de_union`; la rama A lo resuelve; la rama B añade un evento sin tocar el pendiente; la rama A integra a la rama B.",
+      "evidence": "Ejecutar `unir.unir` con un pendiente en `base`, `nuestro` sin pendientes (resuelto) y `suyo` con un evento nuevo; el diccionario resultante vuelve a presentar el pendiente resuelto. La mutación que omite `base.get(k)` sobrevive a los tests existentes.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Llamar a `unir.unir` con un pendiente presente en `base`, ausente en `nuestro` y presente en `suyo`, y observar la reaparición indeseada del conflicto."
+    },
+    {
+      "id": "agy-05",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "Imposibilidad de resolver un conflicto de cierre: aviso_union instruye cerrar pero cerrar() rechaza cambios en fase cerrada",
+      "explanation": "En `oracle_factory/unir.py`, el mapa `RESUELVE` define para `cierre`: `\"decidan si el cambio está cerrado; cerralo otra vez con oracle-factory cerrar {id}\"`. Si ambas ramas cerraron el cambio de forma divergente (ej. distinto autor o momento), `unir.py` anota la divergencia en `pendientes_de_union`. Sin embargo, la fase resultante en el registro unido es `fase: cerrada`. Cuando la persona ejecuta `oracle-factory cerrar {id}` para resolver el pendiente como indica el aviso, la función `cerrar` invoca `abierto(identificador)`, la cual lanza inmediatamente `FactoryError(\"el cambio ya está cerrado; creá una nueva tarea\")`. El conflicto queda en un callejón sin salida imposible de resolver.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 21,
+        "end_line": 22,
+        "side": "head"
+      },
+      "trigger": "Dos ramas cierran el mismo cambio con datos de cierre divergentes, se integran las ramas y se intenta resolver el aviso ejecutando `oracle-factory cerrar {id}`.",
+      "evidence": "Al unir dos registros cerrados divergentemente, `fase` es `cerrada` y `cierre.por` queda pendiente. Invocar `cerrar()` aborta con `FactoryError: el cambio ya está cerrado; creá una nueva tarea`.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Construir dos registros con decisiones de cierre divergentes, unirlos con `unir.unir` y ejecutar `cerrar(id)` para observar la excepción."
+    },
+    {
+      "id": "agy-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "test_lo_de_una_sola_rama_se_toma valida la elección silenciosa de fase en lugar de probar lo cambiado por una sola rama",
+      "explanation": "El caso de prueba `test_lo_de_una_sola_rama_se_toma` en `tests/test_unir.py` está vinculado en `tools/verify_unir.py` al requisito «el registro de un cambio editado en dos ramas se une sin perder nada: lo que cambió una sola rama SHALL tomarse de esa rama». Sin embargo, en el fixture del test, AMBAS ramas modifican el campo `fase` respecto de base (`nuestro` pasa a `'impl'` y `suyo` a `'rev'`). El test afirma `self.assertEqual(unido['fase'], 'impl')` y `self.assertNotIn('pendientes_de_union', unido)`, convalidando que ante una divergencia de decisiones de fase Factory elija en silencio la rama local, en lugar de verificar el aislamiento de cambios de una sola rama.",
+      "location": {
+        "file": "tests/test_unir.py",
+        "start_line": 127,
+        "end_line": 136,
+        "side": "head"
+      },
+      "trigger": "Ejecución del test unitario `test_lo_de_una_sola_rama_se_toma`.",
+      "evidence": "Líneas 128-136 de `tests/test_unir.py`: `base['fase']='spec'`, `nuestro['fase']='impl'`, `suyo['fase']='rev'`; la prueba aseriona que `unido['fase'] == 'impl'` sin registrar pendientes.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "status": "pendiente",
+      "verification": "Revisar las aserciones de `test_lo_de_una_sola_rama_se_toma` en `tests/test_unir.py`."
+    },
+    {
+      "id": "agy-07",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.88,
+      "title": "test_un2_dos_personas_lo_toman no comprueba el uso de --relevo para resolver el conflicto",
+      "explanation": "El requisito en `spec.md` indica explícitamente en su escenario: «cuando una de las personas lo toma con --relevo el aviso desaparece». En `test_un2_dos_personas_lo_toman`, la resolución en la línea 107 se ejecuta con `self.persona(self.ana, 'tomar', self.ident)` sin pasar `--relevo`. Esto funciona en el test solo porque Ana es la persona en `nuestro` y ya figuraba como titular provisorio. Al mutar el código para eliminar completamente la validación y exigencia de `--relevo` en `tomar()`, la suite de pruebas sigue pasando en verde, evidenciando que el test no comprueba la exigencia de `--relevo`.",
+      "location": {
+        "file": "tests/test_unir.py",
+        "start_line": 102,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Ejecución de `test_un2_dos_personas_lo_toman`.",
+      "evidence": "Línea 107 de `tests/test_unir.py` llama a `tomar` sin `--relevo`. La mutación eliminando la exigencia de `--relevo` en `cli.py` sobrevive a la suite de pruebas.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Inspeccionar la invocación en la línea 107 de `tests/test_unir.py` y correr la prueba tras mutar la verificación de relevo."
+    },
+    {
+      "id": "agy-08",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "instalar_union duplica directivas en .gitattributes si existen con diferencias de espaciado",
+      "explanation": "En `oracle_factory/cli.py`, `instalar_union()` verifica `faltan = [linea for linea in ATRIBUTOS if linea not in actual.splitlines()]`. Esta comprobación utiliza comparación exacta de cadenas sin normalizar espacios en blanco ni expresiones regulares de atributos de Git. Si el repositorio ya poseía configuraciones de atributos con múltiples espacios o tabulaciones para alinear columnas, `instalar_union()` no las detecta y las vuelve a anexar al final del archivo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 646,
+        "end_line": 650,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory hooks` o `init` en un repositorio cuyo `.gitattributes` contiene directivas formateadas con espacios adicionales.",
+      "evidence": "Línea 646 de `oracle_factory/cli.py`: comparación exacta contra las cadenas fijas en `ATRIBUTOS`.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "status": "pendiente",
+      "verification": "Probar `instalar_union()` con un archivo `.gitattributes` que contenga espacios adicionales entre el patrón y el atributo."
+    }
+  ]
+}
