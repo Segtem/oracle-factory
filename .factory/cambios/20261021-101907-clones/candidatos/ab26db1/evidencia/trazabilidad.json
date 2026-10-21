@@ -1,0 +1,187 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id": [
+      "test_clones.Clones.test_cl2_dos_cambios_en_el_mismo_segundo"
+    ],
+    "colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir": [
+      "test_clones.Clones.test_cl3_doce_mensajes_a_la_vez"
+    ],
+    "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar": [
+      "test_clones.Clones.test_cl1_la_segunda_persona_clona_el_proyecto"
+    ]
+  },
+  "casos": {
+    "test_clones.Clones.test_cl1_la_segunda_persona_clona_el_proyecto": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_clones.py": [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          33,
+          34,
+          35,
+          36,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          45,
+          46,
+          47,
+          48,
+          50,
+          51,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          61,
+          62,
+          63,
+          64,
+          65
+        ]
+      }
+    },
+    "test_clones.Clones.test_cl2_dos_cambios_en_el_mismo_segundo": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_clones.py": [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          33,
+          34,
+          35,
+          36,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          45,
+          46,
+          47,
+          48,
+          50,
+          51,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87
+        ]
+      }
+    },
+    "test_clones.Clones.test_cl3_doce_mensajes_a_la_vez": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_clones.py": [
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          33,
+          34,
+          35,
+          36,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          45,
+          46,
+          47,
+          48,
+          50,
+          51,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100
+        ]
+      }
+    }
+  }
+}
