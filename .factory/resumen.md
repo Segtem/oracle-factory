@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:2c66057411069e31e2bbb3b403c6e81655e8097b6ac663f7242a2fc8b401f3ee -->
+<!-- oracle-factory resumen sha256:b778efd7b5a23f710a55339ef19bb5f37626b45f1e8e7463d76dd96591f3b6b2 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 165 requisitos vigentes · 1 cambio abierto
+20 capacidades · 174 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -76,6 +76,15 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | el registro de un cambio editado en dos ramas se une sin perder nada | funcional | `colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada` | factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
 | si las dos ramas decidieron distinto, decide una persona | funcional | `colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona` | factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
 | lo generado no choca al integrar | funcional | `colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar` | factory_unir.lo_generado_no_choca_al_integrar, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
+| reparto explicito del trabajo | funcional | `colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo` | factory_colaboracion.reparto_explicito_del_trabajo, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| aislamiento y sincronizacion explicitos | funcional | `colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos` | factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| relevo recuperable | funcional | `colaboracion_cf0b1719108ccce04.relevo_recuperable` | factory_colaboracion.relevo_recuperable, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| revision vinculada a una version | funcional | `colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version` | factory_colaboracion.revision_vinculada_a_una_version, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| integracion serializada y evidencia vigente | funcional | `colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente` | factory_colaboracion.integracion_serializada_y_evidencia_vigente, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| demostracion reproducible con limites | funcional | `colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites` | factory_colaboracion.demostracion_reproducible_con_limites, factory_colaboracion.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| el banco pone a prueba el trabajo a la vez | funcional | `colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez` | factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| el banco pone a prueba el trabajo de a turnos | funcional | `colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos` | factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| el banco informa sus números | funcional | `colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros` | factory_banco.el_banco_informa_sus_numeros, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
 
 ### conocimiento
 
@@ -316,14 +325,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261004-121432-coordinar-dos — Coordinar dos personas con sus agentes sin interferencias
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `colaboracion` · [propuesta](../openspec/changes/20261004-121432-coordinar-dos/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -405,6 +407,22 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261004-005956-revision-guiada) No mide claridad para principiantes ni calidad del análisis; la prueba de la guía comprueba presencia de secciones y comandos, no su calidad.
 - (20261004-005956-revision-guiada) Brian aceptó los límites inherentes el 2026-10-05 («acepto la revisión guiada»): la calidad del análisis, la autenticación o competencia de los actores y la claridad para un principiante no se miden con pruebas. Se retiran de los requisitos como «sin medir» y siguen documentados aquí. La claridad para un principiante sigue sin observarse con una persona real.
 - (20261004-005956-revision-guiada) El producto revisado incluye cambios posteriores a la primera revisión de este cambio (modos de trabajo, colaboración y vigencia por contenido). Se ejecutaron de nuevo el sensor y la suite, pero el código que modificaron se revisó en el cambio de cada uno, no en éste.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se corrió exactamente el comando de banco.py indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null en primer plano desde la raíz del checkout candidato (/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/b016935-agy-1); los 13 escenarios concluyeron con resultado ok, con conflictos detectados oportunamente, sin decisiones perdidas ni mal atribuidas, y sin evidencia vieja aceptada.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se revisaron los 9 requisitos de openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md, el diff completo del paquete candidato b016935 respecto de la base c644853 y las revisiones previas.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se verificó la corrección de BANCO-A1-001 en tools/banco.py (líneas 583-586 y 596-597): a1_relevo_atrasado comprueba explícitamente la existencia y contenido exacto de semana.py ('LUNES = 1\\n') en el clon de Beto tras el checkout de la rama de Ana antes de tomar el relevo, y luego Beto continúa sobre el archivo agregando 'JUEVES = 4\\n' con modo append en vez de sobrescribirlo.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se comprobó mediante prueba de mutación que al suprimir la creación de semana.py por parte de Ana en a1_relevo_atrasado, el escenario detecta inmediatamente el defecto ('Beto no ve en su clon el trabajo del lunes que dejó Ana') y termina con resultado 'defecto', confirmando que la comprobación es efectiva y que el hallazgo BANCO-A1-001 quedó resuelto.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se comprobó la reproducibilidad del banco ejecutando dos corridas sucesivas con la semilla 20261021; ambas arrojaron resultados, trazas y métricas idénticos para los 13 escenarios (diferencias: cero).
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se inspeccionaron las correcciones de vueltas anteriores: s4_tomar_a_la_vez marcando conflicto 'antes' por el rechazo de push; s7_generados contabilizando el trabajo rehecho automático; a2_evidencia_vieja invalidando revisión y juicio, negando el cierre y restableciendo la vigencia al rehacerlos; el informe con versiones completas de herramientas; y las medidas en los catálogos Oracle de factory_banco.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se inspeccionaron tools/verify_banco.py y catalogos/factory_banco.*.oracle, constatando que las 4 medidas corresponden a los 3 requisitos del banco, respetan los umbrales estipulados (7 para a_la_vez, 5 para de_a_turnos, 1 para corrida_completa y 1 para el_banco_informa_sus_numeros) y evalúan correctamente el formato e integridad de corridas ordenadas, simultáneas y reales.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se revisó el caso C4 de tools/verify_collaboration.py, validando que verifica que dos cambios creados en el mismo segundo con el mismo sufijo reciben IDs distintos por los tres caracteres aleatorios y se integran sin colisión, preservando la prueba de migración para tareas Task.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): Se contrastó docs/colaboracion.md con el código y las especificaciones, verificando que describe con precisión los comandos, las garantías de los hooks, la vigencia de artefactos de revisión y los límites operativos.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_collaboration.py completo para respetar las directivas de revisión.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): No se ejecutó tools/piloto_real.py con llamadas vivas a modelos LLM comerciales (claude-code / codex); se inspeccionó su código y la evidencia registrada en tareas/20261004-121432-coordinar-dos/piloto-real/.
+- (20261004-121432-coordinar-dos) agy (gemini-3.8-flash-high): No se modificó el checkout de sólo lectura ni la configuración de Git de ningún repositorio.
+- (20261004-121432-coordinar-dos) codex (gpt-6-luna): Revisé la spec, propuesta, todos los archivos del diff, los trece escenarios, el verificador y las cuatro medidas del banco, el C4 de verify_collaboration.py y las afirmaciones añadidas a docs/colaboracion.md. Contrasté las correcciones informadas en vueltas anteriores con el código actual; sus hallazgos cubiertos siguen comprobados en esta versión.
+- (20261004-121432-coordinar-dos) codex (gpt-6-luna): Corrí desde la raíz del checkout, en primer plano, el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null. Dio código 0; los 13 escenarios informaron ok con semilla 20261021. Guardé salida completa en corrida-banco.txt y corrida-banco.json.
+- (20261004-121432-coordinar-dos) codex (gpt-6-luna): No ejecuté tools/verify_banco.py ni la suite completa; tampoco ejecuté el piloto con agentes reales. No hice mutaciones; por ello la revisión es estática más la corrida ordenada indicada, no un veredicto probabilístico sobre agentes reales ni una prueba de propiedades que no mide el arnés.
+- (20261004-121432-coordinar-dos) codex (gpt-6-luna): Los informes de revisión anteriores son registros históricos; verifiqué las correcciones en el código del candidato, no la decisión humana de triage de esos informes.
 - (20261005-105331-modos-de-trabajo) El autor es un agente (Claude Code) y R2 es otra sesión de la misma familia de modelo: independiente del autor, no de la familia.
 - (20261005-105331-modos-de-trabajo) Factory no autentica actores: un agente que simule una terminal interactiva pasa por persona. El arnés lo declara entre sus límites.
 - (20261005-105331-modos-de-trabajo) Las decisiones de medidas anteriores a que se guardara el hash del .requisito (las cinco confirmaciones de Brian sobre este mismo cambio) no se pueden comparar con el archivo: una edición manual posterior no se detecta hasta decidir de nuevo.

@@ -2,7 +2,7 @@
   "id": "20261004-121432-coordinar-dos",
   "titulo": "Coordinar dos personas con sus agentes sin interferencias",
   "capacidad": "colaboracion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
   "spec_sha256": "4a5d844686d0e321df91abdd9d4b89ec21d58f4056c38891825e3fad9335cad1",
   "spec_aprobada": {
@@ -973,6 +973,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "915d173f2ce7184fecefb85daf5420b2d7daa6638a4d09c04d21d3f4a7cec6e5"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T22:21:17+00:00",
+      "oracle": ".factory/cambios/20261004-121432-coordinar-dos/oracle-veredicto.txt",
+      "revision": "tareas/20261004-121432-coordinar-dos/revisiones/registro-7p2tk4du/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T22:21:17+00:00",
+      "capacidad": "colaboracion",
+      "spec": "openspec/specs/colaboracion/spec.md"
     }
   ],
   "medidas_pendientes": {},
@@ -1140,5 +1160,17 @@
       "claude-code"
     ]
   },
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T22:21:17+00:00"
+  },
+  "archivo": {
+    "capacidad": "colaboracion",
+    "spec": "openspec/specs/colaboracion/spec.md",
+    "cuando": "2026-10-21T22:21:17+00:00"
+  }
 }

@@ -1,6 +1,6 @@
 # Coordinar dos personas con sus agentes sin interferencias
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: colaboracion, implementada
 
@@ -205,3 +205,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-21 22:21:02 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-121432-coordinar-dos/oracle-veredicto.txt.
+
+### Nota (2026-10-21 22:21:17 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

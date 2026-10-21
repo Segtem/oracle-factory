@@ -3,7 +3,8 @@
   "archivados": [
     "20261019-232444-quien",
     "20261021-101907-clones",
-    "20261021-140625-unir"
+    "20261021-140625-unir",
+    "20261004-121432-coordinar-dos"
   ],
   "requisitos": {
     "un cambio dice quién lo tiene": {
@@ -136,6 +137,152 @@
         "- GIVEN dos ramas con un cambio cada una, con resumen.md y kb/ regenerados en cada rama",
         "- WHEN se integran las dos",
         "- THEN no hay conflicto en resumen.md ni en kb/, y después del merge resumen --verificar y kb --verificar pasan"
+      ]
+    },
+    "reparto explicito del trabajo": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo",
+      "cuerpo": [
+        "El protocolo SHALL registrar para cada frente el ID de tarea/cambio, persona responsable, agente o sesión, base Git, rama, checkout, alcance e interfaces compartidas, dependencias, revisor, integrador y próximo paso, con un único escritor activo de sus registros.",
+        "",
+        "#### Scenario: dos frentes independientes",
+        "- GIVEN dos cambios aceptados y dos personas con sus agentes",
+        "- WHEN se reparte el trabajo",
+        "- THEN cada frente tiene registro completo y distinto checkout/rama, y las dependencias se enlazan por ID completo sin atribuir al grafo de Task validación de dependencias.",
+        "",
+        "#### Scenario: mismo cambio o alcance superpuesto",
+        "- GIVEN dos participantes que quieren modificar el mismo registro o interfaz",
+        "- WHEN detectan la superposición",
+        "- THEN acuerdan un escritor y orden, o separan cambios con contratos explícitos antes de editar, dejando constancia de la decisión humana."
+      ]
+    },
+    "aislamiento y sincronizacion explicitos": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos",
+      "cuerpo": [
+        "La guía SHALL describir worktrees en una máquina y clones en máquinas distintas, y distinguir aislamiento de archivos, intercambio mediante Git y acuerdo humano sobre la asignación.",
+        "",
+        "#### Scenario: avance paralelo",
+        "- GIVEN dos checkouts desde una base conocida",
+        "- WHEN A modifica su frente mientras B trabaja en el suyo",
+        "- THEN el índice, HEAD y archivos de B no cambian por la edición de A y la entrega registra el commit que debe incorporar la otra persona.",
+        "",
+        "#### Scenario: dos clones sin sincronizar",
+        "- GIVEN registros divergentes o IDs iguales creados independientemente",
+        "- WHEN se prepara el intercambio",
+        "- THEN el protocolo exige reconciliar identidad, referencias y asignación antes de integrar, preservando ambas contribuciones y sin prometer reserva global por crear una tarea local."
+      ]
+    },
+    "relevo recuperable": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.relevo_recuperable",
+      "cuerpo": [
+        "La plantilla de relevo SHALL registrar emisor, receptor, tarea, rama, base/HEAD, archivos pendientes, alcance completado, pruebas y evidencia con rutas/huellas, bloqueos, decisiones humanas pendientes y próxima acción; SHALL distinguir entrega propuesta de recepción confirmada.",
+        "",
+        "#### Scenario: cambio de persona o sesion",
+        "- GIVEN un frente en curso",
+        "- WHEN A entrega y B confirma recepción sobre el commit indicado",
+        "- THEN el registro identifica a B como escritor siguiente, conserva lo pendiente y A deja de mutar ese frente.",
+        "",
+        "#### Scenario: interrupcion sin entrega",
+        "- GIVEN una sesión interrumpida o un lock local residual",
+        "- WHEN otra persona retoma",
+        "- THEN inspecciona procesos, checkout y cambios pendientes, acuerda la reasignación y registra la recuperación sin borrar por tiempo transcurrido el bloqueo ni el trabajo anterior."
+      ]
+    },
+    "revision vinculada a una version": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version",
+      "cuerpo": [
+        "La guía SHALL preparar con Clue una revisión de commits base/HEAD explícitos, conservar paquete e informe originales, separar el triage humano y comprobar su vigencia antes de registrar la decisión en Factory.",
+        "",
+        "#### Scenario: revision cruzada",
+        "- GIVEN un candidato confirmado y contexto seleccionado",
+        "- WHEN la otra persona revisa con asistencia de su agente",
+        "- THEN el informe corresponde al paquete validado, los hallazgos conservan sus IDs y la persona registra decisiones separadas, sin interpretar un informe vacío como aprobación.",
+        "",
+        "#### Scenario: otro checkout o candidato modificado",
+        "- GIVEN un paquete que incluye la ruta del repositorio original",
+        "- WHEN cambia HEAD, contexto o ruta de checkout",
+        "- THEN se valida en el checkout original conservado o se genera un nuevo paquete e informe correspondiente, sin editar huellas para aparentar equivalencia ni atribuir a Factory validación automática de Clue."
+      ]
+    },
+    "integracion serializada y evidencia vigente": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente",
+      "cuerpo": [
+        "El protocolo SHALL designar un integrador humano por candidato, serializar sus mutaciones de Factory y verificar el producto resultante antes del cierre.",
+        "",
+        "#### Scenario: dos entregas listas",
+        "- GIVEN A y B con entregas identificadas",
+        "- WHEN se integran en el orden acordado",
+        "- THEN se conservan ambos aportes, se registra el commit resultante y se ejecutan pruebas y revisión sobre ese candidato; un merge sin conflictos textuales no sustituye comprobar compatibilidad.",
+        "",
+        "#### Scenario: cambia el candidato revisado",
+        "- GIVEN una revisión o juicio previo",
+        "- WHEN un merge, rebase, corrección, cambio de spec o medidas altera el contexto aplicable",
+        "- THEN se comprueba estado y se renuevan los gates invalidados; si cambió proposal/spec se requiere nueva aceptación e importación, y no se copia un verde de una rama para cerrar otra versión.",
+        "",
+        "#### Scenario: falta autoridad o cobertura",
+        "- GIVEN un informe favorable pero falta decisión humana, cobertura o evidencia vigente",
+        "- WHEN se considera cerrar el cambio",
+        "- THEN la tarea permanece abierta y se explicita el pendiente, usando cerrar de Factory para el cierre del flujo y sin sustituirlo por close del tracker."
+      ]
+    },
+    "demostracion reproducible con limites": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites",
+      "cuerpo": [
+        "El entregable SHALL incluir un arnés en repositorios temporales, hechos observados por caso y una matriz de cobertura que distinga pruebas automáticas de pasos humanos pendientes.",
+        "",
+        "#### Scenario: evaluar el protocolo",
+        "- GIVEN versiones y casos fijados en design.md",
+        "- WHEN se ejecuta el arnés",
+        "- THEN registra entradas, comandos, códigos, commits y artefactos de cada caso, falla ante casos omitidos o fallidos y deja sin medir lo no observado, sin tratar aprobaciones fixture como autorizaciones reales.",
+        "",
+        "#### Scenario: validar la experiencia con personas",
+        "- GIVEN la demostración automatizada completa",
+        "- WHEN dos personas realizan el piloto con sus agentes",
+        "- THEN se registran relevos, bloqueos, decisiones y dificultades observadas por separado; hasta realizarlo, la usabilidad humana permanece pendiente y no se declara demostrada por la simulación."
+      ]
+    },
+    "el banco pone a prueba el trabajo a la vez": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El banco de concurrencia SHALL correr, con dos personas en dos clones con su identidad de Git y un agente de prueba cada una, en un orden reproducible por una semilla y también con procesos simultáneos, estos escenarios: frentes en paralelo sobre archivos distintos; el mismo archivo; cambios que pasan solos y fallan juntos; dos `tomar` a la vez; decisiones simultáneas sobre un mismo registro; dos cambios con el mismo ID creados en dos clones; y los archivos que Factory genera y ambos tocan. En cada uno SHALL comprobar que no se pierde ni se atribuye a otra persona ninguna decisión, que un conflicto se detecta a más tardar al integrar y que ninguna evidencia o revisión vieja se da por vigente.",
+        "",
+        "#### Scenario: dos personas a la vez",
+        "- GIVEN un proyecto de prueba y dos personas con sus clones y agentes de prueba",
+        "- WHEN el banco corre los escenarios sincrónicos con una semilla, y otra vez con procesos simultáneos",
+        "- THEN cada escenario termina sin decisiones perdidas ni mal atribuidas, con sus conflictos detectados a más tardar al integrar y sin evidencia vieja vigente, y la misma semilla da el mismo resultado"
+      ]
+    },
+    "el banco pone a prueba el trabajo de a turnos": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El banco SHALL correr, en una semana simulada con sesiones que se alternan, estos escenarios: un relevo que la otra persona retoma desde un clon atrasado; evidencia y revisión que quedan viejas cuando la otra persona integra antes; el registro de un mismo cambio editado en dos ramas; mensajes en paralelo; y trailers y vault en clones distintos. En cada uno SHALL comprobar lo mismo que en el trabajo a la vez, y además que quien retoma ve el estado que dejó la otra persona.",
+        "",
+        "#### Scenario: una semana de a turnos",
+        "- GIVEN dos personas que se pasan tareas a lo largo de una semana simulada",
+        "- WHEN el banco corre los escenarios asincrónicos",
+        "- THEN quien retoma ve el estado de la otra, ningún registro pierde eventos al integrar, y la evidencia y la revisión viejas se piden de nuevo"
+      ]
+    },
+    "el banco informa sus números": {
+      "cambio": "20261004-121432-coordinar-dos",
+      "requisito": "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+      "cuerpo": [
+        "Tipo: funcional",
+        "El banco SHALL dejar un informe (JSON y texto) con, por escenario, su resultado, si hubo conflicto y cuándo se detectó (antes, en o después del merge), las decisiones perdidas o mal atribuidas, la evidencia vieja aceptada y el trabajo rehecho, con la semilla y las versiones usadas; y una corrida con agentes reales SHALL poder registrarse con el mismo formato, marcada como no reproducible.",
+        "",
+        "#### Scenario: leer el informe",
+        "- GIVEN una corrida del banco y una corrida con agentes reales registrada",
+        "- WHEN se abre el informe",
+        "- THEN cada escenario tiene sus números, la semilla y las versiones, y la corrida real aparece aparte y marcada como no reproducible"
       ]
     }
   },
