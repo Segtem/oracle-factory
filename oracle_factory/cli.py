@@ -32,6 +32,7 @@ from . import modos
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
+from . import unir as unir_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
 ROOT = Path.cwd().resolve()
@@ -193,6 +194,14 @@ def config_proyecto() -> dict:
 def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
     estado.setdefault("eventos", []).append({
         "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": ahora(), **datos})
+    # Lo que quedó sin decidir al unir dos ramas lo resuelve la decisión que corresponde.
+    resueltos = unir_mod.resueltos_por(accion)
+    if resueltos and estado.get("pendientes_de_union"):
+        quedan = [x for x in estado["pendientes_de_union"] if x.get("campo", "").split(".")[0] not in resueltos]
+        if quedan:
+            estado["pendientes_de_union"] = quedan
+        else:
+            estado.pop("pendientes_de_union")
 
 
 def exigir_terminal(que: str = "esta decisión") -> None:
@@ -614,6 +623,82 @@ LLAMADA_HOOK = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.e
 # prepare-commit-msg pone el trailer a un mensaje que ya viene escrito (-m, -F, merge, amend); commit-msg, al que se
 # escribe en el editor. Los dos llaman a lo mismo, y el trailer no se repite.
 HOOKS = ("prepare-commit-msg", "commit-msg")
+# Al integrar: el registro de un cambio se une con Factory, y lo generado se rehace después del merge.
+ATRIBUTOS_MARCA = "# oracle-factory: une los registros de los cambios y rehace lo generado al integrar"
+ATRIBUTOS = (".factory/cambios/*/factory.json merge=oracle-factory-registro",
+             ".factory/resumen.md merge=oracle-factory-generado", "kb/README.md merge=oracle-factory-generado",
+             "kb/cambios/*.md merge=oracle-factory-generado", "kb/requisitos/*.md merge=oracle-factory-generado")
+LLAMADA_POST_MERGE = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' "
+                      "rehacer-generado >/dev/null 2>&1 || true")
+
+
+def instalar_union() -> str:
+    """Los drivers de merge (en la configuración del clon), sus atributos (en .gitattributes, versionado) y el post-merge
+    que rehace lo generado. Un post-merge ajeno no se pisa."""
+    py = shlex.quote(sys.executable)
+    codigo = "'import sys; from oracle_factory.cli import main; sys.exit(main())'"
+    for nombre, orden, que in (("oracle-factory-registro", "unir-registro %O %A %B %P", "une el registro de un cambio"),
+                               ("oracle-factory-generado", "unir-generado %O %A %B %P", "deja lo generado para rehacerlo")):
+        ejecutar(["git", "config", f"merge.{nombre}.name", f"Factory: {que}"])
+        ejecutar(["git", "config", f"merge.{nombre}.driver", f"{py} -c {codigo} {orden}"])
+    atributos = ROOT / ".gitattributes"
+    actual = atributos.read_text(encoding="utf-8") if atributos.is_file() else ""
+    faltan = [linea for linea in ATRIBUTOS if linea not in actual.splitlines()]
+    if faltan:
+        bloque = ([ATRIBUTOS_MARCA] if ATRIBUTOS_MARCA not in actual else []) + faltan
+        atributos.write_text(actual + ("\n" if actual and not actual.endswith("\n") else "") + "\n".join(bloque) + "\n",
+                             encoding="utf-8")
+    p = ejecutar(["git", "rev-parse", "--git-path", "hooks"])
+    hook = ROOT / p.stdout.strip() / "post-merge"
+    if hook.exists() and HOOK_MARCA not in hook.read_text(encoding="utf-8", errors="replace"):
+        return (f"Aviso: ya hay un hook {hook} que no es de Factory; no lo toqué. Para que lo generado se rehaga al integrar, "
+                f"agregale esta línea antes de su final:\n{LLAMADA_POST_MERGE.format(py=py)}")
+    hook.parent.mkdir(parents=True, exist_ok=True)
+    hook.write_text(f"#!/bin/sh\n{HOOK_MARCA} (rehace lo generado después de integrar). Lo instaló oracle-factory hooks.\n"
+                    f"{LLAMADA_POST_MERGE.format(py=py)}\nexit 0\n", encoding="utf-8")
+    hook.chmod(0o755)
+    return ("Al integrar, el registro de un cambio editado en dos ramas se une con Factory (sin perder eventos) y lo generado "
+            "se rehace después del merge (.gitattributes y post-merge).")
+
+
+def unir_registro(base: str, nuestro: str, suyo: str) -> int:
+    """El merge driver del registro: Git pasa la versión común (%O), la de la rama actual (%A, donde va el resultado) y
+    la de la otra (%B). Un registro que no se puede leer queda como conflicto para una persona."""
+    try:
+        leidos = [json.loads(Path(x).read_text(encoding="utf-8") or "{}") for x in (base, nuestro, suyo)]
+    except (OSError, ValueError):
+        return 1
+    unido = unir_mod.unir(*leidos)
+    Path(nuestro).write_text(json.dumps(unido, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return 0
+
+
+def rehacer_generado() -> None:
+    """Lo llama el post-merge: rehace resumen.md y kb/ y, si cambiaron, los commitea aparte."""
+    if not (ROOT / estructura.DIR).is_dir():
+        return
+    escribir_atomico(ruta_resumen(), texto_resumen().encode("utf-8"))
+    if (ROOT / kb_mod.DIR).is_dir():
+        notas = kb_mod.armar(sys.modules[__name__])
+        escribir_kb(notas)
+        for rel in generadas_en_disco() - set(notas):
+            (ROOT / rel).unlink()
+    rutas = [str(ruta_resumen().relative_to(ROOT))] + ([kb_mod.DIR] if (ROOT / kb_mod.DIR).is_dir() else [])
+    if ejecutar(["git", "status", "--porcelain", "--", *rutas]).stdout.strip():
+        # Dentro del post-merge Git todavía tiene MERGE_HEAD y no deja commitear rutas sueltas: el commit se arma a mano,
+        # con el índice que dejó el merge más lo rehecho, y con un solo padre.
+        ejecutar(["git", "add", "-A", "--", *rutas])
+        arbol = ejecutar(["git", "write-tree"]).stdout.strip()
+        hecho = ejecutar(["git", "commit-tree", arbol, "-p", "HEAD", "-m", "Rehacer lo generado después de integrar (oracle-factory)"])
+        if hecho.returncode or ejecutar(["git", "update-ref", "HEAD", hecho.stdout.strip()]).returncode:
+            raise FactoryError(f"no pude commitear lo rehecho después de integrar: {(hecho.stderr or '').strip()}")
+        print("Rehice resumen.md y kb/ después de integrar, en un commit aparte.")
+
+
+def aviso_union(identificador: str, estado: dict) -> list[str]:
+    return [f"al unir dos ramas, {x.get('campo')} quedó con dos valores ({json.dumps(x.get('nuestro'), ensure_ascii=False)[:80]} y "
+            f"{json.dumps(x.get('suyo'), ensure_ascii=False)[:80]}); Factory no eligió: "
+            f"{unir_mod.como_resolver(x.get('campo', ''), identificador)}" for x in estado.get("pendientes_de_union") or []]
 
 
 def instalar_hook() -> str:
@@ -2651,7 +2736,8 @@ def datos_estado(identificador: str) -> dict:
                        juicio_vigente(estado.get("oracle") or {}, actual)),
         "aceptados": estado.get("aceptados") or [],
         "avisos": [] if abandonado else (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado)
-                                         + aviso_sin_autor(estado) + aviso_notas(identificador, estado)),
+                                         + aviso_sin_autor(estado) + aviso_notas(identificador, estado)
+                                         + aviso_union(identificador, estado)),
         "commits": commits_del_cambio(identificador, estado),
         "quien": quien_del_cambio(estado),
     }
@@ -2830,7 +2916,7 @@ def mostrar(identificador: str) -> None:
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
-                  + aviso_notas(identificador, estado)):
+                  + aviso_notas(identificador, estado) + aviso_union(identificador, estado)):
         print("Aviso: " + aviso + ".")
     print("Aprobación spec: " + (f"sí, {quien(estado['spec_aprobada'])}" if estado.get("spec_aprobada") else "pendiente"))
     rev = estado.get("revision")
@@ -2938,6 +3024,8 @@ def inicializar(oracle: str | None = None) -> None:
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
     print(instalar_hook())
+    if not ejecutar(["git", "rev-parse", "--git-dir"]).returncode:
+        print(instalar_union())
     print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
     print('Para recuperar cambios existentes: oracle-factory listar')
 
@@ -3517,6 +3605,11 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--de', metavar='NOMBRE', help='(la usa la extensión de VS Code) el autor de un mensaje que llegó por Live Share')
     q = sub.add_parser('soltar', help='dejar de ser responsable de un cambio')
     q.add_argument('id')
+    for nombre, ayuda in (('unir-registro', '(lo llama Git al integrar) unir el registro de un cambio editado en dos ramas'),
+                          ('unir-generado', '(lo llama Git al integrar) dejar lo generado para rehacerlo después del merge')):
+        q = sub.add_parser(nombre, help=ayuda)
+        q.add_argument('base'); q.add_argument('nuestro'); q.add_argument('suyo'); q.add_argument('ruta', nargs='?')
+    sub.add_parser('rehacer-generado', help='(lo llama el post-merge) rehacer resumen.md y kb/ y commitearlos aparte')
     q = sub.add_parser('kb', help='escribir kb/ desde el registro (o --verificar); kb revisada NOTA marca una nota de personas')
     q.add_argument('accion', nargs='?', choices=['revisada'], help='revisada: marcar revisada una nota de kb/notas/')
     q.add_argument('nota', nargs='?', help='la nota de kb/notas/ (con revisada)')
@@ -3624,7 +3717,10 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "tomar": tomar(args.id, args.con, args.relevo)
         elif args.comando == "soltar": soltar(args.id)
         elif args.comando == "mensaje": mensaje(args.id, args.texto, args.de)
-        elif args.comando == "hooks": print(instalar_hook())
+        elif args.comando == "hooks": print(instalar_hook()); print(instalar_union())
+        elif args.comando == "unir-registro": return unir_registro(args.base, args.nuestro, args.suyo)
+        elif args.comando == "unir-generado": return 0  # lo generado se queda como está y se rehace en el post-merge
+        elif args.comando == "rehacer-generado": rehacer_generado()
         elif args.comando == "trailer": poner_trailer(args.archivo)
         elif args.comando == "tablero": imprimir_json(tablero_mod.armar(sys.modules[__name__]))
         elif args.comando == "resumen" and args.json:
