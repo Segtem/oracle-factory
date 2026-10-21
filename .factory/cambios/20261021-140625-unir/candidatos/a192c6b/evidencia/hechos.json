@@ -1,0 +1,35 @@
+{
+  "unir_caso": [
+    {
+      "requisito": "el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "caso": "Unir.test_un1_mensajes_en_dos_ramas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "caso": "UnirPuro.test_lo_de_una_sola_rama_se_toma",
+      "codigo": 0
+    },
+    {
+      "requisito": "si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "caso": "Unir.test_un2_dos_personas_lo_toman",
+      "codigo": 0
+    },
+    {
+      "requisito": "si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "caso": "UnirPuro.test_lo_que_las_dos_cambiaron_distinto_queda_pendiente",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_generado_no_choca_al_integrar",
+      "caso": "Unir.test_un3_lo_generado_se_rehace",
+      "codigo": 0
+    }
+  ],
+  "unir_corrida": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ]
+}
