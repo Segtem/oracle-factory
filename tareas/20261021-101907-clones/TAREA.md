@@ -35,3 +35,15 @@ Medidas de colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id: fac
 ### Nota (2026-10-21 14:06:05 UTC)
 
 Medidas de colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir: factory_clones.escribir_a_la_vez_no_obliga_a_repetir, factory_clones.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:07:49 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 14:07:49 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 14:07:49 UTC)
+
+Medidas de colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar: Brian Hollweg (persona, confirmo, modo confirmacion).
