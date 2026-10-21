@@ -145,3 +145,39 @@ Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a
 ### Nota (2026-10-21 20:02:19 UTC)
 
 Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: factory_banco.el_banco_informa_sus_numeros, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.relevo_recuperable: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version: Brian Hollweg (persona, confirmo, modo confirmacion).
