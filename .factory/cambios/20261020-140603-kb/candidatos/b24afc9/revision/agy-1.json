@@ -1,0 +1,29 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-kb/.factory/local/revisiones/b24afc9-agy-1",
+  "base": "cd8691002ae3b52d067fb464e2aab2117e40400e",
+  "head": "b24afc9283ea5910699e28d0e29a0e2e4da7ddd3",
+  "diff_sha256": "9a94ef5c29086bafd64a517191cbc95add3f36193953919645c25941cb92930c",
+  "context_sha256": "06d057a022c8dca6971aa4d2203d83c0626499110a9bbc01d1651bb9b9a03688",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron en detalle los archivos incluidos en el paquete de revisión y su diff contra la propuesta y la spec de conocimiento (openspec/changes/20261020-140603-kb/): oracle_factory/kb.py, oracle_factory/cli.py, editores/vscode/extension.js, editores/vscode/package.json, README.md, tests/test_kb.py, tests/porque_en_node.cjs, tools/verify_kb.py, catálogos en catalogos/ y las notas generadas en kb/.",
+    "Se comprobó que la integración de main (commit de merge b24afc9, que incorporó el aislamiento de checkouts de revisores y botones de Live Share) y la reescritura de autor en siete commits no alteraron la semántica ni el funcionamiento del vault ni de por-que; la versión de la extensión se mantuvo correctamente en 0.4.0 en package.json y README.md.",
+    "Se verificó la vigencia y estabilidad de las notas generadas en el repositorio (237 notas generadas y de personas): oracle-factory kb --verificar pasó exitosamente reportando todas las notas al día.",
+    "Se verificó que los riesgos aceptados previamente por Brian (KB6-01: atribución por tramo de commits ajenos sin trailer; KB6-02: nota huérfana sin marca generada; KB6-03: recálculo múltiple del vault en comandos mutadores) se mantienen dentro de los términos acordados sin empeoramiento ni cambios no previstos.",
+    "Se comprobó que el vault no se desfasa con commits posteriores a decisiones en cambios abiertos ni con merges posteriores al cierre de cambios cerrados: nota_de_cambio filtra por _antes(c['fecha_commit'], corte) usando fecha_commit (%cI) y sólo incluye commits con trailer o candidatos, omitiendo los deducidos por merge.",
+    "Se verificó que kb --verificar falla en modo sólo lectura (sin tocar ni escribir archivos) ante notas generadas modificadas a mano, notas faltantes, notas huérfanas con marca generada y notas humanas con fuentes inexistentes o pendientes de revisión.",
+    "Se comprobó la seguridad estricta en la resolución de huella_de_fuente: tanto fuentes de archivos como de requisitos se confinan al ámbito del proyecto mediante is_relative_to(), rechazando rutas absolutas, secuencias ../ y enlaces simbólicos hacia afuera del repositorio.",
+    "Se verificó que oracle-factory kb revisada exige terminal interactiva (exigir_terminal) y rechaza invocaciones automáticas con --agente.",
+    "Se verificó el comportamiento de oracle-factory por-que (y su formato --json): localiza el cambio y sus decisiones, requisitos con veredicto, riesgos y hallazgos relevantes a través de blame y commits (trailer, deducidos o por tramo), distinguiendo adecuadamente líneas que no pertenecen a ningún cambio de Factory.",
+    "Se realizaron cuatro pruebas de mutación manuales sobre una copia temporal del código (cambio de fecha_commit a fecha de autor, remoción de verificación adentro(archivo), remoción de exclusión de notas generadas en es_producto, y omisión de exigir_terminal en kb_revisada); todas las mutaciones fueron detectadas y provocaron fallos en tests.test_kb.",
+    "Se ejecutaron las pruebas unitarias exactamente según las instrucciones, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-kb/.venv/bin/python -m unittest tests.test_kb </dev/null (6 pruebas pasaron, OK; Git y Node.js funcionales en el entorno).",
+    "No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_kb.py, de acuerdo con las instrucciones de la revisión.",
+    "No se editó el checkout de sólo lectura del candidato ni se realizaron commits ni decisiones reservadas a personas."
+  ]
+}

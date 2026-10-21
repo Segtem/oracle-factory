@@ -581,6 +581,58 @@
       "abiertos": 0,
       "sha256": "961451a8361d59685505af5fe211b804b329b137ad382668e472d9be73bd3497",
       "decisiones_sha256": "b92a1a23f15a5160bc7ffebc96c510e8654b5b2ed6c2e8af38bc7e848bed36c4"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:47:54+00:00",
+      "revisor": "agy",
+      "candidato": "b24afc9",
+      "lanzamiento": "c2ff4e3f468e"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:47:54+00:00",
+      "revisor": "codex",
+      "candidato": "b24afc9",
+      "lanzamiento": "7e97b0b01fe9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:49:49+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "b24afc9",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "7e97b0b01fe9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T00:58:26+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "b24afc9",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c2ff4e3f468e"
     }
   ],
   "tipos": {
