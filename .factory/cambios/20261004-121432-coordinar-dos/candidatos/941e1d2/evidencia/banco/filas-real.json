@@ -1,0 +1,32 @@
+[
+  {
+    "escenario": "r1_dos_agentes_reales_a_la_vez",
+    "resultado": "ok",
+    "conflicto": "al_integrar",
+    "decisiones_perdidas": 0,
+    "mal_atribuidas": 0,
+    "evidencia_vieja_aceptada": 0,
+    "rehecho": 1,
+    "detalle": [
+      "agente: código 0; lc.py`, `test_calc.py` y los dos archivos que Factory actualizó al guardar el mensaje (`.factory/cambios/.../factory.json` y `kb/cambios/...md`). La carpeta quedó sin cambios pendientes. No hice push.",
+      "agente: código 0; mmit quedó bloqueado: `.git` está montado como solo lectura y Git no pudo crear `index.lock`. Los cambios quedaron sin commitear en `tarea/multiplicar`. No hice push ni cambié la configuración de Git.",
+      "codex dejó cambios sin commitear (el sandbox de codex deja .git en sólo lectura): la persona los commitea",
+      "conflicto al integrar tarea/multiplicar: calc.py, test_calc.py",
+      "claude-code resolvió el conflicto: código 0"
+    ],
+    "segundos": 53.7
+  },
+  {
+    "escenario": "r2_relevo_entre_agentes_reales",
+    "resultado": "ok",
+    "conflicto": "ninguno",
+    "decisiones_perdidas": 0,
+    "mal_atribuidas": 0,
+    "evidencia_vieja_aceptada": 0,
+    "rehecho": 0,
+    "detalle": [
+      "codex retomó: código 0"
+    ],
+    "segundos": 78.0
+  }
+]

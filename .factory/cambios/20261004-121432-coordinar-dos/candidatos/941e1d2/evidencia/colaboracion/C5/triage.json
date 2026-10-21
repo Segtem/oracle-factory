@@ -1,0 +1,13 @@
+{
+  "schema_version": "oracle-clue.triage/v1",
+  "report_sha256": "afe9fcc9b4ac0c99d23726654d148ef15d17b186e7b8655aca96c87f22c0bdce",
+  "decisions": [
+    {
+      "finding_id": "F1",
+      "status": "riesgo_aceptado",
+      "reason": "Sólo fixture de validación, no aceptación real.",
+      "actor": "persona simulada",
+      "at": "2026-01-01T00:00:00Z"
+    }
+  ]
+}

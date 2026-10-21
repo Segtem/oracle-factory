@@ -1,0 +1,37 @@
+Banco de concurrencia — semilla 20261021
+
+ok       s0_clon_recien_hecho         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 0.4 s
+           auditadas 1 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       s1_paralelo_disjunto         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.9 s
+           auditadas 10 decisiones y la vigencia de 2 cambios: nada perdido, mal atribuido ni viejo
+ok       s2_mismo_archivo             conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.4 s
+           conflicto al integrar tarea/enteros: calc.py
+           auditadas 6 decisiones y la vigencia de 2 cambios: nada perdido, mal atribuido ni viejo
+ok       s3_semantico                 conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.5 s
+           al integrar tarea/doble, antes de publicar, fallan ['test_doble.py']: el merge se deshace
+           pasan solos y fallan juntos: lo ven las pruebas de quien integra, antes de publicar (Factory no corre nada al mergear)
+           auditadas 6 decisiones y la vigencia de 2 cambios: nada perdido, mal atribuido ni viejo
+ok       s4_tomar_a_la_vez            conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.5 s
+           subió segundo Beto; integrado en main con las tomas de ['Beto', 'Ana', 'Beto']
+           auditadas 6 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       s5_decisiones_simultaneas    conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.9 s
+           auditadas 21 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       s6_mismo_id                  conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 2.1 s
+           IDs del mismo segundo: ['20261021-214843-oqw-igual0', '20261021-214843-ze1-igual0']
+           conflicto al integrar tarea/mismo-id: openspec/changes/20261021-214843-oqw-igual0/proposal.md, openspec/changes/20261021-214843-oqw-igual0/specs/calc/spec.md, tareas/20261021-214843-oqw-igual0/TAREA.md
+           dos cambios con el mismo ID chocan al integrar: Git lo frena
+           auditadas 6 decisiones y la vigencia de 2 cambios: nada perdido, mal atribuido ni viejo
+ok       s7_generados                 conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 1 · 1.9 s
+           Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (automático: nadie tuvo que hacerlo)
+           auditadas 6 decisiones y la vigencia de 2 cambios: nada perdido, mal atribuido ni viejo
+ok       a1_relevo_atrasado           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           auditadas 6 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       a2_evidencia_vieja           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 1 · 2.6 s
+           al traer main, la revisión y el juicio de Oracle viejos dejaron de valer y cerrar se negó; Beto produjo evidencia, revisó y juzgó otra vez, y lo nuevo vale
+           auditadas 8 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       a3_registro_en_dos_ramas     conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           auditadas 5 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       a4_mensajes_de_a_turnos      conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 3.4 s
+           auditadas 9 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
+ok       a5_trailers_y_vault_en_otro_clon conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           auditadas 4 decisiones y la vigencia de 1 cambios: nada perdido, mal atribuido ni viejo
