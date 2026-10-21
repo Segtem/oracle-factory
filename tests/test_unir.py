@@ -220,6 +220,8 @@ class UnirPuro(unittest.TestCase):
         # Eventos del mismo segundo: cada rama conserva su orden.
         z, a, b = ({'accion': 'mensaje', 'texto': t, 'cuando': '5'} for t in ('z primero', 'a después', 'b de la otra'))
         self.assertEqual(unir_mod.unir({}, {'eventos': [z, a]}, {'eventos': [b]})['eventos'], [z, a, b])
+        # Un evento que una rama perdió sigue estando: el historial no se borra.
+        self.assertEqual(unir_mod.unir({'eventos': [z, a]}, {'eventos': [a]}, {'eventos': [z, a, b]})['eventos'], [z, a, b])
 
     def test_lo_que_las_dos_cambiaron_distinto_queda_pendiente(self):
         # Dos cierres: una sola decisión pendiente, entera, que se elige con decidir-union.

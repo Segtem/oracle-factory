@@ -38,16 +38,17 @@ def _clave(x) -> str:
 
 def _sumar(base, nuestro, suyo, en_orden: bool) -> list:
     """Lo de las dos ramas sin repetir, salvo lo que estaba en la base y una de las dos sacó (un pendiente ya resuelto
-    no vuelve). Con en_orden (los eventos), se intercalan por `cuando` conservando el orden de cada rama."""
+    no vuelve). Con en_orden (los eventos, que nunca se borran), se intercalan por `cuando` conservando el orden de cada rama."""
     claves = [{_clave(x) for x in lista or []} for lista in (nuestro, suyo)]
-    sacado = {_clave(x) for x in base or []} - (claves[0] & claves[1])
-    propios = [x for x in nuestro or [] if _clave(x) not in sacado]
-    vistos = {_clave(x) for x in propios}
-    ajenos = []
-    for x in suyo or []:
-        if _clave(x) not in vistos | sacado:
-            vistos.add(_clave(x))
-            ajenos.append(x)
+    # Los eventos son el historial: no se borran aunque una rama los haya perdido. Lo demás (un pendiente resuelto) sí.
+    sacado = set() if en_orden else {_clave(x) for x in base or []} - (claves[0] & claves[1])
+    # El historial común primero, en su orden (aunque una rama haya perdido alguno), y después lo nuevo de cada rama.
+    propios, ajenos, vistos = [], [], set(sacado)
+    for destino, lista in ((propios, base if en_orden else []), (propios, nuestro), (ajenos, suyo)):
+        for x in lista or []:
+            if _clave(x) not in vistos:
+                vistos.add(_clave(x))
+                destino.append(x)
     if not en_orden:
         return propios + ajenos
     return list(heapq.merge(propios, ajenos, key=lambda e: str(e.get("cuando", ""))))  # estable: ante empate, los nuestros
