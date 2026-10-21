@@ -1,0 +1,18 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-aislar/.factory/local/revisiones/0ac9092-codex-1",
+  "base": "3dc4407501c858ee341e99bf71cab58c33fe0559",
+  "head": "0ac90922bc1b66c6462b0e052dc2ce8033cdba50",
+  "diff_sha256": "d7a177caea6d38695116b93712a6fac012d437378c14375f74b175aa0c8f8e11",
+  "context_sha256": "52754eaef1cc3ee7a6d88d81b518582d90855c892500c6dcd5ba80db05f98fa6",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé proposal.md, spec.md, el diff completo del paquete y el flujo de pedir_revision/validación en oracle_factory/cli.py, además de tests/test_aislar.py, tests/test_revisores.py, tools/verify_aislar.py y los catálogos Oracle añadidos.",
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores desde la raíz del checkout: 17 pruebas, OK. Un intento inicial desde la carpeta del informe no encontró el módulo tests; lo repetí desde la raíz indicada y pasó.",
+    "Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.",
+    "No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.",
+    "No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron."
+  ]
+}
