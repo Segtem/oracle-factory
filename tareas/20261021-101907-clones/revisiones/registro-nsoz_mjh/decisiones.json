@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "938114d516ec131bdc658e869935386a0066ad1ee3bddea56abd4149fe8b53f0",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de codex y agy: la 1 dejó 2 medios (CLONES-01, CLONES-001) y un bajo (CLONES-02), corregidos con pruebas y mutaciones muertas; la 2 no dejó medios ni altos. Queda una baja para decidir: CLONES-03 (cl2 no fuerza que los dos IDs caigan en el mismo segundo).",
+  "decisiones": [
+    {
+      "hallazgo_id": "CLONES-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T15:17:37+00:00"
+    }
+  ]
+}

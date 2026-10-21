@@ -2,7 +2,7 @@
   "id": "20261021-101907-clones",
   "titulo": "Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan",
   "capacidad": "colaboracion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
   "spec_sha256": "329e5390293cf8da8b7775ed2baee6ea788dbf32db0661a39c55ff4e937ef379",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir",
     "colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261021-101907-clones/revisiones/registro-nsoz_mjh/informe.json",
+    "sha256": "938114d516ec131bdc658e869935386a0066ad1ee3bddea56abd4149fe8b53f0",
+    "decisiones": "tareas/20261021-101907-clones/revisiones/registro-nsoz_mjh/decisiones.json",
+    "decisiones_sha256": "5d043a5dd3a58de05f9c89f7536d777d5ea9968702b7f357bc7d94a32647fd96",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T15:17:43+00:00",
+    "motivo": "Dos vueltas de codex y agy: la 1 dejó 2 medios (CLONES-01, CLONES-001) y un bajo (CLONES-02), corregidos con pruebas y mutaciones muertas; la 2 no dejó medios ni altos. Queda una baja para decidir: CLONES-03 (cl2 no fuerza que los dos IDs caigan en el mismo segundo).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "6f08a34fdd4d78e5d637e7582fa9fda2b713d733",
+      "archivos_sha256": "3d291a8c6db4111daf423b44c5447b96b9057f90c7d8a300ce3101e1ada3ea3a"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -357,6 +377,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "668915d4ec66"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:52:25+00:00",
+      "decision": "aprobar",
+      "candidato": "cb447d3"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T15:17:43+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "938114d516ec131bdc658e869935386a0066ad1ee3bddea56abd4149fe8b53f0",
+      "decisiones_sha256": "5d043a5dd3a58de05f9c89f7536d777d5ea9968702b7f357bc7d94a32647fd96"
     }
   ],
   "tipos": {
@@ -421,5 +465,17 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "tests/test_clones.py",
+      "titulo": "La prueba de IDs no fuerza que ambos clones creen en el mismo segundo",
+      "firma": "tests/test_clones.py|la prueba de ids no fuerza que ambos clones creen en el mismo segundo",
+      "motivo": "Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T15:17:37+00:00",
+      "candidato": "cb447d3"
+    }
+  ]
 }
