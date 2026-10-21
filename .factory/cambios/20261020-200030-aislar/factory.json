@@ -2,7 +2,7 @@
   "id": "20261020-200030-aislar",
   "titulo": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
   "capacidad": "revisores",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md",
   "spec_sha256": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-200030-aislar/revisiones/registro-n2enjd_g/informe.json",
+    "sha256": "85090a3f8ec3b1328b7c7c2d723eb76f4d29211fcc8d3dae0aa4ad8b8389c0fd",
+    "decisiones": "tareas/20261020-200030-aislar/revisiones/registro-n2enjd_g/decisiones.json",
+    "decisiones_sha256": "97c51a7186326af1dc2af04a347934e0440bc9d346618be707980629b7f044ed",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T00:33:50+00:00",
+    "motivo": "Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos, y en ninguna vuelta cambió el user.name ni las ramas del repositorio. Corregido con pruebas que fallan sin cada corrección: el checkout es un clon --local por pedido, sin remotos ni alternates (un gc no lo rompe), vuelve al candidato antes de validar, --base se traduce a SHA, y el número del pedido es el más alto exacto del revisor mirando informes versionados, paquetes y clones. Queda bajo (aceptado en la vuelta 1, F-006): aislar al revisor del resto del disco es cosa de su sandbox.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "e6b528e7d6a9f1102c206c3bacd3d200d6f174ff",
+      "archivos_sha256": "b630de6a1f1ddb3c7fe64ac89fe33010ad1e17b514edd2a66845b3fbc70eef95"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -408,6 +428,20 @@
       "cuando": "2026-10-21T00:32:36+00:00",
       "decision": "aprobar",
       "candidato": "0ac9092"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T00:33:50+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "85090a3f8ec3b1328b7c7c2d723eb76f4d29211fcc8d3dae0aa4ad8b8389c0fd",
+      "decisiones_sha256": "97c51a7186326af1dc2af04a347934e0440bc9d346618be707980629b7f044ed"
     }
   ],
   "tipos": {
@@ -439,14 +473,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos, y en ninguna vuelta cambió el user.name ni las ramas del repositorio. Corregido con pruebas que fallan sin cada corrección: el checkout es un clon --local por pedido, sin remotos ni alternates (un gc no lo rompe), vuelve al candidato antes de validar, --base se traduce a SHA, y el número del pedido es el más alto exacto del revisor mirando informes versionados, paquetes y clones. Queda bajo (aceptado en la vuelta 1, F-006): aislar al revisor del resto del disco es cosa de su sandbox.",
-      "candidato": "0ac9092",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-21T00:32:36+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
