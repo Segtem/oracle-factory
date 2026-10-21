@@ -398,6 +398,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c0bf75716300"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T00:32:36+00:00",
+      "decision": "aprobar",
+      "candidato": "0ac9092"
     }
   ],
   "tipos": {
@@ -428,5 +438,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Cinco vueltas de codex y agy; en la última ninguno dejó hallazgos, y en ninguna vuelta cambió el user.name ni las ramas del repositorio. Corregido con pruebas que fallan sin cada corrección: el checkout es un clon --local por pedido, sin remotos ni alternates (un gc no lo rompe), vuelve al candidato antes de validar, --base se traduce a SHA, y el número del pedido es el más alto exacto del revisor mirando informes versionados, paquetes y clones. Queda bajo (aceptado en la vuelta 1, F-006): aislar al revisor del resto del disco es cosa de su sandbox.",
+      "candidato": "0ac9092",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-21T00:32:36+00:00"
+    }
+  }
 }
