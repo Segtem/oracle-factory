@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/9e23d80-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "9e23d8046d85a2c0d7f9fc6d9f7db68c2628b94b",
+  "diff_sha256": "8b341e740e3ac51e120f630881fb237b73edeb2a52a9ee090d93368e996a475b",
+  "context_sha256": "3e20433660a7509c95d0a6ca7a69bcddc6b82141c367c1cc696f4d81dcf257bf",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "codex-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "La unión puede borrar eventos anteriores que una rama quitó",
+      "explanation": "La spec promete que todos los eventos de ambas ramas y todos los eventos anteriores queden en el registro una sola vez. `eventos` se combina con la misma lógica de borrado que el resto de las listas: `_sumar` considera eliminado cualquier elemento de la base que no figure en las dos ramas. Si una rama quitó una entrada histórica y la otra la conserva, el merge descarta esa entrada. Para el historial append-only de Factory, una eliminación aislada no debe borrar un evento que sigue presente en la otra rama.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 42,
+        "end_line": 44,
+        "side": "head"
+      },
+      "trigger": "En una copia de un registro, crear una base con dos eventos; dejar que una rama quite uno de ellos y que la otra lo conserve y agregue un evento nuevo; unir los tres registros con `unir()`.",
+      "evidence": "Reproducción en memoria con base `creado@1` y `mensaje histórico@2`, rama nuestra que conserva sólo `creado@1`, y rama suya que conserva ambos y agrega `mensaje de Beto@3`: `unir()` devolvió sólo `creado@1` y `mensaje de Beto@3`; el evento histórico desapareció. La causa es `sacado = base - (nuestro ∩ suyo)` en la línea 43, que se aplica también a `eventos`. La suite focalizada pasó, pero no cubre eliminaciones de entradas del historial.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "status": "pendiente",
+      "verification": "Agregar una prueba de unión donde sólo una rama quite un evento previo y verificar que la salida preserve ese evento y los eventos nuevos de ambas ramas exactamente una vez."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, la propuesta, el diff y los archivos de producto del paquete. Excluí .factory, kb/README.md, las notas kb indicadas y tareas, según el pedido.",
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` desde la raíz del checkout candidato: 7 pruebas, OK.",
+    "Hice una reproducción manual en memoria de la unión con un evento histórico eliminado en una sola rama; no modifiqué el checkout ni la configuración de Git.",
+    "No corrí la suite completa ni `tools/verify_unir.py`. Revisé las regresiones anteriores: la ordenación estable ante marcas simultáneas, los pendientes por requisito, la elección de cierres/fases, la regeneración tras conflictos, el alcance de los archivos generados y la deduplicación de .gitattributes aparecen corregidos en este candidato; no repetí mutaciones específicas para cada corrección.",
+    "La revisión cubrió el flujo y los casos pedidos de post-merge/post-commit estáticamente; no ejecuté pruebas adicionales sobre merges con --no-commit, otras ramas, hooks ajenos ni fallos de regeneración."
+  ]
+}

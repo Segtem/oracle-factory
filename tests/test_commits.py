@@ -193,7 +193,9 @@ class Commits(unittest.TestCase):
         self.assertEqual(datos['esquema'], 'oracle-factory.log/1')
         asuntos = {c['asunto']: c for c in datos['commits']}
         self.assertEqual(set(asuntos), {'viejo: primero', 'Traer main', 'viejo: registros', 'viejo: el pedido',
-                                        'viejo: anota el descartado', 'descartada ' + str(i)})  # ni main ni init
+                                        'viejo: anota el descartado', 'descartada ' + str(i),
+                                        # lo que el post-merge rehízo al traer main a la rama, también de la rama
+                                        'Rehacer lo generado después de integrar (oracle-factory)'})  # ni main ni init
         self.assertEqual(asuntos['descartada ' + str(i)]['union'], 'deducido')  # el candidato descartado, por sí mismo
         self.assertEqual({c['union'] for c in datos['commits']}, {'deducido'})
         primero = asuntos['viejo: primero']

@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/bdd54bd-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "bdd54bd0431cf5b0fc5fc8bb265b269ed1de8f89",
+  "diff_sha256": "17f614c1021f090352a9cc3e1ac19b7e6fb9670f707da1b30f9026ee45538537",
+  "context_sha256": "55220ea1a8933273022ded3dcac34703ea72cdeeb30414dd80d4dfbe56d41a8c",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "codex-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "La unión puede reordenar eventos simultáneos de una misma rama",
+      "explanation": "La spec promete conservar todos los eventos «en orden». En la rama que combina listas, `unir.py` ordena `eventos` por `cuando` y luego por la serialización JSON completa. `ahora()` produce marcas con precisión de segundos, así que acciones sucesivas pueden compartir `cuando`; el desempate por JSON ignora su posición original en la rama y puede invertirlas. El resultado deja de reflejar el orden en que ocurrieron esas decisiones.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 61,
+        "end_line": 61,
+        "side": "head"
+      },
+      "trigger": "En una rama, registrar dos eventos distintos dentro del mismo segundo en un orden cuyo JSON ordenado sea inverso (por ejemplo mensajes «z primero» y luego «a después»), y unir esa rama con otra que también añadió un evento con la misma marca temporal.",
+      "evidence": "Reproducción en memoria con base y eventos de rama local a `2026-10-21T12:01:00+00:00`: localmente el orden era [`z primero`, `a después`], y la otra rama aportó `m en la otra rama`; `unir()` devolvió [`a después`, `m en la otra rama`, `z primero`]. `ahora()` en `oracle_factory/cli.py:49` usa `isoformat(timespec=\"seconds\")`, mientras que `oracle_factory/unir.py:61` desempata por `_clave(e)`. La prueba solicitada `tests.test_unir` pasa, pero sus eventos tienen marcas distintas y no detecta este caso.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "status": "pendiente",
+      "verification": "Agregar dos eventos secuenciales con idéntico `cuando` a una rama y uno a la otra; comprobar que la salida preserve el orden relativo de los dos eventos locales además de incluir una sola vez los tres."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` desde la raíz del checkout; las 7 pruebas pasaron.",
+    "Se hizo una reproducción en memoria de la unión con eventos simultáneos; no se editaron archivos ni se cambiaron repositorios.",
+    "Se revisaron estáticamente la spec, la propuesta, los flujos indicados de CLI/hooks, el merge puro y las pruebas del cambio.",
+    "No se ejecutó la suite completa ni `tools/verify_unir.py`; tampoco se hizo una mutación de código en copia temporal."
+  ]
+}

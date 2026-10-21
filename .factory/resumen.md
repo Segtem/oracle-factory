@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:d8560eeaf231f755fc836e0f5a66bf083bab2ad248062748afb79c954f72b114 -->
+<!-- oracle-factory resumen sha256:09f12435dd14f9c17354c5c4a7ed9ca2a8fb66de794d2e64a2f9bd9d6f108fb0 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 162 requisitos vigentes · 1 cambio abierto
+20 capacidades · 165 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -73,6 +73,9 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | un clon recién hecho puede trabajar | funcional | `colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar` | factory_clones.un_clon_recien_hecho_puede_trabajar, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
 | dos clones no generan el mismo ID | funcional | `colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id` | factory_clones.dos_clones_no_generan_el_mismo_id, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
 | escribir a la vez no obliga a repetir | funcional | `colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir` | factory_clones.escribir_a_la_vez_no_obliga_a_repetir, factory_clones.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-101907-clones |
+| el registro de un cambio editado en dos ramas se une sin perder nada | funcional | `colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada` | factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
+| si las dos ramas decidieron distinto, decide una persona | funcional | `colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona` | factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
+| lo generado no choca al integrar | funcional | `colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar` | factory_unir.lo_generado_no_choca_al_integrar, factory_unir.corrida_completa | verde al cerrar el 2026-10-21 | 20261021-140625-unir |
 
 ### conocimiento
 
@@ -878,6 +881,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261021-101907-clones) codex (gpt-6-luna): No hice mutaciones manuales sobre copias. La prueba de ID se evaluó por inspección: su ejecución paralela no fuerza ni demuestra que ambos procesos usaron el mismo segundo.
 - (20261021-101907-clones) codex (gpt-6-luna): No se repitió CLONES-01: `init` conserva la regla del proyecto, avisa mediante `git check-ignore` si un `.gitkeep` queda ignorado, y la prueba añadida cubre el aviso para `tareas/`. Los recorridos principales de cambios filtran por ID o por directorio; se actualizó el consumidor de `iterdir` en `tests/test_modos.py` y no vi otra regresión por `.gitkeep` en el alcance revisado.
 - (20261021-101907-clones) codex (gpt-6-luna): El reintento de `mensaje`, `tomar` y `soltar` vuelve a ejecutar la función completa al recibir `ArchivoCambiado`; las reglas de titularidad se comprueban tras volver a leer. `tests.test_clones` cubre reintentos para tomar y soltar, además de mensajes simultáneos y el agotamiento de reintentos.
+- (20261021-140625-unir) Evidencia: Escenarios un1–un3 en repositorios temporales, Linux, con git real, un repositorio central y dos clones con los hooks instalados; la unión pura con registros armados a mano.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se leyeron la propuesta (openspec/changes/20261021-140625-unir/proposal.md), la especificación (openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md), el paquete de Oracle Clue y el diff completo de producto.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se excluyeron los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, notas kb indicadas y tareas), según las instrucciones.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` en primer plano desde la raíz del checkout candidato 7e6e506; las 7 pruebas pasaron exitosamente.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se verificó la corrección de codex-01 de la vuelta 3: en oracle_factory/unir.py, los eventos son tratados como historial append-only (`sacado = set() if en_orden else ...`), de modo que nunca se borran aunque una rama los haya omitido, el historial común de base se incluye en `propios` en su orden previo a la combinación con `heapq.merge` por `cuando`, y los pendientes resueltos siguen sin reaparecer al evaluar listas con `en_orden=False`.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre una copia aislada en la carpeta del revisor (`mutaciones/`) cubriendo 10 casos en oracle_factory/unir.py y oracle_factory/cli.py (sacado incondicionalmente vacío, aplicación de sacado a eventos, omisión de base en el recorrido de eventos, reordenamiento por serialización JSON, supresión de POR_ENTRADA, omisión del limpiado de pendientes en evento, omisión de git update-ref en rehacer_generado, supresión de la verificación de HEAD^2 en post-commit, retorno con código de error en unir_registro y vaciado de aviso_union). Todas las mutaciones fueron detectadas y matadas por la suite de tests.test_unir.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): Se comprobaron estáticamente y mediante reproducciones controladas en repositorios temporales los mecanismos de post-merge con MERGE_HEAD, post-commit tras resolución de conflictos, actualización de ramas que no son main, detección de hooks ajenos mediante marcas, preservación y no duplicación de entradas en .gitattributes, y regeneración de artefactos generados (.factory/resumen.md y kb/) sin incluir notas de personas (kb/notas/).
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): No se editó el checkout candidato ni se modificó la configuración de Git de ningún repositorio.
+- (20261021-140625-unir) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_unir.py, conforme a las instrucciones.
+- (20261021-140625-unir) codex (gpt-6-luna): Se leyó la propuesta, la spec, el diff y el contexto incluido en el paquete; se contrastaron los tres requisitos con la lógica, los hooks, las pruebas focalizadas, los verificadores, los catálogos y el README.
+- (20261021-140625-unir) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null; resultado: 7 pruebas, OK.
+- (20261021-140625-unir) codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_unir.py; tampoco se hicieron mutaciones manuales.
+- (20261021-140625-unir) codex (gpt-6-luna): Se revisaron como regresiones las observaciones de vueltas anteriores sobre divergencias de fase, fusión/pérdida de eventos, orden del historial, pendientes resueltos, instalación de atributos y errores de hooks. No se encontró una regresión reproducible.
 
 ### Históricos
 

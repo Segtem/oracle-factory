@@ -1,0 +1,173 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/bdd54bd-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "bdd54bd0431cf5b0fc5fc8bb265b269ed1de8f89",
+  "diff_sha256": "17f614c1021f090352a9cc3e1ac19b7e6fb9670f707da1b30f9026ee45538537",
+  "context_sha256": "3fefe7515a2f0ba7e1fc37f1d955a9f43f47360414211cea5bb0e2fe4b5b0372",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "agy-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "_unir fusiona silenciosamente medidas divergentes de un mismo requisito en un diccionario combinado",
+      "explanation": "La spec promete: «Si al unir el registro las dos ramas decidieron distinto sobre lo mismo (por ejemplo, dos responsables o dos aprobaciones), Factory SHALL NOT elegir en silencio: SHALL conservar en el registro lo de las dos ramas, estado SHALL avisar qué hay que decidir y cómo, y la decisión de una persona que corresponde SHALL resolverlo». En el registro, las medidas de un requisito (estado['medidas'][rid]) contienen subdiccionarios «catalogos» (con pares medida: hash) y «archivos_catalogo». Cuando dos ramas eligen medidas distintas para el mismo requisito, _unir realiza una recursión genérica sobre los diccionarios. Al llegar a «catalogos» y «archivos_catalogo», como las medidas elegidas en cada rama son claves distintas, _unir fusiona silenciosamente las claves de ambas ramas en un único diccionario combinado (catalogos contiene las medidas de ambas ramas a la vez). No se genera ningún conflicto ni entrada en pendientes_de_union sobre la medida ni los catálogos. Si actor y cuando coinciden (o si sólo cuando difería y se decide), el requisito queda permanentemente con medidas combinadas de ambas ramas que ninguna persona decidió.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 54,
+        "end_line": 66,
+        "side": "head"
+      },
+      "trigger": "Dos ramas eligen medidas diferentes para el mismo requisito (ej. medida_A en una rama y medida_B en la otra) y se integran.",
+      "evidence": "Al simular la unión con medidas donde una rama asignó medida_A y otra medida_B sobre el requisito req1, res['medidas']['req1']['catalogos'] contiene {'medida_A': '...', 'medida_B': '...'} y res['pendientes_de_union'] no contiene ninguna entrada relativa a los catálogos de medidas. Si las dos ramas fueron ejecutadas por la misma persona al mismo segundo, pendientes_de_union queda completamente vacío (None), produciendo una elección silenciosa que une ambas medidas.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Unir dos registros donde rama A y rama B hayan asignado medidas con nombres de catálogo distintos para un mismo requisito; comprobar que los catálogos de ambas ramas son combinados en medidas[rid]['catalogos'] sin reportar conflicto de catálogo en pendientes_de_union."
+    },
+    {
+      "id": "agy-02",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "_unir asigna None a claves eliminadas por la otra rama provocando fallos por AttributeError en comandos posteriores",
+      "explanation": "En _unir(), la condición if valor is not None or k in nuestro: salida[k] = valor evalúa si el resultado de la unión debe incluirse en la salida. Cuando la rama remota (suyo) elimina una clave de un subdiccionario (por ejemplo, al desvincular o quitar un requisito de medidas o de propuestas) y la rama local (nuestro) no la modificó respecto de la base, _unir() devuelve valor=None. Debido a la cláusula or k in nuestro, como k existía en nuestro, se ejecuta salida[k] = None en lugar de omitir la clave (asimetría frente al caso donde la rama local fue la que eliminó la clave). Al quedar medidas[rid]: None en el diccionario, comandos centrales como estado, resumen y cerrar fallan con AttributeError: 'NoneType' object has no attribute 'get' al llamar a medidas_sin_decision().",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 63,
+        "end_line": 65,
+        "side": "head"
+      },
+      "trigger": "La rama remota elimina una clave de un diccionario de registro (ej. una entrada en medidas) mientras la rama local no la toca, y se integran las ramas.",
+      "evidence": "Al unir base={'medidas': {'req1': {...}, 'req2': {...}}}, nuestro={'medidas': {'req1': {..._mod}, 'req2': {...}}} y suyo={'medidas': {'req1': {...}}}, la salida produce {'medidas': {'req1': {...}, 'req2': None}}. Al ejecutar cli.medidas_sin_decision() sobre dicho estado con archivos de requisito presentes en el repositorio, la función arroja AttributeError: 'NoneType' object has no attribute 'get' en medidas[rid].get('sha256').",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada",
+      "status": "pendiente",
+      "verification": "Unir dos ramas donde la remota eliminó una clave de un subdiccionario existente en base mientras la local modificó otra; comprobar que la clave eliminada queda con valor None en el registro unido y provoca AttributeError al invocar medidas_sin_decision."
+    },
+    {
+      "id": "agy-03",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Imposibilidad de resolver un conflicto de cierre mediante decidir-union ID cierre nuestro|suyo",
+      "explanation": "El README y el docstring de decidir_union documentan: «la decisión que corresponde (o oracle-factory decidir-union ID CAMPO nuestro|suyo, desde la terminal de una persona, para lo que ninguna otra decisión resuelve, como dos fases o dos cierres) borra el aviso». Sin embargo, cuando dos ramas cierran el mismo cambio, estado['cierre'] es un diccionario con claves actor, cuando, forma, modo, motivo, etc. Al unir los registros, _unir() desciende recursivamente dentro de cierre y genera entradas individuales en pendientes_de_union (cierre.actor, cierre.cuando, cierre.motivo), sin crear jamás una entrada con campo=='cierre'. Al intentar ejecutar la instrucción documentada oracle-factory decidir-union {id} cierre nuestro, decidir_union() busca un pendiente con x['campo'] == 'cierre' y falla con FactoryError: {id} no tiene nada pendiente de unir en cierre; no cambié nada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 712,
+        "end_line": 715,
+        "side": "head"
+      },
+      "trigger": "Dos ramas cierran el mismo cambio con datos de cierre divergentes; se integran y la persona ejecuta oracle-factory decidir-union {id} cierre nuestro (o suyo) como instruye la documentación.",
+      "evidence": "Al generar un merge entre dos ramas cerradas con cierres divergentes (Ana y Beto), pendientes_de_union contiene ['cierre.actor', 'cierre.cuando']. Al invocar cli.decidir_union(identificador, 'cierre', 'nuestro'), la llamada aborta con FactoryError: ... no tiene nada pendiente de unir en cierre; no cambié nada. Además, resolverlo campo por campo permite conformar un cierre híbrido inconsistente (actor de una rama y fecha/motivo de la otra).",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Unir dos ramas que cerraron el cambio y ejecutar oracle-factory decidir-union ID cierre nuestro; verificar que arroja FactoryError indicando que no hay nada pendiente en cierre."
+    },
+    {
+      "id": "agy-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "aprobar-spec no resuelve el pendiente de unión en spec_sha256 tras unir dos ramas que aprobaron la spec",
+      "explanation": "Cuando dos ramas aprueban la spec con modificaciones en los archivos de la propuesta o de la spec, los registros en ambas ramas actualizan tanto el objeto spec_aprobada como la cadena spec_sha256. Al integrar las ramas, _unir() genera entradas en pendientes_de_union para los campos divergentes de spec_aprobada y para spec_sha256. En unir.py, RESUELVE['spec_aprobada'] solo mapea la acción spec_aprobada a caminos que comiencen con ('spec_aprobada',), omitiendo ('spec_sha256',). Cuando una persona ejecuta oracle-factory aprobar-spec {id} para acordar la spec, el evento spec_aprobada limpia los pendientes de spec_aprobada.*, pero spec_sha256 permanece en pendientes_de_union. estado continúa mostrando el aviso de conflicto no resuelto en spec_sha256 y requiriendo decidir-union, lo que restaura un hash obsoleto.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 84,
+        "end_line": 88,
+        "side": "head"
+      },
+      "trigger": "Dos ramas aprueban la spec con contenidos distintos de documentos; se integran las ramas y una persona aprueba la spec nuevamente con oracle-factory aprobar-spec {id}.",
+      "evidence": "Al simular la unión con spec_sha256 y spec_aprobada divergentes, pendientes_de_union registra ['spec_sha256', 'spec_aprobada.actor']. Al ejecutar unir.resueltos_por('spec_aprobada'), el resultado es (('spec_aprobada',),); unir.resuelto() sobre el pendiente de spec_sha256 devuelve False, manteniéndolo como pendiente no resuelto a pesar de la aprobación humana.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Unir dos ramas con aprobaciones de spec divergentes, ejecutar aprobar-spec y verificar que spec_sha256 persiste en pendientes_de_union y en los avisos de estado."
+    },
+    {
+      "id": "agy-05",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "_unir asigna silenciosamente el agente a la persona responsable cuando una rama tomó el cambio con agente y la otra sin él",
+      "explanation": "Al tomar un cambio mediante tomar ID (sin agente) o tomar ID --con AGENTE, el registro actualiza el objeto responsable. Si en la base no había responsable, la rama A toma el cambio sin agente ({'persona': 'Ana'}) y la rama B lo toma con agente ({'persona': 'Beto', 'agente': 'codex'}), la recursión sobre diccionarios en _unir() detecta conflicto en responsable.persona, pero como la clave agente era None en base y None en nuestro, evalúa nuestro.get('agente') == base.get('agente') como True. En consecuencia, _unir() toma el valor de suyo y asigna responsable['agente'] = 'codex' junto con responsable['persona'] = 'Ana', sin registrar ninguna entrada en pendientes_de_union para agente. Factory elige en silencio el agente de Beto y se lo impone a Ana sin intervención humana.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 54,
+        "end_line": 68,
+        "side": "head"
+      },
+      "trigger": "Integrar una rama donde una persona tomó el cambio sin agente con otra donde una persona tomó el cambio con --con <agente>.",
+      "evidence": "Al unir base={'responsable': None}, nuestro={'responsable': {'persona': 'Ana'}} y suyo={'responsable': {'persona': 'Beto', 'agente': 'codex'}}, el registro de salida contiene 'responsable': {'persona': 'Ana', 'agente': 'codex'}, y el único pendiente registrado es responsable.persona, omitiendo advertir la asignación de agente.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Unir dos ramas que tomaron el cambio, una sola de ellas con agente; comprobar que la persona de la rama local queda asignada con el agente de la remota sin reporte de conflicto en agente."
+    },
+    {
+      "id": "agy-06",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Decisiones de avance de fase no limpian el conflicto de fase en pendientes_de_union",
+      "explanation": "Cuando dos ramas avanzan a fases distintas (ej. una importa requisitos y la otra aprueba spec o mide), fase se incluye en pendientes_de_union. La tabla RESUELVE no incluye fase bajo ninguna acción resolutoria. Si la persona decide continuar el flujo natural del cambio mediante una decisión legítima que establece la fase (ej. aprobar-spec, importar, medir, revisar, juzgar), la fase se actualiza en el registro, pero el pendiente de unión en fase no se elimina. El comando estado continúa exigiendo decidir-union {id} fase nuestro (o suyo). Si la persona ejecuta decidir-union ... suyo, sobreescribe la fase recién decidida con el valor obsoleto de la rama remota.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 14,
+        "end_line": 21,
+        "side": "head"
+      },
+      "trigger": "Dos ramas divergieron en su fase; se integran y luego una persona realiza una decisión regular que define la fase del cambio (ej. revisar o medir).",
+      "evidence": "Al unir dos fases distintas, pendientes_de_union contiene {'campo': 'fase'}. Al ejecutar eventos de transición (como revision_registrada o medidas_confirmadas), unir.resueltos_por() devuelve tuplas que no contemplan fase. unir.resuelto(pendiente_fase, caminos) devuelve False y el pendiente persiste en el registro.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Unir dos ramas con fases divergentes, ejecutar una decisión válida que cambie la fase (ej. medir) y verificar que fase persiste en pendientes_de_union y en los avisos de estado."
+    },
+    {
+      "id": "agy-07",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Silenciamiento de errores en hooks post-merge y post-commit oculta fallos de regeneración de lo generado",
+      "explanation": "En cli.py, las definiciones de LLAMADA_POST_MERGE y LLAMADA_POST_COMMIT redirigen toda la salida estándar y de error a /dev/null con >/dev/null 2>&1 || true. Si rehacer_generado() falla por cualquier causa (excepciones de lectura de registro, errores de git al invocar write-tree, commit-tree o update-ref, o problemas de permisos), el fallo se silencia de forma absoluta. El comando git merge o git commit finaliza con código de éxito aparente, pero resumen.md y kb/ quedan desactualizados y sin commitear, provocando fallas posteriores en resumen --verificar y kb --verificar.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 631,
+        "end_line": 634,
+        "side": "head"
+      },
+      "trigger": "Ocurrencia de un error o excepción no controlada dentro de rehacer_generado() durante la ejecución de los hooks post-merge o post-commit.",
+      "evidence": "Inspección de las constantes: LLAMADA_POST_MERGE finaliza con >/dev/null 2>&1 || true, lo que suprime el mensaje de FactoryError lanzado en línea 704 y descarta cualquier traceback o advertencia para el usuario.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
+      "status": "pendiente",
+      "verification": "Forzar un fallo en rehacer-generado durante un merge y verificar que la terminal no muestra ningún mensaje de error mientras que resumen.md y kb/ quedan sin commitear."
+    },
+    {
+      "id": "agy-08",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_lo_que_las_dos_cambiaron_distinto_queda_pendiente utiliza estructuras simplificadas que ocultan defectos en medidas y cierre",
+      "explanation": "En tests/test_unir.py, la prueba unitaria test_lo_que_las_dos_cambiaron_distinto_queda_pendiente simula medidas divergentes asignando valores enteros a los requisitos ({'medidas': {'r.uno': 1}} vs {'medidas': {'r.uno': 2}}), en lugar de la estructura real de diccionario que Factory escribe ({'catalogos': {...}, 'archivos_catalogo': {...}}). Al usar escalares, la prueba no evalúa la recursión interna de _unir() sobre catalogos, ocultando la fusión silenciosa de medidas distintas. Asimismo, la prueba evalúa cierre asignando {'cierre': {'por': 'Ana'}} y asertando cierre.por, ocultando que en la realidad Factory desglosa cierre en múltiples propiedades e imposibilita ejecutar decidir-union ID cierre nuestro.",
+      "location": {
+        "file": "tests/test_unir.py",
+        "start_line": 213,
+        "end_line": 225,
+        "side": "head"
+      },
+      "trigger": "Ejecución del conjunto de pruebas tests.test_unir.",
+      "evidence": "Las líneas 214 y 222 de tests/test_unir.py utilizan mocks que no coinciden con los tipos de datos generados por Factory (línea 2027 y 3704 de cli.py), permitiendo que las pruebas pasen al 100% mientras las operaciones reales en repositorios fallan o eligen en silencio.",
+      "related_requirement": "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Reemplazar en test_lo_que_las_dos_cambiaron_distinto_queda_pendiente los valores enteros de medidas y el mock de cierre por objetos generados por registrar_medidas() y cerrar(); verificar que la prueba falla al no quedar catalogos en pendientes y no poder decidir cierre como unidad."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null desde la raíz del checkout bdd54bd; las 7 pruebas pasaron.",
+    "Se ejecutaron reproducciones aisladas en memoria y en repositorios temporales de los casos de unión pura, eliminación de claves, decisiones divergentes de medidas, cierres y aprobaciones de spec.",
+    "No se editó el checkout candidato ni se modificó la configuración de Git de ningún repositorio.",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a las instrucciones recibidas."
+  ]
+}

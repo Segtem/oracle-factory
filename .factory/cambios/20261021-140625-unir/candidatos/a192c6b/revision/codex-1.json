@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/a192c6b-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "a192c6bad05df83edd2086910dba7bcc25e318dc",
+  "diff_sha256": "0bf7a745324212e6b620ff1aa2cc5410cf7645f9b92d39115f26d452224fb306",
+  "context_sha256": "f44022157340871dc19d91c3a3bebb28dbb7aca1d5112fd3e91c759783a74ad6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "UNIR-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "Una fase divergente se elige sin aviso",
+      "explanation": "La spec exige no elegir en silencio cuando ambas ramas decidieron distinto sobre lo mismo; la propuesta incluye explícitamente dos fases entre los casos que debe resolver una persona. DERIVADOS incluye fase y este camino devuelve siempre el valor de nuestro lado sin registrar un pendiente, por lo que estado no avisa ni conserva el valor de la otra rama para decidir.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 61,
+        "end_line": 62,
+        "side": "head"
+      },
+      "trigger": "Con base fase=impl, unir ramas donde nuestro cambió fase a rev y suyo a cerrar. La salida conserva rev, no incluye pendientes_de_union para fase y no genera aviso.",
+      "evidence": "En oracle_factory/unir.py:61-62 los campos en DERIVADOS retornan nuestro antes de alcanzar el caso que agrega un pendiente (líneas 63-64). La spec de colaboracion exige conservar ambas decisiones y avisar qué resolver; proposal.md enumera dos fases. tests/test_unir.py sólo comprueba que una fase divergente termina como impl y que no hay pendiente (test_lo_de_una_sola_rama_se_toma), no prueba el caso de decisiones de fase distintas.",
+      "related_requirement": "colaboracion.si_las_dos_ramas_decidieron_distinto_decide_una_persona",
+      "status": "pendiente",
+      "verification": "Contraste estático de la spec, unir.py y test_unir.py; no se ejecutó una mutación específica."
+    },
+    {
+      "id": "UNIR-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.91,
+      "title": "El commit de regeneración puede incluir notas humanas no generadas",
+      "explanation": "El hook agrega todo kb/ al índice cuando detecta cualquier diferencia en las rutas de salida, y después crea un commit con el árbol completo del índice. Si kb/notas contiene una nota humana sin seguimiento antes de integrar, y la regeneración cambia una nota generada, ese archivo también se agrega y queda incluido en el commit de Factory aunque no sea una salida regenerada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 686,
+        "end_line": 692,
+        "side": "head"
+      },
+      "trigger": "Dejar kb/notas/mi-nota.md sin seguimiento antes de un merge que cambie resumen o notas generadas. Al correr el post-merge, `git add -A -- kb` agrega la nota humana y `write-tree`/`commit-tree` la incluye en el commit de regeneración.",
+      "evidence": "oracle_factory/cli.py:686 incluye kb/ como ruta, 687 activa el bloque ante cualquier cambio en esa ruta, 690 agrega recursivamente toda kb/, y 691-692 crea un commit a partir del índice completo. README.md documenta que las notas de personas viven en kb/notas/ y se marcan con `kb revisada`, así que no forman parte de las notas que armar() regenera.",
+      "related_requirement": "colaboracion.lo_generado_no_choca_al_integrar",
+      "status": "pendiente",
+      "verification": "Inspección estática del post-merge y README; no se creó una nota temporal de reproducción."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta, la spec, los archivos incluidos en el paquete y el diff completo; se excluyeron los siete registros y evidencias indicados.",
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` desde la raíz del checkout candidato: 5 pruebas, OK.",
+    "No se ejecutó la suite completa ni `tools/verify_unir.py`, como se indicó.",
+    "Se comprobó en un repositorio temporal que `git merge --no-commit` no invoca post-merge; no se probaron mutaciones específicas de los dos hallazgos.",
+    "El análisis del riesgo de kb/notas es estático; no se ensayó el hook completo con una nota humana sin seguimiento."
+  ]
+}
