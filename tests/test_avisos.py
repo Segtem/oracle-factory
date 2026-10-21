@@ -34,8 +34,20 @@ class Avisos(unittest.TestCase):
         with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, f'importa sólo su spec .*openspec/changes/{ident}/specs/dos/spec.md'):
             f.aprobar_spec(ident)
         self.assertEqual((self.root / '.factory/cambios' / ident / 'factory.json').read_text(), registro)
-        otra.unlink()
-        otra.parent.rmdir()
+        # Anidada en specs/, o un enlace a la propia: también es otra spec, y se nombran todas, en orden.
+        anidada = carpeta / 'specs/a/sub/spec.md'
+        anidada.parent.mkdir(parents=True)
+        anidada.write_text(SPEC.format(c='sub', r='anidada', t='hide'))
+        enlace = carpeta / 'specs/b/spec.md'
+        enlace.parent.mkdir()
+        enlace.symlink_to(self.root / estado['spec'])
+        rutas = [f'openspec/changes/{ident}/specs/{r}/spec.md' for r in ('a/sub', 'b', 'dos')]
+        with self.escribe('1'), self.assertRaisesRegex(f.FactoryError, ', '.join(rutas)):
+            f.aprobar_spec(ident)
+        for x in (otra, anidada, enlace):
+            x.unlink()
+        for x in (otra.parent, anidada.parent, anidada.parent.parent, enlace.parent):
+            x.rmdir()
         with self.escribe('1'):
             f.aprobar_spec(ident)
         self.assertTrue(f.leer(ident)[1]['spec_aprobada'])
@@ -80,6 +92,8 @@ class Avisos(unittest.TestCase):
         [aviso] = [a for a in f.datos_estado(ident)['avisos'] if 'sin medir' in a]
         self.assertIn(f'{rid} tiene sus medidas decididas pero todavía dice «sin medir»', aviso)
         self.assertIn(f'medir {ident} --requisito {rid} --medida … --quitar-sin-medir', aviso)
+        self.assertIn(f'medir {ident} --confirmar', aviso)
+        self.assertNotIn('declará por qué', aviso)  # declarar el motivo deja la marca y juzgar sigue sin pasar
         texto = io.StringIO()
         with contextlib.redirect_stdout(texto), self.escribe('3'):
             f.mostrar(ident)
@@ -92,7 +106,7 @@ class Avisos(unittest.TestCase):
             f.revisar(ident, informe, 'Persona fixture', 'aprobar', 0)
         hechos = self.root / 'tareas' / ident / 'hechos.json'
         subprocess.run([sys.executable, 'examples/notas/sensor.py', '--salida', hechos], cwd=self.root, check=True, capture_output=True)
-        with self.assertRaisesRegex(f.FactoryError, f'Todavía dicen «sin medir»: {rid}'):
+        with self.assertRaisesRegex(f.FactoryError, f'Todavía dicen «sin medir»: {rid} \\(proponé sus medidas con --quitar-sin-medir\\)'):
             f.juzgar(ident, hechos)
         # Con la marca quitada, ya no avisa.
         with self.escribe('1'):

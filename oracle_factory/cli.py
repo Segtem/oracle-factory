@@ -905,9 +905,9 @@ def requisitos_verdes(salida: str, requisitos: list[str]) -> bool:
 
 
 def specs_de_otra_capacidad(carpeta: Path, estado: dict) -> list[str]:
-    """Specs del cambio que no son la de su capacidad: Factory importa una sola, así que las otras se perderían."""
-    propia = (ROOT / estado["spec"]).resolve()
-    return sorted(p.relative_to(ROOT).as_posix() for p in (carpeta / "specs").glob("*/spec.md") if p.resolve() != propia)
+    """Specs del cambio que no son la de su capacidad, a cualquier profundidad de specs/: Factory importa una sola, así
+    que las otras se perderían. Se comparan por ruta, no por destino: un enlace a la propia también es otra spec."""
+    return sorted(rel for p in (carpeta / "specs").rglob("spec.md") if (rel := p.relative_to(ROOT).as_posix()) != estado["spec"])
 
 
 def aprobar_spec(identificador: str) -> None:
@@ -1560,8 +1560,9 @@ def sin_medir_con_medidas(estado: dict) -> list[str]:
 
 def aviso_sin_medir(identificador: str, estado: dict) -> list[str]:
     return [f"{rid} tiene sus medidas decididas pero todavía dice «sin medir», y juzgar no va a pasar la cobertura: "
-            f"proponé las mismas medidas con oracle-factory --agente NOMBRE medir {identificador} --requisito {rid} "
-            "--medida … --quitar-sin-medir, o declará por qué queda sin medir" for rid in sin_medir_con_medidas(estado)]
+            f"decidí las mismas medidas otra vez quitando la marca: oracle-factory medir {identificador} --requisito {rid} "
+            f"--medida … --quitar-sin-medir (si lo propone un agente, con --agente NOMBRE, una persona lo confirma con "
+            f"oracle-factory medir {identificador} --confirmar)" for rid in sin_medir_con_medidas(estado)]
 
 
 def aviso_sin_autor(estado: dict) -> list[str]:
