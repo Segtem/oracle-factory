@@ -150,8 +150,8 @@ class Escenario:
         p = quien.git('merge', '--no-ff', '-q', '-m', f'Integrar {rama}', f'origin/{rama}', ok=False)
         if p.returncode:
             self.detectado('al_integrar')
-            self.nota(f'conflicto al integrar {rama}: '
-                      + ', '.join(quien.git('diff', '--name-only', '--diff-filter=U').stdout.split()))
+            en_conflicto = quien.git('diff', '--name-only', '--diff-filter=U').stdout.split()
+            self.nota(f'conflicto al integrar {rama}: ' + (', '.join(en_conflicto) or (p.stderr or p.stdout).strip()[-300:]))
             return False
         quien.git('push', '-q', 'origin', 'main')
         return True
@@ -165,7 +165,7 @@ def eventos_de(registro: dict) -> list[tuple]:
 def s0_clon_recien_hecho(e: Escenario) -> None:
     """Beto clona el proyecto tal como lo dejó init y crea un cambio: tiene que poder."""
     vacias = sorted(str(d.relative_to(e.tmp / 'semilla')) for d in (e.tmp / 'semilla').rglob('*')
-                    if d.is_dir() and '.git' not in d.parts and not any(d.iterdir()))
+                    if d.is_dir() and '.git' not in d.parts and 'local' not in d.parts and not any(d.iterdir()))  # local/ es local
     if vacias:
         e.nota(f'init deja carpetas vacías, que Git no versiona y un clon no tiene: {vacias}')
     p = e.beto.agente_hace('nuevo', '--capacidad', 'calc', '--sufijo', 'primero', 'El primer cambio de Beto', ok=False)
@@ -321,7 +321,9 @@ def s6_mismo_id(e: Escenario) -> None:
         else:
             e.defecto('dos cambios distintos con el mismo ID chocan al integrar: Factory no los distingue antes')
     else:
-        e.nota('los IDs salieron distintos (el segundo de creación los separó)')
+        mismo_segundo = ids[0][:15] == ids[1][:15]
+        e.nota('los IDs salieron distintos' + (' en el mismo segundo: los separan los caracteres al azar' if mismo_segundo
+                                               else ' (cayeron en segundos distintos)'))
 
 
 def s7_generados(e: Escenario) -> None:
