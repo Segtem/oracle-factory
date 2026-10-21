@@ -15,3 +15,27 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-21 14:08:33 UTC)
 
 Requisitos importados: colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada (funcional), colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar (funcional), colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-21 14:21:38 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada: factory_unir.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada, factory_unir.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:21:39 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona: factory_unir.si_las_dos_ramas_decidieron_distinto_decide_una_persona, factory_unir.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:21:40 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar: factory_unir.lo_generado_no_choca_al_integrar, factory_unir.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 14:23:53 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 14:23:53 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 14:23:53 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).

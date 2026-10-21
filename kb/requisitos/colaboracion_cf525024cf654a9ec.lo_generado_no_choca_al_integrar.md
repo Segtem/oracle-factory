@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261021-140625-unir]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «dos cambios integrados uno tras otro»
+- Medidas: `factory_unir.lo_generado_no_choca_al_integrar`, `factory_unir.corrida_completa`
 - Fuente: openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md#lo generado no choca al integrar
 
 Tipo: funcional Al integrar dos ramas, `.factory/resumen.md` y las notas generadas de `kb/` SHALL NOT dejar conflictos de texto: Factory SHALL rehacerlos después del merge, de modo que `resumen --verificar` y `kb --verificar` pasen sin editar nada a mano.
