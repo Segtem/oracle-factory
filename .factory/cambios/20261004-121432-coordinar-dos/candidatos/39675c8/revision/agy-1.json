@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/39675c8-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "39675c8db1f95f355324b84df037e7f4c0799886",
+  "diff_sha256": "c10508997768aa19ca248234f09f5124cdc79213bf7b21174c34a0b02db2a15c",
+  "context_sha256": "963a3642ccc586339e3f0200104250ab3f92e6bdca4d4d87db9019b125fbd7c0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 9 requisitos de la spec (openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md), el diff completo del paquete candidato 39675c8 y las correcciones de los hallazgos de las vueltas 1 y 2.",
+    "Se ejecutó tools/banco.py exactamente como fue indicado (PYTHONPATH=. .venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null), constatando que los 13 escenarios pasan limpios, auditan decisiones y vigencia, y reportan resultados exitosos con la semilla 20261021.",
+    "Se ejecutó tools/banco.py en modo concurrente real con --simultaneo, comprobando que los escenarios concurrentes resuelven adecuadamente colisiones, carreras y ordenamientos no deterministas en procesos reales sin pérdida de decisiones ni inconsistencias en la auditoría.",
+    "Se ejecutó tools/verify_banco.py verificando las dos corridas reproducibles con la semilla 20261021, la corrida simultánea y la preservación aislada de la corrida con agentes reales (banco-real.json), arrojando éxito global en todos los sensores y catálogos.",
+    "Se ejecutaron pruebas de mutación controlada sobre copias aisladas en scratch/ para validar la efectividad de la detección: se confirmó que el arnés detecta y rechaza decisiones perdidas en origen, eventos mal atribuidos, evidencia o revisiones viejas marcadas vigente ante cambios de producto, incompatibilidades semánticas no probadas antes de publicar, y mensajes fuera de orden temporal en la semana simulada.",
+    "Se revisó el caso C4 de tools/verify_collaboration.py, corroborando que valida que dos cambios creados en el mismo segundo reciben sufijos aleatorios distintos y se integran sin conflicto.",
+    "Se contrastó la documentación docs/colaboracion.md contra el comportamiento observable del código, confirmando exactitud en la descripción de simultaneidad, hooks, resolución de responsable y vigencia de gates.",
+    "No se corrió la suite completa de pruebas del repositorio para no alterar el entorno ni exceder las indicaciones de revisión.",
+    "No se ejecutaron llamadas en vivo a modelos LLM comerciales; la corrida piloto con agentes reales se evaluó a partir del registro estandarizado en tareas/20261004-121432-coordinar-dos/piloto-real/banco-real.json conforme al contrato.",
+    "No se modificó el checkout de sólo lectura ni la configuración de Git de ningún repositorio."
+  ]
+}

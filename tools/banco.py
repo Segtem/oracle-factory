@@ -483,14 +483,18 @@ def s6_mismo_id(e: Escenario) -> None:
     e.final = e.ana
     for p in (e.ana, e.beto):
         p.git('checkout', '-q', '-b', f'tarea/igual-{p.nombre.lower()}')
-    for intento in range(3):
-        time.sleep(1 - time.time() % 1)  # el principio de un segundo, con el reloj de verdad
-        ids = e.a_la_vez(('Ana', e.ana.nuevo_cambio, f'igual{intento}', 'Un cambio con el mismo nombre'),
-                         ('Beto', e.beto.nuevo_cambio, f'igual{intento}', 'Un cambio con el mismo nombre'))
+    # Acá importa el reloj, no el orden: los dos cambios se crean siempre en procesos simultáneos, al principio de un
+    # segundo, hasta que caigan en el mismo (el resultado no depende de la semilla).
+    for intento in range(10):
+        time.sleep(1 - time.time() % 1)
+        with ThreadPoolExecutor(2) as pool:
+            ids = [f.result() for f in [pool.submit(p.nuevo_cambio, f'igual{intento}', 'Un cambio con el mismo nombre')
+                                        for p in (e.ana, e.beto)]]
         if ids[0][:15] == ids[1][:15]:
             break
     else:
-        e.defecto(f'tres intentos sin crear los dos cambios en el mismo segundo: {ids}')
+        e.fila['resultado'] = 'error'
+        e.nota(f'diez intentos sin crear los dos cambios en el mismo segundo (equipo muy cargado): {ids}')
         return
     e.nota(f'IDs del mismo segundo: {ids}')
     for p in (e.ana, e.beto):

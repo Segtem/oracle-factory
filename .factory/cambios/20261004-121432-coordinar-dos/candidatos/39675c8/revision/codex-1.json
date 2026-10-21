@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/39675c8-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "39675c8db1f95f355324b84df037e7f4c0799886",
+  "diff_sha256": "c10508997768aa19ca248234f09f5124cdc79213bf7b21174c34a0b02db2a15c",
+  "context_sha256": "f7361a49f141b85c4c03a62b14403d3d64dc1be4e0acfbb09390d07eba675579",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "REV-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El verificador acepta un informe de texto vacío o incompleto",
+      "explanation": "La spec exige un informe JSON y texto con los números de cada escenario. `verify_banco.informe_completo()` sólo comprueba que los campos existan en las filas JSON; no valida sus tipos o valores ni inspecciona `banco.txt` de las corridas ordenadas y simultánea. `verify_banco.main()` lee el texto sólo para buscar “no reproducible” en el informe real. Por eso una mutación que haga que `banco.texto()` devuelva sólo el encabezado, omita los números o los haga discordar del JSON sobrevive a este verificador y las medidas del banco pueden seguir dando verde.",
+      "location": {
+        "file": "tools/verify_banco.py",
+        "start_line": 48,
+        "end_line": 52,
+        "side": "head"
+      },
+      "trigger": "Cambiar `tools/banco.py:texto()` para dejar sólo el encabezado o quitar del texto el resultado/conflicto/contadores por escenario; correr `tools/verify_banco.py` y medir `factory_banco.el_banco_informa_sus_numeros`.",
+      "evidence": "`CAMPOS` incluye nombres de claves de fila, pero `informe_completo` sólo exige que estén presentes. Las corridas de texto producidas en `main()` no se leen ni comparan; la única lectura de texto es `banco-real.txt` en las líneas 74-77 y sólo busca el literal `no reproducible`. La spec, escenario “leer el informe”, exige números por escenario y ambas representaciones.",
+      "related_requirement": "el banco informa sus números",
+      "status": "pendiente",
+      "verification": "Análisis del flujo del verificador; no ejecuté verify_banco ni apliqué la mutación."
+    },
+    {
+      "id": "REV-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.88,
+      "title": "La comprobación reproducible de s6 depende de cuánto tarda cada creación",
+      "explanation": "En el modo ordenado (el que verify_banco etiqueta reproducible), `a_la_vez()` ejecuta las dos funciones de `nuevo_cambio` una después de la otra. `s6_mismo_id` espera el inicio de un segundo real y hace hasta tres intentos para que ambas IDs compartan el prefijo de fecha y segundo. Si la primera creación, la carga del sistema o el planificador cruza el límite del segundo, el escenario puede agotar los intentos y marcar defecto aunque el generador de IDs sea correcto. La semilla fija el orden, pero no la duración ni el reloj real; por eso el resultado de esta prueba no está completamente determinado por la semilla.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 486,
+        "end_line": 493,
+        "side": "head"
+      },
+      "trigger": "Ejecutar el banco ordenado en un equipo suficientemente cargado o con una primera creación que tome más de lo esperado; `nuevo_cambio` de Ana y Beto puede caer en segundos distintos en los tres intentos y producir un falso defecto.",
+      "evidence": "El bucle usa `time.sleep(1 - time.time() % 1)` y el tiempo de pared para alinear el primer comando, pero invoca ambas creaciones mediante `e.a_la_vez`; cuando `simultaneo` es falso, ese método las serializa. El resultado observado en esta revisión sí pasó, pero no elimina la dependencia temporal del caso límite.",
+      "related_requirement": "el banco pone a prueba el trabajo a la vez; el banco informa sus números",
+      "status": "pendiente",
+      "verification": "Corrí la invocación solicitada del banco en modo ordenado: s6 pasó en este entorno. No forcé una demora ni muté una copia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null` en primer plano desde la raíz del checkout: los 13 escenarios finalizaron en ok; s2 detectó conflicto al integrar, s3 rechazó el merge antes de publicar y s6 comprobó IDs del mismo segundo y conflicto de IDs duplicadas.",
+    "No corrí la suite completa ni `tools/verify_banco.py`; no hice mutaciones porque el verificador no debía ejecutarse como parte del pedido de corrida acotada.",
+    "Revisé la spec, el diff, `tools/banco.py`, `tools/verify_banco.py`, las tres medidas y la medida de corrida completa, el caso C4 actualizado y la guía; comparé también los hallazgos anteriores indicados. No revisé los registros Factory excluidos."
+  ]
+}

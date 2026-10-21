@@ -52,6 +52,15 @@ def informe_completo(datos: dict) -> bool:
             and all(set(CAMPOS) <= set(f) for f in datos['escenarios']))
 
 
+def texto_concuerda(datos: dict, texto: str) -> bool:
+    """El informe de texto dice, por escenario, lo mismo que el JSON: resultado, conflicto y los cuatro números."""
+    lineas = texto.splitlines()
+    return all(any(linea.split()[:2] == [f['resultado'], f['escenario']] and f"conflicto: {f['conflicto']}" in linea
+                   and f"perdidas {f['decisiones_perdidas']} · mal atribuidas {f['mal_atribuidas']} · evidencia vieja "
+                       f"{f['evidencia_vieja_aceptada']} · rehecho {f['rehecho']} " in linea for linea in lineas)
+               for f in datos['escenarios']) and str(datos['semilla']) in lineas[0]
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--salida', type=Path, required=True, help='carpeta nueva de evidencia')
@@ -74,7 +83,7 @@ def main(argv=None) -> int:
     real_otra = (salida / 'primera/banco-real.txt').read_text(encoding='utf-8')
     real_aparte = (bool(real['escenarios']) and real.get('reproducible') is False and real.get('modo') == 'real'
                    and informe_completo(real) and all(f['escenario'].startswith('r') for f in real['escenarios'])
-                   and 'no reproducible' in real_otra
+                   and 'no reproducible' in real_otra and texto_concuerda(real, real_otra)
                    and json.loads((salida / 'primera/banco.json').read_text(encoding='utf-8')) == corridas[0])
     por_nombre = [{f['escenario']: f for f in c['escenarios']} for c in (*corridas, simultanea)]
     filas = []
@@ -87,7 +96,11 @@ def main(argv=None) -> int:
                 and all(c['semilla'] == SEMILLA and c['reproducible'] is True and c['modo'] == 'ordenado' for c in corridas)
                 and simultanea['modo'] == 'simultaneo' and simultanea['reproducible'] is False)
     corrida = {'completa': int(completa), 'escenarios': len(filas),
-               'informe': int(all(informe_completo(c) for c in (*corridas, simultanea))), 'real_aparte': int(real_aparte)}
+               'informe': int(all(informe_completo(c) for c in (*corridas, simultanea)) and all(
+                   texto_concuerda(c, (salida / d / n).read_text(encoding='utf-8'))
+                   for c, d, n in ((corridas[0], 'primera', 'banco.txt'), (corridas[1], 'segunda', 'banco.txt'),
+                                   (simultanea, 'simultanea', 'banco-simultaneo.txt')))),
+               'real_aparte': int(real_aparte)}
     escribir(salida / 'hechos.json', {'banco_escenario': filas, 'banco_corrida': [corrida]})
     ok = completa and corrida['informe'] == corrida['real_aparte'] == 1 and all(f['limpio'] and f['reproducible'] for f in filas)
     escribir(salida / 'resultado.json', {'exitoso': ok, 'semilla': SEMILLA, 'origen': origen, 'fuentes_estables': fuentes() == origen,
