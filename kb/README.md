@@ -64,7 +64,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (cerrada)
 - [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
 - [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
-- [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (espera_aprobacion_spec)
+- [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (requisitos_importados)
 
 ## Requisitos
 
@@ -111,6 +111,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar]]
+- [[requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]
