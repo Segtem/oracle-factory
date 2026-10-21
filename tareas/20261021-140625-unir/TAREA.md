@@ -39,3 +39,27 @@ Medidas de colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar: Bria
 ### Nota (2026-10-21 14:23:53 UTC)
 
 Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 14:56:21 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 14:56:22 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 14:56:23 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 15:13:15 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 15:13:15 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 15:13:15 UTC)
+
+Medidas de colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona: Brian Hollweg (persona, confirmo, modo confirmacion).
