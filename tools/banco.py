@@ -577,8 +577,13 @@ def a1_relevo_atrasado(e: Escenario) -> None:
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/semana', 'origin/tarea/semana')
     visto = e.beto.registro(ident)
-    if not any(x.get('accion') == 'mensaje' for x in visto['eventos']):
+    if not any(x.get('accion') == 'mensaje' and x.get('texto') == 'dejé el lunes hecho; falta el jueves'
+               for x in visto['eventos']):
         e.defecto('Beto no ve el mensaje que dejó Ana')
+    semana = e.beto.dir / 'semana.py'
+    if not semana.is_file() or semana.read_text() != 'LUNES = 1\n':
+        e.defecto('Beto no ve en su clon el trabajo del lunes que dejó Ana')
+        return
     sin_relevo = e.beto.decide('tomar', ident, ok=False)
     if sin_relevo.returncode == 0:
         e.defecto('Beto tomó el cambio de Ana sin --relevo')
@@ -588,7 +593,8 @@ def a1_relevo_atrasado(e: Escenario) -> None:
     r = e.beto.registro(ident)
     if r['responsable']['persona'] != 'Beto' or r['eventos'][-1].get('relevo_de') != 'Ana':
         e.defecto('el relevo no dejó constancia de quién lo tenía')
-    e.beto.escribir('semana.py', 'LUNES = 1\nJUEVES = 4\n')
+    with semana.open('a') as f:  # sigue sobre lo de Ana, no lo reescribe
+        f.write('JUEVES = 4\n')
     e.beto.commit('semana: jueves')
     trailer = e.beto.git('log', '-1', '--format=%(trailers:key=Cambio,valueonly)').stdout.strip()
     if trailer != ident:

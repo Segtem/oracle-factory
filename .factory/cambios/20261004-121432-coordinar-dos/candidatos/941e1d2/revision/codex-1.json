@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/941e1d2-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "941e1d2d3520a447c82c7ad87059791602a12e02",
+  "diff_sha256": "a13f7762cd357060e2269315b3a999e0e71489b0d65c4b90634dd31071fb6ac2",
+  "context_sha256": "1868f756efd9b2f8c546e9a102e8986702c495b7fd293b34495cad2ee2a8e1ae",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "BANCO-A1-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "a1 no comprueba que Beto vea el trabajo de producto de Ana al retomar",
+      "explanation": "El escenario de relevo afirma que quien retoma ve el estado que dejó la otra persona. Tras actualizar Beto desde la rama de Ana, el código sólo consulta el registro Factory para comprobar el mensaje; no comprueba que `semana.py` contenga el trabajo del lunes antes de que Beto escriba. Luego Beto escribe él mismo el archivo completo con LUNES y JUEVES, por lo que el escenario puede terminar limpio aunque el producto del lunes nunca haya llegado a su clon.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 578,
+        "end_line": 580,
+        "side": "head"
+      },
+      "trigger": "En `a1_relevo_atrasado`, omitir o perder la escritura de `semana.py` de Ana antes del push, manteniendo su mensaje de relevo. Beto no verifica ese archivo después del checkout y lo vuelve a escribir con `LUNES = 1` y `JUEVES = 4`; el escenario aún puede reportar `ok`.",
+      "evidence": "`tools/banco.py:571-575` escribe y sube `semana.py` junto con el mensaje. En `tools/banco.py:577-580`, después de traer la rama, Beto sólo lee `factory.json` y falla si falta el mensaje; no lee ni verifica `semana.py`. En `tools/banco.py:591-592`, Beto escribe ambos valores, de modo que la comprobación posterior no puede distinguir si vio el estado de Ana o lo recreó. La corrida solicitada dio `a1_relevo_atrasado: ok`, así que esa salida no acredita que el estado de producto se haya visto al retomar.",
+      "related_requirement": "colaboracion.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Comprobado por inspección del flujo del escenario y de la corrida indicada. No hice una mutación en copia ni ejecuté `tools/verify_banco.py`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente el comando de `tools/banco.py` indicado, en primer plano desde la raíz del checkout candidato; los 13 escenarios dieron `ok`.",
+    "Inspeccioné la spec, el diff del paquete, los escenarios de `tools/banco.py`, `tools/verify_banco.py`, las cuatro medidas `catalogos/factory_banco.*.oracle`, C4 de `tools/verify_collaboration.py`, `docs/colaboracion.md` y las revisiones previas señaladas. Los defectos corregidos de a2, s7 y s4 no reaparecieron en la salida observada.",
+    "No ejecuté `tools/verify_banco.py` porque agrega otras tres corridas del banco; no corrí la suite completa ni el piloto con agentes reales.",
+    "No hice mutaciones manuales en copias. La conclusión sobre a1 es una brecha de comprobación observada estáticamente; no demuestra que la sincronización de Factory falle en el uso normal."
+  ]
+}

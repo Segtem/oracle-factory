@@ -1,0 +1,45 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/941e1d2-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "941e1d2d3520a447c82c7ad87059791602a12e02",
+  "diff_sha256": "a13f7762cd357060e2269315b3a999e0e71489b0d65c4b90634dd31071fb6ac2",
+  "context_sha256": "68177ebdb21826618b8b10c0d52c7768cf6d737a07bd069436cf3eb78b399d43",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "BANCO-A1-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "a1 no comprueba que Beto vea el trabajo de producto de Ana al retomar",
+      "explanation": "El requisito funcional 'el banco pone a prueba el trabajo de a turnos' de la spec exige explícitamente: 'En cada uno SHALL comprobar lo mismo que en el trabajo a la vez, y además que quien retoma ve el estado que dejó la otra persona'. En el escenario a1_relevo_atrasado, Ana escribe y commitea el avance del lunes en semana.py ('LUNES = 1\\n') y deja una nota de relevo en el registro Factory antes de hacer push. Al retomar desde un clon desactualizado, Beto hace fetch y checkout de la rama, pero únicamente comprueba el registro de eventos en factory.json para verificar la existencia del mensaje ('Beto no ve el mensaje que dejó Ana'). En ningún momento comprueba el contenido ni la presencia de semana.py tras traer la rama (a diferencia de lo que hace a2_evidencia_vieja en calc.py con 'if \"b + a\" not in (e.beto.dir / \"calc.py\").read_text()'). A continuación, Beto sobrescribe semana.py por completo escribiendo 'LUNES = 1\\nJUEVES = 4\\n' y commitea, por lo que el escenario concluye con resultado 'ok', sin decisiones perdidas ni mal atribuidas, e informa falsamente 'limpio: 1' en hechos.json aunque el estado de producto dejado por Ana no haya sido observado ni validado al retomar.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 578,
+        "end_line": 581,
+        "side": "head"
+      },
+      "trigger": "En a1_relevo_atrasado, omitir o perder la escritura de semana.py por parte de Ana antes del push (o que el archivo no llegue al clon de Beto tras el checkout). Beto no valida semana.py tras el checkout y sobrescribe el archivo completo con 'LUNES = 1\\nJUEVES = 4\\n', haciendo que el escenario pase con resultado 'ok' y reporte falsamente 'limpio: 1'.",
+      "evidence": "Se ejecutó una prueba de mutación en memoria sobre tools/banco.py comentando la línea 571 (e.ana.escribir('semana.py', 'LUNES = 1\\n')): al correr a1_relevo_atrasado con banco.correr(20261021, solo=['a1_relevo_atrasado']), el escenario devuelve resultado 'ok', conflicto 'antes', 0 decisiones perdidas, 0 mal atribuidas, 0 evidencia vieja aceptada y 0 rehecho. En las líneas 578-581, Beto sólo verifica visto['eventos'] en factory.json y no lee semana.py; luego en la línea 591 sobrescribe semana.py con ambos días ('LUNES = 1\\nJUEVES = 4\\n'). En consecuencia, el escenario no comprueba que quien retoma vea el estado de producto dejado por la otra persona, sobreviviendo la mutación.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Ejecutar banco.correr(20261021, solo=['a1_relevo_atrasado']) suprimiendo la escritura de semana.py por parte de Ana; observar que el escenario termina con 'ok' sin detectar la ausencia del avance de producto."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se corrió exactamente el comando de banco.py indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null en primer plano desde la raíz del checkout candidato (/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/941e1d2-agy-1); los 13 escenarios concluyeron con resultado ok.",
+    "Se revisaron los 9 requisitos de openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md, el diff completo del paquete candidato 941e1d2, las revisiones previas y las correcciones de la vuelta 5 (a2 con juicio Oracle y ciclo completo de invalidación/rehecho [REV-001]; s7 computando rehecho += 1 tras la intervención de post-merge [REV-002]; y s4 reportando conflicto 'antes' por el push rechazado [REV-003]). Se constató que dichas correcciones siguen vigentes y no presentan regresiones.",
+    "Se probó mediante mutación en memoria sobre tools/banco.py que a1_relevo_atrasado da 'ok' y no comprueba que Beto observe el trabajo de producto dejado por Ana en semana.py antes de sobrescribirlo, identificando el hallazgo BANCO-A1-001.",
+    "Se inspeccionaron tools/verify_banco.py y las medidas en catalogos/factory_banco.*.oracle, comprobando que las 4 medidas están correctamente definidas y asociadas, que informe_completo() y texto_concuerda() evalúan adecuadamente los campos y versiones, y que los escenarios previos (s0) y de ambos grupos respetan los umbrales estipulados (7 para a_la_vez, 5 para de_a_turnos).",
+    "Se revisó el caso C4 de tools/verify_collaboration.py, comprobando que ejecuta dos creaciones paralelas en el mismo segundo y valida que los 3 caracteres aleatorios evitan la colisión de ID y permiten integrar sin conflicto, preservando además la prueba de migración para tareas de Task.",
+    "Se contrastó docs/colaboracion.md con el código y las especificaciones, verificando la consistencia de los comandos, descripciones de los hooks, vigencia de artefactos y límites declarados.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_collaboration.py completo para no alterar el entorno ni exceder las indicaciones de revisión.",
+    "No se ejecutó tools/piloto_real.py con llamadas activas a modelos comerciales LLM; se validó el formato y aislamiento de banco-real.json conforme al contrato.",
+    "No se modificó el checkout de sólo lectura ni la configuración de Git de ningún repositorio."
+  ]
+}
