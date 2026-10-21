@@ -48,7 +48,7 @@ def fuentes() -> dict:
 def informe_completo(datos: dict) -> bool:
     return (datos.get('esquema') == 'oracle-factory.banco/1' and isinstance(datos.get('semilla'), int)
             and datos.get('modo') in ('ordenado', 'simultaneo', 'real')
-            and {'oracle-factory', 'oracle-metalenguaje', 'python', 'git'} <= set(datos.get('versiones') or {})
+            and {'oracle-factory', 'oracle-metalenguaje', 'oracle-task', 'oracle-clue', 'python', 'git'} <= set(datos.get('versiones') or {})
             and all(set(CAMPOS) <= set(f) for f in datos['escenarios']))
 
 

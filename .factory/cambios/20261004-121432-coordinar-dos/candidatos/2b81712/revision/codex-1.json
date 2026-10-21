@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/2b81712-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "2b817123f5604000be76ed8271772cb413c4eaef",
+  "diff_sha256": "867ad27fd7117d570c2436057c62e19778fb9fe87f6f72d91ddcb52612898964",
+  "context_sha256": "578179d05671f21c80a1d2431f011150024c6631382b3a6e1dfa83b8c3708888",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "REV-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "El verificador acepta informes sin las versiones de Oracle Task y Clue",
+      "explanation": "La spec exige que el informe del banco incluya las versiones usadas. `banco.informe` registra oracle-task y oracle-clue, pero `informe_completo` solo exige oracle-factory, oracle-metalenguaje, python y git. Por eso el propio validador del banco acepta como completo un informe que omite dos dependencias usadas, también al validar la corrida real. La prueba de mutación en memoria quitó oracle-task y oracle-clue de `versiones` y `informe_completo` devolvió True.",
+      "location": {
+        "file": "tools/verify_banco.py",
+        "start_line": 40,
+        "end_line": 42,
+        "side": "head"
+      },
+      "trigger": "Eliminar `oracle-task` y `oracle-clue` del objeto `versiones` de una corrida y pasarlo a `informe_completo` (o hacer la misma mutación en el JSON de agentes reales).",
+      "evidence": "En `tools/verify_banco.py`, la condición de `informe_completo` exige el subconjunto `{\"oracle-factory\", \"oracle-metalenguaje\", \"python\", \"git\"}`. En `tools/banco.py:773-778`, `informe` produce seis versiones, incluidas `oracle-task` y `oracle-clue`. Mutación manual sobre una copia en memoria del JSON real de la corrida: tras quitar esas dos claves, `informe_completo` devolvió True. La corrida indicada por la persona terminó los 13 escenarios en ok; esto no ejercita un informe con versiones ausentes.",
+      "related_requirement": "colaboracion.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Comprobado por lectura del código y mutación en memoria de una copia del informe generado. La corrección debería exigir las seis claves de versión en `informe_completo`; no ejecuté la suite completa ni `verify_banco.py`, que lanza varias corridas adicionales."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null` desde la raíz del checkout: los 13 escenarios terminaron en ok.",
+    "No corrí la suite completa ni `tools/verify_banco.py`; hice una mutación en memoria de un informe para comprobar la aceptación de versiones ausentes.",
+    "Leí la spec, el paquete/diff, los archivos del banco y verificador, catálogos, guía y seis informes anteriores. Los defectos no observados en estas comprobaciones no se descartan.",
+    "No edité el checkout ni los archivos de producto."
+  ]
+}
