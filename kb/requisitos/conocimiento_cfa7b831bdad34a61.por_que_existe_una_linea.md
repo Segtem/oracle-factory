@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea`
 - Vigente: sí
 - Cambio: [[cambios/20261020-140603-kb]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_kb.por_que_existe_una_linea`, `factory_kb.corrida_completa`
 - Fuente: openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md#por qué existe una línea
 

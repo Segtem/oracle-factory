@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa`
 - Vigente: sí
 - Cambio: [[cambios/20261020-140603-kb]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa`, `factory_kb.corrida_completa`
 - Fuente: openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md#el vault se genera del registro y no se desfasa
 

@@ -51,3 +51,7 @@ Revisión guiada Persona [[cambios/inexistente]]: aprobar; registrada por Person
 ### Nota (2026-10-21 10:00:13 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Siete vueltas de codex y agy; en la última agy no dejó hallazgos y codex sólo KB7-01, que la nota no reproduce: sólo lista commits con su trailer y candidatos, que se encuentran igual antes y después del merge (la búsqueda del trailer recorre todas las ramas); los deducidos del merge quedan afuera, como prueba kb1 integrando una rama con un commit sin trailer. La revisión anterior quedó registrada con el user.name que había dejado un revisor; ésta la registra Brian con el suyo.); 0 abiertos derivados; commit 9878848706ccd66d6107d75ae1bd64cde25aeb4c; informe tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/informe.json; decisiones tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/decisiones.json.
+
+### Nota (2026-10-21 10:00:27 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261020-140603-kb/oracle-veredicto.txt.

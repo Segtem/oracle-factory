@@ -2,7 +2,7 @@
   "id": "20261020-140603-kb",
   "titulo": "El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?",
   "capacidad": "conocimiento",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
   "spec_sha256": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "3849a6e167efb57e937a18d3c5d0eac744e8099975461c0fcffb616fd39d0d5f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261020-140603-kb/candidatos/b24afc9/evidencia/hechos.json",
+    "hechos_sha256": "a45a2f07b0433919fb1a3b993abc3144ca702cf5dda09c74c88aae8c05f65654",
+    "informe": ".factory/cambios/20261020-140603-kb/oracle-veredicto.txt",
+    "informe_sha256": "7deeffcdb1fde97d30f2d167420448fcc96717b566a2b148bebd059bedb110cf",
+    "cuando": "2026-10-21T10:00:27+00:00",
+    "contexto": {
+      "head": "541d0080f356c9730ff31d3023d0b7730dab14e1",
+      "archivos_sha256": "3849a6e167efb57e937a18d3c5d0eac744e8099975461c0fcffb616fd39d0d5f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -657,6 +669,17 @@
       "abiertos": 0,
       "sha256": "1bb97c1de2971e96e12ada995b1e2add1c109efd03c85173ab0304b895f6f88a",
       "decisiones_sha256": "2608d0961e1196186147959393bd07f215bc0e6d055e706275dc2009f0832e96"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:27+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a45a2f07b0433919fb1a3b993abc3144ca702cf5dda09c74c88aae8c05f65654"
     }
   ],
   "tipos": {

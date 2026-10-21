@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes`
 - Vigente: sí
 - Cambio: [[cambios/20261020-140603-kb]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes`, `factory_kb.corrida_completa`
 - Fuente: openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md#una nota humana vence cuando cambian sus fuentes
 
