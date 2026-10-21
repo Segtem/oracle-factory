@@ -1,0 +1,484 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "6e5c38ab246055920be02b06e72877bbf71a2021\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "suma correcta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a94b8bf6e6935913d6b93bc16cd0efe913b1be29\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "defecto sembrado"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e6916bc10ad24bb5bd3cebd26a2d6d97db6bccc9\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "from calc import sumar; assert sumar(2,1)==3"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    from calc import sumar; assert sumar(2,1)==3\n                                   ^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+        "--base",
+        "a94b8bf6e6935913d6b93bc16cd0efe913b1be29",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-odcpve1j/C5/paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-odcpve1j/C5/paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-odcpve1j/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-odcpve1j/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-odcpve1j/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+        "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e6916bc10ad24bb5bd3cebd26a2d6d97db6bccc9\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e6916bc10ad24bb5bd3cebd26a2d6d97db6bccc9\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-odcpve1j/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-odcpve1j/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+        "--triage",
+        "/tmp/factory-colaboracion-odcpve1j/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "preparar",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+        "--base",
+        "a94b8bf6e6935913d6b93bc16cd0efe913b1be29",
+        "--contexto",
+        "contrato.md",
+        "--salida",
+        "/tmp/factory-colaboracion-odcpve1j/C5/nuevo-paquete.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Paquete preparado: /tmp/factory-colaboracion-odcpve1j/C5/nuevo-paquete.json; omisiones: 0. No es un informe de revisión.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-odcpve1j/C5/nuevo-informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-odcpve1j/C5/nuevo-paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/otra-ruta"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Formato y vigencia verificados. No confirma los hallazgos ni autentica al revisor o al actor humano.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-odcpve1j/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-odcpve1j/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-odcpve1j/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: hay cambios versionados sin commit; confirmalos o usá un checkout limpio\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "corrección cambia candidato"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "536d33a0ae9a151d3a94e01c3a26bb363545e9f7\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/oracle-clue",
+        "validar",
+        "/tmp/factory-colaboracion-odcpve1j/C5/informe.json",
+        "--paquete",
+        "/tmp/factory-colaboracion-odcpve1j/C5/paquete.json",
+        "--repo",
+        "/tmp/factory-colaboracion-odcpve1j/C5/producto",
+        "--triage",
+        "/tmp/factory-colaboracion-odcpve1j/C5/triage.json"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "CLUE: el paquete no coincide con el repositorio/contexto actual\n"
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "la guía describe lo que exige la spec; faltan: ninguno",
+      "cumple": true
+    },
+    {
+      "comprobacion": "mismo HEAD en otra ruta para aislar el rechazo de portabilidad",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza paquete de otro checkout",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza contexto versionado modificado",
+      "cumple": true
+    },
+    {
+      "comprobacion": "Clue rechaza informe de HEAD anterior",
+      "cumple": true
+    }
+  ]
+}

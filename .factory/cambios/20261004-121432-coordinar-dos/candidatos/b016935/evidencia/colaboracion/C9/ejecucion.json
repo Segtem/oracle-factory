@@ -1,0 +1,13 @@
+{
+  "comandos": [],
+  "observaciones": [
+    {
+      "comprobacion": "sensor rechaza omisiones, duplicados, casos ajenos y fallas",
+      "cumple": true
+    },
+    {
+      "comprobacion": "verificador rechaza artefactos alterados",
+      "cumple": true
+    }
+  ]
+}
