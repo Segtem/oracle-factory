@@ -1,0 +1,472 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2713e051d1515ef35fc7d5fe9d92730ca426ade0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2713e051d1515ef35fc7d5fe9d92730ca426ade0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "worktree",
+        "add",
+        "-b",
+        "a",
+        "/tmp/factory-colaboracion-40csidqk/C1/a",
+        "2713e051d1515ef35fc7d5fe9d92730ca426ade0"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "HEAD is now at 2713e05 base fixture\n",
+      "stderr": "Preparing worktree (new branch 'a')\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "worktree",
+        "add",
+        "-b",
+        "b",
+        "/tmp/factory-colaboracion-40csidqk/C1/b",
+        "2713e051d1515ef35fc7d5fe9d92730ca426ade0"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "HEAD is now at 2713e05 base fixture\n",
+      "stderr": "Preparing worktree (new branch 'b')\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "b.txt"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2713e051d1515ef35fc7d5fe9d92730ca426ade0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "write-tree"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "cdbd5b3fa9ebd97bf25037957231c03e1a5355a5\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "status",
+        "--porcelain"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "A  b.txt\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "entrega A"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "6f1fa6f3b62ecd383e333c83b20ee30739cfe623\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2713e051d1515ef35fc7d5fe9d92730ca426ade0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "write-tree"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "cdbd5b3fa9ebd97bf25037957231c03e1a5355a5\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "status",
+        "--porcelain"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "A  b.txt\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "entrega B"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "46ac2e793d21e8e58c9d04642b7f4d3e6b7eb96b\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--no-ff",
+        "-m",
+        "integración fixture",
+        "6f1fa6f3b62ecd383e333c83b20ee30739cfe623"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Merge made by the 'ort' strategy.\n a.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 a.txt\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--no-ff",
+        "-m",
+        "integración fixture",
+        "46ac2e793d21e8e58c9d04642b7f4d3e6b7eb96b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Merge made by the 'ort' strategy.\n b.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 b.txt\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C1/integracion",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "da85deb8d8523936b2f245726e3eed020aa57557\n",
+      "stderr": ""
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "la guía describe lo que exige la spec; faltan: ninguno",
+      "cumple": true
+    },
+    {
+      "comprobacion": "A no modifica HEAD, índice ni archivos de B",
+      "cumple": true
+    },
+    {
+      "comprobacion": "integración serial preserva ambos aportes",
+      "cumple": true
+    }
+  ]
+}

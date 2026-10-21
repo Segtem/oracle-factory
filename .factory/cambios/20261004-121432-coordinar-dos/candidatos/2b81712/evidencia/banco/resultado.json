@@ -1,0 +1,133 @@
+{
+  "exitoso": true,
+  "semilla": 20261021,
+  "origen": {
+    "head": "2b817123f5604000be76ed8271772cb413c4eaef",
+    "sha256": {
+      "catalogos/factory_banco.corrida_completa.oracle": "c04554e4534aa71ed5113d59bcfdd58de3569c19c62dd138798c5a5947b67f60",
+      "catalogos/factory_banco.el_banco_informa_sus_numeros.oracle": "0f96b8ed89d622f3ae495cfc36a30c4e3810453df317205302ccaf37622cc65f",
+      "catalogos/factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez.oracle": "fa584bac4c3d662b8504f76f3f99a948f7eb905c6ed9945b4fd440bf89a3bcd7",
+      "catalogos/factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos.oracle": "d7a0660526185e412bd58de36bdbcca25e7165e68fd0b934c58999be04905f28",
+      "oracle_factory/__init__.py": "a47b99db23542c815e559ff1400caa4031667f7909b111b00fe0dc6cbbfff08b",
+      "oracle_factory/archivo.py": "4b884d4f1876fe1a8698f2fcc2c45363217189be7c2f60fcb12ea30439e41b99",
+      "oracle_factory/cli.py": "e5c43d42a4d082782cd51fcf51ec6e82cc539b02da05c927f224d0d115b4c0eb",
+      "oracle_factory/estructura.py": "5487fbf20675e4769aafd20fdbb8f3486693893a5ce96cfefdb2ec0cd186621d",
+      "oracle_factory/kb.py": "5a503ccbfe0dbd32f3bdbf8c4d74df082f32f0e205fbf6da8af3035c917566cb",
+      "oracle_factory/migracion.py": "78f9e13a96caab4f84bf5c7ad39e147e5410c8eeb406d9e6d4d3b0a6c910faa9",
+      "oracle_factory/modos.py": "9e690916b55fc114f265be37eac528cfd5cef5d006100c4ab79f2c191debafcd",
+      "oracle_factory/prep.py": "60a74e0b9a3a8379e0c4f880a0f9a59a1c318d58532dd8cd34ded8626aee2526",
+      "oracle_factory/preparacion.py": "481323b5c18293e526a56094bc2b0beb748197a8aba0cf5febe42d650c1ce624",
+      "oracle_factory/resumen.py": "f38993f1f0b0f8b34c6ac52e38338dc34af7c51511eb04769b17bb4209d0a266",
+      "oracle_factory/revision.py": "bb1583076d4bae86085f33c8f4558038d61028ec34e93b68df23e25ba596fe38",
+      "oracle_factory/revisores.py": "af2a75f09c30e4b152fcc39c9f62c44b463c0485cfa1223daa95cea35107dde7",
+      "oracle_factory/tablero.py": "e3ab1a428c76eb8bd5aa90463a209e5973a0712c65dfdd1a6bea11f61f6d2193",
+      "oracle_factory/trazabilidad.py": "d77c6a0b8afb5b6a7110193275e8231ec1b5260c88b6ad2e148bc398022cc6b9",
+      "oracle_factory/unir.py": "7ab3e6368dd3f33a795c87db20d700f64b311348bfdfe1cdb4e435fdec5d3022",
+      "pyproject.toml": "7c845b115a899e7e229b5a9bd8845d610523209b1cc9778ba986e6cf535dc8d0",
+      "tareas/20261004-121432-coordinar-dos/piloto-real/banco-real.json": "f0fcbafbcd85f4b16ebcfbe9fa2c82c81283faa9c0f062fe88571e0c557778fb",
+      "tools/banco.py": "71afa7b11727e1a2d6ae17e00103fe472ec02e81b731dc7864b23e36c9c37c6b",
+      "tools/terminal.py": "a1301b128d4867e630e4d393ee3d4a070e79806da725e9fd05d148d5c0045620",
+      "tools/verify_banco.py": "68a86b4169d21b7884e4a5c2306a3b362e5635db67f61504b7a3379c7af3ba6b"
+    }
+  },
+  "fuentes_estables": true,
+  "limites": "Agentes de prueba deterministas, no LLM; Linux, git real, repositorios temporales. La corrida con agentes reales (tools/piloto_real.py) se mide sólo por su formato y por estar aparte; la usabilidad humana sigue pendiente.",
+  "filas": [
+    {
+      "escenario": "s0_clon_recien_hecho",
+      "grupo": "previo",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s1_paralelo_disjunto",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s2_mismo_archivo",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s3_semantico",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s4_tomar_a_la_vez",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s5_decisiones_simultaneas",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s6_mismo_id",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s7_generados",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a1_relevo_atrasado",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a2_evidencia_vieja",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a3_registro_en_dos_ramas",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a4_mensajes_de_a_turnos",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a5_trailers_y_vault_en_otro_clon",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    }
+  ],
+  "corrida": {
+    "completa": 1,
+    "escenarios": 13,
+    "informe": 1,
+    "real_aparte": 1
+  },
+  "artefactos_sha256": {
+    "filas-real.json": "e827e753b5b91328765baac2b6f1b2c0aa27b7ca212e2dad7b2208d1e4bd0c69",
+    "hechos.json": "2a7ae45021f6ae961f80759793eb7da24b0d32b552827ea98c0f9da142dab6b8",
+    "primera/banco-real.json": "f0fcbafbcd85f4b16ebcfbe9fa2c82c81283faa9c0f062fe88571e0c557778fb",
+    "primera/banco-real.txt": "6ee342db48f452bdbbc3d79eb93d9d038bd406791bf1dea13cb7909df64aec79",
+    "primera/banco.json": "40ea77588b6ba548ceeb1202d8cf90347d4861e91cef421ccb00bee25c2b273d",
+    "primera/banco.txt": "a316bb8792749b6f3c1594f650a8bbd0c0add74164ec44b3b6ca24cda9406f40",
+    "segunda/banco.json": "c38f2c14eeb824b6989fa116ce69ecb1e297ae0e1682fcd25165c096dec8c451",
+    "segunda/banco.txt": "a8699831eec346dc4001dc0fdba32c7e3d07d8ac03b0cabb59ed0ec82bf7bc75",
+    "simultanea/banco-simultaneo.json": "dcd0d2aa48a459a55773a6219152b021acf51fa0b2fb2605d25b54d5175f76cf",
+    "simultanea/banco-simultaneo.txt": "3fbaf7ca9d1fe35b489b933c536153b6e07ff6312edbba7a886ff1f4db658c81"
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2713e051d1515ef35fc7d5fe9d92730ca426ade0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "switch",
+        "-c",
+        "a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Switched to a new branch 'a'\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "A cambia contrato"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "f6d304097250424d11846075f792cc242ab44514\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "switch",
+        "-c",
+        "b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Switched to a new branch 'b'\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "B cambia contrato"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c94d51aeb9d4b3e3ed63f181144034af98afcc64\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "Auto-merging producto.txt\nCONFLICT (content): Merge conflict in producto.txt\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c94d51aeb9d4b3e3ed63f181144034af98afcc64\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "diff"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "diff --cc producto.txt\nindex bac71fa,28c4bab..0000000\n--- a/producto.txt\n+++ b/producto.txt\n@@@ -1,1 -1,1 +1,5 @@@\n++<<<<<<< HEAD\n +decisión B\n++=======\n+ decisión A\n++>>>>>>> a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "f6d304097250424d11846075f792cc242ab44514:producto.txt"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "decisión A\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "c94d51aeb9d4b3e3ed63f181144034af98afcc64:producto.txt"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "decisión B\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "resolución fixture conserva ambos aportes"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a13d38a394ad15562dbfd64e1757bde72ab8185c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "contrato compartido"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c06ac6ba469be1a57aa8cb49272161e314b7510f\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "switch",
+        "-c",
+        "api"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Switched to a new branch 'api'\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "API cambia interfaz"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "10e3aba2d6c99ef22ff3fcea4c8495c5ae61da64\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "switch",
+        "-c",
+        "vista",
+        "c06ac6ba469be1a57aa8cb49272161e314b7510f"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Switched to a new branch 'vista'\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "vista usa contrato previo"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "2e3cbb0cdf53f3bf3eee6da5148d0ac378f3af73\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--no-ff",
+        "-m",
+        "merge sin conflicto textual",
+        "api"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Merge made by the 'ort' strategy.\n api.py | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-40csidqk/C2/producto",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "vista.py"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/factory-colaboracion-40csidqk/C2/producto/vista.py\", line 2, in <module>\n    assert dato[\"titulo\"].upper() == \"NOTA\"\n           ~~~~^^^^^^^^^^\nKeyError: 'titulo'\n"
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "conflicto no reemplaza silenciosamente HEAD de B",
+      "cumple": true
+    },
+    {
+      "comprobacion": "original A recuperable",
+      "cumple": true
+    },
+    {
+      "comprobacion": "original B recuperable",
+      "cumple": true
+    },
+    {
+      "comprobacion": "merge limpio puede romper una interfaz compartida",
+      "cumple": true
+    }
+  ]
+}
