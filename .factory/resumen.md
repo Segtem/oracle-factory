@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:43fdc48315b5e462f0ed2256c83899d69b7485377f4d451b94b03eb232c2e917 -->
+<!-- oracle-factory resumen sha256:6624bb1ceb3f3460ee1c889ea72b5a08189207751951f71feccd2b1c69db4237 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-19 capacidades · 152 requisitos vigentes · 1 cambio abierto
+19 capacidades · 153 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -250,6 +250,7 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | pedidos de revisión simultáneos sobre el mismo candidato | funcional | `revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato` | factory_simultanea.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
 | un pedido interrumpido no traba los siguientes | funcional | `revisores_c087c391047678495.un_pedido_interrumpido_no_traba_los_siguientes` | factory_simultanea.un_pedido_interrumpido_no_traba_los_siguientes, factory_simultanea.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-100834-revision-simultanea |
 | estado ofrece revisar cuando quedan hallazgos medios | funcional | `revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios` | factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-125953-estado-revisar-medios |
+| el checkout de un revisor no toca el repositorio | funcional | `revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio` | factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio, factory_aislar.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-200030-aislar |
 
 ### trazabilidad
 
@@ -799,6 +800,20 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-141303-sesion) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.
 - (20261020-141303-sesion) codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.
 - (20261020-141303-sesion) codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos.
+- (20261020-200030-aislar) Evidencia: Escenario ai1 en un repositorio temporal, Linux, con Clue y Oracle reales y un revisor de prueba que juega con git en su checkout; aislar al revisor del resto del disco es cosa de su sandbox.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó que el aislamiento del clon local previene modificaciones en el repositorio principal y sus worktrees (configuración, ramas, commits, HEAD, hooks y remotos eliminados).
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó experimentalmente que git clone --local no genera archivos alternates (.git/objects/info/alternates) y que operaciones de recolección de basura agresiva (git gc --prune=now) o remoción de worktrees en el repositorio de origen no comprometen la integridad de los objetos del candidato en el clon.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se probó la robustez ante rutas con espacios en el repositorio y checkout.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se ejecutó la suite solicitada en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores </dev/null (17 pruebas, OK).
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se implementaron 5 mutaciones sobre copias aisladas para validar la sensibilidad de las pruebas (MUT-01: --shared en vez de --local; MUT-02: omitir eliminación de remotos; MUT-03: omitir restauración de HEAD antes de Clue; MUT-04: omitir revisión de revision_dir; MUT-05: omitir resolución de --base a SHA). Todas las mutaciones fueron detectadas y provocaron fallas en las pruebas.
+- (20261020-200030-aislar) agy (gemini-3.8-flash-high): No se ejecutó la suite de pruebas completa del proyecto ni tools/verify_aislar.py, respetando la instrucción de no ejecutar la suite completa. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
+- (20261020-200030-aislar) codex (gpt-6-luna): Revisé proposal.md, spec.md, el diff completo del paquete y el flujo de pedir_revision/validación en oracle_factory/cli.py, además de tests/test_aislar.py, tests/test_revisores.py, tools/verify_aislar.py y los catálogos Oracle añadidos.
+- (20261020-200030-aislar) codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-aislar/.venv/bin/python -m unittest tests.test_aislar tests.test_revisores desde la raíz del checkout: 17 pruebas, OK. Un intento inicial desde la carpeta del informe no encontró el módulo tests; lo repetí desde la raíz indicada y pasó.
+- (20261020-200030-aislar) codex (gpt-6-luna): Verifiqué las revisiones indicadas de vueltas anteriores y que los hallazgos F-013/F-014 de f6c282d ya no se reproducen en la lógica del contador: considera informes y pedidos versionados, paquetes locales y clones locales con coincidencia exacta del revisor.
+- (20261020-200030-aislar) codex (gpt-6-luna): No ejecuté tools/verify_aislar.py porque descubre y ejecuta la suite completa, expresamente excluida por la solicitud. No hice mutaciones ni pruebas específicas de git gc, borrado de worktrees, hooks ni rutas con espacios; el flujo usa argumentos separados de subprocess, y el test comprueba ausencia de alternates y remotos, pero esos casos adicionales quedan sin ejecución directa.
+- (20261020-200030-aislar) codex (gpt-6-luna): No revisé archivos excluidos por el paquete (registros y evidencia Factory) ni archivos no versionados. La revisión es probabilística y no constituye un veredicto de Oracle ni prueba propiedades que no se midieron.
 
 ### Históricos
 

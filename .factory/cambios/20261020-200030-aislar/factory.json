@@ -2,7 +2,7 @@
   "id": "20261020-200030-aislar",
   "titulo": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
   "capacidad": "revisores",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md",
   "spec_sha256": "9bfc437fd64c45ba24a139de2612e88977e026aae1faf5f8f71738100eefec4f",
   "spec_aprobada": {
@@ -465,6 +465,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "8b7f4433639d7130896e4d837035df6379af27e31607f1a9f3cac8f0c4a251af"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T00:34:22+00:00",
+      "oracle": ".factory/cambios/20261020-200030-aislar/oracle-veredicto.txt",
+      "revision": "tareas/20261020-200030-aislar/revisiones/registro-n2enjd_g/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T00:34:22+00:00",
+      "capacidad": "revisores",
+      "spec": "openspec/specs/revisores/spec.md"
     }
   ],
   "tipos": {
@@ -496,5 +516,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T00:34:22+00:00"
+  },
+  "archivo": {
+    "capacidad": "revisores",
+    "spec": "openspec/specs/revisores/spec.md",
+    "cuando": "2026-10-21T00:34:22+00:00"
+  }
 }
