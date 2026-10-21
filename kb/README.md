@@ -61,7 +61,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261019-182313-commits]] — Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero (cerrada)
 - [[cambios/20261019-232444-quien]] — Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero (cerrada)
 - [[cambios/20261020-005341-liveshare]] — El tablero en pair programming: presencia, tablero compartido y chat con Live Share (cerrada)
-- [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (oracle_verde)
+- [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (cerrada)
 - [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
 - [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
 

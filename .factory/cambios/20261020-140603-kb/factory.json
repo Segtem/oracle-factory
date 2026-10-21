@@ -2,7 +2,7 @@
   "id": "20261020-140603-kb",
   "titulo": "El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?",
   "capacidad": "conocimiento",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
   "spec_sha256": "dd1ed3eb0bd042a8d7094acfe8a73cc30c4fa8d0a08d91b2dc5dbaaed7f59671",
   "spec_aprobada": {
@@ -680,6 +680,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "a45a2f07b0433919fb1a3b993abc3144ca702cf5dda09c74c88aae8c05f65654"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:51+00:00",
+      "oracle": ".factory/cambios/20261020-140603-kb/oracle-veredicto.txt",
+      "revision": "tareas/20261020-140603-kb/revisiones/registro-b_fe_sqb/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:00:51+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
     }
   ],
   "tipos": {
@@ -783,5 +803,17 @@
       "fecha": "2026-10-21T10:00:10+00:00",
       "candidato": "b24afc9"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T10:00:51+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-21T10:00:51+00:00"
+  }
 }
