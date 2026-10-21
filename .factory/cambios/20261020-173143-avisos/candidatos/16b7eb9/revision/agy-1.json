@@ -1,0 +1,118 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos/.factory/local/revisiones/16b7eb9-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "16b7eb96c7bc771233cbc08bbe0c2b0272d2b190",
+  "diff_sha256": "c9960e6dc46429040c28e114f6c34385794c8f4ae538c8c49793789799dea5cc",
+  "context_sha256": "36258e17c199b97834e95ad3e5b1d817ebef0ae68cb127b51daf3c058e966c04",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AV-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "specs_de_otra_capacidad no detecta specs enlazadas simbólicamente a la spec propia ni en rutas anidadas",
+      "explanation": "El requisito promete: «aprobar-spec SHALL negarse, sin registrar nada, si el cambio tiene en specs/ una spec de otra capacidad que la suya, y SHALL nombrar esas specs y decir que Factory importa sólo la de su capacidad». En oracle_factory/cli.py:907-910, la función compara p.resolve() != propia. Si en specs/ existe una spec de otra capacidad (por ejemplo specs/dos/spec.md) que es un enlace simbólico apuntando a la spec propia (../uno/spec.md) o comparten inodo en disco, p.resolve() coincide con propia y la condición evalúa False. Como consecuencia, specs_de_otra_capacidad devuelve una lista vacía, aprobar-spec aprueba sin negarse, y la spec de la capacidad ajena se pierde silenciosamente porque Factory solo importa estado['spec']. Adicionalmente, el patrón glob('*/spec.md') sólo examina un nivel de subdirectorios, omitiendo specs ubicadas en la raíz de specs/ (specs/spec.md) o en subdirectorios anidados (specs/dos/sub/spec.md).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 907,
+        "end_line": 910,
+        "side": "head"
+      },
+      "trigger": "Tener en specs/ una spec de otra capacidad cuyo archivo esté enlazado simbólicamente a la spec propia o ubicada fuera del patrón directo specs/*/spec.md.",
+      "evidence": "En una prueba montando un cambio con capacidad 'uno' y creando specs/dos/spec.md como symlink hacia openspec/changes/<id>/specs/uno/spec.md, specs_de_otra_capacidad(carpeta, estado) devuelve [] y aprobar_spec(ident) aprueba con éxito sin negarse, perdiendo la segunda spec sin aviso.",
+      "related_requirement": "una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "status": "pendiente",
+      "verification": "Reproducido en script de prueba: con un enlace simbólico entre specs, p.resolve() resuelve al mismo destino y la spec ajena queda invisible para aprobar-spec."
+    },
+    {
+      "id": "AV-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "aviso_sin_medir aconseja «declarar por qué queda sin medir», pero hacerlo no quita el aviso ni permite juzgar",
+      "explanation": "La spec promete: «estado (y --json) SHALL avisar, en cuanto un requisito tiene sus medidas decididas y su .requisito todavía dice sin_medir, cuál es y qué hacer; y el error de cobertura de juzgar SHALL nombrar esos requisitos». En oracle_factory/cli.py:1560-1564, aviso_sin_medir formula como alternativa de mitigación: «... o declará por qué queda sin medir». La vía soportada por Factory para declarar por qué un requisito queda sin medir es 'medir ID --requisito RID --medida … --sin-medir MOTIVO'. Sin embargo, al seguir esta indicación, la cláusula 'sin_medir' permanece en el archivo .requisito; consecuentemente, sin_medir_con_medidas sigue encontrándola con regex y estado vuelve a emitir el mismo aviso de forma persistente. Peor aún, en Oracle metalenguaje cualquier cláusula sin_medir degrada la cobertura a parcial (◐), haciendo que requisitos_verdes sea False y juzgar falle indefectiblemente el control de cobertura. Así, declarar por qué queda sin medir no constituye una vía válida de «qué hacer» para avanzar hacia el cierre. Asimismo, el mensaje instruye usar '--agente NOMBRE' indiscriminadamente, lo que confunde a personas que operan interactivamente desde la terminal y degradaría su decisión a propuesta de agente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1560,
+        "end_line": 1564,
+        "side": "head"
+      },
+      "trigger": "Ejecutar medir con --sin-medir para declarar el motivo por el cual un requisito permanece sin cobertura completa, y luego consultar estado o ejecutar juzgar.",
+      "evidence": "Ejecutando f.medir(ident, requisito_id=rid, medidas=[...], sin_medir='No se probó persistencia'), datos_estado(ident)['avisos'] sigue emitiendo idéntico aviso '... o declará por qué queda sin medir', y juzgar rechaza con 'FactoryError: Oracle todavía no tiene cobertura completa... Todavía dicen «sin medir»: rid'.",
+      "related_requirement": "un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+      "status": "pendiente",
+      "verification": "Reproducido en entorno de pruebas: asociar una medida declarando explícitamente sin_medir mantiene el aviso en estado y bloquea irreversiblemente juzgar."
+    },
+    {
+      "id": "AV-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "sin_medir_con_medidas utiliza regex sobre texto plano en lugar del parser de Oracle e ignora la vigencia de la decisión",
+      "explanation": "En oracle_factory/cli.py:1551-1558, sin_medir_con_medidas inspecciona el archivo con re.search(r'(?m)^\\s+sin_medir ', ruta.read_text()). Esto introduce dos problemas: 1) Ignora el parser sintáctico AST de Oracle ya disponible en inventario_medidas (que parsea r.sin_medir); si la prosa de un requisito en la cláusula texto contiene un salto de línea seguido de sangría y 'sin_medir ', el regex emite un aviso falso positivo. 2) La condición (estado.get('medidas') or {}).get(rid) asume que las medidas están válidamente decididas si la clave existe en el JSON, sin consultar si la decisión perdió vigencia por cambio o eliminación del catálogo (catalogos_cambiados). Si una medida desaparece del catálogo, medidas_sin_decision reporta que el requisito está pendiente de decisión, pero sin_medir_con_medidas y aviso_sin_medir afirman contradictoriamente que el requisito 'tiene sus medidas decididas'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1551,
+        "end_line": 1558,
+        "side": "head"
+      },
+      "trigger": "Tener un requisito con texto multilínea que contenga 'sin_medir ' tras salto de línea, o tener una decisión de medidas invalidada por alteración de catálogo donde el archivo aún conserva sin_medir.",
+      "evidence": "Al borrar un catálogo tras asociar medidas con sin_medir, datos_estado emite simultáneamente el aviso de catálogo faltante y el aviso de que 'tiene sus medidas decididas pero todavía dice sin medir', contradiciendo la pérdida de vigencia de la decisión.",
+      "related_requirement": "un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+      "status": "pendiente",
+      "verification": "Reproducido en script de prueba simulando la eliminación de un catálogo con medidas asociadas con la marca sin_medir."
+    },
+    {
+      "id": "AV-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_av1 no cubre cambios con múltiples specs ajenas y sobrevive la mutación que elimina sorted()",
+      "explanation": "El requisito promete: «aprobar-spec SHALL negarse, sin registrar nada, si el cambio tiene en specs/ una spec de otra capacidad que la suya, y SHALL nombrar esas specs y decir que Factory importa sólo la de su capacidad». En tests/test_avisos.py:25-41, test_av1_un_cambio_con_dos_specs únicamente crea una segunda spec (specs/dos/spec.md). Al haber un solo elemento ajeno, una mutación que reemplace sorted(...) por una lista sin ordenar en specs_de_otra_capacidad sobrevive sin ser detectada. La prueba tampoco verifica que aprobar-spec nombre exhaustivamente todas las specs de otra capacidad cuando haya dos o más en specs/ (ej. specs/dos y specs/tres).",
+      "location": {
+        "file": "tests/test_avisos.py",
+        "start_line": 25,
+        "end_line": 41,
+        "side": "head"
+      },
+      "trigger": "Mutar specs_de_otra_capacidad para omitir sorted() o tener un cambio con múltiples specs de otra capacidad en specs/.",
+      "evidence": "La mutación M1 (reemplazar sorted(p.relative_to...) por [p.relative_to...]) fue ejecutada contra tests.test_avisos y sobrevivió (3 tests en 1.5s, OK).",
+      "related_requirement": "una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "status": "pendiente",
+      "verification": "Verificado experimentalmente ejecutando la suite tests.test_avisos bajo la mutación de lista sin ordenar en specs_de_otra_capacidad."
+    },
+    {
+      "id": "AV-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "test_av3 no verifica la sugerencia de acción en el mensaje de error de cobertura de juzgar",
+      "explanation": "La implementación en oracle_factory/cli.py:1814 formatea el mensaje de cobertura de juzgar agregando: «. Todavía dicen «sin medir»: {', '.join(faltan)} (proponé sus medidas con --quitar-sin-medir)». Sin embargo, en tests/test_avisos.py:95-96, la aserción assertRaisesRegex(f.FactoryError, f'Todavía dicen «sin medir»: {rid}') solo comprueba el prefijo con el ID del requisito, omitiendo validar que el mensaje informe la sugerencia de mitigación ('(proponé sus medidas con --quitar-sin-medir)'). Una mutación que omita esta aclaración en juzgar pasa la suite sin ser detectada.",
+      "location": {
+        "file": "tests/test_avisos.py",
+        "start_line": 95,
+        "end_line": 96,
+        "side": "head"
+      },
+      "trigger": "Mutar el mensaje de error de juzgar para omitir la recomendación '(proponé sus medidas con --quitar-sin-medir)'.",
+      "evidence": "Una mutación que elimina '(proponé sus medidas con --quitar-sin-medir)' de cli.py:1814 ejecutada contra test_av3 no produce fallos de prueba.",
+      "related_requirement": "un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+      "status": "pendiente",
+      "verification": "Confirmado por análisis del patrón regex en assertRaisesRegex y verificación de la mutación."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle catalogos/factory_avisos.*.oracle, el diff en oracle_factory/cli.py y los tests en tests/test_avisos.py y tools/verify_avisos.py contra los tres requisitos prometidos.",
+    "Se ejecutaron las pruebas exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null (3 pruebas, OK).",
+    "Se verificó que importar no quita requisitos de otros cambios ni los que la nueva spec trae, ya que aísla por dominio único con hash del ID y spec_sha256, y descuenta explícitamente los IDs importados (- set(ids)).",
+    "Se verificó que aprobar-spec no altera factory.json, tareas/ ni kb/ al negarse, abortando antes de decisiones interactivas o llamadas a guardar().",
+    "Se evaluó una batería de mutaciones sobre copias locales aisladas (M1 sorted en specs_de_otra_capacidad [sobrevivió], M2 retorno vacío [eliminada], M3 inclusión spec propia [eliminada], M4 omisión nombres de spec [eliminada], M8 vaciado sin_medir_con_medidas [eliminada], M9 omisión chequeo medidas decididas [eliminada], M11 omisión cómo corregir en aviso_sin_medir [eliminada], M12 omisión alternativa declarativa en aviso [sobrevivió], M13 omisión requisitos en juzgar [eliminada]).",
+    "No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_avisos.py, conforme a las instrucciones recibidas. Esta revisión es probabilística y no reemplaza la decisión humana ni constituye un veredicto de Oracle."
+  ]
+}

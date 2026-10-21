@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:405c06216d02218b5339e65ba1d665e052c3d62cb8d3dab06dd49acb77da4350 -->
+<!-- oracle-factory resumen sha256:71616f5ac2e1c8e245d47750ff3ed696ef44a19cb1f12d1afa8ea79ac63d958f -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 156 requisitos vigentes · 1 cambio abierto
+20 capacidades · 159 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -134,6 +134,9 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | un pedido de revisión cortado queda a la vista | funcional | `flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista` | factory_higiene.un_pedido_de_revision_cortado_queda_a_la_vista, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
 | las acciones sin autor se avisan | funcional | `flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan` | factory_higiene.las_acciones_sin_autor_se_avisan, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
 | init no deja carpetas que Factory no usa | funcional | `flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa` | factory_higiene.init_no_deja_carpetas_que_factory_no_usa, factory_higiene.corrida_completa | verde al cerrar el 2026-10-19 | 20261017-135953-higiene |
+| una spec de otra capacidad no se pierde en silencio | funcional | `flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio` | factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
+| reimportar no deja requisitos huérfanos | funcional | `flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos` | factory_avisos.reimportar_no_deja_requisitos_huerfanos, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
+| un requisito que quedó sin medir se avisa a tiempo | funcional | `flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo` | factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
 
 ### ide
 
@@ -361,6 +364,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **LS-SEC-01-R3** (20261020-005341-liveshare): Un invitado puede atribuir su mensaje a otro invitado conectado. Aceptado por Brian Hollweg: Acepto el riesgo: Un invitado puede atribuir su mensaje a otro invitado conectado
 - **KB7-01** (20261020-140603-kb): Un merge posterior al cierre puede cambiar los commits de la nota generada. Aceptado por Brian Hollweg: Acepto el riesgo: Un merge posterior al cierre puede cambiar los commits de la nota generada
 - **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
+- **AVISOS-R1** (20261020-173143-avisos): aprobar-spec no detecta specs bajo directorios enlazados. Aceptado por Brian Hollweg: Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados
 
 ### Históricos
 
@@ -829,6 +833,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261020-141303-sesion) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-sesion/.venv/bin/python -m unittest tests.test_sesion tests.test_liveshare </dev/null` desde la raíz del checkout fd78949: 7 pruebas, OK. Node arrancó y ejecutó los escenarios sobre los dobles de VS Code y Live Share de las pruebas.
 - (20261020-141303-sesion) codex (gpt-6-luna): No ejecuté la suite completa ni probé con VS Code y una extensión Live Share reales. No hice mutaciones.
 - (20261020-141303-sesion) codex (gpt-6-luna): Revisé la spec, el diff del paquete y las cuatro revisiones previas. No inspeccioné los 18 archivos de Factory excluidos.
+- (20261020-173143-avisos) Evidencia: Escenarios av1–av3 en repositorios temporales, Linux, con Oracle 0.39.0.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se revisaron proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle catalogos/factory_avisos.*.oracle, el diff en oracle_factory/cli.py y los tests en tests/test_avisos.py y tools/verify_avisos.py contra los tres requisitos prometidos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null (3 pruebas ejecutadas, OK).
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: AV-01/AVISOS-1 (specs anidadas o enlazadas en specs_de_otra_capacidad), AV-02 (instrucción clara y viable en aviso_sin_medir eliminando la opción inviable de 'declarar por qué queda sin medir'), AV-04 (cobertura en test_av1 de múltiples specs ajenas y ordenamiento) y AV-05 (validación del sufijo de sugerencia en juzgar dentro de test_av3). AV-03 se mantiene reservado para la decisión humana por indicación expresa.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se comprobó que importar nunca elimina requisitos de otros cambios ni los de la spec nueva: el cálculo anteriores = sorted({i for e in estado.get('eventos') or [] if e.get('accion') == 'requisitos_importados' for i in e.get('ids') or []} - set(ids)) aísla por dominio único dependiente del hash de identificador y spec_sha256, y descuenta explícitamente los IDs entrantes (- set(ids)). Se verificó con pruebas adicionales con slugs idénticos entre cambios distintos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó que aprobar-spec no registra nada en disco al negarse: la validación de specs_de_otra_capacidad aborta antes de menús interactivos, eventos o llamadas a guardar(). Se comprobó que el estado completo del repositorio permanece idéntico byte por byte tras el rechazo.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó el comportamiento de specs_de_otra_capacidad frente a rutas variadas en specs/ (specs directas en specs/spec.md, rutas anidadas profundas, directorios con espacios y enlaces simbólicos rotos o válidos), confirmando que son identificadas y ordenadas alfabéticamente.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se verificó que aviso_sin_medir y sin_medir_con_medidas no emiten falsas alarmas: requisitos recién importados sin medidas decididas, requisitos con medidas decididas con --quitar-sin-medir, propuestas de agentes pendientes de confirmación, y requisitos de otros cambios no disparan avisos espurios.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): Se evaluó una batería de 10 mutaciones manuales sobre un clon aislado (M1 sorted omitido en specs_de_otra_capacidad, M2 glob en vez de rglob, M3 omitir != estado['spec'], M4 omitir - set(ids) en importar, M5 omitir unlink en importar, M6 omitir verificación de estado['medidas'] en sin_medir_con_medidas, M7 omitir regex en sin_medir_con_medidas, M8 omitir sugerencia en juzgar, M9 omitir faltan en juzgar, M10 vaciar aviso_sin_medir). Las 10 mutaciones fueron detectadas y eliminadas por tests/test_avisos.py.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): No se registraron nuevos hallazgos en esta vuelta al cumplirse íntegramente las especificaciones y contratos.
+- (20261020-173143-avisos) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_avisos.py, conforme a las instrucciones recibidas. Esta revisión es probabilística y no reemplaza la decisión humana ni constituye un veredicto de Oracle.
+- (20261020-173143-avisos) codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null desde la raíz del checkout candidato: 3 pruebas, OK.
+- (20261020-173143-avisos) codex (gpt-6-luna): No corrí la suite completa ni tools/verify_avisos.py.
+- (20261020-173143-avisos) codex (gpt-6-luna): Hice una reproducción aislada de pathlib en un directorio temporal para la ruta con enlace a directorio; no muté el checkout, no hice commits ni cambié configuración de Git.
+- (20261020-173143-avisos) codex (gpt-6-luna): Los tres escenarios cubiertos por las pruebas pasan; el hallazgo es un caso de ruta no cubierto.
 - (20261020-200030-aislar) Evidencia: Escenario ai1 en un repositorio temporal, Linux, con Clue y Oracle reales y un revisor de prueba que juega con git en su checkout; aislar al revisor del resto del disco es cosa de su sandbox.
 - (20261020-200030-aislar) agy (gemini-3.8-flash-high): Revisé proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle de factory_aislar, el diff completo de oracle_factory/cli.py y los tests en tests/test_aislar.py y tests/test_revisores.py.
 - (20261020-200030-aislar) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos previos F-013 y F-014: el cálculo del correlativo n ahora inspecciona también los informes y pedidos versionados en revision_dir (.factory/cambios/<id>/candidatos/<sha>/revision/), y proposal.md declara con exactitud el uso de git clone --local.

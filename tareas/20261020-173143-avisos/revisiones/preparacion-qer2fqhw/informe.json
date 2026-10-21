@@ -1,0 +1,83 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261020-173143-avisos",
+  "contexto": {
+    "head": "51bc1343cdc70ba24cc4277d61d033cbeadc1711",
+    "archivos_sha256": "208b4318c9257dea19e6c87de8ab12a2039710b947c36c96a677ffb5a71222b9"
+  },
+  "documentos": {
+    "openspec/changes/20261020-173143-avisos/proposal.md": "b45c596ee1e4c99db75554443b570e5a4de22827b057e6c5e52e04111c4038ac",
+    "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md": "0c9e74d520b0f7707605173e1ec39e8207d1adff32c0e1b347aad93cf328576d"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_avisos.corrida_completa.oracle",
+    "catalogos/factory_avisos.reimportar_no_deja_requisitos_huerfanos.oracle",
+    "catalogos/factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo.oracle",
+    "catalogos/factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.oracle",
+    "openspec/changes/20261020-173143-avisos/design.md",
+    "openspec/changes/20261020-173143-avisos/proposal.md",
+    "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
+    "openspec/changes/20261020-173143-avisos/tasks.md",
+    "oracle_factory/cli.py",
+    "requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos.requisito",
+    "requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo.requisito",
+    "requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.requisito",
+    "tests/test_avisos.py",
+    "tools/verify_avisos.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 437 pruebas, 3 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-173143-avisos/candidatos/fc3fe52/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-173143-avisos/candidatos/fc3fe52/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-173143-avisos/candidatos/fc3fe52/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 16b7eb9: agy (gemini-3.8-flash-high), 5 hallazgos: AV-01 (media), AV-02 (media), AV-03 (baja), AV-04 (baja), AV-05 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-173143-avisos/candidatos/16b7eb9/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 16b7eb9: codex (gpt-6-luna), 1 hallazgo: AVISOS-1 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261020-173143-avisos/candidatos/16b7eb9/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios av1–av3 en repositorios temporales, Linux, con Oracle 0.39.0.",
+    "agy (gemini-3.8-flash-high): Se revisaron proposal.md, spec.md, design.md, tasks.md, los catálogos Oracle catalogos/factory_avisos.*.oracle, el diff en oracle_factory/cli.py y los tests en tests/test_avisos.py y tools/verify_avisos.py contra los tres requisitos prometidos.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null (3 pruebas ejecutadas, OK).",
+    "agy (gemini-3.8-flash-high): Se verificaron las correcciones de la vuelta 1: AV-01/AVISOS-1 (specs anidadas o enlazadas en specs_de_otra_capacidad), AV-02 (instrucción clara y viable en aviso_sin_medir eliminando la opción inviable de 'declarar por qué queda sin medir'), AV-04 (cobertura en test_av1 de múltiples specs ajenas y ordenamiento) y AV-05 (validación del sufijo de sugerencia en juzgar dentro de test_av3). AV-03 se mantiene reservado para la decisión humana por indicación expresa.",
+    "agy (gemini-3.8-flash-high): Se comprobó que importar nunca elimina requisitos de otros cambios ni los de la spec nueva: el cálculo anteriores = sorted({i for e in estado.get('eventos') or [] if e.get('accion') == 'requisitos_importados' for i in e.get('ids') or []} - set(ids)) aísla por dominio único dependiente del hash de identificador y spec_sha256, y descuenta explícitamente los IDs entrantes (- set(ids)). Se verificó con pruebas adicionales con slugs idénticos entre cambios distintos.",
+    "agy (gemini-3.8-flash-high): Se verificó que aprobar-spec no registra nada en disco al negarse: la validación de specs_de_otra_capacidad aborta antes de menús interactivos, eventos o llamadas a guardar(). Se comprobó que el estado completo del repositorio permanece idéntico byte por byte tras el rechazo.",
+    "agy (gemini-3.8-flash-high): Se verificó el comportamiento de specs_de_otra_capacidad frente a rutas variadas en specs/ (specs directas en specs/spec.md, rutas anidadas profundas, directorios con espacios y enlaces simbólicos rotos o válidos), confirmando que son identificadas y ordenadas alfabéticamente.",
+    "agy (gemini-3.8-flash-high): Se verificó que aviso_sin_medir y sin_medir_con_medidas no emiten falsas alarmas: requisitos recién importados sin medidas decididas, requisitos con medidas decididas con --quitar-sin-medir, propuestas de agentes pendientes de confirmación, y requisitos de otros cambios no disparan avisos espurios.",
+    "agy (gemini-3.8-flash-high): Se evaluó una batería de 10 mutaciones manuales sobre un clon aislado (M1 sorted omitido en specs_de_otra_capacidad, M2 glob en vez de rglob, M3 omitir != estado['spec'], M4 omitir - set(ids) en importar, M5 omitir unlink en importar, M6 omitir verificación de estado['medidas'] en sin_medir_con_medidas, M7 omitir regex en sin_medir_con_medidas, M8 omitir sugerencia en juzgar, M9 omitir faltan en juzgar, M10 vaciar aviso_sin_medir). Las 10 mutaciones fueron detectadas y eliminadas por tests/test_avisos.py.",
+    "agy (gemini-3.8-flash-high): No se registraron nuevos hallazgos en esta vuelta al cumplirse íntegramente las especificaciones y contratos.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del proyecto ni tools/verify_avisos.py, conforme a las instrucciones recibidas. Esta revisión es probabilística y no reemplaza la decisión humana ni constituye un veredicto de Oracle.",
+    "codex (gpt-6-luna): Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null desde la raíz del checkout candidato: 3 pruebas, OK.",
+    "codex (gpt-6-luna): No corrí la suite completa ni tools/verify_avisos.py.",
+    "codex (gpt-6-luna): Hice una reproducción aislada de pathlib en un directorio temporal para la ruta con enlace a directorio; no muté el checkout, no hice commits ni cambié configuración de Git.",
+    "codex (gpt-6-luna): Los tres escenarios cubiertos por las pruebas pasan; el hallazgo es un caso de ruta no cubierto."
+  ],
+  "hallazgos": [
+    {
+      "id": "AVISOS-R1",
+      "descripcion": "aprobar-spec no detecta specs bajo directorios enlazados",
+      "ubicacion": "oracle_factory/cli.py:910",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261020-173143-avisos/candidatos/fc3fe52/revision/codex-1.json, validado con oracle-clue; severidad baja. oracle_factory/cli.py:910 usa (carpeta / 'specs').rglob('spec.md'). La prueba test_av1_un_cambio_con_dos_specs cubre una spec anidada en directorios reales y un enlace de archivo spec.md, pero no un enlace de directorio. La spec promete que aprobar-spec se niegue si el cambio tiene en specs/ una spec de otra capacidad."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

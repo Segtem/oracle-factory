@@ -1,0 +1,4 @@
+requisito flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio:
+    texto "Tipo: funcional `aprobar-spec` SHALL negarse, sin registrar nada, si el cambio tiene en `specs/` una spec de otra capacidad que la suya, y SHALL nombrar esas specs y decir que Factory importa sólo la de su capacidad."
+    fuente "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md#una spec de otra capacidad no se pierde en silencio"
+    medido_por factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio, factory_avisos.corrida_completa

@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos/.factory/local/revisiones/fc3fe52-codex-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "fc3fe526d95411b8be7ea30abf0915c2539b5e01",
+  "diff_sha256": "baaf6080ab5fa7eadbce95e6e402d68f6236f242aea834a6521ba0c35606cebf",
+  "context_sha256": "08410c2756887d5aa407e429d39513e03e941930038ffa554e79e56b891b3807",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AVISOS-R1",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "aprobar-spec no detecta specs bajo directorios enlazados",
+      "explanation": "El detector recorre specs/ con Path.rglob('spec.md'). En la versión de Python usada por el proyecto, rglob no sigue enlaces a directorios. Por eso, aunque specs_de_otra_capacidad detecta un enlace directo llamado spec.md, omite una spec que cuelga de un directorio enlazado dentro de specs/. aprobar-spec acepta entonces el cambio sin advertir la spec omitida, contra el requisito de negarse ante specs de otra capacidad que estén en specs/.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 910,
+        "end_line": 910,
+        "side": "head"
+      },
+      "trigger": "Crear specs/alias como enlace de directorio hacia un directorio que contenga otra-capacidad/spec.md y ejecutar aprobar-spec para el cambio. En una prueba aislada con pathlib, specs.rglob('spec.md') devolvió una lista vacía para ese árbol.",
+      "evidence": "oracle_factory/cli.py:910 usa (carpeta / 'specs').rglob('spec.md'). La prueba test_av1_un_cambio_con_dos_specs cubre una spec anidada en directorios reales y un enlace de archivo spec.md, pero no un enlace de directorio. La spec promete que aprobar-spec se niegue si el cambio tiene en specs/ una spec de otra capacidad.",
+      "related_requirement": "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "status": "pendiente",
+      "verification": "Reproducido con un directorio temporal: un spec.md bajo el directorio destino de specs/alias no aparece en la salida de Path.rglob('spec.md'). No modifiqué el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-avisos/.venv/bin/python -m unittest tests.test_avisos </dev/null desde la raíz del checkout candidato: 3 pruebas, OK.",
+    "No corrí la suite completa ni tools/verify_avisos.py.",
+    "Hice una reproducción aislada de pathlib en un directorio temporal para la ruta con enlace a directorio; no muté el checkout, no hice commits ni cambié configuración de Git.",
+    "Los tres escenarios cubiertos por las pruebas pasan; el hallazgo es un caso de ruta no cubierto."
+  ]
+}

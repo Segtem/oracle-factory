@@ -1,0 +1,53 @@
+# Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir
+
+- ESTADO: CERRADA
+- PRIORIDAD: 50
+- ETIQUETAS: 
+
+### Nota (2026-10-20 17:31:43 UTC)
+
+OpenSpec: openspec/changes/20261020-173143-avisos. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-20 17:46:54 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261020-173143-avisos/specs/flujo/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-20 17:48:57 UTC)
+
+Requisitos importados: flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos (funcional), flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo (funcional), flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-20 17:53:57 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio: factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio, factory_avisos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-20 17:53:57 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos: factory_avisos.reimportar_no_deja_requisitos_huerfanos, factory_avisos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-20 17:53:57 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo: factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 13:50:44 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 13:50:45 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 13:50:45 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 15:17:23 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy: la 1 dejó 3 medios (AVISOS-1, AV-01, AV-02), corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 2 no dejó medios ni altos. Quedan dos bajas para decidir: AV-03 (el aviso busca sin_medir con una expresión regular) y AVISOS-R1 (una spec bajo un directorio enlazado dentro de specs/ no se detecta).); 0 abiertos derivados; commit 51bc1343cdc70ba24cc4277d61d033cbeadc1711; informe tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/informe.json; decisiones tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/decisiones.json.
+
+### Nota (2026-10-21 15:18:14 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261020-173143-avisos/oracle-veredicto.txt.
+
+### Nota (2026-10-21 15:21:38 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
