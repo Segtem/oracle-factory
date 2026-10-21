@@ -1,6 +1,6 @@
 # Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-21 17:52:52 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261021-140625-unir/oracle-veredicto.txt.
+
+### Nota (2026-10-21 18:05:22 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
