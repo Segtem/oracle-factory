@@ -1,0 +1,13 @@
+diff --cc tareas/20261021-204234-relevo/TAREA.md
+index 27d4225,5431323..0000000
+--- a/tareas/20261021-204234-relevo/TAREA.md
++++ b/tareas/20261021-204234-relevo/TAREA.md
+@@@ -6,4 -6,4 +6,8 @@@
+  
+  ### Nota (2026-10-21 20:42:34 UTC)
+  
+++<<<<<<< HEAD
+ +Aporte independiente A
+++=======
++ Aporte independiente B
+++>>>>>>> 4bcc387f93c9ddf28637394dc86a4ca1025f44e0
