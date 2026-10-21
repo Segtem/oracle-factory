@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-unir/.factory/local/revisiones/7e6e506-agy-1",
+  "base": "fee83c214a10884975425973d124524b6e171c87",
+  "head": "7e6e506a5bba5b0ed81a27ce81325cdbbca73eb8",
+  "diff_sha256": "9d5540651ac0a763fe00d0518e9f8878749fdea0130981353fc8d57d2328fbe4",
+  "context_sha256": "e9f69ca0c7afb24f284351e395ff3b01a5f2ace38d52432e65000cbe063715ae",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron la propuesta (openspec/changes/20261021-140625-unir/proposal.md), la especificación (openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md), el paquete de Oracle Clue y el diff completo de producto.",
+    "Se excluyeron los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, notas kb indicadas y tareas), según las instrucciones.",
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null` en primer plano desde la raíz del checkout candidato 7e6e506; las 7 pruebas pasaron exitosamente.",
+    "Se verificó la corrección de codex-01 de la vuelta 3: en oracle_factory/unir.py, los eventos son tratados como historial append-only (`sacado = set() if en_orden else ...`), de modo que nunca se borran aunque una rama los haya omitido, el historial común de base se incluye en `propios` en su orden previo a la combinación con `heapq.merge` por `cuando`, y los pendientes resueltos siguen sin reaparecer al evaluar listas con `en_orden=False`.",
+    "Se realizaron pruebas de mutación manuales sobre una copia aislada en la carpeta del revisor (`mutaciones/`) cubriendo 10 casos en oracle_factory/unir.py y oracle_factory/cli.py (sacado incondicionalmente vacío, aplicación de sacado a eventos, omisión de base en el recorrido de eventos, reordenamiento por serialización JSON, supresión de POR_ENTRADA, omisión del limpiado de pendientes en evento, omisión de git update-ref en rehacer_generado, supresión de la verificación de HEAD^2 en post-commit, retorno con código de error en unir_registro y vaciado de aviso_union). Todas las mutaciones fueron detectadas y matadas por la suite de tests.test_unir.",
+    "Se comprobaron estáticamente y mediante reproducciones controladas en repositorios temporales los mecanismos de post-merge con MERGE_HEAD, post-commit tras resolución de conflictos, actualización de ramas que no son main, detección de hooks ajenos mediante marcas, preservación y no duplicación de entradas en .gitattributes, y regeneración de artefactos generados (.factory/resumen.md y kb/) sin incluir notas de personas (kb/notas/).",
+    "No se editó el checkout candidato ni se modificó la configuración de Git de ningún repositorio.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_unir.py, conforme a las instrucciones."
+  ]
+}
