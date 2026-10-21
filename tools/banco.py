@@ -1,12 +1,13 @@
 """El banco de concurrencia: dos personas con sus agentes sobre un mismo proyecto, a la vez y de a turnos.
 
-    python tools/banco.py --salida CARPETA [--semilla N] [--solo ESCENARIO ...]
+    python tools/banco.py --salida CARPETA [--semilla N] [--solo ESCENARIO ...] [--simultaneo]
     python tools/banco.py --salida CARPETA --real FILAS.json   # una corrida con agentes reales, aparte
 
 Cada escenario arma un repositorio central (bare) con un proyecto de Factory, y dos clones: Ana y Beto, cada uno con su
 identidad de Git, sus hooks y un agente de prueba (agente-ana, agente-beto). Las decisiones de una persona se toman en una
 terminal (tools/terminal.py), como cuando la persona escribe; las de un agente, con --agente. Lo simultáneo corre en
-procesos simultáneos de verdad; el orden de lo que se intercala sale de la semilla.
+el orden que sale de la semilla (reproducible, queda en la traza), o con --simultaneo en procesos simultáneos de verdad.
+Al terminar cada escenario se audita: cada decisión que alguien tomó tiene que seguir en el registro y a su nombre.
 
 Por escenario se anota: si terminó bien, si hubo conflicto y cuándo se detectó (antes de integrar, al integrar, después,
 o nunca), las decisiones perdidas o atribuidas a otra persona, la evidencia o revisión vieja que se dio por vigente, y el
@@ -22,6 +23,7 @@ import json
 import os
 from pathlib import Path
 import random
+import re
 import shutil
 import subprocess
 import sys
@@ -34,6 +36,14 @@ from tools.terminal import en_terminal  # noqa: E402
 
 CLI = [sys.executable, '-c', 'import sys; from oracle_factory.cli import main; sys.exit(main())']
 DETECCIONES = ('ninguno', 'antes', 'al_integrar', 'despues', 'nunca')
+ID = re.compile(r'^\d{8}-\d{6}-[a-z0-9_-]+$')
+PERSONAS = ('Ana', 'Beto')
+AGENTES = ('agente-ana', 'agente-beto', 'oracle-factory')
+
+
+def clave(evento: dict) -> str:
+    """Un evento sin su autor: para encontrarlo en otro registro y ver si quedó a nombre de quien lo hizo."""
+    return json.dumps({k: v for k, v in evento.items() if k not in ('actor', 'tipo_actor')}, sort_keys=True, ensure_ascii=False)
 
 
 class Persona:
@@ -53,18 +63,42 @@ class Persona:
         return p
 
     def agente_hace(self, *args, ok=True) -> subprocess.CompletedProcess:
+        antes = self._antes(args)
         p = subprocess.run([*CLI, '--agente', self.agente, *args], cwd=self.dir, env=self.env, capture_output=True,
                            text=True, stdin=subprocess.DEVNULL)
         if ok and p.returncode:
             raise AssertionError(f'{self.agente}: {" ".join(args)}: {(p.stderr or p.stdout).strip()[-400:]}')
+        self._anotar(args, antes, self.agente, p)
         return p
 
     def decide(self, *args, entrada='1\n1\n1\n', ok=True) -> subprocess.CompletedProcess:
         """Una decisión de la persona, desde su terminal: elige la primera opción de cada menú."""
+        antes = self._antes(args)
         p = en_terminal([*CLI, *args], cwd=self.dir, env=self.env, entrada=entrada)
         if ok and p.returncode:
             raise AssertionError(f'{self.nombre}: {" ".join(args)}: {(p.stderr or p.stdout).strip()[-400:]}')
+        self._anotar(args, antes, self.nombre, p)
         return p
+
+    # Lo que cada orden agregó al registro de su cambio queda anotado con quién la dio: al final del escenario,
+    # Escenario.auditar comprueba que siga estando y a nombre de quien la dio.
+    def _ident(self, args) -> str | None:
+        return next((a for a in args if ID.match(str(a)) and (self.dir / '.factory/cambios' / a).is_dir()), None)
+
+    def _antes(self, args) -> set:
+        ident = self._ident(args)
+        return {clave(x) for x in self.registro(ident)['eventos']} if ident else set()
+
+    def _anotar(self, args, antes: set, autor: str, p) -> None:
+        ident = self._ident(args) or (self.banco.ultimo_cambio(self) if args and args[0] == 'nuevo' else None)
+        if p.returncode or not ident:
+            return
+        nuevos = [x for x in self.registro(ident)['eventos'] if clave(x) not in antes]
+        if args[0] == 'mensaje':  # con otros procesos escribiendo a la vez, el suyo es el de su texto
+            nuevos = [x for x in nuevos if x.get('accion') == 'mensaje' and x.get('texto') == args[2]]
+        for x in nuevos:
+            if x.get('actor') == autor or args[0] == 'mensaje':
+                self.banco.esperados.append((ident, clave(x), autor, self))
 
     def registro(self, ident: str) -> dict:
         return json.loads((self.dir / '.factory/cambios' / ident / 'factory.json').read_text())
@@ -96,13 +130,17 @@ class Persona:
 
 
 class Escenario:
-    def __init__(self, nombre: str, tmp: Path, semilla: int, tal_cual: bool = False):
+    def __init__(self, nombre: str, tmp: Path, semilla: int, tal_cual: bool = False, simultaneo: bool = False):
         self.nombre, self.tmp = nombre, tmp
         self.azar = random.Random(f'{semilla}:{nombre}')
         self.fila = {'escenario': nombre, 'resultado': 'ok', 'conflicto': 'ninguno', 'decisiones_perdidas': 0,
                      'mal_atribuidas': 0, 'evidencia_vieja_aceptada': 0, 'rehecho': 0, 'detalle': []}
         self.central = tmp / 'central.git'
         self.tal_cual = tal_cual  # el proyecto como lo deja init, sin ayudas del banco
+        self.simultaneo = simultaneo
+        self.esperados: list = []  # (cambio, evento sin autor, autor, persona en cuyo clon se escribió)
+        self.final: Persona | None = None  # donde todo tiene que haber llegado al terminar (quien integra), si lo hay
+        self.traza: list = []  # el orden en que corrió lo que se intercala
         self.armar()
         self.ana, self.beto = Persona(self, 'Ana'), Persona(self, 'Beto')
         for p in (self.ana, self.beto):
@@ -131,6 +169,55 @@ class Escenario:
 
     def nota(self, texto: str) -> None:
         self.fila['detalle'].append(texto)
+
+    def a_la_vez(self, *trabajos):
+        """Lo que dos personas (o una y su agente) hacen al mismo tiempo: en modo simultáneo, en procesos simultáneos de
+        verdad (el orden lo decide el sistema); si no, uno tras otro en el orden que sale de la semilla, que queda en la traza.
+        Cada trabajo es (etiqueta, función, *argumentos); devuelve los resultados en el orden dado."""
+        if self.simultaneo:
+            with ThreadPoolExecutor(len(trabajos)) as pool:
+                futuros = [pool.submit(f, *a) for _, f, *a in trabajos]
+                return [x.result() for x in futuros]
+        orden = list(range(len(trabajos)))
+        self.azar.shuffle(orden)
+        resultados = [None] * len(trabajos)
+        for i in orden:
+            etiqueta, f, *a = trabajos[i]
+            self.traza.append(etiqueta)
+            resultados[i] = f(*a)
+        return resultados
+
+    def ultimo_cambio(self, p: 'Persona') -> str | None:
+        cambios = sorted((x for x in (p.dir / '.factory/cambios').iterdir() if x.is_dir()), key=lambda x: x.stat().st_mtime)
+        return cambios[-1].name if cambios else None
+
+    def auditar(self) -> None:
+        """Para todos los escenarios: cada decisión que alguien tomó sigue en el registro (en el clon de quien integra si
+        el cambio llegó ahí; si no, en el de quien la tomó) y a nombre de quien la tomó; y nadie aparece como autor de
+        algo sin ser una de las dos personas o sus agentes."""
+        vistos: dict = {}
+        for ident, k, autor, p in self.esperados:
+            donde = self.final if self.final and (self.final.dir / '.factory/cambios' / ident).is_dir() else p
+            if (donde.nombre, ident) not in vistos:
+                vistos[(donde.nombre, ident)] = donde.registro(ident)['eventos']
+            # Dos personas pueden hacer lo mismo en el mismo segundo: sin el autor, sus eventos son iguales.
+            actores = [x.get('actor') for x in vistos[(donde.nombre, ident)] if clave(x) == k]
+            if not actores:
+                self.fila['decisiones_perdidas'] += 1
+                self.defecto(f'en el clon de {donde.nombre}, {ident} perdió un evento de {autor}: {k[:120]}')
+            elif autor not in actores:
+                self.fila['mal_atribuidas'] += 1
+                self.defecto(f'en {ident}, un evento de {autor} quedó a nombre de {actores}')
+        for (nombre, ident), eventos in vistos.items():
+            for x in eventos:
+                if x.get('actor') not in (*PERSONAS, *AGENTES, 'Banco'):
+                    self.fila['mal_atribuidas'] += 1
+                    self.defecto(f'en {ident} hay un evento de «{x.get("actor")}», que no es nadie del banco')
+        malas = sum(self.fila[k] for k in ('decisiones_perdidas', 'mal_atribuidas', 'evidencia_vieja_aceptada'))
+        if malas and self.fila['resultado'] == 'ok':  # un número malo nunca queda en un escenario ok
+            self.defecto(f'{malas} decisiones perdidas, mal atribuidas o evidencia vieja aceptada')
+        self.nota(f'auditadas {len(self.esperados)} decisiones: ninguna perdida ni mal atribuida' if self.fila['resultado'] == 'ok'
+                  else f'auditadas {len(self.esperados)} decisiones')
 
     def defecto(self, texto: str) -> None:
         self.fila['resultado'] = 'defecto'
@@ -186,9 +273,9 @@ def s1_paralelo_disjunto(e: Escenario) -> None:
         p.commit(f'{sufijo}: {archivo}')
         p.git('push', '-q', 'origin', f'tarea/{sufijo}')
         return ident, eventos_de(p.registro(ident))
-    with ThreadPoolExecutor(2) as pool:
-        a, b = pool.submit(frente, e.ana, 'restar', 'restar.py'), pool.submit(frente, e.beto, 'multiplicar', 'multiplicar.py')
-        (id_a, ev_a), (id_b, ev_b) = a.result(), b.result()
+    e.final = e.ana
+    (id_a, ev_a), (id_b, ev_b) = e.a_la_vez(('Ana', frente, e.ana, 'restar', 'restar.py'),
+                                             ('Beto', frente, e.beto, 'multiplicar', 'multiplicar.py'))
     for rama in e.azar.sample(['tarea/restar', 'tarea/multiplicar'], 2):  # el orden de integración sale de la semilla
         if not e.integrar(e.ana, rama):
             e.defecto(f'dos frentes que no comparten archivos chocaron al integrar {rama}')
@@ -208,6 +295,7 @@ def s1_paralelo_disjunto(e: Escenario) -> None:
 
 def s2_mismo_archivo(e: Escenario) -> None:
     """Los dos tocan la misma línea de calc.py en sus cambios: el conflicto se ve al integrar, no después."""
+    e.final = e.ana
     for p, sufijo, cuerpo in ((e.ana, 'redondeo', 'round(a + b, 2)'), (e.beto, 'enteros', 'int(a) + int(b)')):
         p.git('checkout', '-q', '-b', f'tarea/{sufijo}')
         p.nuevo_cambio(sufijo, f'Sumar con {sufijo}')
@@ -223,6 +311,7 @@ def s2_mismo_archivo(e: Escenario) -> None:
 
 def s3_semantico(e: Escenario) -> None:
     """Ana renombra sumar; Beto agrega un uso de sumar. Cada uno pasa sus pruebas; juntos fallan."""
+    e.final = e.ana
     e.ana.git('checkout', '-q', '-b', 'tarea/renombrar')
     e.ana.nuevo_cambio('renombrar', 'Renombrar sumar a suma')
     e.ana.escribir('calc.py', 'def suma(a, b):\n    return a + b\n')
@@ -251,84 +340,103 @@ def s3_semantico(e: Escenario) -> None:
 
 
 def s4_tomar_a_la_vez(e: Escenario) -> None:
-    """Ana crea un cambio y lo sube; Ana y Beto lo toman a la vez desde sus clones. ¿Quién queda responsable?"""
+    """Ana crea un cambio y lo sube; Ana y Beto lo toman a la vez desde sus clones. Al juntar las ramas Factory no elige
+    responsable: avisa, Beto lo releva acordado con Ana, y el cambio se integra con las dos tomas en su historia."""
+    e.final = e.ana
     e.ana.git('checkout', '-q', '-b', 'tarea/compartido')
     ident = e.ana.nuevo_cambio('compartido', 'Un cambio para dos')
     e.ana.commit('compartido: el cambio')
     e.ana.git('push', '-q', 'origin', 'tarea/compartido')
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/compartido', 'origin/tarea/compartido')
-    with ThreadPoolExecutor(2) as pool:
-        for f in [pool.submit(p.decide, 'tomar', ident) for p in (e.ana, e.beto)]:
-            f.result()
-    duenos = {p.nombre: (p.registro(ident).get('responsable') or {}).get('persona') for p in (e.ana, e.beto)}
-    e.nota(f'responsable en cada clon después de tomar a la vez: {duenos}')
+    e.a_la_vez(('Ana', e.ana.decide, 'tomar', ident), ('Beto', e.beto.decide, 'tomar', ident))
     for p in (e.ana, e.beto):
         p.commit(f'compartido: lo tomó {p.nombre}')
     e.ana.git('push', '-q', 'origin', 'tarea/compartido')
-    p = e.beto.git('push', '-q', 'origin', 'tarea/compartido', ok=False)
-    if p.returncode:
-        e.detectado('al_integrar')
-        traer = e.beto.git('pull', '-q', '--no-rebase', 'origin', 'tarea/compartido', ok=False)
-        if traer.returncode:
-            e.defecto('dos «tomar» del mismo cambio en dos clones chocan en factory.json al sincronizar: Factory no avisa antes '
-                      'ni ayuda a unir el registro (cada clon cree que el cambio es suyo)')
-        else:
-            e.nota('el pull unió el registro sin conflicto de texto')
-    else:
+    if not e.beto.git('push', '-q', 'origin', 'tarea/compartido', ok=False).returncode:
         e.detectado('nunca')
         e.defecto('el segundo push no chocó')
+        return
+    e.detectado('al_integrar')
+    if e.beto.git('pull', '-q', '--no-rebase', 'origin', 'tarea/compartido', ok=False).returncode:
+        e.defecto('dos «tomar» del mismo cambio chocan en factory.json al sincronizar')
+        return
+    registro = e.beto.registro(ident)
+    if [x.get('campo') for x in registro.get('pendientes_de_union') or []] != ['responsable']:
+        e.defecto(f'al unir las dos tomas, Factory no dejó el responsable para decidir: {registro.get("pendientes_de_union")}')
+    if 'al unir dos ramas, responsable' not in e.beto.agente_hace('estado', ident).stdout:
+        e.defecto('estado no avisa que el responsable quedó sin decidir')
+    # Lo acuerdan: Beto lo releva. El aviso se va y queda constancia.
+    e.beto.decide('tomar', ident, '--relevo')
+    registro = e.beto.registro(ident)
+    if registro.get('pendientes_de_union') or registro['responsable']['persona'] != 'Beto':
+        e.defecto('el relevo acordado no resolvió el responsable')
+    e.beto.commit('compartido: Beto lo releva, acordado')
+    e.beto.git('push', '-q', 'origin', 'tarea/compartido')
+    if e.integrar(e.ana, 'tarea/compartido'):
+        tomas = [x.get('actor') for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'tomado']
+        e.nota(f'integrado en main con las tomas de {tomas}')
 
 
 def s5_decisiones_simultaneas(e: Escenario) -> None:
-    """Dos procesos del mismo clon (Ana y su agente) escriben el mismo registro a la vez: no se pierde ningún evento."""
+    """Un mismo registro, escrito a la vez: en el clon de Ana, Ana en su terminal y su agente (seis mensajes cada uno), y en
+    el de Beto, Beto con otros seis en su rama del mismo cambio. Al integrar, los dieciocho están, cada uno a nombre de
+    quien lo escribió."""
+    e.final = e.ana
     e.ana.git('checkout', '-q', '-b', 'tarea/charla')
     ident = e.ana.nuevo_cambio('charla', 'Un registro concurrido')
-    antes = len(e.ana.registro(ident)['eventos'])
-    n = 12
-    with ThreadPoolExecutor(6) as pool:
-        trabajos = [pool.submit(e.ana.agente_hace, 'mensaje', ident, f'mensaje {i}', ok=False) for i in range(n)]
-        codigos = [t.result().returncode for t in trabajos]
-    despues = e.ana.registro(ident)['eventos']
-    guardados = sum(1 for x in despues if x.get('accion') == 'mensaje')
-    rechazados = sum(1 for c in codigos if c)
-    e.fila['decisiones_perdidas'] = n - guardados - rechazados
-    if rechazados:
-        e.detectado('antes')
-        e.fila['rehecho'] = rechazados
-        e.nota(f'{rechazados} de {n} escrituras simultáneas se rechazaron (el registro cambió mientras tanto) y hay que repetirlas')
-    if e.fila['decisiones_perdidas']:
-        e.defecto(f'{e.fila["decisiones_perdidas"]} mensajes simultáneos se perdieron sin error')
-    if len(despues) != antes + guardados:
-        e.defecto('el registro perdió eventos anteriores')
+    e.ana.commit('charla: el cambio')
+    e.ana.git('push', '-q', 'origin', 'tarea/charla')
+    e.beto.git('fetch', '-q', 'origin')
+    e.beto.git('checkout', '-q', '-b', 'tarea/charla-beto', 'origin/tarea/charla')
+    trabajos = [(f'Ana {i}', e.ana.decide, 'mensaje', ident, f'Ana {i}') for i in range(6)]
+    trabajos += [(f'agente-ana {i}', e.ana.agente_hace, 'mensaje', ident, f'agente-ana {i}') for i in range(6)]
+    trabajos += [(f'Beto {i}', e.beto.decide, 'mensaje', ident, f'Beto {i}') for i in range(6)]
+    e.a_la_vez(*trabajos)
+    e.ana.commit('charla: los de Ana')
+    e.ana.git('push', '-q', 'origin', 'tarea/charla')
+    e.beto.commit('charla: los de Beto')
+    e.beto.git('push', '-q', 'origin', 'tarea/charla-beto')
+    e.integrar(e.ana, 'tarea/charla')
+    if not e.integrar(e.ana, 'tarea/charla-beto'):
+        e.defecto('los mensajes del mismo cambio en dos ramas chocaron al integrar')
+        return
+    autores = sorted(x.get('actor') for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'mensaje')
+    if autores != sorted(['Ana'] * 6 + ['agente-ana'] * 6 + ['Beto'] * 6):
+        e.defecto(f'en main los mensajes quedaron a nombre de {autores}')
 
 
 def s6_mismo_id(e: Escenario) -> None:
-    """Ana y Beto crean, a la vez y en sus clones, un cambio con el mismo sufijo: ¿chocan los IDs al integrar?"""
+    """Ana y Beto crean, en el mismo segundo y en sus clones, un cambio con el mismo sufijo: los IDs tienen que salir
+    distintos (los separan los caracteres al azar) y los dos cambios integrarse sin conflicto."""
+    e.final = e.ana
     for p in (e.ana, e.beto):
         p.git('checkout', '-q', '-b', f'tarea/igual-{p.nombre.lower()}')
-    with ThreadPoolExecutor(2) as pool:
-        ids = [f.result() for f in [pool.submit(p.nuevo_cambio, 'igual', 'Un cambio con el mismo nombre') for p in (e.ana, e.beto)]]
+    for intento in range(3):
+        time.sleep(1 - time.time() % 1)  # el principio de un segundo, con el reloj de verdad
+        ids = e.a_la_vez(('Ana', e.ana.nuevo_cambio, f'igual{intento}', 'Un cambio con el mismo nombre'),
+                         ('Beto', e.beto.nuevo_cambio, f'igual{intento}', 'Un cambio con el mismo nombre'))
+        if ids[0][:15] == ids[1][:15]:
+            break
+    else:
+        e.defecto(f'tres intentos sin crear los dos cambios en el mismo segundo: {ids}')
+        return
+    e.nota(f'IDs del mismo segundo: {ids}')
     for p in (e.ana, e.beto):
         p.commit(f'igual: de {p.nombre}')
         p.git('push', '-q', 'origin', f'tarea/igual-{p.nombre.lower()}')
-    e.nota(f'IDs: {ids}')
-    e.integrar(e.ana, 'tarea/igual-ana')
-    limpio = e.integrar(e.ana, 'tarea/igual-beto')
     if ids[0] == ids[1]:
-        if limpio:
-            e.detectado('nunca')
-            e.defecto('dos cambios distintos con el mismo ID se mezclaron al integrar sin conflicto')
-        else:
-            e.defecto('dos cambios distintos con el mismo ID chocan al integrar: Factory no los distingue antes')
-    else:
-        mismo_segundo = ids[0][:15] == ids[1][:15]
-        e.nota('los IDs salieron distintos' + (' en el mismo segundo: los separan los caracteres al azar' if mismo_segundo
-                                               else ' (cayeron en segundos distintos)'))
+        e.defecto('dos cambios creados en el mismo segundo en dos clones tienen el mismo ID')
+        return
+    e.integrar(e.ana, 'tarea/igual-ana')
+    if not e.integrar(e.ana, 'tarea/igual-beto'):
+        e.defecto('dos cambios con IDs distintos chocaron al integrar')
 
 
 def s7_generados(e: Escenario) -> None:
-    """Dos cambios integrados uno tras otro tocan resumen.md y kb/: chocan, y se resuelven rehaciéndolos."""
+    """Dos cambios integrados uno tras otro tocan resumen.md y kb/: con los hooks de Factory no chocan, porque después del
+    merge se rehacen solos (en un commit aparte, sin trabajo de nadie)."""
+    e.final = e.ana
     e.ana.agente_hace('kb')  # el vault se genera una vez en main y lo trae cada clon
     e.ana.agente_hace('resumen')
     e.ana.commit('el vault')
@@ -342,18 +450,11 @@ def s7_generados(e: Escenario) -> None:
         p.git('push', '-q', 'origin', f'tarea/{sufijo}')
     e.integrar(e.ana, 'tarea/uno')
     if not e.integrar(e.ana, 'tarea/dos'):
-        en_conflicto = set(e.ana.git('diff', '--name-only', '--diff-filter=U').stdout.split())
-        generados = {n for n in en_conflicto if n == '.factory/resumen.md' or n.startswith('kb/')}
-        if en_conflicto - generados:
-            e.defecto(f'chocaron archivos que no son generados: {sorted(en_conflicto - generados)}')
-        for n in generados:
-            e.ana.git('checkout', '--theirs', '--', n)
-        e.ana.agente_hace('resumen')
-        e.ana.agente_hace('kb')
-        e.ana.git('add', '-A')
-        e.ana.git('commit', '-q', '--no-edit')
-        e.fila['rehecho'] += len(generados)
-        e.nota(f'chocaron {sorted(generados)}: se rehicieron con resumen y kb')
+        e.defecto('los archivos generados chocaron al integrar aunque Factory los rehace después del merge')
+        e.ana.git('merge', '--abort', ok=False)
+        return
+    if 'Rehacer lo generado' in e.ana.git('log', '-3', '--format=%s').stdout:
+        e.nota('Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (no es trabajo de nadie)')
     for orden in (['kb', '--verificar'], ['resumen', '--verificar']):
         if e.ana.agente_hace(*orden, ok=False).returncode:
             e.defecto(f'después de integrar, {" ".join(orden)} falla')
@@ -361,6 +462,7 @@ def s7_generados(e: Escenario) -> None:
 
 def a1_relevo_atrasado(e: Escenario) -> None:
     """El lunes Ana toma un cambio y avanza; el jueves Beto, con su clon del lunes, lo releva y sigue."""
+    e.final = e.beto
     e.ana.git('checkout', '-q', '-b', 'tarea/semana')
     ident = e.ana.nuevo_cambio('semana', 'Un cambio de toda la semana')
     e.ana.decide('tomar', ident)
@@ -393,7 +495,9 @@ def a1_relevo_atrasado(e: Escenario) -> None:
 
 
 def a2_evidencia_vieja(e: Escenario) -> None:
-    """Beto tiene evidencia de su candidato; Ana integra antes un cambio de producto; al traer main, la evidencia ya no vale."""
+    """Beto tiene evidencia y una revisión aprobada de su candidato; Ana integra antes un cambio de producto. Al traer
+    main, ni la evidencia ni la revisión valen, y Factory no deja cerrar con ellas."""
+    e.final = e.beto
     e.beto.git('checkout', '-q', '-b', 'tarea/lento')
     ident = e.beto.nuevo_cambio('lento', 'Un cambio que tarda')
     e.beto.escribir('lento.py', 'X = 1\n')
@@ -402,24 +506,40 @@ def a2_evidencia_vieja(e: Escenario) -> None:
     evidencia = e.beto.dir / '.factory/cambios' / ident / 'candidatos' / sha / 'evidencia'
     evidencia.mkdir(parents=True)
     (evidencia / 'resultado.json').write_text('{"exitoso": true}\n')
-    e.beto.commit('lento: evidencia')
+    informe = e.beto.dir / 'tareas' / ident / 'revision.md'
+    informe.write_text('Revisión del banco: sin hallazgos.\n')
+    e.beto.decide('revision', ident, '--informe', str(informe), '--revisor', 'Beto', '--decision', 'aprobar',
+                  '--hallazgos-abiertos', '0')
+    e.beto.commit('lento: evidencia y revisión')
+    antes = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
+    if not (antes.get('revision') or {}).get('vigente'):
+        e.defecto(f'la revisión recién registrada no figura vigente: {antes.get("revision")}')
+        return
     # Ana integra antes un cambio de producto.
     e.ana.escribir('calc.py', 'def sumar(a, b):\n    return b + a\n')
     e.ana.commit('otro: calc.py')
     e.ana.git('push', '-q', 'origin', 'main')
     e.beto.git('pull', '-q', '--no-rebase', 'origin', 'main')
-    vigente = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout).get('candidato')
-    if vigente == sha:
+    despues = json.loads(e.beto.agente_hace('estado', ident, '--json').stdout)
+    if despues.get('candidato') == sha:
         e.fila['evidencia_vieja_aceptada'] += 1
         e.defecto('después de traer main con otro producto, el candidato viejo sigue vigente')
-    else:
+    if (despues.get('revision') or {}).get('vigente'):
+        e.fila['evidencia_vieja_aceptada'] += 1
+        e.defecto('después de traer main con otro producto, la revisión vieja sigue vigente')
+    if e.beto.decide('cerrar', ident, ok=False).returncode == 0:
+        e.fila['evidencia_vieja_aceptada'] += 1
+        e.defecto('Factory dejó cerrar con la evidencia y la revisión viejas')
+    if e.fila['evidencia_vieja_aceptada'] == 0:
         e.detectado('antes')
-        e.nota('al traer main, el candidato viejo deja de estar vigente: hay que producir evidencia otra vez')
+        e.nota('al traer main, el candidato y la revisión viejos dejan de estar vigentes y cerrar se niega: hay que '
+               'producir evidencia y revisar otra vez')
         e.fila['rehecho'] += 1
 
 
 def a3_registro_en_dos_ramas(e: Escenario) -> None:
     """Un mismo cambio: Ana deja un mensaje en su rama y Beto otro en la suya; al juntarlas, ¿se conservan los dos?"""
+    e.final = e.beto
     e.ana.git('checkout', '-q', '-b', 'tarea/doble-rama')
     ident = e.ana.nuevo_cambio('dobl', 'Un cambio en dos ramas')
     e.ana.commit('dobl: el cambio')
@@ -445,34 +565,39 @@ def a3_registro_en_dos_ramas(e: Escenario) -> None:
 
 
 def a4_mensajes_de_a_turnos(e: Escenario) -> None:
-    """Durante la semana, Ana y Beto se dejan mensajes en el mismo cambio, cada uno trayendo lo del otro antes de escribir."""
+    """Durante la semana, Ana y Beto escriben en el mismo cambio, cada uno en su clon y sin traer lo del otro antes; al
+    final de cada día sincronizan. Ningún mensaje se pierde y quedan en el orden en que se escribieron."""
+    e.final = e.ana
     e.ana.git('checkout', '-q', '-b', 'tarea/charla')
     ident = e.ana.nuevo_cambio('charlas', 'Un cambio conversado')
     e.ana.commit('charlas: el cambio')
     e.ana.git('push', '-q', '-u', 'origin', 'tarea/charla')
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/charla', '--track', 'origin/tarea/charla')
-    turnos = [p for p in (e.ana, e.beto) for _ in range(3)]
-    e.azar.shuffle(turnos)  # quién escribe cada día sale de la semilla
     escritos = []
-    for dia, p in enumerate(turnos, 1):
-        p.git('pull', '-q', '--no-rebase', 'origin', 'tarea/charla')
-        texto = f'día {dia}: {p.nombre}'
-        p.agente_hace('mensaje', ident, texto)
-        p.commit(f'charlas: {texto}')
-        if p.git('push', '-q', 'origin', 'tarea/charla', ok=False).returncode:
-            e.defecto(f'el día {dia} {p.nombre} no pudo subir aunque trajo lo del otro antes de escribir')
-            return
-        escritos.append(texto)
+    for dia in range(1, 4):
+        hoy = e.a_la_vez(*[(f'día {dia}: {p.nombre}', lambda p=p, t=f'día {dia}: {p.nombre}': (p.agente_hace('mensaje', ident, t), t)[1])
+                           for p in (e.ana, e.beto)])
+        escritos += hoy
+        for p in e.azar.sample([e.ana, e.beto], 2):  # quién sincroniza primero sale de la semilla
+            p.commit(f'charlas: día {dia}')
+            p.git('pull', '-q', '--no-rebase', 'origin', 'tarea/charla')
+            if p.git('push', '-q', 'origin', 'tarea/charla', ok=False).returncode:
+                e.defecto(f'el día {dia} {p.nombre} no pudo subir después de traer lo del otro')
+                return
     e.ana.git('pull', '-q', '--no-rebase', 'origin', 'tarea/charla')
-    vistos = [x.get('texto') for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'mensaje']
+    eventos = [x for x in e.ana.registro(ident)['eventos'] if x.get('accion') == 'mensaje']
+    vistos = [x.get('texto') for x in eventos]
     e.fila['decisiones_perdidas'] = len(set(escritos) - set(vistos))
-    if vistos != escritos:
+    if sorted(vistos) != sorted(escritos):
         e.defecto(f'los mensajes quedaron {vistos}, no {escritos}')
+    if [x.get('cuando') for x in eventos] != sorted(x.get('cuando') for x in eventos):
+        e.defecto('los mensajes no quedaron en el orden en que se escribieron')
 
 
 def a5_trailers_y_vault_en_otro_clon(e: Escenario) -> None:
     """Ana escribe una línea en su cambio; Beto, desde su clon, ve el vault al día y sabe por qué existe esa línea."""
+    e.final = e.beto
     e.ana.agente_hace('kb')  # el proyecto usa kb/: se genera una vez en main y lo trae cada clon
     e.ana.commit('el vault')
     e.ana.git('push', '-q', 'origin', 'main')
@@ -504,7 +629,7 @@ ESCENARIOS = {
 }
 
 
-def correr(semilla: int, solo: list[str] | None = None) -> list[dict]:
+def correr(semilla: int, solo: list[str] | None = None, simultaneo: bool = False) -> list[dict]:
     filas = []
     for nombre, funcion in ESCENARIOS.items():
         if solo and nombre not in solo:
@@ -512,27 +637,31 @@ def correr(semilla: int, solo: list[str] | None = None) -> list[dict]:
         with tempfile.TemporaryDirectory(prefix=f'banco-{nombre}-') as d:
             inicio = time.monotonic()
             try:
-                esc = Escenario(nombre, Path(d), semilla, tal_cual=nombre == 's0_clon_recien_hecho')
+                esc = Escenario(nombre, Path(d), semilla, tal_cual=nombre == 's0_clon_recien_hecho', simultaneo=simultaneo)
                 funcion(esc)
-                fila = esc.fila
+                esc.auditar()
+                fila = {**esc.fila, 'traza': esc.traza}
             except Exception as error:  # noqa: BLE001 — un escenario que se rompe es un resultado, no un corte del banco
                 fila = {'escenario': nombre, 'resultado': 'error', 'conflicto': 'nunca', 'decisiones_perdidas': 0,
                         'mal_atribuidas': 0, 'evidencia_vieja_aceptada': 0, 'rehecho': 0,
-                        'detalle': [f'{type(error).__name__}: {error}'[:600]]}
+                        'detalle': [f'{type(error).__name__}: {error}'[:600]], 'traza': []}
             fila['segundos'] = round(time.monotonic() - inicio, 1)
             filas.append(fila)
     return filas
 
 
-def informe(filas: list[dict], semilla: int, real: bool = False) -> dict:
-    return {'esquema': 'oracle-factory.banco/1', 'semilla': semilla, 'reproducible': not real,
+def informe(filas: list[dict], semilla: int, real: bool = False, simultaneo: bool = False) -> dict:
+    # Reproducible: lo que se intercala corre en el orden de la semilla (la traza lo muestra). Simultáneo, no.
+    return {'esquema': 'oracle-factory.banco/1', 'semilla': semilla, 'reproducible': not real and not simultaneo,
+            'modo': 'real' if real else 'simultaneo' if simultaneo else 'ordenado',
             'versiones': {p: metadata.version(p) for p in ('oracle-factory', 'oracle-metalenguaje', 'oracle-task', 'oracle-clue')}
             | {'python': sys.version.split()[0], 'git': subprocess.run(['git', '--version'], capture_output=True, text=True).stdout.strip()},
             'escenarios': filas}
 
 
 def texto(datos: dict) -> str:
-    lineas = [f"Banco de concurrencia — semilla {datos['semilla']}{'' if datos['reproducible'] else ' (corrida real, no reproducible)'}", '']
+    modo = {'real': ' (corrida real, no reproducible)', 'simultaneo': ' (procesos simultáneos, no reproducible)'}.get(datos.get('modo'), '')
+    lineas = [f"Banco de concurrencia — semilla {datos['semilla']}{modo}", '']
     for f in datos['escenarios']:
         lineas.append(f"{f['resultado']:<8} {f['escenario']:<28} conflicto: {f['conflicto']:<11} perdidas {f['decisiones_perdidas']} · "
                       f"mal atribuidas {f['mal_atribuidas']} · evidencia vieja {f['evidencia_vieja_aceptada']} · rehecho {f['rehecho']} "
@@ -546,14 +675,16 @@ def main(argv=None) -> int:
     parser.add_argument('--salida', type=Path, required=True)
     parser.add_argument('--semilla', type=int, default=20261021)
     parser.add_argument('--solo', nargs='*')
+    parser.add_argument('--simultaneo', action='store_true', help='lo que se intercala, en procesos simultáneos de verdad '
+                                                                  '(si no, en el orden de la semilla)')
     parser.add_argument('--real', type=Path, help='registrar una corrida con agentes reales: un JSON con sus filas, en el '
                                                   'mismo formato; queda en banco-real.json/.txt, marcada no reproducible')
     args = parser.parse_args(argv)
     args.salida.mkdir(parents=True, exist_ok=True)
     real = args.real is not None
-    filas = json.loads(args.real.read_text(encoding='utf-8')) if real else correr(args.semilla, args.solo)
-    datos = informe(filas, args.semilla, real=real)
-    nombre = 'banco-real' if real else 'banco'
+    filas = json.loads(args.real.read_text(encoding='utf-8')) if real else correr(args.semilla, args.solo, args.simultaneo)
+    datos = informe(filas, args.semilla, real=real, simultaneo=args.simultaneo)
+    nombre = 'banco-real' if real else 'banco-simultaneo' if args.simultaneo else 'banco'
     (args.salida / f'{nombre}.json').write_text(json.dumps(datos, ensure_ascii=False, indent=2) + '\n')
     (args.salida / f'{nombre}.txt').write_text(texto(datos))
     print(texto(datos), end='')

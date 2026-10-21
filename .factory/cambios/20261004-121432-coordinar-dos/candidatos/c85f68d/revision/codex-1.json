@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/c85f68d-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "c85f68d51ad718ddccb854e7f71e7d9fa9ea6636",
+  "diff_sha256": "df9951e628c7020bbacf1a6f3692ae3b9d7ad3c7f0ee301440eb06d1d306d88f",
+  "context_sha256": "9aea8970882ef0946b896e09357fbf35fd32932ea1c24223b50fb8fec95845a4",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "C85-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "s4 puede dar ok sin verificar la atribución ni la conservación de ambas decisiones",
+      "explanation": "El caso toma el mismo cambio en Ana y Beto y registra los responsables observados en cada clon, pero después sólo comprueba si el push de Beto y el pull terminan. Si el pull se resuelve, anota que el registro se unió y retorna sin inspeccionar el factory.json final, comparar sus eventos o decidir si quedó un responsable y una atribución válidos. Como el conflicto/merge se considera aceptable en limpio(), esta fila puede quedar limpia aun cuando la sincronización haya descartado una toma o deje atribuido el cambio a la persona equivocada. La spec exige que cada escenario compruebe que no se pierden ni se mal atribuyen decisiones.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 264,
+        "end_line": 277,
+        "side": "head"
+      },
+      "trigger": "Ejecutar s4_tomar_a_la_vez; hacer que ambas tomas se serialicen correctamente, pero que la resolución/merge final conserve sólo una decisión o una atribución incorrecta.",
+      "evidence": "En 264-265 sólo se anotan responsables de cada clon antes de sincronizar. En 269-277 se comprueba push/pull y, si pull funciona, sólo se agrega una nota; no se vuelve a leer el registro ni se compara con las dos decisiones. verify_banco.limpio (tools/verify_banco.py:30-34) sólo evalúa contadores que el caso no incrementa para esta condición.",
+      "related_requirement": "el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Revisión estática del caso y del predicado limpio; corrida puntual del banco completada, s4 salió ok. No se inyectó una mutación de merge."
+    },
+    {
+      "id": "C85-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La carrera de decisiones no prueba dos personas ni detecta atribución incorrecta",
+      "explanation": "Aunque el escenario se llama decisiones simultáneas sobre un registro compartido, lanza doce comandos desde el mismo clon de Ana y todos usan el mismo agente-ana. Sólo cuenta mensajes guardados y rechazos, sin inspeccionar actor/tipo_actor ni contrastar la autoría de cada operación. Por eso no ejercita la carrera entre decisiones de Ana y Beto que la spec pide, y puede aprobar con eventos atribuidos a otra persona.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 283,
+        "end_line": 303,
+        "side": "head"
+      },
+      "trigger": "Ejecutar s5_decisiones_simultaneas con el registro modificado para que eventos concurrentes se guarden con actor equivocado, o sustituir uno de los procesos por una decisión de Beto.",
+      "evidence": "La línea 290 somete las doce escrituras a e.ana.agente_hace y en las líneas 293-303 se compara únicamente cantidad de mensajes/eventos; no se inspeccionan actores. El requisito de la spec cubre decisiones simultáneas sobre un mismo registro y exige que no queden mal atribuidas.",
+      "related_requirement": "el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Revisión estática del escenario; corrida puntual completada, s5 salió ok. No se alteró el actor en una copia."
+    },
+    {
+      "id": "C85-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.93,
+      "title": "La semilla no controla el intercalado de las operaciones concurrentes",
+      "explanation": "El banco afirma que el intercalado sale de la semilla y el verificador da reproducibilidad por escenario, pero las carreras se lanzan con ThreadPoolExecutor y el orden efectivo queda al planificador del sistema. La semilla sólo gobierna selecciones explícitas (por ejemplo el orden de integración y turnos); no define qué operación concurrente corre primero ni captura el orden observado. Dos ejecuciones pueden recorrer intercalados distintos aunque coincidan sus contadores, y el verificador las declara reproducibles porque omite detalle y cualquier traza de orden de su comparación.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 189,
+        "end_line": 191,
+        "side": "head"
+      },
+      "trigger": "Ejecutar repetidamente el banco con la misma semilla bajo carga o con pausas distintas en los workers; comparar el orden de operaciones de las carreras s1/s4/s5 y el informe JSON.",
+      "evidence": "El pool dispara ambos frentes sin un scheduler controlado por azar (189-191); s4 y s5 usan el mismo patrón de workers (261-263, 289-291). verify_banco.py:74 compara sólo resultado y cinco contadores, no detalle ni secuencia de acciones; por ello dos intercalados distintos pueden obtener reproducible=1.",
+      "related_requirement": "el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Revisión estática de la fuente de aleatoriedad y del comparador. La corrida indicada se ejecutó una vez; no se hizo stress run ni mutación de scheduling."
+    },
+    {
+      "id": "C85-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "La guía dice que los archivos generados no chocan, pero el banco provoca y resuelve ese conflicto",
+      "explanation": "La guía afirma que .factory/resumen.md y kb/ no chocan y que se rehacen después del merge. Sin embargo, s7 crea y commitea esos archivos en dos ramas y llama al merge; cuando hay conflicto, el escenario toma --theirs, regenera los archivos y crea un commit de resolución. La guía oculta un paso operativo que el propio banco identifica como trabajo rehecho y puede llevar al integrador a esperar un merge limpio.",
+      "location": {
+        "file": "docs/colaboracion.md",
+        "start_line": 126,
+        "end_line": 126,
+        "side": "head"
+      },
+      "trigger": "Seguir la instrucción de integrar dos ramas que contienen cambios generados simultáneos en resumen/kb; el merge puede entrar en conflicto antes de poder regenerarlos.",
+      "evidence": "docs/colaboracion.md:126 dice que esos archivos «no chocan». tools/banco.py:330-356 genera ambos en las dos ramas, detecta el conflicto del merge, elige los archivos de una rama y los regenera; el informe cuenta ese trabajo como rehecho.",
+      "related_requirement": "integracion_serializada_y_evidencia_vigente",
+      "status": "pendiente",
+      "verification": "Contraste estático de la guía con el escenario s7. En la corrida puntual s7 salió ok y reportó regeneración/conflicto en el detalle cuando se dio."
+    },
+    {
+      "id": "C85-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La evidencia de “corrida real” se fabrica copiando una fila determinista",
+      "explanation": "verify_banco crea real-muestra.json copiando la primera fila del banco determinista y luego la pasa a --real. Esto sólo comprueba que el formato pueda etiquetar datos como no reproducibles; no observa una corrida con agente real. La medida de informe no debe presentarse como evidencia de que una corrida con agentes reales fue registrada, aunque el piloto humano siga declarado pendiente.",
+      "location": {
+        "file": "tools/verify_banco.py",
+        "start_line": 62,
+        "end_line": 69,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verify_banco.py y usar el hecho real_aparte como prueba de la parte de corrida real del requisito.",
+      "evidence": "Las líneas 62-65 copian corridas[0][\"escenarios\"][:1] a real-muestra.json y llaman banco.main(--real); las líneas 68-69 validan esa salida como real_aparte. Los datos provienen de agentes deterministas generados por la corrida anterior, no de agentes reales.",
+      "related_requirement": "el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Revisión estática del verificador; no se corrió verify_banco.py para esta revisión."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí únicamente el banco según el comando indicado, desde la raíz del checkout; terminó con código 0 y las 13 filas dieron ok.",
+    "No corrí la suite completa ni verify_banco.py.",
+    "La inspección de reproducibilidad fue estática; no realicé stress runs ni mutaciones en copias.",
+    "Los resultados describen el alcance observado y no son un veredicto sobre requisitos que no se midieron."
+  ]
+}
