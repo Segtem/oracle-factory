@@ -2,7 +2,7 @@
   "id": "20261020-173143-avisos",
   "titulo": "Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
   "spec_sha256": "0c9e74d520b0f7707605173e1ec39e8207d1adff32c0e1b347aad93cf328576d",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
     "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/informe.json",
+    "sha256": "82a1b0b9a5c362d96146478925de31e391efad5c4e83bdec4e55c00353e34a7a",
+    "decisiones": "tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/decisiones.json",
+    "decisiones_sha256": "f88f32f8cb2f75200f1fe45b5e5f64265e51f4aede465deb90207e4d2e30dd45",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T15:17:23+00:00",
+    "motivo": "Dos vueltas de codex y agy: la 1 dejó 3 medios (AVISOS-1, AV-01, AV-02), corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 2 no dejó medios ni altos. Quedan dos bajas para decidir: AV-03 (el aviso busca sin_medir con una expresión regular) y AVISOS-R1 (una spec bajo un directorio enlazado dentro de specs/ no se detecta).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "51bc1343cdc70ba24cc4277d61d033cbeadc1711",
+      "archivos_sha256": "208b4318c9257dea19e6c87de8ab12a2039710b947c36c96a677ffb5a71222b9"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -254,6 +274,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "00c416c7f50c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T14:36:21+00:00",
+      "decision": "aprobar",
+      "candidato": "fc3fe52"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T15:17:23+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "82a1b0b9a5c362d96146478925de31e391efad5c4e83bdec4e55c00353e34a7a",
+      "decisiones_sha256": "f88f32f8cb2f75200f1fe45b5e5f64265e51f4aede465deb90207e4d2e30dd45"
     }
   ],
   "tipos": {
@@ -318,5 +362,17 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "aprobar-spec no detecta specs bajo directorios enlazados",
+      "firma": "oracle_factory/cli.py|aprobarspec no detecta specs bajo directorios enlazados",
+      "motivo": "Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-21T15:17:20+00:00",
+      "candidato": "fc3fe52"
+    }
+  ]
 }
