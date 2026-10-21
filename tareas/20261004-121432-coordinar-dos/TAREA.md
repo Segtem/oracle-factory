@@ -197,3 +197,7 @@ Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: Brian Ho
 ### Nota (2026-10-21 20:42:12 UTC)
 
 Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 22:20:50 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Siete vueltas de codex y agy sobre el banco de concurrencia: la 1 dejó 12 medios o altos (el banco daba ok sin comprobar lo que promete) y se reescribió con auditoría de cada decisión, modo ordenado por semilla y simultáneo; las 2 a 6 dejaron 8, 2, 1, 3 y 1, todos corregidos con mutaciones de Factory que el banco detecta (eventos perdidos, mal atribuidos, sin reintento, revisión y juicio viejos vigentes); la 7 no dejó ningún hallazgo. La corrida piloto con agentes reales (claude-code y codex) quedó registrada aparte en tareas/, ok en sus dos escenarios.); 0 abiertos derivados; commit 047712576b8ac830cfce317eb9bb6ccc976f86dd; informe tareas/20261004-121432-coordinar-dos/revisiones/registro-7p2tk4du/informe.json; decisiones tareas/20261004-121432-coordinar-dos/revisiones/registro-7p2tk4du/decisiones.json.

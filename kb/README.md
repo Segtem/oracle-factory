@@ -18,7 +18,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261004-005956-elegir-medidas]] — Elección de medidas (cerrada)
 - [[cambios/20261004-005956-inicio-guiado]] — Inicio guiado (cerrada)
 - [[cambios/20261004-005956-revision-guiada]] — Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada)
-- [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (requisitos_importados)
+- [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (revision_aprobada)
 - [[cambios/20261005-105331-modos-de-trabajo]] — Modos de trabajo según quién decide los requisitos (cerrada)
 - [[cambios/20261005-132144-jerarquia-de]] — Jerarquía de carpetas y comandos para encontrar las cosas (cerrada)
 - [[cambios/20261005-154433-la-vigencia-de]] — La vigencia de una revisión depende del contenido del producto (cerrada)
