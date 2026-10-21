@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «revision cruzada», «otro checkout o candidato modificado»
+- Medidas: `factory_colaboracion.revision_vinculada_a_una_version`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#revision vinculada a una version
 
 La guía SHALL preparar con Clue una revisión de commits base/HEAD explícitos, conservar paquete e informe originales, separar el triage humano y comprobar su vigencia antes de registrar la decisión en Factory.

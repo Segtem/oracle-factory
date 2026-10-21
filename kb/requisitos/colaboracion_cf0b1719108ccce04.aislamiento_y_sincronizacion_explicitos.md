@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «avance paralelo», «dos clones sin sincronizar»
+- Medidas: `factory_colaboracion.aislamiento_y_sincronizacion_explicitos`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#aislamiento y sincronizacion explicitos
 
 La guía SHALL describir worktrees en una máquina y clones en máquinas distintas, y distinguir aislamiento de archivos, intercambio mediante Git y acuerdo humano sobre la asignación.

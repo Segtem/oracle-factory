@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «cambio de persona o sesion», «interrupcion sin entrega»
+- Medidas: `factory_colaboracion.relevo_recuperable`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#relevo recuperable
 
 La plantilla de relevo SHALL registrar emisor, receptor, tarea, rama, base/HEAD, archivos pendientes, alcance completado, pruebas y evidencia con rutas/huellas, bloqueos, decisiones humanas pendientes y próxima acción; SHALL distinguir entrega propuesta de recepción confirmada.

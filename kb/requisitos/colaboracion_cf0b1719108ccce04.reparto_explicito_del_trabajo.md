@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «dos frentes independientes», «mismo cambio o alcance superpuesto»
+- Medidas: `factory_colaboracion.reparto_explicito_del_trabajo`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#reparto explicito del trabajo
 
 El protocolo SHALL registrar para cada frente el ID de tarea/cambio, persona responsable, agente o sesión, base Git, rama, checkout, alcance e interfaces compartidas, dependencias, revisor, integrador y próximo paso, con un único escritor activo de sus registros.

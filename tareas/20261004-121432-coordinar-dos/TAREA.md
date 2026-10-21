@@ -109,3 +109,39 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-21 10:09:15 UTC)
 
 Requisitos importados: colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos (funcional), colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites (funcional), colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos (funcional), colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente (funcional), colaboracion_cf0b1719108ccce04.relevo_recuperable (funcional), colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo (funcional), colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-21 20:02:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo: factory_colaboracion.reparto_explicito_del_trabajo, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:13 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:14 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.relevo_recuperable: factory_colaboracion.relevo_recuperable, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:15 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version: factory_colaboracion.revision_vinculada_a_una_version, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:16 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente: factory_colaboracion.integracion_serializada_y_evidencia_vigente, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:16 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites: factory_colaboracion.demostracion_reproducible_con_limites, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:17 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:18 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos: factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:19 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: factory_banco.el_banco_informa_sus_numeros, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

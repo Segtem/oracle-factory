@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261004-121432-coordinar-dos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «dos entregas listas», «cambia el candidato revisado», «falta autoridad o cobertura»
+- Medidas: `factory_colaboracion.integracion_serializada_y_evidencia_vigente`, `factory_colaboracion.corrida_completa`
 - Fuente: openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md#integracion serializada y evidencia vigente
 
 El protocolo SHALL designar un integrador humano por candidato, serializar sus mutaciones de Factory y verificar el producto resultante antes del cierre.
