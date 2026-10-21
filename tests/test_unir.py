@@ -116,13 +116,13 @@ class Unir(unittest.TestCase):
         self.integrar_las_dos()
         registro = self.registro(self.ana)
         self.assertEqual(registro['responsable']['persona'], 'Ana')  # el de la rama que integra, sin elegir
-        self.assertIn('responsable.persona', [p['campo'] for p in registro['pendientes_de_union']])
+        self.assertEqual([p['campo'] for p in registro['pendientes_de_union']], ['responsable'])
         self.assertIn('union_con_decisiones', [e['accion'] for e in registro['eventos']])
         estado = self.cli(self.ana, 'estado', self.ident)
         self.assertIn('Beto', estado)
         self.assertIn(f'tomar {self.ident} --relevo', estado)
         avisos = json.loads(self.cli(self.ana, 'estado', self.ident, '--json'))['avisos']
-        self.assertTrue(any('responsable.persona' in x and 'Beto' in x for x in avisos), avisos)
+        self.assertTrue(any('al unir dos ramas, responsable quedó' in x and 'Beto' in x for x in avisos), avisos)
         # Beto trae main: sin --relevo no puede, porque lo tiene Ana; con --relevo lo toma y el aviso se va.
         self.git(self.beto, 'checkout', '-q', 'main')
         self.git(self.beto, 'pull', '-q', '--no-rebase', 'origin', 'main')
@@ -195,34 +195,58 @@ class Unir(unittest.TestCase):
 
 
 class UnirPuro(unittest.TestCase):
+    """La unión sola, con registros como los que escribe Factory."""
+    def decision(self, actor, cuando, **mas):
+        return {'actor': actor, 'tipo_actor': 'persona', 'forma': 'decidio', 'modo': 'confirmacion', 'cuando': cuando, **mas}
+
+    def medidas(self, *nombres):
+        return {**self.decision('Ana', '2'), 'catalogos': {n: 'h' + n for n in nombres},
+                'archivos_catalogo': {f'catalogos/{n}.oracle': 'a' + n for n in nombres}}
+
     def test_lo_de_una_sola_rama_se_toma(self):
-        base = {'fase': 'spec', 'titulo': 'T', 'eventos': [{'accion': 'creado', 'cuando': '1'}]}
+        base = {'fase': 'spec', 'titulo': 'T', 'eventos': [{'accion': 'creado', 'cuando': '1'}],
+                'medidas': {'r.uno': self.medidas('m1'), 'r.dos': self.medidas('m2')}}
         nuestro = {**base, 'modo': 'pair', 'eventos': base['eventos'] + [{'accion': 'mensaje', 'cuando': '3'}]}
-        suyo = {**base, 'titulo': 'Otro', 'eventos': base['eventos'] + [{'accion': 'mensaje', 'cuando': '2'}], 'fase': 'rev'}
+        suyo = {**base, 'titulo': 'Otro', 'fase': 'rev', 'medidas': {'r.uno': self.medidas('m1')},  # sacó las de r.dos
+                'eventos': base['eventos'] + [{'accion': 'mensaje', 'cuando': '2'}]}
         unido = unir_mod.unir(base, nuestro, suyo)
-        self.assertEqual(unido['titulo'], 'Otro')
-        self.assertEqual(unido['modo'], 'pair')
-        self.assertEqual(unido['fase'], 'rev')
+        self.assertEqual((unido['titulo'], unido['modo'], unido['fase']), ('Otro', 'pair', 'rev'))
+        self.assertEqual(unido['medidas'], {'r.uno': self.medidas('m1')})  # sin r.dos, y no como None
         self.assertEqual([e['cuando'] for e in unido['eventos']], ['1', '2', '3'])
         self.assertNotIn('pendientes_de_union', unido)
         # Un pendiente que una rama ya resolvió no vuelve porque la otra no lo tocó.
         viejo = {'campo': 'cierre', 'camino': ['cierre'], 'nuestro': 1, 'suyo': 2}
-        unido = unir_mod.unir({'pendientes_de_union': [viejo]}, {}, {'pendientes_de_union': [viejo], 'x': 1})
-        self.assertEqual(unido, {'x': 1})
+        self.assertEqual(unir_mod.unir({'pendientes_de_union': [viejo]}, {}, {'pendientes_de_union': [viejo], 'x': 1}), {'x': 1})
+        # Eventos del mismo segundo: cada rama conserva su orden.
+        z, a, b = ({'accion': 'mensaje', 'texto': t, 'cuando': '5'} for t in ('z primero', 'a después', 'b de la otra'))
+        self.assertEqual(unir_mod.unir({}, {'eventos': [z, a]}, {'eventos': [b]})['eventos'], [z, a, b])
 
     def test_lo_que_las_dos_cambiaron_distinto_queda_pendiente(self):
-        unido = unir_mod.unir({'cierre': None}, {'cierre': {'por': 'Ana'}}, {'cierre': {'por': 'Beto'}})
-        self.assertEqual(unido['cierre'], {'por': 'Ana'})
-        self.assertEqual(unido['pendientes_de_union'],
-                         [{'campo': 'cierre.por', 'camino': ['cierre', 'por'], 'nuestro': 'Ana', 'suyo': 'Beto'}])
-        self.assertIn('decidir-union X cierre.por nuestro (o suyo)', unir_mod.como_resolver('cierre.por', 'X'))
-        # Dos fases tampoco se eligen.
-        self.assertEqual(unir_mod.unir({'fase': 'a'}, {'fase': 'b'}, {'fase': 'c'})['pendientes_de_union'][0]['campo'], 'fase')
+        # Dos cierres: una sola decisión pendiente, entera, que se elige con decidir-union.
+        ana, beto = self.decision('Ana', '7', motivo='listo'), self.decision('Beto', '8', motivo='también')
+        unido = unir_mod.unir({'cierre': None}, {'cierre': ana}, {'cierre': beto})
+        self.assertEqual(unido['cierre'], ana)
+        self.assertEqual(unido['pendientes_de_union'], [{'campo': 'cierre', 'camino': ['cierre'], 'nuestro': ana, 'suyo': beto}])
+        self.assertIn('decidir-union X cierre nuestro (o suyo)', unir_mod.como_resolver('cierre', 'X'))
+        # Dos responsables: no se mezcla la persona de una con los agentes de la otra.
+        unido = unir_mod.unir({'responsable': {'persona': 'Cero', 'desde': '0', 'con': []}},
+                              {'responsable': {'persona': 'Ana', 'desde': '1', 'con': []}},
+                              {'responsable': {'persona': 'Beto', 'desde': '1', 'con': ['codex']}})
+        self.assertEqual(unido['responsable'], {'persona': 'Ana', 'desde': '1', 'con': []})
+        self.assertEqual([p['campo'] for p in unido['pendientes_de_union']], ['responsable'])
+        # Dos medidas distintas del mismo requisito: no se juntan los catálogos; una pendiente por requisito.
+        dos = unir_mod.unir({'medidas': {}}, {'medidas': {'r.uno': self.medidas('a'), 'r.dos': self.medidas('a')}},
+                            {'medidas': {'r.uno': self.medidas('b'), 'r.dos': self.medidas('b')}})
+        self.assertEqual(dos['medidas']['r.uno'], self.medidas('a'))
+        self.assertEqual([p['campo'] for p in dos['pendientes_de_union']], ['medidas.r.uno', 'medidas.r.dos'])
         # Las medidas de un requisito resuelven sólo las de ese requisito (cuyo id lleva puntos).
-        dos = unir_mod.unir({'medidas': {}}, {'medidas': {'r.uno': 1, 'r.dos': 1}}, {'medidas': {'r.uno': 2, 'r.dos': 2}})
         caminos = unir_mod.resueltos_por('medidas_confirmadas', 'r.uno')
         self.assertEqual([p['campo'] for p in dos['pendientes_de_union'] if not unir_mod.resuelto(p, caminos)], ['medidas.r.dos'])
-
+        # Dos fases: pendiente, que resuelve la próxima decisión que la fija; aprobar la spec resuelve también su huella.
+        self.assertEqual(unir_mod.unir({'fase': 'a'}, {'fase': 'b'}, {'fase': 'c'})['pendientes_de_union'][0]['campo'], 'fase')
+        for accion, campo in (('revision_registrada', 'fase'), ('spec_aprobada', 'spec_sha256'), ('spec_aprobada', 'fase')):
+            self.assertTrue(unir_mod.resuelto({'campo': campo, 'camino': [campo]}, unir_mod.resueltos_por(accion)), (accion, campo))
+        self.assertFalse(unir_mod.resuelto({'campo': 'cierre', 'camino': ['cierre']}, unir_mod.resueltos_por('oracle_ejecutado')))
 
 if __name__ == '__main__':
     unittest.main()

@@ -629,7 +629,7 @@ ATRIBUTOS = (".factory/cambios/*/factory.json merge=oracle-factory-registro",
              ".factory/resumen.md merge=oracle-factory-generado", "kb/README.md merge=oracle-factory-generado",
              "kb/cambios/*.md merge=oracle-factory-generado", "kb/requisitos/*.md merge=oracle-factory-generado")
 LLAMADA_POST_MERGE = ("{py} -c 'import sys; from oracle_factory.cli import main; sys.exit(main())' "
-                      "rehacer-generado >/dev/null 2>&1 || true")
+                      "rehacer-generado || true")
 # Un merge con conflictos termina con git commit, y ahí Git no corre post-merge: post-commit lo hace si fue un merge.
 LLAMADA_POST_COMMIT = "git rev-parse -q --verify HEAD^2 >/dev/null && " + LLAMADA_POST_MERGE
 # Lo que se rehace (y se commitea) después de integrar: nunca una nota de personas de kb/notas/.
