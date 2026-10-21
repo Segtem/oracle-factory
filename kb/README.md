@@ -18,7 +18,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261004-005956-elegir-medidas]] — Elección de medidas (cerrada)
 - [[cambios/20261004-005956-inicio-guiado]] — Inicio guiado (cerrada)
 - [[cambios/20261004-005956-revision-guiada]] — Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada)
-- [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (requisitos_importados)
+- [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (cerrada)
 - [[cambios/20261005-105331-modos-de-trabajo]] — Modos de trabajo según quién decide los requisitos (cerrada)
 - [[cambios/20261005-132144-jerarquia-de]] — Jerarquía de carpetas y comandos para encontrar las cosas (cerrada)
 - [[cambios/20261005-154433-la-vigencia-de]] — La vigencia de una revisión depende del contenido del producto (cerrada)
@@ -104,15 +104,18 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir]]
 - [[requisitos/cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json]]
 - [[requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.relevo_recuperable]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo]]
-- [[requisitos/colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.relevo_recuperable]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo]]
+- [[requisitos/colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version]]
 - [[requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada]]
 - [[requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar]]
 - [[requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona]]

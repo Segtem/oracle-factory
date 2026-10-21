@@ -1,0 +1,191 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/c85f68d-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "c85f68d51ad718ddccb854e7f71e7d9fa9ea6636",
+  "diff_sha256": "df9951e628c7020bbacf1a6f3692ae3b9d7ad3c7f0ee301440eb06d1d306d88f",
+  "context_sha256": "de19240ddf5a98f448b0bb6ca2384fa6571bb9eb826ba9422829bd155870ffb2",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "banco-omision-verificaciones-prometidas",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Los escenarios del banco dan ok y limpio sin comprobar decisiones perdidas, mal atribuidas ni evidencia vieja",
+      "explanation": "La especificación de «el banco pone a prueba el trabajo a la vez» y «el banco pone a prueba el trabajo de a turnos» exige explícitamente: «En cada uno SHALL comprobar que no se pierde ni se atribuye a otra persona ninguna decisión, que un conflicto se detecta a más tardar al integrar y que ninguna evidencia o revisión vieja se da por vigente». Sin embargo, en Escenario.__init__, self.fila se inicializa con decisiones_perdidas: 0, mal_atribuidas: 0, evidencia_vieja_aceptada: 0 y conflicto: \"ninguno\". La gran mayoría de los escenarios (s0, s2, s3, s4, s6, s7, a1, a2, a3, a4, a5) nunca evalúan ni calculan la totalidad de estos campos, dejándolos en 0 por defecto. Luego, tools/verify_banco.py (función limpio()) da por bueno (limpio == 1) cualquier escenario con ceros en esos campos, y los catálogos de Oracle cuentan estos hechos no verificados como superación del requisito.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 102,
+        "end_line": 103,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/banco.py y verificar los campos de las filas generadas para cada escenario.",
+      "evidence": "En tools/banco.py, s2, s3, s4, s6, s7, a1, a3, a4 y a5 jamás modifican decisiones_perdidas, mal_atribuidas o evidencia_vieja_aceptada; permanecen en 0 por inicialización. En hechos.json de tools/verify_banco.py, los 13 escenarios obtienen limpio: 1 por defecto.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Introducir en cualquiera de esos escenarios una pérdida de eventos o evidencia obsoleta; el escenario continuará reportando resultado: \"ok\" y limpio: 1 porque carece de aserciones sobre dichas propiedades."
+    },
+    {
+      "id": "banco-s4-decisiones-conflictivas-sin-resolver-ni-integrar",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "s4_tomar_a_la_vez no verifica la resolución de decisiones en conflicto ni integra en main",
+      "explanation": "En s4_tomar_a_la_vez, Ana y Beto toman el mismo cambio concurrentemente. Al sincronizar con git pull, el merge driver une factory.json dejando responsable en conflicto dentro de pendientes_de_union (Beto vs Ana). El escenario nunca comprueba si alguna decisión se perdió o se atribuyó incorrectamente, no ejecuta oracle-factory decidir-union para resolver el conflicto humano, no sube la resolución al origen y jamás integra la rama en main. A pesar de dejar el registro con decisiones conflictivas sin conciliar y la integración incompleta, el escenario concluye con resultado \"ok\", conflicto \"al_integrar\" (sólo por un push rechazado que no fue a main) y decisiones_perdidas en 0 sin verificación.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 261,
+        "end_line": 282,
+        "side": "head"
+      },
+      "trigger": "Ejecutar s4_tomar_a_la_vez e inspeccionar factory.json y el log de git en el clon de Beto.",
+      "evidence": "e.beto.registro(ident) contiene pendientes_de_union con el campo responsable dividido entre Beto y Ana. oracle-factory estado emite una advertencia de unión pendiente. El escenario no ejecuta decidir-union, ni push, ni e.integrar(..., \"tarea/compartido\").",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Comprobar en tools/banco.py líneas 261-282 que tras traer = e.beto.git(\"pull\"...) no se verifica el estado de las decisiones ni se integra en main, y que decisiones_perdidas y mal_atribuidas nunca se calculan."
+    },
+    {
+      "id": "banco-s7-rehecho-no-contabilizado-post-merge",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "s7_generados reporta 0 trabajo rehecho a pesar de que el post-merge rehizo los archivos generados",
+      "explanation": "El requisito «el banco informa sus números» exige reportar el trabajo rehecho por escenario. El docstring de s7_generados establece que resumen.md y kb/ «chocan, y se resuelven rehaciéndolos». En el código, la suma fila[\"rehecho\"] += len(generados) está condicionada a if not e.integrar(e.ana, \"tarea/dos\"). Debido a que .gitattributes define merge=oracle-factory-generado, Git no reporta conflicto textual y e.integrar retorna True. Luego, el hook post-merge ejecuta rehacer-generado y crea un commit con los archivos rehechos. Como el bloque if not nunca se ejecuta, fila[\"rehecho\"] queda en 0 en el informe, omitiendo cuantificar el trabajo que efectivamente se rehizo.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 344,
+        "end_line": 356,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/banco.py --solo s7_generados e inspeccionar banco.json.",
+      "evidence": "En el clon de Ana, git log muestra el commit «Rehacer lo generado después de integrar (oracle-factory)». No obstante, banco.json y banco.txt reportan para s7_generados: rehecho: 0.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Revisar las líneas 344-356 de tools/banco.py: el incremento de e.fila[\"rehecho\"] es inalcanzable cuando el driver de merge evita el conflicto textual."
+    },
+    {
+      "id": "banco-a2-omision-revision-vieja-y-veredicto",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "a2_evidencia_vieja no evalúa revisiones obsoletas ni el rechazo de evidencia vieja en Factory",
+      "explanation": "La especificación de «el banco pone a prueba el trabajo de a turnos» exige explícitamente evaluar «evidencia y revisión que quedan viejas cuando la otra persona integra antes» y «que ninguna evidencia o revisión vieja se da por vigente». El escenario a2_evidencia_vieja únicamente crea un resultado.json simulado y consulta si el campo candidato en oracle-factory estado cambia a None al actualizar main. No crea, registra ni evalúa ningún paquete ni informe de revisión (Clue o Factory), y jamás comprueba si Factory bloquea el cierre (oracle-factory cerrar) o el juzgamiento (oracle-factory juzgar) ante evidencia obsoleta.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 395,
+        "end_line": 419,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar la función a2_evidencia_vieja en tools/banco.py.",
+      "evidence": "En a2_evidencia_vieja no hay llamadas a oracle-factory revision, revision-preparar, juzgar ni cerrar; tampoco se valida ningún paquete o informe de revisión.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Buscar referencias a revisión o comandos de validación de gates en a2_evidencia_vieja: están completamente ausentes."
+    },
+    {
+      "id": "banco-a4-mensajes-secuenciales-sin-paralelismo",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "a4_mensajes_de_a_turnos ejecuta turnos estrictamente secuenciales sin probar mensajes en paralelo",
+      "explanation": "La especificación de «el banco pone a prueba el trabajo de a turnos» prescribe el escenario «mensajes en paralelo; y trailers y vault en clones distintos». La implementación en tools/banco.py (a4_mensajes_de_a_turnos) realiza un bucle secuencial donde cada participante ejecuta git pull antes de escribir su mensaje y hacer push. No existe concurrencia ni mensajes emitidos en paralelo desde clones divergentes, impidiendo evaluar cómo se comportaría Factory ante mensajes simultáneos en ramas asincrónicas sin sincronización previa.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 447,
+        "end_line": 472,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar el bucle for dia, p in enumerate(turnos, 1): en tools/banco.py.",
+      "evidence": "En la línea 459, p.git(\"pull\", \"-q\", \"--no-rebase\", \"origin\", \"tarea/charla\") se ejecuta antes de cada p.agente_hace(\"mensaje\", ...) y p.git(\"push\", ...). No hay llamadas en paralelo ni hilos en a4.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Comprobar que en a4_mensajes_de_a_turnos las operaciones son 100% secuenciales con pull previo en cada iteración."
+    },
+    {
+      "id": "banco-umbral-8-escenarios-incluye-s0-no-concurrente",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El catálogo de Oracle fija umbral 8 para a_la_vez incorporando s0, ausente de la spec y no concurrente",
+      "explanation": "La especificación lista exactamente 7 escenarios para el requisito «el banco pone a prueba el trabajo a la vez». El catálogo factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez.oracle establece umbral == 8 bajo la aserción de que cada escenario del grupo en tools/banco.py termina limpio. tools/verify_banco.py clasifica como a_la_vez a todo escenario que comience con \"s\", incluyendo s0_clon_recien_hecho. Dicho escenario prueba únicamente que Beto pueda crear un cambio en un clon limpio de un proyecto recién inicializado; no involucra dos personas, dos clones ni concurrencia. El umbral contractual 8 resulta artificial y está desalineado con los 7 escenarios de la spec.",
+      "location": {
+        "file": "catalogos/factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez.oracle",
+        "start_line": 1,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "Comparar los escenarios de la spec en openspec/changes/.../spec.md con el umbral del catálogo.",
+      "evidence": "La spec lista 7 viñetas bajo «el banco pone a prueba el trabajo a la vez». El catálogo exige umbral == 8. tools/verify_banco.py agrupa por nombre.startswith(\"s\"), computando 8.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Al excluir s0_clon_recien_hecho de los escenarios medidos, la comprobación de Oracle falla al obtener 7 de 8."
+    },
+    {
+      "id": "guia-afirma-procesos-simultaneos-inexistentes",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "docs/colaboracion.md afirma que ocho escenarios corren con procesos simultáneos de verdad",
+      "explanation": "En docs/colaboracion.md (líneas 187-190) se afirma: «Ocho son a la vez, con procesos simultáneos de verdad (frentes en paralelo, el mismo archivo, cambios que pasan solos y fallan juntos, dos tomar a la vez, doce escrituras simultáneas sobre un registro, dos cambios en el mismo segundo, los archivos generados)». El texto enumera entre paréntesis sólo 7 escenarios. Además, en tools/banco.py los escenarios s0, s2_mismo_archivo, s3_semantico y s7_generados son estrictamente secuenciales sin ningún proceso simultáneo. Por otra parte, s1, s4 y s6 utilizan ThreadPoolExecutor en el mismo proceso de Python, y no se implementa la ejecución dual descrita en la spec («con una semilla, y otra vez con procesos simultáneos»).",
+      "location": {
+        "file": "docs/colaboracion.md",
+        "start_line": 187,
+        "end_line": 190,
+        "side": "head"
+      },
+      "trigger": "Contrastar el texto de docs/colaboracion.md con las funciones de tools/banco.py.",
+      "evidence": "En tools/banco.py, s2_mismo_archivo (línea 211), s3_semantico (línea 226) y s7_generados (línea 337) son bucles for secuenciales sin concurrencia.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites",
+      "status": "pendiente",
+      "verification": "Revisar la implementación de s2, s3 y s7 en tools/banco.py para confirmar la total ausencia de concurrencia de procesos o hilos."
+    },
+    {
+      "id": "banco-s6-sin-sincronizacion-segundo-ni-manejo-colision",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "s6_mismo_id no asegura coincidencia en el segundo y califica la colisión como defecto",
+      "explanation": "En tools/banco.py, s6_mismo_id lanza dos tareas concurrentes sin sincronizar con el límite del segundo (a diferencia de collision_changes en tools/verify_collaboration.py, que usa time.sleep(1 - time.time() % 1) y reintenta hasta 3 veces). Si las tareas caen en segundos distintos, el escenario registra la nota «(cayeron en segundos distintos)» y se da por superado, sin verificar si los 3 caracteres al azar evitaron la colisión. Además, si los IDs llegaran a coincidir, la línea 323 lo marca como defecto (e.defecto), eludiendo evaluar la reconciliación exigida por la spec para «dos cambios con el mismo ID creados en dos clones».",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 310,
+        "end_line": 328,
+        "side": "head"
+      },
+      "trigger": "Revisar la sincronización temporal y el manejo de igualdad de IDs en s6_mismo_id.",
+      "evidence": "Línea 326: e.nota(\"los IDs salieron distintos\" + (\" ...\" if mismo_segundo else \" (cayeron en segundos distintos)\")). Línea 323: e.defecto(\"dos cambios distintos con el mismo ID chocan al integrar...\").",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Comparar con collision_changes en tools/verify_collaboration.py donde sí se fuerza la coincidencia en el segundo."
+    },
+    {
+      "id": "banco-semilla-inactiva-en-mayoria-escenarios-y-no-determinismo-s5",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La semilla no influye en 11 de los 13 escenarios y la contención en s5 es no determinista",
+      "explanation": "En tools/banco.py, el generador self.azar se inicializa con la semilla, pero sólo es invocado en s1_paralelo_disjunto (para ordenar 2 ramas) y en a4_mensajes_de_a_turnos (para mezclar 6 turnos). En los otros 11 escenarios la semilla no tiene efecto. Adicionalmente, en s5_decisiones_simultaneas, 12 escrituras concurrentes compiten por fcntl.flock en escribir_atomico. La cantidad de escrituras rechazadas (rechazados) depende del orden de planificación del kernel y la carga del procesador, no de la semilla. Si en una ejecución hay rechazos (rechazados > 0), el campo conflicto pasa de \"ninguno\" a \"antes\" y rehecho varía, lo que puede romper la igualdad entre corridas en tools/verify_banco.py a pesar de utilizar la misma semilla.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 101,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Rastrear los usos de self.azar en tools/banco.py y analizar la contención de hilos en s5.",
+      "evidence": "self.azar sólo se usa en las líneas 101, 192 y 456. En s5_decisiones_simultaneas, el valor de rechazados no proviene de self.azar sino de excepciones ArchivoCambiado concurrentes.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Grep de self.azar en tools/banco.py confirma que 11 escenarios operan sin consultar el generador pseudoaleatorio."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron tools/banco.py y tools/verify_banco.py sobre repositorios temporales en Linux según las indicaciones de la vuelta 1.",
+    "No se corrió la suite completa de pruebas del repositorio ni pruebas con agentes LLM reales (fuera de alcance de la vuelta 1).",
+    "No se modificó la configuración de Git ni los archivos del checkout bajo revisión."
+  ]
+}

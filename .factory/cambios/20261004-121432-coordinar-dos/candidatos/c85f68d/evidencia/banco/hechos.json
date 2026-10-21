@@ -1,0 +1,90 @@
+{
+  "banco_escenario": [
+    {
+      "escenario": "s0_clon_recien_hecho",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s1_paralelo_disjunto",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s2_mismo_archivo",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s3_semantico",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s4_tomar_a_la_vez",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s5_decisiones_simultaneas",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s6_mismo_id",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "s7_generados",
+      "grupo": "a_la_vez",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a1_relevo_atrasado",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a2_evidencia_vieja",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a3_registro_en_dos_ramas",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a4_mensajes_de_a_turnos",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    },
+    {
+      "escenario": "a5_trailers_y_vault_en_otro_clon",
+      "grupo": "de_a_turnos",
+      "limpio": 1,
+      "reproducible": 1
+    }
+  ],
+  "banco_corrida": [
+    {
+      "completa": 1,
+      "escenarios": 13,
+      "informe": 1,
+      "real_aparte": 1
+    }
+  ]
+}

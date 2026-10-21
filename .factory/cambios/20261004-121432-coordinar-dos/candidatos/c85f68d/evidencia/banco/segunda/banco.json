@@ -1,0 +1,170 @@
+{
+  "esquema": "oracle-factory.banco/1",
+  "semilla": 20261021,
+  "reproducible": true,
+  "versiones": {
+    "oracle-factory": "0.1.0a12",
+    "oracle-metalenguaje": "0.39.0",
+    "oracle-task": "0.2.0",
+    "oracle-clue": "0.1.0a2",
+    "python": "3.13.16",
+    "git": "git version 2.56.0"
+  },
+  "escenarios": [
+    {
+      "escenario": "s0_clon_recien_hecho",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 0.4
+    },
+    {
+      "escenario": "s1_paralelo_disjunto",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "s2_mismo_archivo",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "conflicto al integrar tarea/enteros: calc.py"
+      ],
+      "segundos": 1.2
+    },
+    {
+      "escenario": "s3_semantico",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "pasan solos y fallan juntos: lo detectan las pruebas de quien integra (Factory no corre nada al mergear)"
+      ],
+      "segundos": 1.3
+    },
+    {
+      "escenario": "s4_tomar_a_la_vez",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "responsable en cada clon después de tomar a la vez: {'Ana': 'Ana', 'Beto': 'Beto'}",
+        "el pull unió el registro sin conflicto de texto"
+      ],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "s5_decisiones_simultaneas",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 0.7
+    },
+    {
+      "escenario": "s6_mismo_id",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "IDs: ['20261021-200623-scr-igual', '20261021-200623-1q1-igual']",
+        "los IDs salieron distintos en el mismo segundo: los separan los caracteres al azar"
+      ],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "s7_generados",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.8
+    },
+    {
+      "escenario": "a1_relevo_atrasado",
+      "resultado": "ok",
+      "conflicto": "antes",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "a2_evidencia_vieja",
+      "resultado": "ok",
+      "conflicto": "antes",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 1,
+      "detalle": [
+        "al traer main, el candidato viejo deja de estar vigente: hay que producir evidencia otra vez"
+      ],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "a3_registro_en_dos_ramas",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.1
+    },
+    {
+      "escenario": "a4_mensajes_de_a_turnos",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.6
+    },
+    {
+      "escenario": "a5_trailers_y_vault_en_otro_clon",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [],
+      "segundos": 1.0
+    }
+  ]
+}

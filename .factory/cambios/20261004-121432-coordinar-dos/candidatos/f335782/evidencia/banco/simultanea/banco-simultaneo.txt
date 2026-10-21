@@ -1,0 +1,34 @@
+Banco de concurrencia — semilla 20261021 (procesos simultáneos, no reproducible)
+
+ok       s0_clon_recien_hecho         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 0.4 s
+           auditadas 1 decisiones: ninguna perdida ni mal atribuida
+ok       s1_paralelo_disjunto         conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s
+           auditadas 8 decisiones: ninguna perdida ni mal atribuida
+ok       s2_mismo_archivo             conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.2 s
+           conflicto al integrar tarea/enteros: calc.py
+           auditadas 6 decisiones: ninguna perdida ni mal atribuida
+ok       s3_semantico                 conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.3 s
+           pasan solos y fallan juntos: lo detectan las pruebas de quien integra (Factory no corre nada al mergear)
+           auditadas 6 decisiones: ninguna perdida ni mal atribuida
+ok       s4_tomar_a_la_vez            conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.3 s
+           integrado en main con las tomas de ['Beto', 'Ana', 'Beto']
+           auditadas 5 decisiones: ninguna perdida ni mal atribuida
+ok       s5_decisiones_simultaneas    conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.3 s
+           auditadas 21 decisiones: ninguna perdida ni mal atribuida
+ok       s6_mismo_id                  conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.5 s
+           IDs del mismo segundo: ['20261021-204324-pub-igual0', '20261021-204324-x4v-igual0']
+           auditadas 6 decisiones: ninguna perdida ni mal atribuida
+ok       s7_generados                 conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.7 s
+           Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (no es trabajo de nadie)
+           auditadas 6 decisiones: ninguna perdida ni mal atribuida
+ok       a1_relevo_atrasado           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s
+           auditadas 6 decisiones: ninguna perdida ni mal atribuida
+ok       a2_evidencia_vieja           conflicto: antes       perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 1 · 1.2 s
+           al traer main, el candidato y la revisión viejos dejan de estar vigentes y cerrar se niega: hay que producir evidencia y revisar otra vez
+           auditadas 4 decisiones: ninguna perdida ni mal atribuida
+ok       a3_registro_en_dos_ramas     conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.1 s
+           auditadas 5 decisiones: ninguna perdida ni mal atribuida
+ok       a4_mensajes_de_a_turnos      conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 2.0 s
+           auditadas 9 decisiones: ninguna perdida ni mal atribuida
+ok       a5_trailers_y_vault_en_otro_clon conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 1.0 s
+           auditadas 4 decisiones: ninguna perdida ni mal atribuida

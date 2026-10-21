@@ -1,0 +1,170 @@
+{
+  "id": "20261021-211916-mf1-notas",
+  "titulo": "Fixture colaboración C6",
+  "capacidad": "notas",
+  "fase": "oracle_verde",
+  "spec": "openspec/changes/20261021-211916-mf1-notas/specs/notas/spec.md",
+  "spec_sha256": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd",
+  "spec_aprobada": {
+    "actor": "workstation",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T21:19:16+00:00",
+    "documentos": {
+      "openspec/changes/20261021-211916-mf1-notas/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+      "openspec/changes/20261021-211916-mf1-notas/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+    }
+  },
+  "requisitos": [
+    "notas_c2dda6d53525277c7.titulo_valido"
+  ],
+  "revision": {
+    "formato": "libre",
+    "revisor": "Fixture automatizado",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": ".factory/cambios/20261021-211916-mf1-notas/review.md",
+    "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437",
+    "actor": "workstation",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T21:19:17+00:00",
+    "contexto": {
+      "head": "5bdce09aeb7ee102b6499c36b7b41895a933e4bb",
+      "archivos_sha256": "04f982fa8673ae7d542c276397ead55ed135ebca88df6dfba9e95352211f73d3"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": "tareas/20261021-211916-mf1-notas/hechos-fixture.json",
+    "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916",
+    "informe": ".factory/cambios/20261021-211916-mf1-notas/oracle-veredicto.txt",
+    "informe_sha256": "a635b4dbaf6c1979b5ae5a2bdbac634baa74530fe9c1c2ab17ae9700c90370b8",
+    "cuando": "2026-10-21T21:19:18+00:00",
+    "contexto": {
+      "head": "5bdce09aeb7ee102b6499c36b7b41895a933e4bb",
+      "archivos_sha256": "04f982fa8673ae7d542c276397ead55ed135ebca88df6dfba9e95352211f73d3"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:16+00:00",
+      "capacidad": "notas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "workstation",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:16+00:00",
+      "documentos": {
+        "openspec/changes/20261021-211916-mf1-notas/proposal.md": "9778ff2eef8a97003dcdca7229870038f350b1184ec2631f8960f66a1dd1770a",
+        "openspec/changes/20261021-211916-mf1-notas/specs/notas/spec.md": "b254bb8a2f856c8236782ea7f09f47956fb64813a68e2321314b15f2f4976abd"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:16+00:00",
+      "ids": [
+        "notas_c2dda6d53525277c7.titulo_valido"
+      ]
+    },
+    {
+      "accion": "medidas_elegidas",
+      "actor": "workstation",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:17+00:00",
+      "requisito": "notas_c2dda6d53525277c7.titulo_valido",
+      "medidas": [
+        "notas.casos_ejecutados",
+        "notas.resultados"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "workstation",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:17+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:17+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "workstation",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:17+00:00",
+      "revisor": "Fixture automatizado",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f679777e604078f0af6204d946f7250599c7c1d5330e627345bba984d33e4437"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "sin identificar",
+      "tipo_actor": "sin_identificar",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T21:19:18+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "82f6828218451de26d61633fc2197fd8ad5aaac1b343ae0766777746b7001916"
+    }
+  ],
+  "ejemplo": "notas",
+  "tipos": {
+    "notas_c2dda6d53525277c7.titulo_valido": "funcional"
+  },
+  "medidas": {
+    "notas_c2dda6d53525277c7.titulo_valido": {
+      "actor": "workstation",
+      "tipo_actor": "persona",
+      "forma": "decidio",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T21:19:17+00:00",
+      "sha256": "8f31a29eab80f1326f687077824d37d15eb3516ac2ad9b32d1f63fe70be3c1c2",
+      "catalogos": {
+        "notas.casos_ejecutados": "7d03091493abdde5f0dbd6aff44dd785665828aab22859640dc5e694f746188e",
+        "notas.resultados": "5dbd8c4809b43a4485c5c04257cfd85ccfb52022daa50e9d878fb0aba8033c80"
+      },
+      "archivos_catalogo": {
+        "notas.casos_ejecutados": "catalogos/notas.casos_ejecutados.oracle",
+        "notas.resultados": "catalogos/notas.resultados.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {}
+}

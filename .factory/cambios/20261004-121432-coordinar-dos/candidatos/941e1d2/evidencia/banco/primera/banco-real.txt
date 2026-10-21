@@ -1,0 +1,10 @@
+Banco de concurrencia — semilla 0 (corrida real, no reproducible)
+
+ok       r1_dos_agentes_reales_a_la_vez conflicto: al_integrar perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 1 · 53.7 s
+           agente: código 0; lc.py`, `test_calc.py` y los dos archivos que Factory actualizó al guardar el mensaje (`.factory/cambios/.../factory.json` y `kb/cambios/...md`). La carpeta quedó sin cambios pendientes. No hice push.
+           agente: código 0; mmit quedó bloqueado: `.git` está montado como solo lectura y Git no pudo crear `index.lock`. Los cambios quedaron sin commitear en `tarea/multiplicar`. No hice push ni cambié la configuración de Git.
+           codex dejó cambios sin commitear (el sandbox de codex deja .git en sólo lectura): la persona los commitea
+           conflicto al integrar tarea/multiplicar: calc.py, test_calc.py
+           claude-code resolvió el conflicto: código 0
+ok       r2_relevo_entre_agentes_reales conflicto: ninguno     perdidas 0 · mal atribuidas 0 · evidencia vieja 0 · rehecho 0 · 78.0 s
+           codex retomó: código 0

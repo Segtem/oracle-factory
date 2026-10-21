@@ -1,0 +1,204 @@
+{
+  "esquema": "oracle-factory.banco/1",
+  "semilla": 20261021,
+  "reproducible": false,
+  "modo": "simultaneo",
+  "versiones": {
+    "oracle-factory": "0.1.0a12",
+    "oracle-metalenguaje": "0.39.0",
+    "oracle-task": "0.2.0",
+    "oracle-clue": "0.1.0a2",
+    "python": "3.13.16",
+    "git": "git version 2.56.0"
+  },
+  "escenarios": [
+    {
+      "escenario": "s0_clon_recien_hecho",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 1 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 0.4
+    },
+    {
+      "escenario": "s1_paralelo_disjunto",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 8 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "s2_mismo_archivo",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "conflicto al integrar tarea/enteros: calc.py",
+        "auditadas 6 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.2
+    },
+    {
+      "escenario": "s3_semantico",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "pasan solos y fallan juntos: lo detectan las pruebas de quien integra (Factory no corre nada al mergear)",
+        "auditadas 6 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.3
+    },
+    {
+      "escenario": "s4_tomar_a_la_vez",
+      "resultado": "ok",
+      "conflicto": "al_integrar",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "integrado en main con las tomas de ['Beto', 'Ana', 'Beto']",
+        "auditadas 5 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.3
+    },
+    {
+      "escenario": "s5_decisiones_simultaneas",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 21 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.3
+    },
+    {
+      "escenario": "s6_mismo_id",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "IDs del mismo segundo: ['20261021-204324-pub-igual0', '20261021-204324-x4v-igual0']",
+        "auditadas 6 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.5
+    },
+    {
+      "escenario": "s7_generados",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "Factory rehízo resumen.md y kb/ después del merge, en un commit aparte (no es trabajo de nadie)",
+        "auditadas 6 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.7
+    },
+    {
+      "escenario": "a1_relevo_atrasado",
+      "resultado": "ok",
+      "conflicto": "antes",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 6 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.0
+    },
+    {
+      "escenario": "a2_evidencia_vieja",
+      "resultado": "ok",
+      "conflicto": "antes",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 1,
+      "detalle": [
+        "al traer main, el candidato y la revisión viejos dejan de estar vigentes y cerrar se niega: hay que producir evidencia y revisar otra vez",
+        "auditadas 4 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.2
+    },
+    {
+      "escenario": "a3_registro_en_dos_ramas",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 5 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.1
+    },
+    {
+      "escenario": "a4_mensajes_de_a_turnos",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 9 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 2.0
+    },
+    {
+      "escenario": "a5_trailers_y_vault_en_otro_clon",
+      "resultado": "ok",
+      "conflicto": "ninguno",
+      "decisiones_perdidas": 0,
+      "mal_atribuidas": 0,
+      "evidencia_vieja_aceptada": 0,
+      "rehecho": 0,
+      "detalle": [
+        "auditadas 4 decisiones: ninguna perdida ni mal atribuida"
+      ],
+      "traza": [],
+      "segundos": 1.0
+    }
+  ]
+}

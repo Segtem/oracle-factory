@@ -1,0 +1,13 @@
+{
+  "tipo": "simulación, no decisión humana",
+  "escritor": "B",
+  "orden": [
+    "A",
+    "B"
+  ],
+  "originales": [
+    "66e466cd13706b25122f01d59124bf459c3265d2",
+    "8be87e024a04b1cfe0e39dd5f10b0e1e66bf85fa"
+  ],
+  "alcance": "producto.txt"
+}

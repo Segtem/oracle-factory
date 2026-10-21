@@ -1,0 +1,8 @@
+medida factory_banco.corrida_completa:
+    de banco_corrida c
+    donde c.completa == 1 y c.escenarios == 13
+    resumen contar(1)
+    umbral == 1 segun contrato porque "el sensor exige los 13 escenarios en orden en las dos corridas, la misma semilla y fuentes estables"
+    requiere banco_corrida
+    ambito universal
+    alcance "integridad local declarada por el sensor; no autentica hechos ni reemplaza revision humana"

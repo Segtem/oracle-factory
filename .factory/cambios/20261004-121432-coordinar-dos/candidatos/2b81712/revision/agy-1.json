@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/2b81712-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "2b817123f5604000be76ed8271772cb413c4eaef",
+  "diff_sha256": "867ad27fd7117d570c2436057c62e19778fb9fe87f6f72d91ddcb52612898964",
+  "context_sha256": "6ea1647dc8fc129f4bf699fe1134f7e0af8ac0da1cd46de3caeaf889e6f931e6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 9 requisitos de la spec (openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md), el diff completo del paquete candidato 2b81712 y las correcciones de los hallazgos de las vueltas anteriores, en especial REV-001 y REV-002 de la vuelta 3.",
+    "Se verificó la corrección de REV-001 en tools/verify_banco.py mediante texto_concuerda(): comprueba por escenario que resultado, conflicto y los cuatro contadores (decisiones_perdidas, mal_atribuidas, evidencia_vieja_aceptada, rehecho) en banco.txt coincidan con banco.json para las dos corridas ordenadas, la simultánea y la corrida real (primera/banco-real.txt). Se comprobó mediante mutaciones que textos vacíos, cabeceras aisladas, métricas discordantes o escenarios omitidos invalidan texto_concuerda.",
+    "Se verificó la corrección de REV-002 en tools/banco.py (s6_mismo_id): la creación de cambios se ejecuta siempre en procesos simultáneos mediante ThreadPoolExecutor(2) al inicio del segundo real, con hasta 10 intentos. Si no coincide el segundo tras diez intentos por saturación del entorno, reporta 'error' y no un falso defecto de producto.",
+    "Se ejecutó tools/banco.py exactamente como fue indicado (PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null) desde la raíz del checkout: los 13 escenarios terminaron en ok, limpio=1 y sin decisiones perdidas, mal atribuidas ni evidencia vieja vigente.",
+    "Se inspeccionaron los catálogos en catalogos/factory_banco.*.oracle comprobando que los umbrales (7 para a_la_vez excluyendo s0_clon_recien_hecho que es previo, 5 para de_a_turnos, 1 para corrida_completa y 1 para el_banco_informa_sus_numeros) corresponden exactamente al contrato de la spec.",
+    "Se revisó el caso C4 de tools/verify_collaboration.py, corroborando que valida que dos cambios creados en el mismo segundo con el mismo sufijo reciben IDs distintos debido a los caracteres aleatorios y se integran sin conflicto.",
+    "Se contrastó docs/colaboracion.md contra la implementación en oracle_factory y tools/, confirmando exactitud en la descripción de los hooks post-merge, la resolución de responsable, la vigencia de revisiones y los límites del banco.",
+    "No se corrió la suite completa de pruebas del repositorio para no alterar el entorno ni exceder las indicaciones de revisión.",
+    "No se ejecutaron llamadas en vivo a modelos LLM comerciales; la corrida piloto con agentes reales se evaluó a partir del registro estandarizado en tareas/20261004-121432-coordinar-dos/piloto-real/banco-real.json conforme al contrato.",
+    "No se modificó el checkout de sólo lectura ni la configuración de Git de ningún repositorio."
+  ]
+}

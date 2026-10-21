@@ -1,6 +1,6 @@
 # Coordinar dos personas con sus agentes sin interferencias
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: colaboracion, implementada
 
@@ -101,3 +101,111 @@ Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicito
 ### Nota (2026-10-05 16:04:33 UTC)
 
 Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 10:09:05 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-21 10:09:15 UTC)
+
+Requisitos importados: colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos (funcional), colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites (funcional), colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos (funcional), colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente (funcional), colaboracion_cf0b1719108ccce04.relevo_recuperable (funcional), colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo (funcional), colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-21 20:02:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo: factory_colaboracion.reparto_explicito_del_trabajo, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:13 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos: factory_colaboracion.aislamiento_y_sincronizacion_explicitos, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:14 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.relevo_recuperable: factory_colaboracion.relevo_recuperable, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:15 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version: factory_colaboracion.revision_vinculada_a_una_version, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:16 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente: factory_colaboracion.integracion_serializada_y_evidencia_vigente, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:16 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites: factory_colaboracion.demostracion_reproducible_con_limites, factory_colaboracion.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:17 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:18 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos: factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:02:19 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: factory_banco.el_banco_informa_sus_numeros, factory_banco.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:21 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.relevo_recuperable: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:05:22 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:28:15 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 20:28:16 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-21 20:42:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 20:42:12 UTC)
+
+Medidas de colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 22:20:50 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Siete vueltas de codex y agy sobre el banco de concurrencia: la 1 dejó 12 medios o altos (el banco daba ok sin comprobar lo que promete) y se reescribió con auditoría de cada decisión, modo ordenado por semilla y simultáneo; las 2 a 6 dejaron 8, 2, 1, 3 y 1, todos corregidos con mutaciones de Factory que el banco detecta (eventos perdidos, mal atribuidos, sin reintento, revisión y juicio viejos vigentes); la 7 no dejó ningún hallazgo. La corrida piloto con agentes reales (claude-code y codex) quedó registrada aparte en tareas/, ok en sus dos escenarios.); 0 abiertos derivados; commit 047712576b8ac830cfce317eb9bb6ccc976f86dd; informe tareas/20261004-121432-coordinar-dos/revisiones/registro-7p2tk4du/informe.json; decisiones tareas/20261004-121432-coordinar-dos/revisiones/registro-7p2tk4du/decisiones.json.
+
+### Nota (2026-10-21 22:21:02 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261004-121432-coordinar-dos/oracle-veredicto.txt.
+
+### Nota (2026-10-21 22:21:17 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

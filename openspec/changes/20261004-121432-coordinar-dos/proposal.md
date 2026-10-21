@@ -20,11 +20,40 @@ Primer corte propuesto: una guía operativa en Factory, plantillas de asignació
 
 El entregable será una guía enlazada desde README, plantillas y un arnés local de demostración. Los nombres de archivos y el detalle del arnés se concretarán al implementar el contrato aceptado. Las carencias que requieran cambios en las CLI se registrarán para propuestas posteriores en el repositorio dueño, sin inventar comandos existentes.
 
+## Segundo corte: el banco de concurrencia (2026-10-21)
+
+Brian pidió una prueba exhaustiva que ponga al límite que dos personas con agentes LLM trabajen sin interferirse, a la
+vez o pasándose tareas a lo largo de una semana. El estado del arte dice que el aislamiento por worktree es necesario
+pero no alcanza: los conflictos de agentes en paralelo son frecuentes (arXiv 2607.04697), hay cambios que pasan solos y
+fallan juntos (arXiv 2609.25396), la asincronía trabaja sobre una vista vieja del estado (arXiv 2603.21489) y faltan
+bancos que lo midan (arXiv 2608.18092). Factory ya aísla (clones, `tomar`, merge serializado), pero nunca se midió con
+dos personas a la vez.
+
+- Un banco que arma dos personas, cada una con su clon, su identidad de Git y un agente de prueba determinista, sobre
+  un proyecto de prueba, e intercala sus acciones en un orden reproducible por una semilla, también en paralelo de
+  verdad (procesos simultáneos).
+- Escenarios sincrónicos: frentes en paralelo sobre archivos distintos, el mismo archivo (conflicto de texto), cambios
+  que pasan solos y fallan juntos, dos `tomar` a la vez, decisiones simultáneas sobre un mismo registro, dos cambios
+  creados con el mismo ID en dos clones, y los archivos que Factory genera y todos tocan (`resumen.md`, `kb/`,
+  `oracle.json`, catálogos).
+- Escenarios asincrónicos, en una semana simulada: un relevo que la otra persona retoma días después desde un clon
+  atrasado, evidencia y revisión que quedan viejas cuando la otra integra antes, el registro de un cambio editado en dos
+  ramas, mensajes del chat en paralelo, y trailers y vault en clones distintos.
+- Un informe con sus métricas por escenario: si hubo conflicto y cuándo se detectó (antes, en o después del merge),
+  decisiones perdidas o atribuidas a otra persona, evidencia vieja aceptada, y trabajo rehecho.
+- Una corrida piloto con agentes reales (claude-code y codex) sobre el mismo proyecto, registrada aparte: no es
+  reproducible y no es evidencia de Oracle, pero se compara con el banco.
+
+Lo que el banco encuentre se corrige antes de cerrar este cambio, en él o en cambios propios.
+
 ## Out of scope
 
-Scheduler de agentes, servicio central de locks, sincronización automática, nuevas CLI de reserva/asignación, integración automática de Clue en Factory, cambios en oracle-task u oracle-clue, autenticación de personas, merges/publicaciones automáticos y garantía universal de ausencia de conflictos. El arnés simula participantes; no equivale a un piloto humano ni mide productividad.
+Scheduler de agentes, servicio central de locks (el banco mide sin él), sincronización automática, nuevas CLI de reserva/asignación, integración automática de Clue en Factory, cambios en oracle-task u oracle-clue, autenticación de personas, merges/publicaciones automáticos y garantía universal de ausencia de conflictos. El arnés simula participantes; no equivale a un piloto humano ni mide productividad.
 
 ## Human decisions
+
+Brian eligió el 2026-10-21: agentes de prueba deterministas en el banco más una corrida con agentes reales registrada aparte, retomar este cambio para medirlo, y hacerlo antes del RAG.
+
 
 Pendiente de aceptación de proposal.md y spec.md. La recomendación es aprobar primero este protocolo verificable antes de diseñar automatización distribuida. Para el piloto, las personas elegirán nombres reales, responsables de revisión/integración y el cambio de prueba; A y B son roles de ejemplo, no asignaciones reales.
 

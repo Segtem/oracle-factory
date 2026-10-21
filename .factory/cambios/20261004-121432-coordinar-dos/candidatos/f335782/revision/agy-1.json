@@ -1,0 +1,194 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/f335782-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "f335782e99f0c1a47b0abb65e7e3c0efd0718e64",
+  "diff_sha256": "071a20230eb6ea7ddaf2cd3530edb0759a1e68da09f0dc33b330cc63e9370a22",
+  "context_sha256": "e90ff7fcf87cfcf3979dc0db4a8535db639c95e53b28e53dc25738e2c61b9845",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "banco-auditoria-omite-decisiones-perdidas-o-mal-atribuidas-en-origen",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "Persona._anotar y Escenario.auditar descartan decisiones omitidas o mal atribuidas en origen, reportando falsamente auditoría limpia",
+      "explanation": "La spec exige que en cada escenario se compruebe que no se pierde ni se atribuye a otra persona ninguna decisión. Sin embargo, en tools/banco.py, Persona._anotar (líneas 92-102) determina las decisiones esperadas a partir de lo que Factory ya registró en factory.json tras invocar el comando. Si una orden (como tomar o aprobar-spec) pierde la decisión en origen por fallo de Factory, nuevos queda vacío y nunca se añade a esperados. Asimismo, la línea 100 filtra: 'if x.get(\"actor\") == autor or args[0] == \"mensaje\": self.banco.esperados.append(...)'. Si un comando distinto de mensaje registra un evento a nombre de otro autor (por ejemplo, atribuido a la otra persona del banco), se descarta silenciosamente de esperados. Al finalizar, Escenario.auditar() (líneas 194-220) solo audita los eventos filtrados en esperados, y el bucle residual ignora el autor espurio porque pertenece a PERSONAS. Como resultado, decisiones perdidas o mal atribuidas al ejecutarse no incrementan decisiones_perdidas ni mal_atribuidas, emitiendo el mensaje falaz de que no hubo ninguna perdida ni mal atribuida.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 96,
+        "end_line": 102,
+        "side": "head"
+      },
+      "trigger": "Cualquier fallo o condición en Factory que omita persistir un evento al ejecutar un comando o que registre el evento a nombre de otra persona del banco en comandos que no sean mensaje.",
+      "evidence": "Mutaciones controladas en copia local: al suprimir la creación del evento en tomar (simulando pérdida) o asignar actor='Beto' a la aprobación de spec de Ana en s7 (simulando mala atribución), s1 y s7 finalizaron con resultado 'ok', 0 decisiones perdidas, 0 mal atribuidas y el mensaje 'auditadas N decisiones: ninguna perdida ni mal atribuida'.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Ejecutar tools/banco.py mutando en_terminal para alterar el actor o suprimir el evento generado por un comando de decisión; constatar que el escenario reporta resultado ok con 0 decisiones perdidas y 0 mal atribuidas."
+    },
+    {
+      "id": "banco-omision-comprobacion-evidencia-vieja-en-mayoria-escenarios",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Doce de los trece escenarios del banco no comprueban que ninguna evidencia o revisión vieja se dé por vigente",
+      "explanation": "La spec promete para los escenarios sincrónicos y asincrónicos: 'En cada uno SHALL comprobar que no se pierde ni se atribuye a otra persona ninguna decisión, que un conflicto se detecta a más tardar al integrar y que ninguna evidencia o revisión vieja se da por vigente'. No obstante, en tools/banco.py, 12 de los 13 escenarios (s0 a s7 en su totalidad, y a1, a3, a4, a5) nunca generan candidatos con evidencia ni registran revisiones previas a las integraciones. Solo a2_evidencia_vieja maneja evidencia y revisión. El contador evidencia_vieja_aceptada permanece en 0 en todos los escenarios sincrónicos no por haber verificado el rechazo de evidencia obsoleta, sino por la omisión total de esa comprobación.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 622,
+        "end_line": 629,
+        "side": "head"
+      },
+      "trigger": "Ejecución del banco de concurrencia e inspección de los comandos ejecutados en los escenarios s1 a s7 y a1, a3, a4, a5.",
+      "evidence": "En tools/banco.py, la palabra 'evidencia' solo se utiliza en a2_evidencia_vieja (líneas 506-538). Ninguna de las funciones s1 a s7 crea archivos de evidencia ni llama a 'oracle-factory revision' o verifica gates de vigencia.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Verificar en tools/banco.py la ausencia total de invocaciones a 'revision' y creación de evidencia en las definiciones de los escenarios s0_clon_recien_hecho a s7_generados y a1, a3, a4, a5."
+    },
+    {
+      "id": "banco-s4-integracion-main-no-verifica-retorno-y-push-hardcoded",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "s4_tomar_a_la_vez no comprueba el fallo de integrar en main y cablea de forma fija quién gana el push",
+      "explanation": "En s4_tomar_a_la_vez, la integración en main tras el relevo se ejecuta en la línea 376 mediante 'if e.integrar(e.ana, \"tarea/compartido\"):'. A diferencia de s1, s5, s6 y s7 que verifican 'if not e.integrar(...): e.defecto(...)', s4 no posee bloque else. Si integrar devuelve False, integrar() marca detectado('al_integrar') pero no invoca defecto(), concluyendo el escenario sin registrar fallo en el flujo propio de s4 si no fuera detectado por la auditoría. Adicionalmente, en las líneas 355-356 la resolución del push a origin no se somete a concurrencia ni a azar por semilla: se fija rígidamente que Ana empuja primero (e.ana.git('push')) y Beto después (e.beto.git('push', ok=False)), predeterminando sin comprobación simétrica quién sufre el rechazo.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 376,
+        "end_line": 378,
+        "side": "head"
+      },
+      "trigger": "Fallo en la integración de tarea/compartido en main o inversión en el orden de push entre los dos clones.",
+      "evidence": "Líneas 355-356 y 376-378 de tools/banco.py: 'if e.integrar(e.ana, \"tarea/compartido\"): ...' sin manejo de error en else, y llamadas secuenciales fijas a git push fuera de e.a_la_vez.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Inspeccionar las líneas 355-356 y 376-378 de tools/banco.py en comparación con las líneas 280-281, 401-403 y 452-455 del mismo archivo."
+    },
+    {
+      "id": "guia-afirma-orden-semilla-y-simultaneidad-en-escenarios-secuenciales",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "docs/colaboracion.md afirma que las acciones sincrónicas corren en el orden de la semilla y con procesos simultáneos, pero la mayoría son secuenciales fijas",
+      "explanation": "docs/colaboracion.md sostiene en la línea 186 que: 'Lo que dos personas hacen a la vez corre en el orden que sale de la semilla, que queda en la traza y se repite igual; con --simultaneo, en procesos simultáneos de verdad'. Sin embargo, en tools/banco.py los escenarios s2_mismo_archivo (líneas 299-304), s3_semantico (líneas 315-324) y s7_generados (líneas 445-450) ejecutan las operaciones de Ana y Beto de manera estrictamente secuencial, sin invocar e.a_la_vez ni generar procesos simultáneos bajo --simultaneo, y dejando su traza siempre vacía ([]). Solo s1 y s5 aplican ordenamiento por semilla y procesos simultáneos a las operaciones de sus frentes.",
+      "location": {
+        "file": "docs/colaboracion.md",
+        "start_line": 186,
+        "end_line": 190,
+        "side": "head"
+      },
+      "trigger": "Lectura y comparación de docs/colaboracion.md frente a la implementación efectiva de s2, s3 y s7 en tools/banco.py.",
+      "evidence": "En tools/banco.py, s2_mismo_archivo, s3_semantico y s7_generados no llaman a e.a_la_vez ni consultan e.azar. Al ejecutar con --simultaneo o con semilla, el informe JSON resultante registra 'traza': [] para dichos escenarios.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites",
+      "status": "pendiente",
+      "verification": "Ejecutar tools/banco.py --salida /tmp/test-traza e inspeccionar banco.json; comprobar que los campos traza de s2, s3 y s7 son listas vacías tanto en modo estándar como en --simultaneo."
+    },
+    {
+      "id": "banco-a2-rehecho-declarado-sin-ejecucion",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "a2_evidencia_vieja reporta rehecho=1 sin que el banco ejecute ni compruebe ningún trabajo rehecho",
+      "explanation": "El requisito el banco informa sus números exige que el informe registre por escenario el trabajo rehecho. En a2_evidencia_vieja (líneas 534-538), al detectar que traer main con cambios invalida el candidato y la revisión impidiendo cerrar, el escenario ejecuta e.fila['rehecho'] += 1 y finaliza inmediatamente. Beto nunca vuelve a generar evidencia, nunca rehace la revisión ni vuelve a intentar el cierre para confirmar que rehacer el trabajo permite completar el ciclo. El valor 1 es una anotación estática de un paso teórico necesario, no la medición de trabajo efectivamente rehecho y verificado.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 534,
+        "end_line": 538,
+        "side": "head"
+      },
+      "trigger": "Ejecución de a2_evidencia_vieja e inspección de los comandos ejecutados en el clon de Beto tras invalidar la revisión.",
+      "evidence": "Líneas 535-538 de tools/banco.py: tras incrementar e.fila['rehecho'] += 1, la función concluye sin ejecutar ninguna acción posterior de remediación ni verificación.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Revisar las líneas 530-539 de tools/banco.py y constatar que no existe código que vuelva a producir evidencia ni a revisar el candidato actualizado."
+    },
+    {
+      "id": "banco-s6-discrepancia-con-spec-mismo-id",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "s6_mismo_id no prueba dos cambios con el mismo ID creados en dos clones, contradiciendo el requisito de la spec",
+      "explanation": "El requisito el banco pone a prueba el trabajo a la vez en spec.md estipula taxativamente que el banco debe correr el escenario de: 'dos cambios con el mismo ID creados en dos clones'. Sin embargo, en tools/banco.py, s6_mismo_id (líneas 409-434) no comprueba qué sucede al intercambiar e integrar dos cambios con el mismo ID; por el contrario, comprueba que los IDs resulten distintos debido a los 3 caracteres pseudoaleatorios y califica la coincidencia de ID como un defecto inmediato (líneas 428-430: if ids[0] == ids[1]: e.defecto(...)). El escenario prometido por el contrato de la spec no se encuentra evaluado en el banco.",
+      "location": {
+        "file": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
+        "start_line": 90,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Comparación textual entre el requisito de la spec y la implementación de s6_mismo_id en tools/banco.py.",
+      "evidence": "spec.md línea 90 exige expresamente 'dos cambios con el mismo ID creados en dos clones', mientras que tools/banco.py líneas 409-434 falla si los IDs son iguales y solo integra si son distintos.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Leer openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md líneas 90-95 y contrastar con tools/banco.py líneas 428-434."
+    },
+    {
+      "id": "banco-a4-validacion-orden-mensajes-incompleta",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "a4_mensajes_de_a_turnos valida la monotonía de timestamps pero no que se respete el orden causal de escritura",
+      "explanation": "En a4_mensajes_de_a_turnos (línea 594), la aserción 'if [x.get(\"cuando\") for x in eventos] != sorted(x.get(\"cuando\") for x in eventos):' compara la lista de timestamps contra sí misma ordenada. Esto solo verifica que los eventos figuren en orden creciente de sus marcas de tiempo ISO (ordenamiento que realiza de forma predeterminada el merge driver de Factory). No valida que el orden resultante en el registro coincida con la secuencia efectiva de turnos en que Ana y Beto emitieron sus mensajes durante los días simulados, dejando sin verificar la causalidad del intercambio asincrónico.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 594,
+        "end_line": 596,
+        "side": "head"
+      },
+      "trigger": "Invocación de a4_mensajes_de_a_turnos donde mensajes concurrentes generen timestamps que no correspondan al orden de turno pretendido.",
+      "evidence": "Líneas 590-596 de tools/banco.py: la comparación contra sorted(x.get('cuando') ...) no toma como referencia la lista ordenada de escritos, sino únicamente la monotonicidad del atributo cuando.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Analizar la línea 594 de tools/banco.py y constatar que solo compara la lista de marcas temporales contra su propia versión ordenada."
+    },
+    {
+      "id": "verify-banco-reproducibilidad-ficticia-en-escenarios-estaticos",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "verify_banco.py califica como reproducible=1 a escenarios estáticos que no emplean la semilla",
+      "explanation": "En tools/verify_banco.py (líneas 81-85), el hecho reproducible se calcula comparando: 'all(uno[k] == dos[k] for k in (\"resultado\", *NUMEROS, \"traza\"))'. Nueve de los trece escenarios (s0, s2, s3, s7, a1, a2, a3, a5) nunca utilizan la semilla del generador pseudoaleatorio ni pueblan la traza. Obtener reproducible=1 en estos escenarios es un artefacto de su naturaleza secuencial y estática, y no una comprobación empírica de reproducibilidad de intercalado estocástico gobernado por la semilla.",
+      "location": {
+        "file": "tools/verify_banco.py",
+        "start_line": 81,
+        "end_line": 85,
+        "side": "head"
+      },
+      "trigger": "Ejecución de verify_banco.py y evaluación de las propiedades de los hechos generados para banco_escenario.",
+      "evidence": "En tools/verify_banco.py líneas 81-85, igual evalúa traza y números fijos en cero en escenarios que no utilizan self.azar en tools/banco.py.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Correr verify_banco.py e inspeccionar hechos.json; verificar que en s0, s2, s3, s7, a1, a2, a3, a5 reproducible=1 sin haber ejecutado operaciones aleatorias."
+    },
+    {
+      "id": "banco-a2-omite-verificar-que-quien-retoma-ve-estado-ajeno",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "a2_evidencia_vieja no comprueba que quien retoma observe las modificaciones de producto dejadas por la otra persona",
+      "explanation": "La spec establece expresamente para el grupo de a turnos: 'En cada uno SHALL comprobar lo mismo que en el trabajo a la vez, y además que quien retoma ve el estado que dejó la otra persona'. En a2_evidencia_vieja (líneas 519-530), Ana modifica calc.py y lo integra en main, y Beto retoma ejecutando git pull origin main. Tras el pull, el escenario únicamente comprueba en el registro de Factory si la revisión y el candidato propio se invalidaron. En ningún momento se comprueba que Beto observe el cambio de calc.py o el commit de producto que Ana dejó integrado, omitiendo verificar en este escenario que quien retoma vea el estado dejado por la otra persona.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 522,
+        "end_line": 530,
+        "side": "head"
+      },
+      "trigger": "Ejecución de a2_evidencia_vieja tras el git pull en el clon de Beto.",
+      "evidence": "Líneas 522-530 de tools/banco.py: tras traer main, el escenario solo lee 'estado lento --json' y evalúa 'cerrar'. No se lee calc.py ni se verifica git log para comprobar la visibilidad del aporte de Ana.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Inspeccionar las líneas 522-530 de tools/banco.py y constatar la ausencia de validaciones sobre calc.py o el estado de main en el clon de Beto."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó tools/banco.py sobre el checkout candidato en repositorios temporales respetando la semilla y las indicaciones precisas del usuario.",
+    "Se ejecutó tools/banco.py con la opción --simultaneo para verificar el comportamiento bajo concurrencia real de hilos y procesos.",
+    "Se evaluaron mutaciones sobre copias de trabajo locales aisladas para corroborar la detectabilidad de defectos en los mecanismos de auditoría e integración.",
+    "No se corrió la suite completa de pruebas del repositorio para no modificar el entorno ni exceder las instrucciones de revisión.",
+    "No se ejecutaron agentes LLM en vivo durante esta revisión; la corrida con agentes reales se evaluó a partir del registro preservado en tareas/20261004-121432-coordinar-dos/piloto-real/banco-real.json según el contrato.",
+    "No se modificó la configuración de Git ni los archivos del checkout bajo revisión."
+  ]
+}

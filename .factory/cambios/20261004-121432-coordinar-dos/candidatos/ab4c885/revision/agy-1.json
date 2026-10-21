@@ -1,0 +1,27 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/ab4c885-agy-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "ab4c8852fe757092eef72b75644a4fdc8dc407ba",
+  "diff_sha256": "1b8814a55649992556e43233947acc45d7a00959146199ff7200092175c14943",
+  "context_sha256": "7d30bec576bbdc5064ba8f5f66f52cf9c17df719da71a5588c802dbb093c431d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 9 requisitos de la spec (openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md), el diff completo del paquete candidato ab4c885 y la corrección del hallazgo REV-001 de la vuelta 4.",
+    "Se verificó la corrección de REV-001 en tools/verify_banco.py: la función informe_completo() ahora exige que el conjunto de versiones contenga {'oracle-factory', 'oracle-metalenguaje', 'oracle-task', 'oracle-clue', 'python', 'git'}. Se probó mediante mutaciones en memoria que al omitir cualquiera de las dependencias (como oracle-task u oracle-clue) tanto sobre los datos de corridas del banco como sobre los datos de la corrida real (banco-real.json), informe_completo() devuelve False.",
+    "Se ejecutó tools/banco.py exactamente como fue indicado (PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null) en primer plano desde la raíz del checkout: los 13 escenarios terminaron con resultado ok, 0 decisiones perdidas, 0 mal atribuidas, 0 evidencia vieja aceptada y con conflictos detectados a más tardar al integrar.",
+    "Se revisaron los 13 escenarios en tools/banco.py: s0 a s7 (a la vez) y a1 a a5 (de a turnos), comprobando que la auditoría post-escenario (auditar/vigencia) evalúa decisiones perdidas, atribución y vigencia de candidato/revisión ante cambios en archivos de producto, y que quien retoma observa el estado dejado por la otra persona.",
+    "Se examinaron las métricas y reportes generados tanto en JSON como en texto legible, comprobando texto_concuerda() y la integridad de versiones y esquemas.",
+    "Se evaluó el caso C4 en tools/verify_collaboration.py, comprobando que valida que dos cambios creados en el mismo segundo con el mismo sufijo reciben IDs distintos debido a los 3 caracteres al azar y se integran sin conflicto, manteniendo además la prueba de colisión y migración de tareas de Task.",
+    "Se contrastó docs/colaboracion.md con el código y las pruebas, confirmando consistencia en la descripción del banco, la gestión de archivos generados vía hooks, la vigencia de evidencia y revisiones, y los límites declarados.",
+    "Se analizaron los hallazgos reabiertos por otros revisores (como el cómputo de trabajo rehecho en regeneraciones automáticas de hooks en s7, la clasificación de rechazos de push en s4 y la validación de evidencia y revisión en a2), verificando que no constituyen defectos ni discrepancias con la spec ni regresiones.",
+    "No se corrió la suite completa de pruebas del repositorio para no alterar el entorno ni exceder las indicaciones de revisión.",
+    "No se ejecutaron llamadas en vivo a modelos LLM comerciales; la corrida piloto con agentes reales se evaluó a partir del registro estandarizado en tareas/20261004-121432-coordinar-dos/piloto-real/banco-real.json conforme al contrato.",
+    "No se modificó el checkout de sólo lectura ni la configuración de Git de ningún repositorio."
+  ]
+}

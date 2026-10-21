@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/ab4c885-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "ab4c8852fe757092eef72b75644a4fdc8dc407ba",
+  "diff_sha256": "1b8814a55649992556e43233947acc45d7a00959146199ff7200092175c14943",
+  "context_sha256": "c069523fb7492799a7707d3eb9a96434a9411d59fbdda87d7a065412f1f371c8",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "REV-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "a2 no pone a prueba la vigencia de un juicio de Oracle sobre evidencia vieja",
+      "explanation": "El escenario afirma comprobar que la evidencia y la revisión dejan de valer después de que cambia el producto, pero crea `resultado.json` como archivo suelto bajo la carpeta del candidato y no ejecuta ni registra un juicio de Oracle. Factory valida los hechos registrados en el gate `oracle` (y requiere `hechos.json` en su ruta de evidencia); por tanto la corrida nunca llega a tener evidencia de Oracle vieja aceptada o invalidada. Que cambie `candidato`, que la revisión pierda vigencia y que `cerrar` falle no demuestra el tratamiento de evidencia vieja. El escenario puede informar `evidencia_vieja_aceptada: 0` aunque esa parte de la promesa no se ejercitó.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 607,
+        "end_line": 609,
+        "side": "head"
+      },
+      "trigger": "Correr `a2_evidencia_vieja`: el escenario escribe únicamente `candidatos/<sha>/evidencia/resultado.json`, integra un cambio en `calc.py`, consulta estado y trata `evidencia_vieja_aceptada == 0` como resultado limpio, sin ejecutar `juzgar` ni crear el gate `oracle`.",
+      "evidence": "En `tools/banco.py:607-609` se crea `resultado.json` con solo `{'exitoso': true}`. `oracle_factory/cli.py:555-563` busca `hechos.json` para los hechos del candidato, y `oracle_factory/cli.py:615-621, 2839-2840` determina vigencia a partir de los hechos e informe registrados en `estado.oracle`. En la corrida solicitada, `a2_evidencia_vieja` terminó `ok`, reportó cero evidencia vieja aceptada y rehecho 1; solo se observó la invalidación de candidato/revisión y el rechazo de cierre.",
+      "related_requirement": "colaboracion.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+      "status": "pendiente",
+      "verification": "Comprobado por lectura del escenario, de las rutas/gates de Factory y de la salida de la corrida. No ejecuté `tools/verify_banco.py` ni la suite completa."
+    },
+    {
+      "id": "REV-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "s7 informa cero trabajo rehecho aunque registra que Factory lo rehízo",
+      "explanation": "El informe exige el número de trabajo rehecho por escenario. s7 detecta y anota que el post-merge rehízo `resumen.md` y `kb/` en un commit separado, pero nunca incrementa `fila['rehecho']`. El JSON/texto resultante informa `rehecho: 0`, así que la métrica contradice los hechos que el mismo escenario observó.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 557,
+        "end_line": 559,
+        "side": "head"
+      },
+      "trigger": "Correr `s7_generados` en `tools/banco.py --salida ...` y comparar la fila del escenario con su detalle: cuando el commit de regeneración aparece, `rehecho` permanece en cero.",
+      "evidence": "La salida real de la corrida contiene `s7_generados ... rehecho 0` y el detalle `Factory rehízo resumen.md y kb/ después del merge, en un commit aparte`; las líneas 557-559 solo agregan el detalle y no actualizan `e.fila['rehecho']`.",
+      "related_requirement": "colaboracion.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Comprobado en la corrida solicitada y en el código de s7. No ejecuté `tools/verify_banco.py` ni la suite completa."
+    },
+    {
+      "id": "REV-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.97,
+      "title": "s4 clasifica un rechazo de push previo al merge como conflicto al integrar",
+      "explanation": "s4 observa que uno de los dos `push` concurrentes es rechazado y, antes de sincronizar la rama o integrar a `main`, fija `conflicto` en `al_integrar`. El campo del informe distingue detección antes, en o después del merge; en esta ejecución el rechazo no ocurrió en el merge a `main`, que luego se completó, por lo que el momento informado no refleja cuándo se detectó el problema.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 423,
+        "end_line": 428,
+        "side": "head"
+      },
+      "trigger": "Correr `s4_tomar_a_la_vez`: el push simultáneo devuelve exactamente un rechazo en la comprobación de la línea 424; inmediatamente después se asigna `al_integrar`, antes del `pull` y del merge final de `main`.",
+      "evidence": "El flujo registra los códigos de ambos `push` en `rechazos`, verifica el rechazo en las líneas 423-426 y marca `e.detectado('al_integrar')` en la 428. Después, el `pull`/relevo y `integrar(..., 'tarea/compartido')` ocurren en las líneas 430-446 y el merge a `main` finaliza correctamente. El informe de la corrida marcó s4 como `conflicto: al_integrar`.",
+      "related_requirement": "colaboracion.el_banco_informa_sus_numeros",
+      "status": "pendiente",
+      "verification": "Comprobado por lectura del flujo y salida de la corrida indicada. No ejecuté `tools/verify_banco.py` ni la suite completa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null` en primer plano desde la raíz del checkout. Los 13 escenarios dieron resultado `ok`; guardé banco.json y banco.txt en `revision-evidencia/`.",
+    "No corrí la suite completa ni `tools/verify_banco.py`, que agrega dos corridas ordenadas y una simultánea.",
+    "Contrasté la spec y el diff del paquete, las tres medidas del banco, `tools/banco.py`, `tools/verify_banco.py`, C4 de `tools/verify_collaboration.py`, `docs/colaboracion.md` y los ocho informes previos indicados. C4 sí comprueba IDs distintos en el mismo segundo; el verificador ahora exige las seis versiones mencionadas en la vuelta anterior.",
+    "No edité el checkout ni modifiqué configuración de Git. No hice mutaciones sobre copias."
+  ]
+}

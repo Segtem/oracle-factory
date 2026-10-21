@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/f335782-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "f335782e99f0c1a47b0abb65e7e3c0efd0718e64",
+  "diff_sha256": "071a20230eb6ea7ddaf2cd3530edb0759a1e68da09f0dc33b330cc63e9370a22",
+  "context_sha256": "5f2ca27376e9df8e01f24840850d12b062c31e6039fbe5dce263e6527272401d",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "banco-s3-detecta-incompatibilidad-despues-de-integrar",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "s3 informa que detecta al integrar una incompatibilidad que descubre después de publicar ambos cambios",
+      "explanation": "La spec del requisito «el banco pone a prueba el trabajo a la vez» exige que cada conflicto se detecte a más tardar al integrar. En s3_semantico, las dos llamadas a e.integrar completan el merge y hacen push de main antes de ejecutar test_doble.py. Si las pruebas combinadas fallan (el caso esperado), el código recién entonces llama detectado(\"al_integrar\") y deja resultado \"ok\". Así se registra como limpio un defecto encontrado después de que ambos cambios ya fueron integrados y publicados; el campo conflicto y la medida Oracle afirman una detección más temprana de la que ocurrió.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 337,
+        "end_line": 339,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null` desde la raíz del checkout; observar s3_semantico, que fusiona y publica ambas ramas y luego falla `test_doble.py`.",
+      "evidence": "En tools/banco.py:337-339, `e.integrar(e.ana, \"tarea/renombrar\")` y `e.integrar(e.ana, \"tarea/doble\")` ya terminaron antes de comprobar `test_doble.py`; al fallar esa prueba, se etiqueta `al_integrar`. `e.integrar` hace push de main al completar cada merge (líneas 233-247). En tools/verify_banco.py:34-38, `limpio()` acepta `al_integrar`; la ejecución de verify_banco marcó s3_semantico limpio y reproducible en las dos corridas ordenadas y en la simultánea, aunque su detalle dice que las pruebas detectan el fallo.",
+      "related_requirement": "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+      "status": "pendiente",
+      "verification": "Revisar el orden de s3_semantico y correr el escenario: ambos merges deben haber sido publicados antes de que falle `test_doble.py`, mientras el informe conserva `conflicto: al_integrar`, `resultado: ok` y la medida lo cuenta limpio."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí el banco con el comando exacto indicado desde la raíz del checkout; sus 13 escenarios terminaron ok.",
+    "Corrí tools/verify_banco.py: dos corridas ordenadas y una simultánea; su sensor dio éxito y marcó s3_semantico limpio pese a la detección posterior a integrar.",
+    "No corrí la suite completa, según la instrucción. No apliqué mutaciones manuales."
+  ]
+}

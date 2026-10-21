@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-coordinar/.factory/local/revisiones/b016935-codex-1",
+  "base": "c6448532a325f0caa49ececefd36f7f1983b0a5f",
+  "head": "b0169351d9d7490f87cee476fe579a6a4f0d4870",
+  "diff_sha256": "070ba5e59869e22d7c1cb4af41cee6d8c5d7fdddea6077d94c0f8872333b231b",
+  "context_sha256": "71ab88e2c4cb84bfd77978d522beea192bfdd7f6cabdc5188c5df908aada8040",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, propuesta, todos los archivos del diff, los trece escenarios, el verificador y las cuatro medidas del banco, el C4 de verify_collaboration.py y las afirmaciones añadidas a docs/colaboracion.md. Contrasté las correcciones informadas en vueltas anteriores con el código actual; sus hallazgos cubiertos siguen comprobados en esta versión.",
+    "Corrí desde la raíz del checkout, en primer plano, el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-coordinar/.venv/bin/python tools/banco.py --salida /tmp/banco-revision-$RANDOM </dev/null. Dio código 0; los 13 escenarios informaron ok con semilla 20261021. Guardé salida completa en corrida-banco.txt y corrida-banco.json.",
+    "No ejecuté tools/verify_banco.py ni la suite completa; tampoco ejecuté el piloto con agentes reales. No hice mutaciones; por ello la revisión es estática más la corrida ordenada indicada, no un veredicto probabilístico sobre agentes reales ni una prueba de propiedades que no mide el arnés.",
+    "Los informes de revisión anteriores son registros históricos; verifiqué las correcciones en el código del candidato, no la decisión humana de triage de esos informes."
+  ]
+}

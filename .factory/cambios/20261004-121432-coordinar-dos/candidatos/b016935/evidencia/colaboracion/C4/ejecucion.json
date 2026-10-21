@@ -1,0 +1,1549 @@
+{
+  "comandos": [
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "base fixture"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c0d458b2a73ffcae558fffe3d9d6f82303ef003e\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "init",
+        "--sin-readme",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Tracker de tareas inicializado en /tmp/factory-colaboracion-odcpve1j/C4/origen/tareas\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "new",
+        "Relevo compartido fixture",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215946-relevo\", \"ruta\": \"/tmp/factory-colaboracion-odcpve1j/C4/origen/tareas/20261021-215946-relevo/TAREA.md\"}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "tarea común"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "8368f419ccc9ebb3c7415cc508fa61ed61fd7f06\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/a'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/b'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "note",
+        "20261021-215946-relevo",
+        "Aporte independiente A",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Nota agregada a la tarea 20261021-215946-relevo\nDocumento: /tmp/factory-colaboracion-odcpve1j/C4/a/tareas/20261021-215946-relevo/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "nota A"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "95b6f94b2befe31f308599678bfa4d25715bc97a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/b",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "note",
+        "20261021-215946-relevo",
+        "Aporte independiente B",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Nota agregada a la tarea 20261021-215946-relevo\nDocumento: /tmp/factory-colaboracion-odcpve1j/C4/b/tareas/20261021-215946-relevo/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "nota B"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "080e4778dda98ca41475b93f71cb34b4dee71227\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "fetch",
+        "/tmp/factory-colaboracion-odcpve1j/C4/b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "From /tmp/factory-colaboracion-odcpve1j/C4/b\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "95b6f94b2befe31f308599678bfa4d25715bc97a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "FETCH_HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "Auto-merging tareas/20261021-215946-relevo/TAREA.md\nCONFLICT (content): Merge conflict in tareas/20261021-215946-relevo/TAREA.md\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "95b6f94b2befe31f308599678bfa4d25715bc97a\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "diff"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "diff --cc tareas/20261021-215946-relevo/TAREA.md\nindex d4466b4,c53c308..0000000\n--- a/tareas/20261021-215946-relevo/TAREA.md\n+++ b/tareas/20261021-215946-relevo/TAREA.md\n@@@ -6,4 -6,4 +6,8 @@@\n  \n  ### Nota (2026-10-21 21:59:46 UTC)\n  \n++<<<<<<< HEAD\n +Aporte independiente A\n++=======\n+ Aporte independiente B\n++>>>>>>> 080e4778dda98ca41475b93f71cb34b4dee71227\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "HEAD:tareas/20261021-215946-relevo/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Relevo compartido fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-21 21:59:46 UTC)\n\nAporte independiente A\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "FETCH_HEAD:tareas/20261021-215946-relevo/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Relevo compartido fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n### Nota (2026-10-21 21:59:46 UTC)\n\nAporte independiente B\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "conciliación fixture: mismo ID y misma identidad; conservar ambas notas"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "3077667e9546b0d731cdec46dd11849757ac07a7\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "review",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"ok\": true, \"tareas_validas\": 1, \"problemas\": []}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/choque0/a'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/choque0/b'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "new",
+        "Frente A fixture",
+        "--sufijo",
+        "frente",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215947-frente\", \"ruta\": \"/tmp/factory-colaboracion-odcpve1j/C4/choque0/a/tareas/20261021-215947-frente/TAREA.md\"}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "new",
+        "Frente B fixture",
+        "--sufijo",
+        "frente",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215947-frente\", \"ruta\": \"/tmp/factory-colaboracion-odcpve1j/C4/choque0/b/tareas/20261021-215947-frente/TAREA.md\"}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "A crea su tarea"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "506de78c4e47d646c84a181afcb74157de7ad8e0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "B crea su tarea"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "3ab077d4667734e67dab3642655f49a40de9604c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "fetch",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "From /tmp/factory-colaboracion-odcpve1j/C4/choque0/b\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "506de78c4e47d646c84a181afcb74157de7ad8e0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "FETCH_HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 1,
+      "codigo": 1,
+      "stdout": "Auto-merging tareas/20261021-215947-frente/TAREA.md\nCONFLICT (add/add): Merge conflict in tareas/20261021-215947-frente/TAREA.md\nAutomatic merge failed; fix conflicts and then commit the result.\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "506de78c4e47d646c84a181afcb74157de7ad8e0\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "diff"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "diff --cc tareas/20261021-215947-frente/TAREA.md\nindex 45053b9,4c007af..0000000\n--- a/tareas/20261021-215947-frente/TAREA.md\n+++ b/tareas/20261021-215947-frente/TAREA.md\n@@@ -1,4 -1,4 +1,8 @@@\n++<<<<<<< HEAD\n +# Frente A fixture\n++=======\n+ # Frente B fixture\n++>>>>>>> 3ab077d4667734e67dab3642655f49a40de9604c\n  \n  - ESTADO: ABIERTA\n  - PRIORIDAD: 50\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--abort"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "HEAD:tareas/20261021-215947-frente/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Frente A fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "show",
+        "FETCH_HEAD:tareas/20261021-215947-frente/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "# Frente B fixture\n\n- ESTADO: ABIERTA\n- PRIORIDAD: 50\n- ETIQUETAS: \n\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "new",
+        "Frente B fixture",
+        "--sufijo",
+        "frente-b",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215947-frente-b\", \"ruta\": \"/tmp/factory-colaboracion-odcpve1j/C4/choque0/b/tareas/20261021-215947-frente-b/TAREA.md\"}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "mv",
+        "-f",
+        "tareas/20261021-215947-frente/TAREA.md",
+        "tareas/20261021-215947-frente-b/TAREA.md"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "B migra su tarea de 20261021-215947-frente a 20261021-215947-frente-b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "c91a71912168c784c7dc95854babc33bf35959e1\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "fetch",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "From /tmp/factory-colaboracion-odcpve1j/C4/choque0/b\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--no-ff",
+        "-m",
+        "integración tras migrar identidad",
+        "FETCH_HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Merge made by the 'ort' strategy.\n frente-b.md                              | 1 +\n tareas/20261021-215947-frente-b/TAREA.md | 6 ++++++\n 2 files changed, 7 insertions(+)\n create mode 100644 frente-b.md\n create mode 100644 tareas/20261021-215947-frente-b/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "review",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"ok\": true, \"tareas_validas\": 3, \"problemas\": []}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "refs",
+        "20261021-215947-frente",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215947-frente\", \"tipo\": \"mencion_textual\", \"coincidencias\": [], \"omitidos\": []}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "-c",
+        "import sys; from importlib.metadata import distribution; e=next(e for e in distribution(\"oracle-task\").entry_points if e.group==\"console_scripts\" and e.name==\"tasks\"); sys.exit(e.load()())",
+        "refs",
+        "20261021-215947-frente-b",
+        "--json",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "{\"id\": \"20261021-215947-frente-b\", \"tipo\": \"mencion_textual\", \"coincidencias\": [{\"ruta\": \"frente-b.md\", \"linea\": 1, \"texto\": \"Trabajo de B registrado en 20261021-215947-frente-b\"}], \"omitidos\": []}\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "0149307cbd02972ee14f16a6167de7c71f25963f\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+        "init"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Factory inicializada en /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen. No se crearon commits ni aprobaciones.\nAcuerdos: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen/openspec/changes; tareas: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen/tareas; proyecto Oracle: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen.\nCarpeta propia de Factory: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen/.factory (versionada, salvo local/, que Git ignora).\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nHook de commits: este proyecto todavía no usa Git; después de git init, instalalo con oracle-factory hooks.\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "init",
+        "-q",
+        "-b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "proyecto Factory vacío"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "e0bf6986892b3e5caf8c2ce243f904ca5a88de66\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "clone",
+        "--no-hardlinks",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/origen",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "Cloning into '/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b'...\ndone.\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+        "nuevo",
+        "--capacidad",
+        "colision",
+        "--sufijo",
+        "colision",
+        "Frente compartido fixture"
+      ],
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Cambio creado: 20261021-215948-qei-colision\nModo de trabajo: confirmacion\nTarea: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a/tareas/20261021-215948-qei-colision/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a/openspec/changes/20261021-215948-qei-colision\nCompletá los TODO antes de pedir aceptación.\nPróximo paso humano: revisar /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a/openspec/changes/20261021-215948-qei-colision/proposal.md y /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a/openspec/changes/20261021-215948-qei-colision/specs/colision/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261021-215948-qei-colision\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+        "nuevo",
+        "--capacidad",
+        "colision",
+        "--sufijo",
+        "colision",
+        "Frente compartido fixture"
+      ],
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Cambio creado: 20261021-215948-6iz-colision\nModo de trabajo: confirmacion\nTarea: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b/tareas/20261021-215948-6iz-colision/TAREA.md\nPropuesta/spec/tasks: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b/openspec/changes/20261021-215948-6iz-colision\nCompletá los TODO antes de pedir aceptación.\nPróximo paso humano: revisar /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b/openspec/changes/20261021-215948-6iz-colision/proposal.md y /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b/openspec/changes/20261021-215948-6iz-colision/specs/colision/spec.md\nPróximo paso: oracle-factory aprobar-spec 20261021-215948-6iz-colision\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "A crea su cambio"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "a81cebe8eabd8c5feb9691718579aa327dc8147c\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "add",
+        "."
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "commit",
+        "-qm",
+        "B crea su cambio"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "f5a727f42d5f626a6a7f2649117d55b1501e265f\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "fetch",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b",
+        "main"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "",
+      "stderr": "From /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/b\n * branch            main       -> FETCH_HEAD\n"
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "merge",
+        "--no-ff",
+        "-m",
+        "integración de los dos cambios",
+        "FETCH_HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "Merge made by the 'ort' strategy.\n .../20261021-215948-6iz-colision/factory.json      | 24 ++++++++++++++++++++++\n .../changes/20261021-215948-6iz-colision/design.md |  3 +++\n .../20261021-215948-6iz-colision/proposal.md       | 17 +++++++++++++++\n .../specs/colision/spec.md                         | 12 +++++++++++\n .../changes/20261021-215948-6iz-colision/tasks.md  |  9 ++++++++\n tareas/20261021-215948-6iz-colision/TAREA.md       |  9 ++++++++\n 6 files changed, 74 insertions(+)\n create mode 100644 .factory/cambios/20261021-215948-6iz-colision/factory.json\n create mode 100644 openspec/changes/20261021-215948-6iz-colision/design.md\n create mode 100644 openspec/changes/20261021-215948-6iz-colision/proposal.md\n create mode 100644 openspec/changes/20261021-215948-6iz-colision/specs/colision/spec.md\n create mode 100644 openspec/changes/20261021-215948-6iz-colision/tasks.md\n create mode 100644 tareas/20261021-215948-6iz-colision/TAREA.md\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "/home/workstation/Dev/factory-coordinar/.venv/bin/python",
+        "/home/workstation/Dev/factory-coordinar/fabrica.py",
+        "--proyecto",
+        "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+        "listar"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "20261021-215948-6iz-colision  espera_aprobacion_spec  Frente compartido fixture\n20261021-215948-qei-colision  espera_aprobacion_spec  Frente compartido fixture\nAcuerdos: /tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a/openspec/changes\n",
+      "stderr": ""
+    },
+    {
+      "cwd": "/tmp/factory-colaboracion-odcpve1j/C4/choque-cambios0/a",
+      "argv": [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "-c",
+        "gc.auto=0",
+        "-c",
+        "maintenance.auto=false",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdin_fixture": null,
+      "esperado": 0,
+      "codigo": 0,
+      "stdout": "0e7b78d7e2d3e5af886a815d23cc6b6ac61f0ade\n",
+      "stderr": ""
+    }
+  ],
+  "observaciones": [
+    {
+      "comprobacion": "divergencia no avanza HEAD sin resolución",
+      "cumple": true
+    },
+    {
+      "comprobacion": "ambos registros conservan el antecedente común",
+      "cumple": true
+    },
+    {
+      "comprobacion": "conciliación conserva aportes de la misma tarea",
+      "cumple": true
+    },
+    {
+      "comprobacion": "mismo ID en dos clones produce conflicto add/add sin avanzar HEAD",
+      "cumple": true
+    },
+    {
+      "comprobacion": "ambos originales recuperables con identidades distintas",
+      "cumple": true
+    },
+    {
+      "comprobacion": "la identidad nueva difiere de la colisionada",
+      "cumple": true
+    },
+    {
+      "comprobacion": "integración conserva ambas tareas sin fusionarlas",
+      "cumple": true
+    },
+    {
+      "comprobacion": "las referencias de B apuntan sólo a su identidad nueva",
+      "cumple": true
+    },
+    {
+      "comprobacion": "dos cambios del mismo segundo y el mismo sufijo tienen IDs distintos",
+      "cumple": true
+    },
+    {
+      "comprobacion": "listar muestra los dos cambios, integrados sin conflicto",
+      "cumple": true
+    }
+  ]
+}

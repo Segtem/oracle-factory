@@ -1,0 +1,6 @@
+# oracle-factory: une los registros de los cambios y rehace lo generado al integrar
+.factory/cambios/*/factory.json merge=oracle-factory-registro
+.factory/resumen.md merge=oracle-factory-generado
+kb/README.md merge=oracle-factory-generado
+kb/cambios/*.md merge=oracle-factory-generado
+kb/requisitos/*.md merge=oracle-factory-generado
