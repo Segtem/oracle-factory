@@ -111,6 +111,45 @@
         "factory_avisos.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T13:50:44+00:00",
+      "requisito": "flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos",
+      "medidas": [
+        "factory_avisos.reimportar_no_deja_requisitos_huerfanos",
+        "factory_avisos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T13:50:44+00:00",
+      "requisito": "flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+      "medidas": [
+        "factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo",
+        "factory_avisos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T13:50:45+00:00",
+      "requisito": "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+      "medidas": [
+        "factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio",
+        "factory_avisos.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -125,27 +164,14 @@
       "claude-code"
     ]
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": {
-      "sha256": "2aeed6e9ea971a0ae04530fde946cf1f790b9fccfe7e7890e567b2d820c12d51",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T17:53:57+00:00",
-      "catalogos": {
-        "factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": "88978f6fd3e41f430c6c5753c714ec762f363559b299b49d5791a549e5abcd34",
-        "factory_avisos.corrida_completa": "906a52bd91734385014ec62a966ad67d2907c50279584de887096843a4483db5"
-      },
-      "archivos_catalogo": {
-        "factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": "catalogos/factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.oracle",
-        "factory_avisos.corrida_completa": "catalogos/factory_avisos.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T13:50:44+00:00",
       "sha256": "2a33c9c561756bbf32ae68e0d9b321952d65d4397f6b168c450a75e0b8c3ac45",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T17:53:57+00:00",
       "catalogos": {
         "factory_avisos.reimportar_no_deja_requisitos_huerfanos": "c714217265630936ee193edaff6e3e7d03e5691544499e8f4983860064eebd74",
         "factory_avisos.corrida_completa": "906a52bd91734385014ec62a966ad67d2907c50279584de887096843a4483db5"
@@ -156,10 +182,12 @@
       }
     },
     "flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T13:50:44+00:00",
       "sha256": "84e039f4d8326cabf02337e224c0d4a96605f59744d2da3a3f5ebba18a462b68",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-20T17:53:57+00:00",
       "catalogos": {
         "factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo": "a1e693547b36cb2b3cf5ed0b193a0c0ea2d54375115e7d8626b4eb202412474c",
         "factory_avisos.corrida_completa": "906a52bd91734385014ec62a966ad67d2907c50279584de887096843a4483db5"
@@ -168,6 +196,23 @@
         "factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo": "catalogos/factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo.oracle",
         "factory_avisos.corrida_completa": "catalogos/factory_avisos.corrida_completa.oracle"
       }
+    },
+    "flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-21T13:50:45+00:00",
+      "sha256": "2aeed6e9ea971a0ae04530fde946cf1f790b9fccfe7e7890e567b2d820c12d51",
+      "catalogos": {
+        "factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": "88978f6fd3e41f430c6c5753c714ec762f363559b299b49d5791a549e5abcd34",
+        "factory_avisos.corrida_completa": "906a52bd91734385014ec62a966ad67d2907c50279584de887096843a4483db5"
+      },
+      "archivos_catalogo": {
+        "factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio": "catalogos/factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.oracle",
+        "factory_avisos.corrida_completa": "catalogos/factory_avisos.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

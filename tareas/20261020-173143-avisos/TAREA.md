@@ -27,3 +27,15 @@ Medidas de flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos: fact
 ### Nota (2026-10-20 17:53:57 UTC)
 
 Medidas de flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo: factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-21 13:50:44 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 13:50:45 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 13:50:45 UTC)
+
+Medidas de flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio: Brian Hollweg (persona, confirmo, modo confirmacion).
