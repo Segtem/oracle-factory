@@ -64,7 +64,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261020-140603-kb]] — El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea? (cerrada)
 - [[cambios/20261020-141303-sesion]] — La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar (cerrada)
 - [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
-- [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (requisitos_importados)
+- [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (revision_aprobada)
 
 ## Requisitos
 

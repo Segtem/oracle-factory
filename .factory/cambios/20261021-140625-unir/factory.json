@@ -2,7 +2,7 @@
   "id": "20261021-140625-unir",
   "titulo": "Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace",
   "capacidad": "colaboracion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
   "spec_sha256": "0a6572a82062965430e92dad0d5f6d4b487aae9443060a4ac02779fcadcbd9bf",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar",
     "colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/informe.json",
+    "sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
+    "decisiones": "tareas/20261021-140625-unir/revisiones/registro-ti6rmzpj/decisiones.json",
+    "decisiones_sha256": "0b90aa7e79ea69024b5b107da388c43061eb9213fde5f09c242563a03c69d483",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T17:52:24+00:00",
+    "motivo": "Cuatro vueltas de codex y agy: la 1 dejó 10 hallazgos (3 altos), la 2 nueve medios o más (la unión mezclaba las partes de una decisión: se reescribió para unir cada decisión entera), la 3 uno (eventos perdidos por una rama), todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 4 no dejó ningún hallazgo.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "c546625ce229569816bfa84b12ae0e5e81a942d2",
+      "archivos_sha256": "141033ddcb99c3e77c6e87f7a1e8a581449f2fa7ff88480a97bb106bff4f936a"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -436,6 +456,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "66df3e96c098"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-21T16:33:07+00:00",
+      "decision": "aprobar",
+      "candidato": "7e6e506"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-21T17:52:24+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f751a790adde88b21b52ba3fd95a0ab309f7972ecc86c66973b5a4a0ef0ec243",
+      "decisiones_sha256": "0b90aa7e79ea69024b5b107da388c43061eb9213fde5f09c242563a03c69d483"
     }
   ],
   "tipos": {
@@ -500,5 +544,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }
