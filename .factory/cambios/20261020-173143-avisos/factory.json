@@ -2,7 +2,7 @@
   "id": "20261020-173143-avisos",
   "titulo": "Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
   "spec_sha256": "0c9e74d520b0f7707605173e1ec39e8207d1adff32c0e1b347aad93cf328576d",
   "spec_aprobada": {
@@ -321,6 +321,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "5f5ac0ee1d169ef3d61946708ab73027973cb622e176dc1c58fe6f4acb60e8bd"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T15:21:38+00:00",
+      "oracle": ".factory/cambios/20261020-173143-avisos/oracle-veredicto.txt",
+      "revision": "tareas/20261020-173143-avisos/revisiones/registro-cdum7hs3/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T15:21:38+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -397,5 +417,17 @@
       "fecha": "2026-10-21T15:17:20+00:00",
       "candidato": "fc3fe52"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T15:21:38+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-10-21T15:21:38+00:00"
+  }
 }

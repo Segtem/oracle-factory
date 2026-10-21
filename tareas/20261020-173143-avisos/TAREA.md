@@ -1,6 +1,6 @@
 # Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-21 15:18:14 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261020-173143-avisos/oracle-veredicto.txt.
+
+### Nota (2026-10-21 15:21:38 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
