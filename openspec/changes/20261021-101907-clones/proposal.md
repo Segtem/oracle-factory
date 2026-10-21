@@ -16,8 +16,8 @@ trabajan con sus clones:
 
 - `init` deja un `.gitkeep` en cada carpeta que crea y Git versionaría vacía; y los comandos que necesitan una carpeta de
   Factory que falta (por ejemplo `tareas/` en un clon de un proyecto viejo) la crean en vez de fallar.
-- El ID de un cambio nuevo lleva, después del sufijo, tres caracteres al azar: dos clones no generan el mismo ID aunque
-  creen el cambio en el mismo segundo con el mismo sufijo.
+- El ID de un cambio nuevo lleva tres caracteres al azar antes del sufijo (`20261021-101300-k3x-igual`): dos clones no
+  generan el mismo ID aunque creen el cambio en el mismo segundo con el mismo sufijo, y el ID sigue terminando en el sufijo.
 - Los comandos que sólo agregan al registro de un cambio sin decidir sobre lo que ya hay (`mensaje`, `tomar`, `soltar`)
   reintentan solos cuando el registro cambió mientras escribían, leyéndolo de nuevo y volviendo a comprobar sus reglas.
 

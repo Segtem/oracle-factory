@@ -13,7 +13,9 @@ import json
 import os
 import shutil
 import tempfile
+import time
 from contextlib import contextmanager
+import random
 import re
 import shlex
 import subprocess
@@ -43,6 +45,25 @@ SLUG_RE = re.compile(r"^[a-z][a-z0-9-]*$")
 
 class FactoryError(Exception):
     pass
+
+
+class ArchivoCambiado(FactoryError):
+    """Otro proceso escribió el archivo entre que se leyó y se guardó."""
+
+
+def reintentar_si_cambia(funcion):
+    """Para comandos que sólo agregan al registro: si otro proceso lo escribió mientras tanto, se vuelve a leer y a
+    comprobar todo desde el principio (la función entera), hasta 20 veces, con una espera corta al azar."""
+    def envuelta(*args, **kwargs):
+        for intento in range(20):
+            try:
+                return funcion(*args, **kwargs)
+            except ArchivoCambiado:
+                time.sleep(random.uniform(0.01, 0.05) * (intento + 1))
+        raise FactoryError("el registro del cambio cambió 20 veces mientras escribía (otros procesos escriben a la vez); "
+                           "no guardé nada: volvé a intentarlo")
+    envuelta.__name__, envuelta.__doc__ = funcion.__name__, funcion.__doc__
+    return envuelta
 
 
 def ahora() -> str:
@@ -358,7 +379,12 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
     plan = plan_ejemplo() if con_ejemplo else {}
     if plan:
         preparar_ejemplo(plan)
-    p = ejecutar(["tasks", "new", titulo, "--sufijo", sufijo, "--json", "--proyecto", str(ROOT)])
+    # Tres caracteres al azar antes del sufijo: dos clones que crean un cambio en el mismo segundo con el mismo sufijo no
+    # generan el mismo ID, y el ID sigue terminando en el sufijo.
+    al_azar = "".join(random.choice("abcdefghijklmnopqrstuvwxyz0123456789") for _ in range(3))
+    for carpeta_necesaria in (ROOT / "tareas", CHANGES, ROOT / estructura.DIR / "cambios"):  # un clon de un proyecto viejo
+        carpeta_necesaria.mkdir(parents=True, exist_ok=True)
+    p = ejecutar(["tasks", "new", titulo, "--sufijo", f"{al_azar}-{sufijo}", "--json", "--proyecto", str(ROOT)])
     if p.returncode:
         raise FactoryError(f"oracle-task no pudo crear la tarea: {p.stderr.strip()}. No reintentes con otro título sin revisar los archivos del ejemplo que ya se copiaron; no hubo una tarea confirmada.")
     try:
@@ -647,6 +673,7 @@ def instalar_hook() -> str:
             "«Cambio: ID».")
 
 
+@reintentar_si_cambia
 def tomar(identificador: str, con: list[str] | None = None, relevo: bool = False) -> None:
     """Una persona se registra como responsable del cambio (con sus agentes); un agente se suma al cambio."""
     carpeta, estado = abierto(identificador)
@@ -673,6 +700,7 @@ def tomar(identificador: str, con: list[str] | None = None, relevo: bool = False
           + (f" (relevo de {datos['relevo_de']})" if "relevo_de" in datos else "") + ".")
 
 
+@reintentar_si_cambia
 def soltar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     previo = (estado.get("responsable") or {}).get("persona")
@@ -688,6 +716,7 @@ def soltar(identificador: str) -> None:
     print(f"{previo} soltó {identificador}; queda sin responsable.")
 
 
+@reintentar_si_cambia
 def mensaje(identificador: str, texto: str, de: str | None = None) -> None:
     """Un mensaje en el registro del cambio. Sin --de, lo firma el actor de siempre (persona con terminal o agente);
     --de lo usa la extensión de VS Code para un mensaje que llegó por Live Share, con el nombre que da Live Share."""
@@ -2932,6 +2961,13 @@ def inicializar(oracle: str | None = None) -> None:
     if versionados:  # el .gitignore no saca del índice lo que ya estaba versionado; init no toca el índice
         print("Aviso: hay paquetes de Clue versionados de antes; ahora son locales. Para dejar de versionarlos sin borrarlos: "
               "git rm -r --cached " + " ".join(sorted({str(Path(p).parent) for p in versionados})), file=sys.stderr)
+    # Git no versiona carpetas vacías: sin esto, quien clona el proyecto no tiene tareas/ ni catalogos/ y no puede
+    # crear un cambio. .factory/local/ no: es local y Git la ignora.
+    raiz_oracle = ROOT / (oracle or "")
+    for carpeta_vacia in (ROOT / "tareas", CHANGES, ROOT / estructura.DIR / "cambios", raiz_oracle / "catalogos",
+                          raiz_oracle / "requisitos", raiz_oracle / "macros"):
+        if carpeta_vacia.is_dir() and not any(carpeta_vacia.iterdir()):
+            (ruta_segura(carpeta_vacia) / ".gitkeep").write_text("", encoding="utf-8")
     print(f'Factory inicializada en {ROOT}. No se crearon commits ni aprobaciones.')
     print(f'Acuerdos: {CHANGES}; tareas: {ROOT / "tareas"}; proyecto Oracle: {ROOT / (oracle or "")}.')
     print(f'Carpeta propia de Factory: {ROOT / estructura.DIR} (versionada, salvo local/, que Git ignora).')
@@ -2998,7 +3034,7 @@ def escribir_atomico(ruta: Path, datos: bytes, *, esperado: bytes | None = None)
             except FileNotFoundError:
                 cambio = True
             if cambio:
-                raise FactoryError(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
+                raise ArchivoCambiado(f"el archivo cambió durante la operación: {ruta}; volvé a leerlo")
             os.replace(temporal, ruta)
         finally:
             os.close(carpeta)

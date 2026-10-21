@@ -13,7 +13,7 @@ Tipo: funcional
 
 ### Requirement: dos clones no generan el mismo ID
 Tipo: funcional
-El ID de un cambio nuevo SHALL llevar, después del sufijo, tres caracteres al azar, de modo que dos clones que crean un cambio en el mismo segundo con el mismo sufijo no generen el mismo ID.
+El ID de un cambio nuevo SHALL llevar tres caracteres al azar antes del sufijo y SHALL seguir terminando en el sufijo, de modo que dos clones que crean un cambio en el mismo segundo con el mismo sufijo no generen el mismo ID.
 
 #### Scenario: dos cambios en el mismo segundo
 - GIVEN dos clones del mismo proyecto
