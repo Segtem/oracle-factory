@@ -2,11 +2,25 @@
   "id": "20261021-101907-clones",
   "titulo": "Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan",
   "capacidad": "colaboracion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "69636158a9ffc514c2752cebae6f27358ad487e8d05c76537296c1635b37fb69",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T13:50:29+00:00",
+    "documentos": {
+      "openspec/changes/20261021-101907-clones/proposal.md": "6dd46fb0825329233c61ce6dbfef80b8d22af91efb0c9cccfa20c9212aebd99d",
+      "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md": "69636158a9ffc514c2752cebae6f27358ad487e8d05c76537296c1635b37fb69"
+    }
+  },
+  "requisitos": [
+    "colaboracion_c6487e15539740e17.dos_clones_no_generan_el_mismo_id",
+    "colaboracion_c6487e15539740e17.escribir_a_la_vez_no_obliga_a_repetir",
+    "colaboracion_c6487e15539740e17.un_clon_recien_hecho_puede_trabajar"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +33,56 @@
       "forma": "decidio",
       "cuando": "2026-10-21T10:19:07+00:00",
       "capacidad": "colaboracion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T13:50:29+00:00",
+      "documentos": {
+        "openspec/changes/20261021-101907-clones/proposal.md": "6dd46fb0825329233c61ce6dbfef80b8d22af91efb0c9cccfa20c9212aebd99d",
+        "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md": "69636158a9ffc514c2752cebae6f27358ad487e8d05c76537296c1635b37fb69"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T13:50:29+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T13:51:29+00:00",
+      "ids": [
+        "colaboracion_c6487e15539740e17.dos_clones_no_generan_el_mismo_id",
+        "colaboracion_c6487e15539740e17.escribir_a_la_vez_no_obliga_a_repetir",
+        "colaboracion_c6487e15539740e17.un_clon_recien_hecho_puede_trabajar"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "colaboracion_c6487e15539740e17.dos_clones_no_generan_el_mismo_id": "funcional",
+    "colaboracion_c6487e15539740e17.escribir_a_la_vez_no_obliga_a_repetir": "funcional",
+    "colaboracion_c6487e15539740e17.un_clon_recien_hecho_puede_trabajar": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-21T13:50:29+00:00",
+    "con": [
+      "claude-code"
+    ]
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

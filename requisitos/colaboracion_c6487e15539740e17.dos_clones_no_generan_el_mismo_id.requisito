@@ -1,0 +1,4 @@
+requisito colaboracion_c6487e15539740e17.dos_clones_no_generan_el_mismo_id:
+    texto "Tipo: funcional El ID de un cambio nuevo SHALL llevar, después del sufijo, tres caracteres al azar, de modo que dos clones que crean un cambio en el mismo segundo con el mismo sufijo no generen el mismo ID."
+    fuente "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md#dos clones no generan el mismo ID"
+    sin_medir "sin medida todavía; escenarios: «dos cambios en el mismo segundo»"
