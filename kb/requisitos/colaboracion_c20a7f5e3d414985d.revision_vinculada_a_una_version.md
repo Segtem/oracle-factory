@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.revision_vinculada_a_una_version`, `factory_colaboracion.corrida_completa`
 - Sin medir: Calidad y suficiencia de la revisión cruzada y de decisiones humanas sin medir; Clue valida integridad con informe fixture.

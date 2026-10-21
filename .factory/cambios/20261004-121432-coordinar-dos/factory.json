@@ -4,24 +4,28 @@
   "capacidad": "colaboracion",
   "fase": "requisitos_importados",
   "spec": "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
-  "spec_sha256": "2fa7e127c17afade0293d209b7f223b4332ea3cd373035ad7e1d15bab7840c20",
+  "spec_sha256": "4a5d844686d0e321df91abdd9d4b89ec21d58f4056c38891825e3fad9335cad1",
   "spec_aprobada": {
-    "por": "usuario de esta conversación",
-    "cuando": "2026-10-04T12:20:14+00:00",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-21T10:09:05+00:00",
     "documentos": {
-      "openspec/changes/20261004-121432-coordinar-dos/proposal.md": "d6994c4ac04f8eb628cd357b50a5b52e564e750ae05d828cd9b45e411be0afe1",
-      "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md": "2fa7e127c17afade0293d209b7f223b4332ea3cd373035ad7e1d15bab7840c20"
-    },
-    "canal": "conversación",
-    "texto": "Bien, continuemos."
+      "openspec/changes/20261004-121432-coordinar-dos/proposal.md": "78050f6be0f8199ab9e4093c367a720fe109f95c7f23747d67e3d34523e71357",
+      "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md": "4a5d844686d0e321df91abdd9d4b89ec21d58f4056c38891825e3fad9335cad1"
+    }
   },
   "requisitos": [
-    "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos",
-    "colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites",
-    "colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente",
-    "colaboracion_c20a7f5e3d414985d.relevo_recuperable",
-    "colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo",
-    "colaboracion_c20a7f5e3d414985d.revision_vinculada_a_una_version"
+    "colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos",
+    "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites",
+    "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+    "colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente",
+    "colaboracion_cf0b1719108ccce04.relevo_recuperable",
+    "colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo",
+    "colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version"
   ],
   "revision": null,
   "oracle": null,
@@ -195,17 +199,68 @@
           "nuevo": "b6958203f24c70ec7b1e768c02c032f5cf0a2a7f6034ba6f06adb5da8baae0a0"
         }
       }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:09:05+00:00",
+      "documentos": {
+        "openspec/changes/20261004-121432-coordinar-dos/proposal.md": "78050f6be0f8199ab9e4093c367a720fe109f95c7f23747d67e3d34523e71357",
+        "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md": "4a5d844686d0e321df91abdd9d4b89ec21d58f4056c38891825e3fad9335cad1"
+      }
+    },
+    {
+      "accion": "tomado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-21T10:09:05+00:00",
+      "con": [
+        "claude-code"
+      ]
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-21T10:09:15+00:00",
+      "ids": [
+        "colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos",
+        "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites",
+        "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros",
+        "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez",
+        "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos",
+        "colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente",
+        "colaboracion_cf0b1719108ccce04.relevo_recuperable",
+        "colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo",
+        "colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version"
+      ]
     }
   ],
   "medidas_pendientes": {},
-  "medidas": {
-    "colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-05T16:04:33+00:00",
-      "sha256": "b6958203f24c70ec7b1e768c02c032f5cf0a2a7f6034ba6f06adb5da8baae0a0"
-    }
+  "medidas": {},
+  "tipos": {
+    "colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos": "funcional",
+    "colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites": "funcional",
+    "colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros": "funcional",
+    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez": "funcional",
+    "colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos": "funcional",
+    "colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente": "funcional",
+    "colaboracion_cf0b1719108ccce04.relevo_recuperable": "funcional",
+    "colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo": "funcional",
+    "colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version": "funcional"
+  },
+  "responsable": {
+    "persona": "Brian Hollweg",
+    "desde": "2026-10-21T10:09:05+00:00",
+    "con": [
+      "claude-code"
+    ]
   }
 }

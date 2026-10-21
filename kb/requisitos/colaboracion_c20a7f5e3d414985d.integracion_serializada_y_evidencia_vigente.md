@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.integracion_serializada_y_evidencia_vigente`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.integracion_serializada_y_evidencia_vigente`, `factory_colaboracion.corrida_completa`
 - Sin medir: Autoridad del integrador, resolución humana de conflictos y suficiencia del sensor del producto sin medir; aprobaciones fixture sólo en temporales.

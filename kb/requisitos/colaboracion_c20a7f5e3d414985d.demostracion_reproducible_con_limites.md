@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.demostracion_reproducible_con_limites`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.demostracion_reproducible_con_limites`, `factory_colaboracion.corrida_completa`
 - Sin medir: Piloto con dos personas y sus agentes pendiente; usabilidad y productividad no medidas por el arnés.

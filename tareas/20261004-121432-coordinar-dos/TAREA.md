@@ -101,3 +101,11 @@ Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicito
 ### Nota (2026-10-05 16:04:33 UTC)
 
 Medidas de colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-21 10:09:05 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-21 10:09:15 UTC)
+
+Requisitos importados: colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos (funcional), colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites (funcional), colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez (funcional), colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos (funcional), colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente (funcional), colaboracion_cf0b1719108ccce04.relevo_recuperable (funcional), colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo (funcional), colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

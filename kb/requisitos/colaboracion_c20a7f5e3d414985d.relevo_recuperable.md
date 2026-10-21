@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.relevo_recuperable`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.relevo_recuperable`, `factory_colaboracion.corrida_completa`
 - Sin medir: Recepción y recuperación reales por personas sin medir; el arnés sólo simula responsables y un proceso fixture terminado.

@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.aislamiento_y_sincronizacion_explicitos`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.aislamiento_y_sincronizacion_explicitos`, `factory_colaboracion.corrida_completa`
 - Sin medir: Pilotaje en máquinas distintas y colisión de un cambio Factory que ya tiene spec aceptada o requisitos importados (renovar la aceptación y reimportar) sin medir; el arnés observa worktrees, clones locales divergentes y la migración de una tarea Task o de un cambio Factory sin spec aceptada con ID colisionado.

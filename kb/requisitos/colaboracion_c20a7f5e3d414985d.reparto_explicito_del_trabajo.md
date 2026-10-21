@@ -10,7 +10,7 @@ vigente: true
 
 - Id: `colaboracion_c20a7f5e3d414985d.reparto_explicito_del_trabajo`
 - Vigente: sí
-- Cambio: [[cambios/20261004-121432-coordinar-dos]]
+- Cambio: ninguno registrado
 - Veredicto: sin juicio
 - Medidas: `factory_colaboracion.reparto_explicito_del_trabajo`, `factory_colaboracion.corrida_completa`
 - Sin medir: Acuerdo real de reparto, confirmación de ambas personas y aplicación de escritor único pendientes de piloto humano.
