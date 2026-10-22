@@ -110,6 +110,15 @@ class Hora(unittest.TestCase):
                 {'accion': 'mensaje', 'texto': 'Beto después', 'cuando': '2026-10-22T12:00:06+00:00'}]
         unido = unir.unir(base, {'eventos': base['eventos'] + ana}, {'eventos': base['eventos'] + beto})
         self.assertEqual([e.get('texto') for e in unido['eventos']], [None, 'Beto viejo', 'Ana 1', 'Beto', 'Ana 2', 'Beto después'])
+        # Si la unión deja decisiones para una persona, su evento lleva su propia hora con microsegundos, después de todo.
+        viejo = {'eventos': [{'accion': 'cambio_creado', 'cuando': '2099-01-01T00:00:00Z'}]}
+        unido = unir.unir(viejo, {**viejo, 'fase': 'a'}, {**viejo, 'fase': 'b'})
+        [union] = [e for e in unido['eventos'] if e['accion'] == 'union_con_decisiones']
+        self.assertRegex(union['cuando'], MICRO)
+        self.assertGreater(unir.hora(union), unir.hora(viejo['eventos'][0]))
+        pasado = {'eventos': [{'accion': 'cambio_creado', 'cuando': '2000-01-01T00:00:00Z'}]}
+        hechas = [unir.unir(pasado, {**pasado, 'fase': 'a'}, {**pasado, 'fase': 'b'}) for _ in range(2)]
+        self.assertEqual(hechas[0], hechas[1])  # la misma unión en dos clones da el mismo evento
         # Y el banco: mensajes de a turnos en dos ramas, sin esperar entre días, quedan en el orden de los días.
         # Hasta que en una corrida dos mensajes de las dos ramas caigan en el mismo segundo (casi siempre, la primera).
         for _ in range(5):

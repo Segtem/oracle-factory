@@ -102,9 +102,12 @@ def unir(base: dict, nuestro: dict, suyo: dict) -> dict:
     salida = _mapa(base or {}, nuestro, suyo, [], pendientes, _campo)
     if pendientes:
         salida["pendientes_de_union"] = _sumar([], salida.get("pendientes_de_union"), pendientes, en_orden=False)
+        # Su propia hora, con microsegundos: un microsegundo después del último evento. No la del reloj, para que la misma
+        # unión hecha en dos clones dé el mismo evento (y al juntarlos después no se repita).
+        ultimo = max((hora(e)[0] for e in salida.get("eventos") or []), default=dt.datetime.min.replace(tzinfo=dt.timezone.utc))
+        cuando = ultimo + dt.timedelta(microseconds=1)
         salida.setdefault("eventos", []).append({"accion": "union_con_decisiones", "forma": "registro", "actor": "oracle-factory",
-                                                 "tipo_actor": "agente",
-                                                 "cuando": max((e for e in salida.get("eventos") or []), key=hora, default={}).get("cuando", ""),
+                                                 "tipo_actor": "agente", "cuando": cuando.isoformat(timespec="microseconds"),
                                                  "campos": [p["campo"] for p in pendientes]})
     return salida
 

@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/4ad55f4-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "4ad55f4afb5490f237a3a9ba61b98f67eb32d59c",
+  "diff_sha256": "7504bc6d0757cafa4b511c40a7e658e2bac6b915091bccf0cb765097343287c3",
+  "context_sha256": "413082bbd0864db81a35576cfda75f3a7a1765eca2bb3396bfceecae27719ad4",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron exhaustivamente la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus dos requisitos funcionales y escenarios, el paquete Clue de la vuelta 4 y el código relacionado: oracle_factory/cli.py, oracle_factory/unir.py, oracle_factory/kb.py, oracle_factory/resumen.py, oracle_factory/tablero.py, editores/vscode/extension.js, editores/vscode/tablero.js, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, los catálogos Oracle catalogos/factory_hora.*.oracle y docs/colaboracion.md. Se omitieron los 30 archivos de registros y evidencia de Factory excluidos por el paquete.",
+    "Se comprobó la subsanación de los hallazgos de todas las vueltas anteriores sin regresiones: en la vuelta 4 se verificó HORA-006 (ahora() conserva _ULTIMA_HORA en el proceso y suma 1 microsegundo ante repeticiones o retrocesos del reloj, con cobertura en test_ho1_el_reloj_repite_el_microsegundo) y HORA-007 (test_ho1_archivar_ordena_los_cierres_por_la_hora ejercita la función archivar() verificando la precedencia de cierres legados con 'Z' frente a cierres con microsegundos del mismo segundo).",
+    "Se inspeccionaron las comparaciones y cortes de marcas de tiempo en el resto del sistema: unir.py ordena con unir.hora preservando orden léxico en marcas no ISO y orden cronológico en fechas mixtas (+00:00, Z, segundos y microsegundos); kb.py y cli.py emplean cortes [:16] (minuto) o [:10] (fecha) que no se distorsionan con fracciones; tablero.py y tablero.js manejan adecuadamente marcas fraccionarias ISO 8601 en UTC.",
+    "Se ejecutó exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (4 pruebas, OK en ~3.2 s). No se corrió la suite completa ni se modificó el checkout de revisión ni la configuración de Git.",
+    "Se realizaron pruebas de mutación manuales registradas en mutaciones.txt (M1 a M6) en copias aisladas en el directorio de trabajo del revisor: M1 (revertir ahora() a segundos; capturada por MICRO.match en test_ho1), M2 (revertir ahora() a omitir avance de microsegundo ante reloj estático; capturada por test_ho1_el_reloj_repite_el_microsegundo), M3 (revertir archivar() a sorted() de cadenas; capturada por test_ho1_archivar_ordena_los_cierres_por_la_hora), M4 (revertir unir.hora a devolver solo datetime; capturada por test_ho1), M5 (revertir unir.py a orden léxico directo; capturada por test_ho2) y M6 (remover verificación vistos == orden en banco a4)."
+  ]
+}
