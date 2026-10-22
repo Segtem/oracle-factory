@@ -63,3 +63,7 @@ Medidas de conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_or
 ### Nota (2026-10-22 01:40:20 UTC)
 
 Medidas de conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-22 11:50:43 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Seis vueltas de codex y agy: la 1 dejó 11 hallazgos (3 altos: guías descartadas por enlazar a un cambio abandonado, títulos perdidos, redirecciones que podían llevar texto afuera), la 2 seis, la 3 dos, la 4 y la 5 uno cada una, todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 6 no dejó ningún hallazgo. Calidad con las 22 preguntas de oro, contando los cinco primeros pasajes: 19 aciertos (MRR 0,65) con qwen3-embedding:0.6b, sobre el umbral de 18.); 0 abiertos derivados; commit 3d854d629705ba9195aeac663dc42432b69c570f; informe tareas/20261021-235127-fjn-rag/revisiones/registro-efyxus0f/informe.json; decisiones tareas/20261021-235127-fjn-rag/revisiones/registro-efyxus0f/decisiones.json.

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "c3fa981992a3b7b0c677abdcdc1f644d24c5d833dc2ff7ab5e4d887d41710998",
+  "actor": "Brian Hollweg",
+  "motivo": "Seis vueltas de codex y agy: la 1 dejó 11 hallazgos (3 altos: guías descartadas por enlazar a un cambio abandonado, títulos perdidos, redirecciones que podían llevar texto afuera), la 2 seis, la 3 dos, la 4 y la 5 uno cada una, todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 6 no dejó ningún hallazgo. Calidad con las 22 preguntas de oro, contando los cinco primeros pasajes: 19 aciertos (MRR 0,65) con qwen3-embedding:0.6b, sobre el umbral de 18.",
+  "decisiones": []
+}

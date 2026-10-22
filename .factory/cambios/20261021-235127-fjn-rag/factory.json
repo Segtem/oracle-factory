@@ -2,7 +2,7 @@
   "id": "20261021-235127-fjn-rag",
   "titulo": "RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida",
   "capacidad": "conocimiento",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
   "spec_sha256": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
     "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261021-235127-fjn-rag/revisiones/registro-efyxus0f/informe.json",
+    "sha256": "c3fa981992a3b7b0c677abdcdc1f644d24c5d833dc2ff7ab5e4d887d41710998",
+    "decisiones": "tareas/20261021-235127-fjn-rag/revisiones/registro-efyxus0f/decisiones.json",
+    "decisiones_sha256": "82689a5cac1fd29c5409cc5077688db78d941b9ce17631f59f08fefde360502f",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T11:50:43+00:00",
+    "motivo": "Seis vueltas de codex y agy: la 1 dejó 11 hallazgos (3 altos: guías descartadas por enlazar a un cambio abandonado, títulos perdidos, redirecciones que podían llevar texto afuera), la 2 seis, la 3 dos, la 4 y la 5 uno cada una, todos corregidos con pruebas que fallan en el código viejo y mutaciones muertas; la 6 no dejó ningún hallazgo. Calidad con las 22 preguntas de oro, contando los cinco primeros pasajes: 19 aciertos (MRR 0,65) con qwen3-embedding:0.6b, sobre el umbral de 18.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "3d854d629705ba9195aeac663dc42432b69c570f",
+      "archivos_sha256": "3430b47341ce6ae7040e850a7ab69dd0f6e4bc61496906acbba31a9acdc6e3cd"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -539,6 +559,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "555566ab0260"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T03:06:53+00:00",
+      "decision": "aprobar",
+      "candidato": "0bb7183"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T11:50:43+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "c3fa981992a3b7b0c677abdcdc1f644d24c5d833dc2ff7ab5e4d887d41710998",
+      "decisiones_sha256": "82689a5cac1fd29c5409cc5077688db78d941b9ce17631f59f08fefde360502f"
     }
   ],
   "tipos": {
@@ -632,5 +676,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }
