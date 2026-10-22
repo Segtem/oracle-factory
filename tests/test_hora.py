@@ -81,6 +81,24 @@ class Hora(unittest.TestCase):
             f.evento(estado, 'mensaje', forma='mensaje', texto='otro')
         self.assertEqual(estado['eventos'][-1]['cuando'], '2026-10-22T12:00:05.100001+00:00')
 
+    def test_ho1_el_vault_ordena_los_cambios_por_su_creacion(self):
+        # Dos cambios del mismo segundo: el ID del segundo creado puede ir antes en orden alfabético (sus letras son al
+        # azar). El requisito que traen los dos es del que se creó primero.
+        f.AGENTE = 'claude-code'
+        try:
+            uno, dos = f.nuevo('Uno', capacidad='otra', sufijo='zz'), f.nuevo('Dos', capacidad='otra', sufijo='aa')
+        finally:
+            f.AGENTE = None
+        segundo, primero = sorted([uno, dos])  # el que se creó primero es el que va después en orden alfabético
+        for ident, cuando in ((primero, '2026-10-22T12:00:05.100000+00:00'), (segundo, '2026-10-22T12:00:05.200000+00:00')):
+            carpeta, estado = f.leer(ident)
+            estado['eventos'][0]['cuando'] = cuando
+            estado['requisitos'] = ['otra_c0.compartido']
+            f.ruta_registro(carpeta).write_text(json.dumps(estado))
+        self.assertEqual([i for i, _ in f.kb_mod.cambios_del_proyecto(f)], [primero, segundo])
+        nota = f.kb_mod.armar(f)['kb/requisitos/otra_c0.compartido.md']
+        self.assertIn(f'- Cambio: [[cambios/{primero}]]', nota)
+
     def test_ho1_archivar_ordena_los_cierres_por_la_hora(self):
         # Dos cambios cerrados sin archivar: uno viejo, cerrado al principio del segundo (en segundos y con Z), y uno nuevo,
         # cerrado una décima después, cuyo ID va primero. Se archiva primero el que se cerró antes.

@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/21fa6bb-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "21fa6bb0244139ebc90892a37b405ef98dcc724e",
+  "diff_sha256": "1768db3fcd85204ba91d3f6a9d0f975b0e94205b27d60aef5e0a155d81253b1c",
+  "context_sha256": "86aa48cfe96f550909a3c76b404d59f61512ca1d60b8484c5888af704f464e28",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta y los dos requisitos/escenarios de la spec; el diff completo del paquete; y las implementaciones afectadas en oracle_factory/cli.py y oracle_factory/unir.py, el banco a4, tests/test_hora.py, tools/verify_hora.py, catálogos y docs/colaboracion.md. También busqué consumidores y comparaciones de marcas en oracle_factory, editores/vscode, tools y tests.",
+    "Revisé los informes de las seis vueltas previas y comprobé en el candidato que siguen cerrados los hallazgos que indicaban correcciones posteriores. No repetí HORA-PROC-002: el riesgo de empate entre ramas con registro base idéntico fue aceptado por Brian Hollweg y queda documentado en docs/colaboracion.md junto con el desempate determinista acordado.",
+    "Ejecuté exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null; resultado: 4 pruebas, OK. No ejecuté la suite completa, tools/verify_hora.py ni Oracle.",
+    "No hice mutaciones manuales en copias. El caso a4 real de Git corre dentro de tests/test_hora.py; la prueba pasó, incluyendo la comprobación de al menos un par entre ramas en el mismo segundo. La unión pura también cubre mezcla de horas antiguas en segundos con microsegundos, inversión de orden de integración ante empate y preservación del orden intrarrama.",
+    "No revisé los archivos excluidos por el pedido (registros/evidencia de Factory, kb/README.md, kb/cambios, kb/requisitos y tareas). No modifiqué el checkout ni la configuración de Git."
+  ]
+}
