@@ -277,6 +277,12 @@ class Rag(unittest.TestCase):
         self.configurar({'proveedor': 'ollama', 'url': s.url, 'modelo': 'otro-modelo'})
         self.preguntar('tortuga')
         self.assertEqual(len(s.textos()), len(rag.corpus(f)[0]) + 1)
+        # El mismo modelo en otro servidor: tampoco se reusan.
+        otro = Servidor()
+        self.addCleanup(otro.cerrar)
+        self.configurar({'proveedor': 'ollama', 'url': otro.url, 'modelo': 'otro-modelo'})
+        self.preguntar('tortuga')
+        self.assertEqual(len(otro.textos()), len(rag.corpus(f)[0]) + 1)
         # Si .factory/local/rag/ es un enlace a otra carpeta, no escribe ahí.
         afuera = self.root.parent / 'afuera'
         afuera.mkdir()

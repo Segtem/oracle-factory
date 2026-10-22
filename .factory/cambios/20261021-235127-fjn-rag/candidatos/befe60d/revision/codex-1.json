@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/befe60d-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "befe60d9aa358dc7be802f4c28a96530fbf0b4a3",
+  "diff_sha256": "6f1098cc2554692d124149449c06a1b1e7a1664d65c1663592a845ddbeaa28d8",
+  "context_sha256": "958b0ff604620377e53710a7945daad1390be044e1ff026a83f9c956ac8080d6",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "RAG-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La caché de embeddings no se invalida cuando cambia el endpoint",
+      "explanation": "La identidad guardada para cada embedding se construye sólo con proveedor y modelo. La configuración admite cambiar la URL; si el endpoint entrega embeddings distintos para el mismo nombre de modelo, los pasajes conservan vectores del endpoint anterior mientras la pregunta se vectoriza en el nuevo. El coseno compara espacios incompatibles y el ranking híbrido puede quedar desactualizado o ser erróneo. La misma configuración con una URL nueva debería invalidar los vectores previos o identificar también el endpoint en la clave.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 220,
+        "end_line": 220,
+        "side": "head"
+      },
+      "trigger": "Preguntar una vez con proveedor=ollama, modelo=M y URL=A; luego cambiar sólo URL a B, donde M produce vectores distintos, y volver a preguntar sin alterar los documentos.",
+      "evidence": "En la línea 220 la clave persistida es f\"{proveedor}:{modelo}\". La línea 223 recupera vectores por esa clave; las líneas 227–229 solicitan embeddings sólo para las huellas ausentes. En cambio, la línea 269 genera siempre el vector de la consulta usando la configuración actual. Por tanto la segunda ejecución mezcla embeddings de pasajes obtenidos en A con el embedding de consulta obtenido en B. El diff permite configurar otro URL y el requisito exige invalidar embeddings cuando cambia su configuración/modelo.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo; conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
+      "status": "pendiente",
+      "verification": "Inspección del flujo de caché en oracle_factory/rag.py:214-233 y del embedding de consulta en 259-273. El escenario estático se deduce directamente de la clave de caché; no pude ejecutar la prueba HTTP por la restricción de sockets del entorno."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null` desde la raíz del checkout: 5 pruebas; 1 pasó y 4 dieron error al abrir `127.0.0.1` con `PermissionError: [Errno 1] Operation not permitted`, por lo que los escenarios que necesitan servidor HTTP local no se verificaron en este entorno.",
+    "No se ejecutó la suite completa, `tools/verify_rag.py` ni Oracle. No se hicieron mutaciones ni se modificó el checkout.",
+    "La revisión está limitada al diff y contexto incluidos en el paquete; no se inspeccionaron los archivos excluidos por quien lo preparó."
+  ]
+}

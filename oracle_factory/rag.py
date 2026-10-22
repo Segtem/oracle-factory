@@ -217,7 +217,7 @@ def vectores(cli, pasajes: list[dict], conf: dict, configurada: bool) -> tuple[d
     ruta = cli.ruta_segura(ruta_indice(cli))  # un enlace en el camino lo llevaría fuera de .factory/local/rag/
     ruta.parent.mkdir(parents=True, exist_ok=True)
     cli.ruta_segura(ruta)
-    clave = f"{conf['proveedor']}:{conf['modelo']}"
+    clave = f"{conf['proveedor']}:{conf['url']}:{conf['modelo']}"  # otro servidor puede dar otros vectores
     with contextlib.closing(sqlite3.connect(ruta)) as db, db:
         db.execute("CREATE TABLE IF NOT EXISTS pasajes (huella TEXT PRIMARY KEY, modelo TEXT, vector BLOB)")
         guardados = {h: v for h, m, v in db.execute("SELECT huella, modelo, vector FROM pasajes") if m == clave}

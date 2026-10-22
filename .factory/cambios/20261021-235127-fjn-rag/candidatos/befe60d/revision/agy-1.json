@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/befe60d-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "befe60d9aa358dc7be802f4c28a96530fbf0b4a3",
+  "diff_sha256": "6f1098cc2554692d124149449c06a1b1e7a1664d65c1663592a845ddbeaa28d8",
+  "context_sha256": "f28faa1c8ed2173d3a593adcd6fd113509003d6d32e68be3c1761e18dd1dab35",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se examinaron la propuesta (openspec/changes/20261021-235127-fjn-rag/proposal.md), la especificación contractual (specs/conocimiento/spec.md), el diseño (design.md) y las tareas del cambio 20261021-235127-fjn-rag.",
+    "Se revisó en profundidad el diff del paquete paquete-agy-1.json correspondiente al candidato befe60d, que abarca README.md, oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, los 5 archivos de requisitos (.requisito), los 7 catálogos de Oracle (.oracle) y kb/preguntas-de-oro.json, omitiendo los 49 archivos fuera del paquete según las indicaciones.",
+    "Se comprobó la corrección del hallazgo RAG-001 de la vuelta 4: evaluar() invoca a preguntar(cli, ..., maximo=PRIMEROS) y evalúa los cinco primeros pasajes tal como los recibe quien pregunta (rutas = [r['ruta'] for r in datos['resultados']]), sin deduplicar artificialmente por archivo antes de evaluar el top 5; tanto el README como tests/test_rag.py (líneas 329-339) documentan y prueban este comportamiento.",
+    "Se verificaron las salvaguardas contra regresiones de vueltas anteriores: no se indexa kb/README.md; se descartan requisitos con vigente: false y cambios con fase abandonada; las notas por revisar se excluyen del corpus y se informan aparte; los títulos y secciones ignoran numerales dentro de bloques de código Markdown; no se siguen redirecciones HTTP; es_local restringe peticiones no configuradas a loopback/localhost; el índice SQLite vive bajo .factory/local/rag/ y se protege con cli.ruta_segura; y se ignoran enlaces simbólicos en directorios del corpus o en la ruta del índice.",
+    "Se ejecutaron las pruebas exactamente como se indicó desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null, completando los 5 casos de prueba exitosamente (test_rag1 a test_rag5).",
+    "Se ejecutó una batería de 11 mutaciones manuales en un clon aislado de trabajo: 10 fueron atrapadas de inmediato por tests.test_rag (incluyendo la reintroducción de deduplicación en evaluar, la remoción de exclusiones de notas no vigentes, README o cambios abandonados, el bypass de es_local, y la omisión de filtros de symlinks). La mutación que omitía DELETE FROM pasajes sobrevivió porque la consulta de lectura filtra en memoria (guardados = ... if m == clave) y re-pide embeddings completos al cambiar de modelo, aunque la sentencia DELETE está correctamente implementada en el código.",
+    "No se ejecutó la suite completa del repositorio ni tools/verify_rag.py directamente contra el candidato para preservar estrictamente el modo de sólo lectura e inmutabilidad del checkout.",
+    "La revisión concluye sin hallazgos pendientes (findings permanece vacía)."
+  ]
+}

@@ -435,6 +435,58 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "0adf8b9a0c80"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-22T02:40:29+00:00",
+      "revisor": "agy",
+      "candidato": "befe60d",
+      "lanzamiento": "d20d6a186b56"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-22T02:40:29+00:00",
+      "revisor": "codex",
+      "candidato": "befe60d",
+      "lanzamiento": "b454b9d265d4"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-22T02:41:56+00:00",
+      "revisor": "codex",
+      "proveedor": "codex",
+      "modelo": "gpt-6-luna",
+      "candidato": "befe60d",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "b454b9d265d4"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-22T02:52:25+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "befe60d",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "d20d6a186b56"
     }
   ],
   "tipos": {
