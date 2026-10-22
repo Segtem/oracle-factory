@@ -112,13 +112,16 @@ class Rag(unittest.TestCase):
             f.abandonar(muerto)
         self.escribir('kb/notas/tortugas.md', '---\nfuentes: [README.md]\n---\n# Tortugas\n\nTodo sobre la tortuga y el camino.\n')
         self.escribir('README.md', 'proyecto\n')
+        # Un requisito que ya no está vigente, y el índice del vault que nombra todo: tampoco responden.
+        self.escribir('kb/requisitos/viejo.md', '---\nvigente: false\n---\n# viejo\n\nLa tortuga cruza el camino por el puente.\n')
+        (self.root / 'kb/README.md').write_text((self.root / 'kb/README.md').read_text() + '\n- La tortuga cruza el camino\n')
         self.git('add', '-A')
         self.git('commit', '-qm', 'base')
         datos = self.preguntar('¿Cómo cruza el camino la tortuga?')
         citas = [r['cita'] for r in datos['resultados']]
         self.assertEqual(citas[0], f'openspec/changes/{vivo}/proposal.md#Why')
         self.assertEqual(datos['resultados'][0]['cambio'], vivo)
-        self.assertFalse([c for c in citas if muerto in c or 'tortugas.md' in c], citas)
+        self.assertFalse([c for c in citas if muerto in c or 'tortugas.md' in c or 'viejo.md' in c or 'README' in c], citas)
         self.assertEqual(datos['por_revisar'], ['kb/notas/tortugas.md'])
         # La nota del cambio cerrado en el vault también responde; y una guía que enlaza al abandonado no es suya.
         self.assertIn(f'kb/cambios/{vivo}.md', [r['ruta'] for r in self.preguntar('Comprobar el título de una nota')['resultados']])
@@ -165,6 +168,9 @@ class Rag(unittest.TestCase):
         self.assertEqual(regar['seccion'], 'Requirement: regar')
         self.assertTrue(regar['texto'].startswith('Capability: jardín\nRequirement: regar'))
         self.assertIn('# un comentario de shell', regar['texto'])
+        self.escribir('docs/script.md', '```bash\n# no es un título\n```\n\n# Script\n\n## Uso\n\nSe corre con cuidado y sin apuro.\n')
+        [uso] = [r for r in self.preguntar('cuidado apuro')['resultados'] if r['ruta'] == 'docs/script.md']
+        self.assertTrue(uso['texto'].startswith('Script\nUso'))
         self.escribir('docs/enorme.md', '# Enorme\n\n' + 'cometa ' * (f.estructura.LIMITE_ARCHIVO // 7 + 1))
         self.assertNotIn('docs/enorme.md', [r['ruta'] for r in self.preguntar('cometa')['resultados']])
         # Lo léxico no distingue tildes ni mayúsculas.
@@ -226,6 +232,9 @@ class Rag(unittest.TestCase):
             self.assertEqual(self.preguntar('tortuga')['modo'], 'hibrido')
         self.assertEqual({(p['ruta'], p['modelo'], p['clave']) for p in s.pedidos}, {('/embeddings', 'otro', 'Bearer secreta')})
         self.assertEqual(s.pedidos[-1]['textos'], ['tortuga'])  # otro modelo no hereda el prefijo del de por defecto
+        self.configurar([])
+        with self.assertRaisesRegex(f.FactoryError, 'tiene que ser un objeto'):
+            self.preguntar('tortuga')
         self.configurar({'proveedor': 'magia'})
         with self.assertRaisesRegex(f.FactoryError, 'ollama, openai o ninguno'):
             self.preguntar('tortuga')
@@ -245,11 +254,29 @@ class Rag(unittest.TestCase):
         datos = self.preguntar('¿cómo integrar?')
         self.assertEqual(len(s.textos()), 2)  # el pasaje que cambió y la pregunta
         self.assertIn('fusionar', datos['resultados'][0]['texto'])
+        # Un cambio nuevo y una decisión regeneran el vault: sólo se piden los pasajes nuevos o cambiados.
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.main(['--proyecto', str(self.root), 'kb'])
+        antes = {p['huella'] for p in rag.corpus(f)[0]}
+        ident = self.nuevo('Un cambio sobre quelonios', 'nuevo')
+        nuevas = {p['huella'] for p in rag.corpus(f)[0]} - antes
+        s.pedidos.clear()
+        datos = self.preguntar('quelonios')
+        self.assertEqual(len(s.textos()), len(nuevas) + 1)
+        self.assertIn(f'kb/cambios/{ident}.md', [r['ruta'] for r in datos['resultados']])
+        antes = {p['huella'] for p in rag.corpus(f)[0]}
+        with contextlib.redirect_stdout(io.StringIO()):
+            f.mensaje(ident, 'la tortuga es un quelonio')  # una decisión: la nota del cambio se regenera
+        nuevas = {p['huella'] for p in rag.corpus(f)[0]} - antes
+        self.assertTrue(nuevas)
+        s.pedidos.clear()
+        self.assertIn('la tortuga es un quelonio', ' '.join(r['texto'] for r in self.preguntar('quelonio')['resultados']))
+        self.assertEqual(len(s.textos()), len(nuevas) + 1)
         # Otro modelo: los embeddings viejos no sirven.
         s.pedidos.clear()
         self.configurar({'proveedor': 'ollama', 'url': s.url, 'modelo': 'otro-modelo'})
         self.preguntar('tortuga')
-        self.assertEqual(len(s.textos()), primera)
+        self.assertEqual(len(s.textos()), len(rag.corpus(f)[0]) + 1)
         # Si .factory/local/rag/ es un enlace a otra carpeta, no escribe ahí.
         afuera = self.root.parent / 'afuera'
         afuera.mkdir()

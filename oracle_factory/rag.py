@@ -47,6 +47,16 @@ def palabras(texto: str) -> list[str]:
     return [p for p in re.findall(r"[a-z0-9]+", plano) if len(p) > 1 and p not in VACIAS]
 
 
+def _titulos(texto: str):
+    """Los encabezados (nivel, texto) fuera de los bloques de código."""
+    en_codigo = False
+    for linea in texto.splitlines():
+        if linea.lstrip().startswith("```"):
+            en_codigo = not en_codigo
+        elif not en_codigo and (m := TITULO.match(linea)):
+            yield m[1], m[2]
+
+
 def _secciones(texto: str) -> list[tuple[str, str]]:
     """(título, cuerpo) por cada #, ## o ###; lo de antes del primer título va con el título del archivo."""
     salida, titulo, cuerpo, en_codigo = [], "", [], False
@@ -79,7 +89,9 @@ def _frontmatter(texto: str) -> tuple[dict, str]:
 
 def _archivos(cli) -> list[Path]:
     raiz = cli.ROOT
-    salida = sorted((raiz / kb_mod.DIR).rglob("*.md")) if (raiz / kb_mod.DIR).is_dir() else []
+    # El índice del vault (kb/README.md) lista todos los cambios, también los abandonados: no responde nada por sí mismo.
+    salida = sorted(p for p in (raiz / kb_mod.DIR).rglob("*.md") if p != raiz / kb_mod.DIR / "README.md") \
+        if (raiz / kb_mod.DIR).is_dir() else []
     if cli.CHANGES.is_dir():
         for cambio in sorted(cli.CHANGES.iterdir()):
             if cambio.is_dir() and cli.ID_RE.fullmatch(cambio.name):
@@ -111,7 +123,7 @@ def corpus(cli) -> tuple[list[dict], list[str], int]:
             fuera += 1
             continue
         enlaces = sorted({f"{kb_mod.DIR}/{e.strip()}.md" for e in ENLACE.findall(texto)})
-        titulo = next((m[2] for linea in texto.splitlines() if (m := TITULO.match(linea))), rel)  # aunque no tenga cuerpo
+        titulo = next((t for _, t in _titulos(texto)), rel)  # el primer encabezado, aunque no tenga cuerpo
         for seccion, cuerpo in _secciones(texto):
             if len(cuerpo) < 20:  # «Ninguno.», «- pendiente»: no responden nada
                 continue
@@ -124,7 +136,7 @@ def corpus(cli) -> tuple[list[dict], list[str], int]:
 # --- embeddings ---------------------------------------------------------------------------------------------------------
 def configuracion(cli) -> dict:
     """La de .factory/config.json → rag.embeddings sobre la de por defecto; otro modelo no hereda el prefijo."""
-    propia = ((cli.config_proyecto().get("rag") or {}).get("embeddings")) or {}
+    propia = cli.config_proyecto()["rag"].get("embeddings", {})
     if not isinstance(propia, dict):
         raise cli.FactoryError('.factory/config.json: "rag.embeddings" tiene que ser un objeto')
     conf = {**POR_DEFECTO, **propia}
@@ -239,7 +251,7 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
         raise cli.FactoryError("indicá la pregunta")
     pasajes, por_revisar, fuera = corpus(cli)
     conf = configuracion(cli)
-    configurada = "url" in (((cli.config_proyecto().get("rag") or {}).get("embeddings")) or {})
+    configurada = "url" in cli.config_proyecto()["rag"].get("embeddings", {})
     lexico = bm25(pasajes, palabras(pregunta))
     semantico, aviso, pedidos = [0.0] * len(pasajes), None, 0
     try:

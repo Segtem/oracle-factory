@@ -1,6 +1,6 @@
 medida factory_rag.calidad_de_factory:
     de rag_corrida c
-    donde c.modo == "hibrido" y c.preguntas == 22 y c.aciertos >= 18
+    donde c.modo == "hibrido" y c.modelo == "qwen3-embedding:0.6b" y c.preguntas == 22 y c.aciertos >= 18
     resumen contar(1)
     umbral == 1 segun contrato porque "aprobado por Brian con la spec: al menos 18 de las 22 preguntas de oro con un archivo esperado entre los cinco primeros, con embeddings"
     requiere rag_corrida

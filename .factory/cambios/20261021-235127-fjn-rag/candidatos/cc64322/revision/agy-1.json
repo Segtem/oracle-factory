@@ -1,0 +1,136 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/cc64322-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "cc64322d8334cb4ca9299cf70247ce0c78e07320",
+  "diff_sha256": "b2cf680bcecb9cf90053ec9633a62d39932436e71be54c9695dc2b5d111bb569",
+  "context_sha256": "6ebb90dc08d8a92c36705d26ce6e8a39a53e480e616a890b3103191442b3523d",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "HALLAZGO-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "kb/README.md no se excluye del corpus, exponiendo títulos y wikilinks de cambios abandonados y requisitos no vigentes",
+      "explanation": "En oracle_factory/rag.py:82, _archivos(cli) incorpora todo el contenido de kb/ vía (raiz / kb_mod.DIR).rglob(\"*.md\"), lo cual incluye el archivo kb/README.md. En corpus() (líneas 100-112), la lógica que determina el cambio asigna cambio = (partes[2] if partes[:2] == [\"openspec\", \"changes\"] else partes[2][:-3] if partes[:2] == [kb_mod.DIR, \"cambios\"] else None). Para kb/README.md, partes es [\"kb\", \"README.md\"], por lo que cambio queda en None. Como tampoco es una nota de requisitos (partes[:2] == [\"kb\", \"requisitos\"]), cambio permanece en None, cambio in abandonados resulta False y campos.get(\"vigente\") == \"false\" también es False. En consecuencia, kb/README.md es indexado y fragmentado en pasajes (Conocimiento del proyecto, Cambios, Requisitos). La sección Cambios enumera todos los cambios de la historia del repositorio, incluyendo aquellos con fase abandonada (- [[cambios/ID]] — Título (abandonada)). La sección Requisitos enumera todos los requisitos históricos, incluyendo los que ya no están vigentes ((ya no vigente)). Ante una consulta léxica o híbrida orientada al tema o título de un cambio abandonado (como en el escenario de test_rag1 al buscar \"tortuga vieja\"), mientras openspec/changes/<muerto>/ y kb/cambios/<muerto>.md son correctamente omitidos, kb/README.md#Cambios surge en el puesto #1 del ranking exponiendo el texto y wikilink del cambio abandonado. Esto contradice la promesa formal del requisito («SHALL dejar afuera las notas de personas por revisar, nombrándolas aparte, y todo lo de un cambio abandonado») y su escenario («aparecen pasajes del cambio cerrado con su cita, ninguno del abandonado»). Adicionalmente, enlaces en kb/README.md extrae los wikilinks de todos los cambios y requisitos del proyecto, distorsionando la expansión del grafo con decenas de aristas que vinculan indiscriminadamente elementos activos con abandonados.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 82,
+        "end_line": 121,
+        "side": "head"
+      },
+      "trigger": "Realizar una consulta en un proyecto con un cambio abandonado y el vault actualizado (oracle-factory kb), cuyo texto coincida con el título del cambio abandonado.",
+      "evidence": "Al consultar \"tortuga vieja\" en el entorno de test_rag1 tras ejecutar kb, el resultado clasificado en el primer puesto (#1) es kb/README.md#Cambios, conteniendo textualmente - [[cambios/<muerto>]] — La tortuga vieja (abandonada).",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Excluir kb/README.md en _archivos() o corpus() (por ser el índice raíz del vault y no una nota de conocimiento de producto); repetir la consulta \"tortuga vieja\" y verificar que kb/README.md no forme parte de los resultados."
+    },
+    {
+      "id": "HALLAZGO-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "La extracción del título de archivo en rag.py:114 no contempla bloques de código, tomando comentarios como título",
+      "explanation": "En oracle_factory/rag.py:114, el título global del archivo se deriva con titulo = next((m[2] for linea in texto.splitlines() if (m := TITULO.match(linea))), rel). Si bien en _secciones() (líneas 53-56) se implementó la bandera en_codigo para no dividir secciones por # dentro de bloques de código Markdown (subsanando HALLAZGO-007 de la vuelta 1), la línea 114 inspecciona todas las líneas secuencialmente sin controlar si pertenecen a un bloque de código delimitado por tres acentos graves. Si un documento Markdown comienza con un bloque de código que contiene comentarios con # antes de su primer encabezado Markdown (por ejemplo, un script bash instructivo o snippet de configuración), TITULO.match(linea) captura la línea de comentario y la asigna como titulo de todo el documento. Esto contamina el campo texto de todos los pasajes de ese archivo (f\"{titulo}\n{seccion}\n{cuerpo}\"), y si un pasaje no posee encabezado propio, su cita adopta indebidamente la forma {ruta}#{comentario_de_codigo}.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 114,
+        "end_line": 114,
+        "side": "head"
+      },
+      "trigger": "Un archivo Markdown en el corpus que presente un bloque de código con comentarios # antes de su primer encabezado #.",
+      "evidence": "Dado un archivo con  seguido de # Documento, titulo en rag.py:114 toma \"script\" en lugar de \"Documento\".",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Incorporar el seguimiento del estado de bloque de código en la búsqueda del primer título o reutilizar el primer título devuelto por _secciones()."
+    },
+    {
+      "id": "HALLAZGO-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "test_rag1 no valida la exclusión de notas de requisitos no vigentes (campos.get(\"vigente\") == \"false\") permitiendo mutaciones sobrevivientes",
+      "explanation": "El requisito preguntar_devuelve_pasajes_vigentes_con_su_cita establece que la búsqueda debe devolver exclusivamente pasajes vigentes del vault y dejar afuera requisitos no vigentes. Para cumplirlo, corpus() contiene el filtro if cambio in abandonados or campos.get(\"vigente\") == \"false\": fuera += 1; continue. Sin embargo, en tests/test_rag.py:101-143, test_rag1_una_pregunta_sobre_una_decision sólo ejercita un cambio cerrado, uno abandonado y una nota humana por revisar. Ningún caso de prueba en tests.test_rag genera una nota en kb/requisitos/ con vigente: false (o verifica la situación de un requisito reemplazado o retirado). Al mutar oracle_factory/rag.py:110 sustituyendo campos.get(\"vigente\") == \"false\" por False, la totalidad de las 5 pruebas de tests.test_rag continúa pasando con éxito (código de salida 0). La prueba contractual asociada a la medida factory_rag.preguntar_devuelve_pasajes_vigentes_con_su_cita no protege contra regresiones ni acredita la exclusión de requisitos no vigentes.",
+      "location": {
+        "file": "tests/test_rag.py",
+        "start_line": 101,
+        "end_line": 143,
+        "side": "head"
+      },
+      "trigger": "Mutación manual en rag.py:110 anulando la verificación de vigencia.",
+      "evidence": "La ejecución de PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag sobre la copia mutada devuelve 5 pruebas exitosas en 4.2 segundos sin registrar ningún fallo.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Añadir en test_rag1 una nota en kb/requisitos/ con vigente: false en su frontmatter y verificar que sus contenidos no aparezcan en resultados y que incrementen fuera_por_no_vigentes."
+    },
+    {
+      "id": "HALLAZGO-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "test_rag4 no implementa el cierre de un cambio ni la regeneración del vault prometidos en su escenario contractual",
+      "explanation": "El escenario contractual en openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#Scenario: el vault cambia entre dos preguntas define explícitamente: GIVEN un índice armado; WHEN un cambio se cierra (y su nota se regenera) y se vuelve a preguntar; THEN la respuesta ya incluye lo nuevo, y sólo se pidieron embeddings de los pasajes que cambiaron. En tests/test_rag.py:234-262, test_rag4_el_vault_cambia_entre_dos_preguntas no invoca f.cerrar() ni ejecuta f.main([\"kb\"]). Toda la prueba se limita a editar manualmente líneas en docs/a.md. Si bien editar docs/a.md ejercita el recálculo y caché de pasajes en vectores(), no pone a prueba la promesa explícita de integración del ciclo de vida de cambios de Factory: el cierre humano del cambio, la fusión de especificaciones y la regeneración del vault.",
+      "location": {
+        "file": "tests/test_rag.py",
+        "start_line": 234,
+        "end_line": 262,
+        "side": "head"
+      },
+      "trigger": "Cotejo entre el texto del escenario rag4 en la spec y el código de test_rag4.",
+      "evidence": "En tests/test_rag.py:234-262 no existe invocación a f.cerrar() ni interacción con el ciclo de vida del vault; la mutación del corpus se realiza exclusivamente con self.escribir(\"docs/a.md\", ...).",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo",
+      "status": "pendiente",
+      "verification": "Adaptar test_rag4 para que el cambio entre las dos consultas sea el cierre de un cambio y la regeneración de sus notas mediante f.main([\"kb\"])."
+    },
+    {
+      "id": "HALLAZGO-005",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "configuracion() en rag.py:127 acepta silenciosamente valores falsy en rag.embeddings evadiendo la validación de tipo",
+      "explanation": "En oracle_factory/rag.py:127-130: propia = ((cli.config_proyecto().get(\"rag\") or {}).get(\"embeddings\")) or {}; if not isinstance(propia, dict): raise cli.FactoryError(\".factory/config.json: \"rag.embeddings\" tiene que ser un objeto\"). El modismo ... or {} sobre el retorno de get(\"embeddings\") hace que si el usuario introduce un valor falsy que no es diccionario (por ejemplo, una lista vacía [], false, 0 o \"\"), la expresión lo convierta en {} antes de evaluar isinstance(propia, dict). Como consecuencia, \"rag\": {\"embeddings\": []} es aceptado silenciosamente sin arrojar el error FactoryError, aplicando la configuración por defecto de Ollama en lugar de señalar el error de configuración.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 127,
+        "end_line": 130,
+        "side": "head"
+      },
+      "trigger": "Definir en .factory/config.json \"rag\": {\"embeddings\": []} o \"rag\": {\"embeddings\": false}.",
+      "evidence": "Al llamar a rag.configuracion(cli) con embeddings: [], no se genera excepción y se retorna {**POR_DEFECTO}.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
+      "status": "pendiente",
+      "verification": "Separar la verificación de presencia de la validación de tipo para rechazar valores que no sean instancias de dict ni None."
+    },
+    {
+      "id": "HALLAZGO-006",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.95,
+      "title": "factory_rag.calidad_de_factory.oracle no incluye c.modelo == \"qwen3-embedding:0.6b\" en su cláusula donde",
+      "explanation": "El catálogo factory_rag.calidad_de_factory.oracle declara en su alcance: alcance \"las preguntas de oro de kb/preguntas-de-oro.json sobre el conocimiento de Factory, con Ollama local y qwen3-embedding:0.6b\", y en el contrato de la propuesta se acordó evaluar con dicho modelo específico. Sin embargo, la regla Oracle sólo filtra: donde c.modo == \"hibrido\" y c.preguntas == 22 y c.aciertos >= 18. Dado que la relación rag_corrida expone el atributo modelo, la comprobación de que el modelo empleado coincida con qwen3-embedding:0.6b no está codificada en el predicado donde, permitiendo que una corrida híbrida con cualquier otro modelo satisfaga formalmente la medida de calidad de Factory.",
+      "location": {
+        "file": "catalogos/factory_rag.calidad_de_factory.oracle",
+        "start_line": 1,
+        "end_line": 8,
+        "side": "head"
+      },
+      "trigger": "Ejecutar verify_rag.py o evaluar con un modelo distinto configurado como híbrido.",
+      "evidence": "La definición del catálogo no contiene c.modelo == \"qwen3-embedding:0.6b\" a pesar de que el alcance y el contrato lo especifican explícitamente.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+      "status": "pendiente",
+      "verification": "Agregar y c.modelo == \"qwen3-embedding:0.6b\" a la cláusula donde de factory_rag.calidad_de_factory.oracle."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se verificaron las correcciones de la vuelta 1 (HALLAZGO-001 a HALLAZGO-008, RAG-001 a RAG-003) constatando que se mantienen cerradas y sin regresiones.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null (5 pruebas, OK en 4.2s).",
+    "No se corrió la suite completa de pruebas ni se alteró la configuración de git.",
+    "Se realizaron mutaciones manuales sobre una copia aislada en el espacio de trabajo del revisor para comprobar la resistencia de las pruebas de contrato.",
+    "Se verificó la vigencia y compatibilidad del paquete y del informe con oracle-clue validar."
+  ]
+}
