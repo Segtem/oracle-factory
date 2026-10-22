@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-mcp/.factory/local/revisiones/5e9de95-agy-1",
+  "base": "051093bfc5c3372e4a9398432002c650333e1739",
+  "head": "5e9de95365affc379dc5d16a376db3e9005ad488",
+  "diff_sha256": "6f2fcc186043561a0d7918c38aa9f5d158e1927c52bb10c4f04b47a77542f88f",
+  "context_sha256": "2603a65948b64dd310288b2ab7fe2eb3278512d70cebcd5c9e2ed4b5e1268594",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "MCP-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Nombre de herramienta con tipo no hashable en tools/call corta el servidor con TypeError",
+      "explanation": "En oracle_factory/mcp.py (línea 95), al recibir tools/call se evalúa `params.get('name') in {h['name'] for h in HERRAMIENTAS}` antes de comprobar si `name` es de tipo string. Si un cliente envía un array u objeto (por ejemplo `{\"name\": []}`), la pertenencia contra el set lanza `TypeError: unhashable type: 'list'` (o 'dict'). Dado que la función `servir` sólo captura `ValueError` al invocar `json.loads` y no protege la llamada a `responder`, la excepción aborta el proceso del servidor y finaliza la sesión stdio. Esto incumple el requisito de que los errores no deben cortar el servidor.",
+      "location": {
+        "file": "oracle_factory/mcp.py",
+        "start_line": 95,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Enviar por stdio una solicitud `{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"tools/call\", \"params\": {\"name\": [], \"arguments\": {}}}` y seguidamente una solicitud ping.",
+      "evidence": "Reproducido directamente en python: `responder` lanza TypeError y `servir` termina abruptamente sin responder la solicitud ni atender mensajes posteriores. tests/test_mcp.py sólo prueba nombres string desconocidos (\"borrar\"), sin contemplar tipos no hashables.",
+      "related_requirement": "conocimiento.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "status": "pendiente",
+      "verification": "Añadir validación `isinstance(params.get('name'), str)` antes de la comprobación en el conjunto, o capturar excepciones en `servir` devolviendo error JSON-RPC -32602, y verificar que tras enviar `name: []` el servidor responde con error y sigue atendiendo ping."
+    },
+    {
+      "id": "MCP-2",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Excepciones en subprocess.run (bytes nulos o timeout) no son capturadas y cortan el servidor",
+      "explanation": "En oracle_factory/mcp.py:llamar, el bloque try...except sólo envuelve a `orden(nombre, argumentos)` en la línea 71. La ejecución de `subprocess.run` (líneas 74-76) carece de manejo de excepciones. Si un argumento contiene un byte nulo (`\\u0000`), el cual es JSON válido y pasa `_valido` (por ejemplo en buscar, preguntar o por_que), `subprocess.run` lanza `ValueError: embedded null byte` a nivel de sistema operativo. De igual forma, si un comando excede el tiempo límite, lanza `subprocess.TimeoutExpired`. Como `servir` no captura excepciones provenientes de `responder`, el servidor MCP se cierra inmediatamente sin devolver un resultado de error.",
+      "location": {
+        "file": "oracle_factory/mcp.py",
+        "start_line": 74,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "Enviar una llamada a herramienta con un carácter nulo en el texto: `{\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"tools/call\", \"params\": {\"name\": \"buscar\", \"arguments\": {\"texto\": \"a\\u0000b\"}}}`.",
+      "evidence": "Ejecutar `mcp.servir` con dicha entrada eleva `ValueError: embedded null byte` y colapsa el proceso sin emitir respuesta JSON-RPC.",
+      "related_requirement": "conocimiento.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "status": "pendiente",
+      "verification": "Envolver la invocación a `subprocess.run` en `llamar` capturando `(ValueError, OSError, subprocess.TimeoutExpired)` y devolviendo `{\"content\": [{\"type\": \"text\", \"text\": str(e)}], \"isError\": True}`."
+    },
+    {
+      "id": "MCP-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "por_que no valida argumentos requeridos e interpola None en el argumento de la CLI",
+      "explanation": "La herramienta `por_que` declara en su `inputSchema` que `archivo` y `linea` son campos requeridos (`required: [\"archivo\", \"linea\"]`). Sin embargo, `orden` no verifica `esquema[\"required\"]`. Si se invoca `por_que` omitiendo `archivo` (por ejemplo `{\"linea\": 1}`), `a.get(\"archivo\")` retorna `None`, generando el argumento 'None:1'. Si en la raíz existiera un archivo llamado None, `por-que` ejecutaría git blame sobre él en vez de rechazar la invocación. Omitir `linea` genera 'archivo:None'. Esto contradice el requisito de que 'un argumento SHALL ser rechazado si no tiene el tipo o la forma esperada'.",
+      "location": {
+        "file": "oracle_factory/mcp.py",
+        "start_line": 63,
+        "end_line": 63,
+        "side": "head"
+      },
+      "trigger": "Llamar a `tools/call` para la herramienta `por_que` con argumentos `{\"linea\": 1}` (omitiendo `archivo`).",
+      "evidence": "`mcp.orden('por_que', {'linea': 1})` devuelve `['por-que', '--json', '--', 'None:1']` en lugar de lanzar ValueError con el esquema esperado.",
+      "related_requirement": "conocimiento.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "status": "pendiente",
+      "verification": "Verificar en `orden` que todas las propiedades requeridas estén presentes en `argumentos`; si no lo están, rechazar la solicitud con ValueError."
+    },
+    {
+      "id": "TEST-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_mc1 no invoca ni verifica 3 de las 7 herramientas prometidas (por_que, resumen, listar)",
+      "explanation": "El requisito `un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo` promete que oracle-factory mcp atenderá con las 7 herramientas preguntar, estado, buscar, por_que, resumen, log y listar devolviendo lo mismo que la CLI. En `tests/test_mcp.py`, `test_mc1` comprueba la lista de herramientas en tools/list pero sólo llama a preguntar, estado, buscar y log. Jamás ejecuta tools/call para `por_que`, `resumen` ni `listar`. Se comprobó mediante mutación que romper totalmente estas 3 herramientas en `mcp.py:orden` sobrevive la prueba unitaria sin fallas.",
+      "location": {
+        "file": "tests/test_mcp.py",
+        "start_line": 56,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Mutar las lambdas de `por_que`, `resumen` y `listar` en `mcp.py:orden` con comandos o flags inválidos y correr `tests.test_mcp`.",
+      "evidence": "Tras aplicar la mutación en una copia local, `tests.test_mcp` corrió y finalizó OK (2 tests en 1.28s) sin detectar que 3 herramientas no funcionan.",
+      "related_requirement": "conocimiento.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "status": "pendiente",
+      "verification": "Agregar a `test_mc1` llamadas a `por_que`, `resumen` y `listar` y contrastar sus resultados con `self.cli(...)`."
+    },
+    {
+      "id": "TEST-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_mc2 no comprueba la ejecución del comando de paleta factory.preguntar",
+      "explanation": "El requisito `preguntar_desde_vs_code` establece que la extensión ofrecerá «Factory: Preguntar al proyecto» en la paleta de comandos y como botón del tablero. En `tests/test_mcp.py`, `test_mc2` sólo ejercita el botón del tablero mediante mensaje webview (que invoca `preguntar()` directamente) y verifica que el nombre figure en `package.json`. No comprueba que el comando esté registrado y operativo en VS Code. Si se muta `extension.js` eliminando `vscode.commands.registerCommand('factory.preguntar', preguntar)` en `activate()`, la prueba sobrevive, a pesar de que el comando en la paleta quedaría inoperativo.",
+      "location": {
+        "file": "tests/test_mcp.py",
+        "start_line": 96,
+        "end_line": 118,
+        "side": "head"
+      },
+      "trigger": "Eliminar el registro de comando `factory.preguntar` en `activate()` de `extension.js` y ejecutar `tests.test_mcp`.",
+      "evidence": "Al aplicar la mutación en una copia local, `tests.test_mcp` finalizó OK (2 tests en 1.29s).",
+      "related_requirement": "conocimiento.preguntar_desde_vs_code",
+      "status": "pendiente",
+      "verification": "Ejercitar el comando registrado a través de la API simulada de comandos de VS Code en las pruebas."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null en la raíz del checkout (2 pruebas OK en ~1.28s).",
+    "No se corrió la suite completa ni tools/verify_mcp.py para no ejecutar pruebas ajenas al cambio según las indicaciones recibidas.",
+    "No se probaron clientes MCP de terceros (Claude Code, Codex) ni instalaciones reales de VS Code fuera de las pruebas automatizadas.",
+    "Se realizaron mutaciones manuales sobre una copia de trabajo en scratch/ para confirmar la supervivencia de mutaciones sin modificar el checkout."
+  ]
+}

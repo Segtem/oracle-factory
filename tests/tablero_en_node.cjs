@@ -61,6 +61,7 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
 (async () => {
     require(path.resolve(extension, 'extension.js')).activate({subscriptions: []});
     await comandos['factory.tablero']();
+    if (process.env.COMANDO) await comandos[process.env.COMANDO]();  // un comando de la paleta, además del tablero
     const html = panel.webview.html;
     for (const m of mensajes) await panel.recibir(m);
     // Un registro que cambia (TABLERO_CAMBIO: ruta y contenido nuevo): el vigía avisa y el tablero se vuelve a armar.

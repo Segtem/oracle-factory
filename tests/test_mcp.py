@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_archivo as _archivo  # noqa: E402
@@ -68,7 +69,14 @@ class Mcp(unittest.TestCase):
                           {'jsonrpc': '2.0', 'id': 9, 'method': 'resources/list'},
                           self.llamar(10, 'borrar', id=self.ident),
                           self.llamar(11, 'log', id=self.ident),
-                          {'jsonrpc': '2.0', 'id': 12, 'method': 'ping'})
+                          {'jsonrpc': '2.0', 'id': 12, 'method': 'ping'},
+                          {'jsonrpc': '2.0', 'id': 14, 'method': 'tools/call', 'params': {'name': [], 'arguments': {}}},
+                          self.llamar(15, 'buscar', texto='nulo\0'),
+                          self.llamar(16, 'por_que', linea=1),
+                          self.llamar(17, 'por_que', archivo=f'openspec/changes/{self.ident}/proposal.md', linea=1),
+                          self.llamar(18, 'resumen'),
+                          self.llamar(19, 'listar'),
+                          {'jsonrpc': '2.0', 'id': 20, 'method': 'ping'})
         self.assertEqual(r[1]['result']['serverInfo']['name'], 'oracle-factory')
         herramientas = {h['name']: h for h in r[2]['result']['tools']}
         self.assertEqual(set(herramientas), {'preguntar', 'estado', 'buscar', 'por_que', 'resumen', 'log', 'listar'})
@@ -78,6 +86,22 @@ class Mcp(unittest.TestCase):
                          json.loads(self.cli('preguntar', '--json', '--', '¿Cómo cruza el camino la tortuga?')))
         self.assertEqual(json.loads(r[4]['result']['content'][0]['text']), json.loads(self.cli('estado', self.ident, '--json')))
         self.assertEqual(r[11]['result']['content'][0]['text'], self.cli('log', self.ident, '--json'))
+        self.assertEqual(r[17]['result']['content'][0]['text'],
+                         self.cli('por-que', '--json', '--', f'openspec/changes/{self.ident}/proposal.md:1'))
+        self.assertEqual(r[18]['result']['content'][0]['text'], self.cli('resumen', '--json'))
+        self.assertEqual(r[19]['result']['content'][0]['text'], self.cli('listar'))
+        self.assertIn(self.ident, r[19]['result']['content'][0]['text'])
+        # Un nombre que no es texto, un byte nulo o un argumento obligatorio que falta: error, y el servidor sigue.
+        self.assertEqual(r[14]['error']['code'], -32602)
+        for n in (15, 16):
+            self.assertTrue(r[n]['result']['isError'])
+            self.assertIn('argumentos inválidos', r[n]['result']['content'][0]['text'])
+        # Si la CLI no se puede correr (un plazo vencido), también es un error de la herramienta.
+        from oracle_factory import mcp
+        with patch.object(mcp.subprocess, 'run', side_effect=mcp.subprocess.TimeoutExpired('oracle-factory', 600)):
+            vencido = mcp.llamar(self.root, 'listar', {})
+        self.assertTrue(vencido['isError'] and 'no se pudo correr' in vencido['content'][0]['text'])
+        self.assertEqual(r[20]['result'], {})
         # Un error es un resultado de error, y el servidor sigue atendiendo.
         self.assertTrue(r[5]['result']['isError'])
         self.assertEqual(r[12]['result'], {})
@@ -112,6 +136,12 @@ class Mcp(unittest.TestCase):
         self.assertEqual((doc['lenguaje'], doc['primera']), ('markdown', '# --json'))
         self.assertFalse(datos['documentos'][0].split('\n', 2)[2].startswith('Factory:'))  # no es un error de la CLI
         self.assertEqual(tablero('')['diffs'], [])  # cancelar no hace nada
+        # Desde la paleta: el comando está registrado y hace lo mismo.
+        r = subprocess.run([_tablero.NODE, str(SOURCE / 'tests/tablero_en_node.cjs'), str(_tablero.EXTENSION), str(self.root),
+                            '[]', str(cli)], capture_output=True, text=True, timeout=120,
+                           env={**os.environ, 'PREGUNTA': 'tortuga', 'COMANDO': 'factory.preguntar'})
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual([d['primera'] for d in json.loads(r.stdout)['diffs']], ['# tortuga'])
         paquete = json.loads((_tablero.EXTENSION / 'package.json').read_text())
         self.assertIn('factory.preguntar', [c['command'] for c in paquete['contributes']['commands']])
         self.assertEqual(self.git('status', '--porcelain'), '')

@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-mcp/.factory/local/revisiones/5e9de95-codex-1",
+  "base": "051093bfc5c3372e4a9398432002c650333e1739",
+  "head": "5e9de95365affc379dc5d16a376db3e9005ad488",
+  "diff_sha256": "6f2fcc186043561a0d7918c38aa9f5d158e1927c52bb10c4f04b47a77542f88f",
+  "context_sha256": "bffed6ce861aff40836c93d7af92a4a2a44cb9d07184b5c34ab064f4664bfd53",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "MCP-1",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un nombre de herramienta con tipo no hashable corta el servidor",
+      "explanation": "En `tools/call`, se compara `params.name` con un set antes de comprobar que sea texto. Un valor JSON array u objeto (por ejemplo `[]`) lanza TypeError durante la comprobación; `servir` no captura esa excepción, así que el proceso termina y no responde a esa solicitud ni atiende las siguientes. Esto incumple el contrato de que un error de herramienta no corte el servidor. La prueba cubre un nombre desconocido string, pero no un nombre de tipo inválido.",
+      "location": {
+        "file": "oracle_factory/mcp.py",
+        "start_line": 95,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Enviar por stdio una línea `{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/call\",\"params\":{\"name\":[],\"arguments\":{}}}`; luego enviar una solicitud ping.",
+      "evidence": "Reproducción directa de `responder` con ese mensaje produjo `TypeError: cannot use 'list' as a set element (unhashable type: 'list')`. El flujo del servidor `servir` no captura TypeError alrededor de `responder`. `tests/test_mcp.py` ejercita `name: \"borrar\"` (string), sin cubrir tipo array/objeto.",
+      "related_requirement": "conocimiento.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "status": "pendiente",
+      "verification": "Agregar una llamada MCP con `params.name` array y otra con objeto, seguidas de ping; verificar que las llamadas malformadas producen respuesta de error JSON-RPC y que ping aún recibe éxito. Repetir `tests.test_mcp`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente `PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null` desde la raíz del checkout: 2 pruebas OK.",
+    "Se reprodujo directamente el TypeError en `responder`; no se corrió una segunda sesión stdio alterada.",
+    "No se ejecutó suite completa ni `tools/verify_mcp.py`; no se probaron clientes MCP reales ni VS Code real.",
+    "No se hicieron mutaciones sobre copias. El hallazgo no altera el checkout."
+  ]
+}
