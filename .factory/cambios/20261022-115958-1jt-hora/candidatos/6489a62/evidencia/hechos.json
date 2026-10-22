@@ -1,0 +1,20 @@
+{
+  "hora_caso": [
+    {
+      "requisito": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "caso": "Hora.test_ho1_dos_mensajes_en_el_mismo_segundo",
+      "codigo": 0
+    },
+    {
+      "requisito": "al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "caso": "Hora.test_ho2_unir_lo_del_mismo_segundo",
+      "codigo": 0
+    }
+  ],
+  "hora_corrida": [
+    {
+      "completa": 1,
+      "casos": 2
+    }
+  ]
+}
