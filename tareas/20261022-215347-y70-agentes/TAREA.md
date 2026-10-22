@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-22 21:59:13 UTC)
 
 Requisitos importados: flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli (funcional), flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-22 22:11:17 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza: factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza, factory_agentes.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-22 22:11:17 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli: factory_agentes.la_guia_dice_lo_que_hace_la_cli, factory_agentes.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
