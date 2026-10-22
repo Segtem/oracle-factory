@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-agentes/.factory/local/revisiones/82872b6-agy-1",
+  "base": "3089477c878db9a2fbd46d999efd633f0dc2f195",
+  "head": "82872b612f9ef43195b75bb6475ac966d7cabe14",
+  "diff_sha256": "c7255757027a569095acaa296c528ec0a720a351f2fbe179e270bf4986d21746",
+  "context_sha256": "86d39f0a927cff817015e922f994d0add5ea51a9584eb732cb50094022b101bd",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente el comando indicado desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null (5 tests, OK en 6.5s).",
+    "No se corrió la suite completa de pruebas ni tools/verify_agentes.py respetando las instrucciones del pedido.",
+    "No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio.",
+    "Se comprobó en un clon temporal que las correcciones de la vuelta 1 son efectivas y que ninguna de las 4 mutaciones probadas sobrevive: 1) eliminar la comprobación de AGENTE en exigir_terminal hace fallar test_ag2 en decidir-union; 2) omitir la comprobación previa de rechazo de agente en cerrar hace fallar test_ag2; 3) remover la validación de marcas rotas en con_bloque hace fallar test_ag1_marcas_rotas; 4) rechazar agentes en subcomandos legítimos como revision-preparar hace fallar test_ag2_los_comandos_de_un_agente_aceptan_agente.",
+    "Se verificó la estructura de AGENTS.md y CLAUDE.md tanto en el checkout candidato como en proyectos generados, confirmando que con_bloque previene la pérdida de texto por marcas malformadas y rechaza marcas duplicadas, que ruta_segura rechaza enlaces simbólicos sin sobreescribirlos, y que exigir_terminal no bloquea ningún flujo legítimo de agente.",
+    "No se observaron nuevos hallazgos ni discrepancias con la propuesta ni la spec del cambio."
+  ]
+}

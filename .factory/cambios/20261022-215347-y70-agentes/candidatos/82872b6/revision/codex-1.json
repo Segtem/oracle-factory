@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-agentes/.factory/local/revisiones/82872b6-codex-1",
+  "base": "3089477c878db9a2fbd46d999efd633f0dc2f195",
+  "head": "82872b612f9ef43195b75bb6475ac966d7cabe14",
+  "diff_sha256": "c7255757027a569095acaa296c528ec0a720a351f2fbe179e270bf4986d21746",
+  "context_sha256": "c4a81329f0a2c4db7dcbfa357018e0e6bdd86b7f9aff1a1d986aeb72ad14703a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Leí la spec, propuesta, diff empaquetado, código y pruebas de agentes; excluí los registros y evidencia listados fuera de alcance.",
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null` desde la raíz del checkout: 5 pruebas, OK.",
+    "Inspeccioné con_bloque y con_claude, ruta_segura y la integración con init; el código rechaza marcas repetidas, incompletas o invertidas antes de escribir, y ruta_segura rechaza enlaces simbólicos.",
+    "Revisé las correcciones de vuelta 1: test_ag2 ejercita comandos reales de agente, compara las cuatro decisiones con modos.via_agente, intenta comandos de persona en confirmacion y autonomo, y prueba cerrar cuando el agente no puede.",
+    "No ejecuté la suite completa ni tools/verify_agentes.py; no hice un flujo end-to-end en modo autonomo con gates completos ni una prueba de filesystem con symlinks."
+  ]
+}
