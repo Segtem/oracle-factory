@@ -2,11 +2,24 @@
   "id": "20261022-215347-y70-agentes",
   "titulo": "La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día",
   "capacidad": "flujo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T21:59:03.129375+00:00",
+    "documentos": {
+      "openspec/changes/20261022-215347-y70-agentes/proposal.md": "c04edd5081d9710b75afcfd7a8893e6832741b148a67242683a30afa6719f0f7",
+      "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f"
+    }
+  },
+  "requisitos": [
+    "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+    "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-22T21:53:47.631945+00:00",
       "capacidad": "flujo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T21:59:03.129400+00:00",
+      "documentos": {
+        "openspec/changes/20261022-215347-y70-agentes/proposal.md": "c04edd5081d9710b75afcfd7a8893e6832741b148a67242683a30afa6719f0f7",
+        "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T21:59:12.955694+00:00",
+      "ids": [
+        "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+        "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": "funcional",
+    "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
