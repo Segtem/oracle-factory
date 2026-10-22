@@ -2,7 +2,7 @@
   "id": "20261022-115958-1jt-hora",
   "titulo": "La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden",
   "capacidad": "colaboracion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
   "spec_sha256": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8",
   "spec_aprobada": {
@@ -617,6 +617,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "50af733b53d52b3aa8dad350dca88918fb5787b7220811695fe61aef4f903d14"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T16:06:27.220762+00:00",
+      "oracle": ".factory/cambios/20261022-115958-1jt-hora/oracle-veredicto.txt",
+      "revision": "tareas/20261022-115958-1jt-hora/revisiones/registro-v1oo34gs/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T16:06:27.257892+00:00",
+      "capacidad": "colaboracion",
+      "spec": "openspec/specs/colaboracion/spec.md"
     }
   ],
   "tipos": {
@@ -678,5 +698,17 @@
       "fecha": "2026-10-22T16:05:34.203966+00:00",
       "candidato": "e2e079e"
     }
-  ]
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T16:06:27.159692+00:00"
+  },
+  "archivo": {
+    "capacidad": "colaboracion",
+    "spec": "openspec/specs/colaboracion/spec.md",
+    "cuando": "2026-10-22T16:06:27.257873+00:00"
+  }
 }

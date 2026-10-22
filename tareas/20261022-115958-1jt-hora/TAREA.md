@@ -1,6 +1,6 @@
 # La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -43,3 +43,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-22 16:05:47 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261022-115958-1jt-hora/oracle-veredicto.txt.
+
+### Nota (2026-10-22 16:06:27 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
