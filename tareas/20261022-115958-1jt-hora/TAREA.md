@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-22 12:00:50 UTC)
 
 Requisitos importados: colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio (funcional), colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-22 12:06:16 UTC)
+
+Medidas de colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo: factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo, factory_hora.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-22 12:06:17 UTC)
+
+Medidas de colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio: factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio, factory_hora.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261022-115958-1jt-hora]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «dos mensajes en el mismo segundo»
+- Medidas: `factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo`, `factory_hora.corrida_completa`
 - Fuente: openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md#la hora de un evento distingue lo escrito en el mismo segundo
 
 Tipo: funcional La hora de cada evento y de cada decisión que Factory registra SHALL llevar microsegundos, en UTC, de modo que dos escrituras del mismo segundo tengan horas distintas y ordenadas. Un registro con horas en segundos SHALL seguir leyéndose, mostrándose y uniéndose sin migrarlo.
