@@ -23,3 +23,11 @@ Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desact
 ### Nota (2026-10-22 22:11:17 UTC)
 
 Medidas de flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli: factory_agentes.la_guia_dice_lo_que_hace_la_cli, factory_agentes.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-22 22:32:46 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-22 22:32:46 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza: Brian Hollweg (persona, confirmo, modo confirmacion).
