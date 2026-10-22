@@ -162,45 +162,67 @@
       "resultado": "ok",
       "hallazgos": 5,
       "lanzamiento": "383b1861e347"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T23:08:31.031473+00:00",
+      "requisito": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "medidas": [
+        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+        "factory_agentes.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T23:08:31.885288+00:00",
+      "requisito": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "medidas": [
+        "factory_agentes.la_guia_dice_lo_que_hace_la_cli",
+        "factory_agentes.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": "funcional",
     "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "funcional"
   },
-  "medidas": {
-    "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-22T22:32:46.147521+00:00",
-      "sha256": "916d6b0ecb7fbd25c988cd45cfcb788087ad3a01434ced63f90a3aa08f709fb5",
-      "catalogos": {
-        "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "ff87231e7b99bdcb4f600a171037028f5a752b016ae4cdfcaf5b14dd98bfa9e9",
-        "factory_agentes.corrida_completa": "93a9dacb4e8b07573031b49a705de899ee3e82cc4c073bfa56713f95394f0585"
-      },
-      "archivos_catalogo": {
-        "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "catalogos/factory_agentes.la_guia_dice_lo_que_hace_la_cli.oracle",
-        "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
-      }
-    },
+  "medidas": {},
+  "medidas_pendientes": {
     "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-22T22:32:46.268948+00:00",
       "sha256": "eb093181fbc2f0c1ad5d7193ddbd7eaa152c9c738fca7fcda12bc1190cfadb03",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-22T23:08:31.004651+00:00",
       "catalogos": {
-        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "f40b0d4c8bc2594c2ff79ac5a3dc1f3ca53787fb77d2cecc363614d891672bf6",
-        "factory_agentes.corrida_completa": "93a9dacb4e8b07573031b49a705de899ee3e82cc4c073bfa56713f95394f0585"
+        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "ea5b582f3e026e234e7c1e43c8b212693af0cc8d83efa1049df67402d35fc193",
+        "factory_agentes.corrida_completa": "481cae0cbed5c8094032e3db5308b19849c29a34127cd03155d3d6165039be76"
       },
       "archivos_catalogo": {
         "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "catalogos/factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza.oracle",
         "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
       }
+    },
+    "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": {
+      "sha256": "916d6b0ecb7fbd25c988cd45cfcb788087ad3a01434ced63f90a3aa08f709fb5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-22T23:08:31.858076+00:00",
+      "catalogos": {
+        "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "b0b9447f98f4d88a24d1b75e12680febe848860956711251c771776a2b9fad3c",
+        "factory_agentes.corrida_completa": "481cae0cbed5c8094032e3db5308b19849c29a34127cd03155d3d6165039be76"
+      },
+      "archivos_catalogo": {
+        "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "catalogos/factory_agentes.la_guia_dice_lo_que_hace_la_cli.oracle",
+        "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
+      }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
