@@ -8,6 +8,7 @@ las dos cambiaron distinto no se elige ni se mezcla: queda el valor de la rama q
 """
 from __future__ import annotations
 
+import datetime as dt
 import heapq
 import json
 
@@ -32,6 +33,16 @@ RESUELVE = {
 DECIDIR = "elegí cuál vale con oracle-factory decidir-union {id} {campo} nuestro (o suyo)"
 
 
+def hora(evento: dict) -> dt.datetime:
+    """La hora de un evento para ordenar: con o sin microsegundos, con «Z» o con «+00:00»; una que no se entiende va
+    primero (como la de un registro muy viejo)."""
+    try:
+        h = dt.datetime.fromisoformat(str(evento.get("cuando") or "").replace("Z", "+00:00"))
+    except ValueError:
+        return dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+    return h if h.tzinfo else h.replace(tzinfo=dt.timezone.utc)
+
+
 def _clave(x) -> str:
     return "\0falta" if x is _FALTA else json.dumps(x, sort_keys=True, ensure_ascii=False)
 
@@ -51,7 +62,7 @@ def _sumar(base, nuestro, suyo, en_orden: bool) -> list:
                 destino.append(x)
     if not en_orden:
         return propios + ajenos
-    return list(heapq.merge(propios, ajenos, key=lambda e: str(e.get("cuando", ""))))  # estable: ante empate, los nuestros
+    return list(heapq.merge(propios, ajenos, key=hora))  # estable: ante empate, los nuestros
 
 
 def _valor(base, nuestro, suyo, camino: list, pendientes: list):
@@ -92,7 +103,7 @@ def unir(base: dict, nuestro: dict, suyo: dict) -> dict:
         salida["pendientes_de_union"] = _sumar([], salida.get("pendientes_de_union"), pendientes, en_orden=False)
         salida.setdefault("eventos", []).append({"accion": "union_con_decisiones", "forma": "registro", "actor": "oracle-factory",
                                                  "tipo_actor": "agente",
-                                                 "cuando": max((str(e.get("cuando", "")) for e in salida.get("eventos") or []), default=""),
+                                                 "cuando": max((e for e in salida.get("eventos") or []), key=hora, default={}).get("cuando", ""),
                                                  "campos": [p["campo"] for p in pendientes]})
     return salida
 

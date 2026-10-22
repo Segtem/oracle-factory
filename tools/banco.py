@@ -697,10 +697,10 @@ def a4_mensajes_de_a_turnos(e: Escenario) -> None:
     e.ana.git('push', '-q', '-u', 'origin', 'tarea/charla')
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/charla', '--track', 'origin/tarea/charla')
-    escritos, dia_de = [], {}
+    escritos, dia_de, orden = [], {}, []
     for dia in range(1, 4):  # los tres días pueden caer en el mismo segundo: la hora de Factory tiene microsegundos
-        hoy = e.a_la_vez(*[(f'día {dia}: {p.nombre}', lambda p=p, t=f'día {dia}: {p.nombre}': (p.agente_hace('mensaje', ident, t), t)[1])
-                           for p in (e.ana, e.beto)])
+        hoy = e.a_la_vez(*[(f'día {dia}: {p.nombre}', lambda p=p, t=f'día {dia}: {p.nombre}':
+                            (p.agente_hace('mensaje', ident, t), orden.append(t), t)[2]) for p in (e.ana, e.beto)])
         escritos += hoy
         dia_de.update({t: dia for t in hoy})
         for p in e.azar.sample([e.ana, e.beto], 2):  # quién sincroniza primero sale de la semilla
@@ -716,8 +716,14 @@ def a4_mensajes_de_a_turnos(e: Escenario) -> None:
     if sorted(vistos) != sorted(escritos):
         e.defecto(f'los mensajes quedaron {vistos}, no {escritos}')
     dias = [dia_de.get(t, 0) for t in vistos]
-    if dias != sorted(dias):  # lo del mismo día no tiene orden entre sí; lo de un día va antes que lo del siguiente
+    if dias != sorted(dias):  # lo de un día va antes que lo del siguiente
         e.defecto(f'los mensajes no quedaron en el orden de los días en que se escribieron: {vistos}')
+    if not e.simultaneo and vistos != orden:  # uno tras otro: el orden exacto en que se escribieron, rama por rama
+        e.defecto(f'los mensajes quedaron {vistos}, y se escribieron {orden}')
+    # Cuántos pares seguidos, de ramas distintas, se escribieron en el mismo segundo: lo que la hora en segundos no ordenaba.
+    juntos = sum(1 for a, b in zip(eventos, eventos[1:])
+                 if a.get('actor') != b.get('actor') and str(a.get('cuando'))[:19] == str(b.get('cuando'))[:19])
+    e.nota(f'{juntos} pares de mensajes de las dos ramas escritos en el mismo segundo, en orden')
 
 
 def a5_trailers_y_vault_en_otro_clon(e: Escenario) -> None:

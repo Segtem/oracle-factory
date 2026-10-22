@@ -27,13 +27,18 @@ class Hora(unittest.TestCase):
         f.AGENTE = 'claude-code'
         try:
             ident = f.nuevo('Un cambio', capacidad='otra', sufijo='hora')
-            f.mensaje(ident, 'primero')
-            f.mensaje(ident, 'segundo')
+            for _ in range(5):  # hasta que los dos caigan en el mismo segundo
+                antes = len(f.leer(ident)[1]['eventos'])
+                f.mensaje(ident, 'primero')
+                f.mensaje(ident, 'segundo')
+                uno, dos = [e['cuando'] for e in f.leer(ident)[1]['eventos'][antes:]]
+                if uno[:19] == dos[:19]:
+                    break
         finally:
             f.AGENTE = None
-        uno, dos = [e['cuando'] for e in f.leer(ident)[1]['eventos'] if e['accion'] == 'mensaje']
+        self.assertEqual(uno[:19], dos[:19])
         self.assertTrue(MICRO.match(uno) and MICRO.match(dos), (uno, dos))
-        self.assertLess(uno, dos)
+        self.assertLess(unir.hora({'cuando': uno}), unir.hora({'cuando': dos}))
         # Un registro viejo, con horas en segundos, se sigue mostrando como antes en estado y en el vault.
         carpeta, estado = f.leer(ident)
         for e in estado['eventos']:
@@ -43,6 +48,10 @@ class Hora(unittest.TestCase):
         with contextlib.redirect_stdout(salida):
             self.assertEqual(f.main(['--proyecto', str(self.root), 'estado', ident, '--json']), 0)
         self.assertEqual(json.loads(salida.getvalue())['id'], ident)
+        salida = io.StringIO()
+        with contextlib.redirect_stdout(salida), patch('builtins.input', return_value=''):
+            f.mostrar(ident)
+        self.assertIn(f'{ident} — Un cambio', salida.getvalue())
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(f.main(['--proyecto', str(self.root), 'kb']), 0)
         nota = (self.root / 'kb/cambios' / f'{ident}.md').read_text()
@@ -53,15 +62,23 @@ class Hora(unittest.TestCase):
         base = {'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-22T12:00:00+00:00'}]}
         ana = [{'accion': 'mensaje', 'texto': 'Ana 1', 'cuando': '2026-10-22T12:00:05.100000+00:00'},
                {'accion': 'mensaje', 'texto': 'Ana 2', 'cuando': '2026-10-22T12:00:05.700000+00:00'}]
-        beto = [{'accion': 'mensaje', 'texto': 'Beto', 'cuando': '2026-10-22T12:00:05.400000+00:00'},
-                {'accion': 'mensaje', 'texto': 'Beto viejo', 'cuando': '2026-10-22T12:00:04+00:00'}]
-        beto.sort(key=lambda e: e['cuando'])
+        # Una rama vieja, con horas en segundos (una con «Z»), y otra nueva, en el mismo segundo: lo viejo cuenta desde el
+        # principio de su segundo, y el resto va por su hora con microsegundos.
+        beto = [{'accion': 'mensaje', 'texto': 'Beto viejo', 'cuando': '2026-10-22T12:00:05Z'},
+                {'accion': 'mensaje', 'texto': 'Beto', 'cuando': '2026-10-22T12:00:05.400000+00:00'},
+                {'accion': 'mensaje', 'texto': 'Beto después', 'cuando': '2026-10-22T12:00:06+00:00'}]
         unido = unir.unir(base, {'eventos': base['eventos'] + ana}, {'eventos': base['eventos'] + beto})
-        self.assertEqual([e.get('texto') for e in unido['eventos']], [None, 'Beto viejo', 'Ana 1', 'Beto', 'Ana 2'])
+        self.assertEqual([e.get('texto') for e in unido['eventos']], [None, 'Beto viejo', 'Ana 1', 'Beto', 'Ana 2', 'Beto después'])
         # Y el banco: mensajes de a turnos en dos ramas, sin esperar entre días, quedan en el orden de los días.
-        with patch.object(banco.time, 'sleep', side_effect=AssertionError('el banco esperó entre días')):
-            [fila] = banco.correr(20261022, ['a4_mensajes_de_a_turnos'])
-        self.assertEqual(fila['resultado'], 'ok', fila['detalle'])
+        # Hasta que en una corrida dos mensajes de las dos ramas caigan en el mismo segundo (casi siempre, la primera).
+        for _ in range(5):
+            with patch.object(banco.time, 'sleep', side_effect=AssertionError('el banco esperó entre días')):
+                [fila] = banco.correr(20261022, ['a4_mensajes_de_a_turnos'])
+            self.assertEqual(fila['resultado'], 'ok', fila['detalle'])
+            juntos = int(next(d for d in fila['detalle'] if 'en el mismo segundo' in d).split()[0])
+            if juntos:
+                break
+        self.assertGreater(juntos, 0)
 
 
 if __name__ == '__main__':

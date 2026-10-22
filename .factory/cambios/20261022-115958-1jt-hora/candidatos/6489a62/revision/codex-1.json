@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/6489a62-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "6489a6244d2f8f444c5b8dd4baca62fe96887aec",
+  "diff_sha256": "ad380702bf4729bd9497014324b270f2cb37886dce414693bd875d96cb2bf3d6",
+  "context_sha256": "c70703cdd2ad4431f998597381cd19f8d8143bf790ed821ccbc335027c7ea48a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "El escenario a4 no verifica que la escritura ocurra en el mismo segundo",
+      "explanation": "El test bloquea time.sleep para comprobar que el banco ya no espera entre días y comprueba el orden de los textos por día. No verifica que dos mensajes de ramas distintas compartan el mismo segundo ni que sus marcas incluyan microsegundos. Como cada escritura del banco se ejecuta en un subproceso y el tiempo de ejecución puede cruzar el límite de segundo, a4 puede pasar sin someter la ruta Git real al caso de concurrencia temporal que el requisito dice medir. La unión sintética de este mismo archivo comprueba el ordenamiento de marcas fraccionarias, pero no cubre la escritura con ahora() dentro del flujo del banco.",
+      "location": {
+        "file": "tests/test_hora.py",
+        "start_line": 61,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Ejecutar el escenario a4 cuando las llamadas a agente_hace caen en segundos distintos (por ejemplo, por tiempo de ejecución de procesos); la prueba todavía acepta el resultado si el orden por día es correcto.",
+      "evidence": "En tests/test_hora.py:62-64 se parchea banco.time.sleep para fallar y sólo se afirma fila[\"resultado\"] == \"ok\". tools/banco.py:71-78 ejecuta cada acción mediante subprocess.run; tools/banco.py:701-720 verifica presencia y orden de días, pero no compara los segundos de cuando. En particular, tools/banco.py:718-720 comprueba sólo que la secuencia de días sea no decreciente, condición que también satisfacen timestamps separados por segundos. La corrida exacta pedida pasó (2 tests) y no contiene aserción temporal para el escenario a4.",
+      "related_requirement": "al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "status": "pendiente",
+      "verification": "Inspección de test_hora.py y banco.py; corrida exacta indicada por quien pide la revisión: 2 tests, OK. No se modificó el checkout ni se ejecutó la suite completa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, los parches del paquete y el código relacionado indicado: unir, kb, resumen, tablero, la extensión VS Code, banco, verificador, catálogos y documentación. Se omitieron los seis archivos de registros/evidencia excluidos por quien pidió la revisión.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null; resultado: 2 pruebas, OK. No se corrió la suite completa ni tools/verify_hora.py.",
+    "No se hicieron mutaciones manuales. No se editó el checkout ni se cambió configuración de Git.",
+    "El hallazgo es una limitación de cobertura del escenario de banco, no evidencia de que la implementación actual ordene mal timestamps ISO UTC. La prueba sintética ho2 sí cubre el orden de marcas con microsegundos."
+  ]
+}

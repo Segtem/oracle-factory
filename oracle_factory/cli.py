@@ -70,7 +70,7 @@ def reintentar_si_cambia(funcion):
 
 def ahora() -> str:
     # Con microsegundos: dos escrituras del mismo segundo (en dos ramas, por ejemplo) quedan en orden al unirlas. Las horas
-    # viejas, en segundos, se comparan bien con éstas como texto: el mismo prefijo, y «+» va antes que «.».
+    # se ordenan como horas, no como texto (unir.hora); una vieja, en segundos, cuenta desde el principio de su segundo.
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec="microseconds")
 
 
