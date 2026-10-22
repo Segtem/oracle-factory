@@ -59,3 +59,7 @@ Medidas de conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_co
 ### Nota (2026-10-22 01:39:01 UTC)
 
 Medidas de conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-22 01:40:20 UTC)
+
+Medidas de conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro: Brian Hollweg (persona, confirmo, modo confirmacion).
