@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/0bb7183-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "0bb7183b70b77f29a8b7d68a5f1ce1c65ff0f505",
+  "diff_sha256": "3c00d6cfac56b331f0768f67f330230f0c427b9a3170b89229250fb3df656945",
+  "context_sha256": "03c6eb74e2f17b88ea2356d9bc80479eb04c75513e6006c1c55a52124d006d49",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (openspec/changes/20261021-235127-fjn-rag/proposal.md), la especificación contractual (specs/conocimiento/spec.md), el diseño (design.md), las tareas y el diff del candidato 0bb7183 empaquetado en paquete-agy-1.json.",
+    "El paquete de revisión abarca README.md, oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, los 5 requisitos (.requisito), los 7 catálogos de Oracle (.oracle) y kb/preguntas-de-oro.json. No se revisaron los 59 archivos de registros y evidencia excluidos por el paquete según las instrucciones.",
+    "Se verificó la corrección del hallazgo RAG-001 de la vuelta 5: en oracle_factory/rag.py (línea 220), la clave de persistencia de embeddings ahora incluye el endpoint además del proveedor y modelo (`clave = f\"{conf['proveedor']}:{conf['url']}:{conf['modelo']}\"`). Al cambiar de servidor manteniendo el mismo modelo, los vectores previos quedan invalidados y se solicitan nuevamente, evitando comparar espacios vectoriales dispares. Esta corrección está cubierta en tests/test_rag.py (líneas 280-285).",
+    "Se verificó la vigencia de las correcciones de las vueltas 1 a 4: exclusión de kb/README.md, exclusión de requisitos con vigente: false y cambios abandonados, separación de notas por revisar, filtrado de numerales dentro de bloques de código en títulos y secciones, rechazo de redirecciones HTTP en peticiones de embeddings, restricción de URLs locales a loopback/localhost cuando no fueron configuradas explícitamente, ubicación del índice en .factory/local/rag/ protegida por cli.ruta_segura contra enlaces simbólicos, y evaluación de preguntas de oro sobre los 5 primeros pasajes sin deduplicación previa.",
+    "Se ejecutaron las pruebas unitarias exactamente como fue indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Los 5 casos de prueba (test_rag1 a test_rag5) pasaron satisfactoriamente en ~4.8 segundos.",
+    "Se ejecutaron mutaciones manuales en copias temporales aisladas de trabajo: revertir la clave de caché para omitir la URL provocó la falla inmediata de test_rag4 (AssertionError: 1 != 14 al comprobar que el segundo servidor no reusaba vectores), y omitir la comprobación de enlaces simbólicos en seguro(p) provocó la falla de test_rag4 al detectar texto secreto ajeno.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_rag.py para no alterar el checkout de sólo lectura ni violar las instrucciones del pedido.",
+    "No se detectaron defectos adicionales ni regresiones; la lista findings queda vacía."
+  ]
+}

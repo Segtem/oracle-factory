@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/0bb7183-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "0bb7183b70b77f29a8b7d68a5f1ce1c65ff0f505",
+  "diff_sha256": "3c00d6cfac56b331f0768f67f330230f0c427b9a3170b89229250fb3df656945",
+  "context_sha256": "be9fbdcef15664c105a07d91118712199e71b5d13d746bac4ebc494fc25100b9",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, el diff empaquetado y el código/pruebas de rag.py, la integración de preguntar y rag en cli.py, tests/test_rag.py, tools/verify_rag.py, los catálogos Factory, las preguntas de oro y README.md. No se revisaron los archivos excluidos por el paquete.",
+    "Se contrastaron los hallazgos de las vueltas 1 a 5 con el candidato actual. Las correcciones relevantes siguen presentes; la clave de vectores usa proveedor, URL y modelo, y test_rag4 comprueba el cambio de servidor conservando modelo.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas; rag1 pasó y rag2–rag5 fallaron al iniciar ThreadingHTTPServer con PermissionError: operación no permitida al crear sockets locales. No se interpretó como defecto del producto.",
+    "No se corrieron la suite completa, tools/verify_rag.py, Oracle ni la evaluación de las 22 preguntas con Ollama real. No se ejecutaron mutaciones adicionales.",
+    "No se modificó el checkout ni la configuración de git. Las notas extensas de código y vueltas anteriores están guardadas en revision-larga.txt, rag-linenos.txt, tests-rag-linenos.txt y cli-relevante.txt dentro de la carpeta del revisor.",
+    "No se encontraron defectos nuevos ni regresiones estáticas; findings queda vacía. La falta de ejecución de cuatro casos limita la verificación dinámica de esos escenarios."
+  ]
+}
