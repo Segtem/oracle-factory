@@ -326,6 +326,17 @@ class Rag(unittest.TestCase):
         # Y preguntar tampoco la devuelve: se evalúa lo mismo que ve quien pregunta.
         self.assertNotIn('docs/lista.md', [r['ruta'] for r in self.preguntar('¿Y la tortuga?', maximo=50)['resultados']])
         self.assertIn('docs/faq.md', detalle['nada']['primeros'])  # repite sólo su pregunta: es una respuesta
+        # Se cuentan los cinco primeros pasajes, no los cinco primeros archivos: si seis secciones de otro archivo van
+        # antes, el esperado no está entre lo que ve quien pregunta.
+        self.escribir('docs/muchas.md', '# Muchas\n\n' + ''.join(f'## Parte {i}\n\nCuando llueve fuerte, llueve y llueve sin parar.\n\n'
+                                                              for i in range(6)))
+        oro = json.loads((self.root / 'kb/preguntas-de-oro.json').read_text())
+        oro.append({'id': 'fuerte', 'pregunta': '¿Qué pasa si llueve fuerte?', 'esperadas': ['docs/clima.md']})
+        self.escribir('kb/preguntas-de-oro.json', json.dumps(oro))
+        with contextlib.redirect_stdout(io.StringIO()):
+            rag.evaluar(f, self.root.parent / 'cuarta')
+        fuerte = {x['id']: x for x in json.loads((self.root.parent / 'cuarta/detalle.json').read_text())}['fuerte']
+        self.assertEqual((fuerte['acierto'], fuerte['primeros']), (0, ['docs/muchas.md'] * 5))
 
 
 if __name__ == '__main__':

@@ -325,8 +325,8 @@ def evaluar(cli, salida: Path) -> dict:
     preguntas = json.loads(archivo.read_text(encoding="utf-8"))
     filas, detalle, modos = [], [], set()
     for p in preguntas:
-        datos = preguntar(cli, p["pregunta"], maximo=50)
-        rutas = list(dict.fromkeys(r["ruta"] for r in datos["resultados"]))[:PRIMEROS]  # lo mismo que ve quien pregunta
+        datos = preguntar(cli, p["pregunta"], maximo=PRIMEROS)
+        rutas = [r["ruta"] for r in datos["resultados"]]  # los cinco primeros pasajes: lo mismo que ve quien pregunta
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])
