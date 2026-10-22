@@ -33,14 +33,15 @@ RESUELVE = {
 DECIDIR = "elegí cuál vale con oracle-factory decidir-union {id} {campo} nuestro (o suyo)"
 
 
-def hora(evento: dict) -> dt.datetime:
-    """La hora de un evento para ordenar: con o sin microsegundos, con «Z» o con «+00:00»; una que no se entiende va
-    primero (como la de un registro muy viejo)."""
+def hora(evento: dict) -> tuple:
+    """La clave para ordenar por la hora de un evento: con o sin microsegundos, con «Z» o con «+00:00». Una que no se
+    entiende como fecha va primero, ordenada por su texto (como antes de este cambio)."""
+    texto = str(evento.get("cuando") or "")
     try:
-        h = dt.datetime.fromisoformat(str(evento.get("cuando") or "").replace("Z", "+00:00"))
+        h = dt.datetime.fromisoformat(texto.replace("Z", "+00:00"))
     except ValueError:
-        return dt.datetime.min.replace(tzinfo=dt.timezone.utc)
-    return h if h.tzinfo else h.replace(tzinfo=dt.timezone.utc)
+        return (dt.datetime.min.replace(tzinfo=dt.timezone.utc), texto)
+    return (h if h.tzinfo else h.replace(tzinfo=dt.timezone.utc), texto)
 
 
 def _clave(x) -> str:

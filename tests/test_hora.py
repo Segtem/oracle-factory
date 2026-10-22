@@ -52,10 +52,17 @@ class Hora(unittest.TestCase):
         with contextlib.redirect_stdout(salida), patch('builtins.input', return_value=''):
             f.mostrar(ident)
         self.assertIn(f'{ident} — Un cambio', salida.getvalue())
+        self.assertIn(f"claude-code (mensaje {dos[:16].replace('T', ' ')})", salida.getvalue())
         with contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(f.main(['--proyecto', str(self.root), 'kb']), 0)
         nota = (self.root / 'kb/cambios' / f'{ident}.md').read_text()
         self.assertIn(f"- {uno[:16].replace('T', ' ')} · claude-code: primero", nota)
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(f.main(['--proyecto', str(self.root), 'kb', '--verificar']), 0)
+        # Ordenar por la hora: un texto que no es fecha va primero y por su texto; uno viejo con Z, antes que uno nuevo.
+        claves = sorted([{'cuando': '2026-10-22T12:00:05.100000+00:00'}, {'cuando': '2026-10-22T12:00:05Z'}, {'cuando': '2'},
+                         {'cuando': '1'}], key=unir.hora)
+        self.assertEqual([c['cuando'] for c in claves], ['1', '2', '2026-10-22T12:00:05Z', '2026-10-22T12:00:05.100000+00:00'])
 
     # --- ho2: al unir dos ramas, lo del mismo segundo queda en orden ----------------------------------------------------
     def test_ho2_unir_lo_del_mismo_segundo(self):

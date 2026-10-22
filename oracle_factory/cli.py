@@ -2590,7 +2590,7 @@ def archivar() -> None:
         print("No hay cambios cerrados sin archivar.")
         actualizar_resumen()
         return
-    for _, identificador in sorted(pendientes):
+    for _, identificador in sorted(pendientes, key=lambda x: (unir_mod.hora({"cuando": x[0]}), x[1])):
         carpeta, estado = leer(identificador)
         capacidad, indice = plan_archivo(estado)
         spec = escribir_archivo(capacidad, indice)
