@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/e2e079e-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "e2e079e6b8a54dd75bfc03d980b16acb8585a980",
+  "diff_sha256": "0a7509596b8c7d7d2388f597b8a1fea4a695a9ae608e1b5063d48f23bdbbe976",
+  "context_sha256": "eead65701f9fca34fe536de5c1379773b9f5bca547ebb503ad1fc078f91413ad",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-009",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.98,
+      "title": "La prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "explanation": "El escenario convierte todos los eventos a marcas legadas en segundos y luego invoca `estado --json`, pero sólo afirma que la salida conserva el ID. Así, la prueba pasa aunque `estado` omita o altere `eventos[*].cuando`; no demuestra que la hora vieja siga mostrándose allí como promete el escenario. La salida actual no mostró un defecto en la ejecución revisada; el hallazgo es la cobertura incompleta de esa promesa.",
+      "location": {
+        "file": "tests/test_hora.py",
+        "start_line": 50,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "Introducir una regresión en `estado --json` que quite o modifique la hora de eventos legados y ejecutar `tests.test_hora`: la aserción de estado seguiría pasando porque sólo consulta `id`.",
+      "evidence": "En tests/test_hora.py:43-50 se cambia cada evento a precisión de segundos, se ejecuta `estado ... --json` y se comprueba únicamente `json.loads(...)[\"id\"] == ident`. Las aserciones posteriores comprueban texto de `mostrar` y el vault, no la hora dentro de la salida de estado.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Ejecuté exactamente `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null` desde la raíz del checkout; pasó (5 pruebas). No ejecuté una mutación del serializador en una copia."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la propuesta y los dos requisitos/escenarios, todo el diff del paquete y los consumidores de horas indicados: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos y docs/colaboracion.md.",
+    "Contrasté los hallazgos de las vueltas previas con el candidato; no observé regresiones en los que ya estaban corregidos. No repetí el riesgo aceptado de que ramas con el mismo registro base puedan emitir la misma hora simultáneamente.",
+    "Corrí sólo el comando de pruebas solicitado: `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null`; resultado: 5 pruebas, OK. No ejecuté la suite completa, tools/verify_hora.py ni Oracle.",
+    "No hice mutaciones manuales en copias. Revisé estáticamente que el caso a4 se ejercita desde test_ho2 y que las pruebas cubren unión pura con mezcla de precisión, desempate y orden del vault.",
+    "No revisé los archivos excluidos por el pedido (registros/evidencia de Factory, kb/README.md, kb/cambios, kb/requisitos y tareas). No modifiqué el checkout ni la configuración de Git."
+  ]
+}

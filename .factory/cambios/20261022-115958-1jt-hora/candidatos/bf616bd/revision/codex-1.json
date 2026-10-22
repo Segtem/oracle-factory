@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/bf616bd-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "bf616bd6cce18a13e9a7fe7f314fe89188d9965f",
+  "diff_sha256": "30c70d660816edd93763976cb412588adf470cb3c34a34aa5df4751da3242157",
+  "context_sha256": "8779a62aa8e1a6f431ab56599d04bd955f145a29d20aa570af5418fc323a539e",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-PROC-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "Dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "explanation": "evento() avanza la hora respecto del máximo de eventos que ve en el estado local. Ese ajuste resuelve carreras cuando dos procesos editan el mismo archivo y el perdedor vuelve a leerlo; no coordina dos clones o ramas independientes, que conservan copias del mismo historial. Si ambos procesos leen el mismo microsegundo (o sus relojes entregan ese valor), cada rama registra exactamente la misma hora. unir.hora devuelve claves iguales y heapq.merge conserva el orden de las ramas, por lo que prevalece el orden de integración aunque la escritura real haya ocurrido al revés. Esto contradice la promesa de que dos escrituras del mismo segundo queden con horas distintas y ordenadas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 231,
+        "end_line": 234,
+        "side": "head"
+      },
+      "trigger": "En dos checkouts/clones con el mismo factory.json de base, emitir un mensaje en cada rama mientras ambos procesos reciben el mismo resultado de ahora() (posible, por ejemplo, con reloj congelado o dos lecturas en el mismo microsegundo); luego unir las ramas en el orden opuesto al orden real de escritura.",
+      "evidence": "Reproducción en memoria contra el checkout: con el mismo estado base y ahora() fijado a 2026-10-22T12:00:05.123456+00:00, evento() produjo esa misma marca para Ana y Beto. unir.unir ordenó primero el evento de Ana porque Ana fue pasada como rama propia, aunque el caso representaba a Beto escribiendo antes. Las escrituras en el checkout no se modificaron. tests.test_hora comprueba el avance dentro del mismo proceso y el a4 del banco, pero no fija una misma hora en clones distintos para detectar este empate.",
+      "related_requirement": "la hora de un evento distingue lo escrito en el mismo segundo; al unir dos ramas lo del mismo segundo queda en el orden en que se escribió",
+      "status": "pendiente",
+      "verification": "Reproducido mediante llamada en memoria a evento() para dos copias del mismo historial, con ahora() controlado; unión posterior mediante unir.unir. Sin cambios en el checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (4 pruebas, OK).",
+    "No se ejecutó la suite completa ni tools/verify_hora.py.",
+    "La reproducción del empate fue en memoria con ahora() fijado; no se hizo una prueba probabilística de colisión con relojes reales.",
+    "Se revisó el diff y el contexto del paquete; las rutas excluidas por quien preparó el paquete no forman parte de la revisión."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/57e960c-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "57e960ce9916af931a6f21b87c93b600ee928c00",
+  "diff_sha256": "a79a68547c50bd70c27a5909721183b181eaf961e949621831a9915979142326",
+  "context_sha256": "bd978a7915e40f9aacff72235931c2e8a908ca4ca56ba5c13c45fc58232d24ac",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron exhaustivamente la propuesta (proposal.md), la especificación de colaboracion (spec.md) con sus 2 requisitos y escenarios, el parche completo del paquete Clue y el código relacionado: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode/extension.js, editores/vscode/tablero.js, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, los catálogos Oracle catalogos/factory_hora.*.oracle y docs/colaboracion.md. Se omitieron los 22 archivos de registros y evidencia excluidos por el paquete.",
+    "Se comprobó la subsanación de los hallazgos de vueltas anteriores: HORA-001 (unir.hora devuelve (h, texto), preservando el ordenamiento léxico de marcas no interpretables como fecha como '1', '2', '3'), HORA-002 (test_ho1 valida la salida de estado formateada con el agente claude-code y la marca en fecha corta, y corre kb --verificar) y HORA-005 (archivar ordena pendientes usando unir_mod.hora, reconciliando cierres legados con 'Z' y cierres nuevos con microsegundos). No se detectaron regresiones.",
+    "Se analizó el impacto en el ordenamiento y visualización de horas: el formateo en modo texto y markdown (_fecha, _fecha_corta, linea_quien) utiliza cortes [:16] que extraen año, mes, día, hora y minuto, manteniéndose compatible con microsegundos; tablero.py y tablero.js (con Date en JavaScript) parsean correctamente marcas fraccionarias ISO 8601 en UTC.",
+    "Se ejecutó exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (2 pruebas, OK en ~3.3 s). No se corrió la suite completa ni se modificó el checkout de revisión ni la configuración de Git.",
+    "Se realizaron pruebas de mutación manuales registradas en mutaciones.txt (M1 a M5): M1 (revertir ahora() a segundos; capturada por MICRO.match en test_ho1), M2 (revertir unir.py a orden léxico directo; capturada por test_ho1 y test_ho2), M3 (revertir unir.hora a devolver solo datetime; capturada por test_ho1), M4 (revertir archivar a ordenamiento sin unir_mod.hora) y M5 (revertir banco a4 a verificar solo días ordenados sin comprobar orden de emisión)."
+  ]
+}

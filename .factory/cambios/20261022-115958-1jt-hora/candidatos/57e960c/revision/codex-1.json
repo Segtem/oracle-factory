@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/57e960c-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "57e960ce9916af931a6f21b87c93b600ee928c00",
+  "diff_sha256": "a79a68547c50bd70c27a5909721183b181eaf961e949621831a9915979142326",
+  "context_sha256": "222d57205dc7834527977091340789bd3cc60df37b19f2eff0f7b892db752472",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-006",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "ahora() no garantiza horas distintas si dos escrituras leen el mismo microsegundo",
+      "explanation": "La spec promete que dos escrituras del mismo segundo tengan horas distintas. ahora() sólo serializa datetime.now(...); timespec=\"microseconds\" fija el formato y precisión, pero no hace único el valor. Si el reloj devuelve el mismo microsegundo para dos escrituras, ambas reciben la misma hora. Si además son eventos idénticos (posible al repetir la misma acción y texto desde ramas con el mismo actor), unir._sumar los deduplica por el contenido completo y la unión conserva uno solo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 74,
+        "end_line": 74,
+        "side": "head"
+      },
+      "trigger": "Dos llamadas a ahora() ocurren mientras el reloj de pared devuelve el mismo microsegundo; unir luego registros con eventos idénticos que comparten esa marca.",
+      "evidence": "Reproducción aislada en memoria, parcheando datetime.now para devolver 2026-10-22T12:00:05.123456+00:00: las dos llamadas a cli.ahora() devolvieron esa misma cadena. Al unir dos copias del mismo evento con esa hora, oracle_factory.unir.unir devolvió un solo evento. No se modificaron archivos del checkout.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "La reproducción aislada confirmó la colisión y la deduplicación descritas. La prueba solicitada tests.test_hora pasó (2 tests, OK), pero sólo observa dos lecturas reales del reloj y no fuerza una colisión."
+    },
+    {
+      "id": "HORA-007",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.96,
+      "title": "La prueba de orden de cierres no protege la integración de archivar()",
+      "explanation": "El código de archivar() actualmente ordena con unir_mod.hora, que resuelve la mezcla de cierres legados con Z y cierres nuevos con microsegundos. Sin embargo, la aserción agregada en test_hora.py sólo ordena una lista sintética directamente con unir.hora; no invoca archivar() ni verifica el orden de archivado. Si archivar() vuelve a ordenar las marcas como texto, esa prueba seguirá pasando y el defecto de orden de HORA-005 regresará sin ser detectado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 2593,
+        "end_line": 2593,
+        "side": "head"
+      },
+      "trigger": "Cambiar archivar() para ordenar pendientes por la cadena de cuando (por ejemplo, sorted(pendientes)) manteniendo la prueba actual: test_hora.py seguirá pasando aunque los cierres mixtos Z/microsegundos queden en orden incorrecto.",
+      "evidence": "En tests/test_hora.py:63-65 la prueba comprueba sorted([...], key=unir.hora), pero no prepara cambios cerrados ni llama a archivar(). La implementación de archivar() está en oracle_factory/cli.py:2581-2599 y hoy sí aplica unir_mod.hora en la línea 2593.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Inspección de tests/test_hora.py:62-65 y oracle_factory/cli.py:2581-2599. La corrida solicitada pasó, pero no ejercita el consumidor archivar()."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, los parches del paquete y los consumidores relacionados: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode/, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos Oracle y docs/colaboracion.md. Se omitieron los 22 archivos excluidos de registros y evidencia de Factory.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null; resultado: 2 pruebas, OK. No se corrió la suite completa ni tools/verify_hora.py.",
+    "Se hizo una reproducción aislada en memoria con el reloj fijado para comprobar la colisión de microsegundos y su efecto en unir. No se hicieron mutaciones sobre copias de archivos.",
+    "No se modificó el checkout candidato ni se cambió la configuración de Git de ningún repositorio."
+  ]
+}

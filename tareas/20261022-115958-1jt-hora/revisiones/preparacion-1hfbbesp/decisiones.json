@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "feee226707912a46a6a99a5bb243a31e706732a2410864e79abd507e69b4a1db",
+  "actor": "Brian Hollweg",
+  "motivo": "Ocho vueltas de codex y agy: todos los hallazgos medios y altos corregidos con pruebas y mutaciones muertas, incluido HORA-PROC-002 con el desempate determinista que eligió Brian (lo común primero y, ante la misma hora entre ramas, quién y qué, igual en todos los clones), y un defecto que la evidencia destapó (el vault ordenaba los cambios por ID; ahora por su hora de creación). La 8 no dejó medios ni altos. Queda una baja: HORA-009, la prueba de un registro viejo no compara la hora que devuelve estado --json.",
+  "decisiones": [
+    {
+      "hallazgo_id": "HORA-009",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: La prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-22T16:05:34.203934+00:00"
+    }
+  ]
+}

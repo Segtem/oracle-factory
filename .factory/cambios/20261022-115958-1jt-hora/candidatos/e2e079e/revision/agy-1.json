@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/e2e079e-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "e2e079e6b8a54dd75bfc03d980b16acb8585a980",
+  "diff_sha256": "0a7509596b8c7d7d2388f597b8a1fea4a695a9ae608e1b5063d48f23bdbbe976",
+  "context_sha256": "3fa543ef7c9a444815fe4331a9b4a5b63c6522df250b4c30cee8dbd7d4e3f6f0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus requisitos y escenarios, el paquete Clue paquete-agy-1.json del candidato e2e079e y todos los archivos incluidos en el diff: oracle_factory/cli.py, oracle_factory/kb.py, oracle_factory/unir.py, tools/banco.py, tests/test_hora.py, tests/test_unir.py, tools/verify_hora.py, catalogos/factory_hora.*.oracle y docs/colaboracion.md, además de los consumidores de marcas y colecciones de cambios en el resto del proyecto (oracle_factory/resumen.py, oracle_factory/tablero.py, oracle_factory/rag.py, editores/vscode/tablero.js). Se excluyeron los 68 archivos fuera de producto conforme a las instrucciones.",
+    "Se analizó la novedad de la Vuelta 8 en oracle_factory/kb.py: cambios_del_proyecto ordena ahora mediante (unir_mod.hora((c[1].get('eventos') or [{}])[0]), c[0]), resolviendo la falla intermitente en test_kb1 provocada por IDs generados en el mismo segundo con sufijos alfabéticos invertidos respecto a su orden temporal de creación. Se evaluó que este orden no genera regresiones ni efectos secundarios negativos: en el índice del vault (kb/README.md) refleja con fidelidad el orden cronológico de creación y adjudica los requisitos al cambio original; en resumen.py no interviene (usa insumos_resumen y ordenamiento explícito por ID); en rag.py se utiliza como conjunto (set) de cambios abandonados; y en cli.py (por_que) se indexa como diccionario.",
+    "Se comprobó la incorporación en tests/test_hora.py del caso test_ho1_el_vault_ordena_los_cambios_por_su_creacion, el cual valida que dos cambios creados en el mismo segundo con letras al azar queden ordenados cronológicamente por su primer evento y que el vault atribuya el requisito al cambio creado primero.",
+    "Se verificó la permanencia y cierre sin regresiones de todos los hallazgos de vueltas previas: desempate determinista simétrico e independiente de quién integra en unir.py (_sumar con historial común primero e intercalación con _desempate); monotonicidad estricta en ahora() y evento(); ordenamiento de cierres pendientes en archivar() mediante unir_mod.hora; banco a4 en tools/banco.py corriendo sin time.sleep entre días y comprobando orden real intrasegundo; formateo uniforme en visualizaciones (_fecha, _fecha_corta con [:16], resumen con [:10]); y determinismo en union_con_decisiones.",
+    "Se mantuvieron excluidos los riesgos aceptados formalmente por Brian Hollweg (dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos, mitigado deterministamente en la unión).",
+    "Se ejecutaron las pruebas exactamente según lo requerido, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (5 pruebas, OK en 3.4 s). No se ejecutó la suite completa ni se modificaron la configuración ni el contenido de ningún repositorio.",
+    "Se ejecutaron mutaciones manuales en un arnés aislado sobre copias en el directorio del revisor: ordenar cambios_del_proyecto por ID (capturada por test_ho1_el_vault_ordena_los_cambios_por_su_creacion); ordenar archivar por texto (capturada por test_ho1_archivar_ordena_los_cierres_por_la_hora); ahora sin monotonicidad ante reloj idéntico (capturada por test_ho1_el_reloj_repite_el_microsegundo); intercalar con desempate asimétrico (capturada por test_ho2_unir_lo_del_mismo_segundo); e inserción de esperas en banco a4 (capturada por el parche de detección de sleep)."
+  ]
+}

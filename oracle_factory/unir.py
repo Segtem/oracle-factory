@@ -8,7 +8,7 @@ las dos cambiaron distinto no se elige ni se mezcla: queda el valor de la rama q
 """
 from __future__ import annotations
 
-import heapq
+import datetime as dt
 import json
 
 LISTAS_QUE_SE_SUMAN = ("eventos", "aceptados", "pendientes_de_union")
@@ -32,6 +32,17 @@ RESUELVE = {
 DECIDIR = "elegí cuál vale con oracle-factory decidir-union {id} {campo} nuestro (o suyo)"
 
 
+def hora(evento: dict) -> tuple:
+    """La clave para ordenar por la hora de un evento: con o sin microsegundos, con «Z» o con «+00:00». Una que no se
+    entiende como fecha va primero, ordenada por su texto (como antes de este cambio)."""
+    texto = str(evento.get("cuando") or "")
+    try:
+        h = dt.datetime.fromisoformat(texto.replace("Z", "+00:00"))
+    except ValueError:
+        return (dt.datetime.min.replace(tzinfo=dt.timezone.utc), texto)
+    return (h if h.tzinfo else h.replace(tzinfo=dt.timezone.utc), texto)
+
+
 def _clave(x) -> str:
     return "\0falta" if x is _FALTA else json.dumps(x, sort_keys=True, ensure_ascii=False)
 
@@ -43,15 +54,37 @@ def _sumar(base, nuestro, suyo, en_orden: bool) -> list:
     # Los eventos son el historial: no se borran aunque una rama los haya perdido. Lo demás (un pendiente resuelto) sí.
     sacado = set() if en_orden else {_clave(x) for x in base or []} - (claves[0] & claves[1])
     # El historial común primero, en su orden (aunque una rama haya perdido alguno), y después lo nuevo de cada rama.
-    propios, ajenos, vistos = [], [], set(sacado)
-    for destino, lista in ((propios, base if en_orden else []), (propios, nuestro), (ajenos, suyo)):
+    comun, propios, ajenos, vistos = [], [], [], set(sacado)
+    for destino, lista in ((comun, base if en_orden else []), (propios, nuestro), (ajenos, suyo)):
         for x in lista or []:
             if _clave(x) not in vistos:
                 vistos.add(_clave(x))
                 destino.append(x)
     if not en_orden:
         return propios + ajenos
-    return list(heapq.merge(propios, ajenos, key=lambda e: str(e.get("cuando", ""))))  # estable: ante empate, los nuestros
+    # Lo común va antes que lo nuevo de cada rama, que lo vio (causalidad, como en un reloj lógico), aunque su hora empate.
+    return comun + _intercalar(propios, ajenos)
+
+
+def _desempate(e: dict) -> tuple:
+    """Entre dos eventos de ramas distintas con la misma hora no hay un orden real que saber (dos máquinas en el mismo
+    microsegundo): se elige uno determinista, el mismo en todos los clones y sin importar quién integra. Como en los
+    relojes lógicos con id de nodo (Lamport, HLC, Automerge): la hora y, ante empate, quién y qué."""
+    return (*hora(e), str(e.get("actor", "")), _clave(e))
+
+
+def _intercalar(propios: list, ajenos: list) -> list:
+    """Las dos listas por hora, cada una en su orden (el de su registro, que es el verdadero); ante la misma hora, el
+    desempate determinista."""
+    salida, i, j = [], 0, 0
+    while i < len(propios) and j < len(ajenos):
+        if _desempate(ajenos[j]) < _desempate(propios[i]):
+            salida.append(ajenos[j])
+            j += 1
+        else:
+            salida.append(propios[i])
+            i += 1
+    return salida + propios[i:] + ajenos[j:]
 
 
 def _valor(base, nuestro, suyo, camino: list, pendientes: list):
@@ -90,9 +123,12 @@ def unir(base: dict, nuestro: dict, suyo: dict) -> dict:
     salida = _mapa(base or {}, nuestro, suyo, [], pendientes, _campo)
     if pendientes:
         salida["pendientes_de_union"] = _sumar([], salida.get("pendientes_de_union"), pendientes, en_orden=False)
+        # Su propia hora, con microsegundos: un microsegundo después del último evento. No la del reloj, para que la misma
+        # unión hecha en dos clones dé el mismo evento (y al juntarlos después no se repita).
+        ultimo = max((hora(e)[0] for e in salida.get("eventos") or []), default=dt.datetime.min.replace(tzinfo=dt.timezone.utc))
+        cuando = ultimo + dt.timedelta(microseconds=1)
         salida.setdefault("eventos", []).append({"accion": "union_con_decisiones", "forma": "registro", "actor": "oracle-factory",
-                                                 "tipo_actor": "agente",
-                                                 "cuando": max((str(e.get("cuando", "")) for e in salida.get("eventos") or []), default=""),
+                                                 "tipo_actor": "agente", "cuando": cuando.isoformat(timespec="microseconds"),
                                                  "campos": [p["campo"] for p in pendientes]})
     return salida
 

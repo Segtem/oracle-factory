@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/6489a62-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "6489a6244d2f8f444c5b8dd4baca62fe96887aec",
+  "diff_sha256": "ad380702bf4729bd9497014324b270f2cb37886dce414693bd875d96cb2bf3d6",
+  "context_sha256": "c52ebaee9284fb335747c864348293bd15ed007b4154a0177d058ee095fe4537",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "HORA-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "test_ho2 no comprueba la unión en el mismo segundo entre ramas con segundos y con microsegundos",
+      "explanation": "El requisito al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio establece: «Al unir el registro de un cambio editado en dos ramas, los eventos SHALL quedar en el orden de sus horas aunque se hayan escrito en el mismo segundo, también si una rama tiene horas en segundos y la otra con microsegundos». Sin embargo, en tests/test_hora.py:53-60, el caso test_ho2_unir_lo_del_mismo_segundo define el evento en segundos (Beto viejo) con timestamp 2026-10-22T12:00:04+00:00 (segundo 04), mientras que los eventos concurrentes de Ana y Beto se sitúan en el segundo 05 (12:00:05.100000, 12:00:05.400000 y 12:00:05.700000). Al colocar el evento con segundos en un segundo previo, la prueba no verifica qué ocurre cuando conviven en el mismo segundo eventos con y sin microsegundos. En particular, como unir.py:54 ordena por texto con heapq.merge(..., key=lambda e: str(e.get(\"cuando\", \"\"))), la relación ASCII \"+\" < \".\" (43 < 46) fuerza a que cualquier evento con segundos (12:00:05+00:00) se ordene siempre antes que cualquier evento con microsegundos del mismo segundo, incluso si el evento con segundos fue escrito después en tiempo real.",
+      "location": {
+        "file": "tests/test_hora.py",
+        "start_line": 53,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Unir registros donde una rama tiene un evento con segundos en el mismo segundo que eventos con microsegundos de la otra rama (por ejemplo 12:00:05+00:00 frente a 12:00:05.100000+00:00), especialmente si el evento en segundos ocurrió con posterioridad dentro de ese segundo.",
+      "evidence": "En tests/test_hora.py:57: {\"accion\": \"mensaje\", \"texto\": \"Beto viejo\", \"cuando\": \"2026-10-22T12:00:04+00:00\"}. Su marca corresponde al segundo 04, mientras que Ana 1, Ana 2 y Beto tienen marcas en el segundo 05. Ningún caso del test mezcla horas en segundos y con microsegundos dentro del mismo segundo.",
+      "related_requirement": "al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "status": "pendiente",
+      "verification": "Inspección de tests/test_hora.py:53-60 frente a la especificación en openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md:14-16."
+    },
+    {
+      "id": "HORA-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.97,
+      "title": "El escenario a4 del banco no valida el orden de mensajes en el mismo segundo ni garantiza concurrencia temporal",
+      "explanation": "El requisito al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio promete: «El banco de concurrencia SHALL comprobarlo con mensajes de a turnos escritos en el mismo segundo, sin separar los días» y el escenario afirma que «los mensajes quedan en el orden en que se escribieron, y el escenario de a turnos del banco pasa sin esperar entre días». Sin embargo: 1) En tools/banco.py:701-704 se quitó time.sleep, pero cada iteración del bucle ejecuta subprocesos de Git y CLI (p.agente_hace, commit, pull, push) que demoran cientos de milisegundos, por lo que los turnos transcurren a lo largo de varios segundos reales sin ninguna verificación de que los mensajes hayan coincidido en el mismo segundo. 2) La aserción final en tools/banco.py:718-720 sólo evalúa dias == sorted(dias) y la línea 719 documenta explícitamente: «# lo del mismo día no tiene orden entre sí; lo de un día va antes que lo del siguiente». Por ende, si dentro de una misma ronda Ana y Beto escriben en el mismo segundo, el banco no audita que sus mensajes queden en el orden cronológico en que se escribieron.",
+      "location": {
+        "file": "tools/banco.py",
+        "start_line": 701,
+        "end_line": 704,
+        "side": "head"
+      },
+      "trigger": "Ejecutar a4_mensajes_de_a_turnos donde los procesos abarcan segundos distintos o donde los mensajes de Ana y Beto en el mismo turno se invierten; la aserción dias == sorted(dias) de tools/banco.py:719 acepta el resultado sin detectar la inversión de orden intrasegundo.",
+      "evidence": "En tools/banco.py:718-720: dias = [dia_de.get(t, 0) for t in vistos]; if dias != sorted(dias): e.defecto(...). Comentario en línea 719: «# lo del mismo día no tiene orden entre sí». En tests/test_hora.py:62-64 sólo se verifica fila[\"resultado\"] == \"ok\".",
+      "related_requirement": "al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "status": "pendiente",
+      "verification": "Inspección de tools/banco.py:701-720 y tests/test_hora.py:61-64."
+    },
+    {
+      "id": "HORA-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_ho1 no comprueba la coincidencia de segundo ni la visualización textual de estado para registros viejos",
+      "explanation": "El escenario dos mensajes en el mismo segundo de la spec estipula: «WHEN se dejan dos mensajes seguidos dentro del mismo segundo THEN sus horas son distintas, la segunda es posterior y las dos tienen microsegundos; y un registro viejo con horas en segundos se muestra en estado y en el vault como antes». En tests/test_hora.py: 1) Líneas 34-36 comprueban MICRO.match(uno), MICRO.match(dos) y uno < dos, pero omiten comprobar que uno[:19] == dos[:19]. Si los mensajes caen en segundos sucesivos, el test pasa sin probar concurrencia en el mismo segundo. 2) Líneas 42-45 prueban la compatibilidad con registros viejos invocando estado --json y chequeando únicamente json.loads(salida.getvalue())[\"id\"] == ident. No se comprueba la salida textual de estado (que formatea fechas con _fecha_corta / linea_quien) para verificar que los eventos en segundos sigan mostrándose sin errores o cortes. 3) En la comprobación del vault (línea 49), se busca uno[:16].replace(\"T\", \" \"), truncando la fecha al minuto (YYYY-MM-DD HH:MM), lo que no discrimina segundos ni microsegundos.",
+      "location": {
+        "file": "tests/test_hora.py",
+        "start_line": 26,
+        "end_line": 49,
+        "side": "head"
+      },
+      "trigger": "Ejecutar test_ho1 cuando f.mensaje cruza un límite de segundo o con fallos de formateo textual en estado; las aserciones no fallan porque no comparan el segundo ni la salida humana de estado.",
+      "evidence": "En tests/test_hora.py:35-36 no existe assertEqual(uno[:19], dos[:19]). En línea 44 se ejecuta f.main([..., \"estado\", ident, \"--json\"]) y sólo se comprueba la clave \"id\" en línea 45. En línea 49 el corte es a 16 caracteres (uno[:16]).",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Inspección de tests/test_hora.py:26-49 y comparación con spec.md:9-13."
+    },
+    {
+      "id": "HORA-004",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "La premisa de ordenamiento léxico entre marcas en segundos y con microsegundos altera el orden temporal y es sensible a la notación de zona",
+      "explanation": "En oracle_factory/cli.py:71-74, el comentario de ahora() justifica la compatibilidad diciendo: «Las horas viejas, en segundos, se comparan bien con éstas como texto: el mismo prefijo, y «+» va antes que «.».» Esta justificación es engañosa para unir.py:54 (heapq.merge por clave de texto str(e.get(\"cuando\", \"\"))): 1) Al depender del orden ASCII donde \"+\" (43) < \".\" (46), una marca en segundos (12:00:05+00:00) resulta lexicográficamente menor que cualquier marca con microsegundos (12:00:05.xxxxxx+00:00) en el mismo segundo. Si en una rama antigua un evento ocurrió a las 12:00:05.800 (guardado en segundos) y en la rama moderna otro ocurrió a las 12:00:05.100, la comparación de texto coloca el evento antiguo antes, invirtiendo el orden cronológico real. 2) Si una marca histórica o importada contiene sufijo UTC \"Z\" (ASCII 90), la comparación léxica se invierte: \".\" (46) < \"Z\" (90), haciendo que 12:00:05.100000+00:00 resulte menor que 12:00:05Z, cuando en tiempo real la marca fraccionaria es posterior a 12:00:05.000000Z.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 71,
+        "end_line": 74,
+        "side": "head"
+      },
+      "trigger": "Unir registros donde una rama tiene marcas en segundos y otra con microsegundos en el mismo segundo, o donde se mezclan representaciones de zona horaria (+00:00 vs Z).",
+      "evidence": "En Python: \"+\" < \".\" es True (43 < 46), por lo que \"2026-10-22T12:00:05+00:00\" < \"2026-10-22T12:00:05.100000+00:00\". Con sufijo Z: \".\" < \"Z\" es True (46 < 90), de modo que \"2026-10-22T12:00:05.100000+00:00\" < \"2026-10-22T12:00:05Z\", arrojando ordenamientos opuestos según la representación sintáctica.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Evaluación en Python de las expresiones de comparación de cadenas y revisión de oracle_factory/cli.py:71-74 y oracle_factory/unir.py:54."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, los parches del paquete y el código relacionado: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode/, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos Oracle y docs/colaboracion.md. Se omitieron los seis archivos de registros/evidencia excluidos en el paquete.",
+    "Se ejecutó exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (2 pruebas, OK). No se corrió la suite completa ni tools/verify_hora.py.",
+    "Se realizaron pruebas de mutación manuales en copias aisladas en el directorio de trabajo del revisor para comprobar qué mutaciones sobrevivían y cuáles eran capturadas por los tests.",
+    "No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio."
+  ]
+}

@@ -11,14 +11,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 
 - [[cambios/20261002-204916-validar-el-flujo]] — Validar el flujo humano de Oracle Factory (abandonada)
 - [[cambios/20261002-222858-explicar-oracle]] — Explicar Oracle Factory como flujo humano de producción de software (abandonada)
-- [[cambios/20261002-224749-revision-poc]] — Corregir los controles de la POC (abandonada)
 - [[cambios/20261002-234439-dist-uv]] — Preparar distribución de Factory con uv y selección de proyecto (abandonada)
-- [[cambios/20261003-185925-migrar-task]] — Migrar el tracker a Oracle Task (abandonada)
-- [[cambios/20261003-235610-web-rigurosa]] — Web precisa de Oracle Factory (abandonada)
-- [[cambios/20261004-005956-elegir-medidas]] — Elección de medidas (cerrada)
 - [[cambios/20261004-005956-inicio-guiado]] — Inicio guiado (cerrada)
-- [[cambios/20261004-005956-revision-guiada]] — Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada)
+- [[cambios/20261004-005956-elegir-medidas]] — Elección de medidas (cerrada)
 - [[cambios/20261004-121432-coordinar-dos]] — Coordinar dos personas con sus agentes sin interferencias (cerrada)
+- [[cambios/20261004-005956-revision-guiada]] — Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada)
 - [[cambios/20261005-105331-modos-de-trabajo]] — Modos de trabajo según quién decide los requisitos (cerrada)
 - [[cambios/20261005-132144-jerarquia-de]] — Jerarquía de carpetas y comandos para encontrar las cosas (cerrada)
 - [[cambios/20261005-154433-la-vigencia-de]] — La vigencia de una revisión depende del contenido del producto (cerrada)
@@ -35,6 +32,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261012-131420-clue-dependencia]] — Oracle Clue como dependencia fija de Factory (cerrada)
 - [[cambios/20261012-214104-ruta-vigente]] — ruta apunta al candidato vigente, no a HEAD (cerrada)
 - [[cambios/20261013-011811-abandonar]] — Abandonar un cambio con motivo, decidido por una persona (cerrada)
+- [[cambios/20261002-224749-revision-poc]] — Corregir los controles de la POC (abandonada)
+- [[cambios/20261003-185925-migrar-task]] — Migrar el tracker a Oracle Task (abandonada)
+- [[cambios/20261003-235610-web-rigurosa]] — Web precisa de Oracle Factory (abandonada)
 - [[cambios/20261013-115616-vueltas-severidad]] — Vueltas de revisión proporcionales y riesgos aceptados que persisten (cerrada)
 - [[cambios/20261013-153440-cli-json]] — Salidas en JSON de estado, donde y resumen (cerrada)
 - [[cambios/20261013-180751-trazabilidad]] — Trazabilidad por candidato: requisito, casos y líneas cambiadas (cerrada)
@@ -68,6 +68,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261021-101907-clones]] — Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan (cerrada)
 - [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (cerrada)
 - [[cambios/20261021-235127-fjn-rag]] — RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida (cerrada)
+- [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
 
 ## Requisitos
 
@@ -108,6 +109,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
+- [[requisitos/colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio]]
+- [[requisitos/colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros]]

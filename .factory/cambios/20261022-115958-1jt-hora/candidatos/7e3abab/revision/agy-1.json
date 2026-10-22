@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/7e3abab-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "7e3abab1f1d1f5ea3c6f386d2a1c2b208b3f03fd",
+  "diff_sha256": "1bb3f078564270349e790c8fb800fe4e879911215ea66e054cb31f016ecf3469",
+  "context_sha256": "c2b46e365bb8143e445b757c60fd17735e1cdf2b75197ec4d9398ece265d4748",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "HORA-001",
+      "kind": "regresion",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "hora() colapsa marcas no parseables a datetime.min rompiendo el ordenamiento de test_unir y la corrida del sensor",
+      "explanation": "En oracle_factory/unir.py:36-43, la función hora() reemplazó la comparación léxica directa por un bloque try...except ValueError que ante cualquier valor no interpretable por dt.datetime.fromisoformat devuelve dt.datetime.min.replace(tzinfo=dt.timezone.utc). Cuando un registro contiene marcas sintéticas, numéricas o relativas (como las marcas '1', '2', '3' empleadas por las pruebas unitarias históricas o datos con formatos no ISO), todas evalúan a la misma clave datetime.min. Al ordenar con heapq.merge(propios, ajenos, key=hora) en unir.py:65, todos los eventos con marcas no ISO empatan en clave, y por la estabilidad de heapq.merge se vuelcan primero todos los de propios y luego los de ajenos, rompiendo el ordenamiento relativo. Esto genera dos consecuencias críticas: 1) Falla la prueba unitaria preexistente tests/test_unir.py:206-215 (test_lo_de_una_sola_rama_se_toma): la unión de eventos con marcas '1', '3' (en nuestro) y '2' (en suyo) antes resultaba en ['1', '2', '3'] y ahora produce ['1', '3', '2'], fallando con AssertionError: Lists differ: ['1', '3', '2'] != ['1', '2', '3']. 2) Invalida el sensor de Oracle: en tools/verify_hora.py:44-50, el sensor ejecuta suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests')) y evalúa ok = result.wasSuccessful() and complete and stable. Al descubrir y ejecutar tests/test_unir.py, la falla provoca result.wasSuccessful() == False, emitiendo hora_corrida: [{'completa': 0, ...}], lo que hace fracasar el umbral de la medida factory_hora.corrida_completa (que exige completa == 1).",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 36,
+        "end_line": 43,
+        "side": "head"
+      },
+      "trigger": "Unir dos ramas donde existan eventos con marcas de tiempo no conformes a ISO 8601 (por ejemplo marcas sintéticas o secuenciales '1', '2', '3' como en test_unir.py), o ejecutar el sensor tools/verify_hora.py que descubre y corre la suite bajo tests/.",
+      "evidence": "En tests/test_unir.py:206-215, test_lo_de_una_sola_rama_se_toma falla con AssertionError: Lists differ: ['1', '3', '2'] != ['1', '2', '3']. En oracle_factory/unir.py:40-42, hora({'cuando': '3'}) y hora({'cuando': '2'}) devuelven dt.datetime(1, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), provocando que heapq.merge priorice propios ('3') antes que ajenos ('2').",
+      "related_requirement": "al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "status": "pendiente",
+      "verification": "Ejecución aislada de tests.test_unir.UnirPuro.test_lo_de_una_sola_rama_se_toma en Python e inspección de oracle_factory/unir.py:36-43, 65 frente a tests/test_unir.py:206-215 y tools/verify_hora.py:44-50."
+    },
+    {
+      "id": "HORA-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_ho1 no comprueba la visualización de fechas en estado ni valida el vault sobre el registro viejo",
+      "explanation": "El escenario dos mensajes en el mismo segundo de la especificación promete: «y un registro viejo con horas en segundos se muestra en estado y en el vault como antes». En tests/test_hora.py:51-58, tras convertir los eventos del cambio a marcas en segundos (e['cuando'][:19] + '+00:00'): 1) Se invoca f.mostrar(ident) (la visualización en modo texto de estado), pero la aserción en la línea 54 se limita a self.assertIn(f'{ident} — Un cambio', salida.getvalue()). Esta verificación sólo comprueba la cabecera (título e id del cambio), omitiendo comprobar que las fechas formateadas de los eventos o agentes (linea_quien o _fecha_corta) se impriman correctamente en la salida textual. 2) Se corre kb para generar el vault, pero en la línea 58 la comprobación self.assertIn(f\"- {uno[:16].replace('T', ' ')} · claude-code: primero\", nota) evalúa uno[:16], que trunca la fecha al minuto (YYYY-MM-DD HH:MM), sin discriminar segundos ni verificar que la nota en el vault conserve el formato esperado frente a registros viejos.",
+      "location": {
+        "file": "tests/test_hora.py",
+        "start_line": 51,
+        "end_line": 58,
+        "side": "head"
+      },
+      "trigger": "Ejecutar test_ho1 cuando f.mostrar() falle al formatear marcas en segundos en linea_quien() o cuando el vault altere la representación de segundos; la aserción actual no falla porque sólo busca el título del cambio y un prefijo cortado al minuto.",
+      "evidence": "En tests/test_hora.py:54 sólo se evalúa self.assertIn(f'{ident} — Un cambio', salida.getvalue()). En tests/test_hora.py:58 se busca el prefijo uno[:16].replace('T', ' ') en la nota del vault.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Inspección de tests/test_hora.py:51-58 y comparación contra el escenario dos mensajes en el mismo segundo en openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md:9-13."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron la propuesta, la spec, los parches del paquete y el código relacionado: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode/, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos Oracle y docs/colaboracion.md. Se omitieron los catorce archivos de registros/evidencia excluidos en el paquete.",
+    "Se ejecutó exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (2 pruebas, OK). No se corrió la suite completa.",
+    "Se realizaron pruebas de mutación manuales en copias aisladas en el directorio de trabajo del revisor (mutaciones M1 a M4 registradas en mutaciones.txt) evaluando qué mutaciones sobrevivían y cuáles eran capturadas por los tests.",
+    "No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio."
+  ]
+}

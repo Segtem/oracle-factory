@@ -12,6 +12,8 @@ import json
 import re
 from pathlib import Path
 
+from . import unir as unir_mod
+
 DIR = "kb"
 MARCA = "generado: oracle-factory kb"
 AVISO = "> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano."
@@ -149,10 +151,13 @@ def nota_de_requisito(rid: str, datos: dict, cambio: dict | None, veredicto: str
 
 
 def cambios_del_proyecto(cli) -> list[tuple[str, dict]]:
+    """Los cambios en el orden en que se crearon: por la hora de su primer evento (dos IDs del mismo segundo llevan
+    letras al azar y su orden alfabético no dice cuál fue primero), y por ID si no la tienen."""
     if not cli.CHANGES.is_dir():
         return []
-    return [(c.name, cli.leer(c.name)[1]) for c in sorted(cli.CHANGES.iterdir())
-            if cli.ID_RE.fullmatch(c.name) and cli.ruta_registro(c).exists()]
+    cambios = [(c.name, cli.leer(c.name)[1]) for c in sorted(cli.CHANGES.iterdir())
+               if cli.ID_RE.fullmatch(c.name) and cli.ruta_registro(c).exists()]
+    return sorted(cambios, key=lambda c: (unir_mod.hora((c[1].get("eventos") or [{}])[0]), c[0]))
 
 
 def armar(cli, solo: str | None = None) -> dict[str, str]:

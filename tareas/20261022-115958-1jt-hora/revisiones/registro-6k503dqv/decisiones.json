@@ -1,0 +1,16 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "7a6a0842173a6e5b05786870d1eab756e2f279704ee4a56da0c551991d568c3d",
+  "actor": "Brian Hollweg",
+  "motivo": "Seis vueltas de codex y agy; todos los hallazgos corregidos con pruebas y mutaciones muertas salvo HORA-PROC-002, que propongo aceptar como riesgo: dos clones independientes que escriben en el mismo microsegundo exacto no tienen un orden real que Factory pueda conocer sin un reloj común entre máquinas (fuera de alcance en la propuesta); en ese caso queda primero lo de la rama que integra. Dentro de un registro el orden está garantizado (evento() va después del último).",
+  "decisiones": [
+    {
+      "hallazgo_id": "HORA-PROC-002",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-22T14:47:33.794222+00:00"
+    }
+  ]
+}

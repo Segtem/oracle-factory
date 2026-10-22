@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:53c2e5a3a89ecee107624bdd6070d0087fb58b955a15b91ee665633ca88b3fb6 -->
+<!-- oracle-factory resumen sha256:09d61e72e2dbde6de07130db649c77027ac16262820738651cd3dbaea8058f48 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 179 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 181 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -85,6 +85,8 @@ Spec completa: [openspec/specs/colaboracion/spec.md](../openspec/specs/colaborac
 | el banco pone a prueba el trabajo a la vez | funcional | `colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez` | factory_banco.el_banco_pone_a_prueba_el_trabajo_a_la_vez, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
 | el banco pone a prueba el trabajo de a turnos | funcional | `colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos` | factory_banco.el_banco_pone_a_prueba_el_trabajo_de_a_turnos, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
 | el banco informa sus números | funcional | `colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros` | factory_banco.el_banco_informa_sus_numeros, factory_banco.corrida_completa | verde al cerrar el 2026-10-21 | 20261004-121432-coordinar-dos |
+| la hora de un evento distingue lo escrito en el mismo segundo | funcional | `colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo` | factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo, factory_hora.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-115958-1jt-hora |
+| al unir dos ramas lo del mismo segundo queda en el orden en que se escribió | funcional | `colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio` | factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio, factory_hora.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-115958-1jt-hora |
 
 ### conocimiento
 
@@ -378,6 +380,7 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **F-001** (20261020-141303-sesion): Acepta un enlace vscode.dev sin identificador de sesión. Aceptado por Brian Hollweg: Acepto el riesgo: Acepta un enlace vscode.dev sin identificador de sesión
 - **AVISOS-R1** (20261020-173143-avisos): aprobar-spec no detecta specs bajo directorios enlazados. Aceptado por Brian Hollweg: Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados
 - **CLONES-03** (20261021-101907-clones): La prueba de IDs no fuerza que ambos clones creen en el mismo segundo. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo
+- **HORA-009** (20261022-115958-1jt-hora): La prueba de compatibilidad no comprueba la hora legada que devuelve estado. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de compatibilidad no comprueba la hora legada que devuelve estado
 
 ### Históricos
 
@@ -931,6 +934,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261021-235127-fjn-rag) codex (gpt-6-luna): No se corrieron la suite completa, tools/verify_rag.py, Oracle ni la evaluación de las 22 preguntas con Ollama real. No se ejecutaron mutaciones adicionales.
 - (20261021-235127-fjn-rag) codex (gpt-6-luna): No se modificó el checkout ni la configuración de git. Las notas extensas de código y vueltas anteriores están guardadas en revision-larga.txt, rag-linenos.txt, tests-rag-linenos.txt y cli-relevante.txt dentro de la carpeta del revisor.
 - (20261021-235127-fjn-rag) codex (gpt-6-luna): No se encontraron defectos nuevos ni regresiones estáticas; findings queda vacía. La falta de ejecución de cuatro casos limita la verificación dinámica de esos escenarios.
+- (20261022-115958-1jt-hora) Evidencia: Escenarios ho1–ho2 en proyectos temporales, Linux, con git real en el escenario a4 del banco; el orden es el de la hora de cada máquina, sin corregir relojes desincronizados.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus requisitos y escenarios, el paquete Clue paquete-agy-1.json del candidato e2e079e y todos los archivos incluidos en el diff: oracle_factory/cli.py, oracle_factory/kb.py, oracle_factory/unir.py, tools/banco.py, tests/test_hora.py, tests/test_unir.py, tools/verify_hora.py, catalogos/factory_hora.*.oracle y docs/colaboracion.md, además de los consumidores de marcas y colecciones de cambios en el resto del proyecto (oracle_factory/resumen.py, oracle_factory/tablero.py, oracle_factory/rag.py, editores/vscode/tablero.js). Se excluyeron los 68 archivos fuera de producto conforme a las instrucciones.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se analizó la novedad de la Vuelta 8 en oracle_factory/kb.py: cambios_del_proyecto ordena ahora mediante (unir_mod.hora((c[1].get('eventos') or [{}])[0]), c[0]), resolviendo la falla intermitente en test_kb1 provocada por IDs generados en el mismo segundo con sufijos alfabéticos invertidos respecto a su orden temporal de creación. Se evaluó que este orden no genera regresiones ni efectos secundarios negativos: en el índice del vault (kb/README.md) refleja con fidelidad el orden cronológico de creación y adjudica los requisitos al cambio original; en resumen.py no interviene (usa insumos_resumen y ordenamiento explícito por ID); en rag.py se utiliza como conjunto (set) de cambios abandonados; y en cli.py (por_que) se indexa como diccionario.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se comprobó la incorporación en tests/test_hora.py del caso test_ho1_el_vault_ordena_los_cambios_por_su_creacion, el cual valida que dos cambios creados en el mismo segundo con letras al azar queden ordenados cronológicamente por su primer evento y que el vault atribuya el requisito al cambio creado primero.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se verificó la permanencia y cierre sin regresiones de todos los hallazgos de vueltas previas: desempate determinista simétrico e independiente de quién integra en unir.py (_sumar con historial común primero e intercalación con _desempate); monotonicidad estricta en ahora() y evento(); ordenamiento de cierres pendientes en archivar() mediante unir_mod.hora; banco a4 en tools/banco.py corriendo sin time.sleep entre días y comprobando orden real intrasegundo; formateo uniforme en visualizaciones (_fecha, _fecha_corta con [:16], resumen con [:10]); y determinismo en union_con_decisiones.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se mantuvieron excluidos los riesgos aceptados formalmente por Brian Hollweg (dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos, mitigado deterministamente en la unión).
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas exactamente según lo requerido, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (5 pruebas, OK en 3.4 s). No se ejecutó la suite completa ni se modificaron la configuración ni el contenido de ningún repositorio.
+- (20261022-115958-1jt-hora) agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales en un arnés aislado sobre copias en el directorio del revisor: ordenar cambios_del_proyecto por ID (capturada por test_ho1_el_vault_ordena_los_cambios_por_su_creacion); ordenar archivar por texto (capturada por test_ho1_archivar_ordena_los_cierres_por_la_hora); ahora sin monotonicidad ante reloj idéntico (capturada por test_ho1_el_reloj_repite_el_microsegundo); intercalar con desempate asimétrico (capturada por test_ho2_unir_lo_del_mismo_segundo); e inserción de esperas en banco a4 (capturada por el parche de detección de sleep).
+- (20261022-115958-1jt-hora) codex (gpt-6-luna): Revisé la propuesta y los dos requisitos/escenarios, todo el diff del paquete y los consumidores de horas indicados: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos y docs/colaboracion.md.
+- (20261022-115958-1jt-hora) codex (gpt-6-luna): Contrasté los hallazgos de las vueltas previas con el candidato; no observé regresiones en los que ya estaban corregidos. No repetí el riesgo aceptado de que ramas con el mismo registro base puedan emitir la misma hora simultáneamente.
+- (20261022-115958-1jt-hora) codex (gpt-6-luna): Corrí sólo el comando de pruebas solicitado: `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null`; resultado: 5 pruebas, OK. No ejecuté la suite completa, tools/verify_hora.py ni Oracle.
+- (20261022-115958-1jt-hora) codex (gpt-6-luna): No hice mutaciones manuales en copias. Revisé estáticamente que el caso a4 se ejercita desde test_ho2 y que las pruebas cubren unión pura con mezcla de precisión, desempate y orden del vault.
+- (20261022-115958-1jt-hora) codex (gpt-6-luna): No revisé los archivos excluidos por el pedido (registros/evidencia de Factory, kb/README.md, kb/cambios, kb/requisitos y tareas). No modifiqué el checkout ni la configuración de Git.
 
 ### Históricos
 

@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/7e3abab-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "7e3abab1f1d1f5ea3c6f386d2a1c2b208b3f03fd",
+  "diff_sha256": "1bb3f078564270349e790c8fb800fe4e879911215ea66e054cb31f016ecf3469",
+  "context_sha256": "bb33ef8894455d1c44d49d2a07f1f00e995246daa70cc1de8b051f6051c856b8",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-005",
+      "kind": "regresion",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Archivar ordena mal un cierre legado con Z y uno nuevo del mismo segundo",
+      "explanation": "El nuevo formato introduce horas con fracción en registros que pueden convivir con horas legadas en segundos. archivar() todavía ordena esos valores como texto. Para 2026-10-22T12:00:05Z (el inicio del segundo) y 2026-10-22T12:00:05.100000+00:00, el orden textual pone primero el cierre de 100 ms, aunque el cierre legado ocurrió antes. Eso contradice el orden cronológico que documenta archivar() y el cambio ya evita correctamente en unir.py comparando horas parseadas.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 74,
+        "end_line": 74,
+        "side": "head"
+      },
+      "trigger": "Archivar dos cambios cerrados sin archivar cuyos cierres caen en el mismo segundo: uno conserva una marca UTC legada con sufijo Z y el otro tiene la nueva marca con microsegundos y +00:00.",
+      "evidence": "En oracle_factory/cli.py:2586-2593 se agrega (cuando, id) a pendientes y luego se usa sorted(pendientes), sin parsear cuando. La comparación aislada coloca el valor .100000+00:00 antes del valor Z, mientras que al parsear ISO 8601 el cierre Z va primero. Z identifica UTC y la propia unión admite horas legadas con Z (oracle_factory/unir.py:35-47).",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Inspección estática del consumidor de marcas y comparación reproducible de ambas cadenas como texto y como datetimes. Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null desde la raíz del checkout: 2 pruebas, OK. No corrí la suite completa."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí sólo la prueba solicitada (tests.test_hora), no la suite completa ni tools/verify_hora.py.",
+    "No modifiqué el checkout ni hice mutaciones sobre copias; probé aparte la comparación de las dos representaciones ISO.",
+    "Revisé los archivos del diff y consumidores de horas indicados; el único hallazgo es el orden textual de archivar() para una hora legada con Z mezclada con la nueva forma."
+  ]
+}

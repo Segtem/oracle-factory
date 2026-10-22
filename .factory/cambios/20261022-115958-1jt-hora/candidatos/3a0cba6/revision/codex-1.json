@@ -1,0 +1,39 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/3a0cba6-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "3a0cba65062e8ac4462b7b66ae076e67d81f66cc",
+  "diff_sha256": "ca7120350a09a219c8e45c5a312f65bd980cf3f53c5477ef6d515026aa21f029",
+  "context_sha256": "670f4ca84ca786f1acf6df22fd212dcd02b976db7bfd28ef2060ad593d4fe732",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-PROC-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Procesos distintos pueden emitir la misma hora",
+      "explanation": "ahora() solo mantiene _ULTIMA_HORA en memoria del proceso. Cada proceso arranca con el mismo valor inicial y no coordina con otros; si dos invocaciones leen el mismo microsegundo (algo posible en dos clones/procesos), generan el mismo cuando, por lo que las escrituras no quedan distinguidas ni ordenadas según el requisito.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 77,
+        "end_line": 80,
+        "side": "head"
+      },
+      "trigger": "Ejecutar ahora() desde dos procesos independientes cuando datetime.now(UTC) devuelve el mismo microsegundo; la reproducción con reloj fijo en dos procesos spawn emite dos veces 2026-10-22T12:00:05.123456+00:00.",
+      "evidence": "reproduccion-procesos.txt registra la reproducción. La prueba indicada por la solicitud pasa (4 tests), pero test_ho1_reloj_repite_el_microsegundo invoca ahora() tres veces dentro de un solo proceso y solo comprueba el contador local; no cubre procesos concurrentes.",
+      "related_requirement": "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "Reproducido en el checkout sin modificarlo: dos procesos spawn, con reloj fijo al mismo microsegundo, devolvieron el mismo ISO timestamp. La prueba solicitada `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null` terminó OK (4 tests)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé la spec, el diff empaquetado, el código de unión/visualización y la prueba específica; no inspeccioné los registros Factory excluidos por la solicitud.",
+    "Corrí solamente la prueba indicada: tests.test_hora (4 tests); no corrí la suite completa ni el banco como proceso aparte.",
+    "La reproducción aislada sustituyó el reloj por un valor fijo en dos procesos independientes; demuestra la colisión posible sin esperar una coincidencia de reloj real."
+  ]
+}

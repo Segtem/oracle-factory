@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/4ad55f4-codex-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "4ad55f4afb5490f237a3a9ba61b98f67eb32d59c",
+  "diff_sha256": "7504bc6d0757cafa4b511c40a7e658e2bac6b915091bccf0cb765097343287c3",
+  "context_sha256": "9f3ff517e133cedb4093c65e6e80a4f3269bff6f79f04de72b2030fa5a61e7fb",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HORA-008",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "La unión registra decisiones con horas legadas sin microsegundos",
+      "explanation": "Cuando ambas ramas modifican una decisión distinta, unir() agrega el evento union_con_decisiones pero copia el cuando del último evento ya presente. Si el historial contiene horas legadas en segundos, el evento nuevo también queda en segundos (por ejemplo, con sufijo Z), aunque Factory acaba de registrarlo. Esto contradice el requisito de que cada evento y decisión que Factory registra lleve microsegundos, y además hace que el evento sintético empate temporalmente con el evento anterior en lugar de recibir su propia hora.",
+      "location": {
+        "file": "oracle_factory/unir.py",
+        "start_line": 107,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Unir dos ramas que cambiaron de forma distinta un campo de decisión, por ejemplo fase, cuando el evento más reciente de sus registros tiene una hora legada como 2026-10-22T12:00:06Z.",
+      "evidence": "Reproducción aislada, sin modificar archivos: unir.unir() con eventos legados en segundos y fases divergentes agregó {\"accion\":\"union_con_decisiones\",\"cuando\":\"2026-10-22T12:00:06Z\"}. La marca carece de microsegundos porque la implementación usa max(eventos, key=hora).get(\"cuando\") en vez de generar una nueva hora.",
+      "related_requirement": "la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "status": "pendiente",
+      "verification": "La reproducción aislada confirmó que el evento generado para una unión conflictiva con eventos legados no contiene microsegundos. El comando solicitado `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null` pasó (4 tests, OK); no cubre el timestamp de union_con_decisiones."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null` desde la raíz del checkout candidato: 4 tests, OK.",
+    "No corrí la suite completa, tools/verify_hora.py ni Oracle.",
+    "Hice una reproducción aislada en memoria de unir.unir() para la discrepancia descrita; no hice mutaciones adicionales.",
+    "Revisé la spec, el diff del paquete, los consumidores de hora señalados y los informes de las tres vueltas anteriores. No revisé los archivos de Factory excluidos por el pedido."
+  ]
+}

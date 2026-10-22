@@ -1,0 +1,144 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261022-115958-1jt-hora",
+  "contexto": {
+    "head": "6aa25275ae1008dfbb1edf0fed3cfe70039bdc69",
+    "archivos_sha256": "fb730678d325bedc73def7a2b2f77a14a98a6d220237efa4481e116581231bad"
+  },
+  "documentos": {
+    "openspec/changes/20261022-115958-1jt-hora/proposal.md": "f385f50484aaa14fbdd46beb7b9a2c8235680e2a2c3e3f9b05baf64b6b1bc551",
+    "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio.oracle",
+    "catalogos/factory_hora.corrida_completa.oracle",
+    "catalogos/factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261022-115958-1jt-hora/design.md",
+    "openspec/changes/20261022-115958-1jt-hora/proposal.md",
+    "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
+    "openspec/changes/20261022-115958-1jt-hora/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/kb.py",
+    "oracle_factory/unir.py",
+    "requisitos/colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio.requisito",
+    "requisitos/colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.requisito",
+    "tests/test_hora.py",
+    "tests/test_unir.py",
+    "tools/banco.py",
+    "tools/verify_hora.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 459 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/e2e079e/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/e2e079e/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/e2e079e/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6489a62: agy (gemini-3.8-flash-high), 4 hallazgos: HORA-001 (media), HORA-002 (media), HORA-003 (baja), HORA-004 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/6489a62/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6489a62: codex (gpt-6-luna), 1 hallazgo: HORA-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/6489a62/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7e3abab: agy (gemini-3.8-flash-high), 2 hallazgos: HORA-001 (alta), HORA-002 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/7e3abab/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7e3abab: codex (gpt-6-luna), 1 hallazgo: HORA-005 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/7e3abab/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 57e960c: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/57e960c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 57e960c: codex (gpt-6-luna), 2 hallazgos: HORA-006 (media), HORA-007 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/57e960c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ad55f4: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/4ad55f4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ad55f4: codex (gpt-6-luna), 1 hallazgo: HORA-008 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/4ad55f4/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a0cba6: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/3a0cba6/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a0cba6: codex (gpt-6-luna), 1 hallazgo: HORA-PROC-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/3a0cba6/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bf616bd: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato bf616bd: codex (gpt-6-luna), 1 hallazgo: HORA-PROC-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 21fa6bb: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/21fa6bb/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 21fa6bb: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/21fa6bb/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios ho1–ho2 en proyectos temporales, Linux, con git real en el escenario a4 del banco; el orden es el de la hora de cada máquina, sin corregir relojes desincronizados.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus requisitos y escenarios, el paquete Clue paquete-agy-1.json del candidato e2e079e y todos los archivos incluidos en el diff: oracle_factory/cli.py, oracle_factory/kb.py, oracle_factory/unir.py, tools/banco.py, tests/test_hora.py, tests/test_unir.py, tools/verify_hora.py, catalogos/factory_hora.*.oracle y docs/colaboracion.md, además de los consumidores de marcas y colecciones de cambios en el resto del proyecto (oracle_factory/resumen.py, oracle_factory/tablero.py, oracle_factory/rag.py, editores/vscode/tablero.js). Se excluyeron los 68 archivos fuera de producto conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): Se analizó la novedad de la Vuelta 8 en oracle_factory/kb.py: cambios_del_proyecto ordena ahora mediante (unir_mod.hora((c[1].get('eventos') or [{}])[0]), c[0]), resolviendo la falla intermitente en test_kb1 provocada por IDs generados en el mismo segundo con sufijos alfabéticos invertidos respecto a su orden temporal de creación. Se evaluó que este orden no genera regresiones ni efectos secundarios negativos: en el índice del vault (kb/README.md) refleja con fidelidad el orden cronológico de creación y adjudica los requisitos al cambio original; en resumen.py no interviene (usa insumos_resumen y ordenamiento explícito por ID); en rag.py se utiliza como conjunto (set) de cambios abandonados; y en cli.py (por_que) se indexa como diccionario.",
+    "agy (gemini-3.8-flash-high): Se comprobó la incorporación en tests/test_hora.py del caso test_ho1_el_vault_ordena_los_cambios_por_su_creacion, el cual valida que dos cambios creados en el mismo segundo con letras al azar queden ordenados cronológicamente por su primer evento y que el vault atribuya el requisito al cambio creado primero.",
+    "agy (gemini-3.8-flash-high): Se verificó la permanencia y cierre sin regresiones de todos los hallazgos de vueltas previas: desempate determinista simétrico e independiente de quién integra en unir.py (_sumar con historial común primero e intercalación con _desempate); monotonicidad estricta en ahora() y evento(); ordenamiento de cierres pendientes en archivar() mediante unir_mod.hora; banco a4 en tools/banco.py corriendo sin time.sleep entre días y comprobando orden real intrasegundo; formateo uniforme en visualizaciones (_fecha, _fecha_corta con [:16], resumen con [:10]); y determinismo en union_con_decisiones.",
+    "agy (gemini-3.8-flash-high): Se mantuvieron excluidos los riesgos aceptados formalmente por Brian Hollweg (dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos, mitigado deterministamente en la unión).",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas exactamente según lo requerido, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (5 pruebas, OK en 3.4 s). No se ejecutó la suite completa ni se modificaron la configuración ni el contenido de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales en un arnés aislado sobre copias en el directorio del revisor: ordenar cambios_del_proyecto por ID (capturada por test_ho1_el_vault_ordena_los_cambios_por_su_creacion); ordenar archivar por texto (capturada por test_ho1_archivar_ordena_los_cierres_por_la_hora); ahora sin monotonicidad ante reloj idéntico (capturada por test_ho1_el_reloj_repite_el_microsegundo); intercalar con desempate asimétrico (capturada por test_ho2_unir_lo_del_mismo_segundo); e inserción de esperas en banco a4 (capturada por el parche de detección de sleep).",
+    "codex (gpt-6-luna): Revisé la propuesta y los dos requisitos/escenarios, todo el diff del paquete y los consumidores de horas indicados: oracle_factory/cli.py, unir.py, kb.py, resumen.py, tablero.py, editores/vscode, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catálogos y docs/colaboracion.md.",
+    "codex (gpt-6-luna): Contrasté los hallazgos de las vueltas previas con el candidato; no observé regresiones en los que ya estaban corregidos. No repetí el riesgo aceptado de que ramas con el mismo registro base puedan emitir la misma hora simultáneamente.",
+    "codex (gpt-6-luna): Corrí sólo el comando de pruebas solicitado: `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null`; resultado: 5 pruebas, OK. No ejecuté la suite completa, tools/verify_hora.py ni Oracle.",
+    "codex (gpt-6-luna): No hice mutaciones manuales en copias. Revisé estáticamente que el caso a4 se ejercita desde test_ho2 y que las pruebas cubren unión pura con mezcla de precisión, desempate y orden del vault.",
+    "codex (gpt-6-luna): No revisé los archivos excluidos por el pedido (registros/evidencia de Factory, kb/README.md, kb/cambios, kb/requisitos y tareas). No modifiqué el checkout ni la configuración de Git."
+  ],
+  "hallazgos": [
+    {
+      "id": "HORA-009",
+      "descripcion": "La prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "ubicacion": "tests/test_hora.py:50",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261022-115958-1jt-hora/candidatos/e2e079e/revision/codex-1.json, validado con oracle-clue; severidad baja. En tests/test_hora.py:43-50 se cambia cada evento a precisión de segundos, se ejecuta `estado ... --json` y se comprueba únicamente `json.loads(...)[\"id\"] == ident`. Las aserciones posteriores comprueban texto de `mostrar` y el vault, no la hora dentro de la salida de estado."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}
