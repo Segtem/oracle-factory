@@ -64,6 +64,40 @@ class Hora(unittest.TestCase):
                          {'cuando': '1'}], key=unir.hora)
         self.assertEqual([c['cuando'] for c in claves], ['1', '2', '2026-10-22T12:00:05Z', '2026-10-22T12:00:05.100000+00:00'])
 
+    def test_ho1_el_reloj_repite_el_microsegundo(self):
+        fijo = f.dt.datetime(2026, 10, 22, 12, 0, 5, 100000, tzinfo=f.dt.timezone.utc)
+
+        class Reloj(f.dt.datetime):
+            @classmethod
+            def now(cls, tz=None):
+                return fijo
+        with patch.object(f.dt, 'datetime', Reloj):
+            horas = [f.ahora() for _ in range(3)]
+        self.assertEqual(len(set(horas)), 3)
+        self.assertEqual(horas, sorted(horas))
+
+    def test_ho1_archivar_ordena_los_cierres_por_la_hora(self):
+        # Dos cambios cerrados sin archivar: uno viejo, cerrado al principio del segundo (en segundos y con Z), y uno nuevo,
+        # cerrado una décima después, cuyo ID va primero. Se archiva primero el que se cerró antes.
+        f.AGENTE = 'claude-code'
+        try:
+            nuevo, viejo = f.nuevo('Nuevo', capacidad='otra', sufijo='aaa'), f.nuevo('Viejo', capacidad='otra', sufijo='zzz')
+        finally:
+            f.AGENTE = None
+        for ident, cuando in ((nuevo, '2026-10-22T12:00:05.100000+00:00'), (viejo, '2026-10-22T12:00:05Z')):
+            carpeta, estado = f.leer(ident)
+            estado.update(fase='cerrada', cierre={'cuando': cuando})
+            estado.pop('archivo', None)
+            f.ruta_registro(carpeta).write_text(json.dumps(estado))
+        orden = []
+
+        def plan(estado):
+            orden.append(estado['id'])
+            raise RuntimeError('alcanza con saber cuál va primero')
+        with patch.object(f, 'plan_archivo', plan), self.assertRaises(RuntimeError):
+            f.archivar()
+        self.assertEqual(orden, [viejo])
+
     # --- ho2: al unir dos ramas, lo del mismo segundo queda en orden ----------------------------------------------------
     def test_ho2_unir_lo_del_mismo_segundo(self):
         base = {'eventos': [{'accion': 'cambio_creado', 'cuando': '2026-10-22T12:00:00+00:00'}]}

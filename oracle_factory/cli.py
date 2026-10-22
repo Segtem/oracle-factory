@@ -68,10 +68,17 @@ def reintentar_si_cambia(funcion):
     return envuelta
 
 
+_ULTIMA_HORA = dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+
+
 def ahora() -> str:
     # Con microsegundos: dos escrituras del mismo segundo (en dos ramas, por ejemplo) quedan en orden al unirlas. Las horas
     # se ordenan como horas, no como texto (unir.hora); una vieja, en segundos, cuenta desde el principio de su segundo.
-    return dt.datetime.now(dt.timezone.utc).isoformat(timespec="microseconds")
+    # Dentro de un proceso nunca se repite ni retrocede: si el reloj da el mismo microsegundo, se suma uno.
+    # ponytail: dos procesos en el mismo microsegundo todavía pueden coincidir; un contador por máquina si hiciera falta.
+    global _ULTIMA_HORA
+    _ULTIMA_HORA = max(dt.datetime.now(dt.timezone.utc), _ULTIMA_HORA + dt.timedelta(microseconds=1))
+    return _ULTIMA_HORA.isoformat(timespec="microseconds")
 
 
 def sha256(datos: bytes) -> str:
