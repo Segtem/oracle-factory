@@ -51,3 +51,7 @@ Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desact
 ### Nota (2026-10-22 23:51:13 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy: la 1 dejó 5 medios o altos (marcas rotas que borraban texto del proyecto, la guía que en modo autónomo listaba como de persona lo que un agente decide, cerrar que se negaba por lo que faltaba y no por ser agente, comandos de agente probados sólo con --help) y 3 bajos, todos corregidos con pruebas y mutaciones muertas; la 2 no dejó ningún hallazgo. La prueba destapó y corrigió dos huecos: un agente en una terminal podía confirmar sus propias medidas y elegir en decidir-union.); 0 abiertos derivados; commit 904b575b2dcdc40bc7700ce9281d5123f75499d4; informe tareas/20261022-215347-y70-agentes/revisiones/registro-84n7f55a/informe.json; decisiones tareas/20261022-215347-y70-agentes/revisiones/registro-84n7f55a/decisiones.json.
+
+### Nota (2026-10-22 23:51:28 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261022-215347-y70-agentes/oracle-veredicto.txt.

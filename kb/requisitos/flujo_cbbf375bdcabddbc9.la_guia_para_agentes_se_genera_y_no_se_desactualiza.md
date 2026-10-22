@@ -11,7 +11,7 @@ vigente: true
 - Id: `flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza`
 - Vigente: sí
 - Cambio: [[cambios/20261022-215347-y70-agentes]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza`, `factory_agentes.corrida_completa`
 - Fuente: openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md#la guía para agentes se genera y no se desactualiza
 

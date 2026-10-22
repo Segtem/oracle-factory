@@ -2,7 +2,7 @@
   "id": "20261022-215347-y70-agentes",
   "titulo": "La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día",
   "capacidad": "flujo",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md",
   "spec_sha256": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "9bb62607397a15d709e6f7d7874af6a469b6d593c37d0ac70d45e00ec90ca2d0"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261022-215347-y70-agentes/candidatos/82872b6/evidencia/hechos.json",
+    "hechos_sha256": "7201a22a37dc5dc23470a592bdbee466b0e84906188c8abe57b0b7859430b795",
+    "informe": ".factory/cambios/20261022-215347-y70-agentes/oracle-veredicto.txt",
+    "informe_sha256": "d54a771366c7fa23762254325e4f9baff0e2d1af93bcea59e9fb8fc852799e9f",
+    "cuando": "2026-10-22T23:51:28.134779+00:00",
+    "contexto": {
+      "head": "3f9ff2a15296f52f67a525646c3ae7dc4186f78c",
+      "archivos_sha256": "9bb62607397a15d709e6f7d7874af6a469b6d593c37d0ac70d45e00ec90ca2d0"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -310,6 +322,17 @@
       "abiertos": 0,
       "sha256": "8b5f0dc4bcde5725543cfead18475e5c082a5d8b8200c8a127e9b1a047878fae",
       "decisiones_sha256": "ad26b10dd2aaa24d514f7c82fbc07ea1670ba088f141a46dd421a2077a16b538"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T23:51:28.134797+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "7201a22a37dc5dc23470a592bdbee466b0e84906188c8abe57b0b7859430b795"
     }
   ],
   "tipos": {
