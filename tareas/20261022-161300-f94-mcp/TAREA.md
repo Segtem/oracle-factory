@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-22 16:27:59 UTC)
 
 Requisitos importados: conocimiento_cff5a3575a1b86452.preguntar_desde_vs_code (funcional), conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-22 16:45:05 UTC)
+
+Medidas de conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo: factory_mcp.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo, factory_mcp.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-22 16:45:05 UTC)
+
+Medidas de conocimiento_cff5a3575a1b86452.preguntar_desde_vs_code: factory_mcp.preguntar_desde_vs_code, factory_mcp.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
