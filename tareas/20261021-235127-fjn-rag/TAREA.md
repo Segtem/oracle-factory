@@ -55,3 +55,7 @@ Medidas de conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_loc
 ### Nota (2026-10-22 00:26:00 UTC)
 
 Medidas de conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-22 01:39:01 UTC)
+
+Medidas de conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
