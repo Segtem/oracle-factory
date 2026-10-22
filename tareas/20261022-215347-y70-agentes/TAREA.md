@@ -39,3 +39,11 @@ Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desact
 ### Nota (2026-10-22 23:08:31 UTC)
 
 Medidas de flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-22 23:33:12 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-22 23:33:12 UTC)
+
+Medidas de flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza: Brian Hollweg (persona, confirmo, modo confirmacion).

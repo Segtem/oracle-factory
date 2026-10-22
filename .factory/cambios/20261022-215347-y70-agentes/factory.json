@@ -188,33 +188,46 @@
         "factory_agentes.la_guia_dice_lo_que_hace_la_cli",
         "factory_agentes.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T23:33:12.398471+00:00",
+      "requisito": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "medidas": [
+        "factory_agentes.la_guia_dice_lo_que_hace_la_cli",
+        "factory_agentes.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T23:33:12.529346+00:00",
+      "requisito": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "medidas": [
+        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+        "factory_agentes.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": "funcional",
     "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": {
-      "sha256": "eb093181fbc2f0c1ad5d7193ddbd7eaa152c9c738fca7fcda12bc1190cfadb03",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-22T23:08:31.004651+00:00",
-      "catalogos": {
-        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "ea5b582f3e026e234e7c1e43c8b212693af0cc8d83efa1049df67402d35fc193",
-        "factory_agentes.corrida_completa": "481cae0cbed5c8094032e3db5308b19849c29a34127cd03155d3d6165039be76"
-      },
-      "archivos_catalogo": {
-        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "catalogos/factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza.oracle",
-        "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-22T23:33:12.366843+00:00",
       "sha256": "916d6b0ecb7fbd25c988cd45cfcb788087ad3a01434ced63f90a3aa08f709fb5",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-22T23:08:31.858076+00:00",
       "catalogos": {
         "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "b0b9447f98f4d88a24d1b75e12680febe848860956711251c771776a2b9fad3c",
         "factory_agentes.corrida_completa": "481cae0cbed5c8094032e3db5308b19849c29a34127cd03155d3d6165039be76"
@@ -223,6 +236,23 @@
         "factory_agentes.la_guia_dice_lo_que_hace_la_cli": "catalogos/factory_agentes.la_guia_dice_lo_que_hace_la_cli.oracle",
         "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
       }
+    },
+    "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-22T23:33:12.500214+00:00",
+      "sha256": "eb093181fbc2f0c1ad5d7193ddbd7eaa152c9c738fca7fcda12bc1190cfadb03",
+      "catalogos": {
+        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "ea5b582f3e026e234e7c1e43c8b212693af0cc8d83efa1049df67402d35fc193",
+        "factory_agentes.corrida_completa": "481cae0cbed5c8094032e3db5308b19849c29a34127cd03155d3d6165039be76"
+      },
+      "archivos_catalogo": {
+        "factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza": "catalogos/factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza.oracle",
+        "factory_agentes.corrida_completa": "catalogos/factory_agentes.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
