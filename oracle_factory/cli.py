@@ -34,6 +34,7 @@ from . import modos
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
+from . import agentes as agentes_mod
 from . import mcp as mcp_mod
 from . import rag as rag_mod
 from . import unir as unir_mod
@@ -246,6 +247,9 @@ def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
 
 
 def exigir_terminal(que: str = "esta decisión") -> None:
+    # Una decisión de persona no la toma un agente, aunque corra en una terminal: con --agente sólo se propone.
+    if AGENTE:
+        raise FactoryError(f"{que} es de una persona, sin --agente; {AGENTE} puede proponerla, no tomarla")
     if not terminal_interactiva():
         raise FactoryError(f"{que} es de una persona y se toma desde una terminal interactiva; la entrada por pipe no cuenta. "
                            "Un agente deja su propuesta con --agente y queda registrado como agente.")
@@ -3025,6 +3029,25 @@ def comando_buscar(texto: str, maximo: int) -> None:
         print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
 
 
+def comando_agentes(verificar: bool) -> None:
+    """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
+    nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
+    rutas = [ruta_segura(ROOT / "AGENTS.md"), ruta_segura(ROOT / "CLAUDE.md")]
+    actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
+    esperados = [agentes_mod.con_bloque(actuales[0], nuevo), agentes_mod.con_claude(actuales[1])]
+    if verificar:
+        viejos = [r.name for r, a, e in zip(rutas, actuales, esperados) if a != e]
+        if viejos:
+            raise FactoryError(f"la guía para agentes no está al día en {', '.join(viejos)}; corré oracle-factory agentes")
+        print("La guía para agentes está al día en AGENTS.md (y CLAUDE.md la incluye).")
+        return
+    for ruta, actual, esperado in zip(rutas, actuales, esperados):
+        if actual != esperado:
+            escribir_atomico(ruta, esperado.encode("utf-8"))
+    print("Guía para agentes en AGENTS.md (CLAUDE.md la incluye con @AGENTS.md): quién decide qué, los comandos de una "
+          "persona y de un agente, y cómo consultar el proyecto.")
+
+
 def comando_preguntar(args) -> None:
     if args.evaluar:
         if not args.salida:
@@ -3173,6 +3196,7 @@ def inicializar(oracle: str | None = None) -> None:
     print('Conservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.')
     print('Si el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.')
     print(instalar_hook())
+    comando_agentes(False)
     if not ejecutar(["git", "rev-parse", "--git-dir"]).returncode:
         print(instalar_union())
     print('Próximo paso: oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"')
@@ -3793,6 +3817,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
+    q = sub.add_parser('agentes', help='escribir en AGENTS.md la guía para agentes, armada desde la CLI (o --verificar)')
+    q.add_argument('--verificar', action='store_true', help='no escribe; falla si la guía falta o quedó vieja')
     sub.add_parser('mcp', help='servir el proyecto por MCP (stdio), de sólo lectura, para un agente: claude mcp add factory -- '
                               'oracle-factory --proyecto RUTA mcp')
     q = sub.add_parser('preguntar', help='preguntar al conocimiento del proyecto: pasajes vigentes con su cita (sólo lectura)')
@@ -3895,6 +3921,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
         elif args.comando == "preguntar": comando_preguntar(args)
+        elif args.comando == "agentes": comando_agentes(args.verificar)
         elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
         elif args.comando == "medir" and args.confirmar:
             if args.requisito or args.medida or args.listar:
