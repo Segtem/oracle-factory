@@ -1,0 +1,20 @@
+{
+  "agentes_caso": [
+    {
+      "requisito": "la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "caso": "Agentes.test_ag1_un_proyecto_con_su_propio_agents_md",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_guia_dice_lo_que_hace_la_cli",
+      "caso": "Agentes.test_ag2_un_agente_intenta_las_decisiones_de_una_persona",
+      "codigo": 0
+    }
+  ],
+  "agentes_corrida": [
+    {
+      "completa": 1,
+      "casos": 2
+    }
+  ]
+}

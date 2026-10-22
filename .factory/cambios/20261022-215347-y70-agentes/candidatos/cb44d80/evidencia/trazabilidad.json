@@ -1,0 +1,166 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli": [
+      "test_agentes.Agentes.test_ag2_un_agente_intenta_las_decisiones_de_una_persona"
+    ],
+    "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza": [
+      "test_agentes.Agentes.test_ag1_un_proyecto_con_su_propio_agents_md"
+    ]
+  },
+  "casos": {
+    "test_agentes.Agentes.test_ag1_un_proyecto_con_su_propio_agents_md": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/modos.py": [
+          23,
+          29,
+          31,
+          32,
+          33,
+          34
+        ],
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_agentes.py": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          35,
+          36,
+          39,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          57,
+          58,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          72,
+          73,
+          74
+        ],
+        "tools/terminal.py": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          16,
+          17,
+          19,
+          20,
+          21
+        ]
+      }
+    },
+    "test_agentes.Agentes.test_ag2_un_agente_intenta_las_decisiones_de_una_persona": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_agentes.py": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          35,
+          36,
+          77,
+          78,
+          79,
+          80,
+          81,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118
+        ],
+        "tools/terminal.py": [
+          10,
+          11,
+          12,
+          13,
+          14,
+          16,
+          17,
+          19,
+          20,
+          21
+        ]
+      }
+    }
+  }
+}
