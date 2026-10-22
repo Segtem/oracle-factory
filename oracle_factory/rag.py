@@ -9,6 +9,7 @@ from __future__ import annotations
 from array import array
 import hashlib
 import ipaddress
+import contextlib
 import json
 import math
 import os
@@ -48,9 +49,11 @@ def palabras(texto: str) -> list[str]:
 
 def _secciones(texto: str) -> list[tuple[str, str]]:
     """(título, cuerpo) por cada #, ## o ###; lo de antes del primer título va con el título del archivo."""
-    salida, titulo, cuerpo = [], "", []
+    salida, titulo, cuerpo, en_codigo = [], "", [], False
     for linea in texto.splitlines():
-        m = TITULO.match(linea)
+        if linea.lstrip().startswith("```"):
+            en_codigo = not en_codigo
+        m = None if en_codigo else TITULO.match(linea)
         if m:
             if "".join(cuerpo).strip():
                 salida.append((titulo, "\n".join(cuerpo).strip()))
@@ -83,7 +86,7 @@ def _archivos(cli) -> list[Path]:
                 salida += [cambio / n for n in ("proposal.md", "design.md") if (cambio / n).is_file()]
                 salida += sorted((cambio / "specs").rglob("spec.md")) if (cambio / "specs").is_dir() else []
     salida += sorted((raiz / "openspec" / "specs").rglob("spec.md")) if (raiz / "openspec" / "specs").is_dir() else []
-    salida += sorted((raiz / "docs").glob("*.md")) if (raiz / "docs").is_dir() else []
+    salida += sorted((raiz / "docs").rglob("*.md")) if (raiz / "docs").is_dir() else []
     return [p for p in salida if p.is_file() and not p.is_symlink()]
 
 
@@ -96,19 +99,19 @@ def corpus(cli) -> tuple[list[dict], list[str], int]:
     pasajes, fuera = [], 0
     for archivo in _archivos(cli):
         rel = archivo.relative_to(raiz).as_posix()
-        if rel in por_revisar:
+        if rel in por_revisar or archivo.stat().st_size > cli.estructura.LIMITE_ARCHIVO:
             continue
         campos, texto = _frontmatter(archivo.read_text(encoding="utf-8", errors="replace"))
         partes = rel.split("/")
         cambio = (partes[2] if partes[:2] == ["openspec", "changes"] else
                   partes[2][:-3] if partes[:2] == [kb_mod.DIR, "cambios"] else None)
-        if cambio is None and (m := re.search(r"\[\[cambios/([^\]|#]+)", texto)):
-            cambio = m[1]  # la nota de un requisito nombra su cambio
+        if partes[:2] == [kb_mod.DIR, "requisitos"] and (m := re.search(r"\[\[cambios/([^\]|#]+)", texto)):
+            cambio = m[1]  # la nota de un requisito nombra su cambio; otro archivo que lo enlace no es de ese cambio
         if cambio in abandonados or campos.get("vigente") == "false":
             fuera += 1
             continue
         enlaces = sorted({f"{kb_mod.DIR}/{e.strip()}.md" for e in ENLACE.findall(texto)})
-        titulo = next((t for t, _ in _secciones(texto) if t), rel)
+        titulo = next((m[2] for linea in texto.splitlines() if (m := TITULO.match(linea))), rel)  # aunque no tenga cuerpo
         for seccion, cuerpo in _secciones(texto):
             if len(cuerpo) < 20:  # «Ninguno.», «- pendiente»: no responden nada
                 continue
@@ -140,8 +143,18 @@ def es_local(url: str) -> bool:
         return False
 
 
+class _SinRedirecciones(urllib.request.HTTPRedirectHandler):
+    """Una redirección llevaría los textos a una URL que el proyecto no configuró: no se sigue."""
+    def redirect_request(self, *args, **kwargs):
+        return None
+
+
+ABRIR = urllib.request.build_opener(_SinRedirecciones).open
+
+
 def embeber(conf: dict, textos: list[str], configurada: bool) -> list[list[float]]:
-    """Los embeddings de los textos, en lotes. Una URL que no es local sólo se usa si el proyecto la configuró."""
+    """Los embeddings de los textos, en lotes. Una URL que no es local sólo se usa si el proyecto la configuró él mismo
+    (configurada: la URL está en su .factory/config.json), y nunca se sigue una redirección."""
     if conf["proveedor"] == "ninguno":
         raise SinEmbeddings("el proyecto apagó los embeddings (rag.embeddings.proveedor: ninguno)")
     if not configurada and not es_local(conf["url"]):
@@ -160,7 +173,7 @@ def embeber(conf: dict, textos: list[str], configurada: bool) -> list[list[float
         pedido = urllib.request.Request(url, json.dumps(cuerpo).encode("utf-8"),
                                         {"Content-Type": "application/json", **cabeceras})
         try:
-            with urllib.request.urlopen(pedido, timeout=300) as r:
+            with ABRIR(pedido, timeout=300) as r:
                 datos = json.loads(r.read())
         except (urllib.error.URLError, OSError, ValueError) as e:
             raise SinEmbeddings(f"{conf['proveedor']} en {conf['url']} no respondió ({getattr(e, 'reason', e)})") from e
@@ -179,10 +192,11 @@ def ruta_indice(cli) -> Path:
 def vectores(cli, pasajes: list[dict], conf: dict, configurada: bool) -> tuple[dict[str, list[float]], int]:
     """Los embeddings de los pasajes: los guardados si son de este modelo, y sólo los que faltan se piden. Lo que ya no
     está en el corpus se borra. Devuelve también cuántos se pidieron."""
-    ruta = ruta_indice(cli)
+    ruta = cli.ruta_segura(ruta_indice(cli))  # un enlace en el camino lo llevaría fuera de .factory/local/rag/
     ruta.parent.mkdir(parents=True, exist_ok=True)
+    cli.ruta_segura(ruta)
     clave = f"{conf['proveedor']}:{conf['modelo']}"
-    with sqlite3.connect(ruta) as db:
+    with contextlib.closing(sqlite3.connect(ruta)) as db, db:
         db.execute("CREATE TABLE IF NOT EXISTS pasajes (huella TEXT PRIMARY KEY, modelo TEXT, vector BLOB)")
         guardados = {h: v for h, m, v in db.execute("SELECT huella, modelo, vector FROM pasajes") if m == clave}
         vigentes = {p["huella"] for p in pasajes}
@@ -225,7 +239,7 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
         raise cli.FactoryError("indicá la pregunta")
     pasajes, por_revisar, fuera = corpus(cli)
     conf = configuracion(cli)
-    configurada = bool((cli.config_proyecto().get("rag") or {}).get("embeddings"))
+    configurada = "url" in (((cli.config_proyecto().get("rag") or {}).get("embeddings")) or {})
     lexico = bm25(pasajes, palabras(pregunta))
     semantico, aviso, pedidos = [0.0] * len(pasajes), None, 0
     try:
@@ -287,13 +301,14 @@ def evaluar(cli, salida: Path) -> dict:
     if not archivo.is_file():
         raise cli.FactoryError(f"no hay preguntas de oro: falta {archivo.relative_to(cli.ROOT)}")
     preguntas = json.loads(archivo.read_text(encoding="utf-8"))
+    literales = [" ".join(palabras(p["pregunta"])) for p in preguntas]
     filas, detalle, modos = [], [], set()
     for p in preguntas:
         datos = preguntar(cli, p["pregunta"], maximo=50)
-        # Una pregunta de oro no se responde con la lista de preguntas de oro (la de su diseño, por ejemplo).
-        literal = " ".join(palabras(p["pregunta"]))
+        # Una pregunta de oro no se responde con la lista de las preguntas de oro (la de un diseño, por ejemplo): un pasaje
+        # que trae dos o más de ellas es esa lista. Uno que repite sólo la suya (una FAQ) es una respuesta y cuenta.
         rutas = list(dict.fromkeys(r["ruta"] for r in datos["resultados"]
-                                   if literal not in " ".join(palabras(r["texto"]))))[:PRIMEROS]
+                                   if sum(x in " ".join(palabras(r["texto"])) for x in literales) < 2))[:PRIMEROS]
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])

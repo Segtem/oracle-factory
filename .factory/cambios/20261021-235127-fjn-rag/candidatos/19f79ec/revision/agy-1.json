@@ -1,0 +1,175 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/19f79ec-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "19f79ecf45d6641431ed4dd5215e8d1f33053126",
+  "diff_sha256": "f50f6772f39884e58ae3b561c5be62cca57f95f75ccc6f84662f82608d14497e",
+  "context_sha256": "f4bfdec271729184390c06bf0d71f54f6722b257e4dab946332c011c400ac274",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "HALLAZGO-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Documentos del vault y docs son descartados erróneamente si enlazan a un cambio abandonado",
+      "explanation": "En oracle_factory/rag.py:105-108, la expresión regular para deducir el cambio al que pertenece un archivo (pensada para notas de requisitos en kb/requisitos/) se ejecuta sobre cualquier archivo del corpus cuya ruta no contenga el cambio (por ejemplo, notas humanas en kb/notas/, especificaciones consolidadas en openspec/specs/, guías en docs/ o kb/README.md). Si un documento menciona un cambio abandonado como antecedente (ejemplo: [[cambios/20261002-204916-validar-el-flujo]]), se le asigna ese ID de cambio, cambio in abandonados resulta verdadero y el documento completo queda descartado del corpus (fuera += 1; continue). Además, si enlaza a un cambio cerrado, todo el documento queda erróneamente atribuido a ese cambio en la cita.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 105,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Una nota humana en kb/notas/*.md o documento en docs/*.md que incluya un wikilink a un cambio abandonado.",
+      "evidence": "Al evaluar un texto en kb/notas/ con [[cambios/20261002-204916-validar-el-flujo]], re.search extrae el ID abandonado y corpus() descarta la nota completa aumentando fuera. De igual modo, kb/README.md es descartado del vault porque su lista de cambios comienza con un cambio abandonado.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Crear en kb/notas/ una nota válida que enlace a un cambio abandonado; llamar a rag.corpus(cli) y verificar que la nota se omite de pasajes y se suma a fuera."
+    },
+    {
+      "id": "HALLAZGO-002",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Pérdida del título principal del archivo y contaminación cruzada de secciones subsecuentes en _secciones()",
+      "explanation": "En oracle_factory/rag.py:52-62, _secciones() descarta los encabezados que no van seguidos directamente de cuerpo antes del próximo subtítulo (if \"\".join(cuerpo).strip():). En archivos de especificaciones o propuestas estructurados estándar (# Titulo seguido de ## Seccion o ### Requirement:), el título principal de nivel 1 es eliminado. Luego en corpus() (línea 111), titulo = next((t for t, _ in _secciones(texto) if t), rel) adopta erróneamente el nombre de la primera subsección como si fuera el título del archivo, y en la línea 115 lo prefija al texto de todos los demás requisitos del archivo (f\"{titulo}\\n{seccion}\\n{cuerpo}\"). Esto elimina el título del documento y contamina semántica y léxicamente cada sección con los términos del primer requisito.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 52,
+        "end_line": 62,
+        "side": "head"
+      },
+      "trigger": "Indexar cualquier archivo de especificación (spec.md) o propuesta donde un encabezado # esté inmediatamente seguido por un subtítulo ## o ### sin párrafos intermedios.",
+      "evidence": "En openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md, # Capability: conocimiento se descarta y los pasajes de los requisitos 2, 3, 4 y 5 comienzan con \"Requirement: preguntar devuelve pasajes vigentes con su cita\" como supuesto título del documento.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Ejecutar rag._secciones() sobre openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md y constatar que Capability: conocimiento no aparece en la salida."
+    },
+    {
+      "id": "HALLAZGO-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "evaluar() filtra artificialmente pasajes que contienen la pregunta literal, falseando la evaluación",
+      "explanation": "En oracle_factory/rag.py:294-298, evaluar() descarta los resultados de búsqueda cuyo texto contenga las palabras literales de la pregunta (if literal not in \" \".join(palabras(r[\"texto\"]))). La intención era evitar que la tabla de preguntas de oro de design.md responda en la prueba. No obstante, si un documento legítimo o guía formula la pregunta en su título de sección (ej. FAQ: ## ¿Por qué los IDs de los cambios llevan tres letras al azar?), dicho pasaje —que es la respuesta canónica exacta— es descartado de la evaluación. Esto altera artificialmente el ranking evaluado frente al ranking real de oracle-factory preguntar.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 294,
+        "end_line": 298,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory preguntar --evaluar en presencia de un documento de conocimiento cuyo título o cuerpo repite la pregunta literal.",
+      "evidence": "Con un documento cuya sección es ## ¿Por qué los IDs de los cambios llevan tres letras al azar?, literal in palabras(texto) resulta True y evaluar() lo elimina de rutas aunque preguntar() lo ubica en primer puesto.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+      "status": "pendiente",
+      "verification": "Definir un archivo con la pregunta literal como título de sección y correr rag.evaluar(); confirmar que dicho archivo queda ausente de detalle.json a pesar de rankear primero en la búsqueda estándar."
+    },
+    {
+      "id": "HALLAZGO-004",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La comprobación de URL local se desactiva si .factory/config.json define cualquier clave de embeddings sin definir URL",
+      "explanation": "En oracle_factory/rag.py:147-148 se verifica if not configurada and not es_local(conf[\"url\"]). Sin embargo, configurada se calcula en la línea 228 como bool((cli.config_proyecto().get(\"rag\") or {}).get(\"embeddings\")). Si el proyecto configura únicamente el modelo o proveedor en .factory/config.json sin especificar url, configurada resulta True y la condición not configurada se hace False, anulando la verificación es_local. Si la URL por defecto no fuera local, el texto del proyecto se transmitiría a ella a pesar de que el proyecto jamás configuró dicha URL, vulnerando el requisito de que ningún texto salga a una URL no configurada por el proyecto.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 147,
+        "end_line": 148,
+        "side": "head"
+      },
+      "trigger": "Configuración en .factory/config.json con rag.embeddings definiendo modelo o proveedor pero omitiendo url.",
+      "evidence": "Al llamar a embeber(conf, textos, configurada=True) con conf[\"url\"] configurada como URL remota, no se lanza SinEmbeddings y se intenta la conexión HTTP externa.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto",
+      "status": "pendiente",
+      "verification": "Configurar rag.embeddings.modelo sin url, simular una URL externa en POR_DEFECTO y verificar que embeber() no la rechaza."
+    },
+    {
+      "id": "HALLAZGO-005",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "test_rag1 no implementa el GIVEN de la spec (cambio cerrado) y prueba un cambio en propuesta",
+      "explanation": "En openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#Scenario: una pregunta sobre una decisión, la spec promete: GIVEN un proyecto con un cambio cerrado, otro abandonado y una nota de personas por revisar... En tests/test_rag.py:94, test_rag1_una_pregunta_sobre_una_decision crea vivo con self.nuevo('La tortuga', 'vivo') y no lo cierra; permanece en fase propuesta. La prueba contractual no verifica que pasajes de un cambio efectivamente cerrado (con su nota de vault y spec fusionada) sean devueltos como se promete en el escenario.",
+      "location": {
+        "file": "tests/test_rag.py",
+        "start_line": 92,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Ejecución y lectura del caso contractual test_rag1 frente al escenario formal de la spec.",
+      "evidence": "En tests/test_rag.py:94 se crea vivo pero no hay invocación a f.cerrar(vivo) ni confirmación de cierre en el repositorio de prueba; los pasajes provienen de proposal.md en openspec/changes/, no del vault de un cambio cerrado.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Inspeccionar el código de test_rag1_una_pregunta_sobre_una_decision y constatar que vivo nunca alcanza la fase cerrada."
+    },
+    {
+      "id": "HALLAZGO-006",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "Fuga de recursos por conexión SQLite no cerrada en vectores()",
+      "explanation": "En oracle_factory/rag.py:185, se utiliza with sqlite3.connect(ruta) as db:. En la biblioteca estándar de Python, el context manager de una conexión sqlite3 únicamente gestiona transacciones (commit al salir sin error, rollback ante excepción); no cierra la conexión ni libera el descriptor de archivo. Esto genera ResourceWarning: unclosed database in <sqlite3.Connection object> en la ejecución de pruebas y mantiene bloqueos sobre indice.sqlite.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 185,
+        "end_line": 197,
+        "side": "head"
+      },
+      "trigger": "Llamada a rag.vectores() o ejecución de la suite de pruebas con warnings habilitados.",
+      "evidence": "Al correr PYTHONPATH=. python -m unittest tests.test_rag se observa por salida estándar el mensaje: ResourceWarning: unclosed database in <sqlite3.Connection object>.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo",
+      "status": "pendiente",
+      "verification": "Ejecutar PYTHONPATH=. python -W error::ResourceWarning -m unittest tests.test_rag y observar la falla por advertencia de conexión SQLite no cerrada."
+    },
+    {
+      "id": "HALLAZGO-007",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La partición de secciones confunde comentarios de código con títulos Markdown",
+      "explanation": "En oracle_factory/rag.py:32 y 52-59, TITULO = re.compile(r\"^(#{1,3})\\s+(.+?)\\s*$\") coincide con cualquier línea que comience con 1 a 3 numerales sin verificar si la línea pertenece a un bloque de código cercado (```). Cualquier ejemplo de código (en Python, Bash, Yaml) con un comentario como # comentario es interpretado como un encabezado Markdown, fragmentando el bloque de código en pasajes incompletos y usando el texto del comentario como título de sección.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 32,
+        "end_line": 59,
+        "side": "head"
+      },
+      "trigger": "Documento en docs/ u openspec/ con un bloque de código Markdown que incluya comentarios con #.",
+      "evidence": "Al procesar un texto con bloque ```python\\n# comentario\\nx = 1\\n```, _secciones() produce una sección espuria con título \"comentario\" y cuerpo \"x = 1\\n```\".",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Procesar con rag._secciones() un bloque de código con comentarios y comprobar que se parte erróneamente en múltiples secciones."
+    },
+    {
+      "id": "HALLAZGO-008",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Ausencia de verificación de tamaño de archivo (LIMITE_ARCHIVO) en _archivos() y corpus()",
+      "explanation": "En oracle_factory/rag.py:87 y 101, _archivos() y corpus() leen con read_text() los archivos sin comprobar archivo.stat().st_size. A diferencia de comando_buscar y estructura.py, que respetan estructura.LIMITE_ARCHIVO (1 MB) para mitigar consumo desmedido de memoria, rag.py no aplica este límite preventivo.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 87,
+        "end_line": 101,
+        "side": "head"
+      },
+      "trigger": "Presencia de un archivo Markdown de gran tamaño (superior a 1 MB) en kb/ o docs/.",
+      "evidence": "En oracle_factory/cli.py:3005 se comprueba si el archivo supera LIMITE_ARCHIVO; en oracle_factory/rag.py:101 se invoca directamente archivo.read_text().",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Revisar rag.py:87-101 y contrastar con la comprobación de LIMITE_ARCHIVO en estructura.py y comando_buscar."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias mediante: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null desde la raíz del checkout.",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a las instrucciones recibidas.",
+    "No se modificó el checkout ni la configuración git de ningún repositorio.",
+    "Se realizaron pruebas de mutación manual sobre copias en el directorio de trabajo del revisor (.factory/local/revisores/19f79ec-agy-1/mutaciones) analizando 10 mutaciones, de las cuales 7 sobrevivieron a la suite tests.test_rag.",
+    "Se verificó la disponibilidad de Ollama local (http://localhost:11434) y del modelo qwen3-embedding:0.6b sin alterar el estado de servicios.",
+    "No se evaluaron los 9 archivos excluidos por el paquete (.factory, kb/README.md, kb/cambios/20261021-235127-fjn-rag.md, requisitos en kb/ y tareas)."
+  ]
+}
