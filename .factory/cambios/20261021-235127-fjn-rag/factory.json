@@ -2,7 +2,7 @@
   "id": "20261021-235127-fjn-rag",
   "titulo": "RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida",
   "capacidad": "conocimiento",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
   "spec_sha256": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "3430b47341ce6ae7040e850a7ab69dd0f6e4bc61496906acbba31a9acdc6e3cd"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261021-235127-fjn-rag/candidatos/0bb7183/evidencia/hechos.json",
+    "hechos_sha256": "7d7fbbce8b0503f7ceb536f2c935f81d331763573db42fb42816e72fe2e3d155",
+    "informe": ".factory/cambios/20261021-235127-fjn-rag/oracle-veredicto.txt",
+    "informe_sha256": "7fc68d39810a505a871389e7e3a2928c3236017b2f35d46555236d3770403073",
+    "cuando": "2026-10-22T11:50:56+00:00",
+    "contexto": {
+      "head": "e78a900df55ce4080eb848f143c916634cca8de4",
+      "archivos_sha256": "3430b47341ce6ae7040e850a7ab69dd0f6e4bc61496906acbba31a9acdc6e3cd"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -583,6 +595,17 @@
       "abiertos": 0,
       "sha256": "c3fa981992a3b7b0c677abdcdc1f644d24c5d833dc2ff7ab5e4d887d41710998",
       "decisiones_sha256": "82689a5cac1fd29c5409cc5077688db78d941b9ce17631f59f08fefde360502f"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T11:50:56+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "7d7fbbce8b0503f7ceb536f2c935f81d331763573db42fb42816e72fe2e3d155"
     }
   ],
   "tipos": {

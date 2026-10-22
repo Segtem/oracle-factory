@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto`
 - Vigente: sí
 - Cambio: [[cambios/20261021-235127-fjn-rag]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_rag.los_embeddings_son_configurables_y_locales_por_defecto`, `factory_rag.corrida_completa`
 - Fuente: openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#los embeddings son configurables y locales por defecto
 

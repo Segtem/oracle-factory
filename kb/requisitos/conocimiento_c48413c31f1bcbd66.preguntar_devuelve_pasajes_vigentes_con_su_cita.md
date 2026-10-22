@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita`
 - Vigente: sí
 - Cambio: [[cambios/20261021-235127-fjn-rag]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_rag.preguntar_devuelve_pasajes_vigentes_con_su_cita`, `factory_rag.corrida_completa`
 - Fuente: openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#preguntar devuelve pasajes vigentes con su cita
 

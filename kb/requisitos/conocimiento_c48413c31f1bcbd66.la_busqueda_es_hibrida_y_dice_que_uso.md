@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso`
 - Vigente: sí
 - Cambio: [[cambios/20261021-235127-fjn-rag]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_rag.la_busqueda_es_hibrida_y_dice_que_uso`, `factory_rag.corrida_completa`
 - Fuente: openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#la búsqueda es híbrida y dice qué usó
 

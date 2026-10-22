@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo`
 - Vigente: sí
 - Cambio: [[cambios/20261021-235127-fjn-rag]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_rag.el_indice_se_mantiene_solo`, `factory_rag.corrida_completa`
 - Fuente: openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#el índice se mantiene solo
 
