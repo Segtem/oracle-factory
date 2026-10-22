@@ -84,33 +84,46 @@
         "factory_hora.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T12:07:37.059403+00:00",
+      "requisito": "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+      "medidas": [
+        "factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+        "factory_hora.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T12:07:37.175615+00:00",
+      "requisito": "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+      "medidas": [
+        "factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo",
+        "factory_hora.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio": "funcional",
     "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": {
-      "sha256": "40bb19719470158b57f26bd53ada9dc1e714abd1123d4bdad75086767c056bf1",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-22T12:06:16.536972+00:00",
-      "catalogos": {
-        "factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "5a5963d730e01e168504a9e766161c44eedc0873a7683a063d65e97547f291cc",
-        "factory_hora.corrida_completa": "96345acacc32d1634538899609c8e53b18b37a16d84aa8382c7166b86be9a60a"
-      },
-      "archivos_catalogo": {
-        "factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "catalogos/factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.oracle",
-        "factory_hora.corrida_completa": "catalogos/factory_hora.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-22T12:07:37.031466+00:00",
       "sha256": "0b5d9826bcaf2337337fa538f27b32c2be6c8ab10f1c2fbaa1f456ac95cc5271",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-22T12:06:17.361209+00:00",
       "catalogos": {
         "factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio": "b44e951f3f85285c42edd283b0f581e2da06621fe8572e8f4ad7078906f743dd",
         "factory_hora.corrida_completa": "96345acacc32d1634538899609c8e53b18b37a16d84aa8382c7166b86be9a60a"
@@ -119,6 +132,23 @@
         "factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio": "catalogos/factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio.oracle",
         "factory_hora.corrida_completa": "catalogos/factory_hora.corrida_completa.oracle"
       }
+    },
+    "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-22T12:07:37.149428+00:00",
+      "sha256": "40bb19719470158b57f26bd53ada9dc1e714abd1123d4bdad75086767c056bf1",
+      "catalogos": {
+        "factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "5a5963d730e01e168504a9e766161c44eedc0873a7683a063d65e97547f291cc",
+        "factory_hora.corrida_completa": "96345acacc32d1634538899609c8e53b18b37a16d84aa8382c7166b86be9a60a"
+      },
+      "archivos_catalogo": {
+        "factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "catalogos/factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.oracle",
+        "factory_hora.corrida_completa": "catalogos/factory_hora.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
