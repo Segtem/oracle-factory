@@ -2,7 +2,7 @@
   "id": "20261022-215347-y70-agentes",
   "titulo": "La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día",
   "capacidad": "flujo",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md",
   "spec_sha256": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
     "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261022-215347-y70-agentes/revisiones/registro-84n7f55a/informe.json",
+    "sha256": "8b5f0dc4bcde5725543cfead18475e5c082a5d8b8200c8a127e9b1a047878fae",
+    "decisiones": "tareas/20261022-215347-y70-agentes/revisiones/registro-84n7f55a/decisiones.json",
+    "decisiones_sha256": "ad26b10dd2aaa24d514f7c82fbc07ea1670ba088f141a46dd421a2077a16b538",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T23:51:13.693435+00:00",
+    "motivo": "Dos vueltas de codex y agy: la 1 dejó 5 medios o altos (marcas rotas que borraban texto del proyecto, la guía que en modo autónomo listaba como de persona lo que un agente decide, cerrar que se negaba por lo que faltaba y no por ser agente, comandos de agente probados sólo con --help) y 3 bajos, todos corregidos con pruebas y mutaciones muertas; la 2 no dejó ningún hallazgo. La prueba destapó y corrigió dos huecos: un agente en una terminal podía confirmar sus propias medidas y elegir en decidir-union.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "904b575b2dcdc40bc7700ce9281d5123f75499d4",
+      "archivos_sha256": "9bb62607397a15d709e6f7d7874af6a469b6d593c37d0ac70d45e00ec90ca2d0"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -266,6 +286,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "2ef572abafc4"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T23:48:20.347708+00:00",
+      "decision": "aprobar",
+      "candidato": "82872b6"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T23:51:13.693460+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "8b5f0dc4bcde5725543cfead18475e5c082a5d8b8200c8a127e9b1a047878fae",
+      "decisiones_sha256": "ad26b10dd2aaa24d514f7c82fbc07ea1670ba088f141a46dd421a2077a16b538"
     }
   ],
   "tipos": {
@@ -306,5 +350,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }
