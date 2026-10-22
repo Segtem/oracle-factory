@@ -2,11 +2,24 @@
   "id": "20261022-115958-1jt-hora",
   "titulo": "La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden",
   "capacidad": "colaboracion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T12:00:36+00:00",
+    "documentos": {
+      "openspec/changes/20261022-115958-1jt-hora/proposal.md": "f385f50484aaa14fbdd46beb7b9a2c8235680e2a2c3e3f9b05baf64b6b1bc551",
+      "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8"
+    }
+  },
+  "requisitos": [
+    "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+    "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-22T11:59:58+00:00",
       "capacidad": "colaboracion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T12:00:36+00:00",
+      "documentos": {
+        "openspec/changes/20261022-115958-1jt-hora/proposal.md": "f385f50484aaa14fbdd46beb7b9a2c8235680e2a2c3e3f9b05baf64b6b1bc551",
+        "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T12:00:50+00:00",
+      "ids": [
+        "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
+        "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio": "funcional",
+    "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

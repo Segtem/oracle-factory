@@ -68,7 +68,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261021-101907-clones]] — Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan (cerrada)
 - [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (cerrada)
 - [[cambios/20261021-235127-fjn-rag]] — RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida (cerrada)
-- [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (espera_aprobacion_spec)
+- [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (requisitos_importados)
 
 ## Requisitos
 
@@ -109,6 +109,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene]]
+- [[requisitos/colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio]]
+- [[requisitos/colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites]]
 - [[requisitos/colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros]]
