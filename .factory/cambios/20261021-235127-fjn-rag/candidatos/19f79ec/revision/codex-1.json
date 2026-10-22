@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/19f79ec-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "19f79ecf45d6641431ed4dd5215e8d1f33053126",
+  "diff_sha256": "f50f6772f39884e58ae3b561c5be62cca57f95f75ccc6f84662f82608d14497e",
+  "context_sha256": "262d5e987750e01b535124d8a9fb8613f1719f6a917d7b5259670a26ebf85790",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "RAG-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "No se indexan documentos Markdown dentro de subdirectorios de docs/",
+      "explanation": "El corpus recorre docs/ con glob('*.md'), que sólo encuentra archivos en el primer nivel. Los documentos en, por ejemplo, docs/arquitectura/decision.md quedan fuera de la búsqueda aunque la spec promete buscar en docs/.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 86,
+        "end_line": 86,
+        "side": "head"
+      },
+      "trigger": "Crear docs/interno/guia.md con un pasaje relevante y preguntar por ese contenido.",
+      "evidence": "Prueba manual en un proyecto temporal: _archivos no devolvió docs/nested/guide.md. La implementación usa sorted((raiz / 'docs').glob('*.md')); para incluir descendientes se requiere recorrido recursivo.",
+      "related_requirement": "preguntar devuelve pasajes vigentes con su cita",
+      "status": "pendiente",
+      "verification": "Reproducción aislada contra rag._archivos con docs/nested/guide.md; el archivo no apareció. No se alteró el checkout."
+    },
+    {
+      "id": "RAG-002",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 0.96,
+      "title": "La petición de embeddings puede enviar texto del proyecto a una URL redirigida",
+      "explanation": "urllib.request.urlopen sigue redirecciones HTTP de forma predeterminada. Por eso una URL configurada (incluso el endpoint local predeterminado) puede responder con una redirección a otro host y la petición con los textos del proyecto se reenvía allí, aunque ese destino no haya sido configurado por el proyecto. Esto contradice la restricción explícita de no enviar texto a una URL no configurada.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 163,
+        "end_line": 164,
+        "side": "head"
+      },
+      "trigger": "El endpoint de embeddings configurado responde 302/307 con un Location a un host distinto; urllib sigue la respuesta y reenvía el POST con su cuerpo.",
+      "evidence": "En estas líneas se llama a urlopen directamente con el Request que contiene el lote de pasajes, sin desactivar redirecciones ni comprobar el host de destino.",
+      "related_requirement": "los embeddings son configurables y locales por defecto",
+      "status": "pendiente",
+      "verification": "Inspección del flujo HTTP; la ejecución del comando de pruebas no pudo levantar servidores locales porque el entorno deniega bind() de sockets. No se probó una redirección en vivo."
+    },
+    {
+      "id": "RAG-003",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "Un symlink en la carpeta del índice permite escribir la base SQLite fuera de .factory/local/rag/",
+      "explanation": "ruta_indice construye el destino esperado, pero vectores crea sus padres con mkdir y SQLite abre esa ruta sin comprobar symlinks. Si local/rag ya es un enlace a otra carpeta, preguntar crea o actualiza indice.sqlite en el destino externo, incumpliendo tanto la ubicación prometida del índice como la propiedad de sólo lectura salvo por el índice local.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 182,
+        "end_line": 185,
+        "side": "head"
+      },
+      "trigger": "Antes de preguntar, reemplazar .factory/local/rag por un symlink a otra carpeta escribible.",
+      "evidence": "Prueba manual aislada: con .factory/local/rag enlazado a una carpeta temporal externa, vectores(cli, [], ...) creó indice.sqlite en esa carpeta externa.",
+      "related_requirement": "el índice se mantiene solo; preguntar devuelve pasajes vigentes con su cita",
+      "status": "pendiente",
+      "verification": "Reproducción en un proyecto temporal, sin tocar el checkout. El comando de prueba solicitado también mostró que preguntar genera una advertencia ResourceWarning por una conexión SQLite no cerrada, aunque no la conté como hallazgo separado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la spec, la propuesta y el diff empaquetado; se revisaron rag.py, cli.py, tests/test_rag.py, tools/verify_rag.py, los catálogos de Factory, preguntas de oro y el texto del README. Se respetaron las exclusiones indicadas.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas, 1 aprobada y 4 con error al crear ThreadingHTTPServer por PermissionError: operación no permitida al abrir sockets. No se corrió la suite completa ni verify_rag.py.",
+    "No se probaron embeddings reales con Ollama/OpenAI ni las 22 preguntas de oro con el modelo real. La evaluación queda sin verificación empírica de calidad.",
+    "Se hicieron dos reproducciones en carpetas temporales: exclusión de Markdown anidados en docs/ y escritura del índice a través de un symlink. No se modificó el checkout ni se hicieron commits.",
+    "No se realizó una prueba HTTP en vivo de redirecciones por la restricción de sockets; el hallazgo se basa en la llamada directa a urlopen y su comportamiento de redirección predeterminado."
+  ]
+}

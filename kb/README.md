@@ -67,6 +67,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261020-200030-aislar]] — El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree (cerrada)
 - [[cambios/20261021-101907-clones]] — Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan (cerrada)
 - [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (cerrada)
+- [[cambios/20261021-235127-fjn-rag]] — RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida (cerrada)
 
 ## Requisitos
 
@@ -122,6 +123,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id]]
 - [[requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir]]
 - [[requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar]]
+- [[requisitos/conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo]]
+- [[requisitos/conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso]]
+- [[requisitos/conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro]]
+- [[requisitos/conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto]]
+- [[requisitos/conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]

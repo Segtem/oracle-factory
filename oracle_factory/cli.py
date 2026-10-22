@@ -34,6 +34,7 @@ from . import modos
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
+from . import rag as rag_mod
 from . import unir as unir_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
@@ -195,7 +196,8 @@ def config_proyecto() -> dict:
               "capacidades": datos.get("capacidades", {}),
               "revisores": datos.get("revisores", {}),
               "oracle": datos.get("oracle", "."),
-              "confiar_escalares": datos.get("confiar_escalares", False)}
+              "confiar_escalares": datos.get("confiar_escalares", False),
+              "rag": datos.get("rag", {})}
     try:
         revisores_mod.validar_config(config["revisores"])
     except revisores_mod.RevisorInvalido as e:
@@ -203,12 +205,12 @@ def config_proyecto() -> dict:
     alias = config["capacidades"]
     if (set(datos) - set(config) or config["modo_por_defecto"] not in modos.MODOS
             or type(config["tipos_obligatorios"]) is not bool or type(config["confiar_escalares"]) is not bool
-            or not isinstance(config["oracle"], str)
+            or not isinstance(config["oracle"], str) or not isinstance(config["rag"], dict)
             or not isinstance(alias, dict) or not all(isinstance(k, str) and isinstance(v, str) and v not in alias
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
                            "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
-                           "y confiar_escalares (true/false)")
+                           "confiar_escalares (true/false) y rag (sus embeddings, ver oracle-factory preguntar)")
     return config
 
 
@@ -2383,7 +2385,7 @@ def actualizar_kb(identificador: str) -> None:
 
 
 SOLO_LECTURA = {"estado", "donde", "log", "tablero", "por-que", "kb", "resumen", "listar", "ruta", "buscar", "trazabilidad",
-               "trailer", "hooks", "init", "ejemplo", "unir-registro", "unir-generado", "rehacer-generado"}
+               "trailer", "hooks", "init", "ejemplo", "preguntar", "unir-registro", "unir-generado", "rehacer-generado"}
 
 
 def refrescar_kb(comando: str, identificador: str | None) -> None:
@@ -3003,6 +3005,18 @@ def comando_buscar(texto: str, maximo: int) -> None:
     print(f"{total} coincidencia(s)" + (f"; se muestran {len(lineas)}, usá --max para ver más" if total > len(lineas) else ""))
     if omitidos:
         print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
+
+
+def comando_preguntar(args) -> None:
+    if args.evaluar:
+        if not args.salida:
+            raise FactoryError("--evaluar necesita --salida CARPETA (nueva)")
+        c = rag_mod.evaluar(sys.modules[__name__], args.salida.resolve())
+        print(f"{c['aciertos']} de {c['preguntas']} preguntas de oro con un archivo esperado entre los {rag_mod.PRIMEROS} "
+              f"primeros (MRR {c['mrr']}, modo {c['modo']}, modelo {c['modelo']}). Hechos: {args.salida / 'hechos.json'}")
+        return
+    datos = rag_mod.preguntar(sys.modules[__name__], args.texto, args.maximo)
+    print(json.dumps(datos, ensure_ascii=False, indent=2) if args.json else rag_mod.texto(datos))
 
 
 def mostrar(identificador: str) -> None:
@@ -3761,6 +3775,12 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
+    q = sub.add_parser('preguntar', help='preguntar al conocimiento del proyecto: pasajes vigentes con su cita (sólo lectura)')
+    q.add_argument('texto', nargs='?', default='')
+    q.add_argument('--max', type=int, default=8, dest='maximo', help='cuántos pasajes mostrar')
+    q.add_argument('--json', action='store_true', help=f'imprimir un objeto JSON ({rag_mod.ESQUEMA})')
+    q.add_argument('--evaluar', action='store_true', help='correr las preguntas de oro de kb/preguntas-de-oro.json')
+    q.add_argument('--salida', type=Path, help='con --evaluar: carpeta nueva para hechos.json y detalle.json')
     q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')
     q.add_argument('id'); q.add_argument('nuevo_modo', choices=modos.MODOS)
     q = sub.add_parser('medir', help='listar y asociar medidas explícitas sin editar requisitos a mano')
@@ -3854,6 +3874,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
+        elif args.comando == "preguntar": comando_preguntar(args)
         elif args.comando == "medir" and args.confirmar:
             if args.requisito or args.medida or args.listar:
                 raise FactoryError("--confirmar no se combina con --requisito, --medida ni --listar")

@@ -1,0 +1,488 @@
+[
+  {
+    "id": "ids-al-azar",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Por qué los IDs de los cambios llevan tres letras al azar?",
+    "esperadas": [
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "openspec/specs/onboarding/spec.md"
+    ]
+  },
+  {
+    "id": "dos-toman",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Qué pasa si dos personas toman el mismo cambio en ramas distintas y después se integran?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/changes/20261021-140625-unir/proposal.md",
+      "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ]
+  },
+  {
+    "id": "elegir-version",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo elijo cuál vale cuando dos ramas dejaron fases o cierres distintos?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md",
+      "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md"
+    ]
+  },
+  {
+    "id": "generados-no-chocan",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Por qué resumen.md y el vault no dan conflicto al mergear?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "docs/estructura.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261013-153440-cli-json/proposal.md"
+    ]
+  },
+  {
+    "id": "quien-trabaja",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo sé qué persona y qué agente están trabajando en un cambio?",
+    "esperadas": [
+      "kb/cambios/20261019-232444-quien.md",
+      "openspec/changes/20261019-232444-quien/",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio.md",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que.md",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene.md"
+    ],
+    "primeros": [
+      "docs/modos.md",
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
+      "docs/colaboracion.md"
+    ]
+  },
+  {
+    "id": "compartir-tablero",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo comparto el tablero con otra persona para trabajar de a dos?",
+    "esperadas": [
+      "kb/cambios/20261020-005341-liveshare.md",
+      "openspec/changes/20261020-005341-liveshare/",
+      "kb/cambios/20261020-141303-sesion.md",
+      "openspec/changes/20261020-141303-sesion/",
+      "kb/requisitos/ide_c2103597a7eea615c.el_chat_queda_en_el_cambio.md",
+      "kb/requisitos/ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte.md",
+      "kb/requisitos/ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion.md",
+      "kb/requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md",
+      "openspec/specs/ide/spec.md",
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+      "openspec/changes/20261020-141303-sesion/specs/ide/spec.md",
+      "openspec/specs/colaboracion/spec.md"
+    ]
+  },
+  {
+    "id": "revision-vieja",
+    "acierto": 0,
+    "puesto": 0,
+    "modo": "hibrido",
+    "pregunta": "¿Cuándo deja de valer una revisión ya registrada?",
+    "esperadas": [
+      "kb/cambios/20261005-154433-la-vigencia-de.md",
+      "openspec/changes/20261005-154433-la-vigencia-de/",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto.md"
+    ],
+    "primeros": [
+      "openspec/specs/modos/spec.md",
+      "openspec/specs/revision-guiada/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+      "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md",
+      "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md"
+    ]
+  },
+  {
+    "id": "catalogo-cambia",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Qué pasa si cambia el catálogo de una medida que ya estaba confirmada?",
+    "esperadas": [
+      "kb/cambios/20261015-140406-catalogo-confirmado.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/",
+      "kb/requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.md",
+      "kb/requisitos/modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261015-140406-catalogo-confirmado.md",
+      "openspec/specs/modos/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md",
+      "kb/requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.md"
+    ]
+  },
+  {
+    "id": "abandonar",
+    "acierto": 1,
+    "puesto": 4,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo dejo un cambio sin terminar y quién lo decide?",
+    "esperadas": [
+      "kb/cambios/20261013-011811-abandonar.md",
+      "openspec/changes/20261013-011811-abandonar/",
+      "kb/requisitos/archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona.md"
+    ],
+    "primeros": [
+      "docs/modos.md",
+      "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/changes/20261013-011811-abandonar/proposal.md",
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md"
+    ]
+  },
+  {
+    "id": "pedir-revision",
+    "acierto": 1,
+    "puesto": 3,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo le pido a codex que revise un candidato?",
+    "esperadas": [
+      "kb/cambios/20261007-192608-revisores.md",
+      "openspec/changes/20261007-192608-revisores/",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.el_revisor_no_decide.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.revisores_configurables.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
+      "openspec/specs/autoproduccion/spec.md",
+      "openspec/changes/20261007-192608-revisores/design.md",
+      "kb/requisitos/revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato.md",
+      "kb/cambios/20261014-100834-revision-simultanea.md"
+    ]
+  },
+  {
+    "id": "clon-revisor",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Por qué el revisor trabaja en un clon aparte y no en un worktree?",
+    "esperadas": [
+      "kb/cambios/20261020-200030-aislar.md",
+      "openspec/changes/20261020-200030-aislar/",
+      "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md"
+    ],
+    "primeros": [
+      "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md",
+      "kb/cambios/20261020-200030-aislar.md",
+      "openspec/changes/20261020-200030-aislar/proposal.md",
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261020-200030-aislar/specs/revisores/spec.md"
+    ]
+  },
+  {
+    "id": "riesgo-aceptado",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Qué es un riesgo aceptado y sigue valiendo en la vuelta siguiente?",
+    "esperadas": [
+      "kb/cambios/20261013-115616-vueltas-severidad.md",
+      "openspec/changes/20261013-115616-vueltas-severidad/",
+      "kb/requisitos/revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261013-115616-vueltas-severidad.md",
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado.md"
+    ]
+  },
+  {
+    "id": "linea-cambio",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo encuentro qué cambio escribió una línea de código?",
+    "esperadas": [
+      "kb/cambios/20261020-140603-kb.md",
+      "openspec/changes/20261020-140603-kb/",
+      "kb/cambios/20261019-182313-commits.md",
+      "openspec/changes/20261019-182313-commits/",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes.md",
+      "kb/requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.md",
+      "kb/requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.md"
+    ],
+    "primeros": [
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+      "openspec/changes/20261021-235127-fjn-rag/proposal.md",
+      "openspec/changes/20261019-182313-commits/proposal.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.md"
+    ]
+  },
+  {
+    "id": "nota-vence",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Cuándo una nota escrita por una persona en el vault deja de estar al día?",
+    "esperadas": [
+      "kb/cambios/20261020-140603-kb.md",
+      "openspec/changes/20261020-140603-kb/",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes.md"
+    ],
+    "primeros": [
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+      "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
+      "openspec/changes/20261021-235127-fjn-rag/proposal.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.md"
+    ]
+  },
+  {
+    "id": "modos",
+    "acierto": 1,
+    "puesto": 3,
+    "modo": "hibrido",
+    "pregunta": "¿Qué modos de trabajo hay y quién decide los requisitos en cada uno?",
+    "esperadas": [
+      "kb/cambios/20261005-105331-modos-de-trabajo.md",
+      "openspec/changes/20261005-105331-modos-de-trabajo/",
+      "kb/requisitos/modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos.md",
+      "kb/requisitos/modos_c45a4802846932222.cambio_de_modo_con_invalidacion.md",
+      "kb/requisitos/modos_c45a4802846932222.decisiones_segun_el_modo.md",
+      "kb/requisitos/modos_c45a4802846932222.modo_explicito_por_cambio.md",
+      "kb/requisitos/modos_c45a4802846932222.tipo_de_requisito.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261015-122841-docs-web-modos.md",
+      "kb/requisitos/web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados.md",
+      "kb/requisitos/modos_c45a4802846932222.decisiones_segun_el_modo.md",
+      "kb/requisitos/web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo.md",
+      "kb/cambios/20261005-105331-modos-de-trabajo.md"
+    ]
+  },
+  {
+    "id": "varios-sensores",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Se puede juzgar un candidato con los hechos de más de un sensor?",
+    "esperadas": [
+      "kb/cambios/20261017-023151-hechos-varios.md",
+      "openspec/changes/20261017-023151-hechos-varios/",
+      "kb/requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion.md",
+      "kb/requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261017-023151-hechos-varios/proposal.md",
+      "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "kb/cambios/20261017-023151-hechos-varios.md",
+      "openspec/specs/autoproduccion/spec.md"
+    ]
+  },
+  {
+    "id": "donde-estado",
+    "acierto": 0,
+    "puesto": 0,
+    "modo": "hibrido",
+    "pregunta": "¿Dónde se guarda el estado de cada cambio?",
+    "esperadas": [
+      "kb/cambios/20261006-004456-fase-2-de-la.md",
+      "openspec/changes/20261006-004456-fase-2-de-la/",
+      "kb/requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.la_migracion_conserva_el_significado.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
+      "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
+      "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
+      "openspec/specs/trazabilidad/spec.md",
+      "docs/estructura.md"
+    ]
+  },
+  {
+    "id": "dos-procesos",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Qué pasa si dos procesos escriben el registro de un cambio al mismo tiempo?",
+    "esperadas": [
+      "kb/cambios/20261016-175720-bloqueo-registro.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/",
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/",
+      "kb/requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261016-175720-bloqueo-registro.md",
+      "kb/requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/proposal.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/specs/flujo/spec.md"
+    ]
+  },
+  {
+    "id": "banco",
+    "acierto": 1,
+    "puesto": 3,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo se prueba que dos personas con sus agentes no se pisan?",
+    "esperadas": [
+      "kb/cambios/20261004-121432-coordinar-dos.md",
+      "openspec/changes/20261004-121432-coordinar-dos/",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.relevo_recuperable.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version.md"
+    ],
+    "primeros": [
+      "openspec/specs/colaboracion/spec.md",
+      "docs/colaboracion.md",
+      "openspec/changes/20261004-121432-coordinar-dos/proposal.md",
+      "docs/plantillas/colaboracion/piloto.md",
+      "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md"
+    ]
+  },
+  {
+    "id": "otra-capacidad",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Por qué no me deja aprobar una spec con dos capacidades?",
+    "esperadas": [
+      "kb/cambios/20261020-173143-avisos.md",
+      "openspec/changes/20261020-173143-avisos/",
+      "kb/requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos.md",
+      "kb/requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo.md",
+      "kb/requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "docs/estructura.md",
+      "openspec/changes/20261020-173143-avisos/proposal.md",
+      "openspec/changes/20261015-105600-cli-piloto/specs/cli/spec.md"
+    ]
+  },
+  {
+    "id": "trazabilidad",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "pregunta": "¿Cómo voy de un requisito a las líneas que lo prueban?",
+    "esperadas": [
+      "kb/cambios/20261013-180751-trazabilidad.md",
+      "openspec/changes/20261013-180751-trazabilidad/",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso.md",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran.md",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
+      "openspec/specs/trazabilidad/spec.md",
+      "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/changes/20261013-180751-trazabilidad/proposal.md"
+    ]
+  },
+  {
+    "id": "paquete-producto",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "pregunta": "¿Qué archivos no entran en el paquete que se manda a revisar?",
+    "esperadas": [
+      "kb/cambios/20261014-000054-paquete-producto.md",
+      "openspec/changes/20261014-000054-paquete-producto/",
+      "kb/requisitos/revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto.md",
+      "kb/requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete.md"
+    ],
+    "primeros": [
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
+      "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md",
+      "openspec/specs/autoproduccion/spec.md",
+      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md"
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/cc64322-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "cc64322d8334cb4ca9299cf70247ce0c78e07320",
+  "diff_sha256": "b2cf680bcecb9cf90053ec9633a62d39932436e71be54c9695dc2b5d111bb569",
+  "context_sha256": "6cca084ef14781a256aad3afd95a41967b263735e0c540260e35ac6f9861bed8",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta y la spec; se revisaron el diff empaquetado, oracle_factory/rag.py, la integración de CLI, tests/test_rag.py, tools/verify_rag.py, los catálogos, kb/preguntas-de-oro.json y README.md. Se respetaron los archivos excluidos por el paquete.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas; rag1 pasó y rag2–rag5 dieron error al crear ThreadingHTTPServer por PermissionError: operación no permitida al abrir sockets. No se interpretó esa limitación como fallo del producto.",
+    "No se ejecutó la suite completa, tools/verify_rag.py ni una evaluación con Ollama real, conforme al alcance de la revisión.",
+    "No se hicieron mutaciones en copias. La inspección estática no confirmó defectos nuevos en el diff ni regresiones visibles de los hallazgos de vueltas anteriores; por eso findings queda vacío."
+  ]
+}

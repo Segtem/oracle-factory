@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/4237355-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "42373552f169e34b2b125b418e6f2fc889c442f9",
+  "diff_sha256": "91cbd886ad74f556c976afb827b27bbfe144b70a57602a978cb485a150858913",
+  "context_sha256": "4a777d4a964d0da6fee64676240911bee785868369ccada7c6e58ca5edb64ff9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se examinó la propuesta, la especificación (openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md), el diseño y las tareas del cambio.",
+    "Se revisó exhaustivamente el diff del paquete paquete-agy-1.json (candidato 4237355), abarcando oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, catalogos/factory_rag.*.oracle, kb/preguntas-de-oro.json y README.md, omitiendo los 39 archivos fuera del paquete según las instrucciones.",
+    "Se verificaron las correcciones de la vuelta 3 (5fece00): _archivos descarta cualquier archivo si una carpeta de su ruta relativa es un enlace simbólico (mediante seguro() y cli.ruta_segura); la lista de preguntas de oro (secciones que contienen dos o más preguntas de oro) queda excluida directamente del corpus tanto para preguntar como para evaluar, garantizando que evaluar() evalúe idéntico ranking al presentado a la persona.",
+    "Se comprobó la ausencia de regresiones respecto a las vueltas 1 y 2 (19f79ec y cc64322): kb/README.md y notas de requisitos con vigente: false quedan fuera del corpus; la partición de secciones y extracción de títulos respeta bloques de código; la conexión SQLite se cierra limpiamente; no se siguen redirecciones HTTP; y la configuración valida tipos estrictamente.",
+    "Se verificó la política de seguridad y privacidad: es_local valida localhost y direcciones loopback; ningún texto sale a URLs externas salvo que el proyecto las declare explícitamente en config.json; el índice SQLite vive bajo .factory/local/rag/ protegido con ruta_segura; y los archivos con symlinks o tamaño superior a 1 MB son ignorados.",
+    "Se ejecutó exactamente la suite unitaria requerida desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null, pasando los 5 casos de prueba exitosamente (test_rag1 a test_rag5).",
+    "Se realizaron mutaciones manuales controladas en una copia aislada de trabajo para validar que la suite falla al alterar la seguridad de symlinks, el filtro de preguntas de oro en el corpus o los filtros de vigencia y cambios abandonados.",
+    "No se ejecutó la suite completa de tests ni tools/verify_rag.py directamente contra el checkout para respetar la regla de sólo lectura e inmutabilidad del candidato.",
+    "La inspección no detectó defectos adicionales ni discrepancias con la especificación; findings permanece vacía."
+  ]
+}

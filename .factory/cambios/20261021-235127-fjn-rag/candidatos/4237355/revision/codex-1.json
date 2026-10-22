@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/4237355-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "42373552f169e34b2b125b418e6f2fc889c442f9",
+  "diff_sha256": "91cbd886ad74f556c976afb827b27bbfe144b70a57602a978cb485a150858913",
+  "context_sha256": "9852a99e2747cef4b69686b2d37ff5a9b1a7770fdc2e26dd024bf18f4cc5c870",
+  "provider": {"name": "codex", "model": "gpt-6-luna"},
+  "findings": [
+    {
+      "id": "RAG-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La evaluación promociona archivos al deduplicar pasajes antes del top cinco",
+      "explanation": "`preguntar()` ordena y devuelve pasajes, y la evaluación de calidad debe medir ese mismo ranking. En cambio, `evaluar()` obtiene hasta 50 pasajes, convierte sus rutas en una lista única y recién después toma los cinco primeros. Si varias secciones de un documento preceden al archivo esperado, ese archivo queda promocionado en la evaluación aunque no figure entre los primeros cinco pasajes de `preguntar()`. Así puede registrarse un acierto y aprobarse la medida de calidad cuando una persona que consulta no ve el archivo esperado en ese top cinco.",
+      "location": {"file": "oracle_factory/rag.py", "start_line": 329, "end_line": 331, "side": "head"},
+      "trigger": "Un corpus donde cinco pasajes de un archivo se ordenan antes que un pasaje de un archivo esperado para una pregunta de oro.",
+      "evidence": "Reproducción en el fixture temporal: `preguntar('needle', maximo=8)` ordenó `docs/aaa.md` cinco veces y luego `docs/zzz.md`; la pregunta de oro esperaba `docs/zzz.md`. `evaluar()` deduplicó las rutas, dejó `docs/aaa.md` y `docs/zzz.md` en `primeros`, y reportó acierto en puesto 2 aunque `docs/zzz.md` no estaba entre los primeros cinco pasajes. El checkout candidato no se modificó.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+      "status": "pendiente",
+      "verification": "En una copia temporal, crear un archivo con cinco secciones que rankeen antes que una sección del archivo esperado. Comparar los primeros cinco pasajes de `preguntar()` con `detalle.json`; confirmar que la evaluación no marque acierto cuando el archivo esperado queda después del quinto pasaje, o documentar explícitamente otro criterio aprobado para contar archivos únicos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyeron la propuesta, la spec, el paquete Clue y el código del checkout candidato. Se revisaron rag.py, cli.py, tests/test_rag.py, tools/verify_rag.py, los catálogos incluidos, las preguntas de oro y README; se respetaron las exclusiones indicadas.",
+    "Se revisaron las vueltas anteriores. La protección de cada componente de ruta frente a symlinks, la exclusión de la lista de preguntas de oro del corpus, los filtros de notas por revisar, requisitos no vigentes y cambios abandonados, y la corrección de la extracción de títulos permanecen implementados.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas, 1 pasó y 4 dieron error al intentar abrir sockets locales para ThreadingHTTPServer por PermissionError del entorno. No se atribuyeron esos errores al producto.",
+    "La discrepancia de evaluación se reprodujo en un proyecto temporal y aislado sin modificar el checkout. No se ejecutó la suite completa, tools/verify_rag.py, Oracle, Ollama ni la evaluación de 22 preguntas con el modelo real."
+  ]
+}

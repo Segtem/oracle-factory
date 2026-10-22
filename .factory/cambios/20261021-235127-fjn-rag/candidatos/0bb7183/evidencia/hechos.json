@@ -1,0 +1,178 @@
+{
+  "rag_caso": [
+    {
+      "requisito": "preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "caso": "Rag.test_rag1_una_pregunta_sobre_una_decision",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_busqueda_es_hibrida_y_dice_que_uso",
+      "caso": "Rag.test_rag2_una_pregunta_con_otras_palabras",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_embeddings_son_configurables_y_locales_por_defecto",
+      "caso": "Rag.test_rag3_sin_configuracion_y_con_un_proveedor_externo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_indice_se_mantiene_solo",
+      "caso": "Rag.test_rag4_el_vault_cambia_entre_dos_preguntas",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_calidad_se_mide_con_preguntas_de_oro",
+      "caso": "Rag.test_rag5_evaluar",
+      "codigo": 0
+    }
+  ],
+  "rag_suite": [
+    {
+      "completa": 1,
+      "casos": 5
+    }
+  ],
+  "rag_pregunta": [
+    {
+      "id": "ids-al-azar",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "dos-toman",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido"
+    },
+    {
+      "id": "elegir-version",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "generados-no-chocan",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido"
+    },
+    {
+      "id": "quien-trabaja",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido"
+    },
+    {
+      "id": "compartir-tablero",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "revision-vieja",
+      "acierto": 0,
+      "puesto": 0,
+      "modo": "hibrido"
+    },
+    {
+      "id": "catalogo-cambia",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "abandonar",
+      "acierto": 0,
+      "puesto": 0,
+      "modo": "hibrido"
+    },
+    {
+      "id": "pedir-revision",
+      "acierto": 1,
+      "puesto": 3,
+      "modo": "hibrido"
+    },
+    {
+      "id": "clon-revisor",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "riesgo-aceptado",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "linea-cambio",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido"
+    },
+    {
+      "id": "nota-vence",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "modos",
+      "acierto": 1,
+      "puesto": 3,
+      "modo": "hibrido"
+    },
+    {
+      "id": "varios-sensores",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "donde-estado",
+      "acierto": 1,
+      "puesto": 4,
+      "modo": "hibrido"
+    },
+    {
+      "id": "dos-procesos",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "banco",
+      "acierto": 1,
+      "puesto": 3,
+      "modo": "hibrido"
+    },
+    {
+      "id": "otra-capacidad",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "trazabilidad",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido"
+    },
+    {
+      "id": "paquete-producto",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido"
+    }
+  ],
+  "rag_corrida": [
+    {
+      "preguntas": 22,
+      "aciertos": 20,
+      "mrr": 0.6705,
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b"
+    }
+  ]
+}

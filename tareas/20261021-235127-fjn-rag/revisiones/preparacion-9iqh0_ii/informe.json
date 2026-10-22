@@ -1,0 +1,124 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261021-235127-fjn-rag",
+  "contexto": {
+    "head": "3d854d629705ba9195aeac663dc42432b69c570f",
+    "archivos_sha256": "3430b47341ce6ae7040e850a7ab69dd0f6e4bc61496906acbba31a9acdc6e3cd"
+  },
+  "documentos": {
+    "openspec/changes/20261021-235127-fjn-rag/proposal.md": "bb67ae7647dd5ca31ec6ab6dda8735409e250d12d5a1c2557f07373512dcdf71",
+    "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_rag.calidad_de_factory.oracle",
+    "catalogos/factory_rag.corrida_completa.oracle",
+    "catalogos/factory_rag.el_indice_se_mantiene_solo.oracle",
+    "catalogos/factory_rag.la_busqueda_es_hibrida_y_dice_que_uso.oracle",
+    "catalogos/factory_rag.la_calidad_se_mide_con_preguntas_de_oro.oracle",
+    "catalogos/factory_rag.los_embeddings_son_configurables_y_locales_por_defecto.oracle",
+    "catalogos/factory_rag.preguntar_devuelve_pasajes_vigentes_con_su_cita.oracle",
+    "kb/preguntas-de-oro.json",
+    "openspec/changes/20261021-235127-fjn-rag/design.md",
+    "openspec/changes/20261021-235127-fjn-rag/proposal.md",
+    "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
+    "openspec/changes/20261021-235127-fjn-rag/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/rag.py",
+    "requisitos/conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo.requisito",
+    "requisitos/conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso.requisito",
+    "requisitos/conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro.requisito",
+    "requisitos/conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto.requisito",
+    "requisitos/conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita.requisito",
+    "tests/test_rag.py",
+    "tools/verify_rag.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 454 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/0bb7183/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/0bb7183/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/0bb7183/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 19f79ec: agy (gemini-3.8-flash-high), 8 hallazgos: HALLAZGO-001 (alta), HALLAZGO-002 (alta), HALLAZGO-003 (media), HALLAZGO-004 (media), HALLAZGO-005 (media), HALLAZGO-006 (baja), HALLAZGO-007 (baja), HALLAZGO-008 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/19f79ec/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 19f79ec: codex (gpt-6-luna), 3 hallazgos: RAG-001 (media), RAG-002 (alta), RAG-003 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/19f79ec/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cc64322: agy (gemini-3.8-flash-high), 6 hallazgos: HALLAZGO-001 (alta), HALLAZGO-002 (media), HALLAZGO-003 (media), HALLAZGO-004 (baja), HALLAZGO-005 (baja), HALLAZGO-006 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/cc64322/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cc64322: codex (gpt-6-luna), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/cc64322/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5fece00: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/5fece00/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 5fece00: codex (gpt-6-luna), 2 hallazgos: HALLAZGO-001 (media), HALLAZGO-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/5fece00/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4237355: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/4237355/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4237355: codex (gpt-6-luna), 1 hallazgo: RAG-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/4237355/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato befe60d: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/befe60d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato befe60d: codex (gpt-6-luna), 1 hallazgo: RAG-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261021-235127-fjn-rag/candidatos/befe60d/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios rag1–rag5 en proyectos temporales, Linux, con un proveedor de embeddings de prueba (HTTP local); la calidad del RAG de Factory se mide con sus 22 preguntas de oro, Ollama local y qwen3-embedding:0.6b.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261021-235127-fjn-rag/proposal.md), la especificación contractual (specs/conocimiento/spec.md), el diseño (design.md), las tareas y el diff del candidato 0bb7183 empaquetado en paquete-agy-1.json.",
+    "agy (gemini-3.8-flash-high): El paquete de revisión abarca README.md, oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, los 5 requisitos (.requisito), los 7 catálogos de Oracle (.oracle) y kb/preguntas-de-oro.json. No se revisaron los 59 archivos de registros y evidencia excluidos por el paquete según las instrucciones.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo RAG-001 de la vuelta 5: en oracle_factory/rag.py (línea 220), la clave de persistencia de embeddings ahora incluye el endpoint además del proveedor y modelo (`clave = f\"{conf['proveedor']}:{conf['url']}:{conf['modelo']}\"`). Al cambiar de servidor manteniendo el mismo modelo, los vectores previos quedan invalidados y se solicitan nuevamente, evitando comparar espacios vectoriales dispares. Esta corrección está cubierta en tests/test_rag.py (líneas 280-285).",
+    "agy (gemini-3.8-flash-high): Se verificó la vigencia de las correcciones de las vueltas 1 a 4: exclusión de kb/README.md, exclusión de requisitos con vigente: false y cambios abandonados, separación de notas por revisar, filtrado de numerales dentro de bloques de código en títulos y secciones, rechazo de redirecciones HTTP en peticiones de embeddings, restricción de URLs locales a loopback/localhost cuando no fueron configuradas explícitamente, ubicación del índice en .factory/local/rag/ protegida por cli.ruta_segura contra enlaces simbólicos, y evaluación de preguntas de oro sobre los 5 primeros pasajes sin deduplicación previa.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente como fue indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Los 5 casos de prueba (test_rag1 a test_rag5) pasaron satisfactoriamente en ~4.8 segundos.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales en copias temporales aisladas de trabajo: revertir la clave de caché para omitir la URL provocó la falla inmediata de test_rag4 (AssertionError: 1 != 14 al comprobar que el segundo servidor no reusaba vectores), y omitir la comprobación de enlaces simbólicos en seguro(p) provocó la falla de test_rag4 al detectar texto secreto ajeno.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_rag.py para no alterar el checkout de sólo lectura ni violar las instrucciones del pedido.",
+    "agy (gemini-3.8-flash-high): No se detectaron defectos adicionales ni regresiones; la lista findings queda vacía.",
+    "codex (gpt-6-luna): Se revisaron la propuesta, la spec, el diff empaquetado y el código/pruebas de rag.py, la integración de preguntar y rag en cli.py, tests/test_rag.py, tools/verify_rag.py, los catálogos Factory, las preguntas de oro y README.md. No se revisaron los archivos excluidos por el paquete.",
+    "codex (gpt-6-luna): Se contrastaron los hallazgos de las vueltas 1 a 5 con el candidato actual. Las correcciones relevantes siguen presentes; la clave de vectores usa proveedor, URL y modelo, y test_rag4 comprueba el cambio de servidor conservando modelo.",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas; rag1 pasó y rag2–rag5 fallaron al iniciar ThreadingHTTPServer con PermissionError: operación no permitida al crear sockets locales. No se interpretó como defecto del producto.",
+    "codex (gpt-6-luna): No se corrieron la suite completa, tools/verify_rag.py, Oracle ni la evaluación de las 22 preguntas con Ollama real. No se ejecutaron mutaciones adicionales.",
+    "codex (gpt-6-luna): No se modificó el checkout ni la configuración de git. Las notas extensas de código y vueltas anteriores están guardadas en revision-larga.txt, rag-linenos.txt, tests-rag-linenos.txt y cli-relevante.txt dentro de la carpeta del revisor.",
+    "codex (gpt-6-luna): No se encontraron defectos nuevos ni regresiones estáticas; findings queda vacía. La falta de ejecución de cuatro casos limita la verificación dinámica de esos escenarios."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

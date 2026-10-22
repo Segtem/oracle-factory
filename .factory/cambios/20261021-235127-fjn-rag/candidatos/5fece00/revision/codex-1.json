@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/5fece00-codex-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "5fece0082f0b07be030c46270d21e73b2a701659",
+  "diff_sha256": "e57d5fb23cfcf34e45eae6ed5a544e38877b1fed848b089143c1f6bd59cb5b84",
+  "context_sha256": "f3c51da0e1c9f160cd422fab69e203cb94cc98e86ed57bed662a5143bc99d955",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "HALLAZGO-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "El filtro de symlinks acepta archivos bajo directorios de cambio enlazados fuera del proyecto",
+      "explanation": "_archivos() descarta p.is_symlink() al final, pero no valida los directorios ancestros. Si openspec/changes/<id> es un symlink hacia afuera, la ruta <id>/proposal.md no es en sí un symlink y pasa el filtro; luego corpus() la abre e indexa aunque su destino esté fuera de cli.ROOT. Esto incorpora contenido fuera de las fuentes del proyecto declaradas y, al usar un proveedor de embeddings configurado, lo envía a ese proveedor.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 102,
+        "end_line": 102,
+        "side": "head"
+      },
+      "trigger": "Crear openspec/changes/20261021-000000-x como enlace simbólico a un directorio externo que contenga proposal.md y ejecutar preguntar.",
+      "evidence": "Reproducción aislada con _archivos(): devolvió openspec/changes/20261021-000000-x/proposal.md con p.is_symlink() == false aunque p.resolve().is_relative_to(cli.ROOT) == false. El filtro de la línea 102 sólo inspecciona el componente final.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita",
+      "status": "pendiente",
+      "verification": "Rechazar o saltar cualquier archivo cuyo camino relativo contenga un componente symlink; repetir la reproducción y confirmar que el archivo no aparezca en _archivos() ni en el corpus."
+    },
+    {
+      "id": "HALLAZGO-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La evaluación promociona resultados al quitar pasajes antes de medir el top cinco",
+      "explanation": "evaluar() llama a preguntar() para obtener el ranking real y después elimina cualquier ruta cuyo texto contenga dos o más preguntas de oro antes de recortar a PRIMEROS y buscar el archivo esperado. El comando preguntar sí muestra esos pasajes. Por lo tanto, si pasajes de ese tipo ocupan posiciones iniciales, la evaluación mueve archivos posteriores hacia el top cinco y calcula un puesto/MRR sobre una lista distinta de la que recibe la persona. Puede registrar un acierto y permitir alcanzar el umbral aunque el archivo esperado no aparezca entre los cinco primeros resultados de preguntar.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 322,
+        "end_line": 325,
+        "side": "head"
+      },
+      "trigger": "Evaluar una pregunta de oro cuando uno o más pasajes que contienen al menos dos preguntas de oro aparecen antes del archivo esperado en la respuesta normal de preguntar.",
+      "evidence": "Las líneas 322-323 filtran rutas por el número de cadenas de preguntas encontradas en el texto; las líneas 324-325 calculan puesto sobre la lista filtrada, no sobre datos['resultados'] sin alterar. La medida factory_rag.calidad_de_factory.oracle juzga esos aciertos y MRR para el umbral de calidad.",
+      "related_requirement": "conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro",
+      "status": "pendiente",
+      "verification": "Usar para una pregunta de oro un corpus donde pasajes que contienen dos preguntas ocupen los puestos 1-5 y el archivo esperado quede después del quinto; comparar el orden normal de preguntar con detalle.json y comprobar que evaluar() no marque ese archivo como top cinco si no lo está en la respuesta normal."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se leyó la propuesta y la spec; se inspeccionaron el paquete/diff y el código relevante de corpus, CLI, pruebas, evaluación, catálogos y preguntas de oro. Se respetaron las exclusiones de registros Factory indicadas por quien pidió la revisión.",
+    "Se revisaron las vueltas anteriores. En el candidato actual se constataron las correcciones: kb/README.md fuera del corpus; títulos extraídos ignorando bloques de código; exclusión de requisitos vigente:false; rag4 regenera el vault y cambia una nota; embeddings no objeto se rechaza; y la medida de calidad exige qwen3-embedding:0.6b.",
+    "Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas; rag1 pasó y rag2-rag5 dieron PermissionError al abrir sockets locales de ThreadingHTTPServer en este entorno. No se atribuyeron esos errores al producto.",
+    "Se reprodujo en un directorio temporal aislado el caso de un directorio openspec/changes/<id> enlazado fuera del árbol del proyecto. No se modificó el checkout del candidato.",
+    "No se ejecutó la suite completa, tools/verify_rag.py, Oracle ni una evaluación con Ollama real; tampoco se hicieron mutaciones adicionales. No se cambió configuración de git."
+  ]
+}
