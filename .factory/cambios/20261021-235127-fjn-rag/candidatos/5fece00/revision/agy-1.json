@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag/.factory/local/revisiones/5fece00-agy-1",
+  "base": "9b7af490ca611c22f27a598c52e646c87440605c",
+  "head": "5fece0082f0b07be030c46270d21e73b2a701659",
+  "diff_sha256": "e57d5fb23cfcf34e45eae6ed5a544e38877b1fed848b089143c1f6bd59cb5b84",
+  "context_sha256": "2f1978e3db6d2fe971896f1f7be10d019b2a37061def8d15f916680a2ba70409",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se examinó la propuesta, la especificación (conocimiento/spec.md), el diseño y tareas del cambio 20261021-235127-fjn-rag.",
+    "Se revisó el diff completo del paquete y el código de oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, catalogos/factory_rag.*.oracle, kb/preguntas-de-oro.json y README.md, omitiendo los 29 archivos fuera de paquete según el protocolo.",
+    "Se verificaron exhaustivamente las correcciones de las vueltas 1 y 2 (HALLAZGO-001 a 006 de la vuelta 2 y 19f79ec), confirmando que siguen resueltas y sin regresiones.",
+    "Se ejecutó exactamente la suite de pruebas unitarias requerida desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null, pasando los 5 casos de prueba exitosamente (test_rag1 a test_rag5).",
+    "Se evaluó la seguridad de URLs y redirecciones HTTP (es_local y _SinRedirecciones), la rigurosidad en la exclusión de pasajes no vigentes (notas por revisar, requisitos no vigentes con vigente: false y cambios abandonados), la invalidación e indexación incremental en SQLite en .factory/local/rag/, la protección contra symlinks en la ruta del índice y en el corpus, y el manejo de archivos grandes y codificaciones no UTF-8.",
+    "Se realizaron pruebas de mutación controladas sobre copias aisladas en el directorio de trabajo; se observó que la cláusula 'and not p.is_symlink()' en _archivos sobrevive a la suite actual de tests (al no haber casos con symlinks en docs/), si bien la protección está implementada en código.",
+    "No se ejecutó la suite completa de tests ni tools/verify_rag.py directamente contra el checkout para respetar la regla de sólo lectura e inmutabilidad del candidato.",
+    "La inspección no detectó defectos nuevos ni incumplimientos de la especificación; findings permanece vacía."
+  ]
+}

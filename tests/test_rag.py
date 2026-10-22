@@ -286,6 +286,13 @@ class Rag(unittest.TestCase):
         with self.assertRaisesRegex(f.FactoryError, 'enlaces simbólicos'):
             self.preguntar('tortuga')
         self.assertEqual(list(afuera.iterdir()), [])
+        # Un cambio cuya carpeta es un enlace a otro lado no entra al corpus.
+        (self.root / '.factory/local').unlink()
+        ajeno = self.root.parent / 'ajeno'
+        (ajeno / 'specs').mkdir(parents=True)
+        (ajeno / 'proposal.md').write_text('# Ajeno\n\nUn texto secreto de afuera del proyecto, sobre quelonios.\n')
+        (self.root / 'openspec/changes/20990101-000000-ajeno').symlink_to(ajeno)
+        self.assertNotIn('secreto', ' '.join(p['texto'] for p in rag.corpus(f)[0]))
 
     # --- rag5: la calidad se mide con preguntas de oro -------------------------------------------------------------
     def test_rag5_evaluar(self):
@@ -316,6 +323,8 @@ class Rag(unittest.TestCase):
         detalle = {x['id']: x for x in json.loads((self.root.parent / 'tercera/detalle.json').read_text())}
         self.assertNotIn('docs/lista.md', detalle['nada']['primeros'])  # trae dos preguntas: es la lista
         self.assertNotIn('docs/lista.md', detalle['lluvia']['primeros'])
+        # Y preguntar tampoco la devuelve: se evalúa lo mismo que ve quien pregunta.
+        self.assertNotIn('docs/lista.md', [r['ruta'] for r in self.preguntar('¿Y la tortuga?', maximo=50)['resultados']])
         self.assertIn('docs/faq.md', detalle['nada']['primeros'])  # repite sólo su pregunta: es una respuesta
 
 

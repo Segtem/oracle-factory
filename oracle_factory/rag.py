@@ -99,7 +99,13 @@ def _archivos(cli) -> list[Path]:
                 salida += sorted((cambio / "specs").rglob("spec.md")) if (cambio / "specs").is_dir() else []
     salida += sorted((raiz / "openspec" / "specs").rglob("spec.md")) if (raiz / "openspec" / "specs").is_dir() else []
     salida += sorted((raiz / "docs").rglob("*.md")) if (raiz / "docs").is_dir() else []
-    return [p for p in salida if p.is_file() and not p.is_symlink()]
+    def seguro(p: Path) -> bool:  # ni el archivo ni ninguna carpeta de su camino es un enlace
+        try:
+            cli.ruta_segura(p)
+            return p.is_file()
+        except cli.FactoryError:
+            return False
+    return [p for p in salida if seguro(p)]
 
 
 def corpus(cli) -> tuple[list[dict], list[str], int]:
@@ -108,6 +114,10 @@ def corpus(cli) -> tuple[list[dict], list[str], int]:
     raiz = cli.ROOT
     abandonados = {i for i, e in kb_mod.cambios_del_proyecto(cli) if e.get("fase") == "abandonada"}
     por_revisar = sorted(n["nota"] for n in kb_mod.estado_de_notas(cli) if n["faltan"] or n["cambiaron"])
+    # Un pasaje que trae dos o más preguntas de oro es la lista de las preguntas (la de un diseño, por ejemplo), no una
+    # respuesta: no responde nada y, si quedara, la evaluación se respondería sola. Uno que repite sólo una (una FAQ) sí.
+    oro = raiz / kb_mod.DIR / "preguntas-de-oro.json"
+    literales = [" ".join(palabras(x["pregunta"])) for x in json.loads(oro.read_text(encoding="utf-8"))] if oro.is_file() else []
     pasajes, fuera = [], 0
     for archivo in _archivos(cli):
         rel = archivo.relative_to(raiz).as_posix()
@@ -125,7 +135,7 @@ def corpus(cli) -> tuple[list[dict], list[str], int]:
         enlaces = sorted({f"{kb_mod.DIR}/{e.strip()}.md" for e in ENLACE.findall(texto)})
         titulo = next((t for _, t in _titulos(texto)), rel)  # el primer encabezado, aunque no tenga cuerpo
         for seccion, cuerpo in _secciones(texto):
-            if len(cuerpo) < 20:  # «Ninguno.», «- pendiente»: no responden nada
+            if len(cuerpo) < 20 or sum(x in " ".join(palabras(cuerpo)) for x in literales) >= 2:  # «Ninguno.», la lista
                 continue
             contenido = f"{titulo}\n{seccion}\n{cuerpo}" if seccion and seccion != titulo else f"{titulo}\n{cuerpo}"
             pasajes.append({"ruta": rel, "seccion": seccion or titulo, "cambio": cambio, "texto": contenido,
@@ -313,14 +323,10 @@ def evaluar(cli, salida: Path) -> dict:
     if not archivo.is_file():
         raise cli.FactoryError(f"no hay preguntas de oro: falta {archivo.relative_to(cli.ROOT)}")
     preguntas = json.loads(archivo.read_text(encoding="utf-8"))
-    literales = [" ".join(palabras(p["pregunta"])) for p in preguntas]
     filas, detalle, modos = [], [], set()
     for p in preguntas:
         datos = preguntar(cli, p["pregunta"], maximo=50)
-        # Una pregunta de oro no se responde con la lista de las preguntas de oro (la de un diseño, por ejemplo): un pasaje
-        # que trae dos o más de ellas es esa lista. Uno que repite sólo la suya (una FAQ) es una respuesta y cuenta.
-        rutas = list(dict.fromkeys(r["ruta"] for r in datos["resultados"]
-                                   if sum(x in " ".join(palabras(r["texto"])) for x in literales) < 2))[:PRIMEROS]
+        rutas = list(dict.fromkeys(r["ruta"] for r in datos["resultados"]))[:PRIMEROS]  # lo mismo que ve quien pregunta
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])
