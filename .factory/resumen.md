@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:b778efd7b5a23f710a55339ef19bb5f37626b45f1e8e7463d76dd96591f3b6b2 -->
+<!-- oracle-factory resumen sha256:53c2e5a3a89ecee107624bdd6070d0087fb58b955a15b91ee665633ca88b3fb6 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 174 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 179 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -95,6 +95,11 @@ Spec completa: [openspec/specs/conocimiento/spec.md](../openspec/specs/conocimie
 | el vault se genera del registro y no se desfasa | funcional | `conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa` | factory_kb.el_vault_se_genera_del_registro_y_no_se_desfasa, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
 | una nota humana vence cuando cambian sus fuentes | funcional | `conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes` | factory_kb.una_nota_humana_vence_cuando_cambian_sus_fuentes, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
 | por qué existe una línea | funcional | `conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea` | factory_kb.por_que_existe_una_linea, factory_kb.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-140603-kb |
+| preguntar devuelve pasajes vigentes con su cita | funcional | `conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita` | factory_rag.preguntar_devuelve_pasajes_vigentes_con_su_cita, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
+| la búsqueda es híbrida y dice qué usó | funcional | `conocimiento_c48413c31f1bcbd66.la_busqueda_es_hibrida_y_dice_que_uso` | factory_rag.la_busqueda_es_hibrida_y_dice_que_uso, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
+| los embeddings son configurables y locales por defecto | funcional | `conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto` | factory_rag.los_embeddings_son_configurables_y_locales_por_defecto, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
+| el índice se mantiene solo | funcional | `conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo` | factory_rag.el_indice_se_mantiene_solo, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
+| la calidad se mide con preguntas de oro | funcional | `conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro` | factory_rag.la_calidad_se_mide_con_preguntas_de_oro, factory_rag.calidad_de_factory, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
 
 ### decisiones
 
@@ -911,6 +916,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261021-140625-unir) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-unir/.venv/bin/python -m unittest tests.test_unir </dev/null; resultado: 7 pruebas, OK.
 - (20261021-140625-unir) codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_unir.py; tampoco se hicieron mutaciones manuales.
 - (20261021-140625-unir) codex (gpt-6-luna): Se revisaron como regresiones las observaciones de vueltas anteriores sobre divergencias de fase, fusión/pérdida de eventos, orden del historial, pendientes resueltos, instalación de atributos y errores de hooks. No se encontró una regresión reproducible.
+- (20261021-235127-fjn-rag) Evidencia: Escenarios rag1–rag5 en proyectos temporales, Linux, con un proveedor de embeddings de prueba (HTTP local); la calidad del RAG de Factory se mide con sus 22 preguntas de oro, Ollama local y qwen3-embedding:0.6b.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261021-235127-fjn-rag/proposal.md), la especificación contractual (specs/conocimiento/spec.md), el diseño (design.md), las tareas y el diff del candidato 0bb7183 empaquetado en paquete-agy-1.json.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): El paquete de revisión abarca README.md, oracle_factory/rag.py, oracle_factory/cli.py, tests/test_rag.py, tools/verify_rag.py, los 5 requisitos (.requisito), los 7 catálogos de Oracle (.oracle) y kb/preguntas-de-oro.json. No se revisaron los 59 archivos de registros y evidencia excluidos por el paquete según las instrucciones.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): Se verificó la corrección del hallazgo RAG-001 de la vuelta 5: en oracle_factory/rag.py (línea 220), la clave de persistencia de embeddings ahora incluye el endpoint además del proveedor y modelo (`clave = f"{conf['proveedor']}:{conf['url']}:{conf['modelo']}"`). Al cambiar de servidor manteniendo el mismo modelo, los vectores previos quedan invalidados y se solicitan nuevamente, evitando comparar espacios vectoriales dispares. Esta corrección está cubierta en tests/test_rag.py (líneas 280-285).
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): Se verificó la vigencia de las correcciones de las vueltas 1 a 4: exclusión de kb/README.md, exclusión de requisitos con vigente: false y cambios abandonados, separación de notas por revisar, filtrado de numerales dentro de bloques de código en títulos y secciones, rechazo de redirecciones HTTP en peticiones de embeddings, restricción de URLs locales a loopback/localhost cuando no fueron configuradas explícitamente, ubicación del índice en .factory/local/rag/ protegida por cli.ruta_segura contra enlaces simbólicos, y evaluación de preguntas de oro sobre los 5 primeros pasajes sin deduplicación previa.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias exactamente como fue indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Los 5 casos de prueba (test_rag1 a test_rag5) pasaron satisfactoriamente en ~4.8 segundos.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): Se ejecutaron mutaciones manuales en copias temporales aisladas de trabajo: revertir la clave de caché para omitir la URL provocó la falla inmediata de test_rag4 (AssertionError: 1 != 14 al comprobar que el segundo servidor no reusaba vectores), y omitir la comprobación de enlaces simbólicos en seguro(p) provocó la falla de test_rag4 al detectar texto secreto ajeno.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_rag.py para no alterar el checkout de sólo lectura ni violar las instrucciones del pedido.
+- (20261021-235127-fjn-rag) agy (gemini-3.8-flash-high): No se detectaron defectos adicionales ni regresiones; la lista findings queda vacía.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): Se revisaron la propuesta, la spec, el diff empaquetado y el código/pruebas de rag.py, la integración de preguntar y rag en cli.py, tests/test_rag.py, tools/verify_rag.py, los catálogos Factory, las preguntas de oro y README.md. No se revisaron los archivos excluidos por el paquete.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): Se contrastaron los hallazgos de las vueltas 1 a 5 con el candidato actual. Las correcciones relevantes siguen presentes; la clave de vectores usa proveedor, URL y modelo, y test_rag4 comprueba el cambio de servidor conservando modelo.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag/.venv/bin/python -m unittest tests.test_rag </dev/null. Resultado: 5 pruebas; rag1 pasó y rag2–rag5 fallaron al iniciar ThreadingHTTPServer con PermissionError: operación no permitida al crear sockets locales. No se interpretó como defecto del producto.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): No se corrieron la suite completa, tools/verify_rag.py, Oracle ni la evaluación de las 22 preguntas con Ollama real. No se ejecutaron mutaciones adicionales.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): No se modificó el checkout ni la configuración de git. Las notas extensas de código y vueltas anteriores están guardadas en revision-larga.txt, rag-linenos.txt, tests-rag-linenos.txt y cli-relevante.txt dentro de la carpeta del revisor.
+- (20261021-235127-fjn-rag) codex (gpt-6-luna): No se encontraron defectos nuevos ni regresiones estáticas; findings queda vacía. La falta de ejecución de cuatro casos limita la verificación dinámica de esos escenarios.
 
 ### Históricos
 

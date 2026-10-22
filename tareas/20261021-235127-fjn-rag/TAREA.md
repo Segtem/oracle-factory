@@ -1,6 +1,6 @@
 # RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-22 11:50:57 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261021-235127-fjn-rag/oracle-veredicto.txt.
+
+### Nota (2026-10-22 11:51:41 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

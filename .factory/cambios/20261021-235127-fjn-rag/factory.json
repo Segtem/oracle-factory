@@ -2,7 +2,7 @@
   "id": "20261021-235127-fjn-rag",
   "titulo": "RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida",
   "capacidad": "conocimiento",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
   "spec_sha256": "c0d66823dbab0e7a68927751bc8d316fbc4aa0ecd44980c5a904368944ea84f6",
   "spec_aprobada": {
@@ -606,6 +606,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "7d7fbbce8b0503f7ceb536f2c935f81d331763573db42fb42816e72fe2e3d155"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T11:51:41+00:00",
+      "oracle": ".factory/cambios/20261021-235127-fjn-rag/oracle-veredicto.txt",
+      "revision": "tareas/20261021-235127-fjn-rag/revisiones/registro-efyxus0f/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T11:51:41+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
     }
   ],
   "tipos": {
@@ -700,5 +720,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T11:51:41+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-22T11:51:41+00:00"
+  }
 }
