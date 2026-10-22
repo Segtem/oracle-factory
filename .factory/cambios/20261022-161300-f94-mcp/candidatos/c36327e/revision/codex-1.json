@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-mcp/.factory/local/revisiones/c36327e-codex-1",
+  "base": "051093bfc5c3372e4a9398432002c650333e1739",
+  "head": "c36327e2902ba1361ee9374058c62be58d6a0015",
+  "diff_sha256": "8c5e4a97cc9e05206fd03523934eaea09530676feeebd439120df7dc1dff1d16",
+  "context_sha256": "3a805547049e15660ec8ee8272f415d5782bd28323e3abd30fd84483958943bd",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Revisé los dos requisitos y sus escenarios contra el diff del paquete, las implementaciones en oracle_factory/mcp.py y oracle_factory/cli.py, la extensión de VS Code, las pruebas enfocadas, tools/verify_mcp.py, los catálogos y el README.",
+    "El comando indicado pasó: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null (2 pruebas, OK). No corrí la suite completa ni herramientas de clientes MCP reales o VS Code real.",
+    "No hice mutaciones: las pruebas indicadas cubren los errores corregidos de la vuelta anterior, los argumentos con prefijo de opción, el error de herramienta y continuidad del servidor, equivalencia de las siete herramientas y comando de paleta; no encontré un caso concreto que justificara alterar una copia.",
+    "No encontré hallazgos reproducibles dentro del alcance del diff. Esto no acredita propiedades que no cubran la spec, las pruebas o la revisión estática."
+  ]
+}
