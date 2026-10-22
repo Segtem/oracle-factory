@@ -2,7 +2,7 @@
   "id": "20261022-161300-f94-mcp",
   "titulo": "Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura",
   "capacidad": "conocimiento",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261022-161300-f94-mcp/specs/conocimiento/spec.md",
   "spec_sha256": "7fff1053810563292e90f8ced1888108beaa13aba92e51194e223243456ff832",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "56e7eaa3cb7ea12b5486c6cad07287a66ca18e1d80450daed2e7c01da2e12a85"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261022-161300-f94-mcp/candidatos/c36327e/evidencia/hechos.json",
+    "hechos_sha256": "b9fe0b2b1529689c7d0bb03c559b4b0bb6ef40ecd473cdc7e2b189719b6735c4",
+    "informe": ".factory/cambios/20261022-161300-f94-mcp/oracle-veredicto.txt",
+    "informe_sha256": "3b35aad2448d9a96054e6af1288ca90eddf1d06d59f8a84bdfc4fd060383306d",
+    "cuando": "2026-10-22T21:08:36.534717+00:00",
+    "contexto": {
+      "head": "47381ba39f54d41d92a4853a4f39a0a5e43a1262",
+      "archivos_sha256": "56e7eaa3cb7ea12b5486c6cad07287a66ca18e1d80450daed2e7c01da2e12a85"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -258,6 +270,17 @@
       "abiertos": 0,
       "sha256": "35215f3d3dbb2d4ea97d09d2c90825c8a9d921c1ed2b98c6d0ae8a274f8e84c1",
       "decisiones_sha256": "eaccfb7753c0eb5a2cfbe10075607dd778121fdadf2dbdd8623480e6314b34fa"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T21:08:36.534735+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b9fe0b2b1529689c7d0bb03c559b4b0bb6ef40ecd473cdc7e2b189719b6735c4"
     }
   ],
   "tipos": {

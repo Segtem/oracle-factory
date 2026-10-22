@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo`
 - Vigente: sí
 - Cambio: [[cambios/20261022-161300-f94-mcp]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_mcp.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo`, `factory_mcp.corrida_completa`
 - Fuente: openspec/changes/20261022-161300-f94-mcp/specs/conocimiento/spec.md#un agente consulta el proyecto por MCP sin poder cambiarlo
 

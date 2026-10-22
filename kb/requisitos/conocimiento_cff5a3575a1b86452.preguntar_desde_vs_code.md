@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cff5a3575a1b86452.preguntar_desde_vs_code`
 - Vigente: sí
 - Cambio: [[cambios/20261022-161300-f94-mcp]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_mcp.preguntar_desde_vs_code`, `factory_mcp.corrida_completa`
 - Fuente: openspec/changes/20261022-161300-f94-mcp/specs/conocimiento/spec.md#preguntar desde VS Code
 

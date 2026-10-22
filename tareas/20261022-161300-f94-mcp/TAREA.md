@@ -35,3 +35,7 @@ Medidas de conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp
 ### Nota (2026-10-22 21:06:55 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de codex y agy: la 1 dejó 4 medios (pedidos raros que cortaban el servidor, argumentos obligatorios sin exigir, herramientas y el comando de la paleta sin probar) y 2 bajos, todos corregidos con pruebas y mutaciones muertas; la 2 no dejó ningún hallazgo.); 0 abiertos derivados; commit dff88267f333fe524cf0a7f6eee3987c81cdb064; informe tareas/20261022-161300-f94-mcp/revisiones/registro-3cs43ax0/informe.json; decisiones tareas/20261022-161300-f94-mcp/revisiones/registro-3cs43ax0/decisiones.json.
+
+### Nota (2026-10-22 21:08:36 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261022-161300-f94-mcp/oracle-veredicto.txt.
