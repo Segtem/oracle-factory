@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo`
 - Vigente: sí
 - Cambio: [[cambios/20261022-115958-1jt-hora]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo`, `factory_hora.corrida_completa`
 - Fuente: openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md#la hora de un evento distingue lo escrito en el mismo segundo
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio`
 - Vigente: sí
 - Cambio: [[cambios/20261022-115958-1jt-hora]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio`, `factory_hora.corrida_completa`
 - Fuente: openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md#al unir dos ramas lo del mismo segundo queda en el orden en que se escribió
 

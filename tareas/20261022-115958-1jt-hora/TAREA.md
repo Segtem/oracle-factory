@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-22 16:05:36 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Ocho vueltas de codex y agy: todos los hallazgos medios y altos corregidos con pruebas y mutaciones muertas, incluido HORA-PROC-002 con el desempate determinista que eligió Brian (lo común primero y, ante la misma hora entre ramas, quién y qué, igual en todos los clones), y un defecto que la evidencia destapó (el vault ordenaba los cambios por ID; ahora por su hora de creación). La 8 no dejó medios ni altos. Queda una baja: HORA-009, la prueba de un registro viejo no compara la hora que devuelve estado --json.); 0 abiertos derivados; commit 6aa25275ae1008dfbb1edf0fed3cfe70039bdc69; informe tareas/20261022-115958-1jt-hora/revisiones/registro-v1oo34gs/informe.json; decisiones tareas/20261022-115958-1jt-hora/revisiones/registro-v1oo34gs/decisiones.json.
+
+### Nota (2026-10-22 16:05:47 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261022-115958-1jt-hora/oracle-veredicto.txt.

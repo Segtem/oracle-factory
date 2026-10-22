@@ -2,7 +2,7 @@
   "id": "20261022-115958-1jt-hora",
   "titulo": "La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden",
   "capacidad": "colaboracion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
   "spec_sha256": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "fb730678d325bedc73def7a2b2f77a14a98a6d220237efa4481e116581231bad"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261022-115958-1jt-hora/candidatos/e2e079e/evidencia/hechos.json",
+    "hechos_sha256": "50af733b53d52b3aa8dad350dca88918fb5787b7220811695fe61aef4f903d14",
+    "informe": ".factory/cambios/20261022-115958-1jt-hora/oracle-veredicto.txt",
+    "informe_sha256": "e481a57d367274595ac2e53c86752a4ebdc1954504a5fadbc44fd97a0749bc22",
+    "cuando": "2026-10-22T16:05:47.081706+00:00",
+    "contexto": {
+      "head": "adede8fb20d94fd2b385c4328a569f4c9001c035",
+      "archivos_sha256": "fb730678d325bedc73def7a2b2f77a14a98a6d220237efa4481e116581231bad"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -594,6 +606,17 @@
       "abiertos": 0,
       "sha256": "feee226707912a46a6a99a5bb243a31e706732a2410864e79abd507e69b4a1db",
       "decisiones_sha256": "3f1b776ad2c21ff45cda3d8f7c5128c01953cae272b01b50dc3d630a1adaaf4c"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T16:05:47.081722+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "50af733b53d52b3aa8dad350dca88918fb5787b7220811695fe61aef4f903d14"
     }
   ],
   "tipos": {
