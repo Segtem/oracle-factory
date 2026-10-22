@@ -1,6 +1,6 @@
 # Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-22 21:08:36 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261022-161300-f94-mcp/oracle-veredicto.txt.
+
+### Nota (2026-10-22 21:11:07 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

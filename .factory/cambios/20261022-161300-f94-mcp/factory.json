@@ -2,7 +2,7 @@
   "id": "20261022-161300-f94-mcp",
   "titulo": "Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura",
   "capacidad": "conocimiento",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261022-161300-f94-mcp/specs/conocimiento/spec.md",
   "spec_sha256": "7fff1053810563292e90f8ced1888108beaa13aba92e51194e223243456ff832",
   "spec_aprobada": {
@@ -281,6 +281,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "b9fe0b2b1529689c7d0bb03c559b4b0bb6ef40ecd473cdc7e2b189719b6735c4"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T21:11:07.751500+00:00",
+      "oracle": ".factory/cambios/20261022-161300-f94-mcp/oracle-veredicto.txt",
+      "revision": "tareas/20261022-161300-f94-mcp/revisiones/registro-3cs43ax0/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T21:11:07.780209+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
     }
   ],
   "tipos": {
@@ -322,5 +342,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T21:11:07.687981+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-22T21:11:07.780200+00:00"
+  }
 }
