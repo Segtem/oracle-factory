@@ -2,7 +2,7 @@
   "id": "20261022-115958-1jt-hora",
   "titulo": "La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden",
   "capacidad": "colaboracion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
   "spec_sha256": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio",
     "colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/informe.json",
+    "sha256": "7a6a0842173a6e5b05786870d1eab756e2f279704ee4a56da0c551991d568c3d",
+    "decisiones": "tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/decisiones.json",
+    "decisiones_sha256": "0f7a714cbd3e47628b831b7d3817fc8f987407efb0815ddd673f8212f9917aa1",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T14:47:35.216957+00:00",
+    "motivo": "Seis vueltas de codex y agy; todos los hallazgos corregidos con pruebas y mutaciones muertas salvo HORA-PROC-002, que propongo aceptar como riesgo: dos clones independientes que escriben en el mismo microsegundo exacto no tienen un orden real que Factory pueda conocer sin un reloj común entre máquinas (fuera de alcance en la propuesta); en ese caso queda primero lo de la rama que integra. Dentro de un registro el orden está garantizado (evento() va después del último).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "d479643152d802bd3cb6672fd27c0c163d86c801",
+      "archivos_sha256": "39f98292e213c229b494955781d66bc7df9ce379f7615e047eabb1ac6fb39dd1"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -422,6 +442,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "242e40b0674d"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T14:18:35.745870+00:00",
+      "decision": "aprobar",
+      "candidato": "bf616bd"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T14:47:35.216981+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "7a6a0842173a6e5b05786870d1eab756e2f279704ee4a56da0c551991d568c3d",
+      "decisiones_sha256": "0f7a714cbd3e47628b831b7d3817fc8f987407efb0815ddd673f8212f9917aa1"
     }
   ],
   "tipos": {
@@ -462,5 +506,17 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "firma": "oracle_factory/cli.py|dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "motivo": "Acepto el riesgo: Dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-22T14:47:33.794243+00:00",
+      "candidato": "bf616bd"
+    }
+  ]
 }

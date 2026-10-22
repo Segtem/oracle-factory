@@ -115,6 +115,19 @@ class Hora(unittest.TestCase):
                 {'accion': 'mensaje', 'texto': 'Beto después', 'cuando': '2026-10-22T12:00:06+00:00'}]
         unido = unir.unir(base, {'eventos': base['eventos'] + ana}, {'eventos': base['eventos'] + beto})
         self.assertEqual([e.get('texto') for e in unido['eventos']], [None, 'Beto viejo', 'Ana 1', 'Beto', 'Ana 2', 'Beto después'])
+        # Dos máquinas en el mismo microsegundo: el mismo orden en los dos clones, integre quien integre.
+        misma = '2026-10-22T12:00:05.500000+00:00'
+        de_ana = {'accion': 'mensaje', 'actor': 'Ana', 'texto': 'de Ana', 'cuando': misma}
+        de_beto = {'accion': 'mensaje', 'actor': 'Beto', 'texto': 'de Beto', 'cuando': misma}
+        en_ana = unir.unir(base, {'eventos': base['eventos'] + [de_ana]}, {'eventos': base['eventos'] + [de_beto]})
+        en_beto = unir.unir(base, {'eventos': base['eventos'] + [de_beto]}, {'eventos': base['eventos'] + [de_ana]})
+        self.assertEqual(en_ana['eventos'], en_beto['eventos'])
+        self.assertEqual([e.get('texto') for e in en_ana['eventos']], [None, 'de Ana', 'de Beto'])
+        # Cada rama conserva su orden aunque sus horas empaten (registros viejos, en segundos).
+        viejos = [{'accion': 'mensaje', 'actor': 'Zoe', 'texto': 'z1', 'cuando': '2026-10-22T12:00:07+00:00'},
+                  {'accion': 'mensaje', 'actor': 'Abel', 'texto': 'a2', 'cuando': '2026-10-22T12:00:07+00:00'}]
+        unido = unir.unir(base, {'eventos': base['eventos'] + viejos}, {'eventos': base['eventos'] + [de_beto]})
+        self.assertEqual([e.get('texto') for e in unido['eventos']], [None, 'de Beto', 'z1', 'a2'])
         # Si la unión deja decisiones para una persona, su evento lleva su propia hora con microsegundos, después de todo.
         viejo = {'eventos': [{'accion': 'cambio_creado', 'cuando': '2099-01-01T00:00:00Z'}]}
         unido = unir.unir(viejo, {**viejo, 'fase': 'a'}, {**viejo, 'fase': 'b'})

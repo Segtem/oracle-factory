@@ -1,0 +1,120 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261022-115958-1jt-hora",
+  "contexto": {
+    "head": "d479643152d802bd3cb6672fd27c0c163d86c801",
+    "archivos_sha256": "39f98292e213c229b494955781d66bc7df9ce379f7615e047eabb1ac6fb39dd1"
+  },
+  "documentos": {
+    "openspec/changes/20261022-115958-1jt-hora/proposal.md": "f385f50484aaa14fbdd46beb7b9a2c8235680e2a2c3e3f9b05baf64b6b1bc551",
+    "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md": "4a1185bea94d071ab87d0057a2da25b36b0acc4cb62c30db7010106fb64071b8"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_hora.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio.oracle",
+    "catalogos/factory_hora.corrida_completa.oracle",
+    "catalogos/factory_hora.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261022-115958-1jt-hora/design.md",
+    "openspec/changes/20261022-115958-1jt-hora/proposal.md",
+    "openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md",
+    "openspec/changes/20261022-115958-1jt-hora/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/unir.py",
+    "requisitos/colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo_queda_en_el_orden_en_que_se_escribio.requisito",
+    "requisitos/colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo.requisito",
+    "tests/test_hora.py",
+    "tools/banco.py",
+    "tools/verify_hora.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 458 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 1 hallazgo (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6489a62: agy (gemini-3.8-flash-high), 4 hallazgos: HORA-001 (media), HORA-002 (media), HORA-003 (baja), HORA-004 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/6489a62/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6489a62: codex (gpt-6-luna), 1 hallazgo: HORA-001 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/6489a62/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7e3abab: agy (gemini-3.8-flash-high), 2 hallazgos: HORA-001 (alta), HORA-002 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/7e3abab/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7e3abab: codex (gpt-6-luna), 1 hallazgo: HORA-005 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/7e3abab/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 57e960c: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/57e960c/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 57e960c: codex (gpt-6-luna), 2 hallazgos: HORA-006 (media), HORA-007 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/57e960c/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ad55f4: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/4ad55f4/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4ad55f4: codex (gpt-6-luna), 1 hallazgo: HORA-008 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/4ad55f4/revision/codex-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a0cba6: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/3a0cba6/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 3a0cba6: codex (gpt-6-luna), 1 hallazgo: HORA-PROC-001 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-115958-1jt-hora/candidatos/3a0cba6/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios ho1–ho2 en proyectos temporales, Linux, con git real en el escenario a4 del banco; el orden es el de la hora de cada máquina, sin corregir relojes desincronizados.",
+    "agy (gemini-3.8-flash-high): Se revisaron la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus requisitos y escenarios, el paquete Clue paquete-agy-1.json del candidato bf616bd y los archivos incluidos en el diff: oracle_factory/cli.py, oracle_factory/unir.py, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, catalogos/factory_hora.*.oracle y docs/colaboracion.md, además de los consumidores de marcas de tiempo en el resto de la base (oracle_factory/kb.py, oracle_factory/resumen.py, oracle_factory/tablero.py, editores/vscode/tablero.js). Se excluyeron los 46 archivos de registros y evidencia fuera del producto indicados en las instrucciones.",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de HORA-PROC-001 de la vuelta 5: en oracle_factory/cli.py:228-235 (función evento), si el registro ya contiene eventos previos, se calcula el timestamp máximo 'ultimo' mediante unir_mod.hora y, ante colisión o retroceso (unir_mod.hora({'cuando': cuando})[0] <= ultimo), se reubica deterministamente la marca en (ultimo + dt.timedelta(microseconds=1)). Dado que las operaciones sobre el registro del cambio están protegidas y serializadas a nivel de archivo mediante flock en escribir_atomico y reintentos automáticos en reintentar_si_cambia, el proceso que concurre y relee el registro garantiza que su evento quede siempre estrictamente posterior al último evento registrado. Se comprobó la cobertura de este comportamiento en tests/test_hora.py:78-83.",
+    "agy (gemini-3.8-flash-high): Se verificó la permanencia y cierre de todos los hallazgos de las vueltas anteriores sin regresiones: HORA-001 (unión intrasegundo de ramas con marcas en segundos y microsegundos), HORA-002 (banco a4 evalúa orden real en el mismo segundo y reporta pares concurrentes), HORA-003 (test_ho1 valida coincidencia de segundo, visualización de fechas en estado y consistencia con kb --verificar), HORA-004 y HORA-005 (ordenación cronológica de marcas mediante unir.hora normalizando Z y offsets antes de comparar, y archivar ordenando pendientes mediante unir_mod.hora), HORA-006 (monotonicidad estricta y unicidad ante relojes repetidos en ahora()), HORA-007 (cobertura específica de archivar() en test_ho1) y HORA-008 (evento union_con_decisiones generado con microsegundos deterministas e idénticos entre clones).",
+    "agy (gemini-3.8-flash-high): Se comprobó que no hay comparaciones textuales erróneas ni problemas de truncado: las funciones de visualización y notas (_fecha en kb.py, _fecha_corta en cli.py) emplean [:16] para mostrar 'YYYY-MM-DD HH:MM' de forma homogénea con y sin microsegundos; resumen.py utiliza [:10] para fechas de día; y tablero.py junto con tablero.js parsean marcas ISO 8601 con fracciones de segundo limpiamente.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas exactamente según lo indicado, en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (4 pruebas, OK en ~3.3 s). No se corrió la suite completa ni se modificaron el repositorio ni la configuración de Git.",
+    "agy (gemini-3.8-flash-high): Se ejecutó una batería de 10 mutaciones manuales en una copia aislada de trabajo (registradas en mutaciones.txt): M1 (ahora con segundos; capturada), M2 (ahora sin avance ante repetición del reloj; capturada), M3 (evento sin corrección ante colisión con evento previo; capturada por test_ho1_el_reloj_repite_el_microsegundo), M4 (archivar ordenando como texto plano; capturada), M5 (unir.hora sin texto de desempate; capturada), M6 (unir.py usando clave léxica directa; capturada), M7 (union_con_decisiones sin sumar microsegundo; capturada), M8 (union_con_decisiones usando ahora() del reloj; capturada al romper determinismo entre clones), M9 (banco a4 durmiendo entre días; capturada al disparar el parche de sleep) y M10 (banco a4 omitiendo aserción de orden estricto de emisión; sobrevive en ausencia de inversión espontánea).",
+    "codex (gpt-6-luna): Se ejecutó exactamente desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (4 pruebas, OK).",
+    "codex (gpt-6-luna): No se ejecutó la suite completa ni tools/verify_hora.py.",
+    "codex (gpt-6-luna): La reproducción del empate fue en memoria con ahora() fijado; no se hizo una prueba probabilística de colisión con relojes reales.",
+    "codex (gpt-6-luna): Se revisó el diff y el contexto del paquete; las rutas excluidas por quien preparó el paquete no forman parte de la revisión."
+  ],
+  "hallazgos": [
+    {
+      "id": "HORA-PROC-002",
+      "descripcion": "Dos ramas con el mismo registro base aún pueden dar la misma hora a eventos simultáneos",
+      "ubicacion": "oracle_factory/cli.py:231",
+      "evidencia": "codex (gpt-6-luna), .factory/cambios/20261022-115958-1jt-hora/candidatos/bf616bd/revision/codex-1.json, validado con oracle-clue; severidad media. Reproducción en memoria contra el checkout: con el mismo estado base y ahora() fijado a 2026-10-22T12:00:05.123456+00:00, evento() produjo esa misma marca para Ana y Beto. unir.unir ordenó primero el evento de Ana porque Ana fue pasada como rama propia, aunque el caso representaba a Beto escribiendo antes. Las escrituras en el checkout no se modificaron. tests.test_hora comprueba el avance dentro del mismo proceso y el a4 del banco, pero no fija una misma hora en clones distintos para detectar este empate."
+    }
+  ],
+  "sin_hallazgos_motivo": null
+}

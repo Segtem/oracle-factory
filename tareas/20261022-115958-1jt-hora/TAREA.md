@@ -31,3 +31,7 @@ Medidas de colaboracion_cac5d9b2dbb283ed3.al_unir_dos_ramas_lo_del_mismo_segundo
 ### Nota (2026-10-22 12:07:37 UTC)
 
 Medidas de colaboracion_cac5d9b2dbb283ed3.la_hora_de_un_evento_distingue_lo_escrito_en_el_mismo_segundo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-22 14:47:35 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Seis vueltas de codex y agy; todos los hallazgos corregidos con pruebas y mutaciones muertas salvo HORA-PROC-002, que propongo aceptar como riesgo: dos clones independientes que escriben en el mismo microsegundo exacto no tienen un orden real que Factory pueda conocer sin un reloj común entre máquinas (fuera de alcance en la propuesta); en ese caso queda primero lo de la rama que integra. Dentro de un registro el orden está garantizado (evento() va después del último).); 0 abiertos derivados; commit d479643152d802bd3cb6672fd27c0c163d86c801; informe tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/informe.json; decisiones tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/decisiones.json.

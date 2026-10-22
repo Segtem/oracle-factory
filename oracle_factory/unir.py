@@ -9,7 +9,6 @@ las dos cambiaron distinto no se elige ni se mezcla: queda el valor de la rama q
 from __future__ import annotations
 
 import datetime as dt
-import heapq
 import json
 
 LISTAS_QUE_SE_SUMAN = ("eventos", "aceptados", "pendientes_de_union")
@@ -55,15 +54,37 @@ def _sumar(base, nuestro, suyo, en_orden: bool) -> list:
     # Los eventos son el historial: no se borran aunque una rama los haya perdido. Lo demás (un pendiente resuelto) sí.
     sacado = set() if en_orden else {_clave(x) for x in base or []} - (claves[0] & claves[1])
     # El historial común primero, en su orden (aunque una rama haya perdido alguno), y después lo nuevo de cada rama.
-    propios, ajenos, vistos = [], [], set(sacado)
-    for destino, lista in ((propios, base if en_orden else []), (propios, nuestro), (ajenos, suyo)):
+    comun, propios, ajenos, vistos = [], [], [], set(sacado)
+    for destino, lista in ((comun, base if en_orden else []), (propios, nuestro), (ajenos, suyo)):
         for x in lista or []:
             if _clave(x) not in vistos:
                 vistos.add(_clave(x))
                 destino.append(x)
     if not en_orden:
         return propios + ajenos
-    return list(heapq.merge(propios, ajenos, key=hora))  # estable: ante empate, los nuestros
+    # Lo común va antes que lo nuevo de cada rama, que lo vio (causalidad, como en un reloj lógico), aunque su hora empate.
+    return comun + _intercalar(propios, ajenos)
+
+
+def _desempate(e: dict) -> tuple:
+    """Entre dos eventos de ramas distintas con la misma hora no hay un orden real que saber (dos máquinas en el mismo
+    microsegundo): se elige uno determinista, el mismo en todos los clones y sin importar quién integra. Como en los
+    relojes lógicos con id de nodo (Lamport, HLC, Automerge): la hora y, ante empate, quién y qué."""
+    return (*hora(e), str(e.get("actor", "")), _clave(e))
+
+
+def _intercalar(propios: list, ajenos: list) -> list:
+    """Las dos listas por hora, cada una en su orden (el de su registro, que es el verdadero); ante la misma hora, el
+    desempate determinista."""
+    salida, i, j = [], 0, 0
+    while i < len(propios) and j < len(ajenos):
+        if _desempate(ajenos[j]) < _desempate(propios[i]):
+            salida.append(ajenos[j])
+            j += 1
+        else:
+            salida.append(propios[i])
+            i += 1
+    return salida + propios[i:] + ajenos[j:]
 
 
 def _valor(base, nuestro, suyo, camino: list, pendientes: list):

@@ -219,7 +219,9 @@ class UnirPuro(unittest.TestCase):
         self.assertEqual(unir_mod.unir({'pendientes_de_union': [viejo]}, {}, {'pendientes_de_union': [viejo], 'x': 1}), {'x': 1})
         # Eventos del mismo segundo: cada rama conserva su orden.
         z, a, b = ({'accion': 'mensaje', 'texto': t, 'cuando': '5'} for t in ('z primero', 'a después', 'b de la otra'))
-        self.assertEqual(unir_mod.unir({}, {'eventos': [z, a]}, {'eventos': [b]})['eventos'], [z, a, b])
+        # La misma hora: cada rama en su orden (z antes que a) y, entre ramas, un desempate que no depende de quién integra.
+        self.assertEqual(unir_mod.unir({}, {'eventos': [z, a]}, {'eventos': [b]})['eventos'], [b, z, a])
+        self.assertEqual(unir_mod.unir({}, {'eventos': [b]}, {'eventos': [z, a]})['eventos'], [b, z, a])
         # Un evento que una rama perdió sigue estando: el historial no se borra.
         self.assertEqual(unir_mod.unir({'eventos': [z, a]}, {'eventos': [a]}, {'eventos': [z, a, b]})['eventos'], [z, a, b])
 
