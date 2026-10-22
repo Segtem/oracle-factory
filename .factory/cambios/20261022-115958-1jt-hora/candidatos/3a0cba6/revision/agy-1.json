@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-hora/.factory/local/revisiones/3a0cba6-agy-1",
+  "base": "9e50f87177fad7501ae261faa4baf053a2b18c0c",
+  "head": "3a0cba65062e8ac4462b7b66ae076e67d81f66cc",
+  "diff_sha256": "ca7120350a09a219c8e45c5a312f65bd980cf3f53c5477ef6d515026aa21f029",
+  "context_sha256": "ba6da47525d123bf5fac4007d617f2608466450eb8d3cd83c26547127b452879",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron exhaustivamente la propuesta (openspec/changes/20261022-115958-1jt-hora/proposal.md), la especificación de colaboracion (openspec/changes/20261022-115958-1jt-hora/specs/colaboracion/spec.md) con sus dos requisitos funcionales y escenarios, el paquete Clue de la vuelta 5 y el código relacionado: oracle_factory/cli.py, oracle_factory/unir.py, oracle_factory/kb.py, oracle_factory/resumen.py, oracle_factory/tablero.py, editores/vscode/extension.js, editores/vscode/tablero.js, tools/banco.py, tests/test_hora.py, tools/verify_hora.py, los catálogos Oracle catalogos/factory_hora.*.oracle y docs/colaboracion.md. Se omitieron los 38 archivos de registros y evidencia de Factory excluidos por el paquete.",
+    "Se verificó la corrección de HORA-008 en oracle_factory/unir.py:105-111: cuando una unión deja decisiones pendientes, el evento union_con_decisiones se genera con su propia marca en microsegundos (calculada deterministamente como ultimo + 1 microsegundo), garantizando que cumpla con el formato MICRO, sea estrictamente posterior al último evento presente y sea determinista e idéntico en cualquier clon para evitar eventos duplicados al sincronizar. Se comprobó la cobertura específica en tests/test_hora.py:113-121 (test_ho2_unir_lo_del_mismo_segundo).",
+    "Se comprobó que todos los hallazgos de vueltas previas continúan resueltos sin regresiones: HORA-001 (unión con eventos legados y con microsegundos en el mismo segundo), HORA-002 (banco a4 audita el orden intrasegundo sin esperar entre días y exige pares concurrentes), HORA-003 (test_ho1 valida coincidencia de segundo, visualización en texto de estado y vault verificado), HORA-004 y HORA-005 (unir.hora compara tuplas cronológicamente resolviendo mezclas de Z, +00:00 y microsegundos, y archivar ordena pendientes mediante unir_mod.hora), HORA-006 (ahora() garantiza monotonicidad estricta y unicidad ante repetición del reloj en el mismo microsegundo) y HORA-007 (cobertura directa de archivar() en test_ho1).",
+    "Se verificó que los consumidores de marcas de tiempo en el resto del sistema funcionen sin desajustes: los cortes textuales [:16] en kb.py y cli.py no se ven afectados por microsegundos, resumen.py usa [:10] para fechas, y tablero.py junto con tablero.js parsean marcas ISO 8601 fraccionarias UTC limpiamente.",
+    "Se ejecutó exactamente en primer plano y desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null (4 pruebas, OK en ~3.2 s). No se corrió la suite completa ni se modificó el checkout de revisión ni la configuración de Git.",
+    "Se realizaron pruebas de mutación manuales registradas en mutaciones.txt (M0 a M8) sobre copias aisladas en el directorio de trabajo del revisor: M1 (ahora() con segundos; capturada por test_ho1), M2 (ahora() sin avance en colisión; capturada por test_ho1_el_reloj_repite_el_microsegundo), M3 (archivar() con orden léxico de cadenas; capturada por test_ho1_archivar_ordena_los_cierres_por_la_hora), M4 (unir.hora devolviendo solo datetime; capturada por test_ho1), M5 (unir.py con orden léxico directo; capturada por test_ho2), M6 (banco a4 omitiendo validación de orden de emisión; sobrevive sin inversión), M7 (revertir unir() a copiar timestamp previo de vuelta 4; capturada por test_ho2) y M8 (unir() usando ahora() del reloj; capturada por test_ho2 al romper igualdad determinista entre clones)."
+  ]
+}

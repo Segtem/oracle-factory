@@ -75,6 +75,11 @@ class Hora(unittest.TestCase):
             horas = [f.ahora() for _ in range(3)]
         self.assertEqual(len(set(horas)), 3)
         self.assertEqual(horas, sorted(horas))
+        # Otro proceso (u otro clon) pudo haber escrito el último evento con la misma hora, o una adelantada: el nuevo va después.
+        estado = {'eventos': [{'accion': 'mensaje', 'cuando': '2026-10-22T12:00:05.100000+00:00'}]}
+        with patch.object(f.dt, 'datetime', Reloj), patch.object(f, '_ULTIMA_HORA', fijo - f.dt.timedelta(seconds=1)):
+            f.evento(estado, 'mensaje', forma='mensaje', texto='otro')
+        self.assertEqual(estado['eventos'][-1]['cuando'], '2026-10-22T12:00:05.100001+00:00')
 
     def test_ho1_archivar_ordena_los_cierres_por_la_hora(self):
         # Dos cambios cerrados sin archivar: uno viejo, cerrado al principio del segundo (en segundos y con Z), y uno nuevo,

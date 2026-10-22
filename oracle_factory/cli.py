@@ -75,7 +75,7 @@ def ahora() -> str:
     # Con microsegundos: dos escrituras del mismo segundo (en dos ramas, por ejemplo) quedan en orden al unirlas. Las horas
     # se ordenan como horas, no como texto (unir.hora); una vieja, en segundos, cuenta desde el principio de su segundo.
     # Dentro de un proceso nunca se repite ni retrocede: si el reloj da el mismo microsegundo, se suma uno.
-    # ponytail: dos procesos en el mismo microsegundo todavía pueden coincidir; un contador por máquina si hiciera falta.
+    # Dos procesos pueden dar la misma: evento() la corre después del último evento del registro.
     global _ULTIMA_HORA
     _ULTIMA_HORA = max(dt.datetime.now(dt.timezone.utc), _ULTIMA_HORA + dt.timedelta(microseconds=1))
     return _ULTIMA_HORA.isoformat(timespec="microseconds")
@@ -224,8 +224,16 @@ def config_proyecto() -> dict:
 
 
 def evento(estado: dict, accion: str, forma: str = "decidio", **datos) -> None:
+    # Siempre después del último evento del registro, aunque otro proceso lo haya escrito en el mismo microsegundo (las
+    # escrituras de un registro están serializadas: la que pierde la carrera vuelve a leer y a pasar por acá).
+    cuando = ahora()
+    previos = estado.get("eventos") or []
+    if previos:
+        ultimo = max(unir_mod.hora(e)[0] for e in previos)
+        if unir_mod.hora({"cuando": cuando})[0] <= ultimo:
+            cuando = (ultimo + dt.timedelta(microseconds=1)).isoformat(timespec="microseconds")
     estado.setdefault("eventos", []).append({
-        "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": ahora(), **datos})
+        "accion": accion, **actor(), "modo": modo_de(estado), "forma": forma, "cuando": cuando, **datos})
     # Lo que quedó sin decidir al unir dos ramas lo resuelve la decisión que corresponde.
     resueltos = unir_mod.resueltos_por(accion, datos.get("requisito"))
     if resueltos and estado.get("pendientes_de_union"):
