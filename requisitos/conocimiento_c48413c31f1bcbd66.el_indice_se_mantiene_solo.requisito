@@ -1,4 +1,4 @@
 requisito conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo:
     texto "Tipo: funcional El índice SHALL vivir en `.factory/local/rag/` y SHALL actualizarse solo al preguntar cuando cambió el corpus: agrega lo nuevo, borra lo que ya no está y reusa el embedding de cada pasaje que no cambió; un modelo distinto SHALL invalidar sus embeddings. Ninguna persona SHALL tener que reconstruirlo para que las respuestas estén al día."
     fuente "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#el índice se mantiene solo"
-    sin_medir "sin medida todavía; escenarios: «el vault cambia entre dos preguntas»"
+    medido_por factory_rag.el_indice_se_mantiene_solo, factory_rag.corrida_completa

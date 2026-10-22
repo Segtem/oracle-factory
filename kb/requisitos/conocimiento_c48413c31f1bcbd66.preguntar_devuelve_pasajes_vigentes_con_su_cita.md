@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261021-235127-fjn-rag]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «una pregunta sobre una decisión»
+- Medidas: `factory_rag.preguntar_devuelve_pasajes_vigentes_con_su_cita`, `factory_rag.corrida_completa`
 - Fuente: openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md#preguntar devuelve pasajes vigentes con su cita
 
 Tipo: funcional `oracle-factory preguntar \"TEXTO\"` (y `--json`) SHALL devolver los pasajes que mejor responden a la pregunta, tomados del vault (`kb/`), de las propuestas, diseños y specs de los cambios, de las specs vigentes y de `docs/`, cada uno con su cita (archivo y sección) y su cambio cuando lo tiene. SHALL dejar afuera las notas de personas por revisar, nombrándolas aparte, y todo lo de un cambio abandonado, y SHALL ser sólo lectura.
