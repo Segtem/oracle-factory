@@ -214,6 +214,7 @@ function html(datos, {nonce, cspSource}) {
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Tablero de Factory</title>
 <style nonce="${nonce}">${estilo()}</style></head><body>
 <h1>${marca()} Tablero de Factory</h1>
+${datos.esperando ? '' : '<p><button class="terminal" data-preguntar="1">Preguntar al proyecto</button></p>'}
 ${sesion(datos.sesion)}
 ${cuerpo}
 ${datos.proyecto ? proyecto(datos.proyecto) : ''}
@@ -226,6 +227,7 @@ document.addEventListener('click', ev => {
   if (b.dataset.comando) vscode.postMessage({tipo: 'terminal', comando: b.dataset.comando});
   if (b.dataset.commit) vscode.postMessage({tipo: 'commit', sha: b.dataset.commit});
   if (b.dataset.sesion) vscode.postMessage({tipo: 'sesion', accion: b.dataset.sesion});
+  if (b.dataset.preguntar) vscode.postMessage({tipo: 'preguntar'});
 });
 document.addEventListener('submit', ev => {
   const f = ev.target.closest('form.escribir');

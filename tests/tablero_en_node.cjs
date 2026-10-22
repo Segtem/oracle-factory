@@ -1,14 +1,14 @@
 /* El tablero de la extensión en node, con un `vscode` falso: lo abre, le manda los clics que haría una persona
    y avisa que cambió un registro.
    node tests/tablero_en_node.cjs <carpeta de la extensión> <carpeta del proyecto> <mensajes JSON> [factory.comando]
-   Imprime JSON: {html, htmlDespues, abiertos, diffs, errores, terminal, pintadas}. */
+   Imprime JSON: {html, htmlDespues, abiertos, diffs, documentos (su texto entero), errores, terminal, pintadas}. */
 'use strict';
 const Module = require('module');
 const path = require('path');
 const [extension, proyecto, mensajesJson, comando] = process.argv.slice(2);
 const mensajes = JSON.parse(mensajesJson || '[]');
 
-const terminal = [], abiertos = [], diffs = [], errores = [], comandos = {}, vigias = [];
+const terminal = [], abiertos = [], diffs = [], documentos = [], errores = [], comandos = {}, vigias = [];
 let panel = null, pintadas = 0;
 const nada = () => ({dispose() {}});
 const vscode = {
@@ -37,8 +37,9 @@ const vscode = {
             return t;
         },
         showErrorMessage: m => { errores.push(m); },
+        showInputBox: async () => process.env.PREGUNTA,  // lo que la persona escribe al preguntar (vacío: cancela)
         showTextDocument: async (doc, opciones) => {
-            if (doc.contenido !== undefined) return diffs.push({lenguaje: doc.lenguaje, primera: doc.contenido.split('\n')[0]});
+            if (doc.contenido !== undefined) { documentos.push(doc.contenido); return diffs.push({lenguaje: doc.lenguaje, primera: doc.contenido.split('\n')[0]}); }
             abiertos.push({archivo: path.relative(proyecto, doc.uri.fsPath), linea: opciones.selection.start.line + 1});
         },
         createWebviewPanel: () => {
@@ -70,5 +71,5 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     const antes = pintadas;
     for (const v of vigias) for (const f of v.cambios) f();
     for (let i = 0; i < 100 && pintadas === antes; i++) await new Promise(r => setTimeout(r, 50));
-    process.stdout.write(JSON.stringify({html, htmlDespues: panel.webview.html, abiertos, diffs, errores, terminal, pintadas}));
+    process.stdout.write(JSON.stringify({html, htmlDespues: panel.webview.html, abiertos, diffs, documentos, errores, terminal, pintadas}));
 })().catch(e => { console.error(e); process.exit(1); });
