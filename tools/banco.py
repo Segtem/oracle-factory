@@ -698,9 +698,7 @@ def a4_mensajes_de_a_turnos(e: Escenario) -> None:
     e.beto.git('fetch', '-q', 'origin')
     e.beto.git('checkout', '-q', '-b', 'tarea/charla', '--track', 'origin/tarea/charla')
     escritos, dia_de = [], {}
-    for dia in range(1, 4):
-        # Días de verdad distintos: lo escrito el mismo segundo en dos ramas no tiene un orden que Factory pueda saber.
-        time.sleep(1 - time.time() % 1)
+    for dia in range(1, 4):  # los tres días pueden caer en el mismo segundo: la hora de Factory tiene microsegundos
         hoy = e.a_la_vez(*[(f'día {dia}: {p.nombre}', lambda p=p, t=f'día {dia}: {p.nombre}': (p.agente_hace('mensaje', ident, t), t)[1])
                            for p in (e.ana, e.beto)])
         escritos += hoy
