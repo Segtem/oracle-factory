@@ -25,20 +25,20 @@
     "revisor": "Brian Hollweg",
     "decision": "aprobar",
     "hallazgos_abiertos": 0,
-    "informe": "tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/informe.json",
-    "sha256": "7a6a0842173a6e5b05786870d1eab756e2f279704ee4a56da0c551991d568c3d",
-    "decisiones": "tareas/20261022-115958-1jt-hora/revisiones/registro-6k503dqv/decisiones.json",
-    "decisiones_sha256": "0f7a714cbd3e47628b831b7d3817fc8f987407efb0815ddd673f8212f9917aa1",
+    "informe": "tareas/20261022-115958-1jt-hora/revisiones/registro-v1oo34gs/informe.json",
+    "sha256": "feee226707912a46a6a99a5bb243a31e706732a2410864e79abd507e69b4a1db",
+    "decisiones": "tareas/20261022-115958-1jt-hora/revisiones/registro-v1oo34gs/decisiones.json",
+    "decisiones_sha256": "3f1b776ad2c21ff45cda3d8f7c5128c01953cae272b01b50dc3d630a1adaaf4c",
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "confirmo",
     "modo": "confirmacion",
-    "cuando": "2026-10-22T14:47:35.216957+00:00",
-    "motivo": "Seis vueltas de codex y agy; todos los hallazgos corregidos con pruebas y mutaciones muertas salvo HORA-PROC-002, que propongo aceptar como riesgo: dos clones independientes que escriben en el mismo microsegundo exacto no tienen un orden real que Factory pueda conocer sin un reloj común entre máquinas (fuera de alcance en la propuesta); en ese caso queda primero lo de la rama que integra. Dentro de un registro el orden está garantizado (evento() va después del último).",
+    "cuando": "2026-10-22T16:05:36.523976+00:00",
+    "motivo": "Ocho vueltas de codex y agy: todos los hallazgos medios y altos corregidos con pruebas y mutaciones muertas, incluido HORA-PROC-002 con el desempate determinista que eligió Brian (lo común primero y, ante la misma hora entre ramas, quién y qué, igual en todos los clones), y un defecto que la evidencia destapó (el vault ordenaba los cambios por ID; ahora por su hora de creación). La 8 no dejó medios ni altos. Queda una baja: HORA-009, la prueba de un registro viejo no compara la hora que devuelve estado --json.",
     "origen_motivo": "agente",
     "contexto": {
-      "head": "d479643152d802bd3cb6672fd27c0c163d86c801",
-      "archivos_sha256": "39f98292e213c229b494955781d66bc7df9ce379f7615e047eabb1ac6fb39dd1"
+      "head": "6aa25275ae1008dfbb1edf0fed3cfe70039bdc69",
+      "archivos_sha256": "fb730678d325bedc73def7a2b2f77a14a98a6d220237efa4481e116581231bad"
     }
   },
   "oracle": null,
@@ -570,6 +570,30 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "1141d9acbba9"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-22T15:53:36.472929+00:00",
+      "decision": "aprobar",
+      "candidato": "e2e079e"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-22T16:05:36.524011+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "feee226707912a46a6a99a5bb243a31e706732a2410864e79abd507e69b4a1db",
+      "decisiones_sha256": "3f1b776ad2c21ff45cda3d8f7c5128c01953cae272b01b50dc3d630a1adaaf4c"
     }
   ],
   "tipos": {
@@ -621,6 +645,15 @@
       "actor": "Brian Hollweg",
       "fecha": "2026-10-22T14:47:33.794243+00:00",
       "candidato": "bf616bd"
+    },
+    {
+      "archivo": "tests/test_hora.py",
+      "titulo": "La prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "firma": "tests/test_hora.py|la prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "motivo": "Acepto el riesgo: La prueba de compatibilidad no comprueba la hora legada que devuelve estado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-22T16:05:34.203966+00:00",
+      "candidato": "e2e079e"
     }
   ]
 }
