@@ -1,0 +1,20 @@
+{
+  "mcp_caso": [
+    {
+      "requisito": "un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo",
+      "caso": "Mcp.test_mc1_un_agente_pregunta_y_consulta_un_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "preguntar_desde_vs_code",
+      "caso": "Mcp.test_mc2_una_pregunta_desde_el_editor",
+      "codigo": 0
+    }
+  ],
+  "mcp_corrida": [
+    {
+      "completa": 1,
+      "casos": 2
+    }
+  ]
+}

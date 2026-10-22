@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-mcp/.factory/local/revisiones/c36327e-agy-1",
+  "base": "051093bfc5c3372e4a9398432002c650333e1739",
+  "head": "c36327e2902ba1361ee9374058c62be58d6a0015",
+  "diff_sha256": "8c5e4a97cc9e05206fd03523934eaea09530676feeebd439120df7dc1dff1d16",
+  "context_sha256": "57a87139deb744cbed2a011f095371e0b3792b04458287b01e2d346bfac3bc15",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null desde la raíz del checkout (2 pruebas OK en ~1.76s).",
+    "No se corrió la suite completa ni tools/verify_mcp.py para no ejecutar pruebas ajenas al cambio según las indicaciones recibidas.",
+    "No se probaron clientes MCP de terceros (Claude Code, Codex) ni entornos de VS Code reales fuera del entorno simulado en Node.js (tests/tablero_en_node.cjs).",
+    "Se verificaron las correcciones de los hallazgos de la vuelta 1 (MCP-1, MCP-2, MCP-3, TEST-1, TEST-2), confirmando que permanecen resueltos sin regresiones.",
+    "Se realizó una batería de 10 mutaciones manuales sobre una copia aislada en scratch/ (en servidor MCP, manejo de argumentos, tipos, protocolo y extensión de VS Code); todas fueron detectadas y eliminadas por tests.test_mcp sin alterar el checkout del candidato."
+  ]
+}

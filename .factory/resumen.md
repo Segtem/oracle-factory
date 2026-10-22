@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:09d61e72e2dbde6de07130db649c77027ac16262820738651cd3dbaea8058f48 -->
+<!-- oracle-factory resumen sha256:65e0bb475ee0c84a9ccab7d622196581d5ba909d9717d2290e40fdabdda347d0 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 181 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 183 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -102,6 +102,8 @@ Spec completa: [openspec/specs/conocimiento/spec.md](../openspec/specs/conocimie
 | los embeddings son configurables y locales por defecto | funcional | `conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto` | factory_rag.los_embeddings_son_configurables_y_locales_por_defecto, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
 | el índice se mantiene solo | funcional | `conocimiento_c48413c31f1bcbd66.el_indice_se_mantiene_solo` | factory_rag.el_indice_se_mantiene_solo, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
 | la calidad se mide con preguntas de oro | funcional | `conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro` | factory_rag.la_calidad_se_mide_con_preguntas_de_oro, factory_rag.calidad_de_factory, factory_rag.corrida_completa | verde al cerrar el 2026-10-22 | 20261021-235127-fjn-rag |
+| un agente consulta el proyecto por MCP sin poder cambiarlo | funcional | `conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo` | factory_mcp.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo, factory_mcp.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-161300-f94-mcp |
+| preguntar desde VS Code | funcional | `conocimiento_cff5a3575a1b86452.preguntar_desde_vs_code` | factory_mcp.preguntar_desde_vs_code, factory_mcp.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-161300-f94-mcp |
 
 ### decisiones
 
@@ -947,6 +949,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261022-115958-1jt-hora) codex (gpt-6-luna): Corrí sólo el comando de pruebas solicitado: `PYTHONPATH=. /home/workstation/Dev/factory-hora/.venv/bin/python -m unittest tests.test_hora </dev/null`; resultado: 5 pruebas, OK. No ejecuté la suite completa, tools/verify_hora.py ni Oracle.
 - (20261022-115958-1jt-hora) codex (gpt-6-luna): No hice mutaciones manuales en copias. Revisé estáticamente que el caso a4 se ejercita desde test_ho2 y que las pruebas cubren unión pura con mezcla de precisión, desempate y orden del vault.
 - (20261022-115958-1jt-hora) codex (gpt-6-luna): No revisé los archivos excluidos por el pedido (registros/evidencia de Factory, kb/README.md, kb/cambios, kb/requisitos y tareas). No modifiqué el checkout ni la configuración de Git.
+- (20261022-161300-f94-mcp) Evidencia: Escenarios mc1–mc2 en proyectos temporales, Linux: el servidor MCP con la CLI de verdad y la extensión en node con un vscode falso; no prueba un cliente MCP real (Claude Code, Codex) ni VS Code de verdad.
+- (20261022-161300-f94-mcp) agy (gemini-3.8-flash-high): Se ejecutó exactamente: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null desde la raíz del checkout (2 pruebas OK en ~1.76s).
+- (20261022-161300-f94-mcp) agy (gemini-3.8-flash-high): No se corrió la suite completa ni tools/verify_mcp.py para no ejecutar pruebas ajenas al cambio según las indicaciones recibidas.
+- (20261022-161300-f94-mcp) agy (gemini-3.8-flash-high): No se probaron clientes MCP de terceros (Claude Code, Codex) ni entornos de VS Code reales fuera del entorno simulado en Node.js (tests/tablero_en_node.cjs).
+- (20261022-161300-f94-mcp) agy (gemini-3.8-flash-high): Se verificaron las correcciones de los hallazgos de la vuelta 1 (MCP-1, MCP-2, MCP-3, TEST-1, TEST-2), confirmando que permanecen resueltos sin regresiones.
+- (20261022-161300-f94-mcp) agy (gemini-3.8-flash-high): Se realizó una batería de 10 mutaciones manuales sobre una copia aislada en scratch/ (en servidor MCP, manejo de argumentos, tipos, protocolo y extensión de VS Code); todas fueron detectadas y eliminadas por tests.test_mcp sin alterar el checkout del candidato.
+- (20261022-161300-f94-mcp) codex (gpt-6-luna): Revisé los dos requisitos y sus escenarios contra el diff del paquete, las implementaciones en oracle_factory/mcp.py y oracle_factory/cli.py, la extensión de VS Code, las pruebas enfocadas, tools/verify_mcp.py, los catálogos y el README.
+- (20261022-161300-f94-mcp) codex (gpt-6-luna): El comando indicado pasó: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null (2 pruebas, OK). No corrí la suite completa ni herramientas de clientes MCP reales o VS Code real.
+- (20261022-161300-f94-mcp) codex (gpt-6-luna): No hice mutaciones: las pruebas indicadas cubren los errores corregidos de la vuelta anterior, los argumentos con prefijo de opción, el error de herramienta y continuidad del servidor, equivalencia de las siete herramientas y comando de paleta; no encontré un caso concreto que justificara alterar una copia.
+- (20261022-161300-f94-mcp) codex (gpt-6-luna): No encontré hallazgos reproducibles dentro del alcance del diff. Esto no acredita propiedades que no cubran la spec, las pruebas o la revisión estática.
 
 ### Históricos
 

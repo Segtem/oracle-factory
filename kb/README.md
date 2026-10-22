@@ -69,6 +69,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261021-140625-unir]] — Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace (cerrada)
 - [[cambios/20261021-235127-fjn-rag]] — RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida (cerrada)
 - [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
+- [[cambios/20261022-161300-f94-mcp]] — Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura (cerrada)
 
 ## Requisitos
 
@@ -134,6 +135,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]
+- [[requisitos/conocimiento_cff5a3575a1b86452.preguntar_desde_vs_code]]
+- [[requisitos/conocimiento_cff5a3575a1b86452.un_agente_consulta_el_proyecto_por_mcp_sin_poder_cambiarlo]]
 - [[requisitos/decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez]]
 - [[requisitos/decisiones_c59754a250f5b3593.el_motivo_se_elige]]
 - [[requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu]]

@@ -188,6 +188,10 @@ async function mensajeDelTablero(m) {
         }
         return;
     }
+    if (m.tipo === 'preguntar') {  // sólo en el propio proyecto: un invitado de Live Share no pregunta (fuera de alcance)
+        if (!(sesion && sesion.esInvitado())) await preguntar();
+        return;
+    }
     const invitado = Boolean(sesion && sesion.invitadoConServicio());
     if (sesion && sesion.esInvitado() && !invitado) return;  // sin el servicio de quien comparte, nada que hacer
     if (m.tipo === 'abrir' && typeof m.archivo === 'string') {
@@ -254,6 +258,19 @@ async function porQue() {
     await vscode.window.showTextDocument(doc, {preview: true});
 }
 
+// Preguntar al proyecto: los pasajes de `oracle-factory preguntar` en un documento sin guardar; se lee, no cambia nada.
+async function preguntar() {
+    const raiz = carpeta();
+    if (!raiz) return vscode.window.showErrorMessage('Factory: abrí la carpeta de un proyecto de Factory.');
+    const pregunta = await vscode.window.showInputBox({prompt: 'Preguntale al conocimiento del proyecto',
+                                                      placeHolder: '¿Por qué los IDs de los cambios llevan letras al azar?'});
+    if (!pregunta || !pregunta.trim()) return;
+    const texto = await new Promise(ok => execFile(cli(raiz), ['preguntar', '--', pregunta.trim()],
+        {cwd: raiz, maxBuffer: 8 << 20}, (error, stdout, stderr) => ok(error ? `Factory: ${(stderr || error.message).trim()}` : stdout)));
+    const doc = await vscode.workspace.openTextDocument({content: `# ${pregunta.trim()}\n\n${texto}`, language: 'markdown'});
+    await vscode.window.showTextDocument(doc, {preview: true});
+}
+
 function activate(context) {
     const vista = new Vista();
     salida = vscode.window.createOutputChannel ? vscode.window.createOutputChannel('Oracle Factory') : null;
@@ -269,6 +286,7 @@ function activate(context) {
         vscode.commands.registerCommand('factory.escribirPaso', escribirPaso),
         vscode.commands.registerCommand('factory.tablero', abrirTablero),
         vscode.commands.registerCommand('factory.porQue', porQue),
+        vscode.commands.registerCommand('factory.preguntar', preguntar),
         vigia, vigia.onDidChange(() => refrescar()), vigia.onDidCreate(() => refrescar()),
         vigia.onDidDelete(() => refrescar()));
 

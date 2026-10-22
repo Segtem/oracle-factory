@@ -34,6 +34,7 @@ from . import modos
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
+from . import mcp as mcp_mod
 from . import rag as rag_mod
 from . import unir as unir_mod
 from pathlib import Path, PurePosixPath, PureWindowsPath
@@ -3792,6 +3793,8 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
+    sub.add_parser('mcp', help='servir el proyecto por MCP (stdio), de sólo lectura, para un agente: claude mcp add factory -- '
+                              'oracle-factory --proyecto RUTA mcp')
     q = sub.add_parser('preguntar', help='preguntar al conocimiento del proyecto: pasajes vigentes con su cita (sólo lectura)')
     q.add_argument('texto', nargs='?', default='')
     q.add_argument('--max', type=int, default=8, dest='maximo', help='cuántos pasajes mostrar')
@@ -3892,6 +3895,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
         elif args.comando == "preguntar": comando_preguntar(args)
+        elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
         elif args.comando == "medir" and args.confirmar:
             if args.requisito or args.medida or args.listar:
                 raise FactoryError("--confirmar no se combina con --requisito, --medida ni --listar")

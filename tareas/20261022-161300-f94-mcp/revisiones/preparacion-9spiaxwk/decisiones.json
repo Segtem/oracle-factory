@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "35215f3d3dbb2d4ea97d09d2c90825c8a9d921c1ed2b98c6d0ae8a274f8e84c1",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de codex y agy: la 1 dejó 4 medios (pedidos raros que cortaban el servidor, argumentos obligatorios sin exigir, herramientas y el comando de la paleta sin probar) y 2 bajos, todos corregidos con pruebas y mutaciones muertas; la 2 no dejó ningún hallazgo.",
+  "decisiones": []
+}
