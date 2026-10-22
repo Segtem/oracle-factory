@@ -2622,6 +2622,9 @@ def archivar() -> None:
 
 def cerrar(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
+    if AGENTE and modos.via_agente(modo_de(estado), "cierre", []) == "rechaza":  # antes que lo que falte para cerrar
+        raise FactoryError(f"en modo {modo_de(estado)}, {DESCRIPCION['cierre']} la toma una persona desde una terminal "
+                           "interactiva, sin --agente")
     falta = pendientes_actuales(carpeta, estado)
     if falta:
         raise FactoryError("no se puede cerrar: " + "; ".join(falta))
@@ -3034,7 +3037,10 @@ def comando_agentes(verificar: bool) -> None:
     nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
     rutas = [ruta_segura(ROOT / "AGENTS.md"), ruta_segura(ROOT / "CLAUDE.md")]
     actuales = [r.read_text(encoding="utf-8") if r.is_file() else "" for r in rutas]
-    esperados = [agentes_mod.con_bloque(actuales[0], nuevo), agentes_mod.con_claude(actuales[1])]
+    try:
+        esperados = [agentes_mod.con_bloque(actuales[0], nuevo), agentes_mod.con_claude(actuales[1])]
+    except agentes_mod.MarcasRotas as e:
+        raise FactoryError(str(e)) from e
     if verificar:
         viejos = [r.name for r, a, e in zip(rutas, actuales, esperados) if a != e]
         if viejos:

@@ -16,8 +16,11 @@ import json  # noqa: E402
 
 CAMBIO = '20261022-215347-y70-agentes'
 CONTRACTS = {
-    'la_guia_para_agentes_se_genera_y_no_se_desactualiza': ['Agentes.test_ag1_un_proyecto_con_su_propio_agents_md'],
-    'la_guia_dice_lo_que_hace_la_cli': ['Agentes.test_ag2_un_agente_intenta_las_decisiones_de_una_persona'],
+    'la_guia_para_agentes_se_genera_y_no_se_desactualiza': ['Agentes.test_ag1_un_proyecto_con_su_propio_agents_md',
+                                                             'Agentes.test_ag1_marcas_rotas'],
+    'la_guia_dice_lo_que_hace_la_cli': ['Agentes.test_ag2_las_decisiones_segun_el_modo',
+                                        'Agentes.test_ag2_un_agente_intenta_lo_que_es_solo_de_una_persona',
+                                        'Agentes.test_ag2_los_comandos_de_un_agente_aceptan_agente'],
 }
 PREFIX = 'test_agentes.'
 LIMITES = ('Escenarios ag1–ag2 en proyectos temporales, Linux, con la CLI de verdad y las órdenes del agente en una terminal; '

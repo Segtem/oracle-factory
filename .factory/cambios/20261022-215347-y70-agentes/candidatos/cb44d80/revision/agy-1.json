@@ -1,0 +1,117 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-agentes/.factory/local/revisiones/cb44d80-agy-1",
+  "base": "3089477c878db9a2fbd46d999efd633f0dc2f195",
+  "head": "cb44d804ea136db795380467ad6a5de0090078d1",
+  "diff_sha256": "9f740877d0ce17322cb2dc21e5085be795ec700e082988969ee65642b848a747",
+  "context_sha256": "b6582c4870315fcdc7f08b2fa99f70b38be6c24db7053271310d2506a87fba78",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "con_bloque destruye texto del proyecto en la segunda ejecución si AGENTS.md contenía una marca de inicio sin cerrar",
+      "explanation": "En oracle_factory/agentes.py:con_bloque (líneas 84-88), si AGENTS.md contiene una marca INICIO sin su correspondiente marca FIN, la condición `INICIO in texto and FIN in texto.split(INICIO, 1)[1]` resulta falsa. En consecuencia, la función toma la rama de inserción al final (`return texto + nuevo`) y añade un bloque completo con sus marcas INICIO y FIN. Esto deja el archivo con dos marcas INICIO y una FIN. Cuando se vuelve a ejecutar `oracle-factory agentes` (o en una regeneración por cambio de modo), `texto.split(INICIO, 1)` divide por la primera marca huérfana y `resto.split(FIN, 1)` corta hasta la marca FIN agregada en la primera pasada. Todo el texto escrito por el usuario entre la primera marca huérfana y el nuevo bloque queda dentro del segmento a reemplazar y es eliminado de forma permanente. Esto viola el requisito funcional de la spec: «SHALL conservar lo que está fuera del bloque».",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 84,
+        "end_line": 88,
+        "side": "head"
+      },
+      "trigger": "Dejar en AGENTS.md: `# Proyecto\\n` + INICIO + `\\nTexto del proyecto bajo la marca que no debe perderse\\n` (sin marca FIN), y ejecutar `oracle-factory agentes` dos veces consecutivas.",
+      "evidence": "Reproducido en Python en memoria: tras la primera ejecución de `con_bloque` el texto del usuario se conserva; tras la segunda ejecución `con_bloque(resultado1, nuevo)` devuelve un texto donde `Texto del proyecto bajo la marca` ha sido borrado por completo.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "status": "pendiente",
+      "verification": "Modificar `con_bloque` para validar que las marcas INICIO y FIN estén balanceadas antes de reemplazar o anexar, rechazando o aislando marcas huérfanas en lugar de anexar a ciegas un bloque que en la siguiente pasada absorba el contenido intermedio."
+    },
+    {
+      "id": "AGY-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "La prueba test_ag2 verifica comandos de agente ejecutando --help, dejando sin cobertura la aceptación real de --agente",
+      "explanation": "El requisito funcional exige: «y cada comando que presenta como de un agente SHALL aceptar --agente. Una prueba SHALL recorrer la lista de la guía y comprobarlo, de modo que la guía no pueda prometer algo que la CLI no hace». Sin embargo, en tests/test_agentes.py (líneas 113-115), la verificación se realiza iterando `comando.split()[0]` con la opción `--help`: `self.correr(comando.split()[0], '--help', agente='agente-x')`. En argparse, al recibir `--help` se imprime el texto de ayuda del parser y se invoca sys.exit(0) antes de cualquier despacho, ejecución del handler del subcomando o validación de argumentos. Si se muta cualquiera de los subcomandos de agente en oracle_factory/cli.py para que rechace activamente a los agentes (`if AGENTE: raise FactoryError`), la mutación sobrevive y la suite de pruebas sigue pasando en verde. Además, parámetros obligatorios declarados en AGENTE (como `--a REVISOR`, `--decision`, `--motivo`) no se ejercitan.",
+      "location": {
+        "file": "tests/test_agentes.py",
+        "start_line": 113,
+        "end_line": 115,
+        "side": "head"
+      },
+      "trigger": "Mutar un comando de agente (por ejemplo en `oracle_factory/cli.py` dentro de `preparar_revision`: `if AGENTE: raise FactoryError('rechazado')`) y ejecutar la prueba de test_agentes.",
+      "evidence": "Al introducir la mutación y correr `PYTHONPATH=. python -m unittest tests.test_agentes`, la prueba reporta OK (2 tests en 2s). La verificación con `--help` no prueba que los comandos acepten `--agente` en su ejecución funcional.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "status": "pendiente",
+      "verification": "Reemplazar en test_ag2 el uso de `--help` por ejecuciones reales de los comandos con parámetros simulados o invocar el despachador validando que el contexto de agente sea procesado sin errores."
+    },
+    {
+      "id": "AGY-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La tabla de modos afirma que el agente decide la revisión en modo autónomo pero revisar sólo propone",
+      "explanation": "La tabla generada en AGENTS.md a partir de modos.via_agente (líneas 47-51 de oracle_factory/agentes.py) afirma que en modo `autonomo` un agente con `--agente` decide la revisión (`| autonomo | decide | decide | decide | decide |`). Sin embargo, en la lista de comandos de la guía sólo figura `revisar ID --decision aprobar|cambios --motivo M: proponer la decisión de la revisión`, y en la implementación de la CLI (oracle_factory/cli.py:3931-3934), `revisar` con `--agente` invoca incondicionalmente a `proponer_revision()`, la cual sólo registra el evento `revision_propuesta` sin registrar jamás la decisión en `estado['revision']`. En modo autónomo, el agente no puede decidir la revisión guiada. El comando que sí admite decidir mediante `decidir()` en modo autónomo es `oracle-factory revision` (formato libre), pero dicho comando fue omitido de la guía para agentes.",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 47,
+        "end_line": 51,
+        "side": "head"
+      },
+      "trigger": "Crear un cambio con commit candidato en modo autonomo y ejecutar `oracle-factory --agente bot revisar ID --decision aprobar --motivo 'aprobado'`.",
+      "evidence": "El comando termina con retorno 0 pero imprime: `Propuesta de bot para el candidato...`. La revisión no se registra, `estado['revision']` permanece como `None` y `estado['fase']` no avanza a `revision_aprobada`, imposibilitando el cierre por parte del agente.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "status": "pendiente",
+      "verification": "Hacer que `revisar` con `--agente` evalúe `modos.via_agente(modo, 'revision', tipos)` para registrar la decisión directamente si el modo es autónomo, o reflejar en la guía el comando `revision` con sus banderas requeridas."
+    },
+    {
+      "id": "AGY-04",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.93,
+      "title": "agentes --verificar ignora bloques duplicados obsoletos en AGENTS.md",
+      "explanation": "En oracle_factory/agentes.py:con_bloque (líneas 84-87), la función busca la primera aparición de INICIO y la primera de FIN posterior a ella, reemplazando únicamente dicho fragmento y dejando el resto del documento en `despues`. Si AGENTS.md contiene dos bloques generados (por ejemplo por un merge o edición manual), el segundo bloque permanece intacto. Como `comando_agentes` calcula el contenido esperado aplicando `con_bloque(actual, nuevo)`, la comparación `actual != esperado` evalúa a `False`, por lo que `oracle-factory agentes --verificar` sale exitosamente sin reportar que existe un segundo bloque generado desactualizado o redundante.",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 84,
+        "end_line": 87,
+        "side": "head"
+      },
+      "trigger": "Crear un AGENTS.md con dos bloques entre INICIO y FIN (el segundo con datos de otro modo) y ejecutar `oracle-factory agentes --verificar`.",
+      "evidence": "La evaluación `con_bloque(texto_con_dos_bloques, nuevo) == texto_con_dos_bloques` es `True`. `--verificar` no detecta la duplicación ni la desactualización del segundo bloque.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "status": "pendiente",
+      "verification": "Comprobar en `con_bloque` o `comando_agentes` que el archivo no contenga más de un par de marcas INICIO/FIN, fallando la verificación si hay marcas duplicadas."
+    },
+    {
+      "id": "AGY-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.91,
+      "title": "En test_ag2 la orden cerrar ID falla por gates incompletos y no comprueba el rechazo por ser agente",
+      "explanation": "En tests/test_agentes.py (líneas 99-108), el test agrupa las órdenes de PERSONA y comprueba que al ejecutarse con `--agente` fallen (`r.returncode != 0`) o dejen propuesta. En el caso de `'cerrar ID'`, el cambio preparado en la prueba se encuentra en fase `requisitos_importados` (sin revisión aprobada ni veredicto de Oracle). `cli.py::cerrar` verifica primero `pendientes_actuales()`, fallando con un error de gates faltantes antes de inspeccionar si el actor es un agente o llamar a `decidir()`. La prueba pasa porque el comando devuelve código no cero, pero ese mismo error lo habría obtenido una persona. No se prueba la negación del cierre por rol de agente requerida por el escenario de la spec.",
+      "location": {
+        "file": "tests/test_agentes.py",
+        "start_line": 99,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Ejecutar test_ag2 inspeccionando la salida de `'cerrar ID'` con `--agente`.",
+      "evidence": "La salida capturada es `FACTORY BLOQUEADA: no se puede cerrar: aprobación humana de spec; importación OpenSpec → requisitos Oracle; revisión humana aprobada y sin hallazgos abiertos...`. Si se modificara `decidir()` para permitir a un agente cerrar en modo confirmación, `test_ag2` seguiría pasando sin detectar el fallo.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "status": "pendiente",
+      "verification": "Configurar en el fixture del cambio los gates requeridos para el cierre previo a la invocación de `cerrar ID` con `--agente`, verificando que el rechazo se deba específicamente a `via_agente == 'rechaza'`."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente el comando indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null (2 tests, OK).",
+    "No se corrió la suite completa ni tools/verify_agentes.py para respetar la indicación de no correr la suite completa.",
+    "No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio.",
+    "Se realizaron mutaciones manuales y análisis de casos de borde sobre copias en memoria y en la carpeta del revisor (marcas huérfanas, bloques duplicados, enlaces simbólicos, comportamiento de modos y opciones de subcomandos con --help).",
+    "Se verificaron los dos requisitos de la spec (la guía para agentes se genera y no se desactualiza; la guía dice lo que hace la CLI) contra el código del producto y las pruebas."
+  ]
+}

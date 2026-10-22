@@ -19,9 +19,14 @@ Este proyecto usa Oracle Factory: cada cambio tiene su propuesta, su spec, requi
 - El próximo paso de un cambio lo dice `oracle-factory estado ID` (o `--json`): seguilo en vez de adivinar.
 - Antes de implementar, la spec tiene que estar aprobada por una persona. No edites a mano `.factory/`, `tareas/` ni `kb/` generado.
 
-### Quién decide qué, según el modo de trabajo
+### Las decisiones, según el modo de trabajo
 
-Lo que puede hacer un agente con `--agente` en cada decisión (una persona, desde su terminal, siempre decide):
+Cada decisión tiene su comando. Con `--agente`, según el modo del cambio, el agente la decide, la propone (cuenta cuando una persona la confirma repitiendo el comando sin `--agente`) o no puede; una persona, desde su terminal, siempre decide:
+
+- Spec: `oracle-factory aprobar-spec ID` (aprobar la propuesta y la spec)
+- Medidas: `oracle-factory medir ID --requisito R --medida M --quitar-sin-medir` (elegir las medidas de un requisito)
+- Revisión: `oracle-factory revision ID --informe INFORME --revisor R --decision aprobar|cambios --hallazgos-abiertos N` (registrar la decisión de una revisión)
+- Cierre: `oracle-factory cerrar ID` (cerrar el cambio)
 
 | Modo | Spec | Medidas | Revisión | Cierre |
 | --- | --- | --- | --- | --- |
@@ -29,14 +34,12 @@ Lo que puede hacer un agente con `--agente` en cada decisión (una persona, desd
 | funcional | no puede (funcional) / decide (no funcional) | no puede (funcional) / decide (no funcional) | no puede (funcional) / decide (no funcional) | no puede |
 | **confirmacion** (el de este proyecto) | propone | propone | propone | no puede |
 
-### Comandos de una persona
+### Sólo de una persona, en cualquier modo
 
-Con `--agente` se niegan o dejan sólo una propuesta, salvo lo que el modo del cambio le deja decidir a un agente (la tabla de arriba). Pedíselos a la persona, con el comando listo para copiar:
+Con `--agente` se niegan o dejan sólo una propuesta. Pedíselos a la persona, con el comando listo para copiar:
 
-- `oracle-factory aprobar-spec ID`: aprobar la propuesta y la spec (un agente la propone con --agente)
 - `oracle-factory medir ID --confirmar`: confirmar las medidas que propuso un agente
-- `oracle-factory revisar ID`: registrar la decisión de la revisión (un agente la propone con --agente --decision --motivo)
-- `oracle-factory cerrar ID`: cerrar el cambio
+- `oracle-factory revisar ID`: revisar paso a paso y registrar la decisión (un agente la propone con --agente --decision --motivo)
 - `oracle-factory abandonar ID`: abandonar el cambio (un agente propone el motivo con --agente --motivo)
 - `oracle-factory modo ID MODO`: bajar la intervención humana de un cambio
 - `oracle-factory soltar ID`: dejar de ser responsable de un cambio
@@ -47,7 +50,6 @@ Con `--agente` se niegan o dejan sólo una propuesta, salvo lo que el modo del c
 
 - `oracle-factory --agente NOMBRE nuevo --capacidad C --sufijo S "TÍTULO"`: crear un cambio con su propuesta y su spec para completar
 - `oracle-factory --agente NOMBRE importar ID`: importar los requisitos de la spec aprobada
-- `oracle-factory --agente NOMBRE medir ID --requisito R --medida M --quitar-sin-medir`: proponer las medidas de un requisito
 - `oracle-factory --agente NOMBRE pedir-revision ID --a REVISOR`: pedir una revisión independiente del candidato
 - `oracle-factory --agente NOMBRE revision-preparar ID`: preparar el informe para que una persona revise
 - `oracle-factory --agente NOMBRE revisar ID --decision aprobar|cambios --motivo M`: proponer la decisión de la revisión
