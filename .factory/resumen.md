@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:18714166e5fe1f78daa55a1f2c93ef491d3b6322b60a228c3fc9a5fcffd469fb -->
+<!-- oracle-factory resumen sha256:8c9d2b92cf12eb88e5909c780b355724dfbce96ea2b3ba125716e14e77e48519 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 185 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 185 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -336,7 +336,15 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261023-005051-ufj-docs — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `web` · [propuesta](../openspec/changes/20261023-005051-ufj-docs/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
+- medidas de 2 requisitos: propuestas por claude-code, sin confirmar por una persona
 
 ## Cambios abandonados
 

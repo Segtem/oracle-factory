@@ -23,3 +23,11 @@ Medidas de web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy
 ### Nota (2026-10-23 23:14:42 UTC)
 
 Medidas de web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli: factory_docs.la_documentacion_se_comprueba_contra_la_cli, factory_docs.documentacion_al_dia, factory_docs.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-23 23:31:09 UTC)
+
+Medidas de web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-23 23:31:09 UTC)
+
+Medidas de web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli: Brian Hollweg (persona, confirmo, modo confirmacion).
