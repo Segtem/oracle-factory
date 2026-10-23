@@ -1,4 +1,4 @@
 requisito web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli:
     texto "Tipo: funcional Una comprobación automática SHALL fallar si un subcomando de la CLI no aparece en el README ni en `docs/`, si el README, `docs/` o la web nombran un `oracle-factory X` que no es un subcomando, o si nombran una versión de Factory distinta de la de `pyproject.toml` (salvo en las notas de versión y en el historial de versiones del README)."
     fuente "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md#la documentación se comprueba contra la CLI"
-    sin_medir "sin medida todavía; escenarios: «un comando nuevo sin documentar, y uno que ya no existe»"
+    medido_por factory_docs.la_documentacion_se_comprueba_contra_la_cli, factory_docs.documentacion_al_dia, factory_docs.corrida_completa
