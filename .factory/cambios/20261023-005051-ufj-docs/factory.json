@@ -2,11 +2,24 @@
   "id": "20261023-005051-ufj-docs",
   "titulo": "La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI",
   "capacidad": "web",
-  "fase": "espera_aprobacion_spec",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
-  "requisitos": [],
+  "spec_sha256": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-23T01:26:25.532167+00:00",
+    "documentos": {
+      "openspec/changes/20261023-005051-ufj-docs/proposal.md": "1f4175042597ed3fe50390c0d64ef55c8be61f5d6009e7bdc65087c10727c7ef",
+      "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9"
+    }
+  },
+  "requisitos": [
+    "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+    "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -19,6 +32,36 @@
       "forma": "decidio",
       "cuando": "2026-10-23T00:50:51.992356+00:00",
       "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-23T01:26:25.532196+00:00",
+      "documentos": {
+        "openspec/changes/20261023-005051-ufj-docs/proposal.md": "1f4175042597ed3fe50390c0d64ef55c8be61f5d6009e7bdc65087c10727c7ef",
+        "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-23T01:26:38.845481+00:00",
+      "ids": [
+        "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+        "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli"
+      ]
     }
-  ]
+  ],
+  "tipos": {
+    "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy": "funcional",
+    "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
