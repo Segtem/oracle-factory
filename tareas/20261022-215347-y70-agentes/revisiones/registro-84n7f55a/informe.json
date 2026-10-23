@@ -1,0 +1,75 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261022-215347-y70-agentes",
+  "contexto": {
+    "head": "904b575b2dcdc40bc7700ce9281d5123f75499d4",
+    "archivos_sha256": "9bb62607397a15d709e6f7d7874af6a469b6d593c37d0ac70d45e00ec90ca2d0"
+  },
+  "documentos": {
+    "openspec/changes/20261022-215347-y70-agentes/proposal.md": "c04edd5081d9710b75afcfd7a8893e6832741b148a67242683a30afa6719f0f7",
+    "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "catalogos/factory_agentes.corrida_completa.oracle",
+    "catalogos/factory_agentes.la_guia_dice_lo_que_hace_la_cli.oracle",
+    "catalogos/factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza.oracle",
+    "openspec/changes/20261022-215347-y70-agentes/design.md",
+    "openspec/changes/20261022-215347-y70-agentes/proposal.md",
+    "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md",
+    "openspec/changes/20261022-215347-y70-agentes/tasks.md",
+    "oracle_factory/agentes.py",
+    "oracle_factory/cli.py",
+    "requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli.requisito",
+    "requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza.requisito",
+    "tests/test_agentes.py",
+    "tools/verify_agentes.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 466 pruebas, 5 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-215347-y70-agentes/candidatos/82872b6/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-215347-y70-agentes/candidatos/82872b6/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de codex (gpt-6-luna): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-215347-y70-agentes/candidatos/82872b6/revision/codex-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cb44d80: agy (gemini-3.8-flash-high), 5 hallazgos: AGY-01 (alta), AGY-02 (media), AGY-03 (media), AGY-04 (baja), AGY-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-215347-y70-agentes/candidatos/cb44d80/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato cb44d80: codex (gpt-6-luna), 3 hallazgos: AG-01 (media), AG-02 (media), AG-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261022-215347-y70-agentes/candidatos/cb44d80/revision/codex-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios ag1–ag2 en proyectos temporales, Linux, con la CLI de verdad y las órdenes del agente en una terminal; no prueba que un agente real lea y siga la guía.",
+    "agy (gemini-3.8-flash-high): Se ejecutó exactamente el comando indicado desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null (5 tests, OK en 6.5s).",
+    "agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas ni tools/verify_agentes.py respetando las instrucciones del pedido.",
+    "agy (gemini-3.8-flash-high): No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): Se comprobó en un clon temporal que las correcciones de la vuelta 1 son efectivas y que ninguna de las 4 mutaciones probadas sobrevive: 1) eliminar la comprobación de AGENTE en exigir_terminal hace fallar test_ag2 en decidir-union; 2) omitir la comprobación previa de rechazo de agente en cerrar hace fallar test_ag2; 3) remover la validación de marcas rotas en con_bloque hace fallar test_ag1_marcas_rotas; 4) rechazar agentes en subcomandos legítimos como revision-preparar hace fallar test_ag2_los_comandos_de_un_agente_aceptan_agente.",
+    "agy (gemini-3.8-flash-high): Se verificó la estructura de AGENTS.md y CLAUDE.md tanto en el checkout candidato como en proyectos generados, confirmando que con_bloque previene la pérdida de texto por marcas malformadas y rechaza marcas duplicadas, que ruta_segura rechaza enlaces simbólicos sin sobreescribirlos, y que exigir_terminal no bloquea ningún flujo legítimo de agente.",
+    "agy (gemini-3.8-flash-high): No se observaron nuevos hallazgos ni discrepancias con la propuesta ni la spec del cambio.",
+    "codex (gpt-6-luna): Leí la spec, propuesta, diff empaquetado, código y pruebas de agentes; excluí los registros y evidencia listados fuera de alcance.",
+    "codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null` desde la raíz del checkout: 5 pruebas, OK.",
+    "codex (gpt-6-luna): Inspeccioné con_bloque y con_claude, ruta_segura y la integración con init; el código rechaza marcas repetidas, incompletas o invertidas antes de escribir, y ruta_segura rechaza enlaces simbólicos.",
+    "codex (gpt-6-luna): Revisé las correcciones de vuelta 1: test_ag2 ejercita comandos reales de agente, compara las cuatro decisiones con modos.via_agente, intenta comandos de persona en confirmacion y autonomo, y prueba cerrar cuando el agente no puede.",
+    "codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_agentes.py; no hice un flujo end-to-end en modo autonomo con gates completos ni una prueba de filesystem con symlinks."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

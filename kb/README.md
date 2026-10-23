@@ -70,6 +70,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261021-235127-fjn-rag]] — RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida (cerrada)
 - [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
 - [[cambios/20261022-161300-f94-mcp]] — Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura (cerrada)
+- [[cambios/20261022-215347-y70-agentes]] — La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día (cerrada)
 
 ## Requisitos
 
@@ -178,6 +179,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores]]
 - [[requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan]]
 - [[requisitos/flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse]]
+- [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli]]
+- [[requisitos/flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza]]
 - [[requisitos/flujo_cecdfd053bebfee21.init_no_deja_carpetas_que_factory_no_usa]]
 - [[requisitos/flujo_cecdfd053bebfee21.las_acciones_sin_autor_se_avisan]]
 - [[requisitos/flujo_cecdfd053bebfee21.un_pedido_de_revision_cortado_queda_a_la_vista]]

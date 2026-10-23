@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-agentes/.factory/local/revisiones/cb44d80-codex-1",
+  "base": "3089477c878db9a2fbd46d999efd633f0dc2f195",
+  "head": "cb44d804ea136db795380467ad6a5de0090078d1",
+  "diff_sha256": "9f740877d0ce17322cb2dc21e5085be795ec700e082988969ee65642b848a747",
+  "context_sha256": "e6a665debff7bc7ce2247d40659602c25148ead108c182b4d10248b74a2e694a",
+  "provider": {
+    "name": "codex",
+    "model": "gpt-6-luna"
+  },
+  "findings": [
+    {
+      "id": "AG-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.96,
+      "title": "El modo autónomo deja que un agente tome decisiones listadas como humanas",
+      "explanation": "La lista PERSONA incluye aprobar-spec, revisar y cerrar, pero esas rutas delegan en decidir(), que para modo autonomo consulta modos.via_agente y acepta \"decide\"; el agente registra la decisión sin terminal. La guía misma reconoce el permiso en la excepción por modo, aunque el requisito de la spec exige que todo comando presentado como decisión de una persona se niegue o deje una propuesta. El único escenario de CLI comprueba esas órdenes en confirmacion, donde sólo proponen, y no detecta la discrepancia en autonomo.",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 66,
+        "end_line": 68,
+        "side": "head"
+      },
+      "trigger": "Poner un cambio en modo autonomo y ejecutar, por ejemplo, oracle-factory --agente bot aprobar-spec ID (con proposal, spec y tasks completos); repetir con revisar --decision aprobar --motivo X o cerrar cuando los gates estén completos.",
+      "evidence": "modos.via_agente(\"autonomo\", \"spec\", [\"funcional\"]) y (..., \"cierre\", []) devuelven \"decide\". cli.py::decidir devuelve \"decidio\" en esa vía; aprobar_spec y cerrar no imponen un bloqueo separado. tests/test_agentes.py prepara el cambio en confirmacion y no comprueba autonomo.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli",
+      "status": "pendiente",
+      "verification": "La prueba solicitada pasó (2 tests), pero sólo prueba decisiones bajo confirmacion. Verifiqué por inspección el despacho y modos.via_agente; no hice una corrida completa de aprobar-spec/cerrar en un proyecto autónomo."
+    },
+    {
+      "id": "AG-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.94,
+      "title": "Una marca de inicio sin cierre termina borrando texto del proyecto en la segunda generación",
+      "explanation": "Si AGENTS.md contiene una marca de inicio sin marca de fin, con_bloque toma la rama de anexado y conserva el texto. En la siguiente ejecución, esa marca vieja queda emparejada con el primer FIN recién agregado; la sustitución elimina todo lo que había entre ambas, incluso texto escrito por el proyecto. Esto incumple la conservación del contenido fuera de un bloque bien delimitado y puede hacer que una reparación aparentemente inocua borre instrucciones.",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 84,
+        "end_line": 88,
+        "side": "head"
+      },
+      "trigger": "En una copia, dejar en AGENTS.md: \"# Proyecto\\n\" + INICIO + \"\\ntexto propio bajo la marca\\n\" sin FIN; correr agentes dos veces.",
+      "evidence": "Reproduje con una copia en memoria de con_bloque: tras la primera generación el texto propio permanece; tras la segunda ya no está. No se modificó el checkout.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "status": "pendiente",
+      "verification": "Reproducción manual en memoria de la función; las pruebas de test_agentes.py pasan, pero no contienen el caso de marca sin cierre."
+    },
+    {
+      "id": "AG-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.93,
+      "title": "--verificar acepta AGENTS.md con un segundo bloque generado viejo",
+      "explanation": "con_bloque reemplaza sólo el primer par de marcas. Si hay dos bloques, conserva el segundo; como comando_agentes calcula el esperado con esa misma función, --verificar considera el archivo actualizado aunque el segundo bloque contenga instrucciones obsoletas o contradiga el primero. La guía puede quedar duplicada y la verificación no detecta el estado inconsistente.",
+      "location": {
+        "file": "oracle_factory/agentes.py",
+        "start_line": 84,
+        "end_line": 87,
+        "side": "head"
+      },
+      "trigger": "En una copia, concatenar el bloque actual y un segundo bloque con contenido antiguo entre INICIO y FIN; ejecutar oracle-factory agentes --verificar.",
+      "evidence": "La mutación manual de con_bloque dejó dos marcas de inicio tras reescribir y la comparación texto == con_bloque(texto, bloque_actual) resultó verdadera. Por tanto, el mismo cálculo del comando --verificar pasa con marcadores duplicados.",
+      "related_requirement": "flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza",
+      "status": "pendiente",
+      "verification": "Reproducción manual en memoria; no se modificó AGENTS.md del checkout."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Corrí exactamente PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null desde la raíz del checkout: 2 tests, OK.",
+    "No ejecuté la suite completa ni tools/verify_agentes.py.",
+    "Revisé la spec, el diff empaquetado y los archivos de producto relevantes; no revisé los registros/evidencia excluidos.",
+    "Probé con funciones en memoria los casos de marcas duplicadas y sin cierre; no hice cambios en el checkout.",
+    "No corrí un flujo end-to-end de decisiones en modo autonomo ni pruebas con enlaces simbólicos."
+  ]
+}

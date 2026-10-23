@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:65e0bb475ee0c84a9ccab7d622196581d5ba909d9717d2290e40fdabdda347d0 -->
+<!-- oracle-factory resumen sha256:18714166e5fe1f78daa55a1f2c93ef491d3b6322b60a228c3fc9a5fcffd469fb -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 183 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 185 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -161,6 +161,8 @@ Spec completa: [openspec/specs/flujo/spec.md](../openspec/specs/flujo/spec.md)
 | una spec de otra capacidad no se pierde en silencio | funcional | `flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio` | factory_avisos.una_spec_de_otra_capacidad_no_se_pierde_en_silencio, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
 | reimportar no deja requisitos huérfanos | funcional | `flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos` | factory_avisos.reimportar_no_deja_requisitos_huerfanos, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
 | un requisito que quedó sin medir se avisa a tiempo | funcional | `flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo` | factory_avisos.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo, factory_avisos.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-173143-avisos |
+| la guía para agentes se genera y no se desactualiza | funcional | `flujo_cbbf375bdcabddbc9.la_guia_para_agentes_se_genera_y_no_se_desactualiza` | factory_agentes.la_guia_para_agentes_se_genera_y_no_se_desactualiza, factory_agentes.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-215347-y70-agentes |
+| la guía dice lo que hace la CLI | funcional | `flujo_cbbf375bdcabddbc9.la_guia_dice_lo_que_hace_la_cli` | factory_agentes.la_guia_dice_lo_que_hace_la_cli, factory_agentes.corrida_completa | verde al cerrar el 2026-10-22 | 20261022-215347-y70-agentes |
 
 ### ide
 
@@ -959,6 +961,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261022-161300-f94-mcp) codex (gpt-6-luna): El comando indicado pasó: PYTHONPATH=. /home/workstation/Dev/factory-mcp/.venv/bin/python -m unittest tests.test_mcp </dev/null (2 pruebas, OK). No corrí la suite completa ni herramientas de clientes MCP reales o VS Code real.
 - (20261022-161300-f94-mcp) codex (gpt-6-luna): No hice mutaciones: las pruebas indicadas cubren los errores corregidos de la vuelta anterior, los argumentos con prefijo de opción, el error de herramienta y continuidad del servidor, equivalencia de las siete herramientas y comando de paleta; no encontré un caso concreto que justificara alterar una copia.
 - (20261022-161300-f94-mcp) codex (gpt-6-luna): No encontré hallazgos reproducibles dentro del alcance del diff. Esto no acredita propiedades que no cubran la spec, las pruebas o la revisión estática.
+- (20261022-215347-y70-agentes) Evidencia: Escenarios ag1–ag2 en proyectos temporales, Linux, con la CLI de verdad y las órdenes del agente en una terminal; no prueba que un agente real lea y siga la guía.
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): Se ejecutó exactamente el comando indicado desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null (5 tests, OK en 6.5s).
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas ni tools/verify_agentes.py respetando las instrucciones del pedido.
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): No se modificó el checkout de revisión ni se alteró la configuración de Git de ningún repositorio.
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): Se comprobó en un clon temporal que las correcciones de la vuelta 1 son efectivas y que ninguna de las 4 mutaciones probadas sobrevive: 1) eliminar la comprobación de AGENTE en exigir_terminal hace fallar test_ag2 en decidir-union; 2) omitir la comprobación previa de rechazo de agente en cerrar hace fallar test_ag2; 3) remover la validación de marcas rotas en con_bloque hace fallar test_ag1_marcas_rotas; 4) rechazar agentes en subcomandos legítimos como revision-preparar hace fallar test_ag2_los_comandos_de_un_agente_aceptan_agente.
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): Se verificó la estructura de AGENTS.md y CLAUDE.md tanto en el checkout candidato como en proyectos generados, confirmando que con_bloque previene la pérdida de texto por marcas malformadas y rechaza marcas duplicadas, que ruta_segura rechaza enlaces simbólicos sin sobreescribirlos, y que exigir_terminal no bloquea ningún flujo legítimo de agente.
+- (20261022-215347-y70-agentes) agy (gemini-3.8-flash-high): No se observaron nuevos hallazgos ni discrepancias con la propuesta ni la spec del cambio.
+- (20261022-215347-y70-agentes) codex (gpt-6-luna): Leí la spec, propuesta, diff empaquetado, código y pruebas de agentes; excluí los registros y evidencia listados fuera de alcance.
+- (20261022-215347-y70-agentes) codex (gpt-6-luna): Corrí exactamente `PYTHONPATH=. /home/workstation/Dev/factory-agentes/.venv/bin/python -m unittest tests.test_agentes </dev/null` desde la raíz del checkout: 5 pruebas, OK.
+- (20261022-215347-y70-agentes) codex (gpt-6-luna): Inspeccioné con_bloque y con_claude, ruta_segura y la integración con init; el código rechaza marcas repetidas, incompletas o invertidas antes de escribir, y ruta_segura rechaza enlaces simbólicos.
+- (20261022-215347-y70-agentes) codex (gpt-6-luna): Revisé las correcciones de vuelta 1: test_ag2 ejercita comandos reales de agente, compara las cuatro decisiones con modos.via_agente, intenta comandos de persona en confirmacion y autonomo, y prueba cerrar cuando el agente no puede.
+- (20261022-215347-y70-agentes) codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_agentes.py; no hice un flujo end-to-end en modo autonomo con gates completos ni una prueba de filesystem con symlinks.
 
 ### Históricos
 
