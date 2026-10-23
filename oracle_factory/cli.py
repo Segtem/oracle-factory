@@ -3118,7 +3118,8 @@ lo tenga; `local/` no, porque es de cada máquina y Git la ignora.
 - `resumen.md` es el estado actual en una lectura (`oracle-factory resumen`); se lee con `glow -p .factory/resumen.md`.
 - `specs/<capacidad>.json` es el índice de la spec consolidada en `openspec/specs/<capacidad>/`: de qué cambio y requisito de Oracle viene cada requisito vigente y cuáles fueron reemplazados.
 - `cambios/<ID>/candidatos/<sha7>/` agrupa lo que se produjo sobre un commit: `evidencia/`, `clue/` y `revision/`.
-- `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise.
+- `local/revisiones/<sha7>/` guarda los checkouts estables para que Clue revise; `local/revisores/` el clon aparte de cada
+  pedido de revisión y `local/rag/` el índice de `oracle-factory preguntar`. Nada de `local/` se versiona.
 
 Este archivo existe también porque Git no versiona carpetas vacías: sin él, un clon no tendría `.factory/`.
 Más detalle en `docs/estructura.md` del repositorio de Factory, y `oracle-factory donde ID` lista lo que hay.

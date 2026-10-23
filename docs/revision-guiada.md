@@ -1,25 +1,16 @@
 # Revisar con un informe y decisiones separados
 
-Este recorrido está disponible desde Factory 0.1.0a4. Identifique el checkout con `git rev-parse HEAD`; el número de versión por sí solo no identifica estas modificaciones de desarrollo.
-
 Factory comprueba consistencia, contexto y conservación de documentos. Una persona competente analiza el código, los tests, el sensor y las medidas y decide qué hacer con sus hallazgos. Un agente puede ayudar a preparar el análisis; los nombres y motivos registrados no autentican a una persona ni demuestran que sus conclusiones sean correctas.
 
 ## Preparar el entorno y el candidato
 
-Desde este checkout, prepare un entorno con las dependencias fijadas del proyecto:
-
-```bash
-uv venv .venv
-uv pip install --python .venv/bin/python -e .
-```
-
-Los comandos siguientes se ejecutan desde ese checkout. `--proyecto` selecciona el producto que se revisa y va antes del subcomando. Sustituya `/ruta/producto`, `ID_COMPLETO` y las rutas de documentos por los valores reales.
+Con Factory instalado (ver el [README](../README.md#instalación)), los comandos siguientes usan `--proyecto` para elegir el producto que se revisa; va antes del subcomando. Sustituya `/ruta/producto`, `ID_COMPLETO` y las rutas de documentos por los valores reales.
 
 El cambio debe estar abierto y tener propuesta/spec aceptadas y vigentes. Termine y confirme el producto antes de preparar la revisión. Factory captura HEAD y una huella de los archivos actuales: si hay cambios sin commit, la huella los incluye, pero no significa que estén guardados en HEAD.
 
 ```bash
-.venv/bin/python fabrica.py --proyecto /ruta/producto estado ID_COMPLETO
-.venv/bin/python fabrica.py --proyecto /ruta/producto revision-preparar ID_COMPLETO
+oracle-factory --proyecto /ruta/producto estado ID_COMPLETO
+oracle-factory --proyecto /ruta/producto revision-preparar ID_COMPLETO
 ```
 
 El segundo comando imprime las rutas nuevas de `informe.json` y `decisiones.json` bajo `tareas/ID_COMPLETO/revisiones/preparacion-…/`. Si el candidato tiene carpeta propia (`oracle-factory ruta ID revision`) con informes de revisores en formato de Oracle Clue, el informe sale completado con sus hallazgos, comprobaciones, límites y archivos, y las decisiones listan cada hallazgo sin estado (ver [estructura](estructura.md#una-carpeta-por-candidato)). Los campos humanos —revisor, si la revisión está completa y el estado de cada hallazgo— quedan en `null`. Prepararlos no acepta hallazgos, no registra revisión y no invalida una revisión anterior. Repetirlo crea otra carpeta y conserva los archivos existentes.
@@ -135,7 +126,7 @@ Un hallazgo sin resolución válida queda abierto. No agregue una resolución `p
 Para dejar documentados problemas o revisión incompleta:
 
 ```bash
-.venv/bin/python fabrica.py --proyecto /ruta/producto revision ID_COMPLETO --formato guiado --informe tareas/ID_COMPLETO/revisiones/PREPARACION/informe.json --decisiones tareas/ID_COMPLETO/revisiones/PREPARACION/decisiones.json --revisor "NOMBRE_REAL" --decision cambios
+oracle-factory --proyecto /ruta/producto revision ID_COMPLETO --formato guiado --informe tareas/ID_COMPLETO/revisiones/PREPARACION/informe.json --decisiones tareas/ID_COMPLETO/revisiones/PREPARACION/decisiones.json --revisor "NOMBRE_REAL" --decision cambios
 ```
 
 Si la persona acepta el informe completo, todas las comprobaciones declaran `cumple` y no quedan hallazgos abiertos, puede solicitar `--decision aprobar` en ese comando. En modo guiado no se pasa `--hallazgos-abiertos`: se calcula a partir de IDs y resoluciones.
@@ -164,7 +155,7 @@ La inmutabilidad es una política de escritura de Factory, no un permiso de file
 
 El formato libre sigue disponible y es el predeterminado. Los comandos anteriores que pasan `--hallazgos-abiertos N` explícitamente conservan su flujo; omitir ese argumento ahora se rechaza. Los registros antiguos aparecen como `libre histórico`. La terminal los distingue como declaraciones humanas sin validación estructural de su contenido. Un error del modo guiado nunca se convierte silenciosamente a libre.
 
-Clue y CodeRabbit pueden aportar antecedentes para el análisis. Los schemas de Clue son distintos: Factory no los importa, convierte ni valida automáticamente con este comando. Si usa Clue, conserve su paquete/informe/triage por el [recorrido de colaboración](colaboracion.md) y complete el registro de Factory sobre el mismo candidato con criterio humano.
+Los informes de los revisores que pidió `pedir-revision` ya están validados con Oracle Clue y `revision-preparar` los toma para armar el informe y las decisiones. Un informe que llega por otro camino (otra herramienta, otra persona) se registra en formato libre, con la decisión de una persona sobre lo que encontró.
 
 ## Comprobación del corte
 

@@ -19,10 +19,16 @@ proyecto/
         revision/                     #   informes, decisiones y triage de la revisión
     local/                            # de esta máquina; Git la ignora
       revisiones/<sha7>/              #   checkouts estables para que Clue revise
+      revisores/<sha7>-<revisor>-<n>/ #   el clon aparte de cada pedido de revisión
+      rag/indice.sqlite               #   el índice de preguntar (se rehace solo)
   openspec/changes/<ID>/              # el acuerdo humano, visible: propuesta, spec, diseño y plan
   openspec/specs/<capacidad>/spec.md  # lo vigente de cada capacidad: se genera al cerrar cada cambio
   tareas/                             # de Oracle Task: la tarea de cada cambio (TAREA.md)
   requisitos/  catalogos/  oracle.json    # de Oracle: requisitos, medidas y configuración
+  kb/                                 # el vault: notas generadas del registro (cambios/, requisitos/, README.md),
+                                      #   notas de personas (notas/) y las preguntas de oro de preguntar
+  AGENTS.md  CLAUDE.md                # la guía para agentes: un bloque generado por Factory y lo que escribe el proyecto
+  .gitattributes                      # los drivers de merge de Factory: el registro se une, lo generado se rehace
 ```
 
 ## Quién es dueño de qué
@@ -34,14 +40,16 @@ proyecto/
 | `openspec/specs/<capacidad>/` | Factory (formato OpenSpec) | La spec consolidada: los requisitos vigentes de la capacidad. Se genera; no se edita a mano |
 | `tareas/` | Oracle Task | La tarea de cada cambio, con sus notas |
 | `requisitos/`, `catalogos/`, `oracle.json` | Oracle | Los requisitos importados, las medidas y la configuración |
+| `kb/` | Factory y las personas | `cambios/`, `requisitos/` y `README.md` se generan del registro (no se editan a mano); `notas/` es de las personas, con sus fuentes ([conocimiento](conocimiento.md)) |
+| `AGENTS.md`, `CLAUDE.md` | El proyecto, con un bloque de Factory | El bloque marcado lo escribe `oracle-factory agentes` ([agentes](agentes.md)); el resto es del proyecto |
 
 El acuerdo humano queda a la vista en `openspec/changes/`, no escondido: es lo que se lee para saber qué se construye, y si cambia, invalida la revisión.
 
 ## Lo versionado y lo local
 
 - **`.factory/` se versiona**: es lo que comparten las personas. Lo que Factory escribe ahí lleva rutas relativas al proyecto, nunca la ruta de una máquina, para que un clon en otro lugar lo encuentre.
-- **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los checkouts de revisión, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git ofrecería esos checkouts como directorios sin seguimiento.
-- **Git no versiona carpetas vacías**, así que `init` deja un archivo, `.factory/LEEME.md`, que explica la carpeta y hace que un clon la tenga.
+- **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los clones de revisión y el índice de `preguntar`, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git ofrecería esos checkouts como directorios sin seguimiento.
+- **Git no versiona carpetas vacías**, así que `init` deja `.factory/LEEME.md`, que explica la carpeta, y un `.gitkeep` en cada carpeta vacía que crea: un clon recién hecho puede trabajar.
 - La huella de archivos del producto excluye `.factory/` entera, como ya excluye `tareas/`, y las specs consolidadas que genera Factory (ver más abajo): agregar evidencia o un paquete de Clue no invalida una revisión. Cambiar el acuerdo, el código o las medidas sí.
 
 ## Una carpeta por candidato
