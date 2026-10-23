@@ -1,3 +1,17 @@
+# Oracle Factory 0.1.0a13
+
+- **El tablero de comando en VS Code.** `oracle-factory tablero --json` y el panel de la extensión: qué te necesita a vos, la línea de tiempo de cada cambio con quién decidió qué, los hallazgos por severidad y las métricas del proyecto. Cada commit dice de qué cambio es (hooks que agregan `Cambio: ID`; `oracle-factory log ID`), y `tomar`/`soltar` dicen quién trabaja en qué, con su persona y sus agentes.
+- **De a dos.** El tablero en pair programming con Live Share: presencia, el tablero compartido y el chat guardado en el cambio; compartir, copiar el enlace y unirse desde el tablero.
+- **El conocimiento del proyecto.** `oracle-factory kb` genera `kb/` desde el registro (una nota por cambio y por requisito) y lo rehace en cada decisión; las notas de personas vencen solas cuando cambian sus fuentes; `por-que ARCHIVO:LÍNEA` va de una línea a su cambio. `oracle-factory preguntar` responde con los pasajes vigentes y su cita: búsqueda léxica, por embeddings (Ollama local con `qwen3-embedding:0.6b` por defecto, configurable) y por el grafo del vault, con su calidad medida por preguntas de oro.
+- **Dos personas con sus agentes, sin pisarse.** Un banco de concurrencia de 13 escenarios (a la vez y de a turnos, en el orden de una semilla y en procesos simultáneos) audita que ninguna decisión se pierda ni quede a nombre de otro. Lo que encontró ya no pasa: un clon recién hecho puede trabajar, dos clones no generan el mismo ID, escribir a la vez no obliga a repetir, el registro de un cambio editado en dos ramas se une solo (lo que las dos decidieron distinto lo elige una persona con `decidir-union`), `resumen.md` y `kb/` se rehacen después de integrar, y la hora de cada evento lleva microsegundos con un orden determinista entre ramas.
+- **Para agentes.** `oracle-factory --proyecto RUTA mcp` sirve el proyecto por MCP, de sólo lectura (`preguntar`, `estado`, `buscar`, `por_que`, `resumen`, `log`, `listar`). `oracle-factory agentes` escribe en `AGENTS.md` la guía para agentes desde la CLI (quién decide qué según el modo, los comandos de una persona y de un agente) y `--verificar` la mantiene al día. Una decisión de persona nunca la toma un agente, aunque corra en una terminal.
+- **Más.** El checkout de un revisor es un clon aparte que no toca el repositorio; `aprobar-spec` se niega ante una spec de otra capacidad, `importar` no deja requisitos huérfanos y `estado` avisa un requisito que quedó sin medir. La extensión de VS Code pasa a 0.5.0 («Factory: Preguntar al proyecto»; se arma con `python3 editores/vscode/empaquetar.py`).
+- Factory sigue con Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. La revisión independiente de cada cambio la hicieron Codex (GPT) y Agy (Gemini), lanzados a la vez con `pedir-revision`. Python >=3.11. Verificado en Linux.
+
+```bash
+uv publish dist/oracle_factory-0.1.0a13-py3-none-any.whl dist/oracle_factory-0.1.0a13.tar.gz
+```
+
 # Oracle Factory 0.1.0a12
 
 - **Hechos de varios sensores.** `juzgar` acepta `--con` repetido, un archivo por sensor, y Oracle 0.39.0 los juzga juntos: un candidato integrado ya no necesita combinar los hechos de cada frente a mano. El registro guarda cada archivo con su huella (con uno solo, el registro de siempre); si cualquiera cambia, falta o no es una ruta, el juicio deja de valer, `estado` lo nombra y el próximo paso repite el juicio con todos los `--con`. Si dos sensores emiten la misma relación, Oracle lo rechaza nombrando la relación y los dos archivos, y Factory no registra veredicto.
