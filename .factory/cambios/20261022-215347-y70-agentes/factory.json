@@ -2,7 +2,7 @@
   "id": "20261022-215347-y70-agentes",
   "titulo": "La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día",
   "capacidad": "flujo",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261022-215347-y70-agentes/specs/flujo/spec.md",
   "spec_sha256": "00332c6a1062afb48966faa902fe68631e1a7869b2e2189ec276f09b971e021f",
   "spec_aprobada": {
@@ -333,6 +333,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "7201a22a37dc5dc23470a592bdbee466b0e84906188c8abe57b0b7859430b795"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T23:55:02.478217+00:00",
+      "oracle": ".factory/cambios/20261022-215347-y70-agentes/oracle-veredicto.txt",
+      "revision": "tareas/20261022-215347-y70-agentes/revisiones/registro-84n7f55a/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-22T23:55:02.507653+00:00",
+      "capacidad": "flujo",
+      "spec": "openspec/specs/flujo/spec.md"
     }
   ],
   "tipos": {
@@ -374,5 +394,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-22T23:55:02.410458+00:00"
+  },
+  "archivo": {
+    "capacidad": "flujo",
+    "spec": "openspec/specs/flujo/spec.md",
+    "cuando": "2026-10-22T23:55:02.507640+00:00"
+  }
 }
