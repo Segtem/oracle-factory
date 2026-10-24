@@ -7,6 +7,7 @@ Sin dependencias: SQLite y HTTP de la biblioteca estándar. Recibe el módulo cl
 from __future__ import annotations
 
 from array import array
+import fnmatch
 import hashlib
 import ipaddress
 import contextlib
@@ -315,27 +316,48 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
     base = {'esquema': ESQUEMA, 'pregunta': pregunta, 'modo': 'registro', 'modelo': None,
             'modelo_generativo': None, 'proveedor_generativo': None, 'modelo_embeddings': None,
             'aviso': None, 'embeddings_pedidos': 0, 'por_revisar': [], 'fuera_por_no_vigentes': 0,
-            'resultados': [], 'fuentes': [], 'herramientas': []}
+            'resultados': [], 'fuentes': [], 'herramientas': [], 'limites': generacion.limites(),
+            'max_pasajes': maximo}
     directa = consultas.directa(cli, pregunta)
     if directa is not None:
         return {**base, **directa}
     datos = recuperar(cli, pregunta, maximo)
     terminos = set(palabras(pregunta))
-    respaldo = any(len(terminos & set(palabras(r['texto']))) >= min(2, len(terminos)) > 0
+    def raices(t):
+        variantes = {t}
+        if len(t) > 3 and t.endswith('s'):
+            variantes.add(t[:-1])
+        if len(t) > 4 and t.endswith('es'):
+            variantes.add(t[:-2])
+        return variantes
+    def cobertura(r):
+        documento = set().union(*(raices(p) for p in palabras(r['texto'])))
+        return sum(bool(raices(t) & documento) for t in terminos)
+    respaldo = any(cobertura(r) >= min(2, len(terminos)) > 0
                    or r['similitud_semantica'] >= 0.65 for r in datos['resultados'])
     respuesta = {**base, **datos, 'modelo_embeddings': datos['modelo'],
                  'tipo': 'documentos' if respaldo else 'sin_respaldo',
                  'respuesta': ('Encontré pasajes candidatos; no se elaboró una respuesta generativa.' if respaldo else
                                'No encontré respaldo suficiente para responder.'),
                  'fuentes': [{'ruta': r['ruta'], 'cita': r['cita'], 'texto': r['texto']} for r in datos['resultados']]}
-    conf = generacion.configuracion(cli)
     avisos = [datos['aviso']] if datos['aviso'] else []
+    try:
+        conf = generacion.configuracion(cli)
+    except cli.FactoryError as error:
+        respuesta['generacion_error'] = type(error).__name__
+        respuesta['generacion_error_codigo'] = 'configuracion_invalida'
+        avisos.append('La configuración generativa es inválida; se conserva la recuperación documental.')
+        respuesta['aviso'] = '; '.join(avisos)
+        return respuesta
     if conf is None:
         avisos.append('Sin modelo generativo configurado: se muestran sólo resultados directos o pasajes candidatos.')
     else:
+        respuesta['limites'] = generacion.limites(conf)
         try:
             respuesta.update(generacion.elaborar(cli, pregunta, datos, conf))
-        except (OSError, ValueError, TypeError, KeyError, IndexError):
+        except (OSError, ValueError, TypeError, KeyError, IndexError) as error:
+            respuesta['generacion_error'] = type(error).__name__
+            respuesta['generacion_error_codigo'] = generacion.codigo_error(error)
             avisos.append('La generación no produjo una respuesta válida dentro de sus límites; se conserva la recuperación documental.')
     respuesta['aviso'] = '; '.join(avisos) or None
     return respuesta
@@ -349,7 +371,13 @@ def texto(datos: dict) -> str:
         lineas.append('\nFuentes:')
         for fuente in datos['fuentes']:
             lineas.append(f'- {fuente.get("id", "Registro")}: {fuente["cita"]}')
-            lineas.extend(f'  - {ruta}' for ruta in fuente.get('archivos', []))
+            if 'directorio' in fuente:
+                lineas.append(f'  Inventario consultado: {fuente["directorio"]}' + ('' if fuente.get('directorio_existe') else ' (no existe)'))
+            archivos = fuente.get('archivos', [])
+            lineas.extend(f'  - {ruta}' for ruta in archivos[:10])
+            omitidos = max(0, len(archivos) - 10) + fuente.get('archivos_omitidos', 0)
+            if omitidos:
+                lineas.append(f'  Referencias adicionales no mostradas: {omitidos}.')
     if datos.get('resultados'):
         lineas.append('\nPasajes candidatos (no equivalen a una respuesta elaborada):')
     for n, r in enumerate(datos["resultados"], 1):
@@ -364,10 +392,48 @@ def texto(datos: dict) -> str:
         lineas.append(f"Aviso: {datos['aviso']}.")
     if datos["por_revisar"]:
         lineas.append("Quedaron afuera por revisar (sus fuentes cambiaron): " + ", ".join(datos["por_revisar"]) + ".")
+    if datos.get('limites'):
+        limite = datos['limites']
+        lineas.append(f"Límites: registro paginado de {limite['registro']['pagina_predeterminada']} en {limite['registro']['pagina_predeterminada']}; "
+                      + (f"generación hasta {limite['generacion']['max_llamadas']} llamadas a herramientas y {limite['generacion']['segundos']} s."
+                         if limite['generacion']['usada'] else 'sin elaboración generativa en esta respuesta.'))
     return "\n".join(lineas)
 
 
 # --- preguntas de oro ---------------------------------------------------------------------------------------------------
+def _calculo_respaldado(datos, filtro):
+    """Una pregunta mixta exige cálculo consultado y citado, no sólo palabras esperadas en una explicación."""
+    for fuente in datos.get('fuentes', []):
+        criterio = fuente.get('criterio', {})
+        if fuente.get('ruta') != 'registro' or criterio.get('id'):
+            continue
+        if criterio.get('estado') == filtro:
+            valor = fuente.get('valor')
+        elif criterio.get('operacion') == 'agrupar' and criterio.get('estado') == 'todos':
+            agregados = fuente.get('agregados', {})
+            if filtro == 'cerrados':
+                valor = agregados.get('cerrada', 0)
+            elif filtro == 'abandonados':
+                valor = agregados.get('abandonada', 0)
+            elif filtro == 'abiertos':
+                valor = sum(v for k, v in agregados.items() if k not in ('cerrada', 'abandonada'))
+            else:
+                valor = fuente.get('valor')
+        else:
+            continue
+        llamada = any(t.get('herramienta') == 'registro' and t.get('exitoso')
+                      and t.get('argumentos', {}).get('operacion') == criterio.get('operacion')
+                      and t.get('argumentos', {}).get('estado', 'todos') == criterio.get('estado')
+                      for t in datos.get('herramientas', []))
+        if not llamada or type(valor) is not int:
+            continue
+        for afirmacion in datos.get('afirmaciones', []):
+            if (str(valor) in re.findall(r'\b\d+\b', afirmacion['texto'])
+                    and any(c.get('fuente') == fuente.get('id') for c in afirmacion['citas'])):
+                return True
+    return False
+
+
 def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = None) -> dict:
     """Corre las preguntas de oro y deja en salida/hechos.json lo que Oracle juzga, y el detalle en salida/detalle.json."""
     archivo = cli.ROOT / kb_mod.DIR / "preguntas-de-oro.json"
@@ -389,6 +455,13 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                    for p in preguntas) or len({p['id'] for p in preguntas}) != len(preguntas)):
         raise cli.FactoryError('Las preguntas deben ser una lista de hasta 200 objetos con id único y pregunta.')
     filas, detalle, modos, grupos = [], [], set(), []
+    class SinGeneracion:
+        """El grupo documental mide la selección de respaldo de producción, separada de la elaboración real."""
+        def __getattr__(self, nombre):
+            return getattr(cli, nombre)
+        def config_proyecto(self):
+            conf = cli.config_proyecto()
+            return {**conf, 'rag': {**conf['rag'], 'generacion': {'proveedor': 'ninguno'}}}
     for p in preguntas:
         grupo = p.get('grupo', 'documental')
         if grupo not in ('documental', 'registro', 'abstencion', 'generativa'):
@@ -398,14 +471,25 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
         if (not 1 <= len(p['pregunta'].strip()) <= 2000
                 or (grupo == 'documental' and not lista_textos(p.get('esperadas')))
                 or (grupo == 'registro' and (type(p.get('valor')) is not int or p['valor'] < 0))
+                or (grupo == 'registro' and (type(p.get('requiere_listado', False)) is not bool
+                                            or (p.get('requiere_listado') and not lista_textos(p.get('ids'), vacia=True))))
                 or (grupo == 'abstencion' and p.get('tipo') not in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'))
                 or (grupo == 'generativa' and (not lista_textos(p.get('contiene'))
-                                              or not lista_textos(p.get('fuentes', []), vacia=True)))):
+                                              or not lista_textos(p.get('fuentes', []), vacia=True)
+                                              or not lista_textos(p.get('fuentes_cualquiera', []), vacia=True)
+                                              or not (p.get('fuentes') or p.get('fuentes_cualquiera'))
+                                              or type(p.get('requiere_registro', False)) is not bool
+                                              or p.get('filtro_registro', 'todos') not in ('todos', 'abiertos', 'cerrados', 'abandonados')))):
             raise cli.FactoryError('Caso de evaluación incompleto o inválido: ' + p['id'])
         if grupo != 'documental':
             datos = preguntar(cli, p['pregunta'], maximo=PRIMEROS)
             if grupo == 'registro':
                 acierto = datos['tipo'] == 'registro' and type(datos.get('valor')) is int and datos['valor'] == p['valor']
+                if p.get('requiere_listado'):
+                    ids = datos.get('ids')
+                    pagina = datos.get('pagina', {})
+                    acierto = (acierto and isinstance(ids, list) and (bool(ids) or not p['ids'])
+                               and ids == p['ids'][:len(ids)] and pagina.get('omitidos') == len(p['ids']) - len(ids))
             elif grupo == 'abstencion':
                 acierto = datos['tipo'] == p['tipo']
             else:
@@ -413,20 +497,30 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                            and all(t.casefold() in datos['respuesta'].casefold() for t in p['contiene'])
                            and bool(datos['fuentes']) and all(any(fuente['ruta'] == ruta for fuente in datos['fuentes'])
                                                             for ruta in p.get('fuentes', [])))
+                if p.get('fuentes_cualquiera'):
+                    acierto = acierto and any(fnmatch.fnmatchcase(s['ruta'], patron)
+                                              or (patron.endswith('/') and s['ruta'].startswith(patron))
+                                              for s in datos.get('fuentes', []) for patron in p['fuentes_cualquiera'])
+                if p.get('requiere_registro'):
+                    acierto = acierto and _calculo_respaldado(datos, p.get('filtro_registro', 'todos'))
+            degradada = grupo == 'generativa' and datos['tipo'] == 'documentos'
             grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(acierto), 'tipo': datos['tipo'],
-                           'abstuvo': int(datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida')),
+                           'abstuvo': int(degradada or datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida')),
+                           'degradada': int(degradada),
                            'modelo_generativo': datos.get('modelo_generativo') or 'ninguno', 'simulado': int(simulado)})
             detalle.append({**grupos[-1], 'pregunta': p['pregunta'], 'respuesta': datos})
             continue
-        datos = recuperar(cli, p["pregunta"], maximo=PRIMEROS)
+        datos = preguntar(SinGeneracion(), p["pregunta"], maximo=PRIMEROS)
         rutas = [r["ruta"] for r in datos["resultados"]]  # los cinco primeros pasajes: lo mismo que ve quien pregunta
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])
         filas.append({"id": p["id"], "acierto": int(puesto > 0), "puesto": puesto, "modo": datos["modo"]})
-        detalle.append({**filas[-1], "pregunta": p["pregunta"], "esperadas": p["esperadas"], "primeros": rutas})
-        grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(puesto > 0), 'abstuvo': 0,
-                       'tipo': 'documentos', 'modelo_generativo': 'ninguno', 'simulado': int(simulado)})
+        abstuvo = int(datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'))
+        detalle.append({**filas[-1], "pregunta": p["pregunta"], "esperadas": p["esperadas"], "primeros": rutas,
+                        'tipo': datos['tipo'], 'abstuvo': abstuvo, 'generacion_desactivada': True})
+        grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(puesto > 0 and datos['tipo'] == 'documentos'), 'abstuvo': abstuvo,
+                       'degradada': 0, 'tipo': datos['tipo'], 'modelo_generativo': 'ninguno', 'simulado': int(simulado)})
     modo = modos.pop() if len(modos) == 1 else "mixto"
     corrida = {"preguntas": len(filas), "aciertos": sum(f["acierto"] for f in filas),
                "mrr": round(sum(1 / f["puesto"] for f in filas if f["puesto"]) / len(filas), 4) if filas else 0.0,
@@ -438,6 +532,7 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                 'abstenciones': sum(f['abstuvo'] for f in grupos if f['grupo'] == grupo),
                 'abstenciones_correctas': sum(f['abstuvo'] * f['acierto'] for f in grupos if f['grupo'] == grupo),
                 'abstenciones_incorrectas': sum(f['abstuvo'] * (1 - f['acierto']) for f in grupos if f['grupo'] == grupo),
+                'degradaciones': sum(f['degradada'] for f in grupos if f['grupo'] == grupo),
                 'simulado': int(simulado)} for grupo in sorted({f['grupo'] for f in grupos})]
     (salida / "hechos.json").write_text(json.dumps({"rag_pregunta": filas, "rag_corrida": [corrida],
                                                    'preguntar_pregunta': grupos, 'preguntar_grupo': resumen}, ensure_ascii=False,

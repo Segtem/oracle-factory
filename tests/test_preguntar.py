@@ -45,7 +45,7 @@ class Preguntar(unittest.TestCase):
     def docs(self):
         p = self.root / 'docs/decisiones.md'
         p.parent.mkdir(exist_ok=True)
-        p.write_text('# Diseño\n\nSe eligió un clon aparte porque aísla la configuración y las ramas de Git.\n')
+        p.write_text('# Diseño\n\nSe eligió un clon aparte porque aísla la configuración\ny las ramas de Git.\n')
 
     def test_pq1_respuesta_abierta_con_fuentes_y_herramientas(self):
         from oracle_factory import generacion
@@ -83,6 +83,24 @@ class Preguntar(unittest.TestCase):
         self.assertIn('Fuentes', rag.texto(respuesta))
         self.assertEqual(otra['tipo'], 'respuesta_elaborada')
         self.assertEqual(len(llamadas), 4)
+        # Una aprobación guardada puede estar vencida. El detalle debe reflejar lo mismo que estado, no el registro crudo.
+        from oracle_factory import consultas
+        carpeta, estado = f.leer(ident)
+        estado['revision'] = {'decision': 'aprobar', 'hallazgos_abiertos': 0, 'revisor': 'Revisor fixture'}
+        f.ruta_registro(carpeta).write_text(json.dumps(estado))
+        esperado = f.datos_estado(ident)
+        detalle = consultas.registro(f, {'operacion': 'detalle', 'id': ident})['datos']['cambios'][0]
+        self.assertEqual(detalle['estado_actual']['pendientes'], esperado['pendientes'])
+        self.assertFalse(detalle['estado_actual']['revision']['vigente'])
+        self.assertEqual(detalle['estado_actual']['proximo_paso'], esperado['proximo_paso'])
+        # Un listado grande pagina datos y fuentes; no envía todo el registro al modelo.
+        for n in range(6):
+            self.nuevo('pagina' + str(n), 'requisitos_importados')
+        pagina = consultas.registro(f, {'operacion': 'listar', 'estado': 'abiertos'})
+        self.assertLessEqual(len(pagina['datos']['cambios']), 5)
+        self.assertTrue(pagina['datos']['siguiente'])
+        siguiente = consultas.registro(f, pagina['datos']['siguiente'])
+        self.assertFalse(set(pagina['datos']['ids']) & set(siguiente['datos']['ids']))
 
     def test_pq2_herramientas_configuracion_fallos_y_limites(self):
         from oracle_factory import generacion, consultas
@@ -111,6 +129,21 @@ class Preguntar(unittest.TestCase):
                 self.assertTrue(r['aviso'])
         with patch.object(generacion, 'enviar', side_effect=OSError('proveedor caído')):
             self.assertIn('generación', rag.preguntar(f, 'clones aparte')['aviso'])
+        # Un JSON mal formado se vuelve a pedir con formato estructurado, sin aceptar texto sin validar.
+        formatos = []
+        def corregir_formato(conf, mensajes, herramientas, timeout):
+            formatos.append(herramientas)
+            if herramientas:
+                return {'role': 'assistant', 'content': '{"estado":"respondida", roto'}
+            fuente = next(s for s in json.loads(mensajes[1]['content'])['fuentes'] if s['ruta'] == 'docs/decisiones.md')
+            return {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Se eligió un clon aparte.', 'inferencia': False,
+                 'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=corregir_formato):
+            r = rag.preguntar(f, '¿Por qué se eligió un clon aparte?')
+        self.assertEqual(r['tipo'], 'respuesta_elaborada')
+        self.assertEqual(len(formatos), 2)
+        self.assertEqual(formatos[-1], [])
         self.assertFalse((self.root / 'ajeno').exists())
         contador = []
         def insistir(*args):
@@ -134,6 +167,12 @@ class Preguntar(unittest.TestCase):
                 {'texto': texto, 'inferencia': False, 'citas': [{'fuente': 'S1', 'texto': cita}]}]})}
             with self.subTest(texto=texto), self.assertRaises(ValueError):
                 generacion.validar_final(mensaje, fuente)
+        fuente_id = {'S1': {'ruta': 'openspec/changes/20261020-200030-aislar/spec.md', 'cita': 'Diseño',
+                            'texto': 'El cambio 20261020-200030-aislar usa un clon de Git que no comparte configuración.'}}
+        mensaje_id = {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+            {'texto': 'El cambio 20261020-200030-aislar usa un clon de Git.', 'inferencia': False,
+             'citas': [{'fuente': 'S1', 'texto': 'usa un clon de Git que no comparte configuración'}]}]})}
+        self.assertEqual(generacion.validar_final(mensaje_id, fuente_id)['tipo'], 'respuesta_elaborada')
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
         # Se prueba el transporte de ambos proveedores contra HTTP real local, sin claves ni modelos reales.
         pedidos = []
@@ -145,8 +184,8 @@ class Preguntar(unittest.TestCase):
                               if s['ruta'] == 'docs/decisiones.md')
                 mensaje = {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                     {'texto': 'Se eligió un clon aparte.', 'inferencia': False,
-                     'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
-                if not any(m['role'] == 'tool' for m in cuerpo['messages']):
+                     'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}], 'pregunta': ''})}
+                if cuerpo.get('tools') and not any(m['role'] == 'tool' for m in cuerpo['messages']):
                     args = {'operacion': 'contar', 'estado': 'todos'}
                     mensaje = {'role': 'assistant', 'content': '', 'tool_calls': [{'id': 'http1', 'type': 'function',
                         'function': {'name': 'registro', 'arguments': args if handler.path == '/api/chat' else json.dumps(args)}}]}
@@ -159,16 +198,28 @@ class Preguntar(unittest.TestCase):
         http = ThreadingHTTPServer(('127.0.0.1', 0), Manejador)
         threading.Thread(target=http.serve_forever, daemon=True).start()
         try:
-            for proveedor, ruta in (('ollama', '/api/chat'), ('openai', '/chat/completions')):
+            for proveedor, ruta, autenticar in (('ollama', '/api/chat', True), ('openai', '/chat/completions', True),
+                                                ('openai', '/chat/completions', False)):
                 with self.subTest(proveedor=proveedor), patch.dict(os.environ, {'FACTORY_CLAVE_FIXTURE': 'clave-de-prueba'}):
                     self.configurar({'proveedor': proveedor, 'modelo': 'fixture',
-                                     'url': f'http://127.0.0.1:{http.server_port}', 'clave_env': 'FACTORY_CLAVE_FIXTURE'})
+                                     'url': f'http://127.0.0.1:{http.server_port}',
+                                     **({'clave_env': 'FACTORY_CLAVE_FIXTURE'} if autenticar else {})})
                     r = rag.preguntar(f, '¿Por qué se eligió un clon aparte?')
                     self.assertEqual(r['tipo'], 'respuesta_elaborada')
                     self.assertEqual(len(r['herramientas']), 1)
                     self.assertEqual(pedidos[-1][0], ruta)
                     self.assertFalse(pedidos[-1][1]['stream'])
                     self.assertNotIn('clave-de-prueba', json.dumps(r))
+                    if proveedor == 'openai':
+                        self.assertEqual(pedidos[-1][1]['temperature'], 0)
+                        self.assertEqual(bool(pedidos[-1][2]), autenticar)
+                    final = generacion.enviar(generacion.configuracion(f), pedidos[-1][1]['messages'], [], 10)
+                    cuerpo_final = pedidos[-1][1]
+                    esquema = cuerpo_final['format'] if proveedor == 'ollama' else cuerpo_final['response_format']['json_schema']['schema']
+                    from jsonschema import validate, ValidationError
+                    validate(json.loads(final['content']), esquema)
+                    with self.assertRaises(ValidationError):
+                        validate({'estado': 'inventado', 'afirmaciones': [], 'pregunta': ''}, esquema)
         finally:
             http.shutdown(); http.server_close()
 
@@ -179,7 +230,8 @@ class Preguntar(unittest.TestCase):
         abierto = self.nuevo('abierto', 'requisitos_importados')
         self.nuevo('abandonado', 'abandonada')
         with patch.object(rag, 'embeber', side_effect=AssertionError('no debe pedir embeddings')):
-            for pregunta in ('Cuantas tareas cerradas hay?', '¿CUÁNTOS CAMBIOS CERRADOS HAY?'):
+            for pregunta in ('Cuantas tareas cerradas hay?', '¿CUÁNTOS CAMBIOS CERRADOS HAY?',
+                             '¿Cuántas tareas están cerradas?', '¿Cuántos cambios cerrados existen actualmente?'):
                 r = rag.preguntar(f, pregunta)
                 self.assertEqual((r['tipo'], r['valor'], r['filtro']), ('registro', 2, 'cerrados'))
                 self.assertTrue({a, b}.issubset(set(r['ids'])))
@@ -193,6 +245,9 @@ class Preguntar(unittest.TestCase):
             self.assertEqual(rag.preguntar(f, 'Cuantas tareas cerradas hay?')['valor'], 3)
         # La respuesta cero trae el criterio reproducible aunque no haya registros que citar.
         self.assertTrue(rag.preguntar(f, 'Listá tareas abiertas')['fuentes'])
+        cero = rag.preguntar(f, 'Listá tareas abiertas')
+        self.assertTrue(cero['fuentes'][0]['archivos'])  # hay registros consultados aunque ninguno coincida
+        self.assertIn('; archivado)', rag.preguntar(f, 'Listá tareas cerradas')['respuesta'])
 
     def test_pq4_sin_respaldo_ambiguedad_y_filtros(self):
         self.configurar()
@@ -206,42 +261,76 @@ class Preguntar(unittest.TestCase):
 
     def test_pq5_cli_mcp_y_editor_conservan_respuesta(self):
         from oracle_factory import mcp
-        self.configurar()
+        self.docs()
         self.nuevo('cerrado', 'cerrada')
-        pregunta = '¿Cuántas tareas cerradas hay?'
-        salida = io.StringIO()
-        with contextlib.redirect_stdout(salida):
-            self.assertEqual(f.main(['--proyecto', str(self.root), 'preguntar', '--json', '--', pregunta]), 0)
-        datos = json.loads(salida.getvalue())
-        self.assertEqual(datos['esquema'], 'oracle-factory.preguntar/2')
-        remoto = mcp.llamar(self.root, 'preguntar', {'texto': pregunta})
-        self.assertFalse(remoto['isError'])
-        self.assertEqual(json.loads(remoto['content'][0]['text']), datos)
-        # El editor ejecuta la CLI real y muestra su respuesta; el arnés sólo reemplaza vscode.
+        class ServidorModelo(BaseHTTPRequestHandler):
+            def do_POST(handler):
+                body = json.loads(handler.rfile.read(int(handler.headers['Content-Length'])))
+                contexto = json.loads(body['messages'][1]['content'])
+                doc = next((s for s in contexto['fuentes'] if s['ruta'] == 'docs/decisiones.md'), None)
+                tools = [m for m in body['messages'] if m['role'] == 'tool']
+                if doc is None:
+                    mensaje = {'role': 'assistant', 'content': '{"estado":"sin_respaldo"}'}
+                elif not tools:
+                    mensaje = {'role': 'assistant', 'content': '', 'tool_calls': [{'id': 'consultar1',
+                               'function': {'name': 'registro', 'arguments': {'operacion': 'contar', 'estado': 'cerrados'}}}]}
+                else:
+                    registro = json.loads(tools[-1]['content'])['fuentes'][0]
+                    n = registro['valor']
+                    mensaje = {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                        {'texto': f'Hay {n} cambios cerrados.', 'inferencia': False,
+                         'citas': [{'fuente': registro['id'], 'texto': f'Cantidad de cambios cerrados: {n}.'}]},
+                        {'texto': 'Se eligió un clon aparte para aislar Git.', 'inferencia': False,
+                         'citas': [{'fuente': doc['id'], 'texto': 'aísla la configuración y las ramas de Git'}]}]})}
+                raw = json.dumps({'message': mensaje}).encode()
+                handler.send_response(200);handler.send_header('Content-Length', str(len(raw)));handler.end_headers()
+                handler.wfile.write(raw)
+            def log_message(self, *args):
+                pass
+        http = ThreadingHTTPServer(('127.0.0.1', 0), ServidorModelo)
+        threading.Thread(target=http.serve_forever, daemon=True).start()
+        self.addCleanup(http.server_close)
+        self.addCleanup(http.shutdown)
+        self.configurar({'proveedor': 'ollama', 'modelo': 'fixture', 'url': f'http://127.0.0.1:{http.server_port}'})
         import test_tablero
         source = Path(__file__).resolve().parents[1]
         ejecutable = Path(self.tmp.name) / 'factory-fixture'
         ejecutable.write_text(f'#!{sys.executable}\nimport sys\nsys.path.insert(0, {str(source)!r})\n'
                               'from oracle_factory.cli import main\nsys.exit(main())\n')
         ejecutable.chmod(0o755)
-        r = subprocess.run([test_tablero.NODE, str(source / 'tests/tablero_en_node.cjs'),
-                            str(source / 'editores/vscode'), str(self.root), '[]', str(ejecutable)],
-                           capture_output=True, text=True, timeout=120,
-                           env={**os.environ, 'PREGUNTA': pregunta, 'COMANDO': 'factory.preguntar'})
-        self.assertEqual(r.returncode, 0, r.stderr)
-        documento = json.loads(r.stdout)['documentos'][0]
-        self.assertIn(datos['respuesta'], documento)
-        self.assertIn('Fuentes', documento)
+        for pregunta, tipo in [('¿Cuántas tareas cerradas hay?', 'registro'),
+                               ('¿Cuántas tareas cerradas hay y por qué se eligió un clon aparte?', 'respuesta_elaborada'),
+                               ('¿Qué come el ornitorrinco de Marte?', 'sin_respaldo')]:
+            with self.subTest(tipo=tipo):
+                salida = io.StringIO()
+                with contextlib.redirect_stdout(salida):
+                    self.assertEqual(f.main(['--proyecto', str(self.root), 'preguntar', '--json', '--', pregunta]), 0)
+                datos = json.loads(salida.getvalue())
+                self.assertEqual((datos['esquema'], datos['tipo']), ('oracle-factory.preguntar/2', tipo))
+                self.assertEqual(datos['limites']['registro']['pagina_maxima'], 10)
+                with patch.dict(os.environ, {'PYTHONPATH': str(source)}):
+                    remoto = mcp.llamar(self.root, 'preguntar', {'texto': pregunta})
+                self.assertFalse(remoto['isError'])
+                self.assertEqual(json.loads(remoto['content'][0]['text']), datos)
+                r = subprocess.run([test_tablero.NODE, str(source / 'tests/tablero_en_node.cjs'),
+                                    str(source / 'editores/vscode'), str(self.root), '[]', str(ejecutable)],
+                                   capture_output=True, text=True, timeout=120,
+                                   env={**os.environ, 'PREGUNTA': pregunta, 'COMANDO': 'factory.preguntar'})
+                self.assertEqual(r.returncode, 0, r.stderr)
+                documento = json.loads(r.stdout)['documentos'][0]
+                self.assertIn(rag.texto(datos), documento)
 
     def test_pq6_evaluacion_por_grupos_detecta_errores(self):
         self.configurar()
         self.docs()
-        self.nuevo('cerrado', 'cerrada')
+        cerrado = self.nuevo('cerrado', 'cerrada')
         archivo = self.root / 'kb/preguntas-de-oro.json'
         archivo.parent.mkdir(exist_ok=True)
         archivo.write_text(json.dumps([
             {'id': 'doc', 'pregunta': '¿Por qué clones aparte?', 'esperadas': ['docs/decisiones.md']},
             {'id': 'registro', 'grupo': 'registro', 'pregunta': 'Cuantas tareas cerradas hay?', 'valor': 1},
+            {'id': 'listado', 'grupo': 'registro', 'pregunta': 'Listá tareas cerradas', 'valor': 1,
+             'requiere_listado': True, 'ids': [cerrado]},
             {'id': 'negativa', 'grupo': 'abstencion', 'pregunta': '¿Cuánto mide el ornitorrinco marciano?', 'tipo': 'sin_respaldo'}]))
         destino = self.root.parent / 'evaluacion'
         rag.evaluar(f, destino)
@@ -251,7 +340,23 @@ class Preguntar(unittest.TestCase):
         with patch.object(rag, 'preguntar', return_value={**rag.preguntar(f, 'Cuantas tareas cerradas hay?'), 'valor': 999}):
             rag.evaluar(f, self.root.parent / 'errada')
         mal = json.loads((self.root.parent / 'errada/hechos.json').read_text())
-        self.assertTrue(any(g['grupo'] == 'registro' and g['errores'] for g in mal['preguntar_grupo']))
+        self.assertEqual(next(p['acierto'] for p in mal['preguntar_pregunta'] if p['id'] == 'registro'), 0)
+        real = rag.preguntar
+        def sin_ids(*args, **kwargs):
+            datos = real(*args, **kwargs)
+            if datos.get('pagina'):
+                datos['ids'] = []
+            return datos
+        with patch.object(rag, 'preguntar', side_effect=sin_ids):
+            rag.evaluar(f, self.root.parent / 'listado-vacio')
+        listado = json.loads((self.root.parent / 'listado-vacio/hechos.json').read_text())
+        self.assertEqual(next(p['acierto'] for p in listado['preguntar_pregunta'] if p['id'] == 'listado'), 0)
+        sin = {**rag.preguntar(f, '¿Por qué se eligió un clon aparte?'), 'tipo': 'sin_respaldo'}
+        with patch.object(rag, 'preguntar', return_value=sin):
+            rag.evaluar(f, self.root.parent / 'guia-no-respondida')
+        falsa = json.loads((self.root.parent / 'guia-no-respondida/hechos.json').read_text())
+        grupo_doc = next(g for g in falsa['preguntar_grupo'] if g['grupo'] == 'documental')
+        self.assertEqual((grupo_doc['errores'], grupo_doc['abstenciones_incorrectas']), (1, 1))
         from oracle_factory import generacion
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
         casos = self.root / 'casos-adicionales.json'
@@ -269,6 +374,14 @@ class Preguntar(unittest.TestCase):
         simulada = json.loads((self.root.parent / 'simulada/hechos.json').read_text())
         grupo = next(g for g in simulada['preguntar_grupo'] if g['grupo'] == 'generativa')
         self.assertEqual((grupo['aciertos'], grupo['simulado']), (1, 1))
+        compuesta = json.loads(casos.read_text())
+        compuesta[0].update(requiere_registro=True, filtro_registro='cerrados')
+        casos.write_text(json.dumps(compuesta))
+        with patch.object(generacion, 'enviar', side_effect=modelo):
+            rag.evaluar(f, self.root.parent / 'sin-consultar-registro', simulado=True, casos=casos)
+        sin_registro = json.loads((self.root.parent / 'sin-consultar-registro/hechos.json').read_text())
+        grupo = next(g for g in sin_registro['preguntar_grupo'] if g['grupo'] == 'generativa')
+        self.assertEqual(grupo['errores'], 1)  # citar sólo una guía no acredita el cálculo solicitado
         with patch.object(generacion, 'enviar', return_value={'content': '{"estado":"sin_respaldo"}'}):
             rag.evaluar(f, self.root.parent / 'abstencion-errada', simulado=True, casos=casos)
         mala = json.loads((self.root.parent / 'abstencion-errada/hechos.json').read_text())

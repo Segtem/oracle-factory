@@ -54,7 +54,8 @@ publicado anterior al cambio.
 
 `oracle-factory preguntar "¿Cuántas tareas cerradas hay?"` calcula el número desde el registro vigente, sin pedirle a un
 modelo que cuente documentos. También reconoce consultas simples para listar y contar todos, abiertos, cerrados o
-abandonados. Los cerrados archivados siguen contando como cerrados. Un filtro directo no admitido se avisa; no se
+abandonados. Los cerrados archivados siguen contando como cerrados y se identifican en el listado. Se muestran cinco
+cambios por página; el JSON identifica cuántos faltan y los argumentos de la página siguiente. Un filtro directo no admitido se avisa; no se
 reemplaza silenciosamente por otro. Para explicaciones abiertas se puede usar un modelo generativo.
 
 `--json` devuelve `oracle-factory.preguntar/2`: `tipo`, `respuesta`, `fuentes`, `herramientas`, modelos y límites, además
@@ -89,25 +90,37 @@ de lo que cambió.
 **Modelo que elabora respuestas.** Es distinto del modelo de embeddings y no se elige ni descarga automáticamente.
 Se configura en `rag.generacion`, con `proveedor` (`ollama`, `openai` o `ninguno`) y un `modelo` explícito. Ollama usa por
 defecto la URL local; `openai` designa una API compatible con Chat Completions, requiere `url` explícita (incluido su
-prefijo `/v1`, si corresponde) y `clave_env` con el nombre de una variable de entorno, nunca la clave en Git.
-El modelo debe admitir llamadas a herramientas. No se usa otro proveedor si falla el elegido.
+prefijo `/v1`, si corresponde). Si el servidor exige autenticación, `clave_env` indica el nombre de una variable de
+entorno, nunca la clave en Git; se puede omitir en un servidor sin autenticación. El modelo debe admitir llamadas a
+herramientas y salida JSON estructurada. No se usa otro proveedor si falla el elegido.
 
 Las herramientas disponibles son `recuperar` y `registro` (contar, listar, agrupar por fase y consultar un cambio).
+`listar` admite `limite` de uno a diez (cinco por defecto) y `desplazamiento`; `detalle` con un ID calcula los pendientes y
+la vigencia de revisión y juicio igual que `estado`. Una fase o una decisión histórica no bastan para afirmar su vigencia.
 Sus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el
 ciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se
-limita a 64 KB, la respuesta del proveedor a 256 KiB y cada fuente enviada a 6000 caracteres. Si se alcanza un límite o
-el modelo falla, se informa y se conserva la recuperación disponible.
+limita a 64.000 bytes, la respuesta del proveedor a 256 KiB, cada resultado de herramienta a 24.000 bytes y cada fuente
+enviada a 6000 caracteres. Se admiten hasta 24 fuentes y se muestran hasta diez rutas por fuente, identificando las
+omisiones y la huella del inventario consultado. Los espacios de los pasajes enviados al modelo se uniforman, sin
+cambiar palabras ni signos. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,
+sin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el modelo falla, se informa un código de
+causa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.
 
 Las citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en
-ella; los números deben aparecer en las citas. Esto verifica pertenencia textual, no demuestra que la interpretación
+ella; las cantidades deben aparecer en las citas. Los IDs y versiones se comprueban como literales en la fuente citada
+y la numeración de pasos no se trata como un cálculo. Esto verifica pertenencia textual, no demuestra que la interpretación
 del modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.
 
 **La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los
 cinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.
 `--casos ARCHIVO` agrega casos sin reemplazar las preguntas originales: grupo `registro` (valor esperado), `abstencion`
-(tipo esperado) o `generativa` (conceptos mínimos en `contiene` y rutas esperadas en `fuentes`). El archivo debe estar
+(tipo esperado) o `generativa` (conceptos mínimos en `contiene` y rutas esperadas en `fuentes`, o alternativas en
+`fuentes_cualquiera`). Los listados pueden exigir los IDs esperados; una pregunta mixta puede exigir un cálculo del
+registro citado, comprobado por código. El archivo debe estar
 dentro del proyecto. Los resultados separan cada grupo, sus aciertos, errores y abstenciones incorrectas; para las
-documentales conservan el puesto y MRR. Los controles de conceptos y citas no son un juez semántico universal.
+documentales conservan el puesto y MRR, y también comprueban la selección de respaldo que hace `preguntar`, con la
+generación desactivada para ese grupo. Una degradación generativa a pasajes cuenta como error y abstención incorrecta.
+Los controles de conceptos y citas no son un juez semántico universal.
 La evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita
 calidad de las explicaciones. Se conserva el umbral humano documental de al menos 18 de las 22 preguntas originales.
 

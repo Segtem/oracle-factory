@@ -50,13 +50,14 @@ def casos_registro():
         p = subprocess.run([sys.executable, '-c', 'from oracle_factory.cli import main; raise SystemExit(main())',
                             '--agente', 'codex', 'listar', *opciones],
                            cwd=ROOT, text=True, capture_output=True, check=True, stdin=subprocess.DEVNULL)
-        n = sum(cli.ID_RE.fullmatch(linea.split()[0]) is not None for linea in p.stdout.splitlines() if linea.split())
+        ids = [linea.split()[0] for linea in p.stdout.splitlines() if linea.split() and cli.ID_RE.fullmatch(linea.split()[0])]
+        n = len(ids)
         pregunta = '¿Cuántas tareas cerradas hay?' if filtro == 'cerrados' else (
             '¿Cuántos cambios hay en total?' if filtro == 'todos' else f'¿Cuántos cambios {filtro} hay?')
-        filas.append({'id': 'pq-registro-' + filtro, 'grupo': 'registro', 'pregunta': pregunta, 'valor': n,
+        filas.append({'id': 'pq-registro-' + filtro, 'grupo': 'registro', 'pregunta': pregunta, 'valor': n, 'ids': ids,
                       'referencia': {'comando': ['listar', *opciones], 'salida': p.stdout}})
     filas.extend([{**filas[0], 'id': 'pq-registro-variante', 'pregunta': 'Cuantas tareas cerradas hay?'},
-                  {**filas[0], 'id': 'pq-registro-lista', 'pregunta': 'Listá tareas cerradas'}])
+                  {**filas[0], 'id': 'pq-registro-lista', 'pregunta': 'Listá tareas cerradas', 'requiere_listado': True}])
     return filas
 
 
@@ -114,6 +115,7 @@ def main(argv=None):
     calidad = (oro['rag_corrida'][0]['preguntas'] == 22 and oro['rag_corrida'][0]['modo'] == 'hibrido'
                and oro['rag_corrida'][0]['modelo'] == 'qwen3-embedding:0.6b'
                and oro['rag_corrida'][0]['aciertos'] >= 18
+               and grupos.get('documental', {}).get('aciertos', 0) >= 18
                and set(grupos) == {'documental', 'registro', 'generativa', 'abstencion'}
                and all(grupos[g]['errores'] == 0 for g in ('registro', 'generativa', 'abstencion'))
                and all(p['modelo_generativo'] == config['modelo'] and not p['simulado']
