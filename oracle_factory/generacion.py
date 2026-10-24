@@ -38,7 +38,10 @@ def configuracion(cli):
         raise cli.FactoryError('rag.generacion con proveedor openai requiere una URL explícita.')
     if not isinstance(conf['url'], str):
         raise cli.FactoryError('rag.generacion.url debe ser una URL HTTP(S).')
-    url = urllib.parse.urlsplit(conf['url'])
+    try:
+        url = urllib.parse.urlsplit(conf['url'])
+    except ValueError as exc:
+        raise cli.FactoryError('rag.generacion.url no es una URL HTTP(S) válida.') from exc
     if url.scheme not in ('http', 'https') or not url.hostname or url.username or url.password or url.query or url.fragment:
         raise cli.FactoryError('rag.generacion.url debe ser HTTP(S), sin credenciales, query ni fragmento.')
     if (type(conf['max_llamadas']) is not int or not 1 <= conf['max_llamadas'] <= 8

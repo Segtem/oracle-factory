@@ -94,7 +94,7 @@ El modelo debe admitir llamadas a herramientas. No se usa otro proveedor si fall
 
 Las herramientas disponibles son `recuperar` y `registro` (contar, listar, agrupar por fase y consultar un cambio).
 Sus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el
-ciclo admite 4 llamadas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se
+ciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se
 limita a 64 KB, la respuesta del proveedor a 256 KiB y cada fuente enviada a 6000 caracteres. Si se alcanza un límite o
 el modelo falla, se informa y se conserva la recuperación disponible.
 

@@ -19,3 +19,27 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-24 03:08:56 UTC)
 
 Requisitos importados: conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito (funcional), conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion (funcional), conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente (funcional), conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code (funcional), conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente (funcional), conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-24 03:42:02 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito: factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito, factory_preguntar.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:42:03 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion: factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion, factory_preguntar.corrida_completa, factory_preguntar.calidad_documental, factory_preguntar.calidad_registro, factory_preguntar.calidad_generativa, factory_preguntar.calidad_abstencion; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:42:05 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente: factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente, factory_preguntar.corrida_completa, factory_preguntar.calidad_documental, factory_preguntar.calidad_abstencion; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:42:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code: factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code, factory_preguntar.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:42:07 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente: factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente, factory_preguntar.corrida_completa, factory_preguntar.calidad_registro; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:42:09 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto: factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto, factory_preguntar.corrida_completa, factory_preguntar.calidad_generativa, factory_preguntar.calidad_documental, factory_preguntar.calidad_registro; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

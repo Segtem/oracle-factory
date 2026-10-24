@@ -374,11 +374,16 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
     if not archivo.is_file():
         raise cli.FactoryError(f"no hay preguntas de oro: falta {archivo.relative_to(cli.ROOT)}")
     preguntas = json.loads(archivo.read_text(encoding="utf-8"))
+    if not isinstance(preguntas, list):
+        raise cli.FactoryError('Las preguntas de oro deben ser una lista.')
     if casos is not None:
         ruta = cli.ruta_segura(casos if casos.is_absolute() else cli.ROOT / casos)
         if not ruta.is_file() or ruta.stat().st_size > cli.estructura.LIMITE_ARCHIVO:
             raise cli.FactoryError('El archivo de casos adicionales falta o supera el tamaño admitido.')
-        preguntas += json.loads(ruta.read_text(encoding='utf-8'))
+        adicionales = json.loads(ruta.read_text(encoding='utf-8'))
+        if not isinstance(adicionales, list):
+            raise cli.FactoryError('Los casos adicionales deben ser una lista.')
+        preguntas += adicionales
     if (not isinstance(preguntas, list) or not preguntas or len(preguntas) > 200
             or any(not isinstance(p, dict) or not isinstance(p.get('id'), str) or not isinstance(p.get('pregunta'), str)
                    for p in preguntas) or len({p['id'] for p in preguntas}) != len(preguntas)):
@@ -388,6 +393,15 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
         grupo = p.get('grupo', 'documental')
         if grupo not in ('documental', 'registro', 'abstencion', 'generativa'):
             raise cli.FactoryError('Grupo de evaluación no admitido: ' + str(grupo))
+        def lista_textos(valor, vacia=False):
+            return isinstance(valor, list) and (vacia or bool(valor)) and all(isinstance(t, str) and bool(t) for t in valor)
+        if (not 1 <= len(p['pregunta'].strip()) <= 2000
+                or (grupo == 'documental' and not lista_textos(p.get('esperadas')))
+                or (grupo == 'registro' and (type(p.get('valor')) is not int or p['valor'] < 0))
+                or (grupo == 'abstencion' and p.get('tipo') not in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'))
+                or (grupo == 'generativa' and (not lista_textos(p.get('contiene'))
+                                              or not lista_textos(p.get('fuentes', []), vacia=True)))):
+            raise cli.FactoryError('Caso de evaluación incompleto o inválido: ' + p['id'])
         if grupo != 'documental':
             datos = preguntar(cli, p['pregunta'], maximo=PRIMEROS)
             if grupo == 'registro':

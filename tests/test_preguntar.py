@@ -122,7 +122,8 @@ class Preguntar(unittest.TestCase):
             self.assertEqual(ejecutar.call_count, 2)
         for conf in ({'proveedor': 'ollama'}, {'proveedor': 'openai', 'modelo': 'fixture'},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'max_llamadas': True},
-                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'}):
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'},
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://['}):
             self.configurar(conf)
             with self.subTest(conf=conf), self.assertRaises(f.FactoryError):
                 generacion.configuracion(f)
@@ -273,6 +274,9 @@ class Preguntar(unittest.TestCase):
         mala = json.loads((self.root.parent / 'abstencion-errada/hechos.json').read_text())
         grupo = next(g for g in mala['preguntar_grupo'] if g['grupo'] == 'generativa')
         self.assertEqual((grupo['errores'], grupo['abstenciones_incorrectas']), (1, 1))
+        casos.write_text(json.dumps([{'id': 'incompleto', 'grupo': 'registro', 'pregunta': 'Cuantas tareas hay?'}]))
+        with self.assertRaises(f.FactoryError):
+            rag.evaluar(f, self.root.parent / 'incompleta', casos=casos)
 
 
 if __name__ == '__main__':

@@ -18,6 +18,8 @@ MUTACIONES = [
     ('esquema_viejo', 'oracle_factory/rag.py', 'oracle-factory.preguntar/2', 'oracle-factory.preguntar/1', 'pq5'),
     ('evaluacion_acepta_error', 'oracle_factory/rag.py', "and datos['valor'] == p['valor']", 'and True', 'pq6'),
     ('compuesta_como_filtro', 'oracle_factory/consultas.py', "if re.search(r'\\by (?:como|por que|que implica|que significa)\\b', p):", 'if False:', 'pq1'),
+    ('url_sin_error_claro', 'oracle_factory/generacion.py', "raise cli.FactoryError('rag.generacion.url no es una URL HTTP(S) válida.') from exc", 'raise', 'pq2'),
+    ('caso_sin_validar', 'oracle_factory/rag.py', "or (grupo == 'registro' and (type(p.get('valor')) is not int or p['valor'] < 0))", '', 'pq6'),
 ]
 CASOS = {
     'pq1': 'test_pq1_respuesta_abierta_con_fuentes_y_herramientas',
@@ -51,7 +53,8 @@ def main():
             corrida = subprocess.run([sys.executable, '-B', '-m', 'unittest', 'tests.test_preguntar.Preguntar.' + CASOS[caso]],
                                      cwd=ROOT, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=120,
                                      env={**__import__('os').environ, 'PYTHONPYCACHEPREFIX': '/tmp/factory-mutaciones-sin-cache'})
-            detectada = corrida.returncode == 1 and 'FAILED (failures=' in corrida.stderr and 'ERROR:' not in corrida.stderr
+            detectada = (corrida.returncode == 1 and 'FAILED (' in corrida.stderr and 'Ran 1 test' in corrida.stderr
+                         and not any(s in corrida.stderr for s in ('SyntaxError', 'ImportError', 'ModuleNotFoundError', 'Failed to import test module')))
             filas.append({'id': ident, 'archivo': rel, 'caso': CASOS[caso], 'detectada': detectada,
                           'codigo': corrida.returncode, 'salida': corrida.stderr[-2500:]})
             print(ident, 'DETECTADA' if detectada else 'NO DETECTADA')
