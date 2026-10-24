@@ -2,10 +2,20 @@
   "id": "20261024-020022-0b3-preguntar",
   "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
   "capacidad": "conocimiento",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T02:07:26.738623+00:00",
+    "documentos": {
+      "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "8c1ea11c9167514a6b902bfd3ef88765508965bb1a4feb379a10409e1af6a691",
+      "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -37,6 +47,19 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T02:03:02.949220+00:00",
       "texto": "Brian pidió arreglar el RAG después del cierre de docs, confirmado a su nombre. Se prepararon propuesta, diseño y cuatro requisitos: consultas al registro, respaldo documental, coherencia entre clientes y evaluación por grupos. No se implementó código. Caso disparador: «Cuantas tareas cerradas hay?» devolvió pasajes irrelevantes. La rama parte de main; la integración de docs y su configuración de agy2 sigue pendiente de la elección humana."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T02:07:26.738645+00:00",
+      "documentos": {
+        "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "8c1ea11c9167514a6b902bfd3ef88765508965bb1a4feb379a10409e1af6a691",
+        "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
