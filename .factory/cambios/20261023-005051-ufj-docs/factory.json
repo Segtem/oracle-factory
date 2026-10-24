@@ -2,7 +2,7 @@
   "id": "20261023-005051-ufj-docs",
   "titulo": "La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI",
   "capacidad": "web",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
   "spec_sha256": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9",
   "spec_aprobada": {
@@ -423,6 +423,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "05b588f7be069322281a6dd99dd432f2735913adbf94ed6b4cf829f1ddf9b19e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:59:29.429498+00:00",
+      "oracle": ".factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt",
+      "revision": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:59:29.460048+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
     }
   ],
   "tipos": {
@@ -466,5 +486,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T01:59:29.365136+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-24T01:59:29.460038+00:00"
+  }
 }

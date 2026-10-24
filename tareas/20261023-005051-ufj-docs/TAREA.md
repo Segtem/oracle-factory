@@ -1,6 +1,6 @@
 # La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-24 01:40:22 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt.
+
+### Nota (2026-10-24 01:59:29 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
