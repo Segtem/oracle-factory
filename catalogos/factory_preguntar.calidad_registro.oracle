@@ -1,0 +1,8 @@
+medida factory_preguntar.calidad_registro:
+    de preguntar_grupo c
+    donde c.grupo == "registro" y c.preguntas == 6 y c.errores == 0 y c.simulado == 0
+    resumen contar(1)
+    umbral == 1 segun contrato porque "las seis consultas de registro deben coincidir con listar; no compensa otros grupos"
+    requiere preguntar_grupo
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; las seis consultas de registro deben coincidir con listar; no compensa otros grupos"

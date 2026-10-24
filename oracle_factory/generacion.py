@@ -81,7 +81,15 @@ def enviar(conf, mensajes, tools, timeout):
     if len(bruto) > LIMITE_RESPUESTA:
         raise ValueError('La respuesta generativa excede el límite de tamaño.')
     datos = json.loads(bruto)
-    mensaje = datos.get('message') if conf['proveedor'] == 'ollama' else datos.get('choices', [{}])[0].get('message')
+    if not isinstance(datos, dict):
+        raise ValueError('El proveedor no devolvió un objeto JSON.')
+    if conf['proveedor'] == 'ollama':
+        mensaje = datos.get('message')
+    else:
+        choices = datos.get('choices')
+        if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+            raise ValueError('El proveedor no devolvió choices válidas.')
+        mensaje = choices[0].get('message')
     if not isinstance(mensaje, dict) or mensaje.get('role') != 'assistant':
         raise ValueError('El proveedor no devolvió un mensaje assistant válido.')
     return mensaje
@@ -159,6 +167,8 @@ def elaborar(cli, pregunta, recuperado, conf):
                     'modelo_generativo': conf['modelo'], 'proveedor_generativo': conf['proveedor']}
         if not isinstance(calls, list) or not calls or len(calls) > conf['max_llamadas'] - llamadas:
             raise ValueError('Se alcanzó el límite de llamadas de herramientas.')
+        if mensaje.get('content') is not None and not isinstance(mensaje['content'], str):
+            raise ValueError('Contenido de mensaje inválido.')
         mensajes.append({'role': 'assistant', 'content': mensaje.get('content') or '', 'tool_calls': calls})
         for n, call in enumerate(calls):
             llamadas += 1

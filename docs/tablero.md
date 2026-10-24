@@ -36,7 +36,7 @@ El tablero se rehace solo cuando cambia un registro. Lo arma `oracle-factory tab
 puede usar.
 
 **Preguntar al proyecto.** El botón «Preguntar al proyecto» del tablero (también *Factory: Preguntar al proyecto* en la
-paleta y en la vista) pide una pregunta y abre los pasajes vigentes que la responden, con su cita; ver
+paleta y en la vista) pide una pregunta y abre la respuesta de la CLI, con sus fuentes y advertencias; ver
 [el conocimiento del proyecto](conocimiento.md). **¿Por qué existe esta línea?** (en el menú del editor) abre el cambio
 que escribió la línea del cursor.
 

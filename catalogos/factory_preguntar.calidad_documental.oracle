@@ -1,0 +1,8 @@
+medida factory_preguntar.calidad_documental:
+    de rag_corrida c
+    donde c.modo == "hibrido" y c.modelo == "qwen3-embedding:0.6b" y c.preguntas == 22 y c.aciertos >= 18
+    resumen contar(1)
+    umbral == 1 segun contrato porque "umbral humano documental conservado: al menos 18 de las 22 preguntas originales, con el embedding acordado"
+    requiere rag_corrida
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; umbral humano documental conservado: al menos 18 de las 22 preguntas originales, con el embedding acordado"

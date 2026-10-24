@@ -23,6 +23,9 @@ def interpretar(texto):
     listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales)\b', p))
     if not contar and not listar:
         return None
+    # Una pregunta compuesta requiere combinar fuentes; no es un conteo directo con un filtro perdido.
+    if re.search(r'\by (?:como|por que|que implica|que significa)\b', p):
+        return None
     permitidas = set('cuantos cuantas cantidad numero de el la los las tareas tarea cambios cambio hay tenemos tiene '
                      'son en total todos todas abiertos abiertas abierto abierta cerrados cerradas cerrado cerrada '
                      'abandonados abandonadas abandonado abandonada lista listar listame me mostra mostrame muestra '

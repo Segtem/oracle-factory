@@ -73,6 +73,7 @@ class Preguntar(unittest.TestCase):
 
         with patch.object(generacion, 'enviar', side_effect=modelo):
             respuesta = rag.preguntar(f, '¿Por qué se eligió un clon aparte y cuánto trabajo queda abierto?')
+            otra = rag.preguntar(f, '¿Cuántas tareas abiertas hay y por qué se eligió un clon aparte?')
         self.assertEqual(respuesta['tipo'], 'respuesta_elaborada')
         self.assertIn('aislar Git', respuesta['respuesta'])
         self.assertIn('1 cambio abierto', respuesta['respuesta'])
@@ -80,11 +81,13 @@ class Preguntar(unittest.TestCase):
         self.assertEqual(len(respuesta['herramientas']), 1)
         self.assertIn(ident, json.dumps(respuesta['fuentes']))
         self.assertIn('Fuentes', rag.texto(respuesta))
-        self.assertEqual(len(llamadas), 2)
+        self.assertEqual(otra['tipo'], 'respuesta_elaborada')
+        self.assertEqual(len(llamadas), 4)
 
     def test_pq2_herramientas_configuracion_fallos_y_limites(self):
         from oracle_factory import generacion, consultas
         self.configurar()
+        self.assertIsNone(generacion.configuracion(f))
         self.docs()
         sin = rag.preguntar(f, '¿Por qué se usan clones aparte?')
         self.assertIsNone(sin['modelo_generativo'])
@@ -109,13 +112,28 @@ class Preguntar(unittest.TestCase):
         with patch.object(generacion, 'enviar', side_effect=OSError('proveedor caído')):
             self.assertIn('generación', rag.preguntar(f, 'clones aparte')['aviso'])
         self.assertFalse((self.root / 'ajeno').exists())
+        contador = []
+        def insistir(*args):
+            contador.append(1)
+            return {'role': 'assistant', 'content': '', 'tool_calls': [{'id': 'c' + str(len(contador)),
+                    'function': {'name': 'registro', 'arguments': {'operacion': 'contar', 'estado': 'todos'}}}]}
+        with patch.object(generacion, 'enviar', side_effect=insistir), patch.object(consultas, 'registro', wraps=consultas.registro) as ejecutar:
+            self.assertNotEqual(rag.preguntar(f, '¿Por qué se usan clones aparte?')['tipo'], 'respuesta_elaborada')
+            self.assertEqual(ejecutar.call_count, 2)
+        for conf in ({'proveedor': 'ollama'}, {'proveedor': 'openai', 'modelo': 'fixture'},
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'max_llamadas': True},
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'}):
+            self.configurar(conf)
+            with self.subTest(conf=conf), self.assertRaises(f.FactoryError):
+                generacion.configuracion(f)
         # Citas inventadas o números añadidos tampoco se aceptan aunque el ID de fuente sea real.
         fuente = {'S1': {'texto': 'Hay 1 cambio abierto en el registro.', 'ruta': 'registro', 'cita': 'registro'}}
-        for texto, cita in (('Hay 999 cambios.', 'Hay 1 cambio abierto'), ('Hay 1 cambio.', 'Un fragmento inexistente')):
+        for texto, cita in (('Hay 999 cambios.', 'Hay 1 cambio abierto'), ('Se eligió un clon.', 'Un fragmento inexistente')):
             mensaje = {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                 {'texto': texto, 'inferencia': False, 'citas': [{'fuente': 'S1', 'texto': cita}]}]})}
             with self.subTest(texto=texto), self.assertRaises(ValueError):
                 generacion.validar_final(mensaje, fuente)
+        self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
         # Se prueba el transporte de ambos proveedores contra HTTP real local, sin claves ni modelos reales.
         pedidos = []
         class Manejador(BaseHTTPRequestHandler):
@@ -127,6 +145,10 @@ class Preguntar(unittest.TestCase):
                 mensaje = {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                     {'texto': 'Se eligió un clon aparte.', 'inferencia': False,
                      'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
+                if not any(m['role'] == 'tool' for m in cuerpo['messages']):
+                    args = {'operacion': 'contar', 'estado': 'todos'}
+                    mensaje = {'role': 'assistant', 'content': '', 'tool_calls': [{'id': 'http1', 'type': 'function',
+                        'function': {'name': 'registro', 'arguments': args if handler.path == '/api/chat' else json.dumps(args)}}]}
                 datos = {'message': mensaje} if handler.path == '/api/chat' else {'choices': [{'message': mensaje}]}
                 bruto = json.dumps(datos).encode()
                 handler.send_response(200); handler.send_header('Content-Length', str(len(bruto))); handler.end_headers()
@@ -142,6 +164,7 @@ class Preguntar(unittest.TestCase):
                                      'url': f'http://127.0.0.1:{http.server_port}', 'clave_env': 'FACTORY_CLAVE_FIXTURE'})
                     r = rag.preguntar(f, '¿Por qué se eligió un clon aparte?')
                     self.assertEqual(r['tipo'], 'respuesta_elaborada')
+                    self.assertEqual(len(r['herramientas']), 1)
                     self.assertEqual(pedidos[-1][0], ruta)
                     self.assertFalse(pedidos[-1][1]['stream'])
                     self.assertNotIn('clave-de-prueba', json.dumps(r))
@@ -228,6 +251,28 @@ class Preguntar(unittest.TestCase):
             rag.evaluar(f, self.root.parent / 'errada')
         mal = json.loads((self.root.parent / 'errada/hechos.json').read_text())
         self.assertTrue(any(g['grupo'] == 'registro' and g['errores'] for g in mal['preguntar_grupo']))
+        from oracle_factory import generacion
+        self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
+        casos = self.root / 'casos-adicionales.json'
+        casos.write_text(json.dumps([{'id': 'generada', 'grupo': 'generativa', 'pregunta': '¿Por qué se eligió un clon aparte?',
+                                      'contiene': ['clon'], 'fuentes': ['docs/decisiones.md']}]))
+        def modelo(conf, mensajes, herramientas, timeout):
+            fuentes = json.loads(mensajes[1]['content'])['fuentes']
+            fuente = next((s for s in fuentes if s['ruta'] == 'docs/decisiones.md'), None)
+            if fuente is None:
+                return {'content': '{"estado":"sin_respaldo"}'}
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [{'texto': 'Se eligió un clon aparte.',
+                    'inferencia': False, 'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=modelo):
+            rag.evaluar(f, self.root.parent / 'simulada', simulado=True, casos=casos)
+        simulada = json.loads((self.root.parent / 'simulada/hechos.json').read_text())
+        grupo = next(g for g in simulada['preguntar_grupo'] if g['grupo'] == 'generativa')
+        self.assertEqual((grupo['aciertos'], grupo['simulado']), (1, 1))
+        with patch.object(generacion, 'enviar', return_value={'content': '{"estado":"sin_respaldo"}'}):
+            rag.evaluar(f, self.root.parent / 'abstencion-errada', simulado=True, casos=casos)
+        mala = json.loads((self.root.parent / 'abstencion-errada/hechos.json').read_text())
+        grupo = next(g for g in mala['preguntar_grupo'] if g['grupo'] == 'generativa')
+        self.assertEqual((grupo['errores'], grupo['abstenciones_incorrectas']), (1, 1))
 
 
 if __name__ == '__main__':

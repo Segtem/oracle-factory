@@ -1,0 +1,8 @@
+medida factory_preguntar.corrida_completa:
+    de preguntar_suite c
+    donde c.completa == 1 y c.casos == 6
+    resumen contar(1)
+    umbral == 1 segun contrato porque "suite completa, contratos exactos, diez mutaciones detectadas, calidad por grupos y fuentes estables"
+    requiere preguntar_suite
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; suite completa, contratos exactos, diez mutaciones detectadas, calidad por grupos y fuentes estables"

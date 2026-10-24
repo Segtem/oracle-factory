@@ -1,0 +1,8 @@
+medida factory_preguntar.calidad_generativa:
+    de preguntar_pregunta c
+    donde c.grupo == "generativa" y c.acierto == 1 y c.simulado == 0 y c.modelo_generativo != "ninguno"
+    resumen contar(1)
+    umbral == 4 segun contrato porque "cuatro respuestas con modelo real elegido, conceptos mínimos y citas; requiere criterio humano para su fidelidad semántica"
+    requiere preguntar_pregunta
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; cuatro respuestas con modelo real elegido, conceptos mínimos y citas; requiere criterio humano para su fidelidad semántica"

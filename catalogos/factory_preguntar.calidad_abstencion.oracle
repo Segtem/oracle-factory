@@ -1,0 +1,8 @@
+medida factory_preguntar.calidad_abstencion:
+    de preguntar_grupo c
+    donde c.grupo == "abstencion" y c.preguntas == 3 y c.errores == 0 y c.abstenciones_incorrectas == 0 y c.simulado == 0
+    resumen contar(1)
+    umbral == 1 segun contrato porque "tres preguntas sin respaldo o con filtro no admitido; todas deben abstenerse o avisar correctamente"
+    requiere preguntar_grupo
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; tres preguntas sin respaldo o con filtro no admitido; todas deben abstenerse o avisar correctamente"

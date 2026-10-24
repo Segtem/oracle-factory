@@ -401,7 +401,7 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                                                             for ruta in p.get('fuentes', [])))
             grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(acierto), 'tipo': datos['tipo'],
                            'abstuvo': int(datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida')),
-                           'modelo_generativo': datos.get('modelo_generativo'), 'simulado': int(simulado)})
+                           'modelo_generativo': datos.get('modelo_generativo') or 'ninguno', 'simulado': int(simulado)})
             detalle.append({**grupos[-1], 'pregunta': p['pregunta'], 'respuesta': datos})
             continue
         datos = recuperar(cli, p["pregunta"], maximo=PRIMEROS)
@@ -412,7 +412,7 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
         filas.append({"id": p["id"], "acierto": int(puesto > 0), "puesto": puesto, "modo": datos["modo"]})
         detalle.append({**filas[-1], "pregunta": p["pregunta"], "esperadas": p["esperadas"], "primeros": rutas})
         grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(puesto > 0), 'abstuvo': 0,
-                       'tipo': 'documentos', 'modelo_generativo': None, 'simulado': int(simulado)})
+                       'tipo': 'documentos', 'modelo_generativo': 'ninguno', 'simulado': int(simulado)})
     modo = modos.pop() if len(modos) == 1 else "mixto"
     corrida = {"preguntas": len(filas), "aciertos": sum(f["acierto"] for f in filas),
                "mrr": round(sum(1 / f["puesto"] for f in filas if f["puesto"]) / len(filas), 4) if filas else 0.0,

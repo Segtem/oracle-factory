@@ -112,6 +112,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T03:19:12.021039+00:00",
       "texto": "Implementación inicial y regresiones pq1–pq6. Las seis pruebas fallaron con el producto viejo (2 fallas, 4 errores). Ahora pasan las 13 pruebas de preguntar/RAG/MCP, con transporte HTTP local simulado para Ollama y Chat Completions compatibles y ejecución real del conteo desde el arnés de VS Code. JSON nuevo /2. Todavía no se midió calidad generativa real ni se eligió un modelo; se consultó a Brian por los modelos locales ya instalados. Faltan evaluación real, mutaciones, suite completa, medidas y revisión independiente."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:31:07.312646+00:00",
+      "texto": "Las 15 pruebas específicas pasaron. El diagnóstico real documental, sin generación, dio 21/22 (MRR 0.6621), con qwen3-embedding:0.6b, frente al mínimo aprobado 18/22. Se incorporó docs cerrado como dependencia sólo de tarea/preguntar, sin integrar main ni hacer push. La primera mutación detectó 9/10: cita_ajena sobrevivía porque la prueba la rechazaba por un número no respaldado antes de comprobar la cita. Se corrigió esa prueba; la segunda corrida detectó 10/10 y restauró las fuentes. Se agregaron catálogos por requisito y calidad separada, datos de evaluación y verify_preguntar.py; falta confirmar medidas, elegir modelo generativo y medirlo realmente. No se tomó un modelo por defecto ni se llamó a servicios externos."
     }
   ],
   "tipos": {
