@@ -105,6 +105,7 @@ La redacción comienza con fuentes actuales. `recuperar` permite `alcance` `actu
 de indexar, para no borrar del índice los embeddings de otros alcances.
 `listar` admite `limite` de uno a diez (cinco por defecto) y `desplazamiento`; `detalle` con un ID calcula los pendientes y
 la vigencia de revisión y juicio igual que `estado`. Una fase o una decisión histórica no bastan para afirmar su vigencia.
+En preguntas compuestas se exige respaldo calculado para cada conteo reconocido, cualquiera sea el orden de las cláusulas.
 Sus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el
 ciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se
 limita a 64.000 bytes, la respuesta del proveedor a 256 KiB, cada resultado de herramienta a 24.000 bytes y cada fuente

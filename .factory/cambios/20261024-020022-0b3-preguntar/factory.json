@@ -1152,6 +1152,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T20:11:21.717230+00:00",
       "texto": "Tercera revisión completada y validada por Clue: agy-1 y agy2-1 del candidato 49369fc identifican el mismo defecto (alta/media): sólo se exige cálculo del registro si el conteo aparece en la primera cláusula. Reproducción: cómo se revisa y cuántas tareas abiertas hay acepta un número de ejemplo documental sin herramienta. Ambos también verificaron, en limitations por estar fuera del diff, la afirmación falsa sobre catálogos y vigencia ya corregida en e346e92 con instrucciones de pertinencia y evaluación más estricta. Git user.name sigue Brian Hollweg. Corrijo el control de todas las cláusulas, con regresión en orden inverso y para más de un conteo; no propongo aprobación."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:14:31.864244+00:00",
+      "texto": "Corregidos los hallazgos duplicados de la vuelta 3: el guardia exige cálculo consultado y citado para cada conteo reconocido en todas las cláusulas separadas por y. Regresión observada con código anterior: ValueError not raised; nuevas pruebas incluyen orden inverso y dos filtros distintos. Primer intento falló por aserción de llamadas desactualizada (9 != 4), corregida sin debilitarla: comprueba las dos consultas originales antes de añadir las variantes. La corrida de mutaciones 16 no acredita nada porque se inició con ese fallo; se conserva. Baseline posterior: 15 pruebas OK; mutaciones-preguntar-17, 51/51 detectadas y fuentes restauradas. Spec y seis medidas verificadas Brian/persona, sin propuestas pendientes; catálogos y umbrales intactos. Nueva evidencia y revisión independiente pendientes."
     }
   ],
   "tipos": {

@@ -62,7 +62,7 @@ class Preguntar(unittest.TestCase):
                      'arguments': {'operacion': 'contar', 'estado': 'abiertos'}}}]}
             # El modelo simulado usa fuentes realmente recibidas, no inventa IDs de fuentes.
             contexto = json.loads(mensajes[1]['content'])
-            extra = json.loads(mensajes[-1]['content'])
+            extra = json.loads(next(m for m in reversed(mensajes) if m['role'] == 'tool')['content'])
             fuente_doc = next(s for s in contexto['fuentes'] if s['ruta'] == 'docs/decisiones.md')
             fuente_registro = extra['fuentes'][0]
             return {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
@@ -74,6 +74,15 @@ class Preguntar(unittest.TestCase):
         with patch.object(generacion, 'enviar', side_effect=modelo):
             respuesta = rag.preguntar(f, '¿Por qué se eligió un clon aparte y cuánto trabajo queda abierto?')
             otra = rag.preguntar(f, '¿Cuántas tareas abiertas hay y por qué se eligió un clon aparte?')
+            self.assertEqual(len(llamadas), 4)
+            inversa = rag.preguntar(f, '¿Por qué se eligió un clon aparte y cuántas tareas abiertas hay?')
+        self.assertEqual(inversa['tipo'], 'respuesta_elaborada')
+        # Una consulta correcta de abiertos no acredita el conteo de cerrados pedido después.
+        documentos = {'resultados': [{'ruta': 'docs/decisiones.md', 'cita': 'doc',
+                                     'texto': (self.root / 'docs/decisiones.md').read_text()}]}
+        with patch.object(generacion, 'enviar', side_effect=modelo), self.assertRaises(ValueError):
+            generacion.elaborar(f, '¿Cuántas tareas abiertas hay y cuántas tareas cerradas hay?',
+                               documentos, generacion.configuracion(f))
         self.assertEqual(respuesta['tipo'], 'respuesta_elaborada')
         self.assertIn('aislar Git', respuesta['respuesta'])
         self.assertIn('1 cambio abierto', respuesta['respuesta'])
@@ -82,7 +91,6 @@ class Preguntar(unittest.TestCase):
         self.assertIn(ident, json.dumps(respuesta['fuentes']))
         self.assertIn('Fuentes', rag.texto(respuesta))
         self.assertEqual(otra['tipo'], 'respuesta_elaborada')
-        self.assertEqual(len(llamadas), 4)
         # Una aprobación guardada puede estar vencida. El detalle debe reflejar lo mismo que estado, no el registro crudo.
         from oracle_factory import consultas
         carpeta, estado = f.leer(ident)
@@ -143,6 +151,8 @@ class Preguntar(unittest.TestCase):
                  'citas': [{'fuente': s['id'], 'texto': 'Hay 2 cambios abiertos.'}]}]})}
         with patch.object(generacion, 'enviar', side_effect=contar_desde_ejemplo), self.assertRaises(ValueError):
             generacion.elaborar(f, '¿Cuántas tareas abiertas hay y cómo se revisan?', ejemplo, generacion.configuracion(f))
+        with patch.object(generacion, 'enviar', side_effect=contar_desde_ejemplo), self.assertRaises(ValueError):
+            generacion.elaborar(f, '¿Cómo se revisa y cuántas tareas abiertas hay?', ejemplo, generacion.configuracion(f))
         for pregunta in ('¿Qué cambios no tienen spec y cómo se aprueban?',
                          '¿Cuáles tareas cerradas hay sin hallazgos abiertos y cómo se revisa?'):
             self.assertIsNone(consultas.interpretar(pregunta))

@@ -39,7 +39,7 @@ MUTACIONES = [
     ('sin_cierre_al_agotar_herramientas', 'oracle_factory/generacion.py', "disponibles = herramientas() if llamadas < conf['max_llamadas'] and not cerrar_contexto else []", 'disponibles = herramientas()', 'pq2'),
     ('sin_respaldo_llama_modelo', 'oracle_factory/rag.py', 'if not respaldo:', 'if False:', 'pq4'),
     ('antecedente_actual_aceptado', 'oracle_factory/generacion.py', "if alcance == 'actual' and not any(c in CLASES_ACTUALES for c in clases):", 'if False:', 'pq1'),
-    ('conteo_desde_ejemplo', 'oracle_factory/generacion.py', "not rag._calculo_respaldado({**final, 'herramientas': trazas}, intencion['estado'])", 'False', 'pq1'),
+    ('conteo_desde_ejemplo', 'oracle_factory/generacion.py', "not rag._calculo_respaldado({**final, 'herramientas': trazas}, filtro)", 'False', 'pq1'),
     ('resultado_desborda_contexto', 'oracle_factory/generacion.py', 'if len(json.dumps(mensajes + [respuesta_proyectada], ensure_ascii=False).encode()) > LIMITE_CONTEXTO - RESERVA_CIERRE:', 'if False:', 'pq2'),
     ('versiones_del_proyecto_rechazadas', 'oracle_factory/generacion.py', '|Qwen|SQLite|Ollama|HTTP|versión|version', '|versión|version', 'pq2'),
     ('ordinales_colon_rechazados', 'oracle_factory/generacion.py', "texto = re.sub(r'\\bpaso\\s+\\d+\\b', 'paso', texto, flags=re.I)", 'texto = texto', 'pq2'),
@@ -58,6 +58,7 @@ MUTACIONES = [
     ('fragmento_sin_enum', 'oracle_factory/generacion.py', "['fragmento']['enum'] = sorted(set(ids)) or ['SIN_FUENTES']", "['fragmento']['description'] = 'Sin enumeración'", 'pq2'),
     ('conceptos_sin_plurales', 'oracle_factory/rag.py', "return re.sub(r'\\b([a-z]+(?:cion|sion))es\\b', r'\\1', plano)", 'return plano', 'pq6'),
     ('conceptos_pierden_signos', 'oracle_factory/rag.py', 'return normalizar(concepto) in normalizar(texto)', "return normalizar(concepto).replace('+', '') in normalizar(texto)", 'pq6'),
+    ('conteo_solo_primera_clausula', 'oracle_factory/generacion.py', "consultas.plano(pregunta).split(' y ')", "consultas.plano(pregunta).split(' y ')[:1]", 'pq1'),
 ]
 
 CASOS = {

@@ -382,11 +382,12 @@ def fuente_para_modelo(fuente):
 def elaborar(cli, pregunta, recuperado, conf):
     from . import rag
     fuentes, trazas = {}, []
-    intencion = consultas.interpretar(consultas.plano(pregunta).split(' y ', 1)[0])
+    calculos = [i['estado'] for clausula in consultas.plano(pregunta).split(' y ')
+                if (i := consultas.interpretar(clausula)) and i.get('operacion') == 'contar']
     def validar_respuesta(mensaje):
         final = validar_final(mensaje, fuentes)
-        if (final['tipo'] == 'respuesta_elaborada' and intencion and intencion.get('operacion') == 'contar'
-                and not rag._calculo_respaldado({**final, 'herramientas': trazas}, intencion['estado'])):
+        if (final['tipo'] == 'respuesta_elaborada' and
+                any(not rag._calculo_respaldado({**final, 'herramientas': trazas}, filtro) for filtro in calculos)):
             raise ValueError('El conteo requiere un cálculo consultado y citado del registro, no un ejemplo documental.')
         return final
     def acotar(fuente):
