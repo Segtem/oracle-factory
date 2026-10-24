@@ -676,6 +676,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T14:06:39.467013+00:00",
       "texto": "Corrección adicional de vigencia: las fuentes generativas declaran clase/uso y las propuestas/diseños se distinguen como antecedentes, sin convertir fallas históricas en instrucciones. Al agotar herramientas se pide cierre estructurado sin ofrecer llamadas adicionales. Evaluación: contiene_alguno reconoce expresiones alternativas explícitas del mecanismo (Git/configuración/ramas; renovar/nueva revisión), y excluye rechaza el procedimiento histórico incorrecto y el aislamiento del disco. Se mantienen cuatro de cuatro respuestas, fuentes y cálculo mixto obligatorios; no se trata la coincidencia literal de cambio/cambia como comprensión. Pasan 15 pruebas y 29 mutaciones detectadas con restauración. Medidas repropuestas: falta confirmación de Brian y evidencia formal nueva."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:08:17.141959+00:00",
+      "texto": "Diagnóstico local final de esta corrección, qwen2.5:14b real: 4/4 preguntas generativas pasan los controles propuestos (incluidos conceptos alternativos explícitos, exclusión del procedimiento obsoleto, fuentes y cálculo mixto); 57 cerradas en el registro. La respuesta de vigencia ahora requiere contenido actual del producto. Detalle local en .factory/local/diagnostico-cierre.json. No sustituye evidencia formal ni revisión semántica independiente: siguen pendientes confirmación de medidas por Brian, verify_preguntar con 29 mutaciones y otra vuelta agy/agy2. Pruebas específicas 15/15; docs_al_dia, kb --verificar y agentes --verificar pasan."
     }
   ],
   "tipos": {
