@@ -1222,6 +1222,16 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T20:33:05.043217+00:00",
       "texto": "Vuelta 4 finalizada: agy-1 y agy2-1 de e962e47, ambos completos y validados por Clue, 0 hallazgos. Alcance incremental desde 49369fc con continuidad de revisiones anteriores. Ambos reprodujeron 15 pruebas OK en clones y entornos propios, verificaron el cierre de los dos hallazgos duplicados de cláusula secundaria, puntuación de conceptos y la corrección semántica de la afirmación sobre catálogos. Ambos inspeccionaron la evidencia real y sus cuatro respuestas: 474 pruebas (10 omitidas), 51/51 mutaciones, fuentes estables, documental 20/22, registro 6/6, generativa 4/4 y negativas 3/3. Git user.name de main verificado Brian Hollweg tras esta ronda. Procedo sólo a preparar revisión y proponer aprobación; la decisión sigue siendo de Brian."
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T20:33:27.395683+00:00",
+      "decision": "aprobar",
+      "candidato": "e962e47"
     }
   ],
   "tipos": {
@@ -1356,5 +1366,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Propongo aprobar los seis requisitos: evidencia e962e47 con 474 pruebas sin fallas (10 omitidas), 51 mutaciones detectadas, fuentes estables, documental 20/22, registro 6/6, abiertas 4/4 y abstención 3/3 con qwen2.5:14b. agy y agy2 verificaron las correcciones y las respuestas reales, ambos sin hallazgos. Los conceptos y las citas no prometen comprensión universal; los límites y el alcance incremental de las revisiones están registrados. Brian conserva la decisión.",
+      "candidato": "e962e47",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-24T20:33:27.395667+00:00"
+    }
+  }
 }
