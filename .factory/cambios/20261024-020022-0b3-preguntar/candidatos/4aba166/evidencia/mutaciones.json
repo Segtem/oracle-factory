@@ -1,0 +1,262 @@
+{
+  "fuentes": {
+    "oracle_factory/__init__.py": "cad578c75e44d44d8102f20706baec66eabdfd6afa3b931c227af16e15055d46",
+    "oracle_factory/agentes.py": "5c2777047a059d7475d75c5c5f59ce4f39174926f49191c7562df9fbb020661e",
+    "oracle_factory/archivo.py": "4b884d4f1876fe1a8698f2fcc2c45363217189be7c2f60fcb12ea30439e41b99",
+    "oracle_factory/cli.py": "c917e47af808df0816313e190bb38dbfd9ee886dc6e6d21e3b6ef8ec937542a0",
+    "oracle_factory/consultas.py": "85919c0a4c3cf97730a0c74e12ea53d6aa9fe667fb1c7bbf0fb8bbaf0e651df6",
+    "oracle_factory/estructura.py": "5487fbf20675e4769aafd20fdbb8f3486693893a5ce96cfefdb2ec0cd186621d",
+    "oracle_factory/generacion.py": "3a425b37a68928d5c1d7cd8249610e2aef7a9e0f953e8e72eb67cfa375a538e1",
+    "oracle_factory/kb.py": "b7ae90b746a70a9e3b99e3957348891dd3bd98c8a4a9e70b48ddb5b85ea4e3d1",
+    "oracle_factory/mcp.py": "c0e87050df50175bf25c2cb0569ec2401b51e33c907e508f67a93d266384a3e6",
+    "oracle_factory/migracion.py": "78f9e13a96caab4f84bf5c7ad39e147e5410c8eeb406d9e6d4d3b0a6c910faa9",
+    "oracle_factory/modos.py": "9e690916b55fc114f265be37eac528cfd5cef5d006100c4ab79f2c191debafcd",
+    "oracle_factory/prep.py": "60a74e0b9a3a8379e0c4f880a0f9a59a1c318d58532dd8cd34ded8626aee2526",
+    "oracle_factory/preparacion.py": "481323b5c18293e526a56094bc2b0beb748197a8aba0cf5febe42d650c1ce624",
+    "oracle_factory/rag.py": "9188a1b9992bedf3984e860ab53e7dcc5b6661c3d657bf60d112c9500b393f9a",
+    "oracle_factory/resumen.py": "f38993f1f0b0f8b34c6ac52e38338dc34af7c51511eb04769b17bb4209d0a266",
+    "oracle_factory/revision.py": "bb1583076d4bae86085f33c8f4558038d61028ec34e93b68df23e25ba596fe38",
+    "oracle_factory/revisores.py": "af2a75f09c30e4b152fcc39c9f62c44b463c0485cfa1223daa95cea35107dde7",
+    "oracle_factory/tablero.py": "e3ab1a428c76eb8bd5aa90463a209e5973a0712c65dfdd1a6bea11f61f6d2193",
+    "oracle_factory/trazabilidad.py": "d77c6a0b8afb5b6a7110193275e8231ec1b5260c88b6ad2e148bc398022cc6b9",
+    "oracle_factory/unir.py": "14017168631af82c87d5079975a1e2dc39f7538b75eb1a7e63aa6b7a1d6a058e",
+    "tests/test_preguntar.py": "8a4da77c6303929bf27cb81923bea79ce8e87626bd7fb8a698d13c8f8f3ef7bb",
+    "tools/mutar_preguntar.py": "b52150afcbdc1dd0a82b5a32e0a5298c1ef1ad041cf35c50b82ef20fe0e8988a"
+  },
+  "mutaciones": [
+    {
+      "id": "fase_cerrada",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq3_cuenta_lista_cero_y_actualiza_registro",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq3_cuenta_lista_cero_y_actualiza_registro (tests.test_preguntar.Preguntar.test_pq3_cuenta_lista_cero_y_actualiza_registro)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 288, in test_pq3_cuenta_lista_cero_y_actualiza_registro\n    self.assertEqual((r['tipo'], r['valor'], r['filtro']), ('registro', 2, 'cerrados'))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: ('registro', 1, 'cerrados') != ('registro', 2, 'cerrados')\n\nFirst differing element 1:\n1\n2\n\n- ('registro', 1, 'cerrados')\n?              ^\n\n+ ('registro', 2, 'cerrados')\n?              ^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.498s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "conteo_cero",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq3_cuenta_lista_cero_y_actualiza_registro",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq3_cuenta_lista_cero_y_actualiza_registro (tests.test_preguntar.Preguntar.test_pq3_cuenta_lista_cero_y_actualiza_registro)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 288, in test_pq3_cuenta_lista_cero_y_actualiza_registro\n    self.assertEqual((r['tipo'], r['valor'], r['filtro']), ('registro', 2, 'cerrados'))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: ('registro', 0, 'cerrados') != ('registro', 2, 'cerrados')\n\nFirst differing element 1:\n0\n2\n\n- ('registro', 0, 'cerrados')\n?              ^\n\n+ ('registro', 2, 'cerrados')\n?              ^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.318s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "cita_ajena",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (texto='Se eligió un clon.')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 220, in test_pq2_herramientas_configuracion_fallos_y_limites\n    with self.subTest(texto=texto), self.assertRaises(ValueError):\n                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 1 test in 0.654s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "numero_inventado",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (texto='Hay 999 cambios.')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 220, in test_pq2_herramientas_configuracion_fallos_y_limites\n    with self.subTest(texto=texto), self.assertRaises(ValueError):\n                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 1 test in 0.641s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "llamadas_sin_cota",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 203, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(final['tipo'], 'respuesta_elaborada')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'sin_respaldo' != 'respuesta_elaborada'\n- sin_respaldo\n+ respuesta_elaborada\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.088s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "modelo_implicito",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 126, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertIsNone(generacion.configuracion(f))\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {} is not None\n\n----------------------------------------------------------------------\nRan 1 test in 0.082s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "respaldo_siempre",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq4_sin_respaldo_ambiguedad_y_filtros",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq4_sin_respaldo_ambiguedad_y_filtros (tests.test_preguntar.Preguntar.test_pq4_sin_respaldo_ambiguedad_y_filtros)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 315, in test_pq4_sin_respaldo_ambiguedad_y_filtros\n    self.assertEqual(r['tipo'], 'sin_respaldo')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'documentos' != 'sin_respaldo'\n- documentos\n+ sin_respaldo\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.086s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "esquema_viejo",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq5_cli_mcp_y_editor_conservan_respuesta",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "tro') != ('oracle-factory.preguntar/2', 'registro')\n\nFirst differing element 0:\n'oracle-factory.preguntar/1'\n'oracle-factory.preguntar/2'\n\n- ('oracle-factory.preguntar/1', 'registro')\n?                            ^\n\n+ ('oracle-factory.preguntar/2', 'registro')\n?                            ^\n\n\n======================================================================\nFAIL: test_pq5_cli_mcp_y_editor_conservan_respuesta (tests.test_preguntar.Preguntar.test_pq5_cli_mcp_y_editor_conservan_respuesta) (tipo='respuesta_elaborada')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 366, in test_pq5_cli_mcp_y_editor_conservan_respuesta\n    self.assertEqual((datos['esquema'], datos['tipo']), ('oracle-factory.preguntar/2', tipo))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: ('oracle-factory.preguntar/1', 'respuesta_elaborada') != ('oracle-factory.preguntar/2', 'respuesta_elaborada')\n\nFirst differing element 0:\n'oracle-factory.preguntar/1'\n'oracle-factory.preguntar/2'\n\n- ('oracle-factory.preguntar/1', 'respuesta_elaborada')\n?                            ^\n\n+ ('oracle-factory.preguntar/2', 'respuesta_elaborada')\n?                            ^\n\n\n======================================================================\nFAIL: test_pq5_cli_mcp_y_editor_conservan_respuesta (tests.test_preguntar.Preguntar.test_pq5_cli_mcp_y_editor_conservan_respuesta) (tipo='sin_respaldo')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 366, in test_pq5_cli_mcp_y_editor_conservan_respuesta\n    self.assertEqual((datos['esquema'], datos['tipo']), ('oracle-factory.preguntar/2', tipo))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: ('oracle-factory.preguntar/1', 'sin_respaldo') != ('oracle-factory.preguntar/2', 'sin_respaldo')\n\nFirst differing element 0:\n'oracle-factory.preguntar/1'\n'oracle-factory.preguntar/2'\n\n- ('oracle-factory.preguntar/1', 'sin_respaldo')\n?                            ^\n\n+ ('oracle-factory.preguntar/2', 'sin_respaldo')\n?                            ^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.660s\n\nFAILED (failures=3)\n"
+    },
+    {
+      "id": "evaluacion_acepta_error",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 400, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual(next(p['acierto'] for p in mal['preguntar_pregunta'] if p['id'] == 'registro'), 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 0\n\n----------------------------------------------------------------------\nRan 1 test in 0.145s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "compuesta_como_filtro",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq1_respuesta_abierta_con_fuentes_y_herramientas (tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 84, in test_pq1_respuesta_abierta_con_fuentes_y_herramientas\n    self.assertEqual(otra['tipo'], 'respuesta_elaborada')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'registro' != 'respuesta_elaborada'\n- registro\n+ respuesta_elaborada\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.141s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "url_sin_error_claro",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "E\n======================================================================\nERROR: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (conf={'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://['})\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 214, in test_pq2_herramientas_configuracion_fallos_y_limites\n    generacion.configuracion(f)\n    ~~~~~~~~~~~~~~~~~~~~~~~~^^^\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/generacion.py\", line 76, in configuracion\n    url = urllib.parse.urlsplit(conf['url'])\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/urllib/parse.py\", line 516, in urlsplit\n    raise ValueError(\"Invalid IPv6 URL\")\nValueError: Invalid IPv6 URL\n\n----------------------------------------------------------------------\nRan 1 test in 0.651s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "id": "caso_sin_validar",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "E\n======================================================================\nERROR: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 460, in test_pq6_evaluacion_por_grupos_detecta_errores\n    rag.evaluar(f, self.root.parent / 'incompleta', casos=casos)\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/rag.py\", line 492, in evaluar\n    acierto = datos['tipo'] == 'registro' and type(datos.get('valor')) is int and datos['valor'] == p['valor']\n                                                                                                    ~^^^^^^^^^\nKeyError: 'valor'\n\n----------------------------------------------------------------------\nRan 1 test in 0.171s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "id": "detalle_sin_vigencia",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq1_respuesta_abierta_con_fuentes_y_herramientas (tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 94, in test_pq1_respuesta_abierta_con_fuentes_y_herramientas\n    self.assertFalse(detalle['estado_actual']['revision']['vigente'])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 1 test in 0.150s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "pagina_sin_cota",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq1_respuesta_abierta_con_fuentes_y_herramientas (tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 100, in test_pq1_respuesta_abierta_con_fuentes_y_herramientas\n    self.assertLessEqual(len(pagina['datos']['cambios']), 5)\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 7 not less than or equal to 5\n\n----------------------------------------------------------------------\nRan 1 test in 0.513s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "formato_sin_recuperacion",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 162, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(r['tipo'], 'respuesta_elaborada')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'documentos' != 'respuesta_elaborada'\n- documentos\n+ respuesta_elaborada\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.087s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "servidor_exige_clave",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (proveedor='openai')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 260, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(r['tipo'], 'respuesta_elaborada')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'documentos' != 'respuesta_elaborada'\n- documentos\n+ respuesta_elaborada\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.640s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "temperatura_azar",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "FF\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (proveedor='openai')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 266, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(pedidos[-1][1]['temperature'], 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 0\n\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites) (proveedor='openai')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 266, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(pedidos[-1][1]['temperature'], 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 0\n\n----------------------------------------------------------------------\nRan 1 test in 0.643s\n\nFAILED (failures=2)\n"
+    },
+    {
+      "id": "identificador_como_cantidad",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "E\n======================================================================\nERROR: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 227, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(generacion.validar_final(mensaje_id, fuente_id)['tipo'], 'respuesta_elaborada')\n                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/generacion.py\", line 229, in validar_final\n    raise ValueError('Hay números sin respaldo en las citas.')\nValueError: Hay números sin respaldo en las citas.\n\n----------------------------------------------------------------------\nRan 1 test in 0.087s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "id": "sin_inventario_cero",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq3_cuenta_lista_cero_y_actualiza_registro",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq3_cuenta_lista_cero_y_actualiza_registro (tests.test_preguntar.Preguntar.test_pq3_cuenta_lista_cero_y_actualiza_registro)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 301, in test_pq3_cuenta_lista_cero_y_actualiza_registro\n    self.assertTrue(cero['fuentes'][0]['archivos'])  # hay registros consultados aunque ninguno coincida\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [] is not true\n\n----------------------------------------------------------------------\nRan 1 test in 0.317s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "variante_rechazada",
+      "archivo": "oracle_factory/consultas.py",
+      "caso": "test_pq3_cuenta_lista_cero_y_actualiza_registro",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq3_cuenta_lista_cero_y_actualiza_registro (tests.test_preguntar.Preguntar.test_pq3_cuenta_lista_cero_y_actualiza_registro)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 287, in test_pq3_cuenta_lista_cero_y_actualiza_registro\n    r = rag.preguntar(f, pregunta)\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/rag.py\", line 324, in preguntar\n    datos = recuperar(cli, pregunta, maximo)\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/rag.py\", line 275, in recuperar\n    guardados, pedidos = vectores(cli, pasajes, conf, configurada)\n                         ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/rag.py\", line 234, in vectores\n    nuevos = embeber(conf, [t for _, t in faltan], configurada)\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1169, in __call__\n    return self._mock_call(*args, **kwargs)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1173, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1234, in _execute_mock_call\n    raise effect\nAssertionError: no debe pedir embeddings\n\n----------------------------------------------------------------------\nRan 1 test in 0.316s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "sin_limites_json",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq5_cli_mcp_y_editor_conservan_respuesta",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "E\n======================================================================\nERROR: test_pq5_cli_mcp_y_editor_conservan_respuesta (tests.test_preguntar.Preguntar.test_pq5_cli_mcp_y_editor_conservan_respuesta) (tipo='registro')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 367, in test_pq5_cli_mcp_y_editor_conservan_respuesta\n    self.assertEqual(datos['limites']['registro']['pagina_maxima'], 10)\n                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^\nKeyError: 'registro'\n\n----------------------------------------------------------------------\nRan 1 test in 1.128s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "id": "documental_ignora_abstencion",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 416, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual((grupo_doc['errores'], grupo_doc['abstenciones_incorrectas']), (1, 1))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: (0, 0) != (1, 1)\n\nFirst differing element 0:\n0\n1\n\n- (0, 0)\n+ (1, 1)\n\n----------------------------------------------------------------------\nRan 1 test in 0.142s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "mixta_sin_calculo",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 452, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual(grupo['errores'], 1)  # citar sólo una guía no acredita el cálculo solicitado\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.151s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "listado_sin_ids",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 410, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual(next(p['acierto'] for p in listado['preguntar_pregunta'] if p['id'] == 'listado'), 0)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 1 != 0\n\n----------------------------------------------------------------------\nRan 1 test in 0.144s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "saltos_rompen_citas",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq1_respuesta_abierta_con_fuentes_y_herramientas (tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 77, in test_pq1_respuesta_abierta_con_fuentes_y_herramientas\n    self.assertEqual(respuesta['tipo'], 'respuesta_elaborada')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'documentos' != 'respuesta_elaborada'\n- documentos\n+ respuesta_elaborada\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.141s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "antecedente_como_norma",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "E\n======================================================================\nERROR: test_pq1_respuesta_abierta_con_fuentes_y_herramientas (tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 120, in test_pq1_respuesta_abierta_con_fuentes_y_herramientas\n    vigente = generacion.elaborar(f, '¿Cuándo hay que repetir la revisión?', fuentes, generacion.configuracion(f))\n              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/Dev/factory-preguntar/oracle_factory/generacion.py\", line 297, in elaborar\n    mensaje = enviar(conf, mensajes, disponibles, restante)\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1169, in __call__\n    return self._mock_call(*args, **kwargs)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1173, in _mock_call\n    return self._execute_mock_call(*args, **kwargs)\n           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File \"/home/workstation/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py\", line 1240, in _execute_mock_call\n    result = effect(*args, **kwargs)\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 112, in con_antecedentes\n    self.assertEqual(contexto[0]['clase'], 'antecedente')\n                     ~~~~~~~~~~~^^^^^^^^^\nKeyError: 'clase'\n\n----------------------------------------------------------------------\nRan 1 test in 0.507s\n\nFAILED (errors=1)\n"
+    },
+    {
+      "id": "concepto_alternativo_ignorado",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 434, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual((grupo['aciertos'], grupo['simulado']), (1, 1))\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Tuples differ: (0, 1) != (1, 1)\n\nFirst differing element 0:\n0\n1\n\n- (0, 1)\n?  ^\n\n+ (1, 1)\n?  ^\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.149s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "procedimiento_obsoleto_aceptado",
+      "archivo": "oracle_factory/rag.py",
+      "caso": "test_pq6_evaluacion_por_grupos_detecta_errores",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq6_evaluacion_por_grupos_detecta_errores (tests.test_preguntar.Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 444, in test_pq6_evaluacion_por_grupos_detecta_errores\n    self.assertEqual(next(g['errores'] for g in erronea['preguntar_grupo'] if g['grupo'] == 'generativa'), 1)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 1 test in 0.153s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "id": "sin_cierre_al_agotar_herramientas",
+      "archivo": "oracle_factory/generacion.py",
+      "caso": "test_pq2_herramientas_configuracion_fallos_y_limites",
+      "detectada": true,
+      "codigo": 1,
+      "salida": "F\n======================================================================\nFAIL: test_pq2_herramientas_configuracion_fallos_y_limites (tests.test_preguntar.Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-preguntar/tests/test_preguntar.py\", line 187, in test_pq2_herramientas_configuracion_fallos_y_limites\n    self.assertEqual(turnos, [True, True, False])\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: [True, True, True, False] != [True, True, False]\n\nFirst differing element 2:\nTrue\nFalse\n\nFirst list contains 1 additional elements.\nFirst extra element 3:\nFalse\n\n- [True, True, True, False]\n?             ------\n\n+ [True, True, False]\n\n----------------------------------------------------------------------\nRan 1 test in 0.085s\n\nFAILED (failures=1)\n"
+    }
+  ],
+  "completas": true,
+  "todas_detectadas": true
+}
