@@ -41,6 +41,10 @@ class Docs(unittest.TestCase):
         from oracle_factory import cli
         for carpeta in ('local/revisiones/', 'local/revisores/', 'local/rag/'):
             self.assertTrue(carpeta in cli.LEEME_FACTORY, f'el LEEME de .factory/ no nombra {carpeta}')
+        # Los nombres solos no alcanzan: cada carpeta debe describir lo que contiene.
+        for texto in (cli.LEEME_FACTORY, (SOURCE / 'docs/estructura.md').read_text(encoding='utf-8')):
+            self.assertRegex(texto, r'local/revisiones/[^;\n]*clon')
+            self.assertRegex(texto, r'local/revisores/[^;\n]*pedido[^;\n]*informe')
         # Los enlaces entre los documentos apuntan a archivos que existen.
         for documento in [SOURCE / 'README.md', *(SOURCE / 'docs').glob('*.md')]:
             for destino in docs_al_dia.ENLACE.findall(documento.read_text(encoding='utf-8')):

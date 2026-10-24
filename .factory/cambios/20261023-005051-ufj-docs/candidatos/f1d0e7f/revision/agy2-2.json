@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy2-2",
+  "base": "0bdaf6780056101eb88f7dc71dc55db4174323be",
+  "head": "f1d0e7f4216d84f5a654283731c8bdf56107d65b",
+  "diff_sha256": "ba31e5d451d27ce9860012bc1d6ef56929d2fb54d3051c0d58eae43157c3b85d",
+  "context_sha256": "1b4942e15c212c7120bdb17216f77aec032c6b5d45e673061f6aeb28041824a8",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "LEEME_FACTORY invierte los roles de las carpetas locales: describe local/revisores/ como el clon aparte cuando el clon reside en local/revisiones/",
+      "explanation": "En oracle_factory/cli.py (líneas 3121-3122), la constante LEEME_FACTORY que inicializa el contenido de .factory/LEEME.md describe la estructura de .factory/local/ de forma contradictoria con la implementación: «local/revisiones/<sha7>/ guarda los checkouts estables para que Clue revise; local/revisores/ el clon aparte de cada pedido de revisión y local/rag/ el índice de oracle-factory preguntar. Nada de local/ se versiona.». En realidad, según la implementación de pedir_revision en cli.py (líneas 1423-1447), el clon de Git se crea en local/revisiones/<sha7>-<nombre>-<n> (mediante git clone --local), donde además Clue prepara directamente su paquete (oracle-clue preparar --repo str(checkout)). Por su parte, local/revisores/<sha7>-<nombre>-<n> no es un clon de Git ni contiene un repositorio (no posee directorio .git), sino que es el directorio de trabajo donde se guardan el pedido (pedido.md), la bitácora de ejecución (salida.log) y el informe del revisor (informe.json). Además, la prueba tests/test_docs.py (líneas 42-44) sólo verifica la presencia como subcadena de 'local/revisores/', 'local/revisiones/' y 'local/rag/', por lo que la afirmación falsa y la inversión de roles sobreviven sin ser detectadas por la suite.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 3121,
+        "end_line": 3122,
+        "side": "head"
+      },
+      "trigger": "Examinar el contenido de .factory/local/ tras invocar oracle-factory pedir-revision o inspeccionar los tipos de archivo en local/revisores/<sha>-<revisor>-<n> frente a local/revisiones/<sha>-<revisor>-<n>.",
+      "evidence": "En el entorno actual, .factory/local/revisiones/f1d0e7f-agy2-2 es un repositorio Git completo (.git existe), mientras que .factory/local/revisores/f1d0e7f-agy2-2 contiene únicamente pedido.md, salida.log y agy2.md sin inicialización de Git. La prueba test_docs.py acepta cualquier descripción mientras contenga los nombres literales de las carpetas.",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+      "status": "pendiente",
+      "verification": "Corregir el texto en LEEME_FACTORY en oracle_factory/cli.py (y consecuentemente en docs/estructura.md) para indicar que local/revisiones/<sha7>-<revisor>-<n>/ aloja el clon de Git independiente para el revisor y Clue, mientras que local/revisores/<sha7>-<revisor>-<n>/ almacena los pedidos, bitácoras e informes de revisión. Complementar test_dc1_alguien_llega_al_proyecto para comprobar que la descripción semántica asociada a cada carpeta sea coherente con su rol real."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias de documentación desde la raíz del checkout mediante: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 tests, OK). Se utilizó el Python del entorno principal debido a que el clon de revisión no cuenta con un .venv propio.",
+    "No se ejecutó la suite completa de pruebas ni herramientas globales de verificación, respetando las instrucciones de la revisión.",
+    "No se modificó el checkout de revisión ni se alteraron repositorios Git.",
+    "Se limitó la revisión al diff provisto en el paquete paquete-agy2-2.json (correspondiente a oracle_factory/cli.py), contrastando las afirmaciones de LEEME_FACTORY contra la implementación en el código y el sistema de archivos.",
+    "Se realizaron mutaciones en memoria para validar qué aserciones de tests/test_docs.py cubren los cambios de LEEME_FACTORY."
+  ]
+}

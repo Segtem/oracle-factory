@@ -49,6 +49,8 @@ El acuerdo humano queda a la vista en `openspec/changes/`, no escondido: es lo q
 
 - **`.factory/` se versiona**: es lo que comparten las personas. Lo que Factory escribe ahí lleva rutas relativas al proyecto, nunca la ruta de una máquina, para que un clon en otro lugar lo encuentre.
 - **`.factory/local/` no se versiona**: `init` agrega `.factory/local/` al `.gitignore`. Ahí van los clones de revisión y el índice de `preguntar`, que son de cada máquina. Si esa carpeta no estuviera ignorada, Git ofrecería esos checkouts como directorios sin seguimiento.
+- `local/revisiones/` guarda los checkouts estables y el clon aparte de cada pedido (`<sha7>-<revisor>-<n>/`).
+- `local/revisores/` guarda el pedido, la salida y el informe de cada revisor (`<sha7>-<revisor>-<n>/`).
 - **Git no versiona carpetas vacías**, así que `init` deja `.factory/LEEME.md`, que explica la carpeta, y un `.gitkeep` en cada carpeta vacía que crea: un clon recién hecho puede trabajar.
 - La huella de archivos del producto excluye `.factory/` entera, como ya excluye `tareas/`, y las specs consolidadas que genera Factory (ver más abajo): agregar evidencia o un paquete de Clue no invalida una revisión. Cambiar el acuerdo, el código o las medidas sí.
 

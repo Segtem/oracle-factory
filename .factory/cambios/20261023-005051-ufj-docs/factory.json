@@ -130,6 +130,89 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T00:09:05.838849+00:00",
       "texto": "Relevo de claude-code a codex. Brian eligió agregar agy2 dentro de docs en un commit separado (1A). Después de cerrar docs, preparar una propuesta separada para que preguntar responda consultas del registro, incluyendo cuántos cambios hay cerrados (2A). Caso observado: «Cuantas tareas cerradas hay?» devolvió pasajes ajenos a la consulta; listar --cerrados contó 56 en main."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:10:33.845492+00:00",
+      "revisor": "agy",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "d91cea3bf60c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:10:33.890711+00:00",
+      "revisor": "agy2",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "70a419956e91"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:05.949109+00:00",
+      "revisor": "agy",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "e350a36c6051"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:05.975071+00:00",
+      "revisor": "agy2",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "ce1ffd7160a4"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:47.539176+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "70a419956e91"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:18:30.452542+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "d91cea3bf60c"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T00:18:55.533593+00:00",
+      "texto": "Primera parte de revisión: agy y agy2 confirmaron la misma discrepancia media (LEEME-01, AGY-01): local/revisores/ no contiene el clon; local/revisiones/ sí. Se corrigió LEEME_FACTORY y se documentaron ambas carpetas en docs/estructura.md. Regresión comprobada: tests.test_docs falló con el texto viejo (FAILED, failures=1), pasó tras la corrección (2 pruebas OK). Dos mutaciones que vuelven a describir revisores como clon, una en cada fuente, fueron detectadas (salida 1). Los informes del primer paquete fueron validados por Clue. La segunda parte aún está en curso. Las revisiones se dividieron mediante refs locales base-docs-leeme y base-docs-documentos por el límite de contexto de Clue; mismo candidato, sin omitir archivos entre ambos paquetes."
     }
   ],
   "tipos": {
