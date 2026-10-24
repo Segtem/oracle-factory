@@ -1,0 +1,8 @@
+medida factory_preguntar.respaldo_documental:
+    de preguntar_grupo c
+    donde c.grupo == "documental" y c.preguntas == 22 y c.aciertos >= 18 y c.simulado == 0
+    resumen contar(1)
+    umbral == 1 segun contrato porque "al menos 18 de las 22 preguntas originales seleccionan respaldo y una fuente esperada mediante preguntar, con generación desactivada"
+    requiere preguntar_grupo
+    ambito universal
+    alcance "tools/verify_preguntar.py, fuentes quietas, Linux; selección documental de producción y fuentes esperadas, sin usar un modelo generativo para sustituir la recuperación"

@@ -258,11 +258,11 @@ async function porQue() {
     await vscode.window.showTextDocument(doc, {preview: true});
 }
 
-// Preguntar al proyecto: los pasajes de `oracle-factory preguntar` en un documento sin guardar; se lee, no cambia nada.
+// Preguntar al proyecto: la respuesta de `oracle-factory preguntar` con sus fuentes y límites, sin duplicar la lógica.
 async function preguntar() {
     const raiz = carpeta();
     if (!raiz) return vscode.window.showErrorMessage('Factory: abrí la carpeta de un proyecto de Factory.');
-    const pregunta = await vscode.window.showInputBox({prompt: 'Preguntale al conocimiento del proyecto',
+    const pregunta = await vscode.window.showInputBox({prompt: 'Preguntale al proyecto: conocimiento, decisiones o estado',
                                                       placeHolder: '¿Por qué los IDs de los cambios llevan letras al azar?'});
     if (!pregunta || !pregunta.trim()) return;
     const texto = await new Promise(ok => execFile(cli(raiz), ['preguntar', '--', pregunta.trim()],

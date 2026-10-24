@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/beb247d-agy2-1",
+  "base": "944a617039d16d9a294cc85ecc7f8edc4d6be490",
+  "head": "beb247d560deb8e3354c555435490e00d62b713d",
+  "diff_sha256": "02e530c206b70c871337c3f30d7574e748f23c801029d0ad144058a5589142a5",
+  "context_sha256": "180fd18b6cef89926bc8d6e346109c570321c87c945b84254d889ed370904644",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó el conjunto específico de pruebas unitarias autorizado desde la raíz del checkout: PYTHONPATH=. $PWD/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.94s).",
+    "No se ejecutó la suite completa de pruebas del proyecto ni un modelo generativo real, cumpliendo expresamente las restricciones de las instrucciones del pedido de revisión.",
+    "Se creó un entorno virtual aislado (.venv) en el checkout del candidato sin modificar las fuentes del producto ni la configuración de Git.",
+    "El checkout del candidato beb247d (/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/beb247d-agy2-1) se mantuvo estrictamente en modo de sólo lectura.",
+    "Se analizó exhaustivamente la evidencia previa commiteada en el candidato (resultado.json, hechos.json, oro/detalle.json, mutaciones.json), examinando en detalle los fallos generativos y las respuestas por grupo.",
+    "Se contrastaron todos los compromisos y escenarios de la especificación openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md frente a la implementación en oracle_factory/consultas.py, generacion.py, rag.py, cli.py, mcp.py, editores/vscode/extension.js, tests/ y tools/."
+  ],
+  "findings": [
+    {
+      "id": "CONSULTAS-INTERPRETAR-FALSO-FILTRO-NO-ADMITIDO",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "consultas.interpretar intercepta erróneamente preguntas abiertas de conocimiento con consulta_no_admitida",
+      "explanation": "El requisito funcional prometido en spec.md establece que con un modelo generativo configurado, preguntar SHALL aceptar preguntas abiertas en lenguaje natural sobre el proyecto y elaborar respuestas combinando documentos recuperados y herramientas de consulta al registro, sin exigir frases exactas ni limitar la respuesta a fragmentos. Sin embargo, consultas.interpretar() clasifica de forma rígida cualquier entrada que contenga tareas/cambios y empiece con palabras de listado (cuales, muestra, lista...) o contenga palabras de conteo (cuantos, cantidad...) como una consulta de registro directa. Al verificar que todas las palabras pertenezcan a un conjunto estricto de 34 palabras permitidas, cualquier término legítimo fuera de esa lista (por ejemplo: pasos, para, aprobar, fases, repositorio, registrados, están, quién...) provoca que la función retorne inmediatamente {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta directa...'}, abortando prematuramente el flujo sin llegar a la recuperación documental ni a la generación. Asimismo, preguntas compuestas formuladas con coma o con otros interrogativos que no coincidan exactamente con la expresión fijada 'y (?:como|por que|que implica|que significa)' son bloqueadas con este mismo error.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 17,
+        "end_line": 40,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Cuáles son los pasos para aprobar un cambio?\" o \"¿Cuáles cambios están abiertos?\" o \"¿Cuántas tareas cerradas hay y quién las aprobó?\"",
+      "evidence": "1. Al invocar consultas.interpretar('¿Cuáles son los pasos para aprobar un cambio?'), la función retorna {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta directa...'}.\n2. Al invocar consultas.interpretar('¿Cuáles cambios están abiertos?'), la palabra 'estan' no figura en permitidas (línea 29), provocando que se devuelva consulta_no_admitida en lugar de listar los cambios abiertos.\n3. Al consultar '¿Cuántas tareas cerradas hay y quién las aprobó?' o '¿Cuántas tareas cerradas hay, cómo se registra una revisión humana?', al no coincidir con el regex exacto de la línea 27, se evalúa contra permitidas y se rechaza como consulta no admitida.\n4. En rag.py:319-321, directa = consultas.directa(...) devuelve este objeto y aborta la consulta inmediatamente sin consultar fuentes ni modelo.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Prueba reproducible en Python llamando directamente a consultas.interpretar() con consultas abiertas válidas del dominio del proyecto, verificando que se rechazan como consultas no admitidas en lugar de pasar a recuperación y elaboración."
+    },
+    {
+      "id": "GENERACION-REGISTRO-LISTAR-DESBORDA-CONTEXTO",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "La herramienta registro(operacion='listar') desborda el límite de contexto LIMITE_CONTEXTO y cancela la generación",
+      "explanation": "El requisito funcional prometido indica que la elaboración usa herramientas acotadas y cálculos en código sobre el registro. En generacion.py:60-62 se ofrece al modelo la herramienta 'registro' con operaciones 'contar', 'listar', 'agrupar' y 'detalle'. Sin embargo, cuando el modelo invoca registro con operacion='listar', consultas.py:69 incluye hasta 50 cambios completos (con id, título, fase, archivo, revisión con todas sus decisiones y sha256, requisitos, spec_aprobada, cierre, responsable y aceptados). Además, consultas.py:74-75 serializa la totalidad de estos datos nuevamente dentro de fuente['texto']. En un proyecto de tamaño real (56 cambios), el JSON producido por consultas.registro alcanza más de 235.000 bytes. Al anexarse la respuesta de la herramienta al historial de mensajes en generacion.py:204-209, el tamaño total de mensajes supera los 235 KB. En la siguiente iteración del bucle generativo (generacion.py:164), se evalúa 'len(json.dumps(mensajes).encode()) > LIMITE_CONTEXTO' (donde LIMITE_CONTEXTO = 64000). Esta condición se cumple invariablemente, levantando ValueError('Se alcanzó el límite de tiempo o contexto de generación.'), lo que provoca que rag.py descarte toda la generación y degrade la respuesta a documentos candidatos.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 162,
+        "end_line": 172,
+        "side": "head"
+      },
+      "trigger": "Una consulta generativa que lleve al modelo a invocar la herramienta registro con argumentos {'operacion': 'listar', 'estado': 'todos'}.",
+      "evidence": "1. Medición directa en el repositorio del candidato: len(json.dumps(consultas.registro(cli, {'operacion': 'listar', 'estado': 'todos'})).encode()) genera 235.995 bytes.\n2. En generacion.py:12 se define LIMITE_CONTEXTO = 64000 (64 KB).\n3. El payload de la herramienta supera en casi 4 veces el límite máximo total de contexto.\n4. En generacion.py:164, la comprobación len(json.dumps(mensajes).encode()) > LIMITE_CONTEXTO detona de inmediato en la segunda vuelta y levanta ValueError, abortando la respuesta elaborada.",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Ejecución de consultas.registro(cli, {'operacion': 'listar', 'estado': 'todos'}) en Python sobre el checkout actual; se verificó que el tamaño devuelto supera 235 KB y que al inyectarse en el ciclo de mensajes de elaborar() se lanza ValueError por exceso de LIMITE_CONTEXTO."
+    },
+    {
+      "id": "EVALUACION-RAG-OCULTA-ERRORES-GENERATIVOS",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "rag.preguntar y rag.evaluar silencian fallos de red, configuración y límites bajo un aviso genérico",
+      "explanation": "El requisito 2 promete que «Si falta modelo o falla, SHALL avisarlo y conservar las consultas directas y la recuperación disponibles sin inventar una respuesta generada». El requisito 6 promete emitir hechos y detalle por pregunta distinguiendo exactitud, abstenciones correctas e incorrectas. En oracle_factory/rag.py:336-340, el bloque try/except captura indiscriminadamente (OSError, ValueError, TypeError, KeyError, IndexError) y sustituye cualquier fallo por el aviso genérico: 'La generación no produjo una respuesta válida dentro de sus límites; se conserva la recuperación documental.'. Esto oculta si el fallo se debió a un servidor no disponible (OSError), credenciales faltantes (ValueError), sobrepaso de tamaño de contexto (ValueError) o un error de código interno. Además, en rag.evaluar() (líneas 401-417), al fallar la generación, la respuesta retiene tipo='documentos'. Como 'documentos' no está en ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'), la variable 'abstuvo' se registra como 0 y 'abstenciones_incorrectas' como 0. Esto enmascara la causa real de las fallas observadas en la corrida real de evidencia (donde pq-clones y pq-combinada terminaron como acierto=0 con aviso genérico sin detalle de la excepción).",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 336,
+        "end_line": 340,
+        "side": "head"
+      },
+      "trigger": "Fallo de conexión HTTP con Ollama/OpenAI, ausencia de clave de entorno o excepción de validación interna durante elaborar().",
+      "evidence": "1. En oracle_factory/rag.py:338, except (OSError, ValueError, TypeError, KeyError, IndexError): descarta el objeto exc y no preserva su mensaje ni traza.\n2. En la evidencia commiteada (.factory/cambios/.../evidencia/oro/detalle.json), tanto pq-clones como pq-combinada reportan tipo='documentos', aviso='La generación no produjo una respuesta válida dentro de sus límites...' y acierto=0, sin ningún registro del motivo técnico real del fallo.\n3. En tests/test_preguntar.py:112, un OSError('proveedor caído') es silenciado y sólo verificado como texto genérico en aviso.",
+      "related_requirement": "la evaluación distingue exactitud relevancia y abstención",
+      "status": "pendiente",
+      "verification": "Se simuló un proveedor caído (OSError) y una variable de entorno de clave no declarada (ValueError); en ambos casos rag.preguntar retornó el aviso estándar de límites sin informar al usuario la causa real."
+    },
+    {
+      "id": "GENERACION-OPENAI-OMITE-TEMPERATURA-Y-CLAVE-ENV",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "generacion.configuracion y enviar no exigen clave_env ni fijan temperatura 0 para proveedor openai",
+      "explanation": "El requisito 2 establece que SHALL poder usarse un proveedor local Ollama o uno compatible con OpenAI explícitamente configurado, con credenciales fuera de los archivos versionados. En docs/conocimiento.md:91-93 se especifica que openai requiere url explícita y clave_env con el nombre de una variable de entorno. Sin embargo: 1) En generacion.configuracion() (líneas 37-52) se valida la presencia de 'url', pero no se exige 'clave_env'. Una configuración sin 'clave_env' se acepta como válida, fallando recién de forma opaca al momento de invocar enviar() con ValueError('Falta la clave configurada para generación.'). 2) En generacion.enviar() (líneas 70-80), mientras que para Ollama se envía 'temperature': 0 de manera determinista, para el proveedor openai no se configura 'temperature' en el cuerpo del request. En la API de OpenAI el valor por defecto es 1.0, lo que genera respuestas creativas y estocásticas incompatibles con la estricta verificación de citas textuales requerida por validar_final().",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 36,
+        "end_line": 52,
+        "side": "head"
+      },
+      "trigger": "Configuración de rag.generacion con proveedor 'openai' sin definir clave_env, o ejecución de consultas generativas con OpenAI donde la ausencia de temperature=0 provoca respuestas no deterministas.",
+      "evidence": "1. En generacion.py:37-38: sólo se verifica if conf['proveedor'] == 'openai' and 'url' not in cli.config_proyecto()['rag']['generacion']. No hay chequeo de clave_env.\n2. En generacion.py:70-80: cuerpo se inicializa sin campo 'temperature' y sólo la rama ollama agrega 'options': {'temperature': 0, ...}.\n3. Enviar una petición a OpenAI sin temperature adopta 1.0 por omisión en el servidor compatible.",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Se invocó generacion.configuracion() con {'proveedor': 'openai', 'modelo': 'gpt-4o', 'url': 'https://api.openai.com/v1'}; la función retornó exitosamente la configuración sin exigir clave_env."
+    },
+    {
+      "id": "RAG-ESQUEMA-V2-OMITE-LIMITES-EN-JSON",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "El esquema oracle-factory.preguntar/2 omite el campo limites en las respuestas estructuradas",
+      "explanation": "El requisito 5 promete: «El texto y JSON de preguntar SHALL distinguir respuesta del registro, respuesta elaborada, recuperación documental, falta de respaldo, necesidad de aclaración y consulta no admitida, con fuentes, herramientas usadas y límites. SHALL informar por separado los modelos de embeddings y generación. El JSON SHALL tener esquema versionado y documentado». En docs/conocimiento.md:60 se describe: «--json devuelve oracle-factory.preguntar/2: tipo, respuesta, fuentes, herramientas, modelos y límites, además de resultados...». Sin embargo, en oracle_factory/rag.py:315-318, el diccionario base inicializa: base = {'esquema': ESQUEMA, 'pregunta': pregunta, 'modo': 'registro', 'modelo': None, 'modelo_generativo': None, 'proveedor_generativo': None, 'modelo_embeddings': None, 'aviso': None, 'embeddings_pedidos': 0, 'por_revisar': [], 'fuera_por_no_vigentes': 0, 'resultados': [], 'fuentes': [], 'herramientas': []}. No existe el campo 'limites' en base, ni es agregado por consultas.directa(), recuperar() o elaborar(). En la salida formateada texto(datos) tampoco se exponen los límites operativos.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 315,
+        "end_line": 321,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Cuántas tareas cerradas hay?\" --json o cualquier llamada con --json.",
+      "evidence": "1. Inspección de base en oracle_factory/rag.py:315-318 confirma que 'limites' no está definido.\n2. grep de 'limite' en rag.py arroja 0 coincidencias.\n3. La salida generada por preguntar(cli, '...') carece de la clave 'limites' documentada en la especificación y en la guía oficial.",
+      "related_requirement": "la respuesta conserva su significado en CLI MCP y VS Code",
+      "status": "pendiente",
+      "verification": "Ejecución de rag.preguntar() en Python y verificación de claves del diccionario resultante: la clave 'limites' está ausente."
+    },
+    {
+      "id": "TESTS-PQ5-Y-EVALUACION-OMITEN-ESCENARIOS-PROMETIDOS",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "test_pq5 y casos de evaluación omiten comprobar consultas abiertas combinadas, sin respaldo y listados",
+      "explanation": "El escenario prometido en la spec para el requisito 5 ('preguntar desde los tres clientes') exige probar: 'GIVEN las mismas fuentes y una pregunta de conteo, una abierta que combina fuentes y una sin respaldo / WHEN se consulta por CLI, MCP y el comando de VS Code / THEN los clientes conservan resultado, tipo, fuentes y advertencias'. Sin embargo, test_pq5_cli_mcp_y_editor_conservan_respuesta (tests/test_preguntar.py:207-235) prueba únicamente una sola pregunta de conteo ('¿Cuántas tareas cerradas hay?'), obviando por completo verificar en los tres clientes preguntas abiertas y preguntas sin respaldo. Asimismo, en tests/datos/preguntar-abiertas.json, los cuatro casos generativos tienen 'fuentes': [], lo que neutraliza la comprobación de fuentes en rag.evaluar() (líneas 408-410), impidiendo verificar si se citaron las fuentes requeridas. Por último, en tools/verify_preguntar.py:casos_registro(), el caso 'pq-registro-lista' sólo valida que 'datos[\"valor\"] == p[\"valor\"]' (rag.py:403), sin comprobar que el listado de cambios o IDs haya sido retornado.",
+      "location": {
+        "file": "tests/test_preguntar.py",
+        "start_line": 207,
+        "end_line": 235,
+        "side": "head"
+      },
+      "trigger": "Ejecución de la suite de contratos en tests/test_preguntar.py.",
+      "evidence": "1. tests/test_preguntar.py:211 sólo define pregunta = '¿Cuántas tareas cerradas hay?'. No hay pruebas en test_pq5 para consultas abiertas ni para sin_respaldo.\n2. En tests/datos/preguntar-abiertas.json:2-5, todos los registros generativos contienen 'fuentes': [].\n3. En rag.py:403, acierto para el grupo registro evalúa únicamente datos['valor'] == p['valor'], ignorando datos.get('ids') o datos.get('cambios').",
+      "related_requirement": "la respuesta conserva su significado en CLI MCP y VS Code",
+      "status": "pendiente",
+      "verification": "Inspección estática y ejecución de test_pq5 demostrando que la aserción sobre MCP y VS Code sólo cubre el caso de conteo directo."
+    },
+    {
+      "id": "CONSULTAS-REGISTRO-OMITE-VIGENCIA-Y-PENDIENTES",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "consultas.registro omite evaluar la vigencia de revisiones y omite pendientes_de_union",
+      "explanation": "El requisito 3 y el escenario de combinación de registro y conocimiento exigen identificar el estado exacto de pendientes y decisiones. En oracle_factory/consultas.py:58-66: 1) Se incluye e.get('revision') directamente como dict sin evaluar si la revisión sigue vigente respecto al contexto del producto actual (mismo_producto(rev.get('contexto'), contexto_producto()) como exige cli.py:1760). Una revisión desactualizada se reporta como válida. 2) No se exponen en las filas devueltas los campos críticos de tareas pendientes de colaboración como 'pendientes_de_union', 'medidas_pendientes' ni 'motivo_pendiente'. 3) En la respuesta de listado de consultas.py:87, no se indica si un cambio cerrado se encuentra archivado, a diferencia de cli.listar que explícitamente añade '(archivado)' a la fase.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 58,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "Consultar mediante registro o preguntar el detalle de un cambio cuya revisión caducó por cambios en el código o que posee pendientes de unión.",
+      "evidence": "1. En consultas.py:63-66 se copian campos estáticos id, titulo, fase, archivo, revision, requisitos, spec_aprobada, cierre, responsable, aceptados. No se incluye pendientes_de_union ni se valida vigencia de revision.\n2. En consultas.py:87 se formatea - {r['id']}: {r['titulo']} ({r['fase']}) omitiendo el indicador (archivado) presente en cli.listar.",
+      "related_requirement": "preguntar cuenta y lista cambios desde el registro vigente",
+      "status": "pendiente",
+      "verification": "Inspección de consultas.py líneas 58-76 contrastada con la lógica de vigencia de cli.py líneas 1760 y 2584."
+    }
+  ]
+}

@@ -1,0 +1,2980 @@
+[
+  {
+    "id": "ids-al-azar",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Por qué los IDs de los cambios llevan tres letras al azar?",
+    "esperadas": [
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "docs/conocimiento.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "dos-toman",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué pasa si dos personas toman el mismo cambio en ramas distintas y después se integran?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/changes/20261021-140625-unir/proposal.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "elegir-version",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo elijo cuál vale cuando dos ramas dejaron fases o cierres distintos?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "generados-no-chocan",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Por qué resumen.md y el vault no dan conflicto al mergear?",
+    "esperadas": [
+      "kb/cambios/20261021-140625-unir.md",
+      "openspec/changes/20261021-140625-unir/",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.el_registro_de_un_cambio_editado_en_dos_ramas_se_une_sin_perder_nada.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.lo_generado_no_choca_al_integrar.md",
+      "kb/requisitos/colaboracion_cf525024cf654a9ec.si_las_dos_ramas_decidieron_distinto_decide_una_persona.md"
+    ],
+    "primeros": [
+      "docs/estructura.md",
+      "openspec/changes/20261021-140625-unir/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261013-153440-cli-json/proposal.md",
+      "kb/cambios/20261021-235127-fjn-rag.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "quien-trabaja",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo sé qué persona y qué agente están trabajando en un cambio?",
+    "esperadas": [
+      "kb/cambios/20261019-232444-quien.md",
+      "openspec/changes/20261019-232444-quien/",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio.md",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.estado_y_el_tablero_muestran_quien_trabaja_en_que.md",
+      "kb/requisitos/colaboracion_c46e4f59890d8fbf2.un_cambio_dice_quien_lo_tiene.md"
+    ],
+    "primeros": [
+      "docs/modos.md",
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
+      "docs/agentes.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "compartir-tablero",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo comparto el tablero con otra persona para trabajar de a dos?",
+    "esperadas": [
+      "kb/cambios/20261020-005341-liveshare.md",
+      "openspec/changes/20261020-005341-liveshare/",
+      "kb/cambios/20261020-141303-sesion.md",
+      "openspec/changes/20261020-141303-sesion/",
+      "kb/requisitos/ide_c2103597a7eea615c.el_chat_queda_en_el_cambio.md",
+      "kb/requisitos/ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte.md",
+      "kb/requisitos/ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion.md",
+      "kb/requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261020-005341-liveshare/specs/ide/spec.md",
+      "docs/tablero.md",
+      "openspec/changes/20261019-232444-quien/specs/colaboracion/spec.md",
+      "openspec/specs/ide/spec.md",
+      "openspec/changes/20261020-141303-sesion/specs/ide/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "revision-vieja",
+    "acierto": 0,
+    "puesto": 0,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cuándo deja de valer una revisión ya registrada?",
+    "esperadas": [
+      "kb/cambios/20261005-154433-la-vigencia-de.md",
+      "openspec/changes/20261005-154433-la-vigencia-de/",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.el_commit_observado_se_conserva_y_se_muestra.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes.md",
+      "kb/requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto.md"
+    ],
+    "primeros": [
+      "openspec/specs/modos/spec.md",
+      "openspec/changes/20261016-143020-revisar-cancelada/specs/revision-guiada/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+      "openspec/specs/revision-guiada/spec.md",
+      "openspec/specs/decisiones/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 0,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 0
+  },
+  {
+    "id": "catalogo-cambia",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué pasa si cambia el catálogo de una medida que ya estaba confirmada?",
+    "esperadas": [
+      "kb/cambios/20261015-140406-catalogo-confirmado.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/",
+      "kb/requisitos/modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo.md",
+      "kb/requisitos/modos_cfcd50c150324f5bc.una_propuesta_de_medidas_no_se_confirma_si_cambio_el_catalogo.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261015-140406-catalogo-confirmado.md",
+      "openspec/specs/modos/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/specs/modos/spec.md",
+      "openspec/specs/modos/spec.md",
+      "openspec/changes/20261015-140406-catalogo-confirmado/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "abandonar",
+    "acierto": 0,
+    "puesto": 0,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo dejo un cambio sin terminar y quién lo decide?",
+    "esperadas": [
+      "kb/cambios/20261013-011811-abandonar.md",
+      "openspec/changes/20261013-011811-abandonar/",
+      "kb/requisitos/archivo_c522e364f724a0a8f.abandonar_es_una_decision_de_persona_con_motivo.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.el_resumen_muestra_lo_abandonado_aparte.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.lo_abandonado_no_queda_abierto_ni_medido.md",
+      "kb/requisitos/archivo_c522e364f724a0a8f.una_carpeta_sin_registro_tambien_se_abandona.md"
+    ],
+    "primeros": [
+      "docs/modos.md",
+      "openspec/changes/20261017-135953-higiene/specs/flujo/spec.md",
+      "docs/modos.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/specs/colaboracion/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 0,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 0
+  },
+  {
+    "id": "pedir-revision",
+    "acierto": 1,
+    "puesto": 3,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo le pido a codex que revise un candidato?",
+    "esperadas": [
+      "kb/cambios/20261007-192608-revisores.md",
+      "openspec/changes/20261007-192608-revisores/",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.el_pedido_se_genera_desde_el_cambio.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.el_revisor_no_decide.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.este_cambio_se_revisa_con_pedir_revision.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.las_vueltas_anteriores_se_muestran_sin_decidirse_otra_vez.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.lo_que_sale_mal_no_se_guarda_como_informe.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.pedir_una_revision_del_candidato_actual.md",
+      "kb/requisitos/revisores_c466ac292a9f99ce6.revisores_configurables.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261012-131420-clue-dependencia/specs/autoproduccion/spec.md",
+      "openspec/specs/autoproduccion/spec.md",
+      "openspec/changes/20261007-192608-revisores/design.md",
+      "kb/requisitos/revisores_c087c391047678495.pedidos_de_revision_simultaneos_sobre_el_mismo_candidato.md",
+      "kb/cambios/20261014-100834-revision-simultanea.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "clon-revisor",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Por qué el revisor trabaja en un clon aparte y no en un worktree?",
+    "esperadas": [
+      "kb/cambios/20261020-200030-aislar.md",
+      "openspec/changes/20261020-200030-aislar/",
+      "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md"
+    ],
+    "primeros": [
+      "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md",
+      "kb/cambios/20261020-200030-aislar.md",
+      "openspec/changes/20261020-200030-aislar/proposal.md",
+      "openspec/changes/20261020-200030-aislar/proposal.md",
+      "openspec/changes/20261020-200030-aislar/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "riesgo-aceptado",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué es un riesgo aceptado y sigue valiendo en la vuelta siguiente?",
+    "esperadas": [
+      "kb/cambios/20261013-115616-vueltas-severidad.md",
+      "openspec/changes/20261013-115616-vueltas-severidad/",
+      "kb/requisitos/revisores_c54735f6bdc173577.el_corte_de_vueltas_sigue_la_severidad.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.revisar_reconoce_un_riesgo_ya_aceptado.md",
+      "kb/requisitos/revisores_c54735f6bdc173577.un_riesgo_aceptado_persiste_entre_vueltas.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261013-115616-vueltas-severidad.md",
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md",
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261013-115616-vueltas-severidad/specs/revisores/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "linea-cambio",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo encuentro qué cambio escribió una línea de código?",
+    "esperadas": [
+      "kb/cambios/20261020-140603-kb.md",
+      "openspec/changes/20261020-140603-kb/",
+      "kb/cambios/20261019-182313-commits.md",
+      "openspec/changes/20261019-182313-commits/",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes.md",
+      "kb/requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es.md",
+      "kb/requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero.md"
+    ],
+    "primeros": [
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+      "docs/conocimiento.md",
+      "openspec/changes/20261021-235127-fjn-rag/proposal.md",
+      "openspec/changes/20261019-182313-commits/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "nota-vence",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cuándo una nota escrita por una persona en el vault deja de estar al día?",
+    "esperadas": [
+      "kb/cambios/20261020-140603-kb.md",
+      "openspec/changes/20261020-140603-kb/",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea.md",
+      "kb/requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes.md"
+    ],
+    "primeros": [
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261020-140603-kb/specs/conocimiento/spec.md",
+      "openspec/changes/20261021-235127-fjn-rag/specs/conocimiento/spec.md",
+      "openspec/specs/conocimiento/spec.md",
+      "openspec/changes/20261021-235127-fjn-rag/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "modos",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué modos de trabajo hay y quién decide los requisitos en cada uno?",
+    "esperadas": [
+      "kb/cambios/20261005-105331-modos-de-trabajo.md",
+      "openspec/changes/20261005-105331-modos-de-trabajo/",
+      "kb/requisitos/modos_c45a4802846932222.actor_registrado_sin_aparentar_humanos.md",
+      "kb/requisitos/modos_c45a4802846932222.cambio_de_modo_con_invalidacion.md",
+      "kb/requisitos/modos_c45a4802846932222.decisiones_segun_el_modo.md",
+      "kb/requisitos/modos_c45a4802846932222.modo_explicito_por_cambio.md",
+      "kb/requisitos/modos_c45a4802846932222.tipo_de_requisito.md"
+    ],
+    "primeros": [
+      "kb/requisitos/web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados.md",
+      "kb/requisitos/modos_c45a4802846932222.decisiones_segun_el_modo.md",
+      "kb/cambios/20261015-122841-docs-web-modos.md",
+      "kb/requisitos/web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo.md",
+      "kb/cambios/20261005-105331-modos-de-trabajo.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "varios-sensores",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Se puede juzgar un candidato con los hechos de más de un sensor?",
+    "esperadas": [
+      "kb/cambios/20261017-023151-hechos-varios.md",
+      "openspec/changes/20261017-023151-hechos-varios/",
+      "kb/requisitos/flujo_c3eeedacc969eee2a.dos_sensores_no_emiten_la_misma_relacion.md",
+      "kb/requisitos/flujo_c3eeedacc969eee2a.juzgar_acepta_los_hechos_de_varios_sensores.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261017-023151-hechos-varios/proposal.md",
+      "openspec/changes/20261017-023151-hechos-varios/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/changes/20261017-023151-hechos-varios/proposal.md",
+      "openspec/changes/20261017-023151-hechos-varios/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "donde-estado",
+    "acierto": 1,
+    "puesto": 5,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Dónde se guarda el estado de cada cambio?",
+    "esperadas": [
+      "kb/cambios/20261006-004456-fase-2-de-la.md",
+      "openspec/changes/20261006-004456-fase-2-de-la/",
+      "kb/requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.la_migracion_conserva_el_significado.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada.md",
+      "kb/requisitos/estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
+      "openspec/changes/20261019-182313-commits/specs/trazabilidad/spec.md",
+      "openspec/changes/20261013-153440-cli-json/specs/cli/spec.md",
+      "docs/estructura.md",
+      "openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "dos-procesos",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué pasa si dos procesos escriben el registro de un cambio al mismo tiempo?",
+    "esperadas": [
+      "kb/cambios/20261016-175720-bloqueo-registro.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/",
+      "kb/cambios/20261021-101907-clones.md",
+      "openspec/changes/20261021-101907-clones/",
+      "kb/requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.dos_clones_no_generan_el_mismo_id.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.escribir_a_la_vez_no_obliga_a_repetir.md",
+      "kb/requisitos/colaboracion_cf52b3f5822578a8a.un_clon_recien_hecho_puede_trabajar.md"
+    ],
+    "primeros": [
+      "kb/cambios/20261016-175720-bloqueo-registro.md",
+      "kb/requisitos/flujo_c467adb55cba3c0a6.dos_procesos_que_escriben_el_mismo_registro_no_se_pisan.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/proposal.md",
+      "openspec/specs/flujo/spec.md",
+      "openspec/changes/20261016-175720-bloqueo-registro/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "banco",
+    "acierto": 1,
+    "puesto": 3,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo se prueba que dos personas con sus agentes no se pisan?",
+    "esperadas": [
+      "kb/cambios/20261004-121432-coordinar-dos.md",
+      "openspec/changes/20261004-121432-coordinar-dos/",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.aislamiento_y_sincronizacion_explicitos.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.demostracion_reproducible_con_limites.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_informa_sus_numeros.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_a_la_vez.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.el_banco_pone_a_prueba_el_trabajo_de_a_turnos.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.integracion_serializada_y_evidencia_vigente.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.relevo_recuperable.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.reparto_explicito_del_trabajo.md",
+      "kb/requisitos/colaboracion_cf0b1719108ccce04.revision_vinculada_a_una_version.md"
+    ],
+    "primeros": [
+      "docs/colaboracion.md",
+      "openspec/specs/colaboracion/spec.md",
+      "openspec/changes/20261004-121432-coordinar-dos/specs/colaboracion/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "docs/plantillas/colaboracion/piloto.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "otra-capacidad",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Por qué no me deja aprobar una spec con dos capacidades?",
+    "esperadas": [
+      "kb/cambios/20261020-173143-avisos.md",
+      "openspec/changes/20261020-173143-avisos/",
+      "kb/requisitos/flujo_c36d8b0a54786f254.reimportar_no_deja_requisitos_huerfanos.md",
+      "kb/requisitos/flujo_c36d8b0a54786f254.un_requisito_que_quedo_sin_medir_se_avisa_a_tiempo.md",
+      "kb/requisitos/flujo_c36d8b0a54786f254.una_spec_de_otra_capacidad_no_se_pierde_en_silencio.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261020-173143-avisos/specs/flujo/spec.md",
+      "openspec/specs/flujo/spec.md",
+      "docs/estructura.md",
+      "docs/estructura.md",
+      "openspec/changes/20261020-173143-avisos/proposal.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "trazabilidad",
+    "acierto": 1,
+    "puesto": 1,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Cómo voy de un requisito a las líneas que lo prueban?",
+    "esperadas": [
+      "kb/cambios/20261013-180751-trazabilidad.md",
+      "openspec/changes/20261013-180751-trazabilidad/",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso.md",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.los_limites_de_la_trazabilidad_se_declaran.md",
+      "kb/requisitos/trazabilidad_cca95191eb0039b11.trazabilidad_cruza_los_casos_con_el_diff_del_candidato.md"
+    ],
+    "primeros": [
+      "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
+      "openspec/changes/20261013-180751-trazabilidad/specs/trazabilidad/spec.md",
+      "openspec/specs/trazabilidad/spec.md",
+      "docs/conocimiento.md",
+      "openspec/specs/trazabilidad/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "paquete-producto",
+    "acierto": 1,
+    "puesto": 2,
+    "modo": "hibrido",
+    "criterio": "recuperacion_en_cinco",
+    "pregunta": "¿Qué archivos no entran en el paquete que se manda a revisar?",
+    "esperadas": [
+      "kb/cambios/20261014-000054-paquete-producto.md",
+      "openspec/changes/20261014-000054-paquete-producto/",
+      "kb/requisitos/revisores_c90ab53abb4ca96d7.el_paquete_de_revision_excluye_lo_que_no_es_producto.md",
+      "kb/requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete.md"
+    ],
+    "primeros": [
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md",
+      "openspec/specs/revisores/spec.md",
+      "openspec/changes/20261015-001533-evidencia-fuera/specs/estructura/spec.md",
+      "openspec/changes/20261014-000054-paquete-producto/specs/revisores/spec.md"
+    ],
+    "tipo": "documentos",
+    "abstuvo": 0,
+    "generacion_desactivada": true,
+    "recuperacion_correcta": 1,
+    "respaldo_suficiente": 1,
+    "respuesta_correcta": 1
+  },
+  {
+    "id": "pq-clones",
+    "grupo": "generativa",
+    "acierto": 1,
+    "tipo": "respuesta_elaborada",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "qwen2.5:14b",
+    "simulado": 0,
+    "pregunta": "¿Por qué el revisor usa un clon aparte en vez de un worktree y qué problema evita?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Por qué el revisor usa un clon aparte en vez de un worktree y qué problema evita?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": "qwen2.5:14b",
+      "proveedor_generativo": "ollama",
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md#el checkout de un revisor no toca el repositorio",
+          "ruta": "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md",
+          "seccion": "el checkout de un revisor no toca el repositorio",
+          "cambio": "20261020-200030-aislar",
+          "puntaje": 0.040692,
+          "similitud_semantica": 0.719699,
+          "aportes": {
+            "lexico": 0.011905,
+            "semantico": 0.012658,
+            "grafo": 0.016129
+          },
+          "texto": "el checkout de un revisor no toca el repositorio\n> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.\n\n- Id: `revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio`\n- Vigente: sí\n- Cambio: [[cambios/20261020-200030-aislar]]\n- Veredicto: cumple\n- Medidas: `factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio`, `factory_aislar.corrida_completa`\n- Fuente: openspec/changes/20261020-200030-aislar/specs/revisores/spec.md#el checkout de un revisor no toca el repositorio\n\nTipo: funcional `pedir-revision` SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout (cambiar su configuración, crear ramas, hacer commits) SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre."
+        },
+        {
+          "cita": "openspec/changes/20261020-200030-aislar/proposal.md#Out of scope",
+          "ruta": "openspec/changes/20261020-200030-aislar/proposal.md",
+          "seccion": "Out of scope",
+          "cambio": "20261020-200030-aislar",
+          "puntaje": 0.032266,
+          "similitud_semantica": 0.823084,
+          "aportes": {
+            "lexico": 0.015873,
+            "semantico": 0.016393,
+            "grafo": 0.0
+          },
+          "texto": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\nOut of scope\n- Aislar al revisor del resto del disco: eso es cosa del sandbox de cada revisor."
+        },
+        {
+          "cita": "kb/cambios/20261020-200030-aislar.md#Requisitos",
+          "ruta": "kb/cambios/20261020-200030-aislar.md",
+          "seccion": "Requisitos",
+          "cambio": "20261020-200030-aislar",
+          "puntaje": 0.032258,
+          "similitud_semantica": 0.821708,
+          "aportes": {
+            "lexico": 0.016129,
+            "semantico": 0.016129,
+            "grafo": 0.0
+          },
+          "texto": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\nRequisitos\n- [[requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio]] — cumple"
+        },
+        {
+          "cita": "openspec/changes/20261020-200030-aislar/proposal.md#What changes",
+          "ruta": "openspec/changes/20261020-200030-aislar/proposal.md",
+          "seccion": "What changes",
+          "cambio": "20261020-200030-aislar",
+          "puntaje": 0.031099,
+          "similitud_semantica": 0.767458,
+          "aportes": {
+            "lexico": 0.016393,
+            "semantico": 0.014706,
+            "grafo": 0.0
+          },
+          "texto": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\nWhat changes\n- El checkout de revisión es un clon local aparte (`git clone --local`: en el mismo disco enlaza los objetos, sin copiarlos, y no depende de ellos) en el commit del candidato:\n  su configuración, sus ramas y sus hooks son suyos. Lo que un revisor haga con git ahí no cambia el repositorio.\n- Cada pedido tiene su propio clon (`.factory/local/revisiones/<sha>-<revisor>-<n>`): dos revisores no comparten checkout,\n  y un checkout viejo (un worktree de antes) ya no se usa. El clon no tiene remoto, y antes de validar el informe vuelve\n  al commit del candidato."
+        },
+        {
+          "cita": "kb/cambios/20261020-200030-aislar.md#El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
+          "ruta": "kb/cambios/20261020-200030-aislar.md",
+          "seccion": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree",
+          "cambio": "20261020-200030-aislar",
+          "puntaje": 0.030536,
+          "similitud_semantica": 0.779451,
+          "aportes": {
+            "lexico": 0.015152,
+            "semantico": 0.015385,
+            "grafo": 0.0
+          },
+          "texto": "El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\n> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.\n\n- Fase: cerrada\n- Capacidad: revisores\n- Responsable: Brian Hollweg desde 2026-10-20 20:01\n- Spec: [openspec/changes/20261020-200030-aislar/specs/revisores/spec.md](../../openspec/changes/20261020-200030-aislar/specs/revisores/spec.md)"
+        }
+      ],
+      "fuentes": [
+        {
+          "ruta": "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md",
+          "cita": "kb/requisitos/revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio.md#el checkout de un revisor no toca el repositorio",
+          "texto": "el checkout de un revisor no toca el repositorio Generado por oracle-factory kb desde el registro de Factory: no se edita a mano. Id: revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio Vigente: sí Cambio: [[cambios/20261020-200030-aislar]] Veredicto: cumple Medidas: factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio, factory_aislar.corrida_completa Fuente: openspec/changes/20261020-200030-aislar/specs/revisores/spec.md#el checkout de un revisor no toca el repositorio Tipo: funcional pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout (cambiar su configuración, crear ramas, hacer commits) SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre.",
+          "clase": "requisito",
+          "uso": "Requisito que la recuperación considera vigente, con su origen.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S6"
+        },
+        {
+          "ruta": "openspec/specs/revisores/spec.md",
+          "cita": "openspec/specs/revisores/spec.md#Requirement: el checkout de un revisor no toca el repositorio",
+          "texto": "Capability: revisores Requirement: el checkout de un revisor no toca el repositorio Origen: 20261020-200030-aislar · revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio Tipo: funcional pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout (cambiar su configuración, crear ramas, hacer commits) SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre. Scenario: un revisor que juega con git en su checkout GIVEN un cambio con un candidato y un revisor que en su checkout cambia user.name, crea una rama y hace un commit WHEN se pide la revisión con pedir-revision THEN el repositorio sigue con su user.name, sin esa rama y en el mismo HEAD, y el informe del revisor queda validado",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S7"
+        }
+      ],
+      "herramientas": [
+        {
+          "herramienta": "recuperar",
+          "argumentos": {
+            "alcance": "actual",
+            "maximo": 3,
+            "pregunta": "¿Por qué el revisor usa un clon aparte en vez de un worktree y qué problema evita?"
+          },
+          "exitoso": true
+        }
+      ],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": true,
+          "max_llamadas": 4,
+          "segundos": 120,
+          "max_peticiones_modelo": 6,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "respuesta_elaborada",
+      "respuesta": "El revisor usa un clon aparte para asegurar que las acciones del revisor no afecten el repositorio principal ni los worktrees. [S6, S7]\n\nEste enfoque evita que cambios accidentales o configuraciones modificadas por el revisor en su entorno de revisión puedan comprometer la integridad del repositorio principal. [S6, S7]",
+      "afirmaciones": [
+        {
+          "texto": "El revisor usa un clon aparte para asegurar que las acciones del revisor no afecten el repositorio principal ni los worktrees.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S6",
+              "texto": " revisor no toca el repositorio Tipo: funcional pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout (cambiar su configuración, crear ramas, hacer commits) SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre.",
+              "fragmento": "S6.F2"
+            },
+            {
+              "fuente": "S7",
+              "texto": " el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre. Scenario: un revisor que juega con git en su checkout GIVEN un cambio con un candidato y un revisor que en su checkout cambia user.name, crea una rama y hace un commit WHEN se pide la revisión con pedir-revision THEN el repositorio sigue con su user.name, sin esa rama y en el mismo HEAD, y el informe del revisor queda validado",
+              "fragmento": "S7.F2"
+            }
+          ]
+        },
+        {
+          "texto": "Este enfoque evita que cambios accidentales o configuraciones modificadas por el revisor en su entorno de revisión puedan comprometer la integridad del repositorio principal.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S6",
+              "texto": " revisor no toca el repositorio Tipo: funcional pedir-revision SHALL darle a cada revisor un checkout del candidato que sea un repositorio aparte, sin copiar objetos: lo que el revisor haga con git en ese checkout (cambiar su configuración, crear ramas, hacer commits) SHALL NOT cambiar la configuración, las ramas ni el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre.",
+              "fragmento": "S6.F2"
+            },
+            {
+              "fuente": "S7",
+              "texto": " el HEAD del repositorio del proyecto ni de sus worktrees, y su informe SHALL validarse como siempre. Scenario: un revisor que juega con git en su checkout GIVEN un cambio con un candidato y un revisor que en su checkout cambia user.name, crea una rama y hace un commit WHEN se pide la revisión con pedir-revision THEN el repositorio sigue con su user.name, sin esa rama y en el mismo HEAD, y el informe del revisor queda validado",
+              "fragmento": "S7.F2"
+            }
+          ]
+        }
+      ],
+      "validacion_citas": "Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.",
+      "formato_corregido": false
+    }
+  },
+  {
+    "id": "pq-modos",
+    "grupo": "generativa",
+    "acierto": 1,
+    "tipo": "respuesta_elaborada",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "qwen2.5:14b",
+    "simulado": 0,
+    "pregunta": "¿Qué diferencia hay entre los modos confirmacion y autonomo para decidir sobre un cambio?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Qué diferencia hay entre los modos confirmacion y autonomo para decidir sobre un cambio?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": "qwen2.5:14b",
+      "proveedor_generativo": "ollama",
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "openspec/specs/modos/spec.md#Requirement: modo explicito por cambio",
+          "ruta": "openspec/specs/modos/spec.md",
+          "seccion": "Requirement: modo explicito por cambio",
+          "cambio": null,
+          "puntaje": 0.032266,
+          "similitud_semantica": 0.817923,
+          "aportes": {
+            "lexico": 0.016393,
+            "semantico": 0.015873,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: modo explicito por cambio\nOrigen: 20261005-105331-modos-de-trabajo · modos_c45a4802846932222.modo_explicito_por_cambio\nFactory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto (`confirmacion` si el proyecto no define otro), y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea.\n\n#### Scenario: crear un cambio con modo\n- GIVEN un proyecto cuyo modo por defecto es `confirmacion`\n- WHEN se crea un cambio con `nuevo --modo funcional`\n- THEN su factory.json registra el modo `funcional` y `estado` lo muestra\n\n#### Scenario: elegir autonomo exige a una persona\n- GIVEN un cambio en modo `confirmacion`\n- WHEN un agente intenta pasarlo a `autonomo`\n- THEN Factory lo rechaza sin modificar el registro, salvo que una persona lo confirme desde una terminal interactiva"
+        },
+        {
+          "cita": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#Requirement: modo explicito por cambio",
+          "ruta": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
+          "seccion": "Requirement: modo explicito por cambio",
+          "cambio": "20261005-105331-modos-de-trabajo",
+          "puntaje": 0.031754,
+          "similitud_semantica": 0.801773,
+          "aportes": {
+            "lexico": 0.016129,
+            "semantico": 0.015625,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: modo explicito por cambio\nFactory SHALL registrar en cada cambio uno de los modos `autonomo`, `funcional` o `confirmacion`, tomado de `nuevo --modo` o del valor por defecto del proyecto (`confirmacion` si el proyecto no define otro), y SHALL mostrarlo en `estado`, en el cierre y en las notas de la tarea.\n\n#### Scenario: crear un cambio con modo\n- GIVEN un proyecto cuyo modo por defecto es `confirmacion`\n- WHEN se crea un cambio con `nuevo --modo funcional`\n- THEN su factory.json registra el modo `funcional` y `estado` lo muestra\n\n#### Scenario: elegir autonomo exige a una persona\n- GIVEN un cambio en modo `confirmacion`\n- WHEN un agente intenta pasarlo a `autonomo`\n- THEN Factory lo rechaza sin modificar el registro, salvo que una persona lo confirme desde una terminal interactiva"
+        },
+        {
+          "cita": "openspec/specs/modos/spec.md#Requirement: cambio de modo con invalidacion",
+          "ruta": "openspec/specs/modos/spec.md",
+          "seccion": "Requirement: cambio de modo con invalidacion",
+          "cambio": null,
+          "puntaje": 0.031754,
+          "similitud_semantica": 0.82235,
+          "aportes": {
+            "lexico": 0.015625,
+            "semantico": 0.016129,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: cambio de modo con invalidacion\nOrigen: 20261005-105331-modos-de-trabajo · modos_c45a4802846932222.cambio_de_modo_con_invalidacion\nCambiar el modo de un cambio SHALL quedar como evento, SHALL exigir confirmación humana cuando reduce la intervención humana, y SHALL invalidar las decisiones vigentes que el modo nuevo exige de otra forma.\n\n#### Scenario: subir la intervencion humana\n- GIVEN un cambio en modo `autonomo` con la spec aceptada por el agente\n- WHEN se pasa a `confirmacion`\n- THEN la aceptación del agente queda como propuesta pendiente de confirmar por una persona"
+        },
+        {
+          "cita": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md#Requirement: cambio de modo con invalidacion",
+          "ruta": "openspec/changes/20261005-105331-modos-de-trabajo/specs/modos/spec.md",
+          "seccion": "Requirement: cambio de modo con invalidacion",
+          "cambio": "20261005-105331-modos-de-trabajo",
+          "puntaje": 0.031545,
+          "similitud_semantica": 0.832701,
+          "aportes": {
+            "lexico": 0.015152,
+            "semantico": 0.016393,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: cambio de modo con invalidacion\nCambiar el modo de un cambio SHALL quedar como evento, SHALL exigir confirmación humana cuando reduce la intervención humana, y SHALL invalidar las decisiones vigentes que el modo nuevo exige de otra forma.\n\n#### Scenario: subir la intervencion humana\n- GIVEN un cambio en modo `autonomo` con la spec aceptada por el agente\n- WHEN se pasa a `confirmacion`\n- THEN la aceptación del agente queda como propuesta pendiente de confirmar por una persona"
+        },
+        {
+          "cita": "openspec/specs/modos/spec.md#Requirement: decisiones segun el modo",
+          "ruta": "openspec/specs/modos/spec.md",
+          "seccion": "Requirement: decisiones segun el modo",
+          "cambio": null,
+          "puntaje": 0.030536,
+          "similitud_semantica": 0.776799,
+          "aportes": {
+            "lexico": 0.015385,
+            "semantico": 0.015152,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: decisiones segun el modo\nOrigen: 20261005-105331-modos-de-trabajo · modos_c45a4802846932222.decisiones_segun_el_modo\nPara aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exigir el actor que indica la tabla del modo según el tipo de los requisitos afectados, y SHALL rechazar la decisión que llegue por una vía no permitida sin modificar el registro.\n\n#### Scenario: modo funcional y requisito funcional\n- GIVEN un cambio en modo `funcional` con requisitos funcionales\n- WHEN un agente intenta aceptar la spec\n- THEN Factory lo rechaza y pide la decisión de una persona\n\n#### Scenario: modo funcional y requisito no funcional\n- GIVEN un cambio en modo `funcional`\n- WHEN un agente elige las medidas de un requisito no funcional\n- THEN Factory lo registra como decisión del agente\n\n#### Scenario: modo confirmacion\n- GIVEN un cambio en modo `confirmacion`\n- WHEN un agente propone medidas para un requisito\n- THEN quedan como propuesta y no cuentan para el gate hasta que una persona las confirma tal cual\n\n#### Scenario: modo autonomo\n- GIVEN un cambio en modo `autonomo`\n- WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra\n- THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo\n\n#### Scenario: cierre en modo funcional\n- GIVEN un cambio en modo `funcional` con todos los gates cumplidos\n- WHEN un agente intenta cerrarlo\n- THEN Factory lo rechaza y pide la confirmación de una persona"
+        }
+      ],
+      "fuentes": [
+        {
+          "ruta": "openspec/specs/modos/spec.md",
+          "cita": "openspec/specs/modos/spec.md#Requirement: decisiones segun el modo",
+          "texto": "Capability: modos Requirement: decisiones segun el modo Origen: 20261005-105331-modos-de-trabajo · modos_c45a4802846932222.decisiones_segun_el_modo Para aceptar requisitos, elegir medidas y resolver hallazgos, Factory SHALL exigir el actor que indica la tabla del modo según el tipo de los requisitos afectados, y SHALL rechazar la decisión que llegue por una vía no permitida sin modificar el registro. Scenario: modo funcional y requisito funcional GIVEN un cambio en modo funcional con requisitos funcionales WHEN un agente intenta aceptar la spec THEN Factory lo rechaza y pide la decisión de una persona Scenario: modo funcional y requisito no funcional GIVEN un cambio en modo funcional WHEN un agente elige las medidas de un requisito no funcional THEN Factory lo registra como decisión del agente Scenario: modo confirmacion GIVEN un cambio en modo confirmacion WHEN un agente propone medidas para un requisito THEN quedan como propuesta y no cuentan para el gate hasta que una persona las confirma tal cual Scenario: modo autonomo GIVEN un cambio en modo autonomo WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo Scenario: cierre en modo funcional GIVEN un cambio en modo funcional con todos los gates cumplidos WHEN un agente intenta cerrarlo THEN Factory lo rechaza y pide la confirmación de una persona",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S3"
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": true,
+          "max_llamadas": 4,
+          "segundos": 120,
+          "max_peticiones_modelo": 6,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "respuesta_elaborada",
+      "respuesta": "En el modo confirmacion, Factory requiere confirmación humana para aceptar decisiones propuestas por un agente. [S3]\n\nEn el modo autonomo, Factory registra las decisiones del agente sin necesidad de confirmación humana. [S3]\n\nEl modo confirmacion exige que una persona confirme las decisiones propuestas por un agente antes de que estas cuenten para el gate. [S3]\n\nEl modo autonomo permite que las decisiones del agente sean registradas y cuenten para el gate sin intervención humana. [S3]",
+      "afirmaciones": [
+        {
+          "texto": "En el modo confirmacion, Factory requiere confirmación humana para aceptar decisiones propuestas por un agente.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S3",
+              "texto": " funcional con requisitos funcionales WHEN un agente intenta aceptar la spec THEN Factory lo rechaza y pide la decisión de una persona Scenario: modo funcional y requisito no funcional GIVEN un cambio en modo funcional WHEN un agente elige las medidas de un requisito no funcional THEN Factory lo registra como decisión del agente Scenario: modo confirmacion GIVEN un cambio en modo confirmacion WHEN un agente propone medidas para un requisito THEN quedan como propuesta y no",
+              "fragmento": "S3.F2"
+            }
+          ]
+        },
+        {
+          "texto": "En el modo autonomo, Factory registra las decisiones del agente sin necesidad de confirmación humana.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S3",
+              "texto": " cuentan para el gate hasta que una persona las confirma tal cual Scenario: modo autonomo GIVEN un cambio en modo autonomo WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo Scenario: cierre en modo funcional GIVEN un cambio en modo funcional con todos los gates cumplidos WHEN un agente intenta cerrarlo THEN Factory lo rechaza y pide la confirmación de una",
+              "fragmento": "S3.F3"
+            }
+          ]
+        },
+        {
+          "texto": "El modo confirmacion exige que una persona confirme las decisiones propuestas por un agente antes de que estas cuenten para el gate.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S3",
+              "texto": " funcional con requisitos funcionales WHEN un agente intenta aceptar la spec THEN Factory lo rechaza y pide la decisión de una persona Scenario: modo funcional y requisito no funcional GIVEN un cambio en modo funcional WHEN un agente elige las medidas de un requisito no funcional THEN Factory lo registra como decisión del agente Scenario: modo confirmacion GIVEN un cambio en modo confirmacion WHEN un agente propone medidas para un requisito THEN quedan como propuesta y no",
+              "fragmento": "S3.F2"
+            }
+          ]
+        },
+        {
+          "texto": "El modo autonomo permite que las decisiones del agente sean registradas y cuenten para el gate sin intervención humana.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S3",
+              "texto": " cuentan para el gate hasta que una persona las confirma tal cual Scenario: modo autonomo GIVEN un cambio en modo autonomo WHEN un agente acepta la spec, elige medidas, resuelve hallazgos y cierra THEN Factory registra cada paso como decisión del agente y el cierre se presenta como autónomo Scenario: cierre en modo funcional GIVEN un cambio en modo funcional con todos los gates cumplidos WHEN un agente intenta cerrarlo THEN Factory lo rechaza y pide la confirmación de una",
+              "fragmento": "S3.F3"
+            }
+          ]
+        }
+      ],
+      "validacion_citas": "Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.",
+      "formato_corregido": false
+    }
+  },
+  {
+    "id": "pq-vigencia",
+    "grupo": "generativa",
+    "acierto": 1,
+    "tipo": "respuesta_elaborada",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "qwen2.5:14b",
+    "simulado": 0,
+    "pregunta": "¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": "qwen2.5:14b",
+      "proveedor_generativo": "ollama",
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "openspec/specs/vigencia/spec.md#Requirement: vigencia por contenido del producto",
+          "ruta": "openspec/specs/vigencia/spec.md",
+          "seccion": "Requirement: vigencia por contenido del producto",
+          "cambio": null,
+          "puntaje": 0.029911,
+          "similitud_semantica": 0.724603,
+          "aportes": {
+            "lexico": 0.014286,
+            "semantico": 0.015625,
+            "grafo": 0.0
+          },
+          "texto": "Capability: vigencia\nRequirement: vigencia por contenido del producto\nOrigen: 20261005-154433-la-vigencia-de · vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto\nTipo: funcional\nFactory SHALL considerar vigentes la revisión y el veredicto de Oracle mientras la huella de archivos del producto coincida con la que tenían al registrarse, aunque el `HEAD` actual sea otro, y SHALL considerarlos desactualizados cuando esa huella cambie.\n\n#### Scenario: commit posterior que no toca el producto\n- GIVEN una revisión registrada y un commit posterior que sólo cambia `tareas/` o los registros de Factory\n- WHEN se consulta `estado` o se intenta cerrar\n- THEN la revisión sigue vigente y no se pide renovarla\n\n#### Scenario: cambia un archivo del producto\n- GIVEN una revisión registrada\n- WHEN cambia un archivo del producto, con o sin commit\n- THEN la revisión queda desactualizada y el cierre se rechaza\n\n#### Scenario: mismo contenido por otra historia\n- GIVEN una revisión registrada\n- WHEN el `HEAD` cambia por un merge o un rebase que deja idénticos los archivos del producto\n- THEN la revisión sigue vigente"
+        },
+        {
+          "cita": "openspec/changes/20261005-154433-la-vigencia-de/proposal.md#Why",
+          "ruta": "openspec/changes/20261005-154433-la-vigencia-de/proposal.md",
+          "seccion": "Why",
+          "cambio": "20261005-154433-la-vigencia-de",
+          "puntaje": 0.029462,
+          "similitud_semantica": 0.735177,
+          "aportes": {
+            "lexico": 0.013333,
+            "semantico": 0.016129,
+            "grafo": 0.0
+          },
+          "texto": "La vigencia de una revisión depende del contenido del producto\nWhy\nFactory vincula la revisión y el veredicto de Oracle al **commit exacto** (`HEAD`) y a una huella de los archivos del producto. Alcanza con que cambie cualquiera de las dos para que quede «desactualizada respecto del producto». El efecto práctico, observado tres veces el 2026-10-05 (hallazgo G-02 de la revisión guiada):\n\n- Registrar una revisión y commitear su propio registro cambia el `HEAD` y la deja vieja, aunque ningún archivo del producto haya cambiado.\n- Para cerrar los modos hubo que preparar una revisión nueva, con el mismo contenido y las mismas 20 decisiones, y pedirle a Brian que la registrara otra vez. Colaboración y revisión guiada están en la misma situación.\n- El informe guiado exige `informe.contexto == contexto` actual, **incluido el HEAD**: no se puede commitear un informe completo antes de registrarlo, ni mergear con `main` entre preparar y registrar.\n\nEl producto no cambió; lo que cambió es el historial. Obligar a una persona a renovar una revisión por eso la lleva a firmar sin releer, que es lo contrario de lo que busca el flujo.\n\nLa huella de archivos ya existe y ya excluye lo que no es producto (`tareas/` y los registros de Factory). Es lo que realmente dice si lo revisado sigue siendo lo que hay."
+        },
+        {
+          "cita": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md#Requirement: vigencia por contenido del producto",
+          "ruta": "openspec/changes/20261005-154433-la-vigencia-de/specs/vigencia/spec.md",
+          "seccion": "Requirement: vigencia por contenido del producto",
+          "cambio": "20261005-154433-la-vigencia-de",
+          "puntaje": 0.029418,
+          "similitud_semantica": 0.715686,
+          "aportes": {
+            "lexico": 0.014493,
+            "semantico": 0.014925,
+            "grafo": 0.0
+          },
+          "texto": "Capability: vigencia\nRequirement: vigencia por contenido del producto\nTipo: funcional\nFactory SHALL considerar vigentes la revisión y el veredicto de Oracle mientras la huella de archivos del producto coincida con la que tenían al registrarse, aunque el `HEAD` actual sea otro, y SHALL considerarlos desactualizados cuando esa huella cambie.\n\n#### Scenario: commit posterior que no toca el producto\n- GIVEN una revisión registrada y un commit posterior que sólo cambia `tareas/` o los registros de Factory\n- WHEN se consulta `estado` o se intenta cerrar\n- THEN la revisión sigue vigente y no se pide renovarla\n\n#### Scenario: cambia un archivo del producto\n- GIVEN una revisión registrada\n- WHEN cambia un archivo del producto, con o sin commit\n- THEN la revisión queda desactualizada y el cierre se rechaza\n\n#### Scenario: mismo contenido por otra historia\n- GIVEN una revisión registrada\n- WHEN el `HEAD` cambia por un merge o un rebase que deja idénticos los archivos del producto\n- THEN la revisión sigue vigente"
+        },
+        {
+          "cita": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md#Requirement: la huella del producto excluye lo que Factory produce",
+          "ruta": "openspec/changes/20261005-132144-jerarquia-de/specs/estructura/spec.md",
+          "seccion": "Requirement: la huella del producto excluye lo que Factory produce",
+          "cambio": "20261005-132144-jerarquia-de",
+          "puntaje": 0.028893,
+          "similitud_semantica": 0.736607,
+          "aportes": {
+            "lexico": 0.0125,
+            "semantico": 0.016393,
+            "grafo": 0.0
+          },
+          "texto": "Capability: estructura\nRequirement: la huella del producto excluye lo que Factory produce\nTipo: funcional\nLa huella de archivos del producto SHALL excluir `.factory/` entera, y SHALL NOT excluir `openspec/changes/<ID>/` salvo los registros que ya excluye.\n\n#### Scenario: nueva evidencia no invalida la revisión\n- GIVEN una revisión registrada\n- WHEN se agrega evidencia o un paquete de Clue bajo `.factory/cambios/<ID>/`\n- THEN la huella del producto no cambia y la revisión sigue vigente\n\n#### Scenario: el acuerdo sigue siendo producto\n- GIVEN una revisión registrada\n- WHEN cambia la spec en `openspec/changes/<ID>/`\n- THEN la revisión queda desactualizada"
+        },
+        {
+          "cita": "openspec/specs/modos/spec.md#Requirement: una decisión de medidas deja de valer si cambia el catálogo",
+          "ruta": "openspec/specs/modos/spec.md",
+          "seccion": "Requirement: una decisión de medidas deja de valer si cambia el catálogo",
+          "cambio": null,
+          "puntaje": 0.028783,
+          "similitud_semantica": 0.697726,
+          "aportes": {
+            "lexico": 0.015625,
+            "semantico": 0.013158,
+            "grafo": 0.0
+          },
+          "texto": "Capability: modos\nRequirement: una decisión de medidas deja de valer si cambia el catálogo\nOrigen: 20261015-140406-catalogo-confirmado · modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo\nTipo: funcional\nUna decisión de medidas SHALL guardar la huella del archivo de cada medida que el requisito nombra. Si alguno cambia o desaparece del catálogo efectivo, la decisión SHALL dejar de valer: `estado` SHALL mostrarla pendiente nombrando la medida y su archivo, y `juzgar` SHALL NOT usarla. Volver a decidir con las mismas medidas SHALL registrar una decisión nueva. Una decisión sin esa huella, tomada antes de este cambio, SHALL seguir valiendo.\n\n#### Scenario: cambia el catálogo de una medida confirmada\n- GIVEN un requisito con medidas confirmadas por una persona\n- WHEN cambia el alcance en el archivo de una de sus medidas\n- THEN estado muestra pendiente esa decisión con el nombre de la medida y su archivo, y juzgar la rechaza\n\n#### Scenario: volver a decidir con las mismas medidas\n- GIVEN esa decisión que dejó de valer\n- WHEN una persona vuelve a elegir las mismas medidas con medir\n- THEN queda registrada una decisión nueva y el pendiente desaparece\n\n#### Scenario: una decisión anterior sin huella de catálogos\n- GIVEN una decisión registrada sin la huella de los catálogos\n- WHEN cambia el archivo de una de sus medidas\n- THEN la decisión sigue valiendo"
+        }
+      ],
+      "fuentes": [
+        {
+          "ruta": "openspec/specs/vigencia/spec.md",
+          "cita": "openspec/specs/vigencia/spec.md#Requirement: vigencia por contenido del producto",
+          "texto": "Capability: vigencia Requirement: vigencia por contenido del producto Origen: 20261005-154433-la-vigencia-de · vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto Tipo: funcional Factory SHALL considerar vigentes la revisión y el veredicto de Oracle mientras la huella de archivos del producto coincida con la que tenían al registrarse, aunque el HEAD actual sea otro, y SHALL considerarlos desactualizados cuando esa huella cambie. Scenario: commit posterior que no toca el producto GIVEN una revisión registrada y un commit posterior que sólo cambia tareas/ o los registros de Factory WHEN se consulta estado o se intenta cerrar THEN la revisión sigue vigente y no se pide renovarla Scenario: cambia un archivo del producto GIVEN una revisión registrada WHEN cambia un archivo del producto, con o sin commit THEN la revisión queda desactualizada y el cierre se rechaza Scenario: mismo contenido por otra historia GIVEN una revisión registrada WHEN el HEAD cambia por un merge o un rebase que deja idénticos los archivos del producto THEN la revisión sigue vigente",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S6"
+        },
+        {
+          "ruta": "openspec/specs/modos/spec.md",
+          "cita": "openspec/specs/modos/spec.md#Requirement: una decisión de medidas deja de valer si cambia el catálogo",
+          "texto": "Capability: modos Requirement: una decisión de medidas deja de valer si cambia el catálogo Origen: 20261015-140406-catalogo-confirmado · modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo Tipo: funcional Una decisión de medidas SHALL guardar la huella del archivo de cada medida que el requisito nombra. Si alguno cambia o desaparece del catálogo efectivo, la decisión SHALL dejar de valer: estado SHALL mostrarla pendiente nombrando la medida y su archivo, y juzgar SHALL NOT usarla. Volver a decidir con las mismas medidas SHALL registrar una decisión nueva. Una decisión sin esa huella, tomada antes de este cambio, SHALL seguir valiendo. Scenario: cambia el catálogo de una medida confirmada GIVEN un requisito con medidas confirmadas por una persona WHEN cambia el alcance en el archivo de una de sus medidas THEN estado muestra pendiente esa decisión con el nombre de la medida y su archivo, y juzgar la rechaza Scenario: volver a decidir con las mismas medidas GIVEN esa decisión que dejó de valer WHEN una persona vuelve a elegir las mismas medidas con medir THEN queda registrada una decisión nueva y el pendiente desaparece Scenario: una decisión anterior sin huella de catálogos GIVEN una decisión registrada sin la huella de los catálogos WHEN cambia el archivo de una de sus medidas THEN la decisión sigue valiendo",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S7"
+        },
+        {
+          "ruta": "openspec/specs/estructura/spec.md",
+          "cita": "openspec/specs/estructura/spec.md#Requirement: la huella del producto excluye lo que Factory produce",
+          "texto": "Capability: estructura Requirement: la huella del producto excluye lo que Factory produce Origen: 20261005-132144-jerarquia-de · estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce Tipo: funcional La huella de archivos del producto SHALL excluir .factory/ entera, y SHALL NOT excluir openspec/changes/<ID>/ salvo los registros que ya excluye. Scenario: nueva evidencia no invalida la revisión GIVEN una revisión registrada WHEN se agrega evidencia o un paquete de Clue bajo .factory/cambios/<ID>/ THEN la huella del producto no cambia y la revisión sigue vigente Scenario: el acuerdo sigue siendo producto GIVEN una revisión registrada WHEN cambia la spec en openspec/changes/<ID>/ THEN la revisión queda desactualizada",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S8"
+        }
+      ],
+      "herramientas": [
+        {
+          "herramienta": "recuperar",
+          "argumentos": {
+            "pregunta": "¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?",
+            "alcance": "actual",
+            "maximo": 3
+          },
+          "exitoso": true
+        }
+      ],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": true,
+          "max_llamadas": 4,
+          "segundos": 120,
+          "max_peticiones_modelo": 6,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "respuesta_elaborada",
+      "respuesta": "Una revisión deja de valer si cambia el contenido del producto, no sólo si cambia el HEAD del repositorio. [S6]\n\nCuando cambia un archivo del producto, la revisión queda desactualizada y se requiere renovarla. [S6]\n\nLa huella del producto excluye lo que Factory produce, por lo que cambios en .factory/ no afectan la vigencia de la revisión. [S8]\n\nCambios en el catálogo de medidas pueden dejar sin efecto una decisión de medidas, pero esto no afecta directamente la vigencia de una revisión. [S7]",
+      "afirmaciones": [
+        {
+          "texto": "Una revisión deja de valer si cambia el contenido del producto, no sólo si cambia el HEAD del repositorio.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S6",
+              "texto": " toca el producto GIVEN una revisión registrada y un commit posterior que sólo cambia tareas/ o los registros de Factory WHEN se consulta estado o se intenta cerrar THEN la revisión sigue vigente y no se pide renovarla Scenario: cambia un archivo del producto GIVEN una revisión registrada WHEN cambia un archivo del producto, con o sin commit THEN la revisión queda desactualizada y el cierre se rechaza Scenario: mismo contenido por otra historia GIVEN una revisión registrada",
+              "fragmento": "S6.F2"
+            }
+          ]
+        },
+        {
+          "texto": "Cuando cambia un archivo del producto, la revisión queda desactualizada y se requiere renovarla.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S6",
+              "texto": " toca el producto GIVEN una revisión registrada y un commit posterior que sólo cambia tareas/ o los registros de Factory WHEN se consulta estado o se intenta cerrar THEN la revisión sigue vigente y no se pide renovarla Scenario: cambia un archivo del producto GIVEN una revisión registrada WHEN cambia un archivo del producto, con o sin commit THEN la revisión queda desactualizada y el cierre se rechaza Scenario: mismo contenido por otra historia GIVEN una revisión registrada",
+              "fragmento": "S6.F2"
+            }
+          ]
+        },
+        {
+          "texto": "La huella del producto excluye lo que Factory produce, por lo que cambios en .factory/ no afectan la vigencia de la revisión.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S8",
+              "texto": "Capability: estructura Requirement: la huella del producto excluye lo que Factory produce Origen: 20261005-132144-jerarquia-de · estructura_cd7e5b6c4f15e5d8b.la_huella_del_producto_excluye_lo_que_factory_produce Tipo: funcional La huella de archivos del producto SHALL excluir .factory/ entera, y SHALL NOT excluir openspec/changes/<ID>/ salvo los registros que ya excluye. Scenario: nueva evidencia no invalida la revisión GIVEN una revisión registrada WHEN se agrega evidencia",
+              "fragmento": "S8.F1"
+            }
+          ]
+        },
+        {
+          "texto": "Cambios en el catálogo de medidas pueden dejar sin efecto una decisión de medidas, pero esto no afecta directamente la vigencia de una revisión.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S7",
+              "texto": "Capability: modos Requirement: una decisión de medidas deja de valer si cambia el catálogo Origen: 20261015-140406-catalogo-confirmado · modos_cfcd50c150324f5bc.una_decision_de_medidas_deja_de_valer_si_cambia_el_catalogo Tipo: funcional Una decisión de medidas SHALL guardar la huella del archivo de cada medida que el requisito nombra. Si alguno cambia o desaparece del catálogo efectivo, la decisión SHALL dejar de valer: estado SHALL mostrarla pendiente nombrando la medida y",
+              "fragmento": "S7.F1"
+            }
+          ]
+        }
+      ],
+      "validacion_citas": "Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.",
+      "formato_corregido": false
+    }
+  },
+  {
+    "id": "pq-combinada",
+    "grupo": "generativa",
+    "acierto": 1,
+    "tipo": "respuesta_elaborada",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "qwen2.5:14b",
+    "simulado": 0,
+    "pregunta": "¿Cuántas tareas cerradas hay y cómo se registra una revisión humana?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántas tareas cerradas hay y cómo se registra una revisión humana?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": "qwen2.5:14b",
+      "proveedor_generativo": "ollama",
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#Requirement: preguntar cuenta y lista cambios desde el registro vigente",
+          "ruta": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
+          "seccion": "Requirement: preguntar cuenta y lista cambios desde el registro vigente",
+          "cambio": "20261024-020022-0b3-preguntar",
+          "puntaje": 0.030415,
+          "similitud_semantica": 0.726445,
+          "aportes": {
+            "lexico": 0.016129,
+            "semantico": 0.014286,
+            "grafo": 0.0
+          },
+          "texto": "Capability: conocimiento\nRequirement: preguntar cuenta y lista cambios desde el registro vigente\nTipo: funcional\n`oracle-factory preguntar` SHALL reconocer consultas de cantidad y listado de tareas o cambios de Factory, para todos,\nabiertos, cerrados o abandonados, sin distinguir tildes ni mayúsculas, y SHALL dar el resultado exacto desde el mismo\nregistro y clasificación que `listar`. SHALL explicar el filtro y dar fuentes comprobables, incluso para cero cambios.\nUn cerrado archivado SHALL contar como cerrado; un abandonado SHALL NOT contar como cerrado ni abierto. SHALL leer el\nestado en cada consulta sin depender de embeddings ni de un índice documental anterior.\n\n#### Scenario: la pregunta que hizo Brian\n- GIVEN dos cambios cerrados archivados, uno abierto y uno abandonado\n- WHEN se pregunta «Cuantas tareas cerradas hay?» o «¿Cuántos cambios cerrados hay?»\n- THEN responde que hay 2 cerrados, explica qué cuenta y cita las fuentes para comprobarlo\n\n#### Scenario: listado y proyecto vacío\n- GIVEN el mismo proyecto y otro sin cambios\n- WHEN se pide listar abiertos, contar todos o contar abandonados, con y sin embeddings disponibles\n- THEN los resultados corresponden exactamente al registro de cada proyecto, incluido cero, sin llamadas a embeddings\n\n#### Scenario: el registro cambia después de preguntar\n- GIVEN una consulta respondida y un índice documental existente\n- WHEN se cierra otro cambio y se repite la consulta\n- THEN el conteo y las fuentes reflejan el cierre sin reconstrucción manual del índice"
+        },
+        {
+          "cita": "openspec/changes/20261007-192608-revisores/proposal.md#Out of scope",
+          "ruta": "openspec/changes/20261007-192608-revisores/proposal.md",
+          "seccion": "Out of scope",
+          "cambio": "20261007-192608-revisores",
+          "puntaje": 0.026141,
+          "similitud_semantica": 0.701711,
+          "aportes": {
+            "lexico": 0.015152,
+            "semantico": 0.010989,
+            "grafo": 0.0
+          },
+          "texto": "Pedir una revisión independiente desde Factory\nOut of scope\n- Revisores en segundo plano con un comando para recoger el informe después (decidido: `pedir-revision` espera).\n- Elegir automáticamente qué revisor usar o cuántas vueltas dar.\n- Que el revisor corrija el código."
+        },
+        {
+          "cita": "docs/plantillas/colaboracion/integracion.md#Integración de entregas",
+          "ruta": "docs/plantillas/colaboracion/integracion.md",
+          "seccion": "Integración de entregas",
+          "cambio": null,
+          "puntaje": 0.025649,
+          "similitud_semantica": 0.704756,
+          "aportes": {
+            "lexico": 0.014286,
+            "semantico": 0.011364,
+            "grafo": 0.0
+          },
+          "texto": "Integración de entregas\n- Cambio(s), IDs completos: {{tareas}}\n- Persona integradora y confirmación del equipo: {{integrador}}\n- Rama / checkout de integración: {{ubicacion}}\n- Base completa: {{base}}\n- Entregas en orden (responsable, rama y commit completo): {{entregas}}\n- Dependencias e interfaces verificadas: {{dependencias}}\n- Paquetes, informes y triage (rutas y hashes por entrega): {{revisiones}}\n- Conflictos y decisión humana (o ninguno): {{conflictos}}\n- Commit del candidato resultante: {{candidato}}\n- Pruebas/sensor del candidato (comandos, resultado, artefactos y hashes): {{pruebas}}\n- Gates obsoletos y renovaciones necesarias: {{renovaciones}}\n- Revisión del candidato y decisión humana: {{decision}}\n- Oracle (requisitos, medidas, hechos, veredicto y límites): {{oracle}}\n- Pendientes de cierre: {{pendientes}}\n- Confirmación humana de cierre (o pendiente): {{cierre}}\n- Commit que archiva el cierre (o pendiente): {{commit_cierre}}\n\nIntegrar una entrega por vez. Preservar estados divergentes antes de conciliarlos; nunca elegir el verde más avanzado. Un merge limpio requiere pruebas de compatibilidad. Distinguir el commit juzgado del commit posterior que archiva registros."
+        },
+        {
+          "cita": "openspec/changes/20261024-020022-0b3-preguntar/proposal.md#Why",
+          "ruta": "openspec/changes/20261024-020022-0b3-preguntar/proposal.md",
+          "seccion": "Why",
+          "cambio": "20261024-020022-0b3-preguntar",
+          "puntaje": 0.023801,
+          "similitud_semantica": 0.674471,
+          "aportes": {
+            "lexico": 0.016393,
+            "semantico": 0.007407,
+            "grafo": 0.0
+          },
+          "texto": "Preguntar responde preguntas abiertas sobre el proyecto con fuentes y herramientas\nWhy\nBrian preguntó «Cuantas tareas cerradas hay?» y recibió ocho pasajes de otros temas, sin respuesta. En main había\n56 cambios cerrados, comprobados con `listar --cerrados`; ese número es una observación, no un dato que fijar en código.\n\nHoy `preguntar` recupera documentos y entrega candidatos con puntuación positiva sin resolver consultas sobre el registro\nni comprobar que esos pasajes respalden la pregunta. Las 22 preguntas de oro sólo miden recuperación documental: pasarlas\nno demuestra exactitud de conteos ni capacidad de advertir falta de respaldo."
+        },
+        {
+          "cita": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md#Requirement: revisar guía la revisión de punta a punta",
+          "ruta": "openspec/changes/20261007-223645-decisiones-guiadas/specs/decisiones/spec.md",
+          "seccion": "Requirement: revisar guía la revisión de punta a punta",
+          "cambio": "20261007-223645-decisiones-guiadas",
+          "puntaje": 0.022978,
+          "similitud_semantica": 0.748372,
+          "aportes": {
+            "lexico": 0.006849,
+            "semantico": 0.016129,
+            "grafo": 0.0
+          },
+          "texto": "Capability: decisiones\nRequirement: revisar guía la revisión de punta a punta\nTipo: funcional\n`revisar ID` SHALL dejar la revisión del candidato vigente registrada sin que la persona edite JSON ni copie rutas o hashes. El recorrido:\n- prepara el informe si hace falta y muestra en texto los hallazgos, las comprobaciones y la evidencia;\n- pide decidir cada hallazgo abierto con opciones;\n- ofrece aprobar sólo si nada queda abierto y todo cumple, o pedir cambios;\n- registra con el nombre de la persona.\n\n#### Scenario: revisión sin hallazgos\n- GIVEN un candidato vigente con evidencia y un informe de revisor sin hallazgos\n- WHEN la persona ejecuta `revisar ID`, elige aprobar y un motivo\n- THEN la revisión queda registrada como aprobada por esa persona, con ese motivo\n\n#### Scenario: un hallazgo abierto\n- GIVEN un candidato vigente con un hallazgo de un revisor\n- WHEN la persona ejecuta `revisar ID`\n- THEN se le pide decidir ese hallazgo antes de poder aprobar, y la decisión queda en el registro"
+        }
+      ],
+      "fuentes": [
+        {
+          "ruta": "openspec/specs/revision-guiada/spec.md",
+          "cita": "openspec/specs/revision-guiada/spec.md#Requirement: registrar confirmacion humana informada",
+          "texto": "Capability: revision-guiada Requirement: registrar confirmacion humana informada Origen: 20261004-005956-revision-guiada · revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada El sistema SHALL mostrar la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana, revalidando contexto y documentos después de recibirla. Scenario: cancelar o modificar entradas GIVEN una revisión anterior y un nuevo registro pendiente de confirmación WHEN la persona cancela o cambian informe, decisiones, spec o contexto durante la confirmación THEN no se sustituye la revisión anterior y se informa qué debe corregirse o volver a revisarse. Scenario: registrar nueva revision GIVEN documentos consistentes con el candidato actual y una confirmación coincidente WHEN se registra la decisión humana THEN se guarda el commit/contexto observado y la decisión, se invalida el juicio previo y se conserva el informe como evidencia, sin cerrar la tarea.",
+          "clase": "spec_vigente",
+          "uso": "Requisitos consolidados del comportamiento actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S2"
+        },
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"cerrados\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios cerrados: 57. {\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 57}\nReferencias consultadas: 64; visibles: 10; omitidas: 54.",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "valor": 57,
+          "agregados": {},
+          "clase": "registro",
+          "uso": "Datos calculados del registro actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "archivos_omitidos": 54,
+          "texto_truncado": false,
+          "id": "S6"
+        }
+      ],
+      "herramientas": [
+        {
+          "herramienta": "registro",
+          "argumentos": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "exitoso": true
+        },
+        {
+          "herramienta": "recuperar",
+          "argumentos": {
+            "maximo": 3,
+            "pregunta": "¿Cómo se registra una revisión humana?",
+            "alcance": "actual"
+          },
+          "exitoso": true
+        },
+        {
+          "herramienta": "registro",
+          "exitoso": false
+        }
+      ],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": true,
+          "max_llamadas": 4,
+          "segundos": 120,
+          "max_peticiones_modelo": 6,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "respuesta_elaborada",
+      "respuesta": "Hay 57 tareas cerradas. [S6]\n\nSe registra una revisión humana mostrando la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana. [S2]\n\nLa confirmación humana revalida contexto y documentos después de recibirla. [S2]\n\nSi la persona cancela o modifica informe, decisiones, spec o contexto durante la confirmación, no se sustituye la revisión anterior y se informa qué debe corregirse o volver a revisarse. [S2]\n\nCuando se registra la decisión humana, se guarda el commit/contexto observado y la decisión, se invalida el juicio previo y se conserva el informe como evidencia, sin cerrar la tarea. [S2]",
+      "afirmaciones": [
+        {
+          "texto": "Hay 57 tareas cerradas.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S6",
+              "texto": "Cantidad de cambios cerrados: 57. {\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 57}\nReferencias consultadas: 64; visibles: 10; omitidas: 54.",
+              "fragmento": "S6.F1"
+            }
+          ]
+        },
+        {
+          "texto": "Se registra una revisión humana mostrando la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S2",
+              "texto": "Capability: revision-guiada Requirement: registrar confirmacion humana informada Origen: 20261004-005956-revision-guiada · revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada El sistema SHALL mostrar la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana, revalidando contexto y documentos después de recibirla. Scenario: cancelar o modificar entradas GIVEN una revisión",
+              "fragmento": "S2.F1"
+            }
+          ]
+        },
+        {
+          "texto": "La confirmación humana revalida contexto y documentos después de recibirla.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S2",
+              "texto": "Capability: revision-guiada Requirement: registrar confirmacion humana informada Origen: 20261004-005956-revision-guiada · revision_guiada_c5794e24f22c4deb6.registrar_confirmacion_humana_informada El sistema SHALL mostrar la versión revisada, tipo de registro, responsable, alcance, límites, pendientes y decisión solicitada antes de exigir la confirmación humana, revalidando contexto y documentos después de recibirla. Scenario: cancelar o modificar entradas GIVEN una revisión",
+              "fragmento": "S2.F1"
+            }
+          ]
+        },
+        {
+          "texto": "Si la persona cancela o modifica informe, decisiones, spec o contexto durante la confirmación, no se sustituye la revisión anterior y se informa qué debe corregirse o volver a revisarse.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S2",
+              "texto": " anterior y un nuevo registro pendiente de confirmación WHEN la persona cancela o cambian informe, decisiones, spec o contexto durante la confirmación THEN no se sustituye la revisión anterior y se informa qué debe corregirse o volver a revisarse. Scenario: registrar nueva revision GIVEN documentos consistentes con el candidato actual y una confirmación coincidente WHEN se registra la decisión humana THEN se guarda el commit/contexto observado y la decisión, se invalida el",
+              "fragmento": "S2.F2"
+            }
+          ]
+        },
+        {
+          "texto": "Cuando se registra la decisión humana, se guarda el commit/contexto observado y la decisión, se invalida el juicio previo y se conserva el informe como evidencia, sin cerrar la tarea.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S2",
+              "texto": " juicio previo y se conserva el informe como evidencia, sin cerrar la tarea.",
+              "fragmento": "S2.F3"
+            }
+          ]
+        }
+      ],
+      "validacion_citas": "Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.",
+      "formato_corregido": false
+    }
+  },
+  {
+    "id": "pq-ajena-1",
+    "grupo": "abstencion",
+    "acierto": 1,
+    "tipo": "sin_respaldo",
+    "abstuvo": 1,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Qué come el ornitorrinco que vive en Marte?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Qué come el ornitorrinco que vive en Marte?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "kb/cambios/20261006-004456-fase-2-de-la.md#Requisitos",
+          "ruta": "kb/cambios/20261006-004456-fase-2-de-la.md",
+          "seccion": "Requisitos",
+          "cambio": "20261006-004456-fase-2-de-la",
+          "puntaje": 0.025997,
+          "similitud_semantica": 0.365243,
+          "aportes": {
+            "lexico": 0.015625,
+            "semantico": 0.001742,
+            "grafo": 0.00863
+          },
+          "texto": "Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/\nRequisitos\n- [[requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.este_repositorio_queda_migrado_y_verificado]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.la_migracion_conserva_el_significado]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.los_comandos_de_lectura_entienden_los_dos_lugares]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.migrar_mueve_el_estado_sin_cambiar_su_contenido]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.migrar_no_pierde_ni_pisa_nada]] — cumple\n- [[requisitos/estructura2_c1bed25594460b383.un_proyecto_no_migrado_sigue_funcionando]] — cumple"
+        },
+        {
+          "cita": "kb/requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory.md#la configuracion del proyecto vive en factory",
+          "ruta": "kb/requisitos/estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory.md",
+          "seccion": "la configuracion del proyecto vive en factory",
+          "cambio": "20261006-004456-fase-2-de-la",
+          "puntaje": 0.025943,
+          "similitud_semantica": 0.279842,
+          "aportes": {
+            "lexico": 0.016393,
+            "semantico": 0.000866,
+            "grafo": 0.008684
+          },
+          "texto": "la configuracion del proyecto vive en factory\n> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.\n\n- Id: `estructura2_c1bed25594460b383.la_configuracion_del_proyecto_vive_en_factory`\n- Vigente: sí\n- Cambio: [[cambios/20261006-004456-fase-2-de-la]]\n- Veredicto: cumple\n- Medidas: `factory_estructura2.la_configuracion_del_proyecto_vive_en_factory`, `factory_estructura2.corrida_completa`\n- Fuente: openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#la configuración del proyecto vive en .factory\n\nTipo: funcional La configuración SHALL leerse de `.factory/config.json`; si sólo existe el `factory.json` de la raíz SHALL leerse de ahí con un aviso, y `migrar` SHALL pasarla al lugar nuevo."
+        },
+        {
+          "cita": "kb/requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory.md#el estado de un cambio nuevo vive en factory",
+          "ruta": "kb/requisitos/estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory.md",
+          "seccion": "el estado de un cambio nuevo vive en factory",
+          "cambio": "20261006-004456-fase-2-de-la",
+          "puntaje": 0.025673,
+          "similitud_semantica": 0.277563,
+          "aportes": {
+            "lexico": 0.016129,
+            "semantico": 0.000861,
+            "grafo": 0.008684
+          },
+          "texto": "el estado de un cambio nuevo vive en factory\n> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.\n\n- Id: `estructura2_c1bed25594460b383.el_estado_de_un_cambio_nuevo_vive_en_factory`\n- Vigente: sí\n- Cambio: [[cambios/20261006-004456-fase-2-de-la]]\n- Veredicto: cumple\n- Medidas: `factory_estructura2.el_estado_de_un_cambio_nuevo_vive_en_factory`, `factory_estructura2.corrida_completa`\n- Fuente: openspec/changes/20261006-004456-fase-2-de-la/specs/estructura2/spec.md#el estado de un cambio nuevo vive en .factory\n\nTipo: funcional Un cambio nuevo SHALL guardar su registro, su revisión libre y el veredicto de Oracle en `.factory/cambios/<ID>/`, y dejar en `openspec/changes/<ID>/` sólo el acuerdo (propuesta, diseño, plan y especificación)."
+        },
+        {
+          "cita": "docs/conocimiento.md#Preguntar",
+          "ruta": "docs/conocimiento.md",
+          "seccion": "Preguntar",
+          "cambio": null,
+          "puntaje": 0.022888,
+          "similitud_semantica": 0.477436,
+          "aportes": {
+            "lexico": 0.012987,
+            "semantico": 0.009901,
+            "grafo": 0.0
+          },
+          "texto": "El conocimiento del proyecto\nPreguntar\n```bash\noracle-factory preguntar \"¿Por qué los IDs de los cambios llevan letras al azar?\"\n```\n\npuede responder de tres maneras: consultar datos del registro, recuperar documentos o elaborar una respuesta con un\nmodelo generativo que hayas configurado. Busca en el vault, en las propuestas, diseños y specs de los cambios, en las\nspecs vigentes y en `docs/`. Deja afuera las notas por revisar (las nombra) y todo lo de un cambio abandonado. Es de sólo\nlectura: no aprueba, cierra ni modifica cambios. Esta ampliación está en desarrollo en esta rama; no está en el paquete\npublicado anterior al cambio.\n\n`oracle-factory preguntar \"¿Cuántas tareas cerradas hay?\"` calcula el número desde el registro vigente, sin pedirle a un\nmodelo que cuente documentos. También reconoce consultas simples para listar y contar todos, abiertos, cerrados o\nabandonados. Los cerrados archivados siguen contando como cerrados y se identifican en el listado. Se muestran cinco\ncambios por página; el JSON identifica cuántos faltan y los argumentos de la página siguiente. Un filtro directo no admitido se avisa; no se\nreemplaza silenciosamente por otro. Para explicaciones abiertas se puede usar un modelo generativo.\nLas páginas siguen el orden por ID de `listar`, aunque el vault presente los cambios por hora de creación.\n\n`--json` devuelve `oracle-factory.preguntar/2`: `tipo`, `respuesta`, `fuentes`, `herramientas`, modelos y límites, además\nde `resultados` (pasajes candidatos), sus aportes y las notas por revisar. Los tipos distinguen `registro`,\n`respuesta_elaborada`, `documentos`, `sin_respaldo`, `requiere_aclaracion` y `consulta_no_admitida`. Un puntaje de ranking\nsirve para ordenar candidatos: no es probabilidad de certeza. `--max N` limita los pasajes mostrados.\n\nSin modelo generativo se conservan consultas directas y recuperación, avisando que los pasajes no son una explicación\nelaborada. Si la recuperación no reúne al menos dos términos de la consulta (uno si la consulta sólo tiene uno), ni una\nsimilitud semántica de al menos 0,65, avisa que no encontró respaldo suficiente. Es un criterio de selección, no una\ngarantía de comprensión semántica; los candidatos siguen visibles para inspección. Con un modelo, éste puede consultar\nmás fuentes y tiene que responder con citas verificables, abstenerse o pedir aclaración.\nLa elaboración sólo se habilita cuando los candidatos superan ese criterio. Si no hay respaldo, se devuelve\n`sin_respaldo` con los candidatos para inspección y sin invocar el modelo generativo.\n\nBusca de tres maneras a la vez y dice cuánto aportó cada una: por palabras (sin tildes ni mayúsculas), por significado\n(embeddings) y por el grafo del vault (un cambio trae a sus requisitos y al revés).\n\n**Embeddings.** Por defecto, Ollama en la máquina con `qwen3-embedding:0.6b` (`ollama pull qwen3-embedding:0.6b` una vez).\nEn `.factory/config.json`:\n\n```json\n\"rag\": {\"embeddings\": {\"proveedor\": \"ollama\", \"url\": \"http://localhost:11434\", \"modelo\": \"qwen3-embedding:0.6b\"}}\n```\n\n`\"proveedor\": \"openai\"` usa un servidor compatible con la API de OpenAI (`\"url\"`, `\"modelo\"`, y `\"clave_env\"` con el\nnombre de la variable de la clave); `\"proveedor\": \"ninguno\"` apaga lo semántico. Ningún texto sale de la máquina a una URL\nque el proyecto no escribió, y no se siguen redirecciones. Sin proveedor, la búsqueda sigue por palabras y por el grafo,\ny lo avisa.\n\n**El índice** vive en `.factory/local/rag/` (no se versiona) y se pone al día solo al preguntar: sólo pide los embeddings\nde lo que cambió.\n\n**Modelo que elabora respuestas.** Es distinto del modelo de embeddings y no se elige ni descarga automáticamente.\nSe configura en `rag.generacion`, con `proveedor` (`ollama`, `openai` o `ninguno`) y un `modelo` explícito. Ollama usa por\ndefecto la URL local; `openai` designa una API compatible con Chat Completions, requiere `url` explícita (incluido su\nprefijo `/v1`, si corresponde). Si el servidor exige autenticación, `clave_env` indica el nombre de una variable de\nentorno, nunca la clave en Git; se puede omitir en un servidor sin autenticación. El modelo debe admitir llamadas a\nherramientas y salida JSON estructurada. No se usa otro proveedor si falla el elegido.\nPara Ollama, `pensar` acepta `true` o `false` cuando el modelo admite ese control; al omitirlo se conserva su valor\npredeterminado. El modo elegido se registra en los límites y en la configuración de la medición.\n\nLas herramientas disponibles son `recuperar` y `registro` (contar, listar, agrupar por fase y consultar un cambio).\nLa redacción comienza con fuentes actuales. `recuperar` permite `alcance` `actual` (por defecto), `antecedentes`,\n`exclusiones` o `todos`. La búsqueda visible conserva su ranking original; el filtro para redactar se aplica después\nde indexar, para no borrar del índice los embeddings de otros alcances.\n`listar` admite `limite` de uno a diez (cinco por defecto) y `desplazamiento`; `detalle` con un ID calcula los pendientes y\nla vigencia de revisión y juicio igual que `estado`. Una fase o una decisión histórica no bastan para afirmar su vigencia.\nSus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el\nciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se\nlimita a 64.000 bytes, la respuesta del proveedor a 256 KiB, cada resultado de herramienta a 24.000 bytes y cada fuente\nenviada a 6000 caracteres. Se admiten hasta 24 fuentes y se muestran hasta diez rutas por fuente, identificando las\nomisiones y la huella del inventario consultado. Se uniforman los espacios y se quitan delimitadores estructurales\nde Markdown (encabezados, listas y código en línea); el contenido de bloques de código conserva sus signos.\nCada pasaje se divide en fragmentos identificados de hasta 480 caracteres. El modelo elige sus identificadores\ny Factory copia el extracto consultado; un identificador desconocido o una fuente contradictoria se rechazan. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,\nsin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el modelo falla, se informa un código de\ncausa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.\nCuando se agotan las consultas permitidas, se pide una respuesta final estructurada con los datos ya recibidos,\nsin ofrecer más herramientas.\nSi el modelo pide un lote mayor que el presupuesto restante, se rechaza entero y se pide el cierre con lo ya recibido,\ndentro del mismo plazo. La respuesta informa las llamadas descartadas y avisa que no se ejecutó ese lote.\nEl presupuesto también se comprueba sobre la suma de mensajes y resultados antes de aceptar más datos. Se reservan\n8000 bytes para cerrar y validar la respuesta. Cuando no entra otro resultado, se cierra con las fuentes que ya recibió\nel modelo; las fuentes de un resultado rechazado no quedan habilitadas para citar.\n\nLas citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en\nella; las cantidades deben aparecer en las citas. Los IDs, etiquetas de modelos y versiones reconocidas se comprueban\ncomo literales en la fuente citada. Se reconocen Python, Factory, Oracle, Git, Node, VS Code, Qwen, SQLite, Ollama, HTTP\ny la expresión «versión X»; otros números requieren aparecer en el extracto. La numeración de pasos no se trata como un\ncálculo. Una consulta mixta cuyo inicio es un conteo directo exige además una consulta calculada y citada del registro;\nel número que aparece en un ejemplo documental no la reemplaza. Esto verifica pertenencia textual, no demuestra que la interpretación\ndel modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.\nCada fuente declara su clase y uso: las specs consolidadas y las guías describen el comportamiento actual; las propuestas\ny los diseños aportan antecedentes que pueden describir problemas anteriores. Se instruye al modelo para que no convierta\nesos problemas en pasos recomendados. Cada afirmación declara `alcance`: `actual`, `antecedente` o `exclusion`. Una afirmación actual\nrequiere al menos una fuente vigente; las propuestas, documentos de cambios, registros históricos y plantillas no bastan\npor sí solos. Los antecedentes se muestran con el rótulo «Antecedente histórico». Esta separación no certifica que la\ninterpretación del texto sea correcta. Las secciones «Out of scope», «Fuera de alcance» y «Exclusiones» tienen una clase\nseparada: no acreditan prestaciones actuales ni hechos históricos positivos. Sus afirmaciones se muestran con el rótulo\n«Fuera de alcance» y sólo el extracto literal verificado, reemplazando la interpretación que haya generado el modelo.\n\n**La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los\ncinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.\n`--casos ARCHIVO` agrega casos sin reemplazar las preguntas originales: grupo `registro` (valor esperado), `abstencion`\n(tipo esperado) o `generativa` (conceptos mínimos en `contiene` y rutas esperadas en `fuentes`, o alternativas en\n`fuentes_cualquiera`). Los listados pueden exigir los IDs esperados; una pregunta mixta puede exigir un cálculo del\nregistro citado, comprobado por código. El archivo debe estar\ndentro del proyecto. Los resultados separan cada grupo, sus aciertos, errores y abstenciones incorrectas; para las\ndocumentales conservan el puesto y MRR, y también comprueban la selección de respaldo que hace `preguntar`, con la\ngeneración desactivada para ese grupo. Una degradación generativa a pasajes cuenta como error y abstención incorrecta.\nLos hechos declaran su `criterio`: `rag_corrida` mide `recuperacion_en_cinco` para conservar la medida original, mientras\nel grupo documental mide `recuperacion_con_respaldo`. Encontrar el archivo correcto y abstenerse erróneamente es un acierto\nde ranking y un error de respuesta; el detalle muestra ambos resultados y las medidas los juzgan por separado.\nLos controles de conceptos y citas no son un juez semántico universal.\n`contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además\nde todos los términos de `contiene`. Estos controles positivos uniforman tildes y admiten los plurales\nde sustantivos terminados en -ción o -sión (configuración/configuraciones, revisión/revisiones). `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;\nlas citas literales rotuladas como exclusiones conservan su sentido negativo. Así los casos pueden reconocer\nuna explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.\nLa evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita\ncalidad de las explicaciones. Se conserva el umbral humano documental de al menos 18 de las 22 preguntas originales.\nEl sensor `tools/verify_preguntar.py` acepta `--pensar` o `--no-pensar` para registrar explícitamente ese control con Ollama.\n\nDesde un agente, lo mismo por MCP: ver [agentes](agentes.md)."
+        },
+        {
+          "cita": "openspec/changes/20261021-235127-fjn-rag/proposal.md#What changes",
+          "ruta": "openspec/changes/20261021-235127-fjn-rag/proposal.md",
+          "seccion": "What changes",
+          "cambio": "20261021-235127-fjn-rag",
+          "puntaje": 0.021207,
+          "similitud_semantica": 0.467696,
+          "aportes": {
+            "lexico": 0.013333,
+            "semantico": 0.007874,
+            "grafo": 0.0
+          },
+          "texto": "RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida\nWhat changes\n- `oracle-factory preguntar \"TEXTO\"` (y `--json`) devuelve los pasajes que mejor responden, cada uno con su cita\n  (archivo y sección) y de qué cambio es. Busca en el vault (`kb/`), en las propuestas, diseños y specs de los cambios,\n  en las specs vigentes (`openspec/specs/`) y en `docs/`.\n- Sólo lo vigente: no devuelve una nota de personas por revisar (la nombra aparte) ni lo de un cambio abandonado.\n- Búsqueda híbrida: léxica (BM25, sin tildes ni mayúsculas), semántica (embeddings) y por el grafo del vault (un cambio\n  trae sus requisitos y al revés), fusionadas por rango.\n- Embeddings configurables en `.factory/config.json`: por defecto Ollama local con `qwen3-embedding:0.6b`; un proveedor\n  externo (compatible con la API de OpenAI) sólo si el proyecto lo configura con su URL y la variable de su clave. Sin\n  proveedor disponible, la búsqueda sigue léxica y por el grafo y lo dice.\n- El índice vive en `.factory/local/rag/` (no versionado), se arma solo cuando el contenido cambió y reusa el embedding\n  de cada pasaje que no cambió. No hay que mantenerlo.\n- Preguntas de oro en `kb/preguntas-de-oro.json`: cada pregunta con los archivos que tienen que aparecer entre los\n  primeros resultados. `oracle-factory preguntar --evaluar --salida CARPETA` corre todas y deja hechos para Oracle; las\n  medidas de Factory juzgan la calidad con eso.\n- Sin dependencias nuevas: SQLite y HTTP de la biblioteca estándar."
+        }
+      ],
+      "fuentes": [],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "sin_respaldo",
+      "respuesta": "No encontré respaldo suficiente para responder."
+    }
+  },
+  {
+    "id": "pq-ajena-2",
+    "grupo": "abstencion",
+    "acierto": 1,
+    "tipo": "sin_respaldo",
+    "abstuvo": 1,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuál es el número de serie de mi cafetera?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuál es el número de serie de mi cafetera?",
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": "qwen3-embedding:0.6b",
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 30,
+      "resultados": [
+        {
+          "cita": "docs/estructura.md#Salidas en JSON",
+          "ruta": "docs/estructura.md",
+          "seccion": "Salidas en JSON",
+          "cambio": null,
+          "puntaje": 0.027651,
+          "similitud_semantica": 0.556278,
+          "aportes": {
+            "lexico": 0.013158,
+            "semantico": 0.014493,
+            "grafo": 0.0
+          },
+          "texto": "Dónde está cada cosa\nSalidas en JSON\n`estado`, `donde` y `resumen` aceptan `--json` para que un IDE, un panel o un agente lean lo mismo que una persona, sin parsear texto. Cada objeto trae `esquema` (`oracle-factory.estado/1`, `oracle-factory.donde/1`, `oracle-factory.resumen/1`); el número sube sólo si se quita una clave o cambia su sentido, no al sumar claves. Las claves van en español, como en `factory.json`, y salen ordenadas.\n\n- `estado ID --json`: fase, modo, `candidato` vigente (o null), `requisitos` con sus `medidas`, la `decision` que las respalda y la `propuesta` pendiente, `pendientes`, `proximo_paso` y sus `alternativas` (otros comandos que también valen; casi siempre vacía), `decisiones` (spec, revisión, cierre, abandono: actor, tipo de actor, forma, modo, cuándo, motivo), `revision` y `oracle` con el `head` al que se refieren y si siguen `vigente`s para el producto actual, `aceptados` y `avisos`. No ofrece ejecutar el próximo paso ni pregunta nada.\n- `donde ID --json`: `artefactos`, cada uno con `gate`, `ruta`, `situacion` (`existe`, `ausente`, `historico` o `no_valido`) y `nota`.\n- `resumen --json`: `capacidades` con sus requisitos vigentes (requisito de Oracle, tipo, medidas, veredicto al cerrar, cambio de origen), `abiertos` con sus pendientes, `abandonados`, `sin_registro`, `riesgos_aceptados`, `limites` y `problemas`. No escribe `.factory/resumen.md`; las mismas entradas dan los mismos bytes.\n\nCon `--json`, un error va a stderr con código 1 y stdout queda vacío: un cliente nunca lee un JSON a medias. Decidir (aprobar, revisar, cerrar) sigue siendo de una persona en su terminal."
+        },
+        {
+          "cita": "docs/conocimiento.md#Preguntar",
+          "ruta": "docs/conocimiento.md",
+          "seccion": "Preguntar",
+          "cambio": null,
+          "puntaje": 0.023611,
+          "similitud_semantica": 0.514346,
+          "aportes": {
+            "lexico": 0.0125,
+            "semantico": 0.011111,
+            "grafo": 0.0
+          },
+          "texto": "El conocimiento del proyecto\nPreguntar\n```bash\noracle-factory preguntar \"¿Por qué los IDs de los cambios llevan letras al azar?\"\n```\n\npuede responder de tres maneras: consultar datos del registro, recuperar documentos o elaborar una respuesta con un\nmodelo generativo que hayas configurado. Busca en el vault, en las propuestas, diseños y specs de los cambios, en las\nspecs vigentes y en `docs/`. Deja afuera las notas por revisar (las nombra) y todo lo de un cambio abandonado. Es de sólo\nlectura: no aprueba, cierra ni modifica cambios. Esta ampliación está en desarrollo en esta rama; no está en el paquete\npublicado anterior al cambio.\n\n`oracle-factory preguntar \"¿Cuántas tareas cerradas hay?\"` calcula el número desde el registro vigente, sin pedirle a un\nmodelo que cuente documentos. También reconoce consultas simples para listar y contar todos, abiertos, cerrados o\nabandonados. Los cerrados archivados siguen contando como cerrados y se identifican en el listado. Se muestran cinco\ncambios por página; el JSON identifica cuántos faltan y los argumentos de la página siguiente. Un filtro directo no admitido se avisa; no se\nreemplaza silenciosamente por otro. Para explicaciones abiertas se puede usar un modelo generativo.\nLas páginas siguen el orden por ID de `listar`, aunque el vault presente los cambios por hora de creación.\n\n`--json` devuelve `oracle-factory.preguntar/2`: `tipo`, `respuesta`, `fuentes`, `herramientas`, modelos y límites, además\nde `resultados` (pasajes candidatos), sus aportes y las notas por revisar. Los tipos distinguen `registro`,\n`respuesta_elaborada`, `documentos`, `sin_respaldo`, `requiere_aclaracion` y `consulta_no_admitida`. Un puntaje de ranking\nsirve para ordenar candidatos: no es probabilidad de certeza. `--max N` limita los pasajes mostrados.\n\nSin modelo generativo se conservan consultas directas y recuperación, avisando que los pasajes no son una explicación\nelaborada. Si la recuperación no reúne al menos dos términos de la consulta (uno si la consulta sólo tiene uno), ni una\nsimilitud semántica de al menos 0,65, avisa que no encontró respaldo suficiente. Es un criterio de selección, no una\ngarantía de comprensión semántica; los candidatos siguen visibles para inspección. Con un modelo, éste puede consultar\nmás fuentes y tiene que responder con citas verificables, abstenerse o pedir aclaración.\nLa elaboración sólo se habilita cuando los candidatos superan ese criterio. Si no hay respaldo, se devuelve\n`sin_respaldo` con los candidatos para inspección y sin invocar el modelo generativo.\n\nBusca de tres maneras a la vez y dice cuánto aportó cada una: por palabras (sin tildes ni mayúsculas), por significado\n(embeddings) y por el grafo del vault (un cambio trae a sus requisitos y al revés).\n\n**Embeddings.** Por defecto, Ollama en la máquina con `qwen3-embedding:0.6b` (`ollama pull qwen3-embedding:0.6b` una vez).\nEn `.factory/config.json`:\n\n```json\n\"rag\": {\"embeddings\": {\"proveedor\": \"ollama\", \"url\": \"http://localhost:11434\", \"modelo\": \"qwen3-embedding:0.6b\"}}\n```\n\n`\"proveedor\": \"openai\"` usa un servidor compatible con la API de OpenAI (`\"url\"`, `\"modelo\"`, y `\"clave_env\"` con el\nnombre de la variable de la clave); `\"proveedor\": \"ninguno\"` apaga lo semántico. Ningún texto sale de la máquina a una URL\nque el proyecto no escribió, y no se siguen redirecciones. Sin proveedor, la búsqueda sigue por palabras y por el grafo,\ny lo avisa.\n\n**El índice** vive en `.factory/local/rag/` (no se versiona) y se pone al día solo al preguntar: sólo pide los embeddings\nde lo que cambió.\n\n**Modelo que elabora respuestas.** Es distinto del modelo de embeddings y no se elige ni descarga automáticamente.\nSe configura en `rag.generacion`, con `proveedor` (`ollama`, `openai` o `ninguno`) y un `modelo` explícito. Ollama usa por\ndefecto la URL local; `openai` designa una API compatible con Chat Completions, requiere `url` explícita (incluido su\nprefijo `/v1`, si corresponde). Si el servidor exige autenticación, `clave_env` indica el nombre de una variable de\nentorno, nunca la clave en Git; se puede omitir en un servidor sin autenticación. El modelo debe admitir llamadas a\nherramientas y salida JSON estructurada. No se usa otro proveedor si falla el elegido.\nPara Ollama, `pensar` acepta `true` o `false` cuando el modelo admite ese control; al omitirlo se conserva su valor\npredeterminado. El modo elegido se registra en los límites y en la configuración de la medición.\n\nLas herramientas disponibles son `recuperar` y `registro` (contar, listar, agrupar por fase y consultar un cambio).\nLa redacción comienza con fuentes actuales. `recuperar` permite `alcance` `actual` (por defecto), `antecedentes`,\n`exclusiones` o `todos`. La búsqueda visible conserva su ranking original; el filtro para redactar se aplica después\nde indexar, para no borrar del índice los embeddings de otros alcances.\n`listar` admite `limite` de uno a diez (cinco por defecto) y `desplazamiento`; `detalle` con un ID calcula los pendientes y\nla vigencia de revisión y juicio igual que `estado`. Una fase o una decisión histórica no bastan para afirmar su vigencia.\nSus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el\nciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se\nlimita a 64.000 bytes, la respuesta del proveedor a 256 KiB, cada resultado de herramienta a 24.000 bytes y cada fuente\nenviada a 6000 caracteres. Se admiten hasta 24 fuentes y se muestran hasta diez rutas por fuente, identificando las\nomisiones y la huella del inventario consultado. Se uniforman los espacios y se quitan delimitadores estructurales\nde Markdown (encabezados, listas y código en línea); el contenido de bloques de código conserva sus signos.\nCada pasaje se divide en fragmentos identificados de hasta 480 caracteres. El modelo elige sus identificadores\ny Factory copia el extracto consultado; un identificador desconocido o una fuente contradictoria se rechazan. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,\nsin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el modelo falla, se informa un código de\ncausa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.\nCuando se agotan las consultas permitidas, se pide una respuesta final estructurada con los datos ya recibidos,\nsin ofrecer más herramientas.\nSi el modelo pide un lote mayor que el presupuesto restante, se rechaza entero y se pide el cierre con lo ya recibido,\ndentro del mismo plazo. La respuesta informa las llamadas descartadas y avisa que no se ejecutó ese lote.\nEl presupuesto también se comprueba sobre la suma de mensajes y resultados antes de aceptar más datos. Se reservan\n8000 bytes para cerrar y validar la respuesta. Cuando no entra otro resultado, se cierra con las fuentes que ya recibió\nel modelo; las fuentes de un resultado rechazado no quedan habilitadas para citar.\n\nLas citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en\nella; las cantidades deben aparecer en las citas. Los IDs, etiquetas de modelos y versiones reconocidas se comprueban\ncomo literales en la fuente citada. Se reconocen Python, Factory, Oracle, Git, Node, VS Code, Qwen, SQLite, Ollama, HTTP\ny la expresión «versión X»; otros números requieren aparecer en el extracto. La numeración de pasos no se trata como un\ncálculo. Una consulta mixta cuyo inicio es un conteo directo exige además una consulta calculada y citada del registro;\nel número que aparece en un ejemplo documental no la reemplaza. Esto verifica pertenencia textual, no demuestra que la interpretación\ndel modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.\nCada fuente declara su clase y uso: las specs consolidadas y las guías describen el comportamiento actual; las propuestas\ny los diseños aportan antecedentes que pueden describir problemas anteriores. Se instruye al modelo para que no convierta\nesos problemas en pasos recomendados. Cada afirmación declara `alcance`: `actual`, `antecedente` o `exclusion`. Una afirmación actual\nrequiere al menos una fuente vigente; las propuestas, documentos de cambios, registros históricos y plantillas no bastan\npor sí solos. Los antecedentes se muestran con el rótulo «Antecedente histórico». Esta separación no certifica que la\ninterpretación del texto sea correcta. Las secciones «Out of scope», «Fuera de alcance» y «Exclusiones» tienen una clase\nseparada: no acreditan prestaciones actuales ni hechos históricos positivos. Sus afirmaciones se muestran con el rótulo\n«Fuera de alcance» y sólo el extracto literal verificado, reemplazando la interpretación que haya generado el modelo.\n\n**La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los\ncinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.\n`--casos ARCHIVO` agrega casos sin reemplazar las preguntas originales: grupo `registro` (valor esperado), `abstencion`\n(tipo esperado) o `generativa` (conceptos mínimos en `contiene` y rutas esperadas en `fuentes`, o alternativas en\n`fuentes_cualquiera`). Los listados pueden exigir los IDs esperados; una pregunta mixta puede exigir un cálculo del\nregistro citado, comprobado por código. El archivo debe estar\ndentro del proyecto. Los resultados separan cada grupo, sus aciertos, errores y abstenciones incorrectas; para las\ndocumentales conservan el puesto y MRR, y también comprueban la selección de respaldo que hace `preguntar`, con la\ngeneración desactivada para ese grupo. Una degradación generativa a pasajes cuenta como error y abstención incorrecta.\nLos hechos declaran su `criterio`: `rag_corrida` mide `recuperacion_en_cinco` para conservar la medida original, mientras\nel grupo documental mide `recuperacion_con_respaldo`. Encontrar el archivo correcto y abstenerse erróneamente es un acierto\nde ranking y un error de respuesta; el detalle muestra ambos resultados y las medidas los juzgan por separado.\nLos controles de conceptos y citas no son un juez semántico universal.\n`contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además\nde todos los términos de `contiene`. Estos controles positivos uniforman tildes y admiten los plurales\nde sustantivos terminados en -ción o -sión (configuración/configuraciones, revisión/revisiones). `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;\nlas citas literales rotuladas como exclusiones conservan su sentido negativo. Así los casos pueden reconocer\nuna explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.\nLa evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita\ncalidad de las explicaciones. Se conserva el umbral humano documental de al menos 18 de las 22 preguntas originales.\nEl sensor `tools/verify_preguntar.py` acepta `--pensar` o `--no-pensar` para registrar explícitamente ese control con Ollama.\n\nDesde un agente, lo mismo por MCP: ver [agentes](agentes.md)."
+        },
+        {
+          "cita": "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md#Requirement: un valor del registro que no es una ruta se informa sin caerse",
+          "ruta": "openspec/changes/20261016-114832-informe-no-texto/specs/flujo/spec.md",
+          "seccion": "Requirement: un valor del registro que no es una ruta se informa sin caerse",
+          "cambio": "20261016-114832-informe-no-texto",
+          "puntaje": 0.021723,
+          "similitud_semantica": 0.464125,
+          "aportes": {
+            "lexico": 0.015625,
+            "semantico": 0.006098,
+            "grafo": 0.0
+          },
+          "texto": "Capability: flujo\nRequirement: un valor del registro que no es una ruta se informa sin caerse\nTipo: funcional\nCuando el registro de un cambio guarda como informe o decisiones de la revisión, o como informe o hechos del juicio, un valor que no es una ruta de texto, `estado`, `resumen`, `donde` y el próximo paso SHALL responder sin fallar; `estado` SHALL listar un pendiente que nombre ese campo como no válido, y el próximo paso SHALL rehacer lo que ya no vale: la revisión (pedir-revision o revisar), o el juicio (juzgar).\n\n#### Scenario: un informe de revisión que es un número\n- GIVEN un cambio juzgado cuyo registro guarda la revisión con informe 5\n- WHEN se piden estado, resumen, donde y el próximo paso\n- THEN ninguno falla, estado dice que el informe de revisión no es válido y el próximo paso rehace la revisión\n\n#### Scenario: los cuatro campos con valores que no son texto\n- GIVEN un cambio juzgado y, de a uno, el informe y las decisiones de la revisión y el informe y los hechos del juicio con un número, una lista o un objeto\n- WHEN se piden estado, resumen, donde y el próximo paso\n- THEN ninguno falla, estado nombra ese campo como no válido y el próximo paso rehace la revisión para los de la revisión y el juicio para los del juicio"
+        },
+        {
+          "cita": "openspec/specs/flujo/spec.md#Requirement: un valor del registro que no es una ruta se informa sin caerse",
+          "ruta": "openspec/specs/flujo/spec.md",
+          "seccion": "Requirement: un valor del registro que no es una ruta se informa sin caerse",
+          "cambio": null,
+          "puntaje": 0.020566,
+          "similitud_semantica": 0.456101,
+          "aportes": {
+            "lexico": 0.015385,
+            "semantico": 0.005181,
+            "grafo": 0.0
+          },
+          "texto": "Capability: flujo\nRequirement: un valor del registro que no es una ruta se informa sin caerse\nOrigen: 20261016-114832-informe-no-texto · flujo_cb386f39710102296.un_valor_del_registro_que_no_es_una_ruta_se_informa_sin_caerse\nTipo: funcional\nCuando el registro de un cambio guarda como informe o decisiones de la revisión, o como informe o hechos del juicio, un valor que no es una ruta de texto, `estado`, `resumen`, `donde` y el próximo paso SHALL responder sin fallar; `estado` SHALL listar un pendiente que nombre ese campo como no válido, y el próximo paso SHALL rehacer lo que ya no vale: la revisión (pedir-revision o revisar), o el juicio (juzgar).\n\n#### Scenario: un informe de revisión que es un número\n- GIVEN un cambio juzgado cuyo registro guarda la revisión con informe 5\n- WHEN se piden estado, resumen, donde y el próximo paso\n- THEN ninguno falla, estado dice que el informe de revisión no es válido y el próximo paso rehace la revisión\n\n#### Scenario: los cuatro campos con valores que no son texto\n- GIVEN un cambio juzgado y, de a uno, el informe y las decisiones de la revisión y el informe y los hechos del juicio con un número, una lista o un objeto\n- WHEN se piden estado, resumen, donde y el próximo paso\n- THEN ninguno falla, estado nombra ese campo como no válido y el próximo paso rehace la revisión para los de la revisión y el juicio para los del juicio"
+        },
+        {
+          "cita": "openspec/changes/20261013-153440-cli-json/proposal.md#Human decisions",
+          "ruta": "openspec/changes/20261013-153440-cli-json/proposal.md",
+          "seccion": "Human decisions",
+          "cambio": "20261013-153440-cli-json",
+          "puntaje": 0.019542,
+          "similitud_semantica": 0.428164,
+          "aportes": {
+            "lexico": 0.016129,
+            "semantico": 0.003413,
+            "grafo": 0.0
+          },
+          "texto": "Salidas en JSON de estado, donde y resumen\nHuman decisions\n- Brian eligió seguir con cli-json (2026-10-13).\n- Las claves van en español, como `factory.json`; el número de esquema sube sólo si se quita o cambia el sentido de una clave (sumar claves no lo sube)."
+        }
+      ],
+      "fuentes": [],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "sin_respaldo",
+      "respuesta": "No encontré respaldo suficiente para responder."
+    }
+  },
+  {
+    "id": "pq-temporal",
+    "grupo": "abstencion",
+    "acierto": 1,
+    "tipo": "consulta_no_admitida",
+    "abstuvo": 1,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuántas tareas cerradas hay desde ayer?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántas tareas cerradas hay desde ayer?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "consulta_no_admitida",
+      "respuesta": "Ese filtro no está admitido en la consulta directa. Podés consultar todos, abiertos, cerrados o abandonados; para otros datos usá estado o tablero."
+    }
+  },
+  {
+    "id": "pq-registro-cerrados",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuántas tareas cerradas hay?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántas tareas cerradas hay?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"cerrados\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios cerrados: 57.\n{\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 57}",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "valor": 57,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 57 cambios cerrados.",
+      "valor": 57,
+      "ids": [
+        "20261004-005956-elegir-medidas",
+        "20261004-005956-inicio-guiado",
+        "20261004-005956-revision-guiada",
+        "20261004-121432-coordinar-dos",
+        "20261005-105331-modos-de-trabajo",
+        "20261005-132144-jerarquia-de",
+        "20261005-154433-la-vigencia-de",
+        "20261005-184427-los-registros-de",
+        "20261005-193914-quitar-la-ruta",
+        "20261006-004456-fase-2-de-la",
+        "20261006-161029-archivar-al",
+        "20261007-003414-resumen-del",
+        "20261007-115805-web-y-docs",
+        "20261007-150043-autoproduccion",
+        "20261007-192608-revisores",
+        "20261007-223645-decisiones-guiadas",
+        "20261008-123018-cli-humana",
+        "20261012-131420-clue-dependencia",
+        "20261012-214104-ruta-vigente",
+        "20261013-011811-abandonar",
+        "20261013-115616-vueltas-severidad",
+        "20261013-153440-cli-json",
+        "20261013-180751-trazabilidad",
+        "20261014-000054-paquete-producto",
+        "20261014-100834-revision-simultanea",
+        "20261014-125953-estado-revisar-medios",
+        "20261014-140627-severidad-ausente",
+        "20261014-145018-donde-ausente",
+        "20261014-204205-donde-no-valido",
+        "20261015-001533-evidencia-fuera",
+        "20261015-105600-cli-piloto",
+        "20261015-122841-docs-web-modos",
+        "20261015-140406-catalogo-confirmado",
+        "20261015-155346-oracle-en-carpeta",
+        "20261016-101007-vscode",
+        "20261016-114832-informe-no-texto",
+        "20261016-143020-revisar-cancelada",
+        "20261016-175720-bloqueo-registro",
+        "20261016-234517-web-viva",
+        "20261017-023151-hechos-varios",
+        "20261017-121631-web-guias",
+        "20261017-135953-higiene",
+        "20261019-120156-tablero",
+        "20261019-182313-commits",
+        "20261019-232444-quien",
+        "20261020-005341-liveshare",
+        "20261020-140603-kb",
+        "20261020-141303-sesion",
+        "20261020-173143-avisos",
+        "20261020-200030-aislar",
+        "20261021-101907-clones",
+        "20261021-140625-unir",
+        "20261021-235127-fjn-rag",
+        "20261022-115958-1jt-hora",
+        "20261022-161300-f94-mcp",
+        "20261022-215347-y70-agentes",
+        "20261023-005051-ufj-docs"
+      ],
+      "filtro": "cerrados",
+      "criterio": {
+        "operacion": "contar",
+        "estado": "cerrados"
+      }
+    }
+  },
+  {
+    "id": "pq-registro-abiertos",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuántos cambios abiertos hay?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántos cambios abiertos hay?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"abiertos\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios abiertos: 1.\n{\"criterio\": {\"operacion\": \"contar\", \"estado\": \"abiertos\"}, \"cantidad\": 1}",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "abiertos"
+          },
+          "valor": 1,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 1 cambios abiertos.",
+      "valor": 1,
+      "ids": [
+        "20261024-020022-0b3-preguntar"
+      ],
+      "filtro": "abiertos",
+      "criterio": {
+        "operacion": "contar",
+        "estado": "abiertos"
+      }
+    }
+  },
+  {
+    "id": "pq-registro-abandonados",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuántos cambios abandonados hay?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántos cambios abandonados hay?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"abandonados\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios abandonados: 6.\n{\"criterio\": {\"operacion\": \"contar\", \"estado\": \"abandonados\"}, \"cantidad\": 6}",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "abandonados"
+          },
+          "valor": 6,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 6 cambios abandonados.",
+      "valor": 6,
+      "ids": [
+        "20261002-204916-validar-el-flujo",
+        "20261002-222858-explicar-oracle",
+        "20261002-224749-revision-poc",
+        "20261002-234439-dist-uv",
+        "20261003-185925-migrar-task",
+        "20261003-235610-web-rigurosa"
+      ],
+      "filtro": "abandonados",
+      "criterio": {
+        "operacion": "contar",
+        "estado": "abandonados"
+      }
+    }
+  },
+  {
+    "id": "pq-registro-todos",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "¿Cuántos cambios hay en total?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "¿Cuántos cambios hay en total?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"todos\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios todos: 64.\n{\"criterio\": {\"operacion\": \"contar\", \"estado\": \"todos\"}, \"cantidad\": 64}",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "todos"
+          },
+          "valor": 64,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 64 cambios en total.",
+      "valor": 64,
+      "ids": [
+        "20261002-204916-validar-el-flujo",
+        "20261002-222858-explicar-oracle",
+        "20261002-224749-revision-poc",
+        "20261002-234439-dist-uv",
+        "20261003-185925-migrar-task",
+        "20261003-235610-web-rigurosa",
+        "20261004-005956-elegir-medidas",
+        "20261004-005956-inicio-guiado",
+        "20261004-005956-revision-guiada",
+        "20261004-121432-coordinar-dos",
+        "20261005-105331-modos-de-trabajo",
+        "20261005-132144-jerarquia-de",
+        "20261005-154433-la-vigencia-de",
+        "20261005-184427-los-registros-de",
+        "20261005-193914-quitar-la-ruta",
+        "20261006-004456-fase-2-de-la",
+        "20261006-161029-archivar-al",
+        "20261007-003414-resumen-del",
+        "20261007-115805-web-y-docs",
+        "20261007-150043-autoproduccion",
+        "20261007-192608-revisores",
+        "20261007-223645-decisiones-guiadas",
+        "20261008-123018-cli-humana",
+        "20261012-131420-clue-dependencia",
+        "20261012-214104-ruta-vigente",
+        "20261013-011811-abandonar",
+        "20261013-115616-vueltas-severidad",
+        "20261013-153440-cli-json",
+        "20261013-180751-trazabilidad",
+        "20261014-000054-paquete-producto",
+        "20261014-100834-revision-simultanea",
+        "20261014-125953-estado-revisar-medios",
+        "20261014-140627-severidad-ausente",
+        "20261014-145018-donde-ausente",
+        "20261014-204205-donde-no-valido",
+        "20261015-001533-evidencia-fuera",
+        "20261015-105600-cli-piloto",
+        "20261015-122841-docs-web-modos",
+        "20261015-140406-catalogo-confirmado",
+        "20261015-155346-oracle-en-carpeta",
+        "20261016-101007-vscode",
+        "20261016-114832-informe-no-texto",
+        "20261016-143020-revisar-cancelada",
+        "20261016-175720-bloqueo-registro",
+        "20261016-234517-web-viva",
+        "20261017-023151-hechos-varios",
+        "20261017-121631-web-guias",
+        "20261017-135953-higiene",
+        "20261019-120156-tablero",
+        "20261019-182313-commits",
+        "20261019-232444-quien",
+        "20261020-005341-liveshare",
+        "20261020-140603-kb",
+        "20261020-141303-sesion",
+        "20261020-173143-avisos",
+        "20261020-200030-aislar",
+        "20261021-101907-clones",
+        "20261021-140625-unir",
+        "20261021-235127-fjn-rag",
+        "20261022-115958-1jt-hora",
+        "20261022-161300-f94-mcp",
+        "20261022-215347-y70-agentes",
+        "20261023-005051-ufj-docs",
+        "20261024-020022-0b3-preguntar"
+      ],
+      "filtro": "todos",
+      "criterio": {
+        "operacion": "contar",
+        "estado": "todos"
+      }
+    }
+  },
+  {
+    "id": "pq-registro-variante",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "Cuantas tareas cerradas hay?",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "Cuantas tareas cerradas hay?",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"cerrados\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios cerrados: 57.\n{\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 57}",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "valor": 57,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 57 cambios cerrados.",
+      "valor": 57,
+      "ids": [
+        "20261004-005956-elegir-medidas",
+        "20261004-005956-inicio-guiado",
+        "20261004-005956-revision-guiada",
+        "20261004-121432-coordinar-dos",
+        "20261005-105331-modos-de-trabajo",
+        "20261005-132144-jerarquia-de",
+        "20261005-154433-la-vigencia-de",
+        "20261005-184427-los-registros-de",
+        "20261005-193914-quitar-la-ruta",
+        "20261006-004456-fase-2-de-la",
+        "20261006-161029-archivar-al",
+        "20261007-003414-resumen-del",
+        "20261007-115805-web-y-docs",
+        "20261007-150043-autoproduccion",
+        "20261007-192608-revisores",
+        "20261007-223645-decisiones-guiadas",
+        "20261008-123018-cli-humana",
+        "20261012-131420-clue-dependencia",
+        "20261012-214104-ruta-vigente",
+        "20261013-011811-abandonar",
+        "20261013-115616-vueltas-severidad",
+        "20261013-153440-cli-json",
+        "20261013-180751-trazabilidad",
+        "20261014-000054-paquete-producto",
+        "20261014-100834-revision-simultanea",
+        "20261014-125953-estado-revisar-medios",
+        "20261014-140627-severidad-ausente",
+        "20261014-145018-donde-ausente",
+        "20261014-204205-donde-no-valido",
+        "20261015-001533-evidencia-fuera",
+        "20261015-105600-cli-piloto",
+        "20261015-122841-docs-web-modos",
+        "20261015-140406-catalogo-confirmado",
+        "20261015-155346-oracle-en-carpeta",
+        "20261016-101007-vscode",
+        "20261016-114832-informe-no-texto",
+        "20261016-143020-revisar-cancelada",
+        "20261016-175720-bloqueo-registro",
+        "20261016-234517-web-viva",
+        "20261017-023151-hechos-varios",
+        "20261017-121631-web-guias",
+        "20261017-135953-higiene",
+        "20261019-120156-tablero",
+        "20261019-182313-commits",
+        "20261019-232444-quien",
+        "20261020-005341-liveshare",
+        "20261020-140603-kb",
+        "20261020-141303-sesion",
+        "20261020-173143-avisos",
+        "20261020-200030-aislar",
+        "20261021-101907-clones",
+        "20261021-140625-unir",
+        "20261021-235127-fjn-rag",
+        "20261022-115958-1jt-hora",
+        "20261022-161300-f94-mcp",
+        "20261022-215347-y70-agentes",
+        "20261023-005051-ufj-docs"
+      ],
+      "filtro": "cerrados",
+      "criterio": {
+        "operacion": "contar",
+        "estado": "cerrados"
+      }
+    }
+  },
+  {
+    "id": "pq-registro-lista",
+    "grupo": "registro",
+    "acierto": 1,
+    "tipo": "registro",
+    "abstuvo": 0,
+    "degradada": 0,
+    "modelo_generativo": "ninguno",
+    "simulado": 0,
+    "pregunta": "Listá tareas cerradas",
+    "respuesta": {
+      "esquema": "oracle-factory.preguntar/2",
+      "pregunta": "Listá tareas cerradas",
+      "modo": "registro",
+      "modelo": null,
+      "modelo_generativo": null,
+      "proveedor_generativo": null,
+      "modelo_embeddings": null,
+      "aviso": null,
+      "embeddings_pedidos": 0,
+      "por_revisar": [],
+      "fuera_por_no_vigentes": 0,
+      "resultados": [],
+      "fuentes": [
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"desplazamiento\": 0, \"estado\": \"cerrados\", \"limite\": 5, \"operacion\": \"listar\"}",
+          "texto": "Cantidad de cambios cerrados: 57.\n{\"criterio\": {\"operacion\": \"listar\", \"estado\": \"cerrados\", \"limite\": 5, \"desplazamiento\": 0}, \"cantidad\": 57}\n20261004-005956-elegir-medidas: Elección de medidas; fase cerrada (archivado).\n20261004-005956-inicio-guiado: Inicio guiado; fase cerrada (archivado).\n20261004-005956-revision-guiada: Guiar la revisión con un informe pendiente y decisiones explícitas; fase cerrada (archivado).\n20261004-121432-coordinar-dos: Coordinar dos personas con sus agentes sin interferencias; fase cerrada (archivado).\n20261005-105331-modos-de-trabajo: Modos de trabajo según quién decide los requisitos; fase cerrada (archivado).",
+          "archivos": [
+            ".factory/cambios/20261002-204916-validar-el-flujo/factory.json",
+            ".factory/cambios/20261002-222858-explicar-oracle/factory.json",
+            ".factory/cambios/20261002-224749-revision-poc/factory.json",
+            ".factory/cambios/20261002-234439-dist-uv/factory.json",
+            ".factory/cambios/20261003-185925-migrar-task/factory.json",
+            ".factory/cambios/20261003-235610-web-rigurosa/factory.json",
+            ".factory/cambios/20261004-005956-elegir-medidas/factory.json",
+            ".factory/cambios/20261004-005956-inicio-guiado/factory.json",
+            ".factory/cambios/20261004-005956-revision-guiada/factory.json",
+            ".factory/cambios/20261004-121432-coordinar-dos/factory.json",
+            ".factory/cambios/20261005-105331-modos-de-trabajo/factory.json",
+            ".factory/cambios/20261005-132144-jerarquia-de/factory.json",
+            ".factory/cambios/20261005-154433-la-vigencia-de/factory.json",
+            ".factory/cambios/20261005-184427-los-registros-de/factory.json",
+            ".factory/cambios/20261005-193914-quitar-la-ruta/factory.json",
+            ".factory/cambios/20261006-004456-fase-2-de-la/factory.json",
+            ".factory/cambios/20261006-161029-archivar-al/factory.json",
+            ".factory/cambios/20261007-003414-resumen-del/factory.json",
+            ".factory/cambios/20261007-115805-web-y-docs/factory.json",
+            ".factory/cambios/20261007-150043-autoproduccion/factory.json",
+            ".factory/cambios/20261007-192608-revisores/factory.json",
+            ".factory/cambios/20261007-223645-decisiones-guiadas/factory.json",
+            ".factory/cambios/20261008-123018-cli-humana/factory.json",
+            ".factory/cambios/20261012-131420-clue-dependencia/factory.json",
+            ".factory/cambios/20261012-214104-ruta-vigente/factory.json",
+            ".factory/cambios/20261013-011811-abandonar/factory.json",
+            ".factory/cambios/20261013-115616-vueltas-severidad/factory.json",
+            ".factory/cambios/20261013-153440-cli-json/factory.json",
+            ".factory/cambios/20261013-180751-trazabilidad/factory.json",
+            ".factory/cambios/20261014-000054-paquete-producto/factory.json",
+            ".factory/cambios/20261014-100834-revision-simultanea/factory.json",
+            ".factory/cambios/20261014-125953-estado-revisar-medios/factory.json",
+            ".factory/cambios/20261014-140627-severidad-ausente/factory.json",
+            ".factory/cambios/20261014-145018-donde-ausente/factory.json",
+            ".factory/cambios/20261014-204205-donde-no-valido/factory.json",
+            ".factory/cambios/20261015-001533-evidencia-fuera/factory.json",
+            ".factory/cambios/20261015-105600-cli-piloto/factory.json",
+            ".factory/cambios/20261015-122841-docs-web-modos/factory.json",
+            ".factory/cambios/20261015-140406-catalogo-confirmado/factory.json",
+            ".factory/cambios/20261015-155346-oracle-en-carpeta/factory.json",
+            ".factory/cambios/20261016-101007-vscode/factory.json",
+            ".factory/cambios/20261016-114832-informe-no-texto/factory.json",
+            ".factory/cambios/20261016-143020-revisar-cancelada/factory.json",
+            ".factory/cambios/20261016-175720-bloqueo-registro/factory.json",
+            ".factory/cambios/20261016-234517-web-viva/factory.json",
+            ".factory/cambios/20261017-023151-hechos-varios/factory.json",
+            ".factory/cambios/20261017-121631-web-guias/factory.json",
+            ".factory/cambios/20261017-135953-higiene/factory.json",
+            ".factory/cambios/20261019-120156-tablero/factory.json",
+            ".factory/cambios/20261019-182313-commits/factory.json",
+            ".factory/cambios/20261019-232444-quien/factory.json",
+            ".factory/cambios/20261020-005341-liveshare/factory.json",
+            ".factory/cambios/20261020-140603-kb/factory.json",
+            ".factory/cambios/20261020-141303-sesion/factory.json",
+            ".factory/cambios/20261020-173143-avisos/factory.json",
+            ".factory/cambios/20261020-200030-aislar/factory.json",
+            ".factory/cambios/20261021-101907-clones/factory.json",
+            ".factory/cambios/20261021-140625-unir/factory.json",
+            ".factory/cambios/20261021-235127-fjn-rag/factory.json",
+            ".factory/cambios/20261022-115958-1jt-hora/factory.json",
+            ".factory/cambios/20261022-161300-f94-mcp/factory.json",
+            ".factory/cambios/20261022-215347-y70-agentes/factory.json",
+            ".factory/cambios/20261023-005051-ufj-docs/factory.json",
+            ".factory/cambios/20261024-020022-0b3-preguntar/factory.json"
+          ],
+          "inventario_sha256": "3af26d2cfd9fa838b6d3198d5160247267c7030f980ee5d97fa51db91d8aa4b8",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "listar",
+            "estado": "cerrados",
+            "limite": 5,
+            "desplazamiento": 0
+          },
+          "valor": 57,
+          "agregados": {}
+        }
+      ],
+      "herramientas": [],
+      "limites": {
+        "registro": {
+          "pagina_predeterminada": 5,
+          "pagina_maxima": 10,
+          "operaciones": [
+            "contar",
+            "listar",
+            "agrupar",
+            "detalle"
+          ],
+          "estados": [
+            "todos",
+            "abiertos",
+            "cerrados",
+            "abandonados"
+          ]
+        },
+        "generacion": {
+          "usada": false,
+          "max_llamadas": 0,
+          "segundos": 0,
+          "max_peticiones_modelo": 0,
+          "contexto_bytes": 64000,
+          "respuesta_bytes": 262144,
+          "reserva_cierre_bytes": 8000,
+          "pensamiento": "predeterminado",
+          "resultado_herramienta_bytes": 24000,
+          "fuentes": 24,
+          "caracteres_por_fuente": 6000,
+          "referencias_por_fuente": 10,
+          "correcciones_de_formato": 1
+        }
+      },
+      "max_pasajes": 5,
+      "tipo": "registro",
+      "respuesta": "Hay 57 cambios cerrados.\n- 20261004-005956-elegir-medidas: Elección de medidas (cerrada; archivado)\n- 20261004-005956-inicio-guiado: Inicio guiado (cerrada; archivado)\n- 20261004-005956-revision-guiada: Guiar la revisión con un informe pendiente y decisiones explícitas (cerrada; archivado)\n- 20261004-121432-coordinar-dos: Coordinar dos personas con sus agentes sin interferencias (cerrada; archivado)\n- 20261005-105331-modos-de-trabajo: Modos de trabajo según quién decide los requisitos (cerrada; archivado)\nSe muestran 5; quedan 52 sin mostrar. Usá listar para verlos todos.",
+      "valor": 57,
+      "ids": [
+        "20261004-005956-elegir-medidas",
+        "20261004-005956-inicio-guiado",
+        "20261004-005956-revision-guiada",
+        "20261004-121432-coordinar-dos",
+        "20261005-105331-modos-de-trabajo"
+      ],
+      "filtro": "cerrados",
+      "criterio": {
+        "operacion": "listar",
+        "estado": "cerrados",
+        "limite": 5,
+        "desplazamiento": 0
+      },
+      "pagina": {
+        "limite": 5,
+        "desplazamiento": 0,
+        "omitidos": 52,
+        "siguiente": {
+          "operacion": "listar",
+          "estado": "cerrados",
+          "limite": 5,
+          "desplazamiento": 5
+        }
+      }
+    }
+  }
+]

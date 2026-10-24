@@ -1,0 +1,8 @@
+medida factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code:
+    de preguntar_caso c
+    donde c.requisito == "la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code" y c.codigo == 0
+    resumen contar(1)
+    umbral == 1 segun contrato porque "debe pasar el contrato exacto enumerado en tools/verify_preguntar.py; asociar junto a corrida_completa y las medidas de calidad del grupo"
+    requiere preguntar_caso
+    ambito universal
+    alcance "Preguntar.test_pq5_cli_mcp_y_editor_conservan_respuesta; fixtures y modelos simulados, no certifica por sí sola calidad generativa real"

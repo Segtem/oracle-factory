@@ -3058,10 +3058,16 @@ def comando_preguntar(args) -> None:
     if args.evaluar:
         if not args.salida:
             raise FactoryError("--evaluar necesita --salida CARPETA (nueva)")
-        c = rag_mod.evaluar(sys.modules[__name__], args.salida.resolve())
+        c = rag_mod.evaluar(sys.modules[__name__], args.salida.resolve(), casos=args.casos)
         print(f"{c['aciertos']} de {c['preguntas']} preguntas de oro con un archivo esperado entre los {rag_mod.PRIMEROS} "
               f"primeros (MRR {c['mrr']}, modo {c['modo']}, modelo {c['modelo']}). Hechos: {args.salida / 'hechos.json'}")
+        hechos = json.loads((args.salida / 'hechos.json').read_text(encoding='utf-8'))
+        for grupo in hechos['preguntar_grupo']:
+            print(f"{grupo['grupo']}: {grupo['aciertos']}/{grupo['preguntas']}; errores: {grupo['errores']}; "
+                  f"abstenciones incorrectas: {grupo['abstenciones_incorrectas']}; simulado: {bool(grupo['simulado'])}")
         return
+    if args.casos:
+        raise FactoryError('--casos se usa junto a --evaluar')
     datos = rag_mod.preguntar(sys.modules[__name__], args.texto, args.maximo)
     print(json.dumps(datos, ensure_ascii=False, indent=2) if args.json else rag_mod.texto(datos))
 
@@ -3829,11 +3835,12 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--verificar', action='store_true', help='no escribe; falla si la guía falta o quedó vieja')
     sub.add_parser('mcp', help='servir el proyecto por MCP (stdio), de sólo lectura, para un agente: claude mcp add factory -- '
                               'oracle-factory --proyecto RUTA mcp')
-    q = sub.add_parser('preguntar', help='preguntar al conocimiento del proyecto: pasajes vigentes con su cita (sólo lectura)')
+    q = sub.add_parser('preguntar', help='responder sobre el proyecto con fuentes, registro y un modelo configurado (sólo lectura)')
     q.add_argument('texto', nargs='?', default='')
     q.add_argument('--max', type=int, default=8, dest='maximo', help='cuántos pasajes mostrar')
     q.add_argument('--json', action='store_true', help=f'imprimir un objeto JSON ({rag_mod.ESQUEMA})')
     q.add_argument('--evaluar', action='store_true', help='correr las preguntas de oro de kb/preguntas-de-oro.json')
+    q.add_argument('--casos', type=Path, help='con --evaluar: sumar casos de registro, generación o abstención sin reemplazar las preguntas existentes')
     q.add_argument('--salida', type=Path, help='con --evaluar: carpeta nueva para hechos.json y detalle.json')
     q = sub.add_parser('modo', help='cambiar el modo de trabajo de un cambio')
     q.add_argument('id'); q.add_argument('nuevo_modo', choices=modos.MODOS)

@@ -125,6 +125,11 @@ registra una revisión libre o guiada; `trazabilidad <id>` cruza cada requisito 
 
 ## Alcance y límites
 
+**En desarrollo en esta rama:** `preguntar` incorpora consultas al registro para cantidades/listados y respuestas
+elaboradas con un modelo generativo explícitamente configurado, con fuentes y herramientas de sólo lectura. El JSON
+pasa a `oracle-factory.preguntar/2`. Sin modelo conserva las consultas directas y la recuperación, indicando sus límites.
+Ver [preguntar al proyecto](docs/conocimiento.md#preguntar). Esta ampliación aún no está en el paquete publicado.
+
 - Usa Oracle, Oracle Task y Oracle Clue instalados con Factory; no copia sus reglas.
 - Factory no ejecuta el sensor ni las pruebas del producto, ni certifica que un JSON de hechos provenga de la versión
   actual: guarda su huella, y la evidencia de otro candidato no vale. La cobertura completa de una spec requiere criterio

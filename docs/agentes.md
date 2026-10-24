@@ -39,7 +39,7 @@ codex mcp add factory -- oracle-factory --proyecto /ruta/al/proyecto mcp
 ```
 
 `oracle-factory mcp` sirve el proyecto por MCP (stdio), de sólo lectura. Sus herramientas son las consultas de la CLI y
-devuelven lo mismo: `preguntar` (pasajes vigentes con su cita), `estado`, `buscar`, `por_que`, `resumen`, `log` y
+devuelven lo mismo: `preguntar` (respuestas y fuentes, con sus límites), `estado`, `buscar`, `por_que`, `resumen`, `log` y
 `listar`. Ninguna cambia el proyecto; un argumento mal formado o un error vuelve como error de la herramienta y el
 servidor sigue atendiendo.
 

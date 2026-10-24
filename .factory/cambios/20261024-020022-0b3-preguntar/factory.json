@@ -1,0 +1,1460 @@
+{
+  "id": "20261024-020022-0b3-preguntar",
+  "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
+  "capacidad": "conocimiento",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
+  "spec_sha256": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T03:08:25.292899+00:00",
+    "documentos": {
+      "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "a4883426cbd9286ecf60da2c5502b7a17bd55b91c5de6c7fabf138889cd8570d",
+      "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095"
+    }
+  },
+  "requisitos": [
+    "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+    "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+    "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+    "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+    "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+    "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/informe.json",
+    "sha256": "a02d3c7e86661944cb2236ace329d3177c36bc9c7aae8c8678556991b839e50a",
+    "decisiones": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/decisiones.json",
+    "decisiones_sha256": "ab366d349a0710ea41dd4f8df6e44f7873ff27d173b4beeb9bd64e0af657ab86",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T20:38:11.045931+00:00",
+    "motivo": "Propongo aprobar los seis requisitos: evidencia e962e47 con 474 pruebas sin fallas (10 omitidas), 51 mutaciones detectadas, fuentes estables, documental 20/22, registro 6/6, abiertas 4/4 y abstención 3/3 con qwen2.5:14b. agy y agy2 verificaron las correcciones y las respuestas reales, ambos sin hallazgos. Los conceptos y las citas no prometen comprensión universal; los límites y el alcance incremental de las revisiones están registrados. Brian conserva la decisión.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "012ebc1741b6a8e98d209a967cbb21db5dc33305",
+      "archivos_sha256": "5f0ce1d7ec92cfa1c02e33994c93b73c6d8587d9cb06a30d94039374a65a3649"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261024-020022-0b3-preguntar/candidatos/e962e47/evidencia/hechos.json",
+    "hechos_sha256": "7f3bdf6c407bd91880cc60c95749208fe866a61557e6af17fb8dd43a084a0c6a",
+    "informe": ".factory/cambios/20261024-020022-0b3-preguntar/oracle-veredicto.txt",
+    "informe_sha256": "6396232fcaf8f71a0d9ddbca2cd9a483cef8d1b200f39e21e7afd226b36c3f96",
+    "cuando": "2026-10-24T20:38:30.107991+00:00",
+    "contexto": {
+      "head": "60b37dc29f3d703b56ed6a1dc2983fb68be99bd1",
+      "archivos_sha256": "5f0ce1d7ec92cfa1c02e33994c93b73c6d8587d9cb06a30d94039374a65a3649"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T02:00:22.787127+00:00",
+      "capacidad": "conocimiento"
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T02:03:02.211492+00:00",
+      "agente": "codex"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T02:03:02.949220+00:00",
+      "texto": "Brian pidió arreglar el RAG después del cierre de docs, confirmado a su nombre. Se prepararon propuesta, diseño y cuatro requisitos: consultas al registro, respaldo documental, coherencia entre clientes y evaluación por grupos. No se implementó código. Caso disparador: «Cuantas tareas cerradas hay?» devolvió pasajes irrelevantes. La rama parte de main; la integración de docs y su configuración de agy2 sigue pendiente de la elección humana."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T02:07:26.738645+00:00",
+      "documentos": {
+        "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "8c1ea11c9167514a6b902bfd3ef88765508965bb1a4feb379a10409e1af6a691",
+        "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45"
+      }
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:07:59.630299+00:00",
+      "texto": "Se amplió propuesta, diseño y spec tras la consulta de Brian sobre preguntas abiertas: respuestas elaboradas con fuentes y herramientas de sólo lectura, modelo generativo explícito separado de embeddings y evaluación real de respuestas/citas. La primera aprobación excluía generación, por lo que se requiere renovar la aprobación antes de implementar. No se eligió ni configuró modelo, no se usó un servicio externo y no se implementó código. La configuración y medición real del modelo se deciden después de aprobar el alcance."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T03:08:25.292923+00:00",
+      "documentos": {
+        "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "a4883426cbd9286ecf60da2c5502b7a17bd55b91c5de6c7fabf138889cd8570d",
+        "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T03:08:56.077744+00:00",
+      "ids": [
+        "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:19:12.021039+00:00",
+      "texto": "Implementación inicial y regresiones pq1–pq6. Las seis pruebas fallaron con el producto viejo (2 fallas, 4 errores). Ahora pasan las 13 pruebas de preguntar/RAG/MCP, con transporte HTTP local simulado para Ollama y Chat Completions compatibles y ejecución real del conteo desde el arnés de VS Code. JSON nuevo /2. Todavía no se midió calidad generativa real ni se eligió un modelo; se consultó a Brian por los modelos locales ya instalados. Faltan evaluación real, mutaciones, suite completa, medidas y revisión independiente."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:31:07.312646+00:00",
+      "texto": "Las 15 pruebas específicas pasaron. El diagnóstico real documental, sin generación, dio 21/22 (MRR 0.6621), con qwen3-embedding:0.6b, frente al mínimo aprobado 18/22. Se incorporó docs cerrado como dependencia sólo de tarea/preguntar, sin integrar main ni hacer push. La primera mutación detectó 9/10: cita_ajena sobrevivía porque la prueba la rechazaba por un número no respaldado antes de comprobar la cita. Se corrigió esa prueba; la segunda corrida detectó 10/10 y restauró las fuentes. Se agregaron catálogos por requisito y calidad separada, datos de evaluación y verify_preguntar.py; falta confirmar medidas, elegir modelo generativo y medirlo realmente. No se tomó un modelo por defecto ni se llamó a servicios externos."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:02.705676+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:03.878545+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:05.054232+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:06.364120+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:07.733019+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T03:42:09.035714+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:44:06.694027+00:00",
+      "texto": "Suite completa: 474 pruebas en 320.005 s, OK con 10 omitidas. Después se agregaron regresiones para URL mal formada y caso de evaluación incompleto, que reprodujeron ValueError y KeyError antes de la corrección; tras corregir pasan otra vez las 15 pruebas específicas. Las doce mutaciones finales fueron detectadas y sus hashes coinciden con las fuentes actuales. Se propusieron las medidas de los seis requisitos: contratos y corrida completa, más calidad documental >=18/22, seis consultas de registro correctas, cuatro respuestas generativas reales correctas según conceptos/citas y tres negativas correctas, sin compensación entre grupos. Falta confirmación humana de medidas y elegir el modelo generativo para medir; no se ejecutó un modelo real ni se generó evidencia formal de este candidato."
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:05.966539+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.109634+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.241611+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.374689+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.511570+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.641888+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:45:41.173922+00:00",
+      "texto": "Verificada la confirmación de las seis medidas por Brian Hollweg (persona), registrada el 2026-10-24 a las 03:45 UTC. Brian eligió en la conversación modelo 1: qwen2.5:14b local, ya instalado. Se usará explícitamente en la corrida real de verify_preguntar.py, sin servicio externo ni descarga de modelos."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T03:59:13.856947+00:00",
+      "revisor": "agy2",
+      "candidato": "beb247d",
+      "lanzamiento": "cecfb0023aa4"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T03:59:13.896638+00:00",
+      "revisor": "agy",
+      "candidato": "beb247d",
+      "lanzamiento": "a1f97998bfc1"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T04:14:44.223966+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "beb247d",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "a1f97998bfc1"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T04:18:26.600085+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "beb247d",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "cecfb0023aa4"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:24.522931+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:25.416197+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:26.322541+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:27.223006+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:28.104302+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T04:58:29.000249+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T04:58:29.786963+00:00",
+      "texto": "Primera revisión agy/agy2: corregidas consultas naturales, vigencia mediante datos_estado, paginación, proyección acotada de fuentes, validación de IDs/versiones, proveedor sin autenticación, temperatura, límites y causas de error en JSON, y evaluación de respaldo/registro/clientes. 15 pruebas específicas pasan; 25 mutaciones detectadas y fuentes restauradas; docs_al_dia pasa. Se reproponen medidas porque corrida_completa añade controles y respaldo_documental comprueba producción. No se baja el umbral generativo: la última evaluación diagnóstica previa al ajuste de precisión seguía en 2/4; evidencia fallida beb247d conservada. Falta confirmación humana de medidas nuevas, evidencia nueva y vuelta independiente limpia."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T05:00:33.202027+00:00",
+      "texto": "Último diagnóstico local con qwen2.5:14b: controles generativos 3/4, con conteo exacto de 57 cerrados en la pregunta mixta. pq-vigencia sigue fallando y además conserva una instrucción incorrecta sobre repetir una revisión con el mismo contenido, tomada del problema histórico de una propuesta. No es evidencia formal ni aprobación; falta distinguir mejor antecedentes de requisitos vigentes y volver a medir. Siguen pendientes las seis propuestas de medidas para confirmación de Brian. Los umbrales permanecen sin reducir."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:37.809827+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:38.779594+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:39.740286+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:40.708987+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:41.684446+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:42.644592+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:34.045505+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:34.964185+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:35.883706+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:36.809489+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:37.733012+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:38.649604+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:06:39.467013+00:00",
+      "texto": "Corrección adicional de vigencia: las fuentes generativas declaran clase/uso y las propuestas/diseños se distinguen como antecedentes, sin convertir fallas históricas en instrucciones. Al agotar herramientas se pide cierre estructurado sin ofrecer llamadas adicionales. Evaluación: contiene_alguno reconoce expresiones alternativas explícitas del mecanismo (Git/configuración/ramas; renovar/nueva revisión), y excluye rechaza el procedimiento histórico incorrecto y el aislamiento del disco. Se mantienen cuatro de cuatro respuestas, fuentes y cálculo mixto obligatorios; no se trata la coincidencia literal de cambio/cambia como comprensión. Pasan 15 pruebas y 29 mutaciones detectadas con restauración. Medidas repropuestas: falta confirmación de Brian y evidencia formal nueva."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:08:17.141959+00:00",
+      "texto": "Diagnóstico local final de esta corrección, qwen2.5:14b real: 4/4 preguntas generativas pasan los controles propuestos (incluidos conceptos alternativos explícitos, exclusión del procedimiento obsoleto, fuentes y cálculo mixto); 57 cerradas en el registro. La respuesta de vigencia ahora requiere contenido actual del producto. Detalle local en .factory/local/diagnostico-cierre.json. No sustituye evidencia formal ni revisión semántica independiente: siguen pendientes confirmación de medidas por Brian, verify_preguntar con 29 mutaciones y otra vuelta agy/agy2. Pruebas específicas 15/15; docs_al_dia, kb --verificar y agentes --verificar pasan."
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:02.421597+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:02.547068+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:02.668985+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:02.790026+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:02.911171+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T14:09:03.034337+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:55:14.658636+00:00",
+      "texto": "Retoma tras reinicio: la evidencia ae3307b terminó y se conservó commiteada, éxito False: 474 pruebas OK (10 omitidas), fuentes estables, documental 21/22, registro 5/6, generativa 3/4 y negativas 3/3. Causas: consultas usaba el orden cronológico del vault en vez del orden por ID de listar; y el modelo solicitaba un lote mayor que el presupuesto restante, descartando datos ya obtenidos. Corregidos con regresiones que fallan antes del arreglo: orden por ID y cierre estructurado sin ejecutar el lote excedido, con aviso y cantidad descartada. Pasan 15 pruebas, las 29 mutaciones del sensor y una mutación adicional manual de orden invertido. No cambian catálogos ni umbrales confirmados por Brian. Detalle de la causa generativa en .factory/local/diagnostico-mixta-reinicio.json; regresiones y mutación de orden en .factory/local/."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:08:04.117016+00:00",
+      "revisor": "agy",
+      "candidato": "4aba166",
+      "lanzamiento": "60e60d4c41ac"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:08:04.138911+00:00",
+      "revisor": "agy2",
+      "candidato": "4aba166",
+      "lanzamiento": "0592acbd2d95"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T15:21:31.568513+00:00",
+      "texto": "Estado al retomar tras el reinicio: se preservaron las dos corridas fallidas ae3307b y 4aba166. Última: suite 474 OK (10 omitidas), fuentes estables, documental 21/22, registro 6/6, generativa 2/4 y negativas 2/3. Arreglos de orden/lotes confirmados por regresiones y 29 mutaciones; no se bajan umbrales. Los pedidos completos desde tarea/docs fallaron por límite de contexto de Clue; agy y agy2 están revisando correcciones desde beb247d (primera revisión independiente), con ese alcance declarado. Se pidió a Brian elegir entre probar qwen3-coder:30b local ya instalado o mantener sólo qwen2.5:14b. El experimento local de separar consulta/redacción (experimento-etapas.json) dio dos degradaciones y una abstención correcta; no se incorporó al producto ni cuenta como evidencia. Falta resolver calidad y terminar revisión independiente antes de proponer revisión humana."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:23:17.135852+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4aba166",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "60e60d4c41ac"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:29:34.944921+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4aba166",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "0592acbd2d95"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T17:14:17.792763+00:00",
+      "texto": "Revisiones incrementales agy-2 y agy2-2 recibidas y validadas por Clue: 12 hallazgos (11 medios o más, con duplicados). Git user.name sigue Brian Hollweg. Se corregirán: intercepción de compuestas, generación sin respaldo, ordinales/versiones, presupuesto global de contexto y uso normativo de antecedentes con prueba adversarial. AGY-13 compara métricas distintas deliberadas (ranking legado frente a respuesta con respaldo): se hará explícita esa diferencia en los hechos y documentación, conservando ambas medidas sin bajar umbrales. AGY-14 apunta a presentación del inventario completo consultado para probar un cero: se aclarará la etiqueta para distinguirlo de coincidencias. No hay propuesta de aprobación ni calidad generativa suficiente; modelo 30B aún sin elección explícita de Brian."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:48.657202+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:49.503854+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:50.346567+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:51.183769+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:52.027168+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T17:37:52.880691+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T17:37:53.638480+00:00",
+      "texto": "Implementadas correcciones para la vuelta 2: compuestas antes de filtros; retorno sin_respaldo sin enviar candidatos irrelevantes al modelo; alcance actual/antecedente validado con fuentes vigentes y prueba adversarial; conteos mixtos calculados y citados del registro (un ejemplo documental no alcanza); versiones/ordinales; presupuesto global de contexto con 8000 bytes de reserva para cerrar y sin habilitar fuentes no entregadas; inventario consultado explícito. AGY-13: ranking y respuesta con respaldo siguen siendo métricas diferentes por spec, ahora etiquetadas con criterio y comprobadas en regresión. Pasan 15 pruebas y 37 mutaciones; docs_al_dia pasa. Diagnóstico real nuevo: documental 21/22, registro 6/6, negativas 3/3, generativa 2/4; clones añade una inferencia histórica incorrecta y vigencia se degrada. No se aprueba ni se bajan umbrales. Medidas repropuestas por ampliación de mutaciones (29 a 37, todas declaradas): falta confirmación humana, evidencia y otra vuelta independiente. Elección de modelo 30B aún pendiente; continuar no se interpreta como elegirlo."
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:47.835737+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:47.959280+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:48.077892+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:48.197174+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:48.317244+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T18:25:48.440109+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T18:44:04.102424+00:00",
+      "texto": "Investigación de modelos autorizada por Brian: equipo con 16 GiB VRAM dedicados y 32 GB RAM; Ollama 0.40.9. Fuentes oficiales: https://ollama.com/library/qwen3.5:9b , https://ollama.com/library/qwen3.6/tags , https://ai.google.dev/gemma/docs/core/model_card_4 , https://docs.ollama.com/capabilities/thinking . Gemma4:12b ya instalado, diagnóstico think=false: generativa 1/4. Se descargó qwen3.5:9b Q4_K_M (digest corto 56671c2ab938, unos 6.6 GB) para comparar; ejecuta 100% GPU a contexto 16384, diagnóstico think=false/temperatura0: generativa 2/4, documental21/22, registro6/6, negativas3/3, 97.2 s total, fuentes estables. Su caso clones pasó controles automáticos pero incluyó una inferencia histórica incorrecta de aislamiento del disco: no se considera una respuesta aceptable. Los modelos Qwen3.6 disponibles parten de 18 GB de pesos, por encima de la VRAM local antes del contexto. No se configura modelo predeterminado ni se acredita evidencia formal: controles de pensamiento se inyectaron sólo en la investigación local. Detalles y orígenes en .factory/local/investigacion-gemma4-12b e investigacion-qwen35-9b. Se reforzarán selección de fuentes normativas y tratamiento literal de exclusiones antes de elegir un modelo para evidencia."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T19:06:31.088414+00:00",
+      "texto": "Arreglo del problema detectado durante investigación: la elaboración comienza con fuentes actuales; recuperar acepta alcance actual/antecedentes/exclusiones/todos y filtra después de indexar para conservar el índice. Out of scope/Fuera de alcance/Exclusiones son fuente negativa separada: no se aceptan como prestaciones ni hechos históricos positivos, y su alcance exclusion se muestra con extracto literal, reemplazando la interpretación del modelo. Excluye sigue rechazando errores positivos y acepta citas negativas literales verificadas (regresión adversarial). Se añadió pensar booleano sólo Ollama y flags del sensor --pensar/--no-pensar; omitido respeta el modelo. Pasan 15 pruebas, 45 mutaciones detectadas y docs_al_dia. No cambiaron catálogo ni umbrales confirmados. Estudios de modelos siguientes usarán configuración explícita, sin interceptar transporte ni cambiar valor predeterminado del proyecto."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T19:43:46.753641+00:00",
+      "texto": "Investigación solicitada por Brian: descargué qwen3.5:9b (56671c2ab938, Q4_K_M, 6,6 GB) y comparé 35 casos reales contra qwen2.5:14b y qwen3-coder:30b. Fuentes estables en las tres corridas. Tiempos totales 80,1/109,2/187,1 s; documental 20/22, registro 6/6, abstención 3/3 y generativa automática 3/4 en los tres. 9B y 30B omiten renovar revisión; 14B sí lo explica, pero el control de conceptos no reconoce el plural configuraciones. Corrijo ese falso negativo con normalización genérica de tildes y plurales -ción/-sión, sin modificar casos de oro ni umbrales. Citas por fragmentos consultados y copiados por Factory; 15 pruebas OK y 49/49 mutaciones detectadas. Mantengo qwen2.5:14b para la medición autorizada; no configuro un modelo por defecto. Fuentes públicas consultadas: https://ollama.com/library/qwen3.5:9b ; https://ollama.com/library/qwen3.6/tags ; https://ollama.com/library/qwen3-coder:30b . Comparaciones y detalles preservados en .factory/local/investigacion-*-fragmentos/; no son evidencia formal."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T19:45:12.354165+00:00",
+      "texto": "Corrección del mensaje anterior: la corrida mutaciones-preguntar-13 detectó 48/49, no 49/49; el resumen anterior fue un error mío y se conserva. La rotura del guardia de contexto global quedaba oculta porque el siguiente lote cerraba el ciclo antes de desbordarse. Reforcé la regresión para exigir el rechazo previo del resultado y la ausencia de consultas exitosas que entreguen esas fuentes. Pruebas específicas 15 OK; nueva corrida mutaciones-preguntar-14: 49/49 detectadas y fuentes restauradas verificadas. Sin cambios de catálogos ni umbrales."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T19:52:34.095100+00:00",
+      "revisor": "agy",
+      "candidato": "49369fc",
+      "lanzamiento": "0ad318d0fced"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T19:52:34.120650+00:00",
+      "revisor": "agy2",
+      "candidato": "49369fc",
+      "lanzamiento": "f6d859b46cde"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:03:30.541982+00:00",
+      "texto": "Comparación final sobre e346e92 con fuentes estables y controles reforzados: qwen2.5:14b (configuración nativa por defecto) pasó generativa 4/4 en 98,0 s / 8 peticiones; qwen3.5:9b (pensar:false) quedó 3/4 en 105,2 s / 9 peticiones. Ambos: documental 20/22, registro 6/6 y negativas 3/3. El 9B volvió a confundir renovación de revisión con nueva decisión de medidas, y agregó sin copiar objetos al describir el clon; no lo recomiendo como reemplazo. qwen3-coder:30b dio 3/4 y 187,1 s en la comparación anterior; no justifica su mayor memoria. Mantengo el modelo de medición qwen2.5:14b elegido por Brian. Qwen3.5:9b queda instalado localmente; no se cambió el modelo predeterminado del proyecto. El diagnóstico con instrucciones de pertinencia elimina la afirmación incorrecta observada sobre catálogos y vigencia. La evaluación ahora la rechaza expresamente y conserva signos en conceptos (C++ no es C); 15 pruebas y 50/50 mutaciones. Falta formalizar evidencia posterior y revisión limpia; las dos revisiones de 49369fc siguen corriendo en clones independientes."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:09:31.193629+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "49369fc",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "0ad318d0fced"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:09:31.456886+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "49369fc",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "f6d859b46cde"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:11:21.717230+00:00",
+      "texto": "Tercera revisión completada y validada por Clue: agy-1 y agy2-1 del candidato 49369fc identifican el mismo defecto (alta/media): sólo se exige cálculo del registro si el conteo aparece en la primera cláusula. Reproducción: cómo se revisa y cuántas tareas abiertas hay acepta un número de ejemplo documental sin herramienta. Ambos también verificaron, en limitations por estar fuera del diff, la afirmación falsa sobre catálogos y vigencia ya corregida en e346e92 con instrucciones de pertinencia y evaluación más estricta. Git user.name sigue Brian Hollweg. Corrijo el control de todas las cláusulas, con regresión en orden inverso y para más de un conteo; no propongo aprobación."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:14:31.864244+00:00",
+      "texto": "Corregidos los hallazgos duplicados de la vuelta 3: el guardia exige cálculo consultado y citado para cada conteo reconocido en todas las cláusulas separadas por y. Regresión observada con código anterior: ValueError not raised; nuevas pruebas incluyen orden inverso y dos filtros distintos. Primer intento falló por aserción de llamadas desactualizada (9 != 4), corregida sin debilitarla: comprueba las dos consultas originales antes de añadir las variantes. La corrida de mutaciones 16 no acredita nada porque se inició con ese fallo; se conserva. Baseline posterior: 15 pruebas OK; mutaciones-preguntar-17, 51/51 detectadas y fuentes restauradas. Spec y seis medidas verificadas Brian/persona, sin propuestas pendientes; catálogos y umbrales intactos. Nueva evidencia y revisión independiente pendientes."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:21:33.915945+00:00",
+      "revisor": "agy2",
+      "candidato": "e962e47",
+      "lanzamiento": "ba555413ee34"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:21:33.941855+00:00",
+      "revisor": "agy",
+      "candidato": "e962e47",
+      "lanzamiento": "8e35f1e81f72"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:29:10.730927+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e962e47",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "8e35f1e81f72"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:30:58.441744+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e962e47",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "ba555413ee34"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:33:05.043217+00:00",
+      "texto": "Vuelta 4 finalizada: agy-1 y agy2-1 de e962e47, ambos completos y validados por Clue, 0 hallazgos. Alcance incremental desde 49369fc con continuidad de revisiones anteriores. Ambos reprodujeron 15 pruebas OK en clones y entornos propios, verificaron el cierre de los dos hallazgos duplicados de cláusula secundaria, puntuación de conceptos y la corrección semántica de la afirmación sobre catálogos. Ambos inspeccionaron la evidencia real y sus cuatro respuestas: 474 pruebas (10 omitidas), 51/51 mutaciones, fuentes estables, documental 20/22, registro 6/6, generativa 4/4 y negativas 3/3. Git user.name de main verificado Brian Hollweg tras esta ronda. Procedo sólo a preparar revisión y proponer aprobación; la decisión sigue siendo de Brian."
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T20:33:27.395683+00:00",
+      "decision": "aprobar",
+      "candidato": "e962e47"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T20:38:11.045974+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a02d3c7e86661944cb2236ace329d3177c36bc9c7aae8c8678556991b839e50a",
+      "decisiones_sha256": "ab366d349a0710ea41dd4f8df6e44f7873ff27d173b4beeb9bd64e0af657ab86"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:38:30.108008+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "7f3bdf6c407bd91880cc60c95749208fe866a61557e6af17fb8dd43a084a0c6a"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:51:20.230542+00:00",
+      "oracle": ".factory/cambios/20261024-020022-0b3-preguntar/oracle-veredicto.txt",
+      "revision": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:51:20.264916+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
+    }
+  ],
+  "tipos": {
+    "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "funcional",
+    "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "funcional",
+    "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "funcional"
+  },
+  "medidas": {
+    "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:47.806744+00:00",
+      "sha256": "b6d0cc3eeadcff95941f8e490ae73764f48b81c16982cbdf08693346cb21bfce",
+      "catalogos": {
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "38f6a56e75a7926fcd9f12d8b74b6be0da1bb2a71a1ce1e46b6d1857ffe93317",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "catalogos/factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle"
+      }
+    },
+    "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:47.931865+00:00",
+      "sha256": "5020a3bc83fa2a4d2b73e14b8a52951c3b3f0ca4d2889cfe5ac861090691b581",
+      "catalogos": {
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "f234df40bead5db1b5b552f19b7b773f957ee6c4905180878910a48cd7a70bd6",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae",
+        "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
+        "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066",
+        "factory_preguntar.calidad_generativa": "51769df47581c76ac4b4b8c5288bd8e859d35eddc972f2ce7c79c0c709b396f0",
+        "factory_preguntar.calidad_abstencion": "01ae162274d20a6e7b6405fb8ff8c8f851a61177d8b6094dbb4381ea5f60924c",
+        "factory_preguntar.respaldo_documental": "40851ad6dd30b27829b939d19a283bb75590732e52a6320e5427afc06a5a4f35"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "catalogos/factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle",
+        "factory_preguntar.calidad_documental": "catalogos/factory_preguntar.calidad_documental.oracle",
+        "factory_preguntar.calidad_registro": "catalogos/factory_preguntar.calidad_registro.oracle",
+        "factory_preguntar.calidad_generativa": "catalogos/factory_preguntar.calidad_generativa.oracle",
+        "factory_preguntar.calidad_abstencion": "catalogos/factory_preguntar.calidad_abstencion.oracle",
+        "factory_preguntar.respaldo_documental": "catalogos/factory_preguntar.respaldo_documental.oracle"
+      }
+    },
+    "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:48.050279+00:00",
+      "sha256": "e95dcf2777a774cf44cff86262997caa30e8ddcdcf938b5d4c78ba1cc24558df",
+      "catalogos": {
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "079c1a6162ff56720916053664c4e4b1c0fb1587f4d2e4e9afdd7c725990023f",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae",
+        "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
+        "factory_preguntar.calidad_abstencion": "01ae162274d20a6e7b6405fb8ff8c8f851a61177d8b6094dbb4381ea5f60924c",
+        "factory_preguntar.respaldo_documental": "40851ad6dd30b27829b939d19a283bb75590732e52a6320e5427afc06a5a4f35"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "catalogos/factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle",
+        "factory_preguntar.calidad_documental": "catalogos/factory_preguntar.calidad_documental.oracle",
+        "factory_preguntar.calidad_abstencion": "catalogos/factory_preguntar.calidad_abstencion.oracle",
+        "factory_preguntar.respaldo_documental": "catalogos/factory_preguntar.respaldo_documental.oracle"
+      }
+    },
+    "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:48.168433+00:00",
+      "sha256": "932115840fb1115dd046e0478da73df9d5d23f6667e436e93c4c323855c744b6",
+      "catalogos": {
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "8a0a998dfd85846797a6b65f8bc915bdf51bc86d12ae853ebb41037b5608cca9",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "catalogos/factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle"
+      }
+    },
+    "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:48.288315+00:00",
+      "sha256": "39dc4a573d4137348d0631d75cc49e89f16edcc522752a9f0f149d70adb3fcd8",
+      "catalogos": {
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "72ed47cd87915d2c75b1fa2f1a900834497900da17a91e1775671b3dbc860ad4",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae",
+        "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "catalogos/factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle",
+        "factory_preguntar.calidad_registro": "catalogos/factory_preguntar.calidad_registro.oracle"
+      }
+    },
+    "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T18:25:48.410376+00:00",
+      "sha256": "a1d8087a4794e03e1d4da8eb3fb201f3b2a73ff516140ecdf2fb5988674e586f",
+      "catalogos": {
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "6535006b9a2e82be94cfcad3cf0a5e1943b7ca9577ee041ff064b06ba7231aaf",
+        "factory_preguntar.corrida_completa": "2c1c5d06e88ed7b33a1217e832d405ab71e99cbdf5ef76ad2634fe8b596cc7ae",
+        "factory_preguntar.calidad_generativa": "51769df47581c76ac4b4b8c5288bd8e859d35eddc972f2ce7c79c0c709b396f0",
+        "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
+        "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066",
+        "factory_preguntar.respaldo_documental": "40851ad6dd30b27829b939d19a283bb75590732e52a6320e5427afc06a5a4f35"
+      },
+      "archivos_catalogo": {
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "catalogos/factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto.oracle",
+        "factory_preguntar.corrida_completa": "catalogos/factory_preguntar.corrida_completa.oracle",
+        "factory_preguntar.calidad_generativa": "catalogos/factory_preguntar.calidad_generativa.oracle",
+        "factory_preguntar.calidad_documental": "catalogos/factory_preguntar.calidad_documental.oracle",
+        "factory_preguntar.calidad_registro": "catalogos/factory_preguntar.calidad_registro.oracle",
+        "factory_preguntar.respaldo_documental": "catalogos/factory_preguntar.respaldo_documental.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T20:51:20.170548+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-24T20:51:20.264907+00:00"
+  }
+}

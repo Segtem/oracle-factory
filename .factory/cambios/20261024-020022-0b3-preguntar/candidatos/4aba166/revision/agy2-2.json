@@ -1,0 +1,119 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/4aba166-agy2-2",
+  "base": "beb247d560deb8e3354c555435490e00d62b713d",
+  "head": "4aba1662a4d3e17e7546c78b8ed7f3374789d545",
+  "diff_sha256": "fd0784313050ec88a68cbb327d1612aa303cfbdd55f17d3e8d487214b836a95a",
+  "context_sha256": "baf834334d694fc8ed088fb8711e317dee6a72f1177b821917360f55c71a5bc2",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó el conjunto específico de pruebas unitarias autorizado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-preguntar/.factory/local/revisores/4aba166-agy2-2/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.89s).",
+    "No se ejecutó la suite completa de pruebas del proyecto ni un modelo generativo real, cumpliendo expresamente las restricciones de las indicaciones del pedido de revisión.",
+    "Se creó un entorno virtual aislado (.venv) en el checkout del candidato sin modificar las fuentes del producto ni la configuración de Git.",
+    "El checkout del candidato 4aba166 (/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/4aba166-agy2-2) se mantuvo estrictamente en modo de sólo lectura.",
+    "Se analizó exhaustivamente la evidencia commiteada en el candidato (.factory/cambios/20261024-020022-0b3-preguntar/candidatos/4aba166/evidencia: resultado.json, hechos.json, oro/detalle.json, mutaciones.json), examinando en detalle los fallos generativos y las respuestas por grupo.",
+    "Se contrastaron todos los compromisos y escenarios de la especificación openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md frente a la implementación en oracle_factory/consultas.py, generacion.py, rag.py, cli.py, mcp.py, editores/vscode/extension.js, tests/ y tools/.",
+    "El paquete Clue provisto cubre las correcciones acumuladas desde beb247d; por límites de tamaño del paquete no incluye el diff completo desde tarea/docs, por lo que se inspeccionaron también los archivos completos del repositorio para comprobar consistencia integral."
+  ],
+  "findings": [
+    {
+      "id": "CONSULTAS-INTERPRETAR-COMPUESTA-INTERCEPTADA-COMO-FILTRO",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "consultas.interpretar intercepta preguntas compuestas válidas con consulta_no_admitida al evaluar clausula antes de la conjunción",
+      "explanation": "En oracle_factory/consultas.py (líneas 28-34), interpretar() busca palabras clave de filtros no admitidos (no, sin, hoy, ayer, desde, hasta, periodo, etc.) evaluando clausula = p.split(' y ', 1)[0]. Si encuentra alguna de ellas, devuelve inmediatamente {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta directa...'}. Sin embargo, este chequeo se realiza ANTES de comprobar 'if \" y \" in p: return None'. En consecuencia, cualquier pregunta compuesta o abierta que combine registro y conocimiento cuya primera cláusula contenga alguna de esas palabras legítimas del dominio (p. ej. \"¿Qué tareas no tienen revisión y cómo se aprueban?\", \"¿Qué cambios no tienen pendientes y cuál es el procedimiento?\", o \"¿Cuántas tareas cerradas hay hoy y qué pasos siguen?\") es interceptada erróneamente y rechazada con consulta_no_admitida. Esto impide que la pregunta pase al modelo generativo y viola el requisito \"preguntar elabora respuestas a preguntas abiertas del proyecto\" y su escenario \"pregunta que combina conocimiento y registro\".",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 28,
+        "end_line": 34,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Qué tareas no tienen revisión y cómo se aprueban?\" o \"¿Qué cambios no tienen pendientes y cuál es el procedimiento?\".",
+      "evidence": "1. Al invocar consultas.interpretar(\"¿Qué tareas no tienen revisión y cómo se aprueban?\"), clausula toma el valor \"que tareas no tienen revision\".\n2. re.search(r\"\b(?:no|...)\b\", clausula) detecta \"no\" y retorna {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta directa...'} en la línea 30.\n3. La línea 33 (if \" y \" in p: return None) nunca se alcanza.\n4. En rag.py:321, consultas.directa() retorna este diccionario y rag.preguntar() responde inmediatamente con consulta_no_admitida sin consultar fuentes ni el modelo generativo.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Ejecutar en Python: from oracle_factory import consultas; assert consultas.interpretar(\"¿Qué tareas no tienen revisión y cómo se aprueban?\") is None. Actualmente retorna el diccionario de consulta_no_admitida."
+    },
+    {
+      "id": "RAG-PREGUNTAR-ELABORA-SIN-RESPALDO-DOCUMENTAL",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "rag.preguntar invoca generacion.elaborar y sobreescribe sin_respaldo cuando la recuperación no encontró respaldo suficiente",
+      "explanation": "El requisito \"la recuperación documental expone si hay respaldo suficiente\" y su escenario \"coincidencias que no responden\" exigen que ante consultas sin respaldo según el criterio declarado, el sistema responda \"no encontré respaldo suficiente\" y no presente candidatos irrelevantes como respuesta ni invente hechos. En oracle_factory/rag.py (líneas 325-336), preguntar() evalúa el criterio léxico y semántico en la variable \"respaldo\". Si respaldo es False, asigna adecuadamente tipo: \"sin_respaldo\". Sin embargo, en las líneas 343-347, si hay un modelo generativo configurado (conf is not None), preguntar() no verifica el valor de respaldo e invoca incondicionalmente generacion.elaborar(cli, pregunta, datos, conf). Esto provoca que los 5 primeros pasajes candidatos devueltos por recuperar() —que carecen de respaldo— se envíen al modelo generativo. Ante preguntas ajenas al proyecto (como cafeteras u otros temas externos), el modelo solicita herramientas infructuosamente o devuelve requiere_aclaracion (pidiendo detalles sobre la cafetera), y respuesta.update(...) sobreescribe el estado sin_respaldo previamente determinado. Esta es la causa directa del fallo en la evidencia commiteada del caso pq-ajena-2 (\"¿Cuál es el número de serie de mi cafetera?\"), que falló con acierto 0 al emitir requiere_aclaracion.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 337,
+        "end_line": 353,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Cuál es el número de serie de mi cafetera?\" con proveedor generativo configurado.",
+      "evidence": "1. En .factory/cambios/20261024-020022-0b3-preguntar/candidatos/4aba166/evidencia/oro/detalle.json, el caso pq-ajena-2 registró acierto: 0 y tipo: \"requiere_aclaracion\", con respuesta: \"¿Cuál es el número de serie de mi cafetera? La consulta no encontró información específica sobre el número de serie de una cafetera. ¿Podrías aclarar si estás buscando información sobre un modelo específico de cafetera o si necesitas instrucciones sobre cómo encontrar el número de serie en tu cafetera?\".\n2. En rag.py:328-336, respaldo es False para esta consulta.\n3. En rag.py:344, respuesta.update(generacion.elaborar(cli, pregunta, datos, conf)) se ejecuta a pesar de respaldo == False, enviando pasajes irrelevantes al LLM y permitiendo que la respuesta generativa sobreescriba la abstención legítima.",
+      "related_requirement": "la recuperación documental expone si hay respaldo suficiente",
+      "status": "pendiente",
+      "verification": "Configurar un modelo generativo en el proyecto y consultar \"¿Cuál es el número de serie de mi cafetera?\". Verificar que el tipo devuelto sea \"sin_respaldo\" y no \"requiere_aclaracion\" ni \"documentos\"."
+    },
+    {
+      "id": "GENERACION-NUMEROS-VERSIONES-Y-PASOS-RECHAZAN-RESPUESTAS-VALIDAS",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "_numeros_afirmacion trata versiones no listadas y pasos numerados como cantidades no respaldadas",
+      "explanation": "En oracle_factory/generacion.py (líneas 176-189), la función _numeros_afirmacion busca descartar identificadores y versiones de las afirmaciones para no tratarlos erróneamente como cantidades numéricas calculadas. Para ello utiliza una expresión regular fija que sólo reconoce versiones precedidas por una lista cerrada de nombres de software: \"Python|Factory|Oracle(?: Task| Clue)?|Git|Node(?:\\.js)?|VS Code\". Cualquier mención legítima a versiones de otras herramientas y dependencias utilizadas en el proyecto (por ejemplo, \"Qwen 2.5\", \"SQLite 3\", \"Ollama 0.5\", \"HTTP 1.1\") no coincide con el patrón; como consecuencia, los números de versión (\"2.5\", \"3\", etc.) son extraídos como cantidades. Si ese número exacto no aparece en el extracto citado, validar_final lanza ValueError(\"Hay números sin respaldo en las citas\"), rechazando una respuesta válida. Asimismo, la expresión para pasos en la línea 188 sólo contempla formatos como \"1.\" o \"paso 1.\"; formatos habituales en respuestas de modelos como \"Paso 1:\" (con dos puntos) o \"(1)\" tampoco son limpiados y son tratados como cálculos no respaldados. Esto contradice lo prometido en docs/conocimiento.md (\"Los IDs y versiones se comprueban como literales en la fuente citada y la numeración de pasos no se trata como un cálculo\").",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 176,
+        "end_line": 189,
+        "side": "head"
+      },
+      "trigger": "Una respuesta elaborada que mencione \"Qwen 2.5\", \"SQLite 3\" o enumere \"Paso 1: preparar el entorno\" cuando dichos números no forman parte literal del extracto citado.",
+      "evidence": "1. Ejecutando en Python:\n   from oracle_factory.generacion import _numeros_afirmacion\n   fuentes = [{'ruta': 'docs/conocimiento.md', 'texto': 'Se evalúa con Qwen 2.5 y SQLite 3.'}]\n   print(_numeros_afirmacion(\"Se configuró Qwen 2.5.\", fuentes)) -> retorna {'2.5'}.\n   print(_numeros_afirmacion(\"Se usa SQLite 3.\", fuentes)) -> retorna {'3'}.\n   print(_numeros_afirmacion(\"Paso 1: preparar el entorno.\", fuentes)) -> retorna {'1'}.\n2. Al validar la afirmación en generacion.py:228, if _numeros_afirmacion(...) - numeros: lanza ValueError(\"Hay números sin respaldo en las citas.\").",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Llamar a validar_final con una afirmación que cite un documento mencionando \"Qwen 2.5\" o \"Paso 1:\" y verificar que no lance ValueError por números sin respaldo."
+    },
+    {
+      "id": "GENERACION-PROCEDENCIA-ANTECEDENTE-NO-VALIDA-PRESCRIPCION",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "generacion.procedencia clasifica antecedentes pero validar_final no impide que se prescriban procedimientos basados únicamente en propuestas históricas",
+      "explanation": "En oracle_factory/generacion.py (líneas 236-253), la función procedencia() clasifica las propuestas y diseños (/proposal.md, /design.md) con clase: \"antecedente\" y uso: \"Motivación y diseño de un cambio: puede describir fallas anteriores o alternativas; no prescribe el procedimiento actual\". Asimismo, las instrucciones del sistema (líneas 40-42) indican al modelo que no convierta una falla histórica en un procedimiento recomendado. Sin embargo, en validar_final() (líneas 213-233) no existe ninguna comprobación que verifique que una afirmación normativa o de procedimiento esté respaldada por fuentes vigentes (spec_vigente, guia, requisito) y no exclusivamente por fuentes de clase \"antecedente\". Como resultado, si el modelo genera una respuesta prescribiendo un procedimiento obsoleto extraído de la motivación de una propuesta histórica, validar_final lo acepta sin reparos. Esta es la causa directa del fallo en la evidencia real para pq-vigencia (\"¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?\"), donde el modelo citó openspec/changes/20261005-154433-la-vigencia-de/proposal.md para afirmar erróneamente: \"Para renovar una revisión desactualizada, es necesario preparar una nueva revisión con el mismo contenido y pedir que sea registrada\".",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 236,
+        "end_line": 253,
+        "side": "head"
+      },
+      "trigger": "Una consulta sobre procedimientos actuales (\"¿Qué tengo que repetir si cambia el producto?\") cuando recuperar() incluye proposal.md entre las fuentes iniciales.",
+      "evidence": "1. En .factory/cambios/20261024-020022-0b3-preguntar/candidatos/4aba166/evidencia/oro/detalle.json, el caso pq-vigencia falló con acierto: 0 porque el modelo respondió: \"Para renovar una revisión desactualizada, es necesario preparar una nueva revisión con el mismo contenido y pedir que sea registrada. [S2]\" citando la propuesta histórica de la-vigencia-de.\n2. Al simular este escenario en Python, generacion.elaborar() valida y acepta la respuesta sin exigir fuentes normativas, etiquetando fuentes como [\"antecedente\"] sin emitir advertencia ni error.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Probar generacion.elaborar con un mock de modelo que cite únicamente una fuente de clase \"antecedente\" para prescribir un procedimiento; verificar que el sistema rechace o impida validar dicha prescripción como respuesta elaborada vigente."
+    },
+    {
+      "id": "TESTS-PQ1-MOCK-ENVIAR-OCULTA-USO-DE-ANTECEDENTES-COMO-NORMA",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "test_pq1 mockea generacion.enviar forzando citas a spec_vigente sin verificar la prevención de antecedentes obsoletos",
+      "explanation": "En tests/test_preguntar.py (líneas 103-122), la prueba unitaria test_pq1_respuesta_abierta_con_fuentes_y_herramientas intenta validar que \"una motivación histórica no debe presentarse al modelo como instrucciones actuales\". Sin embargo, en lugar de poner a prueba la lógica de elaboración y validación del sistema ante una respuesta que cite indebidamente antecedentes históricos, el test define con_antecedentes como mock de generacion.enviar, forzando en el propio mock que la afirmación cite exclusivamente la fuente [1] (\"spec_vigente\"). Luego la aserción self.assertEqual(vigente[\"fuentes\"][0][\"clase\"], \"spec_vigente\") sólo comprueba lo que el propio mock generó artificialmente. La prueba no verifica qué ocurre si el modelo real selecciona la cita del antecedente (líneas 7-8 de proposal.md), creando una falsa sensación de cobertura mientras el comportamiento real falló exactamente en ese punto en la corrida con Ollama (caso pq-vigencia).",
+      "location": {
+        "file": "tests/test_preguntar.py",
+        "start_line": 103,
+        "end_line": 122,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tests.test_preguntar.Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas.",
+      "evidence": "En tests/test_preguntar.py:117-122, con_antecedentes construye la respuesta {'citas': [{'fuente': contexto[1]['id'], 'texto': contexto[1]['texto']}]}, donde contexto[1] es spec_vigente. Al evaluar vigente[\"fuentes\"][0][\"clase\"], el resultado siempre es \"spec_vigente\" por construcción del mock del test, sin probar en ningún momento el rechazo de afirmaciones apoyadas en contexto[0] (\"antecedente\").",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Modificar con_antecedentes en test_pq1 para que la afirmación cite contexto[0] (\"antecedente\"); verificar que la prueba unitaria actual pasa sin inmutarse porque ni generacion.elaborar ni validar_final comprueban la clase de la fuente citada."
+    }
+  ]
+}

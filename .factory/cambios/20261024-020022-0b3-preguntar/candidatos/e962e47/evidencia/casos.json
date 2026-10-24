@@ -1,0 +1,444 @@
+[
+  {
+    "id": "pq-clones",
+    "grupo": "generativa",
+    "pregunta": "¿Por qué el revisor usa un clon aparte en vez de un worktree y qué problema evita?",
+    "contiene": [
+      "clon"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/changes/20261020-200030-aislar/",
+      "openspec/specs/revisores/",
+      "kb/cambios/20261020-200030-aislar.md",
+      "kb/requisitos/revisores_c0acaae89b46617f5.*",
+      "docs/revision-guiada.md",
+      "docs/estructura.md"
+    ],
+    "contiene_alguno": [
+      [
+        "Git",
+        "configuración",
+        "ramas"
+      ]
+    ],
+    "excluye": [
+      "aislar al revisor del resto del disco"
+    ]
+  },
+  {
+    "id": "pq-modos",
+    "grupo": "generativa",
+    "pregunta": "¿Qué diferencia hay entre los modos confirmacion y autonomo para decidir sobre un cambio?",
+    "contiene": [
+      "persona",
+      "agente"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/modos/",
+      "openspec/changes/20261005-105331-modos-de-trabajo/",
+      "kb/requisitos/modos_*",
+      "kb/cambios/20261005-105331-modos-de-trabajo.md",
+      "docs/modos.md"
+    ]
+  },
+  {
+    "id": "pq-vigencia",
+    "grupo": "generativa",
+    "pregunta": "¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?",
+    "contiene": [
+      "revisión",
+      "producto"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/vigencia/",
+      "openspec/changes/20261005-154433-la-vigencia-de/",
+      "kb/requisitos/vigencia_*",
+      "kb/cambios/20261005-154433-la-vigencia-de.md",
+      "docs/revision-guiada.md",
+      "docs/estructura.md"
+    ],
+    "contiene_alguno": [
+      [
+        "renovar",
+        "nueva revisión",
+        "repetir la revisión"
+      ]
+    ],
+    "excluye": [
+      "preparar una nueva revisión con el mismo contenido",
+      "mismo contenido y las mismas decisiones",
+      "no afecta directamente la vigencia de una revisión"
+    ]
+  },
+  {
+    "id": "pq-combinada",
+    "grupo": "generativa",
+    "pregunta": "¿Cuántas tareas cerradas hay y cómo se registra una revisión humana?",
+    "contiene": [
+      "cerrad",
+      "revis"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/decisiones/",
+      "openspec/specs/revision-guiada/",
+      "openspec/changes/20261004-005956-revision-guiada/",
+      "openspec/changes/20261007-223645-decisiones-guiadas/",
+      "kb/requisitos/decisiones_*",
+      "kb/requisitos/revision_guiada_*",
+      "docs/revision-guiada.md"
+    ],
+    "requiere_registro": true,
+    "filtro_registro": "cerrados"
+  },
+  {
+    "id": "pq-ajena-1",
+    "grupo": "abstencion",
+    "pregunta": "¿Qué come el ornitorrinco que vive en Marte?",
+    "tipo": "sin_respaldo"
+  },
+  {
+    "id": "pq-ajena-2",
+    "grupo": "abstencion",
+    "pregunta": "¿Cuál es el número de serie de mi cafetera?",
+    "tipo": "sin_respaldo"
+  },
+  {
+    "id": "pq-temporal",
+    "grupo": "abstencion",
+    "pregunta": "¿Cuántas tareas cerradas hay desde ayer?",
+    "tipo": "consulta_no_admitida"
+  },
+  {
+    "id": "pq-registro-cerrados",
+    "grupo": "registro",
+    "pregunta": "¿Cuántas tareas cerradas hay?",
+    "valor": 57,
+    "ids": [
+      "20261004-005956-elegir-medidas",
+      "20261004-005956-inicio-guiado",
+      "20261004-005956-revision-guiada",
+      "20261004-121432-coordinar-dos",
+      "20261005-105331-modos-de-trabajo",
+      "20261005-132144-jerarquia-de",
+      "20261005-154433-la-vigencia-de",
+      "20261005-184427-los-registros-de",
+      "20261005-193914-quitar-la-ruta",
+      "20261006-004456-fase-2-de-la",
+      "20261006-161029-archivar-al",
+      "20261007-003414-resumen-del",
+      "20261007-115805-web-y-docs",
+      "20261007-150043-autoproduccion",
+      "20261007-192608-revisores",
+      "20261007-223645-decisiones-guiadas",
+      "20261008-123018-cli-humana",
+      "20261012-131420-clue-dependencia",
+      "20261012-214104-ruta-vigente",
+      "20261013-011811-abandonar",
+      "20261013-115616-vueltas-severidad",
+      "20261013-153440-cli-json",
+      "20261013-180751-trazabilidad",
+      "20261014-000054-paquete-producto",
+      "20261014-100834-revision-simultanea",
+      "20261014-125953-estado-revisar-medios",
+      "20261014-140627-severidad-ausente",
+      "20261014-145018-donde-ausente",
+      "20261014-204205-donde-no-valido",
+      "20261015-001533-evidencia-fuera",
+      "20261015-105600-cli-piloto",
+      "20261015-122841-docs-web-modos",
+      "20261015-140406-catalogo-confirmado",
+      "20261015-155346-oracle-en-carpeta",
+      "20261016-101007-vscode",
+      "20261016-114832-informe-no-texto",
+      "20261016-143020-revisar-cancelada",
+      "20261016-175720-bloqueo-registro",
+      "20261016-234517-web-viva",
+      "20261017-023151-hechos-varios",
+      "20261017-121631-web-guias",
+      "20261017-135953-higiene",
+      "20261019-120156-tablero",
+      "20261019-182313-commits",
+      "20261019-232444-quien",
+      "20261020-005341-liveshare",
+      "20261020-140603-kb",
+      "20261020-141303-sesion",
+      "20261020-173143-avisos",
+      "20261020-200030-aislar",
+      "20261021-101907-clones",
+      "20261021-140625-unir",
+      "20261021-235127-fjn-rag",
+      "20261022-115958-1jt-hora",
+      "20261022-161300-f94-mcp",
+      "20261022-215347-y70-agentes",
+      "20261023-005051-ufj-docs"
+    ],
+    "referencia": {
+      "comando": [
+        "listar",
+        "--cerrados"
+      ],
+      "salida": "20261004-005956-elegir-medidas  cerrada (archivado)  Elección de medidas\n20261004-005956-inicio-guiado  cerrada (archivado)  Inicio guiado\n20261004-005956-revision-guiada  cerrada (archivado)  Guiar la revisión con un informe pendiente y decisiones explícitas\n20261004-121432-coordinar-dos  cerrada (archivado)  Coordinar dos personas con sus agentes sin interferencias\n20261005-105331-modos-de-trabajo  cerrada (archivado)  Modos de trabajo según quién decide los requisitos\n20261005-132144-jerarquia-de  cerrada (archivado)  Jerarquía de carpetas y comandos para encontrar las cosas\n20261005-154433-la-vigencia-de  cerrada (archivado)  La vigencia de una revisión depende del contenido del producto\n20261005-184427-los-registros-de  cerrada (archivado)  Los registros de Factory funcionan en otra máquina\n20261005-193914-quitar-la-ruta  cerrada (archivado)  Quitar la ruta privada de los registros ya publicados\n20261006-004456-fase-2-de-la  cerrada (archivado)  Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/\n20261006-161029-archivar-al  cerrada (archivado)  Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/\n20261007-003414-resumen-del  cerrada (archivado)  Resumen del estado actual: una vista corta y regenerable de lo vigente\n20261007-115805-web-y-docs  cerrada (archivado)  La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes\n20261007-150043-autoproduccion  cerrada (archivado)  Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores\n20261007-192608-revisores  cerrada (archivado)  Pedir una revisión independiente desde Factory\n20261007-223645-decisiones-guiadas  cerrada (archivado)  Decisiones guiadas: menú y opciones en vez de frases\n20261008-123018-cli-humana  cerrada (archivado)  La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso\n20261012-131420-clue-dependencia  cerrada (archivado)  Oracle Clue como dependencia fija de Factory\n20261012-214104-ruta-vigente  cerrada (archivado)  ruta apunta al candidato vigente, no a HEAD\n20261013-011811-abandonar  cerrada (archivado)  Abandonar un cambio con motivo, decidido por una persona\n20261013-115616-vueltas-severidad  cerrada (archivado)  Vueltas de revisión proporcionales y riesgos aceptados que persisten\n20261013-153440-cli-json  cerrada (archivado)  Salidas en JSON de estado, donde y resumen\n20261013-180751-trazabilidad  cerrada (archivado)  Trazabilidad por candidato: requisito, casos y líneas cambiadas\n20261014-000054-paquete-producto  cerrada (archivado)  El paquete de revisión deja fuera lo que no es producto\n20261014-100834-revision-simultanea  cerrada (archivado)  pedir-revision tolera pedidos simultáneos sobre el mismo candidato\n20261014-125953-estado-revisar-medios  cerrada (archivado)  estado ofrece revisar cuando quedan hallazgos medios\n20261014-140627-severidad-ausente  cerrada (archivado)  Spec de revisores: un informe sin severidad no se guarda\n20261014-145018-donde-ausente  cerrada (archivado)  Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está\n20261014-204205-donde-no-valido  cerrada (archivado)  donde --json etiqueta no_valido una entrada inválida del registro\n20261015-001533-evidencia-fuera  cerrada (archivado)  buscar no recorre la evidencia ni los paquetes de Clue\n20261015-105600-cli-piloto  cerrada (archivado)  CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado\n20261015-122841-docs-web-modos  cerrada (archivado)  Docs y web: los modos de trabajo y quién decide qué\n20261015-140406-catalogo-confirmado  cerrada (archivado)  Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión\n20261015-155346-oracle-en-carpeta  cerrada (archivado)  El proyecto Oracle puede estar en una carpeta del proyecto\n20261016-101007-vscode  cerrada (archivado)  Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso\n20261016-114832-informe-no-texto  cerrada (archivado)  Un valor del registro que no es una ruta se informa sin caerse\n20261016-143020-revisar-cancelada  cerrada (archivado)  estado avisa cuando una revisión no se pudo registrar y por qué\n20261016-175720-bloqueo-registro  cerrada (archivado)  Dos procesos que escriben el mismo registro no se pisan\n20261016-234517-web-viva  cerrada (archivado)  Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones\n20261017-023151-hechos-varios  cerrada (archivado)  Juzgar un candidato con hechos de varios sensores\n20261017-121631-web-guias  cerrada (archivado)  Las guías con la fábrica viva\n20261017-135953-higiene  cerrada (archivado)  Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más\n20261019-120156-tablero  cerrada (archivado)  El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas\n20261019-182313-commits  cerrada (archivado)  Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero\n20261019-232444-quien  cerrada (archivado)  Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero\n20261020-005341-liveshare  cerrada (archivado)  El tablero en pair programming: presencia, tablero compartido y chat con Live Share\n20261020-140603-kb  cerrada (archivado)  El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?\n20261020-141303-sesion  cerrada (archivado)  La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar\n20261020-173143-avisos  cerrada (archivado)  Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir\n20261020-200030-aislar  cerrada (archivado)  El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\n20261021-101907-clones  cerrada (archivado)  Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan\n20261021-140625-unir  cerrada (archivado)  Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace\n20261021-235127-fjn-rag  cerrada (archivado)  RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida\n20261022-115958-1jt-hora  cerrada (archivado)  La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden\n20261022-161300-f94-mcp  cerrada (archivado)  Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura\n20261022-215347-y70-agentes  cerrada (archivado)  La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día\n20261023-005051-ufj-docs  cerrada (archivado)  La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    }
+  },
+  {
+    "id": "pq-registro-abiertos",
+    "grupo": "registro",
+    "pregunta": "¿Cuántos cambios abiertos hay?",
+    "valor": 1,
+    "ids": [
+      "20261024-020022-0b3-preguntar"
+    ],
+    "referencia": {
+      "comando": [
+        "listar",
+        "--abiertos"
+      ],
+      "salida": "20261024-020022-0b3-preguntar  requisitos_importados  Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    }
+  },
+  {
+    "id": "pq-registro-abandonados",
+    "grupo": "registro",
+    "pregunta": "¿Cuántos cambios abandonados hay?",
+    "valor": 6,
+    "ids": [
+      "20261002-204916-validar-el-flujo",
+      "20261002-222858-explicar-oracle",
+      "20261002-224749-revision-poc",
+      "20261002-234439-dist-uv",
+      "20261003-185925-migrar-task",
+      "20261003-235610-web-rigurosa"
+    ],
+    "referencia": {
+      "comando": [
+        "listar",
+        "--fase",
+        "abandonada"
+      ],
+      "salida": "20261002-204916-validar-el-flujo  abandonada  Validar el flujo humano de Oracle Factory\n20261002-222858-explicar-oracle  abandonada  Explicar Oracle Factory como flujo humano de producción de software\n20261002-224749-revision-poc  abandonada  Corregir los controles de la POC\n20261002-234439-dist-uv  abandonada  Preparar distribución de Factory con uv y selección de proyecto\n20261003-185925-migrar-task  abandonada  Migrar el tracker a Oracle Task\n20261003-235610-web-rigurosa  abandonada  Web precisa de Oracle Factory\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    }
+  },
+  {
+    "id": "pq-registro-todos",
+    "grupo": "registro",
+    "pregunta": "¿Cuántos cambios hay en total?",
+    "valor": 64,
+    "ids": [
+      "20261002-204916-validar-el-flujo",
+      "20261002-222858-explicar-oracle",
+      "20261002-224749-revision-poc",
+      "20261002-234439-dist-uv",
+      "20261003-185925-migrar-task",
+      "20261003-235610-web-rigurosa",
+      "20261004-005956-elegir-medidas",
+      "20261004-005956-inicio-guiado",
+      "20261004-005956-revision-guiada",
+      "20261004-121432-coordinar-dos",
+      "20261005-105331-modos-de-trabajo",
+      "20261005-132144-jerarquia-de",
+      "20261005-154433-la-vigencia-de",
+      "20261005-184427-los-registros-de",
+      "20261005-193914-quitar-la-ruta",
+      "20261006-004456-fase-2-de-la",
+      "20261006-161029-archivar-al",
+      "20261007-003414-resumen-del",
+      "20261007-115805-web-y-docs",
+      "20261007-150043-autoproduccion",
+      "20261007-192608-revisores",
+      "20261007-223645-decisiones-guiadas",
+      "20261008-123018-cli-humana",
+      "20261012-131420-clue-dependencia",
+      "20261012-214104-ruta-vigente",
+      "20261013-011811-abandonar",
+      "20261013-115616-vueltas-severidad",
+      "20261013-153440-cli-json",
+      "20261013-180751-trazabilidad",
+      "20261014-000054-paquete-producto",
+      "20261014-100834-revision-simultanea",
+      "20261014-125953-estado-revisar-medios",
+      "20261014-140627-severidad-ausente",
+      "20261014-145018-donde-ausente",
+      "20261014-204205-donde-no-valido",
+      "20261015-001533-evidencia-fuera",
+      "20261015-105600-cli-piloto",
+      "20261015-122841-docs-web-modos",
+      "20261015-140406-catalogo-confirmado",
+      "20261015-155346-oracle-en-carpeta",
+      "20261016-101007-vscode",
+      "20261016-114832-informe-no-texto",
+      "20261016-143020-revisar-cancelada",
+      "20261016-175720-bloqueo-registro",
+      "20261016-234517-web-viva",
+      "20261017-023151-hechos-varios",
+      "20261017-121631-web-guias",
+      "20261017-135953-higiene",
+      "20261019-120156-tablero",
+      "20261019-182313-commits",
+      "20261019-232444-quien",
+      "20261020-005341-liveshare",
+      "20261020-140603-kb",
+      "20261020-141303-sesion",
+      "20261020-173143-avisos",
+      "20261020-200030-aislar",
+      "20261021-101907-clones",
+      "20261021-140625-unir",
+      "20261021-235127-fjn-rag",
+      "20261022-115958-1jt-hora",
+      "20261022-161300-f94-mcp",
+      "20261022-215347-y70-agentes",
+      "20261023-005051-ufj-docs",
+      "20261024-020022-0b3-preguntar"
+    ],
+    "referencia": {
+      "comando": [
+        "listar"
+      ],
+      "salida": "20261002-204916-validar-el-flujo  abandonada  Validar el flujo humano de Oracle Factory\n20261002-222858-explicar-oracle  abandonada  Explicar Oracle Factory como flujo humano de producción de software\n20261002-224749-revision-poc  abandonada  Corregir los controles de la POC\n20261002-234439-dist-uv  abandonada  Preparar distribución de Factory con uv y selección de proyecto\n20261003-185925-migrar-task  abandonada  Migrar el tracker a Oracle Task\n20261003-235610-web-rigurosa  abandonada  Web precisa de Oracle Factory\n20261004-005956-elegir-medidas  cerrada (archivado)  Elección de medidas\n20261004-005956-inicio-guiado  cerrada (archivado)  Inicio guiado\n20261004-005956-revision-guiada  cerrada (archivado)  Guiar la revisión con un informe pendiente y decisiones explícitas\n20261004-121432-coordinar-dos  cerrada (archivado)  Coordinar dos personas con sus agentes sin interferencias\n20261005-105331-modos-de-trabajo  cerrada (archivado)  Modos de trabajo según quién decide los requisitos\n20261005-132144-jerarquia-de  cerrada (archivado)  Jerarquía de carpetas y comandos para encontrar las cosas\n20261005-154433-la-vigencia-de  cerrada (archivado)  La vigencia de una revisión depende del contenido del producto\n20261005-184427-los-registros-de  cerrada (archivado)  Los registros de Factory funcionan en otra máquina\n20261005-193914-quitar-la-ruta  cerrada (archivado)  Quitar la ruta privada de los registros ya publicados\n20261006-004456-fase-2-de-la  cerrada (archivado)  Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/\n20261006-161029-archivar-al  cerrada (archivado)  Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/\n20261007-003414-resumen-del  cerrada (archivado)  Resumen del estado actual: una vista corta y regenerable de lo vigente\n20261007-115805-web-y-docs  cerrada (archivado)  La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes\n20261007-150043-autoproduccion  cerrada (archivado)  Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores\n20261007-192608-revisores  cerrada (archivado)  Pedir una revisión independiente desde Factory\n20261007-223645-decisiones-guiadas  cerrada (archivado)  Decisiones guiadas: menú y opciones en vez de frases\n20261008-123018-cli-humana  cerrada (archivado)  La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso\n20261012-131420-clue-dependencia  cerrada (archivado)  Oracle Clue como dependencia fija de Factory\n20261012-214104-ruta-vigente  cerrada (archivado)  ruta apunta al candidato vigente, no a HEAD\n20261013-011811-abandonar  cerrada (archivado)  Abandonar un cambio con motivo, decidido por una persona\n20261013-115616-vueltas-severidad  cerrada (archivado)  Vueltas de revisión proporcionales y riesgos aceptados que persisten\n20261013-153440-cli-json  cerrada (archivado)  Salidas en JSON de estado, donde y resumen\n20261013-180751-trazabilidad  cerrada (archivado)  Trazabilidad por candidato: requisito, casos y líneas cambiadas\n20261014-000054-paquete-producto  cerrada (archivado)  El paquete de revisión deja fuera lo que no es producto\n20261014-100834-revision-simultanea  cerrada (archivado)  pedir-revision tolera pedidos simultáneos sobre el mismo candidato\n20261014-125953-estado-revisar-medios  cerrada (archivado)  estado ofrece revisar cuando quedan hallazgos medios\n20261014-140627-severidad-ausente  cerrada (archivado)  Spec de revisores: un informe sin severidad no se guarda\n20261014-145018-donde-ausente  cerrada (archivado)  Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está\n20261014-204205-donde-no-valido  cerrada (archivado)  donde --json etiqueta no_valido una entrada inválida del registro\n20261015-001533-evidencia-fuera  cerrada (archivado)  buscar no recorre la evidencia ni los paquetes de Clue\n20261015-105600-cli-piloto  cerrada (archivado)  CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado\n20261015-122841-docs-web-modos  cerrada (archivado)  Docs y web: los modos de trabajo y quién decide qué\n20261015-140406-catalogo-confirmado  cerrada (archivado)  Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión\n20261015-155346-oracle-en-carpeta  cerrada (archivado)  El proyecto Oracle puede estar en una carpeta del proyecto\n20261016-101007-vscode  cerrada (archivado)  Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso\n20261016-114832-informe-no-texto  cerrada (archivado)  Un valor del registro que no es una ruta se informa sin caerse\n20261016-143020-revisar-cancelada  cerrada (archivado)  estado avisa cuando una revisión no se pudo registrar y por qué\n20261016-175720-bloqueo-registro  cerrada (archivado)  Dos procesos que escriben el mismo registro no se pisan\n20261016-234517-web-viva  cerrada (archivado)  Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones\n20261017-023151-hechos-varios  cerrada (archivado)  Juzgar un candidato con hechos de varios sensores\n20261017-121631-web-guias  cerrada (archivado)  Las guías con la fábrica viva\n20261017-135953-higiene  cerrada (archivado)  Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más\n20261019-120156-tablero  cerrada (archivado)  El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas\n20261019-182313-commits  cerrada (archivado)  Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero\n20261019-232444-quien  cerrada (archivado)  Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero\n20261020-005341-liveshare  cerrada (archivado)  El tablero en pair programming: presencia, tablero compartido y chat con Live Share\n20261020-140603-kb  cerrada (archivado)  El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?\n20261020-141303-sesion  cerrada (archivado)  La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar\n20261020-173143-avisos  cerrada (archivado)  Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir\n20261020-200030-aislar  cerrada (archivado)  El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\n20261021-101907-clones  cerrada (archivado)  Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan\n20261021-140625-unir  cerrada (archivado)  Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace\n20261021-235127-fjn-rag  cerrada (archivado)  RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida\n20261022-115958-1jt-hora  cerrada (archivado)  La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden\n20261022-161300-f94-mcp  cerrada (archivado)  Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura\n20261022-215347-y70-agentes  cerrada (archivado)  La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día\n20261023-005051-ufj-docs  cerrada (archivado)  La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI\n20261024-020022-0b3-preguntar  requisitos_importados  Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    }
+  },
+  {
+    "id": "pq-registro-variante",
+    "grupo": "registro",
+    "pregunta": "Cuantas tareas cerradas hay?",
+    "valor": 57,
+    "ids": [
+      "20261004-005956-elegir-medidas",
+      "20261004-005956-inicio-guiado",
+      "20261004-005956-revision-guiada",
+      "20261004-121432-coordinar-dos",
+      "20261005-105331-modos-de-trabajo",
+      "20261005-132144-jerarquia-de",
+      "20261005-154433-la-vigencia-de",
+      "20261005-184427-los-registros-de",
+      "20261005-193914-quitar-la-ruta",
+      "20261006-004456-fase-2-de-la",
+      "20261006-161029-archivar-al",
+      "20261007-003414-resumen-del",
+      "20261007-115805-web-y-docs",
+      "20261007-150043-autoproduccion",
+      "20261007-192608-revisores",
+      "20261007-223645-decisiones-guiadas",
+      "20261008-123018-cli-humana",
+      "20261012-131420-clue-dependencia",
+      "20261012-214104-ruta-vigente",
+      "20261013-011811-abandonar",
+      "20261013-115616-vueltas-severidad",
+      "20261013-153440-cli-json",
+      "20261013-180751-trazabilidad",
+      "20261014-000054-paquete-producto",
+      "20261014-100834-revision-simultanea",
+      "20261014-125953-estado-revisar-medios",
+      "20261014-140627-severidad-ausente",
+      "20261014-145018-donde-ausente",
+      "20261014-204205-donde-no-valido",
+      "20261015-001533-evidencia-fuera",
+      "20261015-105600-cli-piloto",
+      "20261015-122841-docs-web-modos",
+      "20261015-140406-catalogo-confirmado",
+      "20261015-155346-oracle-en-carpeta",
+      "20261016-101007-vscode",
+      "20261016-114832-informe-no-texto",
+      "20261016-143020-revisar-cancelada",
+      "20261016-175720-bloqueo-registro",
+      "20261016-234517-web-viva",
+      "20261017-023151-hechos-varios",
+      "20261017-121631-web-guias",
+      "20261017-135953-higiene",
+      "20261019-120156-tablero",
+      "20261019-182313-commits",
+      "20261019-232444-quien",
+      "20261020-005341-liveshare",
+      "20261020-140603-kb",
+      "20261020-141303-sesion",
+      "20261020-173143-avisos",
+      "20261020-200030-aislar",
+      "20261021-101907-clones",
+      "20261021-140625-unir",
+      "20261021-235127-fjn-rag",
+      "20261022-115958-1jt-hora",
+      "20261022-161300-f94-mcp",
+      "20261022-215347-y70-agentes",
+      "20261023-005051-ufj-docs"
+    ],
+    "referencia": {
+      "comando": [
+        "listar",
+        "--cerrados"
+      ],
+      "salida": "20261004-005956-elegir-medidas  cerrada (archivado)  Elección de medidas\n20261004-005956-inicio-guiado  cerrada (archivado)  Inicio guiado\n20261004-005956-revision-guiada  cerrada (archivado)  Guiar la revisión con un informe pendiente y decisiones explícitas\n20261004-121432-coordinar-dos  cerrada (archivado)  Coordinar dos personas con sus agentes sin interferencias\n20261005-105331-modos-de-trabajo  cerrada (archivado)  Modos de trabajo según quién decide los requisitos\n20261005-132144-jerarquia-de  cerrada (archivado)  Jerarquía de carpetas y comandos para encontrar las cosas\n20261005-154433-la-vigencia-de  cerrada (archivado)  La vigencia de una revisión depende del contenido del producto\n20261005-184427-los-registros-de  cerrada (archivado)  Los registros de Factory funcionan en otra máquina\n20261005-193914-quitar-la-ruta  cerrada (archivado)  Quitar la ruta privada de los registros ya publicados\n20261006-004456-fase-2-de-la  cerrada (archivado)  Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/\n20261006-161029-archivar-al  cerrada (archivado)  Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/\n20261007-003414-resumen-del  cerrada (archivado)  Resumen del estado actual: una vista corta y regenerable de lo vigente\n20261007-115805-web-y-docs  cerrada (archivado)  La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes\n20261007-150043-autoproduccion  cerrada (archivado)  Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores\n20261007-192608-revisores  cerrada (archivado)  Pedir una revisión independiente desde Factory\n20261007-223645-decisiones-guiadas  cerrada (archivado)  Decisiones guiadas: menú y opciones en vez de frases\n20261008-123018-cli-humana  cerrada (archivado)  La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso\n20261012-131420-clue-dependencia  cerrada (archivado)  Oracle Clue como dependencia fija de Factory\n20261012-214104-ruta-vigente  cerrada (archivado)  ruta apunta al candidato vigente, no a HEAD\n20261013-011811-abandonar  cerrada (archivado)  Abandonar un cambio con motivo, decidido por una persona\n20261013-115616-vueltas-severidad  cerrada (archivado)  Vueltas de revisión proporcionales y riesgos aceptados que persisten\n20261013-153440-cli-json  cerrada (archivado)  Salidas en JSON de estado, donde y resumen\n20261013-180751-trazabilidad  cerrada (archivado)  Trazabilidad por candidato: requisito, casos y líneas cambiadas\n20261014-000054-paquete-producto  cerrada (archivado)  El paquete de revisión deja fuera lo que no es producto\n20261014-100834-revision-simultanea  cerrada (archivado)  pedir-revision tolera pedidos simultáneos sobre el mismo candidato\n20261014-125953-estado-revisar-medios  cerrada (archivado)  estado ofrece revisar cuando quedan hallazgos medios\n20261014-140627-severidad-ausente  cerrada (archivado)  Spec de revisores: un informe sin severidad no se guarda\n20261014-145018-donde-ausente  cerrada (archivado)  Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está\n20261014-204205-donde-no-valido  cerrada (archivado)  donde --json etiqueta no_valido una entrada inválida del registro\n20261015-001533-evidencia-fuera  cerrada (archivado)  buscar no recorre la evidencia ni los paquetes de Clue\n20261015-105600-cli-piloto  cerrada (archivado)  CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado\n20261015-122841-docs-web-modos  cerrada (archivado)  Docs y web: los modos de trabajo y quién decide qué\n20261015-140406-catalogo-confirmado  cerrada (archivado)  Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión\n20261015-155346-oracle-en-carpeta  cerrada (archivado)  El proyecto Oracle puede estar en una carpeta del proyecto\n20261016-101007-vscode  cerrada (archivado)  Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso\n20261016-114832-informe-no-texto  cerrada (archivado)  Un valor del registro que no es una ruta se informa sin caerse\n20261016-143020-revisar-cancelada  cerrada (archivado)  estado avisa cuando una revisión no se pudo registrar y por qué\n20261016-175720-bloqueo-registro  cerrada (archivado)  Dos procesos que escriben el mismo registro no se pisan\n20261016-234517-web-viva  cerrada (archivado)  Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones\n20261017-023151-hechos-varios  cerrada (archivado)  Juzgar un candidato con hechos de varios sensores\n20261017-121631-web-guias  cerrada (archivado)  Las guías con la fábrica viva\n20261017-135953-higiene  cerrada (archivado)  Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más\n20261019-120156-tablero  cerrada (archivado)  El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas\n20261019-182313-commits  cerrada (archivado)  Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero\n20261019-232444-quien  cerrada (archivado)  Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero\n20261020-005341-liveshare  cerrada (archivado)  El tablero en pair programming: presencia, tablero compartido y chat con Live Share\n20261020-140603-kb  cerrada (archivado)  El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?\n20261020-141303-sesion  cerrada (archivado)  La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar\n20261020-173143-avisos  cerrada (archivado)  Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir\n20261020-200030-aislar  cerrada (archivado)  El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\n20261021-101907-clones  cerrada (archivado)  Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan\n20261021-140625-unir  cerrada (archivado)  Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace\n20261021-235127-fjn-rag  cerrada (archivado)  RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida\n20261022-115958-1jt-hora  cerrada (archivado)  La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden\n20261022-161300-f94-mcp  cerrada (archivado)  Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura\n20261022-215347-y70-agentes  cerrada (archivado)  La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día\n20261023-005051-ufj-docs  cerrada (archivado)  La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    }
+  },
+  {
+    "id": "pq-registro-lista",
+    "grupo": "registro",
+    "pregunta": "Listá tareas cerradas",
+    "valor": 57,
+    "ids": [
+      "20261004-005956-elegir-medidas",
+      "20261004-005956-inicio-guiado",
+      "20261004-005956-revision-guiada",
+      "20261004-121432-coordinar-dos",
+      "20261005-105331-modos-de-trabajo",
+      "20261005-132144-jerarquia-de",
+      "20261005-154433-la-vigencia-de",
+      "20261005-184427-los-registros-de",
+      "20261005-193914-quitar-la-ruta",
+      "20261006-004456-fase-2-de-la",
+      "20261006-161029-archivar-al",
+      "20261007-003414-resumen-del",
+      "20261007-115805-web-y-docs",
+      "20261007-150043-autoproduccion",
+      "20261007-192608-revisores",
+      "20261007-223645-decisiones-guiadas",
+      "20261008-123018-cli-humana",
+      "20261012-131420-clue-dependencia",
+      "20261012-214104-ruta-vigente",
+      "20261013-011811-abandonar",
+      "20261013-115616-vueltas-severidad",
+      "20261013-153440-cli-json",
+      "20261013-180751-trazabilidad",
+      "20261014-000054-paquete-producto",
+      "20261014-100834-revision-simultanea",
+      "20261014-125953-estado-revisar-medios",
+      "20261014-140627-severidad-ausente",
+      "20261014-145018-donde-ausente",
+      "20261014-204205-donde-no-valido",
+      "20261015-001533-evidencia-fuera",
+      "20261015-105600-cli-piloto",
+      "20261015-122841-docs-web-modos",
+      "20261015-140406-catalogo-confirmado",
+      "20261015-155346-oracle-en-carpeta",
+      "20261016-101007-vscode",
+      "20261016-114832-informe-no-texto",
+      "20261016-143020-revisar-cancelada",
+      "20261016-175720-bloqueo-registro",
+      "20261016-234517-web-viva",
+      "20261017-023151-hechos-varios",
+      "20261017-121631-web-guias",
+      "20261017-135953-higiene",
+      "20261019-120156-tablero",
+      "20261019-182313-commits",
+      "20261019-232444-quien",
+      "20261020-005341-liveshare",
+      "20261020-140603-kb",
+      "20261020-141303-sesion",
+      "20261020-173143-avisos",
+      "20261020-200030-aislar",
+      "20261021-101907-clones",
+      "20261021-140625-unir",
+      "20261021-235127-fjn-rag",
+      "20261022-115958-1jt-hora",
+      "20261022-161300-f94-mcp",
+      "20261022-215347-y70-agentes",
+      "20261023-005051-ufj-docs"
+    ],
+    "referencia": {
+      "comando": [
+        "listar",
+        "--cerrados"
+      ],
+      "salida": "20261004-005956-elegir-medidas  cerrada (archivado)  Elección de medidas\n20261004-005956-inicio-guiado  cerrada (archivado)  Inicio guiado\n20261004-005956-revision-guiada  cerrada (archivado)  Guiar la revisión con un informe pendiente y decisiones explícitas\n20261004-121432-coordinar-dos  cerrada (archivado)  Coordinar dos personas con sus agentes sin interferencias\n20261005-105331-modos-de-trabajo  cerrada (archivado)  Modos de trabajo según quién decide los requisitos\n20261005-132144-jerarquia-de  cerrada (archivado)  Jerarquía de carpetas y comandos para encontrar las cosas\n20261005-154433-la-vigencia-de  cerrada (archivado)  La vigencia de una revisión depende del contenido del producto\n20261005-184427-los-registros-de  cerrada (archivado)  Los registros de Factory funcionan en otra máquina\n20261005-193914-quitar-la-ruta  cerrada (archivado)  Quitar la ruta privada de los registros ya publicados\n20261006-004456-fase-2-de-la  cerrada (archivado)  Fase 2 de la estructura: el estado de cada cambio y la configuración van a .factory/\n20261006-161029-archivar-al  cerrada (archivado)  Archivar al cerrar: la spec de cada cambio se fusiona en openspec/specs/\n20261007-003414-resumen-del  cerrada (archivado)  Resumen del estado actual: una vista corta y regenerable de lo vigente\n20261007-115805-web-y-docs  cerrada (archivado)  La web y la documentación al día con la 0.1.0a5, y trabajar entre varias personas con sus agentes\n20261007-150043-autoproduccion  cerrada (archivado)  Producir en la carpeta del candidato y preparar la revisión desde los informes de los revisores\n20261007-192608-revisores  cerrada (archivado)  Pedir una revisión independiente desde Factory\n20261007-223645-decisiones-guiadas  cerrada (archivado)  Decisiones guiadas: menú y opciones en vez de frases\n20261008-123018-cli-humana  cerrada (archivado)  La CLI cómoda para la persona: errores claros, comando propio, salidas legibles y próximo paso\n20261012-131420-clue-dependencia  cerrada (archivado)  Oracle Clue como dependencia fija de Factory\n20261012-214104-ruta-vigente  cerrada (archivado)  ruta apunta al candidato vigente, no a HEAD\n20261013-011811-abandonar  cerrada (archivado)  Abandonar un cambio con motivo, decidido por una persona\n20261013-115616-vueltas-severidad  cerrada (archivado)  Vueltas de revisión proporcionales y riesgos aceptados que persisten\n20261013-153440-cli-json  cerrada (archivado)  Salidas en JSON de estado, donde y resumen\n20261013-180751-trazabilidad  cerrada (archivado)  Trazabilidad por candidato: requisito, casos y líneas cambiadas\n20261014-000054-paquete-producto  cerrada (archivado)  El paquete de revisión deja fuera lo que no es producto\n20261014-100834-revision-simultanea  cerrada (archivado)  pedir-revision tolera pedidos simultáneos sobre el mismo candidato\n20261014-125953-estado-revisar-medios  cerrada (archivado)  estado ofrece revisar cuando quedan hallazgos medios\n20261014-140627-severidad-ausente  cerrada (archivado)  Spec de revisores: un informe sin severidad no se guarda\n20261014-145018-donde-ausente  cerrada (archivado)  Spec de cli: lo ausente en donde es lo que un registro nombra y ya no está\n20261014-204205-donde-no-valido  cerrada (archivado)  donde --json etiqueta no_valido una entrada inválida del registro\n20261015-001533-evidencia-fuera  cerrada (archivado)  buscar no recorre la evidencia ni los paquetes de Clue\n20261015-105600-cli-piloto  cerrada (archivado)  CLI: plantilla de cambio, medir que avisa qué reemplaza y --listar separado\n20261015-122841-docs-web-modos  cerrada (archivado)  Docs y web: los modos de trabajo y quién decide qué\n20261015-140406-catalogo-confirmado  cerrada (archivado)  Una medida confirmada cuyo catálogo cambia vuelve a pedir decisión\n20261015-155346-oracle-en-carpeta  cerrada (archivado)  El proyecto Oracle puede estar en una carpeta del proyecto\n20261016-101007-vscode  cerrada (archivado)  Extensión de VS Code: la vista de Factory, sus artefactos y el próximo paso\n20261016-114832-informe-no-texto  cerrada (archivado)  Un valor del registro que no es una ruta se informa sin caerse\n20261016-143020-revisar-cancelada  cerrada (archivado)  estado avisa cuando una revisión no se pudo registrar y por qué\n20261016-175720-bloqueo-registro  cerrada (archivado)  Dos procesos que escriben el mismo registro no se pisan\n20261016-234517-web-viva  cerrada (archivado)  Una portada viva: pixel art, personajes, escenas animadas y un minijuego de decisiones\n20261017-023151-hechos-varios  cerrada (archivado)  Juzgar un candidato con hechos de varios sensores\n20261017-121631-web-guias  cerrada (archivado)  Las guías con la fábrica viva\n20261017-135953-higiene  cerrada (archivado)  Lo que la prueba del ajedrez dejó a la vista: revisores cortados, acciones sin autor y carpetas de más\n20261019-120156-tablero  cerrada (archivado)  El tablero de comando en VS Code: qué te necesita, la línea de tiempo, los hallazgos y las métricas\n20261019-182313-commits  cerrada (archivado)  Los commits unidos a su cambio: trailer Cambio, oracle-factory log, estado y tablero\n20261019-232444-quien  cerrada (archivado)  Quién trabaja en qué: tomar un cambio, su persona y sus agentes en estado y en el tablero\n20261020-005341-liveshare  cerrada (archivado)  El tablero en pair programming: presencia, tablero compartido y chat con Live Share\n20261020-140603-kb  cerrada (archivado)  El conocimiento del proyecto: un vault que se genera solo, notas humanas que vencen solas y ¿por qué existe esta línea?\n20261020-141303-sesion  cerrada (archivado)  La sesión de Live Share desde el tablero: compartir, unirse, terminar e instalar\n20261020-173143-avisos  cerrada (archivado)  Tres defectos de Factory a la vista: una spec de otra capacidad, requisitos huérfanos al reimportar y un requisito que quedó sin medir\n20261020-200030-aislar  cerrada (archivado)  El checkout de un revisor no toca el repositorio: un clon aparte en vez de un worktree\n20261021-101907-clones  cerrada (archivado)  Dos clones sin tropiezos: init versionable, IDs que no chocan y escrituras simultáneas que se reintentan\n20261021-140625-unir  cerrada (archivado)  Unir registros: el de un cambio editado en dos ramas se une sin perder nada, y lo generado se rehace\n20261021-235127-fjn-rag  cerrada (archivado)  RAG del conocimiento: preguntar al vault con búsqueda híbrida, sólo lo vigente, con citas y calidad medida\n20261022-115958-1jt-hora  cerrada (archivado)  La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden\n20261022-161300-f94-mcp  cerrada (archivado)  Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura\n20261022-215347-y70-agentes  cerrada (archivado)  La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día\n20261023-005051-ufj-docs  cerrada (archivado)  La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI\nAcuerdos: /home/workstation/Dev/factory-preguntar/openspec/changes\n"
+    },
+    "requiere_listado": true
+  }
+]

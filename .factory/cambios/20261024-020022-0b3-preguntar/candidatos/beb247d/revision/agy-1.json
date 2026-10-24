@@ -1,0 +1,155 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/beb247d-agy-1",
+  "base": "944a617039d16d9a294cc85ecc7f8edc4d6be490",
+  "head": "beb247d560deb8e3354c555435490e00d62b713d",
+  "diff_sha256": "02e530c206b70c871337c3f30d7574e748f23c801029d0ad144058a5589142a5",
+  "context_sha256": "87ca01c09d6ecda54607eb806116d818fd86e6bef0809d42fae73da4100bc684",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AGY-PREGUNTAR-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "consultas.interpretar rechaza preguntas naturales válidas y abiertas como consultas no admitidas",
+      "explanation": "En oracle_factory/consultas.py (líneas 17-40), interpretar valida las preguntas contra una lista blanca cerrada de apenas 33 palabras permitidas (permitidas). Cualquier formulación en lenguaje natural que contenga verbos habituales como «están», «existen» o «quedan», adverbios como «actualmente», o predicados de preguntas abiertas compuestas (ej. «¿Cuántas tareas cerradas hay y cuál es el procedimiento de revisión?») es catalogada erróneamente como un filtro no admitido y retorna {\"tipo\": \"consulta_no_admitida\"}. En rag.py:preguntar, consultas.directa() adopta este resultado y aborta inmediatamente sin consultar el índice ni permitir la elaboración generativa, contradiciendo el requisito 1 (aceptar preguntas abiertas en lenguaje natural sin exigir frases exactas) y el requisito 3 (reconocer consultas de conteo y listado).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 17,
+        "end_line": 40,
+        "side": "head"
+      },
+      "trigger": "Consultar oracle-factory preguntar \"¿Cuántas tareas están cerradas?\" o una consulta compuesta con conjunción no prevista como \"¿Cuántas tareas cerradas hay y cuál es el procedimiento de revisión?\".",
+      "evidence": "La ejecución de consultas.interpretar(\"¿Cuántas tareas están cerradas?\") y consultas.interpretar(\"¿Cuántas tareas cerradas hay y cuál es el procedimiento de revisión?\") retorna {\"tipo\": \"consulta_no_admitida\", \"respuesta\": \"Ese filtro no está admitido en la consulta directa...\"}, bloqueando tanto la respuesta de registro como la recuperación y elaboración generativa.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Comprobar que formulaciones naturales con verbos comunes y consultas compuestas abiertas no se cataloguen como consulta_no_admitida, resolviendo los conteos válidos o derivando la pregunta a recuperación documental y elaboración generativa."
+    },
+    {
+      "id": "AGY-PREGUNTAR-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "La herramienta de registro omite pendientes y vigencia requeridos por la spec",
+      "explanation": "El escenario «pregunta que combina conocimiento y registro» de la spec exige explícitamente: «GIVEN la documentación de las revisiones y cambios abiertos con hallazgos pendientes / WHEN se pregunta qué falta revisar en el proyecto y cómo se resuelve / THEN consulta el registro para identificar pendientes y la documentación para explicar el procedimiento, citando ambos». Sin embargo, consultas.registro() (líneas 51-67) sólo expone campos estáticos (id, titulo, fase, archivo, revision, requisitos, spec_aprobada, cierre, responsable, aceptados). Omite por completo el cálculo dinámico de pendientes (cli.pendientes_actuales), el objeto oracle y la vigencia de gates frente al producto actual (mismo_producto). Al carecer de esta información en la herramienta, el modelo no puede identificar qué falta revisar ni responder preguntas sobre pendientes del registro.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 51,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "Invocación de la herramienta registro con operacion: \"listar\" o \"detalle\" sobre cambios abiertos con pendientes de revisión o gates desactualizados.",
+      "evidence": "Al ejecutar consultas.registro(cli, {\"operacion\": \"detalle\", \"id\": \"20261024-020022-0b3-preguntar\"}), el objeto devuelto no contiene la clave \"pendientes\" ni el veredicto de \"oracle\", impidiendo al modelo constatar qué gates o revisiones restan completar.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Verificar que consultas.registro incluya la lista de pendientes actuales y el estado de vigencia de los gates de revisión y juicio en los datos retornados para listar y detalle."
+    },
+    {
+      "id": "AGY-PREGUNTAR-03",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Desborde de límite de contexto y truncamiento de JSON al listar cambios en el registro",
+      "explanation": "En oracle_factory/generacion.py, LIMITE_CONTEXTO está fijado en 64.000 bytes. Cuando el modelo generativo invoca la herramienta registro con operacion: \"listar\", consultas.registro genera un listado con hasta 50 cambios que en repositorios con historial (como este con más de 56 cambios cerrados) supera los 260 KB. Esto desencadena dos fallas: 1) en agregar(), fuente[\"texto\"][:6000] trunca ciegamente la cadena JSON a 6000 caracteres, convirtiéndola en JSON malformado e inválido (JSONDecodeError); 2) el resultado íntegro se añade a mensajes, superando con creces los 64 KB y provocando que en la siguiente iteración de elaborar() la línea 164 lance ValueError(\"Se alcanzó el límite de tiempo o contexto de generación.\"). rag.preguntar captura este error y degrada la consulta a recuperación documental, causando el fallo de preguntas generativas compuestas en la evaluación real.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 161,
+        "end_line": 175,
+        "side": "head"
+      },
+      "trigger": "Consulta abierta que lleva al modelo a solicitar operacion: \"listar\" a la herramienta registro en proyectos con decenas de cambios.",
+      "evidence": "consultas.registro(cli, {\"operacion\": \"listar\", \"estado\": \"cerrados\"}) genera un texto de más de 262.000 bytes. Su truncamiento a 6000 caracteres genera JSONDecodeError al intentar parsearlo, y el tamaño de mensajes supera LIMITE_CONTEXTO (64000 bytes), disparando ValueError en la línea 164.",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Acotar o resumir las filas devueltas por la herramienta registro dentro del flujo generativo para no desbordar los 64 KB de contexto ni producir fragmentos JSON incompletos por truncamiento."
+    },
+    {
+      "id": "AGY-PREGUNTAR-04",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Validación numérica en validar_final rechaza respuestas válidas con IDs de cambio o versiones",
+      "explanation": "En oracle_factory/generacion.py (líneas 121-137), validar_final extrae todos los números de cada afirmación con re.findall(r\"\b\\d+(?:[.,]\\d+)?\b\", a[\"texto\"]) y exige que cada uno de ellos esté presente en las citas textuales asociadas. Si el modelo menciona en su redacción un identificador de cambio (ej. 20261020-200030-aislar, del que se extraen 20261020 y 200030), una versión de software (ej. Python 3) o un ordinal (ej. paso 1), y la cita textual seleccionada contiene la justificación conceptual sin incluir literalmente esos dígitos, validar_final rechaza la respuesta con ValueError(\"Hay números sin respaldo en las citas.\"). Esto descarta respuestas correctas y respaldadas, degradándolas a recuperación documental.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 121,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "Respuesta generativa que nombra un cambio por su ID completo o incluye versiones/fechas en una afirmación respaldada por una cita de diseño que no repite dichos dígitos.",
+      "evidence": "Al validar una afirmación con texto «El cambio 20261020-200030-aislar introdujo un clon local aparte» y cita «el checkout de revisión es un clon local aparte», validar_final lanza ValueError: Hay números sin respaldo en las citas.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Excluir secuencias numéricas correspondientes a identificadores de cambio (patrón ID_RE), versiones de software o referencias ordinales de la verificación estricta de números cuantitativos en validar_final."
+    },
+    {
+      "id": "AGY-PREGUNTAR-05",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Proveedor openai omite parámetro de temperatura y falla si clave_env no fue configurada",
+      "explanation": "En oracle_factory/generacion.py (líneas 67-80), enviar() envía temperature: 0 en options para ollama, pero no establece temperature en el cuerpo para proveedores compatibles con openai. Esto causa que llamadas a endpoints openai utilicen la temperatura por defecto del servidor (generalmente 1.0), introduciendo variabilidad y rompiendo el determinismo esperado. Además, enviar() lee os.environ[conf.get(\"clave_env\", \"\")]. Si se configura un servidor compatible local o privado sin autenticación (donde clave_env es omitido en config.json, permitido por configuracion()), enviar() lanza ValueError(\"Falta la clave configurada para generación.\") en tiempo de ejecución.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 67,
+        "end_line": 80,
+        "side": "head"
+      },
+      "trigger": "Configurar rag.generacion con proveedor openai apuntando a un servidor local sin clave_env, o evaluar reproducibilidad de respuestas generativas en openai.",
+      "evidence": "Llamar a generacion.enviar({\"proveedor\": \"openai\", \"modelo\": \"m\", \"url\": \"http://localhost:8000/v1\"}, [], [], 10) falla con ValueError: Falta la clave configurada para generación. Asimismo, cuerpo carece de la clave \"temperature\": 0 para openai.",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Añadir \"temperature\": 0 al payload para openai y no exigir obligatoriamente una clave de entorno si el servicio local no requiere autenticación y clave_env no fue declarado."
+    },
+    {
+      "id": "AGY-PREGUNTAR-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "evaluar omite preguntar para el grupo documental y oculta fallos de abstención",
+      "explanation": "El escenario «evaluar respuestas y errores provocados» de la spec promete que ante errores provocados, como «una abstención ante una guía disponible», los hechos identifican el grupo y el error, fallando la medida correspondiente. Sin embargo, en oracle_factory/rag.py (líneas 405-430), evaluar() bifurca: para grupo == \"documental\", llama directamente a recuperar() en vez de preguntar(). Jamás se evalúa el criterio de respaldo de preguntar() para las 22 preguntas documentales de oro, y se fuerza fijamente abstuvo: 0, imposibilitando detectar abstenciones erróneas ante guías disponibles. Asimismo, en el grupo generativa (línea 417), si la elaboración falla y preguntar() se degrada a tipo: \"documentos\", abstuvo se evalúa como 0 (sólo contempla sin_respaldo, requiere_aclaracion, consulta_no_admitida), ocultando que hubo un fallo de abstención o degradación en el resumen del grupo.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 405,
+        "end_line": 430,
+        "side": "head"
+      },
+      "trigger": "Ejecución de oracle-factory preguntar --evaluar ante un criterio de respaldo restrictivo o una falla generativa que degrada a tipo: \"documentos\".",
+      "evidence": "En rag.py (línea 421), el grupo documental invoca datos = recuperar(...) omitiendo preguntar(), y en la línea 428 asigna fijamente abstuvo: 0. En la evidencia commiteada (oro/hechos.json), las 2 preguntas generativas que fallaron y devolvieron tipo: \"documentos\" registraron abstenciones: 0 y abstenciones_incorrectas: 0.",
+      "related_requirement": "la evaluación distingue exactitud relevancia y abstención",
+      "status": "pendiente",
+      "verification": "Hacer que las preguntas documentales se evalúen a través de preguntar() para verificar su comportamiento de respaldo y abstención, y registrar caídas a tipo: \"documentos\" en casos generativos como abstenciones o errores en el resumen de hechos."
+    },
+    {
+      "id": "AGY-PREGUNTAR-07",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Consultas de registro con conteo cero omiten archivos de comprobación en las fuentes",
+      "explanation": "El requisito 3 («preguntar cuenta y lista cambios desde el registro vigente») exige: «SHALL dar el resultado exacto desde el mismo registro y clasificación que listar. SHALL explicar el filtro y dar fuentes comprobables, incluso para cero cambios». En oracle_factory/consultas.py (líneas 73-76), archivos se construye iterando sobre filas coincidentes. Cuando la cantidad es 0 (por ejemplo en un proyecto sin cambios abandonados o sin cambios abiertos), la lista archivos queda vacía ([]). En la salida formateada de texto (rag.py:texto), no se emite ninguna ruta bajo Fuentes:, dejando una cita abstracta registro:{...} sin rutas comprobables de los registros inspeccionados.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 73,
+        "end_line": 76,
+        "side": "head"
+      },
+      "trigger": "Consultar oracle-factory preguntar \"¿Cuántos cambios abandonados hay?\" en un proyecto que no tiene cambios abandonados.",
+      "evidence": "La fuente retornada por consultas.registro(cli, {\"operacion\": \"contar\", \"estado\": \"abandonados\"}) tiene \"archivos\": []. Al formatear en texto con rag.texto(), no aparece ninguna ruta comprobable bajo Fuentes:.",
+      "related_requirement": "preguntar cuenta y lista cambios desde el registro vigente",
+      "status": "pendiente",
+      "verification": "Asegurar que cuando el conteo o listado dé 0 registros, la fuente incluya las rutas de los registros inspeccionados o el directorio de acuerdos donde se constató el resultado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en el entorno virtual aislado las pruebas unitarias acotadas solicitadas: tests.test_preguntar, tests.test_rag, tests.test_mcp y tests.test_docs.",
+    "No se ejecutó la suite completa de pruebas unitarias del repositorio para respetar las indicaciones de revisión.",
+    "No se invocó un modelo generativo real vía red ni servidor Ollama en vivo; se analizaron las respuestas, citas y artefactos de la corrida real guardada en la evidencia commiteada del candidato (.factory/cambios/20261024-020022-0b3-preguntar/candidatos/beb247d/evidencia/).",
+    "No se ejecutaron herramientas que modifiquen el checkout (como mutar_preguntar.py o verify_preguntar.py) sobre el repositorio para mantenerlo estrictamente de sólo lectura.",
+    "Se contrastó el diff contra los seis requisitos de la especificación OpenSpec, los contratos de prueba, las herramientas MCP y la extensión de VS Code."
+  ]
+}

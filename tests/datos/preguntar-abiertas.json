@@ -1,0 +1,111 @@
+[
+  {
+    "id": "pq-clones",
+    "grupo": "generativa",
+    "pregunta": "¿Por qué el revisor usa un clon aparte en vez de un worktree y qué problema evita?",
+    "contiene": [
+      "clon"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/changes/20261020-200030-aislar/",
+      "openspec/specs/revisores/",
+      "kb/cambios/20261020-200030-aislar.md",
+      "kb/requisitos/revisores_c0acaae89b46617f5.*",
+      "docs/revision-guiada.md",
+      "docs/estructura.md"
+    ],
+    "contiene_alguno": [
+      [
+        "Git",
+        "configuración",
+        "ramas"
+      ]
+    ],
+    "excluye": [
+      "aislar al revisor del resto del disco"
+    ]
+  },
+  {
+    "id": "pq-modos",
+    "grupo": "generativa",
+    "pregunta": "¿Qué diferencia hay entre los modos confirmacion y autonomo para decidir sobre un cambio?",
+    "contiene": [
+      "persona",
+      "agente"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/modos/",
+      "openspec/changes/20261005-105331-modos-de-trabajo/",
+      "kb/requisitos/modos_*",
+      "kb/cambios/20261005-105331-modos-de-trabajo.md",
+      "docs/modos.md"
+    ]
+  },
+  {
+    "id": "pq-vigencia",
+    "grupo": "generativa",
+    "pregunta": "¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?",
+    "contiene": [
+      "revisión",
+      "producto"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/vigencia/",
+      "openspec/changes/20261005-154433-la-vigencia-de/",
+      "kb/requisitos/vigencia_*",
+      "kb/cambios/20261005-154433-la-vigencia-de.md",
+      "docs/revision-guiada.md",
+      "docs/estructura.md"
+    ],
+    "contiene_alguno": [
+      [
+        "renovar",
+        "nueva revisión",
+        "repetir la revisión"
+      ]
+    ],
+    "excluye": [
+      "preparar una nueva revisión con el mismo contenido",
+      "mismo contenido y las mismas decisiones",
+      "no afecta directamente la vigencia de una revisión"
+    ]
+  },
+  {
+    "id": "pq-combinada",
+    "grupo": "generativa",
+    "pregunta": "¿Cuántas tareas cerradas hay y cómo se registra una revisión humana?",
+    "contiene": [
+      "cerrad",
+      "revis"
+    ],
+    "fuentes_cualquiera": [
+      "openspec/specs/decisiones/",
+      "openspec/specs/revision-guiada/",
+      "openspec/changes/20261004-005956-revision-guiada/",
+      "openspec/changes/20261007-223645-decisiones-guiadas/",
+      "kb/requisitos/decisiones_*",
+      "kb/requisitos/revision_guiada_*",
+      "docs/revision-guiada.md"
+    ],
+    "requiere_registro": true,
+    "filtro_registro": "cerrados"
+  },
+  {
+    "id": "pq-ajena-1",
+    "grupo": "abstencion",
+    "pregunta": "¿Qué come el ornitorrinco que vive en Marte?",
+    "tipo": "sin_respaldo"
+  },
+  {
+    "id": "pq-ajena-2",
+    "grupo": "abstencion",
+    "pregunta": "¿Cuál es el número de serie de mi cafetera?",
+    "tipo": "sin_respaldo"
+  },
+  {
+    "id": "pq-temporal",
+    "grupo": "abstencion",
+    "pregunta": "¿Cuántas tareas cerradas hay desde ayer?",
+    "tipo": "consulta_no_admitida"
+  }
+]
