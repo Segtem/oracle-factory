@@ -1,0 +1,19 @@
+---
+generado: oracle-factory kb
+id: "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion"
+vigente: true
+---
+
+# la evaluacion distingue exactitud relevancia y abstencion
+
+> Generado por `oracle-factory kb` desde el registro de Factory: no se edita a mano.
+
+- Id: `conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion`
+- Vigente: sí
+- Cambio: [[cambios/20261024-020022-0b3-preguntar]]
+- Veredicto: sin juicio
+- Medidas: ninguna
+- Sin medir: sin medida todavía; escenarios: «evaluar respuestas y errores provocados»
+- Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#la evaluación distingue exactitud relevancia y abstención
+
+Tipo: funcional La evaluación SHALL conservar las 22 preguntas documentales existentes y agregar consultas al registro, preguntas abiertas que combinen fuentes y herramientas, variantes reservadas, conteos cero, actualización del registro, filtros no admitidos y preguntas sin respaldo. SHALL emitir hechos y detalle por pregunta y grupo, distinguiendo exactitud, recuperación entre los cinco primeros, respaldo de respuestas y citas, abstenciones correctas e incorrectas. SHALL distinguir pruebas con modelo simulado de una medición con el modelo generativo real elegido por la persona, e informar ambos modelos, configuración y límites. Las medidas SHALL juzgar los grupos por separado: un buen conteo SHALL NOT compensar mala recuperación ni abstención generalizada. Se conserva el umbral documental humano ≥18/22 en la medición real con embeddings; las medidas nuevas requieren la confirmación humana correspondiente.

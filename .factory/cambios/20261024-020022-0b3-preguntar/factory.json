@@ -2,21 +2,28 @@
   "id": "20261024-020022-0b3-preguntar",
   "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
   "capacidad": "conocimiento",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
-  "spec_sha256": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45",
+  "spec_sha256": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095",
   "spec_aprobada": {
     "actor": "Brian Hollweg",
     "tipo_actor": "persona",
     "forma": "decidio",
     "modo": "confirmacion",
-    "cuando": "2026-10-24T02:07:26.738623+00:00",
+    "cuando": "2026-10-24T03:08:25.292899+00:00",
     "documentos": {
-      "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "8c1ea11c9167514a6b902bfd3ef88765508965bb1a4feb379a10409e1af6a691",
-      "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45"
+      "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "a4883426cbd9286ecf60da2c5502b7a17bd55b91c5de6c7fabf138889cd8570d",
+      "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+    "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+    "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+    "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+    "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+    "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -68,7 +75,44 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T03:07:59.630299+00:00",
       "texto": "Se amplió propuesta, diseño y spec tras la consulta de Brian sobre preguntas abiertas: respuestas elaboradas con fuentes y herramientas de sólo lectura, modelo generativo explícito separado de embeddings y evaluación real de respuestas/citas. La primera aprobación excluía generación, por lo que se requiere renovar la aprobación antes de implementar. No se eligió ni configuró modelo, no se usó un servicio externo y no se implementó código. La configuración y medición real del modelo se deciden después de aprobar el alcance."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T03:08:25.292923+00:00",
+      "documentos": {
+        "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "a4883426cbd9286ecf60da2c5502b7a17bd55b91c5de6c7fabf138889cd8570d",
+        "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T03:08:56.077744+00:00",
+      "ids": [
+        "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "funcional",
+    "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "funcional",
+    "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "funcional",
+    "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

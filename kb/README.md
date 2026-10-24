@@ -71,7 +71,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
 - [[cambios/20261022-161300-f94-mcp]] — Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura (cerrada)
 - [[cambios/20261022-215347-y70-agentes]] — La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día (cerrada)
-- [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (spec_aprobada)
+- [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (requisitos_importados)
 
 ## Requisitos
 
@@ -134,6 +134,12 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro]]
 - [[requisitos/conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto]]
 - [[requisitos/conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente]]
+- [[requisitos/conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.el_vault_se_genera_del_registro_y_no_se_desfasa]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.por_que_existe_una_linea]]
 - [[requisitos/conocimiento_cfa7b831bdad34a61.una_nota_humana_vence_cuando_cambian_sus_fuentes]]
