@@ -146,6 +146,60 @@ class Preguntar(unittest.TestCase):
         for pregunta in ('¿Qué cambios no tienen spec y cómo se aprueban?',
                          '¿Cuáles tareas cerradas hay sin hallazgos abiertos y cómo se revisa?'):
             self.assertIsNone(consultas.interpretar(pregunta))
+        # La recuperación para redactar separa normas, antecedentes y exclusiones; el ranking visible se conserva.
+        pasajes = [
+            {'ruta': 'docs/revision.md', 'seccion': 'Revisión',
+             'texto': 'Revisión\nLa revisión vigente usa fuentes actuales.'},
+            {'ruta': 'openspec/changes/20261005-154433-vigencia/proposal.md', 'seccion': 'Why',
+             'texto': 'Revisión\nWhy\nLa revisión vigente reemplazó un procedimiento anterior.'},
+            {'ruta': 'openspec/changes/20261005-154433-vigencia/proposal.md', 'seccion': 'Out of scope',
+             'texto': 'Revisión\nOut of scope\nAislar al revisor del resto del disco.'}]
+        pasajes = [{**p, 'cambio': None, 'enlaces': [], 'huella': str(n)} for n, p in enumerate(pasajes)]
+        with patch.object(rag, 'corpus', return_value=(pasajes, [], 0)):
+            actuales = rag.recuperar(f, 'revisión vigente', alcance='actual')
+            pasados = rag.recuperar(f, 'revisión vigente', alcance='antecedentes')
+            exclusiones = rag.recuperar(f, 'revisión disco', alcance='exclusiones')
+            self.assertEqual([p['ruta'] for p in actuales['resultados']], ['docs/revision.md'])
+            self.assertEqual([p['seccion'] for p in pasados['resultados']], ['Why'])
+            self.assertEqual([p['seccion'] for p in exclusiones['resultados']], ['Out of scope'])
+            with patch.object(rag, 'vectores', wraps=rag.vectores) as indexar:
+                rag.recuperar(f, 'revisión vigente', alcance='actual')
+                self.assertEqual(len(indexar.call_args.args[1]), len(pasajes))
+            def responder_actual(conf, mensajes, herramientas, timeout):
+                recibidas = json.loads(mensajes[1]['content'])['fuentes']
+                self.assertEqual([s['ruta'] for s in recibidas], ['docs/revision.md'])
+                return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                    {'texto': 'La revisión vigente usa fuentes actuales.', 'inferencia': False,
+                     'citas': [{'fuente': recibidas[0]['id'], 'texto': 'La revisión vigente usa fuentes actuales.'}]}]})}
+            with patch.object(generacion, 'enviar', side_effect=responder_actual):
+                self.assertEqual(rag.preguntar(f, '¿Cómo funciona la revisión vigente?')['tipo'], 'respuesta_elaborada')
+            def consultar_historia(conf, mensajes, herramientas, timeout):
+                if not any(m['role'] == 'tool' for m in mensajes):
+                    return {'tool_calls': [{'id': 'historia1', 'function': {'name': 'recuperar', 'arguments': {
+                        'pregunta': 'revisión vigente', 'alcance': 'antecedentes', 'maximo': 1}}}]}
+                s = json.loads(mensajes[-1]['content'])['fuentes'][0]
+                self.assertEqual(s['clase'], 'antecedente')
+                return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                    {'texto': 'Antes se reemplazó un procedimiento.', 'inferencia': False, 'alcance': 'antecedente',
+                     'citas': [{'fuente': s['id'], 'texto': 'reemplazó un procedimiento anterior'}]}]})}
+            with patch.object(generacion, 'enviar', side_effect=consultar_historia):
+                historial = rag.preguntar(f, '¿Qué cambió antes en la revisión vigente?')
+                self.assertTrue(historial['respuesta'].startswith('Antecedente histórico:'))
+        exclusion = generacion.procedencia({'ruta': pasajes[2]['ruta'], 'cita': 'propuesta#Out of scope',
+                                             'texto': pasajes[2]['texto'], 'id': 'S1'})
+        extracto = 'Aislar al revisor del resto del disco.'
+        for alcance in ('actual', 'antecedente'):
+            mensaje = {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'El clon aísla el disco.', 'inferencia': False, 'alcance': alcance,
+                 'citas': [{'fuente': 'S1', 'texto': extracto}]}]})}
+            with self.assertRaises(ValueError):
+                generacion.validar_final(mensaje, {'S1': exclusion})
+        datos = json.loads(mensaje['content'])
+        datos['afirmaciones'][0].update(alcance='exclusion', inferencia=True)
+        limite = generacion.validar_final({'content': json.dumps(datos)}, {'S1': exclusion})
+        self.assertEqual(limite['respuesta'], 'Fuera de alcance: ' + extracto + ' [S1]')
+        self.assertEqual(limite['afirmaciones'][0]['texto'], extracto)
+        self.assertFalse(limite['afirmaciones'][0]['inferencia'])
 
     def test_pq2_herramientas_configuracion_fallos_y_limites(self):
         from oracle_factory import generacion, consultas
@@ -235,7 +289,9 @@ class Preguntar(unittest.TestCase):
         for conf in ({'proveedor': 'ollama'}, {'proveedor': 'openai', 'modelo': 'fixture'},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'max_llamadas': True},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'},
-                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://['}):
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://['},
+                     {'proveedor': 'ollama', 'modelo': 'fixture', 'pensar': 'false'},
+                     {'proveedor': 'openai', 'modelo': 'fixture', 'url': 'http://localhost', 'pensar': False}):
             self.configurar(conf)
             with self.subTest(conf=conf), self.assertRaises(f.FactoryError):
                 generacion.configuracion(f)
@@ -310,6 +366,7 @@ class Preguntar(unittest.TestCase):
                 with self.subTest(proveedor=proveedor), patch.dict(os.environ, {'FACTORY_CLAVE_FIXTURE': 'clave-de-prueba'}):
                     self.configurar({'proveedor': proveedor, 'modelo': 'fixture',
                                      'url': f'http://127.0.0.1:{http.server_port}',
+                                     **({'pensar': False} if proveedor == 'ollama' else {}),
                                      **({'clave_env': 'FACTORY_CLAVE_FIXTURE'} if autenticar else {})})
                     r = rag.preguntar(f, '¿Por qué se eligió un clon aparte?')
                     self.assertEqual(r['tipo'], 'respuesta_elaborada')
@@ -320,6 +377,8 @@ class Preguntar(unittest.TestCase):
                     if proveedor == 'openai':
                         self.assertEqual(pedidos[-1][1]['temperature'], 0)
                         self.assertEqual(bool(pedidos[-1][2]), autenticar)
+                    else:
+                        self.assertIs(pedidos[-1][1]['think'], False)
                     final = generacion.enviar(generacion.configuracion(f), pedidos[-1][1]['messages'], [], 10)
                     cuerpo_final = pedidos[-1][1]
                     esquema = cuerpo_final['format'] if proveedor == 'ollama' else cuerpo_final['response_format']['json_schema']['schema']
@@ -506,6 +565,26 @@ class Preguntar(unittest.TestCase):
             rag.evaluar(f, self.root.parent / 'procedimiento-obsoleto', simulado=True, casos=casos)
         erronea = json.loads((self.root.parent / 'procedimiento-obsoleto/hechos.json').read_text())
         self.assertEqual(next(g['errores'] for g in erronea['preguntar_grupo'] if g['grupo'] == 'generativa'), 1)
+        anteriores = casos.read_text()
+        (self.root / 'docs/exclusiones.md').write_text('# Fuera de alcance\n\nProcedimiento obsoleto.\n')
+        casos.write_text(json.dumps([{'id': 'limite', 'grupo': 'generativa',
+            'pregunta': '¿Qué procedimiento queda fuera de alcance?', 'contiene': ['procedimiento', 'obsoleto'],
+            'excluye': ['procedimiento obsoleto'], 'fuentes': ['docs/exclusiones.md']}]))
+        def citar_exclusion(conf, mensajes, herramientas, timeout):
+            if not any(m['role'] == 'tool' for m in mensajes):
+                return {'tool_calls': [{'id': 'exclusion1', 'function': {'name': 'recuperar', 'arguments': {
+                    'pregunta': 'procedimiento obsoleto', 'alcance': 'exclusiones', 'maximo': 1}}}]}
+            s = json.loads(mensajes[-1]['content'])['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'El procedimiento obsoleto es obligatorio.', 'inferencia': False, 'alcance': 'exclusion',
+                 'citas': [{'fuente': s['id'], 'texto': 'Procedimiento obsoleto.'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=citar_exclusion):
+            rag.evaluar(f, self.root.parent / 'exclusion-literal', simulado=True, casos=casos)
+        negativa = json.loads((self.root.parent / 'exclusion-literal/hechos.json').read_text())
+        self.assertEqual(next(g['aciertos'] for g in negativa['preguntar_grupo'] if g['grupo'] == 'generativa'), 1)
+        detalle = json.loads((self.root.parent / 'exclusion-literal/detalle.json').read_text())
+        self.assertNotIn('obligatorio', next(p['respuesta']['respuesta'] for p in detalle if p['id'] == 'limite'))
+        casos.write_text(anteriores)
         compuesta = json.loads(casos.read_text())
         compuesta[0].update(requiere_registro=True, filtro_registro='cerrados')
         casos.write_text(json.dumps(compuesta))

@@ -69,12 +69,16 @@ def main(argv=None):
     parser.add_argument('--proveedor', choices=('ollama', 'openai'), default='ollama')
     parser.add_argument('--url', help='URL explícita; obligatoria para proveedor openai')
     parser.add_argument('--clave-env', help='nombre de la variable, nunca la clave')
+    parser.add_argument('--pensar', action=argparse.BooleanOptionalAction, default=None,
+                        help='control explícito de pensamiento de Ollama: --pensar o --no-pensar')
     args = parser.parse_args(argv)
     conf = {'proveedor': args.proveedor, 'modelo': args.modelo}
     if args.url:
         conf['url'] = args.url
     if args.clave_env:
         conf['clave_env'] = args.clave_env
+    if args.pensar is not None:
+        conf['pensar'] = args.pensar
     class Proyecto:
         """Configuración explícita de la corrida: consulta los datos reales y no sustituye herramientas o respuestas."""
         def __getattr__(self, nombre):

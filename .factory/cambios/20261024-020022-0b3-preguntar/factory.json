@@ -1055,6 +1055,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T18:44:04.102424+00:00",
       "texto": "Investigación de modelos autorizada por Brian: equipo con 16 GiB VRAM dedicados y 32 GB RAM; Ollama 0.40.9. Fuentes oficiales: https://ollama.com/library/qwen3.5:9b , https://ollama.com/library/qwen3.6/tags , https://ai.google.dev/gemma/docs/core/model_card_4 , https://docs.ollama.com/capabilities/thinking . Gemma4:12b ya instalado, diagnóstico think=false: generativa 1/4. Se descargó qwen3.5:9b Q4_K_M (digest corto 56671c2ab938, unos 6.6 GB) para comparar; ejecuta 100% GPU a contexto 16384, diagnóstico think=false/temperatura0: generativa 2/4, documental21/22, registro6/6, negativas3/3, 97.2 s total, fuentes estables. Su caso clones pasó controles automáticos pero incluyó una inferencia histórica incorrecta de aislamiento del disco: no se considera una respuesta aceptable. Los modelos Qwen3.6 disponibles parten de 18 GB de pesos, por encima de la VRAM local antes del contexto. No se configura modelo predeterminado ni se acredita evidencia formal: controles de pensamiento se inyectaron sólo en la investigación local. Detalles y orígenes en .factory/local/investigacion-gemma4-12b e investigacion-qwen35-9b. Se reforzarán selección de fuentes normativas y tratamiento literal de exclusiones antes de elegir un modelo para evidencia."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T19:06:31.088414+00:00",
+      "texto": "Arreglo del problema detectado durante investigación: la elaboración comienza con fuentes actuales; recuperar acepta alcance actual/antecedentes/exclusiones/todos y filtra después de indexar para conservar el índice. Out of scope/Fuera de alcance/Exclusiones son fuente negativa separada: no se aceptan como prestaciones ni hechos históricos positivos, y su alcance exclusion se muestra con extracto literal, reemplazando la interpretación del modelo. Excluye sigue rechazando errores positivos y acepta citas negativas literales verificadas (regresión adversarial). Se añadió pensar booleano sólo Ollama y flags del sensor --pensar/--no-pensar; omitido respeta el modelo. Pasan 15 pruebas, 45 mutaciones detectadas y docs_al_dia. No cambiaron catálogo ni umbrales confirmados. Estudios de modelos siguientes usarán configuración explícita, sin interceptar transporte ni cambiar valor predeterminado del proyecto."
     }
   ],
   "tipos": {

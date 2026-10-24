@@ -261,7 +261,10 @@ def _rangos(puntajes: list[float]) -> dict[int, int]:
     return {i: r for r, i in enumerate(orden, 1)}
 
 
-def recuperar(cli, pregunta: str, maximo: int = 8, *, plazo: float | None = None) -> dict:
+def recuperar(cli, pregunta: str, maximo: int = 8, *, plazo: float | None = None, alcance: str = 'todos') -> dict:
+    from . import generacion
+    if alcance not in generacion.ALCANCES_FUENTES:
+        raise cli.FactoryError('Alcance de recuperación inválido.')
     if not pregunta.strip():
         raise cli.FactoryError("indicá la pregunta")
     pasajes, por_revisar, fuera = corpus(cli)
@@ -295,7 +298,14 @@ def recuperar(cli, pregunta: str, maximo: int = 8, *, plazo: float | None = None
             j = mejor.get(ruta)
             if j is not None and ruta != origen:
                 aportes[j]["grafo"] = max(aportes[j]["grafo"], total[i] * GRAFO)
-    orden = sorted((i for i in range(len(pasajes)) if sum(aportes[i].values()) > 0),
+    def compatible(p):
+        if alcance == 'todos':
+            return True
+        clase = generacion.procedencia({**p, 'cita': f"{p['ruta']}#{p['seccion']}"})['clase']
+        return (clase in generacion.CLASES_ACTUALES if alcance == 'actual' else
+                clase in generacion.CLASES_ANTECEDENTES if alcance == 'antecedentes' else clase == 'exclusion')
+    # Filtrar después de indexar y puntuar: un alcance no debe borrar embeddings de los otros.
+    orden = sorted((i for i in range(len(pasajes)) if sum(aportes[i].values()) > 0 and compatible(pasajes[i])),
                    key=lambda i: -sum(aportes[i].values()))[:maximo]
     return {"esquema": ESQUEMA, "pregunta": pregunta, "modo": modo, "modelo": conf["modelo"] if modo == "hibrido" else None,
             "aviso": aviso, "embeddings_pedidos": pedidos, "por_revisar": por_revisar, "fuera_por_no_vigentes": fuera,
@@ -359,7 +369,8 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
     else:
         respuesta['limites'] = generacion.limites(conf)
         try:
-            respuesta.update(generacion.elaborar(cli, pregunta, datos, conf))
+            actuales = recuperar(cli, pregunta, 5, alcance='actual')
+            respuesta.update(generacion.elaborar(cli, pregunta, actuales, conf))
             if respuesta.get('aviso_generativo'):
                 avisos.append(respuesta['aviso_generativo'])
         except (OSError, ValueError, TypeError, KeyError, IndexError) as error:
@@ -509,7 +520,8 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                            and all(t.casefold() in datos['respuesta'].casefold() for t in p['contiene'])
                            and all(any(t.casefold() in datos['respuesta'].casefold() for t in g)
                                    for g in p.get('contiene_alguno', []))
-                           and not any(t.casefold() in datos['respuesta'].casefold() for t in p.get('excluye', []))
+                           and not any(t.casefold() in a['texto'].casefold() for t in p.get('excluye', [])
+                                       for a in datos.get('afirmaciones', []) if a.get('alcance') != 'exclusion')
                            and bool(datos['fuentes']) and all(any(fuente['ruta'] == ruta for fuente in datos['fuentes'])
                                                             for ruta in p.get('fuentes', [])))
                 if p.get('fuentes_cualquiera'):

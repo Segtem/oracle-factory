@@ -15,6 +15,9 @@ MAX_FUENTES = 24
 MAX_REFERENCIAS = 10
 LIMITE_RESULTADO = 24000
 RESERVA_CIERRE = 8000
+CLASES_ACTUALES = frozenset({'registro', 'spec_vigente', 'guia', 'requisito', 'conocimiento'})
+CLASES_ANTECEDENTES = frozenset({'antecedente', 'documento_del_cambio', 'registro_historico'})
+ALCANCES_FUENTES = ('actual', 'antecedentes', 'exclusiones', 'todos')
 FORMATO_FINAL = {
     'type': 'object', 'additionalProperties': False,
     'properties': {
@@ -23,7 +26,7 @@ FORMATO_FINAL = {
         'afirmaciones': {'type': 'array', 'maxItems': 6, 'items': {
             'type': 'object', 'additionalProperties': False,
             'properties': {'texto': {'type': 'string', 'maxLength': 500}, 'inferencia': {'type': 'boolean'},
-                           'alcance': {'type': 'string', 'enum': ['actual', 'antecedente']},
+                           'alcance': {'type': 'string', 'enum': ['actual', 'antecedente', 'exclusion']},
                            'citas': {'type': 'array', 'minItems': 1, 'maxItems': 2, 'items': {
                                'type': 'object', 'additionalProperties': False,
                                'properties': {'fuente': {'type': 'string'}, 'texto': {'type': 'string', 'minLength': 8, 'maxLength': 200}},
@@ -54,6 +57,9 @@ Para respondida: afirmaciones es una lista de objetos {texto, inferencia: boolea
 Cada afirmación lleva alcance actual o antecedente. Una afirmación actual necesita al menos una cita de spec vigente,
 guía, requisito vigente o datos del registro actual; las propuestas, diseños y documentos de cambios no bastan.
 Para explicar una motivación histórica usá alcance antecedente; se mostrará como antecedente, no como instrucción vigente.
+Las fuentes iniciales son actuales. Para investigar historia usá recuperar con alcance antecedentes; para límites
+explícitos usá alcance exclusiones. Las exclusiones nunca prueban que el producto haga lo que dejan afuera.
+Una afirmación con fuentes de exclusiones lleva alcance exclusion; se mostrará sólo el extracto literal como fuera de alcance.
 Cada cita identifica una fuente S1, S2, etc. y copia un fragmento textual exacto y breve (8 a 200 caracteres).
 Nunca copies un listado de IDs ni todo el JSON como cita; para cantidades usá el resumen textual de la consulta.
 Cada afirmación debe tener citas. Indicá como inferencia lo que deduzcas. No inventes fuentes, citas o números.
@@ -66,12 +72,14 @@ def configuracion(cli):
     conf = cli.config_proyecto()['rag'].get('generacion')
     if conf is None:
         return None
-    if not isinstance(conf, dict) or set(conf) - {'proveedor', 'modelo', 'url', 'clave_env', 'max_llamadas', 'segundos'}:
+    if not isinstance(conf, dict) or set(conf) - {'proveedor', 'modelo', 'url', 'clave_env', 'max_llamadas', 'segundos', 'pensar'}:
         raise cli.FactoryError('rag.generacion debe ser un objeto con proveedor, modelo, url, clave_env, max_llamadas y segundos.')
     if conf.get('proveedor') == 'ninguno':
         return None
     if conf.get('proveedor') not in ('ollama', 'openai') or not isinstance(conf.get('modelo'), str) or not conf['modelo'].strip():
         raise cli.FactoryError('rag.generacion requiere proveedor ollama/openai y un modelo explícito.')
+    if 'pensar' in conf and (conf['proveedor'] != 'ollama' or type(conf['pensar']) is not bool):
+        raise cli.FactoryError('rag.generacion.pensar requiere un booleano y proveedor ollama.')
     conf = {'url': 'http://localhost:11434', 'max_llamadas': 4, 'segundos': 120, **conf}
     if conf['proveedor'] == 'openai' and 'url' not in cli.config_proyecto()['rag']['generacion']:
         raise cli.FactoryError('rag.generacion con proveedor openai requiere una URL explícita.')
@@ -101,8 +109,9 @@ def herramientas():
                          'estado': {'type': 'string', 'enum': list(consultas.ESTADOS)}, 'id': {'type': 'string'},
                          'limite': {'type': 'integer', 'minimum': 1, 'maximum': 10},
                          'desplazamiento': {'type': 'integer', 'minimum': 0}}, ['operacion']),
-            herramienta('recuperar', 'Buscar documentos vigentes del proyecto con fuentes.',
-                        {'pregunta': {'type': 'string'}, 'maximo': {'type': 'integer', 'minimum': 1, 'maximum': 8}}, ['pregunta'])]
+            herramienta('recuperar', 'Buscar fuentes actuales por defecto; para historia o límites usar alcance antecedentes o exclusiones.',
+                        {'pregunta': {'type': 'string'}, 'maximo': {'type': 'integer', 'minimum': 1, 'maximum': 8},
+                         'alcance': {'type': 'string', 'enum': list(ALCANCES_FUENTES)}}, ['pregunta'])]
 
 
 def limites(conf=None):
@@ -112,6 +121,8 @@ def limites(conf=None):
                            'segundos': conf['segundos'] if conf else 0, 'max_peticiones_modelo': conf['max_llamadas'] + 2 if conf else 0,
                            'contexto_bytes': LIMITE_CONTEXTO, 'respuesta_bytes': LIMITE_RESPUESTA,
                            'reserva_cierre_bytes': RESERVA_CIERRE,
+                           'pensamiento': ('activado' if conf['pensar'] else 'desactivado')
+                                          if conf and 'pensar' in conf else 'predeterminado',
                            'resultado_herramienta_bytes': LIMITE_RESULTADO, 'fuentes': MAX_FUENTES,
                            'caracteres_por_fuente': LIMITE_FUENTE, 'referencias_por_fuente': MAX_REFERENCIAS,
                            'correcciones_de_formato': 1}}
@@ -145,6 +156,8 @@ def enviar(conf, mensajes, tools, timeout):
     if conf['proveedor'] == 'ollama':
         url = conf['url'].rstrip('/') + '/api/chat'
         cuerpo['options'] = {'temperature': 0, 'num_predict': 1800, 'num_ctx': 16384}
+        if 'pensar' in conf:
+            cuerpo['think'] = conf['pensar']
         if not tools:
             cuerpo['format'] = FORMATO_FINAL
     else:
@@ -236,13 +249,21 @@ def validar_final(mensaje, fuentes):
         if _numeros_afirmacion(a['texto'], referencias) - numeros:
             raise ValueError('Hay números sin respaldo en las citas.')
         alcance = a.get('alcance', 'actual')
-        if alcance not in ('actual', 'antecedente'):
+        if alcance not in ('actual', 'antecedente', 'exclusion'):
             raise ValueError('Alcance de afirmación inválido.')
-        no_normativas = {'antecedente', 'documento_del_cambio', 'registro_historico', 'plantilla'}
-        if alcance == 'actual' and all(procedencia(s)['clase'] in no_normativas for s in referencias):
+        clases = [procedencia(s)['clase'] for s in referencias]
+        if 'exclusion' in clases and alcance != 'exclusion':
+            raise ValueError('Una exclusión no acredita prestaciones ni hechos históricos positivos.')
+        if alcance == 'exclusion':
+            if not clases or any(c != 'exclusion' for c in clases):
+                raise ValueError('El alcance exclusion requiere sólo fuentes de exclusiones explícitas.')
+            # El modelo no interpreta la exclusión: se muestra el extracto comprobado con polaridad negativa fija.
+            a['texto'] = ' / '.join(c['texto'] for c in a['citas'])
+            a['inferencia'] = False
+        if alcance == 'actual' and not any(c in CLASES_ACTUALES for c in clases):
             raise ValueError('Una afirmación actual requiere fuentes vigentes, no sólo antecedentes.')
         a['alcance'] = alcance
-        prefijo = ('Antecedente histórico: ' if alcance == 'antecedente' else '') + ('Inferencia: ' if a['inferencia'] else '')
+        prefijo = ('Fuera de alcance: ' if alcance == 'exclusion' else 'Antecedente histórico: ' if alcance == 'antecedente' else '') + ('Inferencia: ' if a['inferencia'] else '')
         lineas.append(prefijo + a['texto'] + ' [' + ', '.join(citas) + ']')
     return {'tipo': 'respuesta_elaborada', 'respuesta': '\n\n'.join(lineas), 'afirmaciones': afirmaciones,
             'fuentes': [f for k, f in fuentes.items() if k in usadas],
@@ -252,12 +273,20 @@ def validar_final(mensaje, fuentes):
 def procedencia(fuente):
     """Expone el papel del documento sin decidir su relevancia ni convertir un antecedente en norma."""
     ruta = fuente['ruta']
-    if ruta == 'registro':
+    seccion = consultas.plano(fuente.get('seccion') or fuente.get('cita', '').rpartition('#')[2])
+    if ruta.startswith('docs/plantillas/'):
+        clase, uso = 'plantilla', 'Ejemplo para completar; no acredita hechos ni prescribe un procedimiento vigente por sí solo.'
+    elif seccion in ('out of scope', 'fuera de alcance', 'exclusiones'):
+        clase, uso = 'exclusion', 'Exclusión explícita: esto NO es una prestación ni un objetivo realizado por el producto.'
+        lineas = fuente['texto'].splitlines()
+        for n, linea in enumerate(lineas[:2]):
+            if consultas.plano(linea) == seccion:
+                fuente = {**fuente, 'texto': '\n'.join(lineas[n + 1:])}
+                break
+    elif ruta == 'registro':
         clase, uso = 'registro', 'Datos calculados del registro actual.'
     elif ruta.startswith('openspec/specs/'):
         clase, uso = 'spec_vigente', 'Requisitos consolidados del comportamiento actual.'
-    elif ruta.startswith('docs/plantillas/'):
-        clase, uso = 'plantilla', 'Ejemplo para completar; no acredita hechos ni prescribe un procedimiento vigente por sí solo.'
     elif ruta.startswith('docs/'):
         clase, uso = 'guia', 'Guía del proyecto; distinguir instrucciones de sus ejemplos.'
     elif ruta.startswith('kb/requisitos/'):
@@ -392,11 +421,12 @@ def elaborar(cli, pregunta, recuperado, conf):
                 if nombre == 'registro':
                     resultado = consultas.registro(cli, args)
                 elif nombre == 'recuperar':
-                    if (not isinstance(args, dict) or set(args) - {'pregunta', 'maximo'}
+                    if (not isinstance(args, dict) or set(args) - {'pregunta', 'maximo', 'alcance'}
                             or not isinstance(args.get('pregunta'), str) or not 1 <= len(args['pregunta']) <= 2000
-                            or type(args.get('maximo', 5)) is not int or not 1 <= args.get('maximo', 5) <= 8):
-                        raise ValueError('recuperar admite pregunta de 1 a 2000 caracteres y maximo entero de 1 a 8.')
-                    r = rag.recuperar(cli, args['pregunta'], args.get('maximo', 5), plazo=fin)
+                            or type(args.get('maximo', 5)) is not int or not 1 <= args.get('maximo', 5) <= 8
+                            or args.get('alcance', 'actual') not in ALCANCES_FUENTES):
+                        raise ValueError('recuperar admite pregunta de 1 a 2000 caracteres, maximo entero de 1 a 8 y alcance actual/antecedentes/exclusiones/todos.')
+                    r = rag.recuperar(cli, args['pregunta'], args.get('maximo', 5), plazo=fin, alcance=args.get('alcance', 'actual'))
                     resultado = {'fuentes': [{'ruta': p['ruta'], 'cita': p['cita'], 'texto': p['texto']} for p in r['resultados']]}
                 else:
                     raise ValueError('Herramienta no admitida: sólo registro y recuperar.')
@@ -417,7 +447,7 @@ def elaborar(cli, pregunta, recuperado, conf):
                 resultado['fuentes'] = agregar(resultado['fuentes'])
                 trazas.append({'herramienta': nombre, 'argumentos': args, 'exitoso': True})
             except (ValueError, TypeError, cli.FactoryError) as error:
-                guia = ('recuperar: pregunta de 1 a 2000 caracteres; maximo entero de 1 a 8 (por defecto 5).'
+                guia = ('recuperar: pregunta de 1 a 2000 caracteres; maximo entero de 1 a 8 (por defecto 5); alcance actual/antecedentes/exclusiones/todos.'
                         if nombre == 'recuperar' else
                         'registro: operacion contar/listar/agrupar/detalle; estado todos/abiertos/cerrados/abandonados; '
                         'detalle requiere id; sólo listar admite limite de 1 a 10 y desplazamiento no negativo.'

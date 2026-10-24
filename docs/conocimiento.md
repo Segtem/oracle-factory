@@ -96,8 +96,13 @@ defecto la URL local; `openai` designa una API compatible con Chat Completions, 
 prefijo `/v1`, si corresponde). Si el servidor exige autenticación, `clave_env` indica el nombre de una variable de
 entorno, nunca la clave en Git; se puede omitir en un servidor sin autenticación. El modelo debe admitir llamadas a
 herramientas y salida JSON estructurada. No se usa otro proveedor si falla el elegido.
+Para Ollama, `pensar` acepta `true` o `false` cuando el modelo admite ese control; al omitirlo se conserva su valor
+predeterminado. El modo elegido se registra en los límites y en la configuración de la medición.
 
 Las herramientas disponibles son `recuperar` y `registro` (contar, listar, agrupar por fase y consultar un cambio).
+La redacción comienza con fuentes actuales. `recuperar` permite `alcance` `actual` (por defecto), `antecedentes`,
+`exclusiones` o `todos`. La búsqueda visible conserva su ranking original; el filtro para redactar se aplica después
+de indexar, para no borrar del índice los embeddings de otros alcances.
 `listar` admite `limite` de uno a diez (cinco por defecto) y `desplazamiento`; `detalle` con un ID calcula los pendientes y
 la vigencia de revisión y juicio igual que `estado`. Una fase o una decisión histórica no bastan para afirmar su vigencia.
 Sus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o acciones de escritura. Por defecto el
@@ -125,10 +130,12 @@ el número que aparece en un ejemplo documental no la reemplaza. Esto verifica p
 del modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.
 Cada fuente declara su clase y uso: las specs consolidadas y las guías describen el comportamiento actual; las propuestas
 y los diseños aportan antecedentes que pueden describir problemas anteriores. Se instruye al modelo para que no convierta
-esos problemas en pasos recomendados. Cada afirmación declara `alcance`: `actual` o `antecedente`. Una afirmación actual
+esos problemas en pasos recomendados. Cada afirmación declara `alcance`: `actual`, `antecedente` o `exclusion`. Una afirmación actual
 requiere al menos una fuente vigente; las propuestas, documentos de cambios, registros históricos y plantillas no bastan
 por sí solos. Los antecedentes se muestran con el rótulo «Antecedente histórico». Esta separación no certifica que la
-interpretación del texto sea correcta.
+interpretación del texto sea correcta. Las secciones «Out of scope», «Fuera de alcance» y «Exclusiones» tienen una clase
+separada: no acreditan prestaciones actuales ni hechos históricos positivos. Sus afirmaciones se muestran con el rótulo
+«Fuera de alcance» y sólo el extracto literal verificado, reemplazando la interpretación que haya generado el modelo.
 
 **La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los
 cinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.
@@ -144,9 +151,11 @@ el grupo documental mide `recuperacion_con_respaldo`. Encontrar el archivo corre
 de ranking y un error de respuesta; el detalle muestra ambos resultados y las medidas los juzgan por separado.
 Los controles de conceptos y citas no son un juez semántico universal.
 `contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además
-de todos los términos de `contiene`. `excluye` rechaza expresiones de error conocidas. Así los casos pueden reconocer
+de todos los términos de `contiene`. `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;
+las citas literales rotuladas como exclusiones conservan su sentido negativo. Así los casos pueden reconocer
 una explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.
 La evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita
 calidad de las explicaciones. Se conserva el umbral humano documental de al menos 18 de las 22 preguntas originales.
+El sensor `tools/verify_preguntar.py` acepta `--pensar` o `--no-pensar` para registrar explícitamente ese control con Ollama.
 
 Desde un agente, lo mismo por MCP: ver [agentes](agentes.md).
