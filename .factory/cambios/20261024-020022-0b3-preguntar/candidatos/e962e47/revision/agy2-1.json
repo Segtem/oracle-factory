@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/e962e47-agy2-1",
+  "base": "49369fcbc1b05804e0cc71d4ae17b7495a37e7cb",
+  "head": "e962e47e84c6e0dc5ad17175ab2e12de073074a4",
+  "diff_sha256": "f1b389e220867ccd403ef0e3f57ab0b5a2b6363a7605c3016c727dc032bf0112",
+  "context_sha256": "c1906e7d3b05c6a82bab517e8e54240aaceafcd5b5fa9621257eb2e459820403",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance incremental y continuidad: revisión de vuelta 4 sobre el paquete incremental entre base 49369fc y head e962e47, manteniendo continuidad con las revisiones agy-1 y agy2-1 de la vuelta 3 sin repetir la auditoría de versiones previas.",
+    "Verificación de AGY-PREGUNTAR-15 y GENERACION-ELABORAR-CONTEO-CLAUSULA-SECUNDARIA-OMITE-REGISTRO: se comprobó en oracle_factory/generacion.py que ahora se extraen e interpretan todas las cláusulas reconocidas de una pregunta compuesta mediante split(\" y \"). Se verificó que el requisito de cálculo respaldado (rag._calculo_respaldado) opera con orden inverso (cláusula documental primero y de conteo después), que exige respaldo simultáneo cuando hay dos conteos con distinto filtro (abiertos y cerrados), que rechaza conteos basados en ejemplos documentales en ambas variantes de orden, y que la validación se ejecuta tanto en la respuesta inicial como tras la reparación final de formato (validar_respuesta(mensaje_final)).",
+    "Verificación de mejoras en generacion.py y rag.py: se confirmó la inclusión en las instrucciones del sistema de directivas de pertinencia estricta, negaciones y condiciones respaldadas, y advertencia de no inferir inexistencia ante omisión. En rag.py se verificó que concepto_presente conserva signos y puntuación (evitando la equiparación errónea de C++ con C y signos como !!!), preservando únicamente la uniformidad de tildes vía NFKD y plurales en -ción/-sión.",
+    "Verificación de casos de oro y corrección de afirmación sobre catálogos: se comprobó que en tests/datos/preguntar-abiertas.json se incorporó a excluye la afirmación «no afecta directamente la vigencia de una revisión». Se inspeccionó la evidencia de corrida real con qwen2.5:14b en evidencia/oro/detalle.json (caso pq-vigencia) verificando que dicha afirmación falsa ya no es generada y que las respuestas conservan citas y fidelidad documental.",
+    "Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout con el entorno aislado .venv: PYTHONPATH=. $PWD/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.8s). No se corrió la suite completa del proyecto ni modelos generativos reales en vivo, acorde a las instrucciones.",
+    "Verificación de mutaciones: se analizaron las 51 mutaciones de tools/mutar_preguntar.py. Todas tienen anclas válidas en el código y fueron detectadas en la evidencia (51/51 detectadas, 0 sobrevivientes). Se verificó el impacto y detección de las nuevas mutaciones: conteo_desde_ejemplo, conteo_solo_primera_clausula, conceptos_pierden_signos y conceptos_sin_plurales.",
+    "Inspección de evidencia commiteada: se auditó .factory/cambios/20261024-020022-0b3-preguntar/candidatos/e962e47/evidencia/ (474 pruebas OK con 10 omitidas, fuentes estables, documental 20/22 >= 18/22, registro 6/6, generativa 4/4, abstención 3/3). Sin hallazgos ni regresiones observadas en el diff de este candidato."
+  ]
+}

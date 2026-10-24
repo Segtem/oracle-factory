@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/e962e47-agy-1",
+  "base": "49369fcbc1b05804e0cc71d4ae17b7495a37e7cb",
+  "head": "e962e47e84c6e0dc5ad17175ab2e12de073074a4",
+  "diff_sha256": "f1b389e220867ccd403ef0e3f57ab0b5a2b6363a7605c3016c727dc032bf0112",
+  "context_sha256": "447707b8bc49393363b83b6e16a65ead33675b6207dc4b1b69ef2366d6d788fb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance incremental y continuidad (Vuelta 4): Base incremental 49369fcbc1b05804e0cc71d4ae17b7495a37e7cb, previamente auditada en agy-1 y agy2-1. Se evaluaron las modificaciones incorporadas en e962e47e84c6e0dc5ad17175ab2e12de073074a4, confirmando la resolución satisfactoria de los hallazgos previos (AGY-PREGUNTAR-15 y GENERACION-ELABORAR-CONTEO-CLAUSULA-SECUNDARIA-OMITE-REGISTRO) sin regresiones.",
+    "Verificación de corrección de conteo en cláusulas compuestas: En oracle_factory/generacion.py, la extracción de intenciones de conteo ahora procesa todas las cláusulas separadas por \" y \" (calculos), exigiendo que cada conteo individual esté respaldado por una consulta al registro (_calculo_respaldado) tanto en orden directo como inverso, en cláusulas múltiples (abiertos y cerrados), rechazando conteos basados en ejemplos documentales, y validando tanto en la evaluación inicial como tras la eventual reparación de formato del modelo.",
+    "Evaluación de conceptos y signos léxicos: En oracle_factory/rag.py, concepto_presente normaliza tildes y plurales en -ción/-sión mediante normalización NFKD sin eliminar signos de puntuación/operadores (plano), garantizando que identificadores con signos como C++ no colisionen indebidamente con C, verificado con pruebas específicas y mutación conceptos_pierden_signos.",
+    "Exclusión en casos de oro y directivas de pertinencia: Se incorporó la exclusión explícita de la afirmación no respaldada sobre catálogos y vigencia (\"no afecta directamente la vigencia de una revisión\") en tests/datos/preguntar-abiertas.json para pq-vigencia, y se reforzaron las instrucciones del sistema en oracle_factory/generacion.py para acotar respuestas a lo consultado y exigir respaldo completo de negaciones y condiciones.",
+    "Inspección de evidencia y respuestas reales: Se inspeccionaron los artefactos en .factory/cambios/20261024-020022-0b3-preguntar/candidatos/e962e47/evidencia: suite unitaria (474 OK, 10 omitidas), 51/51 mutaciones detectadas por tools/mutar_preguntar.py, métricas documentales (20/22 >= umbral 18/22), registro (6/6), negativas (3/3) y generativas reales (4/4 con qwen2.5:14b en oro/detalle.json), confirmando coherencia semántica y citas verificables para las 4 respuestas generadas.",
+    "Pruebas ejecutadas localmente: En entorno virtual propio .venv en el checkout del candidato se ejecutó la suite autorizada: PYTHONPATH=. .venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15/15 pruebas OK en 9.73s). Asimismo se ejecutó la verificación de mutaciones con tools/mutar_preguntar.py comprobando 51/51 mutaciones detectadas con fuentes restauradas. No se ejecutó la suite global completa de Factory ni modelos reales en red, cumpliendo las restricciones de la revisión.",
+    "Solo lectura: El checkout de revisión se mantuvo estrictamente en modo de solo lectura respecto a fuentes de producto y configuración de Git; no se realizaron commits ni decisiones asignadas a personas."
+  ]
+}
