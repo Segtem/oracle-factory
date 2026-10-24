@@ -59,6 +59,15 @@
         "openspec/changes/20261024-020022-0b3-preguntar/proposal.md": "8c1ea11c9167514a6b902bfd3ef88765508965bb1a4feb379a10409e1af6a691",
         "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md": "7c3bfb71abce10c1fd146336d798717d0f71702cf9ca3d656fde5f9a70a90d45"
       }
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:07:59.630299+00:00",
+      "texto": "Se amplió propuesta, diseño y spec tras la consulta de Brian sobre preguntas abiertas: respuestas elaboradas con fuentes y herramientas de sólo lectura, modelo generativo explícito separado de embeddings y evaluación real de respuestas/citas. La primera aprobación excluía generación, por lo que se requiere renovar la aprobación antes de implementar. No se eligió ni configuró modelo, no se usó un servicio externo y no se implementó código. La configuración y medición real del modelo se deciden después de aprobar el alcance."
     }
   ],
   "tipos": {}
