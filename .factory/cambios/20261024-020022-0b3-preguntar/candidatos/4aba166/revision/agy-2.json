@@ -1,0 +1,156 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/4aba166-agy-2",
+  "base": "beb247d560deb8e3354c555435490e00d62b713d",
+  "head": "4aba1662a4d3e17e7546c78b8ed7f3374789d545",
+  "diff_sha256": "fd0784313050ec88a68cbb327d1612aa303cfbdd55f17d3e8d487214b836a95a",
+  "context_sha256": "5cce56a356bf1bf4517e967d2054597d394230ecec3114a06fcc1b46c6b98ee6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron desde la raíz del checkout las pruebas unitarias autorizadas en un entorno virtual aislado (.venv): PYTHONPATH=. $PWD/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.96s).",
+    "No se ejecutó la suite completa de pruebas unitarias ni se invocó un modelo generativo real vía red o servidor Ollama en vivo, conforme a las restricciones del pedido de revisión.",
+    "El checkout del candidato 4aba166 se mantuvo en modo de sólo lectura, sin modificar archivos de producto, pruebas, catálogos ni configuración de Git.",
+    "El paquete de Clue es incremental desde el candidato previo beb247d. Se leyeron e inspeccionaron también los archivos completos (consultas.py, generacion.py, rag.py, cli.py, docs/conocimiento.md, tests/test_preguntar.py, tools/verify_preguntar.py) y la spec openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md para contrastar el comportamiento acumulado.",
+    "Se investigaron en detalle las causas reproducibles de las fallas observadas en la evidencia commiteada del candidato (.factory/cambios/20261024-020022-0b3-preguntar/candidatos/4aba166/evidencia/), correspondientes a pq-clones, pq-vigencia y pq-ajena-2, identificando los factores en recuperación, fuentes, herramientas y validación.",
+    "Se constató fuera del diff que validar_final en generacion.py:204-208 sólo valida el tamaño de texto en requiere_aclaracion sin exigir pertenencia a entidades o alcance del proyecto; no se fabricó una ubicación fuera de los rangos del paquete y se declara aquí como límite de alcance."
+  ],
+  "findings": [
+    {
+      "id": "AGY-PREGUNTAR-08",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "consultas.interpretar clasifica erróneamente preguntas compuestas y abiertas como consulta no admitida",
+      "explanation": "En oracle_factory/consultas.py (líneas 27–33), interpretar aísla la primera cláusula de la pregunta con clausula = p.split(\" y \", 1)[0] y la evalúa contra una lista de términos temporales y negativos (no, excepto, sin, desde, hasta, ayer, hoy, semana, mes, ano, fecha, periodo). Si coincide, retorna inmediatamente {\"tipo\": \"consulta_no_admitida\"}, ANTES de verificar if \" y \" in p: return None (línea 32). Por ende, preguntas compuestas o abiertas que contengan negaciones o delimitadores legítimos en su primera parte (por ejemplo: «¿Qué cambios no tienen spec y cómo se aprueban?» o «¿Cuáles tareas cerradas hay sin hallazgos abiertos y cómo se revisa?») son catalogadas erróneamente como filtros directos no admitidos. En rag.py:321, consultas.directa adopta este dict y aborta la consulta, impidiendo que el flujo avance a recuperación documental y elaboración generativa y contradiciendo el requisito 1 y el propio comentario del autor en la línea 31.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 27,
+        "end_line": 33,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Qué cambios no tienen spec y cómo se aprueban?\" o una consulta compuesta con negación o condición en la primera cláusula.",
+      "evidence": "Al invocar consultas.interpretar(\"¿Qué cambios no tienen spec y cómo se aprueban?\"), retorna {\"tipo\": \"consulta_no_admitida\", \"respuesta\": \"Ese filtro no está admitido en la consulta directa...\"}, bloqueando la recuperación y generación.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Comprobar que if \" y \" in p: return None se evalúe antes de la detección de filtros en la cláusula y verificar que preguntas compuestas con conectores no se cataloguen como consulta_no_admitida."
+    },
+    {
+      "id": "AGY-PREGUNTAR-09",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "rag.preguntar delega a elaboración generativa pasando fuentes irrelevantes aunque el criterio de respaldo sea falso",
+      "explanation": "El requisito 4 exige: «SHALL aplicar un criterio explícito y probado de respaldo para no presentar candidatos irrelevantes como respuesta. Si no encuentra respaldo suficiente SHALL decirlo. SHALL NOT enviar texto a un proveedor que el proyecto no haya configurado explícitamente». En oracle_factory/rag.py (líneas 336–360), respaldo determina si los pasajes recuperados cubren los términos o superan el umbral semántico. Si respaldo es falso, línea 339 fija tipo=\"sin_respaldo\". Sin embargo, si hay un modelo generativo configurado (conf is not None), la línea 357 invoca incondicionalmente generacion.elaborar(cli, pregunta, datos, conf). elaborar() toma datos[\"resultados\"][:5] (pasajes que ya fueron dictaminados como sin respaldo suficiente) y los inyecta en el prompt del modelo como fuentes válidas S1..S5. Esto es la causa raíz de la falla observada en la evidencia commiteada para pq-ajena-2 («¿Cuál es el número de serie de mi cafetera?»): el modelo recibe pasajes ajenos de Factory, invoca herramientas para buscar cafeteras y termina pidiendo aclaración (requiere_aclaracion) en lugar de abstenerse con sin_respaldo.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 336,
+        "end_line": 360,
+        "side": "head"
+      },
+      "trigger": "Ejecutar una consulta sobre un tema totalmente ajeno al proyecto (como «¿Cuál es el número de serie de mi cafetera?») teniendo un modelo generativo configurado.",
+      "evidence": "En .factory/cambios/.../4aba166/evidencia/oro/detalle.json, pq-ajena-2 reporta tipo=\"requiere_aclaracion\" con acierto=0 porque preguntar() delegó a elaborar() a pesar de no haber respaldo en el corpus, enviando pasajes no relacionados al modelo.",
+      "related_requirement": "la recuperación documental expone si hay respaldo suficiente",
+      "status": "pendiente",
+      "verification": "Verificar que cuando respaldo es falso en rag.py:preguntar(), no se invoque generacion.elaborar() y se retorne inmediatamente tipo=\"sin_respaldo\" sin transmitir datos al proveedor."
+    },
+    {
+      "id": "AGY-PREGUNTAR-10",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "_numeros_afirmacion rechaza afirmaciones con enumeraciones formateadas con dos puntos o en el cuerpo de la oración",
+      "explanation": "En oracle_factory/generacion.py líneas 188–189, _numeros_afirmacion excluye ordinales de pasos mediante re.sub(r\"(?m)^\\s*(?:paso\\s+)?\\d+[.)]\\s+\", \"\", texto, flags=re.I). Este patrón exige taxativamente que el número esté seguido por punto o paréntesis cerrado ([.)]). Si el modelo redacta los pasos usando dos puntos (por ejemplo: «Paso 1: Clonar el repositorio» o «1: Clonar»), el dígito no es eliminado. Asimismo, si la mención al paso ocurre en el cuerpo de la frase (ej. «En el paso 1 se aísla el entorno»), ^\\s* impide reconocerlo. Luego, en validar_final:228, al restar los números citados, la presencia de ese dígito sin respaldo textual en la cita seleccionada dispara ValueError(\"Hay números sin respaldo en las citas.\"), descartando explicaciones válidas y forzando reintentos o caídas a recuperación documental.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 176,
+        "end_line": 189,
+        "side": "head"
+      },
+      "trigger": "Respuesta generativa que enumera pasos con dos puntos («Paso 1:») o menciona un paso dentro de una afirmación respaldada por una cita que no contiene el dígito del paso.",
+      "evidence": "La llamada a _numeros_afirmacion(\"Paso 1: Clonar el repositorio\", [{\"ruta\": \"docs/guia.md\", \"texto\": \"para clonar el repositorio...\"}]) retorna {1}, haciendo que validar_final falle con ValueError: Hay números sin respaldo en las citas.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Admitir dos puntos en el patrón de pasos (r\"(?m)^\\s*(?:paso\\s+)?\\d+[:.)]\\s+\") y contemplar referencias ordinales en el texto para no exigir citas de dígitos de organización del discurso."
+    },
+    {
+      "id": "AGY-PREGUNTAR-11",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.9,
+      "title": "Asimetría entre LIMITE_RESULTADO y LIMITE_CONTEXTO aborta la generación sin permitir cierre estructurado",
+      "explanation": "En oracle_factory/generacion.py, LIMITE_CONTEXTO está fijado en 64.000 bytes, mientras que LIMITE_RESULTADO permite que el resultado de cada llamada a herramienta alcance hasta 24.000 bytes (líneas 16 y 371), con max_llamadas de hasta 8. Al inicio, las 5 fuentes iniciales y el mensaje de sistema consumen ~33 KB. Si el modelo ejecuta dos llamadas sucesivas (por ejemplo registro(listar) y recuperar) que devuelvan 18 KB cada una, el tamaño de mensajes supera 69 KB. En la línea 292, len(json.dumps(mensajes)) > LIMITE_CONTEXTO detona de inmediato levantando ValueError(\"Se alcanzó el límite de tiempo o contexto de generación.\"). A diferencia del descarte de lotes (líneas 301–313), que solicita cortésmente al modelo cerrar con lo ya leído, la línea 292 lanza una excepción no recuperable que rag.py captura en la línea 360, descartando toda la información obtenida y degradando la respuesta a documentos candidatos.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 291,
+        "end_line": 296,
+        "side": "head"
+      },
+      "trigger": "Consulta abierta multi-turno donde 2 o más respuestas válidas de herramientas superan conjuntamente el margen disponible de ~31 KB dentro del límite de 64 KB de mensajes.",
+      "evidence": "Al acumular 5 fuentes iniciales y 2 respuestas de herramientas de 18 KB cada una, len(json.dumps(mensajes).encode()) excede 64.000 bytes, detonando ValueError en generacion.py:292 y abortando la generación en rag.py.",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Acotar LIMITE_RESULTADO en proporción al contexto o permitir una etapa de cierre estructurado con lo ya recibido cuando se alcanza el presupuesto de contexto, en lugar de abortar abruptamente."
+    },
+    {
+      "id": "AGY-PREGUNTAR-12",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "procedencia() clasifica antecedentes históricos pero carece de restricciones en recuperación y validación, permitiendo respuestas con procedimientos obsoletos",
+      "explanation": "El escenario «explicar una decisión con sus consecuencias» y el requisito 1 exigen respuestas consistentes que distingan hechos y no inventen ni confundan procedimientos. Se introdujo procedencia() (líneas 236–254) para clasificar proposal.md y design.md como antecedente («puede describir fallas anteriores o alternativas; no prescribe el procedimiento actual»). Sin embargo, procedencia sólo inyecta texto pasivo en el prompt, mientras que acotar() y elaborar() envían estos antecedentes directamente como fuentes S1..S5. Además, validar_final() no comprueba si una afirmación prescriptiva se respalda exclusivamente en un antecedente. En la evidencia commiteada del candidato 4aba166, la pregunta pq-vigencia («¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?») falló con acierto=0 porque recuperar() entregó proposal.md de 20261005-154433-la-vigencia-de (donde se narra un problema histórico previo al cambio), y el modelo afirmó textualmente que para renovar la revisión había que «preparar una nueva revisión con el mismo contenido y las mismas 20 decisiones», incurriendo en el patrón prohibido por excluye y repitiendo un procedimiento obsoleto.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 236,
+        "end_line": 254,
+        "side": "head"
+      },
+      "trigger": "Preguntar sobre procedimientos actuales cuando la recuperación documental indexa la sección Why de un proposal.md de un cambio cerrado.",
+      "evidence": "En .factory/cambios/.../4aba166/evidencia/oro/detalle.json para pq-vigencia, el modelo afirmó: «Para renovar una revisión desactualizada, es necesario preparar una nueva revisión con el mismo contenido y pedir que sea registrada. [S2]», citando proposal.md (clase: antecedente). El caso falló con acierto=0 al disparar el filtro de excluye.",
+      "related_requirement": "preguntar elabora respuestas a preguntas abiertas del proyecto",
+      "status": "pendiente",
+      "verification": "Verificar que la recuperación postergue o filtre propuestas históricas al responder sobre procedimientos vigentes, y que la validación no admita citas exclusivamente de antecedentes para afirmaciones de procedimiento actual."
+    },
+    {
+      "id": "AGY-PREGUNTAR-13",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "evaluar() genera contradicción entre rag_corrida y preguntar_grupo para preguntas documentales sin respaldo",
+      "explanation": "En oracle_factory/rag.py:evaluar(), para el grupo documental, la línea 526 registra acierto = int(puesto > 0) para filas (que se resume en rag_corrida), mientras que la línea 530 registra acierto = int(puesto > 0 and datos[tipo] == documentos) para grupos (que se resume en preguntar_grupo). Si una pregunta de las 22 de oro recupera un documento esperado entre los 5 primeros (puesto > 0), pero el criterio de respaldo de preguntar() la clasifica como sin_respaldo, rag_corrida contabiliza un acierto mientras que preguntar_grupo contabiliza un error. Esto introduce una discrepancia interna en los hechos emitidos en hechos.json para la misma ejecución documental, contradiciendo el requisito 6 sobre la consistencia de los hechos reportados por grupo.",
+      "location": {
+        "file": "oracle_factory/rag.py",
+        "start_line": 521,
+        "end_line": 532,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory preguntar --evaluar cuando una pregunta documental tiene coincidencia en ranking (puesto > 0) pero no satisface el umbral de respaldo heurístico en preguntar().",
+      "evidence": "Inspección de líneas 526 y 530 en rag.py: filas define acierto = int(puesto > 0) y grupos define acierto = int(puesto > 0 and datos[tipo] == documentos). Cuando datos[tipo] != documentos, rag_corrida.aciertos difiere de preguntar_grupo[documental].aciertos.",
+      "related_requirement": "la evaluación distingue exactitud relevancia y abstención",
+      "status": "pendiente",
+      "verification": "Alinear la definición de acierto entre rag_corrida y preguntar_grupo en evaluar() para evitar métricas contradictorias en hechos.json."
+    },
+    {
+      "id": "AGY-PREGUNTAR-14",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "consultas.registro lista todos los cambios del repositorio en archivos al consultar filtros con conteo cero",
+      "explanation": "El requisito 3 promete: «SHALL dar el resultado exacto desde el mismo registro y clasificación que listar. SHALL explicar el filtro y dar fuentes comprobables, incluso para cero cambios». En oracle_factory/consultas.py:66, la variable archivos se calcula iterando sobre la totalidad de los cambios del proyecto ([... for i, _ in cambios]), ignorando el filtro estado. Cuando se consulta estado=\"abandonados\" en un proyecto que no tiene cambios abandonados (cantidad: 0), consultas.registro() retorna archivos con las rutas de factory.json de los 57 cambios cerrados y abiertos. Al formatear en texto mediante rag.texto() (líneas 378–382), se listan hasta 10 rutas de cambios cerrados y activos bajo Fuentes:, mostrando archivos no vinculados con el estado consultado.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 65,
+        "end_line": 70,
+        "side": "head"
+      },
+      "trigger": "Consultar oracle-factory preguntar \"¿Cuántos cambios abandonados hay?\" en un repositorio con cambios pero ninguno abandonado.",
+      "evidence": "consultas.registro(cli, {\"operacion\": \"contar\", \"estado\": \"abandonados\"}) retorna archivos con las 57 rutas de cambios del repositorio a pesar de que cantidad es 0. Al formatear con rag.texto(), Fuentes: enumera cambios cerrados y abiertos.",
+      "related_requirement": "preguntar cuenta y lista cambios desde el registro vigente",
+      "status": "pendiente",
+      "verification": "Asegurar que cuando un filtro específico resulte en 0 cambios, archivos no liste cambios de otros estados y en su lugar se identifique el directorio o inventario consultado."
+    }
+  ]
+}

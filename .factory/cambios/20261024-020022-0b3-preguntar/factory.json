@@ -816,6 +816,45 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T15:21:31.568513+00:00",
       "texto": "Estado al retomar tras el reinicio: se preservaron las dos corridas fallidas ae3307b y 4aba166. Última: suite 474 OK (10 omitidas), fuentes estables, documental 21/22, registro 6/6, generativa 2/4 y negativas 2/3. Arreglos de orden/lotes confirmados por regresiones y 29 mutaciones; no se bajan umbrales. Los pedidos completos desde tarea/docs fallaron por límite de contexto de Clue; agy y agy2 están revisando correcciones desde beb247d (primera revisión independiente), con ese alcance declarado. Se pidió a Brian elegir entre probar qwen3-coder:30b local ya instalado o mantener sólo qwen2.5:14b. El experimento local de separar consulta/redacción (experimento-etapas.json) dio dos degradaciones y una abstención correcta; no se incorporó al producto ni cuenta como evidencia. Falta resolver calidad y terminar revisión independiente antes de proponer revisión humana."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:23:17.135852+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4aba166",
+      "resultado": "ok",
+      "hallazgos": 7,
+      "lanzamiento": "60e60d4c41ac"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T15:29:34.944921+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4aba166",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "0592acbd2d95"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T17:14:17.792763+00:00",
+      "texto": "Revisiones incrementales agy-2 y agy2-2 recibidas y validadas por Clue: 12 hallazgos (11 medios o más, con duplicados). Git user.name sigue Brian Hollweg. Se corregirán: intercepción de compuestas, generación sin respaldo, ordinales/versiones, presupuesto global de contexto y uso normativo de antecedentes con prueba adversarial. AGY-13 compara métricas distintas deliberadas (ranking legado frente a respuesta con respaldo): se hará explícita esa diferencia en los hechos y documentación, conservando ambas medidas sin bajar umbrales. AGY-14 apunta a presentación del inventario completo consultado para probar un cero: se aclarará la etiqueta para distinguirlo de coincidencias. No hay propuesta de aprobación ni calidad generativa suficiente; modelo 30B aún sin elección explícita de Brian."
     }
   ],
   "tipos": {
