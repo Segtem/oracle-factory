@@ -43,3 +43,27 @@ Medidas de conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde
 ### Nota (2026-10-24 03:42:09 UTC)
 
 Medidas de conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto: factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto, factory_preguntar.corrida_completa, factory_preguntar.calidad_generativa, factory_preguntar.calidad_documental, factory_preguntar.calidad_registro; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-24 03:45:06 UTC)
+
+Medidas de conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).

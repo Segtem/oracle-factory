@@ -224,6 +224,103 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T03:44:06.694027+00:00",
       "texto": "Suite completa: 474 pruebas en 320.005 s, OK con 10 omitidas. Después se agregaron regresiones para URL mal formada y caso de evaluación incompleto, que reprodujeron ValueError y KeyError antes de la corrección; tras corregir pasan otra vez las 15 pruebas específicas. Las doce mutaciones finales fueron detectadas y sus hashes coinciden con las fuentes actuales. Se propusieron las medidas de los seis requisitos: contratos y corrida completa, más calidad documental >=18/22, seis consultas de registro correctas, cuatro respuestas generativas reales correctas según conceptos/citas y tres negativas correctas, sin compensación entre grupos. Falta confirmación humana de medidas y elegir el modelo generativo para medir; no se ejecutó un modelo real ni se generó evidencia formal de este candidato."
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:05.966539+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.109634+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.241611+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.374689+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.511570+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T03:45:06.641888+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:45:41.173922+00:00",
+      "texto": "Verificada la confirmación de las seis medidas por Brian Hollweg (persona), registrada el 2026-10-24 a las 03:45 UTC. Brian eligió en la conversación modelo 1: qwen2.5:14b local, ya instalado. Se usará explícitamente en la corrida real de verify_preguntar.py, sin servicio externo ni descarga de modelos."
     }
   ],
   "tipos": {
@@ -234,13 +331,14 @@
     "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "funcional",
     "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:05.935638+00:00",
       "sha256": "b6d0cc3eeadcff95941f8e490ae73764f48b81c16982cbdf08693346cb21bfce",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:02.674072+00:00",
       "catalogos": {
         "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "38f6a56e75a7926fcd9f12d8b74b6be0da1bb2a71a1ce1e46b6d1857ffe93317",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a"
@@ -251,10 +349,12 @@
       }
     },
     "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:06.077930+00:00",
       "sha256": "2200ad9d782633de0f5a7ef13032112c4725db9ead44e1d8b3afdf89925236d3",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:03.846534+00:00",
       "catalogos": {
         "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "f234df40bead5db1b5b552f19b7b773f957ee6c4905180878910a48cd7a70bd6",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a",
@@ -273,10 +373,12 @@
       }
     },
     "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:06.212421+00:00",
       "sha256": "e32b8f1cdbf8dd02005496ff7ac133aa331145e9cc8fe80583fdde8c239c0cf9",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:05.020711+00:00",
       "catalogos": {
         "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "079c1a6162ff56720916053664c4e4b1c0fb1587f4d2e4e9afdd7c725990023f",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a",
@@ -291,10 +393,12 @@
       }
     },
     "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:06.343553+00:00",
       "sha256": "932115840fb1115dd046e0478da73df9d5d23f6667e436e93c4c323855c744b6",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:06.326406+00:00",
       "catalogos": {
         "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "8a0a998dfd85846797a6b65f8bc915bdf51bc86d12ae853ebb41037b5608cca9",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a"
@@ -305,10 +409,12 @@
       }
     },
     "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:06.480513+00:00",
       "sha256": "39dc4a573d4137348d0631d75cc49e89f16edcc522752a9f0f149d70adb3fcd8",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:07.697284+00:00",
       "catalogos": {
         "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "72ed47cd87915d2c75b1fa2f1a900834497900da17a91e1775671b3dbc860ad4",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a",
@@ -321,10 +427,12 @@
       }
     },
     "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-24T03:45:06.612003+00:00",
       "sha256": "8a3d4904a05c0c389fcf3eacbc29aea7f66d1aa030f1e1a8beff4756de4c80fd",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T03:42:09.002570+00:00",
       "catalogos": {
         "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "6535006b9a2e82be94cfcad3cf0a5e1943b7ca9577ee041ff064b06ba7231aaf",
         "factory_preguntar.corrida_completa": "f9f1b6ecd1c3a549136a7424cc94b4c8f7ab207258d3005cabf77b1eb49c613a",
@@ -340,5 +448,6 @@
         "factory_preguntar.calidad_registro": "catalogos/factory_preguntar.calidad_registro.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
