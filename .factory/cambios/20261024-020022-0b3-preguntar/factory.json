@@ -1082,6 +1082,37 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T19:45:12.354165+00:00",
       "texto": "Corrección del mensaje anterior: la corrida mutaciones-preguntar-13 detectó 48/49, no 49/49; el resumen anterior fue un error mío y se conserva. La rotura del guardia de contexto global quedaba oculta porque el siguiente lote cerraba el ciclo antes de desbordarse. Reforcé la regresión para exigir el rechazo previo del resultado y la ausencia de consultas exitosas que entreguen esas fuentes. Pruebas específicas 15 OK; nueva corrida mutaciones-preguntar-14: 49/49 detectadas y fuentes restauradas verificadas. Sin cambios de catálogos ni umbrales."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T19:52:34.095100+00:00",
+      "revisor": "agy",
+      "candidato": "49369fc",
+      "lanzamiento": "0ad318d0fced"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T19:52:34.120650+00:00",
+      "revisor": "agy2",
+      "candidato": "49369fc",
+      "lanzamiento": "f6d859b46cde"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:03:30.541982+00:00",
+      "texto": "Comparación final sobre e346e92 con fuentes estables y controles reforzados: qwen2.5:14b (configuración nativa por defecto) pasó generativa 4/4 en 98,0 s / 8 peticiones; qwen3.5:9b (pensar:false) quedó 3/4 en 105,2 s / 9 peticiones. Ambos: documental 20/22, registro 6/6 y negativas 3/3. El 9B volvió a confundir renovación de revisión con nueva decisión de medidas, y agregó sin copiar objetos al describir el clon; no lo recomiendo como reemplazo. qwen3-coder:30b dio 3/4 y 187,1 s en la comparación anterior; no justifica su mayor memoria. Mantengo el modelo de medición qwen2.5:14b elegido por Brian. Qwen3.5:9b queda instalado localmente; no se cambió el modelo predeterminado del proyecto. El diagnóstico con instrucciones de pertinencia elimina la afirmación incorrecta observada sobre catálogos y vigencia. La evaluación ahora la rechaza expresamente y conserva signos en conceptos (C++ no es C); 15 pruebas y 50/50 mutaciones. Falta formalizar evidencia posterior y revisión limpia; las dos revisiones de 49369fc siguen corriendo en clones independientes."
     }
   ],
   "tipos": {
