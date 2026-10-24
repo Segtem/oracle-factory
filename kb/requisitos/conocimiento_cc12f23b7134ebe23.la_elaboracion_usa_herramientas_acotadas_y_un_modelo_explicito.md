@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito`, `factory_preguntar.corrida_completa`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#la elaboración usa herramientas acotadas y un modelo explícito
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto`, `factory_preguntar.corrida_completa`, `factory_preguntar.calidad_generativa`, `factory_preguntar.calidad_documental`, `factory_preguntar.calidad_registro`, `factory_preguntar.respaldo_documental`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#preguntar elabora respuestas a preguntas abiertas del proyecto
 

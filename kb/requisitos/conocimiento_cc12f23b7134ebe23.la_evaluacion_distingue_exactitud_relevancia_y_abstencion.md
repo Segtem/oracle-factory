@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion`, `factory_preguntar.corrida_completa`, `factory_preguntar.calidad_documental`, `factory_preguntar.calidad_registro`, `factory_preguntar.calidad_generativa`, `factory_preguntar.calidad_abstencion`, `factory_preguntar.respaldo_documental`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#la evaluación distingue exactitud relevancia y abstención
 

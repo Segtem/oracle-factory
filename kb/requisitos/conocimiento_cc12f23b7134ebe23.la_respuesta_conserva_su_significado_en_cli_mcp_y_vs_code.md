@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code`, `factory_preguntar.corrida_completa`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#la respuesta conserva su significado en CLI MCP y VS Code
 

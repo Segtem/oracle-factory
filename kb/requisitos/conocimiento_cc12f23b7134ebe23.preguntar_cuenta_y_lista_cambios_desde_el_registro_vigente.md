@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente`, `factory_preguntar.corrida_completa`, `factory_preguntar.calidad_registro`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#preguntar cuenta y lista cambios desde el registro vigente
 

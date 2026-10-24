@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente`
 - Vigente: sí
 - Cambio: [[cambios/20261024-020022-0b3-preguntar]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente`, `factory_preguntar.corrida_completa`, `factory_preguntar.calidad_documental`, `factory_preguntar.calidad_abstencion`, `factory_preguntar.respaldo_documental`
 - Fuente: openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md#la recuperación documental expone si hay respaldo suficiente
 

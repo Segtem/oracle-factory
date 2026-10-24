@@ -2,7 +2,7 @@
   "id": "20261024-020022-0b3-preguntar",
   "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
   "capacidad": "conocimiento",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
   "spec_sha256": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095",
   "spec_aprobada": {
@@ -45,7 +45,19 @@
       "archivos_sha256": "5f0ce1d7ec92cfa1c02e33994c93b73c6d8587d9cb06a30d94039374a65a3649"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261024-020022-0b3-preguntar/candidatos/e962e47/evidencia/hechos.json",
+    "hechos_sha256": "7f3bdf6c407bd91880cc60c95749208fe866a61557e6af17fb8dd43a084a0c6a",
+    "informe": ".factory/cambios/20261024-020022-0b3-preguntar/oracle-veredicto.txt",
+    "informe_sha256": "6396232fcaf8f71a0d9ddbca2cd9a483cef8d1b200f39e21e7afd226b36c3f96",
+    "cuando": "2026-10-24T20:38:30.107991+00:00",
+    "contexto": {
+      "head": "60b37dc29f3d703b56ed6a1dc2983fb68be99bd1",
+      "archivos_sha256": "5f0ce1d7ec92cfa1c02e33994c93b73c6d8587d9cb06a30d94039374a65a3649"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -1266,6 +1278,17 @@
       "abiertos": 0,
       "sha256": "a02d3c7e86661944cb2236ace329d3177c36bc9c7aae8c8678556991b839e50a",
       "decisiones_sha256": "ab366d349a0710ea41dd4f8df6e44f7873ff27d173b4beeb9bd64e0af657ab86"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:38:30.108008+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "7f3bdf6c407bd91880cc60c95749208fe866a61557e6af17fb8dd43a084a0c6a"
     }
   ],
   "tipos": {
