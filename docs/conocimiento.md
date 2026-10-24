@@ -69,6 +69,8 @@ elaborada. Si la recuperación no reúne al menos dos términos de la consulta (
 similitud semántica de al menos 0,65, avisa que no encontró respaldo suficiente. Es un criterio de selección, no una
 garantía de comprensión semántica; los candidatos siguen visibles para inspección. Con un modelo, éste puede consultar
 más fuentes y tiene que responder con citas verificables, abstenerse o pedir aclaración.
+La elaboración sólo se habilita cuando los candidatos superan ese criterio. Si no hay respaldo, se devuelve
+`sin_respaldo` con los candidatos para inspección y sin invocar el modelo generativo.
 
 Busca de tres maneras a la vez y dice cuánto aportó cada una: por palabras (sin tildes ni mayúsculas), por significado
 (embeddings) y por el grafo del vault (un cambio trae a sus requisitos y al revés).
@@ -110,14 +112,23 @@ Cuando se agotan las consultas permitidas, se pide una respuesta final estructur
 sin ofrecer más herramientas.
 Si el modelo pide un lote mayor que el presupuesto restante, se rechaza entero y se pide el cierre con lo ya recibido,
 dentro del mismo plazo. La respuesta informa las llamadas descartadas y avisa que no se ejecutó ese lote.
+El presupuesto también se comprueba sobre la suma de mensajes y resultados antes de aceptar más datos. Se reservan
+8000 bytes para cerrar y validar la respuesta. Cuando no entra otro resultado, se cierra con las fuentes que ya recibió
+el modelo; las fuentes de un resultado rechazado no quedan habilitadas para citar.
 
 Las citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en
-ella; las cantidades deben aparecer en las citas. Los IDs y versiones se comprueban como literales en la fuente citada
-y la numeración de pasos no se trata como un cálculo. Esto verifica pertenencia textual, no demuestra que la interpretación
+ella; las cantidades deben aparecer en las citas. Los IDs, etiquetas de modelos y versiones reconocidas se comprueban
+como literales en la fuente citada. Se reconocen Python, Factory, Oracle, Git, Node, VS Code, Qwen, SQLite, Ollama, HTTP
+y la expresión «versión X»; otros números requieren aparecer en el extracto. La numeración de pasos no se trata como un
+cálculo. Una consulta mixta cuyo inicio es un conteo directo exige además una consulta calculada y citada del registro;
+el número que aparece en un ejemplo documental no la reemplaza. Esto verifica pertenencia textual, no demuestra que la interpretación
 del modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.
 Cada fuente declara su clase y uso: las specs consolidadas y las guías describen el comportamiento actual; las propuestas
 y los diseños aportan antecedentes que pueden describir problemas anteriores. Se instruye al modelo para que no convierta
-esos problemas en pasos recomendados. La clasificación orienta su lectura y no garantiza que interprete bien el texto.
+esos problemas en pasos recomendados. Cada afirmación declara `alcance`: `actual` o `antecedente`. Una afirmación actual
+requiere al menos una fuente vigente; las propuestas, documentos de cambios, registros históricos y plantillas no bastan
+por sí solos. Los antecedentes se muestran con el rótulo «Antecedente histórico». Esta separación no certifica que la
+interpretación del texto sea correcta.
 
 **La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los
 cinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.
@@ -128,6 +139,9 @@ registro citado, comprobado por código. El archivo debe estar
 dentro del proyecto. Los resultados separan cada grupo, sus aciertos, errores y abstenciones incorrectas; para las
 documentales conservan el puesto y MRR, y también comprueban la selección de respaldo que hace `preguntar`, con la
 generación desactivada para ese grupo. Una degradación generativa a pasajes cuenta como error y abstención incorrecta.
+Los hechos declaran su `criterio`: `rag_corrida` mide `recuperacion_en_cinco` para conservar la medida original, mientras
+el grupo documental mide `recuperacion_con_respaldo`. Encontrar el archivo correcto y abstenerse erróneamente es un acierto
+de ranking y un error de respuesta; el detalle muestra ambos resultados y las medidas los juzgan por separado.
 Los controles de conceptos y citas no son un juez semántico universal.
 `contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además
 de todos los términos de `contiene`. `excluye` rechaza expresiones de error conocidas. Así los casos pueden reconocer

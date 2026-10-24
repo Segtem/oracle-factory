@@ -341,6 +341,11 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
                                'No encontré respaldo suficiente para responder.'),
                  'fuentes': [{'ruta': r['ruta'], 'cita': r['cita'], 'texto': r['texto']} for r in datos['resultados']]}
     avisos = [datos['aviso']] if datos['aviso'] else []
+    if not respaldo:
+        # El modelo no puede convertir candidatos sin respaldo en una respuesta ni pedir datos de otro tema.
+        respuesta['fuentes'] = []
+        respuesta['aviso'] = '; '.join(avisos) or None
+        return respuesta
     try:
         conf = generacion.configuracion(cli)
     except cli.FactoryError as error:
@@ -376,6 +381,8 @@ def texto(datos: dict) -> str:
             if 'directorio' in fuente:
                 lineas.append(f'  Inventario consultado: {fuente["directorio"]}' + ('' if fuente.get('directorio_existe') else ' (no existe)'))
             archivos = fuente.get('archivos', [])
+            if archivos and 'directorio' in fuente:
+                lineas.append('  Registros inspeccionados para verificar el filtro (pueden no coincidir):')
             lineas.extend(f'  - {ruta}' for ruta in archivos[:10])
             omitidos = max(0, len(archivos) - 10) + fuente.get('archivos_omitidos', 0)
             if omitidos:
@@ -523,16 +530,24 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])
-        filas.append({"id": p["id"], "acierto": int(puesto > 0), "puesto": puesto, "modo": datos["modo"]})
+        filas.append({"id": p["id"], "acierto": int(puesto > 0), "puesto": puesto, "modo": datos["modo"],
+                      'criterio': 'recuperacion_en_cinco'})
         abstuvo = int(datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'))
         detalle.append({**filas[-1], "pregunta": p["pregunta"], "esperadas": p["esperadas"], "primeros": rutas,
-                        'tipo': datos['tipo'], 'abstuvo': abstuvo, 'generacion_desactivada': True})
+                        'tipo': datos['tipo'], 'abstuvo': abstuvo, 'generacion_desactivada': True,
+                        'recuperacion_correcta': int(puesto > 0), 'respaldo_suficiente': int(datos['tipo'] == 'documentos'),
+                        'respuesta_correcta': int(puesto > 0 and datos['tipo'] == 'documentos')})
         grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(puesto > 0 and datos['tipo'] == 'documentos'), 'abstuvo': abstuvo,
                        'degradada': 0, 'tipo': datos['tipo'], 'modelo_generativo': 'ninguno', 'simulado': int(simulado)})
     modo = modos.pop() if len(modos) == 1 else "mixto"
     corrida = {"preguntas": len(filas), "aciertos": sum(f["acierto"] for f in filas),
                "mrr": round(sum(1 / f["puesto"] for f in filas if f["puesto"]) / len(filas), 4) if filas else 0.0,
-               "modo": modo, "modelo": configuracion(cli)["modelo"] if modo == "hibrido" else "ninguno"}
+               "modo": modo, "modelo": configuracion(cli)["modelo"] if modo == "hibrido" else "ninguno",
+               'criterio': 'recuperacion_en_cinco'}
+    criterios = {'documental': 'recuperacion_con_respaldo', 'registro': 'exactitud_del_registro',
+                 'generativa': 'explicacion_con_fuentes', 'abstencion': 'abstencion_esperada'}
+    for fila in grupos:
+        fila['criterio'] = criterios[fila['grupo']]
     salida.mkdir(parents=True, exist_ok=False)
     resumen = [{'grupo': grupo, 'preguntas': sum(f['grupo'] == grupo for f in grupos),
                 'aciertos': sum(f['acierto'] for f in grupos if f['grupo'] == grupo),
@@ -541,7 +556,7 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                 'abstenciones_correctas': sum(f['abstuvo'] * f['acierto'] for f in grupos if f['grupo'] == grupo),
                 'abstenciones_incorrectas': sum(f['abstuvo'] * (1 - f['acierto']) for f in grupos if f['grupo'] == grupo),
                 'degradaciones': sum(f['degradada'] for f in grupos if f['grupo'] == grupo),
-                'simulado': int(simulado)} for grupo in sorted({f['grupo'] for f in grupos})]
+                'simulado': int(simulado), 'criterio': criterios[grupo]} for grupo in sorted({f['grupo'] for f in grupos})]
     (salida / "hechos.json").write_text(json.dumps({"rag_pregunta": filas, "rag_corrida": [corrida],
                                                    'preguntar_pregunta': grupos, 'preguntar_grupo': resumen}, ensure_ascii=False,
                                                    indent=2) + "\n", encoding="utf-8")

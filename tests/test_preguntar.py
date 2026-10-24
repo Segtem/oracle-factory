@@ -119,6 +119,33 @@ class Preguntar(unittest.TestCase):
         with patch.object(generacion, 'enviar', side_effect=con_antecedentes):
             vigente = generacion.elaborar(f, '¿Cuándo hay que repetir la revisión?', fuentes, generacion.configuracion(f))
         self.assertEqual(vigente['fuentes'][0]['clase'], 'spec_vigente')
+        def antecedente_como_instruccion(conf, mensajes, herramientas, timeout):
+            fuente = json.loads(mensajes[1]['content'])['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Debés repetir una revisión idéntica sólo porque cambió HEAD.', 'inferencia': False,
+                 'alcance': 'actual', 'citas': [{'fuente': fuente['id'], 'texto': fuente['texto']}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=antecedente_como_instruccion), self.assertRaises(ValueError):
+            generacion.elaborar(f, '¿Qué debo repetir ahora?', fuentes, generacion.configuracion(f))
+        def antecedente_explicito(*args):
+            mensaje = antecedente_como_instruccion(*args)
+            datos = json.loads(mensaje['content'])
+            datos['afirmaciones'][0].update(texto='Antes hubo que repetir una revisión idéntica al cambiar HEAD.', alcance='antecedente')
+            return {'content': json.dumps(datos)}
+        with patch.object(generacion, 'enviar', side_effect=antecedente_explicito):
+            historia = generacion.elaborar(f, '¿Qué problema existía antes?', fuentes, generacion.configuracion(f))
+        self.assertTrue(historia['respuesta'].startswith('Antecedente histórico:'))
+        ejemplo = {'resultados': [{'ruta': 'docs/ejemplos.md', 'cita': 'ejemplo',
+                                  'texto': 'Ejemplo: Hay 2 cambios abiertos.'}]}
+        def contar_desde_ejemplo(conf, mensajes, herramientas, timeout):
+            s = json.loads(mensajes[1]['content'])['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Hay 2 cambios abiertos.', 'inferencia': False,
+                 'citas': [{'fuente': s['id'], 'texto': 'Hay 2 cambios abiertos.'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=contar_desde_ejemplo), self.assertRaises(ValueError):
+            generacion.elaborar(f, '¿Cuántas tareas abiertas hay y cómo se revisan?', ejemplo, generacion.configuracion(f))
+        for pregunta in ('¿Qué cambios no tienen spec y cómo se aprueban?',
+                         '¿Cuáles tareas cerradas hay sin hallazgos abiertos y cómo se revisa?'):
+            self.assertIsNone(consultas.interpretar(pregunta))
 
     def test_pq2_herramientas_configuracion_fallos_y_limites(self):
         from oracle_factory import generacion, consultas
@@ -155,7 +182,7 @@ class Preguntar(unittest.TestCase):
                 return {'role': 'assistant', 'content': '{"estado":"respondida", roto'}
             fuente = next(s for s in json.loads(mensajes[1]['content'])['fuentes'] if s['ruta'] == 'docs/decisiones.md')
             return {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
-                {'texto': 'Se eligió un clon aparte.', 'inferencia': False,
+                {'texto': 'Se eligió un clon aparte.', 'inferencia': False, 'alcance': 'actual',
                  'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
         with patch.object(generacion, 'enviar', side_effect=corregir_formato):
             r = rag.preguntar(f, '¿Por qué se eligió un clon aparte?')
@@ -182,7 +209,7 @@ class Preguntar(unittest.TestCase):
                 {'texto': 'Hay 0 cambios en total.', 'inferencia': False,
                  'citas': [{'fuente': registro['id'], 'texto': 'Cantidad de cambios todos: 0.'}]}]})}
         with patch.object(generacion, 'enviar', side_effect=cerrar_con_datos):
-            final = rag.preguntar(f, '¿Qué cantidad de cambios hay, según el registro?')
+            final = rag.preguntar(f, '¿Por qué se eligió un clon aparte y cuántos cambios hay según el registro?')
         self.assertEqual(final['tipo'], 'respuesta_elaborada')
         self.assertEqual(turnos, [True, True, False])
         turnos.clear()
@@ -199,7 +226,7 @@ class Preguntar(unittest.TestCase):
                 {'texto': 'Hay 0 cambios en total.', 'inferencia': False,
                  'citas': [{'fuente': registro['id'], 'texto': 'Cantidad de cambios todos: 0.'}]}]})}
         with patch.object(generacion, 'enviar', side_effect=lote_excedido), patch.object(consultas, 'registro', wraps=consultas.registro) as ejecutar:
-            final = rag.preguntar(f, '¿Qué cantidad de cambios hay, según el registro?')
+            final = rag.preguntar(f, '¿Por qué se eligió un clon aparte y cuántos cambios hay según el registro?')
         self.assertEqual(final['tipo'], 'respuesta_elaborada')
         self.assertEqual(ejecutar.call_count, 1)  # el lote excedido se rechaza entero
         self.assertEqual(turnos, [True, True, False])
@@ -219,13 +246,41 @@ class Preguntar(unittest.TestCase):
                 {'texto': texto, 'inferencia': False, 'citas': [{'fuente': 'S1', 'texto': cita}]}]})}
             with self.subTest(texto=texto), self.assertRaises(ValueError):
                 generacion.validar_final(mensaje, fuente)
-        fuente_id = {'S1': {'ruta': 'openspec/changes/20261020-200030-aislar/spec.md', 'cita': 'Diseño',
+        fuente_id = {'S1': {'ruta': 'docs/decisiones.md', 'cita': 'Diseño',
                             'texto': 'El cambio 20261020-200030-aislar usa un clon de Git que no comparte configuración.'}}
         mensaje_id = {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
             {'texto': 'El cambio 20261020-200030-aislar usa un clon de Git.', 'inferencia': False,
              'citas': [{'fuente': 'S1', 'texto': 'usa un clon de Git que no comparte configuración'}]}]})}
         self.assertEqual(generacion.validar_final(mensaje_id, fuente_id)['tipo'], 'respuesta_elaborada')
+        documento = {'S1': {'ruta': 'docs/guia.md', 'texto': 'Se usa Qwen 2.5, SQLite 3, Ollama 0.5 y HTTP 1.1. Se prepara el entorno.'}}
+        for afirmacion in ('Se usa Qwen 2.5.', 'Se usa SQLite 3.', 'Se usa Ollama 0.5.', 'Se usa HTTP 1.1.',
+                           'Paso 1: Se prepara el entorno.', '(1) Se prepara el entorno.',
+                           'En el paso 1 se prepara el entorno.'):
+            m = {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': afirmacion, 'inferencia': False, 'citas': [{'fuente': 'S1', 'texto': 'Se prepara el entorno.'}]}]})}
+            self.assertEqual(generacion.validar_final(m, documento)['tipo'], 'respuesta_elaborada')
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
+        # Varias respuestas pequeñas individualmente no pueden desbordar juntas el contexto global.
+        grandes = {'resultados': [{'ruta': f'docs/guia{n}.md', 'cita': f'guia{n}',
+                    'texto': 'Respaldo vigente del proyecto. ' + 'x' * 5800} for n in range(5)]}
+        extra = {'resultados': [{'ruta': f'docs/extra{n}.md', 'cita': f'extra{n}',
+                  'texto': 'Respaldo adicional del proyecto. ' + 'y' * 5800} for n in range(3)]}
+        tamanos = []
+        def con_contexto_limitado(conf, mensajes, herramientas, timeout):
+            tamanos.append(len(json.dumps(mensajes, ensure_ascii=False).encode()))
+            self.assertLessEqual(tamanos[-1], generacion.LIMITE_CONTEXTO)
+            if herramientas:
+                return {'tool_calls': [{'id': 'contexto' + str(len(tamanos)), 'function': {
+                    'name': 'recuperar', 'arguments': {'pregunta': 'respaldo del proyecto', 'maximo': 3}}}]}
+            fuente = json.loads(mensajes[1]['content'])['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Se conserva el respaldo vigente del proyecto.', 'inferencia': False,
+                 'citas': [{'fuente': fuente['id'], 'texto': 'Respaldo vigente del proyecto.'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=con_contexto_limitado), patch.object(rag, 'recuperar', return_value=extra):
+            acotada = generacion.elaborar(f, '¿Cómo se conserva el respaldo?', grandes, generacion.configuracion(f))
+        self.assertEqual(acotada['tipo'], 'respuesta_elaborada')
+        self.assertTrue(acotada['cierre_por_contexto'])
+        self.assertLessEqual(len(tamanos), 4)
         # Se prueba el transporte de ambos proveedores contra HTTP real local, sin claves ni modelos reales.
         pedidos = []
         class Manejador(BaseHTTPRequestHandler):
@@ -235,7 +290,7 @@ class Preguntar(unittest.TestCase):
                 fuente = next(s for s in json.loads(cuerpo['messages'][1]['content'])['fuentes']
                               if s['ruta'] == 'docs/decisiones.md')
                 mensaje = {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
-                    {'texto': 'Se eligió un clon aparte.', 'inferencia': False,
+                    {'texto': 'Se eligió un clon aparte.', 'inferencia': False, 'alcance': 'actual',
                      'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}], 'pregunta': ''})}
                 if cuerpo.get('tools') and not any(m['role'] == 'tool' for m in cuerpo['messages']):
                     args = {'operacion': 'contar', 'estado': 'todos'}
@@ -299,6 +354,7 @@ class Preguntar(unittest.TestCase):
         self.assertTrue(rag.preguntar(f, 'Listá tareas abiertas')['fuentes'])
         cero = rag.preguntar(f, 'Listá tareas abiertas')
         self.assertTrue(cero['fuentes'][0]['archivos'])  # hay registros consultados aunque ninguno coincida
+        self.assertIn('pueden no coincidir', rag.texto(cero))
         self.assertIn('; archivado)', rag.preguntar(f, 'Listá tareas cerradas')['respuesta'])
         # El vault ordena por hora de creación; listar ordena por ID. La paginación debe seguir a listar.
         from oracle_factory import consultas
@@ -315,6 +371,10 @@ class Preguntar(unittest.TestCase):
         self.assertEqual(r['tipo'], 'sin_respaldo')
         self.assertIn('respaldo suficiente', rag.texto(r))
         self.assertEqual(rag.preguntar(f, '¿Por qué se eligió un clon aparte?')['tipo'], 'documentos')
+        self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
+        from oracle_factory import generacion
+        with patch.object(generacion, 'elaborar', side_effect=AssertionError('No debe generar sin respaldo')):
+            self.assertEqual(rag.preguntar(f, '¿Cuál es el número de serie de mi cafetera?')['tipo'], 'sin_respaldo')
 
     def test_pq5_cli_mcp_y_editor_conservan_respuesta(self):
         from oracle_factory import mcp
@@ -414,6 +474,10 @@ class Preguntar(unittest.TestCase):
         falsa = json.loads((self.root.parent / 'guia-no-respondida/hechos.json').read_text())
         grupo_doc = next(g for g in falsa['preguntar_grupo'] if g['grupo'] == 'documental')
         self.assertEqual((grupo_doc['errores'], grupo_doc['abstenciones_incorrectas']), (1, 1))
+        # Ranking y respuesta con respaldo son medidas distintas, explícitas y no compensables.
+        self.assertEqual(falsa['rag_corrida'][0]['aciertos'], 1)
+        self.assertEqual(falsa['rag_corrida'][0]['criterio'], 'recuperacion_en_cinco')
+        self.assertEqual(grupo_doc['criterio'], 'recuperacion_con_respaldo')
         from oracle_factory import generacion
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
         casos = self.root / 'casos-adicionales.json'

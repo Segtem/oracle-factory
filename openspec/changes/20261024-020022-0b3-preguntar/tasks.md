@@ -20,6 +20,8 @@
 Primera evidencia conservada en el candidato `beb247d`: 474 pruebas sin fallas, documental 21/22,
 registro 6/6, negativas 3/3, generativa real 2/4 (insuficiente). Brian eligió Ollama con `qwen2.5:14b`
 para la medición; no se configuró por defecto en el proyecto. Los informes iniciales de agy y agy2
-quedaron registrados. Tras corregirlos pasan 15 pruebas específicas y se detectan 29 mutaciones;
+quedaron registrados. Tras corregirlos pasan 15 pruebas específicas y se detectan 37 mutaciones;
 se reproponen medidas por el control adicional del respaldo documental de producción y la corrida reforzada.
 Faltan su confirmación por Brian, la evidencia actualizada, una vuelta independiente limpia y las decisiones finales.
+
+Segunda revisión independiente: agy-2 y agy2-2, paquete incremental desde `beb247d` porque el diff completo supera el límite de Clue. Se añadieron regresiones adversariales de respaldo, antecedentes normativos, ejemplos numéricos, ordinales/versiones y contexto acumulado. Los hechos distinguen explícitamente ranking y respuesta con respaldo. Diagnóstico posterior: documental 21/22, registro 6/6, negativas 3/3, generativa real 2/4 con qwen2.5:14b. La calidad generativa sigue pendiente y no se propone aprobar. El catálogo de corrida ahora exige todas las mutaciones declaradas (37 actuales); las medidas fueron repropuestas y requieren nueva confirmación de Brian.

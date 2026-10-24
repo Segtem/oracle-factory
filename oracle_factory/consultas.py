@@ -24,13 +24,13 @@ def interpretar(texto):
     listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales|que)\b', p))
     if not contar and not listar:
         return None
-    clausula = p.split(' y ', 1)[0]
-    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo)\b', clausula):
+    # Una compuesta necesita combinar fuentes, incluidas sus negaciones y condiciones.
+    if ' y ' in p:
+        return None
+    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo)\b', p):
         return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta directa. '
                 'Podés consultar todos, abiertos, cerrados o abandonados; para otros datos usá estado o tablero.'}
     # Las consultas compuestas y variantes fuera del camino directo pasan al modelo, nunca se rechazan por su vocabulario.
-    if ' y ' in p:
-        return None
     permitidas = set('cuantos cuantas cantidad numero de el la los las tareas tarea cambios cambio hay tenemos tiene '
                      'son en total todos todas abiertos abiertas abierto abierta cerrados cerradas cerrado cerrada '
                      'abandonados abandonadas abandonado abandonada lista listar listame me mostra mostrame muestra '
