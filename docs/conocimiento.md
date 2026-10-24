@@ -57,6 +57,7 @@ modelo que cuente documentos. También reconoce consultas simples para listar y 
 abandonados. Los cerrados archivados siguen contando como cerrados y se identifican en el listado. Se muestran cinco
 cambios por página; el JSON identifica cuántos faltan y los argumentos de la página siguiente. Un filtro directo no admitido se avisa; no se
 reemplaza silenciosamente por otro. Para explicaciones abiertas se puede usar un modelo generativo.
+Las páginas siguen el orden por ID de `listar`, aunque el vault presente los cambios por hora de creación.
 
 `--json` devuelve `oracle-factory.preguntar/2`: `tipo`, `respuesta`, `fuentes`, `herramientas`, modelos y límites, además
 de `resultados` (pasajes candidatos), sus aportes y las notas por revisar. Los tipos distinguen `registro`,
@@ -107,6 +108,8 @@ sin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el mo
 causa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.
 Cuando se agotan las consultas permitidas, se pide una respuesta final estructurada con los datos ya recibidos,
 sin ofrecer más herramientas.
+Si el modelo pide un lote mayor que el presupuesto restante, se rechaza entero y se pide el cierre con lo ya recibido,
+dentro del mismo plazo. La respuesta informa las llamadas descartadas y avisa que no se ejecutó ese lote.
 
 Las citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en
 ella; las cantidades deben aparecer en las citas. Los IDs y versiones se comprueban como literales en la fuente citada

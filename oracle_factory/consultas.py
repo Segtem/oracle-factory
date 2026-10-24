@@ -57,7 +57,7 @@ def registro(cli, argumentos):
             or (op != 'listar' and ('limite' in argumentos or 'desplazamiento' in argumentos))):
         raise ValueError('Sólo listar admite limite entero entre 1 y 10 y desplazamiento entero no negativo.')
     cli.ruta_segura(cli.CHANGES)
-    cambios = kb.cambios_del_proyecto(cli)
+    cambios = sorted(kb.cambios_del_proyecto(cli), key=lambda cambio: cambio[0])
     def coincide(e):
         fase = e.get('fase')
         return (estado == 'todos' or (estado == 'abiertos' and fase not in ('cerrada', 'abandonada'))

@@ -776,6 +776,15 @@
         "factory_preguntar.calidad_registro",
         "factory_preguntar.respaldo_documental"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:55:14.658636+00:00",
+      "texto": "Retoma tras reinicio: la evidencia ae3307b terminó y se conservó commiteada, éxito False: 474 pruebas OK (10 omitidas), fuentes estables, documental 21/22, registro 5/6, generativa 3/4 y negativas 3/3. Causas: consultas usaba el orden cronológico del vault en vez del orden por ID de listar; y el modelo solicitaba un lote mayor que el presupuesto restante, descartando datos ya obtenidos. Corregidos con regresiones que fallan antes del arreglo: orden por ID y cierre estructurado sin ejecutar el lote excedido, con aviso y cantidad descartada. Pasan 15 pruebas, las 29 mutaciones del sensor y una mutación adicional manual de orden invertido. No cambian catálogos ni umbrales confirmados por Brian. Detalle de la causa generativa en .factory/local/diagnostico-mixta-reinicio.json; regresiones y mutación de orden en .factory/local/."
     }
   ],
   "tipos": {

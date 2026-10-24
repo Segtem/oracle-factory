@@ -355,6 +355,8 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
         respuesta['limites'] = generacion.limites(conf)
         try:
             respuesta.update(generacion.elaborar(cli, pregunta, datos, conf))
+            if respuesta.get('aviso_generativo'):
+                avisos.append(respuesta['aviso_generativo'])
         except (OSError, ValueError, TypeError, KeyError, IndexError) as error:
             respuesta['generacion_error'] = type(error).__name__
             respuesta['generacion_error_codigo'] = generacion.codigo_error(error)

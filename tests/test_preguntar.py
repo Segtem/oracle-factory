@@ -185,6 +185,26 @@ class Preguntar(unittest.TestCase):
             final = rag.preguntar(f, '¿Qué cantidad de cambios hay, según el registro?')
         self.assertEqual(final['tipo'], 'respuesta_elaborada')
         self.assertEqual(turnos, [True, True, False])
+        turnos.clear()
+        def lote_excedido(conf, mensajes, herramientas, timeout):
+            turnos.append(bool(herramientas))
+            if herramientas:
+                # Tras una consulta quedan una permitida; el modelo solicita dos juntas.
+                cantidad = 1 if len(turnos) == 1 else 2
+                return {'role': 'assistant', 'tool_calls': [
+                    {'id': f'lote{len(turnos)}_{n}', 'function': {'name': 'registro',
+                     'arguments': {'operacion': 'contar', 'estado': 'todos'}}} for n in range(cantidad)]}
+            registro = json.loads(next(m['content'] for m in reversed(mensajes) if m['role'] == 'tool'))['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Hay 0 cambios en total.', 'inferencia': False,
+                 'citas': [{'fuente': registro['id'], 'texto': 'Cantidad de cambios todos: 0.'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=lote_excedido), patch.object(consultas, 'registro', wraps=consultas.registro) as ejecutar:
+            final = rag.preguntar(f, '¿Qué cantidad de cambios hay, según el registro?')
+        self.assertEqual(final['tipo'], 'respuesta_elaborada')
+        self.assertEqual(ejecutar.call_count, 1)  # el lote excedido se rechaza entero
+        self.assertEqual(turnos, [True, True, False])
+        self.assertEqual(final['llamadas_descartadas'], 2)
+        self.assertIn('lote', rag.texto(final))
         for conf in ({'proveedor': 'ollama'}, {'proveedor': 'openai', 'modelo': 'fixture'},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'max_llamadas': True},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'},
@@ -280,6 +300,11 @@ class Preguntar(unittest.TestCase):
         cero = rag.preguntar(f, 'Listá tareas abiertas')
         self.assertTrue(cero['fuentes'][0]['archivos'])  # hay registros consultados aunque ninguno coincida
         self.assertIn('; archivado)', rag.preguntar(f, 'Listá tareas cerradas')['respuesta'])
+        # El vault ordena por hora de creación; listar ordena por ID. La paginación debe seguir a listar.
+        from oracle_factory import consultas
+        registros = [(ident, f.leer(ident)[1]) for ident in (a, b)]
+        with patch.object(consultas.kb, 'cambios_del_proyecto', return_value=sorted(registros, reverse=True)):
+            self.assertEqual(rag.preguntar(f, 'Listá tareas cerradas')['ids'], sorted((a, b)))
 
     def test_pq4_sin_respaldo_ambiguedad_y_filtros(self):
         self.configurar()

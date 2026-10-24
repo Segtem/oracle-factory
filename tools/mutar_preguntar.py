@@ -12,7 +12,7 @@ MUTACIONES = [
     ('conteo_cero', 'oracle_factory/consultas.py', "'cantidad': len(elegidos)", "'cantidad': 0", 'pq3'),
     ('cita_ajena', 'oracle_factory/generacion.py', " or extracto not in fuente['texto']", '', 'pq2'),
     ('numero_inventado', 'oracle_factory/generacion.py', "if _numeros_afirmacion(a['texto'], referencias) - numeros:", 'if False:', 'pq2'),
-    ('llamadas_sin_cota', 'oracle_factory/generacion.py', " or len(calls) > conf['max_llamadas'] - llamadas", '', 'pq2'),
+    ('llamadas_sin_cota', 'oracle_factory/generacion.py', "if isinstance(calls, list) and len(calls) > conf['max_llamadas'] - llamadas and disponibles:", 'if False:', 'pq2'),
     ('modelo_implicito', 'oracle_factory/generacion.py', "if conf is None:\n        return None", "if conf is None:\n        return {}", 'pq2'),
     ('respaldo_siempre', 'oracle_factory/rag.py', "'tipo': 'documentos' if respaldo else 'sin_respaldo'", "'tipo': 'documentos'", 'pq4'),
     ('esquema_viejo', 'oracle_factory/rag.py', 'oracle-factory.preguntar/2', 'oracle-factory.preguntar/1', 'pq5'),

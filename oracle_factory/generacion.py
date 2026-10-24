@@ -284,8 +284,9 @@ def elaborar(cli, pregunta, recuperado, conf):
     iniciales = agregar([acotar({'ruta': r['ruta'], 'cita': r['cita'], 'texto': r['texto']})
                          for r in recuperado['resultados'][:5]])
     mensajes = [{'role': 'system', 'content': SISTEMA},
-                {'role': 'user', 'content': json.dumps({'pregunta': pregunta, 'fuentes': iniciales}, ensure_ascii=False)}]
-    fin, llamadas, ids = time.monotonic() + conf['segundos'], 0, set()
+                {'role': 'user', 'content': json.dumps({'pregunta': pregunta, 'fuentes': iniciales,
+                 'presupuesto': {'consultas': conf['max_llamadas'], 'segundos': conf['segundos']}}, ensure_ascii=False)}]
+    fin, llamadas, ids, descartadas = time.monotonic() + conf['segundos'], 0, set(), 0
     for _ in range(conf['max_llamadas'] + 1):
         restante = fin - time.monotonic()
         if restante <= 0 or len(json.dumps(mensajes, ensure_ascii=False).encode()) > LIMITE_CONTEXTO:
@@ -295,6 +296,21 @@ def elaborar(cli, pregunta, recuperado, conf):
         disponibles = herramientas() if llamadas < conf['max_llamadas'] else []
         mensaje = enviar(conf, mensajes, disponibles, restante)
         calls = mensaje.get('tool_calls')
+        if calls and not disponibles:
+            raise ValueError('La etapa final no admite llamadas a herramientas.')
+        if isinstance(calls, list) and len(calls) > conf['max_llamadas'] - llamadas and disponibles:
+            # El lote se rechaza entero; no consumir ni ejecutar una parte arbitraria.
+            descartadas = len(calls)
+            mensajes.append({'role': 'user', 'content': 'El último lote excede el presupuesto y no se ejecutó. '
+                'No se permiten más consultas. Respondé con JSON estructurado y citas de las fuentes ya recibidas; '
+                'si no alcanzan, indicá falta de respaldo. No repitas las solicitudes rechazadas.'})
+            restante = fin - time.monotonic()
+            if restante <= 0 or len(json.dumps(mensajes, ensure_ascii=False).encode()) > LIMITE_CONTEXTO:
+                raise ValueError('Se alcanzó el límite para cerrar sin más herramientas.')
+            mensaje = enviar(conf, mensajes, [], restante)
+            if mensaje.get('tool_calls'):
+                raise ValueError('La etapa final no admite llamadas a herramientas.')
+            calls = None
         if not calls:
             reparada = False
             try:
@@ -316,6 +332,9 @@ def elaborar(cli, pregunta, recuperado, conf):
                 final = validar_final(mensaje_final, fuentes)
                 reparada = True
             return {**final, 'herramientas': trazas, 'formato_corregido': reparada,
+                    **({'llamadas_descartadas': descartadas,
+                        'aviso_generativo': 'Se rechazó un lote que excedía el límite de consultas; se respondió con las fuentes ya recibidas.'}
+                       if descartadas else {}),
                     'modelo_generativo': conf['modelo'], 'proveedor_generativo': conf['proveedor']}
         if not isinstance(calls, list) or not calls or len(calls) > conf['max_llamadas'] - llamadas:
             raise ValueError('Se alcanzó el límite de llamadas de herramientas.')
