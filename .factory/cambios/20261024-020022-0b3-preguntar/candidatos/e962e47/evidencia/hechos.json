@@ -1,0 +1,849 @@
+{
+  "preguntar_caso": [
+    {
+      "requisito": "preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "caso": "Preguntar.test_pq1_respuesta_abierta_con_fuentes_y_herramientas",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "caso": "Preguntar.test_pq2_herramientas_configuracion_fallos_y_limites",
+      "codigo": 0
+    },
+    {
+      "requisito": "preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "caso": "Preguntar.test_pq3_cuenta_lista_cero_y_actualiza_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "caso": "Preguntar.test_pq4_sin_respaldo_ambiguedad_y_filtros",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "caso": "Preguntar.test_pq5_cli_mcp_y_editor_conservan_respuesta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "caso": "Preguntar.test_pq6_evaluacion_por_grupos_detecta_errores",
+      "codigo": 0
+    }
+  ],
+  "preguntar_suite": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ],
+  "preguntar_mutacion": [
+    {
+      "id": "fase_cerrada",
+      "detectada": 1
+    },
+    {
+      "id": "conteo_cero",
+      "detectada": 1
+    },
+    {
+      "id": "cita_ajena",
+      "detectada": 1
+    },
+    {
+      "id": "numero_inventado",
+      "detectada": 1
+    },
+    {
+      "id": "llamadas_sin_cota",
+      "detectada": 1
+    },
+    {
+      "id": "modelo_implicito",
+      "detectada": 1
+    },
+    {
+      "id": "respaldo_siempre",
+      "detectada": 1
+    },
+    {
+      "id": "esquema_viejo",
+      "detectada": 1
+    },
+    {
+      "id": "evaluacion_acepta_error",
+      "detectada": 1
+    },
+    {
+      "id": "compuesta_como_filtro",
+      "detectada": 1
+    },
+    {
+      "id": "url_sin_error_claro",
+      "detectada": 1
+    },
+    {
+      "id": "caso_sin_validar",
+      "detectada": 1
+    },
+    {
+      "id": "detalle_sin_vigencia",
+      "detectada": 1
+    },
+    {
+      "id": "pagina_sin_cota",
+      "detectada": 1
+    },
+    {
+      "id": "formato_sin_recuperacion",
+      "detectada": 1
+    },
+    {
+      "id": "servidor_exige_clave",
+      "detectada": 1
+    },
+    {
+      "id": "temperatura_azar",
+      "detectada": 1
+    },
+    {
+      "id": "identificador_como_cantidad",
+      "detectada": 1
+    },
+    {
+      "id": "sin_inventario_cero",
+      "detectada": 1
+    },
+    {
+      "id": "variante_rechazada",
+      "detectada": 1
+    },
+    {
+      "id": "sin_limites_json",
+      "detectada": 1
+    },
+    {
+      "id": "documental_ignora_abstencion",
+      "detectada": 1
+    },
+    {
+      "id": "mixta_sin_calculo",
+      "detectada": 1
+    },
+    {
+      "id": "listado_sin_ids",
+      "detectada": 1
+    },
+    {
+      "id": "saltos_rompen_citas",
+      "detectada": 1
+    },
+    {
+      "id": "antecedente_como_norma",
+      "detectada": 1
+    },
+    {
+      "id": "concepto_alternativo_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "procedimiento_obsoleto_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "sin_cierre_al_agotar_herramientas",
+      "detectada": 1
+    },
+    {
+      "id": "sin_respaldo_llama_modelo",
+      "detectada": 1
+    },
+    {
+      "id": "antecedente_actual_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "conteo_desde_ejemplo",
+      "detectada": 1
+    },
+    {
+      "id": "resultado_desborda_contexto",
+      "detectada": 1
+    },
+    {
+      "id": "versiones_del_proyecto_rechazadas",
+      "detectada": 1
+    },
+    {
+      "id": "ordinales_colon_rechazados",
+      "detectada": 1
+    },
+    {
+      "id": "metricas_sin_distincion",
+      "detectada": 1
+    },
+    {
+      "id": "inventario_como_coincidencias",
+      "detectada": 1
+    },
+    {
+      "id": "fuentes_iniciales_historicas",
+      "detectada": 1
+    },
+    {
+      "id": "alcance_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "exclusion_como_prestacion",
+      "detectada": 1
+    },
+    {
+      "id": "exclusion_interpretada",
+      "detectada": 1
+    },
+    {
+      "id": "pensamiento_no_controlado",
+      "detectada": 1
+    },
+    {
+      "id": "historia_no_consultable",
+      "detectada": 1
+    },
+    {
+      "id": "indice_borrado_por_alcance",
+      "detectada": 1
+    },
+    {
+      "id": "exclusion_literal_como_error",
+      "detectada": 1
+    },
+    {
+      "id": "fragmento_ajeno",
+      "detectada": 1
+    },
+    {
+      "id": "fragmento_contradictorio",
+      "detectada": 1
+    },
+    {
+      "id": "fragmento_sin_enum",
+      "detectada": 1
+    },
+    {
+      "id": "conceptos_sin_plurales",
+      "detectada": 1
+    },
+    {
+      "id": "conceptos_pierden_signos",
+      "detectada": 1
+    },
+    {
+      "id": "conteo_solo_primera_clausula",
+      "detectada": 1
+    }
+  ],
+  "rag_pregunta": [
+    {
+      "id": "ids-al-azar",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "dos-toman",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "elegir-version",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "generados-no-chocan",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "quien-trabaja",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "compartir-tablero",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "revision-vieja",
+      "acierto": 0,
+      "puesto": 0,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "catalogo-cambia",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "abandonar",
+      "acierto": 0,
+      "puesto": 0,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "pedir-revision",
+      "acierto": 1,
+      "puesto": 3,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "clon-revisor",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "riesgo-aceptado",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "linea-cambio",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "nota-vence",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "modos",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "varios-sensores",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "donde-estado",
+      "acierto": 1,
+      "puesto": 5,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "dos-procesos",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "banco",
+      "acierto": 1,
+      "puesto": 3,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "otra-capacidad",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "trazabilidad",
+      "acierto": 1,
+      "puesto": 1,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    },
+    {
+      "id": "paquete-producto",
+      "acierto": 1,
+      "puesto": 2,
+      "modo": "hibrido",
+      "criterio": "recuperacion_en_cinco"
+    }
+  ],
+  "rag_corrida": [
+    {
+      "preguntas": 22,
+      "aciertos": 20,
+      "mrr": 0.653,
+      "modo": "hibrido",
+      "modelo": "qwen3-embedding:0.6b",
+      "criterio": "recuperacion_en_cinco"
+    }
+  ],
+  "preguntar_pregunta": [
+    {
+      "id": "ids-al-azar",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "dos-toman",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "elegir-version",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "generados-no-chocan",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "quien-trabaja",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "compartir-tablero",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "revision-vieja",
+      "grupo": "documental",
+      "acierto": 0,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "catalogo-cambia",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "abandonar",
+      "grupo": "documental",
+      "acierto": 0,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "pedir-revision",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "clon-revisor",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "riesgo-aceptado",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "linea-cambio",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "nota-vence",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "modos",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "varios-sensores",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "donde-estado",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "dos-procesos",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "banco",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "otra-capacidad",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "trazabilidad",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "paquete-producto",
+      "grupo": "documental",
+      "acierto": 1,
+      "abstuvo": 0,
+      "degradada": 0,
+      "tipo": "documentos",
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "id": "pq-clones",
+      "grupo": "generativa",
+      "acierto": 1,
+      "tipo": "respuesta_elaborada",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "qwen2.5:14b",
+      "simulado": 0,
+      "criterio": "explicacion_con_fuentes"
+    },
+    {
+      "id": "pq-modos",
+      "grupo": "generativa",
+      "acierto": 1,
+      "tipo": "respuesta_elaborada",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "qwen2.5:14b",
+      "simulado": 0,
+      "criterio": "explicacion_con_fuentes"
+    },
+    {
+      "id": "pq-vigencia",
+      "grupo": "generativa",
+      "acierto": 1,
+      "tipo": "respuesta_elaborada",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "qwen2.5:14b",
+      "simulado": 0,
+      "criterio": "explicacion_con_fuentes"
+    },
+    {
+      "id": "pq-combinada",
+      "grupo": "generativa",
+      "acierto": 1,
+      "tipo": "respuesta_elaborada",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "qwen2.5:14b",
+      "simulado": 0,
+      "criterio": "explicacion_con_fuentes"
+    },
+    {
+      "id": "pq-ajena-1",
+      "grupo": "abstencion",
+      "acierto": 1,
+      "tipo": "sin_respaldo",
+      "abstuvo": 1,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "abstencion_esperada"
+    },
+    {
+      "id": "pq-ajena-2",
+      "grupo": "abstencion",
+      "acierto": 1,
+      "tipo": "sin_respaldo",
+      "abstuvo": 1,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "abstencion_esperada"
+    },
+    {
+      "id": "pq-temporal",
+      "grupo": "abstencion",
+      "acierto": 1,
+      "tipo": "consulta_no_admitida",
+      "abstuvo": 1,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "abstencion_esperada"
+    },
+    {
+      "id": "pq-registro-cerrados",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    },
+    {
+      "id": "pq-registro-abiertos",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    },
+    {
+      "id": "pq-registro-abandonados",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    },
+    {
+      "id": "pq-registro-todos",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    },
+    {
+      "id": "pq-registro-variante",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    },
+    {
+      "id": "pq-registro-lista",
+      "grupo": "registro",
+      "acierto": 1,
+      "tipo": "registro",
+      "abstuvo": 0,
+      "degradada": 0,
+      "modelo_generativo": "ninguno",
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    }
+  ],
+  "preguntar_grupo": [
+    {
+      "grupo": "abstencion",
+      "preguntas": 3,
+      "aciertos": 3,
+      "errores": 0,
+      "abstenciones": 3,
+      "abstenciones_correctas": 3,
+      "abstenciones_incorrectas": 0,
+      "degradaciones": 0,
+      "simulado": 0,
+      "criterio": "abstencion_esperada"
+    },
+    {
+      "grupo": "documental",
+      "preguntas": 22,
+      "aciertos": 20,
+      "errores": 2,
+      "abstenciones": 0,
+      "abstenciones_correctas": 0,
+      "abstenciones_incorrectas": 0,
+      "degradaciones": 0,
+      "simulado": 0,
+      "criterio": "recuperacion_con_respaldo"
+    },
+    {
+      "grupo": "generativa",
+      "preguntas": 4,
+      "aciertos": 4,
+      "errores": 0,
+      "abstenciones": 0,
+      "abstenciones_correctas": 0,
+      "abstenciones_incorrectas": 0,
+      "degradaciones": 0,
+      "simulado": 0,
+      "criterio": "explicacion_con_fuentes"
+    },
+    {
+      "grupo": "registro",
+      "preguntas": 6,
+      "aciertos": 6,
+      "errores": 0,
+      "abstenciones": 0,
+      "abstenciones_correctas": 0,
+      "abstenciones_incorrectas": 0,
+      "degradaciones": 0,
+      "simulado": 0,
+      "criterio": "exactitud_del_registro"
+    }
+  ]
+}
