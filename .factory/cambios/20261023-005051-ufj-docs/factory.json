@@ -112,6 +112,24 @@
         "factory_docs.documentacion_al_dia",
         "factory_docs.corrida_completa"
       ]
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:09:03.629502+00:00",
+      "agente": "codex"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T00:09:05.838849+00:00",
+      "texto": "Relevo de claude-code a codex. Brian eligió agregar agy2 dentro de docs en un commit separado (1A). Después de cerrar docs, preparar una propuesta separada para que preguntar responda consultas del registro, incluyendo cuántos cambios hay cerrados (2A). Caso observado: «Cuantas tareas cerradas hay?» devolvió pasajes ajenos a la consulta; listar --cerrados contó 56 en main."
     }
   ],
   "tipos": {
