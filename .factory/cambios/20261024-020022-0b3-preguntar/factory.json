@@ -2,7 +2,7 @@
   "id": "20261024-020022-0b3-preguntar",
   "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
   "capacidad": "conocimiento",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
   "spec_sha256": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095",
   "spec_aprobada": {
@@ -24,7 +24,27 @@
     "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
     "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/informe.json",
+    "sha256": "a02d3c7e86661944cb2236ace329d3177c36bc9c7aae8c8678556991b839e50a",
+    "decisiones": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/decisiones.json",
+    "decisiones_sha256": "ab366d349a0710ea41dd4f8df6e44f7873ff27d173b4beeb9bd64e0af657ab86",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T20:38:11.045931+00:00",
+    "motivo": "Propongo aprobar los seis requisitos: evidencia e962e47 con 474 pruebas sin fallas (10 omitidas), 51 mutaciones detectadas, fuentes estables, documental 20/22, registro 6/6, abiertas 4/4 y abstención 3/3 con qwen2.5:14b. agy y agy2 verificaron las correcciones y las respuestas reales, ambos sin hallazgos. Los conceptos y las citas no prometen comprensión universal; los límites y el alcance incremental de las revisiones están registrados. Brian conserva la decisión.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "012ebc1741b6a8e98d209a967cbb21db5dc33305",
+      "archivos_sha256": "5f0ce1d7ec92cfa1c02e33994c93b73c6d8587d9cb06a30d94039374a65a3649"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -1232,6 +1252,20 @@
       "cuando": "2026-10-24T20:33:27.395683+00:00",
       "decision": "aprobar",
       "candidato": "e962e47"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T20:38:11.045974+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "a02d3c7e86661944cb2236ace329d3177c36bc9c7aae8c8678556991b839e50a",
+      "decisiones_sha256": "ab366d349a0710ea41dd4f8df6e44f7873ff27d173b4beeb9bd64e0af657ab86"
     }
   ],
   "tipos": {
@@ -1367,14 +1401,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Propongo aprobar los seis requisitos: evidencia e962e47 con 474 pruebas sin fallas (10 omitidas), 51 mutaciones detectadas, fuentes estables, documental 20/22, registro 6/6, abiertas 4/4 y abstención 3/3 con qwen2.5:14b. agy y agy2 verificaron las correcciones y las respuestas reales, ambos sin hallazgos. Los conceptos y las citas no prometen comprensión universal; los límites y el alcance incremental de las revisiones están registrados. Brian conserva la decisión.",
-      "candidato": "e962e47",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T20:33:27.395667+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
