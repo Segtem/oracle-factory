@@ -2,7 +2,7 @@
   "id": "20261023-005051-ufj-docs",
   "titulo": "La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
   "spec_sha256": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
     "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/informe.json",
+    "sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
+    "decisiones": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/decisiones.json",
+    "decisiones_sha256": "b73f01a5d78787f204164ec6f16631eeee37d57649a72ef7f8b35d2222234ad5",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T01:37:39.177993+00:00",
+    "motivo": "La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "67da64286cbc9930f031e6905a90b112ff52e1ff",
+      "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -366,6 +386,20 @@
       "cuando": "2026-10-24T00:49:50.334646+00:00",
       "decision": "aprobar",
       "candidato": "d2c7037"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T01:37:39.178020+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
+      "decisiones_sha256": "b73f01a5d78787f204164ec6f16631eeee37d57649a72ef7f8b35d2222234ad5"
     }
   ],
   "tipos": {
@@ -409,14 +443,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.",
-      "candidato": "d2c7037",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-24T00:49:50.334633+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
