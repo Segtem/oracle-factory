@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy-3",
+  "base": "4012282ea4aab43a29abdf26e763b425ab88aedf",
+  "head": "f1d0e7f4216d84f5a654283731c8bdf56107d65b",
+  "diff_sha256": "9abb72c90321ec18c5a0d9f4f5fe17e297ce363ff4996a1afddceea1480757b2",
+  "context_sha256": "fb8e3e6b938c24f4957335891c9ca1d0d4b5a5487314e37af2b9ceeea89b4c3a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "finding-docs-al-dia-version-hardcoded",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "VERSION e HISTORIAL hardcodean el prefijo 0.1.0 y sufijos pre-release, omitiendo versiones estables o nuevas (0.2.0, 1.0.0, 0.1.0)",
+      "explanation": "El requisito promete que una comprobación automática fallará si se nombra una versión de Factory distinta de la de pyproject.toml (salvo en las notas de versión y en el historial de versiones del README). Sin embargo, VERSION = re.compile(r\"\\b0\\.1\\.0(?:a|b|rc)\\d+\\b\") en tools/docs_al_dia.py:23 y HISTORIAL en la línea 25 hardcodean 0.1.0 y exigen un sufijo pre-release (a|b|rc)\\d+. Esto genera falsos negativos: si un documento menciona una versión como 0.2.0, 1.0.0, 0.1.1 o la versión final 0.1.0 (GA) siendo pyproject.toml 0.1.0a13, VERSION no la reconoce y docs_al_dia.problemas() devuelve lista vacía. Además, al subir la versión de pyproject.toml a 0.2.0 o 0.1.0, docs_al_dia.py jamás reconocerá esa versión en los documentos y reportará falsos positivos contra cualquier mención pre-release restante.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 23,
+        "end_line": 25,
+        "side": "head"
+      },
+      "trigger": "Ejecución de docs_al_dia.problemas() sobre documentación que menciona versiones distintas a pyproject.toml cuando estas son GA o versiones mayores (0.2.0, 1.0.0, 0.1.0).",
+      "evidence": "En mutación manual sobre una copia temporal, al agregar 'Instalá Factory 0.2.0.' en README.md, docs_al_dia.problemas() retorna [] (falso negativo). Al cambiar pyproject.toml a 0.2.0 y el README a 0.2.0 dejando 0.2.1 en site/desde-cero.html, docs_al_dia.problemas() ignora 0.2.1.",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "status": "pendiente",
+      "verification": "python3 -c \"import re; v = re.compile(r'\\b0\\.1\\.0(?:a|b|rc)\\d+\\b'); assert v.findall('0.2.0') == []; assert v.findall('0.1.0') == []\""
+    },
+    {
+      "id": "finding-docs-al-dia-subcomando-falso-negativo-prosa",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Comprobación de subcomandos busca coincidencias de palabras en prosa, omitiendo subcomandos reales sin documentar como 'ejemplo'",
+      "explanation": "El requisito exige que la comprobación automática falle si un subcomando de la CLI no aparece en el README ni en docs/. En tools/docs_al_dia.py:60-64, documentado reúne todo el texto plano de la documentación y verifica la presencia de cada comando mediante re.search(rf\"(?<![\\w-]){re.escape(c)}(?![\\w-])\", documentado). Esto sólo busca la presencia de la palabra aislada en el texto, sin exigir que aparezca precedida de oracle-factory, ni en bloques de código/backticks, ni como subcomando. Como consecuencia directa, existe un falso negativo concreto en el código entregado: 'ejemplo' es un subcomando real de la CLI (oracle-factory ejemplo [-h] [--destino DESTINO] {notas}) y NO está documentado como comando en ningún archivo de README.md ni docs/ (sólo se documenta el flag nuevo --con-ejemplo notas). Sin embargo, docs_al_dia.problemas() pasa con 0 problemas porque encuentra el sustantivo común 'ejemplo' en frases como 'Por ejemplo' o 'el ejemplo de notas'. Cualquier subcomando futuro con nombre común (e.g. verificar, actualizar, probar, pausar) quedará sin documentar sin que la herramienta falle.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 60,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Ejecución de docs_al_dia.problemas() en el checkout del candidato f1d0e7f.",
+      "evidence": "oracle_factory.cli define 'ejemplo' en subcomandos(), pero ninguna documentación contiene 'oracle-factory ejemplo' ni 'ejemplo' en backticks como subcomando. docs_al_dia.problemas() devuelve [] reportando falsamente que la documentación está completa.",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "status": "pendiente",
+      "verification": "python3 -c \"from pathlib import Path; import re; from tools import docs_al_dia; raiz = Path('/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy-3'); assert 'ejemplo' in docs_al_dia.subcomandos(); todo = docs_al_dia.textos(raiz); doc = ' '.join(t for n, t in todo.items() if n == 'README.md' or n.startswith('docs/')); assert not re.search(r'oracle-factory(?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))*\\s+ejemplo\\b', doc); assert not re.search(r'`ejemplo(?:\\s+[^`]+)?`', doc); assert docs_al_dia.problemas(raiz) == []\""
+    },
+    {
+      "id": "finding-docs-al-dia-regex-comando-digitos-e-igual",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "COMANDO trunca subcomandos con dígitos (e.g. agy2) y no reconoce sintaxis con '=' en opciones (--proyecto=...)",
+      "explanation": "La regex COMANDO = re.compile(r\"oracle-factory(?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))*\\s+([a-z][a-z-]+)\") en tools/docs_al_dia.py:22 presenta dos defectos: 1) [a-z][a-z-]+ excluye dígitos [0-9] y caracteres únicos: si se documenta un subcomando como agy2, captura 'agy' recortando el '2', y emite un falso positivo: 'nombra «oracle-factory agy», que no es un subcomando'. 2) No contempla el signo '=' en las opciones globales: (?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))* exige espacio tras la bandera. Si la documentación contiene oracle-factory --proyecto=./dir comando-invalido, no consume la opción y no detecta el comando inválido (falso negativo).",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 22,
+        "end_line": 22,
+        "side": "head"
+      },
+      "trigger": "Documentar un subcomando legítimo con dígitos (como oracle-factory agy2) o utilizar sintaxis estándar CLI con '=' en opciones previas (oracle-factory --proyecto=RUTA comando-invalido).",
+      "evidence": "En Python: COMANDO.findall('oracle-factory agy2') devuelve ['agy'] (trunca el dígito y genera falso positivo). COMANDO.findall('oracle-factory --proyecto=./dir comando-falso') devuelve [] (omite la verificación y genera falso negativo).",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "status": "pendiente",
+      "verification": "python3 -c \"import re; COMANDO = re.compile(r'oracle-factory(?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))*\\s+([a-z][a-z-]+)'); assert COMANDO.findall('oracle-factory agy2') == ['agy']; assert COMANDO.findall('oracle-factory --proyecto=./dir comando-falso') == []\""
+    },
+    {
+      "id": "finding-docs-al-dia-historial-fragil",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Regex HISTORIAL es frágil ante variaciones de redacción legítimas en el historial de versiones",
+      "explanation": "El requisito permite nombrar versiones anteriores en el historial de versiones del README. En tools/docs_al_dia.py:25, HISTORIAL = re.compile(r\"\\b[Ll]a 0\\.1\\.0(?:a|b|rc)\\d+ (?:trajo|abrió|hizo)\\b\") sólo contempla los verbos 'trajo', 'abrió' o 'hizo' inmediatamente precedidos por 'La/la' y el número de versión. Si el historial redacta 'La versión 0.1.0a12 trajo...' o utiliza verbos como 'sumó', 'agregó' o 'incluyó', la regex no lo remueve y docs_al_dia.problemas() emite un falso positivo reportando que el README nombra una versión obsoleta.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 25,
+        "end_line": 25,
+        "side": "head"
+      },
+      "trigger": "Incorporar en el historial de versiones del README una redacción como 'La versión 0.1.0a12 trajo...' o 'La 0.1.0a12 sumó...'.",
+      "evidence": "En mutación sobre copia temporal: al agregar 'La versión 0.1.0a12 trajo una portada nueva.' en README.md, docs_al_dia.problemas() emite: 'README.md: nombra la versión 0.1.0a12; la de pyproject.toml es 0.1.0a13'.",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "status": "pendiente",
+      "verification": "python3 -c \"import re; HISTORIAL = re.compile(r'\\b[Ll]a 0\\.1\\.0(?:a|b|rc)\\d+ (?:trajo|abrió|hizo)\\b'); texto = 'La versión 0.1.0a12 trajo una portada nueva.'; assert HISTORIAL.sub('', texto) == texto\""
+    },
+    {
+      "id": "finding-test-docs-glob-no-recursivo",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_dc1 usa .glob('*.md') en lugar de .rglob('*.md'), omitiendo la verificación de enlaces y referencias a fabrica.py en subcarpetas de docs/",
+      "explanation": "En tests/test_docs.py:38 y tests/test_docs.py:45, se utiliza (SOURCE / 'docs').glob('*.md') para verificar la ausencia de fabrica.py y la validez de los enlaces relativos. Al no ser recursivo, sólo inspecciona los 8 archivos raíz de docs/ e ignora los 4 archivos de plantillas bajo docs/plantillas/colaboracion/ (integracion.md, piloto.md, relevo.md, reparto.md). A diferencia de tools/docs_al_dia.py:34, que sí usa (raiz / 'docs').rglob('*.md').",
+      "location": {
+        "file": "tests/test_docs.py",
+        "start_line": 38,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "Agregar enlaces rotos o referencias residuales a fabrica.py en archivos markdown bajo docs/plantillas/colaboracion/.",
+      "evidence": "len(list((SOURCE / 'docs').glob('*.md'))) devuelve 8, mientras que len(list((SOURCE / 'docs').rglob('*.md'))) devuelve 12. Los 4 archivos bajo docs/plantillas/colaboracion/ escapan a la prueba test_dc1.",
+      "related_requirement": "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+      "status": "pendiente",
+      "verification": "python3 -c \"from pathlib import Path; SOURCE = Path('/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy-3'); assert len(list((SOURCE / 'docs').glob('*.md'))) == 8; assert len(list((SOURCE / 'docs').rglob('*.md'))) == 12\""
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron exhaustivamente los 24 archivos del paquete Clue en el candidato f1d0e7f contra los requisitos de openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md.",
+    "Se ejecutó la suite específica tests.test_docs utilizando el entorno virtual de Python disponible en /home/workstation/Dev/factory-docs/.venv/bin/python con PYTHONPATH=. desde la raíz del checkout.",
+    "Se realizaron experimentos y mutaciones manuales en copias temporales aisladas en el directorio del revisor para comprobar falsos negativos y falsos positivos.",
+    "No se ejecutó la suite completa de tests ni tools/verify_docs.py de conformidad con las instrucciones de la revisión."
+  ]
+}

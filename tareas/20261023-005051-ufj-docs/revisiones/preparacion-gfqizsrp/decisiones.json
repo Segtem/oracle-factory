@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
+  "actor": "Brian Hollweg",
+  "motivo": "La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.",
+  "decisiones": []
+}

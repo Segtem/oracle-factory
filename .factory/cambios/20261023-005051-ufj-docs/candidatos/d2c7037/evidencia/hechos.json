@@ -1,0 +1,25 @@
+{
+  "docs_caso": [
+    {
+      "requisito": "la_documentacion_cuenta_lo_que_factory_hace_hoy",
+      "caso": "Docs.test_dc1_alguien_llega_al_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_documentacion_se_comprueba_contra_la_cli",
+      "caso": "Docs.test_dc2_un_comando_sin_documentar_otro_que_no_existe_y_otra_version",
+      "codigo": 0
+    }
+  ],
+  "docs_corrida": [
+    {
+      "completa": 1,
+      "casos": 2
+    }
+  ],
+  "docs_estado": [
+    {
+      "problemas": 0
+    }
+  ]
+}

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:18714166e5fe1f78daa55a1f2c93ef491d3b6322b60a228c3fc9a5fcffd469fb -->
+<!-- oracle-factory resumen sha256:8d43f873d6c1588a222bf1f19259eb99571146348002727a4d16f4a6a7159630 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 185 requisitos vigentes · 0 cambios abiertos
+20 capacidades · 187 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -333,6 +333,8 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 | los easter eggs no tapan nada | funcional | `web_c8800172a340333d8.los_easter_eggs_no_tapan_nada` | factory_viva.los_easter_eggs_no_tapan_nada, factory_viva.corrida_completa | verde al cerrar el 2026-10-17 | 20261016-234517-web-viva |
 | las guías tienen su escena y su elenco | funcional | `web_c799d1bba0ad41f56.las_guias_tienen_su_escena_y_su_elenco` | factory_guias.las_guias_tienen_su_escena_y_su_elenco, factory_guias.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-121631-web-guias |
 | el texto y los comandos de las guías no cambian | funcional | `web_c799d1bba0ad41f56.el_texto_y_los_comandos_de_las_guias_no_cambian` | factory_guias.el_texto_y_los_comandos_de_las_guias_no_cambian, factory_guias.corrida_completa | verde al cerrar el 2026-10-17 | 20261017-121631-web-guias |
+| la documentación cuenta lo que Factory hace hoy | funcional | `web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy` | factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy, factory_docs.corrida_completa | verde al cerrar el 2026-10-24 | 20261023-005051-ufj-docs |
+| la documentación se comprueba contra la CLI | funcional | `web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli` | factory_docs.la_documentacion_se_comprueba_contra_la_cli, factory_docs.documentacion_al_dia, factory_docs.corrida_completa | verde al cerrar el 2026-10-24 | 20261023-005051-ufj-docs |
 
 ## Cambios abiertos
 
@@ -973,6 +975,25 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261022-215347-y70-agentes) codex (gpt-6-luna): Inspeccioné con_bloque y con_claude, ruta_segura y la integración con init; el código rechaza marcas repetidas, incompletas o invertidas antes de escribir, y ruta_segura rechaza enlaces simbólicos.
 - (20261022-215347-y70-agentes) codex (gpt-6-luna): Revisé las correcciones de vuelta 1: test_ag2 ejercita comandos reales de agente, compara las cuatro decisiones con modos.via_agente, intenta comandos de persona en confirmacion y autonomo, y prueba cerrar cuando el agente no puede.
 - (20261022-215347-y70-agentes) codex (gpt-6-luna): No ejecuté la suite completa ni tools/verify_agentes.py; no hice un flujo end-to-end en modo autonomo con gates completos ni una prueba de filesystem con symlinks.
+- (20261023-005051-ufj-docs) Evidencia: Escenarios dc1–dc2 sobre los archivos del repositorio y sobre copias con un problema puesto a propósito; la comprobación mira que los comandos y las versiones existan, no que lo explicado esté bien explicado.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se revisaron en su totalidad los 24 archivos incluidos en el diff y contexto del paquete Clue paquete-agy-1.json (README.md, docs/, site/, catalogos/, requisitos/, openspec/ y herramientas de validación).
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se contrastaron todos los compromisos de la especificación web/spec.md frente a la implementación en documentación, scripts y pruebas automáticas.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se verificó la resolución efectiva y ausencia de regresiones de todos los hallazgos de revisiones previas (f1d0e7f y eda5953): soporte de versiones de release y series futuras en NUMERO/VERSION, exclusión estructural de notas de versión mediante sin_notas_de_version, discriminación de subcomandos documentados frente a coincidencias de prosa casual mediante comandos_documentados, soporte de subcomandos con dígitos/guiones/mayúsculas y opciones con '=' o entrecomilladas en COMANDO, búsqueda recursiva de archivos .md mediante .rglob() en test_dc1, eliminación total de referencias a 'python fabrica.py' en guías y README, enlaces explícitos a guías en todas las herramientas del README (incluyendo #quién-trabaja-en-qué), y distinción precisa de roles entre local/revisiones/ y local/revisores/ en docs/estructura.md y LEEME_FACTORY.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se comprobó que los 39 subcomandos expuestos por la CLI de Oracle Factory se encuentran debidamente documentados en README.md o docs/.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se verificaron todos los enlaces internos y anclas en Markdown y HTML, confirmando que resuelven a rutas y encabezados existentes sin hipervínculos rotos.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias autorizadas desde la raíz del checkout con: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas exitosas en 0.385s).
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre 7 escenarios independientes (reintroducción de fabrica.py en subcarpeta, enlaces rotos, omisión de documentación de subcomandos, versiones divergentes en web, frases obsoletas tipo POC, comandos inexistentes y herramientas sin enlace); todos fueron detectados y provocaron fallas inmediatas en tests.test_docs.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_docs.py, acatando expresamente la restricción de las instrucciones del pedido de revisión.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): El checkout del candidato d2c7037 se conservó estrictamente en modo de sólo lectura, sin realizar modificaciones de código, commits ni cambios en la configuración de Git.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se revisaron los 24 archivos del paquete de contexto paquete-agy2-1.json frente a los requisitos en openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas del contrato documental en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas OK).
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del proyecto, acatando la instrucción explícita del pedido.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se verificó la resolución sin regresiones de todos los hallazgos de las vueltas anteriores: soporte de versiones estables y futuras en VERSION (finding-docs-al-dia-version-hardcoded / DOCS-AL-DIA-01), detección de subcomandos sin aceptar palabras en prosa (finding-docs-al-dia-subcomando-falso-negativo-prosa / DOCS-AL-DIA-02), soporte en COMANDO de dígitos, mayúsculas, guiones bajos y opciones con '=' o comillas (finding-docs-al-dia-regex-comando-digitos-e-igual / DOCS-AL-DIA-03), exención explícita por sección del historial de versiones y notas de versión (finding-docs-al-dia-historial-fragil), búsqueda recursiva rglob('*.md') en plantillas (finding-test-docs-glob-no-recursivo), retiro total de menciones a fabrica.py (README-FABRICA-01), enlace por herramienta en README.md (README-GUIA-01) y descripción correcta del árbol y carpetas locales local/revisiones/ y local/revisores/ en docs/estructura.md y cli.py (DOCS-ESTRUCTURA-01, LEEME-01, AGY-01).
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se comprobaron todos los enlaces internos y anclas (Markdown y HTML) del producto: no se registraron enlaces ni fragmentos rotos.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se comprobó que los 39 subcomandos de la CLI se encuentran cubiertos en README.md o docs/ y que ningún documento ni página web nombra comandos inexistentes o versiones distintas a la de pyproject.toml.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): Se implementaron y ejecutaron 9 pruebas de mutación manuales en copias temporales aisladas (versiones alteradas, subcomandos falsos en README/HTML/Markdown, opciones globales con '=', reintroducción de fabrica.py, frases obsoletas de POC/IA, enlace faltante en herramienta, permutación en árbol de estructura, subcomando no documentado); las 9 mutaciones fueron detectadas y rechazadas (KILLED) por tests.test_docs.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): No se ejecutaron navegadores ni pruebas de interfaz gráfica con Playwright/Chromium directamente en esta sesión de revisión.
+- (20261023-005051-ufj-docs) agy (gemini-3.8-flash-high): El checkout de revisión (/home/workstation/Dev/factory-docs/.factory/local/revisiones/d2c7037-agy2-1) se mantuvo intacto en modo de sólo lectura, sin modificaciones de archivos, commits ni alteraciones en la configuración de Git.
 
 ### Históricos
 
