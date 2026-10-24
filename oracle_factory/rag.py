@@ -49,6 +49,14 @@ def palabras(texto: str) -> list[str]:
     return [p for p in re.findall(r"[a-z0-9]+", plano) if len(p) > 1 and p not in VACIAS]
 
 
+def concepto_presente(concepto, texto):
+    """Control léxico mínimo: admite tildes y plurales de sustantivos en -ción/-sión."""
+    from . import consultas
+    def normalizar(valor):
+        return re.sub(r'\b([a-z]+(?:cion|sion))es\b', r'\1', consultas.plano(valor))
+    return normalizar(concepto) in normalizar(texto)
+
+
 def _titulos(texto: str):
     """Los encabezados (nivel, texto) fuera de los bloques de código."""
     en_codigo = False
@@ -517,8 +525,8 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                 acierto = datos['tipo'] == p['tipo']
             else:
                 acierto = (datos['tipo'] == 'respuesta_elaborada' and bool(datos.get('afirmaciones')) and bool(p.get('contiene'))
-                           and all(t.casefold() in datos['respuesta'].casefold() for t in p['contiene'])
-                           and all(any(t.casefold() in datos['respuesta'].casefold() for t in g)
+                           and all(concepto_presente(t, datos['respuesta']) for t in p['contiene'])
+                           and all(any(concepto_presente(t, datos['respuesta']) for t in g)
                                    for g in p.get('contiene_alguno', []))
                            and not any(t.casefold() in a['texto'].casefold() for t in p.get('excluye', [])
                                        for a in datos.get('afirmaciones', []) if a.get('alcance') != 'exclusion')

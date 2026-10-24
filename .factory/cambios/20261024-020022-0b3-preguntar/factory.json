@@ -1064,6 +1064,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T19:06:31.088414+00:00",
       "texto": "Arreglo del problema detectado durante investigación: la elaboración comienza con fuentes actuales; recuperar acepta alcance actual/antecedentes/exclusiones/todos y filtra después de indexar para conservar el índice. Out of scope/Fuera de alcance/Exclusiones son fuente negativa separada: no se aceptan como prestaciones ni hechos históricos positivos, y su alcance exclusion se muestra con extracto literal, reemplazando la interpretación del modelo. Excluye sigue rechazando errores positivos y acepta citas negativas literales verificadas (regresión adversarial). Se añadió pensar booleano sólo Ollama y flags del sensor --pensar/--no-pensar; omitido respeta el modelo. Pasan 15 pruebas, 45 mutaciones detectadas y docs_al_dia. No cambiaron catálogo ni umbrales confirmados. Estudios de modelos siguientes usarán configuración explícita, sin interceptar transporte ni cambiar valor predeterminado del proyecto."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T19:43:46.753641+00:00",
+      "texto": "Investigación solicitada por Brian: descargué qwen3.5:9b (56671c2ab938, Q4_K_M, 6,6 GB) y comparé 35 casos reales contra qwen2.5:14b y qwen3-coder:30b. Fuentes estables en las tres corridas. Tiempos totales 80,1/109,2/187,1 s; documental 20/22, registro 6/6, abstención 3/3 y generativa automática 3/4 en los tres. 9B y 30B omiten renovar revisión; 14B sí lo explica, pero el control de conceptos no reconoce el plural configuraciones. Corrijo ese falso negativo con normalización genérica de tildes y plurales -ción/-sión, sin modificar casos de oro ni umbrales. Citas por fragmentos consultados y copiados por Factory; 15 pruebas OK y 49/49 mutaciones detectadas. Mantengo qwen2.5:14b para la medición autorizada; no configuro un modelo por defecto. Fuentes públicas consultadas: https://ollama.com/library/qwen3.5:9b ; https://ollama.com/library/qwen3.6/tags ; https://ollama.com/library/qwen3-coder:30b . Comparaciones y detalles preservados en .factory/local/investigacion-*-fragmentos/; no son evidencia formal."
     }
   ],
   "tipos": {

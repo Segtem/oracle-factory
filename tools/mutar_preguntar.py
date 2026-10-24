@@ -32,9 +32,9 @@ MUTACIONES = [
     ('documental_ignora_abstencion', 'oracle_factory/rag.py', "'acierto': int(puesto > 0 and datos['tipo'] == 'documentos')", "'acierto': int(puesto > 0)", 'pq6'),
     ('mixta_sin_calculo', 'oracle_factory/rag.py', "acierto = acierto and _calculo_respaldado(datos, p.get('filtro_registro', 'todos'))", 'acierto = acierto', 'pq6'),
     ('listado_sin_ids', 'oracle_factory/rag.py', "if p.get('requiere_listado'):", 'if False:', 'pq6'),
-    ('saltos_rompen_citas', 'oracle_factory/generacion.py', "fuente['texto'] = ' '.join(fuente['texto'].split())", "fuente['texto'] = fuente['texto']", 'pq1'),
+    ('saltos_rompen_citas', 'oracle_factory/generacion.py', "fuente['texto'] = texto_para_modelo(fuente['texto'])", "fuente['texto'] = fuente['texto']", 'pq1'),
     ('antecedente_como_norma', 'oracle_factory/generacion.py', 'fuente = procedencia(fuente)', 'fuente = dict(fuente)', 'pq1'),
-    ('concepto_alternativo_ignorado', 'oracle_factory/rag.py', "and all(any(t.casefold() in datos['respuesta'].casefold() for t in g)\n                                   for g in p.get('contiene_alguno', []))", "and all(g[0].casefold() in datos['respuesta'].casefold() for g in p.get('contiene_alguno', []))", 'pq6'),
+    ('concepto_alternativo_ignorado', 'oracle_factory/rag.py', "and all(any(concepto_presente(t, datos['respuesta']) for t in g)\n                                   for g in p.get('contiene_alguno', []))", "and all(g[0].casefold() in datos['respuesta'].casefold() for g in p.get('contiene_alguno', []))", 'pq6'),
     ('procedimiento_obsoleto_aceptado', 'oracle_factory/rag.py', "and not any(t.casefold() in a['texto'].casefold() for t in p.get('excluye', [])\n                                       for a in datos.get('afirmaciones', []) if a.get('alcance') != 'exclusion')", 'and True', 'pq6'),
     ('sin_cierre_al_agotar_herramientas', 'oracle_factory/generacion.py', "disponibles = herramientas() if llamadas < conf['max_llamadas'] and not cerrar_contexto else []", 'disponibles = herramientas()', 'pq2'),
     ('sin_respaldo_llama_modelo', 'oracle_factory/rag.py', 'if not respaldo:', 'if False:', 'pq4'),
@@ -53,6 +53,10 @@ MUTACIONES = [
     ('historia_no_consultable', 'oracle_factory/generacion.py', "alcance=args.get('alcance', 'actual')", "alcance='actual'", 'pq1'),
     ('indice_borrado_por_alcance', 'oracle_factory/rag.py', 'pasajes, por_revisar, fuera = corpus(cli)', "pasajes, por_revisar, fuera = corpus(cli)\n    if alcance == 'actual':\n        pasajes = [p for p in pasajes if p['ruta'].startswith('docs/')]", 'pq1'),
     ('exclusion_literal_como_error', 'oracle_factory/rag.py', " if a.get('alcance') != 'exclusion'", '', 'pq6'),
+    ('fragmento_ajeno', 'oracle_factory/generacion.py', " if f['id'] == c['fragmento']", '', 'pq2'),
+    ('fragmento_contradictorio', 'oracle_factory/generacion.py', "if (c.get('fuente', ident) != ident or c.get('texto', fragmento['texto']) != fragmento['texto']):", 'if False:', 'pq2'),
+    ('fragmento_sin_enum', 'oracle_factory/generacion.py', "['fragmento']['enum'] = sorted(set(ids)) or ['SIN_FUENTES']", "['fragmento']['description'] = 'Sin enumeración'", 'pq2'),
+    ('conceptos_sin_plurales', 'oracle_factory/rag.py', "return re.sub(r'\\b([a-z]+(?:cion|sion))es\\b', r'\\1', consultas.plano(valor))", 'return consultas.plano(valor)', 'pq6'),
 ]
 
 CASOS = {

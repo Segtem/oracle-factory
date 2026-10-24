@@ -115,7 +115,7 @@ class Preguntar(unittest.TestCase):
             self.assertIn('no conviertas una falla histórica', mensajes[0]['content'])
             return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                 {'texto': 'La revisión conserva vigencia si el producto coincide.', 'inferencia': False,
-                 'citas': [{'fuente': contexto[1]['id'], 'texto': contexto[1]['texto']}]}]})}
+                 'citas': [{'fragmento': contexto[1]['fragmentos'][0]['id']}]}]})}
         with patch.object(generacion, 'enviar', side_effect=con_antecedentes):
             vigente = generacion.elaborar(f, '¿Cuándo hay que repetir la revisión?', fuentes, generacion.configuracion(f))
         self.assertEqual(vigente['fuentes'][0]['clase'], 'spec_vigente')
@@ -123,7 +123,7 @@ class Preguntar(unittest.TestCase):
             fuente = json.loads(mensajes[1]['content'])['fuentes'][0]
             return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                 {'texto': 'Debés repetir una revisión idéntica sólo porque cambió HEAD.', 'inferencia': False,
-                 'alcance': 'actual', 'citas': [{'fuente': fuente['id'], 'texto': fuente['texto']}]}]})}
+                 'alcance': 'actual', 'citas': [{'fragmento': fuente['fragmentos'][0]['id']}]}]})}
         with patch.object(generacion, 'enviar', side_effect=antecedente_como_instruccion), self.assertRaises(ValueError):
             generacion.elaborar(f, '¿Qué debo repetir ahora?', fuentes, generacion.configuracion(f))
         def antecedente_explicito(*args):
@@ -308,6 +308,39 @@ class Preguntar(unittest.TestCase):
             {'texto': 'El cambio 20261020-200030-aislar usa un clon de Git.', 'inferencia': False,
              'citas': [{'fuente': 'S1', 'texto': 'usa un clon de Git que no comparte configuración'}]}]})}
         self.assertEqual(generacion.validar_final(mensaje_id, fuente_id)['tipo'], 'respuesta_elaborada')
+        fragmentada = generacion.identificar_fragmentos({'texto': 'Respaldo vigente del proyecto.', 'ruta': 'docs/a.md'}, 'S1')
+        self.assertNotIn('texto', generacion.fuente_para_modelo(fragmentada))
+        def citar_fragmento(cita):
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Respaldo vigente del proyecto.', 'inferencia': False, 'citas': [cita]}]})}
+        valida = generacion.validar_final(citar_fragmento({'fragmento': 'S1.F1'}), {'S1': fragmentada})
+        self.assertEqual(valida['afirmaciones'][0]['citas'][0]['texto'], fragmentada['texto'])
+        for cita in ({'fragmento': 'S2.F1'}, {'fragmento': 'S1.F1', 'fuente': 'S2'},
+                     {'fragmento': 'S1.F1', 'texto': 'Texto cambiado.'}):
+            with self.subTest(cita=cita), self.assertRaises(ValueError):
+                generacion.validar_final(citar_fragmento(cita), {'S1': fragmentada})
+        largo = 'Palabras y signos `x` ' * 301
+        partes = generacion.identificar_fragmentos({'texto': largo}, 'S2')['fragmentos']
+        self.assertEqual(''.join(p['texto'] for p in partes), largo)
+        self.assertTrue(all(8 <= len(p['texto']) <= generacion.MAX_FRAGMENTO for p in partes))
+        self.assertEqual(generacion.texto_para_modelo('### Guía\n- `comando`\n```sh\n# literal\n`signos`\n```'),
+                         'Guía comando # literal `signos`')
+        self.assertEqual(generacion.codigo_error(ValueError('Una fuente o cita no pertenece al contexto consultado.')),
+                         'respaldo_no_validado')
+        self.assertEqual(generacion.codigo_error(ValueError('Se alcanzó el límite de fuentes.')), 'limite_alcanzado')
+        markdown = {'resultados': [{'ruta': 'docs/guia.md', 'cita': 'guia#Scenario',
+                    'texto': '# Guía\n#### Scenario: cambia archivo\n- WHEN cambia `src/modulo.py`\n- THEN se compara el contenido con `HEAD`'}]}
+        extracto = 'Scenario: cambia archivo WHEN cambia src/modulo.py THEN se compara el contenido con HEAD'
+        def citar_texto_legible(conf, mensajes, herramientas, timeout):
+            s = json.loads(mensajes[1]['content'])['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'El escenario compara el contenido al cambiar el archivo.', 'inferencia': False,
+                 'citas': [{'fuente': s['id'], 'texto': extracto}]}]})}
+        self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
+        with patch.object(generacion, 'enviar', side_effect=citar_texto_legible):
+            legible = generacion.elaborar(f, '¿Qué describe el escenario?', markdown, generacion.configuracion(f))
+        self.assertEqual(legible['tipo'], 'respuesta_elaborada')
+        self.assertEqual(legible['afirmaciones'][0]['citas'][0]['texto'], extracto)
         documento = {'S1': {'ruta': 'docs/guia.md', 'texto': 'Se usa Qwen 2.5, SQLite 3, Ollama 0.5 y HTTP 1.1. Se prepara el entorno.'}}
         for afirmacion in ('Se usa Qwen 2.5.', 'Se usa SQLite 3.', 'Se usa Ollama 0.5.', 'Se usa HTTP 1.1.',
                            'Paso 1: Se prepara el entorno.', '(1) Se prepara el entorno.',
@@ -347,7 +380,7 @@ class Preguntar(unittest.TestCase):
                               if s['ruta'] == 'docs/decisiones.md')
                 mensaje = {'role': 'assistant', 'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
                     {'texto': 'Se eligió un clon aparte.', 'inferencia': False, 'alcance': 'actual',
-                     'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}], 'pregunta': ''})}
+                     'citas': [{'fragmento': fuente['fragmentos'][0]['id']}]}], 'pregunta': ''})}
                 if cuerpo.get('tools') and not any(m['role'] == 'tool' for m in cuerpo['messages']):
                     args = {'operacion': 'contar', 'estado': 'todos'}
                     mensaje = {'role': 'assistant', 'content': '', 'tool_calls': [{'id': 'http1', 'type': 'function',
@@ -384,6 +417,10 @@ class Preguntar(unittest.TestCase):
                     esquema = cuerpo_final['format'] if proveedor == 'ollama' else cuerpo_final['response_format']['json_schema']['schema']
                     from jsonschema import validate, ValidationError
                     validate(json.loads(final['content']), esquema)
+                    invalida = json.loads(final['content'])
+                    invalida['afirmaciones'][0]['citas'][0]['fragmento'] = 'S999.F1'
+                    with self.assertRaises(ValidationError):
+                        validate(invalida, esquema)
                     with self.assertRaises(ValidationError):
                         validate({'estado': 'inventado', 'afirmaciones': [], 'pregunta': ''}, esquema)
         finally:
@@ -539,16 +576,19 @@ class Preguntar(unittest.TestCase):
         self.assertEqual(grupo_doc['criterio'], 'recuperacion_con_respaldo')
         from oracle_factory import generacion
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
+        self.assertTrue(rag.concepto_presente('configuración', 'Las configuraciones de Git.'))
+        self.assertTrue(rag.concepto_presente('revisiones', 'Una revisión vigente.'))
+        self.assertFalse(rag.concepto_presente('configuración', 'Las revisiones vigentes.'))
         casos = self.root / 'casos-adicionales.json'
         casos.write_text(json.dumps([{'id': 'generada', 'grupo': 'generativa', 'pregunta': '¿Por qué se eligió un clon aparte?',
-                                      'contiene': ['clon'], 'contiene_alguno': [['aislamiento', 'clon']],
+                                      'contiene': ['clon', 'configuración'], 'contiene_alguno': [['aislamiento', 'clon']],
                                       'excluye': ['procedimiento obsoleto'], 'fuentes': ['docs/decisiones.md']}]))
         def modelo(conf, mensajes, herramientas, timeout):
             fuentes = json.loads(mensajes[1]['content'])['fuentes']
             fuente = next((s for s in fuentes if s['ruta'] == 'docs/decisiones.md'), None)
             if fuente is None:
                 return {'content': '{"estado":"sin_respaldo"}'}
-            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [{'texto': 'Se eligió un clon aparte.',
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [{'texto': 'Se eligió un clon aparte para aislar las configuraciones de Git.',
                     'inferencia': False, 'citas': [{'fuente': fuente['id'], 'texto': 'Se eligió un clon aparte'}]}]})}
         with patch.object(generacion, 'enviar', side_effect=modelo):
             rag.evaluar(f, self.root.parent / 'simulada', simulado=True, casos=casos)

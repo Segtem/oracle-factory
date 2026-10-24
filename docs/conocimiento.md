@@ -109,8 +109,10 @@ Sus argumentos se validan; no pueden ejecutar SQL, shell, código arbitrario o a
 ciclo admite 4 llamadas a herramientas y 120 segundos; `max_llamadas` permite entre 1 y 8 y `segundos` entre 1 y 300. El contexto se
 limita a 64.000 bytes, la respuesta del proveedor a 256 KiB, cada resultado de herramienta a 24.000 bytes y cada fuente
 enviada a 6000 caracteres. Se admiten hasta 24 fuentes y se muestran hasta diez rutas por fuente, identificando las
-omisiones y la huella del inventario consultado. Los espacios de los pasajes enviados al modelo se uniforman, sin
-cambiar palabras ni signos. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,
+omisiones y la huella del inventario consultado. Se uniforman los espacios y se quitan delimitadores estructurales
+de Markdown (encabezados, listas y código en línea); el contenido de bloques de código conserva sus signos.
+Cada pasaje se divide en fragmentos identificados de hasta 480 caracteres. El modelo elige sus identificadores
+y Factory copia el extracto consultado; un identificador desconocido o una fuente contradictoria se rechazan. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,
 sin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el modelo falla, se informa un código de
 causa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.
 Cuando se agotan las consultas permitidas, se pide una respuesta final estructurada con los datos ya recibidos,
@@ -151,7 +153,8 @@ el grupo documental mide `recuperacion_con_respaldo`. Encontrar el archivo corre
 de ranking y un error de respuesta; el detalle muestra ambos resultados y las medidas los juzgan por separado.
 Los controles de conceptos y citas no son un juez semántico universal.
 `contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además
-de todos los términos de `contiene`. `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;
+de todos los términos de `contiene`. Estos controles positivos uniforman tildes y admiten los plurales
+de sustantivos terminados en -ción o -sión (configuración/configuraciones, revisión/revisiones). `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;
 las citas literales rotuladas como exclusiones conservan su sentido negativo. Así los casos pueden reconocer
 una explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.
 La evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita

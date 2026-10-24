@@ -5,7 +5,7 @@
 - [x] Persona: revisar y aceptar proposal.md + spec.md.
 - [x] Persona: renovar la aprobación por el alcance ampliado de preguntas abiertas y respuestas elaboradas.
 - [x] Agente: importar requisitos Oracle y señalar lo aún sin medir.
-- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.
+- [x] Persona + agente: acordar medidas y evidencia para cada requisito.
 - [ ] Agente: implementar y correr las pruebas del producto.
 - [x] Agente: comprobar regresiones y mutaciones para consultas, respaldo documental y clientes.
 - [x] Agente: actualizar evaluación por grupos, JSON, MCP, VS Code y documentación.
@@ -27,3 +27,5 @@ Faltan su confirmación por Brian, la evidencia actualizada, una vuelta independ
 Segunda revisión independiente: agy-2 y agy2-2, paquete incremental desde `beb247d` porque el diff completo supera el límite de Clue. Se añadieron regresiones adversariales de respaldo, antecedentes normativos, ejemplos numéricos, ordinales/versiones y contexto acumulado. Los hechos distinguen explícitamente ranking y respuesta con respaldo. Diagnóstico posterior: documental 21/22, registro 6/6, negativas 3/3, generativa real 2/4 con qwen2.5:14b. La calidad generativa sigue pendiente y no se propone aprobar. El catálogo de corrida ahora exige todas las mutaciones declaradas (37 actuales); las medidas fueron repropuestas y requieren nueva confirmación de Brian.
 
 Tras comparar modelos se añadieron selección inicial de fuentes actuales, recuperación por alcance sin descartar embeddings de otros alcances, separación de exclusiones con cita literal y control explícito de pensamiento de Ollama. Pasan las 15 pruebas específicas y las 45 mutaciones declaradas. El catálogo y sus umbrales permanecen iguales a los confirmados por Brian el 2026-10-24 a las 18:25 UTC. Falta evidencia del candidato nuevo y revisión independiente.
+
+Comparación solicitada por Brian: Qwen3.5:9b descargado (6,6 GB, digest 56671c2ab938), qwen2.5:14b y qwen3-coder:30b ya instalado. Con las mismas fuentes y citas por fragmento: 80,1 / 109,2 / 187,1 segundos para las 35 preguntas; los tres dieron 20/22 documental, 6/6 registro, 3/3 negativas y 3/4 generativa. Los modelos 9B y 30B omitieron la renovación de revisión; el 14B respondió esa parte y el control léxico no reconoció configuración/configuraciones. Se corrige el evaluador de conceptos positivos para tildes y plurales de -ción/-sión, con regresiones; no se cambian los casos de oro ni los umbrales. Las citas generativas ahora seleccionan fragmentos identificados y Factory copia sus textos consultados, rechazando IDs desconocidos o contradictorios. Se detectaron 49/49 mutaciones y pasan 15 pruebas específicas. Sin cambio del modelo elegido ni del predeterminado del proyecto. Pendientes: evidencia formal y revisión independiente del candidato actual.
