@@ -71,6 +71,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
 - [[cambios/20261022-161300-f94-mcp]] — Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura (cerrada)
 - [[cambios/20261022-215347-y70-agentes]] — La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día (cerrada)
+- [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (espera_aprobacion_spec)
 
 ## Requisitos
 

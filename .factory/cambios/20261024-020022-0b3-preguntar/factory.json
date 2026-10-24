@@ -1,0 +1,42 @@
+{
+  "id": "20261024-020022-0b3-preguntar",
+  "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
+  "capacidad": "conocimiento",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T02:00:22.787127+00:00",
+      "capacidad": "conocimiento"
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T02:03:02.211492+00:00",
+      "agente": "codex"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T02:03:02.949220+00:00",
+      "texto": "Brian pidió arreglar el RAG después del cierre de docs, confirmado a su nombre. Se prepararon propuesta, diseño y cuatro requisitos: consultas al registro, respaldo documental, coherencia entre clientes y evaluación por grupos. No se implementó código. Caso disparador: «Cuantas tareas cerradas hay?» devolvió pasajes irrelevantes. La rama parte de main; la integración de docs y su configuración de agy2 sigue pendiente de la elección humana."
+    }
+  ]
+}
