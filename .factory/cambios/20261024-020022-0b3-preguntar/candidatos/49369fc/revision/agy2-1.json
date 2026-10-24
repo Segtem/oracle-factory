@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/49369fc-agy2-1",
+  "base": "4aba1662a4d3e17e7546c78b8ed7f3374789d545",
+  "head": "49369fcbc1b05804e0cc71d4ae17b7495a37e7cb",
+  "diff_sha256": "14a4ec1089f963cfd461f239be5f6928964425943bfd81eb0fbcbb9d42097b0b",
+  "context_sha256": "3ab205d930d9d8cc2b5316966ee95c521b74c6b709db9fd6450a67f6b491e87f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Alcance incremental: este paquete cubre el diff incremental entre 4aba166 y 49369fc debido a que el paquete completo desde tarea/docs excedió los límites de Oracle Clue. Para asegurar una revisión integral, se leyeron todos los archivos completos actuales del repositorio, la especificación de conocimiento y ambos informes independientes previos (agy-2 y agy2-2).",
+    "Pruebas ejecutadas: se ejecutó exactamente el comando indicado en primer plano desde la raíz del candidato: PYTHONPATH=. /home/workstation/Dev/factory-preguntar/.factory/local/revisiones/49369fc-agy2-1/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.9s). No se corrió la suite completa del proyecto ni modelos generativos reales en vivo, cumpliendo estrictamente con las instrucciones del pedido.",
+    "Entorno y repositorio: se creó un entorno virtual aislado (.venv) en el checkout del candidato ignorado por Git, manteniéndose el checkout en modo estrictamente de sólo lectura, sin modificar fuentes rastreadas ni alterar configuraciones de Git.",
+    "Inspección de evidencia: se analizó en profundidad la evidencia commiteada en .factory/cambios/20261024-020022-0b3-preguntar/candidatos/49369fc/evidencia/ (casos.json, hechos.json, mutaciones.json, oro/detalle.json, oro/hechos.json, resultado.json, suite.txt y trazabilidad.json).",
+    "Hallazgo fuera del diff (detalle y reproducción): En oro/detalle.json (caso pq-vigencia, pregunta: «¿Por qué deja de valer una revisión si cambia el producto y qué tengo que repetir?»), la respuesta generada por qwen2.5:14b agrega la afirmación: «Cambios en el catálogo de medidas pueden dejar sin efecto una decisión de medidas, pero esto no afecta directamente la vigencia de una revisión. [S7]» con inferencia: false citando S7 (openspec/specs/modos/spec.md). Se comprobó contractualmente contra el código de producto (oracle_factory/cli.py:527-539, 601-614, 648-650, 1760) que dicha afirmación es FALSA: los archivos en catalogos/ (*.oracle) forman parte del producto (es_producto(\"catalogos/foo.oracle\") es True); cualquier modificación en catalogos/ cambia archivos_sha256 del producto, haciendo que mismo_producto() retorne False y por ende invalidando directamente la revisión (vigente = False). S7 describe la caducidad de decisiones de medidas, no la vigencia de revisiones. El sensor de evaluación (rag.evaluar() y tests/datos/preguntar-abiertas.json) otorgó acierto: 1 porque sólo valida palabras clave (concepto_presente) y pertenencia textual de citas, evidenciando que los conceptos mínimos no certifican validez semántica. Dado que tests/datos/preguntar-abiertas.json y los archivos de evidencia están fuera del diff de este paquete, se declara formalmente aquí como límite de la evaluación sin forzar un ancla inválida en findings."
+  ],
+  "findings": [
+    {
+      "id": "GENERACION-ELABORAR-CONTEO-CLAUSULA-SECUNDARIA-OMITE-REGISTRO",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "elaborar() sólo extrae intención de conteo de la primera cláusula de una conjunción, permitiendo respuestas de conteo sin consultar el registro cuando la pregunta antepone una cláusula abierta",
+      "explanation": "En oracle_factory/generacion.py:382, elaborar() calcula la intención de conteo mediante: intencion = consultas.interpretar(consultas.plano(pregunta).split(\" y \", 1)[0]). Al aplicar split(\" y \", 1)[0], sólo analiza la cláusula previa a la primera conjunción \" y \". Si una pregunta compuesta formula primero una indagación conceptual y luego el conteo (por ejemplo: «¿Cómo se aprueban las propuestas y cuántas tareas abiertas hay?» o «¿Qué falta revisar en el proyecto y cuántas tareas cerradas hay?»), split(\" y \", 1)[0] entrega la cláusula cualitativa, sobre la cual consultas.interpretar() retorna None. En consecuencia, intencion queda como None y la validación en validar_respuesta() (líneas 385–387) se omite por completo (if final[\"tipo\"] == \"respuesta_elaborada\" and intencion and intencion.get(\"operacion\") == \"contar\"...). Esto permite que el modelo elabore una respuesta con afirmaciones de conteo numérico citando pasajes documentales estáticos (como docs/ejemplos.md: «Ejemplo: Hay 2 cambios abiertos.») sin invocar la herramienta registro y sin que los cálculos se ejecuten en código sobre el registro vigente, eludiendo la restricción que previene contar desde ejemplos.",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 382,
+        "end_line": 387,
+        "side": "head"
+      },
+      "trigger": "Formular una pregunta abierta con conteo en segunda cláusula: «¿Cómo se aprueban las propuestas y cuántas tareas abiertas hay?» donde el modelo cite un extracto documental que contenga números de ejemplo.",
+      "evidence": "Con generacion.enviar simulado devolviendo una afirmación de conteo («Hay 2 tareas abiertas.») respaldada únicamente en una cita de docs/ejemplos.md («Ejemplo: Hay 2 cambios abiertos.»):\n- Orden «¿Cuántas tareas abiertas hay y cómo se aprueban?»: falla correctamente con ValueError: El conteo requiere un cálculo consultado y citado del registro, no un ejemplo documental.\n- Orden «¿Cómo se aprueban las propuestas y cuántas tareas abiertas hay?»: generacion.elaborar() ACEPTA la respuesta sin consultar registro, devolviendo tipo respuesta_elaborada con respuesta «Hay 2 tareas abiertas. [S1]».",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Modificar oracle_factory/generacion.py:382 para que inspeccione todas las cláusulas separadas por conjunción (o detecte cualquier intención de conteo en la consulta) en lugar de evaluar únicamente split(\" y \", 1)[0], y agregar una prueba de regresión en tests/test_preguntar.py que verifique que el conteo desde ejemplos se rechaza también cuando la cláusula de conteo figura en segundo término."
+    }
+  ]
+}

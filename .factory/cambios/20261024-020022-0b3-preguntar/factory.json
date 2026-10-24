@@ -1113,6 +1113,45 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T20:03:30.541982+00:00",
       "texto": "Comparación final sobre e346e92 con fuentes estables y controles reforzados: qwen2.5:14b (configuración nativa por defecto) pasó generativa 4/4 en 98,0 s / 8 peticiones; qwen3.5:9b (pensar:false) quedó 3/4 en 105,2 s / 9 peticiones. Ambos: documental 20/22, registro 6/6 y negativas 3/3. El 9B volvió a confundir renovación de revisión con nueva decisión de medidas, y agregó sin copiar objetos al describir el clon; no lo recomiendo como reemplazo. qwen3-coder:30b dio 3/4 y 187,1 s en la comparación anterior; no justifica su mayor memoria. Mantengo el modelo de medición qwen2.5:14b elegido por Brian. Qwen3.5:9b queda instalado localmente; no se cambió el modelo predeterminado del proyecto. El diagnóstico con instrucciones de pertinencia elimina la afirmación incorrecta observada sobre catálogos y vigencia. La evaluación ahora la rechaza expresamente y conserva signos en conceptos (C++ no es C); 15 pruebas y 50/50 mutaciones. Falta formalizar evidencia posterior y revisión limpia; las dos revisiones de 49369fc siguen corriendo en clones independientes."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:09:31.193629+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "49369fc",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "0ad318d0fced"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T20:09:31.456886+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "49369fc",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "f6d859b46cde"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T20:11:21.717230+00:00",
+      "texto": "Tercera revisión completada y validada por Clue: agy-1 y agy2-1 del candidato 49369fc identifican el mismo defecto (alta/media): sólo se exige cálculo del registro si el conteo aparece en la primera cláusula. Reproducción: cómo se revisa y cuántas tareas abiertas hay acepta un número de ejemplo documental sin herramienta. Ambos también verificaron, en limitations por estar fuera del diff, la afirmación falsa sobre catálogos y vigencia ya corregida en e346e92 con instrucciones de pertinencia y evaluación más estricta. Git user.name sigue Brian Hollweg. Corrijo el control de todas las cláusulas, con regresión en orden inverso y para más de un conteo; no propongo aprobación."
     }
   ],
   "tipos": {

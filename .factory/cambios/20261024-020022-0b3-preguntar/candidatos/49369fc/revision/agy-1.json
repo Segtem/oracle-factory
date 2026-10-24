@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-preguntar/.factory/local/revisiones/49369fc-agy-1",
+  "base": "4aba1662a4d3e17e7546c78b8ed7f3374789d545",
+  "head": "49369fcbc1b05804e0cc71d4ae17b7495a37e7cb",
+  "diff_sha256": "14a4ec1089f963cfd461f239be5f6928964425943bfd81eb0fbcbb9d42097b0b",
+  "context_sha256": "5a6f98d37c1fd793d45569d394586d5aa568fb0ea6e1c73507955109239cf30f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Alcance incremental: el paquete de Clue toma como base el commit 4aba166 (revisado previamente en agy-2 y agy2-2), dado que el paquete completo desde tarea/docs excedía el límite de Clue. Se leyeron también los archivos completos vigentes, la spec y ambos informes previos de vueltas anteriores.",
+    "Pruebas ejecutadas: en un entorno virtual aislado (.venv) en el checkout del candidato se ejecutó la suite autorizada: PYTHONPATH=. /home/workstation/Dev/factory-preguntar/.factory/local/revisores/49369fc-agy-1/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.91s). No se corrió la suite completa de Factory ni modelos generativos reales en red, cumpliendo las pautas.",
+    "Solo lectura: el checkout del candidato 49369fc se mantuvo en modo de solo lectura, sin commits, sin modificar fuentes del producto ni alterar la configuración de Git.",
+    "Hallazgo fuera del diff (tests/datos/preguntar-abiertas.json y evidencia/oro/detalle.json): se constató que en la corrida generativa real con qwen2.5:14b para pq-vigencia, la respuesta incluye la afirmación «Cambios en el catálogo de medidas pueden dejar sin efecto una decisión de medidas, pero esto no afecta directamente la vigencia de una revisión», citando S7 (openspec/specs/modos/spec.md). Conforme a la huella de producto en oracle_factory/cli.py (es_producto(\"catalogos/...\") == True), los catálogos integran la huella del producto (archivos_sha256), por lo que cualquier modificación en catalogos/ deja desactualizada e inválida la revisión (mismo_producto retorna False). La afirmación del modelo es fácticamente falsa y no se encuentra respaldada en la fuente citada S7. La evaluación en tests/datos/preguntar-abiertas.json califica el caso como acierto porque su sensor se restringe a chequear términos mínimos (contiene: [revisión, producto], contiene_alguno: [[renovar, ...]]) sin validar la inferencia semántica ni excluir esta aserción errónea. No se fabricó un ancla artificial en los hunks del paquete Clue al estar ubicado fuera del diff, declarándolo como límite de la evaluación documental."
+  ],
+  "findings": [
+    {
+      "id": "AGY-PREGUNTAR-15",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "generacion.elaborar evalúa intencion sólo sobre la primera cláusula, omitiendo exigir cálculo respaldado del registro si la consulta de conteo está en una cláusula posterior",
+      "explanation": "En oracle_factory/generacion.py (líneas 383–388), elaborar define intencion = consultas.interpretar(consultas.plano(pregunta).split(\" y \", 1)[0]) y en validar_respuesta verifica rag._calculo_respaldado({**final, \"herramientas\": trazas}, intencion[\"estado\"]) únicamente si intencion.get(\"operacion\") == \"contar\". Cuando una pregunta compuesta formula el conteo en su segunda cláusula (por ejemplo: «¿Cómo se revisa y cuántas tareas abiertas hay?» o «¿Cómo se registra una decisión y cuántos cambios hay en total?»), la primera cláusula («como se revisa») no involucra entidades ni conteo, por lo que intencion resulta None. Como consecuencia, validar_respuesta no exige _calculo_respaldado, permitiendo que el modelo responda la parte cuantitativa citando un ejemplo numérico de la documentación (por ejemplo un fragmento de docs/ejemplos.md) sin llamar a la herramienta registro ni computar datos del repositorio. Esto vulnera el Requisito 2 («los cálculos SHALL ejecutarse en código sobre el registro, nunca contando pasajes») y el Requisito 1 («Para estados, cantidades o pendientes consultá registro; nunca los deduzcas de pasajes ni inventes cálculos»).",
+      "location": {
+        "file": "oracle_factory/generacion.py",
+        "start_line": 383,
+        "end_line": 388,
+        "side": "head"
+      },
+      "trigger": "Formular una pregunta compuesta donde la solicitud de conteo figure después de la conjunción «y» (ej: «¿Cómo se revisa y cuántas tareas abiertas hay?») ante un modelo que cita un fragmento documental con números de ejemplo en lugar de consultar la herramienta registro.",
+      "evidence": "Al invocar generacion.elaborar con pregunta=\"¿Cómo se revisa y cuántas tareas abiertas hay?\" y un mock que cita un extracto documental con texto=\"Hay 2 cambios abiertos.\", intencion es None y la función retorna respuesta_elaborada sin error y sin llamadas a registro. En contraste, con la misma pregunta formulada como \"¿Cuántas tareas abiertas hay y cómo se revisan?\", intencion es {\"operacion\": \"contar\", \"estado\": \"abiertos\"} y la función rechaza la respuesta con ValueError: \"El conteo requiere un cálculo consultado y citado del registro, no un ejemplo documental.\".",
+      "related_requirement": "la elaboración usa herramientas acotadas y un modelo explícito",
+      "status": "pendiente",
+      "verification": "Analizar todas las cláusulas de preguntas compuestas divididas por «y» para extraer intenciones de conteo y asegurar que validar_respuesta ejecute _calculo_respaldado independientemente de la posición de la cláusula cuantitativa."
+    }
+  ]
+}
