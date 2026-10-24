@@ -476,6 +476,15 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T04:58:29.786963+00:00",
       "texto": "Primera revisión agy/agy2: corregidas consultas naturales, vigencia mediante datos_estado, paginación, proyección acotada de fuentes, validación de IDs/versiones, proveedor sin autenticación, temperatura, límites y causas de error en JSON, y evaluación de respaldo/registro/clientes. 15 pruebas específicas pasan; 25 mutaciones detectadas y fuentes restauradas; docs_al_dia pasa. Se reproponen medidas porque corrida_completa añade controles y respaldo_documental comprueba producción. No se baja el umbral generativo: la última evaluación diagnóstica previa al ajuste de precisión seguía en 2/4; evidencia fallida beb247d conservada. Falta confirmación humana de medidas nuevas, evidencia nueva y vuelta independiente limpia."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T05:00:33.202027+00:00",
+      "texto": "Último diagnóstico local con qwen2.5:14b: controles generativos 3/4, con conteo exacto de 57 cerrados en la pregunta mixta. pq-vigencia sigue fallando y además conserva una instrucción incorrecta sobre repetir una revisión con el mismo contenido, tomada del problema histórico de una propuesta. No es evidencia formal ni aprobación; falta distinguir mejor antecedentes de requisitos vigentes y volver a medir. Siguen pendientes las seis propuestas de medidas para confirmación de Brian. Los umbrales permanecen sin reducir."
     }
   ],
   "tipos": {
