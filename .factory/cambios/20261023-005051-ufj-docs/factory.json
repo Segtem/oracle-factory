@@ -304,6 +304,68 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T00:32:23.943685+00:00",
       "texto": "La vuelta de LEEME sobre eda5953 quedó limpia con agy y agy2 (0 hallazgos, informes validados por Clue). La revisión documental de f1d0e7f encontró versiones limitadas a 0.1.0 preliminar, palabras en prosa contadas como comandos, invocaciones con una letra/dígitos/mayúsculas o = omitidas, README con fabrica.py, falta de enlace por herramienta, árbol de estructura incorrecto y pruebas no recursivas. Todos se corrigieron, incluidos los bajos. Regresión: pruebas nuevas fallaron con el código viejo (6 fallas iniciales); ahora tests.test_docs pasa. Se detectaron siete mutaciones (versiones, comandos, cobertura por prosa, historial, enlace, árbol y plantilla anidada); la primera prueba de mutación en memoria apuntó al módulo equivocado, se corrigió la prueba y las siete fueron detectadas. La prueba web inicialmente no arrancó por falta de playwright en este worktree; se usó NODE_PATH con la instalación existente de factory. comparar_con_la_version_anterior pasó en Chromium tras actualizar el texto esperado de la guía. Se aclaró que Factory lanza revisores configurados y se nombran las dependencias junto a sus versiones para distinguirlas de Factory. Catálogos y umbrales no cambiaron."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:38:42.240321+00:00",
+      "revisor": "agy",
+      "candidato": "d2c7037",
+      "lanzamiento": "f701cf6a4e8b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:38:42.272804+00:00",
+      "revisor": "agy2",
+      "candidato": "d2c7037",
+      "lanzamiento": "266aee13f688"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:48:15.694825+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d2c7037",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f701cf6a4e8b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:49:15.567018+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d2c7037",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "266aee13f688"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T00:49:50.334646+00:00",
+      "decision": "aprobar",
+      "candidato": "d2c7037"
     }
   ],
   "tipos": {
@@ -346,5 +408,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.",
+      "candidato": "d2c7037",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-24T00:49:50.334633+00:00"
+    }
+  }
 }

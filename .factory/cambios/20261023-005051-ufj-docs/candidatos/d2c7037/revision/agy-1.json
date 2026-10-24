@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/d2c7037-agy-1",
+  "base": "a95fd8679c44efde2a945810b72ae6791da2c1af",
+  "head": "d2c70374682a37cf77671497fe090f72ce420906",
+  "diff_sha256": "dca108121b7dd4d5b45114c0acd402be8e2d150f80f9a8421a7b13e965fdbd83",
+  "context_sha256": "f1c701c701d16f918b7a8dd1866899a73ecb12e8b6de3e0e2c92b8bbddf353f3",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron en su totalidad los 24 archivos incluidos en el diff y contexto del paquete Clue paquete-agy-1.json (README.md, docs/, site/, catalogos/, requisitos/, openspec/ y herramientas de validación).",
+    "Se contrastaron todos los compromisos de la especificación web/spec.md frente a la implementación en documentación, scripts y pruebas automáticas.",
+    "Se verificó la resolución efectiva y ausencia de regresiones de todos los hallazgos de revisiones previas (f1d0e7f y eda5953): soporte de versiones de release y series futuras en NUMERO/VERSION, exclusión estructural de notas de versión mediante sin_notas_de_version, discriminación de subcomandos documentados frente a coincidencias de prosa casual mediante comandos_documentados, soporte de subcomandos con dígitos/guiones/mayúsculas y opciones con '=' o entrecomilladas en COMANDO, búsqueda recursiva de archivos .md mediante .rglob() en test_dc1, eliminación total de referencias a 'python fabrica.py' en guías y README, enlaces explícitos a guías en todas las herramientas del README (incluyendo #quién-trabaja-en-qué), y distinción precisa de roles entre local/revisiones/ y local/revisores/ en docs/estructura.md y LEEME_FACTORY.",
+    "Se comprobó que los 39 subcomandos expuestos por la CLI de Oracle Factory se encuentran debidamente documentados en README.md o docs/.",
+    "Se verificaron todos los enlaces internos y anclas en Markdown y HTML, confirmando que resuelven a rutas y encabezados existentes sin hipervínculos rotos.",
+    "Se ejecutaron las pruebas unitarias autorizadas desde la raíz del checkout con: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas exitosas en 0.385s).",
+    "Se realizaron pruebas de mutación manuales sobre 7 escenarios independientes (reintroducción de fabrica.py en subcarpeta, enlaces rotos, omisión de documentación de subcomandos, versiones divergentes en web, frases obsoletas tipo POC, comandos inexistentes y herramientas sin enlace); todos fueron detectados y provocaron fallas inmediatas en tests.test_docs.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_docs.py, acatando expresamente la restricción de las instrucciones del pedido de revisión.",
+    "El checkout del candidato d2c7037 se conservó estrictamente en modo de sólo lectura, sin realizar modificaciones de código, commits ni cambios en la configuración de Git."
+  ]
+}
