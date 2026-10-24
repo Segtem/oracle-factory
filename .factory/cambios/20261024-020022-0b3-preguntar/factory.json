@@ -2,7 +2,7 @@
   "id": "20261024-020022-0b3-preguntar",
   "titulo": "Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental",
   "capacidad": "conocimiento",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261024-020022-0b3-preguntar/specs/conocimiento/spec.md",
   "spec_sha256": "ad91e123f826792f40278b87fdf3f01f789ab738cbfa67db994690a39a5c2095",
   "spec_aprobada": {
@@ -1289,6 +1289,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "7f3bdf6c407bd91880cc60c95749208fe866a61557e6af17fb8dd43a084a0c6a"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:51:20.230542+00:00",
+      "oracle": ".factory/cambios/20261024-020022-0b3-preguntar/oracle-veredicto.txt",
+      "revision": "tareas/20261024-020022-0b3-preguntar/revisiones/registro-oe7d9gnl/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T20:51:20.264916+00:00",
+      "capacidad": "conocimiento",
+      "spec": "openspec/specs/conocimiento/spec.md"
     }
   ],
   "tipos": {
@@ -1424,5 +1444,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T20:51:20.170548+00:00"
+  },
+  "archivo": {
+    "capacidad": "conocimiento",
+    "spec": "openspec/specs/conocimiento/spec.md",
+    "cuando": "2026-10-24T20:51:20.264907+00:00"
+  }
 }

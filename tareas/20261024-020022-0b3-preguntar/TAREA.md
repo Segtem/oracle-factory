@@ -1,6 +1,6 @@
 # Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -219,3 +219,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-24 20:38:30 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261024-020022-0b3-preguntar/oracle-veredicto.txt.
+
+### Nota (2026-10-24 20:51:20 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
