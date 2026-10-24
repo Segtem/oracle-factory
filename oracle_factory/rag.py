@@ -475,6 +475,9 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
                                             or (p.get('requiere_listado') and not lista_textos(p.get('ids'), vacia=True))))
                 or (grupo == 'abstencion' and p.get('tipo') not in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida'))
                 or (grupo == 'generativa' and (not lista_textos(p.get('contiene'))
+                                              or not isinstance(p.get('contiene_alguno', []), list)
+                                              or any(not lista_textos(g) for g in p.get('contiene_alguno', []))
+                                              or not lista_textos(p.get('excluye', []), vacia=True)
                                               or not lista_textos(p.get('fuentes', []), vacia=True)
                                               or not lista_textos(p.get('fuentes_cualquiera', []), vacia=True)
                                               or not (p.get('fuentes') or p.get('fuentes_cualquiera'))
@@ -495,6 +498,9 @@ def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = N
             else:
                 acierto = (datos['tipo'] == 'respuesta_elaborada' and bool(datos.get('afirmaciones')) and bool(p.get('contiene'))
                            and all(t.casefold() in datos['respuesta'].casefold() for t in p['contiene'])
+                           and all(any(t.casefold() in datos['respuesta'].casefold() for t in g)
+                                   for g in p.get('contiene_alguno', []))
+                           and not any(t.casefold() in datos['respuesta'].casefold() for t in p.get('excluye', []))
                            and bool(datos['fuentes']) and all(any(fuente['ruta'] == ruta for fuente in datos['fuentes'])
                                                             for ruta in p.get('fuentes', [])))
                 if p.get('fuentes_cualquiera'):

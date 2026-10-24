@@ -485,6 +485,197 @@
       "forma": "mensaje",
       "cuando": "2026-10-24T05:00:33.202027+00:00",
       "texto": "Último diagnóstico local con qwen2.5:14b: controles generativos 3/4, con conteo exacto de 57 cerrados en la pregunta mixta. pq-vigencia sigue fallando y además conserva una instrucción incorrecta sobre repetir una revisión con el mismo contenido, tomada del problema histórico de una propuesta. No es evidencia formal ni aprobación; falta distinguir mejor antecedentes de requisitos vigentes y volver a medir. Siguen pendientes las seis propuestas de medidas para confirmación de Brian. Los umbrales permanecen sin reducir."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:37.809827+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:38.779594+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:39.740286+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:40.708987+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:41.684446+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:01:42.644592+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:34.045505+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+      "medidas": [
+        "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:34.964185+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+      "medidas": [
+        "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:35.883706+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+      "medidas": [
+        "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_abstencion",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:36.809489+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+      "medidas": [
+        "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code",
+        "factory_preguntar.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:37.733012+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+      "medidas": [
+        "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_registro"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T14:06:38.649604+00:00",
+      "requisito": "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+      "medidas": [
+        "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto",
+        "factory_preguntar.corrida_completa",
+        "factory_preguntar.calidad_generativa",
+        "factory_preguntar.calidad_documental",
+        "factory_preguntar.calidad_registro",
+        "factory_preguntar.respaldo_documental"
+      ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T14:06:39.467013+00:00",
+      "texto": "Corrección adicional de vigencia: las fuentes generativas declaran clase/uso y las propuestas/diseños se distinguen como antecedentes, sin convertir fallas históricas en instrucciones. Al agotar herramientas se pide cierre estructurado sin ofrecer llamadas adicionales. Evaluación: contiene_alguno reconoce expresiones alternativas explícitas del mecanismo (Git/configuración/ramas; renovar/nueva revisión), y excluye rechaza el procedimiento histórico incorrecto y el aislamiento del disco. Se mantienen cuatro de cuatro respuestas, fuentes y cálculo mixto obligatorios; no se trata la coincidencia literal de cambio/cambia como comprensión. Pasan 15 pruebas y 29 mutaciones detectadas con restauración. Medidas repropuestas: falta confirmación de Brian y evidencia formal nueva."
     }
   ],
   "tipos": {
@@ -501,10 +692,10 @@
       "sha256": "b6d0cc3eeadcff95941f8e490ae73764f48b81c16982cbdf08693346cb21bfce",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:24.495100+00:00",
+      "cuando": "2026-10-24T14:06:34.017430+00:00",
       "catalogos": {
         "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "38f6a56e75a7926fcd9f12d8b74b6be0da1bb2a71a1ce1e46b6d1857ffe93317",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8"
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1"
       },
       "archivos_catalogo": {
         "factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito": "catalogos/factory_preguntar.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito.oracle",
@@ -515,10 +706,10 @@
       "sha256": "5020a3bc83fa2a4d2b73e14b8a52951c3b3f0ca4d2889cfe5ac861090691b581",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:25.388090+00:00",
+      "cuando": "2026-10-24T14:06:34.935794+00:00",
       "catalogos": {
         "factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion": "f234df40bead5db1b5b552f19b7b773f957ee6c4905180878910a48cd7a70bd6",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8",
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1",
         "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
         "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066",
         "factory_preguntar.calidad_generativa": "51769df47581c76ac4b4b8c5288bd8e859d35eddc972f2ce7c79c0c709b396f0",
@@ -539,10 +730,10 @@
       "sha256": "e95dcf2777a774cf44cff86262997caa30e8ddcdcf938b5d4c78ba1cc24558df",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:26.294512+00:00",
+      "cuando": "2026-10-24T14:06:35.855544+00:00",
       "catalogos": {
         "factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente": "079c1a6162ff56720916053664c4e4b1c0fb1587f4d2e4e9afdd7c725990023f",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8",
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1",
         "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
         "factory_preguntar.calidad_abstencion": "01ae162274d20a6e7b6405fb8ff8c8f851a61177d8b6094dbb4381ea5f60924c",
         "factory_preguntar.respaldo_documental": "40851ad6dd30b27829b939d19a283bb75590732e52a6320e5427afc06a5a4f35"
@@ -559,10 +750,10 @@
       "sha256": "932115840fb1115dd046e0478da73df9d5d23f6667e436e93c4c323855c744b6",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:27.195218+00:00",
+      "cuando": "2026-10-24T14:06:36.781581+00:00",
       "catalogos": {
         "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "8a0a998dfd85846797a6b65f8bc915bdf51bc86d12ae853ebb41037b5608cca9",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8"
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1"
       },
       "archivos_catalogo": {
         "factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code": "catalogos/factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code.oracle",
@@ -573,10 +764,10 @@
       "sha256": "39dc4a573d4137348d0631d75cc49e89f16edcc522752a9f0f149d70adb3fcd8",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:28.076302+00:00",
+      "cuando": "2026-10-24T14:06:37.705334+00:00",
       "catalogos": {
         "factory_preguntar.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente": "72ed47cd87915d2c75b1fa2f1a900834497900da17a91e1775671b3dbc860ad4",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8",
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1",
         "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066"
       },
       "archivos_catalogo": {
@@ -589,10 +780,10 @@
       "sha256": "a1d8087a4794e03e1d4da8eb3fb201f3b2a73ff516140ecdf2fb5988674e586f",
       "actor": "codex",
       "tipo_actor": "agente",
-      "cuando": "2026-10-24T04:58:28.972009+00:00",
+      "cuando": "2026-10-24T14:06:38.621407+00:00",
       "catalogos": {
         "factory_preguntar.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto": "6535006b9a2e82be94cfcad3cf0a5e1943b7ca9577ee041ff064b06ba7231aaf",
-        "factory_preguntar.corrida_completa": "d45d5a4bbed9a04e7a8ae702650ccf502c178697f7b0132c00b2ff5704108fd8",
+        "factory_preguntar.corrida_completa": "875c2262844051086e7e948502ccc5183c5cecaa18c3b09da3e92edcb36eb9d1",
         "factory_preguntar.calidad_generativa": "51769df47581c76ac4b4b8c5288bd8e859d35eddc972f2ce7c79c0c709b396f0",
         "factory_preguntar.calidad_documental": "5ffbed7f7e2b673d6e0b586be843f8a5abab7d2263d15f46ce0164186ff2896a",
         "factory_preguntar.calidad_registro": "9daafb97ced2a96dde21f5a82432050d5b755c1e5198c376e4167d33835f3066",

@@ -33,6 +33,10 @@ MUTACIONES = [
     ('mixta_sin_calculo', 'oracle_factory/rag.py', "acierto = acierto and _calculo_respaldado(datos, p.get('filtro_registro', 'todos'))", 'acierto = acierto', 'pq6'),
     ('listado_sin_ids', 'oracle_factory/rag.py', "if p.get('requiere_listado'):", 'if False:', 'pq6'),
     ('saltos_rompen_citas', 'oracle_factory/generacion.py', "fuente['texto'] = ' '.join(fuente['texto'].split())", "fuente['texto'] = fuente['texto']", 'pq1'),
+    ('antecedente_como_norma', 'oracle_factory/generacion.py', 'fuente = procedencia(fuente)', 'fuente = dict(fuente)', 'pq1'),
+    ('concepto_alternativo_ignorado', 'oracle_factory/rag.py', "and all(any(t.casefold() in datos['respuesta'].casefold() for t in g)\n                                   for g in p.get('contiene_alguno', []))", "and all(g[0].casefold() in datos['respuesta'].casefold() for g in p.get('contiene_alguno', []))", 'pq6'),
+    ('procedimiento_obsoleto_aceptado', 'oracle_factory/rag.py', "and not any(t.casefold() in datos['respuesta'].casefold() for t in p.get('excluye', []))", 'and True', 'pq6'),
+    ('sin_cierre_al_agotar_herramientas', 'oracle_factory/generacion.py', "disponibles = herramientas() if llamadas < conf['max_llamadas'] else []", 'disponibles = herramientas()', 'pq2'),
 ]
 CASOS = {
     'pq1': 'test_pq1_respuesta_abierta_con_fuentes_y_herramientas',

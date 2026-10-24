@@ -105,11 +105,16 @@ omisiones y la huella del inventario consultado. Los espacios de los pasajes env
 cambiar palabras ni signos. Si la respuesta final no valida, se permite una corrección con formato JSON estructurado,
 sin más herramientas y dentro del mismo plazo. Si se alcanza un límite o el modelo falla, se informa un código de
 causa y se conserva la recuperación disponible. `limites` en el JSON expone estas cotas.
+Cuando se agotan las consultas permitidas, se pide una respuesta final estructurada con los datos ya recibidos,
+sin ofrecer más herramientas.
 
 Las citas de una respuesta elaborada tienen que identificar una fuente consultada y copiar un fragmento que exista en
 ella; las cantidades deben aparecer en las citas. Los IDs y versiones se comprueban como literales en la fuente citada
 y la numeración de pasos no se trata como un cálculo. Esto verifica pertenencia textual, no demuestra que la interpretación
 del modelo sea correcta. Las inferencias se rotulan y la evaluación real revisa la calidad de las respuestas.
+Cada fuente declara su clase y uso: las specs consolidadas y las guías describen el comportamiento actual; las propuestas
+y los diseños aportan antecedentes que pueden describir problemas anteriores. Se instruye al modelo para que no convierta
+esos problemas en pasos recomendados. La clasificación orienta su lectura y no garantiza que interprete bien el texto.
 
 **La calidad se mide.** `kb/preguntas-de-oro.json` tiene preguntas con los archivos que tienen que aparecer entre los
 cinco primeros pasajes. `oracle-factory preguntar --evaluar --salida CARPETA` las corre y deja hechos para Oracle.
@@ -121,6 +126,9 @@ dentro del proyecto. Los resultados separan cada grupo, sus aciertos, errores y 
 documentales conservan el puesto y MRR, y también comprueban la selección de respaldo que hace `preguntar`, con la
 generación desactivada para ese grupo. Una degradación generativa a pasajes cuenta como error y abstención incorrecta.
 Los controles de conceptos y citas no son un juez semántico universal.
+`contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además
+de todos los términos de `contiene`. `excluye` rechaza expresiones de error conocidas. Así los casos pueden reconocer
+una explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.
 La evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita
 calidad de las explicaciones. Se conserva el umbral humano documental de al menos 18 de las 22 preguntas originales.
 

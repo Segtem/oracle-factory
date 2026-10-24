@@ -101,6 +101,24 @@ class Preguntar(unittest.TestCase):
         self.assertTrue(pagina['datos']['siguiente'])
         siguiente = consultas.registro(f, pagina['datos']['siguiente'])
         self.assertFalse(set(pagina['datos']['ids']) & set(siguiente['datos']['ids']))
+        # Una motivación histórica no debe presentarse al modelo como instrucciones actuales.
+        fuentes = {'resultados': [
+            {'ruta': 'openspec/changes/20261005-154433-vigencia/proposal.md', 'cita': 'antecedente#Why',
+             'texto': 'Antes hubo que repetir una revisión idéntica sólo porque cambió HEAD.'},
+            {'ruta': 'openspec/specs/vigencia/spec.md', 'cita': 'vigencia#Requirement',
+             'texto': 'La revisión sigue vigente mientras coincida el contenido del producto.'}]}
+        def con_antecedentes(conf, mensajes, herramientas, timeout):
+            contexto = json.loads(mensajes[1]['content'])['fuentes']
+            self.assertEqual(contexto[0]['clase'], 'antecedente')
+            self.assertEqual(contexto[1]['clase'], 'spec_vigente')
+            self.assertIn('no prescribe', contexto[0]['uso'])
+            self.assertIn('no conviertas una falla histórica', mensajes[0]['content'])
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'La revisión conserva vigencia si el producto coincide.', 'inferencia': False,
+                 'citas': [{'fuente': contexto[1]['id'], 'texto': contexto[1]['texto']}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=con_antecedentes):
+            vigente = generacion.elaborar(f, '¿Cuándo hay que repetir la revisión?', fuentes, generacion.configuracion(f))
+        self.assertEqual(vigente['fuentes'][0]['clase'], 'spec_vigente')
 
     def test_pq2_herramientas_configuracion_fallos_y_limites(self):
         from oracle_factory import generacion, consultas
@@ -153,6 +171,20 @@ class Preguntar(unittest.TestCase):
         with patch.object(generacion, 'enviar', side_effect=insistir), patch.object(consultas, 'registro', wraps=consultas.registro) as ejecutar:
             self.assertNotEqual(rag.preguntar(f, '¿Por qué se usan clones aparte?')['tipo'], 'respuesta_elaborada')
             self.assertEqual(ejecutar.call_count, 2)
+        turnos = []
+        def cerrar_con_datos(conf, mensajes, herramientas, timeout):
+            turnos.append(bool(herramientas))
+            if herramientas:
+                return {'role': 'assistant', 'tool_calls': [{'id': 'consulta' + str(len(turnos)),
+                        'function': {'name': 'registro', 'arguments': {'operacion': 'contar', 'estado': 'todos'}}}]}
+            registro = json.loads(next(m['content'] for m in reversed(mensajes) if m['role'] == 'tool'))['fuentes'][0]
+            return {'content': json.dumps({'estado': 'respondida', 'afirmaciones': [
+                {'texto': 'Hay 0 cambios en total.', 'inferencia': False,
+                 'citas': [{'fuente': registro['id'], 'texto': 'Cantidad de cambios todos: 0.'}]}]})}
+        with patch.object(generacion, 'enviar', side_effect=cerrar_con_datos):
+            final = rag.preguntar(f, '¿Qué cantidad de cambios hay, según el registro?')
+        self.assertEqual(final['tipo'], 'respuesta_elaborada')
+        self.assertEqual(turnos, [True, True, False])
         for conf in ({'proveedor': 'ollama'}, {'proveedor': 'openai', 'modelo': 'fixture'},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'max_llamadas': True},
                      {'proveedor': 'ollama', 'modelo': 'fixture', 'url': 'http://usuario:clave@localhost'},
@@ -361,7 +393,8 @@ class Preguntar(unittest.TestCase):
         self.configurar({'proveedor': 'ollama', 'modelo': 'fixture'})
         casos = self.root / 'casos-adicionales.json'
         casos.write_text(json.dumps([{'id': 'generada', 'grupo': 'generativa', 'pregunta': '¿Por qué se eligió un clon aparte?',
-                                      'contiene': ['clon'], 'fuentes': ['docs/decisiones.md']}]))
+                                      'contiene': ['clon'], 'contiene_alguno': [['aislamiento', 'clon']],
+                                      'excluye': ['procedimiento obsoleto'], 'fuentes': ['docs/decisiones.md']}]))
         def modelo(conf, mensajes, herramientas, timeout):
             fuentes = json.loads(mensajes[1]['content'])['fuentes']
             fuente = next((s for s in fuentes if s['ruta'] == 'docs/decisiones.md'), None)
@@ -374,6 +407,16 @@ class Preguntar(unittest.TestCase):
         simulada = json.loads((self.root.parent / 'simulada/hechos.json').read_text())
         grupo = next(g for g in simulada['preguntar_grupo'] if g['grupo'] == 'generativa')
         self.assertEqual((grupo['aciertos'], grupo['simulado']), (1, 1))
+        def obsoleto(*args, **kwargs):
+            salida = modelo(*args, **kwargs)
+            datos = json.loads(salida['content'])
+            if datos.get('afirmaciones'):
+                datos['afirmaciones'][0]['texto'] += ' Procedimiento obsoleto.'
+            return {**salida, 'content': json.dumps(datos)}
+        with patch.object(generacion, 'enviar', side_effect=obsoleto):
+            rag.evaluar(f, self.root.parent / 'procedimiento-obsoleto', simulado=True, casos=casos)
+        erronea = json.loads((self.root.parent / 'procedimiento-obsoleto/hechos.json').read_text())
+        self.assertEqual(next(g['errores'] for g in erronea['preguntar_grupo'] if g['grupo'] == 'generativa'), 1)
         compuesta = json.loads(casos.read_text())
         compuesta[0].update(requiere_registro=True, filtro_registro='cerrados')
         casos.write_text(json.dumps(compuesta))

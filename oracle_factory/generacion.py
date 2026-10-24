@@ -37,6 +37,9 @@ Podés recuperar más documentos; empezá con maximo 3 para conservar contexto.
 Si falta información, abstenerte o pedir aclaración es preferible a inventar.
 Distinguí requisitos y hechos de exclusiones: algo fuera de alcance no es una prestación del producto.
 No atribuyas a una herramienta aislamiento o garantías que las fuentes reservan a otro componente.
+Para el comportamiento actual priorizá specs vigentes y guías. Las propuestas y los diseños explican antecedentes,
+problemas y alternativas; no conviertas una falla histórica que motivó un cambio en un procedimiento recomendado.
+Respetá la clase y el uso declarado de cada fuente. Si falta el procedimiento vigente, recuperalo o indicá ese límite.
 Si la pregunta es ajena al proyecto y no hay fuentes que respondan, usá sin_respaldo; no pidas contexto de otro tema.
 Pedí aclaración sólo para identificar un cambio, archivo, decisión o alcance del proyecto.
 Para cantidades usá cifras del resultado calculado por registro.
@@ -230,11 +233,31 @@ def validar_final(mensaje, fuentes):
             'validacion_citas': 'Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.'}
 
 
+def procedencia(fuente):
+    """Expone el papel del documento sin decidir su relevancia ni convertir un antecedente en norma."""
+    ruta = fuente['ruta']
+    if ruta == 'registro':
+        clase, uso = 'registro', 'Datos calculados del registro actual.'
+    elif ruta.startswith('openspec/specs/'):
+        clase, uso = 'spec_vigente', 'Requisitos consolidados del comportamiento actual.'
+    elif ruta.startswith('docs/'):
+        clase, uso = 'guia', 'Guía del proyecto; distinguir instrucciones de sus ejemplos.'
+    elif ruta.startswith('kb/requisitos/'):
+        clase, uso = 'requisito', 'Requisito que la recuperación considera vigente, con su origen.'
+    elif ruta.endswith(('/proposal.md', '/design.md')):
+        clase, uso = 'antecedente', 'Motivación y diseño de un cambio: puede describir fallas anteriores o alternativas; no prescribe el procedimiento actual.'
+    elif ruta.startswith('openspec/changes/'):
+        clase, uso = 'documento_del_cambio', 'Documento de un cambio; comprobar el requisito consolidado antes de dar instrucciones actuales.'
+    else:
+        clase, uso = 'conocimiento', 'Contexto del proyecto; comprobar alcance y fuentes.'
+    return {**fuente, 'clase': clase, 'uso': uso}
+
+
 def elaborar(cli, pregunta, recuperado, conf):
     from . import rag
     fuentes, trazas = {}, []
     def acotar(fuente):
-        fuente = dict(fuente)
+        fuente = procedencia(fuente)
         # La proyección para el modelo conserva palabras y signos, con espacios uniformes.
         # Así una cita no depende del ajuste de líneas del Markdown del archivo.
         fuente['texto'] = ' '.join(fuente['texto'].split())
@@ -267,7 +290,10 @@ def elaborar(cli, pregunta, recuperado, conf):
         restante = fin - time.monotonic()
         if restante <= 0 or len(json.dumps(mensajes, ensure_ascii=False).encode()) > LIMITE_CONTEXTO:
             raise ValueError('Se alcanzó el límite de tiempo o contexto de generación.')
-        mensaje = enviar(conf, mensajes, herramientas(), restante)
+        # Al agotar consultas, pedir el cierre estructurado con lo ya leído.
+        # Volver a ofrecer herramientas sólo provocaría una quinta llamada y perdería los datos útiles.
+        disponibles = herramientas() if llamadas < conf['max_llamadas'] else []
+        mensaje = enviar(conf, mensajes, disponibles, restante)
         calls = mensaje.get('tool_calls')
         if not calls:
             reparada = False
