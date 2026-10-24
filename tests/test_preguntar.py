@@ -369,6 +369,9 @@ class Preguntar(unittest.TestCase):
             acotada = generacion.elaborar(f, '¿Cómo se conserva el respaldo?', grandes, generacion.configuracion(f))
         self.assertEqual(acotada['tipo'], 'respuesta_elaborada')
         self.assertTrue(acotada['cierre_por_contexto'])
+        # El resultado adicional no cabe: debe rechazarse antes de entregarle nuevas fuentes al modelo.
+        self.assertTrue(acotada['herramientas'])
+        self.assertFalse(any(t['exitoso'] for t in acotada['herramientas']))
         self.assertLessEqual(len(tamanos), 4)
         # Se prueba el transporte de ambos proveedores contra HTTP real local, sin claves ni modelos reales.
         pedidos = []
