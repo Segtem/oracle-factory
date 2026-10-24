@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -23,7 +24,7 @@ import urllib.request
 
 from . import kb as kb_mod
 
-ESQUEMA = "oracle-factory.preguntar/1"
+ESQUEMA = "oracle-factory.preguntar/2"
 POR_DEFECTO = {"proveedor": "ollama", "url": "http://localhost:11434", "modelo": "qwen3-embedding:0.6b",
                # qwen3-embedding rinde mejor con la pregunta presentada como consulta (los pasajes van tal cual)
                "prefijo_pregunta": "Instruct: Given a question, retrieve passages that answer it\nQuery: "}
@@ -195,7 +196,10 @@ def embeber(conf: dict, textos: list[str], configurada: bool) -> list[list[float
         pedido = urllib.request.Request(url, json.dumps(cuerpo).encode("utf-8"),
                                         {"Content-Type": "application/json", **cabeceras})
         try:
-            with ABRIR(pedido, timeout=300) as r:
+            timeout = min(300, conf.get('_plazo', time.monotonic() + 300) - time.monotonic())
+            if timeout <= 0:
+                raise SinEmbeddings('se alcanzó el plazo de la consulta')
+            with ABRIR(pedido, timeout=timeout) as r:
                 datos = json.loads(r.read())
         except (urllib.error.URLError, OSError, ValueError) as e:
             raise SinEmbeddings(f"{conf['proveedor']} en {conf['url']} no respondió ({getattr(e, 'reason', e)})") from e
@@ -256,11 +260,13 @@ def _rangos(puntajes: list[float]) -> dict[int, int]:
     return {i: r for r, i in enumerate(orden, 1)}
 
 
-def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
+def recuperar(cli, pregunta: str, maximo: int = 8, *, plazo: float | None = None) -> dict:
     if not pregunta.strip():
         raise cli.FactoryError("indicá la pregunta")
     pasajes, por_revisar, fuera = corpus(cli)
     conf = configuracion(cli)
+    if plazo is not None:
+        conf = {**conf, '_plazo': plazo}
     configurada = "url" in cli.config_proyecto()["rag"].get("embeddings", {})
     lexico = bm25(pasajes, palabras(pregunta))
     semantico, aviso, pedidos = [0.0] * len(pasajes), None, 0
@@ -295,19 +301,64 @@ def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
             "resultados": [{"cita": f"{pasajes[i]['ruta']}#{pasajes[i]['seccion']}", "ruta": pasajes[i]["ruta"],
                             "seccion": pasajes[i]["seccion"], "cambio": pasajes[i]["cambio"],
                             "puntaje": round(sum(aportes[i].values()), 6),
+                            "similitud_semantica": round(semantico[i], 6),
                             "aportes": {k: round(v, 6) for k, v in aportes[i].items()},
                             "texto": pasajes[i]["texto"]} for i in orden]}
 
 
+def preguntar(cli, pregunta: str, maximo: int = 8) -> dict:
+    from . import consultas, generacion
+    if not isinstance(pregunta, str) or not 1 <= len(pregunta.strip()) <= 2000:
+        raise cli.FactoryError('indicá una pregunta de entre 1 y 2000 caracteres')
+    if type(maximo) is not int or not 1 <= maximo <= 50:
+        raise cli.FactoryError('max debe estar entre 1 y 50')
+    base = {'esquema': ESQUEMA, 'pregunta': pregunta, 'modo': 'registro', 'modelo': None,
+            'modelo_generativo': None, 'proveedor_generativo': None, 'modelo_embeddings': None,
+            'aviso': None, 'embeddings_pedidos': 0, 'por_revisar': [], 'fuera_por_no_vigentes': 0,
+            'resultados': [], 'fuentes': [], 'herramientas': []}
+    directa = consultas.directa(cli, pregunta)
+    if directa is not None:
+        return {**base, **directa}
+    datos = recuperar(cli, pregunta, maximo)
+    terminos = set(palabras(pregunta))
+    respaldo = any(len(terminos & set(palabras(r['texto']))) >= min(2, len(terminos)) > 0
+                   or r['similitud_semantica'] >= 0.65 for r in datos['resultados'])
+    respuesta = {**base, **datos, 'modelo_embeddings': datos['modelo'],
+                 'tipo': 'documentos' if respaldo else 'sin_respaldo',
+                 'respuesta': ('Encontré pasajes candidatos; no se elaboró una respuesta generativa.' if respaldo else
+                               'No encontré respaldo suficiente para responder.'),
+                 'fuentes': [{'ruta': r['ruta'], 'cita': r['cita'], 'texto': r['texto']} for r in datos['resultados']]}
+    conf = generacion.configuracion(cli)
+    avisos = [datos['aviso']] if datos['aviso'] else []
+    if conf is None:
+        avisos.append('Sin modelo generativo configurado: se muestran sólo resultados directos o pasajes candidatos.')
+    else:
+        try:
+            respuesta.update(generacion.elaborar(cli, pregunta, datos, conf))
+        except (OSError, ValueError, TypeError, KeyError, IndexError):
+            avisos.append('La generación no produjo una respuesta válida dentro de sus límites; se conserva la recuperación documental.')
+    respuesta['aviso'] = '; '.join(avisos) or None
+    return respuesta
+
+
 def texto(datos: dict) -> str:
     lineas = []
+    if datos.get('respuesta'):
+        lineas.append(datos['respuesta'])
+    if datos.get('tipo') in ('registro', 'respuesta_elaborada') and datos.get('fuentes'):
+        lineas.append('\nFuentes:')
+        for fuente in datos['fuentes']:
+            lineas.append(f'- {fuente.get("id", "Registro")}: {fuente["cita"]}')
+            lineas.extend(f'  - {ruta}' for ruta in fuente.get('archivos', []))
+    if datos.get('resultados'):
+        lineas.append('\nPasajes candidatos (no equivalen a una respuesta elaborada):')
     for n, r in enumerate(datos["resultados"], 1):
         a = r["aportes"]
         lineas.append(f"{n}. {r['cita']}" + (f" ({r['cambio']})" if r["cambio"] else "")
                       + f" — léxico {a['lexico']:.4f} · semántico {a['semantico']:.4f} · grafo {a['grafo']:.4f}")
         cuerpo = " ".join(r["texto"].split("\n", 1)[-1].split())
         lineas.append(f"   {cuerpo[:280]}{'…' if len(cuerpo) > 280 else ''}")
-    if not datos["resultados"]:
+    if not datos["resultados"] and not datos.get('respuesta'):
         lineas.append("Nada en el conocimiento del proyecto responde a eso.")
     if datos["aviso"]:
         lineas.append(f"Aviso: {datos['aviso']}.")
@@ -317,27 +368,65 @@ def texto(datos: dict) -> str:
 
 
 # --- preguntas de oro ---------------------------------------------------------------------------------------------------
-def evaluar(cli, salida: Path) -> dict:
+def evaluar(cli, salida: Path, *, simulado: bool = False, casos: Path | None = None) -> dict:
     """Corre las preguntas de oro y deja en salida/hechos.json lo que Oracle juzga, y el detalle en salida/detalle.json."""
     archivo = cli.ROOT / kb_mod.DIR / "preguntas-de-oro.json"
     if not archivo.is_file():
         raise cli.FactoryError(f"no hay preguntas de oro: falta {archivo.relative_to(cli.ROOT)}")
     preguntas = json.loads(archivo.read_text(encoding="utf-8"))
-    filas, detalle, modos = [], [], set()
+    if casos is not None:
+        ruta = cli.ruta_segura(casos if casos.is_absolute() else cli.ROOT / casos)
+        if not ruta.is_file() or ruta.stat().st_size > cli.estructura.LIMITE_ARCHIVO:
+            raise cli.FactoryError('El archivo de casos adicionales falta o supera el tamaño admitido.')
+        preguntas += json.loads(ruta.read_text(encoding='utf-8'))
+    if (not isinstance(preguntas, list) or not preguntas or len(preguntas) > 200
+            or any(not isinstance(p, dict) or not isinstance(p.get('id'), str) or not isinstance(p.get('pregunta'), str)
+                   for p in preguntas) or len({p['id'] for p in preguntas}) != len(preguntas)):
+        raise cli.FactoryError('Las preguntas deben ser una lista de hasta 200 objetos con id único y pregunta.')
+    filas, detalle, modos, grupos = [], [], set(), []
     for p in preguntas:
-        datos = preguntar(cli, p["pregunta"], maximo=PRIMEROS)
+        grupo = p.get('grupo', 'documental')
+        if grupo not in ('documental', 'registro', 'abstencion', 'generativa'):
+            raise cli.FactoryError('Grupo de evaluación no admitido: ' + str(grupo))
+        if grupo != 'documental':
+            datos = preguntar(cli, p['pregunta'], maximo=PRIMEROS)
+            if grupo == 'registro':
+                acierto = datos['tipo'] == 'registro' and type(datos.get('valor')) is int and datos['valor'] == p['valor']
+            elif grupo == 'abstencion':
+                acierto = datos['tipo'] == p['tipo']
+            else:
+                acierto = (datos['tipo'] == 'respuesta_elaborada' and bool(datos.get('afirmaciones')) and bool(p.get('contiene'))
+                           and all(t.casefold() in datos['respuesta'].casefold() for t in p['contiene'])
+                           and bool(datos['fuentes']) and all(any(fuente['ruta'] == ruta for fuente in datos['fuentes'])
+                                                            for ruta in p.get('fuentes', [])))
+            grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(acierto), 'tipo': datos['tipo'],
+                           'abstuvo': int(datos['tipo'] in ('sin_respaldo', 'requiere_aclaracion', 'consulta_no_admitida')),
+                           'modelo_generativo': datos.get('modelo_generativo'), 'simulado': int(simulado)})
+            detalle.append({**grupos[-1], 'pregunta': p['pregunta'], 'respuesta': datos})
+            continue
+        datos = recuperar(cli, p["pregunta"], maximo=PRIMEROS)
         rutas = [r["ruta"] for r in datos["resultados"]]  # los cinco primeros pasajes: lo mismo que ve quien pregunta
         puesto = next((n for n, r in enumerate(rutas, 1)
                        if any(r == e or (e.endswith("/") and r.startswith(e)) for e in p["esperadas"])), 0)
         modos.add(datos["modo"])
         filas.append({"id": p["id"], "acierto": int(puesto > 0), "puesto": puesto, "modo": datos["modo"]})
         detalle.append({**filas[-1], "pregunta": p["pregunta"], "esperadas": p["esperadas"], "primeros": rutas})
+        grupos.append({'id': p['id'], 'grupo': grupo, 'acierto': int(puesto > 0), 'abstuvo': 0,
+                       'tipo': 'documentos', 'modelo_generativo': None, 'simulado': int(simulado)})
     modo = modos.pop() if len(modos) == 1 else "mixto"
     corrida = {"preguntas": len(filas), "aciertos": sum(f["acierto"] for f in filas),
                "mrr": round(sum(1 / f["puesto"] for f in filas if f["puesto"]) / len(filas), 4) if filas else 0.0,
                "modo": modo, "modelo": configuracion(cli)["modelo"] if modo == "hibrido" else "ninguno"}
     salida.mkdir(parents=True, exist_ok=False)
-    (salida / "hechos.json").write_text(json.dumps({"rag_pregunta": filas, "rag_corrida": [corrida]}, ensure_ascii=False,
+    resumen = [{'grupo': grupo, 'preguntas': sum(f['grupo'] == grupo for f in grupos),
+                'aciertos': sum(f['acierto'] for f in grupos if f['grupo'] == grupo),
+                'errores': sum(1 - f['acierto'] for f in grupos if f['grupo'] == grupo),
+                'abstenciones': sum(f['abstuvo'] for f in grupos if f['grupo'] == grupo),
+                'abstenciones_correctas': sum(f['abstuvo'] * f['acierto'] for f in grupos if f['grupo'] == grupo),
+                'abstenciones_incorrectas': sum(f['abstuvo'] * (1 - f['acierto']) for f in grupos if f['grupo'] == grupo),
+                'simulado': int(simulado)} for grupo in sorted({f['grupo'] for f in grupos})]
+    (salida / "hechos.json").write_text(json.dumps({"rag_pregunta": filas, "rag_corrida": [corrida],
+                                                   'preguntar_pregunta': grupos, 'preguntar_grupo': resumen}, ensure_ascii=False,
                                                    indent=2) + "\n", encoding="utf-8")
     (salida / "detalle.json").write_text(json.dumps(detalle, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return corrida

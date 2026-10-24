@@ -27,8 +27,9 @@ def _herramienta(nombre: str, descripcion: str, propiedades: dict, requeridas: l
 
 
 HERRAMIENTAS = [
-    _herramienta("preguntar", "Los pasajes vigentes del conocimiento del proyecto que mejor responden la pregunta, con su "
-                 "cita (oracle-factory preguntar --json).", {"texto": TEXTO, "max": MAXIMO}, ["texto"]),
+    _herramienta("preguntar", "Responde sobre el proyecto con fuentes: consulta el registro y, si hay modelo configurado, "
+                 "elabora respuestas. Avisa si falta respaldo (oracle-factory preguntar --json, esquema /2).",
+                 {"texto": TEXTO, "max": MAXIMO}, ["texto"]),
     _herramienta("estado", "El estado de un cambio: fase, requisitos, decisiones, revisión, juicio, avisos y próximo paso "
                  "(oracle-factory estado ID --json).", {"id": ID}, ["id"]),
     _herramienta("buscar", "Un texto literal en propuestas, specs, requisitos, tareas y registros (oracle-factory buscar).",

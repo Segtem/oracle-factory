@@ -103,6 +103,15 @@
         "conocimiento_cc12f23b7134ebe23.preguntar_cuenta_y_lista_cambios_desde_el_registro_vigente",
         "conocimiento_cc12f23b7134ebe23.preguntar_elabora_respuestas_a_preguntas_abiertas_del_proyecto"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T03:19:12.021039+00:00",
+      "texto": "Implementación inicial y regresiones pq1–pq6. Las seis pruebas fallaron con el producto viejo (2 fallas, 4 errores). Ahora pasan las 13 pruebas de preguntar/RAG/MCP, con transporte HTTP local simulado para Ollama y Chat Completions compatibles y ejecución real del conteo desde el arnés de VS Code. JSON nuevo /2. Todavía no se midió calidad generativa real ni se eligió un modelo; se consultó a Brian por los modelos locales ya instalados. Faltan evaluación real, mutaciones, suite completa, medidas y revisión independiente."
     }
   ],
   "tipos": {

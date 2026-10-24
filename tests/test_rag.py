@@ -141,7 +141,7 @@ class Rag(unittest.TestCase):
         salida = io.StringIO()
         with contextlib.redirect_stdout(salida):
             self.assertEqual(f.main(['--proyecto', str(self.root), 'preguntar', 'tortuga', '--json']), 0)
-        self.assertEqual(json.loads(salida.getvalue())['esquema'], 'oracle-factory.preguntar/1')
+        self.assertEqual(json.loads(salida.getvalue())['esquema'], 'oracle-factory.preguntar/2')
         self.assertEqual(self.git('status', '--porcelain'), '')
 
     # --- rag2: híbrida y dice qué usó ------------------------------------------------------------------------------
