@@ -56,7 +56,8 @@ MUTACIONES = [
     ('fragmento_ajeno', 'oracle_factory/generacion.py', " if f['id'] == c['fragmento']", '', 'pq2'),
     ('fragmento_contradictorio', 'oracle_factory/generacion.py', "if (c.get('fuente', ident) != ident or c.get('texto', fragmento['texto']) != fragmento['texto']):", 'if False:', 'pq2'),
     ('fragmento_sin_enum', 'oracle_factory/generacion.py', "['fragmento']['enum'] = sorted(set(ids)) or ['SIN_FUENTES']", "['fragmento']['description'] = 'Sin enumeración'", 'pq2'),
-    ('conceptos_sin_plurales', 'oracle_factory/rag.py', "return re.sub(r'\\b([a-z]+(?:cion|sion))es\\b', r'\\1', consultas.plano(valor))", 'return consultas.plano(valor)', 'pq6'),
+    ('conceptos_sin_plurales', 'oracle_factory/rag.py', "return re.sub(r'\\b([a-z]+(?:cion|sion))es\\b', r'\\1', plano)", 'return plano', 'pq6'),
+    ('conceptos_pierden_signos', 'oracle_factory/rag.py', 'return normalizar(concepto) in normalizar(texto)', "return normalizar(concepto).replace('+', '') in normalizar(texto)", 'pq6'),
 ]
 
 CASOS = {

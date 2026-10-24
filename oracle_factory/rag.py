@@ -51,9 +51,9 @@ def palabras(texto: str) -> list[str]:
 
 def concepto_presente(concepto, texto):
     """Control léxico mínimo: admite tildes y plurales de sustantivos en -ción/-sión."""
-    from . import consultas
     def normalizar(valor):
-        return re.sub(r'\b([a-z]+(?:cion|sion))es\b', r'\1', consultas.plano(valor))
+        plano = ''.join(c for c in unicodedata.normalize('NFKD', valor.casefold()) if not unicodedata.combining(c))
+        return re.sub(r'\b([a-z]+(?:cion|sion))es\b', r'\1', plano)
     return normalizar(concepto) in normalizar(texto)
 
 

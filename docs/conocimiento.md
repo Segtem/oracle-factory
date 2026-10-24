@@ -154,7 +154,8 @@ de ranking y un error de respuesta; el detalle muestra ambos resultados y las me
 Los controles de conceptos y citas no son un juez semántico universal.
 `contiene_alguno` permite grupos de expresiones alternativas para un mismo concepto; se exige una por grupo además
 de todos los términos de `contiene`. Estos controles positivos uniforman tildes y admiten los plurales
-de sustantivos terminados en -ción o -sión (configuración/configuraciones, revisión/revisiones). `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;
+de sustantivos terminados en -ción o -sión (configuración/configuraciones, revisión/revisiones). Se conservan
+los signos: C++ no equivale a C. `excluye` rechaza expresiones de error conocidas en afirmaciones actuales o históricas;
 las citas literales rotuladas como exclusiones conservan su sentido negativo. Así los casos pueden reconocer
 una explicación equivalente y, a la vez, rechazar un procedimiento histórico incorrecto.
 La evidencia distingue modelos simulados de mediciones con el modelo real: una prueba del transporte no acredita

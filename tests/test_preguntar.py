@@ -582,6 +582,8 @@ class Preguntar(unittest.TestCase):
         self.assertTrue(rag.concepto_presente('configuración', 'Las configuraciones de Git.'))
         self.assertTrue(rag.concepto_presente('revisiones', 'Una revisión vigente.'))
         self.assertFalse(rag.concepto_presente('configuración', 'Las revisiones vigentes.'))
+        self.assertFalse(rag.concepto_presente('C++', 'C'))
+        self.assertFalse(rag.concepto_presente('!!!', 'Sin signos'))
         casos = self.root / 'casos-adicionales.json'
         casos.write_text(json.dumps([{'id': 'generada', 'grupo': 'generativa', 'pregunta': '¿Por qué se eligió un clon aparte?',
                                       'contiene': ['clon', 'configuración'], 'contiene_alguno': [['aislamiento', 'clon']],
