@@ -4,7 +4,7 @@ de Factory que se nombra es la de pyproject.toml.
     python tools/docs_al_dia.py [--raiz CARPETA]
 
 Sale con 1 y la lista de problemas si algo no cuadra. Lo que mira: el README, docs/ (con las plantillas) y las páginas
-de la web; las notas de versión y el historial de versiones del README («La 0.1.0aN trajo …») pueden nombrar otras.
+de la web; las secciones de notas de versión y el historial de versiones del README pueden nombrar otras.
 """
 from __future__ import annotations
 
@@ -19,10 +19,53 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from oracle_factory import cli  # noqa: E402
 
-COMANDO = re.compile(r"oracle-factory(?:\s+--(?:proyecto|agente)(?:\s+[^\s`<>]+))*\s+([a-z][a-z-]+)")
-VERSION = re.compile(r"\b0\.1\.0(?:a|b|rc)\d+\b")
+VALOR = r'''(?:"[^"\n]*"|'[^'\n]*'|[^\s`<>]+)'''
+COMANDO = re.compile(r'oracle-factory(?![\w-])\s+(?:--(?:proyecto|agente)(?:=' + VALOR
+                     + r'|\s+' + VALOR + r')\s+)*([\w][\w-]*)')
+NUMERO = r'\d+\.\d+\.\d+(?:(?:a|b|rc)\d+)?(?:\.post\d+)?(?:\.dev\d+)?(?:\+[a-zA-Z0-9.]+)?'
+VERSION = re.compile(r'(?<![\w.])v?(' + NUMERO + r')(?!\w|\.\d)')
 ENLACE = re.compile(r"\]\(([^)\s]+)\)")
-HISTORIAL = re.compile(r"\b[Ll]a 0\.1\.0(?:a|b|rc)\d+ (?:trajo|abrió|hizo)\b")
+OTRO_PRODUCTO = re.compile(
+    r'(?:oracle-metalenguaje|oracle-task|oracle-clue|Oracle(?: Task| Clue)?(?!\s+Factory)|Clue|Python|editores/vscode/)'
+    r'[\s`(),:=*–—-]*v?' + NUMERO, re.IGNORECASE)
+
+
+def sin_notas_de_version(texto: str, nombre: str) -> str:
+    """Excepciones explícitas por archivo o sección, nunca por el verbo de una frase."""
+    if re.search(r'(?:^|/)(?:notas-de-version|versiones|changelog|releases?)(?:/|\.md$)', nombre, re.I):
+        return ''
+    salida, nivel = [], None
+    for linea in texto.splitlines(keepends=True):
+        titulo = re.match(r'^(#{1,6})\s+(.+)', linea)
+        if titulo:
+            actual = len(titulo[1])
+            if nivel is not None and actual <= nivel:
+                nivel = None
+            if re.search(r'notas de versi[oó]n', titulo[2], re.I) or (
+                    nombre == 'README.md' and re.search(r'historial de versiones', titulo[2], re.I)):
+                nivel = actual
+        if nivel is None:
+            salida.append(linea)
+    return ''.join(salida)
+
+
+def versiones_factory(texto: str, nombre: str) -> set[str]:
+    texto = sin_notas_de_version(texto, nombre)
+    # El destino de un enlace no se lee como una afirmación de versión del producto.
+    texto = re.sub(r'\]\(https?://[^)]+\)', ']', texto)
+    texto = re.sub(r'editores/vscode/[^\s`]*\.vsix', '', texto)
+    texto = re.sub(r'\b(?!oracle-factory\b)[a-zA-Z][\w-]*@' + NUMERO, '', texto)
+    texto = OTRO_PRODUCTO.sub('', texto)
+    return {m[1] for m in VERSION.finditer(texto)}
+
+
+def comandos_documentados(texto: str) -> set[str]:
+    # Aceptamos invocaciones completas y nombres/ejemplos de subcomandos en código Markdown,
+    # pero una palabra casual de la prosa («por ejemplo») no documenta un comando.
+    nombres = {m[1] for m in COMANDO.finditer(texto)}
+    for codigo in re.findall(r'(?<!`)`([^`\n]+)`(?!`)', texto):
+        nombres.add(codigo.split()[0] if codigo.split() else '')
+    return nombres
 
 
 def subcomandos() -> set[str]:
@@ -52,15 +95,12 @@ def problemas(raiz: Path = ROOT) -> list[str]:
         for m in COMANDO.finditer(texto):
             if m[1] not in comandos:
                 salida.append(f"{nombre}: nombra «oracle-factory {m[1]}», que no es un subcomando")
-        sin_historial = HISTORIAL.sub("", texto)
-        # Las versiones de Oracle Clue (0.1.0a1, 0.1.0a2…) tienen la misma forma: ésas no son de Factory.
-        de_factory = {m[0] for m in VERSION.finditer(sin_historial) if "clue" not in sin_historial[max(0, m.start() - 14):m.start()].lower()}
+        de_factory = versiones_factory(texto, nombre)
         for v in sorted(de_factory - {version}):
             salida.append(f"{nombre}: nombra la versión {v}; la de pyproject.toml es {version}")
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
-    for c in sorted(comandos):
-        if not re.search(rf"(?<![\w-]){re.escape(c)}(?![\w-])", documentado):
-            salida.append(f"el subcomando {c} no aparece en el README ni en docs/")
+    for c in sorted(comandos - comandos_documentados(documentado)):
+        salida.append(f"el subcomando {c} no aparece en el README ni en docs/")
     return sorted(set(salida))
 
 

@@ -87,7 +87,9 @@ fusiona. `oracle-factory modo <id> MODO` cambia el modo de trabajo de un cambio 
 
 En todo momento, `oracle-factory estado <id>` dice qué falta y calcula el próximo paso; en una terminal ofrece ejecutarlo.
 `estado`, `donde` y `resumen` tienen `--json` con esquema versionado para un IDE, un panel o un agente
-([estructura](docs/estructura.md#salidas-en-json)). En un clon de Factory, `python fabrica.py` usa el `.venv` del clon.
+([estructura](docs/estructura.md#salidas-en-json)).
+
+Para copiar sólo el programa de ejemplo a una carpeta nueva, usá `oracle-factory ejemplo notas --destino ./ejemplo-notas`.
 
 
 ## Las herramientas
@@ -100,6 +102,7 @@ métricas; lo arma `oracle-factory tablero --json`. Con Live Share, el tablero s
 **Quién trabaja en qué y cada commit con su cambio.** `oracle-factory tomar <id> --con claude-code` te registra como
 responsable con tu agente (`--relevo` si lo tenía otra persona; `soltar` lo libera). Los hooks que instala `init` (o
 `oracle-factory hooks`) agregan `Cambio: <ID>` a cada commit, y `oracle-factory log <id>` lista los commits de un cambio.
+Ver [quién trabaja en qué y los commits](docs/tablero.md#quién-trabaja-en-qué).
 
 **Integrar sin chocar.** El registro de un cambio editado en dos ramas se une solo al integrar; lo que las dos
 decidieron distinto lo elige una persona con `oracle-factory decidir-union`, y `resumen.md` y `kb/` se rehacen después

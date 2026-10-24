@@ -1,0 +1,138 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy2-3",
+  "base": "4012282ea4aab43a29abdf26e763b425ab88aedf",
+  "head": "f1d0e7f4216d84f5a654283731c8bdf56107d65b",
+  "diff_sha256": "9abb72c90321ec18c5a0d9f4f5fe17e297ce363ff4996a1afddceea1480757b2",
+  "context_sha256": "b6fa43feb07d3d11c3144993b819a3f7df8003c7f716b8a807ed3c69bd64d2a6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "DOCS-AL-DIA-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Expresión regular VERSION en docs_al_dia.py hardcodea 0.1.0 pre-release, omitiendo versiones futuras y finales",
+      "explanation": "El requisito funcional de la spec promete: «Una comprobación automática SHALL fallar si el README, docs/ o la web […] nombran una versión de Factory distinta de la de pyproject.toml (salvo en las notas de versión y en el historial de versiones del README)». En tools/docs_al_dia.py (líneas 23 y 55-59), la constante VERSION se define como re.compile(r\"\\b0\\.1\\.0(?:a|b|rc)\\d+\\b\"). Esto presenta dos fallas críticas: 1) Si un documento nombra una versión fuera de esa familia (por ejemplo, 0.2.0, 1.0.0, 0.1.1 o incluso 0.1.0 final) mientras pyproject.toml tiene la versión actual 0.1.0a13, la expresión regular VERSION no produce ninguna coincidencia, por lo que docs_al_dia.py no reporta ningún problema y retorna código de salida 0 (falso negativo). 2) Cuando el proyecto pase a una versión futura o final (por ejemplo 0.2.0 o 0.1.0), VERSION.finditer() jamás extraerá esa versión ni versiones erróneas distintas como 0.3.0, dejando la comprobación completamente inoperante. Además, HISTORIAL = re.compile(r\"\\b[Ll]a 0\\.1\\.0(?:a|b|rc)\\d+ (?:trajo|abrió|hizo)\\b\") (línea 25) sólo tolera tres verbos específicos y 0.1.0, generando falsos positivos en notas históricas legítimas redactadas con otros verbos (ej. «agregó»).",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 23,
+        "end_line": 59,
+        "side": "head"
+      },
+      "trigger": "python3 tools/docs_al_dia.py --raiz . en un repositorio donde README.md o la web refieran a 0.2.0, 1.0.0 o 0.1.0 (versión final) mientras pyproject.toml especifica 0.1.0a13, o donde pyproject.toml se actualice a 0.2.0 y la documentación mencione 0.3.0.",
+      "evidence": "1. En tools/docs_al_dia.py:23, VERSION = re.compile(r\"\\b0\\.1\\.0(?:a|b|rc)\\d+\\b\") exige estrictamente el prefijo 0.1.0 y sufijo (?:a|b|rc)\\d+.\n2. Al sustituir en README.md 0.1.0a13 por 0.2.0, VERSION.finditer(sin_historial) no encuentra ninguna versión, resultando de_factory = set(). En consecuencia, la diferencia de_factory - {version} queda vacía y docs_al_dia.py retorna 0 con «La documentación está al día con la CLI.», a pesar de que el README nombra una versión divergente.\n3. Asimismo, al actualizar pyproject.toml a 0.2.0 y README.md a 0.3.0, VERSION no extrae ninguna de las dos y el validador retorna 0 sin reportar la discrepancia.\n4. HISTORIAL en línea 25 sólo reconoce verbos (?:trajo|abrió|hizo), provocando falsos positivos si una redacción histórica usa sinónimos válidos como «La 0.1.0a8 agregó...».",
+      "related_requirement": "la documentación se comprueba contra la CLI",
+      "status": "pendiente",
+      "verification": "Pruebas de mutación manuales en copias aisladas sustituyendo 0.1.0a13 por 0.2.0 en README.md: tools/docs_al_dia.py finalizó con código 0 (falso negativo). Al actualizar pyproject.toml a 0.2.0 y README.md a 0.3.0, docs_al_dia.py también finalizó con código 0. Al agregar nota histórica con «La 0.1.0a8 agregó», reportó erróneamente un problema."
+    },
+    {
+      "id": "DOCS-AL-DIA-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Comprobación de subcomandos en docs_al_dia.py busca palabras en prosa en vez de comandos, ocultando que 'ejemplo' no está documentado",
+      "explanation": "La spec exige: «Una comprobación automática SHALL fallar si un subcomando de la CLI no aparece en el README ni en docs/». En tools/docs_al_dia.py (líneas 60-64), la comprobación implementada busca: if not re.search(rf\"(?<![\\w-]){re.escape(c)}(?![\\w-])\", documentado): salida.append(f\"el subcomando {c} no aparece en el README ni en docs/\"). Esto busca la subcadena c como palabra aislada en cualquier parte del texto Markdown acumulado de README.md y docs/. Debido a que gran parte de los subcomandos de oracle-factory (27 de 39) coinciden con sustantivos, verbos o giros comunes del idioma español (tales como ejemplo, init, modo, medir, cerrar, donde, ruta, nuevo, tomar, soltar), cualquier mención casual en prosa satisface la condición sin que el comando esté documentado. El caso más contundente es el subcomando ejemplo (oracle_factory/cli.py:3763: sub.add_parser(\"ejemplo\", help=\"copiar el ejemplo incluido a una carpeta nueva\")): este subcomando NUNCA fue documentado en README.md ni en ninguna guía de docs/ como comando o subcomando de Factory (sólo aparece la opción --con-ejemplo notas de nuevo y frases como «por ejemplo»). Sin embargo, tools/docs_al_dia.py no detecta esta omisión porque encuentra la palabra española «ejemplo» en la prosa.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 60,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "python3 tools/docs_al_dia.py sobre el repositorio actual, o agregando a la CLI un subcomando cuyo nombre sea una palabra común en español (ej. validar, clonar, ver, ayuda) sin documentarlo.",
+      "evidence": "1. En oracle_factory/cli.py:3763, se define el subcomando ejemplo: sub.add_parser(\"ejemplo\", help=\"copiar el ejemplo incluido a una carpeta nueva\").\n2. En README.md y docs/, ejemplo jamás está documentado como subcomando o comando de Factory: sólo aparece como argumento --con-ejemplo notas del subcomando nuevo o como palabra en español («por ejemplo», «un mismo ejemplo»).\n3. Sin embargo, tools/docs_al_dia.py:60-64 comprueba: if not re.search(rf\"(?<![\\w-]){re.escape(c)}(?![\\w-])\", documentado). Al buscar la palabra suelta en todo el texto concatenado de la documentación, 27 de los 39 subcomandos actuales hacen match con palabras del lenguaje ordinario.\n4. Para c = 'ejemplo', la expresión encuentra «por ejemplo» en docs/modos.md:75 y README.md:165, considerando falsamente que el subcomando ejemplo está documentado.\n5. En pruebas de mutación agregando sub.add_parser(\"validar\") a cli.py sin documentar, docs_al_dia.py retornó 0 porque la palabra «validar» ya aparece en la prosa de las guías.",
+      "related_requirement": "la documentación se comprueba contra la CLI",
+      "status": "pendiente",
+      "verification": "Inspección de oracle_factory/cli.py:3763 frente al texto de README.md y docs/, constatando la ausencia total de documentación para el subcomando ejemplo. Análisis léxico demostrando que 27 de los 39 subcomandos coinciden con vocabulario ordinario en las guías, y prueba de mutación con el subcomando no documentado validar que sobrevivió a docs_al_dia.py con código 0."
+    },
+    {
+      "id": "README-FABRICA-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "README.md instruye a invocar 'python fabrica.py', contradiciendo la spec de usar 'oracle-factory' y retirar 'fabrica.py'",
+      "explanation": "El requisito funcional de la spec establece: «las guías existentes SHALL usar oracle-factory en lugar de fabrica.py», y la propuesta detalla: «Las que ya existen se ponen al día (fabrica.py → oracle-factory)». Sin embargo, en README.md (línea 90), se afirma expresamente: «En un clon de Factory, python fabrica.py usa el .venv del clon.». Esta instrucción contradice la política del cambio de unificar la invocación bajo oracle-factory y retirar las referencias operativas a fabrica.py. La prueba unitaria test_dc1_alguien_llega_al_proyecto en tests/test_docs.py:38-39 sólo verificó los archivos bajo (SOURCE / 'docs').glob('*.md'), omitiendo verificar README.md, lo cual permitió que esta referencia a fabrica.py sobreviviera en el producto.",
+      "location": {
+        "file": "README.md",
+        "start_line": 88,
+        "end_line": 91,
+        "side": "head"
+      },
+      "trigger": "Lectura de README.md línea 90: «En un clon de Factory, python fabrica.py usa el .venv del clon.»",
+      "evidence": "1. La especificación en openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md#la documentación cuenta lo que Factory hace hoy estipula: «las guías existentes SHALL usar oracle-factory en lugar de fabrica.py».\n2. En README.md:90 se preservó la recomendación explícita: «En un clon de Factory, python fabrica.py usa el .venv del clon.».\n3. En tests/test_docs.py:38-39, la aserción self.assertNotIn('fabrica.py', guia.read_text(encoding='utf-8'), guia.name) solo itera sobre docs/*.md, excluyendo README.md, lo que impidió que la suite detectara esta contradicción.",
+      "related_requirement": "la documentación cuenta lo que Factory hace hoy",
+      "status": "pendiente",
+      "verification": "Inspección de README.md:88-91 en el checkout f1d0e7f y análisis de cobertura de test_dc1_alguien_llega_al_proyecto en tests/test_docs.py:38-39."
+    },
+    {
+      "id": "DOCS-AL-DIA-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Expresión regular COMANDO en docs_al_dia.py no detecta comandos inexistentes con mayúsculas, una letra o sintaxis --opcion=valor",
+      "explanation": "La spec define: «Una comprobación automática SHALL fallar […] si el README, docs/ o la web nombran un oracle-factory X que no es un subcomando». En tools/docs_al_dia.py (línea 22), se define: COMANDO = re.compile(r\"oracle-factory(?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))*\\s+([a-z][a-z-]+)\"). Esta expresión regular adolece de múltiples falsos negativos frente a comandos inválidos: 1) ([a-z][a-z-]+) exige exclusivamente minúsculas y al menos 2 caracteres: oracle-factory X (mencionado textualmente en el requisito y escenario de la spec) y oracle-factory x no producen captura. 2) Comandos con nombres que contengan números o guiones bajos (ej. v2 o test_cmd) tampoco son capturados o son truncados parcialmente. 3) La expresión para opciones globales (?:\\s+[^\\s`<>]+) exige un espacio; si un usuario escribe la opción estándar oracle-factory --proyecto=/ruta falso-comando o --agente=bot falso-comando, el grupo no reconoce la opción y no evalúa falso-comando.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 22,
+        "end_line": 54,
+        "side": "head"
+      },
+      "trigger": "Incluir en README.md, docs/ o site/ invocaciones como oracle-factory X (literal del escenario de la spec), oracle-factory x o oracle-factory --proyecto=/ruta comando-invalido.",
+      "evidence": "1. En tools/docs_al_dia.py:22, COMANDO = re.compile(r\"oracle-factory(?:\\s+--(?:proyecto|agente)(?:\\s+[^\\s`<>]+))*\\s+([a-z][a-z-]+)\").\n2. El patrón ([a-z][a-z-]+) requiere al menos dos caracteres y solo letras minúsculas: oracle-factory X y oracle-factory x no hacen match.\n3. Opciones globales pasadas con igual (--proyecto=/ruta o --agente=bot) invalidan el matching de la opción y omiten el análisis del comando subsecuente.\n4. Mutaciones experimentales agregando oracle-factory X o oracle-factory --proyecto=/foo falso-cmd a README.md demostraron que docs_al_dia.py retorna 0 sin reportar errores.",
+      "related_requirement": "la documentación se comprueba contra la CLI",
+      "status": "pendiente",
+      "verification": "Pruebas de mutación agregando oracle-factory X y oracle-factory --proyecto=/foo falso-cmd a README.md: en ambos casos tools/docs_al_dia.py finalizó con código 0 sin reportar el comando espurio."
+    },
+    {
+      "id": "README-GUIA-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "El apartado de herramientas 'Quién trabaja en qué y cada commit con su cambio' en README.md carece de enlace a su guía",
+      "explanation": "El requisito funcional de la spec promete: «El README SHALL describir Factory tal como está […] y SHALL tener un apartado por herramienta con su enlace a una guía». En la sección ## Las herramientas de README.md (líneas 93-121), cada herramienta cuenta con su apartado y su enlace al final (Ver el tablero y el trabajo de a dos (docs/tablero.md), (docs/colaboracion.md), (docs/conocimiento.md), (docs/agentes.md), (docs/estructura.md)). Sin embargo, el apartado «Quién trabaja en qué y cada commit con su cambio» (líneas 100-103) no contiene ningún enlace a la guía correspondiente (docs/tablero.md, secciones «Cada commit dice de qué cambio es» y «Quién trabaja en qué»), incumpliendo la promesa de que cada apartado cuente con su enlace a su guía.",
+      "location": {
+        "file": "README.md",
+        "start_line": 100,
+        "end_line": 103,
+        "side": "head"
+      },
+      "trigger": "Lectura de la sección ## Las herramientas en README.md (líneas 93-121).",
+      "evidence": "1. El requisito de la spec exige: «El README SHALL […] tener un apartado por herramienta con su enlace a una guía».\n2. En README.md:100-103, el apartado «Quién trabaja en qué y cada commit con su cambio» describe tomar, --relevo, soltar, los hooks y log, pero no contiene ningún enlace a docs/tablero.md.\n3. Los restantes apartados de esa sección sí concluyen con su respectivo enlace explícito.",
+      "related_requirement": "la documentación cuenta lo que Factory hace hoy",
+      "status": "pendiente",
+      "verification": "Inspección textual de README.md:100-103 frente a la especificación en openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md#la documentación cuenta lo que Factory hace hoy."
+    },
+    {
+      "id": "DOCS-ESTRUCTURA-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "docs/estructura.md describe erróneamente local/revisores/ como clon en vez de carpeta de trabajo del revisor",
+      "explanation": "En docs/estructura.md (línea 22), el árbol de directorios del proyecto describe: revisores/<sha7>-<revisor>-<n>/ # el clon aparte de cada pedido de revisión. En la arquitectura real de oracle-factory pedir-revision (oracle_factory/cli.py:1424-1448), el clon de Git se aloja en .factory/local/revisiones/<sha>-<revisor>-<n>, mientras que .factory/local/revisores/<sha>-<revisor>-<n> es exclusivamente la carpeta de trabajo del revisor (donde se generan pedido.md, informe.json y salida.log), sin contener ningún repositorio ni clon de Git.",
+      "location": {
+        "file": "docs/estructura.md",
+        "start_line": 21,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Inspección de docs/estructura.md:22 frente a la implementación de pedir_revision en oracle_factory/cli.py:1424-1448.",
+      "evidence": "1. En docs/estructura.md:22, se describe: revisores/<sha7>-<revisor>-<n>/ # el clon aparte de cada pedido de revisión.\n2. En el código (oracle_factory/cli.py:1424-1448), el clon Git se crea bajo .factory/local/revisiones/<sha>-<revisor>-<n>, mientras que .factory/local/revisores/<sha>-<revisor>-<n> es la carpeta de trabajo del proceso revisor (alberga pedido.md, salida.log e informe.json, sin repositorio Git).\n3. En el propio entorno de revisión, .factory/local/revisiones/f1d0e7f-agy2-3/ es el clon de Git y .factory/local/revisores/f1d0e7f-agy2-3/ es el directorio de trabajo donde se escribe informe.json.",
+      "related_requirement": "la documentación cuenta lo que Factory hace hoy",
+      "status": "pendiente",
+      "verification": "Contraste entre docs/estructura.md:22, oracle_factory/cli.py:1424-1448 y el sistema de archivos de .factory/local/."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la prueba autorizada en primer plano con el intérprete disponible: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas pasaron en 0.15s), ya que el checkout de solo lectura f1d0e7f no contaba con .venv propio.",
+    "Se ejecutaron pruebas de mutación sistemáticas en copias locales aisladas bajo la carpeta del revisor para contrastar los casos borde del comprobador tools/docs_al_dia.py y la suite tests/test_docs.py.",
+    "Se contrastaron todos los subcomandos de la CLI contra la documentación y contra las expresiones regulares del comprobador.",
+    "Se verificaron todos los enlaces internos y anclas HTML/Markdown en README.md, docs/**/*.md y site/*.html.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_docs.py, acatando las restricciones expresas del pedido.",
+    "No se probó la interfaz web con navegadores reales (Playwright/Chromium) ni lectores de pantalla.",
+    "No se modificó el checkout del candidato ni la configuración de Git de ningún repositorio."
+  ]
+}

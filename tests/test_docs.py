@@ -1,11 +1,13 @@
 """La documentación al día: escenarios dc1 (cuenta lo que Factory hace hoy) y dc2 (se comprueba contra la CLI), sobre los
 archivos del repositorio y sobre copias con un problema puesto a propósito."""
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SOURCE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SOURCE))
@@ -13,7 +15,7 @@ sys.path.insert(0, str(SOURCE / 'tools'))
 import docs_al_dia  # noqa: E402
 
 VIEJO = ('Hoy existe una POC de CLI', 'no coordina agentes automáticamente', 'análisis con IA sigue pendiente',
-         'AÚN NO IMPLEMENTADA', 'prueba de concepto')
+         'AÚN NO IMPLEMENTADA', 'prueba de concepto', 'ni ejecuta agentes, tests, sensores o revisores')
 GUIAS = {'tablero': 'docs/tablero.md', 'conocimiento': 'docs/conocimiento.md', 'agentes': 'docs/agentes.md'}
 
 
@@ -34,8 +36,11 @@ class Docs(unittest.TestCase):
         for herramienta in ('oracle-factory tablero', 'oracle-factory preguntar', 'oracle-factory --proyecto RUTA mcp',
                             'oracle-factory agentes', 'oracle-factory kb', 'oracle-factory decidir-union'):
             self.assertTrue(herramienta in readme, f'el README no nombra «{herramienta}»')
+        herramientas = readme.split('## Las herramientas', 1)[1].split('\n## ', 1)[0]
+        for apartado in re.split(r'\n\n(?=\*\*)', herramientas.strip()):
+            self.assertRegex(apartado, r'\]\(docs/[^)]+\)', 'cada herramienta necesita su guía')
         # Las guías no mandan a correr fabrica.py ni nombran un entorno de desarrollo como requisito.
-        for guia in (SOURCE / 'docs').glob('*.md'):
+        for guia in [SOURCE / 'README.md', *(SOURCE / 'docs').rglob('*.md')]:
             self.assertNotIn('fabrica.py', guia.read_text(encoding='utf-8'), guia.name)
         # El LEEME que escribe `init` en .factory/ nombra lo local de hoy.
         from oracle_factory import cli
@@ -45,8 +50,10 @@ class Docs(unittest.TestCase):
         for texto in (cli.LEEME_FACTORY, (SOURCE / 'docs/estructura.md').read_text(encoding='utf-8')):
             self.assertRegex(texto, r'local/revisiones/[^;\n]*clon')
             self.assertRegex(texto, r'local/revisores/[^;\n]*pedido[^;\n]*informe')
+        estructura = (SOURCE / 'docs/estructura.md').read_text(encoding='utf-8')
+        self.assertRegex(estructura, r'(?m)^\s+revisores/[^\n]*pedido[^\n]*informe')
         # Los enlaces entre los documentos apuntan a archivos que existen.
-        for documento in [SOURCE / 'README.md', *(SOURCE / 'docs').glob('*.md')]:
+        for documento in [SOURCE / 'README.md', *(SOURCE / 'docs').rglob('*.md')]:
             for destino in docs_al_dia.ENLACE.findall(documento.read_text(encoding='utf-8')):
                 if destino.startswith(('http', '#', 'mailto')):
                     continue
@@ -96,15 +103,47 @@ class Docs(unittest.TestCase):
         self.assertIn('README.md: nombra la versión 0.1.0a9; la de pyproject.toml es 0.1.0a13', lista)
         self.assertIn('site/desde-cero.html: nombra la versión 0.1.0a7; la de pyproject.toml es 0.1.0a13', lista)
         self.assertEqual([p for p in lista if '0.1.0a2' in p or '0.1.0a12' in p], [])  # Clue y el historial no cuentan
-        # El historial de versiones del README («La 0.1.0aN trajo…») puede nombrar las anteriores; una plantilla, un
+        # El historial de versiones del README puede nombrar las anteriores; una plantilla, un
         # comando que no existe: la comprobación mira también docs/plantillas/.
         tmp = self.copia()
         readme = tmp / 'README.md'
-        readme.write_text(readme.read_text(encoding='utf-8') + '\nLa 0.1.0a12 trajo una portada nueva; la 0.1.0a9 trajo Oracle Clue.\n', encoding='utf-8')
+        readme.write_text(readme.read_text(encoding='utf-8') + '\n## Historial de versiones\nLa 0.1.0a12 agregó una portada nueva; la 0.1.0a9 incorporó Oracle Clue.\n', encoding='utf-8')
+        self.assertEqual(docs_al_dia.problemas(tmp), [])
+        with readme.open('a') as out:
+            out.write('\n## Uso actual\nUsá Factory 0.2.0.\n')
+        self.assertIn('README.md: nombra la versión 0.2.0; la de pyproject.toml es 0.1.0a13', docs_al_dia.problemas(tmp))
+        tmp = self.copia()
+        (tmp / 'docs/notas-de-version.md').write_text('# Notas de versión\nLa 0.1.0 agregó cosas.\n')
         self.assertEqual(docs_al_dia.problemas(tmp), [])
         (tmp / 'docs/plantillas/colaboracion/relevo.md').write_text('Corré `oracle-factory plantilla-vieja ID`.\n', encoding='utf-8')
         self.assertEqual(docs_al_dia.problemas(tmp),
                          ['docs/plantillas/colaboracion/relevo.md: nombra «oracle-factory plantilla-vieja», que no es un subcomando'])
+        # Versiones finales y de otra serie también cuentan; las dependencias no son Factory.
+        for version in ('0.1.0', '0.2.0', '1.0.0', '2.0.0rc1'):
+            with self.subTest(version=version):
+                tmp = self.copia()
+                self.cambiar(tmp, 'README.md', 'oracle-factory==0.1.0a13`, y', f'oracle-factory=={version}`, y')
+                self.assertIn(f'README.md: nombra la versión {version}; la de pyproject.toml es 0.1.0a13', docs_al_dia.problemas(tmp))
+        tmp = self.copia()
+        self.cambiar(tmp, 'pyproject.toml', 'version = "0.1.0a13"', 'version = "0.2.0"')
+        self.cambiar(tmp, 'README.md', 'oracle-factory==0.1.0a13`, y', 'oracle-factory==0.3.0`, y')
+        self.assertIn('README.md: nombra la versión 0.3.0; la de pyproject.toml es 0.2.0', docs_al_dia.problemas(tmp))
+        # Un nombre corto, con mayúsculas o con opciones globales válidas no debe escaparse.
+        for comando, nombre in (('X', 'X'), ('x', 'x'), ('v2', 'v2'), ('test_cmd', 'test_cmd'),
+                                ('--proyecto=/tmp falso', 'falso'), ('--agente=bot falso', 'falso'),
+                                ('--proyecto "/tmp/con espacio" falso', 'falso')):
+            with self.subTest(comando=comando):
+                tmp = self.copia()
+                with (tmp / 'README.md').open('a') as out:
+                    out.write(f'\n`oracle-factory {comando}`\n')
+                self.assertIn(f'README.md: nombra «oracle-factory {nombre}», que no es un subcomando', docs_al_dia.problemas(tmp))
+        # «Por ejemplo» no documenta un comando llamado ejemplo, ni la prosa «validar» uno nuevo.
+        tmp = self.copia()
+        for doc in [tmp / 'README.md', *(tmp / 'docs').rglob('*.md')]:
+            doc.write_text(doc.read_text().replace('oracle-factory ejemplo notas', 'oracle-factory nuevo notas'))
+        self.assertIn('el subcomando ejemplo no aparece en el README ni en docs/', docs_al_dia.problemas(tmp))
+        with patch.object(docs_al_dia, 'subcomandos', return_value=docs_al_dia.subcomandos() | {'validar'}):
+            self.assertIn('el subcomando validar no aparece en el README ni en docs/', docs_al_dia.problemas(tmp))
 
 
 if __name__ == '__main__':

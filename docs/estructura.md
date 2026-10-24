@@ -18,8 +18,9 @@ proyecto/
         clue/                         #   paquete de contexto de Clue
         revision/                     #   informes, decisiones y triage de la revisión
     local/                            # de esta máquina; Git la ignora
-      revisiones/<sha7>/              #   checkouts estables para que Clue revise
-      revisores/<sha7>-<revisor>-<n>/ #   el clon aparte de cada pedido de revisión
+      revisiones/<sha7>/              #   checkouts estables para Clue
+      revisiones/<sha7>-<revisor>-<n>/ #   clon aparte de cada pedido de revisión
+      revisores/<sha7>-<revisor>-<n>/  #   pedido, salida e informe de cada revisor
       rag/indice.sqlite               #   el índice de preguntar (se rehace solo)
   openspec/changes/<ID>/              # el acuerdo humano, visible: propuesta, spec, diseño y plan
   openspec/specs/<capacidad>/spec.md  # lo vigente de cada capacidad: se genera al cerrar cada cambio

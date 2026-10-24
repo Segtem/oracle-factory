@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/eda5953-agy-1",
+  "base": "b555703bf5a43d502545935ab134570d9d5c9b0b",
+  "head": "eda5953a75e08ce68f6fe7abab0d5aef378211ef",
+  "diff_sha256": "82c720cf5f0a59cce97c931070a2f622bdea97dbd6f0d872a8cfa51c5c9d528d",
+  "context_sha256": "5b955091f275537a896bd5e50dc6047c823b143d86ff89f7ed6ac94757ec4521",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff y contexto provisto en el paquete Clue paquete-agy-1.json (correspondiente a la primera parte: LEEME_FACTORY en oracle_factory/cli.py).",
+    "Se ejecutó la prueba autorizada en primer plano desde la raíz del checkout con el intérprete disponible: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas pasadas en 0.145s).",
+    "Se contrastó la redacción corregida de LEEME_FACTORY en oracle_factory/cli.py contra las rutas y operaciones reales de pedir_revision, estructura.ruta_canonica y la creación de clones y carpetas de trabajo.",
+    "Se ejecutaron pruebas de mutación y regresión en scratch/test_mutations.py: se confirmó que la restitución del texto anterior (LEEME-01/AGY-01) y la permutación de descripciones entre local/revisiones/ y local/revisores/ provocan el fallo inmediato de tests/test_docs.py.",
+    "No se hallaron defectos ni discrepancias en las líneas modificadas de oracle_factory/cli.py en este paquete (findings vacía).",
+    "Conforme a las instrucciones del pedido de revisión, el resto de los archivos de documentación (README.md, docs/, site/, tools/docs_al_dia.py) se revisan en el paquete independiente documentos.",
+    "No se ejecutó la suite completa de pruebas ni tools/verify_docs.py, acatando las restricciones expresas del pedido.",
+    "El checkout del candidato eda5953 se mantuvo intacto en modo de sólo lectura, sin modificaciones, commits ni cambios en la configuración de Git."
+  ]
+}
