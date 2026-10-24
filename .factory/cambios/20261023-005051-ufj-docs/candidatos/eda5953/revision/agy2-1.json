@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/eda5953-agy2-1",
+  "base": "b555703bf5a43d502545935ab134570d9d5c9b0b",
+  "head": "eda5953a75e08ce68f6fe7abab0d5aef378211ef",
+  "diff_sha256": "82c720cf5f0a59cce97c931070a2f622bdea97dbd6f0d872a8cfa51c5c9d528d",
+  "context_sha256": "ae5d28ee11efca0125aab63b890e8d98625b8914c019ed06f258c87ea8be5562",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite de documentación desde la raíz del checkout candidato: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 tests, OK en 0.156s).",
+    "No se corrió la suite completa de pruebas del proyecto respetando las instrucciones del pedido.",
+    "No se modificó el checkout de revisión (sólo lectura) ni se alteró la configuración de Git de ningún repositorio ni se ejecutaron comandos reservados a una persona.",
+    "Se verificó la corrección de los hallazgos LEEME-01 y AGY-01 en oracle_factory/cli.py (líneas 3121-3123) contrastando la descripción de LEEME_FACTORY contra la implementación real de pedir_revision y estructura.py: local/revisiones/ guarda los checkouts estables y el clon Git independiente (<sha7>-<revisor>-<n>/), local/revisores/ guarda pedido.md, salida.log e informe.json de cada revisor, y local/rag/ guarda el índice SQLite para oracle-factory preguntar.",
+    "Se realizaron pruebas de mutación manuales en un script de prueba sobre cli.LEEME_FACTORY: 1) restaurar el texto anterior de f1d0e7f; 2) invertir los roles de revisiones y revisores; 3) eliminar la mención de clon en revisiones; 4) eliminar la mención de pedido o informe en revisores; 5) omitir la línea de local/revisiones/; 6) omitir la línea de local/revisores/; 7) omitir la línea de local/rag/. Las 7 mutaciones fueron detectadas y rechazadas (KILLED) por tests.test_docs.Docs.test_dc1_alguien_llega_al_proyecto.",
+    "El paquete paquete-agy2-1.json restringe el diff exclusivamente a oracle_factory/cli.py (LEEME_FACTORY); no se hallaron defectos ni discrepancias en los cambios del paquete."
+  ]
+}

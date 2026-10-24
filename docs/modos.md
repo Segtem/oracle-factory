@@ -78,10 +78,11 @@ Subir la intervención humana (por ejemplo, de `autonomo` a `confirmacion`) lo p
 
 Factory se construye con Factory, en modo `confirmacion`. En cada cambio, el agente de código escribe la propuesta, implementa, propone las medidas con `--agente claude-code medir …`, pide las revisiones a otros modelos y propone aprobar la revisión con un motivo. Una persona hace lo que la tabla le reserva: aprueba la spec, confirma las medidas (`medir ID --confirmar`), registra la revisión eligiendo el motivo y cierra. En `estado` queda, para cada gate, «persona, confirmo» o «persona, decidio», y en los eventos del cambio, cada propuesta del agente con forma `propuso`.
 
-El piloto con agentes de `tareas/20261004-121432-coordinar-dos/` es anterior a los modos (Factory 0.1.0a3): ahí un agente coordinador representó a las personas, y por eso no sirve como ejemplo de esto.
+El primer piloto con agentes de `tareas/20261004-121432-coordinar-dos/` es anterior a los modos: ahí un agente coordinador representó a las personas, y por eso no sirve como ejemplo de esto. El segundo corte de ese mismo cambio (el banco de concurrencia) sí siguió los modos.
 
 ## Límites
 
 - Factory no autentica a nadie. «Persona» quiere decir que el comando corrió en una terminal interactiva sin `--agente`; el nombre es el de la configuración de Git de esa terminal, o el usuario del sistema si Git no tiene nombre. Un agente que tiene una terminal interactiva y omite `--agente` quedaría registrado como persona: los modos son un protocolo entre quienes trabajan juntos, no un control de acceso.
-- Una entrada por tubería (sin terminal) no cuenta como persona: queda «sin identificar» y no puede decidir.
+- Una entrada por tubería (sin terminal) no cuenta como persona: queda «sin identificar» y no puede decidir. Y con `--agente`, una decisión de persona se niega aunque el agente corra en una terminal: sólo puede proponerla.
+- La guía de `AGENTS.md` ([agentes](agentes.md)) les cuenta esto a los agentes, armada desde la misma tabla.
 - El modo dice quién decide, no si la decisión es buena: eso sigue siendo de la revisión y de las medidas.

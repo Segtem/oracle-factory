@@ -1,0 +1,502 @@
+{
+  "id": "20261023-005051-ufj-docs",
+  "titulo": "La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI",
+  "capacidad": "web",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
+  "spec_sha256": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-23T01:26:25.532167+00:00",
+    "documentos": {
+      "openspec/changes/20261023-005051-ufj-docs/proposal.md": "1f4175042597ed3fe50390c0d64ef55c8be61f5d6009e7bdc65087c10727c7ef",
+      "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9"
+    }
+  },
+  "requisitos": [
+    "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+    "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/informe.json",
+    "sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
+    "decisiones": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/decisiones.json",
+    "decisiones_sha256": "b73f01a5d78787f204164ec6f16631eeee37d57649a72ef7f8b35d2222234ad5",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T01:37:39.177993+00:00",
+    "motivo": "La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "67da64286cbc9930f031e6905a90b112ff52e1ff",
+      "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261023-005051-ufj-docs/candidatos/d2c7037/evidencia/hechos.json",
+    "hechos_sha256": "05b588f7be069322281a6dd99dd432f2735913adbf94ed6b4cf829f1ddf9b19e",
+    "informe": ".factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt",
+    "informe_sha256": "5bff9edf5a2560d8beb2e73fc612d65653817621080bc9dd4bed34954aa68124",
+    "cuando": "2026-10-24T01:40:22.723476+00:00",
+    "contexto": {
+      "head": "4a9e89181ae77a1afc618badd52230c687c307e7",
+      "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-23T00:50:51.992356+00:00",
+      "capacidad": "web"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-23T01:26:25.532196+00:00",
+      "documentos": {
+        "openspec/changes/20261023-005051-ufj-docs/proposal.md": "1f4175042597ed3fe50390c0d64ef55c8be61f5d6009e7bdc65087c10727c7ef",
+        "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-23T01:26:38.845481+00:00",
+      "ids": [
+        "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+        "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-23T23:14:41.363188+00:00",
+      "requisito": "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+      "medidas": [
+        "factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+        "factory_docs.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-23T23:14:42.304379+00:00",
+      "requisito": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "medidas": [
+        "factory_docs.la_documentacion_se_comprueba_contra_la_cli",
+        "factory_docs.documentacion_al_dia",
+        "factory_docs.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-23T23:31:09.827896+00:00",
+      "requisito": "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+      "medidas": [
+        "factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy",
+        "factory_docs.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-23T23:31:09.948052+00:00",
+      "requisito": "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli",
+      "medidas": [
+        "factory_docs.la_documentacion_se_comprueba_contra_la_cli",
+        "factory_docs.documentacion_al_dia",
+        "factory_docs.corrida_completa"
+      ]
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:09:03.629502+00:00",
+      "agente": "codex"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T00:09:05.838849+00:00",
+      "texto": "Relevo de claude-code a codex. Brian eligió agregar agy2 dentro de docs en un commit separado (1A). Después de cerrar docs, preparar una propuesta separada para que preguntar responda consultas del registro, incluyendo cuántos cambios hay cerrados (2A). Caso observado: «Cuantas tareas cerradas hay?» devolvió pasajes ajenos a la consulta; listar --cerrados contó 56 en main."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:10:33.845492+00:00",
+      "revisor": "agy",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "d91cea3bf60c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:10:33.890711+00:00",
+      "revisor": "agy2",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "70a419956e91"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:05.949109+00:00",
+      "revisor": "agy",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "e350a36c6051"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:05.975071+00:00",
+      "revisor": "agy2",
+      "candidato": "f1d0e7f",
+      "lanzamiento": "ce1ffd7160a4"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:17:47.539176+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "70a419956e91"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:18:30.452542+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "d91cea3bf60c"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T00:18:55.533593+00:00",
+      "texto": "Primera parte de revisión: agy y agy2 confirmaron la misma discrepancia media (LEEME-01, AGY-01): local/revisores/ no contiene el clon; local/revisiones/ sí. Se corrigió LEEME_FACTORY y se documentaron ambas carpetas en docs/estructura.md. Regresión comprobada: tests.test_docs falló con el texto viejo (FAILED, failures=1), pasó tras la corrección (2 pruebas OK). Dos mutaciones que vuelven a describir revisores como clon, una en cada fuente, fueron detectadas (salida 1). Los informes del primer paquete fueron validados por Clue. La segunda parte aún está en curso. Las revisiones se dividieron mediante refs locales base-docs-leeme y base-docs-documentos por el límite de contexto de Clue; mismo candidato, sin omitir archivos entre ambos paquetes."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:25:20.532869+00:00",
+      "revisor": "agy",
+      "candidato": "eda5953",
+      "lanzamiento": "49c227891c75"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:25:20.593248+00:00",
+      "revisor": "agy2",
+      "candidato": "eda5953",
+      "lanzamiento": "d44e4824305a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:27:26.220877+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "ce1ffd7160a4"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:30:52.755537+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "eda5953",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "d44e4824305a"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:30:59.175852+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "eda5953",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "49c227891c75"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:31:03.005788+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f1d0e7f",
+      "resultado": "ok",
+      "hallazgos": 5,
+      "lanzamiento": "e350a36c6051"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-24T00:32:23.943685+00:00",
+      "texto": "La vuelta de LEEME sobre eda5953 quedó limpia con agy y agy2 (0 hallazgos, informes validados por Clue). La revisión documental de f1d0e7f encontró versiones limitadas a 0.1.0 preliminar, palabras en prosa contadas como comandos, invocaciones con una letra/dígitos/mayúsculas o = omitidas, README con fabrica.py, falta de enlace por herramienta, árbol de estructura incorrecto y pruebas no recursivas. Todos se corrigieron, incluidos los bajos. Regresión: pruebas nuevas fallaron con el código viejo (6 fallas iniciales); ahora tests.test_docs pasa. Se detectaron siete mutaciones (versiones, comandos, cobertura por prosa, historial, enlace, árbol y plantilla anidada); la primera prueba de mutación en memoria apuntó al módulo equivocado, se corrigió la prueba y las siete fueron detectadas. La prueba web inicialmente no arrancó por falta de playwright en este worktree; se usó NODE_PATH con la instalación existente de factory. comparar_con_la_version_anterior pasó en Chromium tras actualizar el texto esperado de la guía. Se aclaró que Factory lanza revisores configurados y se nombran las dependencias junto a sus versiones para distinguirlas de Factory. Catálogos y umbrales no cambiaron."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:38:42.240321+00:00",
+      "revisor": "agy",
+      "candidato": "d2c7037",
+      "lanzamiento": "f701cf6a4e8b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:38:42.272804+00:00",
+      "revisor": "agy2",
+      "candidato": "d2c7037",
+      "lanzamiento": "266aee13f688"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:48:15.694825+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d2c7037",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f701cf6a4e8b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-24T00:49:15.567018+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d2c7037",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "266aee13f688"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-24T00:49:50.334646+00:00",
+      "decision": "aprobar",
+      "candidato": "d2c7037"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-24T01:37:39.178020+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
+      "decisiones_sha256": "b73f01a5d78787f204164ec6f16631eeee37d57649a72ef7f8b35d2222234ad5"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:40:22.723492+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "05b588f7be069322281a6dd99dd432f2735913adbf94ed6b4cf829f1ddf9b19e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:59:29.429498+00:00",
+      "oracle": ".factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt",
+      "revision": "tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:59:29.460048+00:00",
+      "capacidad": "web",
+      "spec": "openspec/specs/web/spec.md"
+    }
+  ],
+  "tipos": {
+    "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy": "funcional",
+    "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli": "funcional"
+  },
+  "medidas": {
+    "web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-23T23:31:09.801377+00:00",
+      "sha256": "a9a169ea99f50aa9a6c1d979026cac9965d1707e85aa403b58809b5310024f51",
+      "catalogos": {
+        "factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy": "2aa84fd60548191547803ee39c9a85c8c8aa40621a546470eeb7a3cf97aa961a",
+        "factory_docs.corrida_completa": "0ed3a8e267890d9fed8fcedc7cfc62a96048fa394f128c78e38d2e319e83b469"
+      },
+      "archivos_catalogo": {
+        "factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy": "catalogos/factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy.oracle",
+        "factory_docs.corrida_completa": "catalogos/factory_docs.corrida_completa.oracle"
+      }
+    },
+    "web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-23T23:31:09.921801+00:00",
+      "sha256": "fc939ff575b4c0c83c0d5eca0ebc7f3d841435e2f115ac4c81f3dc7acfc6bede",
+      "catalogos": {
+        "factory_docs.la_documentacion_se_comprueba_contra_la_cli": "d1722b1b5e54b9688517bc2141ae05b596eea67a1f4b24fbed3e4a94ae52ed32",
+        "factory_docs.documentacion_al_dia": "c319ff872ecc9c4631562567350e52ce449be4c35d10ac69afeb0cfc1f7062e4",
+        "factory_docs.corrida_completa": "0ed3a8e267890d9fed8fcedc7cfc62a96048fa394f128c78e38d2e319e83b469"
+      },
+      "archivos_catalogo": {
+        "factory_docs.la_documentacion_se_comprueba_contra_la_cli": "catalogos/factory_docs.la_documentacion_se_comprueba_contra_la_cli.oracle",
+        "factory_docs.documentacion_al_dia": "catalogos/factory_docs.documentacion_al_dia.oracle",
+        "factory_docs.corrida_completa": "catalogos/factory_docs.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-24T01:59:29.365136+00:00"
+  },
+  "archivo": {
+    "capacidad": "web",
+    "spec": "openspec/specs/web/spec.md",
+    "cuando": "2026-10-24T01:59:29.460038+00:00"
+  }
+}

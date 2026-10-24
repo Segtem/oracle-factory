@@ -19,6 +19,17 @@
       "modelo": "gpt-6-luna",
       "tope_minutos": 90
     },
+    "agy2": {
+      "comando": [
+        "ask-agy2",
+        "{pedido}",
+        "{carpeta}",
+        "{carpeta}/agy2.md"
+      ],
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "tope_minutos": 90
+    },
     "agy": {
       "comando": [
         "ask-agy1",

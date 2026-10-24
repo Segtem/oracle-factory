@@ -71,6 +71,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261022-115958-1jt-hora]] — La hora de cada evento con microsegundos: lo de dos ramas en el mismo segundo queda en orden (cerrada)
 - [[cambios/20261022-161300-f94-mcp]] — Preguntar al proyecto desde el editor y desde un agente: el comando de VS Code y oracle-factory mcp, de sólo lectura (cerrada)
 - [[cambios/20261022-215347-y70-agentes]] — La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día (cerrada)
+- [[cambios/20261023-005051-ufj-docs]] — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI (cerrada)
 
 ## Requisitos
 
@@ -265,6 +266,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido]]
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes]]
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto]]
+- [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy]]
+- [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_sitio_cuenta_lo_que_trae_la_version_publicada]]
 - [[requisitos/web_c5a0a7128a6a24b88.guia_de_colaboracion_sin_las_fricciones_del_piloto]]

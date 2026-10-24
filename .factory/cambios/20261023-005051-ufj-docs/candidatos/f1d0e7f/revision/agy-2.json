@@ -1,0 +1,42 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-docs/.factory/local/revisiones/f1d0e7f-agy-2",
+  "base": "0bdaf6780056101eb88f7dc71dc55db4174323be",
+  "head": "f1d0e7f4216d84f5a654283731c8bdf56107d65b",
+  "diff_sha256": "ba31e5d451d27ce9860012bc1d6ef56929d2fb54d3051c0d58eae43157c3b85d",
+  "context_sha256": "b01711a8f7bd06929637ee22e71ff68893fe4e79679a61e90b37ec19ae91e59a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "LEEME-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.99,
+      "title": "LEEME_FACTORY describe incorrectamente local/revisores/ como el clon en vez de la carpeta de trabajo del revisor",
+      "explanation": "En oracle_factory/cli.py (líneas 3121-3122), la constante LEEME_FACTORY describe local/revisores/ como «el clon aparte de cada pedido de revisión». Sin embargo, en la implementación de pedir_revision (cli.py:1424-1448), el clon de Git se crea en local/revisiones/<sha>-<nombre>-<n> (pasado al revisor como {checkout} y a Clue como --repo), mientras que local/revisores/<sha>-<nombre>-<n> es la carpeta de trabajo ({carpeta}) que almacena pedido.md, salida.log e informe.json, sin contener un repositorio Git ni un clon. Por tanto, los roles de las carpetas quedan invertidos o tergiversados en la documentación. Además, la prueba test_dc1_alguien_llega_al_proyecto en tests/test_docs.py:42-43 solo verifica la presencia literal de las subcadenas 'local/revisores/' y 'local/revisiones/', tolerando cualquier descripción semántica errónea (falso negativo).",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 3121,
+        "end_line": 3122,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory pedir-revision ID --a revisor y constatar la naturaleza de los directorios creados: .factory/local/revisiones/<sha>-<revisor>-<n>/ es el clon de Git (contiene .git y el árbol de fuentes), mientras que .factory/local/revisores/<sha>-<revisor>-<n>/ sólo contiene archivos de texto y registro (pedido.md, salida.log, informe.json), contrariamente a lo afirmado por LEEME_FACTORY.",
+      "evidence": "1. En oracle_factory/cli.py:1424-1428, checkout = revisiones / f\"{sha}-{nombre}-{n}\" ejecuta git clone --quiet --local --no-checkout str(ROOT) str(checkout), donde revisiones es .factory/local/revisiones. En cambio, cli.py:1445 define trabajo = ROOT / estructura.DIR / \"local\" / \"revisores\" / f\"{sha}-{nombre}-{n}\" y guarda allí informe.json, salida.log y pedido.md.\n2. En el entorno real de revisión: .factory/local/revisiones/f1d0e7f-agy-2 contiene .git (repositorio Git clonado con HEAD detached at f1d0e7f), mientras que .factory/local/revisores/f1d0e7f-agy-2 contiene únicamente agy.md, pedido.md y salida.log (sin .git).\n3. La prueba test_dc1_alguien_llega_al_proyecto en tests/test_docs.py:42-43 evalúa self.assertTrue(carpeta in cli.LEEME_FACTORY) para \"local/revisores/\", permitiendo que la descripción falsa sobreviva a la suite.",
+      "related_requirement": "la documentación cuenta lo que Factory hace hoy",
+      "status": "pendiente",
+      "verification": "Inspección de oracle_factory/cli.py:3121-3122 frente a oracle_factory/cli.py:1424-1455, verificación del sistema de archivos en el checkout y la carpeta de trabajo del revisor, y pruebas de mutación manuales ejecutadas en scratch/run_mutations.py donde la alteración de la semántica descriptiva sobrevivió a tests/test_docs.py."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisó el diff y contexto provisto en el paquete Clue paquete-agy-2.json (correspondiente a la primera parte: LEEME_FACTORY en oracle_factory/cli.py).",
+    "El comando exacto PYTHONPATH=. /home/workstation/Dev/factory-docs/.factory/local/revisores/f1d0e7f-agy-2/.venv/bin/python -m unittest tests.test_docs </dev/null falló al invocarse desde la raíz del checkout debido a que el clon generado por pedir-revision no contiene .venv (ignorado en .gitignore) y las reglas de revisión prohíben modificar el checkout. Para ejecutar las pruebas unitarias sin alterar el checkout de sólo lectura, se ejecutó PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas pasadas en 0.277s).",
+    "Se ejecutaron pruebas de mutación manuales sobre copias aisladas en scratch/run_mutations.py: las mutaciones de eliminación de subcadenas fueron detectadas, pero las mutaciones semánticas sobre la descripción de las carpetas sobrevivieron a tests/test_docs.py.",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a las instrucciones del pedido de revisión.",
+    "El checkout del candidato f1d0e7f se mantuvo intacto en modo de sólo lectura, sin modificaciones, commits ni cambios en la configuración de Git.",
+    "Conforme a las instrucciones, la revisión de los restantes archivos de documentación se difiere al segundo paquete de contexto."
+  ]
+}

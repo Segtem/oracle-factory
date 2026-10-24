@@ -1,27 +1,31 @@
 # Oracle Factory — 0.1.0a13 (alpha)
 
-La visión de Oracle Factory es coordinar agentes y herramientas para producir software completo: desde una necesidad aceptada hasta código, pruebas, revisión y entrega. La persona decide el alcance, resuelve hallazgos y acepta la entrega.
+Oracle Factory coordina a personas y agentes para producir software con dirección humana: desde una necesidad aceptada
+hasta código, pruebas, revisión y entrega. Cada cambio tiene su acuerdo (propuesta y spec en formato **OpenSpec**), su
+tarea (**Oracle Task**), requisitos medidos con evidencia (**Oracle**) y revisiones independientes validadas con
+**Oracle Clue**. La persona decide el alcance, resuelve los hallazgos y acepta la entrega; los agentes trabajan, proponen
+y quedan registrados como agentes.
 
-Hoy existe una POC de CLI: genera documentos con formato **OpenSpec**, usa **oracle-task** para tareas e importa requisitos y evalúa evidencia con **Oracle**. La implementación del producto y las pruebas se ejecutan por fuera de la CLI. Recibe informes manuales de revisión; **Oracle Clue** prepara contexto y valida informes externos en su primer alpha; el análisis con IA sigue pendiente y CodeRabbit es una alternativa externa.
+Es una CLI local con un flujo visible en Git, una extensión de VS Code con un tablero de comando, y un servidor MCP de
+sólo lectura para que un agente consulte el proyecto. No hace push ni publica ramas por su cuenta. El código y las
+pruebas del producto los escribe quien trabaja (una persona o un agente); Factory registra qué se acordó, quién decidió
+qué y qué evidencia lo respalda.
 
-Es una CLI local y un flujo visible en Git. No hace commits ni publica ramas por cuenta propia. La aprobación de alcance, la resolución de hallazgos y el cierre son acciones humanas.
+Las guías:
 
-Para saber quién decide qué en cada modo de trabajo (`confirmacion`, `funcional`, `autonomo`) y cómo leerlo en `estado`, consultá [los modos de trabajo](docs/modos.md).
+- [Modos de trabajo](docs/modos.md): quién decide qué en `confirmacion`, `funcional` y `autonomo`.
+- [El tablero y el trabajo de a dos](docs/tablero.md): la extensión de VS Code, quién trabaja en qué, Live Share e integrar sin chocar.
+- [El conocimiento del proyecto](docs/conocimiento.md): el vault `kb/`, `por-que` y `preguntar`.
+- [Trabajar con agentes](docs/agentes.md): `--agente`, la guía de `AGENTS.md`, el MCP y los revisores.
+- [Revisión guiada](docs/revision-guiada.md): pedir revisiones, preparar el informe y decidir los hallazgos.
+- [Colaboración](docs/colaboracion.md): dos personas con sus agentes, del reparto a la integración, con el banco que lo prueba.
+- [Dónde está cada cosa](docs/estructura.md) y [trazabilidad](docs/trazabilidad.md).
 
-Para saber dónde está cada cosa y cómo encontrarla (`donde`, `ruta`, `buscar`), consultá la [estructura de carpetas](docs/estructura.md).
 
-Para trabajar entre dos personas con sus agentes, consultá la [guía de colaboración](docs/colaboracion.md): reparto, checkouts separados, relevos, revisión con Clue e integración con evidencia vigente. Incluye plantillas y una demostración local; las asignaciones son acuerdos humanos y el piloto con personas se registra por separado.
+## Instalación
 
-La [revisión guiada](docs/revision-guiada.md) prepara informes pendientes, separa decisiones y calcula hallazgos abiertos. El formato libre sigue disponible y exige `--hallazgos-abiertos` explícito al registrarlo.
-
-
-## Instalación del corte alpha
-
-El corte alpha 0.1.0a13 trae el tablero de comando en VS Code (qué te necesita, la línea de tiempo y las métricas, cada commit unido a su cambio y quién trabaja en qué), el trabajo de a dos con Live Share, el conocimiento del proyecto (`kb/` generado del registro, `por-que` y `preguntar`, que responde con pasajes vigentes y su cita), dos personas con sus agentes sin pisarse (un banco de concurrencia y los arreglos que encontró: registros que se unen solos al integrar, IDs que no chocan, la hora con microsegundos) y, para agentes, `oracle-factory mcp` de sólo lectura y la guía de `AGENTS.md` generada desde la CLI. La 0.1.0a12 trajo una portada nueva en pixel art —escenas que se animan al llegar, el elenco de la fábrica y un minijuego para decidir como persona con las reglas de la CLI— y `juzgar --con` repetido, un archivo de hechos por sensor, con Oracle 0.39.0: dos sensores que emiten la misma relación no dejan veredicto. La 0.1.0a11 trajo la extensión de VS Code (`editores/vscode/`, en el repositorio: una vista con los cambios abiertos, sus requisitos, revisión, veredicto y artefactos, y el próximo paso escrito en la terminal sin ejecutarlo); hace que `revisar` deje constancia de un intento cortado sin registrar, que `estado` avisa con su causa; que dos procesos que escriben el mismo registro no se pisen; y que un valor del registro que no es una ruta se informe como pendiente en vez de hacer caer `estado` y `resumen`. La 0.1.0a10 abrió Factory a proyectos que ya tienen su proyecto Oracle en una carpeta (`"oracle": "medidas"` en `.factory/config.json`, `init --oracle`, y `confiar_escalares` para sus escalares) y fijó Oracle 0.38.2. Trajo vueltas de revisión proporcionales a la severidad, con riesgos aceptados que persisten y revisores que se pueden lanzar a la vez sobre un paquete sin los registros de Factory; la trazabilidad de cada requisito a sus casos y a las líneas que cambió el candidato (`trazabilidad`); `estado`, `donde` y `resumen` en JSON; `abandonar`; que una medida confirmada vuelva a pedir decisión si cambia su catálogo; y los modos de trabajo explicados en `docs/modos.md` y en el sitio. La 0.1.0a9 trajo Oracle Clue como dependencia fija: se instala con Factory, que lo usa desde su propio entorno, y todo informe de revisor se valida (ya no hay informes «sin validar»). Además, el informe más nuevo de cada revisor reemplaza a los anteriores, el menú de la decisión en `revisar` mantiene sus números y dice por qué no se puede aprobar, e `importar` deja afuera los requisitos que la spec retira. La 0.1.0a8 hizo la CLI cómoda para la persona: `oracle-factory estado ID` calcula el próximo paso según lo que está vigente (spec, medidas, revisión, juicio, cierre, o qué archivo recuperar) y en una terminal ofrece ejecutarlo; los errores nombran su causa y cómo seguir; `resumen --ver` muestra el resumen con formato; y en un clon, `python fabrica.py` usa solo el `.venv`. La 0.1.0a7 trajo las decisiones guiadas: cada decisión de una persona se toma en un menú de opciones en vez de tipear una frase; `oracle-factory revisar` registra la revisión paso a paso, con un motivo que se elige (el del agente, uno armado con los datos del cambio o uno propio); y `medir --confirmar` confirma de una vez las medidas propuestas. Suma también `pedir-revision`, que lanza un revisor configurado, valida su informe con Oracle Clue y lo guarda en el candidato. La 0.1.0a6 trajo el resumen del estado actual (`oracle-factory resumen`) y `nuevo --sufijo`; la 0.1.0a5 trajo la spec consolidada por capacidad (`openspec/specs/`, `archivar`) y la 0.1.0a4 los modos de trabajo, la revisión guiada, la vigencia por contenido, la portabilidad y la carpeta `.factory/` con `donde`, `ruta`, `buscar` y `migrar` (ver [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md)).
-
-Está publicado en PyPI como `oracle-factory==0.1.0a13` y su wheel, con los hashes, en el [release de GitHub v0.1.0a13](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a13). Un proyecto creado con una versión anterior sigue funcionando; `oracle-factory migrar` pasa su estado a `.factory/`.
-
-Para instalarlo con `uv`:
+Está publicado en PyPI como `oracle-factory==0.1.0a13`, y su wheel, con los hashes, en el
+[release de GitHub v0.1.0a13](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a13). Con `uv`:
 
 ```bash
 uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a13
@@ -31,142 +35,143 @@ oracle-factory --proyecto ./mi-proyecto init
 oracle-factory --proyecto ./mi-proyecto nuevo --con-ejemplo notas "Comprobar el título de una nota"
 ```
 
-Si uv advierte sobre conflicto porque los ejecutables `oracle`, `tasks` u `oracle-clue` ya están instalados en tu sistema, podés instalarlo sin `--with-executables-from`:
+Si uv advierte un conflicto porque `oracle`, `tasks` u `oracle-clue` ya están instalados, se instala sin
+`--with-executables-from`:
 
 ```bash
 uv tool install --python 3.13 oracle-factory==0.1.0a13
 ```
 
-Factory utiliza sus dependencias internas (`oracle-metalenguaje 0.39.0`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno aislado y no requiere exponer sus binarios en el PATH global para operar.
+Factory usa sus dependencias (`oracle-metalenguaje 0.39.0`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno
+aislado. Python 3.11 o posterior y Git. `--proyecto` va antes del subcomando; sin esa opción se usa la carpeta actual.
 
-`--proyecto` se coloca antes del subcomando; sin esa opción se usa la carpeta actual. `init` crea la estructura de Oracle, Oracle Task y OpenSpec, añade ignores para `.factory/local/` (lo local de Factory), `__pycache__/` y `*.py[cod]` sin sobrescribir configuración existente y no crea commits ni aprobaciones. Git debe estar instalado. Python 3.11 o posterior.
+`init` crea la estructura de Oracle, Oracle Task y OpenSpec, la carpeta `.factory/`, los hooks de Git y la guía para
+agentes de `AGENTS.md`; agrega al `.gitignore` lo local (`.factory/local/`, `__pycache__/`, `*.py[cod]`) sin sobrescribir
+la configuración existente, y no crea commits ni aprobaciones. Un proyecto creado con una versión anterior sigue
+funcionando; `oracle-factory migrar` pasa su estado a `.factory/`.
 
-Los archivos indicados con `--informe` y `--con` se interpretan desde el proyecto seleccionado; también aceptan rutas absolutas.
-
-La [guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html) recorre el ejemplo de notas en un proyecto vacío sin clonar Factory. Para desarrollo desde el checkout, `python3 fabrica.py` conserva la misma interfaz y selección de proyecto.
-
-El [release de GitHub](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a13) conserva los artefactos y sus hashes. El paquete sigue siendo experimental.
-
-
-## Flujo de la POC
-
-1. `oracle-factory init`: inicializa Oracle, tareas y acuerdos; añade entradas necesarias a `.gitignore` sin sobrescribir la configuración del usuario. Los mensajes siguientes provienen de Factory.
-2. `oracle-factory nuevo --con-ejemplo notas "<pedido>"`: crea la tarea y el paquete OpenSpec copiando el ejemplo entero a `examples/notas`, la propuesta y spec al cambio y las reglas a `catalogos/`. Verifica destinos antes de crear la tarea y rechaza destinos existentes sin sobrescribir archivos. (También está disponible `oracle-factory nuevo --capacidad <slug> "<pedido>"` para plantillas en blanco sin ejemplo).
-3. `oracle-factory listar`: recupera únicamente los cambios de Factory del proyecto con su ID completo y fase actual.
-4. `oracle-factory aprobar-spec <id>`: muestra la propuesta y la spec y pregunta con un menú; la persona elige la opción que aprueba escribiendo su número. El agente espera; no puede aceptar por la persona.
-5. `oracle-factory importar <id>`: invoca al importador de Oracle. Los requisitos nuevos nacen **sin medir** y aislados por dominio para evitar herencias indebidas.
-6. `oracle-factory medir <id> --listar`: muestra los requisitos importados del cambio y las medidas disponibles: primero las del proyecto, con sus límites y fuentes, y al final las del catálogo base de Oracle, una por línea. Al elegir, `medir` dice qué medidas reemplaza y cuáles quedan sin requisito.
-   `oracle-factory medir <id> --requisito <id-requisito> --medida notas.casos_ejecutados --medida notas.resultados --quitar-sin-medir`: asocia medidas explícitamente sin edición manual de indentación. Conserva `sin_medir` por defecto; para retirarlo exige `--quitar-sin-medir` explícito (o `--sin-medir "alcance pendiente"` para cobertura parcial). Una asociación inválida no modifica archivos; modificar la asociación invalida la revisión y el juicio previos. Enlazar medidas no prueba pertinencia ni cumplimiento por sí mismo.
-7. Implementar y probar: los tests y el sensor se ejecutan por fuera de Factory.
-8. `oracle-factory revision <id> --informe <ruta> --revisor "<nombre>" --decision aprobar --hallazgos-abiertos 0`: registra la revisión humana y su decisión, vinculadas al commit de Git y a la huella de archivos del producto.
-9. `oracle-factory juzgar <id> --con <hechos.json>`: exige cobertura completa de los requisitos importados y corre Oracle sobre la evidencia aportada por el sensor. Un exit code 0 con «sin juicio» o fallas en sombra no habilita el cierre.
-10. `oracle-factory cerrar <id>`: exige que todos los gates (spec, importación, revisión sin hallazgos abiertos y juicio verde) estén completos y vigentes. La persona confirma eligiendo la opción de cerrar en el menú.
-
-Un cambio que no se va a terminar se abandona con `oracle-factory abandonar <id>`. Lo decide una persona desde un menú, en cualquier modo, y elige el motivo (un agente puede proponerlo con `--agente … abandonar <id> --motivo "…"`). Pasa a la fase `abandonada`: sus `.requisito` salen de `requisitos/` (quedan en Git), su tarea se cierra con el motivo, nada se fusiona en `openspec/specs/`, y el resumen lo muestra aparte. También vale para una carpeta de `openspec/changes/` sin registro.
-
-En todo momento se puede consultar el estado con `oracle-factory estado <id>`: dice qué falta y calcula el próximo paso (por ejemplo `medir <id> --confirmar`, `revisar <id>` o `cerrar <id>`); en una terminal ofrece ejecutarlo desde un menú. Sin terminal o con `--agente` sólo lo imprime. Para un IDE, un panel o un agente, `estado <id> --json`, `donde <id> --json` y `resumen --json` dan lo mismo como JSON con esquema versionado (`oracle-factory.estado/1`, `.donde/1`, `.resumen/1`), sin preguntar ni escribir nada; ver [docs/estructura.md](docs/estructura.md#salidas-en-json). Para revisar por promesa, `trazabilidad <id>` muestra qué líneas cambiadas del candidato ejecutan los casos de cada requisito y cuáles no respalda ninguno ([docs/trazabilidad.md](docs/trazabilidad.md)).
-
-En un clon de Factory, `python fabrica.py estado <id>` usa el entorno del clon (`.venv`) aunque se lo llame con otro intérprete; con el entorno activado (`source .venv/bin/activate` en bash o zsh, `source .venv/bin/activate.fish` en fish) se usa directamente `oracle-factory estado <id>`.
+La [guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html) recorre el ejemplo de notas en un proyecto
+vacío sin clonar Factory.
 
 
-## Ejemplo mínimo
-
-En tu proyecto inicializado, creá un cambio con el ejemplo y aprobá la spec tras revisarla:
+## El flujo de un cambio
 
 ```bash
 oracle-factory init
 oracle-factory nuevo --con-ejemplo notas "Comprobar el título de una nota"
-# Recuperar el ID impreso o con: oracle-factory listar
+oracle-factory listar                      # el ID completo y la fase de cada cambio
 oracle-factory aprobar-spec <id>
 oracle-factory importar <id>
 oracle-factory medir <id> --listar
 oracle-factory medir <id> --requisito <id-requisito> --medida notas.casos_ejecutados --medida notas.resultados --quitar-sin-medir
 ```
 
-Si necesitás los comandos independientes `oracle`, `tasks` y `oracle-clue` (por ejemplo, para que un revisor valide su informe a mano con `oracle-clue validar`), usá la instalación con `--with-executables-from oracle-metalenguaje,oracle-task,oracle-clue`. Luego podés consultar `oracle cobertura --proyecto .`: hasta mapear todos los requisitos, Factory no acepta evidencia ni permite cerrar.
+1. `nuevo` crea la tarea y el paquete OpenSpec del cambio (`--con-ejemplo notas` trae el ejemplo entero; `--capacidad
+   <slug> --sufijo <s>` una plantilla en blanco). Una persona revisa la propuesta y la spec y la aprueba con
+   `aprobar-spec`, eligiendo en un menú; un agente puede proponerla con `--agente`.
+2. `importar` pasa los requisitos a Oracle: nacen **sin medir**. `medir --listar` muestra las medidas disponibles y
+   `medir --requisito … --medida …` las asocia (un agente las propone; una persona las confirma con `medir <id>
+   --confirmar`).
+3. Se implementa y se prueba por fuera de Factory. El sensor del proyecto deja la evidencia en la carpeta del candidato
+   (`oracle-factory ruta <id> evidencia`).
+4. `pedir-revision <id> --a REVISOR` lanza un revisor configurado y valida su informe con Clue; `revisar <id>` registra la
+   revisión paso a paso, decidiendo cada hallazgo ([revisión guiada](docs/revision-guiada.md)).
+5. `juzgar <id>` exige cobertura de todos los requisitos y corre Oracle sobre la evidencia (`--con` repetido, un archivo
+   por sensor). Un «sin juicio» no habilita el cierre.
+6. `cerrar <id>` exige spec, importación, revisión sin hallazgos abiertos y juicio verde, todos vigentes; la persona
+   confirma en el menú. La spec del cambio se fusiona en `openspec/specs/`.
+
+Un cambio que no se va a terminar se abandona con `oracle-factory abandonar <id>` (lo decide una persona y elige el
+motivo; un agente lo propone con `--agente … abandonar <id> --motivo "…"`): sus requisitos salen de `requisitos/` y nada se
+fusiona. `oracle-factory modo <id> MODO` cambia el modo de trabajo de un cambio (bajar la intervención es de una persona).
+
+En todo momento, `oracle-factory estado <id>` dice qué falta y calcula el próximo paso; en una terminal ofrece ejecutarlo.
+`estado`, `donde` y `resumen` tienen `--json` con esquema versionado para un IDE, un panel o un agente
+([estructura](docs/estructura.md#salidas-en-json)).
+
+Para copiar sólo el programa de ejemplo a una carpeta nueva, usá `oracle-factory ejemplo notas --destino ./ejemplo-notas`.
 
 
-## Alcance y límites de esta POC
+## Las herramientas
 
-- Usa los comandos instalados de Oracle y oracle-task; no implementa copias de sus reglas.
-- No instala ni invoca CodeRabbit. Recibe su informe exportado o pegado y hace explícita la decisión humana. El análisis con IA sigue pendiente y Clue en su primer alpha prepara contexto y valida informes externos.
-- Oracle evalúa los hechos aportados; Factory no ejecuta el sensor ni certifica que ese JSON provenga de la versión actual. No lee el código para demostrar cualquier afirmación. La cobertura completa de una spec requiere criterio humano y medidas defendibles.
-- No archiva automáticamente el cambio OpenSpec ni modifica código del producto. No realiza git push ni publicación de ramas.
-- El flujo se verificó en Linux; los comandos para Windows y macOS fueron revisados pero no cuentan con ejecución automatizada completa en esos sistemas. Las guías no sustituyen la dirección de una persona competente.
+**El tablero de comando.** La extensión de VS Code (`editores/vscode/`, 0.5.0) muestra los cambios abiertos y abre un
+tablero con lo que te necesita, la línea de tiempo de cada cambio con quién decidió qué, los hallazgos, los commits y las
+métricas; lo arma `oracle-factory tablero --json`. Con Live Share, el tablero se comparte y cada cambio tiene su chat
+(`oracle-factory mensaje`). Ver [el tablero y el trabajo de a dos](docs/tablero.md).
+
+**Quién trabaja en qué y cada commit con su cambio.** `oracle-factory tomar <id> --con claude-code` te registra como
+responsable con tu agente (`--relevo` si lo tenía otra persona; `soltar` lo libera). Los hooks que instala `init` (o
+`oracle-factory hooks`) agregan `Cambio: <ID>` a cada commit, y `oracle-factory log <id>` lista los commits de un cambio.
+Ver [quién trabaja en qué y los commits](docs/tablero.md#quién-trabaja-en-qué).
+
+**Integrar sin chocar.** El registro de un cambio editado en dos ramas se une solo al integrar; lo que las dos
+decidieron distinto lo elige una persona con `oracle-factory decidir-union`, y `resumen.md` y `kb/` se rehacen después
+del merge. Un banco de 13 escenarios con dos personas y sus agentes lo prueba ([colaboración](docs/colaboracion.md)).
+
+**El conocimiento del proyecto.** `oracle-factory kb` genera `kb/` desde el registro (una nota por cambio y por
+requisito) y lo rehace con cada decisión; las notas de personas vencen cuando cambian sus fuentes (`kb revisada`);
+`por-que ARCHIVO:LÍNEA` va de una línea a su cambio; y `oracle-factory preguntar "¿por qué los IDs llevan letras al
+azar?"` responde con los pasajes vigentes y su cita, por palabras, embeddings (Ollama local por defecto) y el grafo del vault. Ver [el conocimiento del proyecto](docs/conocimiento.md).
+
+**Para agentes.** `oracle-factory agentes` escribe en `AGENTS.md` la guía para agentes, armada desde la CLI y verificada;
+`oracle-factory --proyecto RUTA mcp` sirve el proyecto por MCP, de sólo lectura. Una decisión de persona nunca la toma un
+agente. Ver [trabajar con agentes](docs/agentes.md).
+
+**Revisión, trazabilidad y lo vigente.** `revision-preparar` arma el informe desde los de los revisores y `revision`
+registra una revisión libre o guiada; `trazabilidad <id>` cruza cada requisito con las líneas que lo prueban;
+`archivar` fusiona en `openspec/specs/` las specs de los cambios cerrados; `resumen` da el estado vigente en una lectura;
+`donde`, `ruta` y `buscar` dicen dónde está cada cosa ([estructura](docs/estructura.md)).
 
 
-## Preparación y vigencia de la evidencia
+## Alcance y límites
 
-Usar Python 3, Git y las herramientas instaladas. La integración se probó con Oracle 0.39.0 y Oracle Task 0.2.0. No se requiere la CLI de OpenSpec para importar estas specs a Oracle; esta POC no valida el ciclo completo del CLI OpenSpec.
+- Usa Oracle, Oracle Task y Oracle Clue instalados con Factory; no copia sus reglas.
+- Factory no ejecuta el sensor ni las pruebas del producto, ni certifica que un JSON de hechos provenga de la versión
+  actual: guarda su huella, y la evidencia de otro candidato no vale. La cobertura completa de una spec requiere criterio
+  humano y medidas defendibles.
+- Lanza los revisores que declara cada proyecto (`pedir-revision`), pero el revisor no decide: los hallazgos los resuelve
+  una persona.
+- No autentica a nadie: una persona es un comando que corre en una terminal sin `--agente`. Los modos son un protocolo
+  entre quienes trabajan juntos, no un control de acceso.
+- No hace push ni publica ramas. Verificado en Linux; los comandos para Windows y macOS se revisaron pero no tienen
+  ejecución automatizada.
 
-Antes de registrar la revisión, terminar los cambios y crear el commit del producto. La CLI guarda HEAD y una huella de archivos versionados y nuevos no ignorados. Si cambia el código, la spec, las medidas o la evidencia (la huella de archivos), repetir la revisión/juicio. Un commit que sólo toca registros de tareas no invalida: se guarda el commit revisado y `estado` avisa cuando el HEAD actual es otro con el producto idéntico. Los registros de tareas y los informes generados en el paquete no se incluyen en la huella del producto, pero los informes se verifican por hash propio. Los archivos ignorados y dependencias externas quedan fuera de esa huella; los submódulos no están soportados.
 
-Renovar la aprobación de propuesta/spec invalida la importación, la revisión y el veredicto anteriores. Una asociación de medidas diferente invalida la revisión y el juicio. Una decisión de medidas también deja de valer si después cambia el archivo de alguna de sus medidas (umbral, filtro, alcance): `estado` la marca y se vuelve a decidir con `medir` y las mismas medidas. Las confirmaciones interactivas son un protocolo del operador: registran el usuario del sistema, sin autenticar de forma independiente a una persona.
+## Vigencia de la evidencia
+
+Antes de registrar la revisión, se terminan los cambios y se commitea el producto. Factory guarda HEAD y una huella de
+los archivos del producto (versionados y nuevos no ignorados; sin `.factory/`, `tareas/` ni lo que genera). Si cambia el
+código, la spec, las medidas o la evidencia, hay que repetir la revisión y el juicio. Un commit que sólo toca registros no
+invalida: `estado` avisa cuando el HEAD es otro con el mismo producto. Los submódulos no están soportados.
+
+Renovar la aprobación de la spec invalida la importación, la revisión y el veredicto anteriores; otra asociación de
+medidas invalida la revisión y el juicio, y una decisión de medidas deja de valer si cambia el archivo de alguna de sus
+medidas.
 
 
 ## Pruebas
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests </dev/null
 ```
 
-La suite incluye regresiones con Git real y una integración temporal de creación de tarea, importación Oracle, rechazo de evidencia insuficiente, juicio y cierre. Las aprobaciones de esa prueba son fixtures; no aprueban ningún cambio real.
+La suite incluye regresiones con Git real y la integración completa (tarea, importación, evidencia insuficiente, juicio y
+cierre); sus aprobaciones son fixtures. `python3 tools/docs_al_dia.py` comprueba que esta documentación nombre cada
+comando de la CLI, sólo comandos que existen y la versión de `pyproject.toml`.
 
 
-## Web y guía desde cero
+## Web
 
 **[Abrir la web](https://segtem.github.io/oracle-factory/) · [Guía desde cero](https://segtem.github.io/oracle-factory/desde-cero.html)**
 
-La [portada interactiva](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y Oracle Factory con un mismo ejemplo. El recorrido pixel art muestra las decisiones humanas y una vuelta de revisión, corrección y nuevas pruebas. Es una demostración visual; no ejecuta agentes ni registra aprobaciones reales.
-
-La [guía desde cero](site/desde-cero.html) recorre el [ejemplo de notas](examples/notas) hasta el cierre local con inicio guiado y comando `medir`.
-
-Para ver ambas páginas localmente:
-
-```bash
-python3 -m http.server 8765 --directory site
-```
-
-Abrir <http://localhost:8765>. También funcionan abriendo `site/index.html` sin conexión. El sitio no tiene dependencias externas en tiempo de ejecución. GitHub Actions publica `site/` en GitHub Pages desde `main`.
-
-Para comprobar la web en Chromium, instalar la dependencia de desarrollo Playwright y ejecutar:
-
-```bash
-npm install --no-save --package-lock=false playwright@1.62.1
-node tests/test_site.cjs
-```
-
-La portada viva (escenas, personajes, el minijuego y sus secretos) tiene su propia prueba por escenario: `node tests/test_web_viva.cjs recorrer_la_portada` (los nombres están en el archivo), y la máquina del minijuego se prueba sin navegador con `node tests/test_juego.cjs`. La prueba usa `/usr/bin/chromium` por defecto; se puede indicar otro ejecutable con la variable `CHROMIUM`. Comprueba los controles, las decisiones, el teclado, movimiento reducido, adaptación móvil, enlaces y funcionamiento sin red.
+La [portada](site/index.html) compara vibe coding, el ciclo de desarrollo, el trabajo guiado por especificaciones y
+Oracle Factory con un mismo ejemplo, en pixel art y con un minijuego para decidir como persona. Es una demostración: no
+ejecuta agentes ni registra aprobaciones. GitHub Actions publica `site/` en GitHub Pages desde `main`; localmente,
+`python3 -m http.server 8765 --directory site`. Para comprobarla en Chromium: `npm install --no-save
+--package-lock=false playwright@1.62.1` y `node tests/test_site.cjs` (la portada viva: `node tests/test_web_viva.cjs`;
+el minijuego, sin navegador: `node tests/test_juego.cjs`).
 
 
-## Extensión de VS Code
+## Versiones
 
-[`editores/vscode/`](editores/vscode) agrega una vista «Factory» al explorador: los cambios abiertos, sus requisitos (medidas, decisión y veredicto), su revisión, sus artefactos (un clic los abre; el que falta aparece marcado) y el próximo paso. El botón de terminal **escribe** el comando en una terminal del proyecto sin ejecutarlo: la decisión se sigue tomando en el menú de la CLI. Usa `.venv/bin/oracle-factory` del proyecto si existe, si no `oracle-factory` del `PATH`, o la configuración de usuario `factory.comando`. Sólo corre en espacios de trabajo de confianza. El botón de tablero (o *Factory: Abrir el tablero*) abre el **tablero de comando**: por cada cambio abierto, lo que necesita tu decisión con su comando, los hallazgos de los revisores (un clic abre `archivo:línea`), los requisitos con sus medidas, sus commits (un clic abre el diff), los avisos, la línea de tiempo y las métricas del cambio y del proyecto; se rehace solo cuando cambia un registro. Lo arma `oracle-factory tablero --json`.
-
-**Commits unidos a su cambio.** `init` (o `oracle-factory hooks`, en un proyecto que ya existía) instala los hooks de Git `prepare-commit-msg` y `commit-msg`, que agregan `Cambio: <ID>` a cada commit: el cambio que nombra el mensaje (un merge «Integrar <ID>»), si no el único abierto, y con varios abiertos el que tomaste (también si el mensaje se escribe en el editor; cerrarlo vacío sigue abortando el commit); si ya tenés uno propio no lo toca y te dice la línea para encadenarlo, y nunca impiden un commit. `oracle-factory log ID` (o `--json`) lista los commits del cambio: los que llevan su trailer y, para los de antes, los que se deducen de sus candidatos y del merge que los integró. `estado` dice cuántos tiene y el último.
-
-**Integrar sin chocar.** Los mismos `init`/`hooks` instalan también, en `.gitattributes` (versionado) y en la configuración del clon, dos drivers de merge y un `post-merge`. El registro de un cambio editado en dos ramas (`.factory/cambios/*/factory.json`) se une: quedan los eventos de las dos, en orden, y lo que cambió una sola rama. Lo que las dos decidieron distinto (dos personas lo tomaron, dos cierres) no lo elige Factory: queda el de la rama que integra y `estado` avisa cuál falta decidir y con qué comando; la decisión que corresponde (o `oracle-factory decidir-union ID CAMPO nuestro|suyo`, desde la terminal de una persona, para lo que ninguna otra decisión resuelve, como dos fases o dos cierres) borra el aviso. `resumen.md` y `kb/` no chocan nunca: después del merge (también de uno con conflictos que se termina con `git commit`) se rehacen desde el registro unido, en un commit aparte que no lleva las notas de personas. Cada persona corre `oracle-factory hooks` una vez por clon (la configuración de Git no viaja con el repositorio).
-
-**El conocimiento del proyecto.** `oracle-factory kb` escribe `kb/` desde el registro: una nota por cambio (fase, responsable, requisitos con su veredicto, decisiones con quién, cuándo y por qué, riesgos aceptados, commits hasta el cierre y mensajes), una por requisito y un índice, con enlaces de Obsidian. Nadie las edita a mano: se rehacen solas con cada decisión de Factory, y `kb --verificar` falla si no coinciden con el registro. Las notas de personas van en `kb/notas/` con `fuentes:` en su frontmatter (archivos, requisitos o IDs de cambio): cuando una fuente cambia, la nota queda «por revisar», `kb --verificar` falla y `estado` lo avisa en el cambio que la tocó, hasta que una persona la marca con `oracle-factory kb revisada kb/notas/NOMBRE.md`. `oracle-factory por-que ARCHIVO:LÍNEA` (o el comando «Factory: ¿Por qué existe esta línea?» de la extensión 0.4.0, también en el menú del editor) va del commit que escribió esa línea a su cambio, sus requisitos, sus decisiones, los riesgos y hallazgos sobre ese archivo y las notas que lo tienen como fuente.
-
-**Preguntar al conocimiento.** `oracle-factory preguntar "¿por qué los IDs llevan letras al azar?"` (o `--json`) devuelve los pasajes que mejor responden, cada uno con su cita (archivo y sección) y su cambio, del vault, de las propuestas, diseños y specs de los cambios, de las specs vigentes y de `docs/`. Deja afuera las notas de personas por revisar (las nombra) y lo de los cambios abandonados, y es sólo lectura. Busca a la vez por palabras (sin tildes ni mayúsculas), por significado (embeddings) y por el grafo del vault, y dice cuánto aportó cada vía. Los embeddings salen por defecto de Ollama en la máquina (`ollama pull qwen3-embedding:0.6b` una vez); en `.factory/config.json`, `"rag": {"embeddings": {...}}` elige otro modelo, otra URL, un proveedor compatible con OpenAI (`"proveedor": "openai"`, `"url"`, `"modelo"`, `"clave_env"`) o ninguno (`"proveedor": "ninguno"`). Sin proveedor, sigue por palabras y por el grafo, y lo avisa. El índice vive en `.factory/local/rag/` y se pone al día solo. `preguntar --evaluar --salida CARPETA` corre las preguntas de oro de `kb/preguntas-de-oro.json` (acierta si el archivo de alguno de los cinco primeros pasajes es uno de los esperados) y deja los hechos para que Oracle juzgue la calidad.
-
-**Una guía para los agentes.** `oracle-factory agentes` (también lo hace `init`) escribe en `AGENTS.md` un bloque marcado que se arma desde la CLI: quién decide qué en cada modo de trabajo, con el modo del proyecto marcado, qué comandos son de una persona y cuáles corre un agente con `--agente`, y cómo consultar el proyecto. No toca lo que el proyecto escribió afuera del bloque, y agrega `@AGENTS.md` a `CLAUDE.md` para que Claude Code la lea (Codex lee `AGENTS.md`). `agentes --verificar` falla si quedó vieja, y una prueba comprueba que cada comando que la guía da como de una persona se niega a un agente.
-
-**Desde el editor y desde un agente.** En VS Code, «Factory: Preguntar al proyecto» (en la paleta, en la vista de Factory y como botón del tablero, extensión 0.5.0) pide la pregunta y abre los pasajes con sus citas, sin cambiar nada. Para un agente, `oracle-factory --proyecto RUTA mcp` sirve el proyecto por MCP (stdio), de sólo lectura: las herramientas `preguntar`, `estado`, `buscar`, `por_que`, `resumen`, `log` y `listar` devuelven lo mismo que la CLI, y ninguna cambia el proyecto (las decisiones siguen siendo de una persona en su terminal). Se registra una vez:
-
-```bash
-claude mcp add factory -- oracle-factory --proyecto /ruta/al/proyecto mcp
-codex mcp add factory -- oracle-factory --proyecto /ruta/al/proyecto mcp
-```
-
-**Quién trabaja en qué.** `oracle-factory tomar ID --con claude-code` te registra como responsable del cambio, con el agente con el que trabajás; si otra persona ya lo tiene, hace falta `--relevo` (queda constancia de quién lo tenía), y `soltar ID` lo libera. Un agente que corre `--agente NOMBRE tomar ID` se suma al cambio sin quedar como responsable. Es un acuerdo registrado, no un candado. `estado` y el tablero muestran, por cambio, la persona responsable, sus agentes (los declarados y los que actuaron en las últimas 24 horas, con su última acción) y los revisores en curso; el tablero muestra también quién está en qué en todo el proyecto.
-
-**De a dos, con Live Share.** Con la extensión [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) en una sesión, el tablero (extensión 0.3.0) muestra quién está conectado y con qué rol. Quien comparte publica su tablero: un invitado con la extensión lo ve aunque no tenga la CLI de Factory ni el proyecto, se rehace cuando cambia un registro, sus enlaces abren los archivos compartidos y el botón de un comando lo escribe, sin Enter, en la terminal «Factory» de quien comparte. Cada cambio tiene un chat; los mensajes quedan en su registro con el nombre que da Live Share y quién los guardó (no escribas secretos: se versionan). Factory no autentica a nadie: quien comparte sólo acepta el nombre de un invitado conectado, y con varios invitados uno podría usar el de otro. Desde la terminal, `oracle-factory mensaje ID "texto"` deja un mensaje como persona o, con `--agente`, como agente. Sin Live Share el tablero sigue igual. Los botones del tablero manejan la sesión aunque no veas la barra de estado: «Instalar Live Share», «Compartir sesión» (Live Share copia el enlace), «Unirse a una sesión» (pide el enlace), «Terminar sesión» y «Salir de la sesión».
-
-Se arma sin `npm`:
-
-```bash
-python3 editores/vscode/empaquetar.py
-code --install-extension editores/vscode/oracle-factory-0.4.0.vsix
-```
+Lo que trajo cada versión está en [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md).

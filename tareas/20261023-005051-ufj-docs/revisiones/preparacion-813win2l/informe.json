@@ -1,0 +1,110 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261023-005051-ufj-docs",
+  "contexto": {
+    "head": "367cac8f7b21d1ee68c2c636ea60b6d3338368d1",
+    "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
+  },
+  "documentos": {
+    "openspec/changes/20261023-005051-ufj-docs/proposal.md": "1f4175042597ed3fe50390c0d64ef55c8be61f5d6009e7bdc65087c10727c7ef",
+    "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_docs.corrida_completa.oracle",
+    "catalogos/factory_docs.documentacion_al_dia.oracle",
+    "catalogos/factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy.oracle",
+    "catalogos/factory_docs.la_documentacion_se_comprueba_contra_la_cli.oracle",
+    "docs/agentes.md",
+    "docs/conocimiento.md",
+    "docs/estructura.md",
+    "docs/modos.md",
+    "docs/revision-guiada.md",
+    "docs/tablero.md",
+    "openspec/changes/20261023-005051-ufj-docs/design.md",
+    "openspec/changes/20261023-005051-ufj-docs/proposal.md",
+    "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
+    "openspec/changes/20261023-005051-ufj-docs/tasks.md",
+    "requisitos/web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy.requisito",
+    "requisitos/web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/index.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_docs.py",
+    "tools/docs_al_dia.py",
+    "tools/verify_docs.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 468 pruebas, 2 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/d2c7037/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/d2c7037/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/d2c7037/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f1d0e7f: agy (gemini-3.8-flash-high), 1 hallazgo: LEEME-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/f1d0e7f/revision/agy-2.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f1d0e7f: agy (gemini-3.8-flash-high), 5 hallazgos: finding-docs-al-dia-version-hardcoded (alta), finding-docs-al-dia-subcomando-falso-negativo-prosa (alta), finding-docs-al-dia-regex-comando-digitos-e-igual (media), finding-docs-al-dia-historial-fragil (baja), finding-test-docs-glob-no-recursivo (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/f1d0e7f/revision/agy-3.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f1d0e7f: agy (gemini-3.8-flash-high), 1 hallazgo: AGY-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/f1d0e7f/revision/agy2-2.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f1d0e7f: agy (gemini-3.8-flash-high), 6 hallazgos: DOCS-AL-DIA-01 (alta), DOCS-AL-DIA-02 (alta), README-FABRICA-01 (media), DOCS-AL-DIA-03 (media), README-GUIA-01 (baja), DOCS-ESTRUCTURA-01 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/f1d0e7f/revision/agy2-3.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato eda5953: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/eda5953/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato eda5953: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261023-005051-ufj-docs/candidatos/eda5953/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios dc1–dc2 sobre los archivos del repositorio y sobre copias con un problema puesto a propósito; la comprobación mira que los comandos y las versiones existan, no que lo explicado esté bien explicado.",
+    "agy (gemini-3.8-flash-high): Se revisaron en su totalidad los 24 archivos incluidos en el diff y contexto del paquete Clue paquete-agy-1.json (README.md, docs/, site/, catalogos/, requisitos/, openspec/ y herramientas de validación).",
+    "agy (gemini-3.8-flash-high): Se contrastaron todos los compromisos de la especificación web/spec.md frente a la implementación en documentación, scripts y pruebas automáticas.",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución efectiva y ausencia de regresiones de todos los hallazgos de revisiones previas (f1d0e7f y eda5953): soporte de versiones de release y series futuras en NUMERO/VERSION, exclusión estructural de notas de versión mediante sin_notas_de_version, discriminación de subcomandos documentados frente a coincidencias de prosa casual mediante comandos_documentados, soporte de subcomandos con dígitos/guiones/mayúsculas y opciones con '=' o entrecomilladas en COMANDO, búsqueda recursiva de archivos .md mediante .rglob() en test_dc1, eliminación total de referencias a 'python fabrica.py' en guías y README, enlaces explícitos a guías en todas las herramientas del README (incluyendo #quién-trabaja-en-qué), y distinción precisa de roles entre local/revisiones/ y local/revisores/ en docs/estructura.md y LEEME_FACTORY.",
+    "agy (gemini-3.8-flash-high): Se comprobó que los 39 subcomandos expuestos por la CLI de Oracle Factory se encuentran debidamente documentados en README.md o docs/.",
+    "agy (gemini-3.8-flash-high): Se verificaron todos los enlaces internos y anclas en Markdown y HTML, confirmando que resuelven a rutas y encabezados existentes sin hipervínculos rotos.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias autorizadas desde la raíz del checkout con: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas exitosas en 0.385s).",
+    "agy (gemini-3.8-flash-high): Se realizaron pruebas de mutación manuales sobre 7 escenarios independientes (reintroducción de fabrica.py en subcarpeta, enlaces rotos, omisión de documentación de subcomandos, versiones divergentes en web, frases obsoletas tipo POC, comandos inexistentes y herramientas sin enlace); todos fueron detectados y provocaron fallas inmediatas en tests.test_docs.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas ni tools/verify_docs.py, acatando expresamente la restricción de las instrucciones del pedido de revisión.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato d2c7037 se conservó estrictamente en modo de sólo lectura, sin realizar modificaciones de código, commits ni cambios en la configuración de Git.",
+    "agy (gemini-3.8-flash-high): Se revisaron los 24 archivos del paquete de contexto paquete-agy2-1.json frente a los requisitos en openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas del contrato documental en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-docs/.venv/bin/python -m unittest tests.test_docs </dev/null (2 pruebas OK).",
+    "agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas del proyecto, acatando la instrucción explícita del pedido.",
+    "agy (gemini-3.8-flash-high): Se verificó la resolución sin regresiones de todos los hallazgos de las vueltas anteriores: soporte de versiones estables y futuras en VERSION (finding-docs-al-dia-version-hardcoded / DOCS-AL-DIA-01), detección de subcomandos sin aceptar palabras en prosa (finding-docs-al-dia-subcomando-falso-negativo-prosa / DOCS-AL-DIA-02), soporte en COMANDO de dígitos, mayúsculas, guiones bajos y opciones con '=' o comillas (finding-docs-al-dia-regex-comando-digitos-e-igual / DOCS-AL-DIA-03), exención explícita por sección del historial de versiones y notas de versión (finding-docs-al-dia-historial-fragil), búsqueda recursiva rglob('*.md') en plantillas (finding-test-docs-glob-no-recursivo), retiro total de menciones a fabrica.py (README-FABRICA-01), enlace por herramienta en README.md (README-GUIA-01) y descripción correcta del árbol y carpetas locales local/revisiones/ y local/revisores/ en docs/estructura.md y cli.py (DOCS-ESTRUCTURA-01, LEEME-01, AGY-01).",
+    "agy (gemini-3.8-flash-high): Se comprobaron todos los enlaces internos y anclas (Markdown y HTML) del producto: no se registraron enlaces ni fragmentos rotos.",
+    "agy (gemini-3.8-flash-high): Se comprobó que los 39 subcomandos de la CLI se encuentran cubiertos en README.md o docs/ y que ningún documento ni página web nombra comandos inexistentes o versiones distintas a la de pyproject.toml.",
+    "agy (gemini-3.8-flash-high): Se implementaron y ejecutaron 9 pruebas de mutación manuales en copias temporales aisladas (versiones alteradas, subcomandos falsos en README/HTML/Markdown, opciones globales con '=', reintroducción de fabrica.py, frases obsoletas de POC/IA, enlace faltante en herramienta, permutación en árbol de estructura, subcomando no documentado); las 9 mutaciones fueron detectadas y rechazadas (KILLED) por tests.test_docs.",
+    "agy (gemini-3.8-flash-high): No se ejecutaron navegadores ni pruebas de interfaz gráfica con Playwright/Chromium directamente en esta sesión de revisión.",
+    "agy (gemini-3.8-flash-high): El checkout de revisión (/home/workstation/Dev/factory-docs/.factory/local/revisiones/d2c7037-agy2-1) se mantuvo intacto en modo de sólo lectura, sin modificaciones de archivos, commits ni alteraciones en la configuración de Git."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
