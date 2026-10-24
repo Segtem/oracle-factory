@@ -11,7 +11,7 @@ vigente: true
 - Id: `web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli`
 - Vigente: sí
 - Cambio: [[cambios/20261023-005051-ufj-docs]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_docs.la_documentacion_se_comprueba_contra_la_cli`, `factory_docs.documentacion_al_dia`, `factory_docs.corrida_completa`
 - Fuente: openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md#la documentación se comprueba contra la CLI
 

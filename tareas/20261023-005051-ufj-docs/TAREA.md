@@ -35,3 +35,7 @@ Medidas de web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli: Br
 ### Nota (2026-10-24 01:37:39 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: La documentación refleja las herramientas actuales y enlaza sus guías; el comprobador detecta omisiones, comandos inexistentes y versiones divergentes, con regresiones y mutaciones. Los hallazgos de ambas revisiones independientes se corrigieron; agy y agy2 dejaron la última vuelta sin hallazgos, validada por Clue. Evidencia vigente: 468 pruebas, 10 omitidas, sin fallas y fuentes estables; comparación del texto web pasada en Chromium. El comprobador no certifica que toda explicación sea correcta ni que preguntar responda consultas de conteo: eso tendrá una propuesta separada.); 0 abiertos derivados; commit 67da64286cbc9930f031e6905a90b112ff52e1ff; informe tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/informe.json; decisiones tareas/20261023-005051-ufj-docs/revisiones/registro-k7pmkzxb/decisiones.json.
+
+### Nota (2026-10-24 01:40:22 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt.

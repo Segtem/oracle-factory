@@ -2,7 +2,7 @@
   "id": "20261023-005051-ufj-docs",
   "titulo": "La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md",
   "spec_sha256": "b7fead326c35b4facb526d639eaf93cd6a860764a165985295c86d95885154e9",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261023-005051-ufj-docs/candidatos/d2c7037/evidencia/hechos.json",
+    "hechos_sha256": "05b588f7be069322281a6dd99dd432f2735913adbf94ed6b4cf829f1ddf9b19e",
+    "informe": ".factory/cambios/20261023-005051-ufj-docs/oracle-veredicto.txt",
+    "informe_sha256": "5bff9edf5a2560d8beb2e73fc612d65653817621080bc9dd4bed34954aa68124",
+    "cuando": "2026-10-24T01:40:22.723476+00:00",
+    "contexto": {
+      "head": "4a9e89181ae77a1afc618badd52230c687c307e7",
+      "archivos_sha256": "0e18c547a3cf83d474146cfdbffa70dedd44b675e4a24d8305faf9d7742aebe6"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -400,6 +412,17 @@
       "abiertos": 0,
       "sha256": "d22122ead5bd5aca5fcb03ad274ad0df55f7a0032baf3a18264c2c385bdd893d",
       "decisiones_sha256": "b73f01a5d78787f204164ec6f16631eeee37d57649a72ef7f8b35d2222234ad5"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-24T01:40:22.723492+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "05b588f7be069322281a6dd99dd432f2735913adbf94ed6b4cf829f1ddf9b19e"
     }
   ],
   "tipos": {

@@ -11,7 +11,7 @@ vigente: true
 - Id: `web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy`
 - Vigente: sí
 - Cambio: [[cambios/20261023-005051-ufj-docs]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_docs.la_documentacion_cuenta_lo_que_factory_hace_hoy`, `factory_docs.corrida_completa`
 - Fuente: openspec/changes/20261023-005051-ufj-docs/specs/web/spec.md#la documentación cuenta lo que Factory hace hoy
 
