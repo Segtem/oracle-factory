@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto`
 - Vigente: sí
 - Cambio: [[cambios/20261025-122552-ho0-entrega-a14]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto`, `factory_entrega_a14.corrida_completa`
 - Fuente: openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md#la distribución instalada ofrece las consultas del proyecto
 

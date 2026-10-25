@@ -2,7 +2,7 @@
   "id": "20261025-122552-ho0-entrega-a14",
   "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
   "capacidad": "distribucion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
   "spec_sha256": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia/hechos.json",
+    "hechos_sha256": "48588892e6648946ddfa76d65946de195b6491f97c73a2fa7e4c6fec989c6132",
+    "informe": ".factory/cambios/20261025-122552-ho0-entrega-a14/oracle-veredicto.txt",
+    "informe_sha256": "eba93abaf7827a4180d9272dbc48158d036a380be60fcbf345a33a2f1a3dd6ba",
+    "cuando": "2026-10-25T16:33:50.103795+00:00",
+    "contexto": {
+      "head": "e66fa14e6258a3737f30f0e3e3c3d81597f3b46c",
+      "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -359,6 +371,17 @@
       "abiertos": 0,
       "sha256": "6a9ea941fdce482b1c8911b8825f5730baf57f6ee2722382d8b291cfb6877a54",
       "decisiones_sha256": "5fa927a12d05a8c48c1051eb98e4c38f8162c17ab061a98a5188812dceda4073"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T16:33:50.103810+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "48588892e6648946ddfa76d65946de195b6491f97c73a2fa7e4c6fec989c6132"
     }
   ],
   "tipos": {

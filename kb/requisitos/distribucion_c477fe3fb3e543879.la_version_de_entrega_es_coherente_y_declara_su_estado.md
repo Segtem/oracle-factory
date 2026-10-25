@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado`
 - Vigente: sí
 - Cambio: [[cambios/20261025-122552-ho0-entrega-a14]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado`, `factory_entrega_a14.corrida_completa`
 - Fuente: openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md#la versión de entrega es coherente y declara su estado
 

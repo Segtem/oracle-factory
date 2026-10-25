@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites`
 - Vigente: sí
 - Cambio: [[cambios/20261025-122552-ho0-entrega-a14]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites`, `factory_entrega_a14.corrida_completa`
 - Fuente: openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md#la entrega registra sus pruebas y sus límites
 
