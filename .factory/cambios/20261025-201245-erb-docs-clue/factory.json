@@ -99,6 +99,58 @@
         "factory_docs_clue.la_portada_explica_el_papel_real_de_clue",
         "factory_docs_clue.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T21:00:20.215031+00:00",
+      "revisor": "agy2",
+      "candidato": "38b81f9",
+      "lanzamiento": "7fd9fc9b8b27"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T21:00:20.238279+00:00",
+      "revisor": "agy",
+      "candidato": "38b81f9",
+      "lanzamiento": "6dae8d8773b9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T21:07:00.985226+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "38b81f9",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "7fd9fc9b8b27"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T21:09:30.165369+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "38b81f9",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "6dae8d8773b9"
     }
   ],
   "tipos": {
