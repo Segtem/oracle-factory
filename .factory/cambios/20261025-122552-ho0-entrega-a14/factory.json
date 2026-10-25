@@ -2,10 +2,20 @@
   "id": "20261025-122552-ho0-entrega-a14",
   "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
   "capacidad": "distribucion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T12:32:17.286977+00:00",
+    "documentos": {
+      "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
+      "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -28,6 +38,19 @@
       "forma": "mensaje",
       "cuando": "2026-10-25T12:28:43.036125+00:00",
       "texto": "Tras cerrar e integrar docs y preguntar y completar los README del ecosistema, main no tiene cambios abiertos. Se propone preparar 0.1.0a14 para distribuir las mejoras actuales; la propuesta incluye prueba del wheel desde fuera del checkout y verificación de su origen, motivada por la instalación global anterior que detectamos. Sólo se redactaron propuesta, diseño, spec y tareas; no se cambió versión ni implementación, ni se construyeron o publicaron artefactos. La aceptación de la spec no autoriza integración, pushes, tag, release ni PyPI. Se esperan las decisiones de Brian en sus pasos."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:32:17.287007+00:00",
+      "documentos": {
+        "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
+        "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
