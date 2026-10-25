@@ -224,6 +224,36 @@
       "forma": "mensaje",
       "cuando": "2026-10-25T15:30:43.057178+00:00",
       "texto": "Durante la primera revisión Codex reprodujo una dependencia indebida de test_ea2 respecto del editable del intérprete: en otro checkout fallaba esperando el mensaje de origen incorrecto. Regresión preservada en .factory/local/diagnostico-checkout-review-1.log (FAIL). Corregido para probar origen y versión vieja dentro del venv temporal instalado, con restauración. Ocho dirigidos OK; la misma prueba desde copia separada ahora OK (.factory/local/diagnostico-checkout-review-2.log). Los catálogos y umbrales no cambiaron. Se regenerará evidencia antes de la segunda vuelta independiente."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:37:11.233960+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "364a015",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "fcb566302950"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:37:23.880818+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "364a015",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "ded323e982d4"
     }
   ],
   "tipos": {

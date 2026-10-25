@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/364a015-agy-1",
+  "base": "5a7013a092ee5b23d6835b74a3fff0882170a9fc",
+  "head": "364a015a36b3d33e4901f14224258ce65c3095cd",
+  "diff_sha256": "07cf5c85d8e1bc3080938d8338b14c20b3c7f7f43e7da2a4572b57e6d099bb76",
+  "context_sha256": "d76a4fdd11ab7c8b22c9a2c9d387786aa5d0ec0d8c00e872e9e8e03c4c80f981",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "EA14-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "test_ea2 falla en clones de revisión y worktrees por acoplamiento de rutas con sys.executable anfitrión",
+      "explanation": "En tests/test_entrega_a14.py, el método test_ea2_distribucion_instalada_consultas_registro_y_elaboracion comprueba la detección de importación accidental desde el checkout (líneas 75-83) y la detección de versión incorrecta instalada (líneas 86-95) invocando probar_entrega_a14.verificar_origen_y_version con python_bin=Path(sys.executable) y pasando prohibir_checkout=Path(oracle_factory.__file__).parent.parent (y en el segundo caso esperado_dir=Path(oracle_factory.__file__).parent.parent).\n\nverificar_origen_y_version ejecuta el subproceso eliminando PYTHONPATH del entorno (env.pop('PYTHONPATH', None)). Cuando las pruebas se ejecutan en un clon de revisión o en un worktree independiente con el .venv del proyecto (como prescribe el flujo de Factory y la consigna de revisión), oracle_factory.__file__ en el proceso de prueba pertenece al clon (.factory/local/revisiones/364a015-agy-1), mientras que el intérprete del subproceso sys.executable (sin PYTHONPATH) resuelve oracle_factory desde el editable del repositorio anfitrión (/home/workstation/Dev/factory-entrega-a14).\n\nEsto provoca que:\n1) En la prueba de importación accidental (líneas 75-83), prohibido_resolved in archivo_path.parents evalúa False, derivando en la condición posterior esperado_resolved not in archivo_path.parents y lanzando AssertionError: El módulo ... no está en el entorno esperado ... en lugar de Importación accidental desde el checkout, haciendo fallar la aserción self.assertIn('Importación accidental desde el checkout', str(ctx.exception)).\n2) Si se subsana o ignora el primer fallo, la prueba de versión incorrecta (líneas 86-95) falla igualmente porque esperado_resolved not in archivo_path.parents dispara antes de evaluar version_mod != version_esperada, por lo que nunca se eleva Versión incorrecta instalada.\n\nEl candidato contiene así una suite con un fallo real en el contrato EntregaA14.test_ea2_distribucion_instalada_consultas_registro_y_elaboracion, que respalda el requisito la_distribucion_instalada_ofrece_las_consultas_del_proyecto.",
+      "location": {
+        "file": "tests/test_entrega_a14.py",
+        "start_line": 74,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Desde la raíz del checkout del revisor (/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/364a015-agy-1), ejecutar en primer plano: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs </dev/null",
+      "evidence": "Salida de la ejecución:\nFAIL: test_ea2_distribucion_instalada_consultas_registro_y_elaboracion (tests.test_entrega_a14.EntregaA14.test_ea2_distribucion_instalada_consultas_registro_y_elaboracion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"tests/test_entrega_a14.py\", line 83, in test_ea2_distribucion_instalada_consultas_registro_y_elaboracion\n    self.assertIn(\"Importación accidental desde el checkout\", str(ctx.exception))\nAssertionError: 'Importación accidental desde el checkout' not found in 'El módulo /home/workstation/Dev/factory-entrega-a14/oracle_factory/__init__.py no está en el entorno esperado /tmp/tmppv8qams4/venv'\n\nFAILED (failures=1)\n\nAsimismo, evaluando el segundo bloque en aislamiento, verificar_origen_y_version lanza AssertionError: El módulo /home/workstation/Dev/factory-entrega-a14/oracle_factory/__init__.py no está en el entorno esperado /home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/364a015-agy-1, por lo que 'Versión incorrecta instalada' tampoco se produce.",
+      "related_requirement": "la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "status": "pendiente",
+      "verification": "Se reprodujo la falla ejecutando exactamente el comando de prueba especificado en el checkout del candidato. Se inspeccionó el mecanismo de resolución de módulos de tools/probar_entrega_a14.py (verificar_origen_y_version) y las variables de entorno. Se confirmó que en el commit posterior 35cac6d se modificó este bloque para aislar los casos negativos en el entorno temporal en lugar de apoyarse en sys.executable anfitrión."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas dirigida: se ejecutó exactamente en primer plano y desde la raíz del checkout del revisor el comando solicitado: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs </dev/null.",
+    "No se ejecutó la suite completa (480 pruebas) ni mutaciones con tools/mutar_entrega_a14.py para no alterar el árbol fuente ni demorar la revisión, conforme a las instrucciones.",
+    "Verificación aislada de componentes: se comprobó por separado que tests.test_docs y tests.test_entrega_integridad pasan (5 pruebas OK), que el bloque posterior de test_ea2 (líneas 97-132) funciona correctamente al probar el wheel instalado en venv aislado con consultas de registro y elaboración fixture con rechazo de escrituras, y que test_ea1 y test_ea3 pasan satisfactoriamente.",
+    "Revisión estática y de catálogo: se verificaron las definiciones de medidas en catalogos/factory_entrega_a14.*.oracle con oracle revisar, la coherencia de metadatos (pyproject.toml, oracle_factory/__init__.py), la consistencia de documentación y web respecto de 0.1.0a14 en preparación sin publicación realizada, y los hashes de los artefactos en dist/ respecto de la evidencia registrada.",
+    "Sin ediciones ni decisiones: no se editaron archivos del repositorio, no se modificó la configuración de Git ni se ejecutaron comandos de decisión humana reservada a personas."
+  ]
+}

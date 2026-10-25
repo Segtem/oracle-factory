@@ -1,0 +1,58 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/364a015-agy2-1",
+  "base": "5a7013a092ee5b23d6835b74a3fff0882170a9fc",
+  "head": "364a015a36b3d33e4901f14224258ce65c3095cd",
+  "diff_sha256": "07cf5c85d8e1bc3080938d8338b14c20b3c7f7f43e7da2a4572b57e6d099bb76",
+  "context_sha256": "b7b8e7b6e4fe1948ba3b41480c3708f6a233e7782580dc0ac2e7ec656c35435e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas dirigidas indicadas (tests.test_entrega_a14, tests.test_entrega_integridad, tests.test_docs) con PYTHONPATH=. en primer plano según instrucciones.",
+    "No se ejecutó la suite completa de 480 pruebas ni el arnés de mutaciones en vivo sobre el checkout para preservar intactas las fuentes.",
+    "Se revisaron por inspección estática y análisis comparativo los 27 archivos del diff, la evidencia commiteada en el candidato 364a015, los catálogos y las especificaciones."
+  ],
+  "findings": [
+    {
+      "id": "test-ea2-acoplamiento-origen-checkout",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Falla en test_ea2 por suposición de que sys.executable resuelve el módulo desde el checkout evaluado",
+      "explanation": "En tests/test_entrega_a14.py, el caso test_ea2_distribucion_instalada_consultas_registro_y_elaboracion comprueba la detección de importación accidental desde el checkout y versión vieja invocando probar_entrega_a14.verificar_origen_y_version con python_bin=Path(sys.executable) y prohibir_checkout=Path(oracle_factory.__file__).parent.parent (y esperado_dir=Path(oracle_factory.__file__).parent.parent). Dado que verificar_origen_y_version elimina PYTHONPATH del entorno del subproceso, al correr las pruebas desde un worktree o clon de revisión (como .factory/local/revisiones/364a015-agy2-1), sys.executable (.venv/bin/python) resuelve oracle_factory a través de su instalación editable apuntando al repositorio raíz (/home/workstation/Dev/factory-entrega-a14), mientras que Path(oracle_factory.__file__).parent.parent apunta al worktree. En consecuencia: (1) prohibido_resolved in archivo_path.parents da False, por lo que la función no lanza 'Importación accidental desde el checkout' sino que cae en la verificación de esperado_dir (fake_venv) y lanza AssertionError: 'El módulo ... no está en el entorno esperado ...', haciendo fallar la aserción de la línea 83; (2) la comprobación de versión vieja (b) falla de forma idéntica en la verificación de entorno antes de llegar a comparar la versión contra 0.1.0a13; (3) en ambas llamadas se pasa factory_bin=Path(sys.executable), lo que provocaría que cualquier ejecución que alcance la verificación de CLI intente ejecutar python --version en lugar de oracle-factory --version.",
+      "location": {
+        "file": "tests/test_entrega_a14.py",
+        "start_line": 75,
+        "end_line": 95,
+        "side": "head"
+      },
+      "trigger": "Ejecutar desde la raíz del checkout del candidato: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs </dev/null",
+      "evidence": "FAIL: test_ea2_distribucion_instalada_consultas_registro_y_elaboracion (tests.test_entrega_a14.EntregaA14.test_ea2_distribucion_instalada_consultas_registro_y_elaboracion)\nTraceback (most recent call last):\n  File \"/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/364a015-agy2-1/tests/test_entrega_a14.py\", line 83, in test_ea2_distribucion_instalada_consultas_registro_y_elaboracion\n    self.assertIn(\"Importación accidental desde el checkout\", str(ctx.exception))\nAssertionError: 'Importación accidental desde el checkout' not found in 'El módulo /home/workstation/Dev/factory-entrega-a14/oracle_factory/__init__.py no está en el entorno esperado /tmp/tmp5xjrig4a/venv'\nRan 8 tests in 6.932s\nFAILED (failures=1)",
+      "related_requirement": "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "status": "pendiente",
+      "verification": "Ejecutar PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs </dev/null desde la raíz de un worktree o copia independiente y comprobar que los 8 tests pasen con código de salida 0."
+    },
+    {
+      "id": "mutaciones-falsos-verdes-sin-linea-base",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Falsos verdes en tools/mutar_entrega_a14.py por no verificar línea base y evaluar fallas colaterales como detección",
+      "explanation": "El arnés tools/mutar_entrega_a14.py no comprueba que el caso de prueba pase previamente sin mutaciones (línea base). Considera detectada una mutación si la ejecución retorna código 1 y contiene 'FAILED (' o 'FAIL:' en stderr (líneas 89-94). Esto produce falsos positivos (falsos verdes) de detección: (1) Si test_ea2 falla en su estado no mutado (como sucede al correr en un worktree), todas las mutaciones que dependen de él (origen_checkout_no_rechazado, wheel_010a13_aceptado, simulacion_oculta) se reportan como detectadas sin haber puesto a prueba la mutación real; (2) En la evidencia commiteada mutaciones.json, para wheel_010a13_aceptado, el test falló debido a que factory_bin fue configurado como sys.executable (haciendo que python --version retornara 'Python 3.13.16' en lugar de 'oracle-factory 0.1.0a13'), resultando en AssertionError: 'Versión incorrecta instalada' not found in \"Salida CLI inesperada: 'Python 3.13.16' != 'oracle-factory 0.1.0a13'\". A pesar de fallar por un argumento erróneo del test y no por la verificación esperada de versión vieja, fue clasificado como detectado exitosamente.",
+      "location": {
+        "file": "tools/mutar_entrega_a14.py",
+        "start_line": 71,
+        "end_line": 105,
+        "side": "head"
+      },
+      "trigger": "Ejecutar python tools/mutar_entrega_a14.py cuando un caso de prueba falla en línea base o cuando la mutación desencadena un error en una aserción no relacionada.",
+      "evidence": "En .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/364a015/evidencia/mutaciones.json:\n- Para wheel_010a13_aceptado: AssertionError: 'Versión incorrecta instalada' not found in \"Salida CLI inesperada: 'Python 3.13.16' != 'oracle-factory 0.1.0a13'\"\n- Para origen_checkout_no_rechazado: AssertionError: 'Importación accidental desde el checkout' not found in 'El módulo /home/workstation/Dev/factory-entrega-a14/oracle_factory/__init__.py no está en el entorno esperado /tmp/tmp_14jx43g/venv'\nAmbas mutaciones se registraron con detectada=True y codigo=1 a pesar de no haber fallado por la aserción que debían validar.",
+      "related_requirement": "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Asegurar que el arnés ejecute una comprobación base limpia previa a mutar y que las pruebas del arnés no fallen por argumentos inválidos de CLI ni excepciones ajenas a la condición mutada."
+    }
+  ]
+}
