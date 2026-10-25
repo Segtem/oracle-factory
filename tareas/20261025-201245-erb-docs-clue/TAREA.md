@@ -1,6 +1,6 @@
 # Corregir la descripción del uso de Oracle Clue en la portada de Factory
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: docs
 
@@ -31,3 +31,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-25 21:29:40 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261025-201245-erb-docs-clue/oracle-veredicto.txt.
+
+### Nota (2026-10-25 22:47:29 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
