@@ -2,7 +2,7 @@
   "id": "20261025-122552-ho0-entrega-a14",
   "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
   "capacidad": "distribucion",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
   "spec_sha256": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -50,7 +54,26 @@
         "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
         "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:36:03.253807+00:00",
+      "ids": [
+        "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "funcional",
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": "funcional",
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261025-122552-ho0-entrega-a14. Modo de trabajo: con
 ### Nota (2026-10-25 12:32:17 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-25 12:36:03 UTC)
+
+Requisitos importados: distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto (funcional), distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites (funcional), distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
