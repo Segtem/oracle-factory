@@ -154,6 +154,45 @@
         "factory_entrega_a14.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.170974+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "medidas": [
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "factory_entrega_a14.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.293169+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+      "medidas": [
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "factory_entrega_a14.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.414168+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado",
+      "medidas": [
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado",
+        "factory_entrega_a14.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -161,13 +200,14 @@
     "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": "funcional",
     "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.142723+00:00",
       "sha256": "6134cfb32eb2cbdb5689e1ca90b7bc33b246a8edb0545490558327e446acd73a",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T15:13:18.169127+00:00",
       "catalogos": {
         "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "c4d75f8c4af99608cd321f10e8b7db6d5f12e6e41d75e57cc8f345e0e2ad1596",
         "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
@@ -178,10 +218,12 @@
       }
     },
     "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.264192+00:00",
       "sha256": "eca05fdbd34139eeaaa61354634ded3308d6812055991299232317e57ec0a843",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T15:13:19.100748+00:00",
       "catalogos": {
         "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites": "579201ab5151542223a3fef098780bee90a79a13cabafaf7b68a403a54ac93ec",
         "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
@@ -192,10 +234,12 @@
       }
     },
     "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.384922+00:00",
       "sha256": "7007f47f46cab5fb0cf24b25730836a5b1634114abae3fe84c92b09160cf894f",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T15:13:20.021116+00:00",
       "catalogos": {
         "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado": "aeef22f9eb58238cdd51a0d5cc36341b1d16bcb2ae677c7ed237a10af0c47c56",
         "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
@@ -205,5 +249,6 @@
         "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

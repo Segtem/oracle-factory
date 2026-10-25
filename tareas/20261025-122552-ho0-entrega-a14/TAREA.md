@@ -27,3 +27,15 @@ Medidas de distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_
 ### Nota (2026-10-25 15:13:20 UTC)
 
 Medidas de distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado: factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado, factory_entrega_a14.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-25 15:16:03 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-25 15:16:03 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-25 15:16:03 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
