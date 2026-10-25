@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "f9bb5b3748d0a69db31637371d3d63ff51e571ae4fdf3958e02815adc20468eb",
+  "actor": "Brian Hollweg",
+  "motivo": "Candidato 38b81f9: agy y agy2 completaron la revisión sin hallazgos. El párrafo distingue preparación y validación con Clue, análisis del revisor configurado y decisiones según el modo. Evidencia: 480 pruebas sin omisiones ni fallas, fuentes estables, siete controles documentales conformes y cuatro alteraciones sintéticas detectadas. La comprobación automática compara fragmentos concretos y no demuestra comprensión humana ni analiza prosa arbitraria. No se modificaron el flujo de revisión ni las dependencias.",
+  "decisiones": []
+}

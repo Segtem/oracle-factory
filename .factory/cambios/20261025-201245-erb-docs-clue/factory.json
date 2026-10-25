@@ -2,7 +2,7 @@
   "id": "20261025-201245-erb-docs-clue",
   "titulo": "Corregir la descripción del uso de Oracle Clue en la portada de Factory",
   "capacidad": "web",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md",
   "spec_sha256": "afb436848040a357d3688343dfa355f00dcf342d222f9c0fbd377b818cd43fcb",
   "spec_aprobada": {
@@ -19,7 +19,27 @@
   "requisitos": [
     "web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261025-201245-erb-docs-clue/revisiones/registro-awl0rrqn/informe.json",
+    "sha256": "f9bb5b3748d0a69db31637371d3d63ff51e571ae4fdf3958e02815adc20468eb",
+    "decisiones": "tareas/20261025-201245-erb-docs-clue/revisiones/registro-awl0rrqn/decisiones.json",
+    "decisiones_sha256": "351a812aad35acf8965cacdf5e84aebca248e4a35141763ba5343d7010410222",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T21:29:25.552011+00:00",
+    "motivo": "Candidato 38b81f9: agy y agy2 completaron la revisión sin hallazgos. El párrafo distingue preparación y validación con Clue, análisis del revisor configurado y decisiones según el modo. Evidencia: 480 pruebas sin omisiones ni fallas, fuentes estables, siete controles documentales conformes y cuatro alteraciones sintéticas detectadas. La comprobación automática compara fragmentos concretos y no demuestra comprensión humana ni analiza prosa arbitraria. No se modificaron el flujo de revisión ni las dependencias.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "a6b8b335dceab80c3d82fe6292457a984fd6412f",
+      "archivos_sha256": "6113d912fc940931a173d1516bc292075d857d151ac4e9d4eba5e001a3027f2e"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -161,6 +181,20 @@
       "cuando": "2026-10-25T21:10:44.569727+00:00",
       "decision": "aprobar",
       "candidato": "38b81f9"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T21:29:25.552036+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "f9bb5b3748d0a69db31637371d3d63ff51e571ae4fdf3958e02815adc20468eb",
+      "decisiones_sha256": "351a812aad35acf8965cacdf5e84aebca248e4a35141763ba5343d7010410222"
     }
   ],
   "tipos": {
@@ -185,14 +219,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Candidato 38b81f9: agy y agy2 completaron la revisión sin hallazgos. El párrafo distingue preparación y validación con Clue, análisis del revisor configurado y decisiones según el modo. Evidencia: 480 pruebas sin omisiones ni fallas, fuentes estables, siete controles documentales conformes y cuatro alteraciones sintéticas detectadas. La comprobación automática compara fragmentos concretos y no demuestra comprensión humana ni analiza prosa arbitraria. No se modificaron el flujo de revisión ni las dependencias.",
-      "candidato": "38b81f9",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T21:10:44.569711+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
