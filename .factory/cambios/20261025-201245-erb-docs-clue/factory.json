@@ -63,6 +63,15 @@
       "ids": [
         "web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue"
       ]
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T20:22:30.106632+00:00",
+      "texto": "Implementación acotada al párrafo de Clue en site/index.html. La comprobación documental rechazó el texto previo (log docs-clue-antes.json); el texto nuevo pasa siete controles, contrastados con guía y llamadas CLI preparar/validar, y cuatro alteraciones en memoria son detectadas. Trece pruebas existentes de documentación/web/navegador OK en 19.867 s; docs_al_dia OK. Verificador y dos medidas nuevos conservan fuentes, suite, observaciones y trazabilidad; sus límites declaran que no evalúan prosa arbitraria ni comprensión humana. Falta confirmar medidas antes de evidencia formal y revisión independiente."
     }
   ],
   "tipos": {
