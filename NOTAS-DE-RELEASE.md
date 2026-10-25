@@ -1,3 +1,11 @@
+# Oracle Factory 0.1.0a14 (en preparación)
+
+- **Distribución verificable y consultas del proyecto.** Preparación y comprobación del wheel 0.1.0a14 instalado en un entorno nuevo y ejecutado fuera del checkout, verificando origen de importación y versión sin depender del entorno de desarrollo.
+- **Consultas de registro y elaboración con límites.** `oracle-factory preguntar` responde a consultas directas del registro (contar cerrados archivados, abiertos y abandonados con fuentes de inventario), y elabora con RAG documental y proveedores configurados. Sin modelo configurado no descarga ni elige modelos implícitos; ante un proveedor simulado que intenta llamadas de escritura, Factory rechaza la operación sin tocar el disco ni el registro, conserva fuentes y distingue la simulación de una medición real.
+- **Documentación al día.** Metadatos del paquete, CLI, guías y textos de la web sincronizados con 0.1.0a14, distinguiendo la preparación del artefacto de una publicación remota no realizada ni verificada.
+- **Historial conservado.** Se conservan la versión 0.1.0a13 publicada y sus artefactos. La publicación en PyPI y el release de GitHub no se realizan en este paso: quedan a cargo de Brian tras la revisión y cierre.
+- Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux.
+
 # Oracle Factory 0.1.0a13
 
 - **El tablero de comando en VS Code.** `oracle-factory tablero --json` y el panel de la extensión: qué te necesita a vos, la línea de tiempo de cada cambio con quién decidió qué, los hallazgos por severidad y las métricas del proyecto. Cada commit dice de qué cambio es (hooks que agregan `Cambio: ID`; `oracle-factory log ID`), y `tomar`/`soltar` dicen quién trabaja en qué, con su persona y sus agentes.

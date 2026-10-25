@@ -67,6 +67,51 @@
         "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
         "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
       ]
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T12:44:52.313800+00:00",
+      "agente": "agy1"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:46:27.477595+00:00",
+      "texto": "Iniciando análisis e implementación de entrega 0.1.0a14"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:57:19.682142+00:00",
+      "texto": "Versiones sincronizadas a 0.1.0a14 en pyproject, docs y sitio web; test_docs verificado."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T13:11:35.093031+00:00",
+      "texto": "Implementación completa: versión 0.1.0a14 coherente, arnés probar_entrega_a14 con venv aislado y HTTP fixture, catálogo factory_entrega_a14 (.oracle), sensor verify_entrega_a14 y 10/10 mutaciones detectadas."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T15:13:17.189517+00:00",
+      "texto": "Codex revisó la entrega de agy1 y corrigió aceptación de suite parcial, mutaciones opcionales/viejas y mutaciones sobre tests. Verificación propia: 480 tests OK sin omisiones (331.552 s), 8 dirigidos OK, 14/14 mutaciones reales detectadas con fuentes restauradas, docs_al_dia OK. Wheel y sdist nuevos; instalación fuera del checkout, conteos 2/1/1/4, elaboración documental+registro simulada, rechazo de escritura y registros intactos; arneses de instalación y guía OK. Logs diagnósticos preservados en .factory/local; falta confirmar medidas antes de evidencia formal. No publicación. Tareas futuras registradas por pedido de Brian: 20261025-150111-ooi-factory-go en ../factory-go-plan y 20261025-150112-wwd-oracle-rust en ../factory-oracle-rust-plan, sin aprobación ni inicio de ports."
     }
   ],
   "tipos": {

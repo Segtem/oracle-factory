@@ -1,4 +1,4 @@
-# Oracle Factory — 0.1.0a13 (alpha)
+# Oracle Factory — 0.1.0a14 (alpha)
 
 Oracle Factory coordina a personas y agentes para producir software con dirección humana: desde una necesidad aceptada
 hasta código, pruebas, revisión y entrega. Cada cambio tiene su acuerdo (propuesta y spec en formato **OpenSpec**), su
@@ -24,11 +24,11 @@ Las guías:
 
 ## Instalación
 
-Está publicado en PyPI como `oracle-factory==0.1.0a13`, y su wheel, con los hashes, en el
-[release de GitHub v0.1.0a13](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a13). Con `uv`:
+Candidato en preparación `oracle-factory==0.1.0a14`, y su wheel candidato verificable antes de la publicación remota.
+Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con `uv`:
 
 ```bash
-uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a13
+uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a14
 uv tool update-shell
 oracle-factory --version
 oracle-factory --proyecto ./mi-proyecto init
@@ -39,7 +39,7 @@ Si uv advierte un conflicto porque `oracle`, `tasks` u `oracle-clue` ya están i
 `--with-executables-from`:
 
 ```bash
-uv tool install --python 3.13 oracle-factory==0.1.0a13
+uv tool install --python 3.13 oracle-factory==0.1.0a14
 ```
 
 Factory usa sus dependencias (`oracle-metalenguaje 0.39.0`, `oracle-task 0.2.0` y `oracle-clue 0.1.0a2`) desde su entorno
@@ -177,6 +177,6 @@ ejecuta agentes ni registra aprobaciones. GitHub Actions publica `site/` en GitH
 el minijuego, sin navegador: `node tests/test_juego.cjs`).
 
 
-## Versiones
+## Historial de versiones
 
-Lo que trajo cada versión está en [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md).
+La versión publicada anterior es [0.1.0a13](https://github.com/Segtem/oracle-factory/releases/tag/v0.1.0a13) (en PyPI como `oracle-factory==0.1.0a13`); la 0.1.0a12 agregó la portada viva y la 0.1.0a9 incorporó Oracle Clue. Lo que trajo cada versión está en [NOTAS-DE-RELEASE.md](NOTAS-DE-RELEASE.md).
