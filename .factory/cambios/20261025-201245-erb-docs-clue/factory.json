@@ -86,18 +86,32 @@
         "factory_docs_clue.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T20:29:47.313622+00:00",
+      "requisito": "web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue",
+      "medidas": [
+        "factory_docs_clue.la_portada_explica_el_papel_real_de_clue",
+        "factory_docs_clue.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T20:29:47.280323+00:00",
       "sha256": "ead4a5362fe15049fcb654f0046d49a8f8355a8631765c4141c47d8ea3c6997f",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T20:22:31.437116+00:00",
       "catalogos": {
         "factory_docs_clue.la_portada_explica_el_papel_real_de_clue": "b03a9cb0c1c56faf9df70317acaca48088971b65201077ed8bda1fbec4fd2985",
         "factory_docs_clue.corrida_completa": "29afd23edd33254a51f13a33d0160b3af5f96f630495198ab45f54396e9ecb07"
@@ -107,5 +121,6 @@
         "factory_docs_clue.corrida_completa": "catalogos/factory_docs_clue.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
