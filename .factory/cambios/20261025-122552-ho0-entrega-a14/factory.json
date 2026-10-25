@@ -1,0 +1,476 @@
+{
+  "id": "20261025-122552-ho0-entrega-a14",
+  "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
+  "capacidad": "distribucion",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
+  "spec_sha256": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T12:32:17.286977+00:00",
+    "documentos": {
+      "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
+      "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
+    }
+  },
+  "requisitos": [
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/informe.json",
+    "sha256": "6a9ea941fdce482b1c8911b8825f5730baf57f6ee2722382d8b291cfb6877a54",
+    "decisiones": "tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/decisiones.json",
+    "decisiones_sha256": "5fa927a12d05a8c48c1051eb98e4c38f8162c17ab061a98a5188812dceda4073",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T16:33:35.515247+00:00",
+    "motivo": "Candidato 961a1a7: agy y agy2 completaron la segunda vuelta sin hallazgos. Se corrigieron las pruebas dependientes del editable, la falta de línea base en mutaciones y la inestabilidad del fixture Git. Evidencia formal: 480/480 casos sin omisiones, 15 mutaciones detectadas con cinco casos base limpios, fuentes estables, wheel y sdist identificados por hash e instalación fuera del checkout con conteo y respaldo documental simulados, rechazo de escritura y arneses OK. Las corridas anteriores y sus fallas quedaron conservadas. La preparación no autoriza ni acredita publicación remota.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "ee3f2d1a8682640986f99c0aff5e1a7e5b9d6cf6",
+      "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia/hechos.json",
+    "hechos_sha256": "48588892e6648946ddfa76d65946de195b6491f97c73a2fa7e4c6fec989c6132",
+    "informe": ".factory/cambios/20261025-122552-ho0-entrega-a14/oracle-veredicto.txt",
+    "informe_sha256": "eba93abaf7827a4180d9272dbc48158d036a380be60fcbf345a33a2f1a3dd6ba",
+    "cuando": "2026-10-25T16:33:50.103795+00:00",
+    "contexto": {
+      "head": "e66fa14e6258a3737f30f0e3e3c3d81597f3b46c",
+      "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:25:52.126690+00:00",
+      "capacidad": "distribucion"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:28:43.036125+00:00",
+      "texto": "Tras cerrar e integrar docs y preguntar y completar los README del ecosistema, main no tiene cambios abiertos. Se propone preparar 0.1.0a14 para distribuir las mejoras actuales; la propuesta incluye prueba del wheel desde fuera del checkout y verificación de su origen, motivada por la instalación global anterior que detectamos. Sólo se redactaron propuesta, diseño, spec y tareas; no se cambió versión ni implementación, ni se construyeron o publicaron artefactos. La aceptación de la spec no autoriza integración, pushes, tag, release ni PyPI. Se esperan las decisiones de Brian en sus pasos."
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:32:17.287007+00:00",
+      "documentos": {
+        "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
+        "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:36:03.253807+00:00",
+      "ids": [
+        "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
+      ]
+    },
+    {
+      "accion": "agente_sumado",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T12:44:52.313800+00:00",
+      "agente": "agy1"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:46:27.477595+00:00",
+      "texto": "Iniciando análisis e implementación de entrega 0.1.0a14"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:57:19.682142+00:00",
+      "texto": "Versiones sincronizadas a 0.1.0a14 en pyproject, docs y sitio web; test_docs verificado."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "agy1",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T13:11:35.093031+00:00",
+      "texto": "Implementación completa: versión 0.1.0a14 coherente, arnés probar_entrega_a14 con venv aislado y HTTP fixture, catálogo factory_entrega_a14 (.oracle), sensor verify_entrega_a14 y 10/10 mutaciones detectadas."
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T15:13:17.189517+00:00",
+      "texto": "Codex revisó la entrega de agy1 y corrigió aceptación de suite parcial, mutaciones opcionales/viejas y mutaciones sobre tests. Verificación propia: 480 tests OK sin omisiones (331.552 s), 8 dirigidos OK, 14/14 mutaciones reales detectadas con fuentes restauradas, docs_al_dia OK. Wheel y sdist nuevos; instalación fuera del checkout, conteos 2/1/1/4, elaboración documental+registro simulada, rechazo de escritura y registros intactos; arneses de instalación y guía OK. Logs diagnósticos preservados en .factory/local; falta confirmar medidas antes de evidencia formal. No publicación. Tareas futuras registradas por pedido de Brian: 20261025-150111-ooi-factory-go en ../factory-go-plan y 20261025-150112-wwd-oracle-rust en ../factory-oracle-rust-plan, sin aprobación ni inicio de ports."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:18.197709+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "medidas": [
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:19.129801+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+      "medidas": [
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:20.049693+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado",
+      "medidas": [
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.170974+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "medidas": [
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "factory_entrega_a14.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.293169+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+      "medidas": [
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "factory_entrega_a14.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T15:16:03.414168+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado",
+      "medidas": [
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado",
+        "factory_entrega_a14.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:23:30.214116+00:00",
+      "revisor": "agy2",
+      "candidato": "364a015",
+      "lanzamiento": "fcb566302950"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:23:30.236818+00:00",
+      "revisor": "agy",
+      "candidato": "364a015",
+      "lanzamiento": "ded323e982d4"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T15:30:43.057178+00:00",
+      "texto": "Durante la primera revisión Codex reprodujo una dependencia indebida de test_ea2 respecto del editable del intérprete: en otro checkout fallaba esperando el mensaje de origen incorrecto. Regresión preservada en .factory/local/diagnostico-checkout-review-1.log (FAIL). Corregido para probar origen y versión vieja dentro del venv temporal instalado, con restauración. Ocho dirigidos OK; la misma prueba desde copia separada ahora OK (.factory/local/diagnostico-checkout-review-2.log). Los catálogos y umbrales no cambiaron. Se regenerará evidencia antes de la segunda vuelta independiente."
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:37:11.233960+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "364a015",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "fcb566302950"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:37:23.880818+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "364a015",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "ded323e982d4"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T15:41:27.957128+00:00",
+      "texto": "Primera vuelta: agy y agy2 confirman el acoplamiento del test ea2 (EA14-01 y test-ea2-acoplamiento-origen-checkout), corregido en 35cac6d. Agy2 señala además falta de línea base en mutaciones: se reprodujo con tres fallas antes del arreglo (base ausente, fallida o duplicada aceptadas). Ahora el arnés corre los casos limpios antes de mutar, conserva sus salidas y aborta sin mutaciones si fallan; el sensor valida esa línea base exacta y exitosa. Se agrega un mutante de esta puerta. La evidencia 2 fallida queda commiteada: 480 casos ejecutados, un fallo del fixture de commits que buscaba un hash lexicográficamente menor en 200 intentos. Se retira esa precondición aleatoria conservando todas las aserciones del comportamiento de commits. Nueve pruebas dirigidas pasan. Catálogos y umbrales confirmados sin cambios; falta nueva evidencia y vuelta limpia."
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:48:17.306457+00:00",
+      "revisor": "agy2",
+      "candidato": "961a1a7",
+      "lanzamiento": "66764855382c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:48:17.440253+00:00",
+      "revisor": "agy",
+      "candidato": "961a1a7",
+      "lanzamiento": "c8fa991a6b3f"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:56:46.125862+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "961a1a7",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "66764855382c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-25T15:59:16.877921+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "961a1a7",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c8fa991a6b3f"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T16:00:04.147904+00:00",
+      "decision": "aprobar",
+      "candidato": "961a1a7"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T16:33:35.515287+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6a9ea941fdce482b1c8911b8825f5730baf57f6ee2722382d8b291cfb6877a54",
+      "decisiones_sha256": "5fa927a12d05a8c48c1051eb98e4c38f8162c17ab061a98a5188812dceda4073"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T16:33:50.103810+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "48588892e6648946ddfa76d65946de195b6491f97c73a2fa7e4c6fec989c6132"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T16:34:34.695862+00:00",
+      "oracle": ".factory/cambios/20261025-122552-ho0-entrega-a14/oracle-veredicto.txt",
+      "revision": "tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T16:34:34.725136+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
+    }
+  ],
+  "tipos": {
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "funcional",
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": "funcional",
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": "funcional"
+  },
+  "medidas": {
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.142723+00:00",
+      "sha256": "6134cfb32eb2cbdb5689e1ca90b7bc33b246a8edb0545490558327e446acd73a",
+      "catalogos": {
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "c4d75f8c4af99608cd321f10e8b7db6d5f12e6e41d75e57cc8f345e0e2ad1596",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "catalogos/factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.264192+00:00",
+      "sha256": "eca05fdbd34139eeaaa61354634ded3308d6812055991299232317e57ec0a843",
+      "catalogos": {
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites": "579201ab5151542223a3fef098780bee90a79a13cabafaf7b68a403a54ac93ec",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites": "catalogos/factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-25T15:16:03.384922+00:00",
+      "sha256": "7007f47f46cab5fb0cf24b25730836a5b1634114abae3fe84c92b09160cf894f",
+      "catalogos": {
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado": "aeef22f9eb58238cdd51a0d5cc36341b1d16bcb2ae677c7ed237a10af0c47c56",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado": "catalogos/factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T16:34:34.634498+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-10-25T16:34:34.725125+00:00"
+  }
+}

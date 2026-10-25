@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/961a1a7-agy-1",
+  "base": "5a7013a092ee5b23d6835b74a3fff0882170a9fc",
+  "head": "961a1a71887c066d7d4fa344d9f92e79439d9e6a",
+  "diff_sha256": "a160c911714c756b18f8632da253cfb57bb0a5a857f67f04692cff1bb06fce54",
+  "context_sha256": "93fee30a45c989233efa6ab7dcaf3543b906d092954a6a3e2376191f6c1ff9dc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Pruebas unitarias focalizadas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout del candidato las pruebas solicitadas (PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null), resultando en 9/9 pruebas exitosas en 11.02s con código 0.",
+    "Para no alterar las fuentes del candidato ni demorar la revisión, no se ejecutó la suite completa de 480 pruebas ni el arnés de mutaciones en vivo sobre el árbol fuente del clon, conforme a las instrucciones.",
+    "Auditoría de evidencia commiteada: se verificó en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia la ejecución completa de la suite (480/480 pruebas sin omisiones, duplicados ni fallas en suite.txt), instalación en venv aislado fuera del checkout (instalacion.json), 15 mutaciones detectadas con línea base previa limpia de 5 casos (mutaciones.json), trazabilidad completa (trazabilidad.json) y correspondencia exacta de hashes SHA256 de artefactos (wheel, sdist, hechos.json, etc.) en resultado.json.",
+    "Verificación de correcciones de la Vuelta 1: se constató la resolución efectiva de EA14-01 / test-ea2-acoplamiento-origen-checkout aislando los casos negativos en el entorno temporal con origen_sonda.pth y modificación local de __version__, la resolución de mutaciones-falsos-verdes-sin-linea-base mediante ejecución previa limpia (linea_base_valida) y validación estricta en tools/verify_entrega_a14.py, y la estabilización determinista del fixture Git en tests/test_commits.py.",
+    "Revisión de requisitos y coherencia documental: se verificó el cumplimiento de los tres requisitos de openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md, la evaluación verde de las 4 medidas en Oracle (corrida_completa y las tres medidas específicas), la consistencia de metadatos (pyproject.toml, __version__ = '0.1.0a14'), notas de release, documentación y web distinguiendo la preparación de una publicación no realizada, y la declaración honesta de límites del alcance sin decisiones humanas de persona."
+  ],
+  "findings": []
+}

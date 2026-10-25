@@ -1,0 +1,87 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261025-122552-ho0-entrega-a14",
+  "contexto": {
+    "head": "ee3f2d1a8682640986f99c0aff5e1a7e5b9d6cf6",
+    "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
+  },
+  "documentos": {
+    "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md": "66e7d493beef182e41fa22a7f29b7f0333200a39071cb261cedb86162f784f41",
+    "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "NOTAS-DE-RELEASE.md",
+    "README.md",
+    "catalogos/factory_entrega_a14.corrida_completa.oracle",
+    "catalogos/factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto.oracle",
+    "catalogos/factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites.oracle",
+    "catalogos/factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261025-122552-ho0-entrega-a14/design.md",
+    "openspec/changes/20261025-122552-ho0-entrega-a14/proposal.md",
+    "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
+    "openspec/changes/20261025-122552-ho0-entrega-a14/tasks.md",
+    "oracle_factory/__init__.py",
+    "pyproject.toml",
+    "requisitos/distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto.requisito",
+    "requisitos/distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites.requisito",
+    "requisitos/distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/index.html",
+    "site/modos.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_commits.py",
+    "tests/test_docs.py",
+    "tests/test_entrega_a14.py",
+    "tests/test_entrega_integridad.py",
+    "tools/mutar_entrega_a14.py",
+    "tools/probar_entrega_a14.py",
+    "tools/verify_entrega_a14.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 480 pruebas, ? casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 364a015: agy (gemini-3.8-flash-high), 1 hallazgo: EA14-01 (alta)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/364a015/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 364a015: agy (gemini-3.8-flash-high), 2 hallazgos: test-ea2-acoplamiento-origen-checkout (alta), mutaciones-falsos-verdes-sin-linea-base (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/364a015/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Comprobación de la distribución 0.1.0a14 fuera del checkout en Linux con Python 3.13; wheel instalado en entorno aislado sin resolver módulos del repositorio. Conteos desde el registro con fuentes; elaboración simulada con servidor HTTP local fixture que rechaza escrituras; las pruebas simuladas no certifican calidad de un modelo real. No equivale a una publicación en PyPI ni reemplaza las decisiones humanas de Brian.",
+    "agy (gemini-3.8-flash-high): Pruebas unitarias focalizadas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout del candidato las pruebas solicitadas (PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null), resultando en 9/9 pruebas exitosas en 11.02s con código 0.",
+    "agy (gemini-3.8-flash-high): Para no alterar las fuentes del candidato ni demorar la revisión, no se ejecutó la suite completa de 480 pruebas ni el arnés de mutaciones en vivo sobre el árbol fuente del clon, conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): Auditoría de evidencia commiteada: se verificó en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia la ejecución completa de la suite (480/480 pruebas sin omisiones, duplicados ni fallas en suite.txt), instalación en venv aislado fuera del checkout (instalacion.json), 15 mutaciones detectadas con línea base previa limpia de 5 casos (mutaciones.json), trazabilidad completa (trazabilidad.json) y correspondencia exacta de hashes SHA256 de artefactos (wheel, sdist, hechos.json, etc.) en resultado.json.",
+    "agy (gemini-3.8-flash-high): Verificación de correcciones de la Vuelta 1: se constató la resolución efectiva de EA14-01 / test-ea2-acoplamiento-origen-checkout aislando los casos negativos en el entorno temporal con origen_sonda.pth y modificación local de __version__, la resolución de mutaciones-falsos-verdes-sin-linea-base mediante ejecución previa limpia (linea_base_valida) y validación estricta en tools/verify_entrega_a14.py, y la estabilización determinista del fixture Git en tests/test_commits.py.",
+    "agy (gemini-3.8-flash-high): Revisión de requisitos y coherencia documental: se verificó el cumplimiento de los tres requisitos de openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md, la evaluación verde de las 4 medidas en Oracle (corrida_completa y las tres medidas específicas), la consistencia de metadatos (pyproject.toml, __version__ = '0.1.0a14'), notas de release, documentación y web distinguiendo la preparación de una publicación no realizada, y la declaración honesta de límites del alcance sin decisiones humanas de persona.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas dirigida: se ejecutó en primer plano desde la raíz del checkout el comando autorizado: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null, resultando en 9 pruebas OK en 10.364s sin fallos ni omisiones.",
+    "agy (gemini-3.8-flash-high): Comprobación de correcciones previas: se verificó que EA14-01 y test-ea2-acoplamiento-origen-checkout quedaron resueltos aislando las pruebas negativas de importación accidental y versión vieja dentro del entorno temporal instalado sin depender de sys.executable ni del editable anfitrión; y que mutaciones-falsos-verdes-sin-linea-base quedó resuelto con la ejecución previa y verificación estricta de la línea base limpia (5 casos base con código 0) en tools/mutar_entrega_a14.py y tools/verify_entrega_a14.py.",
+    "agy (gemini-3.8-flash-high): Comprobación de estabilización: se verificó en tests/test_commits.py la remoción del bucle probabilístico de 200 iteraciones en búsqueda de un hash SHA menor, comprobando que las aserciones funcionales sobre la deducción del candidato descartado y el log se preservaron intactas.",
+    "agy (gemini-3.8-flash-high): Auditoría de evidencia y artefactos: se verificó la evidencia formal en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia, comprobando 480/480 pruebas exitosas en suite.txt, 15/15 mutantes detectados con 5 líneas base limpias en mutaciones.json, coincidencia exacta de los hashes SHA256 de los artefactos wheel y sdist en dist/, trazabilidad completa con 0 líneas sin cobertura y veredicto verde en las 4 medidas evaluadas mediante oracle juzgar.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa (480 pruebas) ni el arnés de mutaciones en vivo sobre el árbol fuente del clon de revisión para preservar las fuentes quietas y no demorar la revisión conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): Sin ediciones ni decisiones: no se modificó el checkout, no se realizaron commits ni cambios de configuración de Git, y no se ejecutaron decisiones reservadas a personas."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a14/.factory/local/revisiones/961a1a7-agy2-1",
+  "base": "5a7013a092ee5b23d6835b74a3fff0882170a9fc",
+  "head": "961a1a71887c066d7d4fa344d9f92e79439d9e6a",
+  "diff_sha256": "a160c911714c756b18f8632da253cfb57bb0a5a857f67f04692cff1bb06fce54",
+  "context_sha256": "cb030e583bcc7564a3ef89cc003ff5e17576857dfe5a9bf618a5b0f884213750",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Ejecución de pruebas dirigida: se ejecutó en primer plano desde la raíz del checkout el comando autorizado: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null, resultando en 9 pruebas OK en 10.364s sin fallos ni omisiones.",
+    "Comprobación de correcciones previas: se verificó que EA14-01 y test-ea2-acoplamiento-origen-checkout quedaron resueltos aislando las pruebas negativas de importación accidental y versión vieja dentro del entorno temporal instalado sin depender de sys.executable ni del editable anfitrión; y que mutaciones-falsos-verdes-sin-linea-base quedó resuelto con la ejecución previa y verificación estricta de la línea base limpia (5 casos base con código 0) en tools/mutar_entrega_a14.py y tools/verify_entrega_a14.py.",
+    "Comprobación de estabilización: se verificó en tests/test_commits.py la remoción del bucle probabilístico de 200 iteraciones en búsqueda de un hash SHA menor, comprobando que las aserciones funcionales sobre la deducción del candidato descartado y el log se preservaron intactas.",
+    "Auditoría de evidencia y artefactos: se verificó la evidencia formal en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia, comprobando 480/480 pruebas exitosas en suite.txt, 15/15 mutantes detectados con 5 líneas base limpias en mutaciones.json, coincidencia exacta de los hashes SHA256 de los artefactos wheel y sdist en dist/, trazabilidad completa con 0 líneas sin cobertura y veredicto verde en las 4 medidas evaluadas mediante oracle juzgar.",
+    "No se ejecutó la suite completa (480 pruebas) ni el arnés de mutaciones en vivo sobre el árbol fuente del clon de revisión para preservar las fuentes quietas y no demorar la revisión conforme a las instrucciones.",
+    "Sin ediciones ni decisiones: no se modificó el checkout, no se realizaron commits ni cambios de configuración de Git, y no se ejecutaron decisiones reservadas a personas."
+  ]
+}

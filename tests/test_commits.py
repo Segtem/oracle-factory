@@ -159,15 +159,12 @@ class Commits(unittest.TestCase):
         registro.write_text(json.dumps(datos))
         self.git('add', '.')
         self.git('commit', '-q', '-m', 'viejo: el pedido')
-        # Un candidato de una vuelta descartada (otra rama que nunca se integró), que se ordena antes que el bueno.
+        # Un candidato ajeno a la integración. Los hashes no tienen orden cronológico:
+        # no buscar uno lexicográficamente menor con una cantidad finita de intentos.
         self.git('checkout', '-q', '-b', 'descartada', 'tarea/viejo~1')
-        for i in range(200):
-            self.git('commit', '-q', '--allow-empty', '-m', f'descartada {i}')
-            descartado = self.git('rev-parse', '--short=7', 'HEAD')
-            if descartado < candidato:
-                break
-            self.git('reset', '-q', '--hard', 'HEAD~1')
-        self.assertLess(descartado, candidato)
+        i = 0
+        self.git('commit', '-q', '--allow-empty', '-m', f'descartada {i}')
+        descartado = self.git('rev-parse', '--short=7', 'HEAD')
         self.git('checkout', '-q', 'tarea/viejo')
         (self.root / '.factory/cambios' / ident / 'candidatos' / descartado).mkdir()
         (self.root / '.factory/cambios' / ident / 'candidatos' / descartado / 'nota.txt').write_text('descartado\n')

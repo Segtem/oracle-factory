@@ -73,6 +73,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261022-215347-y70-agentes]] — La guía para agentes en AGENTS.md: generada desde la CLI, verificada y siempre al día (cerrada)
 - [[cambios/20261023-005051-ufj-docs]] — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI (cerrada)
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
+- [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
 
 ## Requisitos
 
@@ -151,6 +152,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu]]
 - [[requisitos/decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta]]
 - [[requisitos/decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona]]
+- [[requisitos/distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto]]
+- [[requisitos/distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites]]
+- [[requisitos/distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.entregar_artefactos_verificables]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto]] (ya no vigente)
