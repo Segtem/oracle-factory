@@ -1,0 +1,83 @@
+{
+  "entrega_caso": [
+    {
+      "requisito": "la_version_de_entrega_es_coherente_y_declara_su_estado",
+      "caso": "EntregaA14.test_ea1_version_coherente_y_estado_declarado",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "caso": "EntregaA14.test_ea2_distribucion_instalada_consultas_registro_y_elaboracion",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_entrega_registra_sus_pruebas_y_sus_limites",
+      "caso": "EntregaA14.test_ea3_entrega_registra_pruebas_y_limites",
+      "codigo": 0
+    }
+  ],
+  "entrega_suite": [
+    {
+      "completa": 1,
+      "casos": 3
+    }
+  ],
+  "entrega_mutacion": [
+    {
+      "id": "version_pyproject_vieja_010a13",
+      "detectada": 1
+    },
+    {
+      "id": "version_init_vieja_010a13",
+      "detectada": 1
+    },
+    {
+      "id": "readme_version_divergente",
+      "detectada": 1
+    },
+    {
+      "id": "origen_checkout_no_rechazado",
+      "detectada": 1
+    },
+    {
+      "id": "wheel_010a13_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_identidades_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_fuentes_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_viva_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_codigo_cero_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "suite_parcial_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "suite_omitida_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "fuentes_inestables_aceptadas",
+      "detectada": 1
+    },
+    {
+      "id": "arnes_fallido_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "simulacion_oculta",
+      "detectada": 1
+    }
+  ]
+}
