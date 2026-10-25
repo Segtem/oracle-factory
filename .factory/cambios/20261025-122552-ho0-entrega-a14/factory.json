@@ -1,0 +1,33 @@
+{
+  "id": "20261025-122552-ho0-entrega-a14",
+  "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
+  "capacidad": "distribucion",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T12:25:52.126690+00:00",
+      "capacidad": "distribucion"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T12:28:43.036125+00:00",
+      "texto": "Tras cerrar e integrar docs y preguntar y completar los README del ecosistema, main no tiene cambios abiertos. Se propone preparar 0.1.0a14 para distribuir las mejoras actuales; la propuesta incluye prueba del wheel desde fuera del checkout y verificación de su origen, motivada por la instalación global anterior que detectamos. Sólo se redactaron propuesta, diseño, spec y tareas; no se cambió versión ni implementación, ni se construyeron o publicaron artefactos. La aceptación de la spec no autoriza integración, pushes, tag, release ni PyPI. Se esperan las decisiones de Brian en sus pasos."
+    }
+  ]
+}
