@@ -15,3 +15,7 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-25 20:18:34 UTC)
 
 Requisitos importados: web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-25 20:22:31 UTC)
+
+Medidas de web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue: factory_docs_clue.la_portada_explica_el_papel_real_de_clue, factory_docs_clue.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
