@@ -254,6 +254,15 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "ded323e982d4"
+    },
+    {
+      "accion": "mensaje",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "mensaje",
+      "cuando": "2026-10-25T15:41:27.957128+00:00",
+      "texto": "Primera vuelta: agy y agy2 confirman el acoplamiento del test ea2 (EA14-01 y test-ea2-acoplamiento-origen-checkout), corregido en 35cac6d. Agy2 señala además falta de línea base en mutaciones: se reprodujo con tres fallas antes del arreglo (base ausente, fallida o duplicada aceptadas). Ahora el arnés corre los casos limpios antes de mutar, conserva sus salidas y aborta sin mutaciones si fallan; el sensor valida esa línea base exacta y exitosa. Se agrega un mutante de esta puerta. La evidencia 2 fallida queda commiteada: 480 casos ejecutados, un fallo del fixture de commits que buscaba un hash lexicográficamente menor en 200 intentos. Se retira esa precondición aleatoria conservando todas las aserciones del comportamiento de commits. Nueve pruebas dirigidas pasan. Catálogos y umbrales confirmados sin cambios; falta nueva evidencia y vuelta limpia."
     }
   ],
   "tipos": {

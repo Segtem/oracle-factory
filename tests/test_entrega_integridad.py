@@ -9,18 +9,22 @@ from tools import verify_entrega_a14 as sensor
 
 class IntegridadEntrega(unittest.TestCase):
     def test_mutaciones_exigen_identidades_y_fuentes_actuales(self):
-        from tools.mutar_entrega_a14 import MUTACIONES
+        from tools.mutar_entrega_a14 import MUTACIONES, CASOS
         fuentes = {'head': 'abc', 'sha256': {'a': '1'}}
         filas = [{'id': m[0], 'detectada': True, 'codigo': 1} for m in MUTACIONES]
-        datos = {'fuentes': fuentes, 'mutaciones': filas, 'todas_detectadas': True}
+        datos = {'fuentes': fuentes, 'mutaciones': filas, 'todas_detectadas': True,
+                 'linea_base': [{'caso': n, 'codigo': 0} for n in sorted({CASOS[m[4]] for m in MUTACIONES})]}
         self.assertTrue(sensor.mutaciones_validas(datos, fuentes))
-        for cambio in ('ausente', 'duplicada', 'vieja', 'viva', 'salida'):
+        for cambio in ('ausente', 'duplicada', 'vieja', 'viva', 'salida', 'base_ausente', 'base_fallida', 'base_duplicada'):
             roto = deepcopy(datos)
             if cambio == 'ausente': roto['mutaciones'].pop()
             if cambio == 'duplicada': roto['mutaciones'][0] = roto['mutaciones'][1]
             if cambio == 'vieja': roto['fuentes']['sha256']['a'] = 'viejo'
             if cambio == 'viva': roto['mutaciones'][0]['detectada'] = False
             if cambio == 'salida': roto['mutaciones'][0]['codigo'] = 0
+            if cambio == 'base_ausente': roto.pop('linea_base')
+            if cambio == 'base_fallida': roto['linea_base'][0]['codigo'] = 1
+            if cambio == 'base_duplicada': roto['linea_base'][0] = roto['linea_base'][1]
             with self.subTest(cambio=cambio):
                 self.assertFalse(sensor.mutaciones_validas(roto, fuentes))
         self.assertFalse(sensor.mutaciones_validas(None, fuentes))

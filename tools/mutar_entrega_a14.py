@@ -31,6 +31,7 @@ MUTACIONES = [
     ("suite_omitida_aceptada", "tools/verify_entrega_a14.py", "not resultado.skipped", "True", "integridad_suite"),
     ("fuentes_inestables_aceptadas", "tools/verify_entrega_a14.py", "origen == actual", "True", "integridad_resultado"),
     ("arnes_fallido_aceptado", "tools/verify_entrega_a14.py", "arneses.get(n, {}).get('returncode') == 0", "True", "integridad_resultado"),
+    ("linea_base_fallida_aceptada", "tools/verify_entrega_a14.py", "b['codigo'] == 0", "True", "integridad_mutaciones"),
     ("simulacion_oculta", "tools/probar_entrega_a14.py", '"simulado": True', '"simulado": False', "ea2"),
 ]
 
@@ -49,6 +50,25 @@ def fuentes():
     return actuales()
 
 
+def ejecutar_caso(caso):
+    return subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "-m",
+            "unittest",
+            (f"tests.test_entrega_integridad.IntegridadEntrega.{CASOS[caso]}" if caso.startswith('integridad_')
+             else f"tests.test_entrega_a14.EntregaA14.{CASOS[caso]}"),
+        ],
+        cwd=ROOT,
+        stdin=subprocess.DEVNULL,
+        capture_output=True,
+        text=True,
+        timeout=240,
+        env={**os.environ, "PYTHONPYCACHEPREFIX": "/tmp/factory-mutaciones-sin-cache", "PYTHONDONTWRITEBYTECODE": "1"},
+    )
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--salida", type=Path, default=ROOT / ".factory/local/mutaciones_entrega_a14.json")
@@ -60,6 +80,21 @@ def main():
     origen = fuentes()
     filas = []
     log_lineas = []
+    linea_base = []
+    for caso in sorted({m[4] for m in MUTACIONES}):
+        corrida = ejecutar_caso(caso)
+        linea_base.append({'caso': CASOS[caso], 'codigo': corrida.returncode,
+                           'salida': corrida.stdout + corrida.stderr})
+    if any(b['codigo'] != 0 for b in linea_base):
+        args.salida.parent.mkdir(parents=True, exist_ok=True)
+        with args.salida.open('x', encoding='utf-8') as salida:
+            json.dump({'fuentes': origen, 'linea_base': linea_base, 'mutaciones': [],
+                       'todas_detectadas': False, 'error': 'línea base fallida; no se mutaron fuentes'},
+                      salida, ensure_ascii=False, indent=2)
+        for b in linea_base:
+            if b['codigo']:
+                print(b['salida'])
+        return 1
 
     try:
         for ident, rel, antes, despues, caso in MUTACIONES:
@@ -70,22 +105,7 @@ def main():
                 raise RuntimeError(f"{ident}: se esperaba una ocurrencia exacta de '{antes}', hay {texto.count(antes)} en {rel}")
             try:
                 archivo.write_text(texto.replace(antes, despues, 1), encoding="utf-8")
-                corrida = subprocess.run(
-                    [
-                        sys.executable,
-                        "-B",
-                        "-m",
-                        "unittest",
-                        (f"tests.test_entrega_integridad.IntegridadEntrega.{CASOS[caso]}" if caso.startswith('integridad_')
-                         else f"tests.test_entrega_a14.EntregaA14.{CASOS[caso]}"),
-                    ],
-                    cwd=ROOT,
-                    stdin=subprocess.DEVNULL,
-                    capture_output=True,
-                    text=True,
-                    timeout=240,
-                    env={**os.environ, "PYTHONPYCACHEPREFIX": "/tmp/factory-mutaciones-sin-cache", "PYTHONDONTWRITEBYTECODE": "1"},
-                )
+                corrida = ejecutar_caso(caso)
                 detectada = (
                     corrida.returncode == 1
                     and ("FAILED (" in corrida.stderr or "FAIL:" in corrida.stderr or "ERROR:" in corrida.stderr)
@@ -120,6 +140,7 @@ def main():
     todas_detectadas = len(filas) == len(MUTACIONES) and all(f["detectada"] for f in filas)
     resultado = {
         "fuentes": origen,
+        "linea_base": linea_base,
         "mutaciones": filas,
         "total": len(filas),
         "detectadas": sum(f["detectada"] for f in filas),

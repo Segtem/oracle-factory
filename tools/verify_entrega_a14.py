@@ -56,9 +56,18 @@ def fuentes():
     return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
 
 
+def linea_base_valida(filas):
+    from tools.mutar_entrega_a14 import MUTACIONES, CASOS
+    esperados = Counter({CASOS[m[4]]: 1 for m in MUTACIONES})
+    return (isinstance(filas, list) and Counter(b.get('caso') for b in filas) == esperados
+            and all(type(b.get('codigo')) is int and b['codigo'] == 0 for b in filas))
+
+
 def mutaciones_validas(datos, origen):
     from tools.mutar_entrega_a14 import MUTACIONES
     if not isinstance(datos, dict) or datos.get('fuentes') != origen:
+        return False
+    if not linea_base_valida(datos.get('linea_base')):
         return False
     filas = datos.get('mutaciones', [])
     esperadas = Counter(m[0] for m in MUTACIONES)
