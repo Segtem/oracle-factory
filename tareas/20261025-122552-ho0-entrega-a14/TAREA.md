@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-25 12:36:03 UTC)
 
 Requisitos importados: distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto (funcional), distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites (funcional), distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-25 15:13:18 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto: factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto, factory_entrega_a14.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-25 15:13:19 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites: factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites, factory_entrega_a14.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-25 15:13:20 UTC)
+
+Medidas de distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado: factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado, factory_entrega_a14.corrida_completa; propuestas por codex (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

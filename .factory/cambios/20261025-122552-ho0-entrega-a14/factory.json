@@ -112,6 +112,48 @@
       "forma": "mensaje",
       "cuando": "2026-10-25T15:13:17.189517+00:00",
       "texto": "Codex revisó la entrega de agy1 y corrigió aceptación de suite parcial, mutaciones opcionales/viejas y mutaciones sobre tests. Verificación propia: 480 tests OK sin omisiones (331.552 s), 8 dirigidos OK, 14/14 mutaciones reales detectadas con fuentes restauradas, docs_al_dia OK. Wheel y sdist nuevos; instalación fuera del checkout, conteos 2/1/1/4, elaboración documental+registro simulada, rechazo de escritura y registros intactos; arneses de instalación y guía OK. Logs diagnósticos preservados en .factory/local; falta confirmar medidas antes de evidencia formal. No publicación. Tareas futuras registradas por pedido de Brian: 20261025-150111-ooi-factory-go en ../factory-go-plan y 20261025-150112-wwd-oracle-rust en ../factory-oracle-rust-plan, sin aprobación ni inicio de ports."
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:18.197709+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+      "medidas": [
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:19.129801+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
+      "medidas": [
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T15:13:20.049693+00:00",
+      "requisito": "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado",
+      "medidas": [
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado",
+        "factory_entrega_a14.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -120,5 +162,48 @@
     "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": {
+      "sha256": "6134cfb32eb2cbdb5689e1ca90b7bc33b246a8edb0545490558327e446acd73a",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-25T15:13:18.169127+00:00",
+      "catalogos": {
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "c4d75f8c4af99608cd321f10e8b7db6d5f12e6e41d75e57cc8f345e0e2ad1596",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto": "catalogos/factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites": {
+      "sha256": "eca05fdbd34139eeaaa61354634ded3308d6812055991299232317e57ec0a843",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-25T15:13:19.100748+00:00",
+      "catalogos": {
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites": "579201ab5151542223a3fef098780bee90a79a13cabafaf7b68a403a54ac93ec",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites": "catalogos/factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado": {
+      "sha256": "7007f47f46cab5fb0cf24b25730836a5b1634114abae3fe84c92b09160cf894f",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-25T15:13:20.021116+00:00",
+      "catalogos": {
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado": "aeef22f9eb58238cdd51a0d5cc36341b1d16bcb2ae677c7ed237a10af0c47c56",
+        "factory_entrega_a14.corrida_completa": "9e67f414d6a8dea121e3baff9c1abd1b6fc5e76534e57fda2ab09b2426228087"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado": "catalogos/factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado.oracle",
+        "factory_entrega_a14.corrida_completa": "catalogos/factory_entrega_a14.corrida_completa.oracle"
+      }
+    }
+  }
 }
