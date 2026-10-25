@@ -151,6 +151,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "6dae8d8773b9"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T21:10:44.569727+00:00",
+      "decision": "aprobar",
+      "candidato": "38b81f9"
     }
   ],
   "tipos": {
@@ -174,5 +184,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Candidato 38b81f9: agy y agy2 completaron la revisión sin hallazgos. El párrafo distingue preparación y validación con Clue, análisis del revisor configurado y decisiones según el modo. Evidencia: 480 pruebas sin omisiones ni fallas, fuentes estables, siete controles documentales conformes y cuatro alteraciones sintéticas detectadas. La comprobación automática compara fragmentos concretos y no demuestra comprensión humana ni analiza prosa arbitraria. No se modificaron el flujo de revisión ni las dependencias.",
+      "candidato": "38b81f9",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-25T21:10:44.569711+00:00"
+    }
+  }
 }
