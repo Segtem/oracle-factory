@@ -1,6 +1,6 @@
 # Preparar la distribución 0.1.0a14 con documentación y RAG actualizados
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -47,3 +47,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-25 16:33:50 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261025-122552-ho0-entrega-a14/oracle-veredicto.txt.
+
+### Nota (2026-10-25 16:34:34 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

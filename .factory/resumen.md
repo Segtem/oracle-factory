@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:b70e810b687afe18686fb935a2b4c77784579325becca35df803639d7ec307e5 -->
+<!-- oracle-factory resumen sha256:490b592023e35a605d7ff481d9748f05742d385f76f3a260dfb28bb791b26f2d -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-20 capacidades · 193 requisitos vigentes · 0 cambios abiertos
+21 capacidades · 196 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -122,6 +122,16 @@ Spec completa: [openspec/specs/decisiones/spec.md](../openspec/specs/decisiones/
 | el motivo se elige | funcional | `decisiones_c59754a250f5b3593.el_motivo_se_elige` | factory_decisiones.el_motivo_se_elige, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
 | confirmar las medidas propuestas de una vez | funcional | `decisiones_c59754a250f5b3593.confirmar_las_medidas_propuestas_de_una_vez` | factory_decisiones.confirmar_las_medidas_propuestas_de_una_vez, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
 | sin terminal no hay decisión de persona | no funcional | `decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona` | factory_decisiones.sin_terminal_no_hay_decision_de_persona, factory_decisiones.corrida_completa | verde al cerrar el 2026-10-08 | 20261007-223645-decisiones-guiadas |
+
+### distribucion
+
+Spec completa: [openspec/specs/distribucion/spec.md](../openspec/specs/distribucion/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| la versión de entrega es coherente y declara su estado | funcional | `distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado` | factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado, factory_entrega_a14.corrida_completa | verde al cerrar el 2026-10-25 | 20261025-122552-ho0-entrega-a14 |
+| la distribución instalada ofrece las consultas del proyecto | funcional | `distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto` | factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto, factory_entrega_a14.corrida_completa | verde al cerrar el 2026-10-25 | 20261025-122552-ho0-entrega-a14 |
+| la entrega registra sus pruebas y sus límites | funcional | `distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites` | factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites, factory_entrega_a14.corrida_completa | verde al cerrar el 2026-10-25 | 20261025-122552-ho0-entrega-a14 |
 
 ### estructura
 
@@ -1015,6 +1025,18 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261024-020022-0b3-preguntar) agy (gemini-3.8-flash-high): Pruebas ejecutadas: se ejecutó en primer plano desde la raíz del checkout con el entorno aislado .venv: PYTHONPATH=. $PWD/.venv/bin/python -m unittest tests.test_preguntar tests.test_rag tests.test_mcp tests.test_docs </dev/null (15 pruebas OK en 9.8s). No se corrió la suite completa del proyecto ni modelos generativos reales en vivo, acorde a las instrucciones.
 - (20261024-020022-0b3-preguntar) agy (gemini-3.8-flash-high): Verificación de mutaciones: se analizaron las 51 mutaciones de tools/mutar_preguntar.py. Todas tienen anclas válidas en el código y fueron detectadas en la evidencia (51/51 detectadas, 0 sobrevivientes). Se verificó el impacto y detección de las nuevas mutaciones: conteo_desde_ejemplo, conteo_solo_primera_clausula, conceptos_pierden_signos y conceptos_sin_plurales.
 - (20261024-020022-0b3-preguntar) agy (gemini-3.8-flash-high): Inspección de evidencia commiteada: se auditó .factory/cambios/20261024-020022-0b3-preguntar/candidatos/e962e47/evidencia/ (474 pruebas OK con 10 omitidas, fuentes estables, documental 20/22 >= 18/22, registro 6/6, generativa 4/4, abstención 3/3). Sin hallazgos ni regresiones observadas en el diff de este candidato.
+- (20261025-122552-ho0-entrega-a14) Evidencia: Comprobación de la distribución 0.1.0a14 fuera del checkout en Linux con Python 3.13; wheel instalado en entorno aislado sin resolver módulos del repositorio. Conteos desde el registro con fuentes; elaboración simulada con servidor HTTP local fixture que rechaza escrituras; las pruebas simuladas no certifican calidad de un modelo real. No equivale a una publicación en PyPI ni reemplaza las decisiones humanas de Brian.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Pruebas unitarias focalizadas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout del candidato las pruebas solicitadas (PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null), resultando en 9/9 pruebas exitosas en 11.02s con código 0.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Para no alterar las fuentes del candidato ni demorar la revisión, no se ejecutó la suite completa de 480 pruebas ni el arnés de mutaciones en vivo sobre el árbol fuente del clon, conforme a las instrucciones.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Auditoría de evidencia commiteada: se verificó en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia la ejecución completa de la suite (480/480 pruebas sin omisiones, duplicados ni fallas en suite.txt), instalación en venv aislado fuera del checkout (instalacion.json), 15 mutaciones detectadas con línea base previa limpia de 5 casos (mutaciones.json), trazabilidad completa (trazabilidad.json) y correspondencia exacta de hashes SHA256 de artefactos (wheel, sdist, hechos.json, etc.) en resultado.json.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Verificación de correcciones de la Vuelta 1: se constató la resolución efectiva de EA14-01 / test-ea2-acoplamiento-origen-checkout aislando los casos negativos en el entorno temporal con origen_sonda.pth y modificación local de __version__, la resolución de mutaciones-falsos-verdes-sin-linea-base mediante ejecución previa limpia (linea_base_valida) y validación estricta en tools/verify_entrega_a14.py, y la estabilización determinista del fixture Git en tests/test_commits.py.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Revisión de requisitos y coherencia documental: se verificó el cumplimiento de los tres requisitos de openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md, la evaluación verde de las 4 medidas en Oracle (corrida_completa y las tres medidas específicas), la consistencia de metadatos (pyproject.toml, __version__ = '0.1.0a14'), notas de release, documentación y web distinguiendo la preparación de una publicación no realizada, y la declaración honesta de límites del alcance sin decisiones humanas de persona.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Ejecución de pruebas dirigida: se ejecutó en primer plano desde la raíz del checkout el comando autorizado: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a14/.venv/bin/python -m unittest tests.test_entrega_a14 tests.test_entrega_integridad tests.test_docs tests.test_commits.Commits.test_cm2_un_cambio_cerrado_de_antes_del_trailer </dev/null, resultando en 9 pruebas OK en 10.364s sin fallos ni omisiones.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Comprobación de correcciones previas: se verificó que EA14-01 y test-ea2-acoplamiento-origen-checkout quedaron resueltos aislando las pruebas negativas de importación accidental y versión vieja dentro del entorno temporal instalado sin depender de sys.executable ni del editable anfitrión; y que mutaciones-falsos-verdes-sin-linea-base quedó resuelto con la ejecución previa y verificación estricta de la línea base limpia (5 casos base con código 0) en tools/mutar_entrega_a14.py y tools/verify_entrega_a14.py.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Comprobación de estabilización: se verificó en tests/test_commits.py la remoción del bucle probabilístico de 200 iteraciones en búsqueda de un hash SHA menor, comprobando que las aserciones funcionales sobre la deducción del candidato descartado y el log se preservaron intactas.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Auditoría de evidencia y artefactos: se verificó la evidencia formal en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia, comprobando 480/480 pruebas exitosas en suite.txt, 15/15 mutantes detectados con 5 líneas base limpias en mutaciones.json, coincidencia exacta de los hashes SHA256 de los artefactos wheel y sdist en dist/, trazabilidad completa con 0 líneas sin cobertura y veredicto verde en las 4 medidas evaluadas mediante oracle juzgar.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): No se ejecutó la suite completa (480 pruebas) ni el arnés de mutaciones en vivo sobre el árbol fuente del clon de revisión para preservar las fuentes quietas y no demorar la revisión conforme a las instrucciones.
+- (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Sin ediciones ni decisiones: no se modificó el checkout, no se realizaron commits ni cambios de configuración de Git, y no se ejecutaron decisiones reservadas a personas.
 
 ### Históricos
 
