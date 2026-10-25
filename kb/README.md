@@ -74,7 +74,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261023-005051-ufj-docs]] — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI (cerrada)
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
-- [[cambios/20261025-201245-erb-docs-clue]] — Corregir la descripción del uso de Oracle Clue en la portada de Factory (spec_aprobada)
+- [[cambios/20261025-201245-erb-docs-clue]] — Corregir la descripción del uso de Oracle Clue en la portada de Factory (requisitos_importados)
 
 ## Requisitos
 
@@ -278,6 +278,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.informe_guiado_vinculado_al_contenido]]
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.respetar_los_registros_existentes]]
 - [[requisitos/vigencia_c82d7f5b48fbc29ba.vigencia_por_contenido_del_producto]]
+- [[requisitos/web_c1948540d3d1c9f1f.la_portada_explica_el_papel_real_de_clue]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_cuenta_lo_que_factory_hace_hoy]]
 - [[requisitos/web_c2ef84113c2f0ab7f.la_documentacion_se_comprueba_contra_la_cli]]
 - [[requisitos/web_c5a0a7128a6a24b88.el_id_de_un_cambio_termina_en_un_sufijo_legible]]
