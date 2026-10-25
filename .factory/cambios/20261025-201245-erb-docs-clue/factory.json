@@ -2,7 +2,7 @@
   "id": "20261025-201245-erb-docs-clue",
   "titulo": "Corregir la descripción del uso de Oracle Clue en la portada de Factory",
   "capacidad": "web",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261025-201245-erb-docs-clue/specs/web/spec.md",
   "spec_sha256": "afb436848040a357d3688343dfa355f00dcf342d222f9c0fbd377b818cd43fcb",
   "spec_aprobada": {
@@ -40,7 +40,19 @@
       "archivos_sha256": "6113d912fc940931a173d1516bc292075d857d151ac4e9d4eba5e001a3027f2e"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261025-201245-erb-docs-clue/candidatos/38b81f9/evidencia/hechos.json",
+    "hechos_sha256": "a697ad5b90cc568daf54e9f33c26be1d8e9d0b389e0ac3f3382c9de38fee8e26",
+    "informe": ".factory/cambios/20261025-201245-erb-docs-clue/oracle-veredicto.txt",
+    "informe_sha256": "b61918aeeaffc04e7c2b30921a091312bb7966e16f9272ca364b53afa71a1770",
+    "cuando": "2026-10-25T21:29:40.589203+00:00",
+    "contexto": {
+      "head": "d3a3aae2ec244b1bac3e00efda726875dd589fc3",
+      "archivos_sha256": "6113d912fc940931a173d1516bc292075d857d151ac4e9d4eba5e001a3027f2e"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -195,6 +207,17 @@
       "abiertos": 0,
       "sha256": "f9bb5b3748d0a69db31637371d3d63ff51e571ae4fdf3958e02815adc20468eb",
       "decisiones_sha256": "351a812aad35acf8965cacdf5e84aebca248e4a35141763ba5343d7010410222"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-25T21:29:40.589219+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a697ad5b90cc568daf54e9f33c26be1d8e9d0b389e0ac3f3382c9de38fee8e26"
     }
   ],
   "tipos": {
