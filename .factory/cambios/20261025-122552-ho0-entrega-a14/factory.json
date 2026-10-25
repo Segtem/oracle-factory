@@ -315,6 +315,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c8fa991a6b3f"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-25T16:00:04.147904+00:00",
+      "decision": "aprobar",
+      "candidato": "961a1a7"
     }
   ],
   "tipos": {
@@ -372,5 +382,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Candidato 961a1a7: agy y agy2 completaron la segunda vuelta sin hallazgos. Se corrigieron las pruebas dependientes del editable, la falta de línea base en mutaciones y la inestabilidad del fixture Git. Evidencia formal: 480/480 casos sin omisiones, 15 mutaciones detectadas con cinco casos base limpios, fuentes estables, wheel y sdist identificados por hash e instalación fuera del checkout con conteo y respaldo documental simulados, rechazo de escritura y arneses OK. Las corridas anteriores y sus fallas quedaron conservadas. La preparación no autoriza ni acredita publicación remota.",
+      "candidato": "961a1a7",
+      "actor": "codex",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-25T16:00:04.147891+00:00"
+    }
+  }
 }
