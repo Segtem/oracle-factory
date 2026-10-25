@@ -64,36 +64,6 @@ class EntregaA14(unittest.TestCase):
 
     # --- ea2: la distribución instalada ofrece las consultas del proyecto ------------------
     def test_ea2_distribucion_instalada_consultas_registro_y_elaboracion(self):
-        # 1. Comprobación del sensor de origen y versión
-        with tempfile.TemporaryDirectory() as tmp:
-            tmp_path = Path(tmp)
-            fake_venv = tmp_path / "venv"
-            fake_site = fake_venv / "lib/python3.13/site-packages"
-            fake_site.mkdir(parents=True)
-
-            # a) Detección de importación accidental desde checkout
-            with self.assertRaises(AssertionError) as ctx:
-                probar_entrega_a14.verificar_origen_y_version(
-                    python_bin=Path(sys.executable),
-                    factory_bin=Path(sys.executable),
-                    esperado_dir=fake_venv,
-                    version_esperada="0.1.0a14",
-                    prohibir_checkout=Path(oracle_factory.__file__).parent.parent,
-                )
-            self.assertIn("Importación accidental desde el checkout", str(ctx.exception))
-
-            # b) Detección de versión incorrecta o vieja (0.1.0a13)
-            with self.assertRaises(AssertionError) as ctx_v:
-                # Si esperamos 0.1.0a14 pero la función detecta discrepancia
-                probar_entrega_a14.verificar_origen_y_version(
-                    python_bin=Path(sys.executable),
-                    factory_bin=Path(sys.executable),
-                    esperado_dir=Path(oracle_factory.__file__).parent.parent,
-                    version_esperada="0.1.0a13",
-                    prohibir_checkout=Path("/no/existe"),
-                )
-            self.assertIn("Versión incorrecta instalada", str(ctx_v.exception))
-
         # 2. Proyecto fixture: conteos de registro sin modelo y elaboración fixture con servidor HTTP
         with tempfile.TemporaryDirectory(prefix="test-ea2-") as tmp:
             tmp_path = Path(tmp)
@@ -104,6 +74,28 @@ class EntregaA14(unittest.TestCase):
             verif = probar_entrega_a14.verificar_origen_y_version(python_bin, factory_bin, venv_dir, "0.1.0a14", ROOT)
             self.assertIn(str(venv_dir), verif["archivo_modulo"])
             self.assertNotIn(str(ROOT), verif["archivo_modulo"])
+
+            # Los casos negativos usan este entorno temporal; no dependen del editable
+            # del Python que ejecuta unittest (que puede pertenecer a otro checkout).
+            pth = Path(verif['archivo_modulo']).parent.parent / 'origen_sonda.pth'
+            try:
+                pth.write_text('import sys; sys.path.insert(0, ' + repr(str(ROOT)) + ')\n')
+                with self.assertRaisesRegex(AssertionError, 'Importación accidental desde el checkout'):
+                    probar_entrega_a14.verificar_origen_y_version(
+                        python_bin, factory_bin, venv_dir, '0.1.0a14', ROOT)
+            finally:
+                pth.unlink(missing_ok=True)
+            modulo = Path(verif['archivo_modulo'])
+            original = modulo.read_bytes()
+            try:
+                self.assertEqual(original.count(b'__version__ = "0.1.0a14"'), 1)
+                modulo.write_bytes(original.replace(b'__version__ = "0.1.0a14"', b'__version__ = "0.1.0a13"'))
+                with self.assertRaisesRegex(AssertionError, 'Versión incorrecta instalada'):
+                    probar_entrega_a14.verificar_origen_y_version(
+                        python_bin, factory_bin, venv_dir, '0.1.0a14', ROOT)
+            finally:
+                modulo.write_bytes(original)
+            probar_entrega_a14.verificar_origen_y_version(python_bin, factory_bin, venv_dir, '0.1.0a14', ROOT)
 
             # Proyecto fixture con 2 cerrados archivados, 1 abierto, 1 abandonado
             proyecto_dir = probar_entrega_a14.crear_proyecto_fixture_registro(tmp_path, factory_bin)
