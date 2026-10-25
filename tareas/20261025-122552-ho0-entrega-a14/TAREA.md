@@ -39,3 +39,7 @@ Medidas de distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_
 ### Nota (2026-10-25 15:16:03 UTC)
 
 Medidas de distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-25 16:33:35 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Candidato 961a1a7: agy y agy2 completaron la segunda vuelta sin hallazgos. Se corrigieron las pruebas dependientes del editable, la falta de línea base en mutaciones y la inestabilidad del fixture Git. Evidencia formal: 480/480 casos sin omisiones, 15 mutaciones detectadas con cinco casos base limpios, fuentes estables, wheel y sdist identificados por hash e instalación fuera del checkout con conteo y respaldo documental simulados, rechazo de escritura y arneses OK. Las corridas anteriores y sus fallas quedaron conservadas. La preparación no autoriza ni acredita publicación remota.); 0 abiertos derivados; commit ee3f2d1a8682640986f99c0aff5e1a7e5b9d6cf6; informe tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/informe.json; decisiones tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/decisiones.json.

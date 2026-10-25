@@ -2,7 +2,7 @@
   "id": "20261025-122552-ho0-entrega-a14",
   "titulo": "Preparar la distribución 0.1.0a14 con documentación y RAG actualizados",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261025-122552-ho0-entrega-a14/specs/distribucion/spec.md",
   "spec_sha256": "2f21995b4ea598065d8e22ef8d6173037ba646af44725f1cba362ba9847b1a14",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites",
     "distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/informe.json",
+    "sha256": "6a9ea941fdce482b1c8911b8825f5730baf57f6ee2722382d8b291cfb6877a54",
+    "decisiones": "tareas/20261025-122552-ho0-entrega-a14/revisiones/registro-i23m9iev/decisiones.json",
+    "decisiones_sha256": "5fa927a12d05a8c48c1051eb98e4c38f8162c17ab061a98a5188812dceda4073",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-25T16:33:35.515247+00:00",
+    "motivo": "Candidato 961a1a7: agy y agy2 completaron la segunda vuelta sin hallazgos. Se corrigieron las pruebas dependientes del editable, la falta de línea base en mutaciones y la inestabilidad del fixture Git. Evidencia formal: 480/480 casos sin omisiones, 15 mutaciones detectadas con cinco casos base limpios, fuentes estables, wheel y sdist identificados por hash e instalación fuera del checkout con conteo y respaldo documental simulados, rechazo de escritura y arneses OK. Las corridas anteriores y sus fallas quedaron conservadas. La preparación no autoriza ni acredita publicación remota.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "ee3f2d1a8682640986f99c0aff5e1a7e5b9d6cf6",
+      "archivos_sha256": "713f18721d8afaf3357e78a67529368dff91e0450a6483540f623f600805ab64"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -325,6 +345,20 @@
       "cuando": "2026-10-25T16:00:04.147904+00:00",
       "decision": "aprobar",
       "candidato": "961a1a7"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-25T16:33:35.515287+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6a9ea941fdce482b1c8911b8825f5730baf57f6ee2722382d8b291cfb6877a54",
+      "decisiones_sha256": "5fa927a12d05a8c48c1051eb98e4c38f8162c17ab061a98a5188812dceda4073"
     }
   ],
   "tipos": {
@@ -383,14 +417,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Candidato 961a1a7: agy y agy2 completaron la segunda vuelta sin hallazgos. Se corrigieron las pruebas dependientes del editable, la falta de línea base en mutaciones y la inestabilidad del fixture Git. Evidencia formal: 480/480 casos sin omisiones, 15 mutaciones detectadas con cinco casos base limpios, fuentes estables, wheel y sdist identificados por hash e instalación fuera del checkout con conteo y respaldo documental simulados, rechazo de escritura y arneses OK. Las corridas anteriores y sus fallas quedaron conservadas. La preparación no autoriza ni acredita publicación remota.",
-      "candidato": "961a1a7",
-      "actor": "codex",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-25T16:00:04.147891+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
