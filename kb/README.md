@@ -74,6 +74,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261023-005051-ufj-docs]] — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI (cerrada)
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
+- [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (espera_aprobacion_spec)
 
 ## Requisitos
 
