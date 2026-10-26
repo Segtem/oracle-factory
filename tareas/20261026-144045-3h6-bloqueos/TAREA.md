@@ -63,3 +63,19 @@ Medidas de bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit pr
 ### Nota (2026-10-26 15:28:45 UTC)
 
 Medidas de bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-26 15:57:46 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 15:57:46 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 15:57:46 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 15:57:47 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit: Brian Hollweg (persona, confirmo, modo confirmacion).

@@ -272,6 +272,58 @@
         "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
         "factory_bloqueos.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.610255+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.739594+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.864047+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.988877+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -280,13 +332,30 @@
     "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": "funcional",
     "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.581433+00:00",
+      "sha256": "b7afa661fd3f38d9330e467ae01ee7365bb263f64c1dc609a333fdf5d0fc6872",
+      "catalogos": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "9045762ae5eba9255d6bd0e4e7c04ddf3cdebfd6d6bed95db714687ef6390abf",
+        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "catalogos/factory_bloqueos.el_paquete_vacio_nombra_la_salida.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
     "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.711077+00:00",
       "sha256": "486ae013fb6ba89a1c2bc341cc33b58f321ee9ee1fe923bf8b18e3f58e9671f4",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-26T15:28:42.301319+00:00",
       "catalogos": {
         "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica": "14beb815905ae3745626e684b94d57a2287300187f1c0adbf2c3d5e8688fbac8",
         "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
@@ -297,10 +366,12 @@
       }
     },
     "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.835126+00:00",
       "sha256": "e20d594e7f1af7a80d93765e68440a5202c4525818630d2b3c9e2a8b59813754",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-26T15:28:43.266060+00:00",
       "catalogos": {
         "factory_bloqueos.revisar_bloqueado_dice_como_seguir": "86cf3452064b57e0a80bf66549e0a05c2728279703680a1959c392bb6093d245",
         "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
@@ -311,10 +382,12 @@
       }
     },
     "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.959346+00:00",
       "sha256": "49403dc5b169842e4f3316d4310635d16497d40c090437f77a6605f620b93497",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-26T15:28:44.227980+00:00",
       "catalogos": {
         "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "685c82a9931669ba4a014bf8f1f15568513d19327d3445e00c7e9545bc22b4a1",
         "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
@@ -323,20 +396,7 @@
         "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "catalogos/factory_bloqueos.revisar_el_producto_de_un_primer_commit.oracle",
         "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
       }
-    },
-    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": {
-      "sha256": "b7afa661fd3f38d9330e467ae01ee7365bb263f64c1dc609a333fdf5d0fc6872",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-26T15:28:45.195891+00:00",
-      "catalogos": {
-        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "9045762ae5eba9255d6bd0e4e7c04ddf3cdebfd6d6bed95db714687ef6390abf",
-        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
-      },
-      "archivos_catalogo": {
-        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "catalogos/factory_bloqueos.el_paquete_vacio_nombra_la_salida.oracle",
-        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
-      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
