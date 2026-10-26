@@ -1,0 +1,80 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueos/.factory/local/revisiones/f91ed68-agy2-1",
+  "base": "ff0a5eb94f12e832a318520d4a50babdcdcc1760",
+  "head": "f91ed68df665c745e78d6f5576a1c1925b45c629",
+  "diff_sha256": "1b0c8be905eaed536873af5f6415f3b26d04b4d5133c6374c25b195df6ef58ca",
+  "context_sha256": "db591fda5a70c6cdf83faf39e9a24f8783e37e571e11a275f278fe45ab9dc51f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "BLOQUEOS-V2-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "explanation": "En oracle_factory/cli.py (líneas 3431-3432), se actualizó el próximo paso cuando la revisión pidió cambios o tiene hallazgos abiertos para invocar pedido_de_revision(ident). Sin embargo, tests/test_bloqueos.py solo incluye pruebas para cambios locales pendientes (test_bl5_los_pasos_con_cambios_pendientes_traen_el_revisor) y hallazgos abiertos antes de revisar (test_bl5_corregir_hallazgos_trae_el_revisor_con_su_argumento). No existe ningún test en la suite de bloqueos que verifique el paso devuelto tras una revisión que pide cambios. Una mutación manual en la línea 3432 que revierta la sugerencia a un comando incompleto sin el argumento requerido --a («después: oracle-factory pedir-revision {ident}») sobrevive a los 12 tests de test_bloqueos con código de salida 0.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 3431,
+        "end_line": 3432,
+        "side": "head"
+      },
+      "trigger": "Revertir en oracle_factory/cli.py línea 3432 a «return f\"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}\"» y ejecutar tests.test_bloqueos.",
+      "evidence": "La mutación manual en copia aislada scratch/oracle_factory/cli.py ejecutó los 12 tests de tests.test_bloqueos con resultado OK (código 0), confirmando la ausencia de aserciones sobre esta sugerencia en el contrato de bloqueos.",
+      "related_requirement": "el_proximo_paso_sin_revisor_lo_explica",
+      "status": "pendiente",
+      "verification": "Agregar en tests/test_bloqueos.py un caso de prueba donde una revisión registrada pide cambios con un revisor configurado y asertar que f.proximo_paso(self.ident) contenga «--a <revisor>»."
+    },
+    {
+      "id": "BLOQUEOS-V2-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "explanation": "El escenario «código en el primer commit» del requisito revisar_el_producto_de_un_primer_commit estipula: «GIVEN un proyecto cuyo código está en su primer commit / WHEN se pide una revisión con --base vacio / THEN el paquete incluye los archivos del producto y ninguna rama, historia ni configuración de Git cambia». En tests/test_bloqueos.py (líneas 75-82), la prueba utiliza self.preparar(), que crea 3 commits (base, registro y producto). Aunque la implementación en cli.py sí admite un proyecto en su primer commit, el caso de prueba no valida estrictamente la precondición GIVEN estipulada en la spec.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 75,
+        "end_line": 82,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar tests/test_bloqueos.py:75-82 frente al escenario de openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md.",
+      "evidence": "preparar() crea tres commits previos. git rev-list --count HEAD devuelve 3 en lugar de 1 antes de ejecutar la petición de revisión.",
+      "related_requirement": "revisar_el_producto_de_un_primer_commit",
+      "status": "pendiente",
+      "verification": "Inicializar un repositorio temporal con un único commit que contenga el producto y comprobar que f.pedir_revision(ident, revisor, base=\"vacio\") genera el paquete con todos los archivos agregados."
+    },
+    {
+      "id": "BLOQUEOS-V2-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "explanation": "En oracle_factory/cli.py (líneas 1272-1274), se actualizó el aviso emitido al preparar revisión sin candidato vigente para usar pedido_de_revision(identificador). Sin embargo, en el flujo interactivo _revisar_paso_a_paso se lanza una excepción antes de llamar a preparar_revision cuando candidato_vigente es None. Esta advertencia solo se ejecuta a través del comando oracle-factory revision-preparar, pero ninguna prueba en tests/test_bloqueos.py lo verifica. Mutaciones que reviertan este texto a «--a NOMBRE» sobreviven a los 12 tests de bloqueos.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1272,
+        "end_line": 1274,
+        "side": "head"
+      },
+      "trigger": "Revertir en oracle_factory/cli.py líneas 1272-1274 a «... pedir-revision {identificador} --a NOMBRE» y ejecutar tests.test_bloqueos.",
+      "evidence": "La mutación manual en scratch/oracle_factory/cli.py sobrevivió a la suite de 12 pruebas sin que ninguna fallara.",
+      "related_requirement": "revisar_bloqueado_dice_como_seguir",
+      "status": "pendiente",
+      "verification": "Agregar un test unitario que invoque preparar_revision(ident) sin candidato vigente y capture stderr para verificar que se use pedido_de_revision."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite específica tests.test_bloqueos en primer plano tal como fue indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null (12 pruebas OK en 4.868s)",
+    "Se verificaron las cuatro correcciones de la Vuelta 2: intercepción de diff vacío sin --base, distinción de evidencia vs informe en revisar, uso de pedido_de_revision con --a en los tres pasos, y fijación estricta de variables GIT_AUTHOR_* y GIT_COMMITTER_* en base_vacia",
+    "Se evaluaron mutaciones sistemáticas en un entorno aislado scratch/ para verificar qué mutantes son atrapados por tests.test_bloqueos y cuáles sobreviven",
+    "Se comprobó empíricamente en scratch que pedir-revision con --base vacio funciona en un repositorio con un único commit (el primer commit del proyecto)",
+    "No se corrió la suite de pruebas completa del proyecto (488 pruebas) cumpliendo la directiva explícita de quien pide la revisión («No corras la suite completa»)",
+    "No se modificó el checkout de revisión, no se hicieron commits ni se alteró la configuración de Git de ningún repositorio"
+  ]
+}

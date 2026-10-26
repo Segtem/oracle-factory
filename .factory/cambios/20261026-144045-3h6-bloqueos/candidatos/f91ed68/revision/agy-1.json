@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueos/.factory/local/revisiones/f91ed68-agy-1",
+  "base": "ff0a5eb94f12e832a318520d4a50babdcdcc1760",
+  "head": "f91ed68df665c745e78d6f5576a1c1925b45c629",
+  "diff_sha256": "1b0c8be905eaed536873af5f6415f3b26d04b4d5133c6374c25b195df6ef58ca",
+  "context_sha256": "f32fe13e58f3662d3441d1ba0f932bbaef3b68c769e56ae3d1c0355fac62746f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Se ejecutó la suite indicada tests.test_bloqueos desde la raíz del checkout con el comando exacto: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null (12 pruebas pasaron OK en 4.765s).",
+    "Se verificaron y confirmaron cerradas todas las observaciones previas de las revisiones agy-1 y agy2-1: (1) pedir-revision sin --base con diff vacío nombra --base vacio; (2) revisar distingue cuando el candidato tiene evidencia pero carece de informes de revisor; (3) los tres próximos pasos que sugieren pedir-revision usan pedido_de_revision incluyendo --a <revisor>; (4) base_vacia fija autor, committer y fechas aislando las variables de entorno sin tocar configuración ni historia de Git.",
+    "Se realizaron análisis sistemáticos de mutaciones en una copia aislada sobre oracle_factory/cli.py, verificando que las pruebas de test_bloqueos y los asserts actualizados en test_cli_humana atrapan regresiones y fallan si se corrompe el comportamiento prometido.",
+    "Se revisaron los 5 catálogos Oracle (factory_bloqueos.*.oracle), los 4 archivos de requisitos y la correspondencia exacta de los 12 casos contractuales en tools/verify_bloqueos.py.",
+    "No se corrió la suite completa de pruebas por indicación expresa («No corras la suite completa»).",
+    "No se modificó el checkout, la configuración de Git de ningún repositorio ni se tomaron decisiones asignadas a personas."
+  ]
+}

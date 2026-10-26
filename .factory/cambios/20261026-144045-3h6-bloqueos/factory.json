@@ -324,6 +324,58 @@
         "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
         "factory_bloqueos.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:02:47.979748+00:00",
+      "revisor": "agy2",
+      "candidato": "f91ed68",
+      "lanzamiento": "c34701977f16"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:02:48.019693+00:00",
+      "revisor": "agy",
+      "candidato": "f91ed68",
+      "lanzamiento": "a470e673d943"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:15:45.083814+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f91ed68",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a470e673d943"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:18:29.167396+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f91ed68",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "c34701977f16"
     }
   ],
   "tipos": {
