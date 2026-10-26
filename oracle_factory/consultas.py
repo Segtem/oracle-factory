@@ -113,9 +113,69 @@ def registro(cli, argumentos):
     return {'datos': datos, 'criterio': criterio, 'fuentes': [fuente]}
 
 
+def interpretar_specs(texto):
+    """Cuántas o cuáles specs hay. Con otro vocabulario (una compuesta con «y», cambios, tareas…) pasa al modelo, como en `interpretar`."""
+    p = plano(texto)
+    if not re.search(r'\b(?:specs?|especificacion(?:es)?|capacidad(?:es)?)\b', p):
+        return None
+    contar = bool(re.search(r'\b(?:cuantos|cuantas|cantidad|numero)\b', p))
+    listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales|que)\b', p))
+    if not contar and not listar:
+        return None
+    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo)\b', p):
+        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs. '
+                'Podés preguntar cuántas o cuáles specs hay; para otros datos usá estado o tablero.'}
+    permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
+                     'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
+                     'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
+                     'vigente'.split())
+    if set(p.split()) - permitidas:
+        return None
+    return {'tema': 'specs', 'operacion': 'contar' if contar else 'listar'}
+
+
+def specs(cli):
+    """Las specs vigentes (una por capacidad) y las de los cambios abiertos, con los archivos leídos."""
+    raiz = cli.ROOT / 'openspec' / 'specs'
+    vigentes = [{'capacidad': r.parent.name, 'estado': 'vigente', 'ruta': r.relative_to(cli.ROOT).as_posix()}
+                for r in sorted(cli.ruta_segura(raiz).glob('*/spec.md'))] if raiz.is_dir() else []
+    abiertas = []
+    for ident, e in sorted(kb.cambios_del_proyecto(cli), key=lambda c: c[0]):
+        if e.get('fase') in ('cerrada', 'abandonada'):
+            continue
+        carpeta = cli.CHANGES / ident / 'specs'
+        abiertas += [{'capacidad': r.parent.name, 'estado': 'en cambio abierto', 'cambio': ident,
+                      'ruta': r.relative_to(cli.ROOT).as_posix()}
+                     for r in sorted(cli.ruta_segura(carpeta).glob('*/spec.md'))] if carpeta.is_dir() else []
+    return vigentes, abiertas
+
+
+def respuesta_specs(cli, intencion):
+    vigentes, abiertas = specs(cli)
+    texto = (f'Hay {len(vigentes)} {"spec vigente" if len(vigentes) == 1 else "specs vigentes"} (una por capacidad) '
+             f'y {len(abiertas)} en cambios abiertos.')
+    filas = [*vigentes, *abiertas]
+    if intencion['operacion'] == 'listar':
+        texto += '\n' + '\n'.join(f'- {f["capacidad"]} · {f["estado"]}' + (f' ({f["cambio"]})' if 'cambio' in f else '')
+                                    + f' · {f["ruta"]}' for f in filas)
+    criterio = {'tema': 'specs', 'operacion': intencion['operacion']}
+    huella = hashlib.sha256(json.dumps([f['ruta'] for f in filas], ensure_ascii=False).encode()).hexdigest()
+    fuente = {'ruta': 'specs', 'cita': f'specs:{json.dumps(criterio, ensure_ascii=False, sort_keys=True)}',
+              'texto': texto, 'archivos': [f['ruta'] for f in filas], 'inventario_sha256': huella,
+              'directorio': 'openspec', 'directorio_existe': (cli.ROOT / 'openspec').is_dir(), 'criterio': criterio,
+              'valor': {'vigentes': len(vigentes), 'en_cambios_abiertos': len(abiertas)}, 'agregados': {}}
+    return {'tipo': 'registro', 'respuesta': texto, 'valor': fuente['valor'], 'ids': [], 'filtro': 'specs',
+            'fuentes': [fuente], 'criterio': criterio}
+
+
 def directa(cli, pregunta):
     intencion = interpretar(pregunta)
-    if intencion is None or 'tipo' in intencion:
+    if intencion is None:
+        especifica = interpretar_specs(pregunta)
+        if especifica is None or 'tipo' in especifica:
+            return especifica
+        return respuesta_specs(cli, especifica)
+    if 'tipo' in intencion:
         return intencion
     consulta = registro(cli, intencion)
     datos, filtro = consulta['datos'], intencion['estado']
