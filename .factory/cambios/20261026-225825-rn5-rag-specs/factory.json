@@ -191,6 +191,45 @@
       "resultado": "ok",
       "hallazgos": 5,
       "lanzamiento": "9d897615ce70"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T23:38:03.657938+00:00",
+      "requisito": "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs",
+      "medidas": [
+        "factory_rag_specs.contar_y_listar_specs",
+        "factory_rag_specs.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T23:38:04.599703+00:00",
+      "requisito": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "medidas": [
+        "factory_rag_specs.filtro_de_specs_no_admitido",
+        "factory_rag_specs.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T23:38:05.558118+00:00",
+      "requisito": "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian",
+      "medidas": [
+        "factory_rag_specs.las_demas_preguntas_no_cambian",
+        "factory_rag_specs.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -198,17 +237,16 @@
     "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido": "funcional",
     "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-26T23:11:57.104318+00:00",
       "sha256": "724602bdf9ebf15960ff561e43c09ecbd55c8e5fba3344d9c6369b430295ae7a",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T23:38:03.628739+00:00",
       "catalogos": {
-        "factory_rag_specs.contar_y_listar_specs": "3347492727ab717dc16c5f763d5b2cbede207bb64d2e68dd95389d3be1cc2179",
-        "factory_rag_specs.corrida_completa": "d1e484ed108c18ce099edbfeb0975f5ee9b8dde9dd07cf075571a22a3df77a97"
+        "factory_rag_specs.contar_y_listar_specs": "132b2c02a1fc6988424c20b29a684cf9e069d3be877b457c36de24319922db8f",
+        "factory_rag_specs.corrida_completa": "ffb4de8eddce5dcb1797c8628541297fefc41fad61ad8861272c894f245084ab"
       },
       "archivos_catalogo": {
         "factory_rag_specs.contar_y_listar_specs": "catalogos/factory_rag_specs.contar_y_listar_specs.oracle",
@@ -216,15 +254,13 @@
       }
     },
     "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-26T23:11:57.236221+00:00",
       "sha256": "d4985b0f603b4f23978810de97b431619a366b285363ed6a8c41f89631468a7c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T23:38:04.570441+00:00",
       "catalogos": {
-        "factory_rag_specs.filtro_de_specs_no_admitido": "6c869b43b4cff9a48ce93ee9a725c5173741f1fa4bf3cafda9d80639a5a9e95b",
-        "factory_rag_specs.corrida_completa": "d1e484ed108c18ce099edbfeb0975f5ee9b8dde9dd07cf075571a22a3df77a97"
+        "factory_rag_specs.filtro_de_specs_no_admitido": "d580932b6cb6153356a755c1b42d6c019464b39214724feab3fdd15d05ab20c8",
+        "factory_rag_specs.corrida_completa": "ffb4de8eddce5dcb1797c8628541297fefc41fad61ad8861272c894f245084ab"
       },
       "archivos_catalogo": {
         "factory_rag_specs.filtro_de_specs_no_admitido": "catalogos/factory_rag_specs.filtro_de_specs_no_admitido.oracle",
@@ -232,21 +268,18 @@
       }
     },
     "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-26T23:11:57.359039+00:00",
       "sha256": "cf0df57ab6d5e3369b28b7a184cf57cf6528eb81ab61b9b4bd0fef8277b621e1",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T23:38:05.528604+00:00",
       "catalogos": {
-        "factory_rag_specs.las_demas_preguntas_no_cambian": "a88cfbb1a4c5936813b53e79ba94057467745a5ea20db8055ab885344abd9bff",
-        "factory_rag_specs.corrida_completa": "d1e484ed108c18ce099edbfeb0975f5ee9b8dde9dd07cf075571a22a3df77a97"
+        "factory_rag_specs.las_demas_preguntas_no_cambian": "1efbdff7213f192c590c7b766a59bf25291f64def7118dea4b6ddb758c2e5364",
+        "factory_rag_specs.corrida_completa": "ffb4de8eddce5dcb1797c8628541297fefc41fad61ad8861272c894f245084ab"
       },
       "archivos_catalogo": {
         "factory_rag_specs.las_demas_preguntas_no_cambian": "catalogos/factory_rag_specs.las_demas_preguntas_no_cambian.oracle",
         "factory_rag_specs.corrida_completa": "catalogos/factory_rag_specs.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
