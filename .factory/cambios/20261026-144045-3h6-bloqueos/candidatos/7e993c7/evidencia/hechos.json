@@ -1,0 +1,50 @@
+{
+  "bloqueos_caso": [
+    {
+      "requisito": "el_proximo_paso_sin_revisor_lo_explica",
+      "caso": "bl1_sin_revisores_el_proximo_paso_explica_que_falta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_proximo_paso_sin_revisor_lo_explica",
+      "caso": "bl1_con_un_revisor_el_comando_va_completo",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_bloqueado_dice_como_seguir",
+      "caso": "bl2_revisar_sin_candidato_nombra_el_comando_con_el_revisor",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_bloqueado_dice_como_seguir",
+      "caso": "bl2_revisar_con_evidencia_pero_sin_paquete_nombra_el_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_bloqueado_dice_como_seguir",
+      "caso": "bl2_sin_revisores_revisar_explica_donde_declararlo",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_el_producto_de_un_primer_commit",
+      "caso": "bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git",
+      "codigo": 0
+    },
+    {
+      "requisito": "revisar_el_producto_de_un_primer_commit",
+      "caso": "bl3_la_base_vacia_es_siempre_la_misma",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_paquete_vacio_nombra_la_salida",
+      "caso": "bl4_paquete_vacio_nombra_base_vacio",
+      "codigo": 0
+    }
+  ],
+  "bloqueos_corrida": [
+    {
+      "completa": 1,
+      "casos": 8
+    }
+  ]
+}
