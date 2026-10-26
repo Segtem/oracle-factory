@@ -39,7 +39,7 @@ class InformeNoTexto(unittest.TestCase):
         self.assertIn('no_valido', {a['situacion'] for a in f.datos_donde(ident, None)['artefactos']})
         paso = f.pasos(ident)[0]
         if gate == 'revision':
-            self.assertRegex(paso, rf'^oracle-factory (pedir-revision|revisar) {ident}\b')
+            self.assertRegex(paso, rf'^(oracle-factory (pedir-revision|revisar) {ident}\b|falta un revisor independiente)')
         else:
             # Los hechos del candidato siguen ahí: se juzgan sin pedir una ruta por completar.
             self.assertEqual(paso, f'oracle-factory juzgar {ident}')

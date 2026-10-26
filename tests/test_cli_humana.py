@@ -105,7 +105,7 @@ class CliHumana(_ap.Base):
                                capture_output=True, text=True, timeout=60, env=entorno,
                                stdin=subprocess.DEVNULL)
         self.assertEqual(p.returncode, 0, p.stderr)
-        self.assertIn(f'Próximo paso: oracle-factory pedir-revision {ident}', p.stdout)  # el comando entero, con sus argumentos
+        self.assertIn('Próximo paso: falta un revisor independiente', p.stdout)  # sin revisor se explica; no hay comando con hueco
 
     # --- c3: el resumen se ve con formato ------------------------------------------------------------------------------------
     def test_c3_sin_glow(self):
@@ -152,10 +152,10 @@ class CliHumana(_ap.Base):
         ident = self.cambio_medido()
         (self.carpeta(ident) / 'clue').mkdir(parents=True)  # un pedir-revision que falló: carpeta sin informes ni evidencia
         self.assertIsNotNone(f.candidato_vigente(ident))
-        self.assertTrue(f.proximo_paso(ident).startswith(f'oracle-factory pedir-revision {ident}'))
+        self.assertTrue(f.proximo_paso(ident).startswith('falta un revisor independiente'))
         (self.carpeta(ident) / 'revision').mkdir()
         (self.carpeta(ident) / 'revision' / 'otro.json').write_text('{"no": "es un informe de Clue"}')  # se descarta al preparar
-        self.assertTrue(f.proximo_paso(ident).startswith(f'oracle-factory pedir-revision {ident}'))
+        self.assertTrue(f.proximo_paso(ident).startswith('falta un revisor independiente'))
 
     def test_c4_oracle_rojo_sin_cambios(self):
         ident = self.listo_para_cerrar()
@@ -189,9 +189,9 @@ class CliHumana(_ap.Base):
         self.git('add', '.')
         self.git('commit', '-qm', 'producto')
         sha = self.head()[:7]
-        self.assertTrue(paso().startswith(f'oracle-factory pedir-revision {ident} --a '))
+        self.assertTrue(paso().startswith('falta un revisor independiente'))
         self.producir_evidencia(ident)
-        self.assertTrue(paso().startswith(f'oracle-factory pedir-revision {ident} --a '))  # la evidencia sola no alcanza
+        self.assertTrue(paso().startswith('falta un revisor independiente'))  # la evidencia sola no alcanza
         carpeta = self.carpeta(ident, sha)
         (carpeta / 'revision').mkdir(parents=True)
         (carpeta / 'revision' / 'codex-1.json').write_text(json.dumps(_ap.informe_clue(self.head(), [])))
