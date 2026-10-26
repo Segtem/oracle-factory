@@ -1,0 +1,55 @@
+{
+  "specs_caso": [
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_cuantas_specs_hay_da_dos_numeros_y_cita_los_archivos",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_cuales_son_lista_capacidad_estado_y_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_con_una_sola_spec_vigente_va_en_singular",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_sin_ninguna_spec_dice_cero",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_funciona_por_la_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs2_un_filtro_no_admitido_se_rechaza_sin_pasajes",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs2_una_compuesta_o_de_otro_tema_no_es_de_este_camino",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs3_cambios_abiertos_sigue_igual",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs3_una_pregunta_que_nombra_cambios_y_specs_no_cambia_de_camino",
+      "codigo": 0
+    }
+  ],
+  "specs_corrida": [
+    {
+      "completa": 1,
+      "casos": 9
+    }
+  ]
+}
