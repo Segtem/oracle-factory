@@ -31,3 +31,19 @@ Medidas de bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit: f
 ### Nota (2026-10-26 14:59:04 UTC)
 
 Medidas de bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida: factory_bloqueos.el_paquete_vacio_nombra_la_salida, factory_bloqueos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-26 14:59:24 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 14:59:24 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 14:59:24 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 14:59:24 UTC)
+
+Medidas de bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit: Brian Hollweg (persona, confirmo, modo confirmacion).
