@@ -1,0 +1,583 @@
+{
+  "id": "20261026-144045-3h6-bloqueos",
+  "titulo": "Mostrar cada bloqueo con su solución",
+  "capacidad": "bloqueos",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md",
+  "spec_sha256": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-26T14:45:39.545503+00:00",
+    "documentos": {
+      "openspec/changes/20261026-144045-3h6-bloqueos/proposal.md": "d587659884ee5c66edb929798d63f0ac2959517a5b4759b2680a375dfb9eb4b0",
+      "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
+    }
+  },
+  "requisitos": [
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/informe.json",
+    "sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
+    "decisiones": "tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/decisiones.json",
+    "decisiones_sha256": "c5d34d16aeed27208abed84449366c5ac8f7fa05afca9301ab2b366495daf09e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-26T19:52:08.172804+00:00",
+    "motivo": "Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4e4ddc28fa3ae8ee425cc0373f0d160860e9459d",
+      "archivos_sha256": "6e83dc9352410d5ef46468bd820e8b35c4d04c723b99f3d193588b7e446fc334"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261026-144045-3h6-bloqueos/candidatos/f91ed68/evidencia/hechos.json",
+    "hechos_sha256": "a651908839dcd3271a0d026c81750472bac3f0b5f4746f7f0154c3aeeaec051d",
+    "informe": ".factory/cambios/20261026-144045-3h6-bloqueos/oracle-veredicto.txt",
+    "informe_sha256": "052e473c3f1f1d8f2bc292cf1237d70d09dd10fc67ffc823848bdcd7fa108dc6",
+    "cuando": "2026-10-26T19:52:47.775686+00:00",
+    "contexto": {
+      "head": "b56a5e245cda723282cc64d60f5c56efcd37a16b",
+      "archivos_sha256": "6e83dc9352410d5ef46468bd820e8b35c4d04c723b99f3d193588b7e446fc334"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T14:40:45.082975+00:00",
+      "capacidad": "bloqueos"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T14:45:39.545529+00:00",
+      "documentos": {
+        "openspec/changes/20261026-144045-3h6-bloqueos/proposal.md": "d587659884ee5c66edb929798d63f0ac2959517a5b4759b2680a375dfb9eb4b0",
+        "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T14:45:58.974002+00:00",
+      "ids": [
+        "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+        "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+        "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+        "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:01.876161+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:02.827372+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:03.765728+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:04.705869+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T14:59:24.586165+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T14:59:24.716770+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T14:59:24.841361+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T14:59:24.963917+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T15:04:21.256355+00:00",
+      "revisor": "agy2",
+      "candidato": "7e993c7",
+      "lanzamiento": "3a388bfa3587"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T15:04:21.308577+00:00",
+      "revisor": "agy",
+      "candidato": "7e993c7",
+      "lanzamiento": "3adf10dfb3e9"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T15:23:25.383592+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7e993c7",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "3a388bfa3587"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T15:24:03.258587+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7e993c7",
+      "resultado": "ok",
+      "hallazgos": 6,
+      "lanzamiento": "3adf10dfb3e9"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T15:28:42.330835+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T15:28:43.295410+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T15:28:44.257121+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T15:28:45.224825+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.610255+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.739594+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.864047+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T15:57:46.988877+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:02:47.979748+00:00",
+      "revisor": "agy2",
+      "candidato": "f91ed68",
+      "lanzamiento": "c34701977f16"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:02:48.019693+00:00",
+      "revisor": "agy",
+      "candidato": "f91ed68",
+      "lanzamiento": "a470e673d943"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:15:45.083814+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f91ed68",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a470e673d943"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-26T16:18:29.167396+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f91ed68",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "c34701977f16"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T16:18:48.880831+00:00",
+      "decision": "aprobar",
+      "candidato": "f91ed68"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T19:52:08.172827+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
+      "decisiones_sha256": "c5d34d16aeed27208abed84449366c5ac8f7fa05afca9301ab2b366495daf09e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T19:52:47.775703+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a651908839dcd3271a0d026c81750472bac3f0b5f4746f7f0154c3aeeaec051d"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T19:53:37.787257+00:00",
+      "oracle": ".factory/cambios/20261026-144045-3h6-bloqueos/oracle-veredicto.txt",
+      "revision": "tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T19:53:37.818179+00:00",
+      "capacidad": "bloqueos",
+      "spec": "openspec/specs/bloqueos/spec.md"
+    }
+  ],
+  "tipos": {
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": "funcional",
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica": "funcional",
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": "funcional",
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": "funcional"
+  },
+  "medidas": {
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.581433+00:00",
+      "sha256": "b7afa661fd3f38d9330e467ae01ee7365bb263f64c1dc609a333fdf5d0fc6872",
+      "catalogos": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "9045762ae5eba9255d6bd0e4e7c04ddf3cdebfd6d6bed95db714687ef6390abf",
+        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "catalogos/factory_bloqueos.el_paquete_vacio_nombra_la_salida.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.711077+00:00",
+      "sha256": "486ae013fb6ba89a1c2bc341cc33b58f321ee9ee1fe923bf8b18e3f58e9671f4",
+      "catalogos": {
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica": "14beb815905ae3745626e684b94d57a2287300187f1c0adbf2c3d5e8688fbac8",
+        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica": "catalogos/factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.835126+00:00",
+      "sha256": "e20d594e7f1af7a80d93765e68440a5202c4525818630d2b3c9e2a8b59813754",
+      "catalogos": {
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir": "86cf3452064b57e0a80bf66549e0a05c2728279703680a1959c392bb6093d245",
+        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir": "catalogos/factory_bloqueos.revisar_bloqueado_dice_como_seguir.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-26T15:57:46.959346+00:00",
+      "sha256": "49403dc5b169842e4f3316d4310635d16497d40c090437f77a6605f620b93497",
+      "catalogos": {
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "685c82a9931669ba4a014bf8f1f15568513d19327d3445e00c7e9545bc22b4a1",
+        "factory_bloqueos.corrida_completa": "4ce7d1804eb74cab7c63d56b7a298ec3a33762281ed40e2daba2e0982727b979"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "catalogos/factory_bloqueos.revisar_el_producto_de_un_primer_commit.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "firma": "oracle_factory/cli.py|falta cobertura en testbloqueos para el próximo paso tras una revisión no aprobada permitiendo que comandos incompletos sobrevivan",
+      "motivo": "Acepto el riesgo: Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:04.392736+00:00",
+      "candidato": "f91ed68"
+    },
+    {
+      "archivo": "tests/test_bloqueos.py",
+      "titulo": "test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "firma": "tests/test_bloqueos.py|testbl3basevaciaincluyetodoelproductoynotocagit no prueba el escenario sobre un repositorio en su primer commit",
+      "motivo": "Acepto el riesgo: test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:05.673627+00:00",
+      "candidato": "f91ed68"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "firma": "oracle_factory/cli.py|el aviso emitido por prepararrevision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "motivo": "Acepto el riesgo: El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:06.709672+00:00",
+      "candidato": "f91ed68"
+    }
+  ],
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-26T19:53:37.725578+00:00"
+  },
+  "archivo": {
+    "capacidad": "bloqueos",
+    "spec": "openspec/specs/bloqueos/spec.md",
+    "cuando": "2026-10-26T19:53:37.818168+00:00"
+  }
+}

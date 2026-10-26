@@ -1233,6 +1233,32 @@ def guardar_par_revision(identificador: str, prefijo: str, informe: bytes, decis
                            f'Revisá posibles archivos residuales en {destino or raiz}; no se sobrescribieron antecedentes ni se publicó un gate nuevo.') from e
 
 
+def pedido_de_revision(identificador: str) -> str:
+    """El comando completo para pedir una revisión con el primer revisor configurado; sin revisores, qué falta y dónde declararlo."""
+    revisores = sorted(config_proyecto()["revisores"])
+    if revisores:
+        return f"oracle-factory pedir-revision {identificador} --a {revisores[0]}"
+    return ("falta un revisor independiente: declaralo en .factory/config.json, por ejemplo " + revisores_mod.EJEMPLO
+            + f"; después: oracle-factory pedir-revision {identificador} --a codex (o el nombre que hayas declarado)")
+
+
+def base_vacia() -> str:
+    """Un commit sin archivos, siempre el mismo, para revisar todo el producto de un candidato sin commit anterior.
+
+    Es un objeto de Git sin rama que lo apunte: no toca ramas, historia ni configuración (la identidad va sólo en este comando).
+    """
+    arbol = subprocess.run(
+        ["git", "hash-object", "-t", "tree", "-w", "--stdin"], cwd=ROOT, input="", capture_output=True, text=True)
+    fijo = {**os.environ, "GIT_AUTHOR_DATE": "2000-01-01T00:00:00+0000", "GIT_COMMITTER_DATE": "2000-01-01T00:00:00+0000"}
+    for rol in ("AUTHOR", "COMMITTER"):  # la identidad del entorno ganaría sobre la fija y cambiaría el SHA
+        fijo[f"GIT_{rol}_NAME"], fijo[f"GIT_{rol}_EMAIL"] = "Oracle Factory", "factory@invalid"
+    p = subprocess.run(["git", "commit-tree", arbol.stdout.strip(), "-m", "base vacía para revisar el producto entero"],
+                       cwd=ROOT, env=fijo, capture_output=True, text=True)
+    if arbol.returncode or p.returncode:
+        raise FactoryError(f"no pude crear la base vacía: {(arbol.stderr or p.stderr).strip()}")
+    return p.stdout.strip()
+
+
 def preparar_revision(identificador: str) -> tuple[Path, Path]:
     carpeta, estado = abierto(identificador)
     registro = (ruta_registro(carpeta)).read_bytes()
@@ -1244,8 +1270,8 @@ def preparar_revision(identificador: str) -> tuple[Path, Path]:
     sha = candidato_vigente(identificador)
     if not sha:
         print("Aviso: no hay candidato vigente (un commit con su carpeta de candidato y sin cambios de producto después), así "
-              "que el informe queda sin informes de revisores ni evidencia. Pedí una revisión con oracle-factory "
-              f"pedir-revision {identificador} --a NOMBRE o producí la evidencia del commit actual.", file=sys.stderr)
+              "que el informe queda sin informes de revisores ni evidencia. Pedí una revisión: "
+              f"{pedido_de_revision(identificador)}", file=sys.stderr)
     if sha:
         todos, evidencia, archivos, avisos = material_del_candidato(identificador, sha)
         revisores = [r for r in todos if not r.get("reemplazado_por")]
@@ -1391,7 +1417,9 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
     # Un commit que sólo guarda informes o evidencia no cambia el producto: el candidato sigue siendo el vigente.
     head = ejecutar(["git", "rev-parse", candidato_vigente(identificador) or "HEAD"]).stdout.strip()
     sha = head[:7]
-    if base is None:
+    if base == "vacio":
+        base = base_vacia()
+    elif base is None:
         p = ejecutar(["git", "merge-base", "HEAD", "main"])
         if p.returncode:
             raise FactoryError("no encuentro la rama main para la base del paquete; indicá --base REF")
@@ -1432,10 +1460,10 @@ def pedir_revision(identificador: str, nombre: str, extra: str | None = None, ba
             raise FactoryError(f"no pude crear el checkout de revisión: {p.stderr.strip()}")
         p = ejecutar(["oracle-clue", "preparar", "--repo", str(checkout), "--base", base, "--contexto", estado["spec"],
                       *(a for ruta in excluir for a in ("--excluir", ruta)), "--salida", str(paquete)])
-    if p.returncode and "vacío fuera de las exclusiones" in (p.stderr or p.stdout):
-        raise FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: sólo trae registros, y un paquete "
-                           "de registros no se revisa. Para revisar código que ya existe (por ejemplo, al cerrar con "
-                           f"evidencia un cambio viejo), pedí la revisión con --base en un commit anterior a ese código")
+    if p.returncode and any(m in (p.stderr or p.stdout) for m in ("vacío fuera de las exclusiones", "el diff está vacío")):
+        raise FactoryError(f"el candidato {sha} no cambia el producto respecto de la base: no trae cambios o sólo trae registros, "
+                           "y un paquete de registros no se revisa. Para revisar código que ya existe (por ejemplo, al cerrar con "
+                           f"evidencia un cambio viejo), pedí la revisión con --base en un commit anterior a ese código, o con --base vacio para revisar todo el producto del candidato")
     if p.returncode:
         raise FactoryError(f"oracle-clue no pudo preparar el paquete: {(p.stderr or p.stdout).strip()[:500]}")
     datos_paquete = json.loads(paquete.read_text(encoding="utf-8"))
@@ -1771,14 +1799,17 @@ def _revisar_paso_a_paso(identificador: str, intento: dict) -> None:
     sha = candidato_vigente(identificador)
     if sha is None:
         raise FactoryError("no hay candidato vigente: hace falta un commit con su carpeta de candidato (evidencia o informes "
-                           f"de revisores) y sin cambios de producto después; pedí una revisión con oracle-factory pedir-revision {identificador}")
+                           f"de revisores) y sin cambios de producto después. Para seguir: {pedido_de_revision(identificador)}")
     with contextlib.redirect_stdout(io.StringIO()):
         ruta_informe, ruta_decisiones = preparar_revision(identificador)
     informe = json.loads(ruta_informe.read_text(encoding="utf-8"))
     decisiones = json.loads(ruta_decisiones.read_text(encoding="utf-8"))
     if not informe.get("archivos_revisados") or not informe.get("comprobaciones"):
-        raise FactoryError(f"el candidato {sha} no tiene informes de revisores ni evidencia: pedí una revisión con "
-                           f"oracle-factory pedir-revision {identificador} y producí la evidencia antes de revisar")
+        if informe.get("comprobaciones"):  # la evidencia está; lo que falta es el paquete de un revisor, que trae los archivos
+            falta = "tiene evidencia, pero ningún informe de un revisor independiente (revisar necesita los archivos que él revisó)"
+        else:
+            falta = "no tiene informes de revisores ni evidencia"
+        raise FactoryError(f"el candidato {sha} {falta}. Para seguir: {pedido_de_revision(identificador)}")
     print(f"Revisión de {identificador} · candidato {sha}")
     for c in informe["comprobaciones"]:
         print(f"  {'✓' if c['resultado'] == 'cumple' else '✗'} {c['descripcion']}\n      Evidencia: {c['evidencia']}")
@@ -3387,19 +3418,18 @@ def _pasos(identificador: str) -> str | list[str] | None:
                 and not problemas_de_revision(estado))  # mismas reglas que pendientes_actuales
     if not revisado:
         if cambios_locales_de_producto():
-            return f"commiteá los cambios del producto; después: oracle-factory pedir-revision {ident}"
+            return f"commiteá los cambios del producto; después: {pedido_de_revision(ident)}"
         sha = candidato_vigente(ident)
         # revisar necesita informes de revisores que la preparación pueda usar (mismas reglas), no sólo evidencia.
         corte = corte_del_candidato(ident, sha, estado) if sha else None
         if corte and corte[0]:  # o la persona los acepta como riesgo o los descarta, con motivo
             return [f"corregí los {len(corte[0])} hallazgos medios o más del candidato {sha} y commitealo; después: "
-                    f"oracle-factory pedir-revision {ident}", f"oracle-factory revisar {ident}"]
+                    f"{pedido_de_revision(ident)}", f"oracle-factory revisar {ident}"]
         if corte is not None:
             return f"oracle-factory revisar {ident}"
-        revisores = sorted(config_proyecto()["revisores"])
-        return f"oracle-factory pedir-revision {ident} --a {revisores[0] if revisores else 'NOMBRE'}"
+        return pedido_de_revision(ident)
     if rev.get("decision") != "aprobar" or rev.get("hallazgos_abiertos") != 0:
-        return f"corregí lo que pidió la revisión y commitealo; después: oracle-factory pedir-revision {ident}"
+        return f"corregí lo que pidió la revisión y commitealo; después: {pedido_de_revision(ident)}"
     # Revisión vigente y aprobada: ¿se juzgaron estos hechos?
     oracle = estado.get("oracle") or {}
     juzgados = ruta_del_registro(oracle.get("hechos"))
@@ -3783,7 +3813,7 @@ def construir_parser() -> argparse.ArgumentParser:
     grupo.add_argument('--cerrados', action='store_true', help='sólo los cambios cerrados')
     q = sub.add_parser('pedir-revision', help='pedir una revisión independiente del candidato actual a un revisor configurado')
     q.add_argument('id'); q.add_argument('--a', dest='revisor', required=True, help='nombre del revisor en .factory/config.json')
-    q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue')
+    q.add_argument('--pedir', help='indicaciones que se agregan al pedido'); q.add_argument('--base', help='base del paquete de Clue (un commit, o «vacio» para revisar todo el producto)')
     q = sub.add_parser('tomar', help='registrarte como responsable de un cambio (con --con AGENTE); un agente con --agente se suma')
     q.add_argument('id'); q.add_argument('--con', action='append', metavar='AGENTE', help='el agente con el que trabajás (repetible)')
     q.add_argument('--relevo', action='store_true', help='tomarlo aunque lo tenga otra persona, con quien ya lo acordaste')
