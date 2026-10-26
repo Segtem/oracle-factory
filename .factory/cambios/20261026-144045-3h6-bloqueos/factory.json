@@ -2,7 +2,7 @@
   "id": "20261026-144045-3h6-bloqueos",
   "titulo": "Mostrar cada bloqueo con su solución",
   "capacidad": "bloqueos",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md",
   "spec_sha256": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c",
   "spec_aprobada": {
@@ -16,7 +16,12 @@
       "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +46,28 @@
         "openspec/changes/20261026-144045-3h6-bloqueos/proposal.md": "d587659884ee5c66edb929798d63f0ac2959517a5b4759b2680a375dfb9eb4b0",
         "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T14:45:58.974002+00:00",
+      "ids": [
+        "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+        "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+        "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+        "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": "funcional",
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica": "funcional",
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": "funcional",
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

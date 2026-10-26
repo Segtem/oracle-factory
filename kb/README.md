@@ -74,7 +74,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261023-005051-ufj-docs]] — La documentación al día: README, docs y web cuentan lo que Factory hace hoy, con guías nuevas y comprobadas contra la CLI (cerrada)
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
-- [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (spec_aprobada)
+- [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (requisitos_importados)
 
 ## Requisitos
 
@@ -99,6 +99,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira]]
 - [[requisitos/autoproduccion_c847ea5712990b078.los_informes_de_revisores_siempre_se_validan]]
 - [[requisitos/autoproduccion_c847ea5712990b078.oracle_clue_viene_con_factory]]
+- [[requisitos/bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida]]
+- [[requisitos/bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica]]
+- [[requisitos/bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir]]
+- [[requisitos/bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit]]
 - [[requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec]]
 - [[requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza]]
 - [[requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base]]
