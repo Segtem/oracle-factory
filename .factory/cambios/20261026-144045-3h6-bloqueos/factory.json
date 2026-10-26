@@ -2,10 +2,20 @@
   "id": "20261026-144045-3h6-bloqueos",
   "titulo": "Mostrar cada bloqueo con su solución",
   "capacidad": "bloqueos",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-26T14:45:39.545503+00:00",
+    "documentos": {
+      "openspec/changes/20261026-144045-3h6-bloqueos/proposal.md": "d587659884ee5c66edb929798d63f0ac2959517a5b4759b2680a375dfb9eb4b0",
+      "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-26T14:40:45.082975+00:00",
       "capacidad": "bloqueos"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T14:45:39.545529+00:00",
+      "documentos": {
+        "openspec/changes/20261026-144045-3h6-bloqueos/proposal.md": "d587659884ee5c66edb929798d63f0ac2959517a5b4759b2680a375dfb9eb4b0",
+        "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
