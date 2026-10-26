@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:490b592023e35a605d7ff481d9748f05742d385f76f3a260dfb28bb791b26f2d -->
+<!-- oracle-factory resumen sha256:72050e30576849fa0ef4ea5526568bda1dcf6dd00cd70d5e05ad13bec4a6be73 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-21 capacidades · 196 requisitos vigentes · 0 cambios abiertos
+22 capacidades · 200 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -42,6 +42,17 @@ Spec completa: [openspec/specs/autoproduccion/spec.md](../openspec/specs/autopro
 | importar no trae lo que la spec retira | funcional | `autoproduccion_c847ea5712990b078.importar_no_trae_lo_que_la_spec_retira` | factory_clue.importar_no_trae_lo_que_la_spec_retira, factory_clue.corrida_completa | verde al cerrar el 2026-10-12 | 20261012-131420-clue-dependencia |
 | el informe más nuevo de cada revisor reemplaza a los anteriores | funcional | `autoproduccion_c847ea5712990b078.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores` | factory_clue.el_informe_mas_nuevo_de_cada_revisor_reemplaza_a_los_anteriores, factory_clue.corrida_completa | verde al cerrar el 2026-10-12 | 20261012-131420-clue-dependencia |
 | el menú de la decisión no corre sus números | funcional | `autoproduccion_c847ea5712990b078.el_menu_de_la_decision_no_corre_sus_numeros` | factory_clue.el_menu_de_la_decision_no_corre_sus_numeros, factory_clue.corrida_completa | verde al cerrar el 2026-10-12 | 20261012-131420-clue-dependencia |
+
+### bloqueos
+
+Spec completa: [openspec/specs/bloqueos/spec.md](../openspec/specs/bloqueos/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| el próximo paso sin revisor lo explica | funcional | `bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica` | factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
+| revisar bloqueado dice cómo seguir | funcional | `bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir` | factory_bloqueos.revisar_bloqueado_dice_como_seguir, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
+| revisar el producto de un primer commit | funcional | `bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit` | factory_bloqueos.revisar_el_producto_de_un_primer_commit, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
+| el paquete vacío nombra la salida | funcional | `bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida` | factory_bloqueos.el_paquete_vacio_nombra_la_salida, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
 
 ### cli
 
@@ -403,6 +414,9 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - **AVISOS-R1** (20261020-173143-avisos): aprobar-spec no detecta specs bajo directorios enlazados. Aceptado por Brian Hollweg: Acepto el riesgo: aprobar-spec no detecta specs bajo directorios enlazados
 - **CLONES-03** (20261021-101907-clones): La prueba de IDs no fuerza que ambos clones creen en el mismo segundo. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de IDs no fuerza que ambos clones creen en el mismo segundo
 - **HORA-009** (20261022-115958-1jt-hora): La prueba de compatibilidad no comprueba la hora legada que devuelve estado. Aceptado por Brian Hollweg: Acepto el riesgo: La prueba de compatibilidad no comprueba la hora legada que devuelve estado
+- **BLOQUEOS-V2-01** (20261026-144045-3h6-bloqueos): Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan. Aceptado por Brian Hollweg: Acepto el riesgo: Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan
+- **BLOQUEOS-V2-02** (20261026-144045-3h6-bloqueos): test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit. Aceptado por Brian Hollweg: Acepto el riesgo: test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit
+- **BLOQUEOS-V2-03** (20261026-144045-3h6-bloqueos): El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas. Aceptado por Brian Hollweg: Acepto el riesgo: El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas
 
 ### Históricos
 
@@ -1037,6 +1051,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Auditoría de evidencia y artefactos: se verificó la evidencia formal en .factory/cambios/20261025-122552-ho0-entrega-a14/candidatos/961a1a7/evidencia, comprobando 480/480 pruebas exitosas en suite.txt, 15/15 mutantes detectados con 5 líneas base limpias en mutaciones.json, coincidencia exacta de los hashes SHA256 de los artefactos wheel y sdist en dist/, trazabilidad completa con 0 líneas sin cobertura y veredicto verde en las 4 medidas evaluadas mediante oracle juzgar.
 - (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): No se ejecutó la suite completa (480 pruebas) ni el arnés de mutaciones en vivo sobre el árbol fuente del clon de revisión para preservar las fuentes quietas y no demorar la revisión conforme a las instrucciones.
 - (20261025-122552-ho0-entrega-a14) agy (gemini-3.8-flash-high): Sin ediciones ni decisiones: no se modificó el checkout, no se realizaron commits ni cambios de configuración de Git, y no se ejecutaron decisiones reservadas a personas.
+- (20261026-144045-3h6-bloqueos) Evidencia: Escenarios bl1–bl5 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba: el próximo paso y los bloqueos de revisar sin y con revisor, y --base vacio con el ejemplo notas. No cubre el tablero de VS Code ni un revisor real (agy, codex).
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se ejecutó la suite indicada tests.test_bloqueos desde la raíz del checkout con el comando exacto: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null (12 pruebas pasaron OK en 4.765s).
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se verificaron y confirmaron cerradas todas las observaciones previas de las revisiones agy-1 y agy2-1: (1) pedir-revision sin --base con diff vacío nombra --base vacio; (2) revisar distingue cuando el candidato tiene evidencia pero carece de informes de revisor; (3) los tres próximos pasos que sugieren pedir-revision usan pedido_de_revision incluyendo --a <revisor>; (4) base_vacia fija autor, committer y fechas aislando las variables de entorno sin tocar configuración ni historia de Git.
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se realizaron análisis sistemáticos de mutaciones en una copia aislada sobre oracle_factory/cli.py, verificando que las pruebas de test_bloqueos y los asserts actualizados en test_cli_humana atrapan regresiones y fallan si se corrompe el comportamiento prometido.
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se revisaron los 5 catálogos Oracle (factory_bloqueos.*.oracle), los 4 archivos de requisitos y la correspondencia exacta de los 12 casos contractuales en tools/verify_bloqueos.py.
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se corrió la suite completa de pruebas por indicación expresa («No corras la suite completa»).
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se modificó el checkout, la configuración de Git de ningún repositorio ni se tomaron decisiones asignadas a personas.
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se ejecutó la suite específica tests.test_bloqueos en primer plano tal como fue indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null (12 pruebas OK en 4.868s)
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se verificaron las cuatro correcciones de la Vuelta 2: intercepción de diff vacío sin --base, distinción de evidencia vs informe en revisar, uso de pedido_de_revision con --a en los tres pasos, y fijación estricta de variables GIT_AUTHOR_* y GIT_COMMITTER_* en base_vacia
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se evaluaron mutaciones sistemáticas en un entorno aislado scratch/ para verificar qué mutantes son atrapados por tests.test_bloqueos y cuáles sobreviven
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se comprobó empíricamente en scratch que pedir-revision con --base vacio funciona en un repositorio con un único commit (el primer commit del proyecto)
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se corrió la suite de pruebas completa del proyecto (488 pruebas) cumpliendo la directiva explícita de quien pide la revisión («No corras la suite completa»)
+- (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se modificó el checkout de revisión, no se hicieron commits ni se alteró la configuración de Git de ningún repositorio
 
 ### Históricos
 
