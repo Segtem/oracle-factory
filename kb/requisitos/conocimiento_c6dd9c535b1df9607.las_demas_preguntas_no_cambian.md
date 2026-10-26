@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261026-225825-rn5-rag-specs]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «cambios abiertos»
+- Medidas: `factory_rag_specs.las_demas_preguntas_no_cambian`, `factory_rag_specs.corrida_completa`
 - Fuente: openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md#las demás preguntas no cambian
 
 Tipo: funcional The system SHALL keep answering questions about tasks and changes, and document questions, exactly as before.
