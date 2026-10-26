@@ -1,4 +1,4 @@
-"""Evidencia del contrato de bloqueos: escenarios bl1–bl4 con nombre exacto, y la trazabilidad de esos mismos casos."""
+"""Evidencia del contrato de bloqueos: escenarios bl1–bl5 con nombre exacto, y la trazabilidad de esos mismos casos."""
 from collections import Counter
 from importlib import metadata
 import io
@@ -16,13 +16,13 @@ import json  # noqa: E402
 
 CAMBIO = '20261026-144045-3h6-bloqueos'
 CONTRACTS = {
-    'el_proximo_paso_sin_revisor_lo_explica': ['bl1_sin_revisores_el_proximo_paso_explica_que_falta', 'bl1_con_un_revisor_el_comando_va_completo'],
+    'el_proximo_paso_sin_revisor_lo_explica': ['bl1_sin_revisores_el_proximo_paso_explica_que_falta', 'bl1_con_un_revisor_el_comando_va_completo', 'bl5_los_pasos_con_cambios_pendientes_traen_el_revisor', 'bl5_corregir_hallazgos_trae_el_revisor_con_su_argumento'],
     'revisar_bloqueado_dice_como_seguir': ['bl2_revisar_sin_candidato_nombra_el_comando_con_el_revisor', 'bl2_revisar_con_evidencia_pero_sin_paquete_nombra_el_comando', 'bl2_sin_revisores_revisar_explica_donde_declararlo'],
-    'revisar_el_producto_de_un_primer_commit': ['bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git', 'bl3_la_base_vacia_es_siempre_la_misma'],
-    'el_paquete_vacio_nombra_la_salida': ['bl4_paquete_vacio_nombra_base_vacio'],
+    'revisar_el_producto_de_un_primer_commit': ['bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git', 'bl3_la_base_vacia_es_siempre_la_misma', 'bl3_la_base_vacia_ignora_la_identidad_del_entorno'],
+    'el_paquete_vacio_nombra_la_salida': ['bl4_paquete_vacio_nombra_base_vacio', 'bl4_sin_base_y_sin_diff_nombra_base_vacio'],
 }
 PREFIX = 'test_bloqueos.Bloqueos.test_'
-LIMITES = ('Escenarios bl1–bl4 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba: '
+LIMITES = ('Escenarios bl1–bl5 en repositorios temporales, Linux, con Oracle 0.38.2 real, Clue real y revisores de prueba: '
            'el próximo paso y los bloqueos de revisar sin y con revisor, y --base vacio con el ejemplo notas. No cubre el tablero de VS Code '
            'ni un revisor real (agy, codex).')
 

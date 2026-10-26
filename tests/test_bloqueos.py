@@ -1,10 +1,11 @@
-"""Cada bloqueo de la revisión dice qué falta y cómo seguir: escenarios bl1 a bl4, con revisores de prueba y Clue real."""
+"""Cada bloqueo de la revisión dice qué falta y cómo seguir: escenarios bl1 a bl5, con revisores de prueba y Clue real."""
 import contextlib
 import io
 import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_vueltas as _vueltas  # noqa: E402
@@ -39,6 +40,7 @@ class Bloqueos(_vueltas.Base):
         self.assertIn('falta un revisor independiente', paso)
         self.assertIn('.factory/config.json', paso)
         self.assertNotIn('NOMBRE', paso)
+        self.assertIn('"revisores"', paso)  # trae el ejemplo de cómo declararlo
         self.assertFalse(f.proximo_paso(self.ident).startswith('oracle-factory '))  # texto: la extensión no lo ofrece para ejecutar
 
     def test_bl1_con_un_revisor_el_comando_va_completo(self):
@@ -62,7 +64,8 @@ class Bloqueos(_vueltas.Base):
         self.git('add', '.')
         self.git('commit', '-qm', 'evidencia')
         mensaje = self.revisar_bloqueada()
-        self.assertIn('no tiene informes de revisores ni evidencia', mensaje)
+        self.assertIn('tiene evidencia, pero ningún informe de un revisor independiente', mensaje)  # no dice que falta la evidencia
+        self.assertNotIn('ni evidencia', mensaje)
         self.assertIn(f'oracle-factory pedir-revision {self.ident} --a agy', mensaje)
 
     def test_bl2_sin_revisores_revisar_explica_donde_declararlo(self):
@@ -111,6 +114,37 @@ class Bloqueos(_vueltas.Base):
         with self.assertRaises(f.FactoryError) as e:
             f.pedir_revision(self.ident, 'agy', base=self.git('rev-parse', 'HEAD'))
         self.assertIn('--base vacio', str(e.exception))
+
+    def test_bl4_sin_base_y_sin_diff_nombra_base_vacio(self):
+        """El caso del piloto: el producto está en el primer commit y la base por defecto es el propio candidato."""
+        self.preparar()
+        self.declarar_revisor('agy')
+        with self.assertRaises(f.FactoryError) as e:
+            f.pedir_revision(self.ident, 'agy')
+        self.assertIn('--base vacio', str(e.exception))
+
+    # --- bl5: cada comando sugerido es ejecutable ----------------------------------------------------------------------------
+    def test_bl5_los_pasos_con_cambios_pendientes_traen_el_revisor(self):
+        self.preparar()
+        self.declarar_revisor('agy')
+        (self.root / 'examples/notas/notas.py').write_text('# sin commitear\n')
+        self.assertEqual(f.proximo_paso(self.ident),
+                         f'commiteá los cambios del producto; después: oracle-factory pedir-revision {self.ident} --a agy')
+
+    def test_bl5_corregir_hallazgos_trae_el_revisor_con_su_argumento(self):
+        self.preparar()
+        self.pedir('codex', ['media', 'Falta validar el título'])
+        paso = f.proximo_paso(self.ident)
+        self.assertIn(f'después: oracle-factory pedir-revision {self.ident} --a codex', paso)
+
+    # --- bl3: la base vacía no depende del entorno -------------------------------------------------------------------------
+    def test_bl3_la_base_vacia_ignora_la_identidad_del_entorno(self):
+        self.preparar()
+        base = f.base_vacia()
+        entorno = {f'GIT_{r}_{c}': 'Otra Persona' if c == 'NAME' else 'otra@example.com' for r in ('AUTHOR', 'COMMITTER') for c in ('NAME', 'EMAIL')}
+        with patch.dict('os.environ', entorno):
+            self.assertEqual(f.base_vacia(), base)
+        self.assertEqual(self.git('log', '-1', '--format=%an <%ae>', base), 'Oracle Factory <factory@invalid>')
 
 
 if __name__ == '__main__':

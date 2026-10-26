@@ -2,7 +2,7 @@ medida factory_bloqueos.revisar_el_producto_de_un_primer_commit:
     de bloqueos_caso c
     donde c.requisito == "revisar_el_producto_de_un_primer_commit" y c.codigo == 0
     resumen contar(1)
-    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_bloqueos.py; asociar junto a corrida_completa"
+    umbral == 3 segun contrato porque "deben pasar los 3 casos enumerados para este requisito en tools/verify_bloqueos.py; asociar junto a corrida_completa"
     requiere bloqueos_caso
     ambito universal
-    alcance "escenarios bl1 a bl4 en repositorios temporales, Linux, con Oracle 0.38.2 real"
+    alcance "escenarios bl1 a bl5 en repositorios temporales, Linux, con Oracle 0.38.2 real"

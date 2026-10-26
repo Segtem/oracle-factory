@@ -1,0 +1,137 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueos/.factory/local/revisiones/7e993c7-agy2-1",
+  "base": "ff0a5eb94f12e832a318520d4a50babdcdcc1760",
+  "head": "7e993c7eb35199a7318353de84367ad132fd82ca",
+  "diff_sha256": "717d0cd65a17f7a34e33ca46c29cf98d9866f4597a38bb0b09256765b7db67d0",
+  "context_sha256": "f2cf3df868d3ed9026cf9d673887020b791329b7d40dc748fc15ab60bd3f9860",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [
+    {
+      "id": "BLOQUEOS-01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.99,
+      "title": "pedir-revision sin --base no intercepta «CLUE: el diff está vacío», omitiendo la sugerencia de --base vacio en primeros commits",
+      "explanation": "El requisito funcional el_paquete_vacio_nombra_la_salida establece: «The system SHALL, when a review request fails because the package has no product changes, say that --base vacio reviews the whole product», con el escenario: «GIVEN un candidato cuya base por defecto deja el paquete sin cambios de producto / WHEN se pide la revisión sin --base / THEN el error nombra la opción --base vacio». En oracle_factory/cli.py:1462-1467, el código solo intercepta el fallo si p.returncode and \"vacío fuera de las exclusiones\" in (p.stderr or p.stdout). Sin embargo, cuando el proyecto tiene su código en el primer commit y el candidato está sobre main (el caso real del piloto de Brian Hollweg relatado en proposal.md), la base por defecto (merge-base HEAD main) es igual a HEAD. Al no haber diferencias de ningún tipo entre base y head, oracle-clue falla con «CLUE: el diff está vacío». Como esa cadena no contiene «vacío fuera de las exclusiones», la rama condicional no se activa y la ejecución cae en el raise genérico de la línea 1467: «oracle-clue no pudo preparar el paquete: CLUE: el diff está vacío», sin mencionar jamás la opción --base vacio y dejando al usuario bloqueado sin la solución prometida.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1462,
+        "end_line": 1468,
+        "side": "head"
+      },
+      "trigger": "Tener un repositorio cuyo producto está en el commit inicial (main) y pedir revisión con «oracle-factory pedir-revision <ID> --a <revisor>» sin el parámetro --base.",
+      "evidence": "Al invocar f.pedir_revision(self.ident, \"agy\") sin --base en un entorno donde HEAD es main (código en el primer commit), oracle-clue termina con código 2 y mensaje «CLUE: el diff está vacío». pedir_revision arroja FactoryError(\"oracle-clue no pudo preparar el paquete: CLUE: el diff está vacío\"), omitiendo toda referencia a --base vacio.",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "status": "pendiente",
+      "verification": "Ejecutar f.pedir_revision(ident, revisor) sin especificar --base en un proyecto con HEAD==main y verificar que la excepción lanzada no contiene «--base vacio»."
+    },
+    {
+      "id": "BLOQUEOS-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "_pasos sugiere comandos pedir-revision incompletos sin el argumento obligatorio --a",
+      "explanation": "El diseño de la capacidad (design.md) especifica: «Un solo lugar decide cómo se pide una revisión: una función devuelve el comando completo con el primer revisor configurado, o la explicación si no hay ninguno. La usan el próximo paso y los mensajes de revisar, para que no diverjan». Asimismo, el requisito funcional el_proximo_paso_sin_revisor_lo_explica prohíbe ofrecer comandos con huecos o sin completar. Sin embargo, en oracle_factory/cli.py:3422 (cuando hay hallazgos medios o más abiertos) y en cli.py:3427 (cuando la revisión pidió cambios o hay hallazgos abiertos), _pasos devuelve cadenas con «... después: oracle-factory pedir-revision {ident}» sin incluir el parámetro obligatorio «--a <revisor>» ni utilizar pedido_de_revision(ident). Dado que construir_parser exige obligatoriamente --a (required=True), si la persona o agente ejecuta el comando sugerido en el tablero o próximo paso, la CLI falla con «oracle-factory pedir-revision: error: the following arguments are required: --a». Además, si el proyecto no tiene revisores configurados, en vez de indicar qué falta y cómo declararlo, sugiere un comando inválido que aborta.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 3422,
+        "end_line": 3427,
+        "side": "head"
+      },
+      "trigger": "Consultar el próximo paso tras una revisión con hallazgos abiertos o que pidió cambios; copiar y ejecutar el comando sugerido «oracle-factory pedir-revision <ID>».",
+      "evidence": "Ejecutar en la terminal «oracle-factory pedir-revision <ID>» produce código de salida 2 y error: «oracle-factory pedir-revision: error: the following arguments are required: --a».",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "status": "pendiente",
+      "verification": "Inspeccionar las líneas 3422 y 3427 de oracle_factory/cli.py y comprobar que el texto sugerido carece de «--a» y no invoca pedido_de_revision(ident)."
+    },
+    {
+      "id": "BLOQUEOS-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.98,
+      "title": "base_vacia no aísla las variables de entorno de identidad de Git, alterando la autoría y el SHA del commit base",
+      "explanation": "El requisito revisar_el_producto_de_un_primer_commit y design.md prometen crear un commit sin archivos con autor y fecha fijos (mismo SHA siempre, sin leer ni escribir la configuración de Git ni usar identidad global). En oracle_factory/cli.py:1252-1255, base_vacia() define fijo = {**os.environ, \"GIT_AUTHOR_DATE\": \"2000-01-01T00:00:00+0000\", \"GIT_COMMITTER_DATE\": \"2000-01-01T00:00:00+0000\"} e invoca git commit-tree pasando -c user.name=\"Oracle Factory\" y -c user.email=\"factory@invalid\". En Git, las variables de entorno GIT_AUTHOR_NAME, GIT_AUTHOR_EMAIL, GIT_COMMITTER_NAME y GIT_COMMITTER_EMAIL tienen precedencia sobre la configuración pasada con -c user.name / -c user.email. Al no sanitizar ni fijar estas variables en fijo, si el entorno anfitrión las tiene definidas, Git las utiliza para la autoría del commit en lugar de la identidad fija de Oracle Factory. Como resultado, el commit base adopta la identidad del entorno y su hash SHA-1 cambia según el usuario o máquina ejecutora.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1250,
+        "end_line": 1258,
+        "side": "head"
+      },
+      "trigger": "Definir GIT_AUTHOR_NAME y GIT_AUTHOR_EMAIL en el entorno y ejecutar base_vacia().",
+      "evidence": "Se ejecutó base_vacia() habiendo establecido os.environ[\"GIT_AUTHOR_NAME\"] = \"Custom Hacker\" y os.environ[\"GIT_AUTHOR_EMAIL\"] = \"hacker@evil.com\". El commit generado tuvo autor «Custom Hacker <hacker@evil.com>» y su hash SHA difirió del hash esperado estándar 8f135549fbc271cc1ba40918a279e39b6fd8190a.",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "status": "pendiente",
+      "verification": "Llamar a cli.base_vacia() con GIT_AUTHOR_NAME=\"Test\" en os.environ y verificar que el autor en git log -1 --format=%an es \"Test\" en lugar de \"Oracle Factory\"."
+    },
+    {
+      "id": "BLOQUEOS-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "_revisar_paso_a_paso emite un mensaje falso de ausencia de evidencia cuando el candidato sí tiene evidencia producida",
+      "explanation": "El requisito funcional revisar_bloqueado_dice_como_seguir establece: «The system SHALL, when revisar is blocked for lack of a current candidate, reviewer reports or evidence, name the cause and the exact command to continue, using the configured reviewer». En oracle_factory/cli.py:1806-1807, la comprobación de bloqueo es: «if not informe.get(\"archivos_revisados\") or not informe.get(\"comprobaciones\"): raise FactoryError(f\"el candidato {sha} no tiene informes de revisores ni evidencia. Para seguir: {pedido_de_revision(identificador)}\")». Cuando un candidato tiene evidencia generada pero aún no tiene paquete de Clue ni informes de revisores (escenario probado en test_bl2_revisar_con_evidencia_pero_sin_paquete_nombra_el_comando), informe[\"archivos_revisados\"] es None. Al cumplirse la condición, el sistema afirma falsamente que el candidato «no tiene informes de revisores ni evidencia». Esta afirmación es engañosa: el candidato sí tiene evidencia válida producida; la causa real del bloqueo es la falta de informes de revisor / paquete de Clue. El mensaje no nombra la causa real y confunde al desarrollador indicándole que le falta evidencia cuando acaba de producirla.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1806,
+        "end_line": 1807,
+        "side": "head"
+      },
+      "trigger": "Producir y commitear la evidencia de un candidato sin pedir revisión previa, y ejecutar oracle-factory revisar.",
+      "evidence": "En tests/test_bloqueos.py:55-66, el test genera evidencia con resultado.json y commitea. Al invocar revisar_bloqueada(), el mensaje de error arrojado afirma textualmente: «el candidato ... no tiene informes de revisores ni evidencia», a pesar de que informe[\"comprobaciones\"] sí contenía la comprobación de la evidencia.",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "status": "pendiente",
+      "verification": "Ejecutar el escenario test_bl2_revisar_con_evidencia_pero_sin_paquete_nombra_el_comando y verificar que la excepción afirma que no hay evidencia."
+    },
+    {
+      "id": "BLOQUEOS-05",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "test_bl3_la_base_vacia_es_siempre_la_misma no comprueba la identidad ni el SHA constante, permitiendo que mutaciones de identidad sobrevivan",
+      "explanation": "El caso de prueba test_bl3_la_base_vacia_es_siempre_la_misma en tests/test_bloqueos.py:94-99 promete garantizar que la base vacía es siempre la misma y que no depende de la identidad del entorno. Sin embargo, el test solo compara self.assertEqual(base, f.base_vacia()), self.assertEqual(self.git(log, -1, --format=%cI, base), 2000-01-01T00:00:00Z) y self.assertEqual(self.git(ls-tree, -r, base), ). No verifica el autor (%an), el correo (%ae) ni el valor exacto del hash SHA constante (8f135549fbc271cc1ba40918a279e39b6fd8190a). Al realizar una mutación en base_vacia() suprimiendo -c user.name=Oracle Factory -c user.email=factory@invalid, el commit se crea con la identidad del entorno o repositorio de prueba; ambas llamadas dentro del test producen el mismo hash mutado y la prueba pasa con resultado OK. Por tanto, el test no demuestra que la identidad sea fija ni que no use la identidad global.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 94,
+        "end_line": 99,
+        "side": "head"
+      },
+      "trigger": "Suprimir los flags «-c user.name=Oracle Factory -c user.email=factory@invalid» en base_vacia() y ejecutar tests.test_bloqueos.",
+      "evidence": "Se aplicó dicha mutación en scratch/oracle_factory/cli.py y se corrió python -m unittest tests.test_bloqueos. La suite completa de 8 pruebas pasó con código 0 (OK) en 3.180s, sobreviviendo la mutación sin que test_bl3_la_base_vacia_es_siempre_la_misma detectara el uso de la identidad del entorno.",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "status": "pendiente",
+      "verification": "Mutar base_vacia() removiendo -c user.name y -c user.email, y comprobar que test_bl3_la_base_vacia_es_siempre_la_misma no falla."
+    },
+    {
+      "id": "BLOQUEOS-06",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.92,
+      "title": "test_bl4_paquete_vacio_nombra_base_vacio pasa base explícita y no prueba el pedido de revisión sin --base estipulado en la spec",
+      "explanation": "El escenario paquete sin cambios de producto de la spec exige textualmente: «GIVEN un candidato cuya base por defecto deja el paquete sin cambios de producto / WHEN se pide la revisión sin --base / THEN el error nombra la opción --base vacio». En tests/test_bloqueos.py:112, el test ejecuta f.pedir_revision(self.ident, agy, base=self.git(rev-parse, HEAD)), pasando el parámetro base de forma explícita en lugar de omitirlo. Al suministrar base=HEAD, la prueba elude la resolución de la base por defecto (merge-base con main) requerida por la cláusula WHEN de la spec, dejando sin cobertura la invocación natural sin --base.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 102,
+        "end_line": 114,
+        "side": "head"
+      },
+      "trigger": "Contrastar la invocación en tests/test_bloqueos.py:112 con la cláusula WHEN del escenario en openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md.",
+      "evidence": "En tests/test_bloqueos.py:112 se invoca f.pedir_revision(self.ident, agy, base=self.git(rev-parse, HEAD)), mientras que la spec establece «WHEN se pide la revisión sin --base».",
+      "related_requirement": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "status": "pendiente",
+      "verification": "Inspeccionar la línea 112 de tests/test_bloqueos.py frente a la redacción del escenario en la spec."
+    }
+  ],
+  "limitations": [
+    "Ejecución de pruebas autorizada: se corrió en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null (8 pruebas OK en 3.223s).",
+    "Pruebas dirigidas en entorno scratch: se evaluaron aserciones modificadas de tests/test_cli_humana.py y tests/test_informe_no_texto.py en un entorno aislado sin modificar el checkout.",
+    "Análisis de mutaciones manuales: se ejecutaron mutaciones experimentales en scratch/oracle_factory sobre base_vacia() (eliminación de fechas fijas y remoción de identidad forzada) y _pasos() para evaluar supervivencia de mutantes y rigor de las aserciones.",
+    "Auditoría del paquete y checkout de sólo lectura: se inspeccionaron los diffs de oracle_factory/cli.py, tests/test_bloqueos.py, tools/verify_bloqueos.py, los 5 catálogos Oracle y los 4 requisitos, contrastando cada promesa funcional contra la implementación.",
+    "No se ejecutó la suite completa de pruebas (488 pruebas) conforme a la instrucción expresa de quien pide la revisión («No corras la suite completa»).",
+    "Sin modificaciones en checkout ni Git: no se editó ningún archivo del repositorio de revisión, no se hicieron commits, no se tocó la configuración de Git y no se tomaron decisiones reservadas a personas."
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueos/.factory/local/revisiones/7e993c7-agy-1",
+  "base": "ff0a5eb94f12e832a318520d4a50babdcdcc1760",
+  "head": "7e993c7eb35199a7318353de84367ad132fd82ca",
+  "diff_sha256": "717d0cd65a17f7a34e33ca46c29cf98d9866f4597a38bb0b09256765b7db67d0",
+  "context_sha256": "8862cbca248780f8e7ad5675c1f79423c27e5e13f9e48906aa7b3727739742f9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "H01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_bl4_paquete_vacio_nombra_base_vacio pasa explícitamente --base en lugar de probar la petición sin --base",
+      "explanation": "El escenario de la spec para el requisito el_paquete_vacio_nombra_la_salida («paquete sin cambios de producto») estipula: «GIVEN un candidato cuya base por defecto deja el paquete sin cambios de producto / WHEN se pide la revisión sin --base / THEN el error nombra la opción --base vacio». Sin embargo, tests/test_bloqueos.py (líneas 111-113) invoca f.pedir_revision(self.ident, \"agy\", base=self.git(\"rev-parse\", \"HEAD\")) pasando explícitamente el argumento base. Por lo tanto, no comprueba la invocación por defecto sin --base estipulada en el escenario de la spec.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 111,
+        "end_line": 113,
+        "side": "head"
+      },
+      "trigger": "Ejecutar test_bl4_paquete_vacio_nombra_base_vacio tal como está implementado en tests/test_bloqueos.py.",
+      "evidence": "Líneas 111-113 de tests/test_bloqueos.py: with self.assertRaises(f.FactoryError) as e: f.pedir_revision(self.ident, \"agy\", base=self.git(\"rev-parse\", \"HEAD\")).",
+      "related_requirement": "el_paquete_vacio_nombra_la_salida",
+      "status": "pendiente",
+      "verification": "Modificar la prueba para invocar f.pedir_revision(self.ident, \"agy\") sin argumento base y verificar que la excepción ocurra y contenga \"--base vacio\" según lo prometido."
+    },
+    {
+      "id": "H02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "revisar reporta falsamente falta de evidencia cuando el candidato sí tiene evidencia pero carece de informes",
+      "explanation": "El requisito revisar_bloqueado_dice_como_seguir exige nombrar la causa y el comando exacto cuando revisar se bloquea por falta de candidato, de informes o de evidencia. En oracle_factory/cli.py (líneas 1806-1807), la comprobación «if not informe.get(\"archivos_revisados\") or not informe.get(\"comprobaciones\")» lanza: «el candidato {sha} no tiene informes de revisores ni evidencia. Para seguir: ...». Cuando un candidato ya produjo su evidencia pero todavía no se generó el paquete de Clue ni informes de revisores, archivos_revisados es None. El sistema arroja el bloqueo afirmando falsamente que el candidato no tiene evidencia (\"ni evidencia\"), negando la existencia de la evidencia real registrada.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1806,
+        "end_line": 1807,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory revisar sobre un candidato que ya cuenta con evidencia en su carpeta pero que aún no tiene informes de revisores ni paquete clue.",
+      "evidence": "En tests/test_bloqueos.py, la prueba test_bl2_revisar_con_evidencia_pero_sin_paquete_nombra_el_comando crea deliberadamente resultado.json de evidencia y luego aserta que el mensaje recibido contiene «no tiene informes de revisores ni evidencia».",
+      "related_requirement": "revisar_bloqueado_dice_como_seguir",
+      "status": "pendiente",
+      "verification": "Diferenciar en _revisar_paso_a_paso los casos en que falta evidencia, informes de revisión o ambos, para no afirmar que falta evidencia cuando esta ya existe."
+    },
+    {
+      "id": "H03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "base_vacia hereda variables GIT_AUTHOR_* y GIT_COMMITTER_* de os.environ alterando el commit y su SHA",
+      "explanation": "La propuesta y design.md especifican que --base vacio crea un commit con autor y fecha fijos (mismo SHA siempre, sin leer ni escribir la configuración de Git). En base_vacia (oracle_factory/cli.py líneas 1252-1255), fijo combina todo os.environ con las fechas fijas. Si el entorno del usuario o CI tiene configuradas variables como GIT_AUTHOR_NAME o GIT_AUTHOR_EMAIL, Git les da precedencia por encima de las opciones -c user.name y -c user.email pasadas en la línea de comando. Esto altera el SHA generado e introduce la identidad ambiental en el commit supuestamente fijo e independiente de configuración.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1252,
+        "end_line": 1255,
+        "side": "head"
+      },
+      "trigger": "Ejecutar base_vacia() en un entorno donde GIT_AUTHOR_NAME o GIT_AUTHOR_EMAIL estén definidos en os.environ.",
+      "evidence": "GIT_AUTHOR_NAME=\"Tester\" cambia el SHA del commit de 8f135549fbc271cc1ba40918a279e39b6fd8190a a 11b7e25cd7019eb4f76991e6d5eb50b27e62da88.",
+      "related_requirement": "revisar_el_producto_de_un_primer_commit",
+      "status": "pendiente",
+      "verification": "En base_vacia(), limpiar o anular explícitamente en el diccionario fijo las variables GIT_AUTHOR_NAME, GIT_AUTHOR_EMAIL, GIT_COMMITTER_NAME y GIT_COMMITTER_EMAIL."
+    },
+    {
+      "id": "H04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre el primer commit del proyecto",
+      "explanation": "El escenario «código en el primer commit» del requisito revisar_el_producto_de_un_primer_commit estipula: «GIVEN un proyecto cuyo código está en su primer commit / WHEN se pide una revisión con --base vacio / THEN el paquete incluye los archivos del producto y ninguna rama, historia ni configuración de Git cambia». Sin embargo, test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git utiliza self.preparar(), que crea 3 commits (base, registro y producto), no un proyecto cuyo código está en su primer commit. Además, la comprobación de ramas usa «git branch --list --all», lo que no detectaría si se crearan tags.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 75,
+        "end_line": 82,
+        "side": "head"
+      },
+      "trigger": "Ejecución de test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git en tests/test_bloqueos.py.",
+      "evidence": "preparar() en tests/test_vueltas.py genera múltiples commits. git rev-list --count HEAD devuelve 3.",
+      "related_requirement": "revisar_el_producto_de_un_primer_commit",
+      "status": "pendiente",
+      "verification": "Incorporar una prueba donde el repositorio solo contenga el commit raíz con el producto inicial y verificar pedir_revision(..., base=\"vacio\")."
+    },
+    {
+      "id": "H05",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "test_bl1_sin_revisores_el_proximo_paso_explica_que_falta no verifica la presencia del ejemplo de revisor",
+      "explanation": "El requisito el_proximo_paso_sin_revisor_lo_explica exige indicar qué falta y dónde declararlo (con un ejemplo). Aunque el código incluye revisores_mod.EJEMPLO en pedido_de_revision, el test test_bl1_sin_revisores_el_proximo_paso_explica_que_falta (tests/test_bloqueos.py líneas 36-41) no comprueba que el ejemplo forme parte del mensaje. Mutaciones que retiran o alteran el ejemplo sobreviven a la suite de pruebas.",
+      "location": {
+        "file": "tests/test_bloqueos.py",
+        "start_line": 36,
+        "end_line": 41,
+        "side": "head"
+      },
+      "trigger": "Mutación de pedido_de_revision para omitir revisores_mod.EJEMPLO.",
+      "evidence": "Mutación manual en copia local removiendo el ejemplo fue evaluada y sobrevivió la ejecución de tests.test_bloqueos.",
+      "related_requirement": "el_proximo_paso_sin_revisor_lo_explica",
+      "status": "pendiente",
+      "verification": "Agregar una aserción self.assertIn(revisores_mod.EJEMPLO, paso) en test_bl1_sin_revisores_el_proximo_paso_explica_que_falta."
+    },
+    {
+      "id": "H06",
+      "kind": "bug",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "Aviso de falta de candidato vigente en preparar_revision carece de cobertura de pruebas",
+      "explanation": "En oracle_factory/cli.py (líneas 1269-1273), se actualizó el aviso emitido cuando no hay candidato vigente para invocar pedido_de_revision. No obstante, en el flujo de revisión guiada _revisar_paso_a_paso se lanza una excepción antes de llamar a preparar_revision cuando candidato_vigente es None. Dicha advertencia solo se ejecuta mediante el comando oracle-factory revision-preparar, pero ninguna prueba en tests/test_bloqueos.py verifica este aviso. Mutaciones que revierten esa línea a \"--a NOMBRE\" sobreviven.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1269,
+        "end_line": 1273,
+        "side": "head"
+      },
+      "trigger": "Llamada directa a preparar_revision sin candidato vigente.",
+      "evidence": "La mutación revirtiendo la línea 1272 a «--a NOMBRE» sobrevive a toda la suite de tests.test_bloqueos.",
+      "related_requirement": "revisar_bloqueado_dice_como_seguir",
+      "status": "pendiente",
+      "verification": "Agregar un test unitario que invoque preparar_revision(ident) sin candidato vigente y capture stderr para verificar que se use pedido_de_revision."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite específica tests.test_bloqueos tal como fue indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueos/.venv/bin/python -m unittest tests.test_bloqueos </dev/null",
+    "Se realizaron mutaciones manuales sistemáticas sobre una copia aislada en la carpeta del revisor para comprobar qué defectos son atrapados por las pruebas",
+    "No se corrió la suite de pruebas completa del proyecto ni herramientas que modifiquen repositorios o configuración de Git",
+    "No se evaluó la integración con la interfaz de VS Code ni revisores externos reales en ejecución"
+  ]
+}
