@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261026-225825-rn5-rag-specs. Modo de trabajo: confi
 ### Nota (2026-10-26 23:06:38 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-26 23:06:51 UTC)
+
+Requisitos importados: conocimiento_c6dd9c535b1df9607.contar_y_listar_specs (funcional), conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido (funcional), conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

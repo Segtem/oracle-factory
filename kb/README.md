@@ -75,7 +75,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
 - [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (cerrada)
-- [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (spec_aprobada)
+- [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (requisitos_importados)
 
 ## Requisitos
 
@@ -142,6 +142,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/conocimiento_c48413c31f1bcbd66.la_calidad_se_mide_con_preguntas_de_oro]]
 - [[requisitos/conocimiento_c48413c31f1bcbd66.los_embeddings_son_configurables_y_locales_por_defecto]]
 - [[requisitos/conocimiento_c48413c31f1bcbd66.preguntar_devuelve_pasajes_vigentes_con_su_cita]]
+- [[requisitos/conocimiento_c6dd9c535b1df9607.contar_y_listar_specs]]
+- [[requisitos/conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido]]
+- [[requisitos/conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian]]
 - [[requisitos/conocimiento_cc12f23b7134ebe23.la_elaboracion_usa_herramientas_acotadas_y_un_modelo_explicito]]
 - [[requisitos/conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion]]
 - [[requisitos/conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente]]

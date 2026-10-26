@@ -1,0 +1,4 @@
+requisito conocimiento_c6dd9c535b1df9607.contar_y_listar_specs:
+    texto "Tipo: funcional The system SHALL answer questions of how many and which specs there are directly from the spec folders, reporting the current specs (one per capability) and the specs in open changes as separate numbers, and citing the files it read."
+    fuente "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md#contar y listar specs"
+    sin_medir "sin medida todavía; escenarios: «cuántas specs hay», «cuáles son»"

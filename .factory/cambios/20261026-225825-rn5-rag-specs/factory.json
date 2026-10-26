@@ -2,7 +2,7 @@
   "id": "20261026-225825-rn5-rag-specs",
   "titulo": "Preguntar cuántas specs hay y cuáles son",
   "capacidad": "conocimiento",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md",
   "spec_sha256": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs",
+    "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+    "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261026-225825-rn5-rag-specs/proposal.md": "4e9314b3ff8b7f870d34366eb260477664fa0ac5275d1fa434f39364318af07b",
         "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T23:06:51.137929+00:00",
+      "ids": [
+        "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs",
+        "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+        "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs": "funcional",
+    "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido": "funcional",
+    "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

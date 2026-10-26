@@ -1,0 +1,4 @@
+requisito conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian:
+    texto "Tipo: funcional The system SHALL keep answering questions about tasks and changes, and document questions, exactly as before."
+    fuente "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md#las demás preguntas no cambian"
+    sin_medir "sin medida todavía; escenarios: «cambios abiertos»"
