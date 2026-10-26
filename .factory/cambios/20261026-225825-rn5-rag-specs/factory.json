@@ -1,0 +1,24 @@
+{
+  "id": "20261026-225825-rn5-rag-specs",
+  "titulo": "Preguntar cuántas specs hay y cuáles son",
+  "capacidad": "conocimiento",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T22:58:25.315510+00:00",
+      "capacidad": "conocimiento"
+    }
+  ]
+}
