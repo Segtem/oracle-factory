@@ -1,0 +1,32 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).",
+  "decisiones": [
+    {
+      "hallazgo_id": "BLOQUEOS-V2-01",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:04.392701+00:00"
+    },
+    {
+      "hallazgo_id": "BLOQUEOS-V2-02",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:05.673595+00:00"
+    },
+    {
+      "hallazgo_id": "BLOQUEOS-V2-03",
+      "estado": "riesgo_aceptado",
+      "motivo": "Acepto el riesgo: El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "origen_motivo": "armado",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:06.709640+00:00"
+    }
+  ]
+}

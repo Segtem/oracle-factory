@@ -2,7 +2,7 @@
   "id": "20261026-144045-3h6-bloqueos",
   "titulo": "Mostrar cada bloqueo con su solución",
   "capacidad": "bloqueos",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md",
   "spec_sha256": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
     "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/informe.json",
+    "sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
+    "decisiones": "tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/decisiones.json",
+    "decisiones_sha256": "c5d34d16aeed27208abed84449366c5ac8f7fa05afca9301ab2b366495daf09e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-26T19:52:08.172804+00:00",
+    "motivo": "Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4e4ddc28fa3ae8ee425cc0373f0d160860e9459d",
+      "archivos_sha256": "6e83dc9352410d5ef46468bd820e8b35c4d04c723b99f3d193588b7e446fc334"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -386,6 +406,20 @@
       "cuando": "2026-10-26T16:18:48.880831+00:00",
       "decision": "aprobar",
       "candidato": "f91ed68"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-26T19:52:08.172827+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
+      "decisiones_sha256": "c5d34d16aeed27208abed84449366c5ac8f7fa05afca9301ab2b366495daf09e"
     }
   ],
   "tipos": {
@@ -461,14 +495,34 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).",
-      "candidato": "f91ed68",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-26T16:18:48.880815+00:00"
+  "motivos_propuestos": {},
+  "aceptados": [
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "firma": "oracle_factory/cli.py|falta cobertura en testbloqueos para el próximo paso tras una revisión no aprobada permitiendo que comandos incompletos sobrevivan",
+      "motivo": "Acepto el riesgo: Falta cobertura en test_bloqueos para el próximo paso tras una revisión no aprobada, permitiendo que comandos incompletos sobrevivan",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:04.392736+00:00",
+      "candidato": "f91ed68"
+    },
+    {
+      "archivo": "tests/test_bloqueos.py",
+      "titulo": "test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "firma": "tests/test_bloqueos.py|testbl3basevaciaincluyetodoelproductoynotocagit no prueba el escenario sobre un repositorio en su primer commit",
+      "motivo": "Acepto el riesgo: test_bl3_base_vacia_incluye_todo_el_producto_y_no_toca_git no prueba el escenario sobre un repositorio en su primer commit",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:05.673627+00:00",
+      "candidato": "f91ed68"
+    },
+    {
+      "archivo": "oracle_factory/cli.py",
+      "titulo": "El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "firma": "oracle_factory/cli.py|el aviso emitido por prepararrevision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "motivo": "Acepto el riesgo: El aviso emitido por preparar_revision cuando no hay candidato vigente carece de cobertura de pruebas",
+      "actor": "Brian Hollweg",
+      "fecha": "2026-10-26T19:52:06.709672+00:00",
+      "candidato": "f91ed68"
     }
-  }
+  ]
 }
