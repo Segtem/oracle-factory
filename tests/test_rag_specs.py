@@ -1,4 +1,4 @@
-"""Contratos rs1–rs3: preguntar cuenta y lista las specs desde sus carpetas, en proyectos aislados."""
+"""Contratos rs1–rs4: preguntar cuenta y lista las specs desde sus carpetas, en proyectos aislados."""
 import contextlib
 import io
 import json
@@ -110,6 +110,56 @@ class RagSpecs(unittest.TestCase):
     def test_rs3_una_pregunta_que_nombra_cambios_y_specs_no_cambia_de_camino(self):
         self.assertIsNone(consultas.interpretar_specs('cuantos cambios tienen spec'))
         self.assertIsNone(consultas.interpretar('cuantas specs hay'))
+
+    # --- rs4: salvaguardas de la vuelta 1 --------------------------------------------------------------------------------
+    def test_rs4_una_pregunta_que_explica_no_es_de_contar_ni_listar(self):
+        for pregunta in ('¿Qué son las specs?', '¿Qué son las capacidades?', '¿Qué dice la spec sobre no modificar archivos?',
+                         '¿Qué especificaciones no admiten cambios?', '¿Qué spec define el periodo de prueba?',
+                         '¿Qué dice la spec sin entrar en detalles?', 'cómo se escribe una spec sin errores'):
+            self.assertIsNone(consultas.interpretar_specs(pregunta), pregunta)
+        self.preparar()
+        self.assertNotIn(self.preguntar('¿Qué son las specs?')['tipo'], ('registro', 'consulta_no_admitida'))
+
+    def test_rs4_lo_compuesto_o_con_cambios_va_al_modelo_aunque_traiga_un_filtro(self):
+        for pregunta in ('¿Cuántos cambios y cuántas specs hay hoy?', '¿Cuántas specs hay y cuántos cambios sin spec?',
+                         'cuantos cambios tienen spec hoy', 'cuantas specs hay y cuales no estan aprobadas'):
+            self.assertIsNone(consultas.interpretar_specs(pregunta), pregunta)
+        self.preparar()
+        self.assertNotIn(self.preguntar('¿Cuántos cambios y cuántas specs hay hoy?')['tipo'], ('registro', 'consulta_no_admitida'))
+
+    def test_rs4_otros_filtros_de_estado_se_rechazan(self):
+        self.preparar()
+        for pregunta in ('cuantas specs estan aprobadas', 'cuantas specs hay en revision', 'cuales specs estan pendientes',
+                         'cuantas specs cerradas hay', 'cuantas specs nuevas hay', 'cuantas specs archivadas hay'):
+            r = self.preguntar(pregunta)
+            self.assertEqual(r['tipo'], 'consulta_no_admitida', pregunta)
+            self.assertEqual(r['resultados'], [])
+
+    def test_rs4_vigentes_y_abiertas_se_responden_con_las_dos_cantidades_rotuladas(self):
+        self.preparar()
+        for pregunta in ('¿Cuántas specs vigentes hay?', 'cuantas specs abiertas hay', 'Mostrame las specs vigentes'):
+            r = self.preguntar(pregunta)
+            self.assertEqual(r['valor'], {'vigentes': 2, 'en_cambios_abiertos': 1}, pregunta)
+            self.assertIn('2 specs vigentes', r['respuesta'])
+
+    def test_rs4_cuales_especificaciones_y_capacidades_tambien_entran(self):
+        self.preparar()
+        for pregunta in ('cuales son las capacidades', 'cuantas especificaciones hay', 'que specs hay', 'lista las especificaciones'):
+            self.assertEqual(self.preguntar(pregunta)['tipo'], 'registro', pregunta)
+
+    def test_rs4_un_enlace_simbolico_no_cuenta_ni_se_cita(self):
+        self.preparar()
+        afuera = Path(self.tmp.name if hasattr(self, 'tmp') else self.root.parent) / 'afuera'
+        (afuera / 'spec.md').parent.mkdir(parents=True, exist_ok=True)
+        (afuera / 'spec.md').write_text('# fuera\n')
+        (self.root / 'openspec/specs/externo').symlink_to(afuera, target_is_directory=True)  # carpeta enlazada
+        (self.root / 'openspec/specs/archivo').mkdir()
+        (self.root / 'openspec/specs/archivo/spec.md').symlink_to(afuera / 'spec.md')  # spec.md enlazado
+        carpeta = self.root / f'openspec/changes/{self.abierto}/specs/enlazada'
+        carpeta.symlink_to(afuera, target_is_directory=True)  # enlace dentro de un cambio abierto
+        r = self.preguntar('¿Cuántas specs hay?')
+        self.assertEqual(r['valor'], {'vigentes': 2, 'en_cambios_abiertos': 1})
+        self.assertFalse([a for a in r['fuentes'][0]['archivos'] if 'externo' in a or 'archivo' in a or 'enlazada' in a])
 
 
 if __name__ == '__main__':

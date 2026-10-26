@@ -1,0 +1,116 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/84f98b2-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "84f98b246119189e9228095a2aa53869e1c54904",
+  "diff_sha256": "8bb13c9fbd1f02dafd3557cd8a65ad1165130c5c417eb2a4a7517927320a71b1",
+  "context_sha256": "48b6558d3b813cc256af2a5522f5dd92ef5cc354a250565620abfaa50a3156a6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias especificadas: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar en primer plano desde la raíz del checkout.",
+    "No se corrió la suite completa de pruebas del proyecto respetando la indicación expresa de la revisión.",
+    "Las pruebas de mutación manual se ejecutaron en una copia aislada dentro del directorio de trabajo del revisor (local/revisores/84f98b2-agy2-1/mutacion) sin modificar el checkout candidato.",
+    "Los 7 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "H01",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "interpretar_specs intercepta preguntas documentales y explicativas antes de validar el vocabulario permitido",
+      "explanation": "En oracle_factory/consultas.py (líneas 125-133), interpretar_specs evalúa la expresión regular de filtros no admitidos (re.search(r'\\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo)\\b', p)) antes de comprobar si la consulta contiene términos ajenos a las consultas directas de specs (if set(p.split()) - permitidas: return None). Dado que cualquier consulta que comience con interrogativos como «¿Qué...» o «¿Cuáles...» activa listar = True (re.search(r'^(?:...|que)\\b', p)), cualquier pregunta documental legítima sobre el contenido o diseño de specs o capacidades que contenga palabras comunes como «no», «sin», «hoy», «fecha», «periodo», etc. (por ejemplo: «¿Qué dice la spec sobre no modificar archivos?», «¿Qué especificaciones no admiten cambios?», «¿Qué capacidad no tiene tests?», «¿Qué spec define el periodo de prueba?», «¿Qué dice la spec sin entrar en detalles?») es capturada erróneamente por este bloque. Como resultado, consultas.directa devuelve inmediatamente {'tipo': 'consulta_no_admitida', ...}, y rag.preguntar corta la ejecución sin consultar pasajes ni invocar el modelo generativo. Esto incumple el requisito las_demas_preguntas_no_cambian («The system SHALL keep answering questions about tasks and changes, and document questions, exactly as before»).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 125,
+        "end_line": 133,
+        "side": "head"
+      },
+      "trigger": "Ejecutar consultas.directa(cli, '¿Qué dice la spec sobre no modificar archivos?') o rag.preguntar(cli, '¿Qué dice la spec sobre no modificar archivos?').",
+      "evidence": "consultas.interpretar_specs('¿Qué dice la spec sobre no modificar archivos?') devuelve {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs. Podés preguntar cuántas o cuáles specs hay; para otros datos usá estado o tablero.'} en lugar de None, bloqueando la búsqueda documental en rag.preguntar.",
+      "related_requirement": "las_demas_preguntas_no_cambian",
+      "status": "pendiente",
+      "verification": "Comprobar el vocabulario permitido antes de evaluar la presencia de filtros directos no admitidos, de modo que las preguntas con palabras adicionales del lenguaje natural pasen al flujo documental y generativo habitual."
+    },
+    {
+      "id": "H02",
+      "kind": "regresion",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "interpretar_specs no descarta preguntas compuestas (« y ») ni las que nombran tareas o cambios, provocando regresión en el camino directo",
+      "explanation": "En design.md se promete explícitamente: «consultas.interpretar_specs reconoce spec, specs, especificacion(es) y capacidad(es) con «cuántas/cantidad» o «lista/cuáles», con las mismas salvaguardas que ya tiene para cambios: compuestas (« y ») pasan al modelo, filtros temporales se rechazan. Si la pregunta también nombra tareas o cambios, manda el camino de cambios (sin cambio de comportamiento)». Asimismo, el docstring de interpretar_specs afirma: «Con otro vocabulario (una compuesta con «y», cambios, tareas…) pasa al modelo, como en interpretar». Sin embargo, en oracle_factory/consultas.py:116-134, interpretar_specs no implementa la cláusula if ' y ' in p: return None, ni comprueba la presencia de tareas o cambios. Cuando una pregunta compuesta que involucra cambios o tareas y specs es procesada por consultas.directa, interpretar retorna None debido a ' y ' in p (diseñado para delegar al modelo generativo). Inmediatamente después, directa invoca interpretar_specs, la cual, al no contar con la salvaguarda de ' y ' in p y evaluar filtros antes del vocabulario permitido, intercepta la consulta y devuelve consulta_no_admitida. Esto provoca una regresión en consultas canónicas como «¿Qué cambios no tienen spec y cómo se aprueban?» (definida en tests/test_preguntar.py:156), la cual antes iba al modelo generativo y ahora es abortada con un error de consulta directa.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 116,
+        "end_line": 134,
+        "side": "head"
+      },
+      "trigger": "Ejecutar consultas.directa(cli, '¿Qué cambios no tienen spec y cómo se aprueban?') o consultas.directa(cli, '¿Cuántos cambios y cuántas specs hay hoy?').",
+      "evidence": "En tests/test_preguntar.py (líneas 156-158), se verifica assertIsNone(consultas.interpretar('¿Qué cambios no tienen spec y cómo se aprueban?')). Sin embargo, al invocar consultas.directa(cli, '¿Qué cambios no tienen spec y cómo se aprueban?'), el resultado es {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs...'}, cortando la respuesta elaborada.",
+      "related_requirement": "las_demas_preguntas_no_cambian",
+      "status": "pendiente",
+      "verification": "Incorporar en interpretar_specs la guarda temprana if ' y ' in p: return None y delegar al camino de cambios si re.search(r'\\b(?:tareas?|cambios?)\\b', p) coincide, cumpliendo lo comprometido en el diseño y docstring."
+    },
+    {
+      "id": "H03",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "specs(cli) no aplica ruta_segura a los archivos encontrados por glob, permitiendo symlinks y fugas de rutas",
+      "explanation": "En oracle_factory/consultas.py (líneas 141 y 149), specs invoca cli.ruta_segura(raiz).glob('*/spec.md') y cli.ruta_segura(carpeta).glob('*/spec.md'). cli.ruta_segura solo valida el directorio base raiz (openspec/specs) o carpeta (openspec/changes/<id>/specs). En Python, Path.glob sigue enlaces simbólicos. Si dentro de openspec/specs o en la carpeta specs de un cambio abierto existe un directorio o archivo symlink que apunte fuera del repositorio, glob lo recorre sin que cli.ruta_segura se aplique sobre el resultado r. Posteriormente, r.relative_to(cli.ROOT) se calcula sobre la ruta aparente, por lo que el symlink es aceptado e incorporado a la lista de specs vigentes o abiertas y citado como fuente. Esto viola el principio del proyecto de «no se siguen enlaces simbólicos» y rechazar rutas fuera del proyecto (invariante de cli.ruta_segura).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 137,
+        "end_line": 150,
+        "side": "head"
+      },
+      "trigger": "Crear un enlace simbólico dentro de openspec/specs/ (por ejemplo openspec/specs/externo apuntando a un directorio fuera del proyecto que contenga spec.md) y ejecutar consultas.specs(cli).",
+      "evidence": "Al crear un symlink openspec/specs/leak -> /tmp/.../ con spec.md, consultas.specs devuelve [{'capacidad': 'leak', 'estado': 'vigente', 'ruta': 'openspec/specs/leak/spec.md'}] sin lanzar FactoryError ni descartar el enlace.",
+      "related_requirement": "contar_y_listar_specs",
+      "status": "pendiente",
+      "verification": "Validar cada archivo r resultante del glob invocando cli.ruta_segura(r) (o implementando un filtro seguro similar al de rag.py:112-118) para asegurar que ni el archivo ni ningún componente de su ruta sea un enlace simbólico."
+    },
+    {
+      "id": "H04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "filtro_de_specs_no_admitido solo rechaza 12 palabras fijas y devuelve None ante otros filtros no admitidos",
+      "explanation": "El requisito filtro_de_specs_no_admitido especifica: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En oracle_factory/consultas.py (líneas 125-127), el rechazo explícito consulta_no_admitida está limitado a una expresión regular con 12 tokens temporales y de negación (no, excepto, sin, desde, hasta, ayer, hoy, semana, mes, ano, fecha, periodo). Si una pregunta sobre specs incluye cualquier otro filtro no admitido (por ejemplo: «cuántas specs están aprobadas», «cuántas specs hay en revisión», «cuáles specs están pendientes»), la función no reconoce los términos en permitidas y retorna None (línea 133). Como consecuencia, directa retorna None y rag.preguntar cae al recuperador documental devolviendo pasajes sueltos («No encontré respaldo suficiente...» o pasajes candidatos), en contradicción directa con el mandato del requisito de rechazar diciendo explícitamente que el filtro no está admitido en vez de caer a pasajes sueltos.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 125,
+        "end_line": 133,
+        "side": "head"
+      },
+      "trigger": "Ejecutar consultas.interpretar_specs('cuantas specs estan aprobadas') o rag.preguntar(cli, 'cuantas specs estan aprobadas').",
+      "evidence": "consultas.interpretar_specs('cuantas specs estan aprobadas') devuelve None y rag.preguntar devuelve pasajes sueltos; en contraste, consultas.interpretar_specs('cuantas specs no estan aprobadas') devuelve consulta_no_admitida únicamente por la presencia fortuita del token 'no'.",
+      "related_requirement": "filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Identificar si la consulta es primariamente sobre specs (conteo o listado) y rechazar con consulta_no_admitida cualquier filtro adicional no admitido en lugar de degradar a pasajes sueltos."
+    },
+    {
+      "id": "H05",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no prueba «cuáles», «especificación» ni «capacidad», y aserciones permiten que mutaciones sobrevivan",
+      "explanation": "En tests/test_rag_specs.py: 1) test_rs1_cuales_son_lista_capacidad_estado_y_ruta únicamente prueba el texto 'Mostrame las specs'. No prueba preguntas con 'cuáles' (a pesar de que el escenario de la spec se titula Scenario: cuáles son), ni con 'lista'/'listar', ni con las variantes sinónimas prometidas en el diseño (especificación, especificaciones, capacidad, capacidades). 2) Mutaciones manuales demuestran que reemplazar la expresión regular de listar por r'^(?:mostrame)\\b' sobrevive a la suite completa de pruebas. 3) Mutaciones en oracle_factory/consultas.py como eliminar especificacion(es) y capacidad(es) de la regex, forzar criterio = {}, forzar cita = '' o asignar una huella constante huella = 'dummy' sobreviven sin que falle ningún test, ya que las pruebas no verifican la metadata de la respuesta (criterio, fuente['cita'], fuente['inventario_sha256']) ni los sinónimos del dominio.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 55,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Mutar la expresión regular de listar en interpretar_specs a r'^(?:mostrame)\\b' o eliminar especificacion/capacidad, y correr tests.test_rag_specs.",
+      "evidence": "La mutación de listar a r'^(?:mostrame)\\b' y la eliminación de especificacion/capacidad en mutacion/oracle_factory/consultas.py ejecutó 15 tests en 4.6s con veredicto OK sin fallos en tests.test_rag_specs.",
+      "related_requirement": "contar_y_listar_specs",
+      "status": "pendiente",
+      "verification": "Agregar casos de prueba para preguntas con «cuáles son», «listar», «especificaciones» y «capacidades», y comprobar asertivamente los campos estructurados de fuentes y criterio devueltos."
+    }
+  ]
+}

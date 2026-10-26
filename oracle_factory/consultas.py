@@ -114,39 +114,56 @@ def registro(cli, argumentos):
 
 
 def interpretar_specs(texto):
-    """Cuántas o cuáles specs hay. Con otro vocabulario (una compuesta con «y», cambios, tareas…) pasa al modelo, como en `interpretar`."""
+    """Cuántas o cuáles specs hay. Lo compuesto («y»), lo que nombra cambios o tareas y lo de otro tema pasan al modelo, como en
+    `interpretar`; un filtro que no se admite se rechaza, pero sólo en una pregunta de contar o listar (no en una explicación)."""
     p = plano(texto)
-    if not re.search(r'\b(?:specs?|especificacion(?:es)?|capacidad(?:es)?)\b', p):
+    nombre = r'(?:specs?|especificacion(?:es)?|capacidad(?:es)?)'
+    if not re.search(rf'\b{nombre}\b', p) or ' y ' in p or re.search(r'\b(?:tareas?|cambios?)\b', p):
         return None
     contar = bool(re.search(r'\b(?:cuantos|cuantas|cantidad|numero)\b', p))
-    listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales|que)\b', p))
+    listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales)\b', p)
+                  or re.search(rf'^que {nombre} (?:hay|existen|tenemos|tiene)\b', p))
     if not contar and not listar:
         return None
-    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo)\b', p):
-        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs. '
-                'Podés preguntar cuántas o cuáles specs hay; para otros datos usá estado o tablero.'}
+    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|pendientes?|'
+                 r'nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?)\b', p):
+        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se '
+                'responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'}
     permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
                      'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
                      'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
-                     'vigente'.split())
+                     'vigente abiertas abiertos abierta abierto'.split())
     if set(p.split()) - permitidas:
         return None
     return {'tema': 'specs', 'operacion': 'contar' if contar else 'listar'}
 
 
+def _archivos_de_specs(cli, patron_base):
+    """Los spec.md de una carpeta que son archivos de verdad: ni ellos ni su camino son enlaces ni salen del proyecto."""
+    if not patron_base.is_dir():
+        return []
+    salida = []
+    for r in sorted(patron_base.glob('*/spec.md')):
+        try:
+            cli.ruta_segura(r)
+        except cli.FactoryError:
+            continue
+        if r.is_file():
+            salida.append(r)
+    return salida
+
+
 def specs(cli):
     """Las specs vigentes (una por capacidad) y las de los cambios abiertos, con los archivos leídos."""
-    raiz = cli.ROOT / 'openspec' / 'specs'
     vigentes = [{'capacidad': r.parent.name, 'estado': 'vigente', 'ruta': r.relative_to(cli.ROOT).as_posix()}
-                for r in sorted(cli.ruta_segura(raiz).glob('*/spec.md'))] if raiz.is_dir() else []
+                for r in _archivos_de_specs(cli, cli.ROOT / 'openspec' / 'specs')]
     abiertas = []
     for ident, e in sorted(kb.cambios_del_proyecto(cli), key=lambda c: c[0]):
         if e.get('fase') in ('cerrada', 'abandonada'):
             continue
-        carpeta = cli.CHANGES / ident / 'specs'
         abiertas += [{'capacidad': r.parent.name, 'estado': 'en cambio abierto', 'cambio': ident,
                       'ruta': r.relative_to(cli.ROOT).as_posix()}
-                     for r in sorted(cli.ruta_segura(carpeta).glob('*/spec.md'))] if carpeta.is_dir() else []
+                     for r in _archivos_de_specs(cli, cli.CHANGES / ident / 'specs')]
     return vigentes, abiertas
 
 
