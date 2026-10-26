@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «proyecto sin revisores»
+- Medidas: `factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#el próximo paso sin revisor lo explica
 
 Tipo: funcional The system SHALL, when the next step is to request a review and the project has no reviewer configured, state what is missing and where to declare a reviewer (with an example) instead of offering a command with an unfilled placeholder.

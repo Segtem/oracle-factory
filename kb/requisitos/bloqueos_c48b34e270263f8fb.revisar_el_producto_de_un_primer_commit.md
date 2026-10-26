@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «código en el primer commit»
+- Medidas: `factory_bloqueos.revisar_el_producto_de_un_primer_commit`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#revisar el producto de un primer commit
 
 Tipo: funcional The system SHALL accept `pedir-revision --base vacio` to build the review package against a base with no files, so that the whole product of a candidate whose code is in the first commit can be reviewed, without changing branches, history or Git configuration.

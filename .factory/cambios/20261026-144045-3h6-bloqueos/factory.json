@@ -60,6 +60,62 @@
         "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
         "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:01.876161+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica",
+      "medidas": [
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:02.827372+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir",
+      "medidas": [
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:03.765728+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit",
+      "medidas": [
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T14:59:04.705869+00:00",
+      "requisito": "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida",
+      "medidas": [
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida",
+        "factory_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -69,5 +125,62 @@
     "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica": {
+      "sha256": "486ae013fb6ba89a1c2bc341cc33b58f321ee9ee1fe923bf8b18e3f58e9671f4",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T14:59:01.846757+00:00",
+      "catalogos": {
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica": "30e088b2f5c67adccf69b370d50e89f4b0e924dcda801a120739572f0f21a83d",
+        "factory_bloqueos.corrida_completa": "a2e266da8040dbce9cc0621e58677e34786e713fbcc9f8f162e98c967c794750"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica": "catalogos/factory_bloqueos.el_proximo_paso_sin_revisor_lo_explica.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir": {
+      "sha256": "e20d594e7f1af7a80d93765e68440a5202c4525818630d2b3c9e2a8b59813754",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T14:59:02.798420+00:00",
+      "catalogos": {
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir": "f24587adf541f6fbf1c4611c63f2945c7575ef48fb3724adf4f300bc36c6d300",
+        "factory_bloqueos.corrida_completa": "a2e266da8040dbce9cc0621e58677e34786e713fbcc9f8f162e98c967c794750"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.revisar_bloqueado_dice_como_seguir": "catalogos/factory_bloqueos.revisar_bloqueado_dice_como_seguir.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit": {
+      "sha256": "49403dc5b169842e4f3316d4310635d16497d40c090437f77a6605f620b93497",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T14:59:03.735704+00:00",
+      "catalogos": {
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "1081ea0b85436892c40240e51d9e388dfb80a5d2eba1ce74e9d1059b5eea5852",
+        "factory_bloqueos.corrida_completa": "a2e266da8040dbce9cc0621e58677e34786e713fbcc9f8f162e98c967c794750"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.revisar_el_producto_de_un_primer_commit": "catalogos/factory_bloqueos.revisar_el_producto_de_un_primer_commit.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida": {
+      "sha256": "b7afa661fd3f38d9330e467ae01ee7365bb263f64c1dc609a333fdf5d0fc6872",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T14:59:04.676758+00:00",
+      "catalogos": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "8577c33d2e8bccb200078b241d76b3987037b792de8e85bea90f0bbb78f36afc",
+        "factory_bloqueos.corrida_completa": "a2e266da8040dbce9cc0621e58677e34786e713fbcc9f8f162e98c967c794750"
+      },
+      "archivos_catalogo": {
+        "factory_bloqueos.el_paquete_vacio_nombra_la_salida": "catalogos/factory_bloqueos.el_paquete_vacio_nombra_la_salida.oracle",
+        "factory_bloqueos.corrida_completa": "catalogos/factory_bloqueos.corrida_completa.oracle"
+      }
+    }
+  }
 }

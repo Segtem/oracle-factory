@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «paquete sin cambios de producto»
+- Medidas: `factory_bloqueos.el_paquete_vacio_nombra_la_salida`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#el paquete vacío nombra la salida
 
 Tipo: funcional The system SHALL, when a review request fails because the package has no product changes, say that `--base vacio` reviews the whole product.

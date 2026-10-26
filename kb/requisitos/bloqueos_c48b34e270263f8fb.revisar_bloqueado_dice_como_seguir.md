@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «candidato sin informes»
+- Medidas: `factory_bloqueos.revisar_bloqueado_dice_como_seguir`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#revisar bloqueado dice cómo seguir
 
 Tipo: funcional The system SHALL, when `revisar` is blocked for lack of a current candidate, reviewer reports or evidence, name the cause and the exact command to continue, using the configured reviewer.
