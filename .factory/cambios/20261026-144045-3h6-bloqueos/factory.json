@@ -376,6 +376,16 @@
       "resultado": "ok",
       "hallazgos": 3,
       "lanzamiento": "c34701977f16"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-26T16:18:48.880831+00:00",
+      "decision": "aprobar",
+      "candidato": "f91ed68"
     }
   ],
   "tipos": {
@@ -450,5 +460,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).",
+      "candidato": "f91ed68",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-26T16:18:48.880815+00:00"
+    }
+  }
 }
