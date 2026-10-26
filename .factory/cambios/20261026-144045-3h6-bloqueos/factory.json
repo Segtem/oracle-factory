@@ -2,7 +2,7 @@
   "id": "20261026-144045-3h6-bloqueos",
   "titulo": "Mostrar cada bloqueo con su solución",
   "capacidad": "bloqueos",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md",
   "spec_sha256": "cb7ac36c82ffcf7ef53a64e4fd8f94f3288f4be3f529d7c5595aaaab89f74c1c",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "6e83dc9352410d5ef46468bd820e8b35c4d04c723b99f3d193588b7e446fc334"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261026-144045-3h6-bloqueos/candidatos/f91ed68/evidencia/hechos.json",
+    "hechos_sha256": "a651908839dcd3271a0d026c81750472bac3f0b5f4746f7f0154c3aeeaec051d",
+    "informe": ".factory/cambios/20261026-144045-3h6-bloqueos/oracle-veredicto.txt",
+    "informe_sha256": "052e473c3f1f1d8f2bc292cf1237d70d09dd10fc67ffc823848bdcd7fa108dc6",
+    "cuando": "2026-10-26T19:52:47.775686+00:00",
+    "contexto": {
+      "head": "b56a5e245cda723282cc64d60f5c56efcd37a16b",
+      "archivos_sha256": "6e83dc9352410d5ef46468bd820e8b35c4d04c723b99f3d193588b7e446fc334"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -420,6 +432,17 @@
       "abiertos": 0,
       "sha256": "5e4ea3a7643677bc359c8974f55ae83d866df6e7bd94e5539c25769d752e5afa",
       "decisiones_sha256": "c5d34d16aeed27208abed84449366c5ac8f7fa05afca9301ab2b366495daf09e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-26T19:52:47.775703+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "a651908839dcd3271a0d026c81750472bac3f0b5f4746f7f0154c3aeeaec051d"
     }
   ],
   "tipos": {

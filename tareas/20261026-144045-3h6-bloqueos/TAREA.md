@@ -83,3 +83,7 @@ Medidas de bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit: B
 ### Nota (2026-10-26 19:52:08 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de agy y agy2: la vuelta 1 encontró 1 alta y 5 medias (el pedido sin --base con diff vacío no nombraba --base vacio, mensaje falso de falta de evidencia, próximos pasos sin --a, identidad del entorno en la base vacía), todas corregidas con pruebas que fallan sin la corrección; la vuelta 2 no dejó hallazgos medios ni altos. Quedan 3 bajos para decidir: dos huecos de cobertura de pruebas y el escenario del primer commit probado con tres commits. Suite completa verde (492 pruebas, 12 casos de contrato).); 0 abiertos derivados; commit 4e4ddc28fa3ae8ee425cc0373f0d160860e9459d; informe tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/informe.json; decisiones tareas/20261026-144045-3h6-bloqueos/revisiones/registro-n0sc0uux/decisiones.json.
+
+### Nota (2026-10-26 19:52:47 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261026-144045-3h6-bloqueos/oracle-veredicto.txt.

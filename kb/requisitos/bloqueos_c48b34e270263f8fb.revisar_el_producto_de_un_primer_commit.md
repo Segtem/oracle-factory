@@ -11,7 +11,7 @@ vigente: true
 - Id: `bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit`
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_bloqueos.revisar_el_producto_de_un_primer_commit`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#revisar el producto de un primer commit
 

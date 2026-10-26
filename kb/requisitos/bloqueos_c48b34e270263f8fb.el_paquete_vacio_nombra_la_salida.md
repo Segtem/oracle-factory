@@ -11,7 +11,7 @@ vigente: true
 - Id: `bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida`
 - Vigente: sí
 - Cambio: [[cambios/20261026-144045-3h6-bloqueos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_bloqueos.el_paquete_vacio_nombra_la_salida`, `factory_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261026-144045-3h6-bloqueos/specs/bloqueos/spec.md#el paquete vacío nombra la salida
 
