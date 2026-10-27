@@ -2,7 +2,7 @@
   "id": "20261027-200012-41p-quienhace",
   "titulo": "El tablero dice qué hace cada quien y cuándo no te toca nada",
   "capacidad": "tablero",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md",
   "spec_sha256": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+    "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261027-200012-41p-quienhace/proposal.md": "6130ada15077f3e49292425787403cb7d34fc80dc02db6754091e4c4d2e84daf",
         "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T20:01:17.060572+00:00",
+      "ids": [
+        "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+        "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada": "funcional",
+    "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

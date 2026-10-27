@@ -1,0 +1,4 @@
+requisito tablero_c36d16c32608f4c53.ahora_no_te_toca_nada:
+    texto "Tipo: funcional The system SHALL say, above what is missing, that nothing is the viewer's turn when the next step is a command an agent runs, and SHALL NOT say it when the next step is a person's decision, an explanation, or the change is held by someone else."
+    fuente "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md#ahora_no_te_toca_nada"
+    sin_medir "sin medida todavía; escenarios: «el próximo paso lo corre un agente», «el próximo paso es tuyo o una explicación», «el cambio lo tiene otra persona»"
