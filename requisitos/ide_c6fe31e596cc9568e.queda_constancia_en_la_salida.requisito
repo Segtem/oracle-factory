@@ -1,4 +1,4 @@
 requisito ide_c6fe31e596cc9568e.queda_constancia_en_la_salida:
     texto "Tipo: funcional El sistema DEBE dejar en la salida «Oracle Factory» cuánto se esperó y por qué se escribió el comando, sin incluir el texto del comando."
     fuente "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md#queda_constancia_en_la_salida"
-    sin_medir "sin medida todavía; escenarios: «la constancia»"
+    medido_por factory_terminal_lista.queda_constancia_en_la_salida, factory_terminal_lista.corrida_completa

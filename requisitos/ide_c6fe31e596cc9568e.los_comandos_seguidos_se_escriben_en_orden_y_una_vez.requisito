@@ -1,4 +1,4 @@
 requisito ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez:
     texto "Tipo: funcional El sistema DEBE escribir, en el orden en que se pidieron y una sola vez cada uno, los comandos pedidos mientras la terminal nueva arranca."
     fuente "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md#los_comandos_seguidos_se_escriben_en_orden_y_una_vez"
-    sin_medir "sin medida todavía; escenarios: «dos comandos mientras arranca»"
+    medido_por factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez, factory_terminal_lista.corrida_completa
