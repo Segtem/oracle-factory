@@ -2,10 +2,20 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T22:10:11.547157+00:00",
+    "documentos": {
+      "openspec/changes/20261027-220102-yjy-idioma/proposal.md": "6103337db86ca59b14b4cffef6020b8fa9cce0f623e339c9ee60a62ad4484acf",
+      "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-27T22:01:02.938568+00:00",
       "capacidad": "plantillas"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:10:11.547185+00:00",
+      "documentos": {
+        "openspec/changes/20261027-220102-yjy-idioma/proposal.md": "6103337db86ca59b14b4cffef6020b8fa9cce0f623e339c9ee60a62ad4484acf",
+        "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
