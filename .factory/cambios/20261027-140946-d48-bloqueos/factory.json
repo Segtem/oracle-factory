@@ -58,6 +58,48 @@
         "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
         "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T14:56:56.871839+00:00",
+      "requisito": "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio",
+      "medidas": [
+        "factory_tablero_bloqueos.que_falta_en_cada_cambio",
+        "factory_tablero_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T14:56:57.865175+00:00",
+      "requisito": "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+      "medidas": [
+        "factory_tablero_bloqueos.instruccion_distinta_de_comando",
+        "factory_tablero_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T14:56:58.846157+00:00",
+      "requisito": "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa",
+      "medidas": [
+        "factory_tablero_bloqueos.el_texto_del_registro_se_escapa",
+        "factory_tablero_bloqueos.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio": {
+      "sha256": "b02227329269b78817b3a656166ea5e96736451538d33c9fe219a1bb8725de88",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T14:56:56.842360+00:00",
+      "catalogos": {
+        "factory_tablero_bloqueos.que_falta_en_cada_cambio": "28d9c7581fdcdfb1bf442fc6085a20ea76c0d28aea0f197d7ab69d4a274689e2",
+        "factory_tablero_bloqueos.corrida_completa": "60d431948d492e612801d471edeb2ab322e963f10d5b8694025fb2f67cd4bbac"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_bloqueos.que_falta_en_cada_cambio": "catalogos/factory_tablero_bloqueos.que_falta_en_cada_cambio.oracle",
+        "factory_tablero_bloqueos.corrida_completa": "catalogos/factory_tablero_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando": {
+      "sha256": "ffb66a0bee4df18ff5a9799e392a01a59a6cc2f248fcf98852974a1144793610",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T14:56:57.835709+00:00",
+      "catalogos": {
+        "factory_tablero_bloqueos.instruccion_distinta_de_comando": "30f25c8ff32274ec6e3956b055b07daf770840084dfd06b23b41434792fb90e7",
+        "factory_tablero_bloqueos.corrida_completa": "60d431948d492e612801d471edeb2ab322e963f10d5b8694025fb2f67cd4bbac"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_bloqueos.instruccion_distinta_de_comando": "catalogos/factory_tablero_bloqueos.instruccion_distinta_de_comando.oracle",
+        "factory_tablero_bloqueos.corrida_completa": "catalogos/factory_tablero_bloqueos.corrida_completa.oracle"
+      }
+    },
+    "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa": {
+      "sha256": "2571e7e976a133d3184e739ec06651d8aa3f03dbbd540f238c7a230845359e9c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T14:56:58.816306+00:00",
+      "catalogos": {
+        "factory_tablero_bloqueos.el_texto_del_registro_se_escapa": "39fe782634409147237de17e88db8da00cb3e9d1dcad1a65e25f897156189689",
+        "factory_tablero_bloqueos.corrida_completa": "60d431948d492e612801d471edeb2ab322e963f10d5b8694025fb2f67cd4bbac"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_bloqueos.el_texto_del_registro_se_escapa": "catalogos/factory_tablero_bloqueos.el_texto_del_registro_se_escapa.oracle",
+        "factory_tablero_bloqueos.corrida_completa": "catalogos/factory_tablero_bloqueos.corrida_completa.oracle"
+      }
+    }
+  }
 }

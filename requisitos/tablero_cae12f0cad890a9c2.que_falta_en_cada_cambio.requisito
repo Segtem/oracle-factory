@@ -1,4 +1,4 @@
 requisito tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio:
     texto "Tipo: funcional The system SHALL show, for each change in the board, the list of what is still pending, or say that nothing is pending."
     fuente "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md#que_falta_en_cada_cambio"
-    sin_medir "sin medida todavía; escenarios: «un cambio con pendientes», «un cambio sin pendientes»"
+    medido_por factory_tablero_bloqueos.que_falta_en_cada_cambio, factory_tablero_bloqueos.corrida_completa

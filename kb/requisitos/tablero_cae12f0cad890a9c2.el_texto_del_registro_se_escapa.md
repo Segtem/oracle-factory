@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261027-140946-d48-bloqueos]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un pendiente con marcado»
+- Medidas: `factory_tablero_bloqueos.el_texto_del_registro_se_escapa`, `factory_tablero_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md#el_texto_del_registro_se_escapa
 
 Tipo: funcional The system SHALL escape every pending and every step text it shows, so that text from the registry cannot add markup to the board.

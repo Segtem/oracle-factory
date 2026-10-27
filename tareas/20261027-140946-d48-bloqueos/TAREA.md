@@ -15,3 +15,15 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-27 14:55:23 UTC)
 
 Requisitos importados: tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa (funcional), tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando (funcional), tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-27 14:56:56 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio: factory_tablero_bloqueos.que_falta_en_cada_cambio, factory_tablero_bloqueos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 14:56:57 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando: factory_tablero_bloqueos.instruccion_distinta_de_comando, factory_tablero_bloqueos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 14:56:58 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa: factory_tablero_bloqueos.el_texto_del_registro_se_escapa, factory_tablero_bloqueos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
