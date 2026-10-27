@@ -27,3 +27,15 @@ Medidas de tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando: factory_ta
 ### Nota (2026-10-27 14:56:58 UTC)
 
 Medidas de tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa: factory_tablero_bloqueos.el_texto_del_registro_se_escapa, factory_tablero_bloqueos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 14:59:04 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 14:59:04 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 14:59:04 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
