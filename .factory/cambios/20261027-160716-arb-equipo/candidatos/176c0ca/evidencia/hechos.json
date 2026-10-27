@@ -1,0 +1,80 @@
+{
+  "tablero_equipo_caso": [
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_el_json_dice_quien_sos_sin_tocar_la_configuracion_de_git",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_sin_nombre_de_git_yo_es_nulo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_un_cambio_de_otra_persona_se_rotula_con_su_nombre",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_el_cambio_mio_o_sin_responsable_sigue_te_necesita",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_lo_que_no_es_una_decision_no_cambia_de_rotulo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_una_decision_alternativa_tambien_dice_quien_la_decide",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_tablero_dice_a_quien_necesita",
+      "caso": "TableroEquipo.test_tbe1_el_nombre_del_responsable_se_escapa",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_un_cambio_cerrado_no_entra",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_sin_cambios_la_actividad_es_una_lista_vacia",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_la_pagina_muestra_la_actividad_y_escapa_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_una_accion_desconocida_se_escapa",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_el_orden_es_por_instante_aunque_el_huso_difiera",
+      "codigo": 0
+    },
+    {
+      "requisito": "actividad_reciente_del_proyecto",
+      "caso": "TableroEquipo.test_tbe2_sin_actividad_la_pagina_lo_dice",
+      "codigo": 0
+    }
+  ],
+  "tablero_equipo_corrida": [
+    {
+      "completa": 1,
+      "casos": 14
+    }
+  ]
+}

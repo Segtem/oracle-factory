@@ -52,7 +52,7 @@ cambio. (`oracle-factory trailer` es lo que llama el hook para escribir el trail
 
 `oracle-factory tomar ID --con claude-code` te registra como responsable del cambio, con el agente con el que trabajás.
 Si otra persona ya lo tiene, hace falta `--relevo` (queda constancia de quién lo tenía), y `soltar ID` lo libera. Un
-agente que corre `--agente NOMBRE tomar ID` se suma sin quedar como responsable. Es un acuerdo registrado, no un candado.
+agente que corre `--agente NOMBRE tomar ID` se suma sin quedar como responsable. Es un acuerdo registrado, no un candado. El tablero compara tu nombre de Git con el del responsable: la decisión de un cambio que tiene otra persona dice «LA DECIDE ANA» y no «TE NECESITA», y «Actividad reciente» lista los últimos diez eventos de los cambios abiertos (quién, qué, en qué cambio, cuándo). Un invitado de Live Share ve el tablero de quien comparte, con el nombre de Git de esa persona.
 `estado` y el tablero muestran la persona responsable, sus agentes (los declarados y los que actuaron en las últimas 24
 horas, con su última acción) y los revisores en curso.
 

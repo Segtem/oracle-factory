@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-equipo/.factory/local/revisiones/176c0ca-agy-1",
+  "base": "d2e31cbd2fdf57013fff895222f28826f2d2000b",
+  "head": "176c0ca5d3a6f072320bb65b563a998d270e899a",
+  "diff_sha256": "8612ffe61fa75eae0920280996ef3045b6ea464d9776c2fc4bf5afc2e211a9ff",
+  "context_sha256": "612f62aa89902ce345e9220bf9e461253922179736a18002a931c36608f1e25c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Contraste de proposal.md, openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md, el diff del paquete paquete-agy-1.json, oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_equipo.py, tools/verify_tablero_equipo.py, catalogos/factory_tablero_equipo.*.oracle y docs/tablero.md.",
+    "El checkout de solo lectura en .factory/local/revisiones/176c0ca-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-equipo/.venv/bin/python) sin alterar el checkout.",
+    "Se ejecutaron en primer plano exactamente las suites indicadas: tests.test_tablero_equipo y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-equipo/.venv/bin/python -m unittest tests.test_tablero_equipo tests.test_tablero </dev/null` (20 pruebas, 0 errores, 0 fallas), omitiendo la suite completa según las instrucciones.",
+    "No se ejecutó directamente tools/verify_tablero_equipo.py debido a que invoca el descubrimiento de la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los contratos, catálogos oracle y casos de prueba.",
+    "Se realizó un análisis exhaustivo de mutaciones manuales en una copia aislada en la carpeta del revisor (.factory/local/revisores/176c0ca-agy-1/scratch/), evaluando 17 mutaciones sobre la lectura de Git, el escapado HTML de acciones y actores, el formato en mayúsculas, el orden cronológico con husos heterogéneos, el recorte a 10 eventos, la exclusión de cambios cerrados y el rótulo condicional en pasos principales y alternativos. Todas las 17 mutaciones fueron detectadas y eliminadas por la suite de pruebas.",
+    "La evaluación de la interfaz de usuario se llevó a cabo mediante simulación en Node.js de tablero.js sin abrir el panel en un editor VS Code interactivo real ni probar una sesión con dos máquinas físicas.",
+    "No se encontraron defectos ni inconsistencias frente a la spec; todos los escenarios prometidos están cubiertos y no se encontraron regresiones, por lo que la lista de hallazgos queda vacía."
+  ],
+  "findings": []
+}

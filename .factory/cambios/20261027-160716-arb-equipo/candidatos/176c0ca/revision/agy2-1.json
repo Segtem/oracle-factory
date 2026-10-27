@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-equipo/.factory/local/revisiones/176c0ca-agy2-1",
+  "base": "d2e31cbd2fdf57013fff895222f28826f2d2000b",
+  "head": "176c0ca5d3a6f072320bb65b563a998d270e899a",
+  "diff_sha256": "8612ffe61fa75eae0920280996ef3045b6ea464d9776c2fc4bf5afc2e211a9ff",
+  "context_sha256": "800bc909ff10cf824b741d3d0fa7eb2b6f9bb50338406cb4da6bfe5ff4d45d55",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Lectura y contraste detallado de proposal.md, openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md, el diff del paquete paquete-agy2-1.json, oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_equipo.py, tools/verify_tablero_equipo.py, catalogos/factory_tablero_equipo.*.oracle y docs/tablero.md.",
+    "El checkout de solo lectura en .factory/local/revisiones/176c0ca-agy2-1 no poseía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-equipo/.venv/bin/python) sin alterar el checkout.",
+    "Se ejecutaron en primer plano y desde la raíz del checkout exactamente las suites indicadas: tests.test_tablero_equipo y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-equipo/.venv/bin/python -m unittest tests.test_tablero_equipo tests.test_tablero </dev/null` (20 pruebas, 0 errores, 0 fallas), omitiendo la suite completa según las instrucciones.",
+    "No se ejecutó directamente tools/verify_tablero_equipo.py ya que invoca el descubrimiento de la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los contratos, catálogos oracle y casos de prueba.",
+    "Se verificó que los cuatro hallazgos de la vuelta 1 (agy-1, agy-2, agy-3 y agy-4) fueron resueltos satisfactoriamente en el candidato 176c0ca mediante la función _instante con normalización a UTC para orden cronológico real, la prueba de intercalación temporal exhaustiva entre cambios, el caso de prueba para escapado de acciones no reconocidas, y el caso de prueba para rótulos de alternativas de decisión.",
+    "Se realizó un análisis de mutaciones exhaustivo sobre 18 mutaciones manuales en una copia aislada en la carpeta del revisor (.factory/local/revisores/176c0ca-agy2-1/analisis/), abarcando lectura de git config sin mutación de estado, función de ordenamiento temporal _instante, normalización de husos horarios, límites de recorte de actividad a diez eventos, orden descendente, rótulo condicional según titularidad, escapado HTML de actores, acciones y cambios, y propagación de responsable a alternativas. Las 18 mutaciones fueron detectadas y eliminadas por las pruebas (18 killed, 0 survived).",
+    "La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js; no se abrió el panel interactivo en un entorno gráfico VS Code real.",
+    "No se encontraron defectos ni inconsistencias frente a la spec; todos los escenarios prometidos están cubiertos y no se encontraron regresiones, por lo que la lista de hallazgos queda vacía."
+  ],
+  "findings": []
+}
