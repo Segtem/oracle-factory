@@ -43,3 +43,11 @@ Medidas de plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_apru
 ### Nota (2026-10-27 22:31:37 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt.
+
+### Nota (2026-10-27 22:36:36 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Una vuelta de agy y agy2, sin hallazgos. 554 pruebas y 10 casos de contrato en verde, 17 mutaciones detectadas. Límites: sólo es y en; no se traducen la CLI, la documentación ni el tablero; no hay configuración global del usuario. Cambia el idioma por defecto de la plantilla a español.); 0 abiertos derivados; commit 889650e0bb1cd3dc68ebb55485a230454ddd84db; informe tareas/20261027-220102-yjy-idioma/revisiones/registro-kp6n1xwk/informe.json; decisiones tareas/20261027-220102-yjy-idioma/revisiones/registro-kp6n1xwk/decisiones.json.
+
+### Nota (2026-10-27 22:40:12 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato e0adc5b; 0 hallazgos de los revisores; evidencia del candidato: 554 pruebas, 10 casos de contrato.); 0 abiertos derivados; commit 889650e0bb1cd3dc68ebb55485a230454ddd84db; informe tareas/20261027-220102-yjy-idioma/revisiones/registro-zvv_f7b_/informe.json; decisiones tareas/20261027-220102-yjy-idioma/revisiones/registro-zvv_f7b_/decisiones.json.

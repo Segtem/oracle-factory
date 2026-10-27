@@ -11,7 +11,7 @@ vigente: true
 - Id: `plantillas_c553eae730b044e20.idioma_no_admitido`
 - Vigente: sí
 - Cambio: [[cambios/20261027-220102-yjy-idioma]]
-- Veredicto: cumple
+- Veredicto: sin juicio
 - Medidas: `factory_idioma.idioma_no_admitido`, `factory_idioma.corrida_completa`
 - Fuente: openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#idioma_no_admitido
 

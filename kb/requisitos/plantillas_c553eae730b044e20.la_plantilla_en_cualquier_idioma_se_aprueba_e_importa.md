@@ -11,7 +11,7 @@ vigente: true
 - Id: `plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa`
 - Vigente: sí
 - Cambio: [[cambios/20261027-220102-yjy-idioma]]
-- Veredicto: cumple
+- Veredicto: sin juicio
 - Medidas: `factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa`, `factory_idioma.corrida_completa`
 - Fuente: openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#la_plantilla_en_cualquier_idioma_se_aprueba_e_importa
 

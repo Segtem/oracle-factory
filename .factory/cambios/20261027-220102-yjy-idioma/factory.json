@@ -2,7 +2,7 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "oracle_verde",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
   "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
   "spec_aprobada": {
@@ -21,20 +21,28 @@
     "plantillas_c553eae730b044e20.idioma_no_admitido",
     "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
   ],
-  "revision": null,
-  "oracle": {
-    "codigo": 0,
-    "codigo_oracle": 0,
-    "hechos": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/evidencia/hechos.json",
-    "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb",
-    "informe": ".factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt",
-    "informe_sha256": "4e636aa6ce6cbfa51f7de1944cee82b5f7f33ff7dd33ecda0f7998f9c10fb82f",
-    "cuando": "2026-10-27T22:31:37.386076+00:00",
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261027-220102-yjy-idioma/revisiones/registro-zvv_f7b_/informe.json",
+    "sha256": "ef5194ff1e9f15248afc342f16ed5b1ef0c374d14b4d2d99aa4a56e2e5b0237e",
+    "decisiones": "tareas/20261027-220102-yjy-idioma/revisiones/registro-zvv_f7b_/decisiones.json",
+    "decisiones_sha256": "521c14219242bacea3408685f4a0e5346d420004e1a1b8c782882161d76883b2",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T22:40:12.726296+00:00",
+    "motivo": "Apruebo el candidato e0adc5b; 0 hallazgos de los revisores; evidencia del candidato: 554 pruebas, 10 casos de contrato.",
+    "origen_motivo": "armado",
     "contexto": {
-      "head": "564c65cb3cfb48948e1f7615ef577a6bb9f45d79",
+      "head": "889650e0bb1cd3dc68ebb55485a230454ddd84db",
       "archivos_sha256": "6d0aed67a62ea5938cbc9b82158a275c12d3267024f52d91042a45da9f0f441b"
     }
   },
+  "oracle": null,
   "modo": "confirmacion",
   "eventos": [
     {
@@ -224,6 +232,34 @@
       "cuando": "2026-10-27T22:35:32.995942+00:00",
       "decision": "aprobar",
       "candidato": "e0adc5b"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T22:36:36.550977+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "ef5194ff1e9f15248afc342f16ed5b1ef0c374d14b4d2d99aa4a56e2e5b0237e",
+      "decisiones_sha256": "0cf384fb80be6eaecef7d539a855cfa07a2d0218b2cefdf52e2e21f47787fa0e"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:40:12.726329+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "ef5194ff1e9f15248afc342f16ed5b1ef0c374d14b4d2d99aa4a56e2e5b0237e",
+      "decisiones_sha256": "521c14219242bacea3408685f4a0e5346d420004e1a1b8c782882161d76883b2"
     }
   ],
   "tipos": {
@@ -282,14 +318,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Una vuelta de agy y agy2, sin hallazgos. 554 pruebas y 10 casos de contrato en verde, 17 mutaciones detectadas. Límites: sólo es y en; no se traducen la CLI, la documentación ni el tablero; no hay configuración global del usuario. Cambia el idioma por defecto de la plantilla a español.",
-      "candidato": "e0adc5b",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T22:35:32.995929+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
