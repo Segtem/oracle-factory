@@ -34,10 +34,11 @@ def paso(texto, decide=False):
 
 class TableroBloqueos(unittest.TestCase):
     def test_tbb1_un_cambio_con_pendientes_los_lista_en_orden(self):
-        html = pagina(['importar los requisitos', 'revisión humana aprobada', 'veredicto Oracle'], paso('oracle-factory importar c1'))
+        # En un orden que ni es alfabético ni su inverso: ordenar o invertir la lista cambia el resultado.
+        pendientes = ['veredicto Oracle', 'importar los requisitos', 'revisión humana aprobada']
+        html = pagina(pendientes, paso('oracle-factory importar c1'))
         seccion = html[html.index('<h3>Qué falta</h3>'):html.index('<h3>Hallazgos</h3>')]
-        a, b, c = (seccion.index(f'<li>{x}</li>') for x in ('importar los requisitos', 'revisión humana aprobada', 'veredicto Oracle'))
-        self.assertTrue(a < b < c)
+        self.assertEqual([seccion.index(f'<li>{x}</li>') for x in pendientes], sorted(seccion.index(f'<li>{x}</li>') for x in pendientes))
 
     def test_tbb1_un_cambio_sin_pendientes_lo_dice(self):
         html = pagina([], paso('oracle-factory cerrar c1', True))
@@ -69,6 +70,9 @@ class TableroBloqueos(unittest.TestCase):
         html = pagina(['x'], paso('oracle-factory importar c1'), [paso('esperá a que termine el revisor')])
         self.assertEqual(html.count('Escribir en la terminal</button>'), 1)
         self.assertIn('<p>esperá a que termine el revisor</p>', html)
+        alternativa = html[html.index('paso alternativa'):]
+        self.assertIn('QUÉ HACER', alternativa[:alternativa.index('</div>')])
+        self.assertNotIn('TAMBIÉN', html)
 
     def test_tbb3_el_texto_del_registro_se_escapa(self):
         html = pagina(['<script>alert(1)</script>'], paso('<img src=x onerror=1>'))
@@ -76,6 +80,14 @@ class TableroBloqueos(unittest.TestCase):
         self.assertNotIn('<img src=x', html)
         self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;', html)
         self.assertIn('&lt;img src=x onerror=1&gt;', html)
+
+    def test_tbb3_un_comando_con_marcado_se_escapa_en_el_texto_y_en_el_boton(self):
+        html = pagina(['x'], paso('oracle-factory mensaje c1 "<b onclick=1>&"'), [paso('oracle-factory mensaje c1 "<i>"')])
+        self.assertNotIn('<b onclick', html)
+        self.assertNotIn('"<i>"', html)
+        self.assertEqual(html.count('<code>oracle-factory mensaje c1 &quot;&lt;b onclick=1&gt;&amp;&quot;</code>'), 1)
+        self.assertIn('data-comando="oracle-factory mensaje c1 &quot;&lt;b onclick=1&gt;&amp;&quot;"', html)
+        self.assertIn('data-comando="oracle-factory mensaje c1 &quot;&lt;i&gt;&quot;"', html)
 
 
 if __name__ == '__main__':

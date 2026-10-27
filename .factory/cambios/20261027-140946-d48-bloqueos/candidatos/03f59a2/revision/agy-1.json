@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-bloqueos/.factory/local/revisiones/03f59a2-agy-1",
+  "base": "a93c39e7c0b3940d0b87a51286ff3740435108fb",
+  "head": "03f59a20011a1e99ed2492c621a4e96cebef9383",
+  "diff_sha256": "af8c10c498b6038249936e8f5004bbdb29fd69b57b016592a229eee82ec0765e",
+  "context_sha256": "25599c37df442c81d9478191a557e2f90de24a9a09701b19794c50b52ec20b11",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "El checkout del candidato en .factory/local/revisiones/03f59a2-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) para ejecutar las pruebas sin modificar el checkout.",
+    "Se ejecutaron únicamente las suites indicadas: tests.test_tablero_bloqueos y tests.test_tablero, evitando deliberadamente la suite completa de tests de acuerdo con las instrucciones de revisión.",
+    "No se ejecutó directamente tools/verify_tablero_bloqueos.py debido a que invoca unittest.defaultTestLoader.discover() sobre todo el directorio de pruebas.",
+    "El análisis de mutaciones se llevó a cabo en copias de trabajo aisladas en el directorio del revisor (.factory/local/revisores/03f59a2-agy-1/analisis/), sin alterar el checkout en ningún momento.",
+    "La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real."
+  ],
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba de orden de pendientes utiliza datos preordenados alfabéticamente y no detecta ordenamientos arbitrarios",
+      "explanation": "El requisito que_falta_en_cada_cambio exige que el cambio muestre la lista de pendientes «en el orden de estado». Sin embargo, test_tbb1_un_cambio_con_pendientes_los_lista_en_orden utiliza la lista ['importar los requisitos', 'revisión humana aprobada', 'veredicto Oracle'], cuyos textos ya están en orden alfabético estricto ('i' < 'r' < 'v'). Si la implementación en editores/vscode/tablero.js ordenase alfabéticamente la lista (por ejemplo agregando .slice().sort()), la mutación sobrevive y la prueba continúa pasando sin detectar la alteración del orden original de estado.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 37,
+        "end_line": 42,
+        "side": "head"
+      },
+      "trigger": "Introducir una mutación en editores/vscode/tablero.js:50 que ordene alfabéticamente los pendientes con .slice().sort() y ejecutar la suite de pruebas.",
+      "evidence": "Al mutar const lista = cambio.pendientes || []; por const lista = (cambio.pendientes || []).slice().sort();, tests.test_tablero_bloqueos pasa con código de salida 0 (7 pruebas exitosas).",
+      "related_requirement": "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio",
+      "status": "pendiente",
+      "verification": "Aplicar la mutación .slice().sort() en tablero.js y correr PYTHONPATH=. python -m unittest tests.test_tablero_bloqueos; observar que el test no falla."
+    },
+    {
+      "id": "agy-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_tbb3 no verifica el escapado de caracteres HTML en comandos ni en el atributo data-comando",
+      "explanation": "El requisito el_texto_del_registro_se_escapa establece que el sistema debe escapar cada pendiente y cada texto de paso que muestra. En test_tbb3_el_texto_del_registro_se_escapa solo se verifica un pendiente y una explicación (paso('<img src=x onerror=1>'), cuyo comando es None por no iniciar con 'oracle-factory '). No se prueba el escapado de un comando que contenga marcado en su texto (por ejemplo 'oracle-factory mensaje c1 \"<script>\"') ni el atributo data-comando=\"${esc(p.comando)}\". Por ende, mutaciones que remueven esc() en el bloque de comandos sobreviven a las pruebas.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 74,
+        "end_line": 79,
+        "side": "head"
+      },
+      "trigger": "Eliminar la llamada a esc() en <code>${esc(p.texto)}</code> o en data-comando=\"${esc(p.comando)}\" en editores/vscode/tablero.js.",
+      "evidence": "Al cambiar <code>${esc(p.texto)}</code> por <code>${p.texto}</code> o data-comando=\"${esc(p.comando)}\" por data-comando=\"${p.comando}\", tests.test_tablero_bloqueos finaliza exitosamente con código 0 sin detectar la falta de sanitización.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa",
+      "status": "pendiente",
+      "verification": "Reemplazar en editores/vscode/tablero.js <code>${esc(p.texto)}</code> por <code>${p.texto}</code> y ejecutar PYTHONPATH=. python -m unittest tests.test_tablero_bloqueos; todas las pruebas pasan."
+    },
+    {
+      "id": "agy-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_tbb2_una_explicacion_alternativa_tambien_es_texto no comprueba el rótulo «QUÉ HACER» en alternativas",
+      "explanation": "La propuesta (proposal.md) y la especificación establecen que una explicación se rotula «QUÉ HACER» tanto en el próximo paso como en cada alternativa. Sin embargo, test_tbb2_una_explicacion_alternativa_tambien_es_texto solo comprueba que no haya botón de terminal adicional y la presencia del texto en <p>, pero no valida que el rótulo sea «QUÉ HACER». Si se altera la precedencia de los ternarios para asignar 'TAMBIÉN' a una explicación alternativa, el test no detecta la discrepancia.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 68,
+        "end_line": 72,
+        "side": "head"
+      },
+      "trigger": "Modificar el cálculo de rotulo en editores/vscode/tablero.js para priorizar comoAlternativa ? 'TAMBIÉN' sobre !p.comando ? 'QUÉ HACER'.",
+      "evidence": "Con la mutación const rotulo = p.decision_de_la_persona ? 'TE NECESITA' : comoAlternativa ? 'TAMBIÉN' : !p.comando ? 'QUÉ HACER' : 'LO QUE SIGUE'; la prueba test_tbb2_una_explicacion_alternativa_tambien_es_texto pasa con código 0.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+      "status": "pendiente",
+      "verification": "Invertir la prioridad de los operadores ternarios de rotulo en tablero.js y correr PYTHONPATH=. python -m unittest tests.test_tablero_bloqueos; el test pasa sin errores."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Discrepancia entre design.md y la implementación sobre cómo paso() distingue un comando de una explicación",
+      "explanation": "El documento design.md afirma que paso() distingue un comando de una explicación por el prefijo oracle-factory (la misma regla que ya usa el árbol en modelo.js). No obstante, en editores/vscode/tablero.js:41-45, la función paso() no inspecciona el prefijo del texto sino la presencia del campo comando en el objeto recibido (!p.comando), delegando dicha comprobación a la serialización previa del backend en Python.",
+      "location": {
+        "file": "openspec/changes/20261027-140946-d48-bloqueos/design.md",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Lectura comparada entre openspec/changes/20261027-140946-d48-bloqueos/design.md y editores/vscode/tablero.js.",
+      "evidence": "design.md documenta que paso() evalúa el prefijo oracle-factory, mientras que en tablero.js paso() evalúa exclusivamente !p.comando.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+      "status": "pendiente",
+      "verification": "Contrastar el texto de design.md:3 con las líneas 41-45 de editores/vscode/tablero.js."
+    }
+  ]
+}

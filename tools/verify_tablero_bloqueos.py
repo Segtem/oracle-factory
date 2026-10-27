@@ -22,7 +22,8 @@ CONTRACTS = {
                                         'TableroBloqueos.test_tbb2_un_comando_sigue_con_su_boton',
                                         'TableroBloqueos.test_tbb2_la_decision_de_la_persona_se_marca_como_tuya',
                                         'TableroBloqueos.test_tbb2_una_explicacion_alternativa_tambien_es_texto'],
-    'el_texto_del_registro_se_escapa': ['TableroBloqueos.test_tbb3_el_texto_del_registro_se_escapa'],
+    'el_texto_del_registro_se_escapa': ['TableroBloqueos.test_tbb3_el_texto_del_registro_se_escapa',
+                                        'TableroBloqueos.test_tbb3_un_comando_con_marcado_se_escapa_en_el_texto_y_en_el_boton'],
 }
 PREFIX = 'test_tablero_bloqueos.'
 LIMITES = ('Escenarios tbb1–tbb3 con la página del tablero armada en node (tablero.js puro) y datos de un cambio; el panel de VS Code no '
