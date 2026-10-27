@@ -2,7 +2,7 @@
   "id": "20261026-225825-rn5-rag-specs",
   "titulo": "Preguntar cuántas specs hay y cuáles son",
   "capacidad": "conocimiento",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md",
   "spec_sha256": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "2cde0adee319addd99428f3b5caca233a3f1315a0a8548156883a8d0846b3b1c"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/07511bb/evidencia/hechos.json",
+    "hechos_sha256": "bdcab494d370391286ab34702025e60fe4dc178ca8a67e38eedfb12fbdab6077",
+    "informe": ".factory/cambios/20261026-225825-rn5-rag-specs/oracle-veredicto.txt",
+    "informe_sha256": "36059c4ecbf9781be6e2c079e886a4e4085e0fe7240699c9c0a6406e57020f6d",
+    "cuando": "2026-10-27T12:16:25.067922+00:00",
+    "contexto": {
+      "head": "d817d77614b6476c58a173e8f6f32f36e22853e0",
+      "archivos_sha256": "2cde0adee319addd99428f3b5caca233a3f1315a0a8548156883a8d0846b3b1c"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -651,6 +663,17 @@
       "abiertos": 0,
       "sha256": "9829c4cee268efa5b4eea857f5d833504e977e64b6dc1f39a307dfadabdef617",
       "decisiones_sha256": "d4687938479eb452ae4c711542682efcd6ee430ad6d80a9d0edaf91929263115"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T12:16:25.067939+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "bdcab494d370391286ab34702025e60fe4dc178ca8a67e38eedfb12fbdab6077"
     }
   ],
   "tipos": {

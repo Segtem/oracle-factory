@@ -75,7 +75,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261024-020022-0b3-preguntar]] — Preguntar responde sobre el registro y reconoce los límites de la búsqueda documental (cerrada)
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
 - [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (cerrada)
-- [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (revision_aprobada)
+- [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (oracle_verde)
 
 ## Requisitos
 

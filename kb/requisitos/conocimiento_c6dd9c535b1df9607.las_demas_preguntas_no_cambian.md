@@ -11,7 +11,7 @@ vigente: true
 - Id: `conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian`
 - Vigente: sí
 - Cambio: [[cambios/20261026-225825-rn5-rag-specs]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_rag_specs.las_demas_preguntas_no_cambian`, `factory_rag_specs.corrida_completa`
 - Fuente: openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md#las demás preguntas no cambian
 
