@@ -1,0 +1,4 @@
+requisito plantillas_c553eae730b044e20.idioma_no_admitido:
+    texto "Tipo: funcional El sistema DEBE rechazar un idioma que no sea `es` o `en`, tanto en la configuración como en `--idioma`, diciendo cuáles hay y sin crear nada."
+    fuente "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#idioma_no_admitido"
+    medido_por factory_idioma.idioma_no_admitido, factory_idioma.corrida_completa

@@ -1,0 +1,67 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261027-220102-yjy-idioma",
+  "contexto": {
+    "head": "889650e0bb1cd3dc68ebb55485a230454ddd84db",
+    "archivos_sha256": "6d0aed67a62ea5938cbc9b82158a275c12d3267024f52d91042a45da9f0f441b"
+  },
+  "documentos": {
+    "openspec/changes/20261027-220102-yjy-idioma/proposal.md": "6103337db86ca59b14b4cffef6020b8fa9cce0f623e339c9ee60a62ad4484acf",
+    "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_idioma.corrida_completa.oracle",
+    "catalogos/factory_idioma.idioma_de_la_plantilla.oracle",
+    "catalogos/factory_idioma.idioma_no_admitido.oracle",
+    "catalogos/factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa.oracle",
+    "docs/estructura.md",
+    "openspec/changes/20261027-220102-yjy-idioma/design.md",
+    "openspec/changes/20261027-220102-yjy-idioma/proposal.md",
+    "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
+    "openspec/changes/20261027-220102-yjy-idioma/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/plantillas.py",
+    "requisitos/plantillas_c553eae730b044e20.idioma_de_la_plantilla.requisito",
+    "requisitos/plantillas_c553eae730b044e20.idioma_no_admitido.requisito",
+    "requisitos/plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa.requisito",
+    "tests/test_cli_piloto.py",
+    "tests/test_idioma.py",
+    "tools/verify_idioma.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 554 pruebas, 10 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/revision/agy2-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios id1–id3 en proyectos temporales con git, Linux, con Oracle real para importar. Sólo hay dos idiomas; no se traducen la CLI, la documentación ni el tablero, y no hay una configuración global del usuario.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias del cambio (tests.test_idioma y tests.test_cli_piloto) en primer plano utilizando el entorno de ejecución de Factory, resultando todas exitosas (15 pruebas en total).",
+    "agy (gemini-3.8-flash-high): Se aplicaron 12 mutaciones de código controladas en un entorno aislado sobre oracle_factory/plantillas.py y oracle_factory/cli.py (alterando idioma por defecto, promesas DEBE/SHALL, marcadores estructurales 'Tipo: funcional', validación de idiomas, detección de TODO, e ignorancia de CLI); todas las mutaciones fueron capturadas y eliminadas por las pruebas (12/12 killed).",
+    "agy (gemini-3.8-flash-high): Se contrastó cada escenario de la spec (idioma_de_la_plantilla, idioma_no_admitido, la_plantilla_en_cualquier_idioma_se_aprueba_e_importa) contra el código, verificando que no se mezclan idiomas, que se preservan intactos los marcadores exigidos por el formato, que se rechazan idiomas inválidos antes de crear tareas o archivos, y que el ejemplo de notas permanece invariante.",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio, de acuerdo con las instrucciones explícitas del pedido de revisión.",
+    "agy (gemini-3.8-flash-high): No se revisaron los 7 archivos excluidos en el paquete de Clue por ser registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/20261027-220102-yjy-idioma.md, notas de kb/requisitos, tareas).",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos, regresiones ni discrepancias respecto a la propuesta ni a la spec; la lista de hallazgos se entrega vacía.",
+    "agy (gemini-3.8-flash-high): Alcance de la revisión y verificación de requisitos: revisión independiente de la Vuelta 1 para el cambio 20261027-220102-yjy-idioma en el candidato e0adc5b frente a base f496eb1. Se contrastaron exhaustivamente las promesas de openspec/changes/20261027-220102-yjy-idioma/proposal.md y openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md contra el diff: oracle_factory/plantillas.py, oracle_factory/cli.py (config_proyecto, nuevo y el argumento --idioma), tests/test_idioma.py, tests/test_cli_piloto.py, tools/verify_idioma.py, catalogos/factory_idioma.*.oracle y docs/estructura.md.",
+    "agy (gemini-3.8-flash-high): Integridad de plantillas y consistencia de idioma: se constató que ninguna plantilla mezcle idiomas (_ES y _EN en oracle_factory/plantillas.py), que lo exigido por el formato (# Capability:, ## ADDED Requirements, ### Requirement:, #### Scenario:, Tipo: funcional y la marca TODO que impide aprobar con pendientes) permanezca intacto en ambas plantillas, que la precedencia de --idioma sobre config.json funcione sin modificar la configuración del proyecto, que el ejemplo notas y los cambios ya creados en openspec/changes/ no se vean alterados, y que otros módulos del sistema que interactúan con config.json o plantillas (init, migrar, agentes, kb, tablero, mcp, generacion.py) sigan funcionando sin regresiones.",
+    "agy (gemini-3.8-flash-high): Rechazo de idiomas no admitidos: se comprobó que un idioma que no sea 'es' o 'en' (incluyendo cadenas vacías, mayúsculas, tipos numéricos, listas o None) se rechace tanto en .factory/config.json como en la CLI vía --idioma antes de crear tareas o archivos en disco, informando adecuadamente que se admiten 'es y en'.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó en primer plano y en modo sólo lectura el comando indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-idioma/.venv/bin/python -m unittest tests.test_idioma tests.test_cli_piloto </dev/null (15 pruebas exitosas, 0 fallos). De acuerdo con las instrucciones de la revisión, no se ejecutó la suite completa de pruebas ni tools/verify_idioma.py (que corre descubrimiento completo). Tampoco se modificaron configuraciones de git ni archivos dentro del checkout.",
+    "agy (gemini-3.8-flash-high): Pruebas de mutaciones sistemáticas: en una copia de trabajo aislada en el directorio del revisor, se evaluaron 18 mutaciones manuales sobre el código (cambio de idioma por defecto a 'en', omisión de validaciones en config y en CLI, cruce de términos en plantillas SHALL/DEBE y GIVEN/DADO, eliminación de Tipo: funcional o marcas TODO, alteración del mensaje de error, aceptación de mayúsculas, precedencia con operador 'or' que ignoraría cadenas vacías, desplazamiento de validaciones tras tasks new, y falta de traducción de tasks.md y design.md al inglés). Todas las mutaciones fueron detectadas y eliminadas por las pruebas.",
+    "agy (gemini-3.8-flash-high): Ausencia de hallazgos: no se encontraron defectos, desviaciones ni pruebas falsamente positivas en el diff del candidato frente a las especificaciones y contratos prometidos; por ende, findings se entrega vacía."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-idioma/.factory/local/revisiones/e0adc5b-agy-1",
+  "base": "f496eb1708d8dc2b2a5d675148056b232be2f771",
+  "head": "e0adc5b5cf6aad6af98a32c94213c87278e23a12",
+  "diff_sha256": "aac22b684b1ea3bceffbc29b226a64554aff14f65d06531aa7c9a59a8deb7169",
+  "context_sha256": "e94dbef44346f58ba1acfa388c6e3020b9a192b0f66c62c0d236b1e45541e623",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias del cambio (tests.test_idioma y tests.test_cli_piloto) en primer plano utilizando el entorno de ejecución de Factory, resultando todas exitosas (15 pruebas en total).",
+    "Se aplicaron 12 mutaciones de código controladas en un entorno aislado sobre oracle_factory/plantillas.py y oracle_factory/cli.py (alterando idioma por defecto, promesas DEBE/SHALL, marcadores estructurales 'Tipo: funcional', validación de idiomas, detección de TODO, e ignorancia de CLI); todas las mutaciones fueron capturadas y eliminadas por las pruebas (12/12 killed).",
+    "Se contrastó cada escenario de la spec (idioma_de_la_plantilla, idioma_no_admitido, la_plantilla_en_cualquier_idioma_se_aprueba_e_importa) contra el código, verificando que no se mezclan idiomas, que se preservan intactos los marcadores exigidos por el formato, que se rechazan idiomas inválidos antes de crear tareas o archivos, y que el ejemplo de notas permanece invariante.",
+    "No se ejecutó la suite completa de pruebas del repositorio, de acuerdo con las instrucciones explícitas del pedido de revisión.",
+    "No se revisaron los 7 archivos excluidos en el paquete de Clue por ser registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/20261027-220102-yjy-idioma.md, notas de kb/requisitos, tareas).",
+    "No se encontraron defectos, regresiones ni discrepancias respecto a la propuesta ni a la spec; la lista de hallazgos se entrega vacía."
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "ef5194ff1e9f15248afc342f16ed5b1ef0c374d14b4d2d99aa4a56e2e5b0237e",
+  "actor": "Brian Hollweg",
+  "motivo": "Una vuelta de agy y agy2, sin hallazgos. 554 pruebas y 10 casos de contrato en verde, 17 mutaciones detectadas. Límites: sólo es y en; no se traducen la CLI, la documentación ni el tablero; no hay configuración global del usuario. Cambia el idioma por defecto de la plantilla a español.",
+  "decisiones": []
+}

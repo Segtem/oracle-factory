@@ -1,0 +1,60 @@
+{
+  "idioma_caso": [
+    {
+      "requisito": "idioma_de_la_plantilla",
+      "caso": "Idioma.test_id1_sin_idioma_declarado_sale_en_espanol",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_de_la_plantilla",
+      "caso": "Idioma.test_id1_el_proyecto_declara_ingles",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_de_la_plantilla",
+      "caso": "Idioma.test_id1_el_cambio_elige_otro_idioma_y_el_proyecto_no_cambia",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_de_la_plantilla",
+      "caso": "Idioma.test_id1_lo_que_exige_el_formato_no_se_traduce",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_de_la_plantilla",
+      "caso": "Idioma.test_id1_el_ejemplo_notas_no_depende_del_idioma",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_no_admitido",
+      "caso": "Idioma.test_id2_un_idioma_desconocido_en_la_configuracion",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_no_admitido",
+      "caso": "Idioma.test_id2_un_idioma_desconocido_en_la_linea_de_comandos_no_crea_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "idioma_no_admitido",
+      "caso": "Idioma.test_id2_por_la_cli_de_verdad",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_plantilla_en_cualquier_idioma_se_aprueba_e_importa",
+      "caso": "Idioma.test_id3_una_spec_completa_se_aprueba_y_se_importa_en_cada_idioma",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_plantilla_en_cualquier_idioma_se_aprueba_e_importa",
+      "caso": "Idioma.test_id3_una_plantilla_sin_completar_no_se_aprueba",
+      "codigo": 0
+    }
+  ],
+  "idioma_corrida": [
+    {
+      "completa": 1,
+      "casos": 10
+    }
+  ]
+}
