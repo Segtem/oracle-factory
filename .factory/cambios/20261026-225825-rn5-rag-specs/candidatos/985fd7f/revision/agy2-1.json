@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/985fd7f-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "985fd7fd471f4f3972e9af2948a36558bf393a8c",
+  "diff_sha256": "cdbf24241e77b6b12bbfc01dacc280e4ad73ec9db1b4660528e66f8c028e2169",
+  "context_sha256": "337ddeb07e5cd097883978df5228c40ffc515517f65e9498ab3fc1dee93f0042",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración con proveedor ninguno/local).",
+    "Las pruebas de mutación manual se ejecutaron de forma aislada en copias locales en local/revisores/985fd7f-agy2-1/scratch sin modificar el árbol de trabajo del checkout candidato de sólo lectura.",
+    "Los 39 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "AGY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Filtros de specs con plurales indefinidos («unos», «unas») degradan a búsqueda documental con pasajes sueltos",
+      "explanation": "El requisito filtro_de_specs_no_admitido establece: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En la vuelta 5 se incorporaron las formas singulares de artículos indefinidos ('un', 'una') a permitidas en oracle_factory/consultas.py (línea 136). Sin embargo, se omitieron las formas plurales del artículo indefinido ('unos', 'unas'). Al formular preguntas con marcos temporales o cuantificadores plurales indefinidos como «¿Cuántas specs hay en unas semanas?», «¿Cuántas specs hay en unos días?» o «¿Cuántas specs hay en unos meses?», la expresión regular filtro.sub(' ', p) suprime la unidad temporal ('semanas', 'dias', 'meses'), pero conserva 'unas' o 'unos'. Como 'unos' y 'unas' no figuran en permitidas, la diferencia de conjuntos (set(filtro.sub(' ', p).split()) - permitidas) no es vacía y la función interpretar_specs retorna None en lugar de consulta_no_admitida. Como consecuencia, consultas.directa() retorna None y rag.preguntar() cae en el flujo documental devolviendo tipo: 'sin_respaldo' con «No encontré respaldo suficiente para responder.» y pasajes sueltos, vulnerando el requisito contractual.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 133,
+        "end_line": 138,
+        "side": "head"
+      },
+      "trigger": "rag.preguntar(cli, 'cuantas specs hay en unas semanas'), rag.preguntar(cli, 'cuantas specs hay en unos dias') o rag.preguntar(cli, 'cuantas specs hay en unos meses')",
+      "evidence": "Al invocar rag.preguntar(cli, 'cuantas specs hay en una semana') o rag.preguntar(cli, 'cuantas specs hay en un mes') (formas singulares), el resultado es tipo: 'consulta_no_admitida' con la respuesta de rechazo correspondiente. En cambio, al invocar rag.preguntar(cli, 'cuantas specs hay en unas semanas'), rag.preguntar(cli, 'cuantas specs hay en unos dias') o rag.preguntar(cli, 'cuantas specs hay en unos meses'), el retorno es tipo: 'sin_respaldo' con respuesta: «No encontré respaldo suficiente para responder.» y resultados vacíos sin rechazo de filtro.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Incorporar 'unos' y 'unas' a permitidas en oracle_factory/consultas.py y comprobar que interpretar_specs devuelva {'tipo': 'consulta_no_admitida', ...} ante 'cuantas specs hay en unas semanas', 'cuantas specs hay en unos dias' y 'cuantas specs hay en unos meses'."
+    },
+    {
+      "id": "AGY-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 1.0,
+      "title": "tests/test_rag_specs.py no evalúa las palabras funcionales incorporadas en la vuelta 5 («un», «una», «por», «para», demostrativos distales), permitiendo que mutaciones en permitidas sobrevivan sin detección",
+      "explanation": "En la vuelta 5, se agregaron a permitidas en oracle_factory/consultas.py (línea 136) los términos 'estos estas ese esa esos esas un una a por para'. En tests/test_rag_specs.py, el método de prueba test_rs4_abandonadas_y_fechas_con_operando_se_rechazan (líneas 172-184) incorporó casos para verificar 'al', 'semanas', 'estos', 'estas' y 'a'. Sin embargo, no se incluyó ningún caso de prueba que ejercite los artículos indefinidos ('un', 'una'), las preposiciones ('por', 'para') ni los demostrativos distales ('ese', 'esa', 'esos', 'esas'). Al realizar una mutación manual sobre una copia local de oracle_factory/consultas.py eliminando por completo 'ese esa esos esas un una por para' de permitidas, la totalidad de los 24 tests evaluados (tests.test_rag_specs y tests.test_preguntar) pasan exitosamente (Ran 24 tests ... OK con 0 fallas y 0 errores), sobreviviendo la mutación sin que los tests del contrato la detecten.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 174,
+        "end_line": 184,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tests/test_rag_specs.py tras mutar permitidas en consultas.py suprimiendo 'ese esa esos esas un una por para'.",
+      "evidence": "Al mutar en una copia local de consultas.py la línea 136 reemplazando 'ese esa esos esas un una a por para' por 'a', la ejecución de PYTHONPATH=. python -m unittest tests.test_rag_specs tests.test_preguntar finaliza con: Ran 24 tests ... OK, demostrando que los tests no cubren las entradas 'un', 'una', 'por', 'para', 'ese', 'esa', 'esos' ni 'esas'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Incorporar casos de prueba en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan tales como 'cuantas specs hay en un mes', 'cuantas specs hay por fecha', 'cuantas specs hay para hoy' o 'cuantas specs hay en ese periodo', y comprobar que fallen si se suprimen 'un', 'por', 'para' o 'ese' de permitidas."
+    }
+  ]
+}

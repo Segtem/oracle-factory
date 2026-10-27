@@ -1,0 +1,4 @@
+requisito conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido:
+    texto "Tipo: funcional The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages."
+    fuente "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md#filtro de specs no admitido"
+    medido_por factory_rag_specs.filtro_de_specs_no_admitido, factory_rag_specs.corrida_completa

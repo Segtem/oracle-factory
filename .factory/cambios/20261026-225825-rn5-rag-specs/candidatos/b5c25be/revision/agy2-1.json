@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/b5c25be-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "b5c25be80e718fc6540a73756c91c6b9559c5921",
+  "diff_sha256": "4ce04699a8314a008e8dbab4f40136e50dea5494d2e1d54a7f0a6710c79065ff",
+  "context_sha256": "4eca42422a1c71994a276590e0681ac25e1dfa0c6b7ff80a9f5b7ab6f3f36193",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración con proveedor ninguno/local).",
+    "Las pruebas de mutación manual se ejecutaron de forma aislada en copias locales en local/revisores/b5c25be-agy2-1/mutaciones sin modificar el checkout candidato de sólo lectura.",
+    "Los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "GY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Filtros de specs con demostrativos plurales («estos», «estas») o la preposición («a») degradan a búsqueda documental con pasajes sueltos",
+      "explanation": "El requisito filtro_de_specs_no_admitido establece: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En la vuelta 4 se corrigieron los plurales en sustantivos temporales de filtro (semanas, meses, anos, fechas, periodos) y se agregaron 'del', 'al' y 'esta' en permitidas. Sin embargo, persisten dos omisiones gramaticales en permitidas que provocan que consultas con filtros no admitidos degraden a recuperación documental:\n\n1. Omisión de demostrativos en plural («estos», «estas»): permitidas incluye las formas en singular «este» y «esta», pero omite las formas plurales «estos» y «estas». Dado que los sustantivos temporales ahora admiten plural (meses, semanas, anos, dias, periodos, fechas), las construcciones naturales en español que emplean demostrativos plurales (por ejemplo: «¿Cuántas specs hay en estos meses?», «¿Cuántas specs hay en estas semanas?», «¿Cuántas specs hay en estos últimos 7 días?», «¿Cuántas specs hay en estas fechas?», «¿Cuántas specs hay en estos periodos?») dejan el token «estos» o «estas» en el residuo léxico tras aplicar filtro.sub(' ', p). Al no pertenecer a permitidas, interpretar_specs retorna None en lugar de consulta_no_admitida.\n\n2. Omisión de la preposición «a»: permitidas incluye «de», «en», «del» y «al», pero omite la preposición fundamental «a». Expresiones temporales naturales de corte temporal introducidas por «a» (por ejemplo: «¿Cuántas specs hay a la fecha?», «¿Cuántas specs hay a esta fecha?», «¿Cuántas specs hay a estas fechas?») dejan el token «a» en el residuo no reconocido tras suprimir «fecha» o «fechas» con filtro.sub. Como consecuencia, interpretar_specs retorna None.\n\nEn ambos casos, consultas.directa() retorna None y rag.preguntar() cae en el flujo documental devolviendo tipo: 'sin_respaldo' con 'No encontré respaldo suficiente para responder.' y pasajes sueltos, vulnerando el requisito contractual.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 133,
+        "end_line": 138,
+        "side": "head"
+      },
+      "trigger": "Ejecutar consultas.interpretar_specs('cuantas specs hay en estos meses'), consultas.interpretar_specs('cuantas specs hay en estas semanas'), consultas.interpretar_specs('cuantas specs hay en estos ultimos 7 dias'), consultas.interpretar_specs('cuantas specs hay a la fecha') o consultas.interpretar_specs('cuantas specs hay a esta fecha').",
+      "evidence": "Al invocar consultas.interpretar_specs('cuantas specs hay en estos meses'), consultas.interpretar_specs('cuantas specs hay a esta fecha') o consultas.interpretar_specs('cuantas specs hay en estos ultimos 7 dias'), el retorno es None, derivando en rag.preguntar a tipo: 'sin_respaldo' con 'No encontré respaldo suficiente para responder.'. En contraste, consultas idénticas con artículos en vez de demostrativos («en los ultimos 7 dias», «en los ultimos 3 meses») retornan tipo: 'consulta_no_admitida'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Agregar 'a', 'estos' y 'estas' a permitidas en oracle_factory/consultas.py y comprobar que interpretar_specs devuelva {'tipo': 'consulta_no_admitida', ...} ante 'cuantas specs hay en estos meses', 'cuantas specs hay en estas semanas', 'cuantas specs hay en estos ultimos 7 dias', 'cuantas specs hay a la fecha' y 'cuantas specs hay a esta fecha'."
+    },
+    {
+      "id": "GY-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no evalúa demostrativos plurales («estos», «estas») ni la preposición («a») en filtros temporales de specs",
+      "explanation": "En tests/test_rag_specs.py, el método de prueba test_rs4_abandonadas_y_fechas_con_operando_se_rechazan (líneas 174-180) evalúa únicamente filtros temporales con artículos determinados («en los ultimos 7 dias», «en los ultimos 3 meses»), preposición «de» («del 2026», «del 1 de octubre», «de la semana pasada») y demostrativo singular femenino («esta semana»). No incluye ningún caso de prueba con demostrativos plurales («en estos meses», «en estas semanas», «en estos ultimos 7 dias») ni con la preposición «a» («a la fecha», «a esta fecha»). Debido a este vacío de cobertura en la tupla evaluada por el test, la regresión hacia recuperación documental ante estas expresiones temporales cotidianas no fue detectada por la suite de pruebas.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 174,
+        "end_line": 180,
+        "side": "head"
+      },
+      "trigger": "Incorporar 'cuantas specs hay en estos meses', 'cuantas specs hay en estas semanas', 'cuantas specs hay a esta fecha' y 'cuantas specs hay a la fecha' a la tupla evaluada en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan.",
+      "evidence": "Al agregar 'cuantas specs hay en estos meses' o 'cuantas specs hay a esta fecha' a la tupla evaluada en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan, el test falla de inmediato con AssertionError: 'sin_respaldo' != 'consulta_no_admitida'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Ejecutar tests/test_rag_specs.py incluyendo estas consultas adicionales y verificar que fallan en el candidato actual b5c25be y pasan al corregir permitidas en consultas.py."
+    }
+  ]
+}

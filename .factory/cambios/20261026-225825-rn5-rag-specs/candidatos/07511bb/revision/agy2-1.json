@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/07511bb-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "07511bb37b96dc2b762d2107fafcc7eceb7471d2",
+  "diff_sha256": "9b246878dfe2b1ac02019f4b685c603f4905ec4b6327b520e6bc9e886b32a4f2",
+  "context_sha256": "1b08e8ccee9757d3002ab8a1274f1889f3bd557ff4c4e5ec810b9d535a5caddc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración de embeddings en 'ninguno').",
+    "Las pruebas de mutación manual (comprobación de palabras funcionales en permitidas, omisión de filtros de cambios/fases en specs(), verificación de metadatos de criterio y huella sha256, y salvaguardas de ruta_segura) se ejecutaron de forma aislada en copias locales en scratch sin alterar el árbol de trabajo del checkout candidato de sólo lectura.",
+    "Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.",
+    "No se detectaron hallazgos abiertos: en esta vuelta 6 se incorporaron las formas plurales del artículo indefinido ('unos', 'unas') a permitidas en consultas.py, y se añadieron en tests/test_rag_specs.py casos de prueba que cubren cada una de las palabras funcionales ('un', 'una', 'unos', 'unas', 'por', 'para', 'ese', 'esa', 'esos', 'esas'). Las pruebas de mutación confirmaron que la supresión de cualquiera de estas palabras es ahora detectada por los tests, y se comprobó que ninguna consulta documental de las preguntas de oro ni consultas mixtas con tareas/cambios sufren regresiones ni falsos positivos."
+  ],
+  "findings": []
+}

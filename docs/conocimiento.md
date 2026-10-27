@@ -59,6 +59,11 @@ cambios por página; el JSON identifica cuántos faltan y los argumentos de la p
 reemplaza silenciosamente por otro. Para explicaciones abiertas se puede usar un modelo generativo.
 Las páginas siguen el orden por ID de `listar`, aunque el vault presente los cambios por hora de creación.
 
+`oracle-factory preguntar "¿Cuántas specs hay?"` (o «mostrame las specs») cuenta y lista las specs desde sus carpetas, con los
+archivos leídos como fuente. Separa dos números: las **specs vigentes** (una por capacidad, en `openspec/specs/`) y las de
+**cambios abiertos** (en `openspec/changes/`, sin contar los cerrados ni los abandonados). Un filtro que no se admite (por
+fecha, por ejemplo) se avisa en vez de devolver pasajes.
+
 `--json` devuelve `oracle-factory.preguntar/2`: `tipo`, `respuesta`, `fuentes`, `herramientas`, modelos y límites, además
 de `resultados` (pasajes candidatos), sus aportes y las notas por revisar. Los tipos distinguen `registro`,
 `respuesta_elaborada`, `documentos`, `sin_respaldo`, `requiere_aclaracion` y `consulta_no_admitida`. Un puntaje de ranking

@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/6fd3d3d-agy-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "6fd3d3dabf40afa8d90798c81dbd078859872c07",
+  "diff_sha256": "b2add6b735b62aa215eeb575e83a0d5f0815da5fd5be64ef256538a21b77317d",
+  "context_sha256": "d55b6d635592997d3ccffb638e5e2f413a2613513a89dfaee7577764a62d8004",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración con proveedor ninguno/local).",
+    "Las pruebas de mutación se desarrollaron de forma manual y aislada en copias de trabajo dentro de local/revisores/6fd3d3d-agy-1/mutacion_work sin alterar el checkout candidato de sólo lectura.",
+    "Los 23 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "GY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Filtros de specs con contracciones preposicionales («del», «al») o modificadores temporales («pasado/pasada») degradan a búsqueda documental",
+      "explanation": "El requisito filtro_de_specs_no_admitido establece: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En la vuelta 3 se implementó el soporte a operandos de fecha numéricos y meses, condicionando el rechazo a que el resto de los términos tras suprimir los patrones de filtro pertenezcan a permitidas (if set(filtro.sub(' ', p).split()) - permitidas: return None). Sin embargo: 1) En permitidas se incluyeron «de» y «el», pero se omitieron las contracciones preposicionales obligatorias del español «del» y «al». Como consecuencia, consultas directas sobre inventario construidas con «del» o «al» (por ejemplo: «¿Cuántas specs hay del 2026?», «¿Cuántas specs hay del 1 de octubre?», «¿Cuáles specs son del mes pasado?», «¿Cuántas specs hay al 1 de octubre?») dejan «del» o «al» como término no reconocido, provocando que interpretar_specs retorne None. 2) En la expresión regular filtro se incluyeron «semana», «mes», «ano», «periodo» y «ultim[oa]s?», pero se omitió el modificador temporal «pasado/pasada» (pasad[oa]s?). En consecuencia, consultas naturales como «¿Cuántas specs hay de la semana pasada?» o «¿Cuántas specs hay del año pasado?» dejan «pasada» o «pasado» fuera de filtro y de permitidas, retornando también None. En ambos casos, consultas.directa retorna None y rag.preguntar degrada a recuperación documental devolviendo tipo: 'sin_respaldo' con 'No encontré respaldo suficiente para responder.' en lugar de rechazar explícitamente con tipo: 'consulta_no_admitida', vulnerando el requisito contractual.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 130,
+        "end_line": 138,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory preguntar \"¿Cuántas specs hay de la semana pasada?\" o oracle-factory preguntar \"¿Cuántas specs hay del 2026?\".",
+      "evidence": "Al invocar rag.preguntar(cli, \"¿Cuántas specs hay de la semana pasada?\") o rag.preguntar(cli, \"¿Cuántas specs hay del 2026?\"), el resultado es tipo: 'sin_respaldo' con respuesta: 'No encontré respaldo suficiente para responder.', mientras que '¿Cuántas specs hay desde ayer?' o 'cuantas specs hay en el 2026' retornan tipo: 'consulta_no_admitida'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Invocar consultas.interpretar_specs('cuantas specs hay de la semana pasada') y consultas.interpretar_specs('cuantas specs hay del 2026') y comprobar que retornen {'tipo': 'consulta_no_admitida', ...} en lugar de None."
+    },
+    {
+      "id": "GY-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no evalúa contracciones gramaticales («del», «al») ni el modificador «pasado/pasada» en filtros temporales",
+      "explanation": "En tests/test_rag_specs.py, la prueba test_rs4_abandonadas_y_fechas_con_operando_se_rechazan (líneas 176-183) evalúa únicamente las consultas sintéticas 'cuantas specs hay desde el 1 de octubre' y 'cuantas specs hay en los ultimos 7 dias', las cuales emplean exclusivamente preposiciones separadas ('desde', 'el', 'de', 'en', 'los') y el adjetivo 'ultimos'. No incluye ningún caso con la contracción natural 'del' ('del 1 de octubre', 'del 2026') ni con 'pasado' o 'pasada' ('de la semana pasada', 'del mes pasado'). Debido a esta omisión en la suite de pruebas, la degradación indebida hacia recuperación documental ante expresiones temporales cotidianas en español no fue detectada por las aserciones de contrato.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 176,
+        "end_line": 183,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tests/test_rag_specs.py con consultas que incluyan 'del 2026' o 'semana pasada' en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan.",
+      "evidence": "Al sustituir en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan la cadena 'cuantas specs hay desde el 1 de octubre' por 'cuantas specs hay del 1 de octubre' o 'cuantas specs hay de la semana pasada', el test falla inmediatamente con AssertionError: 'sin_respaldo' != 'consulta_no_admitida'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Agregar 'cuantas specs hay del 1 de octubre' y 'cuantas specs hay de la semana pasada' a la tupla evaluada en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan y verificar que fallen en el candidato actual."
+    }
+  ]
+}

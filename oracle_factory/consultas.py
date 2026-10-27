@@ -113,9 +113,90 @@ def registro(cli, argumentos):
     return {'datos': datos, 'criterio': criterio, 'fuentes': [fuente]}
 
 
+def interpretar_specs(texto):
+    """Cuántas o cuáles specs hay. Lo compuesto («y»), lo que nombra cambios o tareas y lo de otro tema pasan al modelo, como en
+    `interpretar`; un filtro que no se admite se rechaza sólo si el resto de la pregunta es de contar o listar (si trae otras palabras es de contenido y no se toca)."""
+    p = plano(texto)
+    nombre = r'(?:specs?|especificacion(?:es)?|capacidad(?:es)?)'
+    if not re.search(rf'\b{nombre}\b', p) or ' y ' in p or re.search(r'\b(?:tareas?|cambios?)\b', p):
+        return None
+    contar = bool(re.search(r'\b(?:cuantos|cuantas|cantidad|numero)\b', p))
+    listar = bool(re.search(r'^(?:lista|listar|listame|lista me|mostra|mostrame|muestra|muestrame|cuales)\b', p)
+                  or re.search(rf'^que {nombre} (?:hay|existen|tenemos|tiene)\b', p))
+    if not contar and not listar:
+        return None
+    # Un filtro es lo que se resta de la pregunta: si lo que queda tiene otras palabras, es una pregunta de contenido
+    # («cuáles specs no tienen tests») y no se rechaza ni se cuenta, sino que va al buscador o al modelo.
+    filtro = re.compile(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semanas?|mes(?:es)?|anos?|fechas?|periodos?|pasad[oa]s?|cerrad[oa]s?|aprobad[oa]s?|'
+                        r'abandonad[oa]s?|pendientes?|nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?|ultim[oa]s?|dias?|\d+|'
+                        r'enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b')
+    permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
+                     'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
+                     'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
+                     'vigente abiertas abiertos abierta abierto del al esta estos estas ese esa esos esas un una unos unas a por para'.split())
+    if set(filtro.sub(' ', p).split()) - permitidas:
+        return None
+    if filtro.search(p):
+        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se '
+                'responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'}
+    return {'tema': 'specs', 'operacion': 'contar' if contar else 'listar'}
+
+
+def _archivos_de_specs(cli, patron_base):
+    """Los spec.md de una carpeta que son archivos de verdad: ni ellos ni su camino son enlaces ni salen del proyecto."""
+    if not patron_base.is_dir():
+        return []
+    salida = []
+    for r in sorted(patron_base.glob('*/spec.md')):
+        try:
+            cli.ruta_segura(r)
+        except cli.FactoryError:
+            continue
+        if r.is_file():
+            salida.append(r)
+    return salida
+
+
+def specs(cli):
+    """Las specs vigentes (una por capacidad) y las de los cambios abiertos, con los archivos leídos."""
+    vigentes = [{'capacidad': r.parent.name, 'estado': 'vigente', 'ruta': r.relative_to(cli.ROOT).as_posix()}
+                for r in _archivos_de_specs(cli, cli.ROOT / 'openspec' / 'specs')]
+    abiertas = []
+    for ident, e in sorted(kb.cambios_del_proyecto(cli), key=lambda c: c[0]):
+        if e.get('fase') in ('cerrada', 'abandonada'):
+            continue
+        abiertas += [{'capacidad': r.parent.name, 'estado': 'en cambio abierto', 'cambio': ident,
+                      'ruta': r.relative_to(cli.ROOT).as_posix()}
+                     for r in _archivos_de_specs(cli, cli.CHANGES / ident / 'specs')]
+    return vigentes, abiertas
+
+
+def respuesta_specs(cli, intencion):
+    vigentes, abiertas = specs(cli)
+    texto = (f'Hay {len(vigentes)} {"spec vigente" if len(vigentes) == 1 else "specs vigentes"} (una por capacidad) '
+             f'y {len(abiertas)} en cambios abiertos.')
+    filas = [*vigentes, *abiertas]
+    if intencion['operacion'] == 'listar':
+        texto += '\n' + '\n'.join(f'- {f["capacidad"]} · {f["estado"]}' + (f' ({f["cambio"]})' if 'cambio' in f else '')
+                                    + f' · {f["ruta"]}' for f in filas)
+    criterio = {'tema': 'specs', 'operacion': intencion['operacion']}
+    huella = hashlib.sha256(json.dumps([f['ruta'] for f in filas], ensure_ascii=False).encode()).hexdigest()
+    fuente = {'ruta': 'specs', 'cita': f'specs:{json.dumps(criterio, ensure_ascii=False, sort_keys=True)}',
+              'texto': texto, 'archivos': [f['ruta'] for f in filas], 'inventario_sha256': huella,
+              'directorio': 'openspec', 'directorio_existe': (cli.ROOT / 'openspec').is_dir(), 'criterio': criterio,
+              'valor': {'vigentes': len(vigentes), 'en_cambios_abiertos': len(abiertas)}, 'agregados': {}}
+    return {'tipo': 'registro', 'respuesta': texto, 'valor': fuente['valor'], 'ids': [], 'filtro': 'specs',
+            'fuentes': [fuente], 'criterio': criterio}
+
+
 def directa(cli, pregunta):
     intencion = interpretar(pregunta)
-    if intencion is None or 'tipo' in intencion:
+    if intencion is None:
+        especifica = interpretar_specs(pregunta)
+        if especifica is None or 'tipo' in especifica:
+            return especifica
+        return respuesta_specs(cli, especifica)
+    if 'tipo' in intencion:
         return intencion
     consulta = registro(cli, intencion)
     datos, filtro = consulta['datos'], intencion['estado']

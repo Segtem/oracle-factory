@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/c1d27f5-agy-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "c1d27f5b294c4cb552dc044db0dbe51c13dc742c",
+  "diff_sha256": "af9593f60cd56dd2b38f1e92f474f963c2557f239f7b81dedb052d80f0279a15",
+  "context_sha256": "1e7a9e7756e7099d542b7f478f9e9d504b38ed195eb90a51a2d6c8767bbdbccf",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar en primer plano desde la raíz del checkout; no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings reales (configuración con proveedor ninguno/mock).",
+    "Las pruebas de mutación manual se desarrollaron de forma aislada en scripts independientes sin alterar el checkout candidato.",
+    "Los 15 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "GY-01",
+      "kind": "regresion",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "interpretar_specs intercepta preguntas documentales con «cuáles», verbos imperativos («mostrame», «muestra») o conceptos fuera de alcance que contienen términos de filtro",
+      "explanation": "En oracle_factory/consultas.py (líneas 122-137), interpretar_specs clasifica como órdenes de listar specs a cualquier consulta que comience con «cuáles», «lista», «listar», «mostra», «mostrame», «muestra» o «muestrame» (a diferencia de «qué», que en la Vuelta 2 se restringió a ^que {nombre} (?:hay|existen|tenemos|tiene)). Inmediatamente después, antes de comprobar si la consulta contiene vocabulario no admitido (if set(p.split()) - permitidas: return None), evalúa la expresión regular de filtros directos no admitidos (re.search(r'\\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|pendientes?|nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?)\\b', p)) y aborta retornando {'tipo': 'consulta_no_admitida', ...}. Como consecuencia: 1) Preguntas documentales legítimas sobre el contenido o diseño de specs o capacidades que inician con «cuáles» y poseen términos comunes de negación o temporales (por ejemplo: «¿Cuáles capacidades no tienen tests?», «¿Cuáles specs definen el periodo de prueba?», «¿Cuáles specs no deben modificarse?», «¿Cuáles specs se modificaron hoy?», «¿Cuáles specs se redactaron sin plantilla?») son bloqueadas con consulta_no_admitida en lugar de recurrir a la búsqueda de pasajes o al modelo generativo. 2) Consultas documentales de lectura como «mostrame la spec sin entrar en detalles», «muestra la spec que no tiene dependencias» o «lista las reglas de la spec que no cambian» devuelven consulta_no_admitida. 3) Consultas de conteo sobre conceptos explícitamente fuera de alcance según proposal.md («Out of scope: Contar requisitos, escenarios o medidas»), como «¿Cuántos requisitos no tienen tests en la spec?» o «¿Cuántos escenarios se agregaron hoy a la spec?», activan contar y la detección del filtro no admitido, retornando consulta_no_admitida en vez de permitir la resolución documental. Esto infringe el requisito las_demas_preguntas_no_cambian («The system SHALL keep answering questions about tasks and changes, and document questions, exactly as before»).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 122,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory preguntar \"¿Cuáles capacidades no tienen tests?\", oracle-factory preguntar \"¿Cuáles specs definen el periodo de prueba?\", oracle-factory preguntar \"mostrame la spec sin entrar en detalles\" o oracle-factory preguntar \"¿Cuántos requisitos no tienen tests en la spec?\".",
+      "evidence": "consultas.interpretar_specs('¿Cuáles capacidades no tienen tests?') y consultas.interpretar_specs('¿Cuántos requisitos no tienen tests en la spec?') devuelven {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'}. En consecuencia, rag.preguntar no busca pasajes documentales y devuelve resultados: [] y tipo: consulta_no_admitida.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian",
+      "status": "pendiente",
+      "verification": "Comprobar que consultas.interpretar_specs devuelva None ante preguntas que incluyan vocabulario conceptual, de desarrollo o fuera de alcance (por ejemplo 'tests', 'definir', 'modificar', 'requisitos', 'detalles') o restringir el clasificador de listar para 'cuáles' a patrones de consulta de inventario tal como se hizo con 'qué'."
+    },
+    {
+      "id": "GY-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "El filtro de specs «abandonadas» no se rechaza como consulta no admitida y degrada a búsqueda documental",
+      "explanation": "El requisito filtro_de_specs_no_admitido exige: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En Factory, los cambios y sus specs se dividen canónicamente en abiertos, cerrados y abandonados (ESTADOS = ('todos', 'abiertos', 'cerrados', 'abandonados')), y la propuesta define que las specs de cambios abiertos excluyen tanto cerrados como abandonados. En la Vuelta 2 se amplió la expresión regular de filtros no admitidos en consultas.py (líneas 127-129) incorporando cerrad[oa]s?, aprobad[oa]s?, pendientes?, nuev[oa]s?, revision, borrador(?:es)? y archivad[oa]s?. Sin embargo, se omitió incluir abandonad[oa]s?. Cuando se pregunta «¿Cuántas specs abandonadas hay?» o «¿Cuáles specs están abandonadas?», la palabra «abandonadas» no coincide con la regex de filtros no admitidos ni pertenece al conjunto permitidas, por lo que interpretar_specs devuelve None. Al devolver None, consultas.directa no gestiona la consulta y rag.preguntar degrada a recuperación documental devolviendo pasajes sueltos («No encontré respaldo suficiente...»), incumpliendo el requisito que manda rechazar explícitamente cualquier filtro no admitido diciendo que no lo está en lugar de devolver pasajes.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 127,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "Ejecutar consultas.interpretar_specs('¿Cuántas specs abandonadas hay?') o oracle-factory preguntar \"¿Cuántas specs abandonadas hay?\".",
+      "evidence": "consultas.interpretar_specs('¿Cuántas specs abandonadas hay?') retorna None; en cambio, consultas.interpretar_specs('¿Cuántas specs cerradas hay?') retorna {'tipo': 'consulta_no_admitida', ...}. Al invocar rag.preguntar('¿Cuántas specs abandonadas hay?'), el tipo devuelto es sin_respaldo con pasajes sueltos en vez de consulta_no_admitida.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Ejecutar consultas.interpretar_specs('¿Cuántas specs abandonadas hay?') y verificar que retorne {'tipo': 'consulta_no_admitida', ...}."
+    },
+    {
+      "id": "GY-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no comprueba los metadatos estructurados de fuentes ni criterio, permitiendo que mutaciones en respuesta_specs sobrevivan",
+      "explanation": "En tests/test_rag_specs.py, los casos de prueba no validan la estructura completa de los objetos devueltos por respuesta_specs: 1) Ninguna aserción comprueba los campos r['criterio'], r['filtro'], r['ids'], ni los metadatos de la fuente r['fuentes'][0] tales como cita, inventario_sha256, directorio o directorio_existe. 2) Se verificó mediante mutaciones manuales que vaciar res['criterio'] = {} o asignar valores fijos ficticios a fuente['cita'] e inventario_sha256 en respuesta_specs pasa la suite de 15 pruebas sin arrojar ningún fallo. 3) Adicionalmente, test_rs1_cuales_son_lista_capacidad_estado_y_ruta no evalúa la formulación del escenario de la spec («cuáles son las specs» o «cuáles son»), sino únicamente «Mostrame las specs». En test_rs4_cuales_especificaciones_y_capacidades_tambien_entran sólo se aserta que r['tipo'] == 'registro' para «cuales son las capacidades», sin verificar el contenido de la lista ni sus rutas.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 45,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Mutar oracle_factory/consultas.py vaciando res['criterio'] = {} y fijando res['fuentes'][0]['cita'] = 'dummy' y res['fuentes'][0]['inventario_sha256'] = 'dummy' en respuesta_specs, y ejecutar tests.test_rag_specs.",
+      "evidence": "Al inyectar la mutación en respuesta_specs, las 15 pruebas de tests/test_rag_specs.py se ejecutan en 3.3s y finalizan con código 0 (OK) sin detectar la corrupción de los metadatos de la fuente y del criterio.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs",
+      "status": "pendiente",
+      "verification": "Incorporar aserciones en test_rag_specs.py que verifiquen r['criterio'], r['fuentes'][0]['cita'] y r['fuentes'][0]['inventario_sha256']."
+    }
+  ]
+}

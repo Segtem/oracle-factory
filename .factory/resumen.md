@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:72050e30576849fa0ef4ea5526568bda1dcf6dd00cd70d5e05ad13bec4a6be73 -->
+<!-- oracle-factory resumen sha256:5e198d9e13d805db5a13009bb973bbe81c81a6ca24f5c0926250967dadfd933e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-22 capacidades · 200 requisitos vigentes · 0 cambios abiertos
+22 capacidades · 203 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -121,6 +121,9 @@ Spec completa: [openspec/specs/conocimiento/spec.md](../openspec/specs/conocimie
 | la recuperación documental expone si hay respaldo suficiente | funcional | `conocimiento_cc12f23b7134ebe23.la_recuperacion_documental_expone_si_hay_respaldo_suficiente` | factory_preguntar.la_recuperacion_documental_expone_si_hay_respaldo_suficiente, factory_preguntar.corrida_completa, factory_preguntar.calidad_documental, factory_preguntar.calidad_abstencion, factory_preguntar.respaldo_documental | verde al cerrar el 2026-10-24 | 20261024-020022-0b3-preguntar |
 | la respuesta conserva su significado en CLI MCP y VS Code | funcional | `conocimiento_cc12f23b7134ebe23.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code` | factory_preguntar.la_respuesta_conserva_su_significado_en_cli_mcp_y_vs_code, factory_preguntar.corrida_completa | verde al cerrar el 2026-10-24 | 20261024-020022-0b3-preguntar |
 | la evaluación distingue exactitud relevancia y abstención | funcional | `conocimiento_cc12f23b7134ebe23.la_evaluacion_distingue_exactitud_relevancia_y_abstencion` | factory_preguntar.la_evaluacion_distingue_exactitud_relevancia_y_abstencion, factory_preguntar.corrida_completa, factory_preguntar.calidad_documental, factory_preguntar.calidad_registro, factory_preguntar.calidad_generativa, factory_preguntar.calidad_abstencion, factory_preguntar.respaldo_documental | verde al cerrar el 2026-10-24 | 20261024-020022-0b3-preguntar |
+| contar y listar specs | funcional | `conocimiento_c6dd9c535b1df9607.contar_y_listar_specs` | factory_rag_specs.contar_y_listar_specs, factory_rag_specs.corrida_completa | verde al cerrar el 2026-10-27 | 20261026-225825-rn5-rag-specs |
+| filtro de specs no admitido | funcional | `conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido` | factory_rag_specs.filtro_de_specs_no_admitido, factory_rag_specs.corrida_completa | verde al cerrar el 2026-10-27 | 20261026-225825-rn5-rag-specs |
+| las demás preguntas no cambian | funcional | `conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian` | factory_rag_specs.las_demas_preguntas_no_cambian, factory_rag_specs.corrida_completa | verde al cerrar el 2026-10-27 | 20261026-225825-rn5-rag-specs |
 
 ### decisiones
 
@@ -1064,6 +1067,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): Se comprobó empíricamente en scratch que pedir-revision con --base vacio funciona en un repositorio con un único commit (el primer commit del proyecto)
 - (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se corrió la suite de pruebas completa del proyecto (488 pruebas) cumpliendo la directiva explícita de quien pide la revisión («No corras la suite completa»)
 - (20261026-144045-3h6-bloqueos) agy (gemini-3.8-flash-high): No se modificó el checkout de revisión, no se hicieron commits ni se alteró la configuración de Git de ningún repositorio
+- (20261026-225825-rn5-rag-specs) Evidencia: Escenarios rs1–rs4 en repositorios temporales, Linux, con Oracle 0.38.2 real y sin modelo generativo ni embeddings: el conteo y la lista de specs vigentes y de cambios abiertos, los filtros no admitidos y la no regresión de cambios. No cubre preguntas compuestas con un modelo generativo configurado.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa de forma rutinaria.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): No se invocaron servidores externos ni modelos generativos de LLM ni embeddings remotos (configuración de embeddings en 'ninguno').
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Las pruebas de mutación manual sobre las palabras funcionales ('unos', 'unas', 'un', 'una', 'ese', 'esa', 'esos', 'esas', 'por', 'para', 'del', 'al', 'esta', 'estos', 'estas', 'a') y los casos de borde se ejecutaron de forma aislada en copias locales en scratch sin modificar el checkout candidato de sólo lectura; todas las mutaciones fueron eliminadas por los casos de prueba de tests/test_rag_specs.py.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): No se detectaron hallazgos abiertos: se verificó que las correcciones de la vuelta 5 (incorporación de artículos indefinidos plurales 'unos'/'unas' en permitidas de oracle_factory/consultas.py, y los casos de prueba de cobertura en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan de tests/test_rag_specs.py) resuelven completamente los defectos previos, sin inducir regresiones en preguntas sobre cambios o tareas ni enmascarar consultas documentales legítimas.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración de embeddings en 'ninguno').
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Las pruebas de mutación manual (comprobación de palabras funcionales en permitidas, omisión de filtros de cambios/fases en specs(), verificación de metadatos de criterio y huella sha256, y salvaguardas de ruta_segura) se ejecutaron de forma aislada en copias locales en scratch sin alterar el árbol de trabajo del checkout candidato de sólo lectura.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.
+- (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): No se detectaron hallazgos abiertos: en esta vuelta 6 se incorporaron las formas plurales del artículo indefinido ('unos', 'unas') a permitidas en consultas.py, y se añadieron en tests/test_rag_specs.py casos de prueba que cubren cada una de las palabras funcionales ('un', 'una', 'unos', 'unas', 'por', 'para', 'ese', 'esa', 'esos', 'esas'). Las pruebas de mutación confirmaron que la supresión de cualquiera de estas palabras es ahora detectada por los tests, y se comprobó que ninguna consulta documental de las preguntas de oro ni consultas mixtas con tareas/cambios sufren regresiones ni falsos positivos.
 
 ### Históricos
 

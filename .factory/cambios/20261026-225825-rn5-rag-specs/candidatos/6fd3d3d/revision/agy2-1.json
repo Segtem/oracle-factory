@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/6fd3d3d-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "6fd3d3dabf40afa8d90798c81dbd078859872c07",
+  "diff_sha256": "b2add6b735b62aa215eeb575e83a0d5f0815da5fd5be64ef256538a21b77317d",
+  "context_sha256": "d969705f3c6a58bbff92ad6cf5ecaa2f651b661c8b74a01cbb242a9ccc64c80a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas en primer plano desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null.",
+    "No se ejecutó la suite de pruebas completa del proyecto en cumplimiento estricto de las instrucciones de la revisión.",
+    "Las pruebas de mutación manual se realizaron en un entorno clonado y aislado en local/revisores/6fd3d3d-agy2-1/mutacion/ sin alterar el árbol de trabajo del checkout candidato (de sólo lectura).",
+    "Los 23 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) fueron excluidos de la revisión conforme a lo indicado."
+  ],
+  "findings": [
+    {
+      "id": "AGY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "filtro_de_specs_no_admitido omite unidades temporales en plural («meses», «semanas», «años») y el demostrativo femenino («esta semana»), degradando a búsqueda documental con pasajes sueltos",
+      "explanation": "El requisito filtro de specs no admitido especifica: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En oracle_factory/consultas.py (líneas 130-141), la verificación de filtros no admitidos en interpretar_specs resta las palabras que coinciden con la expresión regular filtro (filtro.sub(' ', p).split()) y rechaza la consulta solo si todos los términos restantes pertenecen a permitidas. Este mecanismo presenta dos fallas de cobertura en expresiones temporales naturales:\n\n1. Omisión de plurales en unidades de tiempo: filtro incluye tokens en singular (semana, mes, ano, fecha, periodo) y admite plural con s? únicamente en dias? (y en estados como cerrad[oa]s?). Las formas plurales comunes como «meses», «semanas» y «anos» no coinciden con la expresión regular. Por lo tanto, ante preguntas con marcos temporales plurales (por ejemplo, «¿Cuántas specs hay en los últimos 3 meses?», «¿Cuántas specs hay en las últimas 2 semanas?» o «¿Cuántas specs hay en los últimos 2 años?»), los tokens plurales no son eliminados por filtro.sub, quedan en el residuo léxico no reconocido por permitidas y provocan que interpretar_specs retorne None.\n\n2. Asimetría de género en demostrativos: permitidas incluye el demostrativo masculino «este» (pensado para «este proyecto», «este mes» o «este año»), pero omite el femenino «esta». Dado que «semana» y «fecha» son sustantivos femeninos, consultas naturales como «¿Cuántas specs hay esta semana?», «¿Cuántas specs hay en esta semana?» o «¿Cuántas specs hay a esta fecha?» dejan el token «esta» en el residuo tras eliminar «semana» o «fecha». Al no estar «esta» en permitidas, la función retorna None.\n\nEn ambos casos, consultas.directa() devuelve None y rag.preguntar() cae en el flujo de recuperación documental devolviendo pasajes sueltos (sin_respaldo), en contradicción directa con el mandato del requisito y con la asimetría injustificada respecto de «en los ultimos 7 dias» o «este mes» (que sí devuelven consulta_no_admitida).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 130,
+        "end_line": 141,
+        "side": "head"
+      },
+      "trigger": "consultas.interpretar_specs('cuantas specs hay en los ultimos 3 meses') o consultas.interpretar_specs('cuantas specs hay esta semana') o rag.preguntar(cli, 'cuantas specs hay esta semana')",
+      "evidence": "consultas.interpretar_specs('cuantas specs hay en los ultimos 7 dias') devuelve {'tipo': 'consulta_no_admitida', ...}, mientras que consultas.interpretar_specs('cuantas specs hay en los ultimos 3 meses') devuelve None. Asimismo, consultas.interpretar_specs('cuantas specs hay este mes') devuelve {'tipo': 'consulta_no_admitida', ...}, mientras que consultas.interpretar_specs('cuantas specs hay esta semana') devuelve None, derivando en rag.preguntar hacia tipo 'sin_respaldo' con pasajes sueltos.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Extender filtro para admitir plurales en unidades de tiempo (por ejemplo semanas?, mes(?:es)?, a[nñ]os?, fechas?, periodos?) e incorporar «esta» en permitidas. Verificar que consultas.interpretar_specs('cuantas specs hay en los ultimos 3 meses'), consultas.interpretar_specs('cuantas specs hay en las ultimas 2 semanas') y consultas.interpretar_specs('cuantas specs hay esta semana') devuelvan {'tipo': 'consulta_no_admitida', ...} en lugar de None."
+    }
+  ]
+}

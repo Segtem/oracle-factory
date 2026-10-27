@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/b5c25be-agy-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "b5c25be80e718fc6540a73756c91c6b9559c5921",
+  "diff_sha256": "4ce04699a8314a008e8dbab4f40136e50dea5494d2e1d54a7f0a6710c79065ff",
+  "context_sha256": "86b1006710d780c56ee4b11361d7a8ea5689ab94888d0f12e2399a9e4d70362f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se ejecutó la suite completa.",
+    "No se invocaron servidores externos ni modelos generativos de LLM ni embeddings remotos (configuración de embeddings en 'ninguno').",
+    "Las pruebas de mutación manual se desarrollaron en un entorno aislado dentro de local/revisores/b5c25be-agy-1/scratch sin alterar el árbol de trabajo del checkout candidato de sólo lectura.",
+    "Los 31 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "AGY-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Filtros de specs con demostrativos plurales («estos», «estas») o la preposición («a») degradan a búsqueda documental con pasajes sueltos",
+      "explanation": "El requisito filtro_de_specs_no_admitido establece: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En oracle_factory/consultas.py (líneas 130-142), la verificación de filtros no admitidos en interpretar_specs suprime las palabras que coinciden con la expresión regular filtro (filtro.sub(' ', p).split()) y rechaza la consulta como no admitida sólo si la totalidad de los términos restantes pertenecen a permitidas (if set(filtro.sub(' ', p).split()) - permitidas: return None). Aunque en la vuelta 4 se incorporó 'esta' y se ampliaron plurales en unidades de tiempo (mes(?:es)?, semanas?, anos?), subsisten dos omisiones léxicas que rompen el contrato:\n\n1. Omisión de demostrativos plurales: permitidas incluye únicamente los demostrativos singulares 'este' y 'esta', pero no sus formas plurales 'estos' y 'estas'. Al preguntar con marcos temporales plurales naturales (por ejemplo, «¿Cuántas specs hay en estos meses?», «¿Cuántas specs hay en estas semanas?», «¿Cuántas specs hay en estos últimos 3 meses?», «¿Cuántas specs hay en estas últimas 2 semanas?» o «¿Cuántas specs hay en estos días?»), la sustitución de filtro elimina las unidades de tiempo ('meses', 'semanas', 'dias', 'ultimos'), pero deja el token 'estos' o 'estas'. Al no figurar en permitidas, la diferencia de conjuntos no es vacía y la función retorna None.\n\n2. Omisión de la preposición de enlace 'a': en preguntas que establecen un intervalo temporal entre dos extremos admitidos por filtro (por ejemplo, «¿Cuántas specs hay de ayer a hoy?» o «¿Cuántas specs hay de enero a marzo?»), filtro.sub suprime los extremos temporales pero conserva la preposición 'a'. Al no estar 'a' en permitidas ni en filtro, la función retorna None.\n\nEn ambos casos, consultas.directa devuelve None y rag.preguntar degrada a recuperación documental devolviendo tipo: 'sin_respaldo' con 'No encontré respaldo suficiente para responder.' o pasajes sueltos, vulnerando el requisito contractual.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 130,
+        "end_line": 142,
+        "side": "head"
+      },
+      "trigger": "oracle-factory preguntar \"¿Cuántas specs hay en estos ultimos 3 meses?\" o rag.preguntar(cli, 'cuantas specs hay en estas ultimas 2 semanas') o rag.preguntar(cli, 'cuantas specs hay de ayer a hoy')",
+      "evidence": "Al invocar rag.preguntar(cli, 'cuantas specs hay en los ultimos 3 meses') devuelve tipo: 'consulta_no_admitida' con respuesta: 'Ese filtro no está admitido en la consulta de specs...'. En cambio, al invocar rag.preguntar(cli, 'cuantas specs hay en estos ultimos 3 meses'), rag.preguntar(cli, 'cuantas specs hay en estas ultimas 2 semanas') o rag.preguntar(cli, 'cuantas specs hay de ayer a hoy'), el resultado degrada a tipo: 'sin_respaldo' con respuesta: 'No encontré respaldo suficiente para responder.' y resultados vacíos sin rechazo de filtro.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Invocar consultas.interpretar_specs('cuantas specs hay en estos ultimos 3 meses'), consultas.interpretar_specs('cuantas specs hay en estas ultimas 2 semanas') y consultas.interpretar_specs('cuantas specs hay de ayer a hoy') y comprobar que devuelvan {'tipo': 'consulta_no_admitida', ...} en lugar de None."
+    },
+    {
+      "id": "AGY-02",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no evalúa la contracción «al» en permitidas ni «semanas» en plural, permitiendo que mutaciones en la corrección de la vuelta 3 sobrevivan",
+      "explanation": "En tests/test_rag_specs.py, el caso test_rs4_abandonadas_y_fechas_con_operando_se_rechazan (líneas 172-181) evalúa un conjunto cerrado de consultas para verificar el rechazo de operandos temporales y estados. Sin embargo, no verifica dos elementos introducidos específicamente en la vuelta 4:\n\n1. La contracción 'al' incorporada a permitidas en oracle_factory/consultas.py no cuenta con ninguna prueba que la ejercite (se probaron 'del 1 de octubre' y 'del 2026', pero ninguna consulta con 'al', como 'cuantas specs hay al 1 de octubre' o 'cuantas specs hay al dia de hoy'). Al realizar una mutación manual eliminando 'al' de permitidas, la totalidad de los tests de RagSpecs pasan exitosamente (18 casos exitosos, 0 fallas), sobreviviendo la mutación sin detección.\n\n2. La unidad de tiempo plural 'semanas?' introducida en filtro sólo fue probada en singular ('de la semana pasada' y 'esta semana'). Al mutar 'semanas?' a 'semana' en la expresión regular filtro, todos los tests de RagSpecs pasan con éxito (0 fallas), permitiendo que la regresión sobreviva.\n\nLa ausencia de aserciones directas sobre estas entradas debilita la cobertura de regresión para las correcciones de la vuelta 3.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 172,
+        "end_line": 181,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tests/test_rag_specs.py habiendo mutado permitidas sin 'al' o filtro con 'semana' en vez de 'semanas?'.",
+      "evidence": "Al mutar en consultas.py permitidas suprimiendo 'al', o mutando filtro sustituyendo 'semanas?' por 'semana', la ejecución de tests.test_rag_specs devuelve Ran 18 tests ... OK con 0 fallas y 0 errores.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Incorporar 'cuantas specs hay al 1 de octubre' y 'cuantas specs hay en las ultimas 2 semanas' en la tupla evaluada por test_rs4_abandonadas_y_fechas_con_operando_se_rechazan y verificar que fallen si se revierten 'al' o 'semanas?'."
+    }
+  ]
+}

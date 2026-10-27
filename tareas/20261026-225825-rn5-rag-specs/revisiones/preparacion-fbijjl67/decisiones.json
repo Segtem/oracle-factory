@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "9829c4cee268efa5b4eea857f5d833504e977e64b6dc1f39a307dfadabdef617",
+  "actor": "Brian Hollweg",
+  "motivo": "Seis vueltas de agy y agy2; la última sin hallazgos. 510 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite conocido: el clasificador por palabras no cubre todo el español natural; lo no reconocido va al buscador como antes.",
+  "decisiones": []
+}
