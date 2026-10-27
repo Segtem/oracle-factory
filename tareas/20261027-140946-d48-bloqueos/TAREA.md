@@ -39,3 +39,15 @@ Medidas de tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando: Brian Holl
 ### Nota (2026-10-27 14:59:04 UTC)
 
 Medidas de tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 15:21:24 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 15:21:25 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 15:21:26 UTC)
+
+Medidas de tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
