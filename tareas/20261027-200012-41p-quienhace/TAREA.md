@@ -31,3 +31,11 @@ Medidas de tablero_c36d16c32608f4c53.ahora_no_te_toca_nada: Brian Hollweg (perso
 ### Nota (2026-10-27 20:04:57 UTC)
 
 Medidas de tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 21:34:54 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Una vuelta de agy y agy2, sin hallazgos. 544 pruebas y 12 casos de contrato en verde, 21 mutaciones detectadas. Límites: la clasificación de pendientes es por patrones sobre el texto de estado, así que un pendiente nuevo sin patrón queda sin responsable; se prueba el HTML que arma el tablero, no el panel abierto en VS Code.); 0 abiertos derivados; commit 8e12807405bf7d73c6723eb5da6d1bea8a57270e; informe tareas/20261027-200012-41p-quienhace/revisiones/registro-28o9rwyg/informe.json; decisiones tareas/20261027-200012-41p-quienhace/revisiones/registro-28o9rwyg/decisiones.json.
+
+### Nota (2026-10-27 21:43:47 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato d429a79; 0 hallazgos de los revisores; evidencia del candidato: 544 pruebas, 12 casos de contrato.); 0 abiertos derivados; commit 8e12807405bf7d73c6723eb5da6d1bea8a57270e; informe tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/informe.json; decisiones tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/decisiones.json.

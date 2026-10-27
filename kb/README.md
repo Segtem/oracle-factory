@@ -78,7 +78,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (cerrada)
 - [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (cerrada)
 - [[cambios/20261027-160716-arb-equipo]] — El tablero dice a quién necesita cada cambio y qué pasó hace poco (cerrada)
-- [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (requisitos_importados)
+- [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (revision_aprobada)
 
 ## Requisitos
 
