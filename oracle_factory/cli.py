@@ -31,6 +31,7 @@ from . import migracion
 from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
+from . import plantillas
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
@@ -208,7 +209,12 @@ def config_proyecto() -> dict:
               "revisores": datos.get("revisores", {}),
               "oracle": datos.get("oracle", "."),
               "confiar_escalares": datos.get("confiar_escalares", False),
-              "rag": datos.get("rag", {})}
+              "rag": datos.get("rag", {}),
+              "idioma": datos.get("idioma", plantillas.POR_DEFECTO)}
+    try:
+        plantillas.validar(config["idioma"])
+    except (ValueError, TypeError) as e:
+        raise FactoryError(f"{ruta}: idioma no admitido ({config['idioma']!r}): se admiten {' y '.join(plantillas.IDIOMAS)}") from e
     try:
         revisores_mod.validar_config(config["revisores"])
     except revisores_mod.RevisorInvalido as e:
@@ -221,7 +227,7 @@ def config_proyecto() -> dict:
                                                       for k, v in alias.items())):
         raise FactoryError(f"{ruta}: se admiten modo_por_defecto ({', '.join(modos.MODOS)}), tipos_obligatorios (true/false), "
                            "capacidades (alias → capacidad, sin cadenas de alias), revisores, oracle (la carpeta del proyecto Oracle) "
-                           "confiar_escalares (true/false) y rag (sus embeddings, ver oracle-factory preguntar)")
+                           "confiar_escalares (true/false), rag (sus embeddings, ver oracle-factory preguntar) e idioma (es o en, el de las plantillas de un cambio nuevo)")
     return config
 
 
@@ -382,7 +388,7 @@ def nota_tarea(identificador: str, texto: str) -> None:
 
 
 def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = None, modo: str | None = None,
-          sufijo: str | None = None) -> str:
+          sufijo: str | None = None, idioma: str | None = None) -> str:
     if con_ejemplo and (con_ejemplo != 'notas' or capacidad not in (None, 'notas')):
         raise FactoryError('--con-ejemplo notas requiere capacidad notas, o no indicar --capacidad')
     capacidad = capacidad or ('notas' if con_ejemplo else None)
@@ -400,6 +406,12 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
         print(f"Aviso: la capacidad {capacidad} es un alias de {capacidad_destino(capacidad)} en la configuración del proyecto; "
               f"al cerrar, la spec se fusiona en openspec/specs/{capacidad_destino(capacidad)}/.", file=sys.stderr)
     modo = modo or config_proyecto()["modo_por_defecto"]
+    idioma = config_proyecto()["idioma"] if idioma is None else idioma
+    try:
+        plantillas.validar(idioma)
+    except ValueError as e:
+        raise FactoryError(f"{e}; no creé nada") from e
+    textos = plantillas.TEXTOS[idioma]
     if modo not in modos.MODOS:
         raise FactoryError("modo desconocido; usá " + ", ".join(modos.MODOS))
     # Contra confirmacion, no contra factory.json: ese archivo también lo puede escribir un agente.
@@ -429,48 +441,10 @@ def nuevo(titulo: str, capacidad: str | None = None, con_ejemplo: str | None = N
         spec = carpeta / "specs" / capacidad / "spec.md"
         spec.parent.mkdir(parents=True, exist_ok=False)
         carpeta.mkdir(parents=True, exist_ok=True)
-        (carpeta / "proposal.md").write_text(f"""# {titulo}
-
-## Why
-
-TODO: qué problema humano resuelve y para quién.
-
-## What changes
-
-TODO: comportamiento observable que se propone.
-
-## Out of scope
-
-TODO: qué queda explícitamente fuera.
-
-## Human decisions
-
-TODO: preguntas que requieren la decisión de una persona del equipo.
-""", encoding="utf-8")
-        spec.write_text(f"""# Capability: {capacidad}
-
-## ADDED Requirements
-
-### Requirement: comportamiento principal
-Tipo: funcional
-The system SHALL TODO: write one testable promise.
-
-#### Scenario: caso esperado
-- GIVEN TODO: a known starting state
-- WHEN TODO: the user performs an action
-- THEN TODO: an observable result follows
-""", encoding="utf-8")
-        (carpeta / "design.md").write_text("# Design\n\nTODO: completar si la solución necesita una decisión técnica.\n", encoding="utf-8")
-        (carpeta / "tasks.md").write_text("""# Tasks
-
-- [ ] Persona: revisar y aceptar proposal.md + spec.md.
-- [ ] Agente: importar requisitos Oracle y señalar lo aún sin medir.
-- [ ] Persona + agente: acordar medidas y evidencia para cada requisito.
-- [ ] Agente: implementar y correr las pruebas del producto.
-- [ ] Revisor: revisar el diff; registrar y resolver hallazgos.
-- [ ] Agente: correr Oracle sobre hechos observados.
-- [ ] Persona: revisar el informe y decidir si se cierra.
-""", encoding="utf-8")
+        (carpeta / "proposal.md").write_text(textos["propuesta"].format(titulo=titulo), encoding="utf-8")
+        spec.write_text(textos["spec"].format(capacidad=capacidad), encoding="utf-8")
+        (carpeta / "design.md").write_text(textos["diseno"], encoding="utf-8")
+        (carpeta / "tasks.md").write_text(textos["tareas"], encoding="utf-8")
         estado = {
             "id": identificador, "titulo": titulo, "capacidad": capacidad,
             "fase": "espera_aprobacion_spec",
@@ -3805,6 +3779,7 @@ def construir_parser() -> argparse.ArgumentParser:
     p.add_argument("--con-ejemplo", choices=["notas"], help="preparar documentos y catálogos del ejemplo en destinos nuevos")
     p.add_argument("--modo", choices=modos.MODOS, help="modo de trabajo del cambio (por defecto, el del proyecto)")
     p.add_argument("--sufijo", help="cómo termina el ID del cambio (por defecto, la capacidad)")
+    p.add_argument("--idioma", help="idioma de la propuesta y la spec: es o en (por defecto, el del proyecto)")
     p.add_argument("titulo")
     q = sub.add_parser('listar', help='recuperar IDs completos y fases de cambios Factory')
     q.add_argument('--fase', help='sólo los cambios en esta fase')
@@ -3932,7 +3907,7 @@ def main(argv: list[str] | None = None) -> int:
             proyecto_oracle()  # una carpeta de Oracle mal configurada falla antes de que el comando escriba nada
         if args.comando == "init": inicializar(args.oracle)
         elif args.comando == "ejemplo": copiar_ejemplo(args.destino)
-        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo, args.sufijo)
+        elif args.comando == "nuevo": nuevo(args.titulo, args.capacidad, args.con_ejemplo, args.modo, args.sufijo, args.idioma)
         elif args.comando == "modo": cambiar_modo(args.id, args.nuevo_modo)
         elif args.comando == "listar": listar(args.fase, args.abiertos, args.cerrados)
         elif args.comando == "migrar": comando_migrar(args.verificar)

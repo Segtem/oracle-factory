@@ -55,7 +55,7 @@ class CliPiloto(Base):
         ident = f.nuevo('Algo nuevo', 'algo')
         carpeta = self.root / 'openspec/changes' / ident
         for archivo in (carpeta / 'proposal.md', carpeta / 'design.md', carpeta / 'specs/algo/spec.md'):
-            texto = archivo.read_text().replace('TODO: write one testable promise.', 'guardar cada nota.')
+            texto = archivo.read_text().replace('TODO: escribir una promesa que se pueda comprobar.', 'guardar cada nota.')
             archivo.write_text(texto.replace('TODO: ', ''))
         with self.escribe('1'), contextlib.redirect_stderr(io.StringIO()):
             f.aprobar_spec(ident)
