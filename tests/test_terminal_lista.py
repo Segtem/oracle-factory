@@ -95,6 +95,11 @@ class TerminalLista(unittest.TestCase):
         r = correr(espera=200, pasos=[{'escribir': CMD}, {'escribir': OTRO}, {'esperar': 700}, {'foto': 'despues'}])
         self.assertEqual(textos(r['fotos']['despues']), [CMD, OTRO])
 
+    def test_tl3_un_error_al_crear_la_terminal_no_traba_los_pedidos_siguientes(self):
+        r = correr(espera=0, falla_crear=True, pasos=[{'escribir': CMD}, {'esperar': 50}, {'escribir': OTRO}, {'esperar': 50}, {'foto': 'despues'}])
+        self.assertEqual(r['errores'], ['no se pudo crear la terminal'])
+        self.assertEqual(textos(r['fotos']['despues']), [OTRO])
+
     # --- tl4: constancia en la salida -----------------------------------------------------------------------------
     def test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando(self):
         casos = {

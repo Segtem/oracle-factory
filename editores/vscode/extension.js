@@ -124,8 +124,9 @@ async function escribirEnTerminal(comando) {
 
 function escribirPaso(nodo) {
     if (!nodo || !nodo.comando) return Promise.resolve();
-    cola = cola.then(() => escribirEnTerminal(nodo.comando));
-    return cola;
+    const hecho = cola.then(() => escribirEnTerminal(nodo.comando));
+    cola = hecho.catch(() => {});  // un pedido que falla lo ve quien lo hizo, pero no traba los siguientes
+    return hecho;
 }
 
 // El tablero de comando: un panel que se arma con `oracle-factory tablero --json` y se rehace cuando cambia un registro.

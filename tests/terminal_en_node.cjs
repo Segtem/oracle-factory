@@ -2,7 +2,7 @@
    node tests/terminal_en_node.cjs <carpeta de la extensión> <carpeta del proyecto> <escenario JSON>
    escenario: {espera: ms de factory.esperaTerminalMs (omitido: sin configurar), evento: false si esta versión de VS Code no
    tiene onDidChangeTerminalShellIntegration, existente: true si ya hay una terminal «Factory», integracion: true si las
-   terminales nuevas ya informan su integración, pasos: [{escribir: comando} | {esperar: ms} | {avisar: true} | {avisar_otra: true} | {foto: nombre}]}
+   terminales nuevas ya informan su integración, falla_crear: true si el primer createTerminal lanza un error, pasos: [{escribir: comando} | {esperar: ms} | {avisar: true} | {avisar_otra: true} | {foto: nombre}]}
    Imprime JSON: {fotos: {nombre: [lo que recibió cada terminal]}, terminales, salida (el canal «Oracle Factory»)}. */
 'use strict';
 const Module = require('module');
@@ -10,7 +10,7 @@ const path = require('path');
 const [extension, proyecto, escenarioJson] = process.argv.slice(2);
 const escenario = JSON.parse(escenarioJson);
 
-const recibido = [], salida = [], comandos = {}, oyentes = [];
+const recibido = [], salida = [], errores = [], comandos = {}, oyentes = [];
 let suscripciones = 0, liberadas = 0;
 const nada = () => ({dispose() {}});
 const nueva = nombre => {
@@ -24,6 +24,7 @@ const window = {
     registerTreeDataProvider: nada,
     createOutputChannel: () => ({appendLine: l => salida.push(l)}),
     createTerminal(opciones) {
+        if (escenario.falla_crear && !window.fallo) { window.fallo = true; throw new Error('no se pudo crear la terminal'); }
         const t = nueva(opciones.name);
         if (escenario.integracion) t.shellIntegration = {};
         return t;
@@ -54,13 +55,13 @@ Module.prototype.require = function (nombre) { return nombre === 'vscode' ? vsco
     if (escenario.existente) nueva('Factory');
     const fotos = {};
     for (const paso of escenario.pasos) {
-        if (paso.escribir) comandos['factory.escribirPaso']({comando: paso.escribir});
+        if (paso.escribir) comandos['factory.escribirPaso']({comando: paso.escribir}).catch(e => errores.push(e.message));
         else if (paso.esperar !== undefined) await new Promise(r => setTimeout(r, paso.esperar));
         else if (paso.avisar_otra) for (const f of [...oyentes]) f({terminal: {name: 'otra'}})
         else if (paso.avisar) for (const f of [...oyentes]) f({terminal: window.terminals[window.terminals.length - 1]});
         else if (paso.foto) fotos[paso.foto] = JSON.parse(JSON.stringify(recibido));
         await new Promise(r => setImmediate(r));
     }
-    process.stdout.write(JSON.stringify({fotos, terminales: window.terminals.length, salida, suscripciones, liberadas}));
+    process.stdout.write(JSON.stringify({fotos, terminales: window.terminals.length, salida, errores, suscripciones, liberadas}));
     process.exit(0);
 })().catch(e => { console.error(e); process.exit(1); });

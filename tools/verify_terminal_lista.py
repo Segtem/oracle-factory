@@ -31,7 +31,8 @@ CONTRACTS = {
         'TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera'],
     'los_comandos_seguidos_se_escriben_en_orden_y_una_vez': [
         'TerminalLista.test_tl3_dos_comandos_mientras_arranca_se_escriben_en_orden_y_una_vez',
-        'TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden'],
+        'TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden',
+        'TerminalLista.test_tl3_un_error_al_crear_la_terminal_no_traba_los_pedidos_siguientes'],
     'queda_constancia_en_la_salida': [
         'TerminalLista.test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando'],
 }
