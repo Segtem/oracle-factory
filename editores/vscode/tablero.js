@@ -35,12 +35,12 @@ function abrir(archivo, linea, texto) {
     return `<button type="button" class="enlace" data-abrir="${esc(archivo)}"${linea ? ` data-linea="${Number(linea)}"` : ''}>${esc(texto)}</button>`;
 }
 
-function paso(p, comoAlternativa) {
+function paso(p, comoAlternativa, dueno) {
     if (!p) return '';
     // Un comando de Factory se copia o se escribe en la terminal; lo demás es una explicación y se lee como texto.
     const boton = p.comando ? `<button type="button" class="terminal" data-comando="${esc(p.comando)}">Escribir en la terminal</button>` : '';
-    const rotulo = p.decision_de_la_persona ? 'TE NECESITA' : !p.comando ? 'QUÉ HACER' : comoAlternativa ? 'TAMBIÉN' : 'LO QUE SIGUE';
-    return `<div class="paso${p.decision_de_la_persona ? ' tuya' : ''}${comoAlternativa ? ' alternativa' : ''}">
+    const rotulo = p.decision_de_la_persona ? (dueno ? `LA DECIDE ${esc(dueno.toLocaleUpperCase('es'))}` : 'TE NECESITA') : !p.comando ? 'QUÉ HACER' : comoAlternativa ? 'TAMBIÉN' : 'LO QUE SIGUE';
+    return `<div class="paso${p.decision_de_la_persona && !dueno ? ' tuya' : ''}${comoAlternativa ? ' alternativa' : ''}">
 <p class="etiqueta">${rotulo}</p>
 <p>${p.comando ? `<code>${esc(p.texto)}</code>` : esc(p.texto)}</p>${boton}</div>`;
 }
@@ -153,11 +153,14 @@ function chat(c, s) {
     return `${mensajes ? `<ol class="chat">${mensajes}</ol>` : '<p class="vacio">Sin mensajes.</p>'}${caja}`;
 }
 
-function cambio(c, s) {
+function cambio(c, s, yo) {
+    // El cambio lo tiene otra persona: la decisión es suya, no tuya.
+    const responsable = c.quien && c.quien.responsable && c.quien.responsable.persona;
+    const dueno = responsable && responsable !== yo ? responsable : null;
     const avisos = c.avisos.length ? `<ul class="avisos">${c.avisos.map(a => `<li>⚠ ${esc(a)}</li>`).join('')}</ul>` : '';
     return `<section class="cambio" data-cambio="${esc(c.id)}">
 <header><h2>${esc(c.titulo)}</h2><p class="id">${esc(c.id)} · ${esc(c.fase)} · modo ${esc(c.modo)}${c.candidato ? ` · candidato ${esc(c.candidato)}` : ''}</p>${etapas(c)}</header>
-${quien(c)}${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)).join('')}${avisos}
+${quien(c)}${paso(c.proximo_paso, false, dueno)}${c.alternativas.map(a => paso(a, true, dueno)).join('')}${avisos}
 <h3>Qué falta</h3>${faltante(c)}
 <h3>Hallazgos</h3>${hallazgos(c)}
 <h3>Requisitos</h3>${requisitos(c)}
@@ -166,6 +169,12 @@ ${quien(c)}${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)
 <h3>Métricas</h3>${metricas(c.metricas)}
 <details><summary>Línea de tiempo (${c.linea_de_tiempo.length})</summary>${linea(c)}</details>
 </section>`;
+}
+
+// Lo último que pasó en el proyecto: quién, qué y en qué cambio.
+function actividad(lista) {
+    if (!(lista || []).length) return '<p class="vacio">Sin actividad.</p>';
+    return `<ul class="actividad">${lista.map(e => `<li><time>${hora(e.cuando)}</time> <b>${esc(e.actor)}</b>${e.tipo_actor === 'sin_identificar' ? ' ⚠' : ''}: ${esc(ACCIONES[e.accion] || e.accion)} <small>${esc(e.cambio)}</small></li>`).join('')}</ul>`;
 }
 
 function proyecto(p) {
@@ -179,6 +188,7 @@ function proyecto(p) {
 <div><h4>Quién está en qué</h4><ul class="revisores">${Object.entries(p.por_responsable || {}).map(([persona, ids]) =>
     `<li><b>${esc(persona)}</b>: ${ids.map(esc).join(', ')}</li>`).join('')}${(p.sin_responsable || []).length
     ? `<li><span class="aviso-texto">sin responsable</span>: ${p.sin_responsable.map(esc).join(', ')}</li>` : ''}</ul></div>
+<div><h4>Actividad reciente</h4>${actividad(p.actividad)}</div>
 <div><h4>Qué encontró cada revisor</h4><ul class="revisores">${revisores}</ul></div>
 </div></section>`;
 }
@@ -200,7 +210,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;p
 .metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}.metricas ul{margin:0;padding-left:18px}.metricas p{margin:0}
 .barra{display:flex;height:16px;margin-top:6px;border:1px solid var(--vscode-panel-border,#555)}.barra span{font-size:10px;text-align:center;color:#fff;overflow:hidden}
 .barra .sev-critica{background:#7f1d1d}.barra .sev-alta{background:#d32f2f}.barra .sev-media{background:#d97706}.barra .sev-baja{background:#2563eb}.barra .sev-informativa{background:#6b7280}
-.faltante{margin:0;padding-left:18px}.revisores{list-style:none;padding:0}.requisitos{padding-left:18px}.requisitos li{margin:4px 0}.quien{opacity:.75;font-size:12px}
+.faltante{margin:0;padding-left:18px}.actividad{list-style:none;padding:0;margin:0;font-size:13px}.actividad small{opacity:.7}.actividad time{font-family:var(--vscode-editor-font-family);opacity:.7}.revisores{list-style:none;padding:0}.requisitos{padding-left:18px}.requisitos li{margin:4px 0}.quien{opacity:.75;font-size:12px}
 .linea{list-style:none;padding:0;font-size:13px}.linea li{padding:4px 0 4px 10px;border-left:3px solid var(--vscode-panel-border,#555)}.linea li.actor-persona{border-left-color:var(--vscode-charts-green,#2e7d32)}.linea li.actor-agente{border-left-color:var(--vscode-charts-blue,#2563eb)}.linea li.actor-sin_identificar{border-left-color:var(--vscode-charts-orange,#d97706)}
 .linea time{font-family:var(--vscode-editor-font-family);opacity:.7}.linea small{display:block;opacity:.8}.vacio{opacity:.7}
 .quien{margin:8px 0}.quien p{margin:0}.quien ul{margin:4px 0 0;padding-left:18px;font-size:13px}
@@ -217,7 +227,7 @@ function marca() {
 // La página entera. `nonce` y `cspSource` los da la extensión: sin red, y sólo corre el script de la página.
 function html(datos, {nonce, cspSource}) {
     const cuerpo = datos.esperando ? '<p class="vacio">Esperando el tablero de quien comparte la sesión de Live Share…</p>'
-        : datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion)).join('')
+        : datos.cambios.length ? datos.cambios.map(c => cambio(c, datos.sesion, datos.yo)).join('')
         : '<p class="vacio">No hay cambios abiertos. Empezá uno con <code>oracle-factory nuevo</code>.</p>';
     return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${cspSource} data:; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';">

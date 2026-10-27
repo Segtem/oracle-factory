@@ -8,6 +8,7 @@ from __future__ import annotations
 from datetime import datetime
 import json
 import re
+import subprocess
 from pathlib import Path
 from statistics import median
 
@@ -256,8 +257,15 @@ def armar(cli) -> dict:
             "artefactos": cli.datos_donde(ident, None)["artefactos"],
             "metricas": metricas,
         })
+    # Quién mira: el nombre de Git, sólo leído (como el trailer de commits); vacío si no hay.
+    yo = subprocess.run(["git", "config", "user.name"], cwd=raiz, capture_output=True, text=True).stdout.strip()
+    # Lo último que pasó en los cambios abiertos, del más nuevo al más viejo.
+    actividad = sorted(({"cambio": c["id"], "cuando": e["cuando"], "accion": e["accion"], "actor": e["actor"],
+                         "tipo_actor": e["tipo_actor"]} for c in cambios for e in c["linea_de_tiempo"]),
+                       key=lambda e: e["cuando"] or "", reverse=True)[:10]
     return {
         "esquema": ESQUEMA,
+        "yo": yo or None,
         "cambios": cambios,
         "proyecto": {
             "cambios": totales,
@@ -271,5 +279,6 @@ def armar(cli) -> dict:
                                 for persona in sorted({c["quien"]["responsable"]["persona"] for c in cambios
                                                        if c["quien"]["responsable"]})},
             "sin_responsable": [c["id"] for c in cambios if not c["quien"]["responsable"]],
+            "actividad": actividad,
         },
     }
