@@ -58,6 +58,48 @@
         "plantillas_c553eae730b044e20.idioma_no_admitido",
         "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:13:09.998925+00:00",
+      "requisito": "plantillas_c553eae730b044e20.idioma_de_la_plantilla",
+      "medidas": [
+        "factory_idioma.idioma_de_la_plantilla",
+        "factory_idioma.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:13:11.069627+00:00",
+      "requisito": "plantillas_c553eae730b044e20.idioma_no_admitido",
+      "medidas": [
+        "factory_idioma.idioma_no_admitido",
+        "factory_idioma.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:13:12.136146+00:00",
+      "requisito": "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa",
+      "medidas": [
+        "factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa",
+        "factory_idioma.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "plantillas_c553eae730b044e20.idioma_de_la_plantilla": {
+      "sha256": "63cf8eafc1b57d0fe899639b104fe2cacea540ebab4dbd533f6010df060d5307",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T22:13:09.967583+00:00",
+      "catalogos": {
+        "factory_idioma.idioma_de_la_plantilla": "9d095173ffbc7750a588da1653ae174653396ae725c44445a27ada642d969e4d",
+        "factory_idioma.corrida_completa": "fff52246034de21dd09352be140f1ced17863ce8f9d995605448abeacb2a6af4"
+      },
+      "archivos_catalogo": {
+        "factory_idioma.idioma_de_la_plantilla": "catalogos/factory_idioma.idioma_de_la_plantilla.oracle",
+        "factory_idioma.corrida_completa": "catalogos/factory_idioma.corrida_completa.oracle"
+      }
+    },
+    "plantillas_c553eae730b044e20.idioma_no_admitido": {
+      "sha256": "f181baa5bcecedbf56b1aab6f7a573b7ed2f09c535020d53291250ebac000fd6",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T22:13:11.037975+00:00",
+      "catalogos": {
+        "factory_idioma.idioma_no_admitido": "201b8c06c590bdc841b1667909c5508913324367abd079f7c105a0d6918bb9f1",
+        "factory_idioma.corrida_completa": "fff52246034de21dd09352be140f1ced17863ce8f9d995605448abeacb2a6af4"
+      },
+      "archivos_catalogo": {
+        "factory_idioma.idioma_no_admitido": "catalogos/factory_idioma.idioma_no_admitido.oracle",
+        "factory_idioma.corrida_completa": "catalogos/factory_idioma.corrida_completa.oracle"
+      }
+    },
+    "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa": {
+      "sha256": "64713ab17c21e0618c0296e501bce026155ebdc340c87d164558449726e9058c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T22:13:12.104634+00:00",
+      "catalogos": {
+        "factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa": "420dd0f172fda7e679d83c205d808ebb7764b7cda7eee14afc5d177c02ae8cb9",
+        "factory_idioma.corrida_completa": "fff52246034de21dd09352be140f1ced17863ce8f9d995605448abeacb2a6af4"
+      },
+      "archivos_catalogo": {
+        "factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa": "catalogos/factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa.oracle",
+        "factory_idioma.corrida_completa": "catalogos/factory_idioma.corrida_completa.oracle"
+      }
+    }
+  }
 }

@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261027-220102-yjy-idioma]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un proyecto sin idioma declarado», «el proyecto declara inglés», «el cambio elige otro idioma», «lo que exige el formato no se traduce»
+- Medidas: `factory_idioma.idioma_de_la_plantilla`, `factory_idioma.corrida_completa`
 - Fuente: openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#idioma_de_la_plantilla
 
 Tipo: funcional El sistema DEBE crear la propuesta, la spec, el diseño y las tareas de un cambio nuevo enteros en el idioma elegido, español o inglés, sin mezclarlos, y dejar en su forma original lo que el formato exige.
