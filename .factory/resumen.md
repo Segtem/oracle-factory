@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:72c04e5a4c0419af58cbd2b42fc0de965889b76e9d4965c71ba54e2feafb390c -->
+<!-- oracle-factory resumen sha256:de23d3b898d1419b0bedd9050d051e818fea06d31a67322d19c2031902259330 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-23 capacidades · 206 requisitos vigentes · 1 cambio abierto
+23 capacidades · 208 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -330,6 +330,8 @@ Spec completa: [openspec/specs/tablero/spec.md](../openspec/specs/tablero/spec.m
 | que_falta_en_cada_cambio | funcional | `tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio` | factory_tablero_bloqueos.que_falta_en_cada_cambio, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
 | instruccion_distinta_de_comando | funcional | `tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando` | factory_tablero_bloqueos.instruccion_distinta_de_comando, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
 | el_texto_del_registro_se_escapa | funcional | `tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa` | factory_tablero_bloqueos.el_texto_del_registro_se_escapa, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
+| el_tablero_dice_a_quien_necesita | funcional | `tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita` | factory_tablero_equipo.el_tablero_dice_a_quien_necesita, factory_tablero_equipo.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-160716-arb-equipo |
+| actividad_reciente_del_proyecto | funcional | `tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto` | factory_tablero_equipo.actividad_reciente_del_proyecto, factory_tablero_equipo.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-160716-arb-equipo |
 
 ### trazabilidad
 
@@ -378,14 +380,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261027-160716-arb-equipo — El tablero dice a quién necesita cada cambio y qué pasó hace poco
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `tablero` · [propuesta](../openspec/changes/20261027-160716-arb-equipo/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1108,6 +1103,22 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): El análisis de mutaciones manuales se llevó a cabo en copias de trabajo aisladas en el directorio de trabajo del revisor (.factory/local/revisores/959ab12-agy2-1/analisis), preservando intacto el checkout.
 - (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.
 - (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación; los cuatro hallazgos de la vuelta 1 fueron debidamente subsanados y ninguna mutación realizada sobre la implementación sobrevivió a las pruebas.
+- (20261027-160716-arb-equipo) Evidencia: Escenarios tbe1–tbe2: el JSON con la CLI de verdad en proyectos temporales con git, y la página del tablero armada en node (tablero.js puro) con datos de un cambio; el panel de VS Code no se abre en un editor real y no se mide la apariencia. El invitado de Live Share ve el tablero de quien comparte, con el nombre de Git de esa persona: no se prueba con dos máquinas.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Contraste de proposal.md, openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md, el diff del paquete paquete-agy-1.json, oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_equipo.py, tools/verify_tablero_equipo.py, catalogos/factory_tablero_equipo.*.oracle y docs/tablero.md.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): El checkout de solo lectura en .factory/local/revisiones/176c0ca-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-equipo/.venv/bin/python) sin alterar el checkout.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano exactamente las suites indicadas: tests.test_tablero_equipo y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-equipo/.venv/bin/python -m unittest tests.test_tablero_equipo tests.test_tablero </dev/null` (20 pruebas, 0 errores, 0 fallas), omitiendo la suite completa según las instrucciones.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_equipo.py debido a que invoca el descubrimiento de la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los contratos, catálogos oracle y casos de prueba.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Se realizó un análisis exhaustivo de mutaciones manuales en una copia aislada en la carpeta del revisor (.factory/local/revisores/176c0ca-agy-1/scratch/), evaluando 17 mutaciones sobre la lectura de Git, el escapado HTML de acciones y actores, el formato en mayúsculas, el orden cronológico con husos heterogéneos, el recorte a 10 eventos, la exclusión de cambios cerrados y el rótulo condicional en pasos principales y alternativos. Todas las 17 mutaciones fueron detectadas y eliminadas por la suite de pruebas.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se llevó a cabo mediante simulación en Node.js de tablero.js sin abrir el panel en un editor VS Code interactivo real ni probar una sesión con dos máquinas físicas.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): No se encontraron defectos ni inconsistencias frente a la spec; todos los escenarios prometidos están cubiertos y no se encontraron regresiones, por lo que la lista de hallazgos queda vacía.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Lectura y contraste detallado de proposal.md, openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md, el diff del paquete paquete-agy2-1.json, oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_equipo.py, tools/verify_tablero_equipo.py, catalogos/factory_tablero_equipo.*.oracle y docs/tablero.md.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): El checkout de solo lectura en .factory/local/revisiones/176c0ca-agy2-1 no poseía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-equipo/.venv/bin/python) sin alterar el checkout.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano y desde la raíz del checkout exactamente las suites indicadas: tests.test_tablero_equipo y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-equipo/.venv/bin/python -m unittest tests.test_tablero_equipo tests.test_tablero </dev/null` (20 pruebas, 0 errores, 0 fallas), omitiendo la suite completa según las instrucciones.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_equipo.py ya que invoca el descubrimiento de la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los contratos, catálogos oracle y casos de prueba.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Se verificó que los cuatro hallazgos de la vuelta 1 (agy-1, agy-2, agy-3 y agy-4) fueron resueltos satisfactoriamente en el candidato 176c0ca mediante la función _instante con normalización a UTC para orden cronológico real, la prueba de intercalación temporal exhaustiva entre cambios, el caso de prueba para escapado de acciones no reconocidas, y el caso de prueba para rótulos de alternativas de decisión.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): Se realizó un análisis de mutaciones exhaustivo sobre 18 mutaciones manuales en una copia aislada en la carpeta del revisor (.factory/local/revisores/176c0ca-agy2-1/analisis/), abarcando lectura de git config sin mutación de estado, función de ordenamiento temporal _instante, normalización de husos horarios, límites de recorte de actividad a diez eventos, orden descendente, rótulo condicional según titularidad, escapado HTML de actores, acciones y cambios, y propagación de responsable a alternativas. Las 18 mutaciones fueron detectadas y eliminadas por las pruebas (18 killed, 0 survived).
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js; no se abrió el panel interactivo en un entorno gráfico VS Code real.
+- (20261027-160716-arb-equipo) agy (gemini-3.8-flash-high): No se encontraron defectos ni inconsistencias frente a la spec; todos los escenarios prometidos están cubiertos y no se encontraron regresiones, por lo que la lista de hallazgos queda vacía.
 
 ### Históricos
 

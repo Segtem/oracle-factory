@@ -2,7 +2,7 @@
   "id": "20261027-160716-arb-equipo",
   "titulo": "El tablero dice a quién necesita cada cambio y qué pasó hace poco",
   "capacidad": "tablero",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md",
   "spec_sha256": "1a003d3a8f56e8819ff5b1a97c2b8b790b4775a805bff7484517958cf1f3e55b",
   "spec_aprobada": {
@@ -333,6 +333,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "273f1674ca553b39ac63c3a9be434baa89282477109e2492aab02536328d9689"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T17:45:15.279855+00:00",
+      "oracle": ".factory/cambios/20261027-160716-arb-equipo/oracle-veredicto.txt",
+      "revision": "tareas/20261027-160716-arb-equipo/revisiones/registro-12txl65f/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T17:45:15.306986+00:00",
+      "capacidad": "tablero",
+      "spec": "openspec/specs/tablero/spec.md"
     }
   ],
   "tipos": {
@@ -374,5 +394,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T17:45:15.220826+00:00"
+  },
+  "archivo": {
+    "capacidad": "tablero",
+    "spec": "openspec/specs/tablero/spec.md",
+    "cuando": "2026-10-27T17:45:15.306977+00:00"
+  }
 }
