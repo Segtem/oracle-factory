@@ -336,6 +336,58 @@
       "resultado": "ok",
       "hallazgos": 3,
       "lanzamiento": "3cf2d55c1d41"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:38.379234+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:39.437358+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:40.479602+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:41.525634+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -344,33 +396,44 @@
     "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida": "funcional",
     "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-27T23:13:47.017543+00:00",
       "sha256": "113fa775f6f2b4413c48d729e0fe62f88abdc922e23f9ee460cfbf64605def4c",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T23:40:38.347630+00:00",
       "catalogos": {
-        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista": "9be2a78f3b9f0aa1fbb854afc54d1d06e4164a91bef67ff0560f6a46c2c10462",
-        "factory_terminal_lista.corrida_completa": "2c8a9b5220be450a5dc244a00a99fc49cb24dc13ab7d2b9a57113ed6daf4f7a4"
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista": "2197bf69bd97bdcea085ebaa08c120dc9d4efde500f74bbdde2a7072f9d5a1fb",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
       },
       "archivos_catalogo": {
         "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista": "catalogos/factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista.oracle",
         "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
       }
     },
-    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-27T23:13:47.152916+00:00",
-      "sha256": "815c28c46cfa251f2fec2f0a96fb290c116cbfaea894f24b5b5b01ab9484baa8",
+    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": {
+      "sha256": "e3b9839003b77c75427a44a3c4805b96c6016b86afe734caa7dc9e13e75fec0b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T23:40:39.402937+00:00",
       "catalogos": {
-        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "2fdddc87d3a5d46746caebe5d2ed22c369358f422e4845dc146b6d5a7655ce25",
-        "factory_terminal_lista.corrida_completa": "2c8a9b5220be450a5dc244a00a99fc49cb24dc13ab7d2b9a57113ed6daf4f7a4"
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "893d575ab5a2a118c766491f0429943bc39cfb3d02f97f60acc3906a07cc9abc",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
+      },
+      "archivos_catalogo": {
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "catalogos/factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida.oracle",
+        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
+      }
+    },
+    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": {
+      "sha256": "815c28c46cfa251f2fec2f0a96fb290c116cbfaea894f24b5b5b01ab9484baa8",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T23:40:40.447788+00:00",
+      "catalogos": {
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "419e64e004a51c6bd18cfb612401bd3d0df5c2a0ffb1f48df4f15a92bac81281",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
       },
       "archivos_catalogo": {
         "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "catalogos/factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez.oracle",
@@ -378,37 +441,18 @@
       }
     },
     "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-27T23:13:47.284281+00:00",
       "sha256": "e8c579a635c4314652cb26d19b25cf80bec07ebc9d2210f367b3509375bd060b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T23:40:41.493814+00:00",
       "catalogos": {
         "factory_terminal_lista.queda_constancia_en_la_salida": "1d798557394888b325f42901e7ed4e9b345f9861e005c4ce73fac28236863fd5",
-        "factory_terminal_lista.corrida_completa": "2c8a9b5220be450a5dc244a00a99fc49cb24dc13ab7d2b9a57113ed6daf4f7a4"
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
       },
       "archivos_catalogo": {
         "factory_terminal_lista.queda_constancia_en_la_salida": "catalogos/factory_terminal_lista.queda_constancia_en_la_salida.oracle",
         "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
       }
-    },
-    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-27T23:13:47.416736+00:00",
-      "sha256": "e3b9839003b77c75427a44a3c4805b96c6016b86afe734caa7dc9e13e75fec0b",
-      "catalogos": {
-        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "9fb3045120836542b81e3b07b5a228f63a72a7e2c9e36b45e71aa736954354fe",
-        "factory_terminal_lista.corrida_completa": "2c8a9b5220be450a5dc244a00a99fc49cb24dc13ab7d2b9a57113ed6daf4f7a4"
-      },
-      "archivos_catalogo": {
-        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "catalogos/factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida.oracle",
-        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
-      }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
