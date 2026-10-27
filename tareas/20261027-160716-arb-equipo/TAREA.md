@@ -23,3 +23,11 @@ Medidas de tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita: factory_t
 ### Nota (2026-10-27 16:09:56 UTC)
 
 Medidas de tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto: factory_tablero_equipo.actividad_reciente_del_proyecto, factory_tablero_equipo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 16:15:34 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 16:15:34 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita: Brian Hollweg (persona, confirmo, modo confirmacion).

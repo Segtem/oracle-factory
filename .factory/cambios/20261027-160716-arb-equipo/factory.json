@@ -84,33 +84,46 @@
         "factory_tablero_equipo.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T16:15:34.426806+00:00",
+      "requisito": "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+      "medidas": [
+        "factory_tablero_equipo.actividad_reciente_del_proyecto",
+        "factory_tablero_equipo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T16:15:34.557040+00:00",
+      "requisito": "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita",
+      "medidas": [
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita",
+        "factory_tablero_equipo.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto": "funcional",
     "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": {
-      "sha256": "5b782cc0f18d97380e53f198f0d5f63c5756004c81cb79bcfe8bb4ea826b9e97",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T16:09:55.467237+00:00",
-      "catalogos": {
-        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "da498343c2c99146bacd66d26c6185abe4986e3e89e20a01f43c90eaed1f2dd0",
-        "factory_tablero_equipo.corrida_completa": "7aaa5f9e242e53cda8317527f505809ff9c2aeaee4e9d6f002e0ea1ec4d91d6c"
-      },
-      "archivos_catalogo": {
-        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "catalogos/factory_tablero_equipo.el_tablero_dice_a_quien_necesita.oracle",
-        "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T16:15:34.396146+00:00",
       "sha256": "c10844e6ce4c2d0d22de114c01c8d6c50c719f95e36d867f58c4b4c25df1169f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T16:09:56.435535+00:00",
       "catalogos": {
         "factory_tablero_equipo.actividad_reciente_del_proyecto": "e9dfb2aec77955ad979374134da24f6a2a009ce3d5e351629cf931ccf9d5520c",
         "factory_tablero_equipo.corrida_completa": "7aaa5f9e242e53cda8317527f505809ff9c2aeaee4e9d6f002e0ea1ec4d91d6c"
@@ -119,6 +132,23 @@
         "factory_tablero_equipo.actividad_reciente_del_proyecto": "catalogos/factory_tablero_equipo.actividad_reciente_del_proyecto.oracle",
         "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
       }
+    },
+    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T16:15:34.528076+00:00",
+      "sha256": "5b782cc0f18d97380e53f198f0d5f63c5756004c81cb79bcfe8bb4ea826b9e97",
+      "catalogos": {
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "da498343c2c99146bacd66d26c6185abe4986e3e89e20a01f43c90eaed1f2dd0",
+        "factory_tablero_equipo.corrida_completa": "7aaa5f9e242e53cda8317527f505809ff9c2aeaee4e9d6f002e0ea1ec4d91d6c"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "catalogos/factory_tablero_equipo.el_tablero_dice_a_quien_necesita.oracle",
+        "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
