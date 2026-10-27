@@ -77,7 +77,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (cerrada)
 - [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (cerrada)
 - [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (cerrada)
-- [[cambios/20261027-160716-arb-equipo]] — El tablero dice a quién necesita cada cambio y qué pasó hace poco (spec_aprobada)
+- [[cambios/20261027-160716-arb-equipo]] — El tablero dice a quién necesita cada cambio y qué pasó hace poco (requisitos_importados)
 
 ## Requisitos
 
@@ -279,6 +279,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete]]
 - [[requisitos/revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad]]
 - [[requisitos/revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios]]
+- [[requisitos/tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto]]
+- [[requisitos/tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita]]
 - [[requisitos/tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa]]
 - [[requisitos/tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando]]
 - [[requisitos/tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio]]

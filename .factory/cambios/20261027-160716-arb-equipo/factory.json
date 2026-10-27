@@ -2,7 +2,7 @@
   "id": "20261027-160716-arb-equipo",
   "titulo": "El tablero dice a quién necesita cada cambio y qué pasó hace poco",
   "capacidad": "tablero",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md",
   "spec_sha256": "1a003d3a8f56e8819ff5b1a97c2b8b790b4775a805bff7484517958cf1f3e55b",
   "spec_aprobada": {
@@ -16,7 +16,10 @@
       "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md": "1a003d3a8f56e8819ff5b1a97c2b8b790b4775a805bff7484517958cf1f3e55b"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +44,24 @@
         "openspec/changes/20261027-160716-arb-equipo/proposal.md": "087e54d4332ba342efbb6230537f164b21b64c072c270c37647e23fdbc0a636d",
         "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md": "1a003d3a8f56e8819ff5b1a97c2b8b790b4775a805bff7484517958cf1f3e55b"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T16:07:57.579259+00:00",
+      "ids": [
+        "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+        "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto": "funcional",
+    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261027-160716-arb-equipo. Modo de trabajo: confirma
 ### Nota (2026-10-27 16:07:47 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-27 16:07:57 UTC)
+
+Requisitos importados: tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto (funcional), tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

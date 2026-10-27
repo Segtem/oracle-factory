@@ -1,0 +1,4 @@
+requisito tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto:
+    texto "Tipo: funcional The system SHALL list the latest ten events across the open changes, newest first, with who did what, in which change and when."
+    fuente "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md#actividad_reciente_del_proyecto"
+    sin_medir "sin medida todavía; escenarios: «más de diez eventos», «la página la muestra», «un cambio cerrado no entra»"
