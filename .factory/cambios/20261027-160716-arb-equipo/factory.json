@@ -188,33 +188,46 @@
         "factory_tablero_equipo.actividad_reciente_del_proyecto",
         "factory_tablero_equipo.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T17:10:25.465228+00:00",
+      "requisito": "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+      "medidas": [
+        "factory_tablero_equipo.actividad_reciente_del_proyecto",
+        "factory_tablero_equipo.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T17:10:25.662617+00:00",
+      "requisito": "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita",
+      "medidas": [
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita",
+        "factory_tablero_equipo.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto": "funcional",
     "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": {
-      "sha256": "5b782cc0f18d97380e53f198f0d5f63c5756004c81cb79bcfe8bb4ea826b9e97",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T16:39:29.311264+00:00",
-      "catalogos": {
-        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "292d65be2637535651ef3c36d45aa0b39882109f8c2f246c03808890ca48a3a2",
-        "factory_tablero_equipo.corrida_completa": "dbddb9eb9eea31b2598157d9a6638f95282ab0551b95f59717abba4b63fe2422"
-      },
-      "archivos_catalogo": {
-        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "catalogos/factory_tablero_equipo.el_tablero_dice_a_quien_necesita.oracle",
-        "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T17:10:25.434555+00:00",
       "sha256": "c10844e6ce4c2d0d22de114c01c8d6c50c719f95e36d867f58c4b4c25df1169f",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T16:39:30.271572+00:00",
       "catalogos": {
         "factory_tablero_equipo.actividad_reciente_del_proyecto": "84cdc4c523ae934bac1d880849f659865d37135f3f99745a0453dc9c72e8baf8",
         "factory_tablero_equipo.corrida_completa": "dbddb9eb9eea31b2598157d9a6638f95282ab0551b95f59717abba4b63fe2422"
@@ -223,6 +236,23 @@
         "factory_tablero_equipo.actividad_reciente_del_proyecto": "catalogos/factory_tablero_equipo.actividad_reciente_del_proyecto.oracle",
         "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
       }
+    },
+    "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T17:10:25.632418+00:00",
+      "sha256": "5b782cc0f18d97380e53f198f0d5f63c5756004c81cb79bcfe8bb4ea826b9e97",
+      "catalogos": {
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "292d65be2637535651ef3c36d45aa0b39882109f8c2f246c03808890ca48a3a2",
+        "factory_tablero_equipo.corrida_completa": "dbddb9eb9eea31b2598157d9a6638f95282ab0551b95f59717abba4b63fe2422"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_equipo.el_tablero_dice_a_quien_necesita": "catalogos/factory_tablero_equipo.el_tablero_dice_a_quien_necesita.oracle",
+        "factory_tablero_equipo.corrida_completa": "catalogos/factory_tablero_equipo.corrida_completa.oracle"
+      }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }
