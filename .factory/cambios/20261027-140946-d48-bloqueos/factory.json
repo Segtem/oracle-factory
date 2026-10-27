@@ -1,0 +1,24 @@
+{
+  "id": "20261027-140946-d48-bloqueos",
+  "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
+  "capacidad": "tablero",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T14:09:46.758674+00:00",
+      "capacidad": "tablero"
+    }
+  ]
+}
