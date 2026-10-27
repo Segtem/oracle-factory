@@ -51,3 +51,19 @@ Medidas de ide_c6fe31e596cc9568e.queda_constancia_en_la_salida: Brian Hollweg (p
 ### Nota (2026-10-27 23:04:57 UTC)
 
 Medidas de ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 23:11:16 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 23:11:17 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 23:11:18 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 23:11:19 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.queda_constancia_en_la_salida propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
