@@ -162,6 +162,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "c6af7c2ade16"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T20:26:48.289610+00:00",
+      "decision": "aprobar",
+      "candidato": "d429a79"
     }
   ],
   "tipos": {
@@ -202,5 +212,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Una vuelta de agy y agy2, sin hallazgos. 544 pruebas y 12 casos de contrato en verde, 21 mutaciones detectadas. Límites: la clasificación de pendientes es por patrones sobre el texto de estado, así que un pendiente nuevo sin patrón queda sin responsable; se prueba el HTML que arma el tablero, no el panel abierto en VS Code.",
+      "candidato": "d429a79",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T20:26:48.289597+00:00"
+    }
+  }
 }

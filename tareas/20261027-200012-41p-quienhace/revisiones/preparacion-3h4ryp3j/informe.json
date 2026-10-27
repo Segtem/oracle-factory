@@ -1,0 +1,70 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261027-200012-41p-quienhace",
+  "contexto": {
+    "head": "07e986b1eb66e182fdc3387ceee10bb074117025",
+    "archivos_sha256": "366d8fb83bbf10858bfc4736c06f145505bd8af9e25f9bf8352c80c38c566ddd"
+  },
+  "documentos": {
+    "openspec/changes/20261027-200012-41p-quienhace/proposal.md": "6130ada15077f3e49292425787403cb7d34fc80dc02db6754091e4c4d2e84daf",
+    "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_tablero_quien_hace.ahora_no_te_toca_nada.oracle",
+    "catalogos/factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace.oracle",
+    "catalogos/factory_tablero_quien_hace.corrida_completa.oracle",
+    "docs/tablero.md",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261027-200012-41p-quienhace/design.md",
+    "openspec/changes/20261027-200012-41p-quienhace/proposal.md",
+    "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md",
+    "openspec/changes/20261027-200012-41p-quienhace/tasks.md",
+    "oracle_factory/tablero.py",
+    "requisitos/tablero_c36d16c32608f4c53.ahora_no_te_toca_nada.requisito",
+    "requisitos/tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace.requisito",
+    "tests/test_tablero.py",
+    "tests/test_tablero_quien_hace.py",
+    "tools/verify_tablero_quien_hace.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 544 pruebas, 12 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-200012-41p-quienhace/candidatos/d429a79/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-200012-41p-quienhace/candidatos/d429a79/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-200012-41p-quienhace/candidatos/d429a79/revision/agy2-1.json (validado con oracle-clue)"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tbq1–tbq2: el JSON con la CLI de verdad en proyectos temporales con git, y la página del tablero armada en node (tablero.js puro) con datos de un cambio; el panel de VS Code no se abre en un editor real y no se mide la apariencia. La clasificación de pendientes es por patrones sobre el texto de estado: un pendiente nuevo sin patrón queda sin responsable.",
+    "agy (gemini-3.8-flash-high): Contraste del candidato d429a79 frente a la propuesta (proposal.md), spec (openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md), diseño (design.md), diff del paquete Clue (paquete-agy-1.json), oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_quien_hace.py, tests/test_tablero.py, tools/verify_tablero_quien_hace.py, catalogos/factory_tablero_quien_hace.*.oracle, requisitos/tablero_c36d16c32608f4c53.*.requisito y docs/tablero.md.",
+    "agy (gemini-3.8-flash-high): El checkout de sólo lectura en .factory/local/revisiones/d429a79-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python) sin editar el checkout ni alterar su configuración de Git.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron en primer plano exactamente las suites indicadas: tests.test_tablero_quien_hace y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python -m unittest tests.test_tablero_quien_hace tests.test_tablero </dev/null` (18 pruebas, 0 errores, 0 fallas), omitiendo deliberadamente la suite completa conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_quien_hace.py dado que su método discover ejecutaría la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los 12 casos contractuales (8 para cada_pendiente_dice_quien_lo_hace y 4 para ahora_no_te_toca_nada), sus umbrales en los catálogos Oracle respectivos (8, 4 y corrida_completa con 12) y su validación léxica mediante oracle_metalenguaje.",
+    "agy (gemini-3.8-flash-high): Se verificó la compatibilidad hacia atrás del esquema de datos: tablero.py mantiene intacto el campo `pendientes` y suma `faltan`, mientras que `proximo_paso` y `alternativas` agregan `humano` preservando los campos existentes; la prueba test_mcp pasa exitosamente y editores/vscode/tablero.js contempla la degradación elegante a `pendientes` si `faltan` está ausente.",
+    "agy (gemini-3.8-flash-high): Se analizó exhaustivamente la clasificación de expresiones regulares de PENDIENTES frente a todas las cadenas generadas por pendientes() y pendientes_actuales() en oracle_factory/cli.py, confirmando que todos los pendientes conocidos son catalogados correctamente según el modo (incluyendo modo autónomo con aceptación de spec y aprobación de revisión por agente) y que textos no reconocidos o discrepancias de integridad conservan su texto original y quedan sin responsable (`quien: null`).",
+    "agy (gemini-3.8-flash-high): Se comprobó que el aviso «Ahora no te toca nada» aparece únicamente cuando el próximo paso es un comando a ejecutar por un agente y el cambio no pertenece a otra persona (`!dueno && p && p.comando && !p.decision_de_la_persona`), no apareciendo ante decisiones de personas, explicaciones en texto ni cambios con responsable ajeno.",
+    "agy (gemini-3.8-flash-high): Se verificó el correcto escapado HTML mediante `esc()` en tablero.js tanto para frases de pendientes (`esc(x.humano || x.texto)`) como para la frase del paso en el aviso (`esc(p.humano || p.texto)`), evitando cualquier inyección XSS.",
+    "agy (gemini-3.8-flash-high): Se ejecutó un análisis de pruebas de mutación sobre 13 variantes manuales en una copia aislada (eliminación de frase humana, alteración de patrones de PENDIENTES, cambio de actores asignados, omisión del campo faltan en armar, eliminación de etiquetas y avisos en tablero.js, omisión de escapado y omisión del fallback a pendientes). Las 13 mutaciones fueron detectadas y eliminadas (KILLED) por las pruebas unitarias.",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni incumplimientos de la especificación en el candidato; la lista de hallazgos (findings) queda vacía.",
+    "agy (gemini-3.8-flash-high): Alcance y contexto revisado: revisión independiente de vuelta 1 para el cambio 20261027-200012-41p-quienhace en el candidato d429a79 frente a base 532dd991, según proposal.md y openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md. Se analizaron todos los archivos del diff: oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_quien_hace.py, tests/test_tablero.py, tools/verify_tablero_quien_hace.py, catalogos/factory_tablero_quien_hace.*.oracle, requisitos/tablero_c36d16c32608f4c53.*.requisito y docs/tablero.md.",
+    "agy (gemini-3.8-flash-high): Entorno de pruebas y ejecución en checkout: el checkout de sólo lectura en .factory/local/revisiones/d429a79-agy2-1 no poseía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python) sin realizar ninguna modificación en el checkout ni en la configuración de Git.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas unitarias: se ejecutaron en primer plano exactamente las suites solicitadas desde la raíz del checkout mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python -m unittest tests.test_tablero_quien_hace tests.test_tablero </dev/null` (18 pruebas, 0 fallas, 0 errores). Conforme a las instrucciones, no se ejecutó la suite completa de pruebas ni se ejecutó directamente tools/verify_tablero_quien_hace.py (que dispara descubrimiento de toda la suite); se comprobó estáticamente la consistencia exacta de verify_tablero_quien_hace.py, sus 12 casos en CONTRACTS y los umbrales de los catálogos Oracle correspondientes.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones manuales: se ejecutaron 23 mutaciones controladas en una copia aislada en la carpeta del revisor (.factory/local/revisores/d429a79-agy2-1/mutaciones/): alteración y eliminación de patrones de PENDIENTES, inversión de roles persona/agente, mutación de frases de comandos en FRASES y en _paso, omisión del campo humano en _paso, eliminación del campo faltan en armar, mutación de condiciones lógicas en nadaPorHacer (!dueno, p.comando, !p.decision_de_la_persona), inversión de orden entre nadaPorHacer y faltante, omisión de la caída a pendientes cuando falta faltan, y alteración de los escapes HTML y etiquetas tuyo/de un agente. Las 23 mutaciones fueron detectadas y eliminadas por la suite de pruebas.",
+    "agy (gemini-3.8-flash-high): Verificación de clasificación y robustez: se contrastaron todos los textos generados por pendientes() y pendientes_actuales() en oracle_factory/cli.py (aprobación/aceptación de spec, importación OpenSpec, revisión humana/aprobada, veredicto Oracle, propuestas sin confirmar por una persona, medidas elegidas/decididas por una persona, requisitos sin decisión, catálogos alterados, revisiones/juicios desactualizados, artefactos ausentes o inválidos). Los patrones clasifican correctamente los ítems conocidos asignando 'persona' o 'agente' y su frase respectiva, mientras que los ítems técnicos o de error caen ordenadamente en quien: None conservando su texto original.",
+    "agy (gemini-3.8-flash-high): Seguridad y compatibilidad del JSON: se comprobó que todo texto proveniente del registro o de datos externos se escapa sistemáticamente mediante esc() en editores/vscode/tablero.js (evitando cualquier inyección HTML/XSS). El esquema del JSON 'oracle-factory.tablero/1' conserva retrocompatibilidad total agregando los campos nuevos ('faltan', 'humano') sin alterar campos existentes ('pendientes', 'proximo_paso', etc.).",
+    "agy (gemini-3.8-flash-high): Sin hallazgos: no se detectaron defectos, incumplimientos de la spec ni mutantes vivos; la lista findings queda vacía."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
