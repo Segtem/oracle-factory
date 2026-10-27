@@ -5,7 +5,7 @@ Sólo lee lo que la CLI ya sabe —el registro de cada cambio, sus informes de r
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 import re
 import subprocess
@@ -27,6 +27,14 @@ def _cuando(texto) -> datetime | None:
         return datetime.fromisoformat(str(texto))
     except ValueError:
         return None
+
+
+def _instante(texto) -> float:
+    """El momento de un evento para ordenar: sin zona horaria cuenta como UTC; lo que no se lee queda como lo más viejo."""
+    d = _cuando(texto)
+    if d is None:
+        return float("-inf")
+    return (d if d.tzinfo else d.replace(tzinfo=timezone.utc)).timestamp()
 
 
 def _horas(desde, hasta) -> float | None:
@@ -262,7 +270,7 @@ def armar(cli) -> dict:
     # Lo último que pasó en los cambios abiertos, del más nuevo al más viejo.
     actividad = sorted(({"cambio": c["id"], "cuando": e["cuando"], "accion": e["accion"], "actor": e["actor"],
                          "tipo_actor": e["tipo_actor"]} for c in cambios for e in c["linea_de_tiempo"]),
-                       key=lambda e: e["cuando"] or "", reverse=True)[:10]
+                       key=lambda e: _instante(e["cuando"]), reverse=True)[:10]
     return {
         "esquema": ESQUEMA,
         "yo": yo or None,

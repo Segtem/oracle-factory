@@ -1,10 +1,12 @@
 """El tablero dice a quién necesita cada cambio y qué pasó hace poco: escenarios tbe1–tbe2."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import test_archivo as _archivo  # noqa: E402
@@ -15,11 +17,11 @@ SOURCE = Path(__file__).resolve().parents[1]
 NODE = shutil.which('node')
 JS = """
 const t = require(process.argv[1] + '/editores/vscode/tablero.js');
-const {yo, responsable, proximo, actividad} = JSON.parse(process.argv[2]);
+const {yo, responsable, proximo, alternativas, actividad} = JSON.parse(process.argv[2]);
 const metricas = {fases: [], vueltas_de_revision: 0, riesgos_aceptados: 0, hallazgos_por_severidad: {},
                   decisiones_por_actor: {persona: 0, agente: 0, sin_identificar: 0}, requisitos: {total: 0, medidos: 0}};
 const c = {id: 'c1', titulo: 'Un cambio', fase: 'spec_aprobada', modo: 'confirmacion', candidato: null, metricas, pendientes: [],
-           proximo_paso: proximo, alternativas: [], avisos: [], hallazgos: [], requisitos: [], commits: [], linea_de_tiempo: [],
+           proximo_paso: proximo, alternativas, avisos: [], hallazgos: [], requisitos: [], commits: [], linea_de_tiempo: [],
            quien: {responsable: responsable ? {persona: responsable, desde: null} : null, agentes: [], revisores_en_curso: []}};
 const proyecto = {cambios: {abiertos: 1, cerrados: 0, abandonados: 0}, mediana_horas_hasta_cierre: null,
                   primera_vuelta: {proporcion: null}, hallazgos_por_revisor: {}, por_responsable: {}, sin_responsable: [], actividad};
@@ -28,11 +30,11 @@ process.stdout.write(t.html({yo, cambios: [c], sesion: {estado: 'sin-live-share'
 DECIDE = {'texto': 'oracle-factory revisar c1', 'comando': 'oracle-factory revisar c1', 'decision_de_la_persona': True}
 
 
-def pagina(yo=None, responsable=None, proximo=DECIDE, actividad=()):
+def pagina(yo=None, responsable=None, proximo=DECIDE, actividad=(), alternativas=()):
     if not NODE:
         raise unittest.SkipTest('hace falta node')
     r = subprocess.run([NODE, '-e', JS, '--', str(SOURCE), json.dumps(
-        {'yo': yo, 'responsable': responsable, 'proximo': proximo, 'actividad': list(actividad)})],
+        {'yo': yo, 'responsable': responsable, 'proximo': proximo, 'actividad': list(actividad), 'alternativas': list(alternativas)})],
         capture_output=True, text=True, timeout=60)
     assert r.returncode == 0, r.stderr
     return r.stdout
@@ -91,6 +93,13 @@ class TableroEquipo(unittest.TestCase):
         paso = {'texto': 'oracle-factory importar c1', 'comando': 'oracle-factory importar c1', 'decision_de_la_persona': False}
         self.assertIn('LO QUE SIGUE', pagina(yo='Brian Hollweg', responsable='Ana', proximo=paso))
 
+    def test_tbe1_una_decision_alternativa_tambien_dice_quien_la_decide(self):
+        html = pagina(yo='Brian Hollweg', responsable='Ana', proximo={**DECIDE, 'decision_de_la_persona': False},
+                      alternativas=[{**DECIDE, 'texto': 'oracle-factory cerrar c1', 'comando': 'oracle-factory cerrar c1'}])
+        self.assertIn('LA DECIDE ANA', html)
+        self.assertNotIn('TE NECESITA', html)
+        self.assertNotIn('TAMBIÉN', html)
+
     def test_tbe1_el_nombre_del_responsable_se_escapa(self):
         html = pagina(yo='Brian Hollweg', responsable='<b>Ana</b>')
         self.assertNotIn('<b>Ana</b>', html.split('LA DECIDE')[1].split('</p>')[0])
@@ -99,8 +108,9 @@ class TableroEquipo(unittest.TestCase):
     # --- tbe2: qué pasó hace poco ------------------------------------------------------------------------------------
     def test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero(self):
         a, b = self.nuevo('uno'), self.nuevo('dos')
-        self.mensajes(a, 6)
-        self.mensajes(b, 6)
+        for _ in range(6):  # intercalados: lo más nuevo está repartido entre los dos cambios
+            self.mensajes(a, 1)
+            self.mensajes(b, 1)
         datos = _tablero.cli_json(self.root, 'tablero', '--json')
         todos = [{**e, 'cambio': c['id']} for c in datos['cambios'] for e in c['linea_de_tiempo']]
         self.assertGreater(len(todos), 12)
@@ -111,6 +121,10 @@ class TableroEquipo(unittest.TestCase):
         self.assertEqual(cuando, sorted((e['cuando'] for e in todos), reverse=True)[:10])
         self.assertEqual(set(actividad[0]), {'cambio', 'cuando', 'accion', 'actor', 'tipo_actor'})
         self.assertEqual((actividad[0]['cambio'], actividad[0]['accion'], actividad[0]['actor']), (b, 'mensaje', 'claude-code'))
+        self.assertEqual({e['cambio'] for e in actividad}, {a, b})
+        self.assertEqual([e['cambio'] for e in actividad[:4]], [b, a, b, a])  # la alternancia se conserva, del más nuevo al más viejo
+        resto = [{k: e[k] for k in ('cambio', 'cuando', 'accion', 'actor', 'tipo_actor')} for e in sorted(todos, key=lambda e: e['cuando'], reverse=True)[:10]]
+        self.assertEqual(actividad, resto)
 
     def test_tbe2_un_cambio_cerrado_no_entra(self):
         cerrado = self.cambio_cerrado()
@@ -138,6 +152,28 @@ class TableroEquipo(unittest.TestCase):
         self.assertIn('Cerrado <small>c2</small>', seccion)
         self.assertLess(seccion.index('Ana'), seccion.index('Beto'))
         self.assertIn('Beto</b> ⚠', seccion)
+
+    def test_tbe2_una_accion_desconocida_se_escapa(self):
+        evento = {'cambio': 'c1', 'cuando': '2026-10-27T10:00:00+00:00', 'accion': '<u>rara</u>', 'actor': 'Ana', 'tipo_actor': 'persona'}
+        seccion = pagina(actividad=[evento])
+        seccion = seccion[seccion.index('<h4>Actividad reciente</h4>'):]
+        self.assertNotIn('<u>rara</u>', seccion)
+        self.assertIn('&lt;u&gt;rara&lt;/u&gt;', seccion)
+
+    def test_tbe2_el_orden_es_por_instante_aunque_el_huso_difiera(self):
+        # 10:30+02:00 es 08:30 UTC: más viejo que 09:00 UTC, aunque como texto sea mayor. Sin zona cuenta como UTC (08:45),
+        # no como la hora local de la máquina, que acá es Buenos Aires (UTC-3).
+        eventos = [('c1', '2026-10-27T10:30:00+02:00'), ('c2', '2026-10-27T09:00:00+00:00'), ('c3', '2026-10-27T08:45:00'),
+                   ('c4', 'no es una hora')]
+        raiz = self.nuevo('huso')
+        for ident, cuando in eventos:
+            ruta = self.root / '.factory/cambios' / raiz / 'factory.json'
+            registro = json.loads(ruta.read_text())
+            registro['eventos'].append({'cuando': cuando, 'accion': 'mensaje', 'actor': ident, 'tipo_actor': 'persona', 'texto': ident})
+            ruta.write_text(json.dumps(registro, indent=2))
+        with patch.dict(os.environ, {'TZ': 'America/Argentina/Buenos_Aires'}):
+            actividad = _tablero.cli_json(self.root, 'tablero', '--json')['proyecto']['actividad']
+        self.assertEqual([e['actor'] for e in actividad if e['actor'] in ('c1', 'c2', 'c3', 'c4')], ['c2', 'c3', 'c1', 'c4'])
 
     def test_tbe2_sin_actividad_la_pagina_lo_dice(self):
         self.assertIn('Sin actividad.', pagina())

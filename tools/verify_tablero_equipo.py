@@ -22,12 +22,15 @@ CONTRACTS = {
         'TableroEquipo.test_tbe1_un_cambio_de_otra_persona_se_rotula_con_su_nombre',
         'TableroEquipo.test_tbe1_el_cambio_mio_o_sin_responsable_sigue_te_necesita',
         'TableroEquipo.test_tbe1_lo_que_no_es_una_decision_no_cambia_de_rotulo',
+        'TableroEquipo.test_tbe1_una_decision_alternativa_tambien_dice_quien_la_decide',
         'TableroEquipo.test_tbe1_el_nombre_del_responsable_se_escapa'],
     'actividad_reciente_del_proyecto': [
         'TableroEquipo.test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero',
         'TableroEquipo.test_tbe2_un_cambio_cerrado_no_entra',
         'TableroEquipo.test_tbe2_sin_cambios_la_actividad_es_una_lista_vacia',
         'TableroEquipo.test_tbe2_la_pagina_muestra_la_actividad_y_escapa_el_registro',
+        'TableroEquipo.test_tbe2_una_accion_desconocida_se_escapa',
+        'TableroEquipo.test_tbe2_el_orden_es_por_instante_aunque_el_huso_difiera',
         'TableroEquipo.test_tbe2_sin_actividad_la_pagina_lo_dice'],
 }
 PREFIX = 'test_tablero_equipo.'

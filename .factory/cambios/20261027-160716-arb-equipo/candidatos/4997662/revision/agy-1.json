@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-equipo/.factory/local/revisiones/4997662-agy-1",
+  "base": "d2e31cbd2fdf57013fff895222f28826f2d2000b",
+  "head": "4997662297b3bbc375a839ab01e52d7b06013815",
+  "diff_sha256": "9c9dbe767003e4f2d34426cf821a3b5f97bfdee361a91e7bca3958171d940211",
+  "context_sha256": "4d9ddfb932cf003388347eaa53235b823e950226f8e8211943654da32737097e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "El checkout del candidato en .factory/local/revisiones/4997662-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-tablero-equipo/.venv/bin/python) desde la raíz del checkout para ejecutar las pruebas sin modificar el repositorio.",
+    "Se ejecutaron exclusivamente las suites indicadas: tests.test_tablero_equipo y tests.test_tablero, evitando la ejecución de la suite completa de pruebas según las indicaciones de revisión.",
+    "No se ejecutó directamente tools/verify_tablero_equipo.py debido a que invoca la suite completa de pruebas mediante discover().",
+    "El análisis de mutaciones se llevó a cabo en copias de trabajo aisladas en la carpeta del revisor (.factory/local/revisores/4997662-agy-1/scratch/), preservando el checkout en modo de solo lectura.",
+    "La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js; no se abrió el panel interactivo en un entorno gráfico VS Code real."
+  ],
+  "findings": [
+    {
+      "id": "agy-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_tbe2_la_pagina_muestra_la_actividad_y_escapa_el_registro no verifica el escapado de acciones no reconocidas o personalizadas",
+      "explanation": "El requisito actividad_reciente_del_proyecto establece en el escenario «la página la muestra» que «hay una sección «Actividad reciente» con cada evento, y el texto del registro está escapado». En editores/vscode/tablero.js:176 se incluye ${esc(ACCIONES[e.accion] || e.accion)}. Sin embargo, la prueba test_tbe2_la_pagina_muestra_la_actividad_y_escapa_el_registro solo suministra eventos con acciones fijas conocidas ('mensaje' y 'cierre'), cuyos textos mapeados en ACCIONES ('Mensaje' y 'Cerrado') carecen de caracteres especiales HTML. Ninguna prueba ejerce una acción que no pertenezca a ACCIONES o que contenga marcado (por ejemplo, '<custom>' o 'accion<1>'). Por ende, si se elimina esc() en editores/vscode/tablero.js:176 dejando ${ACCIONES[e.accion] || e.accion}, la mutación sobrevive y la suite de pruebas completa continúa pasando con código 0.",
+      "location": {
+        "file": "tests/test_tablero_equipo.py",
+        "start_line": 128,
+        "end_line": 142,
+        "side": "head"
+      },
+      "trigger": "Eliminar la llamada a esc() en editores/vscode/tablero.js:176 dejando ${ACCIONES[e.accion] || e.accion} y correr tests.test_tablero_equipo.",
+      "evidence": "Al evaluar con Node.js el componente con ${ACCIONES[e.accion] || e.accion} sin esc() sobre los datos de la prueba, todas las aserciones de test_tbe2_la_pagina_muestra_la_actividad_y_escapa_el_registro pasan sin errores.",
+      "related_requirement": "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+      "status": "pendiente",
+      "verification": "Reemplazar en editores/vscode/tablero.js:176 esc(ACCIONES[e.accion] || e.accion) por (ACCIONES[e.accion] || e.accion) y ejecutar PYTHONPATH=. python -m unittest tests.test_tablero_equipo; la prueba continúa pasando exitosamente."
+    },
+    {
+      "id": "agy-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero no prueba intercalación temporal entre cambios ni valida los 9 eventos restantes",
+      "explanation": "El requisito actividad_reciente_del_proyecto en el escenario «más de diez eventos» estipula: «GIVEN dos cambios abiertos con doce eventos entre los dos / WHEN se arma el tablero / THEN actividad trae los diez más nuevos, del más nuevo al más viejo, cada uno con cambio, acción, actor, tipo de actor y hora». En test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero, se crean el cambio a y sus 6 mensajes, y a continuación el cambio b y sus 6 mensajes. Dado que todos los mensajes de b se generaron con posterioridad a los de a, no existe intercalación temporal entre los eventos de ambos cambios. Asimismo, la prueba solo verifica la tupla (cambio, accion, actor) para actividad[0], omitiendo comprobar que los 9 eventos restantes contengan los campos esperados del evento correspondiente.",
+      "location": {
+        "file": "tests/test_tablero_equipo.py",
+        "start_line": 88,
+        "end_line": 103,
+        "side": "head"
+      },
+      "trigger": "Revisión de cobertura en test_tbe2_la_actividad_trae_los_diez_eventos_mas_nuevos_primero en tests/test_tablero_equipo.py:88-103.",
+      "evidence": "La aserción self.assertEqual((actividad[0]['cambio'], actividad[0]['accion'], actividad[0]['actor']), (b, 'mensaje', 'claude-code')) solo comprueba actividad[0]. Los eventos de a y b ocurren en dos bloques temporales separados sin alternancia.",
+      "related_requirement": "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+      "status": "pendiente",
+      "verification": "Examinar tests/test_tablero_equipo.py:88-103: observar que los mensajes se crean secuencialmente por cambio y que los atributos de actividad[1..9] no se comprueban."
+    },
+    {
+      "id": "agy-3",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "actividad ordena los eventos mediante comparación lexicográfica de cadenas en lugar de objetos datetime",
+      "explanation": "El requisito actividad_reciente_del_proyecto exige listar los diez eventos más recientes «del más nuevo al más viejo». En oracle_factory/tablero.py:265, la ordenación se implementa como key=lambda e: e['cuando'] or '', reverse=True. Esta comparación es puramente textual (alfabética). Si los registros contienen husos horarios heterogéneos (por ejemplo, eventos con offset +02:00 frente a eventos en UTC +00:00 o con sufijo Z), la comparación alfabética discrepa de la cronología real. Por ejemplo, '2026-10-27T10:30:00+02:00' (08:30 UTC) resulta alfabéticamente mayor que '2026-10-27T09:00:00+00:00' (09:00 UTC), por lo que con reverse=True se clasifica incorrectamente como más reciente. A pesar de que tablero.py define la función auxiliar _cuando() en la línea 25, no es empleada en la ordenación de actividad.",
+      "location": {
+        "file": "oracle_factory/tablero.py",
+        "start_line": 263,
+        "end_line": 266,
+        "side": "head"
+      },
+      "trigger": "Presencia de eventos con zonas horarias distintas o formatos ISO dispares entre cambios abiertos.",
+      "evidence": "Al ordenar [{'cuando': '2026-10-27T10:30:00+02:00'}, {'cuando': '2026-10-27T09:00:00+00:00'}] con key=lambda e: e['cuando'] or '' y reverse=True, el resultado ubica primero el evento de las 08:30 UTC.",
+      "related_requirement": "tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto",
+      "status": "pendiente",
+      "verification": "Ejecutar en Python: sorted([{'cuando': '2026-10-27T10:30:00+02:00'}, {'cuando': '2026-10-27T09:00:00+00:00'}], key=lambda e: e['cuando'] or '', reverse=True) y comprobar que el orden resultante invierte la precedencia cronológica."
+    },
+    {
+      "id": "agy-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Las pruebas de tbe1 no validan que las decisiones alternativas reciban el rótulo «LA DECIDE»",
+      "explanation": "El requisito el_tablero_dice_a_quien_necesita exige rotular la decisión pendiente de un cambio ajeno como decidida por su responsable. En editores/vscode/tablero.js:163, el argumento dueno se propaga tanto a proximo_paso como a alternativas: ${c.alternativas.map(a => paso(a, true, dueno)).join('')}. En flujos habituales (por ejemplo, con hallazgos de revisor pendientes), la acción oracle-factory revisar aparece en alternativas. No obstante, el arnés de prueba de Node en tests/test_tablero_equipo.py:21 define alternativas: [], por lo que ninguna prueba de tbe1 valida que una alternativa con decision_de_la_persona=True se rotule con «LA DECIDE». Si se elimina dueno del mapeo de alternativas en tablero.js:163, todas las pruebas de la suite siguen pasando sin advertirlo.",
+      "location": {
+        "file": "tests/test_tablero_equipo.py",
+        "start_line": 17,
+        "end_line": 24,
+        "side": "head"
+      },
+      "trigger": "Modificar editores/vscode/tablero.js:163 para omitir dueno en alternativas: ${c.alternativas.map(a => paso(a, true)).join('')} y ejecutar la suite de pruebas.",
+      "evidence": "Al retirar dueno en alternativas en tablero.js:163, tests.test_tablero_equipo y tests.test_tablero pasan completamente con 17 pruebas exitosas (código 0).",
+      "related_requirement": "tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita",
+      "status": "pendiente",
+      "verification": "Mutar editores/vscode/tablero.js:163 pasando paso(a, true) en vez de paso(a, true, dueno) y ejecutar PYTHONPATH=. python -m unittest tests.test_tablero_equipo tests.test_tablero; verificar que ningún test falla."
+    }
+  ]
+}
