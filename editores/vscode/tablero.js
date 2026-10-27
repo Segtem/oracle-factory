@@ -37,10 +37,19 @@ function abrir(archivo, linea, texto) {
 
 function paso(p, comoAlternativa) {
     if (!p) return '';
+    // Un comando de Factory se copia o se escribe en la terminal; lo demás es una explicación y se lee como texto.
     const boton = p.comando ? `<button type="button" class="terminal" data-comando="${esc(p.comando)}">Escribir en la terminal</button>` : '';
+    const rotulo = p.decision_de_la_persona ? 'TE NECESITA' : !p.comando ? 'QUÉ HACER' : comoAlternativa ? 'TAMBIÉN' : 'LO QUE SIGUE';
     return `<div class="paso${p.decision_de_la_persona ? ' tuya' : ''}${comoAlternativa ? ' alternativa' : ''}">
-<p class="etiqueta">${p.decision_de_la_persona ? 'TE NECESITA' : comoAlternativa ? 'TAMBIÉN' : 'LO QUE SIGUE'}</p>
-<p><code>${esc(p.texto)}</code></p>${boton}</div>`;
+<p class="etiqueta">${rotulo}</p>
+<p>${p.comando ? `<code>${esc(p.texto)}</code>` : esc(p.texto)}</p>${boton}</div>`;
+}
+
+// Lo que falta para cerrar el cambio, en el orden de `estado`.
+function faltante(cambio) {
+    const lista = cambio.pendientes || [];
+    return lista.length ? `<ul class="faltante">${lista.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`
+        : '<p class="vacio">Nada falta: el cambio no tiene pendientes.</p>';
 }
 
 function etapas(cambio) {
@@ -149,6 +158,7 @@ function cambio(c, s) {
     return `<section class="cambio" data-cambio="${esc(c.id)}">
 <header><h2>${esc(c.titulo)}</h2><p class="id">${esc(c.id)} · ${esc(c.fase)} · modo ${esc(c.modo)}${c.candidato ? ` · candidato ${esc(c.candidato)}` : ''}</p>${etapas(c)}</header>
 ${quien(c)}${paso(c.proximo_paso, false)}${c.alternativas.map(a => paso(a, true)).join('')}${avisos}
+<h3>Qué falta</h3>${faltante(c)}
 <h3>Hallazgos</h3>${hallazgos(c)}
 <h3>Requisitos</h3>${requisitos(c)}
 <h3>Commits (${(c.commits || []).length})</h3>${commits(c)}
@@ -190,7 +200,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;p
 .metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}.metricas ul{margin:0;padding-left:18px}.metricas p{margin:0}
 .barra{display:flex;height:16px;margin-top:6px;border:1px solid var(--vscode-panel-border,#555)}.barra span{font-size:10px;text-align:center;color:#fff;overflow:hidden}
 .barra .sev-critica{background:#7f1d1d}.barra .sev-alta{background:#d32f2f}.barra .sev-media{background:#d97706}.barra .sev-baja{background:#2563eb}.barra .sev-informativa{background:#6b7280}
-.revisores{list-style:none;padding:0}.requisitos{padding-left:18px}.requisitos li{margin:4px 0}.quien{opacity:.75;font-size:12px}
+.faltante{margin:0;padding-left:18px}.revisores{list-style:none;padding:0}.requisitos{padding-left:18px}.requisitos li{margin:4px 0}.quien{opacity:.75;font-size:12px}
 .linea{list-style:none;padding:0;font-size:13px}.linea li{padding:4px 0 4px 10px;border-left:3px solid var(--vscode-panel-border,#555)}.linea li.actor-persona{border-left-color:var(--vscode-charts-green,#2e7d32)}.linea li.actor-agente{border-left-color:var(--vscode-charts-blue,#2563eb)}.linea li.actor-sin_identificar{border-left-color:var(--vscode-charts-orange,#d97706)}
 .linea time{font-family:var(--vscode-editor-font-family);opacity:.7}.linea small{display:block;opacity:.8}.vacio{opacity:.7}
 .quien{margin:8px 0}.quien p{margin:0}.quien ul{margin:4px 0 0;padding-left:18px;font-size:13px}

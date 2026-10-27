@@ -1,0 +1,8 @@
+medida factory_tablero_bloqueos.instruccion_distinta_de_comando:
+    de tablero_bloqueos_caso c
+    donde c.requisito == "instruccion_distinta_de_comando" y c.codigo == 0
+    resumen contar(1)
+    umbral == 4 segun contrato porque "deben pasar los 4 casos enumerados para este requisito en tools/verify_tablero_bloqueos.py; asociar junto a corrida_completa"
+    requiere tablero_bloqueos_caso
+    ambito universal
+    alcance "escenarios tbb2 de la página del tablero, en node con datos de un cambio, Linux"
