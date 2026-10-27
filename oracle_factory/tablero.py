@@ -162,6 +162,36 @@ def metricas_del_cambio(estado: dict, todos_los_informes: list[dict], cumplidos:
     }
 
 
+# La frase de cada comando para quien no sabe qué hace; un comando que no está aquí se muestra tal cual.
+FRASES = {"importar": "Importar los requisitos de la spec", "pedir-revision": "Pedir la revisión independiente",
+          "revision-preparar": "Preparar el informe de la revisión", "juzgar": "Correr Oracle sobre la evidencia",
+          "tomar": "Tomar el cambio", "aprobar-spec": "Aprobar la propuesta y la spec", "revisar": "Revisar el cambio y decidir",
+          "cerrar": "Cerrar el cambio", "abandonar": "Abandonar el cambio"}
+# Lo que dice cada pendiente de `estado` y quién lo hace; lo que no calza queda con su texto y sin responsable.
+PENDIENTES = ((r"^aprobación humana de spec$", "Aprobar la propuesta y la spec", "persona"),
+              (r"^aceptación de spec$", "Aceptar la spec", "agente"),
+              (r"^importación OpenSpec", "Importar los requisitos de la spec", "agente"),
+              (r"^revisión humana aprobada", "Revisar el cambio y decidir si se aprueba", "persona"),
+              (r"^revisión aprobada", "Aprobar la revisión", "agente"),
+              (r"^veredicto Oracle", "Correr Oracle sobre la evidencia", "agente"),
+              (r"^medidas de .* sin confirmar por una persona$", "Confirmar las medidas que propuso un agente", "persona"),
+              (r"^medidas de .* las decide una persona$", "Elegir las medidas (las decide una persona)", "persona"),
+              (r"sin confirmar por una persona$", "Confirmar lo que propuso un agente", "persona"))
+
+
+def _faltan(pendientes: list[str]) -> list[dict]:
+    """Cada pendiente con su frase y quién lo hace (persona o agente); None si no se sabe."""
+    salida = []
+    for texto in pendientes:
+        for patron, frase, quien in PENDIENTES:
+            if re.search(patron, texto):
+                salida.append({"texto": texto, "humano": frase, "quien": quien})
+                break
+        else:
+            salida.append({"texto": texto, "humano": texto, "quien": None})
+    return salida
+
+
 def _paso(texto: str | None) -> dict | None:
     if not texto:
         return None
@@ -170,7 +200,9 @@ def _paso(texto: str | None) -> dict | None:
     verbo = partes[1] if len(partes) > 1 else None
     # medir decide sólo con --confirmar; --listar muestra lo que hay para que un agente proponga
     decide = verbo in DECISIONES and (verbo != "medir" or "--confirmar" in partes)
-    return {"texto": texto, "comando": comando, "decision_de_la_persona": decide}
+    humano = ("Confirmar las medidas" if verbo == "medir" and decide else "Ver qué medidas elegir" if verbo == "medir"
+              else FRASES.get(verbo, texto))
+    return {"texto": texto, "comando": comando, "decision_de_la_persona": decide, "humano": humano}
 
 
 def _cumplidos(raiz: Path, oracle: dict | None, requisitos: list[str]) -> int | None:
@@ -251,7 +283,7 @@ def armar(cli) -> dict:
             "id": ident, "titulo": datos["titulo"], "fase": datos["fase"], "modo": datos["modo"],
             "capacidad": datos["capacidad"], "candidato": sha,
             "proximo_paso": _paso(datos["proximo_paso"]), "alternativas": [_paso(a) for a in datos["alternativas"]],
-            "pendientes": datos["pendientes"], "avisos": datos["avisos"],
+            "pendientes": datos["pendientes"], "faltan": _faltan(datos["pendientes"]), "avisos": datos["avisos"],
             "linea_de_tiempo": [{"cuando": e.get("cuando"), "accion": e.get("accion"), "actor": e.get("actor"),
                                  "tipo_actor": e.get("tipo_actor"), "forma": e.get("forma"),
                                  "detalle": {k: v for k, v in e.items()
