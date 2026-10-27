@@ -7,3 +7,7 @@
 ### Nota (2026-10-27 14:09:46 UTC)
 
 OpenSpec: openspec/changes/20261027-140946-d48-bloqueos. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-27 14:55:10 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md; se reiniciaron las validaciones dependientes.

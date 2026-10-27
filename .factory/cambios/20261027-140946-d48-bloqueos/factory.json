@@ -2,10 +2,20 @@
   "id": "20261027-140946-d48-bloqueos",
   "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
   "capacidad": "tablero",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T14:55:10.585817+00:00",
+    "documentos": {
+      "openspec/changes/20261027-140946-d48-bloqueos/proposal.md": "47d215acf483cf420c557c4173a034b9d9285457b7b02e6feaadb2325b713b46",
+      "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-27T14:09:46.758674+00:00",
       "capacidad": "tablero"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T14:55:10.585837+00:00",
+      "documentos": {
+        "openspec/changes/20261027-140946-d48-bloqueos/proposal.md": "47d215acf483cf420c557c4173a034b9d9285457b7b02e6feaadb2325b713b46",
+        "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
