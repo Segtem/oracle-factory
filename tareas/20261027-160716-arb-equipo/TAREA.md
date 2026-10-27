@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-27 16:07:57 UTC)
 
 Requisitos importados: tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto (funcional), tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-27 16:09:55 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita: factory_tablero_equipo.el_tablero_dice_a_quien_necesita, factory_tablero_equipo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 16:09:56 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto: factory_tablero_equipo.actividad_reciente_del_proyecto, factory_tablero_equipo.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

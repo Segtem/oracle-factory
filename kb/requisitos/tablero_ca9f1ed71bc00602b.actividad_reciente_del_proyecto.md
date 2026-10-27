@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261027-160716-arb-equipo]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «más de diez eventos», «la página la muestra», «un cambio cerrado no entra»
+- Medidas: `factory_tablero_equipo.actividad_reciente_del_proyecto`, `factory_tablero_equipo.corrida_completa`
 - Fuente: openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md#actividad_reciente_del_proyecto
 
 Tipo: funcional The system SHALL list the latest ten events across the open changes, newest first, with who did what, in which change and when.
