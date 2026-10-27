@@ -1,0 +1,24 @@
+{
+  "id": "20261027-200012-41p-quienhace",
+  "titulo": "El tablero dice qué hace cada quien y cuándo no te toca nada",
+  "capacidad": "tablero",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T20:00:12.476826+00:00",
+      "capacidad": "tablero"
+    }
+  ]
+}
