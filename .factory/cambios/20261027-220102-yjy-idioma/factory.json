@@ -214,6 +214,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "9498d2f9dc69"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:35:32.995942+00:00",
+      "decision": "aprobar",
+      "candidato": "e0adc5b"
     }
   ],
   "tipos": {
@@ -271,5 +281,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Una vuelta de agy y agy2, sin hallazgos. 554 pruebas y 10 casos de contrato en verde, 17 mutaciones detectadas. Límites: sólo es y en; no se traducen la CLI, la documentación ni el tablero; no hay configuración global del usuario. Cambia el idioma por defecto de la plantilla a español.",
+      "candidato": "e0adc5b",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T22:35:32.995929+00:00"
+    }
+  }
 }
