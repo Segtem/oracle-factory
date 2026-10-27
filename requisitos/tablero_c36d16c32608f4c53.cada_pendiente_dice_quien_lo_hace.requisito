@@ -1,4 +1,4 @@
 requisito tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace:
     texto "Tipo: funcional The system SHALL give each pending item of a change a plain-language sentence and who does it, a person or an agent, and keep showing unrecognized items with their original text and no owner."
     fuente "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md#cada_pendiente_dice_quien_lo_hace"
-    sin_medir "sin medida todavía; escenarios: «los pendientes de un cambio recién aprobado», «una propuesta sin confirmar», «un pendiente que Factory no reconoce», «la página los marca»"
+    medido_por factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace, factory_tablero_quien_hace.corrida_completa
