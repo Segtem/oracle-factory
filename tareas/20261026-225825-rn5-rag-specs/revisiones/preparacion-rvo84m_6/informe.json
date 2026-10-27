@@ -1,0 +1,113 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261026-225825-rn5-rag-specs",
+  "contexto": {
+    "head": "4749373188e0846b73c788186833e45da77b1ab7",
+    "archivos_sha256": "2cde0adee319addd99428f3b5caca233a3f1315a0a8548156883a8d0846b3b1c"
+  },
+  "documentos": {
+    "openspec/changes/20261026-225825-rn5-rag-specs/proposal.md": "4e9314b3ff8b7f870d34366eb260477664fa0ac5275d1fa434f39364318af07b",
+    "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_rag_specs.contar_y_listar_specs.oracle",
+    "catalogos/factory_rag_specs.corrida_completa.oracle",
+    "catalogos/factory_rag_specs.filtro_de_specs_no_admitido.oracle",
+    "catalogos/factory_rag_specs.las_demas_preguntas_no_cambian.oracle",
+    "docs/conocimiento.md",
+    "openspec/changes/20261026-225825-rn5-rag-specs/design.md",
+    "openspec/changes/20261026-225825-rn5-rag-specs/proposal.md",
+    "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md",
+    "openspec/changes/20261026-225825-rn5-rag-specs/tasks.md",
+    "oracle_factory/consultas.py",
+    "requisitos/conocimiento_c6dd9c535b1df9607.contar_y_listar_specs.requisito",
+    "requisitos/conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido.requisito",
+    "requisitos/conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian.requisito",
+    "tests/test_rag_specs.py",
+    "tools/verify_rag_specs.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 510 pruebas, 18 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/07511bb/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/07511bb/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/07511bb/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 84f98b2: agy (gemini-3.8-flash-high), 5 hallazgos: GY-01 (alta), GY-02 (alta), GY-03 (media), GY-04 (media), GY-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/84f98b2/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 84f98b2: agy (gemini-3.8-flash-high), 5 hallazgos: H01 (alta), H02 (alta), H03 (media), H04 (media), H05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/84f98b2/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c1d27f5: agy (gemini-3.8-flash-high), 3 hallazgos: GY-01 (alta), GY-02 (media), GY-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/c1d27f5/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c1d27f5: agy (gemini-3.8-flash-high), 3 hallazgos: GY-01 (alta), GY-02 (media), GY-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/c1d27f5/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6fd3d3d: agy (gemini-3.8-flash-high), 2 hallazgos: GY-01 (media), GY-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/6fd3d3d/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 6fd3d3d: agy (gemini-3.8-flash-high), 1 hallazgo: AGY-01 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/6fd3d3d/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b5c25be: agy (gemini-3.8-flash-high), 2 hallazgos: AGY-01 (media), AGY-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/b5c25be/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato b5c25be: agy (gemini-3.8-flash-high), 2 hallazgos: GY-01 (media), GY-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/b5c25be/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 985fd7f: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/985fd7f/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 985fd7f: agy (gemini-3.8-flash-high), 2 hallazgos: AGY-01 (media), AGY-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261026-225825-rn5-rag-specs/candidatos/985fd7f/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios rs1–rs4 en repositorios temporales, Linux, con Oracle 0.38.2 real y sin modelo generativo ni embeddings: el conteo y la lista de specs vigentes y de cambios abiertos, los filtros no admitidos y la no regresión de cambios. No cubre preguntas compuestas con un modelo generativo configurado.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa de forma rutinaria.",
+    "agy (gemini-3.8-flash-high): No se invocaron servidores externos ni modelos generativos de LLM ni embeddings remotos (configuración de embeddings en 'ninguno').",
+    "agy (gemini-3.8-flash-high): Las pruebas de mutación manual sobre las palabras funcionales ('unos', 'unas', 'un', 'una', 'ese', 'esa', 'esos', 'esas', 'por', 'para', 'del', 'al', 'esta', 'estos', 'estas', 'a') y los casos de borde se ejecutaron de forma aislada en copias locales en scratch sin modificar el checkout candidato de sólo lectura; todas las mutaciones fueron eliminadas por los casos de prueba de tests/test_rag_specs.py.",
+    "agy (gemini-3.8-flash-high): Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): No se detectaron hallazgos abiertos: se verificó que las correcciones de la vuelta 5 (incorporación de artículos indefinidos plurales 'unos'/'unas' en permitidas de oracle_factory/consultas.py, y los casos de prueba de cobertura en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan de tests/test_rag_specs.py) resuelven completamente los defectos previos, sin inducir regresiones en preguntas sobre cambios o tareas ni enmascarar consultas documentales legítimas.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa.",
+    "agy (gemini-3.8-flash-high): No se invocaron servicios de inferencia LLM externos ni servidores de embeddings remotos (configuración de embeddings en 'ninguno').",
+    "agy (gemini-3.8-flash-high): Las pruebas de mutación manual (comprobación de palabras funcionales en permitidas, omisión de filtros de cambios/fases en specs(), verificación de metadatos de criterio y huella sha256, y salvaguardas de ruta_segura) se ejecutaron de forma aislada en copias locales en scratch sin alterar el árbol de trabajo del checkout candidato de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.",
+    "agy (gemini-3.8-flash-high): No se detectaron hallazgos abiertos: en esta vuelta 6 se incorporaron las formas plurales del artículo indefinido ('unos', 'unas') a permitidas en consultas.py, y se añadieron en tests/test_rag_specs.py casos de prueba que cubren cada una de las palabras funcionales ('un', 'una', 'unos', 'unas', 'por', 'para', 'ese', 'esa', 'esos', 'esas'). Las pruebas de mutación confirmaron que la supresión de cualquiera de estas palabras es ahora detectada por los tests, y se comprobó que ninguna consulta documental de las preguntas de oro ni consultas mixtas con tareas/cambios sufren regresiones ni falsos positivos."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
