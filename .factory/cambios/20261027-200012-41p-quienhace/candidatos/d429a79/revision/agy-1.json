@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-quien-hace/.factory/local/revisiones/d429a79-agy-1",
+  "base": "532dd991e484f4d41a31568c1adbdbd65b080b5d",
+  "head": "d429a7907bd49b1bded7125ec70ee7ba03324393",
+  "diff_sha256": "45cfab2b11f9899b2235902efe8ce70f18b8d938857163d65eeebe08777bf0bc",
+  "context_sha256": "d8fa98568114b0d4c103f9a29f2aae101c3392edc3a87af843d72416d7399335",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Contraste del candidato d429a79 frente a la propuesta (proposal.md), spec (openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md), diseño (design.md), diff del paquete Clue (paquete-agy-1.json), oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_quien_hace.py, tests/test_tablero.py, tools/verify_tablero_quien_hace.py, catalogos/factory_tablero_quien_hace.*.oracle, requisitos/tablero_c36d16c32608f4c53.*.requisito y docs/tablero.md.",
+    "El checkout de sólo lectura en .factory/local/revisiones/d429a79-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python) sin editar el checkout ni alterar su configuración de Git.",
+    "Se ejecutaron en primer plano exactamente las suites indicadas: tests.test_tablero_quien_hace y tests.test_tablero mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python -m unittest tests.test_tablero_quien_hace tests.test_tablero </dev/null` (18 pruebas, 0 errores, 0 fallas), omitiendo deliberadamente la suite completa conforme a las instrucciones.",
+    "No se ejecutó directamente tools/verify_tablero_quien_hace.py dado que su método discover ejecutaría la suite completa de pruebas; se verificó estáticamente su correspondencia exacta con los 12 casos contractuales (8 para cada_pendiente_dice_quien_lo_hace y 4 para ahora_no_te_toca_nada), sus umbrales en los catálogos Oracle respectivos (8, 4 y corrida_completa con 12) y su validación léxica mediante oracle_metalenguaje.",
+    "Se verificó la compatibilidad hacia atrás del esquema de datos: tablero.py mantiene intacto el campo `pendientes` y suma `faltan`, mientras que `proximo_paso` y `alternativas` agregan `humano` preservando los campos existentes; la prueba test_mcp pasa exitosamente y editores/vscode/tablero.js contempla la degradación elegante a `pendientes` si `faltan` está ausente.",
+    "Se analizó exhaustivamente la clasificación de expresiones regulares de PENDIENTES frente a todas las cadenas generadas por pendientes() y pendientes_actuales() en oracle_factory/cli.py, confirmando que todos los pendientes conocidos son catalogados correctamente según el modo (incluyendo modo autónomo con aceptación de spec y aprobación de revisión por agente) y que textos no reconocidos o discrepancias de integridad conservan su texto original y quedan sin responsable (`quien: null`).",
+    "Se comprobó que el aviso «Ahora no te toca nada» aparece únicamente cuando el próximo paso es un comando a ejecutar por un agente y el cambio no pertenece a otra persona (`!dueno && p && p.comando && !p.decision_de_la_persona`), no apareciendo ante decisiones de personas, explicaciones en texto ni cambios con responsable ajeno.",
+    "Se verificó el correcto escapado HTML mediante `esc()` en tablero.js tanto para frases de pendientes (`esc(x.humano || x.texto)`) como para la frase del paso en el aviso (`esc(p.humano || p.texto)`), evitando cualquier inyección XSS.",
+    "Se ejecutó un análisis de pruebas de mutación sobre 13 variantes manuales en una copia aislada (eliminación de frase humana, alteración de patrones de PENDIENTES, cambio de actores asignados, omisión del campo faltan en armar, eliminación de etiquetas y avisos en tablero.js, omisión de escapado y omisión del fallback a pendientes). Las 13 mutaciones fueron detectadas y eliminadas (KILLED) por las pruebas unitarias.",
+    "No se encontraron defectos ni incumplimientos de la especificación en el candidato; la lista de hallazgos (findings) queda vacía."
+  ],
+  "findings": []
+}

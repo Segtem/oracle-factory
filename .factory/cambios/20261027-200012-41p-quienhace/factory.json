@@ -1,0 +1,320 @@
+{
+  "id": "20261027-200012-41p-quienhace",
+  "titulo": "El tablero dice qué hace cada quien y cuándo no te toca nada",
+  "capacidad": "tablero",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md",
+  "spec_sha256": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T20:01:05.419513+00:00",
+    "documentos": {
+      "openspec/changes/20261027-200012-41p-quienhace/proposal.md": "6130ada15077f3e49292425787403cb7d34fc80dc02db6754091e4c4d2e84daf",
+      "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53"
+    }
+  },
+  "requisitos": [
+    "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+    "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/informe.json",
+    "sha256": "2ab5ab68f1ffb2424281dec26aaccbf16f39aaecc88b8fb39c1b14a97fb883d5",
+    "decisiones": "tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/decisiones.json",
+    "decisiones_sha256": "d0da3206f9fbecb9cf0cb610cb290aec06c77d461645dc40bee68b3c6b1a01de",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T21:43:47.056101+00:00",
+    "motivo": "Apruebo el candidato d429a79; 0 hallazgos de los revisores; evidencia del candidato: 544 pruebas, 12 casos de contrato.",
+    "origen_motivo": "armado",
+    "contexto": {
+      "head": "8e12807405bf7d73c6723eb5da6d1bea8a57270e",
+      "archivos_sha256": "366d8fb83bbf10858bfc4736c06f145505bd8af9e25f9bf8352c80c38c566ddd"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-200012-41p-quienhace/candidatos/d429a79/evidencia/hechos.json",
+    "hechos_sha256": "167c35dc32945a6dec5cc510a1a254dcbc0b8a8c2e79f48c460a5cdf22166041",
+    "informe": ".factory/cambios/20261027-200012-41p-quienhace/oracle-veredicto.txt",
+    "informe_sha256": "a2997b8b1a15d38f043e21cd6413813a38bd3e97c26553ee82b6da66a3f9dbdc",
+    "cuando": "2026-10-27T21:44:03.363003+00:00",
+    "contexto": {
+      "head": "4b298354894648d8a1e995d1fe2e6bc755b79a79",
+      "archivos_sha256": "366d8fb83bbf10858bfc4736c06f145505bd8af9e25f9bf8352c80c38c566ddd"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T20:00:12.476826+00:00",
+      "capacidad": "tablero"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T20:01:05.419543+00:00",
+      "documentos": {
+        "openspec/changes/20261027-200012-41p-quienhace/proposal.md": "6130ada15077f3e49292425787403cb7d34fc80dc02db6754091e4c4d2e84daf",
+        "openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md": "2eac541bdf00e2d38585d32e4bbf5f5522b9349e6dd6163359a6aa4cf728ad53"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T20:01:17.060572+00:00",
+      "ids": [
+        "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+        "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T20:04:18.927255+00:00",
+      "requisito": "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace",
+      "medidas": [
+        "factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace",
+        "factory_tablero_quien_hace.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T20:04:20.004369+00:00",
+      "requisito": "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+      "medidas": [
+        "factory_tablero_quien_hace.ahora_no_te_toca_nada",
+        "factory_tablero_quien_hace.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T20:04:57.544337+00:00",
+      "requisito": "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada",
+      "medidas": [
+        "factory_tablero_quien_hace.ahora_no_te_toca_nada",
+        "factory_tablero_quien_hace.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T20:04:57.678458+00:00",
+      "requisito": "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace",
+      "medidas": [
+        "factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace",
+        "factory_tablero_quien_hace.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T20:09:50.562853+00:00",
+      "revisor": "agy",
+      "candidato": "d429a79",
+      "lanzamiento": "f484df4f3ecb"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T20:09:50.585749+00:00",
+      "revisor": "agy2",
+      "candidato": "d429a79",
+      "lanzamiento": "c6af7c2ade16"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T20:24:15.779660+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d429a79",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f484df4f3ecb"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T20:26:34.368454+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "d429a79",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "c6af7c2ade16"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T20:26:48.289610+00:00",
+      "decision": "aprobar",
+      "candidato": "d429a79"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T21:34:54.370146+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2ab5ab68f1ffb2424281dec26aaccbf16f39aaecc88b8fb39c1b14a97fb883d5",
+      "decisiones_sha256": "5fe9384eab80600e97cf549b8ccfe98bd7d8af60feb8743b8b0eacf439126d9a"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T21:43:47.056129+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2ab5ab68f1ffb2424281dec26aaccbf16f39aaecc88b8fb39c1b14a97fb883d5",
+      "decisiones_sha256": "d0da3206f9fbecb9cf0cb610cb290aec06c77d461645dc40bee68b3c6b1a01de"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T21:44:03.363021+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "167c35dc32945a6dec5cc510a1a254dcbc0b8a8c2e79f48c460a5cdf22166041"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T21:44:42.212881+00:00",
+      "oracle": ".factory/cambios/20261027-200012-41p-quienhace/oracle-veredicto.txt",
+      "revision": "tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T21:44:42.240752+00:00",
+      "capacidad": "tablero",
+      "spec": "openspec/specs/tablero/spec.md"
+    }
+  ],
+  "tipos": {
+    "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada": "funcional",
+    "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace": "funcional"
+  },
+  "medidas": {
+    "tablero_c36d16c32608f4c53.ahora_no_te_toca_nada": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T20:04:57.514453+00:00",
+      "sha256": "c1ae4c8b1829e6556228d4696a6431da620ea8199507d4f41df87b4b6623e647",
+      "catalogos": {
+        "factory_tablero_quien_hace.ahora_no_te_toca_nada": "cf0d1946ddbb047d72d6cf36c288af9c4b4cc97d270d7acac12c784bbab05f50",
+        "factory_tablero_quien_hace.corrida_completa": "70b5de3f3a7c9e998847746f07cdaaa38aa6f8563a4e972b14439718c91909be"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_quien_hace.ahora_no_te_toca_nada": "catalogos/factory_tablero_quien_hace.ahora_no_te_toca_nada.oracle",
+        "factory_tablero_quien_hace.corrida_completa": "catalogos/factory_tablero_quien_hace.corrida_completa.oracle"
+      }
+    },
+    "tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T20:04:57.645944+00:00",
+      "sha256": "16963aa76cb1a524ad4ab4e587f3a45e12e4c17398bb9b9fdb2ca7a317a5ea4e",
+      "catalogos": {
+        "factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace": "c72712b3de9322990fa0f4c881e2f1356c68bc1330237660f59a891ba10b2955",
+        "factory_tablero_quien_hace.corrida_completa": "70b5de3f3a7c9e998847746f07cdaaa38aa6f8563a4e972b14439718c91909be"
+      },
+      "archivos_catalogo": {
+        "factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace": "catalogos/factory_tablero_quien_hace.cada_pendiente_dice_quien_lo_hace.oracle",
+        "factory_tablero_quien_hace.corrida_completa": "catalogos/factory_tablero_quien_hace.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T21:44:42.153303+00:00"
+  },
+  "archivo": {
+    "capacidad": "tablero",
+    "spec": "openspec/specs/tablero/spec.md",
+    "cuando": "2026-10-27T21:44:42.240740+00:00"
+  }
+}

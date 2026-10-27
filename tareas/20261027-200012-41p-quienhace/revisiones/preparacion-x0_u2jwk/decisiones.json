@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "2ab5ab68f1ffb2424281dec26aaccbf16f39aaecc88b8fb39c1b14a97fb883d5",
+  "actor": "Brian Hollweg",
+  "motivo": "Una vuelta de agy y agy2, sin hallazgos. 544 pruebas y 12 casos de contrato en verde, 21 mutaciones detectadas. Límites: la clasificación de pendientes es por patrones sobre el texto de estado, así que un pendiente nuevo sin patrón queda sin responsable; se prueba el HTML que arma el tablero, no el panel abierto en VS Code.",
+  "decisiones": []
+}

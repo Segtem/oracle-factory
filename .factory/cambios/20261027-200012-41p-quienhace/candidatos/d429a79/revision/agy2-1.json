@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-quien-hace/.factory/local/revisiones/d429a79-agy2-1",
+  "base": "532dd991e484f4d41a31568c1adbdbd65b080b5d",
+  "head": "d429a7907bd49b1bded7125ec70ee7ba03324393",
+  "diff_sha256": "45cfab2b11f9899b2235902efe8ce70f18b8d938857163d65eeebe08777bf0bc",
+  "context_sha256": "adf9b4fa02b72eafa1788768de0bbb19e9f1bb22d1d75dae0ce6d1a7a1f04aff",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto revisado: revisión independiente de vuelta 1 para el cambio 20261027-200012-41p-quienhace en el candidato d429a79 frente a base 532dd991, según proposal.md y openspec/changes/20261027-200012-41p-quienhace/specs/tablero/spec.md. Se analizaron todos los archivos del diff: oracle_factory/tablero.py, editores/vscode/tablero.js, tests/test_tablero_quien_hace.py, tests/test_tablero.py, tools/verify_tablero_quien_hace.py, catalogos/factory_tablero_quien_hace.*.oracle, requisitos/tablero_c36d16c32608f4c53.*.requisito y docs/tablero.md.",
+    "Entorno de pruebas y ejecución en checkout: el checkout de sólo lectura en .factory/local/revisiones/d429a79-agy2-1 no poseía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal del repositorio (/home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python) sin realizar ninguna modificación en el checkout ni en la configuración de Git.",
+    "Ejecución de pruebas unitarias: se ejecutaron en primer plano exactamente las suites solicitadas desde la raíz del checkout mediante `PYTHONPATH=. /home/workstation/Dev/factory-tablero-quien-hace/.venv/bin/python -m unittest tests.test_tablero_quien_hace tests.test_tablero </dev/null` (18 pruebas, 0 fallas, 0 errores). Conforme a las instrucciones, no se ejecutó la suite completa de pruebas ni se ejecutó directamente tools/verify_tablero_quien_hace.py (que dispara descubrimiento de toda la suite); se comprobó estáticamente la consistencia exacta de verify_tablero_quien_hace.py, sus 12 casos en CONTRACTS y los umbrales de los catálogos Oracle correspondientes.",
+    "Análisis de mutaciones manuales: se ejecutaron 23 mutaciones controladas en una copia aislada en la carpeta del revisor (.factory/local/revisores/d429a79-agy2-1/mutaciones/): alteración y eliminación de patrones de PENDIENTES, inversión de roles persona/agente, mutación de frases de comandos en FRASES y en _paso, omisión del campo humano en _paso, eliminación del campo faltan en armar, mutación de condiciones lógicas en nadaPorHacer (!dueno, p.comando, !p.decision_de_la_persona), inversión de orden entre nadaPorHacer y faltante, omisión de la caída a pendientes cuando falta faltan, y alteración de los escapes HTML y etiquetas tuyo/de un agente. Las 23 mutaciones fueron detectadas y eliminadas por la suite de pruebas.",
+    "Verificación de clasificación y robustez: se contrastaron todos los textos generados por pendientes() y pendientes_actuales() en oracle_factory/cli.py (aprobación/aceptación de spec, importación OpenSpec, revisión humana/aprobada, veredicto Oracle, propuestas sin confirmar por una persona, medidas elegidas/decididas por una persona, requisitos sin decisión, catálogos alterados, revisiones/juicios desactualizados, artefactos ausentes o inválidos). Los patrones clasifican correctamente los ítems conocidos asignando 'persona' o 'agente' y su frase respectiva, mientras que los ítems técnicos o de error caen ordenadamente en quien: None conservando su texto original.",
+    "Seguridad y compatibilidad del JSON: se comprobó que todo texto proveniente del registro o de datos externos se escapa sistemáticamente mediante esc() en editores/vscode/tablero.js (evitando cualquier inyección HTML/XSS). El esquema del JSON 'oracle-factory.tablero/1' conserva retrocompatibilidad total agregando los campos nuevos ('faltan', 'humano') sin alterar campos existentes ('pendientes', 'proximo_paso', etc.).",
+    "Sin hallazgos: no se detectaron defectos, incumplimientos de la spec ni mutantes vivos; la lista findings queda vacía."
+  ],
+  "findings": []
+}

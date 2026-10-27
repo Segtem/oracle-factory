@@ -65,8 +65,8 @@ class Tablero(unittest.TestCase):
         self.assertEqual(cambio['id'], self.ident)
         # Con un medio abierto: corregir (no es un comando) o revisar, que es una decisión de la persona.
         paso, revisar = f.pasos(self.ident)
-        self.assertEqual(cambio['proximo_paso'], {'texto': paso, 'comando': None, 'decision_de_la_persona': False})
-        self.assertEqual(cambio['alternativas'], [{'texto': revisar, 'comando': revisar, 'decision_de_la_persona': True}])
+        self.assertEqual(cambio['proximo_paso'], {'texto': paso, 'comando': None, 'decision_de_la_persona': False, 'humano': paso})
+        self.assertEqual(cambio['alternativas'], [{'texto': revisar, 'comando': revisar, 'decision_de_la_persona': True, 'humano': 'Revisar el cambio y decidir'}])
         # La línea de tiempo, en orden, con quién y cómo.
         linea = cambio['linea_de_tiempo']
         self.assertEqual([e['cuando'] for e in linea], sorted(e['cuando'] for e in linea))
