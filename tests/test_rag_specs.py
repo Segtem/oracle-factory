@@ -161,6 +161,35 @@ class RagSpecs(unittest.TestCase):
         self.assertEqual(r['valor'], {'vigentes': 2, 'en_cambios_abiertos': 1})
         self.assertFalse([a for a in r['fuentes'][0]['archivos'] if 'externo' in a or 'archivo' in a or 'enlazada' in a])
 
+    def test_rs4_una_pregunta_de_contenido_con_cuales_o_cuantas_no_se_intercepta(self):
+        for pregunta in ('¿Cuáles capacidades no tienen tests?', '¿Cuáles specs definen el periodo de prueba?',
+                         'mostrame la spec sin entrar en detalles', 'cuales specs no requieren confirmacion',
+                         '¿Cuántos requisitos no tienen tests en la spec?'):
+            self.assertIsNone(consultas.interpretar_specs(pregunta), pregunta)
+        self.preparar()
+        self.assertNotIn(self.preguntar('¿Cuáles capacidades no tienen tests?')['tipo'], ('registro', 'consulta_no_admitida'))
+
+    def test_rs4_abandonadas_y_fechas_con_operando_se_rechazan(self):
+        self.preparar()
+        for pregunta in ('cuantas specs abandonadas hay', 'cuales specs estan abandonadas', 'lista las specs abandonadas',
+                         'cuantas specs hay desde el 1 de octubre', 'cuantas specs hay en los ultimos 7 dias'):
+            r = self.preguntar(pregunta)
+            self.assertEqual(r['tipo'], 'consulta_no_admitida', pregunta)
+            self.assertEqual(r['resultados'], [])
+
+    def test_rs4_la_fuente_trae_criterio_cita_y_huella_del_inventario(self):
+        self.preparar()
+        fuente = self.preguntar('¿Cuántas specs hay?')['fuentes'][0]
+        self.assertEqual(fuente['ruta'], 'specs')
+        self.assertEqual(fuente['criterio'], {'tema': 'specs', 'operacion': 'contar'})
+        self.assertEqual(fuente['cita'], 'specs:{"operacion": "contar", "tema": "specs"}')
+        self.assertEqual((fuente['directorio'], fuente['directorio_existe']), ('openspec', True))
+        self.assertRegex(fuente['inventario_sha256'], r'^[0-9a-f]{64}$')
+        nueva = self.root / 'openspec/specs/vieja3/spec.md'
+        nueva.parent.mkdir()
+        nueva.write_text('# Capability: vieja3\n')
+        self.assertNotEqual(self.preguntar('¿Cuántas specs hay?')['fuentes'][0]['inventario_sha256'], fuente['inventario_sha256'])
+
 
 if __name__ == '__main__':
     unittest.main()

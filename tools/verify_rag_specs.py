@@ -16,9 +16,9 @@ import json  # noqa: E402
 
 CAMBIO = '20261026-225825-rn5-rag-specs'
 CONTRACTS = {
-    'contar_y_listar_specs': ['rs1_cuantas_specs_hay_da_dos_numeros_y_cita_los_archivos', 'rs1_cuales_son_lista_capacidad_estado_y_ruta', 'rs1_con_una_sola_spec_vigente_va_en_singular', 'rs1_sin_ninguna_spec_dice_cero', 'rs1_funciona_por_la_cli', 'rs4_cuales_especificaciones_y_capacidades_tambien_entran', 'rs4_un_enlace_simbolico_no_cuenta_ni_se_cita', 'rs4_vigentes_y_abiertas_se_responden_con_las_dos_cantidades_rotuladas'],
-    'filtro_de_specs_no_admitido': ['rs2_un_filtro_no_admitido_se_rechaza_sin_pasajes', 'rs2_una_compuesta_o_de_otro_tema_no_es_de_este_camino', 'rs4_otros_filtros_de_estado_se_rechazan'],
-    'las_demas_preguntas_no_cambian': ['rs3_cambios_abiertos_sigue_igual', 'rs3_una_pregunta_que_nombra_cambios_y_specs_no_cambia_de_camino', 'rs4_una_pregunta_que_explica_no_es_de_contar_ni_listar', 'rs4_lo_compuesto_o_con_cambios_va_al_modelo_aunque_traiga_un_filtro'],
+    'contar_y_listar_specs': ['rs1_cuantas_specs_hay_da_dos_numeros_y_cita_los_archivos', 'rs1_cuales_son_lista_capacidad_estado_y_ruta', 'rs1_con_una_sola_spec_vigente_va_en_singular', 'rs1_sin_ninguna_spec_dice_cero', 'rs1_funciona_por_la_cli', 'rs4_cuales_especificaciones_y_capacidades_tambien_entran', 'rs4_un_enlace_simbolico_no_cuenta_ni_se_cita', 'rs4_vigentes_y_abiertas_se_responden_con_las_dos_cantidades_rotuladas', 'rs4_la_fuente_trae_criterio_cita_y_huella_del_inventario'],
+    'filtro_de_specs_no_admitido': ['rs2_un_filtro_no_admitido_se_rechaza_sin_pasajes', 'rs2_una_compuesta_o_de_otro_tema_no_es_de_este_camino', 'rs4_otros_filtros_de_estado_se_rechazan', 'rs4_abandonadas_y_fechas_con_operando_se_rechazan'],
+    'las_demas_preguntas_no_cambian': ['rs3_cambios_abiertos_sigue_igual', 'rs3_una_pregunta_que_nombra_cambios_y_specs_no_cambia_de_camino', 'rs4_una_pregunta_que_explica_no_es_de_contar_ni_listar', 'rs4_lo_compuesto_o_con_cambios_va_al_modelo_aunque_traiga_un_filtro', 'rs4_una_pregunta_de_contenido_con_cuales_o_cuantas_no_se_intercepta'],
 }
 PREFIX = 'test_rag_specs.RagSpecs.test_'
 LIMITES = ('Escenarios rs1–rs4 en repositorios temporales, Linux, con Oracle 0.38.2 real y sin modelo generativo ni embeddings: el '

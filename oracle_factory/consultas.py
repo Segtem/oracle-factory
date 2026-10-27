@@ -115,7 +115,7 @@ def registro(cli, argumentos):
 
 def interpretar_specs(texto):
     """Cuántas o cuáles specs hay. Lo compuesto («y»), lo que nombra cambios o tareas y lo de otro tema pasan al modelo, como en
-    `interpretar`; un filtro que no se admite se rechaza, pero sólo en una pregunta de contar o listar (no en una explicación)."""
+    `interpretar`; un filtro que no se admite se rechaza sólo si el resto de la pregunta es de contar o listar (si trae otras palabras es de contenido y no se toca)."""
     p = plano(texto)
     nombre = r'(?:specs?|especificacion(?:es)?|capacidad(?:es)?)'
     if not re.search(rf'\b{nombre}\b', p) or ' y ' in p or re.search(r'\b(?:tareas?|cambios?)\b', p):
@@ -125,16 +125,20 @@ def interpretar_specs(texto):
                   or re.search(rf'^que {nombre} (?:hay|existen|tenemos|tiene)\b', p))
     if not contar and not listar:
         return None
-    if re.search(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|pendientes?|'
-                 r'nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?)\b', p):
-        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se '
-                'responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'}
+    # Un filtro es lo que se resta de la pregunta: si lo que queda tiene otras palabras, es una pregunta de contenido
+    # («cuáles specs no tienen tests») y no se rechaza ni se cuenta, sino que va al buscador o al modelo.
+    filtro = re.compile(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|'
+                        r'abandonad[oa]s?|pendientes?|nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?|ultim[oa]s?|dias?|\d+|'
+                        r'enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b')
     permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
                      'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
                      'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
                      'vigente abiertas abiertos abierta abierto'.split())
-    if set(p.split()) - permitidas:
+    if set(filtro.sub(' ', p).split()) - permitidas:
         return None
+    if filtro.search(p):
+        return {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se '
+                'responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'}
     return {'tema': 'specs', 'operacion': 'contar' if contar else 'listar'}
 
 

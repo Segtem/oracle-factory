@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/c1d27f5-agy2-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "c1d27f5b294c4cb552dc044db0dbe51c13dc742c",
+  "diff_sha256": "af9593f60cd56dd2b38f1e92f474f963c2557f239f7b81dedb052d80f0279a15",
+  "context_sha256": "b3129da311856505b121badbfb3991ff5025a7c3535249230afb8e27680646d6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas requeridas (PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null) desde la raíz del checkout candidato en primer plano; no se corrió la suite completa.",
+    "No se invocaron servicios de inferencia LLM externos ni servidores de embeddings reales (configuración con proveedor ninguno).",
+    "Las pruebas de mutación se desarrollaron de forma manual y aislada en copias locales en memoria/disco temporal sin alterar el árbol versionado del candidato (checkout de sólo lectura).",
+    "Los 15 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones."
+  ],
+  "findings": [
+    {
+      "id": "GY-01",
+      "kind": "regresion",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "interpretar_specs intercepta preguntas documentales con «cuáles» o «cuántas» que contienen palabras comunes como «no» o «sin»",
+      "explanation": "En oracle_factory/consultas.py (líneas 123-138), la comprobación de filtros no admitidos mediante re.search(r'\\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|pendientes?|nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?)\\b', p) se evalúa incondicionalmente sobre toda la pregunta antes de verificar si los demás términos pertenecen al vocabulario permitido (set(p.split()) - permitidas). Si bien en la vuelta 2 se acotó el interrogativo «qué» a rf'^que {nombre} (?:hay|existen|tenemos|tiene)\\b', el interrogativo «cuáles» sigue coincidiendo ampliamente con ^(?:...|cuales)\\b y el conteo (cuantos|cuantas) coincide con cualquier frase que contenga esas palabras junto a spec/capacidad. En consecuencia, preguntas documentales legítimas sobre el contenido, diseño o reglas del sistema formuladas con «cuáles» o «cuántas» que incluyen términos negativos o preposiciones comunes (como «¿Cuáles specs no tienen tests?», «¿Cuáles capacidades no requieren confirmación?», «¿Cuáles especificaciones existen sin dependencias?», «¿Cuántas dependencias no tienen spec?» o «¿Cuántas pruebas sin spec tenemos?») son interceptadas erróneamente por este bloque y abortadas con {'tipo': 'consulta_no_admitida', ...}. En contraste, las mismas consultas afirmativas («¿Cuáles specs tienen tests?», «¿Cuáles capacidades requieren confirmación?») devuelven None y pasan correctamente a recuperación documental o al modelo generativo. Esto causa falsos positivos en el vocabulario e incumple el requisito las_demas_preguntas_no_cambian («The system SHALL keep answering questions about tasks and changes, and document questions, exactly as before»).",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 123,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "consultas.interpretar_specs('cuales specs no tienen tests') o rag.preguntar(cli, 'cuales capacidades no requieren confirmacion')",
+      "evidence": "consultas.interpretar_specs('cuales specs no tienen tests') devuelve {'tipo': 'consulta_no_admitida', 'respuesta': 'Ese filtro no está admitido en la consulta de specs: siempre se responden las vigentes y las de cambios abiertos, por separado. Para otros datos usá estado o tablero.'} a pesar de incluir palabras ajenas a la consulta directa ('tests', 'tienen') que deberían derivarla al buscador documental (como ocurre con 'cuales specs tienen tests', que devuelve None).",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian",
+      "status": "pendiente",
+      "verification": "Invocar consultas.interpretar_specs('cuales specs no tienen tests') y comprobar que devuelva None en vez de {'tipo': 'consulta_no_admitida', ...}, permitiendo el flujo de recuperación documental."
+    },
+    {
+      "id": "GY-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "El filtro de estado «abandonada(s)» no se rechaza con consulta_no_admitida y degrada a búsqueda documental",
+      "explanation": "El requisito filtro de specs no admitido establece: «The system SHALL reject, saying so, a question about specs that carries a filter it does not support, instead of falling back to loose passages». En Factory, los cambios y sus especificaciones cuentan con 'cerrada' y 'abandonada' como fases terminales (reflejado en consultas.ESTADOS = ('todos', 'abiertos', 'cerrados', 'abandonados') y en specs(): 'if e.get(\\'fase\\') in (\\'cerrada\\', \\'abandonada\\'): continue'). En la vuelta 2 se incorporaron filtros de estado adicionales a la expresión regular de rechazo (cerrad[oa]s?, aprobad[oa]s?, pendientes?, nuev[oa]s?, revision, borrador(?:es)?, archivad[oa]s?), pero se omitió abandonad[oa]s?. En consecuencia, ante consultas que intentan filtrar specs abandonadas («¿Cuántas specs abandonadas hay?», «¿Cuáles specs están abandonadas?», «lista las specs abandonadas»), interpretar_specs no reconoce el filtro en la regex de rechazo y, al no estar 'abandonadas' en permitidas, retorna None. Esto ocasiona que consultas.directa retorne None y rag.preguntar ejecute recuperación documental devolviendo 'sin_respaldo' (o pasajes candidatos sueltos) en lugar de advertir explícitamente que el filtro no está admitido, en contradicción con el comportamiento ante 'cuantas specs cerradas hay'.",
+      "location": {
+        "file": "oracle_factory/consultas.py",
+        "start_line": 128,
+        "end_line": 137,
+        "side": "head"
+      },
+      "trigger": "rag.preguntar(cli, 'cuantas specs abandonadas hay') o consultas.interpretar_specs('cuales specs estan abandonadas')",
+      "evidence": "consultas.interpretar_specs('cuantas specs cerradas hay') devuelve {'tipo': 'consulta_no_admitida', ...}, mientras que consultas.interpretar_specs('cuantas specs abandonadas hay') devuelve None, resultando en rag.preguntar con tipo 'sin_respaldo' con pasajes sueltos en vez de 'consulta_no_admitida'.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
+      "status": "pendiente",
+      "verification": "Ejecutar consultas.interpretar_specs('cuantas specs abandonadas hay') y verificar que devuelva {'tipo': 'consulta_no_admitida', ...} en lugar de None."
+    },
+    {
+      "id": "GY-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "tests/test_rag_specs.py no valida los campos estructurados de fuentes (criterio, inventario_sha256, cita), permitiendo mutaciones no detectadas",
+      "explanation": "En openspec/changes/20261026-225825-rn5-rag-specs/design.md se compromete: «consultas.specs(cli) lee openspec/specs/*/spec.md y, de los cambios abiertos del registro, openspec/changes/<id>/specs/*/spec.md. Devuelve la misma forma de fuente que registro (ruta, cita, texto, archivos, huella del inventario) para que la respuesta traiga su respaldo». Sin embargo, ninguno de los casos de prueba de contrato en tests/test_rag_specs.py verifica el contenido de r['criterio'], r['fuentes'][0]['criterio'], r['fuentes'][0]['inventario_sha256'] ni r['fuentes'][0]['cita']. Pruebas de mutación demuestran que: 1) forzar huella = 'dummy' (omitiendo el cómputo SHA-256 de los archivos leídos) pasa los 21 tests de la suite sin fallos; 2) vaciar criterio = {} en respuesta_specs pasa todos los tests sin fallos. Las pruebas validan sólo tipo, valor, respuesta y fuentes[0]['archivos'], dejando sin protección la integridad estructural requerida para consumidores de --json y MCP.",
+      "location": {
+        "file": "tests/test_rag_specs.py",
+        "start_line": 45,
+        "end_line": 64,
+        "side": "head"
+      },
+      "trigger": "Asignar huella = 'dummy' o criterio = {} en respuesta_specs de consultas.py y correr tests.test_rag_specs",
+      "evidence": "Mutación manual comprobada: reemplazando el cálculo de huella por 'dummy' y criterio por {} en consultas.py, los 21 tests pasan en 5.9s con veredicto OK sin detectar la corrupción de metadatos.",
+      "related_requirement": "conocimiento_c6dd9c535b1df9607.contar_y_listar_specs",
+      "status": "pendiente",
+      "verification": "Incorporar en test_rs1_cuantas_specs_hay_da_dos_numeros_y_cita_los_archivos aserciones explícitas para r['criterio'], r['fuentes'][0]['criterio'], r['fuentes'][0]['inventario_sha256'] y r['fuentes'][0]['cita']."
+    }
+  ]
+}
