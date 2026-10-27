@@ -14,7 +14,7 @@ El sistema DEBE crear la propuesta, la spec, el diseño y las tareas de un cambi
 #### Scenario: el proyecto declara inglés
 - DADO un proyecto con `"idioma": "en"`
 - CUANDO se crea un cambio con `oracle-factory nuevo`
-- ENTONCES los cuatro archivos salen en inglés, sin frases en español salvo la marca `TODO:` y `Tipo:`
+- ENTONCES los cuatro archivos salen en inglés, sin frases en español salvo la marca TODO y `Tipo:`
 
 #### Scenario: el cambio elige otro idioma
 - DADO un proyecto en español
@@ -42,14 +42,14 @@ El sistema DEBE rechazar un idioma que no sea `es` o `en`, tanto en la configura
 
 ### Requirement: la_plantilla_en_cualquier_idioma_se_aprueba_e_importa
 Tipo: funcional
-El sistema DEBE aceptar y poder importar una spec completada a partir de la plantilla de cualquiera de los dos idiomas, y seguir negando la aprobación mientras queden marcas `TODO:`.
+El sistema DEBE aceptar y poder importar una spec completada a partir de la plantilla de cualquiera de los dos idiomas, y seguir negando la aprobación mientras queden marcas TODO.
 
 #### Scenario: una spec en español completa
-- DADO un cambio en español cuyas marcas `TODO:` se completaron
+- DADO un cambio en español cuyas marcas TODO se completaron
 - CUANDO una persona aprueba la spec y un agente importa los requisitos
 - ENTONCES se importa el requisito con el texto en español
 
 #### Scenario: una plantilla sin completar
 - DADO un cambio recién creado, en cualquiera de los dos idiomas
 - CUANDO se intenta aprobar la spec
-- ENTONCES se rechaza porque quedan marcas `TODO:`
+- ENTONCES se rechaza porque quedan marcas TODO
