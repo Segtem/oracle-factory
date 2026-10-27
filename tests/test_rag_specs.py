@@ -172,7 +172,9 @@ class RagSpecs(unittest.TestCase):
     def test_rs4_abandonadas_y_fechas_con_operando_se_rechazan(self):
         self.preparar()
         for pregunta in ('cuantas specs abandonadas hay', 'cuales specs estan abandonadas', 'lista las specs abandonadas',
-                         'cuantas specs hay desde el 1 de octubre', 'cuantas specs hay en los ultimos 7 dias'):
+                         'cuantas specs hay desde el 1 de octubre', 'cuantas specs hay en los ultimos 7 dias',
+                         'cuantas specs hay del 1 de octubre', 'cuantas specs hay del 2026', 'cuantas specs hay de la semana pasada',
+                         'cuantas specs hay en los ultimos 3 meses', 'cuantas specs hay esta semana', 'cuantas specs hay del ano pasado'):
             r = self.preguntar(pregunta)
             self.assertEqual(r['tipo'], 'consulta_no_admitida', pregunta)
             self.assertEqual(r['resultados'], [])

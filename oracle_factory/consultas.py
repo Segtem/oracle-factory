@@ -127,13 +127,13 @@ def interpretar_specs(texto):
         return None
     # Un filtro es lo que se resta de la pregunta: si lo que queda tiene otras palabras, es una pregunta de contenido
     # («cuáles specs no tienen tests») y no se rechaza ni se cuenta, sino que va al buscador o al modelo.
-    filtro = re.compile(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semana|mes|ano|fecha|periodo|cerrad[oa]s?|aprobad[oa]s?|'
+    filtro = re.compile(r'\b(?:no|excepto|sin|desde|hasta|ayer|hoy|semanas?|mes(?:es)?|anos?|fechas?|periodos?|pasad[oa]s?|cerrad[oa]s?|aprobad[oa]s?|'
                         r'abandonad[oa]s?|pendientes?|nuev[oa]s?|revision|borrador(?:es)?|archivad[oa]s?|ultim[oa]s?|dias?|\d+|'
                         r'enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\b')
     permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
                      'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
                      'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
-                     'vigente abiertas abiertos abierta abierto'.split())
+                     'vigente abiertas abiertos abierta abierto del al esta'.split())
     if set(filtro.sub(' ', p).split()) - permitidas:
         return None
     if filtro.search(p):
