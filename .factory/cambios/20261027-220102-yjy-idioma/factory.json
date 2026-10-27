@@ -2,7 +2,7 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
   "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "plantillas_c553eae730b044e20.idioma_de_la_plantilla",
+    "plantillas_c553eae730b044e20.idioma_no_admitido",
+    "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261027-220102-yjy-idioma/proposal.md": "6103337db86ca59b14b4cffef6020b8fa9cce0f623e339c9ee60a62ad4484acf",
         "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:10:22.903260+00:00",
+      "ids": [
+        "plantillas_c553eae730b044e20.idioma_de_la_plantilla",
+        "plantillas_c553eae730b044e20.idioma_no_admitido",
+        "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "plantillas_c553eae730b044e20.idioma_de_la_plantilla": "funcional",
+    "plantillas_c553eae730b044e20.idioma_no_admitido": "funcional",
+    "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }

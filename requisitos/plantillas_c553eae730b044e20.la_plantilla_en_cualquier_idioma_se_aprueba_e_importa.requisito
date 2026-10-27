@@ -1,0 +1,4 @@
+requisito plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa:
+    texto "Tipo: funcional El sistema DEBE aceptar y poder importar una spec completada a partir de la plantilla de cualquiera de los dos idiomas, y seguir negando la aprobación mientras queden marcas TODO."
+    fuente "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
+    sin_medir "sin medida todavía; escenarios: «una spec en español completa», «una plantilla sin completar»"

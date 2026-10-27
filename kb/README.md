@@ -79,7 +79,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (cerrada)
 - [[cambios/20261027-160716-arb-equipo]] — El tablero dice a quién necesita cada cambio y qué pasó hace poco (cerrada)
 - [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (cerrada)
-- [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (spec_aprobada)
+- [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (requisitos_importados)
 
 ## Requisitos
 
@@ -242,6 +242,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/onboarding_ca007f9416d32e171.preparar_ejemplo_sin_aprobacion]]
 - [[requisitos/onboarding_ca007f9416d32e171.preservar_archivos_existentes]]
 - [[requisitos/onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso]]
+- [[requisitos/plantillas_c553eae730b044e20.idioma_de_la_plantilla]]
+- [[requisitos/plantillas_c553eae730b044e20.idioma_no_admitido]]
+- [[requisitos/plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa]]
 - [[requisitos/portabilidad_cbe858e976e618573.advertir_cuando_los_hechos_no_viajan]]
 - [[requisitos/portabilidad_cbe858e976e618573.fuente_de_los_requisitos_relativa]]
 - [[requisitos/portabilidad_cbe858e976e618573.hechos_con_ruta_relativa_al_proyecto]]
