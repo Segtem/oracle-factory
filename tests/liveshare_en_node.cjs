@@ -55,7 +55,7 @@ function vscodeFalso({carpeta, uriCarpeta, comando, ls}) {
             ? {isActive: true, exports: {getApi: async () => ls}} : undefined} : undefined,
         workspace: {
             workspaceFolders: [{uri: uriCarpeta || {fsPath: carpeta, scheme: 'file'}}],
-            getConfiguration: () => ({get: clave => (clave === 'comando' ? comando : undefined)}),
+            getConfiguration: () => ({get: clave => (clave === 'comando' ? comando : clave === 'esperaTerminalMs' ? 0 : undefined)}),
             createFileSystemWatcher: () => {
                 const v = {cambios: [], onDidChange: f => { v.cambios.push(f); return nada(); }, onDidCreate: nada, onDidDelete: nada, dispose() {}};
                 r.vigias.push(v);

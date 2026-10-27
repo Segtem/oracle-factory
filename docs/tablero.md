@@ -21,7 +21,7 @@ trabajo de confianza.
 
 La vista «Factory» del explorador muestra cada cambio abierto con sus requisitos (medidas, decisión y veredicto), su
 revisión, sus artefactos (un clic los abre; el que falta aparece marcado) y el próximo paso. El botón de terminal escribe
-ese paso en una terminal del proyecto sin ejecutarlo.
+ese paso en una terminal del proyecto sin ejecutarlo. Si la terminal «Factory» todavía no existe, la crea y espera a que su shell esté listo (hasta `factory.esperaTerminalMs`, 3000 por defecto; 0 no espera) antes de escribir, para que la activación del entorno no pise el comando con un `^C`; la salida «Oracle Factory» deja constancia de cuánto esperó.
 
 El botón de tablero (o *Factory: Abrir el tablero*) abre, por cada cambio abierto:
 

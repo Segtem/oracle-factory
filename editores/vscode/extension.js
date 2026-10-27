@@ -82,12 +82,50 @@ class Vista {
     }
 }
 
-function escribirPaso(nodo) {
-    if (!nodo || !nodo.comando) return;
-    const terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined)
-        || vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
+// La terminal «Factory» recién creada todavía está arrancando su shell: si se escribe el comando enseguida, la activación
+// del entorno lo pisa con un ^C. Se espera a que avise que está lista (integración de shell) o a que pase el plazo.
+const ESPERA_POR_DEFECTO_MS = 3000;
+let cola = Promise.resolve();  // los pedidos se escriben de a uno y en orden: el segundo ya encuentra la terminal lista
+
+function esperarTerminal(terminal) {
+    const pedido = vscode.workspace.getConfiguration('factory').get('esperaTerminalMs');
+    const ms = typeof pedido === 'number' && Number.isFinite(pedido) && pedido >= 0 ? pedido : ESPERA_POR_DEFECTO_MS;
+    if (ms === 0) return Promise.resolve('plazo');
+    return new Promise(listo => {
+        let suscripcion = null;
+        const reloj = setTimeout(() => { if (suscripcion) suscripcion.dispose(); listo('plazo'); }, ms);
+        if (typeof vscode.window.onDidChangeTerminalShellIntegration === 'function')
+            suscripcion = vscode.window.onDidChangeTerminalShellIntegration(e => {
+                if (e.terminal !== terminal) return;
+                clearTimeout(reloj);
+                suscripcion.dispose();
+                listo('lista');
+            });
+    });
+}
+
+async function escribirEnTerminal(comando) {
+    let terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined);
+    let motivo = 'ya existía', espera = 0;
+    if (!terminal) {
+        terminal = vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
+        terminal.show();
+        if (terminal.shellIntegration) motivo = 'integración ya informada';
+        else {
+            const inicio = Date.now();
+            motivo = await esperarTerminal(terminal);
+            espera = Date.now() - inicio;
+        }
+    }
     terminal.show();
-    terminal.sendText(nodo.comando, false);  // sin Enter: la persona lo lee y lo ejecuta
+    terminal.sendText(comando, false);  // sin Enter: la persona lo lee y lo ejecuta
+    anotar(`Terminal Factory: comando escrito (${motivo}; esperó ${espera} ms)`);  // sin el texto del comando
+}
+
+function escribirPaso(nodo) {
+    if (!nodo || !nodo.comando) return Promise.resolve();
+    cola = cola.then(() => escribirEnTerminal(nodo.comando));
+    return cola;
 }
 
 // El tablero de comando: un panel que se arma con `oracle-factory tablero --json` y se rehace cuando cambia un registro.
@@ -147,8 +185,7 @@ function escribirComando(texto, deUnInvitado = false) {
     if (deUnInvitado && (typeof texto !== 'string' || !/^[\p{L}\p{N} ._/:=-]+$/u.test(texto))) return false;
     const raiz = carpeta();
     const comando = raiz && modelo.comandoDe(texto, cli(raiz));
-    if (comando) escribirPaso({comando});
-    return Boolean(comando);
+    return comando ? escribirPaso({comando}).then(() => true) : false;  // lo que ve quien lo pide: ya escrito
 }
 
 // Un mensaje del chat: lo guarda la CLI de quien tiene el proyecto, con el nombre que da Live Share (la CLI valida el
@@ -226,7 +263,7 @@ async function mensajeDelTablero(m) {
         await vscode.window.showTextDocument(doc, {preview: true});
     } else if (m.tipo === 'terminal' && typeof m.comando === 'string') {
         if (invitado) await sesion.pedir('terminal', [m.comando]);
-        else escribirComando(m.comando);
+        else await escribirComando(m.comando);
     } else if (m.tipo === 'mensaje' && typeof m.cambio === 'string' && typeof m.texto === 'string' && sesion && sesion.yo()) {
         const ok = invitado ? await sesion.pedir('mensaje', [m.cambio, m.texto, sesion.yo()])
             : await guardarMensaje(m.cambio, m.texto, sesion.yo());

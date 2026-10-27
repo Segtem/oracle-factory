@@ -17,7 +17,7 @@ const vscode = {
     Uri: {file: p => ({fsPath: p})},
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
-        getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : undefined)}),
+        getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : clave === 'esperaTerminalMs' ? 0 : undefined)}),
         createFileSystemWatcher: () => ({onDidChange: nada, onDidCreate: nada, onDidDelete: nada, dispose() {}}),
     },
     window: {
