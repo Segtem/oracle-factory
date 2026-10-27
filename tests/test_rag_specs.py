@@ -174,7 +174,10 @@ class RagSpecs(unittest.TestCase):
         for pregunta in ('cuantas specs abandonadas hay', 'cuales specs estan abandonadas', 'lista las specs abandonadas',
                          'cuantas specs hay desde el 1 de octubre', 'cuantas specs hay en los ultimos 7 dias',
                          'cuantas specs hay del 1 de octubre', 'cuantas specs hay del 2026', 'cuantas specs hay de la semana pasada',
-                         'cuantas specs hay en los ultimos 3 meses', 'cuantas specs hay esta semana', 'cuantas specs hay del ano pasado'):
+                         'cuantas specs hay en los ultimos 3 meses', 'cuantas specs hay esta semana', 'cuantas specs hay del ano pasado',
+                         'cuantas specs hay al 1 de octubre', 'cuantas specs hay en las ultimas 2 semanas',
+                         'cuantas specs hay en estos meses', 'cuantas specs hay en estas semanas', 'cuantas specs hay a la fecha',
+                         'cuantas specs hay de ayer a hoy', 'cuantas specs hay en estos ultimos 7 dias'):
             r = self.preguntar(pregunta)
             self.assertEqual(r['tipo'], 'consulta_no_admitida', pregunta)
             self.assertEqual(r['resultados'], [])
