@@ -1,0 +1,4 @@
+requisito ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida:
+    texto "Tipo: funcional El sistema DEBE escribir el comando sin esperar cuando la terminal «Factory» ya existía o ya informa su integración de shell."
+    fuente "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md#una_terminal_lista_recibe_el_comando_enseguida"
+    sin_medir "sin medida todavía; escenarios: «la terminal ya existía», «la terminal nueva ya informa su integración»"

@@ -1,0 +1,4 @@
+requisito ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista:
+    texto "Tipo: funcional El sistema DEBE escribir un comando en una terminal «Factory» recién creada sólo cuando la terminal avise que su shell está listo o cuando pase el plazo configurado, lo que ocurra primero, y nunca antes."
+    fuente "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md#la_terminal_nueva_espera_a_estar_lista"
+    sin_medir "sin medida todavía; escenarios: «la terminal avisa que está lista», «la terminal nunca avisa», «un plazo de cero»"
