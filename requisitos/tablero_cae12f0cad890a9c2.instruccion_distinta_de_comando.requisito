@@ -1,0 +1,4 @@
+requisito tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando:
+    texto "Tipo: funcional The system SHALL show a next step that is an explanation as plain text labelled «QUÉ HACER» with no terminal button, and keep showing a Factory command as a command with its button."
+    fuente "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md#instruccion_distinta_de_comando"
+    medido_por factory_tablero_bloqueos.instruccion_distinta_de_comando, factory_tablero_bloqueos.corrida_completa

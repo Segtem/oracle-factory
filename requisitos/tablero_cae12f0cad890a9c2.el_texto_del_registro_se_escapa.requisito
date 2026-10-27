@@ -1,0 +1,4 @@
+requisito tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa:
+    texto "Tipo: funcional The system SHALL escape every pending and every step text it shows, so that text from the registry cannot add markup to the board."
+    fuente "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md#el_texto_del_registro_se_escapa"
+    medido_por factory_tablero_bloqueos.el_texto_del_registro_se_escapa, factory_tablero_bloqueos.corrida_completa

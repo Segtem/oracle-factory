@@ -1,0 +1,74 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261027-140946-d48-bloqueos",
+  "contexto": {
+    "head": "a8eb203836b040c1df1252d8989ec8cf1f3a05fd",
+    "archivos_sha256": "767e9baf247137decfea74aac4ceca7882fac705e440bc8832bbce46ab34da95"
+  },
+  "documentos": {
+    "openspec/changes/20261027-140946-d48-bloqueos/proposal.md": "47d215acf483cf420c557c4173a034b9d9285457b7b02e6feaadb2325b713b46",
+    "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_tablero_bloqueos.corrida_completa.oracle",
+    "catalogos/factory_tablero_bloqueos.el_texto_del_registro_se_escapa.oracle",
+    "catalogos/factory_tablero_bloqueos.instruccion_distinta_de_comando.oracle",
+    "catalogos/factory_tablero_bloqueos.que_falta_en_cada_cambio.oracle",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261027-140946-d48-bloqueos/design.md",
+    "openspec/changes/20261027-140946-d48-bloqueos/proposal.md",
+    "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
+    "openspec/changes/20261027-140946-d48-bloqueos/tasks.md",
+    "requisitos/tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa.requisito",
+    "requisitos/tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando.requisito",
+    "requisitos/tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio.requisito",
+    "tests/test_tablero_bloqueos.py",
+    "tools/verify_tablero_bloqueos.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 518 pruebas, 8 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/959ab12/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/959ab12/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/959ab12/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 03f59a2: agy (gemini-3.8-flash-high), 4 hallazgos: agy-1 (media), agy-2 (media), agy-3 (baja), agy-4 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/03f59a2/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 03f59a2: agy (gemini-3.8-flash-high), 4 hallazgos: agy2-1 (media), agy2-2 (media), agy2-3 (baja), agy2-4 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/03f59a2/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tbb1–tbb3 con la página del tablero armada en node (tablero.js puro) y datos de un cambio; el panel de VS Code no se abre en un editor real, y no se mide la apariencia, sólo el HTML que se arma.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato en .factory/local/revisiones/959ab12-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) para ejecutar las pruebas sin modificar el checkout.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exactamente las suites indicadas: tests.test_tablero_bloqueos y tests.test_tablero, omitiendo deliberadamente la suite completa de tests de acuerdo con las instrucciones de revisión.",
+    "agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_bloqueos.py debido a que invoca unittest.defaultTestLoader.discover() sobre todo el directorio de pruebas; su consistencia con los contratos, catálogos y casos de prueba se comprobó mediante análisis estático.",
+    "agy (gemini-3.8-flash-high): El análisis de mutaciones se llevó a cabo en copias de trabajo aisladas en el directorio del revisor (.factory/local/revisores/959ab12-agy-1/analisis/), sin alterar el checkout en ningún momento. Se evaluaron 14 mutaciones y todas fueron detectadas y eliminadas por la suite de pruebas.",
+    "agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.",
+    "agy (gemini-3.8-flash-high): Se comprobó que los 4 hallazgos de la vuelta anterior (agy-1: orden no alfabético de pendientes, agy-2: escapado en comandos y data-comando, agy-3: rótulo «QUÉ HACER» en alternativas, agy-4: consistencia en design.md) fueron debidamente resueltos sin introducir regresiones, por lo que la lista de hallazgos queda vacía.",
+    "agy (gemini-3.8-flash-high): El checkout en .factory/local/revisiones/959ab12-agy2-1 no disponía de un .venv propio en su interior; se ejecutaron las pruebas con el intérprete del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) sin editar el checkout de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las suites indicadas (tests.test_tablero_bloqueos y tests.test_tablero) mediante el comando especificado: PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos tests.test_tablero </dev/null, omitiendo la suite completa por indicación explícita.",
+    "agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_bloqueos.py ya que realiza el descubrimiento automático de la suite completa de pruebas del proyecto.",
+    "agy (gemini-3.8-flash-high): El análisis de mutaciones manuales se llevó a cabo en copias de trabajo aisladas en el directorio de trabajo del revisor (.factory/local/revisores/959ab12-agy2-1/analisis), preservando intacto el checkout.",
+    "agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.",
+    "agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación; los cuatro hallazgos de la vuelta 1 fueron debidamente subsanados y ninguna mutación realizada sobre la implementación sobrevivió a las pruebas."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

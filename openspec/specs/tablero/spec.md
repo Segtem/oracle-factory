@@ -1,0 +1,45 @@
+# Capability: tablero
+
+<!-- Generada por Oracle Factory al cerrar cada cambio: no se edita a mano. -->
+
+## Requirements
+
+### Requirement: que_falta_en_cada_cambio
+Origen: 20261027-140946-d48-bloqueos · tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio
+Tipo: funcional
+The system SHALL show, for each change in the board, the list of what is still pending, or say that nothing is pending.
+
+#### Scenario: un cambio con pendientes
+- GIVEN un cambio abierto con tres pendientes
+- WHEN se arma el tablero
+- THEN el cambio muestra una sección «Qué falta» con los tres, en el orden de `estado`
+
+#### Scenario: un cambio sin pendientes
+- GIVEN un cambio sin pendientes
+- WHEN se arma el tablero
+- THEN la sección dice que nada falta, en vez de quedar vacía
+
+### Requirement: instruccion_distinta_de_comando
+Origen: 20261027-140946-d48-bloqueos · tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando
+Tipo: funcional
+The system SHALL show a next step that is an explanation as plain text labelled «QUÉ HACER» with no terminal button, and keep showing a Factory command as a command with its button.
+
+#### Scenario: el paso es una explicación
+- GIVEN un próximo paso cuyo texto no empieza con `oracle-factory`
+- WHEN se arma el tablero
+- THEN se muestra como texto con el rótulo «QUÉ HACER», sin botón «Escribir en la terminal» y sin formato de código
+
+#### Scenario: el paso es un comando
+- GIVEN un próximo paso que empieza con `oracle-factory`
+- WHEN se arma el tablero
+- THEN se muestra como código con su botón, como hasta ahora
+
+### Requirement: el_texto_del_registro_se_escapa
+Origen: 20261027-140946-d48-bloqueos · tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa
+Tipo: funcional
+The system SHALL escape every pending and every step text it shows, so that text from the registry cannot add markup to the board.
+
+#### Scenario: un pendiente con marcado
+- GIVEN un pendiente cuyo texto contiene `<script>`
+- WHEN se arma el tablero
+- THEN la página muestra el texto literal y no contiene esa etiqueta sin escapar

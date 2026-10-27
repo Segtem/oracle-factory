@@ -1,0 +1,8 @@
+medida factory_tablero_bloqueos.que_falta_en_cada_cambio:
+    de tablero_bloqueos_caso c
+    donde c.requisito == "que_falta_en_cada_cambio" y c.codigo == 0
+    resumen contar(1)
+    umbral == 2 segun contrato porque "deben pasar los 2 casos enumerados para este requisito en tools/verify_tablero_bloqueos.py; asociar junto a corrida_completa"
+    requiere tablero_bloqueos_caso
+    ambito universal
+    alcance "escenarios tbb1 de la página del tablero, en node con datos de un cambio, Linux"

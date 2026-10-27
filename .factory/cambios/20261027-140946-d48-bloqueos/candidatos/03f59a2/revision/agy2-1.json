@@ -1,0 +1,98 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-bloqueos/.factory/local/revisiones/03f59a2-agy2-1",
+  "base": "a93c39e7c0b3940d0b87a51286ff3740435108fb",
+  "head": "03f59a20011a1e99ed2492c621a4e96cebef9383",
+  "diff_sha256": "af8c10c498b6038249936e8f5004bbdb29fd69b57b016592a229eee82ec0765e",
+  "context_sha256": "c09078d66f5057f2602ce0fabb7eb69b66272300e40ba869d81a779da8576fdf",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "El checkout en .factory/local/revisiones/03f59a2-agy2-1 no disponía de un .venv propio; se ejecutaron las pruebas con el intérprete del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) sin editar el checkout.",
+    "Se ejecutaron exclusivamente las suites indicadas (tests.test_tablero_bloqueos y tests.test_tablero) con el comando: PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos tests.test_tablero </dev/null, omitiendo la suite completa por indicación explícita.",
+    "No se ejecutó directamente tools/verify_tablero_bloqueos.py ya que realiza un descubrimiento completo (discover) de todas las pruebas del repositorio.",
+    "Las pruebas de mutación manual se ejecutaron en copias temporales aisladas en el directorio del revisor (.factory/local/revisores/03f59a2-agy2-1), manteniendo el checkout estrictamente intacto.",
+    "No se modificó la configuración de Git ni se tomaron decisiones asignadas a una persona."
+  ],
+  "findings": [
+    {
+      "id": "agy2-1",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba de orden de pendientes usa datos preordenados alfabéticamente y no detecta ordenamientos alfabéticos no deseados",
+      "explanation": "El requisito que_falta_en_cada_cambio exige que el cambio muestre la lista de pendientes en el orden en que estado los informa. La prueba test_tbb1_un_cambio_con_pendientes_los_lista_en_orden utiliza la lista ['importar los requisitos', 'revisión humana aprobada', 'veredicto Oracle']. Sus elementos coinciden con el orden alfabético estricto ('i' < 'r' < 'v'). Si la función faltante() en editores/vscode/tablero.js ordenara la lista alfabéticamente mediante .slice().sort(), la mutación sobrevive a la prueba sin fallar. Para verificar con rigor que se respeta el orden de estado y no un ordenamiento arbitrario, la lista de prueba debería tener elementos en orden no alfabético.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 36,
+        "end_line": 40,
+        "side": "head"
+      },
+      "trigger": "Modificar editores/vscode/tablero.js:50 para ordenar alfabéticamente los pendientes con (cambio.pendientes || []).slice().sort() y ejecutar la suite tests.test_tablero_bloqueos.",
+      "evidence": "Al aplicar la mutación lista = (cambio.pendientes || []).slice().sort(), test_tbb1_un_cambio_con_pendientes_los_lista_en_orden pasa exitosamente y la suite finaliza con código 0.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio",
+      "status": "pendiente",
+      "verification": "Introducir .slice().sort() en la variable lista de faltante() en tablero.js y ejecutar PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos </dev/null; constatar que el test no falla."
+    },
+    {
+      "id": "agy2-2",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "test_tbb3 no comprueba el escapado HTML en comandos de Factory ni en el atributo data-comando",
+      "explanation": "El requisito el_texto_del_registro_se_escapa establece que el sistema debe escapar todo pendiente y todo texto de paso que muestra en el tablero. En test_tbb3_el_texto_del_registro_se_escapa únicamente se pasa un paso con texto que no inicia con 'oracle-factory ' (paso('<img src=x onerror=1>')), el cual es tratado como explicación (comando: None). No se comprueba el escapado cuando el paso es un comando que contiene caracteres especiales HTML (por ejemplo oracle-factory mensaje c1 \"<script>\") ni el escapado del atributo data-comando en el botón. Si se remueve esc() en <code>${esc(p.texto)}</code> o en data-comando=\"${esc(p.comando)}\", la mutación sobrevive a todos los tests.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 73,
+        "end_line": 78,
+        "side": "head"
+      },
+      "trigger": "Quitar esc() de <code>${esc(p.texto)}</code> o de data-comando=\"${esc(p.comando)}\" en editores/vscode/tablero.js y correr tests.test_tablero_bloqueos.",
+      "evidence": "Las mutaciones M1 (<code>${p.texto}</code>) y M2 (data-comando=\"${p.comando}\") sobreviven tanto a tests.test_tablero_bloqueos como a tests.test_tablero, pasando todas las pruebas con código 0.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa",
+      "status": "pendiente",
+      "verification": "Reemplazar <code>${esc(p.texto)}</code> por <code>${p.texto}</code> en tablero.js y ejecutar PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos </dev/null; el caso tbb3 pasa sin alertar sobre el comando sin escapar."
+    },
+    {
+      "id": "agy2-3",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "test_tbb2_una_explicacion_alternativa_tambien_es_texto no valida que el rótulo sea «QUÉ HACER»",
+      "explanation": "De acuerdo con proposal.md, toda explicación (sea próximo paso o alternativa) debe mostrarse rotulada «QUÉ HACER» sin botón ni formato de código. En test_tbb2_una_explicacion_alternativa_tambien_es_texto se verifica la ausencia de botón terminal adicional y la presencia del texto explicativo en un <p>, pero no se aserta que el rótulo sea «QUÉ HACER». Si se invierte la prioridad ternaria en tablero.js asignando 'TAMBIÉN' a explicaciones alternativas, la prueba sobrevive y pasa con código 0.",
+      "location": {
+        "file": "tests/test_tablero_bloqueos.py",
+        "start_line": 68,
+        "end_line": 71,
+        "side": "head"
+      },
+      "trigger": "Invertir la evaluación de rotulo en editores/vscode/tablero.js:42 para evaluar comoAlternativa ? 'TAMBIÉN' antes de !p.comando ? 'QUÉ HACER'.",
+      "evidence": "Con la mutación rotulo = p.decision_de_la_persona ? 'TE NECESITA' : comoAlternativa ? 'TAMBIÉN' : !p.comando ? 'QUÉ HACER' : 'LO QUE SIGUE', test_tbb2_una_explicacion_alternativa_tambien_es_texto pasa exitosamente.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+      "status": "pendiente",
+      "verification": "Alterar la prioridad en tablero.js y correr PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos </dev/null; observar que la suite pasa 7/7 pruebas."
+    },
+    {
+      "id": "agy2-4",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Discrepancia entre design.md y la implementación sobre la forma en que paso() identifica un comando",
+      "explanation": "En openspec/changes/20261027-140946-d48-bloqueos/design.md:3 se describe que «paso() distingue comando de explicación por el prefijo oracle-factory (la misma regla que ya usa el árbol en modelo.js)». No obstante, en la implementación de editores/vscode/tablero.js:41-45, la función paso() no comprueba el prefijo textual del comando sino la presencia o falsedad de la propiedad p.comando (!p.comando y p.comando ? ...), delegando la regla del prefijo a la serialización previa en oracle_factory/tablero.py:_paso.",
+      "location": {
+        "file": "openspec/changes/20261027-140946-d48-bloqueos/design.md",
+        "start_line": 3,
+        "end_line": 3,
+        "side": "head"
+      },
+      "trigger": "Comparar la afirmación de diseño en design.md:3 con el código de paso() en editores/vscode/tablero.js:41-45.",
+      "evidence": "design.md afirma que paso() chequea el prefijo oracle-factory, mientras que en tablero.js paso() se basa en !p.comando.",
+      "related_requirement": "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+      "status": "pendiente",
+      "verification": "Contrastar el texto de openspec/changes/20261027-140946-d48-bloqueos/design.md línea 3 con la definición de la función paso() en editores/vscode/tablero.js líneas 41 a 45."
+    }
+  ]
+}

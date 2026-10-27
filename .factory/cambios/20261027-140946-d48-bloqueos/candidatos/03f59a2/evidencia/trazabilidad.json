@@ -1,0 +1,204 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa": [
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb3_el_texto_del_registro_se_escapa"
+    ],
+    "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando": [
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb2_la_decision_de_la_persona_se_marca_como_tuya",
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb2_un_comando_sigue_con_su_boton",
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb2_una_explicacion_alternativa_tambien_es_texto",
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb2_una_explicacion_va_como_texto_sin_boton"
+    ],
+    "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio": [
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb1_un_cambio_con_pendientes_los_lista_en_orden",
+      "test_tablero_bloqueos.TableroBloqueos.test_tbb1_un_cambio_sin_pendientes_lo_dice"
+    ]
+  },
+  "casos": {
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb1_un_cambio_con_pendientes_los_lista_en_orden": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          36,
+          37,
+          38,
+          39,
+          40
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb1_un_cambio_sin_pendientes_lo_dice": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          42,
+          43,
+          44,
+          45
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb2_la_decision_de_la_persona_se_marca_como_tuya": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          63,
+          64,
+          65,
+          66
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb2_un_comando_sigue_con_su_boton": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb2_una_explicacion_alternativa_tambien_es_texto": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          68,
+          69,
+          70,
+          71
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb2_una_explicacion_va_como_texto_sin_boton": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54
+        ]
+      }
+    },
+    "test_tablero_bloqueos.TableroBloqueos.test_tbb3_el_texto_del_registro_se_escapa": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_tablero_bloqueos.py": [
+          21,
+          22,
+          24,
+          25,
+          26,
+          27,
+          30,
+          31,
+          32,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78
+        ]
+      }
+    }
+  }
+}

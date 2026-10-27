@@ -76,6 +76,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
 - [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (cerrada)
 - [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (cerrada)
+- [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (cerrada)
 
 ## Requisitos
 
@@ -277,6 +278,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/revisores_c90ab53abb4ca96d7.factory_comprueba_las_exclusiones_del_paquete]]
 - [[requisitos/revisores_cd964f597ba125312.el_corte_de_vueltas_sigue_la_severidad]]
 - [[requisitos/revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios]]
+- [[requisitos/tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa]]
+- [[requisitos/tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando]]
+- [[requisitos/tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio]]
 - [[requisitos/trazabilidad_c03c40840efaaab69.cada_commit_nuevo_dice_de_que_cambio_es]]
 - [[requisitos/trazabilidad_c03c40840efaaab69.los_commits_de_un_cambio_se_ven_en_log_estado_y_el_tablero]]
 - [[requisitos/trazabilidad_cca95191eb0039b11.el_sensor_registra_que_lineas_ejecuta_cada_caso]]

@@ -1,0 +1,45 @@
+{
+  "tablero_bloqueos_caso": [
+    {
+      "requisito": "que_falta_en_cada_cambio",
+      "caso": "TableroBloqueos.test_tbb1_un_cambio_con_pendientes_los_lista_en_orden",
+      "codigo": 0
+    },
+    {
+      "requisito": "que_falta_en_cada_cambio",
+      "caso": "TableroBloqueos.test_tbb1_un_cambio_sin_pendientes_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "instruccion_distinta_de_comando",
+      "caso": "TableroBloqueos.test_tbb2_una_explicacion_va_como_texto_sin_boton",
+      "codigo": 0
+    },
+    {
+      "requisito": "instruccion_distinta_de_comando",
+      "caso": "TableroBloqueos.test_tbb2_un_comando_sigue_con_su_boton",
+      "codigo": 0
+    },
+    {
+      "requisito": "instruccion_distinta_de_comando",
+      "caso": "TableroBloqueos.test_tbb2_la_decision_de_la_persona_se_marca_como_tuya",
+      "codigo": 0
+    },
+    {
+      "requisito": "instruccion_distinta_de_comando",
+      "caso": "TableroBloqueos.test_tbb2_una_explicacion_alternativa_tambien_es_texto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_texto_del_registro_se_escapa",
+      "caso": "TableroBloqueos.test_tbb3_el_texto_del_registro_se_escapa",
+      "codigo": 0
+    }
+  ],
+  "tablero_bloqueos_corrida": [
+    {
+      "completa": 1,
+      "casos": 7
+    }
+  ]
+}

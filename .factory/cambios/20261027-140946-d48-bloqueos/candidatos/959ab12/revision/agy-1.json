@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-tablero-bloqueos/.factory/local/revisiones/959ab12-agy-1",
+  "base": "a93c39e7c0b3940d0b87a51286ff3740435108fb",
+  "head": "959ab1229434f49f81b96fda58a112c0ef3eee6a",
+  "diff_sha256": "50331f3e65f4276ed7e9786a68c33edebb5ba755a94d93043a25f5f490f0429e",
+  "context_sha256": "20a0e26ea3526d9929229cb181e01ca369fea46d01fc7f2a84a5c97c6da0efa1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "El checkout del candidato en .factory/local/revisiones/959ab12-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) para ejecutar las pruebas sin modificar el checkout.",
+    "Se ejecutaron exactamente las suites indicadas: tests.test_tablero_bloqueos y tests.test_tablero, omitiendo deliberadamente la suite completa de tests de acuerdo con las instrucciones de revisión.",
+    "No se ejecutó directamente tools/verify_tablero_bloqueos.py debido a que invoca unittest.defaultTestLoader.discover() sobre todo el directorio de pruebas; su consistencia con los contratos, catálogos y casos de prueba se comprobó mediante análisis estático.",
+    "El análisis de mutaciones se llevó a cabo en copias de trabajo aisladas en el directorio del revisor (.factory/local/revisores/959ab12-agy-1/analisis/), sin alterar el checkout en ningún momento. Se evaluaron 14 mutaciones y todas fueron detectadas y eliminadas por la suite de pruebas.",
+    "La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.",
+    "Se comprobó que los 4 hallazgos de la vuelta anterior (agy-1: orden no alfabético de pendientes, agy-2: escapado en comandos y data-comando, agy-3: rótulo «QUÉ HACER» en alternativas, agy-4: consistencia en design.md) fueron debidamente resueltos sin introducir regresiones, por lo que la lista de hallazgos queda vacía."
+  ],
+  "findings": []
+}
