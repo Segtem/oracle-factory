@@ -23,3 +23,11 @@ Medidas de tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace: factory_
 ### Nota (2026-10-27 20:04:20 UTC)
 
 Medidas de tablero_c36d16c32608f4c53.ahora_no_te_toca_nada: factory_tablero_quien_hace.ahora_no_te_toca_nada, factory_tablero_quien_hace.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 20:04:57 UTC)
+
+Medidas de tablero_c36d16c32608f4c53.ahora_no_te_toca_nada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 20:04:57 UTC)
+
+Medidas de tablero_c36d16c32608f4c53.cada_pendiente_dice_quien_lo_hace: Brian Hollweg (persona, confirmo, modo confirmacion).
