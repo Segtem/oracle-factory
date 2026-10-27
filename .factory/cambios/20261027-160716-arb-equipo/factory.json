@@ -214,6 +214,58 @@
         "factory_tablero_equipo.el_tablero_dice_a_quien_necesita",
         "factory_tablero_equipo.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T17:15:17.859548+00:00",
+      "revisor": "agy2",
+      "candidato": "176c0ca",
+      "lanzamiento": "f46962dc8329"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T17:15:17.882419+00:00",
+      "revisor": "agy",
+      "candidato": "176c0ca",
+      "lanzamiento": "a67536912dea"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T17:24:53.722313+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "176c0ca",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "a67536912dea"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T17:28:09.471032+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "176c0ca",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f46962dc8329"
     }
   ],
   "tipos": {
