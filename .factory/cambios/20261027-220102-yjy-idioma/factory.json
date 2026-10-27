@@ -2,7 +2,7 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
   "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
   "spec_aprobada": {
@@ -22,7 +22,19 @@
     "plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa"
   ],
   "revision": null,
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/evidencia/hechos.json",
+    "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb",
+    "informe": ".factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt",
+    "informe_sha256": "4e636aa6ce6cbfa51f7de1944cee82b5f7f33ff7dd33ecda0f7998f9c10fb82f",
+    "cuando": "2026-10-27T22:31:37.386076+00:00",
+    "contexto": {
+      "head": "564c65cb3cfb48948e1f7615ef577a6bb9f45d79",
+      "archivos_sha256": "6d0aed67a62ea5938cbc9b82158a275c12d3267024f52d91042a45da9f0f441b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -139,6 +151,69 @@
         "factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa",
         "factory_idioma.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T22:22:18.066624+00:00",
+      "revisor": "agy",
+      "candidato": "e0adc5b",
+      "lanzamiento": "9498d2f9dc69"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T22:22:18.108721+00:00",
+      "revisor": "agy2",
+      "candidato": "e0adc5b",
+      "lanzamiento": "63351d361a63"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:31:37.386092+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T22:34:01.962918+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e0adc5b",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "63351d361a63"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T22:35:15.552249+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "e0adc5b",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9498d2f9dc69"
     }
   ],
   "tipos": {

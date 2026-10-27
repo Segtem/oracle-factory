@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-idioma/.factory/local/revisiones/e0adc5b-agy2-1",
+  "base": "f496eb1708d8dc2b2a5d675148056b232be2f771",
+  "head": "e0adc5b5cf6aad6af98a32c94213c87278e23a12",
+  "diff_sha256": "aac22b684b1ea3bceffbc29b226a64554aff14f65d06531aa7c9a59a8deb7169",
+  "context_sha256": "c148b9036f3224860345fc77526513ec63a2e803e84eb673ed4393f6c13421c7",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Alcance de la revisión y verificación de requisitos: revisión independiente de la Vuelta 1 para el cambio 20261027-220102-yjy-idioma en el candidato e0adc5b frente a base f496eb1. Se contrastaron exhaustivamente las promesas de openspec/changes/20261027-220102-yjy-idioma/proposal.md y openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md contra el diff: oracle_factory/plantillas.py, oracle_factory/cli.py (config_proyecto, nuevo y el argumento --idioma), tests/test_idioma.py, tests/test_cli_piloto.py, tools/verify_idioma.py, catalogos/factory_idioma.*.oracle y docs/estructura.md.",
+    "Integridad de plantillas y consistencia de idioma: se constató que ninguna plantilla mezcle idiomas (_ES y _EN en oracle_factory/plantillas.py), que lo exigido por el formato (# Capability:, ## ADDED Requirements, ### Requirement:, #### Scenario:, Tipo: funcional y la marca TODO que impide aprobar con pendientes) permanezca intacto en ambas plantillas, que la precedencia de --idioma sobre config.json funcione sin modificar la configuración del proyecto, que el ejemplo notas y los cambios ya creados en openspec/changes/ no se vean alterados, y que otros módulos del sistema que interactúan con config.json o plantillas (init, migrar, agentes, kb, tablero, mcp, generacion.py) sigan funcionando sin regresiones.",
+    "Rechazo de idiomas no admitidos: se comprobó que un idioma que no sea 'es' o 'en' (incluyendo cadenas vacías, mayúsculas, tipos numéricos, listas o None) se rechace tanto en .factory/config.json como en la CLI vía --idioma antes de crear tareas o archivos en disco, informando adecuadamente que se admiten 'es y en'.",
+    "Ejecución de pruebas: se ejecutó en primer plano y en modo sólo lectura el comando indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-idioma/.venv/bin/python -m unittest tests.test_idioma tests.test_cli_piloto </dev/null (15 pruebas exitosas, 0 fallos). De acuerdo con las instrucciones de la revisión, no se ejecutó la suite completa de pruebas ni tools/verify_idioma.py (que corre descubrimiento completo). Tampoco se modificaron configuraciones de git ni archivos dentro del checkout.",
+    "Pruebas de mutaciones sistemáticas: en una copia de trabajo aislada en el directorio del revisor, se evaluaron 18 mutaciones manuales sobre el código (cambio de idioma por defecto a 'en', omisión de validaciones en config y en CLI, cruce de términos en plantillas SHALL/DEBE y GIVEN/DADO, eliminación de Tipo: funcional o marcas TODO, alteración del mensaje de error, aceptación de mayúsculas, precedencia con operador 'or' que ignoraría cadenas vacías, desplazamiento de validaciones tras tasks new, y falta de traducción de tasks.md y design.md al inglés). Todas las mutaciones fueron detectadas y eliminadas por las pruebas.",
+    "Ausencia de hallazgos: no se encontraron defectos, desviaciones ni pruebas falsamente positivas en el diff del candidato frente a las especificaciones y contratos prometidos; por ende, findings se entrega vacía."
+  ]
+}

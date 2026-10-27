@@ -39,3 +39,7 @@ Medidas de plantillas_c553eae730b044e20.idioma_no_admitido: Brian Hollweg (perso
 ### Nota (2026-10-27 22:17:08 UTC)
 
 Medidas de plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 22:31:37 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt.
