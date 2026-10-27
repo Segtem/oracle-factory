@@ -1,0 +1,100 @@
+{
+  "specs_caso": [
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_cuantas_specs_hay_da_dos_numeros_y_cita_los_archivos",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_cuales_son_lista_capacidad_estado_y_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_con_una_sola_spec_vigente_va_en_singular",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_sin_ninguna_spec_dice_cero",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs1_funciona_por_la_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs4_cuales_especificaciones_y_capacidades_tambien_entran",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs4_un_enlace_simbolico_no_cuenta_ni_se_cita",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs4_vigentes_y_abiertas_se_responden_con_las_dos_cantidades_rotuladas",
+      "codigo": 0
+    },
+    {
+      "requisito": "contar_y_listar_specs",
+      "caso": "rs4_la_fuente_trae_criterio_cita_y_huella_del_inventario",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs2_un_filtro_no_admitido_se_rechaza_sin_pasajes",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs2_una_compuesta_o_de_otro_tema_no_es_de_este_camino",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs4_otros_filtros_de_estado_se_rechazan",
+      "codigo": 0
+    },
+    {
+      "requisito": "filtro_de_specs_no_admitido",
+      "caso": "rs4_abandonadas_y_fechas_con_operando_se_rechazan",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs3_cambios_abiertos_sigue_igual",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs3_una_pregunta_que_nombra_cambios_y_specs_no_cambia_de_camino",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs4_una_pregunta_que_explica_no_es_de_contar_ni_listar",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs4_lo_compuesto_o_con_cambios_va_al_modelo_aunque_traiga_un_filtro",
+      "codigo": 0
+    },
+    {
+      "requisito": "las_demas_preguntas_no_cambian",
+      "caso": "rs4_una_pregunta_de_contenido_con_cuales_o_cuantas_no_se_intercepta",
+      "codigo": 0
+    }
+  ],
+  "specs_corrida": [
+    {
+      "completa": 1,
+      "casos": 18
+    }
+  ]
+}
