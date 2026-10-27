@@ -1,0 +1,70 @@
+{
+  "tablero_quien_hace_caso": [
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_un_cambio_recien_aprobado_dice_quien_hace_cada_cosa",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_una_propuesta_de_medidas_sin_confirmar_es_de_una_persona",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_cada_patron_clasifica_su_pendiente",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_un_pendiente_desconocido_queda_con_su_texto_y_sin_responsable",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_la_pagina_marca_lo_tuyo_y_lo_del_agente_y_escapa",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_sin_faltan_la_pagina_cae_a_los_pendientes",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_sin_pendientes_la_pagina_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "cada_pendiente_dice_quien_lo_hace",
+      "caso": "TableroQuienHace.test_tbq1_cada_paso_trae_su_frase",
+      "codigo": 0
+    },
+    {
+      "requisito": "ahora_no_te_toca_nada",
+      "caso": "TableroQuienHace.test_tbq2_si_lo_que_sigue_lo_hace_un_agente_dice_que_no_te_toca_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "ahora_no_te_toca_nada",
+      "caso": "TableroQuienHace.test_tbq2_si_es_una_decision_tuya_o_una_explicacion_no_aparece",
+      "codigo": 0
+    },
+    {
+      "requisito": "ahora_no_te_toca_nada",
+      "caso": "TableroQuienHace.test_tbq2_si_el_cambio_lo_tiene_otra_persona_no_aparece",
+      "codigo": 0
+    },
+    {
+      "requisito": "ahora_no_te_toca_nada",
+      "caso": "TableroQuienHace.test_tbq2_la_frase_del_paso_se_escapa",
+      "codigo": 0
+    }
+  ],
+  "tablero_quien_hace_corrida": [
+    {
+      "completa": 1,
+      "casos": 12
+    }
+  ]
+}

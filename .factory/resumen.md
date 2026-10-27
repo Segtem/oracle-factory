@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:de23d3b898d1419b0bedd9050d051e818fea06d31a67322d19c2031902259330 -->
+<!-- oracle-factory resumen sha256:3a1f05494b2c8c8a349d0382c9d323ff53951e07430512b0f5527ab62b0ee3a3 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-23 capacidades · 208 requisitos vigentes · 0 cambios abiertos
+23 capacidades · 208 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -380,7 +380,14 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261027-200012-41p-quienhace — El tablero dice qué hace cada quien y cuándo no te toca nada
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `tablero` · [propuesta](../openspec/changes/20261027-200012-41p-quienhace/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
