@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:f5e388687d8c8ef25beb7a367691fad36823d1283027dedfcb23d8f9a8c148a5 -->
+<!-- oracle-factory resumen sha256:7faf0fa41c1bc808a6abea283104eb477c81d5e493072c1405c67b6247289999 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-22 capacidades · 203 requisitos vigentes · 1 cambio abierto
+23 capacidades · 206 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -321,6 +321,16 @@ Spec completa: [openspec/specs/revisores/spec.md](../openspec/specs/revisores/sp
 | estado ofrece revisar cuando quedan hallazgos medios | funcional | `revisores_ce00c589ba010487c.estado_ofrece_revisar_cuando_quedan_hallazgos_medios` | factory_alternativas.estado_ofrece_revisar_cuando_quedan_hallazgos_medios, factory_alternativas.corrida_completa | verde al cerrar el 2026-10-14 | 20261014-125953-estado-revisar-medios |
 | el checkout de un revisor no toca el repositorio | funcional | `revisores_c0acaae89b46617f5.el_checkout_de_un_revisor_no_toca_el_repositorio` | factory_aislar.el_checkout_de_un_revisor_no_toca_el_repositorio, factory_aislar.corrida_completa | verde al cerrar el 2026-10-21 | 20261020-200030-aislar |
 
+### tablero
+
+Spec completa: [openspec/specs/tablero/spec.md](../openspec/specs/tablero/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| que_falta_en_cada_cambio | funcional | `tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio` | factory_tablero_bloqueos.que_falta_en_cada_cambio, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
+| instruccion_distinta_de_comando | funcional | `tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando` | factory_tablero_bloqueos.instruccion_distinta_de_comando, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
+| el_texto_del_registro_se_escapa | funcional | `tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa` | factory_tablero_bloqueos.el_texto_del_registro_se_escapa, factory_tablero_bloqueos.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-140946-d48-bloqueos |
+
 ### trazabilidad
 
 Spec completa: [openspec/specs/trazabilidad/spec.md](../openspec/specs/trazabilidad/spec.md)
@@ -368,14 +378,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261027-140946-d48-bloqueos — Mostrar en el tablero qué falta en cada cambio y cómo se destraba
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `tablero` · [propuesta](../openspec/changes/20261027-140946-d48-bloqueos/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1085,6 +1088,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Las pruebas de mutación manual (comprobación de palabras funcionales en permitidas, omisión de filtros de cambios/fases en specs(), verificación de metadatos de criterio y huella sha256, y salvaguardas de ruta_segura) se ejecutaron de forma aislada en copias locales en scratch sin alterar el árbol de trabajo del checkout candidato de sólo lectura.
 - (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): Los 47 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.
 - (20261026-225825-rn5-rag-specs) agy (gemini-3.8-flash-high): No se detectaron hallazgos abiertos: en esta vuelta 6 se incorporaron las formas plurales del artículo indefinido ('unos', 'unas') a permitidas en consultas.py, y se añadieron en tests/test_rag_specs.py casos de prueba que cubren cada una de las palabras funcionales ('un', 'una', 'unos', 'unas', 'por', 'para', 'ese', 'esa', 'esos', 'esas'). Las pruebas de mutación confirmaron que la supresión de cualquiera de estas palabras es ahora detectada por los tests, y se comprobó que ninguna consulta documental de las preguntas de oro ni consultas mixtas con tareas/cambios sufren regresiones ni falsos positivos.
+- (20261027-140946-d48-bloqueos) Evidencia: Escenarios tbb1–tbb3 con la página del tablero armada en node (tablero.js puro) y datos de un cambio; el panel de VS Code no se abre en un editor real, y no se mide la apariencia, sólo el HTML que se arma.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): El checkout del candidato en .factory/local/revisiones/959ab12-agy-1 no contenía un entorno virtual local (.venv), por lo que se utilizó el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) para ejecutar las pruebas sin modificar el checkout.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): Se ejecutaron exactamente las suites indicadas: tests.test_tablero_bloqueos y tests.test_tablero, omitiendo deliberadamente la suite completa de tests de acuerdo con las instrucciones de revisión.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_bloqueos.py debido a que invoca unittest.defaultTestLoader.discover() sobre todo el directorio de pruebas; su consistencia con los contratos, catálogos y casos de prueba se comprobó mediante análisis estático.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): El análisis de mutaciones se llevó a cabo en copias de trabajo aisladas en el directorio del revisor (.factory/local/revisores/959ab12-agy-1/analisis/), sin alterar el checkout en ningún momento. Se evaluaron 14 mutaciones y todas fueron detectadas y eliminadas por la suite de pruebas.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): Se comprobó que los 4 hallazgos de la vuelta anterior (agy-1: orden no alfabético de pendientes, agy-2: escapado en comandos y data-comando, agy-3: rótulo «QUÉ HACER» en alternativas, agy-4: consistencia en design.md) fueron debidamente resueltos sin introducir regresiones, por lo que la lista de hallazgos queda vacía.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): El checkout en .factory/local/revisiones/959ab12-agy2-1 no disponía de un .venv propio en su interior; se ejecutaron las pruebas con el intérprete del entorno virtual principal (/home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python) sin editar el checkout de sólo lectura.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): Se ejecutaron exclusivamente las suites indicadas (tests.test_tablero_bloqueos y tests.test_tablero) mediante el comando especificado: PYTHONPATH=. /home/workstation/Dev/factory-tablero-bloqueos/.venv/bin/python -m unittest tests.test_tablero_bloqueos tests.test_tablero </dev/null, omitiendo la suite completa por indicación explícita.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): No se ejecutó directamente tools/verify_tablero_bloqueos.py ya que realiza el descubrimiento automático de la suite completa de pruebas del proyecto.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): El análisis de mutaciones manuales se llevó a cabo en copias de trabajo aisladas en el directorio de trabajo del revisor (.factory/local/revisores/959ab12-agy2-1/analisis), preservando intacto el checkout.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): La evaluación de la interfaz de usuario se realizó mediante la simulación en Node.js de tablero.js puro; no se abrió el panel interactivo en un entorno gráfico VS Code real.
+- (20261027-140946-d48-bloqueos) agy (gemini-3.8-flash-high): No se encontraron defectos ni discrepancias con la especificación; los cuatro hallazgos de la vuelta 1 fueron debidamente subsanados y ninguna mutación realizada sobre la implementación sobrevivió a las pruebas.
 
 ### Históricos
 

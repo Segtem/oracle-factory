@@ -1,6 +1,6 @@
 # Mostrar en el tablero qué falta en cada cambio y cómo se destraba
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -71,3 +71,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-27 15:51:14 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-140946-d48-bloqueos/oracle-veredicto.txt.
+
+### Nota (2026-10-27 15:59:56 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

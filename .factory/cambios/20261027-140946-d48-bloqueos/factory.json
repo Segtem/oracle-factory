@@ -2,7 +2,7 @@
   "id": "20261027-140946-d48-bloqueos",
   "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
   "capacidad": "tablero",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
   "spec_sha256": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784",
   "spec_aprobada": {
@@ -388,6 +388,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "bedd96f2ec0f60951e1212c73f8d9b148ac11825f7f631ab6867a530f552349e"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T15:59:56.311678+00:00",
+      "oracle": ".factory/cambios/20261027-140946-d48-bloqueos/oracle-veredicto.txt",
+      "revision": "tareas/20261027-140946-d48-bloqueos/revisiones/registro-r_s_kc1g/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T15:59:56.341436+00:00",
+      "capacidad": "tablero",
+      "spec": "openspec/specs/tablero/spec.md"
     }
   ],
   "tipos": {
@@ -446,5 +466,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T15:59:56.245121+00:00"
+  },
+  "archivo": {
+    "capacidad": "tablero",
+    "spec": "openspec/specs/tablero/spec.md",
+    "cuando": "2026-10-27T15:59:56.341424+00:00"
+  }
 }
