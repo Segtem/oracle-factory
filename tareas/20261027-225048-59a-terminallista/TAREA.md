@@ -35,3 +35,19 @@ Medidas de ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_un
 ### Nota (2026-10-27 22:58:07 UTC)
 
 Medidas de ide_c6fe31e596cc9568e.queda_constancia_en_la_salida: factory_terminal_lista.queda_constancia_en_la_salida, factory_terminal_lista.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-27 23:04:56 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 23:04:56 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 23:04:57 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.queda_constancia_en_la_salida: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 23:04:57 UTC)
+
+Medidas de ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida: Brian Hollweg (persona, confirmo, modo confirmacion).
