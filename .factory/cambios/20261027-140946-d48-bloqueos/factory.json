@@ -2,7 +2,7 @@
   "id": "20261027-140946-d48-bloqueos",
   "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
   "capacidad": "tablero",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
   "spec_sha256": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa",
+    "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+    "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261027-140946-d48-bloqueos/proposal.md": "47d215acf483cf420c557c4173a034b9d9285457b7b02e6feaadb2325b713b46",
         "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T14:55:23.508646+00:00",
+      "ids": [
+        "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa",
+        "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
+        "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "tablero_cae12f0cad890a9c2.el_texto_del_registro_se_escapa": "funcional",
+    "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando": "funcional",
+    "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
