@@ -321,6 +321,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "911bc94f0778"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T15:48:21.956346+00:00",
+      "decision": "aprobar",
+      "candidato": "959ab12"
     }
   ],
   "tipos": {
@@ -378,5 +388,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 518 pruebas y 8 casos de contrato en verde, mutaciones detectadas. Límite: se prueba el HTML que arma el tablero, no el panel abierto en VS Code; cómo se ve en pantalla lo juzga la persona.",
+      "candidato": "959ab12",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-27T15:48:21.956333+00:00"
+    }
+  }
 }
