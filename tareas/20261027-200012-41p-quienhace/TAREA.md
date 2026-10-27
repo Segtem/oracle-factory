@@ -39,3 +39,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-27 21:43:47 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato d429a79; 0 hallazgos de los revisores; evidencia del candidato: 544 pruebas, 12 casos de contrato.); 0 abiertos derivados; commit 8e12807405bf7d73c6723eb5da6d1bea8a57270e; informe tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/informe.json; decisiones tareas/20261027-200012-41p-quienhace/revisiones/registro-66q2cams/decisiones.json.
+
+### Nota (2026-10-27 21:44:03 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-200012-41p-quienhace/oracle-veredicto.txt.
