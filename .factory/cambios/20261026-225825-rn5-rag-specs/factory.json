@@ -2,7 +2,7 @@
   "id": "20261026-225825-rn5-rag-specs",
   "titulo": "Preguntar cuántas specs hay y cuáles son",
   "capacidad": "conocimiento",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261026-225825-rn5-rag-specs/specs/conocimiento/spec.md",
   "spec_sha256": "5b6f7f456b268c6356922f8ded5065a378c32e30f784f38a4e18fe2c259ea12d",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido",
     "conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261026-225825-rn5-rag-specs/revisiones/registro-m546v16p/informe.json",
+    "sha256": "9829c4cee268efa5b4eea857f5d833504e977e64b6dc1f39a307dfadabdef617",
+    "decisiones": "tareas/20261026-225825-rn5-rag-specs/revisiones/registro-m546v16p/decisiones.json",
+    "decisiones_sha256": "d4687938479eb452ae4c711542682efcd6ee430ad6d80a9d0edaf91929263115",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T11:58:28.893989+00:00",
+    "motivo": "Seis vueltas de agy y agy2; la última sin hallazgos. 510 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite conocido: el clasificador por palabras no cubre todo el español natural; lo no reconocido va al buscador como antes.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "32ca0aa31bf917a4e409785e96ae16cea4bcadaa",
+      "archivos_sha256": "2cde0adee319addd99428f3b5caca233a3f1315a0a8548156883a8d0846b3b1c"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -617,6 +637,20 @@
       "cuando": "2026-10-27T11:24:47.605293+00:00",
       "decision": "aprobar",
       "candidato": "07511bb"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T11:58:28.894027+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "9829c4cee268efa5b4eea857f5d833504e977e64b6dc1f39a307dfadabdef617",
+      "decisiones_sha256": "d4687938479eb452ae4c711542682efcd6ee430ad6d80a9d0edaf91929263115"
     }
   ],
   "tipos": {
@@ -675,14 +709,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Seis vueltas de agy y agy2; la última sin hallazgos. 510 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite conocido: el clasificador por palabras no cubre todo el español natural; lo no reconocido va al buscador como antes.",
-      "candidato": "07511bb",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T11:24:47.605279+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
