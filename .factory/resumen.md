@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:1c97ff00ac181036714296425d345f7a9ce5a91d3617ae988ab6373f5577fc29 -->
+<!-- oracle-factory resumen sha256:1cd1fd689d33bbcccb99562fc1545d1a1439f2d39536aaff0c8bb68f9e46ea57 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-23 capacidades · 210 requisitos vigentes · 1 cambio abierto
+24 capacidades · 213 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -255,6 +255,16 @@ Spec completa: [openspec/specs/onboarding/spec.md](../openspec/specs/onboarding/
 | preservar archivos existentes | funcional | `onboarding_ca007f9416d32e171.preservar_archivos_existentes` | factory_guiada.preservar_archivos_existentes | verde al cerrar el 2026-10-13 | 20261004-005956-inicio-guiado |
 | recuperar cambios y siguiente paso | funcional | `onboarding_ca007f9416d32e171.recuperar_cambios_y_siguiente_paso` | factory_guiada.recuperar_cambios_y_siguiente_paso | verde al cerrar el 2026-10-13 | 20261004-005956-inicio-guiado |
 
+### plantillas
+
+Spec completa: [openspec/specs/plantillas/spec.md](../openspec/specs/plantillas/spec.md)
+
+| Requisito | Tipo | Requisito de Oracle | Medidas | Veredicto al cerrar | Cambio de origen |
+|---|---|---|---|---|---|
+| idioma_de_la_plantilla | funcional | `plantillas_c553eae730b044e20.idioma_de_la_plantilla` | factory_idioma.idioma_de_la_plantilla, factory_idioma.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-220102-yjy-idioma |
+| idioma_no_admitido | funcional | `plantillas_c553eae730b044e20.idioma_no_admitido` | factory_idioma.idioma_no_admitido, factory_idioma.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-220102-yjy-idioma |
+| la_plantilla_en_cualquier_idioma_se_aprueba_e_importa | funcional | `plantillas_c553eae730b044e20.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa` | factory_idioma.la_plantilla_en_cualquier_idioma_se_aprueba_e_importa, factory_idioma.corrida_completa | verde al cerrar el 2026-10-27 | 20261027-220102-yjy-idioma |
+
 ### portabilidad
 
 Spec completa: [openspec/specs/portabilidad/spec.md](../openspec/specs/portabilidad/spec.md)
@@ -382,14 +392,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261027-220102-yjy-idioma — Elegir el idioma de la propuesta y la spec de un cambio nuevo
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `plantillas` · [propuesta](../openspec/changes/20261027-220102-yjy-idioma/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1146,6 +1149,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261027-200012-41p-quienhace) agy (gemini-3.8-flash-high): Verificación de clasificación y robustez: se contrastaron todos los textos generados por pendientes() y pendientes_actuales() en oracle_factory/cli.py (aprobación/aceptación de spec, importación OpenSpec, revisión humana/aprobada, veredicto Oracle, propuestas sin confirmar por una persona, medidas elegidas/decididas por una persona, requisitos sin decisión, catálogos alterados, revisiones/juicios desactualizados, artefactos ausentes o inválidos). Los patrones clasifican correctamente los ítems conocidos asignando 'persona' o 'agente' y su frase respectiva, mientras que los ítems técnicos o de error caen ordenadamente en quien: None conservando su texto original.
 - (20261027-200012-41p-quienhace) agy (gemini-3.8-flash-high): Seguridad y compatibilidad del JSON: se comprobó que todo texto proveniente del registro o de datos externos se escapa sistemáticamente mediante esc() en editores/vscode/tablero.js (evitando cualquier inyección HTML/XSS). El esquema del JSON 'oracle-factory.tablero/1' conserva retrocompatibilidad total agregando los campos nuevos ('faltan', 'humano') sin alterar campos existentes ('pendientes', 'proximo_paso', etc.).
 - (20261027-200012-41p-quienhace) agy (gemini-3.8-flash-high): Sin hallazgos: no se detectaron defectos, incumplimientos de la spec ni mutantes vivos; la lista findings queda vacía.
+- (20261027-220102-yjy-idioma) Evidencia: Escenarios id1–id3 en proyectos temporales con git, Linux, con Oracle real para importar. Sólo hay dos idiomas; no se traducen la CLI, la documentación ni el tablero, y no hay una configuración global del usuario.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Se ejecutaron las pruebas unitarias del cambio (tests.test_idioma y tests.test_cli_piloto) en primer plano utilizando el entorno de ejecución de Factory, resultando todas exitosas (15 pruebas en total).
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Se aplicaron 12 mutaciones de código controladas en un entorno aislado sobre oracle_factory/plantillas.py y oracle_factory/cli.py (alterando idioma por defecto, promesas DEBE/SHALL, marcadores estructurales 'Tipo: funcional', validación de idiomas, detección de TODO, e ignorancia de CLI); todas las mutaciones fueron capturadas y eliminadas por las pruebas (12/12 killed).
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Se contrastó cada escenario de la spec (idioma_de_la_plantilla, idioma_no_admitido, la_plantilla_en_cualquier_idioma_se_aprueba_e_importa) contra el código, verificando que no se mezclan idiomas, que se preservan intactos los marcadores exigidos por el formato, que se rechazan idiomas inválidos antes de crear tareas o archivos, y que el ejemplo de notas permanece invariante.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio, de acuerdo con las instrucciones explícitas del pedido de revisión.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): No se revisaron los 7 archivos excluidos en el paquete de Clue por ser registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/20261027-220102-yjy-idioma.md, notas de kb/requisitos, tareas).
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): No se encontraron defectos, regresiones ni discrepancias respecto a la propuesta ni a la spec; la lista de hallazgos se entrega vacía.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Alcance de la revisión y verificación de requisitos: revisión independiente de la Vuelta 1 para el cambio 20261027-220102-yjy-idioma en el candidato e0adc5b frente a base f496eb1. Se contrastaron exhaustivamente las promesas de openspec/changes/20261027-220102-yjy-idioma/proposal.md y openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md contra el diff: oracle_factory/plantillas.py, oracle_factory/cli.py (config_proyecto, nuevo y el argumento --idioma), tests/test_idioma.py, tests/test_cli_piloto.py, tools/verify_idioma.py, catalogos/factory_idioma.*.oracle y docs/estructura.md.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Integridad de plantillas y consistencia de idioma: se constató que ninguna plantilla mezcle idiomas (_ES y _EN en oracle_factory/plantillas.py), que lo exigido por el formato (# Capability:, ## ADDED Requirements, ### Requirement:, #### Scenario:, Tipo: funcional y la marca TODO que impide aprobar con pendientes) permanezca intacto en ambas plantillas, que la precedencia de --idioma sobre config.json funcione sin modificar la configuración del proyecto, que el ejemplo notas y los cambios ya creados en openspec/changes/ no se vean alterados, y que otros módulos del sistema que interactúan con config.json o plantillas (init, migrar, agentes, kb, tablero, mcp, generacion.py) sigan funcionando sin regresiones.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Rechazo de idiomas no admitidos: se comprobó que un idioma que no sea 'es' o 'en' (incluyendo cadenas vacías, mayúsculas, tipos numéricos, listas o None) se rechace tanto en .factory/config.json como en la CLI vía --idioma antes de crear tareas o archivos en disco, informando adecuadamente que se admiten 'es y en'.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó en primer plano y en modo sólo lectura el comando indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-idioma/.venv/bin/python -m unittest tests.test_idioma tests.test_cli_piloto </dev/null (15 pruebas exitosas, 0 fallos). De acuerdo con las instrucciones de la revisión, no se ejecutó la suite completa de pruebas ni tools/verify_idioma.py (que corre descubrimiento completo). Tampoco se modificaron configuraciones de git ni archivos dentro del checkout.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Pruebas de mutaciones sistemáticas: en una copia de trabajo aislada en el directorio del revisor, se evaluaron 18 mutaciones manuales sobre el código (cambio de idioma por defecto a 'en', omisión de validaciones en config y en CLI, cruce de términos en plantillas SHALL/DEBE y GIVEN/DADO, eliminación de Tipo: funcional o marcas TODO, alteración del mensaje de error, aceptación de mayúsculas, precedencia con operador 'or' que ignoraría cadenas vacías, desplazamiento de validaciones tras tasks new, y falta de traducción de tasks.md y design.md al inglés). Todas las mutaciones fueron detectadas y eliminadas por las pruebas.
+- (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Ausencia de hallazgos: no se encontraron defectos, desviaciones ni pruebas falsamente positivas en el diff del candidato frente a las especificaciones y contratos prometidos; por ende, findings se entrega vacía.
 
 ### Históricos
 

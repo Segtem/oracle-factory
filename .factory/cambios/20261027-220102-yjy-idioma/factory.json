@@ -2,7 +2,7 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
   "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
   "spec_aprobada": {
@@ -283,6 +283,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:42:29.773390+00:00",
+      "oracle": ".factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt",
+      "revision": "tareas/20261027-220102-yjy-idioma/revisiones/registro-zvv_f7b_/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:42:29.800241+00:00",
+      "capacidad": "plantillas",
+      "spec": "openspec/specs/plantillas/spec.md"
     }
   ],
   "tipos": {
@@ -341,5 +361,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T22:42:29.711690+00:00"
+  },
+  "archivo": {
+    "capacidad": "plantillas",
+    "spec": "openspec/specs/plantillas/spec.md",
+    "cuando": "2026-10-27T22:42:29.800230+00:00"
+  }
 }

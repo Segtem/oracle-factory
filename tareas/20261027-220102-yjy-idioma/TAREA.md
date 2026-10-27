@@ -1,6 +1,6 @@
 # Elegir el idioma de la propuesta y la spec de un cambio nuevo
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -55,3 +55,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-27 22:40:23 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt.
+
+### Nota (2026-10-27 22:42:29 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
