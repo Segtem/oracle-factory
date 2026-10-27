@@ -1,0 +1,363 @@
+{
+  "esquema": "oracle-factory.trazabilidad-casos/1",
+  "requisitos": {
+    "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista": [
+      "test_terminal_lista.TerminalLista.test_tl1_el_aviso_de_otra_terminal_no_cuenta",
+      "test_terminal_lista.TerminalLista.test_tl1_la_espera_se_libera_una_sola_vez_y_el_reloj_no_queda_andando",
+      "test_terminal_lista.TerminalLista.test_tl1_no_escribe_hasta_que_la_terminal_avisa",
+      "test_terminal_lista.TerminalLista.test_tl1_si_nunca_avisa_escribe_al_cumplirse_el_plazo_y_no_antes",
+      "test_terminal_lista.TerminalLista.test_tl1_sin_plazo_configurado_no_escribe_enseguida",
+      "test_terminal_lista.TerminalLista.test_tl1_un_plazo_de_cero_escribe_de_inmediato",
+      "test_terminal_lista.TerminalLista.test_tl1_un_plazo_invalido_cae_al_de_por_defecto",
+      "test_terminal_lista.TerminalLista.test_tl1_una_version_sin_el_evento_cae_al_plazo",
+      "test_terminal_lista.TerminalLista.test_tl4_el_plazo_se_puede_configurar_en_la_extension"
+    ],
+    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": [
+      "test_terminal_lista.TerminalLista.test_tl3_dos_comandos_mientras_arranca_se_escriben_en_orden_y_una_vez",
+      "test_terminal_lista.TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden"
+    ],
+    "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida": [
+      "test_terminal_lista.TerminalLista.test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando"
+    ],
+    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": [
+      "test_terminal_lista.TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera",
+      "test_terminal_lista.TerminalLista.test_tl2_una_terminal_que_ya_existia_no_espera_ni_se_duplica"
+    ]
+  },
+  "casos": {
+    "test_terminal_lista.TerminalLista.test_tl1_el_aviso_de_otra_terminal_no_cuenta": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          36,
+          37,
+          38,
+          39,
+          40
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_la_espera_se_libera_una_sola_vez_y_el_reloj_no_queda_andando": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          42,
+          43,
+          44,
+          45,
+          46
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_no_escribe_hasta_que_la_terminal_avisa": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          31,
+          32,
+          33,
+          34
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_si_nunca_avisa_escribe_al_cumplirse_el_plazo_y_no_antes": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          48,
+          49,
+          50,
+          51,
+          52
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_sin_plazo_configurado_no_escribe_enseguida": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          64,
+          65,
+          66
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_un_plazo_de_cero_escribe_de_inmediato": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          54,
+          55,
+          56
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_un_plazo_invalido_cae_al_de_por_defecto": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          68,
+          69,
+          70,
+          71
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl1_una_version_sin_el_evento_cae_al_plazo": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          58,
+          59,
+          60,
+          61,
+          62
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          79,
+          80,
+          81,
+          82
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl2_una_terminal_que_ya_existia_no_espera_ni_se_duplica": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          74,
+          75,
+          76,
+          77
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl3_dos_comandos_mientras_arranca_se_escriben_en_orden_y_una_vez": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          25,
+          26,
+          94,
+          95,
+          96
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl4_el_plazo_se_puede_configurar_en_la_extension": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          118,
+          119,
+          120
+        ]
+      }
+    },
+    "test_terminal_lista.TerminalLista.test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando": {
+      "resultado": "ok",
+      "lineas": {
+        "oracle_factory/trazabilidad.py": [
+          58,
+          59,
+          73
+        ],
+        "tests/test_terminal_lista.py": [
+          16,
+          17,
+          19,
+          20,
+          21,
+          22,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          116
+        ]
+      }
+    }
+  }
+}

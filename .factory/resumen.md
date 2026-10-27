@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:1cd1fd689d33bbcccb99562fc1545d1a1439f2d39536aaff0c8bb68f9e46ea57 -->
+<!-- oracle-factory resumen sha256:6b9ad161ba0eb7f2e742f015fdafadfde9082a4d82735e799898509a7a45cd5c -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-24 capacidades · 213 requisitos vigentes · 0 cambios abiertos
+24 capacidades · 213 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -392,7 +392,14 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261027-225048-59a-terminallista — Esperar a que la terminal de Factory esté lista antes de escribir un comando
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `ide` · [propuesta](../openspec/changes/20261027-225048-59a-terminallista/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
