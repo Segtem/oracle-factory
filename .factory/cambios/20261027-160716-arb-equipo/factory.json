@@ -2,7 +2,7 @@
   "id": "20261027-160716-arb-equipo",
   "titulo": "El tablero dice a quién necesita cada cambio y qué pasó hace poco",
   "capacidad": "tablero",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md",
   "spec_sha256": "1a003d3a8f56e8819ff5b1a97c2b8b790b4775a805bff7484517958cf1f3e55b",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "fd9af9cd104c3a9d3341aba7e9fff649e5add2d3dd6044b0c6d7c48637ee0606"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-160716-arb-equipo/candidatos/176c0ca/evidencia/hechos.json",
+    "hechos_sha256": "273f1674ca553b39ac63c3a9be434baa89282477109e2492aab02536328d9689",
+    "informe": ".factory/cambios/20261027-160716-arb-equipo/oracle-veredicto.txt",
+    "informe_sha256": "57023106f0de9ccaecffa4f2fb3da95154e7a58e6cf4ffd304a5293106b8307a",
+    "cuando": "2026-10-27T17:40:11.528258+00:00",
+    "contexto": {
+      "head": "abf872ff806d9bb003f07d61731b4d48ea22239d",
+      "archivos_sha256": "fd9af9cd104c3a9d3341aba7e9fff649e5add2d3dd6044b0c6d7c48637ee0606"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -310,6 +322,17 @@
       "abiertos": 0,
       "sha256": "bb0de36762d5cd024da6071b828e1c6e26be8180441b468e9b029ee3ecb9faf9",
       "decisiones_sha256": "fb4090e43f0af91775bfcb1a51c209fd076a7cc3421f49ff160fe7abb20a2ea4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T17:40:11.528272+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "273f1674ca553b39ac63c3a9be434baa89282477109e2492aab02536328d9689"
     }
   ],
   "tipos": {

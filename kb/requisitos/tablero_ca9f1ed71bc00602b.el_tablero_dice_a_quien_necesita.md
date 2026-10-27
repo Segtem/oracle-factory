@@ -11,7 +11,7 @@ vigente: true
 - Id: `tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita`
 - Vigente: sí
 - Cambio: [[cambios/20261027-160716-arb-equipo]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_tablero_equipo.el_tablero_dice_a_quien_necesita`, `factory_tablero_equipo.corrida_completa`
 - Fuente: openspec/changes/20261027-160716-arb-equipo/specs/tablero/spec.md#el_tablero_dice_a_quien_necesita
 
