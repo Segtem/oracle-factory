@@ -51,3 +51,15 @@ Medidas de conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido propuestas
 ### Nota (2026-10-26 23:38:05 UTC)
 
 Medidas de conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-26 23:55:05 UTC)
+
+Medidas de conocimiento_c6dd9c535b1df9607.contar_y_listar_specs: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 23:55:05 UTC)
+
+Medidas de conocimiento_c6dd9c535b1df9607.filtro_de_specs_no_admitido: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-26 23:55:05 UTC)
+
+Medidas de conocimiento_c6dd9c535b1df9607.las_demas_preguntas_no_cambian: Brian Hollweg (persona, confirmo, modo confirmacion).
