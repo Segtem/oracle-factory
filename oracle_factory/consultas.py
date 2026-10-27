@@ -133,7 +133,7 @@ def interpretar_specs(texto):
     permitidas = set('cuantos cuantas cantidad numero de el la los las spec specs especificacion especificaciones capacidad '
                      'capacidades hay tenemos tiene son en total todos todas lista listar listame me mostra mostrame muestra '
                      'muestrame cuales que proyecto este factory estan existe existen quedan actualmente nos ya se vigentes '
-                     'vigente abiertas abiertos abierta abierto del al esta estos estas ese esa esos esas un una a por para'.split())
+                     'vigente abiertas abiertos abierta abierto del al esta estos estas ese esa esos esas un una unos unas a por para'.split())
     if set(filtro.sub(' ', p).split()) - permitidas:
         return None
     if filtro.search(p):

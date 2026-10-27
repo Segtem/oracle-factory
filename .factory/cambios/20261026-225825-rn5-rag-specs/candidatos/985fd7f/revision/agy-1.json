@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-rag-specs/.factory/local/revisiones/985fd7f-agy-1",
+  "base": "26ae37eb0a47f26f51354968ad8af84301abcf9d",
+  "head": "985fd7fd471f4f3972e9af2948a36558bf393a8c",
+  "diff_sha256": "cdbf24241e77b6b12bbfc01dacc280e4ad73ec9db1b4660528e66f8c028e2169",
+  "context_sha256": "e258046c689526ccb6b396bad900753d7ec6b8f76ca1b12257b3fe602a8505c4",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exclusivamente las pruebas indicadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-rag-specs/.venv/bin/python -m unittest tests.test_rag_specs tests.test_preguntar </dev/null en primer plano desde la raíz del checkout (24 pruebas ejecutadas, veredicto OK); no se corrió la suite completa de forma rutinaria.",
+    "No se invocaron servidores externos ni modelos generativos de LLM ni embeddings remotos (configuración de embeddings en 'ninguno').",
+    "Las pruebas de mutación manual se desarrollaron de forma aislada sin alterar el árbol de trabajo del checkout candidato de sólo lectura.",
+    "Los 39 archivos de registros y evidencia de Factory (.factory, kb/README.md, kb/cambios/..., kb/requisitos/..., tareas) se excluyeron de la revisión conforme a las instrucciones.",
+    "No se detectaron hallazgos abiertos: las correcciones de la vuelta 4 (incorporación de demostrativos plurales 'estos'/'estas', preposición 'a' y palabras funcionales en permitidas de consultas.py, junto con sus casos de prueba en test_rs4_abandonadas_y_fechas_con_operando_se_rechazan de test_rag_specs.py) resolvieron satisfactoriamente los defectos previos sin generar regresiones hacia el camino directo de cambios/tareas ni enmascarar consultas documentales legítimas."
+  ],
+  "findings": []
+}
