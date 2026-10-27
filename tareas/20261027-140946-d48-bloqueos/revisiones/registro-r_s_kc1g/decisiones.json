@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "02565c310999d11e14613a4d9c9a09bbcf593524bea4dff8c27045894059eb5c",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 518 pruebas y 8 casos de contrato en verde, mutaciones detectadas. Límite: se prueba el HTML que arma el tablero, no el panel abierto en VS Code; cómo se ve en pantalla lo juzga la persona.",
+  "decisiones": []
+}

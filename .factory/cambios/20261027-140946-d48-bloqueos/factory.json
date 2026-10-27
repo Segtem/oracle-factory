@@ -2,7 +2,7 @@
   "id": "20261027-140946-d48-bloqueos",
   "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
   "capacidad": "tablero",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
   "spec_sha256": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando",
     "tablero_cae12f0cad890a9c2.que_falta_en_cada_cambio"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261027-140946-d48-bloqueos/revisiones/registro-r_s_kc1g/informe.json",
+    "sha256": "02565c310999d11e14613a4d9c9a09bbcf593524bea4dff8c27045894059eb5c",
+    "decisiones": "tareas/20261027-140946-d48-bloqueos/revisiones/registro-r_s_kc1g/decisiones.json",
+    "decisiones_sha256": "1f6669ac2ff6881be270c18c9fdba3a62a9fd8814a49b741a163651fb20500c8",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T15:49:20.955728+00:00",
+    "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 518 pruebas y 8 casos de contrato en verde, mutaciones detectadas. Límite: se prueba el HTML que arma el tablero, no el panel abierto en VS Code; cómo se ve en pantalla lo juzga la persona.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4e55d7e10a2be02f93d2f0d8c94bca6d9a63eab5",
+      "archivos_sha256": "767e9baf247137decfea74aac4ceca7882fac705e440bc8832bbce46ab34da95"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -331,6 +351,20 @@
       "cuando": "2026-10-27T15:48:21.956346+00:00",
       "decision": "aprobar",
       "candidato": "959ab12"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T15:49:20.955754+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "02565c310999d11e14613a4d9c9a09bbcf593524bea4dff8c27045894059eb5c",
+      "decisiones_sha256": "1f6669ac2ff6881be270c18c9fdba3a62a9fd8814a49b741a163651fb20500c8"
     }
   ],
   "tipos": {
@@ -389,14 +423,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 518 pruebas y 8 casos de contrato en verde, mutaciones detectadas. Límite: se prueba el HTML que arma el tablero, no el panel abierto en VS Code; cómo se ve en pantalla lo juzga la persona.",
-      "candidato": "959ab12",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-27T15:48:21.956333+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

@@ -76,7 +76,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261025-122552-ho0-entrega-a14]] — Preparar la distribución 0.1.0a14 con documentación y RAG actualizados (cerrada)
 - [[cambios/20261026-144045-3h6-bloqueos]] — Mostrar cada bloqueo con su solución (cerrada)
 - [[cambios/20261026-225825-rn5-rag-specs]] — Preguntar cuántas specs hay y cuáles son (cerrada)
-- [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (requisitos_importados)
+- [[cambios/20261027-140946-d48-bloqueos]] — Mostrar en el tablero qué falta en cada cambio y cómo se destraba (revision_aprobada)
 
 ## Requisitos
 
