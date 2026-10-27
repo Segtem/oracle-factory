@@ -20,6 +20,10 @@ CONTRACTS = {
         'TerminalLista.test_tl1_no_escribe_hasta_que_la_terminal_avisa',
         'TerminalLista.test_tl1_el_aviso_de_otra_terminal_no_cuenta',
         'TerminalLista.test_tl1_la_espera_se_libera_una_sola_vez_y_el_reloj_no_queda_andando',
+        'TerminalLista.test_tl1_si_la_terminal_se_cierra_mientras_arranca_se_abre_otra_y_el_comando_sale_una_vez',
+        'TerminalLista.test_tl1_el_cierre_de_otra_terminal_no_corta_la_espera',
+        'TerminalLista.test_tl1_si_se_cierra_dos_veces_seguidas_el_pedido_falla_y_no_escribe_nada',
+        'TerminalLista.test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos',
         'TerminalLista.test_tl1_si_nunca_avisa_escribe_al_cumplirse_el_plazo_y_no_antes',
         'TerminalLista.test_tl1_un_plazo_de_cero_escribe_de_inmediato',
         'TerminalLista.test_tl1_una_version_sin_el_evento_cae_al_plazo',
@@ -28,11 +32,14 @@ CONTRACTS = {
         'TerminalLista.test_tl4_el_plazo_se_puede_configurar_en_la_extension'],
     'una_terminal_lista_recibe_el_comando_enseguida': [
         'TerminalLista.test_tl2_una_terminal_que_ya_existia_no_espera_ni_se_duplica',
-        'TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera'],
+        'TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera',
+        'TerminalLista.test_tl2_una_terminal_ya_cerrada_no_se_reutiliza'],
     'los_comandos_seguidos_se_escriben_en_orden_y_una_vez': [
         'TerminalLista.test_tl3_dos_comandos_mientras_arranca_se_escriben_en_orden_y_una_vez',
         'TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden',
-        'TerminalLista.test_tl3_un_error_al_crear_la_terminal_no_traba_los_pedidos_siguientes'],
+        'TerminalLista.test_tl3_un_error_al_crear_la_terminal_no_traba_los_pedidos_siguientes',
+        'TerminalLista.test_tl3_quien_pide_un_comando_ve_verdadero_si_se_escribio_y_falso_si_no',
+        'TerminalLista.test_tl3_si_falla_la_terminal_quien_lo_pide_ve_falso_y_la_salida_lo_dice'],
     'queda_constancia_en_la_salida': [
         'TerminalLista.test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando'],
 }
@@ -44,7 +51,7 @@ LIMITES = ('Escenarios tl1–tl4 en node con un vscode falso que decide cuándo 
 
 def fuentes():
     files = [ROOT / 'fabrica.py', ROOT / 'pyproject.toml', Path(__file__), *ROOT.glob('oracle_factory/*.py'),
-             *ROOT.glob('tests/*.py'), ROOT / 'tests/terminal_en_node.cjs', *ROOT.glob('editores/vscode/*.js'),
+             *ROOT.glob('tests/*.py'), ROOT / 'tests/terminal_en_node.cjs', *ROOT.glob('editores/vscode/*.js'), ROOT / 'editores/vscode/package.json',
              *ROOT.glob('catalogos/factory_terminal_lista.*.oracle')]
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
     return {'head': head, 'sha256': {str(p.relative_to(ROOT)): sha(p) for p in sorted(set(files))}}

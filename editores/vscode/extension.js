@@ -92,34 +92,45 @@ function esperarTerminal(terminal) {
     const ms = typeof pedido === 'number' && Number.isFinite(pedido) && pedido >= 0 ? pedido : ESPERA_POR_DEFECTO_MS;
     if (ms === 0) return Promise.resolve('plazo');
     return new Promise(listo => {
-        let suscripcion = null;
-        const reloj = setTimeout(() => { if (suscripcion) suscripcion.dispose(); listo('plazo'); }, ms);
+        const suscripciones = [];
+        const terminar = motivo => {
+            clearTimeout(reloj);
+            suscripciones.forEach(s => s.dispose());
+            listo(motivo);
+        };
+        const reloj = setTimeout(() => terminar('plazo'), ms);
         if (typeof vscode.window.onDidChangeTerminalShellIntegration === 'function')
-            suscripcion = vscode.window.onDidChangeTerminalShellIntegration(e => {
-                if (e.terminal !== terminal) return;
-                clearTimeout(reloj);
-                suscripcion.dispose();
-                listo('lista');
-            });
+            suscripciones.push(vscode.window.onDidChangeTerminalShellIntegration(e => { if (e.terminal === terminal) terminar('lista'); }));
+        if (typeof vscode.window.onDidCloseTerminal === 'function')
+            suscripciones.push(vscode.window.onDidCloseTerminal(t => { if (t === terminal) terminar('cerrada'); }));
     });
 }
 
 async function escribirEnTerminal(comando) {
-    let terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined);
-    let motivo = 'ya existía', espera = 0;
-    if (!terminal) {
-        terminal = vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
-        terminal.show();
-        if (terminal.shellIntegration) motivo = 'integración ya informada';
-        else {
-            const inicio = Date.now();
-            motivo = await esperarTerminal(terminal);
-            espera = Date.now() - inicio;
+    // Si la terminal se cierra mientras arranca, se abre otra una vez; si también se cierra, el pedido falla en voz alta.
+    for (let intento = 0; intento < 2; intento++) {
+        let terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined);
+        let motivo = 'ya existía', espera = 0;
+        if (!terminal) {
+            terminal = vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
+            terminal.show();
+            if (terminal.shellIntegration) motivo = 'integración ya informada';
+            else {
+                const inicio = Date.now();
+                motivo = await esperarTerminal(terminal);
+                espera = Date.now() - inicio;
+            }
         }
+        if (terminal.exitStatus !== undefined) {
+            anotar(`Terminal Factory: se cerró mientras arrancaba (esperó ${espera} ms); no escribí el comando`);
+            continue;
+        }
+        terminal.show();
+        terminal.sendText(comando, false);  // sin Enter: la persona lo lee y lo ejecuta
+        anotar(`Terminal Factory: comando escrito (${motivo}; esperó ${espera} ms)`);  // sin el texto del comando
+        return;
     }
-    terminal.show();
-    terminal.sendText(comando, false);  // sin Enter: la persona lo lee y lo ejecuta
-    anotar(`Terminal Factory: comando escrito (${motivo}; esperó ${espera} ms)`);  // sin el texto del comando
+    throw new Error('la terminal Factory se cerró dos veces seguidas; no escribí el comando');
 }
 
 function escribirPaso(nodo) {
@@ -186,7 +197,9 @@ function escribirComando(texto, deUnInvitado = false) {
     if (deUnInvitado && (typeof texto !== 'string' || !/^[\p{L}\p{N} ._/:=-]+$/u.test(texto))) return false;
     const raiz = carpeta();
     const comando = raiz && modelo.comandoDe(texto, cli(raiz));
-    return comando ? escribirPaso({comando}).then(() => true) : false;  // lo que ve quien lo pide: ya escrito
+    // Lo que ve quien lo pide (un invitado de Live Share, el tablero): verdadero si ya se escribió, falso si no se pudo.
+    return comando ? escribirPaso({comando}).then(() => true, e => { anotar(`Terminal Factory: no pude escribir el comando (${e.message})`); return false; })
+        : false;
 }
 
 // Un mensaje del chat: lo guarda la CLI de quien tiene el proyecto, con el nombre que da Live Share (la CLI valida el
@@ -335,4 +348,4 @@ function activate(context) {
     }
 }
 
-module.exports = {activate, deactivate() {}};
+module.exports = {activate, deactivate() {}, escribirComando};  // escribirComando, para probar lo que ve quien lo pide

@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/f336999-agy2-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "f33699905d20ea125e28e9ce65ac135b3d704059",
+  "diff_sha256": "6c119f4e7d43433f2c3abc5b1eb796609f3bcfab7fe535c84bee776f65335171",
+  "context_sha256": "9ceffbe9363a70364f9da13003bfb82b3136de14c0d9d275430c60593c1a7ffd",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano las pruebas unitarias indicadas desde la raíz del checkout: PYTHONPATH=. .venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare.",
+    "Se evaluaron mutaciones manuales sobre copias locales de editores/vscode/extension.js y tests/test_terminal_lista.py en el directorio de revisión.",
+    "No se ejecutó la suite completa del proyecto según la restricción establecida en la consigna.",
+    "No se evaluó en una instancia viva e interactiva de VS Code ni en un shell real con activación del entorno virtual Python, limitándose la verificación a los arneses de Node con vscode falso."
+  ],
+  "findings": [
+    {
+      "id": "terminal-cerrada-bloqueo-y-perdida-de-comando",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Terminal cerrada durante la espera demora el plazo completo, pierde el comando y registra falsamente en la salida que fue escrito",
+      "explanation": "En editores/vscode/extension.js, esperarTerminal(terminal) aguarda el evento onDidChangeTerminalShellIntegration o el vencimiento de factory.esperaTerminalMs (3000 ms por defecto). No obstante, no se suscribe a vscode.window.onDidCloseTerminal. Si el usuario cierra la terminal durante la espera, o si el proceso del shell finaliza prematuramente: 1) esperarTerminal continúa bloqueada esperando el plazo completo de 3 segundos, demorando también los pedidos subsiguientes encolados en cola; 2) al vencer el plazo, resuelve con \"plazo\"; 3) escribirEnTerminal procede a invocar terminal.show() y terminal.sendText(comando, false) sobre la terminal ya cerrada (exitStatus !== undefined), provocando que el comando no llegue a ningún shell activo y se pierda; 4) anotar() registra en el canal de salida que el comando fue escrito (\"Terminal Factory: comando escrito (plazo; esperó 3000 ms)\"), falseando la constancia; 5) pedidos posteriores en cola sufren un retraso innecesario y, al detectar que la terminal anterior tiene exitStatus !== undefined, crean una nueva terminal donde sólo se escribe el segundo comando, alterando el orden y la entrega prometida.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 90,
+        "end_line": 123,
+        "side": "head"
+      },
+      "trigger": "Solicitar escribir un comando cuando no hay terminal abierta (o dos comandos sucesivos) y cerrar la ventana de la terminal Factory (o que su shell finalice) mientras transcurre el plazo de espera antes del aviso de shell integration.",
+      "evidence": "Simulado en Node con dos comandos (cmd1 y cmd2) cerrando la terminal a los 50 ms en un plazo de 200 ms: cmd1 nunca fue recibido por ninguna terminal activa (recibido=[]); a los 200 ms se emitió en la salida que cmd1 fue escrito; a los 400 ms se creó una segunda terminal y sólo cmd2 fue recibido. cmd1 se perdió definitivamente y la salida registró falsamente que ambos comandos fueron escritos.",
+      "related_requirement": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "status": "pendiente",
+      "verification": "Crear un escenario donde se invoque factory.escribirPaso y se emita onDidCloseTerminal fijando exitStatus antes del aviso de integración de shell. Verificar que esperarTerminal no cancele la espera de inmediato y que escribirEnTerminal intente sendText sobre la terminal cerrada emitiendo la constancia de éxito."
+    },
+    {
+      "id": "escribir-comando-rechaza-en-vez-de-falso",
+      "kind": "regresion",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "escribirComando propaga el rechazo de la promesa en caso de error en vez de resolver false al invitado de Live Share y a la interfaz",
+      "explanation": "En la versión previa, escribirComando devolvía sincrónicamente Boolean(comando), garantizando un valor booleano (true o false). En liveshare.js (línea 73), el servicio de Live Share atiende peticiones de terminal evaluando: args => typeof lista(args)[0] === \"string\" && this.al.terminal(lista(args)[0]). En este candidato, escribirComando fue modificado a: return comando ? escribirPaso({comando}).then(() => true) : false. Si escribirPaso falla (por ejemplo, si createTerminal o sendText lanzan una excepción), la promesa retornada es rechazada. Al carecer de un manejador de error (como .catch(() => false)), escribirComando rechaza la promesa. Esto produce que: 1) el manejador onRequest de Live Share retorne una promesa rechazada, provocando que la llamada RPC del invitado aborte con una excepción RPC no controlada en vez de recibir el booleano false; 2) en extension.js, mensajeDelTablero ejecuta await escribirComando(m.comando) o await sesion.pedir(\"terminal\", [m.comando]) sin try/catch, derivando en un rechazo de promesa no capturado (unhandled rejection).",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 186,
+        "end_line": 190,
+        "side": "head"
+      },
+      "trigger": "Un invitado de Live Share o el usuario desde el tablero solicita un comando de Factory cuando la creación de la terminal o el envío de texto genera un error.",
+      "evidence": "Al ejecutar en Node el manejador del servicio Live Share con un createTerminal que lanza un error (\"no se pudo crear la terminal\") al procesar un comando válido (\"oracle-factory estado ...\"), la llamada arrojó una excepción no capturada en lugar de resolver con el valor booleano false.",
+      "related_requirement": null,
+      "status": "pendiente",
+      "verification": "Invocar sesion.pedir(\"terminal\", [\"oracle-factory estado ...\"]) simulando un error en createTerminal o sendText, y verificar si la llamada rechaza con excepción en lugar de resolver con false."
+    },
+    {
+      "id": "ausencia-pruebas-terminal-cerrada-exitstatus",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La suite de pruebas no valida el descarte de terminales con exitStatus definido ni el cierre de terminales",
+      "explanation": "editores/vscode/extension.js en la línea 108 busca terminales activas mediante terminals.find(t => t.name === \"Factory\" && t.exitStatus === undefined). Sin embargo, en tests/terminal_en_node.cjs y tests/test_terminal_lista.py no existe ningún escenario ni simulación de terminal cerrada (exitStatus !== undefined o evento onDidCloseTerminal). Al aplicar la mutación de omitir la condición && t.exitStatus === undefined, todas las pruebas de test_terminal_lista.py, test_vscode.py y test_liveshare.py siguen pasando exitosamente (15/15 OK). La suite no protege contra regresiones en las que una terminal finalizada vuelva a ser utilizada indebidamente.",
+      "location": {
+        "file": "tests/test_terminal_lista.py",
+        "start_line": 74,
+        "end_line": 83,
+        "side": "head"
+      },
+      "trigger": "Eliminar \"&& t.exitStatus === undefined\" de la búsqueda de terminal en extension.js y ejecutar la suite de pruebas unitarias.",
+      "evidence": "Mutación aplicada en mutacion/extension.js: se ejecutó test_terminal_lista.py y los 15 tests pasaron sin fallos (Failures: 0, Errors: 0, WasSuccessful: True), demostrando que la condición de descarte de terminal cerrada no está cubierta por las pruebas.",
+      "related_requirement": "una_terminal_lista_recibe_el_comando_enseguida",
+      "status": "pendiente",
+      "verification": "Mutar extension.js removiendo \"&& t.exitStatus === undefined\" y constatar que ningún test de test_terminal_lista.py falla."
+    }
+  ]
+}
