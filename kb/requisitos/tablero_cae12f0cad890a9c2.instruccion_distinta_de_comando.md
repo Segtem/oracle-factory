@@ -11,7 +11,7 @@ vigente: true
 - Id: `tablero_cae12f0cad890a9c2.instruccion_distinta_de_comando`
 - Vigente: sí
 - Cambio: [[cambios/20261027-140946-d48-bloqueos]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_tablero_bloqueos.instruccion_distinta_de_comando`, `factory_tablero_bloqueos.corrida_completa`
 - Fuente: openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md#instruccion_distinta_de_comando
 

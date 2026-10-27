@@ -2,7 +2,7 @@
   "id": "20261027-140946-d48-bloqueos",
   "titulo": "Mostrar en el tablero qué falta en cada cambio y cómo se destraba",
   "capacidad": "tablero",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261027-140946-d48-bloqueos/specs/tablero/spec.md",
   "spec_sha256": "d4d57673e1e7c3a705fe15d83448a6fd7870e0c8a35e16d870359984bb825784",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "767e9baf247137decfea74aac4ceca7882fac705e440bc8832bbce46ab34da95"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-140946-d48-bloqueos/candidatos/959ab12/evidencia/hechos.json",
+    "hechos_sha256": "bedd96f2ec0f60951e1212c73f8d9b148ac11825f7f631ab6867a530f552349e",
+    "informe": ".factory/cambios/20261027-140946-d48-bloqueos/oracle-veredicto.txt",
+    "informe_sha256": "ceed920a7952fbf1bc917f8a3bf116eb4e87f7bca4553281792c5f7f777a501b",
+    "cuando": "2026-10-27T15:51:14.178651+00:00",
+    "contexto": {
+      "head": "d20c1395111860b654c03634d6548a3fcf1b80e7",
+      "archivos_sha256": "767e9baf247137decfea74aac4ceca7882fac705e440bc8832bbce46ab34da95"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -365,6 +377,17 @@
       "abiertos": 0,
       "sha256": "02565c310999d11e14613a4d9c9a09bbcf593524bea4dff8c27045894059eb5c",
       "decisiones_sha256": "1f6669ac2ff6881be270c18c9fdba3a62a9fd8814a49b741a163651fb20500c8"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T15:51:14.178668+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "bedd96f2ec0f60951e1212c73f8d9b148ac11825f7f631ab6867a530f552349e"
     }
   ],
   "tipos": {
