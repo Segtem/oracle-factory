@@ -11,7 +11,7 @@ vigente: true
 - Id: `plantillas_c553eae730b044e20.idioma_de_la_plantilla`
 - Vigente: sí
 - Cambio: [[cambios/20261027-220102-yjy-idioma]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_idioma.idioma_de_la_plantilla`, `factory_idioma.corrida_completa`
 - Fuente: openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md#idioma_de_la_plantilla
 

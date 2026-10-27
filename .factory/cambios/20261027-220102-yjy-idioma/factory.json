@@ -2,7 +2,7 @@
   "id": "20261027-220102-yjy-idioma",
   "titulo": "Elegir el idioma de la propuesta y la spec de un cambio nuevo",
   "capacidad": "plantillas",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261027-220102-yjy-idioma/specs/plantillas/spec.md",
   "spec_sha256": "95825bc624031ae185681b2fc68bf514e7c8d3328cb0d077c5c0408bd0029cc0",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "6d0aed67a62ea5938cbc9b82158a275c12d3267024f52d91042a45da9f0f441b"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-220102-yjy-idioma/candidatos/e0adc5b/evidencia/hechos.json",
+    "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb",
+    "informe": ".factory/cambios/20261027-220102-yjy-idioma/oracle-veredicto.txt",
+    "informe_sha256": "4e636aa6ce6cbfa51f7de1944cee82b5f7f33ff7dd33ecda0f7998f9c10fb82f",
+    "cuando": "2026-10-27T22:40:23.154032+00:00",
+    "contexto": {
+      "head": "b5c1caa63a7ece6fc18360b2825137f302749ce7",
+      "archivos_sha256": "6d0aed67a62ea5938cbc9b82158a275c12d3267024f52d91042a45da9f0f441b"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -260,6 +272,17 @@
       "abiertos": 0,
       "sha256": "ef5194ff1e9f15248afc342f16ed5b1ef0c374d14b4d2d99aa4a56e2e5b0237e",
       "decisiones_sha256": "521c14219242bacea3408685f4a0e5346d420004e1a1b8c782882161d76883b2"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:40:23.154048+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "1b11ced75826a467dc5979a229d35cfcc3d055b293021395584bdead6ee7baeb"
     }
   ],
   "tipos": {
