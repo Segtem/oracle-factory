@@ -31,3 +31,11 @@ Medidas de tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto: Brian Holl
 ### Nota (2026-10-27 16:15:34 UTC)
 
 Medidas de tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-27 16:39:29 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.el_tablero_dice_a_quien_necesita propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-27 16:39:30 UTC)
+
+Medidas de tablero_ca9f1ed71bc00602b.actividad_reciente_del_proyecto propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
