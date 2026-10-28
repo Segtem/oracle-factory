@@ -269,6 +269,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "72d2298f93dd"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T23:34:24.095100+00:00",
+      "decision": "aprobar",
+      "candidato": "6f59107"
     }
   ],
   "tipos": {
@@ -326,5 +336,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Una vuelta de agy y agy2, sin hallazgos. 707 pruebas y 18 casos de contrato en verde, sin modificar ninguna prueba existente. Comprobación propia: las 68 funciones movidas son idénticas al original en el árbol sintáctico, tras quitar el prefijo cli. y la sustitución de sys.modules[__name__]; ninguna función que sigue en cli.py cambió y no se perdió ninguna. cli.py pasó de 253965 a 137054 bytes. Un defecto de importación circular (importar primero un módulo nuevo fallaba) se encontró y corrigió antes de la revisión. Límite: la equivalencia se comprobó por el árbol sintáctico y por las 707 pruebas, no ejecutando cada comando en cada situación; el tope real de Oracle Clue (256000) no se prueba, sólo los topes propios de 160000 y 200000.",
+      "candidato": "6f59107",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T23:34:24.095089+00:00"
+    }
+  }
 }
