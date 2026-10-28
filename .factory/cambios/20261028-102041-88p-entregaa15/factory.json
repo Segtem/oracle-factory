@@ -2,7 +2,7 @@
   "id": "20261028-102041-88p-entregaa15",
   "titulo": "Preparar la distribución 0.1.0a15",
   "capacidad": "distribucion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md",
   "spec_sha256": "7656dc1ab6b3bc591545cd6d715b14b7191ad062db775258020808f0f25c887e",
   "spec_aprobada": {
@@ -564,6 +564,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "60f9b2372e6d1932f26bed545c84eb0496d571a819481e7ff5e46162d7ba5b8a"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T14:21:03.407265+00:00",
+      "oracle": ".factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt",
+      "revision": "tareas/20261028-102041-88p-entregaa15/revisiones/registro-hs9m22c2/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T14:21:03.439670+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
     }
   ],
   "tipos": {
@@ -622,5 +642,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T14:21:03.345744+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-10-28T14:21:03.439660+00:00"
+  }
 }
