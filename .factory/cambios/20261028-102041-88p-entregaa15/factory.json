@@ -321,6 +321,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "cc2eb43b7d0c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T13:35:41.700697+00:00",
+      "decision": "aprobar",
+      "candidato": "8ba56f7"
     }
   ],
   "tipos": {
@@ -378,5 +388,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas y wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout, con las novedades. Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.",
+      "candidato": "8ba56f7",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T13:35:41.700683+00:00"
+    }
+  }
 }

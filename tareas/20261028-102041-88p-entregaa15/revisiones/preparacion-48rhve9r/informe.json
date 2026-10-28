@@ -1,0 +1,91 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261028-102041-88p-entregaa15",
+  "contexto": {
+    "head": "718c84be148b9c60375fd6b2a64aad8fcd1fcd17",
+    "archivos_sha256": "7cbb9b52ef29696c064c5376ee080f7a3c320bed1fe40fad23b97dda6b6ea61b"
+  },
+  "documentos": {
+    "openspec/changes/20261028-102041-88p-entregaa15/proposal.md": "56f11650e44ed82bc7f4091e8faa834c73494da62ba58a2f9fe5f08679bd2679",
+    "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md": "7656dc1ab6b3bc591545cd6d715b14b7191ad062db775258020808f0f25c887e"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "NOTAS-DE-RELEASE.md",
+    "README.md",
+    "catalogos/factory_entrega_a15.corrida_completa.oracle",
+    "catalogos/factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo.oracle",
+    "catalogos/factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites.oracle",
+    "catalogos/factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261028-102041-88p-entregaa15/design.md",
+    "openspec/changes/20261028-102041-88p-entregaa15/proposal.md",
+    "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md",
+    "openspec/changes/20261028-102041-88p-entregaa15/tasks.md",
+    "oracle_factory/__init__.py",
+    "pyproject.toml",
+    "requisitos/distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo.requisito",
+    "requisitos/distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites.requisito",
+    "requisitos/distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/index.html",
+    "site/modos.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_docs.py",
+    "tests/test_entrega_a14.py",
+    "tests/test_entrega_a15.py",
+    "tests/test_entrega_integridad_a15.py",
+    "tools/docs_al_dia.py",
+    "tools/mutar_entrega_a15.py",
+    "tools/probar_entrega_a15.py",
+    "tools/verify_entrega_a15.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 600 pruebas, ? casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/8ba56f7/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/8ba56f7/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/8ba56f7/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4f46d9a: agy (gemini-3.8-flash-high), 3 hallazgos: asercion-tautologica-bloqueo-novedades (media), cobertura-incompleta-escenario-afirmacion-publicacion-no-verificada (media), web-index-novedades-desactualizadas-a14 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/4f46d9a/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 4f46d9a: agy (gemini-3.8-flash-high), 3 hallazgos: AGY-001 (media), AGY-002 (media), AGY-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/4f46d9a/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Comprobación de la distribución 0.1.0a15 fuera del checkout en Linux con Python 3.13; wheel instalado en entorno aislado sin resolver módulos del repositorio. Conteos desde el registro con fuentes; elaboración simulada con servidor HTTP local fixture que rechaza escrituras; las pruebas simuladas no certifican calidad de un modelo real. No equivale a una publicación en PyPI ni reemplaza las decisiones humanas de Brian.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente en 8.9s). Se utilizó el intérprete .venv de la raíz del proyecto principal ya que el clon local en .factory/local/revisiones/8ba56f7-agy-1 no cuenta con un entorno virtual propio.",
+    "agy (gemini-3.8-flash-high): Alcance de pruebas: conforme a la consigna, no se corrió la suite completa de pruebas del repositorio ni tools/verify_entrega_a15.py directamente.",
+    "agy (gemini-3.8-flash-high): Integridad del repositorio: no se modificó el checkout del candidato 8ba56f7 (sólo lectura), no se realizaron commits ni se alteró la configuración de Git de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones: se ejecutaron y verificaron dinámicamente sobre una copia aislada en el directorio de trabajo del revisor las 24 mutaciones de tools/mutar_entrega_a15.py contra sus respectivos casos de prueba, comprobando que todas son detectadas (24/24 detectadas, 0 sobrevivientes).",
+    "agy (gemini-3.8-flash-high): Verificación de vueltas anteriores: se constató que los cuatro hallazgos de la vuelta 1 (aserción tautológica en test_ea2, listar specs con preguntar en el wheel instalado, detección de afirmación de publicación no verificada en docs_al_dia y actualización de la sección novedades de site/index.html) fueron resueltos satisfactoriamente y sin regresiones.",
+    "agy (gemini-3.8-flash-high): Archivos excluidos: conforme al paquete de Clue, se excluyeron de la revisión los 18 archivos correspondientes a registros y evidencia interna de Factory (.factory, kb/ y tareas/).",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente). Se utilizó el intérprete .venv del proyecto principal dado que el clon local de revisión no posee entorno virtual propio.",
+    "agy (gemini-3.8-flash-high): Alcance de ejecución de pruebas: no se ejecutó la suite completa de pruebas ni tools/verify_entrega_a15.py directamente, conforme a la instrucción expresa de no correrlas.",
+    "agy (gemini-3.8-flash-high): Análisis estático y de mutaciones: se verificaron las 24 mutaciones de tools/mutar_entrega_a15.py respecto de sus archivos objetivo y casos asociados, confirmando que cada mutación posee exactamente una ocurrencia en las fuentes y que todas cuentan con respaldo de detección. No se ejecutó mutar_entrega_a15.py in-place para preservar la integridad del checkout de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Verificación de documentación y consistencia de versiones: se ejecutó tools/docs_al_dia.py en el checkout de revisión, verificando que la CLI, el README, las guías de docs y las páginas del sitio web se encuentren sincronizados con la versión 0.1.0a15, sin subcomandos no documentados ni menciones divergentes de versiones fuera del historial. Se verificó que NOTAS-DE-RELEASE.md declara 0.1.0a15 como «en preparación» y 0.1.0a14 como «Publicada», y que las notas corresponden fielmente a las capacidades del código fuente.",
+    "agy (gemini-3.8-flash-high): Verificación de la comprobación del wheel instalado y novedades: se constató que tools/probar_entrega_a15.py evalúa la instalación en un virtualenv aislado con Python 3.13 fuera del checkout, comprueba el origen estricto de importación en site-packages y valida todas las novedades de la versión (conteo y listado de specs mediante preguntar, plantilla en idioma inglés con nuevo --idioma, bloqueo con identificación de archivo y línea en aprobar-spec, y presencia de yo, faltan y actividad en el tablero), habiéndose verificado que los chequeos fallan efectivamente ante fallas inducidas en los 19 casos de prueba negativos de validar_novedades.",
+    "agy (gemini-3.8-flash-high): Sin hallazgos pendientes: todos los hallazgos de las revisiones previas (aserción tautológica en el bloqueo, omisión de la comprobación del listado de specs, falta de detección de publicación afirmada prematuramente y sección de novedades de site/index.html) se encuentran debidamente resueltos y no se identificaron regresiones ni nuevas discrepancias con la especificación.",
+    "agy (gemini-3.8-flash-high): Archivos excluidos: conforme al paquete de Clue, no se revisaron los 18 archivos de registros internos y evidencia de Factory (.factory/, kb/ y tareas/).",
+    "agy (gemini-3.8-flash-high): Integridad del repositorio: no se modificó el checkout de revisión del candidato ni la configuración de Git de ningún repositorio."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
