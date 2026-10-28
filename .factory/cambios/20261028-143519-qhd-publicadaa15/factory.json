@@ -266,6 +266,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "e1068d6d480a"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T15:56:57.425608+00:00",
+      "decision": "aprobar",
+      "candidato": "9876790"
     }
   ],
   "tipos": {
@@ -306,5 +316,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 609 pruebas y 9 casos de contrato en verde. La regla nueva de tools/docs_al_dia.py exige la versión en la misma frase para no confundir el candidato de una revisión con una versión candidata, y cada una de sus 9 formas hace fallar una prueba si se quita. Límite: la regla es por patrones de texto en español: una forma de decir «en preparación» que no esté entre los patrones no se detecta; el estado de una versión sigue teniendo una sola fuente, el encabezado de sus notas.",
+      "candidato": "9876790",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T15:56:57.425594+00:00"
+    }
+  }
 }
