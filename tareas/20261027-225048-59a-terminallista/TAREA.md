@@ -119,3 +119,7 @@ Medidas de ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida:
 ### Nota (2026-10-28 00:39:26 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.); 0 abiertos derivados; commit 4c00d2efd329017a595e397476d246aeedf6940a; informe tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/informe.json; decisiones tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/decisiones.json.
+
+### Nota (2026-10-28 00:39:37 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261027-225048-59a-terminallista/oracle-veredicto.txt.

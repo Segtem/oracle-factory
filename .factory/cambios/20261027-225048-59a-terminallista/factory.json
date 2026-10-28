@@ -2,7 +2,7 @@
   "id": "20261027-225048-59a-terminallista",
   "titulo": "Esperar a que la terminal de Factory esté lista antes de escribir un comando",
   "capacidad": "ide",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md",
   "spec_sha256": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f",
   "spec_aprobada": {
@@ -43,7 +43,19 @@
       "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/c351794/evidencia/hechos.json",
+    "hechos_sha256": "b36893bcd0f7ea811d464bd5551ed306af7d80882d2fbdd6e52139726e903cf0",
+    "informe": ".factory/cambios/20261027-225048-59a-terminallista/oracle-veredicto.txt",
+    "informe_sha256": "4d5862dfc3261b2a2be2ea49ea00977cbc2e74ac67b2efc58b3d9910638ba937",
+    "cuando": "2026-10-28T00:39:37.778218+00:00",
+    "contexto": {
+      "head": "1b4746845bb0459a235e7435f797ca23508a3e29",
+      "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -588,6 +600,17 @@
       "abiertos": 0,
       "sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
       "decisiones_sha256": "48271b2024166e3c1c634cf2a2e0bfe73a9bce811582a4246d202b3c02edc03e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:39:37.778237+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b36893bcd0f7ea811d464bd5551ed306af7d80882d2fbdd6e52139726e903cf0"
     }
   ],
   "tipos": {
