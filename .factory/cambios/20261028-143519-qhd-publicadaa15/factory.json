@@ -162,23 +162,48 @@
       "resultado": "ok",
       "hallazgos": 4,
       "lanzamiento": "ae62d15e2d54"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T15:13:35.264273+00:00",
+      "requisito": "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada",
+      "medidas": [
+        "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada",
+        "factory_publicada_a15.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T15:13:36.348558+00:00",
+      "requisito": "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "medidas": [
+        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+        "factory_publicada_a15.corrida_completa"
+      ]
     }
   ],
   "tipos": {
     "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada": "funcional",
     "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "funcional"
   },
-  "medidas": {
+  "medidas": {},
+  "medidas_pendientes": {
     "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-28T14:44:52.026876+00:00",
       "sha256": "3af2af61cf1a6978f639acbd8b9b6ce23e90e6c070f660abceff83b7fa615c27",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T15:13:35.232154+00:00",
       "catalogos": {
         "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada": "ee0161289f237166cc1faa23b6d078a1922d174881e8b43c253308bedea55a30",
-        "factory_publicada_a15.corrida_completa": "82acfec05458be50f81d34a8dff31865daca16b48daae11a05a8a02a9a98f215"
+        "factory_publicada_a15.corrida_completa": "6bdd6c442bd5a410a5045e82381cf51f76bb06be476be771f8514a3ff198a1bd"
       },
       "archivos_catalogo": {
         "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada": "catalogos/factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada.oracle",
@@ -186,21 +211,18 @@
       }
     },
     "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-28T14:44:52.165381+00:00",
       "sha256": "1027be35479f2410264b0a4b88a5f595fd22aa6c3c72562d34e17139f5ec402d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T15:13:36.316390+00:00",
       "catalogos": {
-        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "b96fc26ca8e5e31c3945c6b6d778c1d815215aff96425a13114356c50b22f18b",
-        "factory_publicada_a15.corrida_completa": "82acfec05458be50f81d34a8dff31865daca16b48daae11a05a8a02a9a98f215"
+        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "9a4b4c3bc44b79e8c3f6010a62f48b7dac726c17e40f4f23b2bcd54c6bd67d7c",
+        "factory_publicada_a15.corrida_completa": "6bdd6c442bd5a410a5045e82381cf51f76bb06be476be771f8514a3ff198a1bd"
       },
       "archivos_catalogo": {
         "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "catalogos/factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta.oracle",
         "factory_publicada_a15.corrida_completa": "catalogos/factory_publicada_a15.corrida_completa.oracle"
       }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }

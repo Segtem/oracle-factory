@@ -31,3 +31,11 @@ Medidas de distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_versi
 ### Nota (2026-10-28 14:44:52 UTC)
 
 Medidas de distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 15:13:35 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 15:13:36 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
