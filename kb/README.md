@@ -81,6 +81,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (cerrada)
 - [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (cerrada)
 - [[cambios/20261027-225048-59a-terminallista]] — Esperar a que la terminal de Factory esté lista antes de escribir un comando (cerrada)
+- [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (espera_aprobacion_spec)
 
 ## Requisitos
 
