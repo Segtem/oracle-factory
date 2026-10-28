@@ -1,0 +1,21 @@
+{
+  "base": "35e4ca318b101353ba16be06ab377f58a9c305bf",
+  "context_sha256": "6fdf80494a52abbb4e79c706013ae18343cc529e5ca15728ff74cf4d127d957c",
+  "diff_sha256": "49a940afa93914c88ebcec78330cba80eae7647d2aba39e11b6c07606f206105",
+  "findings": [],
+  "head": "43d18a3ad174878de629d80a95689a7cdbdd2971",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null (23 pruebas exitosas en 4.26s: 18 de BloqueoCausa y 5 de Piloto). Se utilizó el intérprete .venv de la raíz del proyecto debido a que el clon local en revisiones/43d18a3-agy-1 no cuenta con un entorno virtual propio.",
+    "Alcance de pruebas: no se corrió la suite completa de pruebas ni tools/verify_bloqueo_causa.py (que ejecuta discover de la suite completa), respetando la instrucción expresa de no ejecutar la suite completa.",
+    "Integridad del repositorio: no se modificó el checkout de revisión del candidato 43d18a3 ni se alteró la configuración de Git de ningún repositorio.",
+    "Pruebas de mutación: se ejecutaron 18 mutaciones manuales sobre la lógica de exigir_plantilla_completa en el directorio de trabajo del revisor contra tests.test_bloqueo_causa. 17 mutaciones fueron eliminadas por las pruebas (corte a 79 y 81 caracteres, elipsis con '...' en lugar de '…', omisión de strip, 'quedan' fijo ante 1 restante, 'queda' fijo ante más de 1 restante, 'falta el archivo' singular fijo ante múltiples faltantes, 'faltan los archivos' plural fijo ante 1 faltante, orden invertido de pendientes/faltan, omisión de ruta_segura, relative_to antes de ruta_segura, omisión de captura de UnicodeDecodeError, selección de última línea con marca, enumeración 0-based de líneas, off-by-one en conteo de resto, estricto en límite de 80 caracteres, pase incondicional). Una mutación sobrevivió: reemplazar is_file() por exists(), al no existir un caso de prueba con directorios con nombres de plantilla, si bien is_file() es más estricto y previene IsADirectoryError.",
+    "Verificación de seguridad, robustez y regresiones: se verificó que el hallazgo de la vuelta 2 (invocación de relative_to antes de ruta_segura) fue debidamente corregido en exigir_plantilla_completa (oracle_factory/cli.py:1064-1065) y cuenta con una prueba unitaria específica (test_bc1_una_ruta_fuera_del_proyecto_es_un_error_de_factory_y_no_un_valueerror). Asimismo, se verificaron los cierres de la vuelta 1 (enlaces simbólicos externos y rotos rechazados limpiamente vía ruta_segura, manejo de archivos no UTF-8 emitiendo FactoryError, concordancia de singular/plural, y corte exacto a 80 caracteres). Los catálogos .oracle y la evidencia del candidato coinciden exactamente con los 18 casos de contrato sin líneas de producto sin respaldo."
+  ],
+  "provider": {
+    "model": "gemini-3.8-flash-high",
+    "name": "agy"
+  },
+  "repo": "/home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/43d18a3-agy-1",
+  "review_status": "completo",
+  "schema_version": "oracle-clue.review/v1"
+}
