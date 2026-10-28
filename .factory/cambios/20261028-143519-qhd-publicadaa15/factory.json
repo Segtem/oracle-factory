@@ -2,7 +2,7 @@
   "id": "20261028-143519-qhd-publicadaa15",
   "titulo": "Declarar publicada la 0.1.0a15 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md",
   "spec_sha256": "d7f985f754eaba62a2d3b5ee2a9159da7495a57d084eaab47f64f666c87969b1",
   "spec_aprobada": {
@@ -333,6 +333,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "26b1ef5a6b159c91954cf77c17ee4367fcbc27b961e854ee82b36d9e459eb31a"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T16:08:39.047462+00:00",
+      "oracle": ".factory/cambios/20261028-143519-qhd-publicadaa15/oracle-veredicto.txt",
+      "revision": "tareas/20261028-143519-qhd-publicadaa15/revisiones/registro-jxbn3h9q/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T16:08:39.077626+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
     }
   ],
   "tipos": {
@@ -374,5 +394,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T16:08:38.985482+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-10-28T16:08:39.077616+00:00"
+  }
 }
