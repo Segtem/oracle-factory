@@ -1,0 +1,24 @@
+{
+  "id": "20261028-143519-qhd-publicadaa15",
+  "titulo": "Declarar publicada la 0.1.0a15 en las notas y los textos",
+  "capacidad": "distribucion",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T14:35:19.717351+00:00",
+      "capacidad": "distribucion"
+    }
+  ]
+}
