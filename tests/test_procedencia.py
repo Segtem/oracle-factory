@@ -207,7 +207,7 @@ class Procedencia(unittest.TestCase):
         propiedades = {p['name']: p['value'] for p in self.bom()['metadata']['properties'] if p['name'] != 'factory:diferencia'}
         self.assertEqual(propiedades['factory:entorno'], 'consultado')
 
-    # --- pr2: un lock desactualizado se declara no confiable -------------------------------------------------------------------
+    # --- pr2: un lock desactualizado se declara no confiable ----------------------------------------------------------
     def confiable(self, bom):
         return {p['name']: p['value'] for p in bom['metadata']['properties'] if p['name'] != 'factory:diferencia'}['factory:confiable']
 
@@ -249,6 +249,24 @@ class Procedencia(unittest.TestCase):
         bom = self.bom()
         self.assertEqual((self.confiable(bom), self.diferencias(bom)), ('true', []))
         self.assertEqual(self.prop(self.componente(bom, 'alfa'), 'factory:exigida'), '>=1')
+
+    def test_pr2_sin_pyproject_no_se_puede_declarar_confiable(self):
+        self.proyecto(instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
+        (self.root / 'pyproject.toml').unlink()
+        bom = self.bom()
+        self.assertEqual(self.confiable(bom), 'false')
+        self.assertEqual(self.diferencias(bom), ['no hay pyproject.toml: no se puede comprobar que el lock coincida con lo que pide el proyecto'])
+
+    def test_pr2_un_pyproject_enlazado_no_se_sigue_y_se_dice(self):
+        self.proyecto(instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
+        real = Path(self.tmp.name) / 'pyproject-de-afuera.toml'
+        real.write_text('[project]\nname = "demo"\nversion = "1.0.0"\ndependencies = ["alfa==9.9"]\n')
+        (self.root / 'pyproject.toml').unlink()
+        (self.root / 'pyproject.toml').symlink_to(real)
+        bom = self.bom()
+        self.assertEqual(self.confiable(bom), 'false')
+        self.assertEqual(self.diferencias(bom), ['pyproject.toml es un enlace simbólico y no se sigue: no se puede comprobar que el lock coincida con lo que pide el proyecto'])
+        self.assertNotIn('9.9', texto := json.dumps(bom))  # lo que dice el archivo de afuera no se lee
 
     def test_pr2_los_extras_y_marcadores_de_una_dependencia_no_confunden(self):
         self.proyecto(dependencias=("alfa[extra]==1.2.3 ; python_version >= '3.11'", 'beta>=2'), instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
@@ -583,6 +601,72 @@ class Procedencia(unittest.TestCase):
                 with self.assertRaisesRegex(f.FactoryError, texto):
                     self.correr(auditar=True, avisos=self.avisos(contenido))
 
+    def test_pr5_un_rango_mal_armado_falla_y_no_se_lee_como_limpio(self):
+        self.dos_candidatos()
+        ok = {'name': 'alfa', 'ecosystem': 'PyPI'}
+        rangos = {
+            'sin events': [{'type': 'ECOSYSTEM'}],
+            'events vacío': [{'type': 'ECOSYSTEM', 'events': []}],
+            'events nulo': [{'type': 'ECOSYSTEM', 'events': None}],
+            'events no es lista': [{'type': 'ECOSYSTEM', 'events': {'introduced': '0'}}],
+            'sin type': [{'events': [{'introduced': '0'}]}],
+            'type desconocido': [{'type': 'RARO', 'events': [{'introduced': '0'}]}],
+            'rango que no es objeto': ['introduced'],
+            'evento que no es objeto': [{'type': 'ECOSYSTEM', 'events': ['introduced']}],
+            'evento con dos claves': [{'type': 'ECOSYSTEM', 'events': [{'introduced': '0', 'fixed': '1'}]}],
+            'evento vacío': [{'type': 'ECOSYSTEM', 'events': [{}]}],
+            'evento desconocido': [{'type': 'ECOSYSTEM', 'events': [{'empezo': '0'}]}],
+            'valor que no es texto': [{'type': 'ECOSYSTEM', 'events': [{'introduced': 0}]}],
+        }
+        for nombre, rs in rangos.items():
+            with self.subTest(nombre):
+                with self.assertRaisesRegex(f.FactoryError, 'rango que no es OSV válido'):
+                    self.correr(auditar=True, avisos=self.avisos([{'id': 'X', 'affected': [{'package': ok, 'ranges': rs}]}]))
+
+    def test_pr5_un_rango_git_bien_formado_se_acepta_y_se_ignora(self):
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', '1.0')])
+        aviso = self.aviso(**self.rango({'introduced': '0'}, {'fixed': 'abc123'}, tipo='GIT'))
+        salida = self.correr(auditar=True, avisos=self.avisos(aviso))
+        self.assertIn('No se pudo comparar la versión con los rangos del aviso:', salida)  # sin rangos de versión aplicables: no se da por limpio
+
+    def test_pr5_un_aviso_sin_versiones_ni_rangos_no_se_da_por_limpio(self):
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', '1.0')])
+        sin_nada = {'id': 'X', 'affected': [{'package': {'name': 'alfa', 'ecosystem': 'PyPI'}}]}
+        resultado = json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(sin_nada)))
+        self.assertEqual((resultado['afectados'], len(resultado['sin_comparar'])), ([], 1))
+
+    def test_pr5_introduced_cero_cubre_tambien_las_prerreleases_de_la_serie_cero(self):
+        versiones = ('0.0.0.dev1', '0.0.0a1', '0a1', '0.0.1', '0.9', '1.0')
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', v) for v in versiones])
+        aviso = self.aviso(**self.rango({'introduced': '0'}, {'fixed': '1.0'}))
+        resultado = json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(aviso)))
+        self.assertEqual(sorted(x['version'] for x in resultado['afectados']), sorted(['0.0.0.dev1', '0.0.0a1', '0a1', '0.0.1', '0.9']))
+
+    def test_pr5_eventos_en_la_misma_version_se_aplican_en_su_orden_y_no_en_el_del_archivo(self):
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', v) for v in ('0.9', '1.0', '1.1')])
+        solo_la_1_0 = self.aviso(**self.rango({'last_affected': '1.0'}, {'introduced': '1.0'}))  # llegan al revés
+        resultado = json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(solo_la_1_0)))
+        self.assertEqual([x['version'] for x in resultado['afectados']], ['1.0'])
+        vacio = self.aviso(**self.rango({'fixed': '1.0'}, {'introduced': '1.0'}))  # introducida y corregida en la misma: no afecta a nadie
+        self.assertEqual(json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(vacio)))['afectados'], [])
+
+    def test_pr5_un_evento_limit_no_afecta_la_evaluacion(self):
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', v) for v in ('1.0', '2.0')])
+        aviso = self.aviso(**self.rango({'introduced': '0'}, {'limit': '1.5'}, {'fixed': '3.0'}))
+        resultado = json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(aviso)))
+        self.assertEqual([x['version'] for x in resultado['afectados']], ['1.0', '2.0'])
+
+    def test_pr5_una_ruta_de_avisos_con_un_directorio_enlazado_se_rechaza(self):
+        fuera = Path(self.tmp.name) / 'avisos-de-afuera'
+        fuera.mkdir()
+        (fuera / 'avisos.json').write_text(json.dumps([self.aviso(versions=['1.0'])]))
+        (self.root / 'enlace').symlink_to(fuera)
+        with self.assertRaisesRegex(f.FactoryError, 'enlaces simbólicos'):
+            self.correr(auditar=True, avisos=str(self.root / 'enlace/avisos.json'))
+        # un archivo de afuera del proyecto, sin enlaces, sí se acepta
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', '1.0')])
+        self.assertIn('Afectados:', self.correr(auditar=True, avisos=str(fuera / 'avisos.json')))
+
     def test_pr5_un_archivo_que_no_existe_o_enlazado_se_rechaza(self):
         with self.assertRaisesRegex(f.FactoryError, 'no encuentro el archivo de avisos'):
             self.correr(auditar=True, avisos=str(self.root / 'no-existe.json'))
@@ -591,6 +675,14 @@ class Procedencia(unittest.TestCase):
         enlace.symlink_to(real)
         with self.assertRaisesRegex(f.FactoryError, 'no encuentro el archivo de avisos'):
             self.correr(auditar=True, avisos=str(enlace))
+
+    def test_pr5_un_archivo_de_avisos_enlazado_fuera_del_proyecto_tambien_se_rechaza(self):
+        fuera = Path(self.tmp.name) / 'otro-lugar'
+        fuera.mkdir()
+        (fuera / 'real.json').write_text(json.dumps([self.aviso(versions=['1.0'])]))
+        (fuera / 'enlace.json').symlink_to(fuera / 'real.json')
+        with self.assertRaisesRegex(f.FactoryError, 'no encuentro el archivo de avisos'):
+            self.correr(auditar=True, avisos=str(fuera / 'enlace.json'))
 
     def test_pr5_la_auditoria_no_usa_la_red(self):
         import socket

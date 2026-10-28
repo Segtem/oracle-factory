@@ -1,0 +1,83 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-procedencia/.factory/local/revisiones/9ff21ae-agy-1",
+  "base": "ac7fc132e8aa651d1165a5f29b5302fd6fb10c80",
+  "head": "9ff21aeb1a55b73a749221b3625273aeaa41ce9c",
+  "diff_sha256": "a56c79c581061866a4b1ed0373bea51466c923ef287d5c54e23fafb32a6fc50b",
+  "context_sha256": "0b647311f7bd1a856c8cbab05af35b6735eb624cf03d46b4ab87d72da7a67599",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "PROC-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.98,
+      "title": "avisos() y auditar() no validan los rangos ni sus eventos en archivos OSV, informando un resultado limpio («No hay candidatos afectados») o fallando con TypeError no capturado",
+      "explanation": "El requisito funcional 'se_audita_contra_avisos_sin_red' en su escenario 'un archivo de avisos inválido' establece explícitamente: 'DADO un archivo de avisos que no es OSV válido / CUANDO se audita / ENTONCES falla diciendo qué está mal, sin informar un resultado vacío como si fuera limpio'. Sin embargo, la función avisos() en oracle_factory/procedencia.py (líneas 219–225) comprueba que affected sea una lista, que package contenga name y ecosystem, y que versions y ranges sean listas, pero no valida el contenido ni la estructura de los objetos dentro de ranges. Conforme a la especificación OSV (v1.6), cada objeto de ranges requiere obligatoriamente una lista de eventos con al menos un evento introduced. Cuando un aviso presenta un rango con events: [] o sin clave events, _afectada() evalúa dentro = False y retorna False, con lo cual auditar() concluye con afectados vacíos y la CLI imprime 'Auditoría local: 1 aviso(s) contra X inventario(s) guardado(s); sin red.\\nNo hay candidatos afectados.', dando por limpio un aviso inválido. Adicionalmente, si el archivo de avisos contiene un rango con events: null (o un tipo escalar como entero), rango.get('events', []) y r.get('events', []) devuelven None en Python, provocando que _afectada() (línea 238) y auditar() (línea 265) colapsen con un error no controlado TypeError: 'NoneType' object is not iterable, abortando la ejecución con stacktrace en lugar de fallar de manera controlada con ProcedenciaError explicando qué está mal.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 223,
+        "end_line": 238,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory procedencia --auditar --avisos archivo.json donde archivo.json contiene un aviso OSV con ranges: [{\"type\": \"ECOSYSTEM\", \"events\": []}] o ranges: [{\"type\": \"ECOSYSTEM\", \"events\": null}].",
+      "evidence": "Se ejecutó procedencia.informe_auditar con un proyecto que posee un inventario guardado para la dependencia alfa 1.0.0 y un aviso OSV con ranges: [{\"type\": \"ECOSYSTEM\", \"events\": []}]. La salida obtenida fue 'Auditoría local: 1 aviso(s) contra 1 inventario(s) guardado(s); sin red.\\nNo hay candidatos afectados.\\n', reportando falsamente el estado como limpio. Al suministrar un rango con events: null, se produjo la excepción no capturada TypeError: 'NoneType' object is not iterable sin mensaje descriptivo.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Correr oracle-factory procedencia --auditar --avisos av.json con un archivo av.json que contenga [{\"id\": \"OSV-TEST\", \"affected\": [{\"package\": {\"name\": \"alfa\", \"ecosystem\": \"PyPI\"}, \"ranges\": [{\"type\": \"ECOSYSTEM\", \"events\": []}]}]}]. Verificar que informa falsamente 'No hay candidatos afectados' en lugar de rechazar el archivo por no cumplir el esquema OSV."
+    },
+    {
+      "id": "PROC-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.92,
+      "title": "El centinela de inicio de rango introduced: \"0\" no cubre versiones de desarrollo ni pre-releases de la serie 0.0.0",
+      "explanation": "En el esquema OSV, el evento introduced: \"0\" es un centinela especial que denota que la vulnerabilidad afecta desde la primera versión del paquete hasta la versión indicada en fixed o last_affected ('afecta desde el principio'). En oracle_factory/procedencia.py (líneas 240–246), el valor del evento se procesa directamente mediante clave(str(valor)). Para \"0\", clave(\"0\") devuelve ((0,), (inf, 0), -inf, inf), que corresponde a la versión final 0.0.0. Si una dependencia registrada en el inventario utiliza una versión de desarrollo o pre-release de 0.0.0 (como 0.0.0.dev1, 0.0.0a1 o 0a1), su tupla de comparación posee un valor pre estrictamente menor que (inf, 0). Como consecuencia, la condición k >= kv (línea 245) resulta falsa, dentro permanece en False, y la versión queda excluida de afectados a pesar de encontrarse en el rango vulnerable cubierto desde el origen.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 240,
+        "end_line": 246,
+        "side": "head"
+      },
+      "trigger": "Auditar un aviso con un rango [{\"introduced\": \"0\"}, {\"fixed\": \"1.0.0\"}] contra un inventario que utilice una dependencia con versión 0.0.0.dev1 o 0.0.0a1.",
+      "evidence": "Al evaluar clave('0.0.0.dev1') se obtiene ((0,), (-inf, 0), -inf, 1), el cual es menor que clave('0') = ((0,), (inf, 0), -inf, inf). La llamada a _afectada('0.0.0.dev1', {'ranges': [{'type': 'ECOSYSTEM', 'events': [{'introduced': '0'}, {'fixed': '1.0.0'}]}]}) devuelve False en vez de True, excluyendo indebidamente a la versión de la lista de afectados.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Ejecutar en Python: from oracle_factory.procedencia import _afectada; assert _afectada('0.0.0.dev1', {'ranges': [{'type': 'ECOSYSTEM', 'events': [{'introduced': '0'}, {'fixed': '1.0.0'}]}]}) is True. La aserción falla retornando False."
+    },
+    {
+      "id": "PROC-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal no comprueba rangos inválidos ni malformados",
+      "explanation": "El escenario de la spec 'un archivo de avisos inválido' exige verificar que cualquier archivo de avisos que no sea OSV válido falle indicando qué está mal sin informar un resultado limpio. En tests/test_procedencia.py (líneas 568–585), la prueba test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal comprueba 9 variantes de archivos inválidos (sintaxis JSON, campos raíz id y affected, tipo de versions y paquete sin ecosistema), pero omite por completo casos con rangos inválidos en ranges (como rangos sin events, con events vacío, o con events: null). Esta omisión en la suite de pruebas del contrato es la causa directa de que los defectos de validación de avisos en procedencia.py no fueran detectados durante la verificación del cambio.",
+      "location": {
+        "file": "tests/test_procedencia.py",
+        "start_line": 570,
+        "end_line": 585,
+        "side": "head"
+      },
+      "trigger": "Ejecutar la suite de pruebas del contrato sobre una implementación donde avisos() no valida la estructura interna de los rangos OSV.",
+      "evidence": "La lista casos en la línea 570 de tests/test_procedencia.py incluye: 'no es json', 'vacío', 'un número', 'sin id', 'sin affected', 'affected sin package', 'package sin ecosistema', 'versions no es lista' y 'aviso que no es objeto'. No existe ningún caso que pruebe {'ranges': [{'type': 'ECOSYSTEM', 'events': []}]} ni {'ranges': [{'type': 'ECOSYSTEM', 'events': None}]}. Al agregar dichos casos a la prueba, la suite falla con AssertionError demostrando la brecha de cobertura de la prueba de contrato.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Inspeccionar las líneas 570–585 de tests/test_procedencia.py y comprobar que ninguno de los casos de subtest verifica la validez del campo ranges ni de sus eventos."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null, obteniendo un resultado de 67 pruebas exitosas en 6.2s (65 pruebas en test_procedencia y 2 en test_docs). Se utilizó el entorno .venv de la raíz del repositorio (/home/workstation/Dev/factory-procedencia/.venv) dado que el clon aislado de revisión en .factory/local/revisiones/9ff21ae-agy-1 no cuenta con entorno virtual propio.",
+    "Alcance de pruebas: en estricto cumplimiento de las indicaciones del pedido, no se corrió la suite completa de pruebas ni se ejecutó tools/verify_procedencia.py directamente sobre el checkout bajo revisión.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato 9ff21ae, no se realizaron commits ni se modificó la configuración de Git de ningún repositorio.",
+    "Determinismo y formato CycloneDX: se comprobó que el inventario generado cumple con la estructura CycloneDX 1.5 en los campos y metadatos utilizados (bomFormat, specVersion, components, hashes SHA-256, purl con codificación porcentual de caracteres especiales, origen, fuente y propiedades personalizadas de Factory). Se verificó que la serialización JSON está ordenada alfabéticamente por claves (sort_keys=True) y que no contiene campos no deterministas como timestamp, serialNumber ni herramientas dinámicas.",
+    "Seguridad de rutas y enlaces simbólicos: se analizó la protección frente a enlaces simbólicos y escape de directorio en uv.lock, pyproject.toml, el archivo de avisos OSV, las carpetas de candidatos y los inventarios guardados en .factory/cambios. Se constató que sin_enlaces() y ruta_segura() verifican cada segmento intermedio y rechazan enlaces simbólicos hacia el exterior del proyecto.",
+    "Aislamiento de ejecución en --python: se comprobó que la función instalados() invoca el intérprete especificado utilizando subprocess.run con banderas de aislamiento estricto (['-I', '-c', VOLCADO]), entrada estándar redirigida a DEVNULL y timeout de 60 segundos, imposibilitando la ejecución arbitraria de scripts ajenos.",
+    "Auditoría y búsqueda local sin red: se constató que ninguna función de procedencia.py efectúa conexiones de red ni importa módulos de transporte HTTP/socket, y que las operaciones sobre inventarios guardados (usados() y auditar()) mantienen disociados de manera determinista los identificadores de cambio y candidato a partir de la jerarquía de directorios.",
+    "Análisis de mutaciones controladas: se ejecutó una batería de 20 mutaciones sobre una copia de prueba de procedencia.py en espacio de trabajo aislado. Las pruebas de test_procedencia detectaron 18 mutaciones críticas (incluyendo orden de hashes, detección de enlaces simbólicos en lock, guardados y avisos, evaluación de last_affected con >, normalización de nombres en pedidos y componentes, filtro de ecosistema PyPI y declaración de no confiabilidad sin lock). Se comprobó la supervivencia de 2 mutaciones secundarias: M17 (manejo de error por archivo de avisos no UTF-8) y M19 (remoción del sufijo de versión local '+' en sin_correccion(), dado que la suite de auditoría no incluye dependencias con versiones locales).",
+    "Integración en registro y herramientas: se verificó la correspondencia entre los umbrales de las medidas en catalogos/factory_procedencia.*.oracle (65 casos totales: 18 en pr1, 9 en pr2, 10 en pr3, 11 en pr4 y 17 en pr5) y los casos del contrato en tools/verify_procedencia.py. Se constató que editores/vscode/tablero.js registra la etiqueta 'Procedencia registrada' para la acción procedencia_registrada, y que los módulos resumen, kb y MCP procesan el evento sin inconvenientes."
+  ]
+}

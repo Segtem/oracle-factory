@@ -1,0 +1,117 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-procedencia/.factory/local/revisiones/9ff21ae-agy2-1",
+  "base": "ac7fc132e8aa651d1165a5f29b5302fd6fb10c80",
+  "head": "9ff21aeb1a55b73a749221b3625273aeaa41ce9c",
+  "diff_sha256": "a56c79c581061866a4b1ed0373bea51466c923ef287d5c54e23fafb32a6fc50b",
+  "context_sha256": "1159b1738e586618565fd66f79d01c50585bd1ae314b0b7f927ad50ce1e29e97",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "PROC-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Evaluación de rangos OSV con introduced '0' excluye pre-releases y dev-releases de la versión inicial",
+      "explanation": "En _afectada() (oracle_factory/procedencia.py:241-246), los eventos OSV de tipo 'introduced' se comparan evaluando k >= kv, donde kv = clave(str(valor)). Cuando el aviso OSV indica introduced: '0', la especificación OSV define '0' como un centinela que representa el origen de los tiempos (todas las versiones previas al siguiente evento fixed o last_affected están afectadas). Sin embargo, clave('0') normaliza '0' como la versión final 0 (((0,), (inf, 0), -inf, inf)). Cualquier versión preliminar o de desarrollo de la versión mayor 0 (como 0.0a1, 0.0rc1, 0.0.dev1 o 0.0.0.dev1) tiene pre < (inf, 0), por lo que k >= kv evalúa a False y _afectada() retorna False. Esto genera un falso negativo crítico donde versiones preliminares en uso no son advertidas ante vulnerabilidades que afectan desde el inicio del paquete.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 241,
+        "end_line": 246,
+        "side": "head"
+      },
+      "trigger": "Auditar un inventario que contenga una versión preliminar de la versión inicial (ej. 0.0a1 o 0.0.dev1) contra un aviso OSV con introduced: '0' y fixed: '1.0'.",
+      "evidence": "python -c \"from oracle_factory.procedencia import _afectada; af = {'ranges': [{'type': 'ECOSYSTEM', 'events': [{'introduced': '0'}, {'fixed': '1.0'}]}]}; print(_afectada('0.0a1', af))\" imprime False cuando debe ser True.",
+      "related_requirement": "se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Tratar el valor centinela '0' en eventos 'introduced' como -infinito o verificar si valor == '0' para considerar afectada cualquier versión válida antes del siguiente evento de corte."
+    },
+    {
+      "id": "PROC-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Desempate ausente al ordenar eventos OSV con misma versión invierte el orden entre corte e introducción",
+      "explanation": "En _afectada() (oracle_factory/procedencia.py:238-240), los eventos de un rango OSV se ordenan con sorted(eventos, key=lambda e: clave(str(next(iter(e.values()), '0')))...). El esquema OSV no exige que los eventos vengan ordenados cronológicamente en el JSON. Cuando dos eventos de un mismo rango tienen la misma versión (por ejemplo, [{'last_affected': '1.0'}, {'introduced': '1.0'}] para una vulnerabilidad que afecta exclusivamente a la versión 1.0), clave() genera tuplas idénticas para ambos. Como sorted() en Python es estable, preserva el orden de llegada. Al evaluar una versión superior como 1.1: el evento last_affected '1.0' evalúa 1.1 > 1.0 y pone dentro = False, pero luego el evento introduced '1.0' evalúa 1.1 >= 1.0 y reasigna dentro = True. Al finalizar el bucle, la versión 1.1 queda clasificada como afectada (falso positivo). Para garantizar la idempotencia ante eventos desordenados, la clave de ordenamiento debe priorizar eventos 'introduced' antes que 'last_affected' y 'fixed' cuando sus versiones coinciden.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 238,
+        "end_line": 240,
+        "side": "head"
+      },
+      "trigger": "Aviso OSV con eventos donde last_affected figura antes de introduced para la misma versión: [{'last_affected': '1.0'}, {'introduced': '1.0'}].",
+      "evidence": "python -c \"from oracle_factory.procedencia import _afectada; af = {'ranges': [{'type': 'ECOSYSTEM', 'events': [{'last_affected': '1.0'}, {'introduced': '1.0'}]}]}; print(_afectada('1.1', af))\" imprime True (erróneamente afectada) cuando 1.1 supera last_affected.",
+      "related_requirement": "se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Incluir una prioridad de desempate en la clave de ordenamiento de eventos (ej. 0 para 'introduced', 1 para 'last_affected' y 'fixed') para procesar siempre la apertura del rango antes de su cierre ante versiones iguales."
+    },
+    {
+      "id": "PROC-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "pyproject.toml como enlace simbólico se omite en silencio y permite declarar confiable un inventario no coincidente",
+      "explanation": "En requisitos() (oracle_factory/procedencia.py:89-91), si pyproject.toml es un enlace simbólico, la condición `if ruta.is_symlink() or not ruta.is_file(): return {}, {}` retorna diccionarios vacíos en lugar de levantar un error o registrar la diferencia. Posteriormente, inventario() (líneas 137-174) encuentra que directas está vacío ({}) y omite todas las comparaciones de dependencias exigidas contra el lock. Si el lock coincide con las dependencias instaladas en el entorno, inventario() retorna diferencias: [] y confiable: True. Esto viola el requerimiento funcional de que un lock desactualizado o no verificable contra los requisitos del proyecto jamás debe declararse confiable, permitiendo que un pyproject.toml enlazado a un archivo externo o inaccesible pase desapercibido como si el proyecto no tuviera dependencias directas.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 89,
+        "end_line": 91,
+        "side": "head"
+      },
+      "trigger": "Un proyecto con uv.lock válido y un entorno instalado coherente con el lock, donde pyproject.toml es un enlace simbólico a un archivo externo con dependencias o versiones incompatibles.",
+      "evidence": "Con pyproject.toml como symlink exigiendo alfa==9.9.9 y uv.lock fijando alfa 1.0.0, procedencia.inventario(raiz) devuelve confiable: True y diferencias: []. La mutación M07 (remover is_symlink en pyproject.toml) sobrevive en la suite de pruebas demostrando la ausencia de cobertura.",
+      "related_requirement": "un_lock_desactualizado_se_declara_no_confiable",
+      "status": "pendiente",
+      "verification": "Verificar que cuando pyproject.toml es un enlace simbólico o no se puede leer de forma segura dentro del proyecto, se registre una diferencia explícita (marcando confiable: False) o se lance ProcedenciaError/FactoryError."
+    },
+    {
+      "id": "PROC-04",
+      "kind": "seguridad",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "informe_auditar no comprueba enlaces simbólicos en directorios intermedios de la ruta de avisos",
+      "explanation": "En informe_auditar() (oracle_factory/procedencia.py:327-330), la verificación `if ruta.is_symlink() or not ruta.is_file()` comprueba únicamente el nodo final del archivo de avisos, pero no valida si alguno de los directorios intermedios que conducen a él es un enlace simbólico. A diferencia de guardados() que invoca sin_enlaces() y de la CLI de Factory que utiliza ruta_segura(), una ruta relativa como 'enlace_dir/avisos.json' (donde 'enlace_dir' es un symlink hacia fuera del proyecto) evade la comprobación de symlink (dado que el archivo regular final no es un enlace simbólico) y permite leer archivos de seguridad fuera de las fronteras esperadas del repositorio.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 327,
+        "end_line": 330,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory procedencia --auditar --avisos dir_enlace/avisos.json` donde 'dir_enlace' es un symlink a un directorio externo.",
+      "evidence": "procedencia.informe_auditar(raiz, str(dir_enlace / 'avisos.json'), False) abre y lee el contenido sin lanzar ProcedenciaError, a diferencia de los inventarios que rechazan cualquier symlink en el camino.",
+      "related_requirement": "se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Utilizar sin_enlaces(raiz, ruta) o verificar cada parte del camino hacia el archivo de avisos cuando la ruta reside en el proyecto para asegurar que ningún directorio sea un enlace simbólico."
+    },
+    {
+      "id": "PROC-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Registro del evento procedencia_registrada almacena la ruta con formato de sistema operativo en vez de POSIX",
+      "explanation": "En comando_procedencia() de oracle_factory/cli.py:3096-3098, al invocar evento() para dejar constancia de procedencia_registrada en el registro del cambio, se pasa `archivo=str(destino.relative_to(ROOT))`. En entornos Windows, str(Path) serializa las rutas con contrabarras ('\\\\'), mientras que en el resto del código de Factory y en las aserciones de pruebas (ej. tests/test_procedencia.py:285) se utiliza sistemáticamente `.as_posix()` para garantizar que los registros Git y JSON sean portables e independientes del sistema operativo.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 3096,
+        "end_line": 3098,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory procedencia ID` en una plataforma Windows.",
+      "evidence": "En Windows, str(destino.relative_to(ROOT)) produce '.factory\\\\cambios\\\\...' en el registro, rompiendo la aserción de test_pr3_con_un_cambio_el_inventario_queda_en_su_candidato_y_en_el_registro que compara contra `.as_posix()`.",
+      "related_requirement": "el_inventario_queda_en_el_candidato",
+      "status": "pendiente",
+      "verification": "Cambiar `archivo=str(destino.relative_to(ROOT))` por `archivo=destino.relative_to(ROOT).as_posix()` en oracle_factory/cli.py:3097."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exactamente especificado: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null (67 pruebas exitosas en 6.14s: 65 de Procedencia y 2 de Docs). Se utilizó el entorno virtual .venv de la raíz del repositorio principal (/home/workstation/Dev/factory-procedencia/.venv) dado que el checkout de revisión en .factory/local/revisiones/9ff21ae-agy2-1 es de sólo lectura y no posee entorno virtual propio.",
+    "Restricciones del alcance: no se corrió la suite completa de pruebas ni tools/verify_procedencia.py directamente sobre el checkout de revisión, en estricto cumplimiento de las indicaciones del pedido de revisión.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato 9ff21ae, no se realizaron commits y no se modificó la configuración de Git de ningún repositorio.",
+    "Análisis de mutaciones controladas: se ejecutó una batería de 18 mutaciones controladas sobre una copia aislada del repositorio (/tmp/checkout-sandbox). 15 mutaciones fueron detectadas y eliminadas por la suite de pruebas unitarias (eliminación de normalización de ceros en clave(), ajuste de cotas en fixed y last_affected, omisión del ordenamiento de eventos, eliminación del stripping de local suffix en clave(), eliminación del ordenamiento determinista en inventario(), chequeo is_symlink en uv.lock e informe_auditar, sin_enlaces en guardados(), soporte de vulns en avisos(), normalización de nombres en usados(), búsqueda por prefijo en usados(), rangos SEMVER en _afectada(), coincidencia por versions exactas en _afectada() y la propiedad factory:corregida en _componente).",
+    "Mutaciones sobrevivientes y brechas de cobertura: sobrevivieron 3 mutaciones: 1) M07: la eliminación del chequeo is_symlink en pyproject.toml no es detectada por ningún test; 2) M11: la remoción del flag de aislamiento '-I' en la invocación de Python dentro de instalados() sobrevive porque los tests simulan el entorno con scripts de shell 'cat' en lugar de un binario Python real; 3) M16: el ajuste del ordenamiento de eventos OSV para desempatar introduced antes de last_affected/fixed sobrevive debido a que los tests no contemplan casos con eventos desordenados que compartan la misma versión."
+  ]
+}

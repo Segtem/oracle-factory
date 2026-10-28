@@ -1,6 +1,6 @@
 medida factory_procedencia.corrida_completa:
     de procedencia_corrida c
-    donde c.completa == 1 y c.casos == 65
+    donde c.completa == 1 y c.casos == 75
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
     requiere procedencia_corrida

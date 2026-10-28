@@ -3094,10 +3094,10 @@ def comando_procedencia(args) -> None:
         destino.parent.mkdir(parents=True, exist_ok=True)
         escribir_atomico(destino, cuerpo.encode("utf-8"))
         huella = sha256(cuerpo.encode("utf-8"))
-        evento(estado, "procedencia_registrada", candidato=sha, archivo=str(destino.relative_to(ROOT)), huella=huella,
+        evento(estado, "procedencia_registrada", candidato=sha, archivo=destino.relative_to(ROOT).as_posix(), huella=huella,
                componentes=len(bom["components"]), confiable=confiable, diferencias=len(diferencias))
         guardar(carpeta, estado)
-        guardado = (destino.relative_to(ROOT), huella)
+        guardado = (destino.relative_to(ROOT).as_posix(), huella)
     if args.json:
         print(cuerpo, end="")
         return

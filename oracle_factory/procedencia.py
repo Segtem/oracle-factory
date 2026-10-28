@@ -18,6 +18,9 @@ REQUISITO = re.compile(r"\s*([A-Za-z0-9][A-Za-z0-9._-]*)\s*(?:\[[^\]]*\])?\s*([^
 VERSION = re.compile(r"v?(?P<rel>\d+(?:\.\d+)*)(?:[-_.]?(?P<pre>a|b|c|rc|alpha|beta|pre|preview)[-_.]?(?P<pre_n>\d*))?"
                      r"(?P<post>[-_.]?(?:post|rev|r)[-_.]?(?P<post_n>\d*))?(?P<dev>[-_.]?dev[-_.]?(?P<dev_n>\d*))?", re.I)
 INFINITO = float("inf")
+TIPOS_DE_RANGO = ("ECOSYSTEM", "SEMVER", "GIT")
+EVENTOS = {"introduced": 0, "limit": 1, "last_affected": 1, "fixed": 2}  # el orden en que se aplican si coinciden en la versión
+DESDE_SIEMPRE = ((-1,), (-INFINITO, 0), -INFINITO, -INFINITO)  # introduced: "0", antes de cualquier versión
 VOLCADO = ("import importlib.metadata as m, json; "
            "print(json.dumps({d.metadata['Name']: d.version for d in m.distributions() if d.metadata['Name']}))")
 
@@ -84,11 +87,14 @@ def leer_lock(raiz: Path) -> dict | None:
     return {"proyecto": proyecto, "paquetes": paquetes}
 
 
-def requisitos(raiz: Path) -> tuple[dict, dict[str, tuple[str, str]]]:
-    """Los datos del proyecto y sus dependencias directas de pyproject.toml: {nombre normal: (nombre, especificación)}."""
+def requisitos(raiz: Path) -> tuple[dict, dict[str, tuple[str, str]], str | None]:
+    """Los datos del proyecto, sus dependencias directas de pyproject.toml {nombre normal: (nombre, especificación)} y, si no se pudo
+    comparar contra ellas, el motivo."""
     ruta = raiz / "pyproject.toml"
-    if ruta.is_symlink() or not ruta.is_file():
-        return {}, {}
+    if ruta.is_symlink():
+        return {}, {}, "pyproject.toml es un enlace simbólico y no se sigue: no se puede comprobar que el lock coincida con lo que pide el proyecto"
+    if not ruta.is_file():
+        return {}, {}, "no hay pyproject.toml: no se puede comprobar que el lock coincida con lo que pide el proyecto"
     try:
         datos = tomllib.loads(ruta.read_text(encoding="utf-8"))
     except (tomllib.TOMLDecodeError, UnicodeDecodeError) as e:
@@ -99,7 +105,7 @@ def requisitos(raiz: Path) -> tuple[dict, dict[str, tuple[str, str]]]:
         m = REQUISITO.fullmatch(texto) if isinstance(texto, str) else None
         if m:
             directas[normal(m[1])] = (m[1], m[2].strip())
-    return {"nombre": proyecto.get("name", ""), "version": proyecto.get("version", "")}, directas
+    return {"nombre": proyecto.get("name", ""), "version": proyecto.get("version", "")}, directas, None
 
 
 def instalados(python: Path | None) -> dict[str, tuple[str, str]] | None:
@@ -130,9 +136,9 @@ def _componente(nombre: str, version: str, origen: str, hashes: list[str], fuent
 def inventario(raiz: Path, python: Path | None = None) -> tuple[dict, list[str], bool]:
     """(el inventario CycloneDX, las diferencias que lo hacen no confiable, si es confiable)."""
     lock = leer_lock(raiz)
-    proyecto, directas = requisitos(raiz)
+    proyecto, directas, sin_requisitos = requisitos(raiz)
     puestos = instalados(python)
-    diferencias: list[str] = []
+    diferencias: list[str] = [sin_requisitos] if sin_requisitos else []
     componentes = []
     if lock is None:
         diferencias.append("no hay uv.lock: el origen y los hashes de las dependencias no se pueden verificar")
@@ -222,36 +228,44 @@ def avisos(contenido: str, origen: str) -> list[dict]:
                 raise ProcedenciaError(f"{origen}: el aviso {a['id']} tiene un «affected» sin «package» con «name» y «ecosystem»")
             if not isinstance(af.get("versions", []), list) or not isinstance(af.get("ranges", []), list):
                 raise ProcedenciaError(f"{origen}: el aviso {a['id']} tiene «versions» o «ranges» que no son listas")
+            for r in af.get("ranges", []):
+                eventos = r.get("events") if isinstance(r, dict) else None
+                if (not isinstance(r, dict) or r.get("type") not in TIPOS_DE_RANGO or not isinstance(eventos, list) or not eventos
+                        or not all(isinstance(e, dict) and len(e) == 1 and next(iter(e)) in EVENTOS and isinstance(next(iter(e.values())), str)
+                                   for e in eventos)):
+                    raise ProcedenciaError(f"{origen}: el aviso {a['id']} tiene un rango que no es OSV válido (necesita «type» "
+                                           f"{'/'.join(TIPOS_DE_RANGO)} y una lista no vacía de «events» de la forma {{\"introduced\": \"1.0\"}})")
     return datos
 
 
 def _afectada(version: str, afectado: dict) -> bool | None:
-    """Si la versión cae en lo afectado; None si no se la puede comparar con los rangos."""
+    """Si la versión cae en lo afectado; None si no se la puede comparar (sin rangos aplicables o con una versión ilegible)."""
     if version in [str(v) for v in afectado.get("versions", [])]:
         return True
     k = clave(version)
-    comparable = True
-    for rango in afectado.get("ranges", []):
-        if not isinstance(rango, dict) or rango.get("type") not in ("ECOSYSTEM", "SEMVER"):
-            continue
+    rangos = [r for r in afectado.get("ranges", []) if r.get("type") in ("ECOSYSTEM", "SEMVER")]
+    if not rangos:
+        return None if not afectado.get("versions") else False
+    for rango in rangos:
         dentro = False
-        eventos = [e for e in rango.get("events", []) if isinstance(e, dict)]
-        for e in sorted(eventos, key=lambda e: clave(str(next(iter(e.values()), "0"))) or ((0,), (-INFINITO, 0), -INFINITO, INFINITO)):
-            tipo, valor = next(iter(e.items()), (None, None))
-            kv = clave(str(valor)) if valor is not None else None
-            if k is None or kv is None:
-                comparable = False
-                break
+        eventos = []
+        for e in rango["events"]:
+            tipo, valor = next(iter(e.items()))
+            origen = tipo == "introduced" and valor == "0"
+            kv = DESDE_SIEMPRE if origen else clave(valor)
+            if kv is None or k is None:
+                return None
+            eventos.append((kv, EVENTOS[tipo], tipo))
+        for kv, _, tipo in sorted(eventos):
             if tipo == "introduced" and k >= kv:
                 dentro = True
             elif tipo == "fixed" and k >= kv:
                 dentro = False
             elif tipo == "last_affected" and k > kv:
                 dentro = False
-        else:
-            if dentro:
-                return True
-    return None if not comparable else False
+        if dentro:
+            return True
+    return False
 
 
 def auditar(inventarios: list[tuple[str, str, dict]], lista: list[dict]) -> dict:
@@ -325,6 +339,12 @@ def informe_buscar(raiz: Path, pedido_texto: str, como_json: bool) -> str:
 
 def informe_auditar(raiz: Path, archivo: str, como_json: bool) -> str:
     ruta = Path(archivo)
+    absoluta = ruta.absolute()
+    try:
+        if absoluta.is_relative_to(raiz):
+            sin_enlaces(raiz, absoluta)  # dentro del proyecto, ningún directorio del camino es un enlace
+    except ProcedenciaError as e:
+        raise ProcedenciaError(f"no encuentro el archivo de avisos {archivo} ({e})") from e
     if ruta.is_symlink() or not ruta.is_file():
         raise ProcedenciaError(f"no encuentro el archivo de avisos {archivo}")
     try:
