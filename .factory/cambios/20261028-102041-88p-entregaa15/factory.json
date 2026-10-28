@@ -2,7 +2,7 @@
   "id": "20261028-102041-88p-entregaa15",
   "titulo": "Preparar la distribución 0.1.0a15",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md",
   "spec_sha256": "7656dc1ab6b3bc591545cd6d715b14b7191ad062db775258020808f0f25c887e",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites",
     "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-102041-88p-entregaa15/revisiones/registro-tiohrlbx/informe.json",
+    "sha256": "39dfcf1255918c6a63320807258f7b83bbfca535e37522129dae6eabe6e3987f",
+    "decisiones": "tareas/20261028-102041-88p-entregaa15/revisiones/registro-tiohrlbx/decisiones.json",
+    "decisiones_sha256": "50e7da5f43a5305d10a845da2894750a96592905c5177d67ad4455d27a62d94e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T13:55:36.447395+00:00",
+    "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas y wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout, con las novedades. Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "811372cef21978ad57876b4eeb0dad6163accf8b",
+      "archivos_sha256": "7cbb9b52ef29696c064c5376ee080f7a3c320bed1fe40fad23b97dda6b6ea61b"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -331,6 +351,20 @@
       "cuando": "2026-10-28T13:35:41.700697+00:00",
       "decision": "aprobar",
       "candidato": "8ba56f7"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T13:55:36.447417+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "39dfcf1255918c6a63320807258f7b83bbfca535e37522129dae6eabe6e3987f",
+      "decisiones_sha256": "50e7da5f43a5305d10a845da2894750a96592905c5177d67ad4455d27a62d94e"
     }
   ],
   "tipos": {
@@ -389,14 +423,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas y wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout, con las novedades. Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.",
-      "candidato": "8ba56f7",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T13:35:41.700683+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

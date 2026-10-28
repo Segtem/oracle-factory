@@ -82,7 +82,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (cerrada)
 - [[cambios/20261027-225048-59a-terminallista]] — Esperar a que la terminal de Factory esté lista antes de escribir un comando (cerrada)
 - [[cambios/20261028-100820-5n7-causa]] — Que aprobar-spec diga qué línea de qué archivo falta completar (cerrada)
-- [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (requisitos_importados)
+- [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (revision_aprobada)
 
 ## Requisitos
 
