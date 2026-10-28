@@ -1,9 +1,18 @@
-# Oracle Factory 0.1.0a14 (en preparación)
+# Oracle Factory 0.1.0a15 (en preparación)
+
+- **El tablero dice qué hacer.** Cada cambio muestra «Qué falta» con una frase en lenguaje común y quién lo hace (vos o un agente); cuando lo que sigue lo corre un agente, dice «Ahora no te toca nada». Si el cambio lo tiene otra persona, la decisión se rotula «LA DECIDE ANA» en vez de «TE NECESITA», y «Actividad reciente» lista los últimos diez eventos de los cambios abiertos. `oracle-factory tablero --json` suma `yo`, `faltan` y `actividad`.
+- **La terminal de Factory espera a estar lista.** Al escribir un comando desde el tablero en una terminal nueva, la extensión espera a que el shell avise (hasta `factory.esperaTerminalMs`, 3000 por defecto). Otra extensión que active el entorno de Python con su propio Enter puede seguir pisando el comando: en ese caso conviene desactivar su activación automática.
+- **`preguntar` cuenta y lista las specs.** «¿Cuántas specs hay?» responde desde el inventario, con las vigentes y las de cambios abiertos; un filtro que no admite (fechas, estados) se rechaza diciéndolo, en vez de devolver pasajes sueltos.
+- **El idioma de la plantilla.** `"idioma": "es"` o `"en"` en `.factory/config.json`, o `nuevo --idioma`, elige en qué idioma se escribe la propuesta, la spec, el diseño y las tareas de un cambio nuevo; ya no se mezclan. Por defecto, español.
+- **Bloqueos que explican su causa.** El próximo paso sin revisor configurado dice qué falta y dónde declararlo; `pedir-revision --base vacio` revisa un producto cuyo código está en el primer commit; y `aprobar-spec` nombra de cada archivo la línea con la marca de pendiente y cuántas quedan, o dice qué archivo falta.
+- Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
+
+# Oracle Factory 0.1.0a14
 
 - **Distribución verificable y consultas del proyecto.** Preparación y comprobación del wheel 0.1.0a14 instalado en un entorno nuevo y ejecutado fuera del checkout, verificando origen de importación y versión sin depender del entorno de desarrollo.
 - **Consultas de registro y elaboración con límites.** `oracle-factory preguntar` responde a consultas directas del registro (contar cerrados archivados, abiertos y abandonados con fuentes de inventario), y elabora con RAG documental y proveedores configurados. Sin modelo configurado no descarga ni elige modelos implícitos; ante un proveedor simulado que intenta llamadas de escritura, Factory rechaza la operación sin tocar el disco ni el registro, conserva fuentes y distingue la simulación de una medición real.
-- **Documentación al día.** Metadatos del paquete, CLI, guías y textos de la web sincronizados con 0.1.0a14, distinguiendo la preparación del artefacto de una publicación remota no realizada ni verificada.
-- **Historial conservado.** Se conservan la versión 0.1.0a13 publicada y sus artefactos. La publicación en PyPI y el release de GitHub no se realizan en este paso: quedan a cargo de Brian tras la revisión y cierre.
+- **Documentación al día.** Metadatos del paquete, CLI, guías y textos de la web sincronizados con 0.1.0a14.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a14` y en GitHub con su tag `v0.1.0a14` (pre-release); el wheel es el mismo que se comprobó instalado en un entorno nuevo. Se conservan la versión 0.1.0a13 y sus artefactos.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux.
 
 # Oracle Factory 0.1.0a13
