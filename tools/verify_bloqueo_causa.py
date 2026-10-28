@@ -29,7 +29,8 @@ CONTRACTS = {
         'BloqueoCausa.test_bc1_con_exactamente_dos_marcas_dice_queda_uno',
         'BloqueoCausa.test_bc1_un_enlace_simbolico_fuera_del_proyecto_se_rechaza_sin_leerlo',
         'BloqueoCausa.test_bc1_un_enlace_simbolico_roto_tambien_se_rechaza',
-        'BloqueoCausa.test_bc1_un_archivo_que_no_es_utf8_da_un_error_claro_y_no_un_traceback'],
+        'BloqueoCausa.test_bc1_un_archivo_que_no_es_utf8_da_un_error_claro_y_no_un_traceback',
+        'BloqueoCausa.test_bc1_una_ruta_fuera_del_proyecto_es_un_error_de_factory_y_no_un_valueerror'],
     'el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo': [
         'BloqueoCausa.test_bc2_si_falta_un_archivo_el_mensaje_dice_que_falta',
         'BloqueoCausa.test_bc2_si_faltan_varios_archivos_los_nombra_a_todos_en_plural',

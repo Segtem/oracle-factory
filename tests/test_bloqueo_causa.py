@@ -1,6 +1,7 @@
 """Aprobar una spec dice qué línea de qué archivo falta completar: escenarios bc1–bc3, en proyectos temporales."""
 import contextlib
 import io
+import json
 from pathlib import Path
 import re
 import sys
@@ -142,6 +143,20 @@ class BloqueoCausa(unittest.TestCase):
             m = self.mensaje(ident)
             self.assertIn('no está en UTF-8', m, clave)
             self.assertIn(a[clave].name, m, clave)
+
+    def test_bc1_una_ruta_fuera_del_proyecto_es_un_error_de_factory_y_no_un_valueerror(self):
+        ident, a = self.cambio()
+        afuera = Path(self.tmp.name) / 'afuera.md'
+        afuera.write_text(f'{MARCA} esto no se lee\n', encoding='utf-8')
+        with self.assertRaisesRegex(f.FactoryError, 'ruta fuera del proyecto'):
+            f.exigir_plantilla_completa((a['proposal'], afuera))
+        # y por aprobar_spec, con la ruta de la spec cambiada a mano en el registro, también se rechaza con un error de Factory
+        ruta = self.root / '.factory/cambios' / ident / 'factory.json'
+        datos = json.loads(ruta.read_text())
+        datos['spec'] = str(afuera)
+        ruta.write_text(json.dumps(datos))
+        with self.escribe('1'), self.assertRaises(f.FactoryError):
+            f.aprobar_spec(ident)
 
     # --- bc2: un archivo que falta ------------------------------------------------------------------------------------
     def test_bc2_si_falta_un_archivo_el_mensaje_dice_que_falta(self):

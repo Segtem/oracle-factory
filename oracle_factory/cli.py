@@ -1062,8 +1062,8 @@ def exigir_plantilla_completa(archivos) -> None:
     """Falla, diciendo de cada archivo qué falta, si alguno no existe o todavía tiene la marca de pendiente de la plantilla."""
     pendientes, faltan = [], []
     for archivo in archivos:
-        ruta = archivo.relative_to(ROOT)
         ruta_segura(archivo)  # ni un enlace ni una salida del proyecto: no se lee lo que está afuera
+        ruta = archivo.relative_to(ROOT)
         if not archivo.is_file():
             faltan.append(str(ruta))
             continue

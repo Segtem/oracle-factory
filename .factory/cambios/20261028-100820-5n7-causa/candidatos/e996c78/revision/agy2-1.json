@@ -1,0 +1,40 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/e996c78-agy2-1",
+  "base": "35e4ca318b101353ba16be06ab377f58a9c305bf",
+  "head": "e996c785cff20ebf98f0affde474fcaa85fb6e6d",
+  "diff_sha256": "b62dec174ef39847337433c04ba133a82bc807ada9a7a3c26e69e46bd279b2e9",
+  "context_sha256": "b4792bbdccf028d469cecbc22d70e853780b1bbaae73d720ca81f9e4624e67fb",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas autorizadas: se corrieron en primer plano exactamente las pruebas requeridas desde la raíz del checkout mediante PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null, resultando 22 pruebas exitosas (17 de BloqueoCausa y 5 de CliPiloto) en 4.14s. Conforme a las instrucciones, no se ejecutó la suite completa de pruebas ni tools/verify_bloqueo_causa.py.",
+    "Análisis de mutación sistemático: se ejecutaron 15 mutaciones sobre copias de trabajo aisladas en el directorio del revisor para contrastar la sensibilidad de tests/test_bloqueo_causa.py contra variantes de formato (cortes a 79 y 81 caracteres, elipsis ASCII '...', omisión de strip(), 0-indexing de líneas, omisión de 'más', alternancia singular/plural 'queda'/'quedan' y 'falta'/'faltan', omisión de ruta_segura, supresión de captura de UnicodeDecodeError, orden de archivos y supresión de fallos). Todas las 15 mutaciones fueron eliminadas (KILLED) por las aserciones de la suite.",
+    "Verificación de seguridad y casos límite: se comprobó experimentalmente el comportamiento ante enlaces simbólicos dentro del árbol (correctamente bloqueados por ruta_segura), archivos con codificaciones inválidas en UTF-8 (correctamente informados con FactoryError descriptivo), múltiples archivos ausentes (redactados adecuadamente en plural) y truncamiento exacto a 80 caracteres. Se identificó que rutas absolutas o externas en la lista de archivos provocan un fallo no controlado con ValueError previo a la ejecución de ruta_segura.",
+    "Respeto al entorno de revisión: no se modificó el checkout de revisión e996c78 ni se cambiaron configuraciones de Git de ningún repositorio."
+  ],
+  "findings": [
+    {
+      "id": "exigir-plantilla-relative-to-antes-de-ruta-segura",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa invoca relative_to antes de ruta_segura, arrojando ValueError no capturado ante rutas fuera del proyecto",
+      "explanation": "En oracle_factory/cli.py (líneas 1065–1066), la función exigir_plantilla_completa itera sobre las rutas recibidas ejecutando ruta = archivo.relative_to(ROOT) inmediatamente antes de invocar ruta_segura(archivo). La función auxiliar ruta_segura(ruta) implementa la política de seguridad del repositorio para rechazar rutas que escapan del proyecto conteniendo un bloque try/except que captura ValueError al calcular ruta.relative_to(ROOT) y lo transforma en FactoryError(f'ruta fuera del proyecto: {ruta}'). Sin embargo, al evaluarse archivo.relative_to(ROOT) en la línea 1065 sin manejo de excepciones previo a ruta_segura(archivo), si archivo es una ruta fuera de ROOT (por ejemplo, si estado['spec'] contiene una ruta absoluta o externa al repositorio), relative_to arroja un ValueError no controlado. Dado que el manejador global de excepciones en main() (línea 4000) sólo atrapa (FactoryError, OSError, json.JSONDecodeError, EOFError), el ValueError no es capturado, provocando que oracle-factory aprobar-spec aborte con un traceback en stderr en lugar de emitir el mensaje controlado 'FACTORY BLOQUEADA: ruta fuera del proyecto: ...'. Invertir el orden (llamando a ruta_segura(archivo) antes de ruta = archivo.relative_to(ROOT)) garantiza que la excepción de dominio FactoryError sea arrojada y procesada correctamente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1065,
+        "end_line": 1066,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory aprobar-spec <ID> en un cambio donde la clave 'spec' de factory.json apunta a una ruta fuera del árbol del proyecto (por ejemplo /etc/passwd o /tmp/spec.md), habiendo eliminado las specs locales de su capacidad.",
+      "evidence": "En oracle_factory/cli.py:1065-1066 se observa: 'for archivo in archivos: ruta = archivo.relative_to(ROOT); ruta_segura(archivo)'. Se comprobó experimentalmente configurando estado['spec'] = '/etc/passwd' y ejecutando aprobar_spec: el comando finaliza con excepción no capturada 'ValueError: /etc/passwd is not in the subpath of ...'. En contraste, invocar directamente ruta_segura(Path('/etc/passwd')) captura el ValueError y produce de forma controlada 'FactoryError: ruta fuera del proyecto: /etc/passwd'.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Agregar un test unitario donde la ruta de spec apunte fuera de ROOT y comprobar que aprobar_spec lance FactoryError (o sea bloqueado limpiamente por Factory) en lugar de abortar con ValueError no capturado."
+    }
+  ]
+}
