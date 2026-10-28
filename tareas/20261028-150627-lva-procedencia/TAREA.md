@@ -1,6 +1,6 @@
 # Registrar la procedencia de las dependencias de cada candidato
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -187,3 +187,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-28 22:14:36 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-150627-lva-procedencia/oracle-veredicto.txt.
+
+### Nota (2026-10-28 22:15:52 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
