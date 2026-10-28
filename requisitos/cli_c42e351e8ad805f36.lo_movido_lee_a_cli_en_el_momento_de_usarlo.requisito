@@ -1,4 +1,4 @@
 requisito cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo:
     texto "Tipo: funcional El sistema DEBE hacer que el código movido a otros módulos lea los valores y las funciones de cli en el momento de usarlos, de modo que un valor cambiado en cli, como la raíz del proyecto en una prueba, valga también para lo movido."
     fuente "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md#lo_movido_lee_a_cli_en_el_momento_de_usarlo"
-    sin_medir "sin medida todavía; escenarios: «un valor cambiado en cli», «ningún nombre de cli queda copiado»"
+    medido_por factory_cli_modulos.lo_movido_lee_a_cli_en_el_momento_de_usarlo, factory_cli_modulos.corrida_completa
