@@ -1,0 +1,4 @@
+requisito procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene:
+    texto "Tipo: funcional El sistema DEBE producir un inventario CycloneDX de las dependencias de Python del proyecto que diga, de cada componente, su nombre, su versión, su enlace pkg:pypi, su índice de origen, los hashes de sus archivos, si la versión está fijada y de dónde sale cada dato."
+    fuente "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#el_inventario_dice_que_hay_y_de_donde_viene"
+    sin_medir "sin medida todavía; escenarios: «un proyecto con lock», «un proyecto sin lock», «una versión corregida por Lightwell»"
