@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-100820-5n7-causa]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «todo completo»
+- Medidas: `factory_bloqueo_causa.aprobar_spec_no_cambia_cuando_todo_esta_completo`, `factory_bloqueo_causa.corrida_completa`
 - Fuente: openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md#aprobar_spec_no_cambia_cuando_todo_esta_completo
 
 Tipo: funcional El sistema DEBE seguir aprobando la spec sin ningún cambio cuando ninguno de los tres archivos tiene la marca de pendiente.

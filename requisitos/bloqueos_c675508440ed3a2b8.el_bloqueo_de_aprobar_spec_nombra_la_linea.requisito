@@ -1,4 +1,4 @@
 requisito bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea:
     texto "Tipo: funcional El sistema DEBE, cuando aprobar una spec se bloquea porque la propuesta, la spec o las tareas todavía tienen la marca de pendiente, decir de cada archivo afectado la primera línea que la tiene, con su número y su texto acortado, y cuántas más quedan en ese archivo."
     fuente "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md#el_bloqueo_de_aprobar_spec_nombra_la_linea"
-    sin_medir "sin medida todavía; escenarios: «una plantilla recién creada», «un solo archivo pendiente», «una línea muy larga»"
+    medido_por factory_bloqueo_causa.el_bloqueo_de_aprobar_spec_nombra_la_linea, factory_bloqueo_causa.corrida_completa
