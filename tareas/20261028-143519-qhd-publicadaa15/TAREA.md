@@ -23,3 +23,11 @@ Medidas de distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_versi
 ### Nota (2026-10-28 14:40:33 UTC)
 
 Medidas de distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta: factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta, factory_publicada_a15.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 14:44:52 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 14:44:52 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta: Brian Hollweg (persona, confirmo, modo confirmacion).
