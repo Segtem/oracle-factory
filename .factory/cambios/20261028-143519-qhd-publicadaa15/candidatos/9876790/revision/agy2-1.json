@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a15/.factory/local/revisiones/9876790-agy2-1",
+  "base": "4df3d688b4cdfb219a5e4c8d92f2dae83b81faf5",
+  "head": "9876790f0ec603d6f97eec52a13d0124951aab1b",
+  "diff_sha256": "85a6c617ab592dba196cb0c661055f35cf85af975823027aae2102c06e475185",
+  "context_sha256": "b931d5984c1bd1d4e92896456fda412584d1cc4212031c1dd7468ead410b3539",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-publicada-a15/.venv/bin/python -m unittest tests.test_publicada_a15 tests.test_docs tests.test_entrega_a15.EntregaA15.test_ea1_version_coherente_y_estado_declarado </dev/null, obteniendo un resultado de 12 pruebas exitosas en 2.62s (9 de PublicadaA15, 2 de Docs y 1 de EntregaA15.test_ea1). Se utilizó el entorno virtual de la raíz del proyecto principal (/home/workstation/Dev/factory-publicada-a15/.venv) dado que el clon de revisión en .factory/local/revisiones/9876790-agy2-1 es de sólo lectura y no posee .venv propio.",
+    "Verificación remota de artefactos: se contrastaron las afirmaciones de publicación contra la API pública de PyPI (https://pypi.org/pypi/oracle-factory/json), comprobando la disponibilidad de la versión 0.1.0a15 tanto en formato wheel (oracle_factory-0.1.0a15-py3-none-any.whl, SHA-256 807c33661d800ee5ff59be9defd34c4687b678d70f08b09f1274455a31d144cb) como sdist (oracle_factory-0.1.0a15.tar.gz, SHA-256 1dd0379ac7cfe1f422481be98610f3eadde258b4f1d952084d15e35de4d7f3b7). Asimismo, se consultó la API de GitHub para Segtem/oracle-factory confirmando la existencia del tag v0.1.0a15 y de la release correspondiente marcada como pre-release conteniendo los mismos activos.",
+    "Juicio de Oracle: se evaluó la evidencia del candidato 9876790 mediante /home/workstation/Dev/factory-publicada-a15/.venv/bin/oracle --proyecto /home/workstation/Dev/factory-publicada-a15 juzgar --con .factory/cambios/20261028-143519-qhd-publicadaa15/candidatos/9876790/evidencia/hechos.json --parcial, constatando veredicto VERDE en las tres medidas asociadas al cambio: factory_publicada_a15.corrida_completa (1 == 1), factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada (4 == 4) y factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta (5 == 5).",
+    "Verificación de subsanación de hallazgos previos: se verificó que los cuatro hallazgos de la vuelta 1 (PUB-01 falso positivo por candidato de revisión, PUB-02 falsos negativos ante variantes naturales sin paréntesis, PUB-03 falso positivo por estado de preparación genérico y PUB-04 prueba de candidato sin versión) fueron resueltos en su totalidad mediante la implementación de patron_preparacion(version) en tools/docs_al_dia.py, la adición del caso test_pa2_el_candidato_de_una_revision_y_otros_estados_de_preparacion_no_son_divergencia y la actualización de test_pa2_la_palabra_candidato_junto_a_otra_version_no_cuenta en tests/test_publicada_a15.py.",
+    "Análisis de mutaciones controladas: se ejecutó un banco de 20 mutaciones en una copia aislada del repositorio. Todas las 9 formas que componen patron_preparacion fueron evaluadas individualmente y cada una de ellas provocó fallas en la suite de pruebas al ser desactivada. De igual modo, mutaciones que alteraban NOTAS-DE-RELEASE.md (restaurando «en preparación», eliminando la viñeta de publicación, alterando tags o invirtiendo el orden cronológico del historial), mutaciones en README.md, docs/colaboracion.md, site/desde-cero.html y site/index.html fueron detectadas y rechazadas por las pruebas. La mutación en tests/datos/guias-texto.json sobrevivió únicamente en este subconjunto acotado de pruebas unitarias por corresponder al escenario evaluado por tests/test_web_guias.cjs (Playwright).",
+    "Ausencia de contradicciones y estabilidad: se comprobó analítica y empíricamente que publicacion_prematura y preparacion_olvidada poseen condiciones de activación mutuamente excluyentes sobre el encabezado de NOTAS-DE-RELEASE.md y que sus patrones no generan colisiones mutuas.",
+    "Alcance y restricciones: no se ejecutó la suite completa de pruebas ni tools/verify_publicada_a15.py de acuerdo con las instrucciones explícitas del pedido de revisión. No se modificó el checkout del candidato (mantenido en modo de sólo lectura), no se generaron commits y no se alteró la configuración de Git de ningún repositorio."
+  ]
+}
