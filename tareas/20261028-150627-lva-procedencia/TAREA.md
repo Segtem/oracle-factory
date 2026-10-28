@@ -55,3 +55,23 @@ Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: Bri
 ### Nota (2026-10-28 17:23:43 UTC)
 
 Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 17:48:03 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 17:48:04 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 17:48:05 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 17:48:06 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 17:48:07 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
