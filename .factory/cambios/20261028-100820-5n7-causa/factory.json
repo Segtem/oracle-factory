@@ -451,6 +451,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "e54254dfef60"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T11:48:43.141593+00:00",
+      "decision": "aprobar",
+      "candidato": "43d18a3"
     }
   ],
   "tipos": {
@@ -508,5 +518,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 594 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite: solo cambia el bloqueo de aprobar-spec por la marca de pendiente o por un archivo ausente; los demás mensajes de bloqueo de Factory no cambian. Un hallazgo medio de la vuelta 1 (la plantilla real no trae la marca en tasks.md) se resolvió explicando que la spec describe un cambio con marcas en los tres archivos; la plantilla sin tocar tiene su propia prueba.",
+      "candidato": "43d18a3",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T11:48:43.141581+00:00"
+    }
+  }
 }
