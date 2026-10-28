@@ -2,10 +2,20 @@
   "id": "20261028-100820-5n7-causa",
   "titulo": "Que aprobar-spec diga qué línea de qué archivo falta completar",
   "capacidad": "bloqueos",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "71a3d5255fb03c287d0ca7c800003f5cb05bbb5481d5d0294d40e5f767e7f24c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T10:09:10.027352+00:00",
+    "documentos": {
+      "openspec/changes/20261028-100820-5n7-causa/proposal.md": "edd618ad8f7ac0282e0920e08fbbb430cc404c20851165605b1cc8f21e12cbfd",
+      "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md": "71a3d5255fb03c287d0ca7c800003f5cb05bbb5481d5d0294d40e5f767e7f24c"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-28T10:08:20.339204+00:00",
       "capacidad": "bloqueos"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T10:09:10.027382+00:00",
+      "documentos": {
+        "openspec/changes/20261028-100820-5n7-causa/proposal.md": "edd618ad8f7ac0282e0920e08fbbb430cc404c20851165605b1cc8f21e12cbfd",
+        "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md": "71a3d5255fb03c287d0ca7c800003f5cb05bbb5481d5d0294d40e5f767e7f24c"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
