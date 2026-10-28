@@ -2,7 +2,7 @@
   "id": "20261028-102041-88p-entregaa15",
   "titulo": "Preparar la distribución 0.1.0a15",
   "capacidad": "distribucion",
-  "fase": "oracle_rojo",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md",
   "spec_sha256": "7656dc1ab6b3bc591545cd6d715b14b7191ad062db775258020808f0f25c887e",
   "spec_aprobada": {
@@ -43,16 +43,16 @@
     }
   },
   "oracle": {
-    "codigo": 1,
-    "codigo_oracle": 1,
-    "hechos": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/8ba56f7/evidencia/hechos.json",
-    "hechos_sha256": "80813787d13e8c1fa78abe37415958a5ccf3f96c37b9b0cba82cfc641a2b80ee",
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-102041-88p-entregaa15/candidatos/2cbea44/evidencia/hechos.json",
+    "hechos_sha256": "60f9b2372e6d1932f26bed545c84eb0496d571a819481e7ff5e46162d7ba5b8a",
     "informe": ".factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt",
-    "informe_sha256": "218c48ddb401c520d9237072fcf5899723570e38d7b42ee6d2f58ba1023dd24c",
-    "cuando": "2026-10-28T13:55:51.639603+00:00",
+    "informe_sha256": "d24d86492cd31ba6832d67d7397cd4d7eca427738385ea34abed247a6e978952",
+    "cuando": "2026-10-28T14:03:27.759244+00:00",
     "contexto": {
-      "head": "8c8d9c2f305775375057f8ac27e866dcd235010f",
-      "archivos_sha256": "7cbb9b52ef29696c064c5376ee080f7a3c320bed1fe40fad23b97dda6b6ea61b"
+      "head": "0c96aaa74a4044392adcec8bab2d8f2d6de96b31",
+      "archivos_sha256": "7c19d629d77e7e014c6aadc80eafbf8770f25b9fffff6d5fcc8ba96a7db0a807"
     }
   },
   "modo": "confirmacion",
@@ -466,6 +466,17 @@
         "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado",
         "factory_entrega_a15.corrida_completa"
       ]
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T14:03:27.759261+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "60f9b2372e6d1932f26bed545c84eb0496d571a819481e7ff5e46162d7ba5b8a"
     }
   ],
   "tipos": {

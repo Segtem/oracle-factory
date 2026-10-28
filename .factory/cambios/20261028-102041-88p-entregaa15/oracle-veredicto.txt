@@ -83,9 +83,9 @@
 ? decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu   sin juicio · factory_decisiones.las_confirmaciones_son_un_menu no aplicada, factory_decisiones.corrida_completa no aplicada
 ? decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta   sin juicio · factory_decisiones.revisar_guia_la_revision_de_punta_a_punta no aplicada, factory_decisiones.corrida_completa no aplicada
 ? decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona   sin juicio · factory_decisiones.sin_terminal_no_hay_decision_de_persona no aplicada, factory_decisiones.corrida_completa no aplicada
-✗ distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto   no cumple · factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto falla, factory_entrega_a14.corrida_completa falla
-✗ distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites   no cumple · factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites falla, factory_entrega_a14.corrida_completa falla
-✗ distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado   no cumple · factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado falla, factory_entrega_a14.corrida_completa falla
+? distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto   sin juicio · factory_entrega_a14.la_distribucion_instalada_ofrece_las_consultas_del_proyecto no aplicada, factory_entrega_a14.corrida_completa no aplicada
+? distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites   sin juicio · factory_entrega_a14.la_entrega_registra_sus_pruebas_y_sus_limites no aplicada, factory_entrega_a14.corrida_completa no aplicada
+? distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado   sin juicio · factory_entrega_a14.la_version_de_entrega_es_coherente_y_declara_su_estado no aplicada, factory_entrega_a14.corrida_completa no aplicada
 ✓ distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo   cumple · factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo cumple, factory_entrega_a15.corrida_completa cumple
 ✓ distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites   cumple · factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites cumple, factory_entrega_a15.corrida_completa cumple
 ✓ distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado   cumple · factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado cumple, factory_entrega_a15.corrida_completa cumple
@@ -231,4 +231,4 @@
 ? web_cd28e54c150c790c2.la_tabla_de_quien_decide_coincide_con_el_codigo   sin juicio · factory_modos_web.la_tabla_de_quien_decide_coincide_con_el_codigo no aplicada, factory_modos_web.corrida_completa no aplicada
 ? web_cd28e54c150c790c2.los_modos_de_trabajo_estan_explicados   sin juicio · factory_modos_web.los_modos_de_trabajo_estan_explicados no aplicada, factory_modos_web.corrida_completa no aplicada
 
-232 requisitos: 3 se cumplen (0 sólo en lo medido) · 3 no se cumplen · 223 sin juicio · 3 sin medir · 0 con medidas inexistentes
+232 requisitos: 3 se cumplen (0 sólo en lo medido) · 0 no se cumplen · 226 sin juicio · 3 sin medir · 0 con medidas inexistentes

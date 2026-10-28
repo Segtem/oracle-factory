@@ -95,3 +95,7 @@ Medidas de distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_
 ### Nota (2026-10-28 13:56:52 UTC)
 
 Medidas de distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 14:03:27 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt.
