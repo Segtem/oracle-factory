@@ -564,6 +564,7 @@ def probar_novedades(factory_bin: Path, tmp_path: Path) -> dict[str, object]:
         "propuesta": (carpeta / "proposal.md").read_text(encoding="utf-8"),
         "bloqueo": bloqueo.stdout + bloqueo.stderr,
         "cuenta": json.loads(correr("preguntar", "--json", "¿Cuántas specs hay?").stdout),
+        "lista": json.loads(correr("preguntar", "--json", "¿Cuáles specs hay?").stdout),
         "filtro": json.loads(correr("preguntar", "--json", "¿Cuántas specs hay desde ayer?").stdout),
         "tablero": json.loads(correr("tablero", "--json").stdout),
     }
@@ -583,6 +584,10 @@ def validar_novedades(o: dict) -> dict[str, object]:
     cuenta, filtro = o["cuenta"], o["filtro"]
     if cuenta.get("valor") != {"vigentes": 0, "en_cambios_abiertos": 1} or cuenta.get("modelo_generativo"):
         raise AssertionError(f"el conteo de specs no es el esperado: {cuenta}")
+    lista = o["lista"]
+    if (not any('"operacion": "listar"' in f.get("cita", "") for f in lista.get("fuentes") or [])
+            or "novedad · en cambio abierto" not in lista.get("respuesta", "") or lista.get("modelo_generativo")):
+        raise AssertionError(f"la lista de specs no es la esperada: {lista}")
     if filtro.get("tipo") != "consulta_no_admitida" or filtro.get("resultados"):
         raise AssertionError(f"un filtro no admitido debía rechazarse: {filtro}")
     # El tablero: quién mira, qué falta con quién lo hace, y la actividad reciente.
@@ -594,7 +599,7 @@ def validar_novedades(o: dict) -> dict[str, object]:
         raise AssertionError(f"la actividad no trae el cambio creado: {tablero['proyecto']['actividad']}")
     return {"exitoso": True, "cambio": ident, "especificaciones": cuenta["valor"], "filtro_rechazado": True,
             "faltan": [{"humano": x["humano"], "quien": x["quien"]} for x in cambio["faltan"]],
-            "bloqueo": texto.strip().splitlines()[-1][:300]}
+            "bloqueo": next((l for l in texto.splitlines() if "hay que completar y revisar primero" in l), "")[:300]}
 
 
 def probar_arneses(factory_bin: Path, python_bin: Path) -> dict[str, object]:

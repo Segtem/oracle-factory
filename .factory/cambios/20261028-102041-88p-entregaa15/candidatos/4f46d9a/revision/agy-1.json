@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a15/.factory/local/revisiones/4f46d9a-agy-1",
+  "base": "0db22687cc6eef18a0ac2a41439fdd84510b6caa",
+  "head": "4f46d9afb358021a0dd41c2f44719136d486c7a7",
+  "diff_sha256": "bb3d6b898a1190fd4bf737c886807ea8c8f1e9e4a64bc3b9ef7a3d025cf1b095",
+  "context_sha256": "058f2b8339f32ae27f32fb847f86c806ee991b81c06c3c68881b3c69db091f8e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "asercion-tautologica-bloqueo-novedades",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Aserción tautológica en test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15 no comprueba el mensaje de bloqueo",
+      "explanation": "En tests/test_entrega_a15.py:117, la aserción evalúa: self.assertIn(\"hay que completar y revisar primero\", res[\"bloqueo\"] + \" hay que completar y revisar primero\"). Al concatenar la subcadena esperada al final del valor res[\"bloqueo\"], el segundo argumento de assertIn siempre contiene la subcadena buscada, independientemente de lo que contenga res[\"bloqueo\"] (incluso si está vacío o contiene un mensaje de error no relacionado). Esto convierte la verificación en una tautología que nunca puede fallar, dejando sin comprobación real el contenido del bloqueo en esta prueba del contrato ea2.",
+      "location": {
+        "file": "tests/test_entrega_a15.py",
+        "start_line": 117,
+        "end_line": 117,
+        "side": "head"
+      },
+      "trigger": "Ejecución de test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15 ante un valor de res[\"bloqueo\"] vacío o incorrecto.",
+      "evidence": "La expresión (\"hay que completar y revisar primero\" in (res[\"bloqueo\"] + \" hay que completar y revisar primero\")) evalúa True para cualquier cadena res[\"bloqueo\"]. Si se muta tools/probar_entrega_a15.py:597 para retornar un texto vacío en el campo bloqueo, la aserción no detecta la falla.",
+      "related_requirement": "distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "status": "pendiente",
+      "verification": "Quitar la concatenación redundante en tests/test_entrega_a15.py:117, dejando: self.assertIn(\"hay que completar y revisar primero\", res[\"bloqueo\"])."
+    },
+    {
+      "id": "cobertura-incompleta-escenario-afirmacion-publicacion-no-verificada",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Ausencia de comprobación y caso de prueba para detección de publicación no verificada en README/web",
+      "explanation": "El escenario «una versión o un estado divergen» de la spec exige que si un candidato nombra otra versión o «afirman una publicación no verificada», se detecte la divergencia y no se declare exitosa la preparación. En tests/test_entrega_a15.py:58-67 sólo se implementó el inciso a) correspondiente al número de versión (0.2.0), omitiendo el caso en que se afirme una publicación no verificada. Asimismo, en las líneas 54-56 sólo se comprueba la ausencia del rótulo de la a14 en preparación, sin verificar positivamente que README.md declare la a15 como «Candidato en preparación». Si se modifica README.md o las páginas web para afirmar que la 0.1.0a15 ya está publicada en PyPI, docs_al_dia no lo detecta y el test pasa sin advertirlo.",
+      "location": {
+        "file": "tests/test_entrega_a15.py",
+        "start_line": 58,
+        "end_line": 67,
+        "side": "head"
+      },
+      "trigger": "Un candidato cuya documentación o web afirma que 0.1.0a15 está publicada antes de comprobarla.",
+      "evidence": "Al mutar temporalmente README.md sustituyendo «Candidato en preparación...» por «Ya publicada en PyPI», docs_al_dia.problemas() devuelve lista vacía y test_ea1_version_coherente_y_estado_declarado no falla.",
+      "related_requirement": "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Incorporar en tests/test_entrega_a15.py la verificación positiva de «Candidato en preparación » y un caso de prueba negativo para el escenario de afirmación indebida de publicación no comprobada."
+    },
+    {
+      "id": "web-index-novedades-desactualizadas-a14",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Texto y encabezado de la sección de novedades en site/index.html conservan el alcance de la versión 0.1.0a14",
+      "explanation": "El requisito la_version_a15_es_coherente_y_declara_su_estado exige que los textos de la web de esta entrega sean coherentes. En site/index.html:94 se actualizó la viñeta superior a «PREPARACIÓN 0.1.0a15», pero el encabezado h2 y el párrafo introductorio mantienen «Quién decide, qué está vigente y dónde está cada cosa» y «Lo que se preparó para la entrega con documentación y RAG actualizados. Candidato en verificación previa a publicación en PyPI.», que corresponden textualmente a la propuesta y alcance de la versión anterior 0.1.0a14 (propuesta ho0-entrega-a14) en lugar de describir las novedades de la 0.1.0a15.",
+      "location": {
+        "file": "site/index.html",
+        "start_line": 94,
+        "end_line": 94,
+        "side": "head"
+      },
+      "trigger": "Inspección de site/index.html en la sección id=\"novedades\".",
+      "evidence": "La sección de novedades anuncia PREPARACIÓN 0.1.0a15 pero conserva el lema («Quién decide, qué está vigente y dónde está cada cosa») y la descripción de la a14 («Lo que se preparó para la entrega con documentación y RAG actualizados»).",
+      "related_requirement": "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Actualizar el título h2 y la descripción en site/index.html:94 para reflejar las novedades reales de 0.1.0a15 (tablero, preguntas sobre specs, idioma de plantillas, bloqueos que explican causas y terminal lista)."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas autorizadas: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas exitosas en 8.8s). Se utilizó el intérprete .venv de la raíz del proyecto principal ya que el clon local en .factory/local/revisiones/4f46d9a-agy-1 no cuenta con un entorno virtual propio.",
+    "Alcance de pruebas: de acuerdo con las instrucciones expresas, no se ejecutó la suite completa de pruebas ni tools/verify_entrega_a15.py directamente.",
+    "Integridad del repositorio: no se modificó el checkout de revisión del candidato 4f46d9a (sólo lectura) ni se alteró la configuración de Git de ningún repositorio.",
+    "Análisis de mutaciones: se analizaron estáticamente y sobre copias en el directorio del revisor las 21 mutaciones de tools/mutar_entrega_a15.py frente a sus respectivos casos de prueba, verificando que todas son detectadas. Asimismo, se realizaron mutaciones sobre copias locales para verificar la robustez de las aserciones, confirmándose que la aserción tautológica de tests/test_entrega_a15.py:117 sobrevive ante fallas en res[\"bloqueo\"].",
+    "Archivos excluidos: conforme al paquete de Clue, no se revisaron los 8 archivos de registros y evidencia interna de Factory (.factory, kb/ y tareas/)."
+  ]
+}

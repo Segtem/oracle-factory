@@ -217,6 +217,58 @@
         "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado",
         "factory_entrega_a15.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T12:51:33.928114+00:00",
+      "revisor": "agy2",
+      "candidato": "4f46d9a",
+      "lanzamiento": "802aef441cb7"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T12:51:33.953226+00:00",
+      "revisor": "agy",
+      "candidato": "4f46d9a",
+      "lanzamiento": "86be75fd062b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T13:10:46.275192+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4f46d9a",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "86be75fd062b"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T13:13:52.107974+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "4f46d9a",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "802aef441cb7"
     }
   ],
   "tipos": {

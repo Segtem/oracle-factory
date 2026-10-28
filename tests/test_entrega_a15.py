@@ -66,6 +66,21 @@ class EntregaA15(unittest.TestCase):
             probs = docs_al_dia.problemas(repo_tmp)
             self.assertTrue(any("nombra la versión 0.2.0" in p for p in probs), "No se detectó la versión divergente 0.2.0")
 
+            # b) un texto afirma que la versión en preparación ya está publicada
+            readme.write_text(contenido_original + "\nLa 0.1.0a15 ya está publicada en PyPI.\n", encoding="utf-8")
+            probs = docs_al_dia.problemas(repo_tmp)
+            self.assertTrue(any("afirma que la versión 0.1.0a15 está publicada" in p for p in probs), probs)
+            for frase in ("Ya está en PyPI la 0.1.0a15.", "La versión 0.1.0a15, publicada en GitHub.", "0.1.0a15 disponible en PyPI"):
+                readme.write_text(contenido_original + f"\n{frase}\n", encoding="utf-8")
+                self.assertTrue(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)), frase)
+            # c) la misma afirmación ya no es un problema cuando las notas la declaran publicada
+            readme.write_text(contenido_original + "\nLa 0.1.0a15 ya está publicada en PyPI.\n", encoding="utf-8")
+            notas = repo_tmp / "NOTAS-DE-RELEASE.md"
+            notas.write_text(notas.read_text(encoding="utf-8").replace("# Oracle Factory 0.1.0a15 (en preparación)", "# Oracle Factory 0.1.0a15"), encoding="utf-8")
+            self.assertFalse(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
+            # d) el README real de la preparación sí dice que está en preparación
+            self.assertIn("Candidato en preparación `oracle-factory==0.1.0a15`", contenido_original)
+
     # --- ea2: el wheel instalado ofrece lo nuevo ----------------------------------------------------
     _instalado = None
 
@@ -114,7 +129,8 @@ class EntregaA15(unittest.TestCase):
         self.assertTrue(res["exitoso"])
         self.assertEqual(res["especificaciones"], {"vigentes": 0, "en_cambios_abiertos": 1})
         self.assertTrue(res["filtro_rechazado"])
-        self.assertIn("hay que completar y revisar primero", res["bloqueo"] + " hay que completar y revisar primero")
+        self.assertIn("hay que completar y revisar primero", res["bloqueo"])
+        self.assertIn("proposal.md (línea ", res["bloqueo"])
         self.assertTrue(res["faltan"])
         self.assertTrue(all(x["quien"] in ("persona", "agente", None) for x in res["faltan"]))
 
@@ -125,6 +141,8 @@ class EntregaA15(unittest.TestCase):
             "propuesta": "# P\n\n## Why\n\nTODO: y.\n",
             "bloqueo": "hay que completar y revisar primero: openspec/changes/c1/proposal.md (línea 5: «TODO: y.»; quedan 3 más)",
             "cuenta": {"valor": {"vigentes": 0, "en_cambios_abiertos": 1}},
+            "lista": {"fuentes": [{"cita": 'specs:{"operacion": "listar", "tema": "specs"}'}],
+                      "respuesta": "Hay 0 specs vigentes.\n- novedad · en cambio abierto (c1) · openspec/changes/c1/specs/novedad/spec.md"},
             "filtro": {"tipo": "consulta_no_admitida", "resultados": []},
             "tablero": {"yo": None, "cambios": [{"id": "c1", "faltan": [{"texto": "t", "humano": "h", "quien": "agente"}]}],
                         "proyecto": {"actividad": [{"cambio": "c1", "accion": "cambio_creado"}]}},
@@ -140,6 +158,9 @@ class EntregaA15(unittest.TestCase):
             "bloqueo sin recuento": {"bloqueo": "hay que completar y revisar primero: proposal.md (línea 5: «x»)"},
             "conteo de specs distinto": {"cuenta": {"valor": {"vigentes": 1, "en_cambios_abiertos": 1}}},
             "conteo con modelo": {"cuenta": {"valor": {"vigentes": 0, "en_cambios_abiertos": 1}, "modelo_generativo": "x"}},
+            "lista que no lista": {"lista": {**bueno["lista"], "respuesta": "Hay 0 specs vigentes."}},
+            "lista de otra operación": {"lista": {**bueno["lista"], "fuentes": [{"cita": 'specs:{"operacion": "contar", "tema": "specs"}'}]}},
+            "lista con modelo": {"lista": {**bueno["lista"], "modelo_generativo": "x"}},
             "filtro aceptado": {"filtro": {"tipo": "registro", "resultados": []}},
             "filtro con pasajes sueltos": {"filtro": {"tipo": "consulta_no_admitida", "resultados": [{"x": 1}]}},
             "tablero sin yo": {"tablero": {"cambios": bueno["tablero"]["cambios"], "proyecto": bueno["tablero"]["proyecto"]}},

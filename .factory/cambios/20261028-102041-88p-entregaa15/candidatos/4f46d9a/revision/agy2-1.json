@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a15/.factory/local/revisiones/4f46d9a-agy2-1",
+  "base": "0db22687cc6eef18a0ac2a41439fdd84510b6caa",
+  "head": "4f46d9afb358021a0dd41c2f44719136d486c7a7",
+  "diff_sha256": "bb3d6b898a1190fd4bf737c886807ea8c8f1e9e4a64bc3b9ef7a3d025cf1b095",
+  "context_sha256": "375d25ada29608e65f176c960149e220216c3270004c374570c3e7ca2f3a4ec9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente).",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a la instrucción expresa de no correrla.",
+    "Se realizaron mutaciones manuales y pruebas de borde en copias temporales aisladas para evaluar la sensibilidad de docs_al_dia.py, la suite de entrega y la aserción de bloqueo ante fallas inducidas.",
+    "No se modificó el checkout del candidato ni la configuración de Git."
+  ],
+  "findings": [
+    {
+      "id": "AGY-001",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Aserción tautológica en test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15 enmascara fallas en el mensaje de bloqueo",
+      "explanation": "En tests/test_entrega_a15.py (línea 117), el método test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15 comprueba el bloqueo por spec sin completar mediante: self.assertIn(\"hay que completar y revisar primero\", res[\"bloqueo\"] + \" hay que completar y revisar primero\"). Al concatenar la subcadena esperada directamente al valor evaluado, la condición de assertIn resulta siempre verdadera por definición, independientemente de lo que contenga res[\"bloqueo\"]. Si res[\"bloqueo\"] estuviera vacío o fuera un mensaje de error divergente, la prueba no fallaría, resultando en una aserción ineficaz que no verifica lo que promete.",
+      "location": {
+        "file": "tests/test_entrega_a15.py",
+        "start_line": 117,
+        "end_line": 117,
+        "side": "head"
+      },
+      "trigger": "El mensaje res[\"bloqueo\"] generado durante la comprobación del wheel omite o altera la frase \"hay que completar y revisar primero\".",
+      "evidence": "Evaluado en Python: 'hay que completar y revisar primero' in ('CUALQUIER MENSAJE ROTO' + ' hay que completar y revisar primero') evalúa incondicionalmente a True. Sin la concatenación, assertIn('hay que completar y revisar primero', 'CUALQUIER MENSAJE ROTO') falla con AssertionError.",
+      "related_requirement": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "status": "pendiente",
+      "verification": "En tests/test_entrega_a15.py:117, reemplazar por self.assertIn(\"hay que completar y revisar primero\", res[\"bloqueo\"]) y comprobar que evalúa correctamente sobre el contenido real devuelto por probar_novedades."
+    },
+    {
+      "id": "AGY-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "probar_novedades omite verificar el listado de especificaciones con preguntar en el wheel instalado",
+      "explanation": "El requisito el_wheel_a15_instalado_ofrece_lo_nuevo y su archivo de requisito distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo.requisito exigen textualmente: «El sistema DEBE comprobar, con el wheel instalado en un entorno nuevo y desde fuera del checkout, la versión y el origen de importación, y que el paquete instalado ofrece las novedades de esta entrega: contar y listar las specs con `preguntar`, crear un cambio en inglés con `nuevo --idioma`, el bloqueo de `aprobar-spec` que nombra la línea pendiente, y el tablero con `yo`, `faltan` y `actividad`.» Sin embargo, en tools/probar_entrega_a15.py (líneas 566-570), probar_novedades únicamente consulta el conteo de specs (\"¿Cuántas specs hay?\") y el rechazo de filtro (\"¿Cuántas specs hay desde ayer?\"). Nunca ejecuta preguntar para listar specs (operacion == 'listar', como \"¿Cuáles specs hay?\"), ni validar_novedades (líneas 583-587) verifica la lista de especificaciones vigentes y abiertas. Si la función de listado estuviera rota en el paquete instalado, la comprobación no lo detectaría.",
+      "location": {
+        "file": "tools/probar_entrega_a15.py",
+        "start_line": 566,
+        "end_line": 587,
+        "side": "head"
+      },
+      "trigger": "Se ejecuta la comprobación de novedades del wheel instalado mediante probar_entrega_a15.py.",
+      "evidence": "En tools/probar_entrega_a15.py líneas 566-568 sólo se obtienen 'cuenta' y 'filtro'. En líneas 583-587, validar_novedades únicamente inspecciona cuenta.get('valor') y filtro.get('tipo'), sin registrar ni validar ninguna consulta de listado de specs.",
+      "related_requirement": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "status": "pendiente",
+      "verification": "Incorporar en probar_novedades una llamada a preguntar con intención de listado (por ejemplo correr('preguntar', '--json', '¿Cuáles specs hay?')) y agregar en validar_novedades la validación de la lista devuelta."
+    },
+    {
+      "id": "AGY-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta comprobación negativa ante afirmación no verificada de publicación en el escenario de divergencia",
+      "explanation": "El escenario «una versión o un estado divergen» del requisito la_version_a15_es_coherente_y_declara_su_estado promete: «DADO un candidato cuya web, README o instrucciones nombran otra versión como la de esta entrega, o afirman una publicación no verificada CUANDO se comprueba la entrega ENTONCES se detecta la divergencia y no se declara exitosa la preparación». No obstante, en tests/test_entrega_a15.py (líneas 58-68), el caso 4 sólo muta README.md a una versión no coincidente (0.2.0) y consulta docs_al_dia.problemas(). Ni tools/docs_al_dia.py ni test_ea1_version_coherente_y_estado_declarado contienen verificaciones ni pruebas negativas para detectar textos que afirmen indebidamente que 0.1.0a15 está publicada. Si README o site afirmasen una publicación no verificada manteniendo la versión 0.1.0a15, docs_al_dia retorna lista vacía y la prueba pasa.",
+      "location": {
+        "file": "tests/test_entrega_a15.py",
+        "start_line": 58,
+        "end_line": 68,
+        "side": "head"
+      },
+      "trigger": "Un archivo de documentación o de la web afirma que 0.1.0a15 ya se encuentra publicada en PyPI o GitHub antes de ser verificada.",
+      "evidence": "Se probó en una copia temporal modificando README.md para declarar «Publicada en PyPI `oracle-factory==0.1.0a15`». docs_al_dia.problemas(dest) retornó [] (sin problemas), demostrando que la falta de estado en preparación / afirmación indebida de publicación no es detectada.",
+      "related_requirement": "la_version_a15_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Modificar en un entorno temporal README.md afirmando que 0.1.0a15 está publicada y verificar que las pruebas no detectan divergencia salvo que se añada una comprobación explícita del estado de preparación."
+    }
+  ]
+}
