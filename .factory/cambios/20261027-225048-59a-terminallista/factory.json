@@ -2,7 +2,7 @@
   "id": "20261027-225048-59a-terminallista",
   "titulo": "Esperar a que la terminal de Factory esté lista antes de escribir un comando",
   "capacidad": "ide",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md",
   "spec_sha256": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f",
   "spec_aprobada": {
@@ -22,7 +22,27 @@
     "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
     "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/informe.json",
+    "sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
+    "decisiones": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/decisiones.json",
+    "decisiones_sha256": "48271b2024166e3c1c634cf2a2e0bfe73a9bce811582a4246d202b3c02edc03e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T00:39:26.864046+00:00",
+    "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4c00d2efd329017a595e397476d246aeedf6940a",
+      "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -554,6 +574,20 @@
       "cuando": "2026-10-28T00:35:13.328805+00:00",
       "decision": "aprobar",
       "candidato": "c351794"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T00:39:26.864078+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
+      "decisiones_sha256": "48271b2024166e3c1c634cf2a2e0bfe73a9bce811582a4246d202b3c02edc03e"
     }
   ],
   "tipos": {
@@ -629,14 +663,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.",
-      "candidato": "c351794",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T00:35:13.328791+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

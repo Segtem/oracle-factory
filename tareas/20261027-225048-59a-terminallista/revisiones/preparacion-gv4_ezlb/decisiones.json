@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.",
+  "decisiones": []
+}
