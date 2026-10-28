@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "68183f29282b420e57a67c2a8b424375341c633a3422d4c73063543c5a65e6ea",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de agy y agy2; las dos últimas sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas, wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout con las novedades, y veredicto de Oracle verde solo para los 3 requisitos de esta entrega (los hechos tienen nombres propios y no se mezclan con los de la 0.1.0a14). Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.",
+  "decisiones": []
+}
