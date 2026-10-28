@@ -140,10 +140,10 @@ def main(argv=None):
     mapa = {ids[s]: [PREFIX + n for n in names] for s, names in CONTRACTS.items() if s in ids}
     escribir(output / 'trazabilidad.json', trazabilidad.trazar(ROOT, mapa))
     hechos = {
-        'entrega_caso': [{'requisito': s, 'caso': n, 'codigo': result.observados.get(PREFIX + n, 1)}
+        'entrega_a15_caso': [{'requisito': s, 'caso': n, 'codigo': result.observados.get(PREFIX + n, 1)}
                          for s, names in CONTRACTS.items() for n in names],
-        'entrega_suite': [{'completa': int(ok), 'casos': len(esperado_contrato)}],
-        'entrega_mutacion': [{'id': m['id'], 'detectada': int(m['detectada'])}
+        'entrega_a15_suite': [{'completa': int(ok), 'casos': len(esperado_contrato)}],
+        'entrega_a15_mutacion': [{'id': m['id'], 'detectada': int(m['detectada'])}
                              for m in mut_datos['mutaciones']],
     }
     escribir(output / 'hechos.json', hechos)
