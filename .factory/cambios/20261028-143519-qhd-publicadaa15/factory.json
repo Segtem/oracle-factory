@@ -2,7 +2,7 @@
   "id": "20261028-143519-qhd-publicadaa15",
   "titulo": "Declarar publicada la 0.1.0a15 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md",
   "spec_sha256": "d7f985f754eaba62a2d3b5ee2a9159da7495a57d084eaab47f64f666c87969b1",
   "spec_aprobada": {
@@ -20,7 +20,27 @@
     "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada",
     "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-143519-qhd-publicadaa15/revisiones/registro-jxbn3h9q/informe.json",
+    "sha256": "806ffb4562e708bf9a05b767d5a72a8562b23e33d915681dffdcd3b284c3759e",
+    "decisiones": "tareas/20261028-143519-qhd-publicadaa15/revisiones/registro-jxbn3h9q/decisiones.json",
+    "decisiones_sha256": "3887165b7769ed0d5b7a546758ded1b680fd29a9003c5aed3c42c37c50619fd3",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T16:03:54.897517+00:00",
+    "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 609 pruebas y 9 casos de contrato en verde. La regla nueva de tools/docs_al_dia.py exige la versión en la misma frase para no confundir el candidato de una revisión con una versión candidata, y cada una de sus 9 formas hace fallar una prueba si se quita. Límite: la regla es por patrones de texto en español: una forma de decir «en preparación» que no esté entre los patrones no se detecta; el estado de una versión sigue teniendo una sola fuente, el encabezado de sus notas.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "b97dea8fea73d974a086d89411d561cacd5e4727",
+      "archivos_sha256": "1c1be62fdfd7fa180946668d6f561fc85652c67d4a0202ac79398e55b78f22e7"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -276,6 +296,20 @@
       "cuando": "2026-10-28T15:56:57.425608+00:00",
       "decision": "aprobar",
       "candidato": "9876790"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T16:03:54.897552+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "806ffb4562e708bf9a05b767d5a72a8562b23e33d915681dffdcd3b284c3759e",
+      "decisiones_sha256": "3887165b7769ed0d5b7a546758ded1b680fd29a9003c5aed3c42c37c50619fd3"
     }
   ],
   "tipos": {
@@ -317,14 +351,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 609 pruebas y 9 casos de contrato en verde. La regla nueva de tools/docs_al_dia.py exige la versión en la misma frase para no confundir el candidato de una revisión con una versión candidata, y cada una de sus 9 formas hace fallar una prueba si se quita. Límite: la regla es por patrones de texto en español: una forma de decir «en preparación» que no esté entre los patrones no se detecta; el estado de una versión sigue teniendo una sola fuente, el encabezado de sus notas.",
-      "candidato": "9876790",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T15:56:57.425594+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
