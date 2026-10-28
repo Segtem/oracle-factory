@@ -1,0 +1,138 @@
+{
+  "entrega_caso": [
+    {
+      "requisito": "la_version_a15_es_coherente_y_declara_su_estado",
+      "caso": "EntregaA15.test_ea1_version_coherente_y_estado_declarado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA15.test_ea2_el_origen_y_la_version_instalados_se_verifican",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA15.test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA15.test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA15.test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_entrega_a15_registra_sus_pruebas_y_sus_limites",
+      "caso": "EntregaA15.test_ea3_entrega_registra_pruebas_y_limites",
+      "codigo": 0
+    }
+  ],
+  "entrega_suite": [
+    {
+      "completa": 1,
+      "casos": 6
+    }
+  ],
+  "entrega_mutacion": [
+    {
+      "id": "version_pyproject_vieja_010a14",
+      "detectada": 1
+    },
+    {
+      "id": "version_init_vieja_010a14",
+      "detectada": 1
+    },
+    {
+      "id": "readme_version_divergente",
+      "detectada": 1
+    },
+    {
+      "id": "origen_checkout_no_rechazado",
+      "detectada": 1
+    },
+    {
+      "id": "wheel_010a14_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_identidades_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_fuentes_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_viva_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_codigo_cero_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "suite_parcial_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "suite_omitida_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "fuentes_inestables_aceptadas",
+      "detectada": 1
+    },
+    {
+      "id": "arnes_fallido_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "linea_base_fallida_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "simulacion_oculta",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_plantilla_en_ingles_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_bloqueo_sin_linea_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_conteo_de_specs_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_lista_de_specs_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "publicacion_prematura_no_detectada",
+      "detectada": 1
+    },
+    {
+      "id": "publicacion_prematura_sin_notas",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_filtro_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_tablero_sin_faltan_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_actividad_ignorada",
+      "detectada": 1
+    }
+  ]
+}
