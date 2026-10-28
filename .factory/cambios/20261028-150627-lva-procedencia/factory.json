@@ -743,6 +743,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "dedddbc9a145"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T21:45:32.423147+00:00",
+      "decision": "aprobar",
+      "candidato": "b926f91"
     }
   ],
   "tipos": {
@@ -834,5 +844,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 689 pruebas y 80 casos de contrato en verde, más de 100 mutaciones del módulo detectadas. Límites: sólo Python; sin red (los avisos OSV los trae la persona en un archivo); no firma ni verifica firmas; el formato CycloneDX y OSV se comprueba contra los campos que Factory usa, no contra el esquema completo; cli.py quedó a 2 KB del tope de 256000 bytes de Oracle Clue, así que conviene un cambio aparte que lo parta en módulos antes de la próxima mejora grande.",
+      "candidato": "b926f91",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T21:45:32.423132+00:00"
+    }
+  }
 }
