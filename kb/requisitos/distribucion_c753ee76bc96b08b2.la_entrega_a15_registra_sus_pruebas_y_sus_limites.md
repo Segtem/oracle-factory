@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites`
 - Vigente: sí
 - Cambio: [[cambios/20261028-102041-88p-entregaa15]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites`, `factory_entrega_a15.corrida_completa`
 - Fuente: openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md#la_entrega_a15_registra_sus_pruebas_y_sus_limites
 

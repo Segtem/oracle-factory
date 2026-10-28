@@ -103,3 +103,7 @@ Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-102041
 ### Nota (2026-10-28 14:20:29 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de agy y agy2; las dos últimas sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas, wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout con las novedades, y veredicto de Oracle verde solo para los 3 requisitos de esta entrega (los hechos tienen nombres propios y no se mezclan con los de la 0.1.0a14). Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.); 0 abiertos derivados; commit 1c9429929789cdc859d461dff7034449a84bdd4f; informe tareas/20261028-102041-88p-entregaa15/revisiones/registro-hs9m22c2/informe.json; decisiones tareas/20261028-102041-88p-entregaa15/revisiones/registro-hs9m22c2/decisiones.json.
+
+### Nota (2026-10-28 14:20:49 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt.

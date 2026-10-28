@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado`
 - Vigente: sí
 - Cambio: [[cambios/20261028-102041-88p-entregaa15]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado`, `factory_entrega_a15.corrida_completa`
 - Fuente: openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md#la_version_a15_es_coherente_y_declara_su_estado
 

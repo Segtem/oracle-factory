@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo`
 - Vigente: sí
 - Cambio: [[cambios/20261028-102041-88p-entregaa15]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo`, `factory_entrega_a15.corrida_completa`
 - Fuente: openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md#el_wheel_a15_instalado_ofrece_lo_nuevo
 
