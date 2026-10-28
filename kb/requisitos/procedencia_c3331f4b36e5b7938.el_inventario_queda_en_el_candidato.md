@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato`
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_procedencia.el_inventario_queda_en_el_candidato`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#el_inventario_queda_en_el_candidato
 

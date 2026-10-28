@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia`
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_procedencia.se_busca_quien_uso_una_dependencia`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#se_busca_quien_uso_una_dependencia
 

@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable`
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_procedencia.un_lock_desactualizado_se_declara_no_confiable`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#un_lock_desactualizado_se_declara_no_confiable
 

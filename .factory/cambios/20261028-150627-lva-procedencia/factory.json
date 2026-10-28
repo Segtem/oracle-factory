@@ -2,7 +2,7 @@
   "id": "20261028-150627-lva-procedencia",
   "titulo": "Registrar la procedencia de las dependencias de cada candidato",
   "capacidad": "procedencia",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md",
   "spec_sha256": "3f2bdca3ea73a8356bf49b0cbdb2a709ce7aab2027f34410a20886d408b51b84",
   "spec_aprobada": {
@@ -44,7 +44,19 @@
       "archivos_sha256": "f6092c3b93c42d53dd9ecd88ab510e292c42120a5a8b218bd3f9c23ec816487e"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/b926f91/evidencia/hechos.json",
+    "hechos_sha256": "162941e6bb0bb0a8601706783e32c9289d221ebf4fbf63b5593b06c4fb55f07e",
+    "informe": ".factory/cambios/20261028-150627-lva-procedencia/oracle-veredicto.txt",
+    "informe_sha256": "5e31417e57f366e666f8d816aa98520cfca5aeb1ab05e3678d1235ac37e6682f",
+    "cuando": "2026-10-28T22:14:36.713192+00:00",
+    "contexto": {
+      "head": "895d5c658f4ca0671ff8dc255f8578bfaece77b0",
+      "archivos_sha256": "f6092c3b93c42d53dd9ecd88ab510e292c42120a5a8b218bd3f9c23ec816487e"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -801,6 +813,17 @@
       "abiertos": 0,
       "sha256": "6ae6ade91dab72e940a2ea4011223e5af318f268817a63caf49ef82a6bd05e89",
       "decisiones_sha256": "73c0b72d3d047c6b2927f4371a9c4873fb6ad64328af8b29c86f98e48d87c5e7"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T22:14:36.713210+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "162941e6bb0bb0a8601706783e32c9289d221ebf4fbf63b5593b06c4fb55f07e"
     }
   ],
   "tipos": {
