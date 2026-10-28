@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-procedencia/.factory/local/revisiones/b926f91-agy2-1",
+  "base": "ac7fc132e8aa651d1165a5f29b5302fd6fb10c80",
+  "head": "b926f91a7b1cfa318b85ec1ebd2dc181665b4d8d",
+  "diff_sha256": "5b4f1ba4faccad44008f7c8e856708986a47c58d13eeda7e186e6708cbaf190a",
+  "context_sha256": "e17638fe93d6d66d79cefaf5a78da24ecb74c05a800c5d304be69ac040c07146",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exactamente indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null, obteniendo un resultado de 82 pruebas exitosas en 7.62s (80 pruebas de Procedencia y 2 de Docs). Se utilizó el entorno virtual .venv de la raíz del repositorio principal (/home/workstation/Dev/factory-procedencia/.venv) debido a que el checkout aislado de revisión en .factory/local/revisiones/b926f91-agy2-1 es de sólo lectura y no posee entorno virtual propio.",
+    "Restricciones del alcance: en estricto cumplimiento de las indicaciones del pedido de revisión, no se corrió la suite completa de pruebas ni se ejecutó tools/verify_procedencia.py directamente sobre el checkout bajo revisión.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato b926f91, no se realizaron commits y no se modificó la configuración de Git de ningún repositorio.",
+    "Verificación de correcciones de Vuelta 2 y Vuelta 1: se constató la resolución íntegra y sin regresiones de todos los hallazgos de las revisiones anteriores. En particular, en esta Vuelta 3: (1) avisos() rechaza explícitamente avisos con affected vacío exigiendo «al menos un paquete»; (2) requisitos() valida que «project» sea tabla y «dependencies» sea lista en pyproject.toml emitiendo un ProcedenciaError claro; (3) leer_lock() tolera y saltea de forma segura entradas, source y metadata malformados sin propagar excepciones; (4) docs/procedencia.md explicita que --python se ejecuta en modo aislado (-I -c); y (5) test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal incorpora validaciones exhaustivas para affected vacío/no lista, ranges no lista/nulo, versions nulo y entradas affected no objeto.",
+    "Análisis de mutaciones controladas: se ejecutó una batería de 28 mutaciones sistemáticas sobre una copia de trabajo de oracle_factory/procedencia.py en un entorno aislado dentro del directorio del revisor. Las 28 mutaciones fueron detectadas y eliminadas por la suite de pruebas unitarias (0 mutaciones supervivientes), confirmando la sensibilidad y robustez de los tests frente a alteraciones en cotas de rangos OSV, desempate de eventos, centinela DESDE_SIEMPRE, comprobaciones de enlaces simbólicos, ordenamiento y serialización CycloneDX, normalización PEP 503 y defensas contra formatos malformados.",
+    "Determinismo, seguridad y aislamiento: se comprobó que el inventario CycloneDX 1.5 es estrictamente determinista (claves ordenadas con sort_keys=True, hashes SHA-256 y componentes ordenados alfabéticamente, sin marcas de tiempo ni UUIDs volátiles, y purl con quote(safe='')); que un lock ausente o desactualizado jamás se declara confiable (confiable=False con lista detallada de diferencias); que ninguna ruta lee ni escribe fuera del proyecto gracias a sin_enlaces() y ruta_segura(); que la invocación de --python se ejecuta estrictamente con -I -c, stdin en DEVNULL y timeout de 60s; que la auditoría y búsqueda operan localmente sin conexiones de red y disocian correctamente cambios y candidatos; y que el evento procedencia_registrada es completamente compatible con el tablero de VS Code, resumen, kb y MCP."
+  ]
+}
