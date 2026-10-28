@@ -99,6 +99,50 @@ class BloqueoCausa(unittest.TestCase):
         self.mensaje(ident)
         self.assertIsNone(f.leer(ident)[1]['spec_aprobada'])
 
+    def test_bc1_una_plantilla_recien_creada_sin_tocar_nombra_los_archivos_que_la_tienen(self):
+        # La plantilla real trae la marca en la propuesta y en la spec; las tareas no la traen y no se nombran.
+        for idioma in ('es', 'en'):
+            ident, a = self.cambio(idioma=idioma, sufijo=f'real{idioma}')
+            m = self.mensaje(ident)
+            self.assertIn('proposal.md (línea', m, idioma)
+            self.assertIn('spec.md (línea', m, idioma)
+            self.assertNotIn('tasks.md', m, idioma)
+
+    def test_bc1_con_exactamente_dos_marcas_dice_queda_uno(self):
+        ident, a = self.cambio()
+        self.completar(a['proposal'], a['spec'])
+        a['tasks'].write_text(f'# Tareas\n\n- [ ] {MARCA} una\n- [ ] {MARCA} dos\n', encoding='utf-8')
+        m = self.mensaje(ident)
+        self.assertIn('; queda 1 más)', m)
+        self.assertNotIn('quedan 1', m)
+
+    def test_bc1_un_enlace_simbolico_fuera_del_proyecto_se_rechaza_sin_leerlo(self):
+        ident, a = self.cambio()
+        self.completar(a['proposal'], a['spec'])
+        afuera = Path(self.tmp.name) / 'secreto.txt'
+        afuera.write_text(f'{MARCA} contenido que no debe aparecer\n')
+        a['tasks'].unlink()
+        a['tasks'].symlink_to(afuera)
+        m = self.mensaje(ident)
+        self.assertIn('no se siguen enlaces simbólicos', m)
+        self.assertNotIn('contenido que no debe aparecer', m)
+
+    def test_bc1_un_enlace_simbolico_roto_tambien_se_rechaza(self):
+        ident, a = self.cambio()
+        self.completar(a['proposal'], a['spec'])
+        a['tasks'].unlink()
+        a['tasks'].symlink_to(Path(self.tmp.name) / 'no-existe.txt')
+        self.assertIn('no se siguen enlaces simbólicos', self.mensaje(ident))
+
+    def test_bc1_un_archivo_que_no_es_utf8_da_un_error_claro_y_no_un_traceback(self):
+        for clave in ('proposal', 'spec', 'tasks'):
+            ident, a = self.cambio(sufijo=f'bin{clave}')
+            self.completar(a['proposal'], a['spec'], a['tasks'])
+            a[clave].write_bytes(b'# Algo\n\xff\xfe\x00 bytes invalidos\n')
+            m = self.mensaje(ident)
+            self.assertIn('no está en UTF-8', m, clave)
+            self.assertIn(a[clave].name, m, clave)
+
     # --- bc2: un archivo que falta ------------------------------------------------------------------------------------
     def test_bc2_si_falta_un_archivo_el_mensaje_dice_que_falta(self):
         ident, a = self.cambio()
@@ -106,6 +150,14 @@ class BloqueoCausa(unittest.TestCase):
         a['tasks'].unlink()
         m = self.mensaje(ident)
         self.assertEqual(m, f'falta el archivo openspec/changes/{ident}/tasks.md')
+
+    def test_bc2_si_faltan_varios_archivos_los_nombra_a_todos_en_plural(self):
+        ident, a = self.cambio()
+        self.completar(a['spec'])
+        a['proposal'].unlink()
+        a['tasks'].unlink()
+        m = self.mensaje(ident)
+        self.assertEqual(m, f'faltan los archivos openspec/changes/{ident}/proposal.md, openspec/changes/{ident}/tasks.md')
 
     def test_bc2_con_pendientes_y_un_archivo_que_falta_dice_las_dos_cosas(self):
         ident, a = self.cambio()

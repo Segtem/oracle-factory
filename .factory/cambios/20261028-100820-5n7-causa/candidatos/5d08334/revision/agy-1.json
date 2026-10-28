@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/5d08334-agy-1",
+  "base": "35e4ca318b101353ba16be06ab377f58a9c305bf",
+  "head": "5d083347fb36eb30a2158d9d98259071d036cc22",
+  "diff_sha256": "add7486818a530f42596bf84f4e4e56632a54b3a417fd09eeae3fda93736d4ad",
+  "context_sha256": "c9067d15add18ac43e53a8089565ce47306c4fc2b969e057b9ed17f3bd6f992b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "BC-01",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa sigue enlaces simbólicos y lee fuera del proyecto sin llamar a ruta_segura",
+      "explanation": "En oracle_factory/cli.py, la función exigir_plantilla_completa itera sobre las rutas de los archivos de plantilla (proposal.md, spec.md, tasks.md) y ejecuta archivo.read_text(encoding='utf-8') siempre que archivo.is_file() sea verdadero. En pathlib.Path, is_file() resuelve enlaces simbólicos por defecto. Si alguno de los archivos de la plantilla es un enlace simbólico que apunta hacia fuera del repositorio (por ejemplo /etc/passwd o un archivo confidencial), la función no lo rechaza ni comprueba ruta_segura(archivo) o archivo.is_symlink(). Como resultado, lee contenido arbitrario fuera del proyecto y, si dicho archivo contiene la cadena 'TODO:', expone la línea y su contenido en el mensaje de error de FactoryError. Esto rompe la política general del proyecto de no seguir enlaces simbólicos ni permitir accesos fuera de la raíz del proyecto (documentada e implementada en ruta_segura). Además, si una ruta en estado['spec'] saliera del árbol del proyecto, archivo.relative_to(ROOT) arroja un ValueError no controlado en lugar de un FactoryError.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1064,
+        "end_line": 1070,
+        "side": "head"
+      },
+      "trigger": "Crear un symlink dentro del cambio hacia un archivo externo al repositorio (por ejemplo: ln -s /etc/passwd openspec/changes/<ID>/tasks.md) e intentar aprobar la spec mediante oracle-factory aprobar-spec <ID>.",
+      "evidence": "En oracle_factory/cli.py:1064-1070 se invoca archivo.is_file() seguido de archivo.read_text(encoding='utf-8') sobre la ruta del symlink sin validación previa con ruta_segura(archivo). Se verificó experimentalmente que un symlink tasks.md -> /tmp/fuera.txt con contenido 'TODO: secreto fuera' es leído directamente por exigir_plantilla_completa y genera 'hay que completar y revisar primero: tasks.md (línea 1: «TODO: secreto fuera»)'.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Verificar que exigir_plantilla_completa aplique ruta_segura(archivo) o rechace enlaces simbólicos mediante archivo.is_symlink(), lanzando FactoryError antes de comprobar existencia o leer su contenido."
+    },
+    {
+      "id": "BC-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa falla con UnicodeDecodeError no capturado ante archivos no UTF-8",
+      "explanation": "En oracle_factory/cli.py:1069, la lectura de cada archivo se efectúa con archivo.read_text(encoding='utf-8') sin captura de excepciones de decodificación. Si un archivo de la plantilla (proposal.md, spec.md o tasks.md) contiene bytes inválidos en UTF-8 (por ejemplo, si fue guardado en Latin-1/Windows-1252 o contiene bytes binarios accidentales), se lanza un UnicodeDecodeError que no es capturado ni transformado en FactoryError. Esto provoca que oracle-factory aprobar-spec termine abruptamente con un traceback de Python sin capturar, en lugar de emitir un mensaje de error limpio y controlado por la CLI.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1069,
+        "end_line": 1070,
+        "side": "head"
+      },
+      "trigger": "Guardar un archivo con bytes no UTF-8 válidos (por ejemplo, b'\\xff\\xfe\\x00\\x00') en openspec/changes/<ID>/tasks.md o proposal.md e invocar oracle-factory aprobar-spec <ID>.",
+      "evidence": "En oracle_factory/cli.py:1069: con_marca = [(n, linea.strip()) for n, linea in enumerate(archivo.read_text(encoding='utf-8').splitlines(), 1) if 'TODO:' in linea]. Al ejecutar sobre un archivo con bytes no decodificables en UTF-8, se produce de inmediato: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Capturar UnicodeDecodeError y transformarlo en un FactoryError descriptivo que identifique el archivo problemático, o decodificar tolerando errores (por ejemplo con errors='replace') si el objetivo es únicamente identificar la marca textual ASCII 'TODO:'."
+    },
+    {
+      "id": "BC-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "tests/test_bloqueo_causa.py no comprueba symlinks fuera del proyecto, archivos no UTF-8 ni múltiples archivos faltantes",
+      "explanation": "La suite tests/test_bloqueo_causa.py valida exhaustivamente el formato nominal del mensaje, el corte a 80 caracteres, el recuento de marcas y la eliminación de tasks.md, pero carece de pruebas unitarias para: 1) rechazar o manejar enlaces simbólicos hacia fuera del proyecto; 2) archivos de plantilla con codificación no UTF-8; 3) el caso donde falten simultáneamente varios archivos de la plantilla (donde la plantilla produce 'falta el archivo' con múltiples rutas separadas por coma).",
+      "location": {
+        "file": "tests/test_bloqueo_causa.py",
+        "start_line": 103,
+        "end_line": 116,
+        "side": "head"
+      },
+      "trigger": "Ejecución de la suite tests.test_bloqueo_causa.",
+      "evidence": "Inspección de tests/test_bloqueo_causa.py: la clase BloqueoCausa no contiene pruebas que verifiquen el comportamiento de la CLI frente a symlinks (enlaces a rutas fuera de ROOT), archivos no UTF-8 ni ausencia simultánea de múltiples archivos (como proposal.md y tasks.md al mismo tiempo).",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo",
+      "status": "pendiente",
+      "verification": "Agregar pruebas unitarias en tests/test_bloqueo_causa.py que cubran symlinks fuera del repositorio, archivos con codificaciones no UTF-8 y ausencia de múltiples archivos a la vez."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance y contexto del diff: revisión de vuelta 1 para el cambio 20261028-100820-5n7-causa en el candidato 5d08334 frente a base 35e4ca31. Se revisaron los requisitos de la spec openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md, el diff de oracle_factory/cli.py (funciones exigir_plantilla_completa y aprobar_spec), tests/test_bloqueo_causa.py, tools/verify_bloqueo_causa.py y catalogos/factory_bloqueo_causa.*.oracle.",
+    "Ejecución de pruebas: se ejecutó exactamente el comando indicado: cd /home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/5d08334-agy-1 && PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null (16 pruebas exitosas en 3.15s: 11 de BloqueoCausa y 5 de Piloto). No se corrió la suite completa ni tools/verify_bloqueo_causa.py (que ejecuta discover de la suite completa), respetando la instrucción de no ejecutar la suite completa. Se utilizó el intérprete .venv del repositorio principal debido a que el clon local en revisiones/5d08334-agy-1 no cuenta con un entorno virtual propio (.venv).",
+    "Pruebas de mutación: se ejecutaron 9 mutaciones manuales sobre una copia de trabajo de oracle_factory/cli.py en scratch/ contra la suite tests.test_bloqueo_causa: 1) corte a 81 caracteres (mut_80_to_81, MUERE); 2) corte a 79 caracteres (mut_80_to_79, MUERE); 3) elipsis con '...' en lugar de '…' (mut_ellipsis_dots, MUERE); 4) omisión de strip() en la línea (mut_no_strip, MUERE); 5) omisión de 'más' en el conteo restante (mut_quedan_format, MUERE); 6) uso de ruta absoluta en faltan (mut_faltan_abs_path, MUERE); 7) inversión de partes pendientes y faltan (mut_swap_pendientes_faltan, MUERE); 8) pase incondicional pass (mut_always_pass, MUERE); 9) conteo off-by-one en resto (mut_off_by_one_resto, MUERE). Todas las mutaciones de formato y lógica nominal murieron ante las aserciones de tests/test_bloqueo_causa.py.",
+    "Verificación de seguridad y robustez: se realizaron pruebas aisladas en scratch/ para los casos especiales señalados en las indicaciones: 1) symlinks fuera del proyecto hacia archivos con 'TODO:' son seguidos y leídos, exponiendo información sin pasar por ruta_segura; 2) archivos no UTF-8 provocan un UnicodeDecodeError no capturado en lugar de un FactoryError; 3) el corte exacto a 80 caracteres y puntos suspensivos se cumple; 4) el comienzo 'hay que completar y revisar primero' se conserva cuando hay pendientes; 5) un archivo ausente se reporta como ausente y no como pendiente; 6) la aprobación sin marcas pendientes continúa registrándose sin cambios."
+  ]
+}

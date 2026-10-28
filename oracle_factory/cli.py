@@ -1063,19 +1063,24 @@ def exigir_plantilla_completa(archivos) -> None:
     pendientes, faltan = [], []
     for archivo in archivos:
         ruta = archivo.relative_to(ROOT)
+        ruta_segura(archivo)  # ni un enlace ni una salida del proyecto: no se lee lo que está afuera
         if not archivo.is_file():
             faltan.append(str(ruta))
             continue
-        con_marca = [(n, linea.strip()) for n, linea in enumerate(archivo.read_text(encoding="utf-8").splitlines(), 1)
-                     if "TODO:" in linea]
+        try:
+            texto = archivo.read_text(encoding="utf-8")
+        except UnicodeDecodeError as e:
+            raise FactoryError(f"{ruta} no está en UTF-8 (byte inválido en la posición {e.start}); guardalo en UTF-8 y aprobá de nuevo") from e
+        con_marca = [(n, linea.strip()) for n, linea in enumerate(texto.splitlines(), 1) if "TODO:" in linea]
         if con_marca:
             n, linea = con_marca[0]
             linea = linea if len(linea) <= 80 else linea[:80] + "…"
             resto = len(con_marca) - 1
-            pendientes.append(f"{ruta} (línea {n}: «{linea}»{f'; quedan {resto} más' if resto else ''})")
+            resto = f"; {'queda' if resto == 1 else 'quedan'} {resto} más" if resto else ""
+            pendientes.append(f"{ruta} (línea {n}: «{linea}»{resto})")
     if pendientes or faltan:
         partes = ([f"hay que completar y revisar primero: {'; '.join(pendientes)}"] if pendientes else []) \
-            + ([f"falta el archivo {', '.join(faltan)}"] if faltan else [])
+            + ([f"{'falta el archivo' if len(faltan) == 1 else 'faltan los archivos'} {', '.join(faltan)}"] if faltan else [])
         raise FactoryError("; ".join(partes))
 
 

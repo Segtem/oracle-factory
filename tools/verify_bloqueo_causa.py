@@ -24,9 +24,15 @@ CONTRACTS = {
         'BloqueoCausa.test_bc1_cuenta_las_marcas_que_quedan_y_nombra_la_primera',
         'BloqueoCausa.test_bc1_el_texto_de_la_linea_va_sin_sangria',
         'BloqueoCausa.test_bc1_en_ingles_tambien',
-        'BloqueoCausa.test_bc1_un_bloqueo_no_registra_ninguna_aprobacion'],
+        'BloqueoCausa.test_bc1_un_bloqueo_no_registra_ninguna_aprobacion',
+        'BloqueoCausa.test_bc1_una_plantilla_recien_creada_sin_tocar_nombra_los_archivos_que_la_tienen',
+        'BloqueoCausa.test_bc1_con_exactamente_dos_marcas_dice_queda_uno',
+        'BloqueoCausa.test_bc1_un_enlace_simbolico_fuera_del_proyecto_se_rechaza_sin_leerlo',
+        'BloqueoCausa.test_bc1_un_enlace_simbolico_roto_tambien_se_rechaza',
+        'BloqueoCausa.test_bc1_un_archivo_que_no_es_utf8_da_un_error_claro_y_no_un_traceback'],
     'el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo': [
         'BloqueoCausa.test_bc2_si_falta_un_archivo_el_mensaje_dice_que_falta',
+        'BloqueoCausa.test_bc2_si_faltan_varios_archivos_los_nombra_a_todos_en_plural',
         'BloqueoCausa.test_bc2_con_pendientes_y_un_archivo_que_falta_dice_las_dos_cosas'],
     'aprobar_spec_no_cambia_cuando_todo_esta_completo': [
         'BloqueoCausa.test_bc3_con_los_tres_archivos_completos_se_aprueba_como_siempre'],
