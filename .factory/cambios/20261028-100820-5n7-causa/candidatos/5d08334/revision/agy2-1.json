@@ -1,0 +1,117 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/5d08334-agy2-1",
+  "base": "35e4ca318b101353ba16be06ab377f58a9c305bf",
+  "head": "5d083347fb36eb30a2158d9d98259071d036cc22",
+  "diff_sha256": "add7486818a530f42596bf84f4e4e56632a54b3a417fd09eeae3fda93736d4ad",
+  "context_sha256": "8ba27f55fbc611deb67c2d118d787f0586bf0b61fb937179d5e291f9d76c159a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano las pruebas unitarias indicadas desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null (utilizando el entorno .venv de la raíz del proyecto debido a que el checkout de revisión no incluye un entorno propio).",
+    "Se realizaron análisis y pruebas de mutación manuales en el directorio de trabajo del revisor sobre la lógica de exigir_plantilla_completa y tests/test_bloqueo_causa.py, detectando mutaciones supervivientes en el reporte de archivos ausentes.",
+    "Se verificó dinámicamente mediante scripts aislados el comportamiento frente a enlaces simbólicos que escapan del repositorio y archivos con secuencias de bytes no decodificables en UTF-8.",
+    "No se ejecutó la suite completa de pruebas del repositorio, conforme a la instrucción expresa de la consigna.",
+    "No se modificó el checkout del candidato, respetando su condición de sólo lectura."
+  ],
+  "findings": [
+    {
+      "id": "exigir-plantilla-symlinks-fuera-del-proyecto",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa no valida enlaces simbólicos ni rutas seguras, permitiendo leer archivos fuera del proyecto o bloquearse",
+      "explanation": "En oracle_factory/cli.py (líneas 1064–1070), exigir_plantilla_completa itera sobre las rutas de archivos ejecutando archivo.is_file() y archivo.read_text(encoding='utf-8') directamente sobre cada ruta. A diferencia de las demás operaciones de Factory donde se invoca ruta_segura(p) para rechazar accesos fuera de ROOT y enlaces simbólicos (if actual.is_symlink(): raise FactoryError('no se siguen enlaces simbólicos: ...')), aquí no se utiliza ruta_segura ni se comprueba si el archivo es un symlink. Si tasks.md, proposal.md o spec.md es un enlace simbólico que apunta hacia un archivo arbitrario del sistema (por ejemplo /etc/passwd o archivos privados fuera del proyecto): 1) is_file() resuelve el enlace y retorna True; 2) read_text() lee el archivo externo; 3) si contiene la marca TODO:, filtra líneas del archivo externo en el mensaje de error de Factory; 4) si no contiene la marca, lo da por completado permitiendo aprobar la spec apoyándose en archivos ajenos al repositorio; 5) si apunta a dispositivos infinitos (/dev/urandom) o tuberías FIFO, el proceso agota la memoria o queda colgado indefinidamente.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1064,
+        "end_line": 1070,
+        "side": "head"
+      },
+      "trigger": "Crear un enlace simbólico en tasks.md, proposal.md o spec.md hacia un archivo fuera del repositorio y ejecutar oracle-factory aprobar-spec ID.",
+      "evidence": "Verificado en entorno de prueba: al enlazar tasks.md hacia /etc/passwd con os.symlink, exigir_plantilla_completa no rechazó el enlace ni aplicó ruta_segura. Leyó /etc/passwd y, al no tener TODO:, lo validó como completo avanzando a la confirmación interactiva. En otra prueba con un archivo externo conteniendo TODO:, la línea externa fue expuesta en la excepción: 'hay que completar y revisar primero: .../tasks.md (línea 1: «secret outside TODO: oops»)'.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Crear un test donde tasks.md sea un symlink que apunte a un archivo fuera de ROOT y verificar que aprobar_spec falle con FactoryError de enlace simbólico no admitido en vez de leer su contenido."
+    },
+    {
+      "id": "exigir-plantilla-crash-no-utf8",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa lanza UnicodeDecodeError no capturado ante archivos con codificación no UTF-8",
+      "explanation": "En oracle_factory/cli.py (líneas 1069–1070), exigir_plantilla_completa lee el archivo mediante archivo.read_text(encoding='utf-8') de forma estricta, sin parámetro errors='replace' y sin atrapar UnicodeDecodeError. En la función main() de cli.py (líneas 4000–4002), el bloque except captura (FactoryError, OSError, json.JSONDecodeError, EOFError). Como UnicodeDecodeError hereda de ValueError y no de OSError ni FactoryError, la excepción no es capturada. Ante un archivo proposal.md, spec.md o tasks.md con bytes no válidos en UTF-8 (como codificaciones Latin-1/Windows-1252 o binarios), la ejecución de oracle-factory aprobar-spec ID aborta con un traceback no controlado en stderr en lugar de emitir un bloqueo limpio (FACTORY BLOQUEADA: ...) o tolerar los caracteres mediante sustitución tal como hacen otros lectores en kb.py, rag.py y tablero.py.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1069,
+        "end_line": 1070,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory aprobar-spec ID en un cambio donde proposal.md, spec.md o tasks.md contiene secuencias de bytes inválidas en UTF-8.",
+      "evidence": "Ejecutado f.main(['aprobar-spec', ident]) con un tasks.md conteniendo b'# Tasks\\n\\xff\\xfe TODO: algo\\n'. El comando finalizó con código de error de Python no controlado y traceback: UnicodeDecodeError: 'utf-8' codec can't decode byte 0xff in position 8: invalid start byte, saliendo sin el mensaje de bloqueo controlado.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Crear un cambio con bytes no UTF-8 en tasks.md y verificar si aprobar_spec arroja un volcado de excepción no capturado."
+    },
+    {
+      "id": "discrepancia-plantilla-recien-creada-tasks-sin-todo",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "La prueba de plantilla recién creada altera tasks.md con un TODO artificial porque la plantilla real no lo contiene, contradiciendo la spec",
+      "explanation": "El escenario 'una plantilla recién creada' en openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md promete textualmente: 'DADO un cambio recién creado, con las marcas de pendiente de la plantilla en sus tres archivos / CUANDO una persona intenta aprobar la spec / ENTONCES el mensaje empieza con «hay que completar y revisar primero» y la ruta del primer archivo, y nombra de cada uno de los tres archivos la línea con su número, su texto y cuántas más quedan'. No obstante, en las plantillas reales de Factory (oracle_factory/plantillas.py, textos['tareas'] tanto para 'es' como para 'en'), tasks.md se genera sin ninguna marca 'TODO:'. En consecuencia, al ejecutar f.nuevo y f.aprobar_spec sobre un cambio recién creado auténtico, solo se reportan proposal.md y spec.md; tasks.md nunca aparece en el bloqueo. Para que el test test_bc1_una_plantilla_recien_creada_nombra_cada_archivo_pendiente_con_su_linea pase, el autor agregó en tests/test_bloqueo_causa.py (línea 42) una modificación que escribe un TODO artificial en tasks.md tras la creación, enmascarando la discrepancia entre la premisa de la spec y el comportamiento real del generador de plantillas.",
+      "location": {
+        "file": "tests/test_bloqueo_causa.py",
+        "start_line": 41,
+        "end_line": 43,
+        "side": "head"
+      },
+      "trigger": "Crear un cambio con oracle-factory nuevo e intentar aprobar la spec sin modificar sus archivos.",
+      "evidence": "Al crear un cambio nuevo con f.nuevo('Algo', 'algo') e inspeccionar tasks.md, 'TODO:' in tasks.read_text() es False. Al invocar f.aprobar_spec(ident) sobre la plantilla recién creada sin editar, el mensaje resultante solo incluye proposal.md y spec.md: 'hay que completar y revisar primero: .../proposal.md (línea 5: ...); .../spec.md (línea 7: ...)', omitiendo tasks.md y refutando la promesa de nombrar los tres archivos en una plantilla recién creada.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Ejecutar f.nuevo('Prueba', 'prueba') y luego f.aprobar_spec(ident) sin alterar tasks.md, constatando que tasks.md no se incluye en el mensaje."
+    },
+    {
+      "id": "falta-archivo-singular-y-sin-cobertura-multiple",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Redacción en singular «falta el archivo» ante múltiples archivos ausentes y falta de pruebas que cubran ausencias múltiples",
+      "explanation": "En oracle_factory/cli.py (líneas 1076–1079), cuando la lista de archivos ausentes faltan contiene dos o tres elementos (por ejemplo, faltan proposal.md y tasks.md), el mensaje generado concatena las rutas con coma bajo el prefijo en singular: 'falta el archivo <ruta1>, <ruta2>'. Además, en tests/test_bloqueo_causa.py únicamente se evalúa la falta de tasks.md aisladamente. Si se aplica una mutación en exigir_plantilla_completa para reportar únicamente el primer archivo faltante (only_first_missing_file) o para cambiar el separador, todos los tests de la suite continúan pasando con éxito (11/11 OK), evidenciando falta de cobertura de pruebas para ausencias múltiples.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1076,
+        "end_line": 1079,
+        "side": "head"
+      },
+      "trigger": "Aprobar una spec en un cambio al que se le eliminaron dos o más archivos (por ejemplo proposal.md y tasks.md).",
+      "evidence": "Comprobado con script de mutaciones: al mutar exigir_plantilla_completa para registrar sólo el primer archivo ausente en faltan, ningún test de test_bloqueo_causa.py falló (mutación superviviente). Al borrar manualmente proposal.md y tasks.md, el mensaje emitido es 'falta el archivo openspec/changes/.../proposal.md, openspec/changes/.../tasks.md'.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo",
+      "status": "pendiente",
+      "verification": "Borrar proposal.md y tasks.md de un cambio e invocar f.aprobar_spec, comprobando la cadena exacta generada."
+    },
+    {
+      "id": "discordancia-gramatical-quedan-1-mas",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Discordancia gramatical en español «quedan 1 más» cuando resta exactamente una marca pendiente",
+      "explanation": "En oracle_factory/cli.py (líneas 1074–1075), resto se calcula como len(con_marca) - 1 y se formatea directamente en la cadena: {f'; quedan {resto} más' if resto else ''}. Cuando un archivo contiene exactamente 2 líneas con TODO:, resto es igual a 1. La expresión evalúa a '; quedan 1 más', lo cual en español resulta en una discordancia de número entre el verbo en plural ('quedan') y el numeral singular ('1 más'), debiendo ser 'queda 1 más'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1074,
+        "end_line": 1075,
+        "side": "head"
+      },
+      "trigger": "Ejecutar aprobar_spec cuando uno de los archivos contiene exactamente dos marcas TODO:.",
+      "evidence": "Verificado con archivo conteniendo 2 líneas con TODO:. El mensaje emitido contiene el fragmento '; quedan 1 más'.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Configurar un archivo con exactamente dos líneas con TODO: y verificar que el mensaje formatee '; quedan 1 más'."
+    }
+  ]
+}
