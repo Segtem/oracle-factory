@@ -81,6 +81,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (cerrada)
 - [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (cerrada)
 - [[cambios/20261027-225048-59a-terminallista]] — Esperar a que la terminal de Factory esté lista antes de escribir un comando (cerrada)
+- [[cambios/20261028-100820-5n7-causa]] — Que aprobar-spec diga qué línea de qué archivo falta completar (cerrada)
 
 ## Requisitos
 
@@ -109,6 +110,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/bloqueos_c48b34e270263f8fb.el_proximo_paso_sin_revisor_lo_explica]]
 - [[requisitos/bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir]]
 - [[requisitos/bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit]]
+- [[requisitos/bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo]]
+- [[requisitos/bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo]]
+- [[requisitos/bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea]]
 - [[requisitos/cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec]]
 - [[requisitos/cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza]]
 - [[requisitos/cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base]]

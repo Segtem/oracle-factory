@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-bloqueo-causa/.factory/local/revisiones/e996c78-agy-1",
+  "base": "35e4ca318b101353ba16be06ab377f58a9c305bf",
+  "head": "e996c785cff20ebf98f0affde474fcaa85fb6e6d",
+  "diff_sha256": "b62dec174ef39847337433c04ba133a82bc807ada9a7a3c26e69e46bd279b2e9",
+  "context_sha256": "dca5c02bdb25784ba5db8645f2bed31fe4885eef3d427a1aaf68538d1e8e404c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null (22 pruebas exitosas en 4.15s: 17 de BloqueoCausa y 5 de Piloto). Se utilizó el intérprete .venv de la raíz del proyecto debido a que el clon local en revisiones/e996c78-agy-1 no cuenta con un entorno virtual propio.",
+    "Alcance de pruebas: no se corrió la suite completa de pruebas ni tools/verify_bloqueo_causa.py (que ejecuta discover de la suite completa), respetando la instrucción expresa de no ejecutar la suite completa.",
+    "Integridad del repositorio: no se modificó el checkout de revisión del candidato e996c78 ni se alteró la configuración de Git de ningún repositorio.",
+    "Pruebas de mutación: se ejecutaron 17 mutaciones manuales sobre la lógica de exigir_plantilla_completa en el directorio de trabajo del revisor contra tests.test_bloqueo_causa. 16 mutaciones fueron eliminadas por las pruebas (corte a 81/79 caracteres, elipsis con '...' en lugar de '…', omisión de strip, 'quedan' fijo ante 1 restante, 'falta el archivo' singular fijo ante múltiples faltantes, orden invertido de pendientes/faltan, omisión de ruta_segura, omisión de captura de UnicodeDecodeError, selección de última línea, enumeración 0-based de líneas, off-by-one en conteo de resto, separador de faltan con punto y coma, omisión de 'más', pase incondicional). Una mutación sobrevivió: reemplazar is_file() por exists(), al no haber pruebas de directorios con nombres de plantilla.",
+    "Verificación de seguridad y robustez: se verificó que los hallazgos de la vuelta 1 hayan sido corregidos (rechazo seguro de enlaces simbólicos tanto rotos como externos mediante ruta_segura, captura de archivos no UTF-8 emitiendo un FactoryError limpio, concordancia singular/plural para 'queda/quedan 1 más' y 'falta/faltan los archivos', y pruebas de plantilla recién creada con y sin modificaciones). Se detectó un detalle residual en el orden de evaluación de relative_to y ruta_segura."
+  ],
+  "findings": [
+    {
+      "id": "BC2-01",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "exigir_plantilla_completa llama a relative_to(ROOT) antes de ruta_segura, lanzando ValueError no capturado ante rutas fuera del proyecto",
+      "explanation": "En oracle_factory/cli.py (líneas 1065–1066), exigir_plantilla_completa itera sobre archivos y ejecuta 'ruta = archivo.relative_to(ROOT)' en la línea 1065 antes de invocar 'ruta_segura(archivo)' en la línea 1066. La función ruta_segura encapsula un bloque try/except que atrapa específicamente el ValueError de relative_to(ROOT) para transformarlo en un FactoryError controlado ('ruta fuera del proyecto: ...'). Al ejecutarse archivo.relative_to(ROOT) de forma desprotegida antes de ruta_segura, si un archivo de la plantilla apunta fuera de ROOT (por ejemplo, si estado['spec'] contiene una ruta externa absoluta como '/etc/passwd' o '/tmp/spec.md'), relative_to(ROOT) arroja un ValueError no controlado. Dado que cli.py:main() solo captura (FactoryError, OSError, json.JSONDecodeError, EOFError), la ejecución de oracle-factory aprobar-spec termina abruptamente con un traceback en stderr en lugar de emitir un bloqueo controlado de Factory. El orden correcto es invocar ruta_segura(archivo) antes de archivo.relative_to(ROOT) o asignar 'ruta = ruta_segura(archivo).relative_to(ROOT)'.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1065,
+        "end_line": 1066,
+        "side": "head"
+      },
+      "trigger": "Aprobar una spec en un cambio donde estado['spec'] sea una ruta absoluta externa al proyecto (por ejemplo '/etc/passwd' o '/tmp/spec.md') mediante oracle-factory aprobar-spec <ID>.",
+      "evidence": "Se verificó experimentalmente creando un cambio con estado['spec'] = '/etc/passwd'. Al invocar cli.main(['aprobar-spec', ident]), el proceso finaliza con una excepción no capturada de Python: ValueError: '/etc/passwd' is not in the subpath of '...', eludiendo la validación y el mensaje controlado de FactoryError de ruta_segura.",
+      "related_requirement": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "status": "pendiente",
+      "verification": "Invertir el orden para ejecutar ruta_segura(archivo) antes de archivo.relative_to(ROOT), y agregar un test unitario que verifique que una ruta absoluta externa falle con FactoryError en lugar de un ValueError no controlado."
+    }
+  ]
+}
