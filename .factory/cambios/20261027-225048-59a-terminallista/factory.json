@@ -544,6 +544,16 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "9b2ea8f7bb04"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T00:35:13.328805+00:00",
+      "decision": "aprobar",
+      "candidato": "c351794"
     }
   ],
   "tipos": {
@@ -618,5 +628,15 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {
+    "revision": {
+      "decision": "aprobar",
+      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.",
+      "candidato": "c351794",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T00:35:13.328791+00:00"
+    }
+  }
 }
