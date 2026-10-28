@@ -2,7 +2,7 @@
   "id": "20261028-235529-lhi-uvlock",
   "titulo": "Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala",
   "capacidad": "procedencia",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md",
   "spec_sha256": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261028-235529-lhi-uvlock/proposal.md": "414a6d1a8f68bed0595fc008c5858b36e08d77f6e20dde50f6225e47a1956917",
         "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:56:40.879921+00:00",
+      "ids": [
+        "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+        "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+        "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject": "funcional",
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio": "funcional",
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
