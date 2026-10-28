@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/95d545e-agy-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "95d545e469ea4343a29dbd28de9ab7984b1fbeb2",
+  "diff_sha256": "67da70f16f8b0c9ce08f7c203bd2eca61446719c1b0be5c0a3ac81d94a02b5a6",
+  "context_sha256": "3c4170ab1dce8bb52efcba0d8a2c6a22f05563858b02df3482a79ca954690483",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano las pruebas unitarias requeridas desde la raíz del checkout utilizando el entorno Python del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).",
+    "Se corrió la verificación de evidencia del sensor del cambio mediante tools/verify_terminal_lista.py --salida <directorio>, confirmando que los 22 casos de contrato pasan y cumplen con los umbrales de las 5 medidas de los catálogos Oracle.",
+    "No se ejecutó la suite completa de pruebas del repositorio para respetar estrictamente la directiva de la consigna.",
+    "Se evaluaron mutaciones manuales y escenarios de borde en copias aisladas dentro del directorio de trabajo del revisor (scratch/) para medir la sensibilidad de las pruebas unitarias y arneses de Node ante terminales cerradas y plazos no configurados.",
+    "No se evaluó en una instancia viva e interactiva de VS Code con usuario humano ni con el entorno de activación de Python de usuario, lo cual se declara fuera de alcance en la propuesta."
+  ],
+  "findings": [
+    {
+      "id": "AGY-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Omisión de verificación de motivo cerrada en escribirEnTerminal envía comandos a terminal cerrada y registra éxito si exitStatus es indefinido",
+      "explanation": "En editores/vscode/extension.js (líneas 120–131), la función esperarTerminal se suscribe a vscode.window.onDidCloseTerminal y resuelve retornando 'cerrada' si la terminal se cierra durante la espera. Sin embargo, en escribirEnTerminal, tras la resolución (línea 120: motivo = await esperarTerminal(terminal)), la verificación en la línea 124 sólo evalúa `if (terminal.exitStatus !== undefined)`. No comprueba `motivo === 'cerrada'`. Según la especificación oficial de la API de VS Code, terminal.exitStatus es undefined cuando la terminal no ha concluido su ejecución de forma normal o cuando su estado de salida no pudo determinarse (por ejemplo, interrupción forzada o cierre de pestaña/panel por el usuario sin código de salida). En ese caso, terminal.exitStatus !== undefined resulta falso, el bloque de reintento no se ejecuta y escribirEnTerminal procede a invocar terminal.show() y terminal.sendText(comando, false) sobre la terminal ya cerrada, perdiéndose el comando en silencio. Inmediatamente después, anotar registra en la salida: 'Terminal Factory: comando escrito (cerrada; esperó ... ms)', anunciando erróneamente un éxito con un motivo 'cerrada' que no es un estado válido de envío exitoso. Adicionalmente, ante comandos concurrentes encolados, el segundo comando busca con terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined) y, al permanecer exitStatus en undefined, se envía también a la terminal cerrada con motivo 'ya existía'. El arnés de prueba en tests/terminal_en_node.cjs (línea 65) forzó artificialmente t.exitStatus = {code: 1} ante paso.cerrar, enmascarando este defecto.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 120,
+        "end_line": 131,
+        "side": "head"
+      },
+      "trigger": "Una terminal Factory recién creada se cierra durante el período de espera antes del aviso de shell integration (por cierre de pestaña del usuario o finalización del proceso) sin que VS Code registre un exitStatus numérico (exitStatus queda undefined).",
+      "evidence": "Comprobado ejecutando el arnés de node sin forzar artificialmente t.exitStatus = {code: 1} ante paso.cerrar. El resultado arrojó: fotos['tras_cerrar'] recibió el comando en la terminal cerrada 0, nunca se abrió una segunda terminal (terminales: 1) y en el canal de salida se emitió falsamente 'Terminal Factory: comando escrito (cerrada; esperó 50 ms)'. Con dos comandos concurrentes, ambos se enviaron a la terminal cerrada 0 registrando 'comando escrito (cerrada; esperó 50 ms)' y 'comando escrito (ya existía; esperó 0 ms)'.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Ejecutar un escenario en node donde se invoque el cierre de terminal sin definir exitStatus (o conservando exitStatus: undefined) durante la espera. Constatar que escribirEnTerminal envía el texto a la terminal cerrada en vez de reintentar y registra 'comando escrito (cerrada; ...)'; o corregir la condición a `if (motivo === 'cerrada' || terminal.exitStatus !== undefined)` y constatar que se efectúa el reintento correctamente."
+    },
+    {
+      "id": "AGY-002",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Las pruebas no validan que el comando se escriba al cumplirse el plazo por defecto ante configuración omitida (undefined) o valores inválidos (-5, 'abc')",
+      "explanation": "En tests/test_terminal_lista.py:77-84, el método test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos declara en su nombre y propósito validar el comportamiento tanto sin plazo configurado como con valor nulo. Sin embargo, su implementación únicamente itera sobre `for espera in (None,):`. En la serialización JSON del escenario hacia Node, espera=None envía {'espera': null}, por lo que getConfiguration('factory').get('esperaTerminalMs') sólo es probado devolviendo null. Nunca se prueba el caso de configuración omitida (undefined), que es la situación por defecto en cualquier instalación donde el usuario no haya configurado la clave en settings.json. Asimismo, en test_tl1_sin_plazo_configurado_no_escribe_enseguida (línea 101) y test_tl1_un_plazo_invalido_cae_al_de_por_defecto (líneas 105-108), sólo se comprueba que a los 300 ms fotos['antes'] esté vacío, pero nunca se aguarda a que transcurran los 3000 ms para constatar que el comando se escriba efectivamente en la terminal y se registre 'plazo' en la salida. Se demostró mediante mutaciones manuales que un mutante que deja la promesa pendiente indefinidamente o no escribe ante valor undefined o inválido (-5, 'abc') sobrevive a la totalidad de las pruebas de la suite sin ser detectado.",
+      "location": {
+        "file": "tests/test_terminal_lista.py",
+        "start_line": 77,
+        "end_line": 84,
+        "side": "head"
+      },
+      "trigger": "Cualquier regresión en la resolución del plazo por defecto o en el manejo de undefined / valores inválidos (-5, 'abc') que provoque que la promesa nunca se resuelva o que el comando no sea escrito al vencer los 3000 ms.",
+      "evidence": "Se mutó scratch/editores/vscode/extension.js haciendo que pedido === undefined resulte en un timeout de 999999 ms (sin resolver). Se ejecutaron las 22 pruebas de unittest tests.test_terminal_lista y todas pasaron exitosamente (0 fallos, 0 errores, tiempo total sin inmutarse). Ningún test esperó ni verificó la llegada del comando a los 3 segundos para el caso por defecto sin configurar ni para valores negativos o strings.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Agregar un escenario en test_terminal_lista.py que invoque correr() sin el argumento espera (espera omitida / undefined) y con espera=-5 o espera='abc', esperando 3400 ms en total, y validando que fotos['despues'] contenga el comando y que en la salida conste 'plazo'."
+    }
+  ]
+}

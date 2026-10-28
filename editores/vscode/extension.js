@@ -91,6 +91,7 @@ function esperarTerminal(terminal) {
     const pedido = vscode.workspace.getConfiguration('factory').get('esperaTerminalMs');
     const ms = typeof pedido === 'number' && Number.isFinite(pedido) && pedido >= 0 ? pedido : ESPERA_POR_DEFECTO_MS;
     if (ms === 0) return Promise.resolve('plazo');
+    if (terminal.exitStatus !== undefined) return Promise.resolve('cerrada');  // ya cerrada: ningún evento va a avisar
     return new Promise(listo => {
         const suscripciones = [];
         const terminar = motivo => {
@@ -121,7 +122,7 @@ async function escribirEnTerminal(comando) {
                 espera = Date.now() - inicio;
             }
         }
-        if (terminal.exitStatus !== undefined) {
+        if (motivo === 'cerrada' || terminal.exitStatus !== undefined) {  // un cierre puede dejar exitStatus sin definir
             anotar(`Terminal Factory: se cerró mientras arrancaba (esperó ${espera} ms); no escribí el comando`);
             continue;
         }

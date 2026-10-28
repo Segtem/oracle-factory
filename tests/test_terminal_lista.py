@@ -1,4 +1,5 @@
 """La terminal de Factory espera a estar lista antes de recibir un comando: escenarios tl1–tl4, en node con un `vscode` falso."""
+from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
 import re
@@ -74,14 +75,6 @@ class TerminalLista(unittest.TestCase):
         self.assertEqual(r['fotos']['ya'], [{'terminal': 1, 'texto': CMD, 'enter': False}])
         self.assertEqual(r['terminales'], 2)
 
-    def test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos(self):
-        for espera in (None,):
-            r = correr(espera=espera, pasos=[{'esperar': 0}, {'escribir': CMD}, {'esperar': 2500}, {'foto': 'antes'}, {'esperar': 900},
-                                              {'foto': 'despues'}])
-            self.assertEqual(r['fotos']['antes'], [], espera)
-            self.assertEqual(textos(r['fotos']['despues']), [CMD], espera)
-            self.assertIn('plazo', r['salida'][0])
-
     def test_tl1_si_nunca_avisa_escribe_al_cumplirse_el_plazo_y_no_antes(self):
         r = correr(espera=400, pasos=[{'escribir': CMD}, {'esperar': 100}, {'foto': 'antes'}, {'esperar': 600}, {'foto': 'despues'}])
         self.assertEqual(r['fotos']['antes'], [])
@@ -98,14 +91,29 @@ class TerminalLista(unittest.TestCase):
         self.assertEqual(r['fotos']['antes'], [])
         self.assertEqual(textos(r['fotos']['despues']), [CMD])
 
-    def test_tl1_sin_plazo_configurado_no_escribe_enseguida(self):
-        r = correr(pasos=[{'escribir': CMD}, {'esperar': 300}, {'foto': 'antes'}])
-        self.assertEqual(r['fotos']['antes'], [])  # el plazo por defecto es de segundos, no de milisegundos
+    def test_tl1_sin_plazo_o_con_uno_invalido_escribe_a_los_tres_segundos_y_no_antes(self):
+        # Cuatro formas de no tener plazo, corridas a la vez: la clave omitida, nula, negativa y no numérica.
+        escenarios = {'omitido': {}, 'nulo': {'espera': None}, 'negativo': {'espera': -5}, 'no numérico': {'espera': 'abc'}}
+        pasos = [{'escribir': CMD}, {'esperar': 2500}, {'foto': 'antes'}, {'esperar': 1000}, {'foto': 'despues'}]
+        with ThreadPoolExecutor() as pool:
+            corridas = {n: pool.submit(correr, pasos=pasos, **e) for n, e in escenarios.items()}
+        for nombre, futuro in corridas.items():
+            r = futuro.result()
+            self.assertEqual(r['fotos']['antes'], [], nombre)
+            self.assertEqual(textos(r['fotos']['despues']), [CMD], nombre)
+            self.assertIn('plazo', r['salida'][0], nombre)
 
-    def test_tl1_un_plazo_invalido_cae_al_de_por_defecto(self):
-        for valor in (-5, 'abc', None):
-            r = correr(espera=valor, pasos=[{'escribir': CMD}, {'esperar': 300}, {'foto': 'antes'}])
-            self.assertEqual(r['fotos']['antes'], [], valor)
+    def test_tl1_una_terminal_que_nace_cerrada_no_hace_esperar_el_plazo(self):
+        r = correr(espera=5000, nace_cerrada=True, pasos=[{'escribir': CMD}, {'esperar': 100}, {'foto': 'abierta_otra'}, {'avisar': True},
+                                                          {'esperar': 50}, {'foto': 'final'}])
+        self.assertEqual(r['terminales'], 2)  # a los 100 ms ya abrió otra: no esperó los 5000
+        self.assertEqual(r['fotos']['final'], [{'terminal': 1, 'texto': CMD, 'enter': False}])
+
+    def test_tl1_si_se_cierra_sin_estado_de_salida_tampoco_se_escribe_en_la_terminal_muerta(self):
+        r = correr(espera=5000, pasos=[{'escribir': CMD}, {'esperar': 50}, {'cerrar_sin_estado': True}, {'esperar': 50}, {'foto': 'tras_cerrar'},
+                                        {'avisar': True}, {'esperar': 50}, {'foto': 'final'}])
+        self.assertEqual(r['fotos']['tras_cerrar'], [])
+        self.assertEqual(r['fotos']['final'], [{'terminal': 1, 'texto': CMD, 'enter': False}])
 
     # --- tl2: una terminal lista recibe el comando enseguida ---------------------------------------------------------
     def test_tl2_una_terminal_que_ya_existia_no_espera_ni_se_duplica(self):
