@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a15/.factory/local/revisiones/9876790-agy-1",
+  "base": "4df3d688b4cdfb219a5e4c8d92f2dae83b81faf5",
+  "head": "9876790f0ec603d6f97eec52a13d0124951aab1b",
+  "diff_sha256": "85a6c617ab592dba196cb0c661055f35cf85af975823027aae2102c06e475185",
+  "context_sha256": "5b40d8c7d0d926da73978926737ac7453737f8fe14c10e9eec179284c3b1f1a5",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Verificación remota de artefactos: se contrastaron las afirmaciones de publicación contra la API JSON de PyPI (https://pypi.org/pypi/oracle-factory/json), comprobando la disponibilidad de la versión 0.1.0a15 con sdist (oracle_factory-0.1.0a15.tar.gz) y wheel (oracle_factory-0.1.0a15-py3-none-any.whl) con sus SHA-256 exactos (807c33661d800ee5ff59be9defd34c4687b678d70f08b09f1274455a31d144cb y 1dd0379ac7cfe1f422481be98610f3eadde258b4f1d952084d15e35de4d7f3b7). Se verificó en GitHub con gh release view v0.1.0a15 la existencia del tag v0.1.0a15 y el release marcado como pre-release conteniendo los mismos archivos e idénticos hashes.",
+    "Comprobación exhaustiva de textos y documentación: se inspeccionaron NOTAS-DE-RELEASE.md, README.md, docs/colaboracion.md, site/desde-cero.html, site/index.html, site/colaboracion.html, site/modos.html y tests/datos/guias-texto.json. Se constató que ningún texto describe la 0.1.0a15 como candidata, en preparación ni como instalable a futuro, y que las notas de versiones anteriores (0.1.0a14 a 0.1.0a1) se conservan intactas.",
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-publicada-a15/.venv/bin/python -m unittest tests.test_publicada_a15 tests.test_docs tests.test_entrega_a15.EntregaA15.test_ea1_version_coherente_y_estado_declarado </dev/null (12 pruebas exitosas en 2.6s: 9 de PublicadaA15, 2 de Docs y 1 de EntregaA15.test_ea1). Se utilizó el entorno .venv de la raíz del repositorio debido a que el clon aislado en .factory/local/revisiones/9876790-agy-1 no cuenta con entorno virtual propio.",
+    "Alcance de pruebas: no se ejecutó la suite completa de pruebas ni tools/verify_publicada_a15.py directamente sobre el checkout de revisión, en cumplimiento estricto de las indicaciones del pedido.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato 9876790, no se realizaron commits ni se modificó la configuración de Git de ningún repositorio.",
+    "Análisis de mutaciones y verificación de robustez: se realizaron 20 mutaciones controladas sobre una copia aislada en sandbox. Las 20 mutaciones fueron detectadas por las pruebas (100% de detección). Se comprobó que cada una de las 9 formas de patron_preparacion es indispensable (su remoción causa el fallo de pruebas de pa2), y que la regla no genera falsos positivos con frases técnicas del flujo de revisión («candidato de revisión», «candidato <hash>») ni con «estado de preparación» no ligado a la versión, cerrando satisfactoriamente los hallazgos PUB-01 y PUB-03 de la vuelta anterior.",
+    "Prevención de falsos negativos: se verificó que variantes directas como «0.1.0a15 en preparación» (sin paréntesis), «está en preparación», «en preparación: 0.1.0a15», «cuando se publique la 0.1.0a15» y «se publicará» son detectadas correctamente por preparacion_olvidada, cerrando el hallazgo PUB-02.",
+    "Comprobación de coexistencia con otras versiones: se comprobó que test_pa2_la_palabra_candidato_junto_a_otra_version_no_cuenta valida apropiadamente menciones de versiones previas (0.1.0a14) junto a la palabra candidato sin generar divergencias espurias, cerrando el hallazgo PUB-04.",
+    "Coherencia bidireccional de reglas: se constató que publicacion_prematura y preparacion_olvidada poseen condiciones de activación mutuamente excluyentes sobre el encabezado de NOTAS-DE-RELEASE.md y no entran en conflicto entre sí."
+  ]
+}

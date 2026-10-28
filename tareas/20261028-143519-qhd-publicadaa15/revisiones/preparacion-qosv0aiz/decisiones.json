@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "806ffb4562e708bf9a05b767d5a72a8562b23e33d915681dffdcd3b284c3759e",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos vueltas de agy y agy2; la segunda sin hallazgos. 609 pruebas y 9 casos de contrato en verde. La regla nueva de tools/docs_al_dia.py exige la versión en la misma frase para no confundir el candidato de una revisión con una versión candidata, y cada una de sus 9 formas hace fallar una prueba si se quita. Límite: la regla es por patrones de texto en español: una forma de decir «en preparación» que no esté entre los patrones no se detecta; el estado de una versión sigue teniendo una sola fuente, el encabezado de sus notas.",
+  "decisiones": []
+}
