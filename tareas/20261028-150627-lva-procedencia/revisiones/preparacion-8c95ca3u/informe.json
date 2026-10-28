@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261028-150627-lva-procedencia",
+  "contexto": {
+    "head": "d550177bd0d09a15eae6c2fa0e0ead7e5bfce404",
+    "archivos_sha256": "f6092c3b93c42d53dd9ecd88ab510e292c42120a5a8b218bd3f9c23ec816487e"
+  },
+  "documentos": {
+    "openspec/changes/20261028-150627-lva-procedencia/proposal.md": "9e28766735751578ae2be7cebf4b779dd6a78134717e94e445421b9c68719943",
+    "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md": "3f2bdca3ea73a8356bf49b0cbdb2a709ce7aab2027f34410a20886d408b51b84"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "README.md",
+    "catalogos/factory_procedencia.corrida_completa.oracle",
+    "catalogos/factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene.oracle",
+    "catalogos/factory_procedencia.el_inventario_queda_en_el_candidato.oracle",
+    "catalogos/factory_procedencia.se_audita_contra_avisos_sin_red.oracle",
+    "catalogos/factory_procedencia.se_busca_quien_uso_una_dependencia.oracle",
+    "catalogos/factory_procedencia.un_lock_desactualizado_se_declara_no_confiable.oracle",
+    "docs/procedencia.md",
+    "editores/vscode/tablero.js",
+    "openspec/changes/20261028-150627-lva-procedencia/design.md",
+    "openspec/changes/20261028-150627-lva-procedencia/proposal.md",
+    "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md",
+    "openspec/changes/20261028-150627-lva-procedencia/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/procedencia.py",
+    "requisitos/procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene.requisito",
+    "requisitos/procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato.requisito",
+    "requisitos/procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red.requisito",
+    "requisitos/procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia.requisito",
+    "requisitos/procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable.requisito",
+    "tests/test_procedencia.py",
+    "tools/verify_procedencia.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 689 pruebas, 80 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/b926f91/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/b926f91/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/b926f91/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9ff21ae: agy (gemini-3.8-flash-high), 3 hallazgos: PROC-001 (alta), PROC-002 (media), PROC-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/9ff21ae/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9ff21ae: agy (gemini-3.8-flash-high), 5 hallazgos: PROC-01 (media), PROC-02 (media), PROC-03 (media), PROC-04 (baja), PROC-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/9ff21ae/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9fd80f0: agy (gemini-3.8-flash-high), 3 hallazgos: PROC-001 (media), PROC-002 (baja), PROC-003 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/9fd80f0/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 9fd80f0: agy (gemini-3.8-flash-high), 0 hallazgos: sin hallazgos",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261028-150627-lva-procedencia/candidatos/9fd80f0/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios pr1–pr5 en proyectos temporales con git, Linux, con un «python» de mentira que informa lo instalado y sin red (una prueba corta la apertura de sockets). El formato de los avisos OSV y de los inventarios CycloneDX se comprueba contra los campos que Factory usa, no contra el esquema completo; no hay firmas ni consulta a servicios de avisos.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exactamente indicado: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null, obteniendo un resultado exitoso de 82 pruebas (80 de Procedencia y 2 de Docs) en 7.7 segundos. Se utilizó el intérprete .venv de la raíz del repositorio principal (/home/workstation/Dev/factory-procedencia/.venv) dado que el checkout de revisión en .factory/local/revisiones/b926f91-agy-1 es de sólo lectura y no posee entorno virtual propio.",
+    "agy (gemini-3.8-flash-high): Alcance y restricciones de ejecución: no se corrió la suite completa de pruebas ni tools/verify_procedencia.py directamente sobre el checkout de revisión, en estricto cumplimiento de las indicaciones del pedido de revisión.",
+    "agy (gemini-3.8-flash-high): Integridad del repositorio: no se editó el checkout de revisión del candidato b926f91, no se realizaron commits y no se modificó la configuración de Git de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): Verificación de correcciones de la Vuelta 2 (9fd80f0): se constató la resolución completa de los hallazgos previos: (1) avisos() valida explícitamente «or not a['affected']» y rechaza avisos OSV con lista de paquetes vacía con el mensaje «al menos un paquete», evitando reportar un resultado limpio no confiable; (2) requisitos() verifica que «project» sea un dict y «dependencies» sea una lista, lanzando ProcedenciaError descriptivo en lugar de colapsar con AttributeError; (3) test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal incluye ahora casos exhaustivos para affected vacío, affected no lista, ranges no lista, ranges nulo, versions nulo y elemento affected no objeto; (4) leer_lock() tolera y saltea con seguridad paquetes malformados, valores no tabulares de metadata y source sin lanzar excepciones no controladas; (5) docs/procedencia.md documenta que --python se ejecuta en modo aislado (-I -c).",
+    "agy (gemini-3.8-flash-high): Verificación de cierres de la Vuelta 1 (9ff21ae): se confirmó que no hubo regresiones sobre los hallazgos de la primera vuelta (validación rigurosa de rangos y eventos OSV; introduced: '0' evaluado mediante el centinela DESDE_SIEMPRE abarcando pre-releases y dev-releases de la serie 0.0.0; desempate determinista de eventos coincidentes en versión vía EVENTOS; rechazo seguro de pyproject.toml enlazado; validación sin_enlaces() de directorios intermedios en la ruta de avisos; y almacenamiento de rutas POSIX en el registro del evento procedencia_registrada).",
+    "agy (gemini-3.8-flash-high): Determinismo y formato CycloneDX 1.5: se comprobó que el inventario producido respeta la estructura CycloneDX 1.5 (bomFormat, specVersion, components, hashes SHA-256 en orden determinista, purl pkg:pypi normalizado con quote() para versiones especiales, origen, fuente y propiedades del espacio de nombres factory:). La función texto() produce un JSON formateado con claves ordenadas (sort_keys=True) sin marcas temporales ni atributos volátiles.",
+    "agy (gemini-3.8-flash-high): Seguridad de rutas y enlaces simbólicos: se analizó la protección frente a enlaces simbólicos y escapes de directorio en uv.lock, pyproject.toml, archivos de avisos OSV, directorios de candidatos e inventarios persistidos. Las funciones sin_enlaces() y ruta_segura() recorren e inspeccionan individualmente cada componente de las rutas relativas a la raíz del proyecto.",
+    "agy (gemini-3.8-flash-high): Aislamiento del entorno Python: se confirmó que la función instalados() invoca el binario Python configurado mediante subprocess.run con flags de aislamiento estricto (['-I', '-c', VOLCADO]), entrada estándar conectada a DEVNULL y timeout de 60 segundos, imposibilitando la importación de código del proyecto o efectos colaterales no previstos.",
+    "agy (gemini-3.8-flash-high): Ausencia de red y aislamiento de auditoría: se verificó que el módulo procedencia.py no importa módulos de red ni realiza conexiones externas (revalidado por test_pr5_la_auditoria_no_usa_la_red). Los comandos --buscar y --auditar extraen de forma acoplada y determinista el identificador del cambio y del candidato desde la jerarquía de directorios, impidiendo mezclas entre candidatos.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones a mano: se evaluó una batería de mutaciones sobre copias de los módulos en una carpeta de pruebas aislada. Todas las mutaciones sobre las defensas críticas (eliminación de comprobación de affected vacío, supresión de validaciones de tabla/lista en pyproject, alteración de DESDE_SIEMPRE, reversión de orden de eventos, desactivación de sin_enlaces y omisión de comprobación is_symlink) fueron detectadas y eliminadas por la suite de pruebas unitarias.",
+    "agy (gemini-3.8-flash-high): Integración en el ecosistema Factory: se constató que la acción procedencia_registrada está registrada en ACCIONES de editores/vscode/tablero.js, y que su incorporación al historial de eventos no afecta negativamente el funcionamiento de tablero.py, resumen.py, kb.py ni el servidor MCP.",
+    "agy (gemini-3.8-flash-high): Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exactamente indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null, obteniendo un resultado de 82 pruebas exitosas en 7.62s (80 pruebas de Procedencia y 2 de Docs). Se utilizó el entorno virtual .venv de la raíz del repositorio principal (/home/workstation/Dev/factory-procedencia/.venv) debido a que el checkout aislado de revisión en .factory/local/revisiones/b926f91-agy2-1 es de sólo lectura y no posee entorno virtual propio.",
+    "agy (gemini-3.8-flash-high): Restricciones del alcance: en estricto cumplimiento de las indicaciones del pedido de revisión, no se corrió la suite completa de pruebas ni se ejecutó tools/verify_procedencia.py directamente sobre el checkout bajo revisión.",
+    "agy (gemini-3.8-flash-high): Integridad del repositorio: no se editó el checkout de revisión del candidato b926f91, no se realizaron commits y no se modificó la configuración de Git de ningún repositorio.",
+    "agy (gemini-3.8-flash-high): Verificación de correcciones de Vuelta 2 y Vuelta 1: se constató la resolución íntegra y sin regresiones de todos los hallazgos de las revisiones anteriores. En particular, en esta Vuelta 3: (1) avisos() rechaza explícitamente avisos con affected vacío exigiendo «al menos un paquete»; (2) requisitos() valida que «project» sea tabla y «dependencies» sea lista en pyproject.toml emitiendo un ProcedenciaError claro; (3) leer_lock() tolera y saltea de forma segura entradas, source y metadata malformados sin propagar excepciones; (4) docs/procedencia.md explicita que --python se ejecuta en modo aislado (-I -c); y (5) test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal incorpora validaciones exhaustivas para affected vacío/no lista, ranges no lista/nulo, versions nulo y entradas affected no objeto.",
+    "agy (gemini-3.8-flash-high): Análisis de mutaciones controladas: se ejecutó una batería de 28 mutaciones sistemáticas sobre una copia de trabajo de oracle_factory/procedencia.py en un entorno aislado dentro del directorio del revisor. Las 28 mutaciones fueron detectadas y eliminadas por la suite de pruebas unitarias (0 mutaciones supervivientes), confirmando la sensibilidad y robustez de los tests frente a alteraciones en cotas de rangos OSV, desempate de eventos, centinela DESDE_SIEMPRE, comprobaciones de enlaces simbólicos, ordenamiento y serialización CycloneDX, normalización PEP 503 y defensas contra formatos malformados.",
+    "agy (gemini-3.8-flash-high): Determinismo, seguridad y aislamiento: se comprobó que el inventario CycloneDX 1.5 es estrictamente determinista (claves ordenadas con sort_keys=True, hashes SHA-256 y componentes ordenados alfabéticamente, sin marcas de tiempo ni UUIDs volátiles, y purl con quote(safe='')); que un lock ausente o desactualizado jamás se declara confiable (confiable=False con lista detallada de diferencias); que ninguna ruta lee ni escribe fuera del proyecto gracias a sin_enlaces() y ruta_segura(); que la invocación de --python se ejecuta estrictamente con -I -c, stdin en DEVNULL y timeout de 60s; que la auditoría y búsqueda operan localmente sin conexiones de red y disocian correctamente cambios y candidatos; y que el evento procedencia_registrada es completamente compatible con el tablero de VS Code, resumen, kb y MCP."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

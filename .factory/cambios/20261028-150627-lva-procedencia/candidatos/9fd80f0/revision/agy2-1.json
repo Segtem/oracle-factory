@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-procedencia/.factory/local/revisiones/9fd80f0-agy2-1",
+  "base": "ac7fc132e8aa651d1165a5f29b5302fd6fb10c80",
+  "head": "9fd80f05e0b08ea81969440673c6488da0f742e9",
+  "diff_sha256": "fe49e2a795361ca438ce203740c1637e77e75476a5d917fe24a4f2a2a07223e3",
+  "context_sha256": "d554e5082afb8d86d375d803521cdb7bb8ca9f2636e2aec49b82353c6294a12b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exactamente especificado: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null (77 pruebas exitosas en 7.09s: 75 de Procedencia y 2 de Docs). Se utilizó el entorno virtual .venv de la raíz del repositorio principal (/home/workstation/Dev/factory-procedencia/.venv) dado que el checkout de revisión en .factory/local/revisiones/9fd80f0-agy2-1 es de sólo lectura y no posee entorno virtual propio.",
+    "Restricciones del alcance: no se corrió la suite completa de pruebas ni tools/verify_procedencia.py directamente sobre el checkout de revisión, en estricto cumplimiento de las indicaciones del pedido de revisión.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato 9fd80f0, no se realizaron commits y no se modificó la configuración de Git de ningún repositorio.",
+    "Verificación de hallazgos previos (Vuelta 1 en 9ff21ae): se confirmó la resolución íntegra y sin regresiones de todos los defectos reportados en las revisiones agy-1 y agy2-1 (validación exhaustiva de rangos y eventos OSV en avisos(); centinela introduced: \"0\" mediante DESDE_SIEMPRE que cubre pre-releases y dev-releases de la serie 0.0.0; desempate estricto de eventos coincidentes en versión mediante EVENTOS[tipo]; detección de pyproject.toml enlazado o ausente como diferencia que invalida la confiabilidad; validación sin_enlaces() de carpetas intermedias en rutas de avisos dentro del proyecto; y ruta en formato POSIX para el evento procedencia_registrada).",
+    "Análisis de mutaciones controladas: se ejecutó una batería de 22 mutaciones sobre una copia aislada de los módulos modificados en la carpeta de revisión. 21 mutaciones funcionales fueron detectadas y eliminadas por la suite de pruebas unitarias (alteración de DESDE_SIEMPRE, supresión de desempate en eventos, omisión de chequeo is_symlink y ausencia en pyproject.toml y uv.lock, desactivación de sin_enlaces en guardados e informe_auditar, alteración de operadores de cota en _afectada para introduced, fixed y last_affected, clasificación errónea de avisos o versiones sin comparar como limpios, supresión de validaciones de estructura en avisos(), omisión de quote en purl, omisión de ordenamiento determinista en componentes, bypass de sin_correccion y desactivación de detección Lightwell). La mutación sobre as_posix() en cli.py sobrevivió únicamente debido a que en Linux la representación nativa de rutas coincide con el formato POSIX, habiéndose verificado su corrección por análisis estático.",
+    "Determinismo, seguridad y aislamiento: se comprobó que el inventario CycloneDX 1.5 es estrictamente determinista (claves, hashes y componentes ordenados; sin marcas temporales ni herramientas aleatorias), que no existe acceso a red, que la invocación del intérprete Python en instalados() se realiza en modo aislado (-I) con comando fijo y timeout, y que el nuevo evento procedencia_registrada es completamente compatible con el tablero, resumen, kb y MCP."
+  ]
+}

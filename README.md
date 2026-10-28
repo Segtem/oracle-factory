@@ -19,6 +19,7 @@ Las guías:
 - [Trabajar con agentes](docs/agentes.md): `--agente`, la guía de `AGENTS.md`, el MCP y los revisores.
 - [Revisión guiada](docs/revision-guiada.md): pedir revisiones, preparar el informe y decidir los hallazgos.
 - [Colaboración](docs/colaboracion.md): dos personas con sus agentes, del reparto a la integración, con el banco que lo prueba.
+- [La procedencia de las dependencias](docs/procedencia.md): el inventario CycloneDX de cada candidato, quién usó una dependencia y la auditoría contra avisos OSV.
 - [Dónde está cada cosa](docs/estructura.md) y [trazabilidad](docs/trazabilidad.md).
 
 

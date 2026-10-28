@@ -84,6 +84,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-100820-5n7-causa]] — Que aprobar-spec diga qué línea de qué archivo falta completar (cerrada)
 - [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (cerrada)
 - [[cambios/20261028-143519-qhd-publicadaa15]] — Declarar publicada la 0.1.0a15 en las notas y los textos (cerrada)
+- [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
 
 ## Requisitos
 
@@ -268,6 +269,11 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/portabilidad_cbe858e976e618573.respetar_los_registros_existentes]]
 - [[requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado]]
 - [[requisitos/portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra]]
+- [[requisitos/procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene]]
+- [[requisitos/procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato]]
+- [[requisitos/procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red]]
+- [[requisitos/procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia]]
+- [[requisitos/procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente]]
 - [[requisitos/resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice]]
