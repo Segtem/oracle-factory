@@ -17,7 +17,7 @@ oracle-factory procedencia ID         # además lo guarda en el candidato del ca
 ```
 
 Se arma con las dependencias de Python del proyecto: el lock (`uv.lock`), lo que pide `pyproject.toml` y lo que está instalado
-(el `.venv` del proyecto, o el Python que indique `--python`). De cada componente dice:
+(el `.venv` del proyecto, o el Python que indique `--python`; para leerlo se ejecuta ese Python con `-I -c`, sin importar el proyecto). De cada componente dice:
 
 - su nombre, su versión y su enlace `pkg:pypi/…`;
 - el índice de donde sale (`factory:origen`) y los hashes SHA-256 de sus archivos, tal como los registra el lock;

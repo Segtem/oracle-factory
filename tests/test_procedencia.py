@@ -268,6 +268,60 @@ class Procedencia(unittest.TestCase):
         self.assertEqual(self.diferencias(bom), ['pyproject.toml es un enlace simbólico y no se sigue: no se puede comprobar que el lock coincida con lo que pide el proyecto'])
         self.assertNotIn('9.9', texto := json.dumps(bom))  # lo que dice el archivo de afuera no se lee
 
+    def test_pr2_un_pyproject_malformado_es_un_error_claro_y_no_un_traceback(self):
+        self.proyecto(instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
+        casos = {'project es un texto': 'project = "demo"\n', 'project es una lista': 'project = [1]\n',
+                 'dependencies es un texto': '[project]\nname = "demo"\nversion = "1.0.0"\ndependencies = "alfa"\n',
+                 'dependencies es una tabla': '[project]\nname = "demo"\nversion = "1.0.0"\n[project.dependencies]\nalfa = "1"\n'}
+        for nombre, contenido in casos.items():
+            with self.subTest(nombre):
+                (self.root / 'pyproject.toml').write_text(contenido)
+                with self.assertRaisesRegex(f.FactoryError, 'pyproject.toml: «(project|dependencies)» tiene que ser una'):
+                    self.correr()
+
+    def test_pr2_un_pyproject_con_dependencias_raras_las_saltea_sin_romper(self):
+        self.proyecto(instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
+        (self.root / 'pyproject.toml').write_text('[project]\nname = 3\nversion = ["x"]\ndependencies = [1, "alfa==1.2.3", "beta>=2", "???"]\n')
+        bom = self.bom()
+        self.assertEqual(bom['metadata']['component'], {'type': 'application', 'name': '', 'version': ''})
+        self.assertEqual([self.prop(c, 'factory:directa') for c in bom['components']], ['true', 'true'])
+        self.assertEqual(self.diferencias(bom), [])  # el 1 y el ??? no se tomaron por dependencias
+
+    def test_pr1_un_lock_con_entradas_malformadas_las_saltea_sin_romper(self):
+        malo = lock() + """
+[[package]]
+name = "gama"
+version = "1.0"
+source = "pypi"
+metadata = "no es una tabla"
+
+[[package]]
+name = 3
+version = "1"
+
+[[package]]
+version = "9"
+"""
+        self.proyecto(lock_texto=malo)
+        bom = self.bom()
+        gama = self.componente(bom, 'gama')
+        self.assertEqual((gama['version'], self.prop(gama, 'factory:origen')), ('1.0', 'desconocido'))
+        self.assertEqual([c['name'] for c in bom['components']], ['alfa', 'beta', 'gama'])
+
+    def test_pr1_un_lock_donde_package_no_es_una_lista_o_trae_cosas_raras_no_rompe(self):
+        for contenido in ('package = "no es una lista"', 'package = 3', 'package = { name = "a" }'):
+            with self.subTest(contenido):
+                self.proyecto(lock_texto=f'version = 1\n{contenido}\n')
+                self.assertEqual(self.bom()['components'], [])
+        self.proyecto(lock_texto='version = 1\npackage = [1, "x", { name = "a", version = "1.0", source = { registry = "https://pypi.org/simple" } }]\n')
+        self.assertEqual([c['name'] for c in self.bom()['components']], ['a'])  # lo raro se saltea y la entrada válida se lee
+
+    def test_pr1_un_lock_con_la_raiz_y_su_metadata_malformada_no_rompe(self):
+        raiz_mala = lock().replace('[package.metadata]\nrequires-dist = [', 'xx = [').replace(
+            'source = { editable = "." }', 'source = { editable = "." }\nmetadata = "no es una tabla"')
+        self.proyecto(lock_texto=raiz_mala)
+        self.assertEqual([c['name'] for c in self.bom()['components']], ['alfa', 'beta'])
+
     def test_pr2_los_extras_y_marcadores_de_una_dependencia_no_confunden(self):
         self.proyecto(dependencias=("alfa[extra]==1.2.3 ; python_version >= '3.11'", 'beta>=2'), instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
         self.assertEqual(self.diferencias(self.bom()), [])
@@ -595,6 +649,12 @@ class Procedencia(unittest.TestCase):
             'package sin ecosistema': ([{'id': 'X', 'affected': [{'package': {'name': 'a'}}]}], 'sin «package»'),
             'versions no es lista': ([{'id': 'X', 'affected': [{'package': {'name': 'a', 'ecosystem': 'PyPI'}, 'versions': '1'}]}], 'no son listas'),
             'aviso que no es objeto': (['hola'], 'no es OSV válido'),
+            'affected vacío': ([{'id': 'X', 'affected': []}], 'al menos un paquete'),
+            'affected no es lista': ([{'id': 'X', 'affected': {'package': {'name': 'a', 'ecosystem': 'PyPI'}}}], 'no es OSV válido'),
+            'ranges no es lista': ([{'id': 'X', 'affected': [{'package': {'name': 'a', 'ecosystem': 'PyPI'}, 'ranges': 1}]}], 'no son listas'),
+            'ranges nulo': ([{'id': 'X', 'affected': [{'package': {'name': 'a', 'ecosystem': 'PyPI'}, 'ranges': None}]}], 'no son listas'),
+            'versions nulo': ([{'id': 'X', 'affected': [{'package': {'name': 'a', 'ecosystem': 'PyPI'}, 'versions': None}]}], 'no son listas'),
+            'un affected que no es objeto': ([{'id': 'X', 'affected': ['a']}], 'sin «package»'),
         }
         for nombre, (contenido, texto) in casos.items():
             with self.subTest(nombre):

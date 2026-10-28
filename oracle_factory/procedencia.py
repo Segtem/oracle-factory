@@ -72,13 +72,16 @@ def leer_lock(raiz: Path) -> dict | None:
     except (tomllib.TOMLDecodeError, UnicodeDecodeError) as e:
         raise ProcedenciaError(f"uv.lock no se puede leer: {e}") from e
     proyecto, paquetes = {}, {}
-    for p in datos.get("package", []):
-        nombre, version, origen = p.get("name"), p.get("version"), p.get("source") or {}
+    for p in datos.get("package", []) if isinstance(datos.get("package"), list) else []:
+        if not isinstance(p, dict):
+            continue
+        nombre, version, origen = p.get("name"), p.get("version"), p.get("source")
         if not isinstance(nombre, str) or not isinstance(version, str):
             continue
+        origen = origen if isinstance(origen, dict) else {}
+        metadatos = p.get("metadata") if isinstance(p.get("metadata"), dict) else {}
         if "editable" in origen or "virtual" in origen:
-            proyecto = {"nombre": nombre, "version": version, "requiere": [r.get("name") for r in (p.get("metadata") or {}).get("requires-dist", [])
-                                                                              if isinstance(r, dict)]}
+            proyecto = {"nombre": nombre, "version": version, "requiere": [r.get("name") for r in metadatos.get("requires-dist", []) if isinstance(r, dict)]}
             continue
         artefactos = ([p["sdist"]] if isinstance(p.get("sdist"), dict) else []) + [w for w in p.get("wheels", []) if isinstance(w, dict)]
         hashes = sorted({a["hash"].split(":", 1)[1] for a in artefactos if isinstance(a.get("hash"), str) and a["hash"].startswith("sha256:")})
@@ -99,13 +102,19 @@ def requisitos(raiz: Path) -> tuple[dict, dict[str, tuple[str, str]], str | None
         datos = tomllib.loads(ruta.read_text(encoding="utf-8"))
     except (tomllib.TOMLDecodeError, UnicodeDecodeError) as e:
         raise ProcedenciaError(f"pyproject.toml no se puede leer: {e}") from e
-    proyecto = datos.get("project") or {}
+    proyecto = datos.get("project", {})
+    if not isinstance(proyecto, dict):
+        raise ProcedenciaError("pyproject.toml: «project» tiene que ser una tabla")
+    dependencias = proyecto.get("dependencies", [])
+    if not isinstance(dependencias, list):
+        raise ProcedenciaError("pyproject.toml: «dependencies» tiene que ser una lista")
     directas = {}
-    for texto in proyecto.get("dependencies", []):
+    for texto in dependencias:
         m = REQUISITO.fullmatch(texto) if isinstance(texto, str) else None
         if m:
             directas[normal(m[1])] = (m[1], m[2].strip())
-    return {"nombre": proyecto.get("name", ""), "version": proyecto.get("version", "")}, directas, None
+    nombre, version = proyecto.get("name", ""), proyecto.get("version", "")
+    return {"nombre": nombre if isinstance(nombre, str) else "", "version": version if isinstance(version, str) else ""}, directas, None
 
 
 def instalados(python: Path | None) -> dict[str, tuple[str, str]] | None:
@@ -220,8 +229,8 @@ def avisos(contenido: str, origen: str) -> list[dict]:
     if not isinstance(datos, list) or not datos:
         raise ProcedenciaError(f"{origen} no tiene avisos OSV: se espera un aviso, una lista o un objeto con «vulns»")
     for i, a in enumerate(datos):
-        if not isinstance(a, dict) or not isinstance(a.get("id"), str) or not isinstance(a.get("affected"), list):
-            raise ProcedenciaError(f"{origen}: el aviso {i + 1} no es OSV válido (necesita «id» y «affected»)")
+        if not isinstance(a, dict) or not isinstance(a.get("id"), str) or not isinstance(a.get("affected"), list) or not a["affected"]:
+            raise ProcedenciaError(f"{origen}: el aviso {i + 1} no es OSV válido (necesita «id» y un «affected» con al menos un paquete)")
         for af in a["affected"]:
             paquete = af.get("package") if isinstance(af, dict) else None
             if not isinstance(paquete, dict) or not isinstance(paquete.get("name"), str) or not isinstance(paquete.get("ecosystem"), str):

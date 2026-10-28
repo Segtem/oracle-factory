@@ -1,0 +1,84 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-procedencia/.factory/local/revisiones/9fd80f0-agy-1",
+  "base": "ac7fc132e8aa651d1165a5f29b5302fd6fb10c80",
+  "head": "9fd80f05e0b08ea81969440673c6488da0f742e9",
+  "diff_sha256": "fe49e2a795361ca438ce203740c1637e77e75476a5d917fe24a4f2a2a07223e3",
+  "context_sha256": "99ea9e7523ab99dbf6a80975fc960b1532eb004c045b1f9049d9289ba1898978",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando exacto indicado en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-procedencia/.venv/bin/python -m unittest tests.test_procedencia tests.test_docs </dev/null, obteniendo un resultado de 77 pruebas exitosas (75 de test_procedencia y 2 de test_docs) en 7.4s. Se utilizó el intérprete .venv de la raíz del repositorio (/home/workstation/Dev/factory-procedencia/.venv) debido a que el clon aislado de revisión en .factory/local/revisiones/9fd80f0-agy-1 no cuenta con un entorno virtual local.",
+    "Alcance de la suite: en estricto cumplimiento de las indicaciones, no se corrió la suite completa de pruebas ni se ejecutó tools/verify_procedencia.py directamente sobre el checkout bajo revisión.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato 9fd80f0, no se realizaron commits ni se modificó la configuración de Git de ningún repositorio.",
+    "Verificación de correcciones de la Vuelta 1: se constató que los 5 hallazgos reportados en la vuelta anterior (PROC-01 a PROC-05) fueron debidamente subsanados: la validación estricta de rangos en avisos(), la inclusión de pre-releases en la serie 0 mediante el centinela DESDE_SIEMPRE, el desempate determinista de eventos en la misma versión con EVENTOS, el tratamiento de pyproject.toml enlazado como diferencia no confiable, la verificación de enlaces intermedios en la ruta de avisos y el uso de rutas en formato POSIX para el evento procedencia_registrada.",
+    "Determinismo y formato CycloneDX 1.5: se comprobó que el inventario generado cumple con la estructura CycloneDX 1.5 en los campos y metadatos utilizados (bomFormat, specVersion, components, hashes SHA-256, purl con nombres normalizados y versiones con caracteres especiales codificados con quote(), origen, fuente y propiedades bajo el prefijo factory:). La serialización JSON en texto() está ordenada alfabéticamente por claves (sort_keys=True) y no contiene marcas de tiempo, números de serie ni herramientas dinámicas.",
+    "Seguridad de rutas y enlaces simbólicos: se analizó la protección frente a enlaces simbólicos y escape de directorio en uv.lock, pyproject.toml, el archivo de avisos OSV, las carpetas de candidatos y los inventarios guardados en .factory/cambios. Las funciones sin_enlaces() y ruta_segura() inspeccionan de forma recursiva cada directorio intermedio del camino dentro de la raíz del proyecto.",
+    "Aislamiento de ejecución en --python: se comprobó que instalados() invoca el intérprete especificado utilizando subprocess.run con banderas de aislamiento estricto (['-I', '-c', VOLCADO]), entrada estándar redirigida a DEVNULL y timeout de 60 segundos, impidiendo la ejecución de scripts no previstos.",
+    "Auditoría y búsqueda local sin red: se constató que ninguna función de procedencia.py efectúa conexiones de red ni importa módulos de transporte HTTP/socket (validado por test_pr5_la_auditoria_no_usa_la_red). Las operaciones sobre inventarios guardados (usados() e informe_buscar(), así como auditar() e informe_auditar()) mantienen asociados de manera determinista los identificadores de cambio y candidato extraídos de la estructura de directorios.",
+    "Análisis de mutaciones controladas: se ejecutó una batería de más de 40 mutaciones sistemáticas sobre una copia de trabajo de oracle_factory/procedencia.py en un entorno aislado usando python -P. Las pruebas de test_procedencia detectaron satisfactoriamente la gran mayoría de las mutaciones (ordenamiento de eventos, operadores de comparación en rangos, normalización PEP 503, extracción de versión base sin sufijos de Lightwell, detección de enlaces en lock/pyproject/avisos, etc.), identificándose supervivencias puntuales en validaciones de formato de pyproject y avisos sin affected.",
+    "Integración en registro y herramientas: se verificó la correspondencia entre los umbrales de las medidas en catalogos/factory_procedencia.*.oracle (75 casos totales: 18 en pr1, 11 en pr2, 10 en pr3, 11 en pr4 y 25 en pr5) y los casos del contrato en tools/verify_procedencia.py. Se constató que editores/vscode/tablero.js registra la etiqueta 'Procedencia registrada' para procedencia_registrada, y que los módulos resumen, kb y MCP procesan el evento sin inconvenientes."
+  ],
+  "findings": [
+    {
+      "id": "PROC-001",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "avisos() acepta avisos OSV con «affected» vacío e informe_auditar() informa un resultado limpio («No hay candidatos afectados»)",
+      "explanation": "El requisito funcional 'se_audita_contra_avisos_sin_red' en su escenario 'un archivo de avisos inválido' establece explícitamente: 'DADO un archivo de avisos que no es OSV válido / CUANDO se audita / ENTONCES falla diciendo qué está mal, sin informar un resultado vacío como si fuera limpio'. Conforme a la especificación oficial del formato OSV (OpenSSF OSV Schema v1.5.0), el campo 'affected' de un objeto Vulnerability es una lista obligatoria no vacía que describe los paquetes afectados ('\"affected\": {\"type\": \"array\", \"minItems\": 1}'). Un aviso que no define paquetes afectados carece de sentido y no es OSV válido. Sin embargo, en oracle_factory/procedencia.py (líneas 223–225), la función avisos() valida únicamente que a.get('affected') sea una lista (isinstance(a.get('affected'), list)), sin verificar que contenga al menos un elemento (por ejemplo 'or not a.get(\"affected\")'). Cuando se proporciona un aviso con 'affected': [], el bucle 'for af in a[\"affected\"]' no ejecuta ninguna iteración, auditar() retorna {'afectados': [], 'corregidos': [], 'sin_comparar': []}, e informe_auditar() (línea 360) concluye imprimiendo 'No hay candidatos afectados.', presentando un archivo de avisos malformado como si el proyecto estuviera completamente limpio de vulnerabilidades.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 223,
+        "end_line": 225,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory procedencia --auditar --avisos archivo.json donde archivo.json contiene [{\"id\": \"OSV-TEST\", \"affected\": []}].",
+      "evidence": "Se ejecutó procedencia.informe_auditar pasando un archivo JSON con [{\"id\": \"OSV-1\", \"affected\": []}]. En lugar de generar un error ProcedenciaError indicando que el aviso no es OSV válido, la función finalizó exitosamente e imprimió 'Auditoría local: 1 aviso(s) contra 0 inventario(s) guardado(s); sin red.\\nNo hay candidatos afectados.\\n'.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Ejecutar en la terminal: python -c \"from oracle_factory import procedencia; procedencia.avisos('[{\\\"id\\\": \\\"X\\\", \\\"affected\\\": []}]', 'test')\". Verificar que retorna la lista en vez de lanzar ProcedenciaError por tener 'affected' vacío."
+    },
+    {
+      "id": "PROC-002",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "requisitos() no valida que «project» sea una tabla en pyproject.toml y colapsa con AttributeError no capturado",
+      "explanation": "En oracle_factory/procedencia.py (línea 102), la función requisitos() extrae la sección de proyecto mediante 'proyecto = datos.get(\"project\") or {}'. Si un archivo pyproject.toml contiene una entrada no tabular donde 'project' tiene un valor escalar (por ejemplo 'project = \"demo\"'), datos.get('project') devuelve un objeto de tipo str. Al no ser falsy, 'or {}' no tiene efecto y 'proyecto' permanece como string. Seguidamente, en la línea 104, 'proyecto.get(\"dependencies\", [])' arroja un error AttributeError: 'str' object has no attribute 'get'. En comando_procedencia() (oracle_factory/cli.py:3079-3080), únicamente se captura ProcedenciaError, por lo que la excepción se propaga sin control generando un traceback de Python en lugar de un error de usuario manejado con FactoryError.",
+      "location": {
+        "file": "oracle_factory/procedencia.py",
+        "start_line": 102,
+        "end_line": 104,
+        "side": "head"
+      },
+      "trigger": "Ejecutar oracle-factory procedencia en un proyecto cuyo pyproject.toml tenga un valor escalar en la clave project (por ejemplo 'project = \"demo\"').",
+      "evidence": "Se invocó procedencia.requisitos() sobre un directorio con pyproject.toml conteniendo 'project = \"demo\"\\n'. La ejecución abortó con la excepción no controlada AttributeError: 'str' object has no attribute 'get'.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene",
+      "status": "pendiente",
+      "verification": "Crear un pyproject.toml con la línea 'project = \"invalido\"' y correr procedencia.inventario(). Comprobar que falla con AttributeError en lugar de indicar que pyproject.toml no se puede leer o carece de tabla de proyecto válida."
+    },
+    {
+      "id": "PROC-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal omite casos de affected vacío y ranges no lista",
+      "explanation": "El escenario 'un archivo de avisos inválido' exige verificar que cualquier archivo de avisos que no cumpla la especificación OSV sea rechazado indicando qué está mal. En tests/test_procedencia.py (líneas 586–603), test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal define 9 casos de prueba. Aunque incluye 'sin affected' y 'versions no es lista', omite probar qué ocurre cuando 'affected' es una lista vacía ([]), así como cuando 'ranges' no es una lista (por ejemplo 'ranges: 1' o 'ranges: null' dentro del objeto affected). Como consecuencia de esta omisión en los contratos de prueba, la suite de pruebas no detecta que avisos() acepta avisos sin componentes afectados y que informe_auditar() los reporta falsamente como limpios.",
+      "location": {
+        "file": "tests/test_procedencia.py",
+        "start_line": 586,
+        "end_line": 603,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar los casos evaluados en test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal.",
+      "evidence": "El diccionario 'casos' en test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal comprende: 'no es json', 'vacío', 'un número', 'sin id', 'sin affected', 'affected sin package', 'package sin ecosistema', 'versions no es lista', y 'aviso que no es objeto'. No contiene ningún caso para 'affected' con lista vacía ni 'ranges' con tipo no lista.",
+      "related_requirement": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "status": "pendiente",
+      "verification": "Verificar el contenido del diccionario 'casos' en tests/test_procedencia.py:588-598 y constatar la ausencia de pruebas para affected: [] y ranges escalar."
+    }
+  ]
+}

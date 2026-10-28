@@ -34,7 +34,10 @@ CONTRACTS = {
         'Procedencia.test_pr1_un_entorno_que_falla_no_se_toma_por_vacio',
         'Procedencia.test_pr1_un_entorno_que_responde_cualquier_cosa_no_se_toma_por_valido',
         'Procedencia.test_pr1_un_python_que_no_existe_no_rompe',
-        'Procedencia.test_pr1_sin_indicar_python_se_usa_el_venv_del_proyecto'],
+        'Procedencia.test_pr1_sin_indicar_python_se_usa_el_venv_del_proyecto',
+        'Procedencia.test_pr1_un_lock_con_entradas_malformadas_las_saltea_sin_romper',
+        'Procedencia.test_pr1_un_lock_donde_package_no_es_una_lista_o_trae_cosas_raras_no_rompe',
+        'Procedencia.test_pr1_un_lock_con_la_raiz_y_su_metadata_malformada_no_rompe'],
     'un_lock_desactualizado_se_declara_no_confiable': [
         'Procedencia.test_pr2_todo_coincide_es_confiable_y_sin_diferencias',
         'Procedencia.test_pr2_el_lock_difiere_de_lo_que_exige_el_proyecto',
@@ -45,6 +48,8 @@ CONTRACTS = {
         'Procedencia.test_pr2_una_especificacion_no_fijada_no_es_una_diferencia',
         'Procedencia.test_pr2_sin_pyproject_no_se_puede_declarar_confiable',
         'Procedencia.test_pr2_un_pyproject_enlazado_no_se_sigue_y_se_dice',
+        'Procedencia.test_pr2_un_pyproject_malformado_es_un_error_claro_y_no_un_traceback',
+        'Procedencia.test_pr2_un_pyproject_con_dependencias_raras_las_saltea_sin_romper',
         'Procedencia.test_pr2_los_extras_y_marcadores_de_una_dependencia_no_confunden',
         'Procedencia.test_pr2_el_nombre_se_compara_normalizado'],
     'el_inventario_queda_en_el_candidato': [
