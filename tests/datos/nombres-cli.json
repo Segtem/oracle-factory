@@ -1,0 +1,929 @@
+{
+ "ACTIVIDAD_RECIENTE": {
+  "tipo": "timedelta"
+ },
+ "AGENTE": {
+  "tipo": "NoneType"
+ },
+ "ATRIBUTOS": {
+  "tipo": "tuple"
+ },
+ "ATRIBUTOS_MARCA": {
+  "tipo": "str"
+ },
+ "AVISADOS": {
+  "tipo": "set"
+ },
+ "ArchivoCambiado": {
+  "firma": null,
+  "tipo": "clase"
+ },
+ "CHANGES": {
+  "tipo": "PosixPath"
+ },
+ "DESCRIPCION": {
+  "tipo": "dict"
+ },
+ "ESQUEMA_DONDE": {
+  "tipo": "str"
+ },
+ "ESQUEMA_ESTADO": {
+  "tipo": "str"
+ },
+ "FactoryError": {
+  "firma": null,
+  "tipo": "clase"
+ },
+ "GENERADO_KB": {
+  "tipo": "tuple"
+ },
+ "HOOKS": {
+  "tipo": "tuple"
+ },
+ "HOOK_MARCA": {
+  "tipo": "str"
+ },
+ "ID_RE": {
+  "tipo": "Pattern"
+ },
+ "LEEME_FACTORY": {
+  "tipo": "str"
+ },
+ "LEIDOS": {
+  "tipo": "dict"
+ },
+ "LLAMADA_HOOK": {
+  "tipo": "str"
+ },
+ "LLAMADA_POST_COMMIT": {
+  "tipo": "str"
+ },
+ "LLAMADA_POST_MERGE": {
+  "tipo": "str"
+ },
+ "NO_VALIDO": {
+  "tipo": "str"
+ },
+ "Path": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "clase"
+ },
+ "PurePosixPath": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "clase"
+ },
+ "PureWindowsPath": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "clase"
+ },
+ "ROOT": {
+  "tipo": "PosixPath"
+ },
+ "SIN_USO_DE_ORACLE": {
+  "tipo": "tuple"
+ },
+ "SLUG_RE": {
+  "tipo": "Pattern"
+ },
+ "SOLO_LECTURA": {
+  "tipo": "set"
+ },
+ "_ULTIMA_HORA": {
+  "tipo": "datetime"
+ },
+ "_decision": {
+  "firma": "(registro: 'dict | None') -> 'dict | None'",
+  "tipo": "funcion"
+ },
+ "_fecha_corta": {
+  "firma": "(cuando) -> 'str'",
+  "tipo": "funcion"
+ },
+ "_json_de_revision": {
+  "firma": "(relativa, nombre: 'str') -> 'tuple[dict, str | None]'",
+  "tipo": "funcion"
+ },
+ "_lista": {
+  "firma": "(valor) -> 'list'",
+  "tipo": "funcion"
+ },
+ "_pasos": {
+  "firma": "(identificador: 'str') -> 'str | list[str] | None'",
+  "tipo": "funcion"
+ },
+ "_revisar_paso_a_paso": {
+  "firma": "(identificador: 'str', intento: 'dict') -> 'None'",
+  "tipo": "funcion"
+ },
+ "abandonar": {
+  "firma": "(identificador: 'str', motivo_agente: 'str | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "abierto": {
+  "firma": "(identificador: 'str') -> 'tuple[Path, dict]'",
+  "tipo": "funcion"
+ },
+ "actor": {
+  "firma": "() -> 'dict'",
+  "tipo": "funcion"
+ },
+ "actualizar_kb": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "actualizar_resumen": {
+  "firma": "() -> 'None'",
+  "tipo": "funcion"
+ },
+ "agentes_mod": {
+  "tipo": "modulo"
+ },
+ "ahora": {
+  "firma": "() -> 'str'",
+  "tipo": "funcion"
+ },
+ "annotations": {
+  "tipo": "_Feature"
+ },
+ "anotar_intento": {
+  "firma": "(identificador: 'str', intento: 'dict', causa: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "aprobar_spec": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "archivar": {
+  "firma": "() -> 'None'",
+  "tipo": "funcion"
+ },
+ "archivo": {
+  "tipo": "modulo"
+ },
+ "archivos_de": {
+  "firma": "(commits) -> 'set[str]'",
+  "tipo": "funcion"
+ },
+ "archivos_de_medidas": {
+  "firma": "(contenido: 'bytes', catalogo=None) -> 'dict[str, Path | None]'",
+  "tipo": "funcion"
+ },
+ "archivos_faltantes": {
+  "firma": "(carpeta: 'Path', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "argparse": {
+  "tipo": "modulo"
+ },
+ "aviso_lanzamientos": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "aviso_notas": {
+  "firma": "(identificador: 'str', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "aviso_revision": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "aviso_sin_autor": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "aviso_sin_medir": {
+  "firma": "(identificador: 'str', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "aviso_union": {
+  "firma": "(identificador: 'str', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "avisos_head": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "base_vacia": {
+  "firma": "() -> 'str'",
+  "tipo": "funcion"
+ },
+ "bloqueo_medidas": {
+  "firma": "(identificador: 'str')",
+  "tipo": "funcion"
+ },
+ "bytes_json": {
+  "firma": "(valor: 'dict') -> 'bytes'",
+  "tipo": "funcion"
+ },
+ "cambiar_modo": {
+  "firma": "(identificador: 'str', nuevo_modo: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "cambio_del_commit": {
+  "firma": "(mensaje: 'str') -> 'str | None'",
+  "tipo": "funcion"
+ },
+ "cambios_abiertos": {
+  "firma": "() -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "cambios_locales_de_producto": {
+  "firma": "() -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "candidato_vigente": {
+  "firma": "(identificador: 'str') -> 'str | None'",
+  "tipo": "funcion"
+ },
+ "candidatos_anteriores": {
+  "firma": "(identificador: 'str', sha: 'str | None') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "capacidad_destino": {
+  "firma": "(capacidad: 'str') -> 'str'",
+  "tipo": "funcion"
+ },
+ "carpeta_relativa": {
+  "firma": "(carpeta: 'str') -> 'PurePosixPath | None'",
+  "tipo": "funcion"
+ },
+ "catalogo_del_proyecto": {
+  "firma": "()",
+  "tipo": "funcion"
+ },
+ "catalogos_cambiados": {
+  "firma": "(registro: 'dict', contenido: 'bytes', catalogo=None) -> 'list[tuple[str, str, str]]'",
+  "tipo": "funcion"
+ },
+ "cerrar": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_agentes": {
+  "firma": "(verificar: 'bool') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_buscar": {
+  "firma": "(texto: 'str', maximo: 'int') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_donde": {
+  "firma": "(identificador: 'str', candidato: 'str | None') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_juzgar": {
+  "firma": "(ident: 'str', registrados: 'list[tuple]') -> 'str'",
+  "tipo": "funcion"
+ },
+ "comando_kb": {
+  "firma": "(verificar: 'bool') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_log": {
+  "firma": "(identificador: 'str', como_json: 'bool') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_migrar": {
+  "firma": "(verificar: 'bool') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_preguntar": {
+  "firma": "(args) -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_procedencia": {
+  "firma": "(args) -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_resumen": {
+  "firma": "(verificar: 'bool', salida: 'Path | None', ver: 'bool' = False) -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_ruta": {
+  "firma": "(identificador: 'str', tipo: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "comando_trazabilidad": {
+  "firma": "(identificador: 'str', como_json: 'bool', base: 'str | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "commits_del_cambio": {
+  "firma": "(identificador: 'str', estado: 'dict') -> 'list[dict]'",
+  "tipo": "funcion"
+ },
+ "commits_registrados": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "con_escalares": {
+  "firma": "() -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "con_huellas": {
+  "firma": "(registro: 'dict', contenido: 'bytes') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "config_proyecto": {
+  "firma": "() -> 'dict'",
+  "tipo": "funcion"
+ },
+ "confirmar_medidas": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "confirmar_persona": {
+  "firma": "(menu: 'tuple[str, str, str]', cancelado: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "construir_parser": {
+  "firma": "() -> 'argparse.ArgumentParser'",
+  "tipo": "funcion"
+ },
+ "contextlib": {
+  "tipo": "modulo"
+ },
+ "contextmanager": {
+  "firma": "(func)",
+  "tipo": "funcion"
+ },
+ "contexto_producto": {
+  "firma": "() -> 'dict'",
+  "tipo": "funcion"
+ },
+ "copiar_ejemplo": {
+  "firma": "(destino: 'Path') -> 'None'",
+  "tipo": "funcion"
+ },
+ "corte_del_candidato": {
+  "firma": "(identificador: 'str', sha: 'str', estado: 'dict') -> 'tuple[list[dict], list[dict]] | None'",
+  "tipo": "funcion"
+ },
+ "corto": {
+  "firma": "(head) -> 'str'",
+  "tipo": "funcion"
+ },
+ "datos_donde": {
+  "firma": "(identificador: 'str', candidato: 'str | None') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "datos_estado": {
+  "firma": "(identificador: 'str') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "datos_trazabilidad": {
+  "firma": "(identificador: 'str', base: 'str | None' = None) -> 'dict'",
+  "tipo": "funcion"
+ },
+ "decidir": {
+  "firma": "(estado: 'dict', decision: 'str', tipos: 'list[str]', firma, menu: 'tuple[str, str, str]', cancelado: 'str', publicar, confirmado: 'tuple[str, str] | None' = None) -> 'str | None'",
+  "tipo": "funcion"
+ },
+ "decidir_union": {
+  "firma": "(identificador: 'str', campo: 'str', cual: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "dentro_del_tramo": {
+  "firma": "(identificador: 'str', estado: 'dict', sha: 'str') -> 'bool'",
+  "tipo": "funcion"
+ },
+ "describir_cambios": {
+  "firma": "(cambiadas: 'list[tuple[str, str, str]]') -> 'str'",
+  "tipo": "funcion"
+ },
+ "dir_estado": {
+  "firma": "(carpeta: 'Path') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "documentos": {
+  "firma": "(carpeta: 'Path', estado: 'dict') -> 'dict[str, str]'",
+  "tipo": "funcion"
+ },
+ "documentos_revision": {
+  "tipo": "modulo"
+ },
+ "dt": {
+  "tipo": "modulo"
+ },
+ "ejecutar": {
+  "firma": "(args: 'list[str]') -> 'subprocess.CompletedProcess[str]'",
+  "tipo": "funcion"
+ },
+ "elegir": {
+  "firma": "(pregunta: 'str', opciones: 'list[tuple[str, str]]') -> 'int | None'",
+  "tipo": "funcion"
+ },
+ "elegir_motivo": {
+  "firma": "(armado: 'str', propuesto: 'str | None' = None) -> 'tuple[str, str]'",
+  "tipo": "funcion"
+ },
+ "es_producto": {
+  "firma": "(nombre: 'str') -> 'bool'",
+  "tipo": "funcion"
+ },
+ "escribir_archivo": {
+  "firma": "(capacidad: 'str', indice: 'dict') -> 'str'",
+  "tipo": "funcion"
+ },
+ "escribir_atomico": {
+  "firma": "(ruta: 'Path', datos: 'bytes', *, esperado: 'bytes | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "escribir_kb": {
+  "firma": "(notas: 'dict[str, str]') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "estructura": {
+  "tipo": "modulo"
+ },
+ "evento": {
+  "firma": "(estado: 'dict', accion: 'str', forma: 'str' = 'decidio', **datos) -> 'None'",
+  "tipo": "funcion"
+ },
+ "exclusiones_del_paquete": {
+  "firma": "(base: 'str', head: 'str') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "exigir_plantilla_completa": {
+  "firma": "(archivos) -> 'None'",
+  "tipo": "funcion"
+ },
+ "exigir_spec": {
+  "firma": "(carpeta: 'Path', estado: 'dict') -> 'None'",
+  "tipo": "funcion"
+ },
+ "exigir_spec_consolidada": {
+  "firma": "(capacidad: 'str', indice: 'dict') -> 'None'",
+  "tipo": "funcion"
+ },
+ "exigir_terminal": {
+  "firma": "(que: 'str' = 'esta decisión') -> 'None'",
+  "tipo": "funcion"
+ },
+ "fcntl": {
+  "tipo": "modulo"
+ },
+ "firma_revision": {
+  "firma": "(formato, informe_sha, decisiones_sha, revisor, decision, contexto) -> 'dict'",
+  "tipo": "funcion"
+ },
+ "fuente_relativa": {
+  "firma": "(ruta: 'Path') -> 'None'",
+  "tipo": "funcion"
+ },
+ "generadas_en_disco": {
+  "firma": "() -> 'set[str]'",
+  "tipo": "funcion"
+ },
+ "getpass": {
+  "tipo": "modulo"
+ },
+ "guardar": {
+  "firma": "(carpeta: 'Path', estado: 'dict', esperado: 'bytes | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "guardar_par_revision": {
+  "firma": "(identificador: 'str', prefijo: 'str', informe: 'bytes', decisiones: 'bytes') -> 'tuple[Path, Path]'",
+  "tipo": "funcion"
+ },
+ "hashlib": {
+  "tipo": "modulo"
+ },
+ "hechos_del_candidato": {
+  "firma": "(identificador: 'str') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "hechos_registrados": {
+  "firma": "(oracle: 'dict') -> 'list[tuple]'",
+  "tipo": "funcion"
+ },
+ "huellas_de_catalogo": {
+  "firma": "(contenido: 'bytes', catalogo=None) -> 'tuple[dict[str, str | None], dict[str, str | None]]'",
+  "tipo": "funcion"
+ },
+ "importar": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "imprimir_json": {
+  "firma": "(datos: 'dict') -> 'None'",
+  "tipo": "funcion"
+ },
+ "inicializar": {
+  "firma": "(oracle: 'str | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "instalar_hook": {
+  "firma": "() -> 'str'",
+  "tipo": "funcion"
+ },
+ "instalar_union": {
+  "firma": "() -> 'str'",
+  "tipo": "funcion"
+ },
+ "insumos_resumen": {
+  "firma": "() -> 'tuple'",
+  "tipo": "funcion"
+ },
+ "inventario_medidas": {
+  "firma": "(estado: 'dict')",
+  "tipo": "funcion"
+ },
+ "io": {
+  "tipo": "modulo"
+ },
+ "json": {
+  "tipo": "modulo"
+ },
+ "juicio_vigente": {
+  "firma": "(oracle: 'dict', actual: 'dict | None') -> 'bool'",
+  "tipo": "funcion"
+ },
+ "juzgar": {
+  "firma": "(identificador: 'str', hechos: 'Path | list[Path]') -> 'None'",
+  "tipo": "funcion"
+ },
+ "kb_mod": {
+  "tipo": "modulo"
+ },
+ "kb_revisada": {
+  "firma": "(nota: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "lanzamientos_abiertos": {
+  "firma": "(estado: 'dict') -> 'list[dict]'",
+  "tipo": "funcion"
+ },
+ "leer": {
+  "firma": "(identificador: 'str') -> 'tuple[Path, dict]'",
+  "tipo": "funcion"
+ },
+ "leer_indice": {
+  "firma": "(capacidad: 'str') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "leer_regular": {
+  "firma": "(ruta: 'Path', nombre: 'str') -> 'bytes'",
+  "tipo": "funcion"
+ },
+ "linea_commits": {
+  "firma": "(commits: 'list[dict]') -> 'str'",
+  "tipo": "funcion"
+ },
+ "linea_quien": {
+  "firma": "(q: 'dict') -> 'str'",
+  "tipo": "funcion"
+ },
+ "listar": {
+  "firma": "(fase: 'str | None' = None, abiertos: 'bool' = False, cerrados: 'bool' = False) -> 'None'",
+  "tipo": "funcion"
+ },
+ "main": {
+  "firma": "(argv: 'list[str] | None' = None) -> 'int'",
+  "tipo": "funcion"
+ },
+ "marcar_archivado": {
+  "firma": "(estado: 'dict', capacidad: 'str', spec: 'str', forma: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "material_del_candidato": {
+  "firma": "(identificador: 'str', sha: 'str') -> 'tuple[list[dict], dict | None, list[str], list[str]]'",
+  "tipo": "funcion"
+ },
+ "mcp_mod": {
+  "tipo": "modulo"
+ },
+ "medidas_en_uso": {
+  "firma": "(excepto: 'str') -> 'tuple[set[str], list[str]]'",
+  "tipo": "funcion"
+ },
+ "medidas_sin_decision": {
+  "firma": "(estado: 'dict') -> 'list[tuple[str, str]]'",
+  "tipo": "funcion"
+ },
+ "medir": {
+  "firma": "(identificador: 'str', *, requisito_id: 'str | None' = None, medidas: 'list[str] | None' = None, listar_opciones: 'bool' = False, sin_medir: 'str | None' = None, quitar_sin_medir: 'bool' = False) -> 'None'",
+  "tipo": "funcion"
+ },
+ "mensaje": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "funcion"
+ },
+ "menu_revision": {
+  "firma": "(identificador: 'str', decision: 'str') -> 'tuple[str, str, str]'",
+  "tipo": "funcion"
+ },
+ "metadata": {
+  "tipo": "modulo"
+ },
+ "migracion": {
+  "tipo": "modulo"
+ },
+ "mismo_producto": {
+  "firma": "(registrado: 'dict | None', actual: 'dict') -> 'bool'",
+  "tipo": "funcion"
+ },
+ "modo_de": {
+  "firma": "(estado: 'dict') -> 'str'",
+  "tipo": "funcion"
+ },
+ "modos": {
+  "tipo": "modulo"
+ },
+ "mostrar": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "motivo_armado": {
+  "firma": "(informe: 'dict', sha: 'str', decision: 'str', resoluciones: 'list[dict]') -> 'str'",
+  "tipo": "funcion"
+ },
+ "no_es_ruta": {
+  "firma": "(valor) -> 'bool'",
+  "tipo": "funcion"
+ },
+ "nombre_de_archivo": {
+  "firma": "(ruta: 'Path') -> 'str'",
+  "tipo": "funcion"
+ },
+ "nombres": {
+  "firma": "(comando: 'list[str]') -> 'set[str]'",
+  "tipo": "funcion"
+ },
+ "nota_tarea": {
+  "firma": "(identificador: 'str', texto: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "nuevo": {
+  "firma": "(titulo: 'str', capacidad: 'str | None' = None, con_ejemplo: 'str | None' = None, modo: 'str | None' = None, sufijo: 'str | None' = None, idioma: 'str | None' = None) -> 'str'",
+  "tipo": "funcion"
+ },
+ "ofrecer_siguiente": {
+  "firma": "(identificador: 'str') -> 'int'",
+  "tipo": "funcion"
+ },
+ "oracle_rel": {
+  "firma": "() -> 'str'",
+  "tipo": "funcion"
+ },
+ "os": {
+  "tipo": "modulo"
+ },
+ "pasos": {
+  "firma": "(identificador: 'str') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "pedido_de_revision": {
+  "firma": "(identificador: 'str') -> 'str'",
+  "tipo": "funcion"
+ },
+ "pedir_motivo": {
+  "firma": "(estado: 'dict', decision: 'str', tipos: 'list[str]', que: 'str') -> 'tuple[str, str] | None'",
+  "tipo": "funcion"
+ },
+ "pedir_revision": {
+  "firma": "(identificador: 'str', nombre: 'str', extra: 'str | None' = None, base: 'str | None' = None) -> 'Path'",
+  "tipo": "funcion"
+ },
+ "pendientes": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "pendientes_actuales": {
+  "firma": "(carpeta: 'Path', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "plan_archivo": {
+  "firma": "(estado: 'dict') -> 'tuple[str, dict]'",
+  "tipo": "funcion"
+ },
+ "plan_ejemplo": {
+  "firma": "() -> 'dict[Path, bytes]'",
+  "tipo": "funcion"
+ },
+ "plantillas": {
+  "tipo": "modulo"
+ },
+ "poner_trailer": {
+  "firma": "(archivo: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "por_que": {
+  "firma": "(referencia: 'str', como_json: 'bool') -> 'None'",
+  "tipo": "funcion"
+ },
+ "preparacion": {
+  "tipo": "modulo"
+ },
+ "preparar_ejemplo": {
+  "firma": "(plan: 'dict[Path, bytes]') -> 'None'",
+  "tipo": "funcion"
+ },
+ "preparar_revision": {
+  "firma": "(identificador: 'str') -> 'tuple[Path, Path]'",
+  "tipo": "funcion"
+ },
+ "problemas_de_revision": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "procedencia_mod": {
+  "tipo": "modulo"
+ },
+ "producto_excluido": {
+  "firma": "(paquete: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "proponer_revision": {
+  "firma": "(identificador: 'str', decision: 'str', motivo: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "propuestas_confirmables": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "proximo_paso": {
+  "firma": "(identificador: 'str') -> 'str | None'",
+  "tipo": "funcion"
+ },
+ "proyecto_oracle": {
+  "firma": "() -> 'Path'",
+  "tipo": "funcion"
+ },
+ "quien": {
+  "firma": "(registro: 'dict | None') -> 'str'",
+  "tipo": "funcion"
+ },
+ "quien_del_cambio": {
+  "firma": "(estado: 'dict') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "rag_mod": {
+  "tipo": "modulo"
+ },
+ "random": {
+  "tipo": "modulo"
+ },
+ "rangos": {
+  "firma": "(lineas: 'list[int]') -> 'str'",
+  "tipo": "funcion"
+ },
+ "re": {
+  "tipo": "modulo"
+ },
+ "refrescar_kb": {
+  "firma": "(comando: 'str', identificador: 'str | None') -> 'None'",
+  "tipo": "funcion"
+ },
+ "registrar_medidas": {
+  "firma": "(estado: 'dict', rid: 'str', forma: 'str', motivo: 'str | None', contenido: 'bytes') -> 'dict'",
+  "tipo": "funcion"
+ },
+ "registro_decision": {
+  "firma": "(estado: 'dict', forma: 'str', motivo: 'tuple[str, str] | None' = None) -> 'dict'",
+  "tipo": "funcion"
+ },
+ "rehacer_generado": {
+  "firma": "() -> 'None'",
+  "tipo": "funcion"
+ },
+ "reintentar_si_cambia": {
+  "firma": "(funcion)",
+  "tipo": "funcion"
+ },
+ "requisitos_dir": {
+  "firma": "() -> 'Path'",
+  "tipo": "funcion"
+ },
+ "requisitos_verdes": {
+  "firma": "(salida: 'str', requisitos: 'list[str]') -> 'bool'",
+  "tipo": "funcion"
+ },
+ "resources": {
+  "tipo": "modulo"
+ },
+ "resumen": {
+  "tipo": "modulo"
+ },
+ "revisar": {
+  "firma": "(identificador: 'str', informe: 'Path', revisor: 'str', decision: 'str', abiertos: 'int | None' = None, *, formato: 'str' = 'libre', decisiones: 'Path | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "revisar_guiado": {
+  "firma": "(identificador: 'str', informe: 'Path', decisiones: 'Path', revisor: 'str', decision: 'str', confirmado: 'tuple[str, str] | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "revisar_paso_a_paso": {
+  "firma": "(identificador: 'str') -> 'None'",
+  "tipo": "funcion"
+ },
+ "revisores_mod": {
+  "tipo": "modulo"
+ },
+ "ruta_cambio": {
+  "firma": "(identificador: 'str') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "ruta_del_registro": {
+  "firma": "(valor) -> 'Path | None'",
+  "tipo": "funcion"
+ },
+ "ruta_indice": {
+  "firma": "(capacidad: 'str') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "ruta_registro": {
+  "firma": "(carpeta: 'Path') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "ruta_resumen": {
+  "firma": "(salida: 'Path | None' = None) -> 'Path'",
+  "tipo": "funcion"
+ },
+ "ruta_segura": {
+  "firma": "(ruta: 'Path') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "ruta_spec_consolidada": {
+  "firma": "(capacidad: 'str') -> 'Path'",
+  "tipo": "funcion"
+ },
+ "sha256": {
+  "firma": "(datos: 'bytes') -> 'str'",
+  "tipo": "funcion"
+ },
+ "shlex": {
+  "tipo": "modulo"
+ },
+ "shutil": {
+  "tipo": "modulo"
+ },
+ "siguiente": {
+  "firma": "(identificador: 'str', fase: 'str | None' = None) -> 'None'",
+  "tipo": "funcion"
+ },
+ "sin_medir_con_medidas": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "situacion_requisitos": {
+  "firma": "(estado: 'dict') -> 'list[tuple[str, str, str | None]]'",
+  "tipo": "funcion"
+ },
+ "soltar": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "funcion"
+ },
+ "specs_de_otra_capacidad": {
+  "firma": "(carpeta: 'Path', estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "subprocess": {
+  "tipo": "modulo"
+ },
+ "sys": {
+  "tipo": "modulo"
+ },
+ "tablero_mod": {
+  "tipo": "modulo"
+ },
+ "tempfile": {
+  "tipo": "modulo"
+ },
+ "terminal_interactiva": {
+  "firma": "() -> 'bool'",
+  "tipo": "funcion"
+ },
+ "texto_resumen": {
+  "firma": "(salida: 'Path | None' = None) -> 'str'",
+  "tipo": "funcion"
+ },
+ "time": {
+  "tipo": "modulo"
+ },
+ "tipos_cambio": {
+  "firma": "(estado: 'dict') -> 'list[str]'",
+  "tipo": "funcion"
+ },
+ "tocados_por": {
+  "firma": "(identificador: 'str', estado: 'dict') -> 'set[str]'",
+  "tipo": "funcion"
+ },
+ "tomar": {
+  "firma": "(*args, **kwargs)",
+  "tipo": "funcion"
+ },
+ "trazabilidad_mod": {
+  "tipo": "modulo"
+ },
+ "turno_de_pedidos": {
+  "firma": "(identificador: 'str')",
+  "tipo": "funcion"
+ },
+ "unir_mod": {
+  "tipo": "modulo"
+ },
+ "unir_registro": {
+  "firma": "(base: 'str', nuestro: 'str', suyo: 'str') -> 'int'",
+  "tipo": "funcion"
+ }
+}

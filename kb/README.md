@@ -85,6 +85,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (cerrada)
 - [[cambios/20261028-143519-qhd-publicadaa15]] — Declarar publicada la 0.1.0a15 en las notas y los textos (cerrada)
 - [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
+- [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
 
 ## Requisitos
 
@@ -127,6 +128,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/cli_c3bcb178e77c1d111.estado_calcula_y_ofrece_el_proximo_paso]]
 - [[requisitos/cli_c3bcb178e77c1d111.fabrica_py_usa_el_entorno_del_proyecto]]
 - [[requisitos/cli_c3bcb178e77c1d111.los_errores_dicen_que_paso_y_como_seguir]]
+- [[requisitos/cli_c42e351e8ad805f36.la_cli_se_comporta_igual_tras_partirse]]
+- [[requisitos/cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo]]
+- [[requisitos/cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope]]
 - [[requisitos/cli_c7bd29dfa9cfa42d6.donde_y_resumen_se_leen_como_json]]
 - [[requisitos/cli_cbf3493a6abe9eeec.donde_y_resumen_se_leen_como_json]]
 - [[requisitos/colaboracion_c46e4f59890d8fbf2.el_trailer_elige_bien_el_cambio]]

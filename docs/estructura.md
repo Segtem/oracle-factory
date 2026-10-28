@@ -106,6 +106,14 @@ Tres límites protegen de usar el proyecto equivocado:
 
 Los cambios creados antes de esta estructura tienen su evidencia en carpetas con otros nombres (`evidencia-mapeo`, `revision-pendiente`, `contexto-clue-<sha>.json`…). **No se mueven.** `donde` las lista como *históricas*: son evidencia atada a hashes y, en el caso de los paquetes de Clue, a la ruta del checkout que revisaron.
 
+## Dónde está el código del paquete
+
+`oracle_factory/cli.py` tiene el núcleo de la CLI: el registro de cada cambio, las decisiones, `main` y los comandos más cortos. Lo más
+largo vive en módulos propios, que leen a `cli` en el momento de usarlo (`cli.NOMBRE`), de modo que `cli` sigue exportando los mismos
+nombres: `parser.py` construye el parser de argumentos, `flujo_revision.py` pide y decide las revisiones, `flujo_medidas.py` elige y
+confirma las medidas, y `lecturas.py` arma las consultas de sólo lectura (resumen, kb, `por-que`, estado, `donde` y trazabilidad).
+Oracle Clue no acepta archivos de más de 256000 bytes: una prueba mantiene `cli.py` por debajo de 160000 y el resto por debajo de 200000.
+
 ## Lo vigente de cada capacidad
 
 Cada cambio trae una spec *delta*: lo que agrega (`ADDED`), modifica (`MODIFIED`) o quita (`REMOVED`); sin encabezados, todo cuenta como agregado. Al cerrar el cambio, Factory la fusiona en `openspec/specs/<capacidad>/spec.md`, que queda con los requisitos vigentes y, en cada uno, el cambio y el requisito de Oracle de los que viene. Para saber qué hace el sistema hoy se lee esa spec, no todas las propuestas.

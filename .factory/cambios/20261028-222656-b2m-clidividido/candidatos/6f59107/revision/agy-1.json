@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-modulos/.factory/local/revisiones/6f59107-agy-1",
+  "base": "8d295dcc8ad57cccec5f8c4a8a1130b882fe0b21",
+  "head": "6f59107fff8b3f55c0fb884434f4f55624e85e35",
+  "diff_sha256": "320e31f7c5ef20baa6683dc1d9144ea6c941e66b4e16e3f1aa3ffa5b8f802b8e",
+  "context_sha256": "468c8717140e5136a73e3f9d1f8ec6dc73ba6eb27d218028396190299b51acc0",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Alcance de la revisión: se revisó el candidato 6f59107 frente a la propuesta y la spec de openspec/changes/20261028-222656-b2m-clidividido/ y los 22 archivos incluidos en el paquete de Oracle Clue (paquete-agy-1.json). Los 12 archivos excluidos (.factory, tareas y kb) no fueron objeto de revisión según lo solicitado.",
+    "Sin defectos en el producto: no se encontraron discrepancias con la spec, regresiones de comportamiento, problemas de tipos o firmas, ni defectos en los rangos modificados del diff. Todas las promesas de la propuesta y los tres requisitos (la_cli_se_comporta_igual_tras_partirse, lo_movido_lee_a_cli_en_el_momento_de_usarlo y ningun_archivo_fuente_pasa_del_tope) se cumplen estrictamente en el código.",
+    "Fidelidad del refactor contra main (base 8d295dc): se compararon sintácticamente las 68 definiciones extraídas de oracle_factory/cli.py contra sus destinos en parser.py (1), flujo_revision.py (25), flujo_medidas.py (15) y lecturas.py (27). 62 funciones preservan exactamente su AST original reemplazando accesos globales por accesos calificados cli.NOMBRE. En lecturas.py, 6 funciones que invocaban kb_mod pasando sys.modules[__name__] lo reemplazaron correctamente por cli, manteniendo la semántica exacta del módulo monolítico original.",
+    "Preservación de la interfaz y aislamiento de imports: cli.py re-exporta las 68 definiciones al final del archivo. La lista completa de 247 símbolos de nombres-cli.json y la ayuda de los 41 subcomandos de ayuda-cli.json coinciden exactamente con lo generado sobre el commit base 8d295dc. Las funciones con decoradores (@contextmanager) y argumentos por defecto no evalúan símbolos de cli en tiempo de importación. Las variables globales mutables (ROOT, CHANGES, AGENTE, _ULTIMA_HORA) permanecen en cli.py y su mutación es vista dinámicamente por los módulos vía cli.NOMBRE.",
+    "Seguridad de importaciones circulares: cada uno de los nuevos módulos (flujo_revision.py, flujo_medidas.py, lecturas.py) coloca from . import cli al final absoluto del archivo, y parser.py no importa cli. Se verificaron las 120 permutaciones posibles del orden de importación de [cli, parser, flujo_revision, flujo_medidas, lecturas] en procesos de Python limpios y aislados, resultando todas exitosas sin errores de importación circular ni atributos faltantes.",
+    "Verificación de límites de tamaño: oracle_factory/cli.py mide 137.054 bytes (por debajo del límite de 160.000 bytes) y ningún archivo del paquete supera los 54.000 bytes (ampliamente por debajo del tope general de 200.000 bytes y del límite de Clue de 256.000 bytes).",
+    "Pruebas y análisis de mutaciones: se ejecutó en primer plano desde la raíz del checkout el comando exacto indicado: PYTHONPATH=. /home/workstation/Dev/factory-cli-modulos/.venv/bin/python -m unittest tests.test_cli_modulos tests.test_cli_piloto tests.test_docs </dev/null, pasando exitosamente las 25 pruebas en 2.48s. No se ejecutó la suite completa. Se realizaron 9 mutaciones manuales sobre una copia aislada (eliminación de exportaciones, cambio de firmas, alteración de textos de parser, llamadas directas omitiendo cli., importación temprana de cli al inicio del módulo, rebase de topes de tamaño, uso de sys.modules[__name__] e imports específicos desde cli): todas las 9 mutaciones fueron detectadas y rechazadas por test_cli_modulos (0 sobrevivieron)."
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "cli_modulos_caso": [
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_todos_los_nombres_y_firmas_de_antes_siguen_en_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_la_ayuda_de_oracle_factory_y_de_cada_subcomando_es_identica",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_lo_movido_es_el_mismo_objeto_en_cli_y_en_su_modulo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_lo_movido_ya_no_se_define_en_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_dos_modulos_nuevos_no_definen_el_mismo_nombre",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_cli_se_comporta_igual_tras_partirse",
+      "caso": "CliModulos.test_cm1_cli_sigue_siendo_la_entrada_del_comando",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_un_valor_de_cli_cambiado_vale_para_lo_movido",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_una_funcion_cambiada_en_cli_la_usa_lo_movido",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_exclusiones_del_paquete_usa_ejecutar_y_es_producto_de_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_ninguna_funcion_movida_usa_un_nombre_de_cli_como_propio",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_ninguna_funcion_movida_usa_un_nombre_que_no_existe",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_los_modulos_nuevos_importan_a_cli_entero_y_no_sus_nombres",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_se_puede_importar_primero_cualquiera_de_los_modulos",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_el_import_de_cli_va_al_final_de_cada_modulo_que_lo_usa",
+      "codigo": 0
+    },
+    {
+      "requisito": "lo_movido_lee_a_cli_en_el_momento_de_usarlo",
+      "caso": "CliModulos.test_cm2_ningun_modulo_nuevo_se_pasa_al_kb_en_lugar_de_cli",
+      "codigo": 0
+    },
+    {
+      "requisito": "ningun_archivo_fuente_pasa_del_tope",
+      "caso": "CliModulos.test_cm3_cli_py_y_los_demas_archivos_estan_bajo_sus_topes",
+      "codigo": 0
+    },
+    {
+      "requisito": "ningun_archivo_fuente_pasa_del_tope",
+      "caso": "CliModulos.test_cm3_un_archivo_que_crece_de_mas_se_nombra_con_su_tamano_y_el_limite_de_clue",
+      "codigo": 0
+    },
+    {
+      "requisito": "ningun_archivo_fuente_pasa_del_tope",
+      "caso": "CliModulos.test_cm3_justo_bajo_el_tope_no_es_un_problema",
+      "codigo": 0
+    }
+  ],
+  "cli_modulos_corrida": [
+    {
+      "completa": 1,
+      "casos": 18
+    }
+  ]
+}
