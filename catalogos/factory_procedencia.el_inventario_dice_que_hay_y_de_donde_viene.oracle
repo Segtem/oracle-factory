@@ -1,0 +1,8 @@
+medida factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene:
+    de procedencia_caso c
+    donde c.requisito == "el_inventario_dice_que_hay_y_de_donde_viene" y c.codigo == 0
+    resumen contar(1)
+    umbral == 18 segun contrato porque "deben pasar los 18 casos enumerados para este requisito en tools/verify_procedencia.py; asociar junto a corrida_completa"
+    requiere procedencia_caso
+    ambito universal
+    alcance "escenarios pr1 en proyectos temporales con git y un entorno simulado, Linux, sin red"

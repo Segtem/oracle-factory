@@ -6,7 +6,7 @@ const ACCIONES = {
     cambio_creado: 'Cambio creado', spec_aprobada: 'Spec aprobada', spec_aceptada_en_conversacion: 'Spec aceptada en la conversación',
     requisitos_importados: 'Requisitos importados', medidas_propuestas: 'Medidas propuestas', medidas_confirmadas: 'Medidas confirmadas',
     medidas_elegidas: 'Medidas elegidas', revision_lanzada: 'Revisor lanzado', revision_pedida: 'Revisión pedida',
-    revision_propuesta: 'Revisión propuesta', revision_registrada: 'Revisión registrada', revision_cancelada: 'Revisión sin registrar',
+    revision_propuesta: 'Revisión propuesta', revision_registrada: 'Revisión registrada', revision_cancelada: 'Revisión sin registrar', procedencia_registrada: 'Procedencia registrada',
     oracle_ejecutado: 'Juicio de Oracle', cierre: 'Cerrado', archivado: 'Archivado', abandono: 'Abandonado',
     abandono_propuesto: 'Abandono propuesto',
     tomado: 'Tomado', soltado: 'Soltado', agente_sumado: 'Agente sumado', mensaje: 'Mensaje',

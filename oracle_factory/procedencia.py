@@ -1,0 +1,301 @@
+"""Procedencia de las dependencias de Python de un proyecto: inventario CycloneDX, búsqueda y auditoría contra avisos OSV.
+
+Todo es local: se lee el lock (`uv.lock`), los requisitos de `pyproject.toml` y las distribuciones instaladas; no se usa la red.
+El inventario sale ordenado y sin marcas de tiempo, para que dos corridas iguales den el mismo archivo y la misma huella."""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tomllib
+from urllib.parse import quote
+
+CORREGIDA = re.compile(r"[.+-]rhlw", re.I)  # el sufijo que Lightwell pone a una versión corregida (.rhlw-0000X, +rhlw…)
+FIJADA = re.compile(r"==\s*[0-9A-Za-z.+!_-]+")
+REQUISITO = re.compile(r"\s*([A-Za-z0-9][A-Za-z0-9._-]*)\s*(?:\[[^\]]*\])?\s*([^;]*)")
+VERSION = re.compile(r"v?(?P<rel>\d+(?:\.\d+)*)(?:[-_.]?(?P<pre>a|b|c|rc|alpha|beta|pre|preview)[-_.]?(?P<pre_n>\d*))?"
+                     r"(?P<post>[-_.]?(?:post|rev|r)[-_.]?(?P<post_n>\d*))?(?P<dev>[-_.]?dev[-_.]?(?P<dev_n>\d*))?", re.I)
+INFINITO = float("inf")
+VOLCADO = ("import importlib.metadata as m, json; "
+           "print(json.dumps({d.metadata['Name']: d.version for d in m.distributions() if d.metadata['Name']}))")
+
+
+class ProcedenciaError(Exception):
+    pass
+
+
+def normal(nombre: str) -> str:
+    """El nombre de un paquete como lo compara PyPI (PEP 503)."""
+    return re.sub(r"[-_.]+", "-", nombre).lower()
+
+
+def corregida(version: str) -> bool:
+    return bool(CORREGIDA.search(version))
+
+
+def sin_correccion(version: str) -> str:
+    """La versión sin la marca de una corrección ni la parte local: con la que un aviso la compara."""
+    return CORREGIDA.split(version.split("+")[0], 1)[0]
+
+
+def clave(version: str):
+    """Para ordenar versiones al estilo PEP 440 (sin la parte local); None si no se puede leer."""
+    m = VERSION.fullmatch(version.strip().split("+")[0])
+    if not m:
+        return None
+    liberada = [int(x) for x in m["rel"].split(".")]
+    while len(liberada) > 1 and liberada[-1] == 0:
+        liberada.pop()
+    orden = {"alpha": 0, "a": 0, "beta": 1, "b": 1, "c": 2, "rc": 2, "pre": 2, "preview": 2}
+    pre = (orden[m["pre"].lower()], int(m["pre_n"] or 0)) if m["pre"] else None
+    post = int(m["post_n"] or 0) if m["post"] is not None else None
+    dev = int(m["dev_n"] or 0) if m["dev"] is not None else None
+    if pre is None and post is None and dev is not None:
+        pre = (-INFINITO, 0)
+    elif pre is None:
+        pre = (INFINITO, 0)
+    return (tuple(liberada), pre, -INFINITO if post is None else post, INFINITO if dev is None else dev)
+
+
+def leer_lock(raiz: Path) -> dict | None:
+    """El lock de uv: {'proyecto': {...}, 'paquetes': {nombre normal: [{...}, ...]}} (un paquete puede estar en varias versiones); None si no hay."""
+    ruta = raiz / "uv.lock"
+    if ruta.is_symlink() or not ruta.is_file():
+        return None
+    try:
+        datos = tomllib.loads(ruta.read_text(encoding="utf-8"))
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError) as e:
+        raise ProcedenciaError(f"uv.lock no se puede leer: {e}") from e
+    proyecto, paquetes = {}, {}
+    for p in datos.get("package", []):
+        nombre, version, origen = p.get("name"), p.get("version"), p.get("source") or {}
+        if not isinstance(nombre, str) or not isinstance(version, str):
+            continue
+        if "editable" in origen or "virtual" in origen:
+            proyecto = {"nombre": nombre, "version": version, "requiere": [r.get("name") for r in (p.get("metadata") or {}).get("requires-dist", [])
+                                                                              if isinstance(r, dict)]}
+            continue
+        artefactos = ([p["sdist"]] if isinstance(p.get("sdist"), dict) else []) + [w for w in p.get("wheels", []) if isinstance(w, dict)]
+        hashes = sorted({a["hash"].split(":", 1)[1] for a in artefactos if isinstance(a.get("hash"), str) and a["hash"].startswith("sha256:")})
+        paquetes.setdefault(normal(nombre), []).append({"nombre": nombre, "version": version, "hashes": hashes,
+                                                         "origen": origen.get("registry") or next(iter(origen.values()), "desconocido")})
+    return {"proyecto": proyecto, "paquetes": paquetes}
+
+
+def requisitos(raiz: Path) -> tuple[dict, dict[str, tuple[str, str]]]:
+    """Los datos del proyecto y sus dependencias directas de pyproject.toml: {nombre normal: (nombre, especificación)}."""
+    ruta = raiz / "pyproject.toml"
+    if ruta.is_symlink() or not ruta.is_file():
+        return {}, {}
+    try:
+        datos = tomllib.loads(ruta.read_text(encoding="utf-8"))
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError) as e:
+        raise ProcedenciaError(f"pyproject.toml no se puede leer: {e}") from e
+    proyecto = datos.get("project") or {}
+    directas = {}
+    for texto in proyecto.get("dependencies", []):
+        m = REQUISITO.fullmatch(texto) if isinstance(texto, str) else None
+        if m:
+            directas[normal(m[1])] = (m[1], m[2].strip())
+    return {"nombre": proyecto.get("name", ""), "version": proyecto.get("version", "")}, directas
+
+
+def instalados(python: Path | None) -> dict[str, tuple[str, str]] | None:
+    """Las distribuciones instaladas en ese Python: {nombre normal: (nombre, versión)}; None si no se pudo preguntar."""
+    if python is None or not python.exists():
+        return None
+    try:
+        r = subprocess.run([str(python), "-I", "-c", VOLCADO], capture_output=True, text=True, timeout=60, stdin=subprocess.DEVNULL)
+        crudo = json.loads(r.stdout) if r.returncode == 0 else None
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return None
+    if not isinstance(crudo, dict):
+        return None
+    return {normal(n): (n, v) for n, v in crudo.items() if isinstance(n, str) and isinstance(v, str)}
+
+
+def _componente(nombre: str, version: str, origen: str, hashes: list[str], fuente: str, exigida: str | None, fijada: bool) -> dict:
+    propiedades = [("factory:origen", origen), ("factory:fuente", fuente), ("factory:directa", "true" if exigida is not None else "false"),
+                   ("factory:exigida", exigida or ""), ("factory:fijada", "true" if fijada else "false")]
+    if corregida(version):
+        propiedades.append(("factory:corregida", "lightwell"))
+    purl = f"pkg:pypi/{normal(nombre)}@{quote(version, safe='')}"
+    return {"type": "library", "bom-ref": purl, "name": nombre, "version": version, "purl": purl,
+            "hashes": [{"alg": "SHA-256", "content": h} for h in hashes],
+            "properties": [{"name": n, "value": v} for n, v in propiedades]}
+
+
+def inventario(raiz: Path, python: Path | None = None) -> tuple[dict, list[str], bool]:
+    """(el inventario CycloneDX, las diferencias que lo hacen no confiable, si es confiable)."""
+    lock = leer_lock(raiz)
+    proyecto, directas = requisitos(raiz)
+    puestos = instalados(python)
+    diferencias: list[str] = []
+    componentes = []
+    if lock is None:
+        diferencias.append("no hay uv.lock: el origen y los hashes de las dependencias no se pueden verificar")
+        for n, (nombre, version) in sorted((puestos or {}).items()):
+            if n == normal(proyecto.get("nombre", "")):
+                continue
+            exigida = directas[n][1] if n in directas else None
+            componentes.append(_componente(nombre, version, "desconocido", [], "instalado", exigida, False))
+        if puestos is None:
+            diferencias.append("no se pudo leer el entorno instalado: no hay ningún componente que listar")
+    else:
+        paquetes, raiz_lock = lock["paquetes"], lock["proyecto"]
+        if raiz_lock and proyecto.get("version") and raiz_lock["version"] != proyecto["version"]:
+            diferencias.append(f"el lock es de la versión {raiz_lock['version']} del proyecto y pyproject.toml dice {proyecto['version']}")
+        for n, (nombre, especificacion) in sorted(directas.items()):
+            fijadas = [p["version"] for p in paquetes.get(n, [])]
+            if not fijadas:
+                diferencias.append(f"{nombre}: lo exige pyproject.toml ({especificacion or 'sin versión'}) y no está en el lock")
+            elif FIJADA.fullmatch(especificacion) and especificacion.replace("==", "").strip() not in fijadas:
+                diferencias.append(f"{nombre}: pyproject.toml exige {especificacion} y el lock fija {', '.join(fijadas)}")
+        for n, entradas in sorted(paquetes.items()):
+            fijadas = [p["version"] for p in entradas]
+            if puestos is not None and n not in puestos:
+                diferencias.append(f"{entradas[0]['nombre']}: está en el lock ({', '.join(fijadas)}) y no está instalado")
+            elif puestos is not None and puestos[n][1] not in fijadas:
+                diferencias.append(f"{entradas[0]['nombre']}: el lock fija {', '.join(fijadas)} y está instalada la {puestos[n][1]}")
+            for p in entradas:
+                exigida = directas[n][1] if n in directas else None
+                componentes.append(_componente(p["nombre"], p["version"], p["origen"], p["hashes"], "uv.lock", exigida, bool(p["hashes"])))
+    componentes.sort(key=lambda c: (normal(c["name"]), c["version"]))
+    confiable = not diferencias  # sin lock siempre hay una diferencia
+    propiedades = [{"name": "factory:confiable", "value": "true" if confiable else "false"},
+                   {"name": "factory:entorno", "value": "consultado" if puestos is not None else "no consultado"}]
+    propiedades += [{"name": "factory:diferencia", "value": d} for d in diferencias]
+    bom = {"bomFormat": "CycloneDX", "specVersion": "1.5", "version": 1,
+           "metadata": {"component": {"type": "application", "name": proyecto.get("nombre", ""), "version": proyecto.get("version", "")},
+                        "properties": propiedades},
+           "components": componentes}
+    return bom, diferencias, confiable
+
+
+def texto(bom: dict) -> str:
+    """El inventario tal como se guarda: ordenado, con sangría y sin marcas de tiempo."""
+    return json.dumps(bom, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+
+
+def propiedad(componente: dict, nombre: str) -> str | None:
+    return next((p.get("value") for p in componente.get("properties", []) if p.get("name") == nombre), None)
+
+
+def pedido(texto_pedido: str) -> tuple[str, str | None]:
+    """«paquete» o «paquete==versión»."""
+    nombre, _, version = texto_pedido.strip().partition("==")
+    if not nombre.strip():
+        raise ProcedenciaError("indicá un paquete, por ejemplo requests o requests==2.31.0")
+    return normal(nombre.strip()), (version.strip() or None)
+
+
+def usados(inventarios: list[tuple[str, str, dict]], nombre: str, version: str | None) -> list[tuple[str, str, str, str]]:
+    """[(cambio, candidato, nombre, versión)] de los inventarios guardados que tienen ese paquete (y esa versión, si se pide)."""
+    salida = []
+    for cambio, candidato, bom in inventarios:
+        for c in bom.get("components", []):
+            if isinstance(c, dict) and normal(str(c.get("name", ""))) == nombre and (version is None or c.get("version") == version):
+                salida.append((cambio, candidato, c["name"], str(c.get("version"))))
+    return sorted(salida)
+
+
+def avisos(contenido: str, origen: str) -> list[dict]:
+    """Los avisos OSV de un archivo (uno, una lista, o {"vulns": [...]}); falla si no son avisos OSV válidos."""
+    try:
+        datos = json.loads(contenido)
+    except json.JSONDecodeError as e:
+        raise ProcedenciaError(f"{origen} no es JSON: {e}") from e
+    if isinstance(datos, dict) and isinstance(datos.get("vulns"), list):
+        datos = datos["vulns"]
+    elif isinstance(datos, dict):
+        datos = [datos]
+    if not isinstance(datos, list) or not datos:
+        raise ProcedenciaError(f"{origen} no tiene avisos OSV: se espera un aviso, una lista o un objeto con «vulns»")
+    for i, a in enumerate(datos):
+        if not isinstance(a, dict) or not isinstance(a.get("id"), str) or not isinstance(a.get("affected"), list):
+            raise ProcedenciaError(f"{origen}: el aviso {i + 1} no es OSV válido (necesita «id» y «affected»)")
+        for af in a["affected"]:
+            paquete = af.get("package") if isinstance(af, dict) else None
+            if not isinstance(paquete, dict) or not isinstance(paquete.get("name"), str) or not isinstance(paquete.get("ecosystem"), str):
+                raise ProcedenciaError(f"{origen}: el aviso {a['id']} tiene un «affected» sin «package» con «name» y «ecosystem»")
+            if not isinstance(af.get("versions", []), list) or not isinstance(af.get("ranges", []), list):
+                raise ProcedenciaError(f"{origen}: el aviso {a['id']} tiene «versions» o «ranges» que no son listas")
+    return datos
+
+
+def _afectada(version: str, afectado: dict) -> bool | None:
+    """Si la versión cae en lo afectado; None si no se la puede comparar con los rangos."""
+    if version in [str(v) for v in afectado.get("versions", [])]:
+        return True
+    k = clave(version)
+    comparable = True
+    for rango in afectado.get("ranges", []):
+        if not isinstance(rango, dict) or rango.get("type") not in ("ECOSYSTEM", "SEMVER"):
+            continue
+        dentro = False
+        eventos = [e for e in rango.get("events", []) if isinstance(e, dict)]
+        for e in sorted(eventos, key=lambda e: clave(str(next(iter(e.values()), "0"))) or ((0,), (-INFINITO, 0), -INFINITO, INFINITO)):
+            tipo, valor = next(iter(e.items()), (None, None))
+            kv = clave(str(valor)) if valor is not None else None
+            if k is None or kv is None:
+                comparable = False
+                break
+            if tipo == "introduced" and k >= kv:
+                dentro = True
+            elif tipo == "fixed" and k >= kv:
+                dentro = False
+            elif tipo == "last_affected" and k > kv:
+                dentro = False
+        else:
+            if dentro:
+                return True
+    return None if not comparable else False
+
+
+def auditar(inventarios: list[tuple[str, str, dict]], lista: list[dict]) -> dict:
+    """Cruza los inventarios con los avisos. {'afectados': [...], 'corregidos': [...], 'sin_comparar': [...]}"""
+    afectados, corregidos, sin_comparar = [], [], []
+    for aviso in lista:
+        for af in aviso["affected"]:
+            if af["package"]["ecosystem"].lower() != "pypi":
+                continue
+            nombre = normal(af["package"]["name"])
+            arreglos = sorted({str(e["fixed"]) for r in af.get("ranges", []) if isinstance(r, dict) for e in r.get("events", [])
+                               if isinstance(e, dict) and "fixed" in e})
+            for cambio, candidato, bom in inventarios:
+                for c in bom.get("components", []):
+                    if not isinstance(c, dict) or normal(str(c.get("name", ""))) != nombre:
+                        continue
+                    version = str(c.get("version"))
+                    base = sin_correccion(version)
+                    veredicto = _afectada(base, af)
+                    fila = {"aviso": aviso["id"], "resumen": aviso.get("summary", ""), "paquete": c["name"], "version": version,
+                            "corregidas": arreglos, "cambio": cambio, "candidato": candidato}
+                    if veredicto is None:
+                        sin_comparar.append(fila)
+                    elif veredicto and corregida(version):
+                        corregidos.append(fila)
+                    elif veredicto:
+                        afectados.append(fila)
+    clave_fila = lambda f: (f["aviso"], normal(f["paquete"]), f["version"], f["cambio"], f["candidato"])  # noqa: E731
+    return {"afectados": sorted(afectados, key=clave_fila), "corregidos": sorted(corregidos, key=clave_fila),
+            "sin_comparar": sorted(sin_comparar, key=clave_fila)}
+
+
+def python_del_proyecto(raiz: Path, indicado: str | None) -> Path | None:
+    """El Python del que se leen las distribuciones: el indicado o el .venv del proyecto; ninguno si no hay."""
+    if indicado:
+        return Path(indicado)
+    for candidato in (raiz / ".venv" / "bin" / "python", raiz / ".venv" / "Scripts" / "python.exe"):
+        if candidato.exists():
+            return candidato
+    return None
+
+
+if __name__ == "__main__":  # una comprobación mínima de la comparación de versiones
+    ordenadas = ["1.0.dev1", "1.0a1", "1.0b2", "1.0rc1", "1.0", "1.0.post1", "1.1", "2"]
+    assert [clave(v) for v in ordenadas] == sorted(clave(v) for v in ordenadas), ordenadas
+    assert clave("1.0") == clave("1.0.0") and clave("1.0+local") == clave("1.0") and clave("no es una versión") is None
+    print("ok", file=sys.stderr)

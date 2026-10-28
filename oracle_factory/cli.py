@@ -32,6 +32,7 @@ from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import plantillas
+from . import procedencia as procedencia_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
 from . import kb as kb_mod
@@ -3061,6 +3062,117 @@ def comando_buscar(texto: str, maximo: int) -> None:
         print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
 
 
+def inventarios_guardados() -> list[tuple[str, str, dict]]:
+    """[(cambio, candidato, inventario)] de los inventarios de procedencia guardados en las carpetas de candidatos."""
+    base = ROOT / estructura.DIR / "cambios"
+    salida = []
+    if base.is_symlink() or not base.is_dir():
+        return salida
+    for archivo in sorted(base.glob("*/candidatos/*/procedencia/cyclonedx.json")):
+        try:
+            ruta_segura(archivo)
+            bom = json.loads(archivo.read_text(encoding="utf-8"))
+            if not isinstance(bom, dict) or not isinstance(bom.get("components"), list):
+                raise ValueError("no es un inventario CycloneDX")
+        except (FactoryError, OSError, ValueError) as e:
+            print(f"Aviso: no leí el inventario {archivo.relative_to(ROOT)} ({e}).", file=sys.stderr)
+            continue
+        salida.append((archivo.parents[3].name, archivo.parents[1].name, bom))
+    return salida
+
+
+def comando_procedencia(args) -> None:
+    """El inventario de las dependencias, quién usó una y la auditoría contra avisos OSV. Todo local, sin red."""
+    if args.buscar and args.auditar:
+        raise FactoryError("--buscar y --auditar no se combinan; usá uno")
+    if (args.buscar or args.auditar) and args.id:
+        raise FactoryError("--buscar y --auditar miran todos los inventarios guardados: no llevan un cambio")
+    if args.auditar and not args.avisos:
+        raise FactoryError("--auditar necesita --avisos ARCHIVO con avisos en formato OSV")
+    if args.avisos and not args.auditar:
+        raise FactoryError("--avisos es para --auditar")
+    try:
+        if args.buscar:
+            return _procedencia_buscar(args.buscar, args.json)
+        if args.auditar:
+            return _procedencia_auditar(args.avisos, args.json)
+        python = procedencia_mod.python_del_proyecto(ROOT, args.python)
+        bom, diferencias, confiable = procedencia_mod.inventario(ROOT, python)
+    except procedencia_mod.ProcedenciaError as e:
+        raise FactoryError(str(e)) from e
+    cuerpo = procedencia_mod.texto(bom)
+    guardado = None
+    if args.id:
+        carpeta, estado = abierto(args.id)
+        head = ejecutar(["git", "rev-parse", "HEAD"])
+        if head.returncode:
+            raise FactoryError("procedencia necesita un repositorio Git con al menos un commit")
+        sha = candidato_vigente(args.id) or head.stdout.strip()[:7]
+        destino = ROOT / estructura.DIR / "cambios" / args.id / "candidatos" / sha / "procedencia" / "cyclonedx.json"
+        ruta_segura(destino)
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        escribir_atomico(destino, cuerpo.encode("utf-8"))
+        huella = sha256(cuerpo.encode("utf-8"))
+        evento(estado, "procedencia_registrada", candidato=sha, archivo=str(destino.relative_to(ROOT)), huella=huella,
+               componentes=len(bom["components"]), confiable=confiable, diferencias=len(diferencias))
+        guardar(carpeta, estado)
+        guardado = (destino.relative_to(ROOT), huella)
+    if args.json:
+        print(cuerpo, end="")
+        return
+    fuente = "uv.lock" if any(procedencia_mod.propiedad(c, "factory:fuente") == "uv.lock" for c in bom["components"]) else "el entorno instalado"
+    print(f"Inventario de dependencias de Python: {len(bom['components'])} componentes, según {fuente}.")
+    print("Confiable: sí." if confiable else "Confiable: no.")
+    for d in diferencias:
+        print(f"  - {d}")
+    for c in bom["components"]:
+        if procedencia_mod.propiedad(c, "factory:corregida"):
+            print(f"  corregido por Lightwell: {c['name']} {c['version']}")
+    if guardado:
+        print(f"Guardado en {guardado[0]} (sha256 {guardado[1][:16]}…) y registrado en {args.id}.")
+    else:
+        print("No se guardó (indicá el cambio para guardarlo en su candidato) ni se mostró el CycloneDX (--json).")
+
+
+def _procedencia_buscar(pedido: str, como_json: bool) -> None:
+    nombre, version = procedencia_mod.pedido(pedido)
+    encontrados = procedencia_mod.usados(inventarios_guardados(), nombre, version)
+    if como_json:
+        print(json.dumps([dict(zip(("cambio", "candidato", "paquete", "version"), f)) for f in encontrados], ensure_ascii=False, indent=2))
+        return
+    if not encontrados:
+        print(f"Ningún candidato con inventario guardado usó {pedido.strip()}.")
+        return
+    print(f"{pedido.strip()} figura en {len(encontrados)} inventario(s):")
+    for cambio, candidato, paquete, v in encontrados:
+        print(f"  - {cambio} · candidato {candidato} · {paquete} {v}")
+
+
+def _procedencia_auditar(archivo: str, como_json: bool) -> None:
+    ruta = Path(archivo)
+    if ruta.is_symlink() or not ruta.is_file():
+        raise FactoryError(f"no encuentro el archivo de avisos {archivo}")
+    try:
+        lista = procedencia_mod.avisos(ruta.read_text(encoding="utf-8"), archivo)
+    except UnicodeDecodeError as e:
+        raise FactoryError(f"{archivo} no está en UTF-8: {e}") from e
+    inventarios = inventarios_guardados()
+    resultado = procedencia_mod.auditar(inventarios, lista)
+    if como_json:
+        print(json.dumps({"avisos": len(lista), "inventarios": len(inventarios), **resultado}, ensure_ascii=False, indent=2))
+        return
+    print(f"Auditoría local: {len(lista)} aviso(s) contra {len(inventarios)} inventario(s) guardado(s); sin red.")
+    if not resultado["afectados"] and not resultado["corregidos"] and not resultado["sin_comparar"]:
+        print("No hay candidatos afectados.")
+    for titulo, filas in (("Afectados", resultado["afectados"]), ("Afectados pero corregidos por Lightwell (verificá el aviso)", resultado["corregidos"]),
+                          ("No se pudo comparar la versión con los rangos del aviso", resultado["sin_comparar"])):
+        if filas:
+            print(f"{titulo}:")
+        for f in filas:
+            corregidas = ", ".join(f["corregidas"]) or "sin versión corregida declarada"
+            print(f"  - {f['aviso']}: {f['paquete']} {f['version']} (corregida en: {corregidas}) · {f['cambio']} · candidato {f['candidato']}")
+
+
 def comando_agentes(verificar: bool) -> None:
     """El bloque para agentes de AGENTS.md (y la línea @AGENTS.md de CLAUDE.md), o --verificar que estén al día."""
     nuevo = agentes_mod.bloque(config_proyecto()["modo_por_defecto"])
@@ -3858,6 +3970,13 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--base', help='base del diff (por defecto, el merge-base del candidato con main)')
     q = sub.add_parser('ruta', help='imprimir la ruta canónica donde producir un artefacto sobre el HEAD actual (no crea nada)')
     q.add_argument('id'); q.add_argument('tipo', help='evidencia, clue, revision o checkout')
+    q = sub.add_parser('procedencia', help='inventario CycloneDX de las dependencias de Python de un candidato, quién usó una y auditoría contra avisos OSV (sin red)')
+    q.add_argument('id', nargs='?', help='el cambio cuyo candidato recibe el inventario (sin él, el inventario sólo se muestra)')
+    q.add_argument('--python', help='el Python del que se leen las distribuciones instaladas (por defecto, el .venv del proyecto)')
+    q.add_argument('--json', action='store_true', help='imprimir el CycloneDX (o el resultado de --buscar y --auditar) como JSON')
+    q.add_argument('--buscar', metavar='PAQUETE[==VERSIÓN]', help='qué candidatos y cambios usaron esa dependencia')
+    q.add_argument('--auditar', action='store_true', help='cruzar los inventarios guardados con avisos OSV locales (con --avisos)')
+    q.add_argument('--avisos', metavar='ARCHIVO', help='archivo de avisos en formato OSV, para --auditar')
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')
     q = sub.add_parser('agentes', help='escribir en AGENTS.md la guía para agentes, armada desde la CLI (o --verificar)')
@@ -3964,6 +4083,7 @@ def main(argv: list[str] | None = None) -> int:
         elif args.comando == "donde": comando_donde(args.id, args.candidato)
         elif args.comando == "ruta": comando_ruta(args.id, args.tipo)
         elif args.comando == "buscar": comando_buscar(args.texto, args.maximo)
+        elif args.comando == "procedencia": comando_procedencia(args)
         elif args.comando == "preguntar": comando_preguntar(args)
         elif args.comando == "agentes": comando_agentes(args.verificar)
         elif args.comando == "mcp": return mcp_mod.servir(ROOT, sys.stdin, sys.stdout, __version__)
