@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/c351794-agy2-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "c35179441411e1452c80a536958233abc89745a8",
+  "diff_sha256": "28e7a4b6a6687e2022e5ef7304e270a5610ccbc3306c7d154b2cd443f2f9f5f8",
+  "context_sha256": "a9ea554d9b350f2ff47c39c206d77caf8d6bfb910465a9f718a85e4dd441ff83",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron en primer plano las pruebas unitarias requeridas desde la raíz del checkout utilizando el intérprete Python del entorno virtual del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).",
+    "No se ejecutó la suite completa de pruebas del repositorio para respetar estrictamente la directiva de la consigna.",
+    "Se evaluaron múltiples pruebas de mutación manuales en un directorio aislado (scratch/mutaciones) sobre editores/vscode/extension.js y tests/test_terminal_lista.py para verificar la sensibilidad de la suite ante regresiones en plazos por defecto o inválidos, orden de comandos en cola, manejo de terminales cerradas con y sin exitStatus, resolución anticipada y filtrado del comando en la salida.",
+    "No se evaluó en una instancia viva e interactiva de VS Code con usuario humano ni con el entorno de activación de Python de usuario, lo cual se declara explícitamente fuera de alcance en la propuesta y spec."
+  ],
+  "findings": []
+}
