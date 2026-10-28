@@ -104,6 +104,12 @@
                     "default": "",
                     "scope": "machine",
                     "description": "La CLI de Factory. Vacío: .venv/bin/oracle-factory del proyecto si existe, si no oracle-factory del PATH. Sólo se fija en la configuración del usuario: un proyecto no puede cambiarla desde su .vscode/settings.json."
+                },
+                "factory.esperaTerminalMs": {
+                    "type": "number",
+                    "default": 3000,
+                    "minimum": 0,
+                    "description": "Cuánto espera, como máximo, la terminal Factory recién abierta a que su shell esté listo antes de que el tablero escriba un comando. 0: no espera."
                 }
             }
         }

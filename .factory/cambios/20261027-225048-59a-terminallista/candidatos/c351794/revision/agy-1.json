@@ -1,0 +1,21 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/c351794-agy-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "c35179441411e1452c80a536958233abc89745a8",
+  "diff_sha256": "28e7a4b6a6687e2022e5ef7304e270a5610ccbc3306c7d154b2cd443f2f9f5f8",
+  "context_sha256": "0e6ba202ec018497c8a659cfa6cbad55f3dfc38cb96a96d8f7549d2dfa45c446",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron exactamente las pruebas requeridas desde la raíz del checkout con el entorno Python del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).",
+    "Se ejecutó la verificación del sensor del cambio mediante tools/verify_terminal_lista.py --salida <dir>, confirmando que los 22 casos de contrato pasaron, las fuentes permanecieron estables y se cumplieron las 5 medidas de los catálogos Oracle.",
+    "Se evaluaron 18 mutaciones manuales exhaustivas en copias aisladas (cubriendo espera inicial, plazo por defecto, plazos inválidos u omitidos, encolamiento secuencial, recuperación de cola rota por error en createTerminal o sendText, respuesta booleana a Live Share, constancia en salida sin comando, cierre con y sin exitStatus, terminal nacida cerrada, reintentos de terminal y disposición de timers y suscripciones); todas fueron detectadas por la suite de pruebas sin supervivencia de mutantes.",
+    "Se confirmó la subsanación total de los hallazgos de las vueltas 1 y 2 (cierre con exitStatus undefined, terminal nacida cerrada, plazos con clave omitida o inválidos y registro de package.json en verify_terminal_lista.py). No se detectaron nuevos defectos ni regresiones, por lo que la lista de hallazgos queda vacía.",
+    "No se probó en una sesión interactiva real de VS Code con usuario humano ni con el entorno de Python de usuario, lo cual se declara explícitamente fuera del alcance en la propuesta."
+  ],
+  "findings": []
+}

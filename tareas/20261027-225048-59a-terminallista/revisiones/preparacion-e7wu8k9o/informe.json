@@ -1,0 +1,91 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261027-225048-59a-terminallista",
+  "contexto": {
+    "head": "59512bc0d024db89ea867863000806baea6cea14",
+    "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
+  },
+  "documentos": {
+    "openspec/changes/20261027-225048-59a-terminallista/proposal.md": "3c0874884b745a759a9cfbcd2264e953a89b9cf3af2dec3ff992540e789b690f",
+    "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "catalogos/factory_terminal_lista.corrida_completa.oracle",
+    "catalogos/factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista.oracle",
+    "catalogos/factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez.oracle",
+    "catalogos/factory_terminal_lista.queda_constancia_en_la_salida.oracle",
+    "catalogos/factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida.oracle",
+    "docs/tablero.md",
+    "editores/vscode/extension.js",
+    "editores/vscode/package.json",
+    "openspec/changes/20261027-225048-59a-terminallista/design.md",
+    "openspec/changes/20261027-225048-59a-terminallista/proposal.md",
+    "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md",
+    "openspec/changes/20261027-225048-59a-terminallista/tasks.md",
+    "requisitos/ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista.requisito",
+    "requisitos/ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez.requisito",
+    "requisitos/ide_c6fe31e596cc9568e.queda_constancia_en_la_salida.requisito",
+    "requisitos/ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida.requisito",
+    "tests/liveshare_en_node.cjs",
+    "tests/porque_en_node.cjs",
+    "tests/sesion_en_node.cjs",
+    "tests/tablero_en_node.cjs",
+    "tests/terminal_en_node.cjs",
+    "tests/test_terminal_lista.py",
+    "tests/vscode_en_node.cjs",
+    "tools/verify_terminal_lista.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 576 pruebas, 22 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/c351794/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/c351794/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/c351794/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f336999: agy (gemini-3.8-flash-high), 4 hallazgos: AGY-001 (alta), AGY-002 (media), AGY-003 (media), AGY-004 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/f336999/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato f336999: agy (gemini-3.8-flash-high), 3 hallazgos: terminal-cerrada-bloqueo-y-perdida-de-comando (alta), escribir-comando-rechaza-en-vez-de-falso (media), ausencia-pruebas-terminal-cerrada-exitstatus (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/f336999/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 95d545e: agy (gemini-3.8-flash-high), 2 hallazgos: AGY-001 (alta), AGY-002 (media)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/95d545e/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 95d545e: agy (gemini-3.8-flash-high), 3 hallazgos: cierre-sin-exitstatus-comando-perdido (alta), espera-innecesaria-terminal-previamente-cerrada (media), plazo-invalido-omite-verificacion-escritura (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/95d545e/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios tl1–tl4 en node con un vscode falso que decide cuándo avisa la terminal: prueban el orden y el momento de la escritura, no el comportamiento de un shell ni del entorno de Python de VS Code. Que el ^C desaparezca se confirma mirando el botón en un VS Code real.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron exactamente las pruebas requeridas desde la raíz del checkout con el entorno Python del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).",
+    "agy (gemini-3.8-flash-high): Se ejecutó la verificación del sensor del cambio mediante tools/verify_terminal_lista.py --salida <dir>, confirmando que los 22 casos de contrato pasaron, las fuentes permanecieron estables y se cumplieron las 5 medidas de los catálogos Oracle.",
+    "agy (gemini-3.8-flash-high): Se evaluaron 18 mutaciones manuales exhaustivas en copias aisladas (cubriendo espera inicial, plazo por defecto, plazos inválidos u omitidos, encolamiento secuencial, recuperación de cola rota por error en createTerminal o sendText, respuesta booleana a Live Share, constancia en salida sin comando, cierre con y sin exitStatus, terminal nacida cerrada, reintentos de terminal y disposición de timers y suscripciones); todas fueron detectadas por la suite de pruebas sin supervivencia de mutantes.",
+    "agy (gemini-3.8-flash-high): Se confirmó la subsanación total de los hallazgos de las vueltas 1 y 2 (cierre con exitStatus undefined, terminal nacida cerrada, plazos con clave omitida o inválidos y registro de package.json en verify_terminal_lista.py). No se detectaron nuevos defectos ni regresiones, por lo que la lista de hallazgos queda vacía.",
+    "agy (gemini-3.8-flash-high): No se probó en una sesión interactiva real de VS Code con usuario humano ni con el entorno de Python de usuario, lo cual se declara explícitamente fuera del alcance en la propuesta.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron en primer plano las pruebas unitarias requeridas desde la raíz del checkout utilizando el intérprete Python del entorno virtual del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).",
+    "agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para respetar estrictamente la directiva de la consigna.",
+    "agy (gemini-3.8-flash-high): Se evaluaron múltiples pruebas de mutación manuales en un directorio aislado (scratch/mutaciones) sobre editores/vscode/extension.js y tests/test_terminal_lista.py para verificar la sensibilidad de la suite ante regresiones en plazos por defecto o inválidos, orden de comandos en cola, manejo de terminales cerradas con y sin exitStatus, resolución anticipada y filtrado del comando en la salida.",
+    "agy (gemini-3.8-flash-high): No se evaluó en una instancia viva e interactiva de VS Code con usuario humano ni con el entorno de activación de Python de usuario, lo cual se declara explícitamente fuera de alcance en la propuesta y spec."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

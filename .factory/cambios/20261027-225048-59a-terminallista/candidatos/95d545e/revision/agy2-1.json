@@ -1,0 +1,78 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/95d545e-agy2-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "95d545e469ea4343a29dbd28de9ab7984b1fbeb2",
+  "diff_sha256": "67da70f16f8b0c9ce08f7c203bd2eca61446719c1b0be5c0a3ac81d94a02b5a6",
+  "context_sha256": "ab812124304225533b8111058c17b736b458a6ee3368d195a2b66a8571b2e898",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias requeridas desde la raíz del checkout: PYTHONPATH=. .venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare.",
+    "No se corrió la suite de pruebas completa del proyecto respetando la instrucción explícita de no correrla.",
+    "Se ejecutaron pruebas de mutación aisladas en el directorio de trabajo local sobre extension.js, terminal_en_node.cjs y test_terminal_lista.py para evaluar la efectividad de los tests.",
+    "No se evaluó en una sesión interactiva real con el VS Code de usuario ni con la activación del entorno virtual de Python en shell interactivo (declarado fuera de alcance en la propuesta)."
+  ],
+  "findings": [
+    {
+      "id": "cierre-sin-exitstatus-comando-perdido",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Si la terminal se cierra sin exitStatus definido durante la espera, se envía el comando a la terminal cerrada y se registra falsamente que fue escrito",
+      "explanation": "En editores/vscode/extension.js, esperarTerminal() escucha el evento vscode.window.onDidCloseTerminal y resuelve retornando el motivo 'cerrada'. Sin embargo, en escribirEnTerminal() (línea 124), la condición para descartar la terminal y reintentar sólo evalúa if (terminal.exitStatus !== undefined). De acuerdo con la documentación y especificación de la API de VS Code (Terminal.exitStatus), exitStatus es undefined tanto cuando la terminal está activa como cuando la terminal fue cerrada pero el código de salida es desconocido (por ejemplo, al destruir el panel de terminal con el icono de matar terminal o si el proceso termina sin reportar código). Al ocurrir esto, la condición de la línea 124 evalúa falso; la función no reintenta abrir otra terminal, sino que procede a llamar a terminal.show() y terminal.sendText(comando, false) sobre la terminal ya cerrada y desechada. Como consecuencia, el comando se pierde sin ejecutarse y anotar() registra en la salida: 'Terminal Factory: comando escrito (cerrada; esperó ... ms)'. Esto contradice el requisito la_terminal_nueva_espera_a_estar_lista (el comando nunca debe escribirse ante el cierre de la terminal), el requisito queda_constancia_en_la_salida (cuyos únicos motivos válidos son 'lista', 'plazo' o 'ya existía'), y la especificación de diseño en openspec/.../design.md ('Si la terminal se cierra mientras arranca (evento onDidCloseTerminal o exitStatus definido), el comando no se escribe en ella: se abre otra una vez'). La suite de pruebas no detectó este defecto porque en tests/terminal_en_node.cjs (línea 65) el mock asigna forzosamente t.exitStatus = {code: 1} en cada paso de cierre.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 124,
+        "end_line": 131,
+        "side": "head"
+      },
+      "trigger": "Una terminal «Factory» recién creada se cierra durante el período de espera sin que se defina su exitStatus (situación habitual cuando el usuario cierra o mata la terminal en VS Code o el shell finaliza de forma anormal).",
+      "evidence": "Demostrado experimentalmente con test_cierre_sin_exitstatus.cjs: al emitir onDidCloseTerminal con exitStatus undefined durante la espera, escribirEnTerminal no abrió una segunda terminal, ejecutó sendText sobre la terminal cerrada y emitió en salida: 'Terminal Factory: comando escrito (cerrada; esperó 51 ms)'. Asimismo, al mutar tests/terminal_en_node.cjs para no fijar exitStatus en paso.cerrar, el test de contrato test_tl1_si_la_terminal_se_cierra_mientras_arranca_se_abre_otra_y_el_comando_sale_una_vez falló (creó 1 terminal en vez de 2, envió el comando a la terminal 0 cerrada y registró constancia con motivo 'cerrada').",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Simular el cierre de la terminal emitiendo onDidCloseTerminal sin definir exitStatus y verificar si escribirEnTerminal invoca sendText y registra en la salida constancia de 'comando escrito (cerrada; ...)'; o corregir la línea 124 a 'if (motivo === \"cerrada\" || terminal.exitStatus !== undefined)' y comprobar que reintente creando una nueva terminal."
+    },
+    {
+      "id": "espera-innecesaria-terminal-previamente-cerrada",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "esperarTerminal bloquea la cola durante el plazo completo si la terminal ya estaba cerrada antes de iniciar la espera",
+      "explanation": "En editores/vscode/extension.js (líneas 90-108), esperarTerminal(terminal) programa un temporizador por el plazo configurado (3000 ms por defecto) y suscribe oyentes a onDidChangeTerminalShellIntegration y onDidCloseTerminal. No obstante, no comprueba sincrónicamente al inicio si la terminal ya tiene terminal.exitStatus !== undefined. Si la terminal creada por createTerminal falla inmediatamente al arrancar su proceso (por ejemplo por ejecutable inexistente, error de permisos o terminación instantánea) o se cierra antes de invocar esperarTerminal, el evento onDidCloseTerminal ya ocurrió y no volverá a dispararse. Al no recibir ningún evento, esperarTerminal permanece bloqueada hasta que expira el plazo completo (3000 ms). Dado que escribirEnTerminal realiza dos intentos mediante un bucle for, la extensión bloquea la cola de comandos y la interfaz durante 6 segundos enteros (o 2 * esperaTerminalMs) antes de arrojar el error 'la terminal Factory se cerró dos veces seguidas', en lugar de advertir de inmediato que la terminal ya se encontraba cerrada.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 90,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Una terminal «Factory» que falla inmediatamente durante su proceso de spawn o se cierra antes de que se adjunten los observadores de eventos en esperarTerminal.",
+      "evidence": "Verificado con test_cierre_inmediato.cjs: ante una terminal que nace con exitStatus: {code: 127}, escribirComando tardó 10.015 ms (con plazo configurado en 5.000 ms) en completar los dos intentos fallidos, bloqueando innecesariamente la cola durante 2 * plazo.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Ejecutar test_cierre_inmediato.cjs y constatar que esperarTerminal demora el plazo completo en vez de resolver inmediatamente 'cerrada' al detectar terminal.exitStatus !== undefined al inicio."
+    },
+    {
+      "id": "plazo-invalido-omite-verificacion-escritura",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "Las pruebas para plazos inválidos (-5, 'abc') y sin configurar omiten verificar que el comando se escriba tras el plazo por defecto",
+      "explanation": "En tests/test_terminal_lista.py:105-109, test_tl1_un_plazo_invalido_cae_al_de_por_defecto evalúa los valores (-5, 'abc', None), pero sólo verifica que a los 300 ms r['fotos']['antes'] esté vacía. Si bien en esta vuelta 2 se incorporó test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos (líneas 77-84), este método únicamente itera sobre for espera in (None,): (valor nulo). No se verifica que ante plazos negativos como -5, cadenas no numéricas como 'abc', o cuando la clave de configuración no está definida (escenario sin espera en JSON, equivalente a undefined en JS), el comando sea efectivamente transmitido a la terminal a los 3000 ms ni que se genere la constancia de salida de tipo 'plazo'.",
+      "location": {
+        "file": "tests/test_terminal_lista.py",
+        "start_line": 105,
+        "end_line": 109,
+        "side": "head"
+      },
+      "trigger": "Regresión donde valores inválidos como negativos o cadenas asignen un plazo infinito o no escriban el comando al cumplirse el plazo por defecto de 3000 ms.",
+      "evidence": "En tests/test_terminal_lista.py, las líneas 105-109 sólo comprueban el estado a los 300 ms con r['fotos']['antes'] == []. En contraste con test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos que sólo prueba None, no existe ningún assert a los 3000 ms para -5, 'abc' ni para el caso sin configurar (clave omitida).",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Inspeccionar las aserciones de test_tl1_un_plazo_invalido_cae_al_de_por_defecto en tests/test_terminal_lista.py:105-109 y contrastar con test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos."
+    }
+  ]
+}

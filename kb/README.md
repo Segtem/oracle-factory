@@ -80,6 +80,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-160716-arb-equipo]] — El tablero dice a quién necesita cada cambio y qué pasó hace poco (cerrada)
 - [[cambios/20261027-200012-41p-quienhace]] — El tablero dice qué hace cada quien y cuándo no te toca nada (cerrada)
 - [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (cerrada)
+- [[cambios/20261027-225048-59a-terminallista]] — Esperar a que la terminal de Factory esté lista antes de escribir un comando (cerrada)
 
 ## Requisitos
 
@@ -215,6 +216,10 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/ide_c2103597a7eea615c.el_chat_queda_en_el_cambio]]
 - [[requisitos/ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte]]
 - [[requisitos/ide_c2103597a7eea615c.el_tablero_muestra_quien_esta_en_la_sesion]]
+- [[requisitos/ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista]]
+- [[requisitos/ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez]]
+- [[requisitos/ide_c6fe31e596cc9568e.queda_constancia_en_la_salida]]
+- [[requisitos/ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida]]
 - [[requisitos/ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_junta_todo_lo_de_cada_cambio_y_sus_metricas]]
 - [[requisitos/ide_ca7616c763a98ce4e.el_tablero_se_ve_y_se_usa_en_vs_code]]

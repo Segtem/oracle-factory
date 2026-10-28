@@ -19,7 +19,7 @@ const vscode = {
     Range: class { constructor(l, c) { this.start = {line: l, character: c}; } },
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
-        getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : undefined)}),
+        getConfiguration: () => ({get: clave => (clave === 'comando' ? comando || '' : clave === 'esperaTerminalMs' ? 0 : undefined)}),
         createFileSystemWatcher: () => {
             const v = {cambios: [], onDidChange: f => { v.cambios.push(f); return nada(); }, onDidCreate: nada, onDidDelete: nada, dispose() {}};
             vigias.push(v);

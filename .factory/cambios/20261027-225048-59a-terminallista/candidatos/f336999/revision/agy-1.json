@@ -1,0 +1,97 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-terminal-lista/.factory/local/revisiones/f336999-agy-1",
+  "base": "46d98f9e200e7169f7449e3d2e610cee4941bea8",
+  "head": "f33699905d20ea125e28e9ce65ac135b3d704059",
+  "diff_sha256": "6c119f4e7d43433f2c3abc5b1eb796609f3bcfab7fe535c84bee776f65335171",
+  "context_sha256": "8c5494faaca27a8e02fb5e9465289f1d90221036660cd10c29c5df0f0051fc75",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó exactamente la suite requerida por las instrucciones: tests.test_terminal_lista, tests.test_vscode y tests.test_liveshare con Python del .venv.",
+    "No se ejecutó la suite completa de tests de la fábrica para respetar la directiva explícita de no correrla.",
+    "Se realizaron pruebas de mutación manual aisladas en directorio scratch/ para evaluar supervivencia de mutantes en la lógica de espera, colas y Live Share.",
+    "No se probó en una sesión interactiva real de VS Code con usuario humano ni con el entorno de Python de usuario, lo cual se declara fuera de alcance en la propuesta."
+  ],
+  "findings": [
+    {
+      "id": "AGY-001",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Pérdida de comando y constancia engañosa si la terminal se cierra durante la espera",
+      "explanation": "En editores/vscode/extension.js, la función esperarTerminal() crea una promesa con un setTimeout de espera y un listener a onDidChangeTerminalShellIntegration, pero no escucha vscode.window.onDidCloseTerminal ni comprueba si la terminal terminó prematuramente (terminal.exitStatus !== undefined). Si la terminal se cierra mientras espera (por error del shell, exit o cierre manual del usuario), la función permanece bloqueada hasta que expire el plazo completo (3000 ms por defecto). Al cumplirse el plazo, esperarTerminal resuelve con el motivo 'plazo', y escribirEnTerminal procede a llamar terminal.show() y terminal.sendText(comando, false) sobre una terminal ya cerrada/destruida. En VS Code esto provoca que el comando se pierda silenciosamente sin ejecutarse en ningún shell. Inmediatamente después, la función anotar() registra en el canal de salida: 'Terminal Factory: comando escrito (plazo; esperó ... ms)', dejando constancia de que el comando fue escrito con éxito cuando en realidad fue descartado. Asimismo, ante comandos concurrentes encolados, el siguiente comando crea una nueva terminal tras los 3 segundos, dividiendo comandos pedidos conjuntamente entre una terminal muerta y una nueva en vez de ejecutarse ambos en orden en una sola terminal.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 90,
+        "end_line": 123,
+        "side": "head"
+      },
+      "trigger": "Una terminal Factory recién creada cuyo proceso de shell termina o es cerrado por el usuario durante el período de espera antes de que se complete la integración de shell.",
+      "evidence": "Confirmado experimentalmente con Node.js en scratch/test_terminal_cerrada.cjs y scratch/test_dos_comandos_cierre.cjs. Al cerrar la terminal a los 50ms de haber iniciado la espera, la extensión esperó el plazo configurado completo y luego ejecutó sendText sobre la terminal con exitStatus: {code: 1}, registrando en el log 'comando escrito (plazo; esperó 301 ms)'. Con dos comandos, el primero se envió a la terminal cerrada y el segundo forzó la creación de una segunda terminal.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Ejecutar scratch/test_terminal_cerrada.cjs o simular el cierre de terminal estableciendo exitStatus o emitiendo onDidCloseTerminal durante la espera; verificar que no se espere innecesariamente el plazo completo, no se envíe sendText a una terminal cerrada y no se registre falsamente que fue escrito."
+    },
+    {
+      "id": "AGY-002",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "escribirComando propaga promesas rechazadas a Live Share y webview ante errores en terminal",
+      "explanation": "En editores/vscode/extension.js:189, escribirComando fue modificado para devolver 'comando ? escribirPaso({comando}).then(() => true) : false;'. Si ocurre un error al crear la terminal (createTerminal) o al enviar texto (sendText), escribirPaso retorna una promesa rechazada. Al no tener un manejador .catch(() => false), escribirComando devuelve la promesa rechazada. En sesiones de Live Share (liveshare.js:73), el handler onRequest('terminal', ...) delega en escribirComando; al recibir un rechazo, Live Share propaga una excepción remota (falla de RPC) al invitado en lugar de devolver el booleano false esperado por el contrato del servicio. Adicionalmente, en mensajeDelTablero (extension.js:267), la llamada 'else await escribirComando(m.comando);' no está envuelta en un bloque try/catch, por lo que una falla al escribir arroja una excepción no capturada en el despachador de eventos del tablero local.",
+      "location": {
+        "file": "editores/vscode/extension.js",
+        "start_line": 186,
+        "end_line": 190,
+        "side": "head"
+      },
+      "trigger": "Un invitado de Live Share o un usuario local desde el tablero solicita escribir un comando cuando vscode.window.createTerminal o sendText lanzan un error.",
+      "evidence": "Demostrado con scratch/test_live_node.cjs: ante falla simulada de createTerminal o sendText, el pedido de terminal del invitado en Live Share arroja excepción no controlada en vez de responder con un valor booleano false.",
+      "related_requirement": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "status": "pendiente",
+      "verification": "Correr scratch/test_live_node.cjs verificando que lsService.pedidos['terminal'](cmd) arroja excepción remota en lugar de retornar false cuando createTerminal o sendText fallan."
+    },
+    {
+      "id": "AGY-003",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Las pruebas de plazo inválido y sin configurar no comprueban que el comando se escriba al cumplirse el plazo por defecto",
+      "explanation": "En tests/test_terminal_lista.py:67-75, los métodos test_tl1_sin_plazo_configurado_no_escribe_enseguida y test_tl1_un_plazo_invalido_cae_al_de_por_defecto solo verifican que transcurridos 300 ms la lista de comandos recibidos esté vacía (self.assertEqual(r['fotos']['antes'], [])). Ninguno de los dos tests espera los 3000 ms correspondientes al plazo por defecto ni comprueba que, al alcanzarse dicho plazo, el comando sea efectivamente transmitido a la terminal ni que quede constancia de 'plazo'. Mediante mutaciones manuales en scratch/correr_mutaciones2.py, se reemplazó la caída al valor por defecto por una promesa que nunca se resuelve o que descarta el comando, y ambos tests continuaron pasando exitosamente. Por tanto, no aseguran el cumplimiento del escenario 'al cumplirse el plazo y no antes'.",
+      "location": {
+        "file": "tests/test_terminal_lista.py",
+        "start_line": 67,
+        "end_line": 75,
+        "side": "head"
+      },
+      "trigger": "Cualquier regresión o mutación donde un plazo inválido o sin configurar resulte en una promesa que nunca se resuelve o no envía el comando al cabo de los 3000 ms.",
+      "evidence": "Comprobado con scratch/correr_mutaciones2.py: el mutante que nunca resuelve la promesa ante plazo inválido o indefinido sobrevivió a la suite unittest sin generar ninguna falla.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Extender los escenarios en test_terminal_lista.py esperando el cumplimiento del plazo por defecto (o acelerando el reloj) y verificando que el comando figure en la terminal y en la constancia de salida."
+    },
+    {
+      "id": "AGY-004",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "tools/verify_terminal_lista.py omite editores/vscode/package.json del cálculo de fuentes estables",
+      "explanation": "En tools/verify_terminal_lista.py:44-50, la función fuentes() recopila archivos clave del proyecto para calcular sus hashes SHA-256 y certificar que las fuentes permanezcan estables durante la corrida de evidencia. La lista incluye *ROOT.glob('editores/vscode/*.js'), pero no incluye editores/vscode/package.json. Dado que este cambio introduce y versiona la propiedad de configuración 'factory.esperaTerminalMs' en package.json, y que el caso de prueba test_tl4_el_plazo_se_puede_configurar_en_la_extension (incluido explícitamente en CONTRACTS) inspecciona de manera directa editores/vscode/package.json, cualquier modificación o inestabilidad en este archivo no es supervisada por la garantía de fuentes estables del sensor.",
+      "location": {
+        "file": "tools/verify_terminal_lista.py",
+        "start_line": 44,
+        "end_line": 50,
+        "side": "head"
+      },
+      "trigger": "Modificación de editores/vscode/package.json durante o entre ejecuciones del script de verificación de evidencia.",
+      "evidence": "tools/verify_terminal_lista.py líneas 44-50 lista expresamente: [ROOT / 'fabrica.py', ROOT / 'pyproject.toml', Path(__file__), *ROOT.glob('oracle_factory/*.py'), *ROOT.glob('tests/*.py'), ROOT / 'tests/terminal_en_node.cjs', *ROOT.glob('editores/vscode/*.js'), *ROOT.glob('catalogos/factory_terminal_lista.*.oracle')], omitiendo archivos JSON dentro de editores/vscode.",
+      "related_requirement": "la_terminal_nueva_espera_a_estar_lista",
+      "status": "pendiente",
+      "verification": "Revisar la definición de fuentes() en tools/verify_terminal_lista.py y contrastar con los archivos modificados en el diff y leídos por los tests de contrato."
+    }
+  ]
+}

@@ -13,7 +13,7 @@ const vscode = {
     Uri: {file: p => ({fsPath: p})}, Range: class {},
     workspace: {
         workspaceFolders: [{uri: {fsPath: proyecto}}],
-        getConfiguration: () => ({get: clave => (clave === 'comando' ? cliRuta : undefined)}),
+        getConfiguration: () => ({get: clave => (clave === 'comando' ? cliRuta : clave === 'esperaTerminalMs' ? 0 : undefined)}),
         createFileSystemWatcher: () => ({onDidChange: nada, onDidCreate: nada, onDidDelete: nada, dispose() {}}),
         openTextDocument: async a => a,
     },

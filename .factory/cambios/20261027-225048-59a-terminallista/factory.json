@@ -1,0 +1,722 @@
+{
+  "id": "20261027-225048-59a-terminallista",
+  "titulo": "Esperar a que la terminal de Factory esté lista antes de escribir un comando",
+  "capacidad": "ide",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md",
+  "spec_sha256": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-27T22:52:37.516625+00:00",
+    "documentos": {
+      "openspec/changes/20261027-225048-59a-terminallista/proposal.md": "3c0874884b745a759a9cfbcd2264e953a89b9cf3af2dec3ff992540e789b690f",
+      "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f"
+    }
+  },
+  "requisitos": [
+    "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+    "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/informe.json",
+    "sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
+    "decisiones": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/decisiones.json",
+    "decisiones_sha256": "48271b2024166e3c1c634cf2a2e0bfe73a9bce811582a4246d202b3c02edc03e",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T00:39:26.864046+00:00",
+    "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 576 pruebas y 22 casos de contrato en verde, mutaciones detectadas. Límite: la causa del ^C es una hipótesis; las pruebas usan un VS Code simulado y verifican cuándo se escribe el comando, no el comportamiento del shell ni de la extensión de Python. Si el ^C desaparece lo confirma la persona mirando el botón.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "4c00d2efd329017a595e397476d246aeedf6940a",
+      "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261027-225048-59a-terminallista/candidatos/c351794/evidencia/hechos.json",
+    "hechos_sha256": "b36893bcd0f7ea811d464bd5551ed306af7d80882d2fbdd6e52139726e903cf0",
+    "informe": ".factory/cambios/20261027-225048-59a-terminallista/oracle-veredicto.txt",
+    "informe_sha256": "4d5862dfc3261b2a2be2ea49ea00977cbc2e74ac67b2efc58b3d9910638ba937",
+    "cuando": "2026-10-28T00:39:37.778218+00:00",
+    "contexto": {
+      "head": "1b4746845bb0459a235e7435f797ca23508a3e29",
+      "archivos_sha256": "3e8b7c92d3e483e8dca26e167b5ccb125c2afaa6a69d73db2b079088d7346d9f"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:50:48.893586+00:00",
+      "capacidad": "ide"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:51:32.961941+00:00",
+      "documentos": {
+        "openspec/changes/20261027-225048-59a-terminallista/proposal.md": "3c0874884b745a759a9cfbcd2264e953a89b9cf3af2dec3ff992540e789b690f",
+        "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f"
+      }
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:52:37.516654+00:00",
+      "documentos": {
+        "openspec/changes/20261027-225048-59a-terminallista/proposal.md": "3c0874884b745a759a9cfbcd2264e953a89b9cf3af2dec3ff992540e789b690f",
+        "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-27T22:52:47.266237+00:00",
+      "ids": [
+        "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+        "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+        "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:58:03.857408+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:58:04.933260+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:58:06.010051+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T22:58:07.095844+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:04:56.742415+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:04:56.877357+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:04:57.005332+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:04:57.133382+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:11:16.711380+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:11:17.756013+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:11:18.797615+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:11:19.863252+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:13:47.048734+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:13:47.184411+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:13:47.317852+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:13:47.447855+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:18:57.606755+00:00",
+      "revisor": "agy2",
+      "candidato": "f336999",
+      "lanzamiento": "3cf2d55c1d41"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:18:57.631558+00:00",
+      "revisor": "agy",
+      "candidato": "f336999",
+      "lanzamiento": "f0f29c6decdd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:32:40.640028+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f336999",
+      "resultado": "ok",
+      "hallazgos": 4,
+      "lanzamiento": "f0f29c6decdd"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:35:32.592793+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "f336999",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "3cf2d55c1d41"
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:38.379234+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:39.437358+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:40.479602+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-27T23:40:41.525634+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:50:54.506666+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista",
+      "medidas": [
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:50:54.658321+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "medidas": [
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:50:54.791637+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida",
+      "medidas": [
+        "factory_terminal_lista.queda_constancia_en_la_salida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-27T23:50:54.924577+00:00",
+      "requisito": "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida",
+      "medidas": [
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida",
+        "factory_terminal_lista.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:56:25.672517+00:00",
+      "revisor": "agy",
+      "candidato": "95d545e",
+      "lanzamiento": "f9c6e15745e0"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-27T23:56:25.699255+00:00",
+      "revisor": "agy2",
+      "candidato": "95d545e",
+      "lanzamiento": "005a901d8aa6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:10:46.390293+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "95d545e",
+      "resultado": "ok",
+      "hallazgos": 3,
+      "lanzamiento": "005a901d8aa6"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:16:11.202826+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "95d545e",
+      "resultado": "ok",
+      "hallazgos": 2,
+      "lanzamiento": "f9c6e15745e0"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:24:48.899026+00:00",
+      "revisor": "agy2",
+      "candidato": "c351794",
+      "lanzamiento": "71df5d5e0235"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:24:48.925493+00:00",
+      "revisor": "agy",
+      "candidato": "c351794",
+      "lanzamiento": "9b2ea8f7bb04"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:34:12.663634+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "c351794",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "71df5d5e0235"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T00:35:01.351430+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "c351794",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9b2ea8f7bb04"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T00:35:13.328805+00:00",
+      "decision": "aprobar",
+      "candidato": "c351794"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T00:39:26.864078+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2536673445559f8054a00d85cc382a0556c6339d574bbe57ad9379d68fa3a9c6",
+      "decisiones_sha256": "48271b2024166e3c1c634cf2a2e0bfe73a9bce811582a4246d202b3c02edc03e"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:39:37.778237+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "b36893bcd0f7ea811d464bd5551ed306af7d80882d2fbdd6e52139726e903cf0"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:40:08.285875+00:00",
+      "oracle": ".factory/cambios/20261027-225048-59a-terminallista/oracle-veredicto.txt",
+      "revision": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:40:08.320512+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
+    }
+  ],
+  "tipos": {
+    "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista": "funcional",
+    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "funcional",
+    "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida": "funcional",
+    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": "funcional"
+  },
+  "medidas": {
+    "ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T23:50:54.474762+00:00",
+      "sha256": "113fa775f6f2b4413c48d729e0fe62f88abdc922e23f9ee460cfbf64605def4c",
+      "catalogos": {
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista": "2197bf69bd97bdcea085ebaa08c120dc9d4efde500f74bbdde2a7072f9d5a1fb",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
+      },
+      "archivos_catalogo": {
+        "factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista": "catalogos/factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista.oracle",
+        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
+      }
+    },
+    "ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T23:50:54.623803+00:00",
+      "sha256": "815c28c46cfa251f2fec2f0a96fb290c116cbfaea894f24b5b5b01ab9484baa8",
+      "catalogos": {
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "419e64e004a51c6bd18cfb612401bd3d0df5c2a0ffb1f48df4f15a92bac81281",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
+      },
+      "archivos_catalogo": {
+        "factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez": "catalogos/factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez.oracle",
+        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
+      }
+    },
+    "ide_c6fe31e596cc9568e.queda_constancia_en_la_salida": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T23:50:54.759772+00:00",
+      "sha256": "e8c579a635c4314652cb26d19b25cf80bec07ebc9d2210f367b3509375bd060b",
+      "catalogos": {
+        "factory_terminal_lista.queda_constancia_en_la_salida": "1d798557394888b325f42901e7ed4e9b345f9861e005c4ce73fac28236863fd5",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
+      },
+      "archivos_catalogo": {
+        "factory_terminal_lista.queda_constancia_en_la_salida": "catalogos/factory_terminal_lista.queda_constancia_en_la_salida.oracle",
+        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
+      }
+    },
+    "ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-27T23:50:54.893055+00:00",
+      "sha256": "e3b9839003b77c75427a44a3c4805b96c6016b86afe734caa7dc9e13e75fec0b",
+      "catalogos": {
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "893d575ab5a2a118c766491f0429943bc39cfb3d02f97f60acc3906a07cc9abc",
+        "factory_terminal_lista.corrida_completa": "69c90ed707d27358f6b8471ad8f3af1633108492d551fdc4d11bd632d4734ba2"
+      },
+      "archivos_catalogo": {
+        "factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida": "catalogos/factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida.oracle",
+        "factory_terminal_lista.corrida_completa": "catalogos/factory_terminal_lista.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T00:40:08.216683+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-28T00:40:08.320498+00:00"
+  }
+}

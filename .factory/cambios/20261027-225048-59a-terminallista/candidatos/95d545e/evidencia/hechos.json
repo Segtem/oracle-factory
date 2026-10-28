@@ -1,0 +1,120 @@
+{
+  "terminal_lista_caso": [
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_no_escribe_hasta_que_la_terminal_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_el_aviso_de_otra_terminal_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_la_espera_se_libera_una_sola_vez_y_el_reloj_no_queda_andando",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_si_la_terminal_se_cierra_mientras_arranca_se_abre_otra_y_el_comando_sale_una_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_el_cierre_de_otra_terminal_no_corta_la_espera",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_si_se_cierra_dos_veces_seguidas_el_pedido_falla_y_no_escribe_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_sin_plazo_configurado_o_con_uno_nulo_escribe_a_los_tres_segundos",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_si_nunca_avisa_escribe_al_cumplirse_el_plazo_y_no_antes",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_un_plazo_de_cero_escribe_de_inmediato",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_una_version_sin_el_evento_cae_al_plazo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_sin_plazo_configurado_no_escribe_enseguida",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl1_un_plazo_invalido_cae_al_de_por_defecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_terminal_nueva_espera_a_estar_lista",
+      "caso": "TerminalLista.test_tl4_el_plazo_se_puede_configurar_en_la_extension",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_terminal_lista_recibe_el_comando_enseguida",
+      "caso": "TerminalLista.test_tl2_una_terminal_que_ya_existia_no_espera_ni_se_duplica",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_terminal_lista_recibe_el_comando_enseguida",
+      "caso": "TerminalLista.test_tl2_una_terminal_nueva_que_ya_informa_su_integracion_no_espera",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_terminal_lista_recibe_el_comando_enseguida",
+      "caso": "TerminalLista.test_tl2_una_terminal_ya_cerrada_no_se_reutiliza",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "caso": "TerminalLista.test_tl3_dos_comandos_mientras_arranca_se_escriben_en_orden_y_una_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "caso": "TerminalLista.test_tl3_si_nunca_avisa_los_dos_salen_igual_en_orden",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "caso": "TerminalLista.test_tl3_un_error_al_crear_la_terminal_no_traba_los_pedidos_siguientes",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "caso": "TerminalLista.test_tl3_quien_pide_un_comando_ve_verdadero_si_se_escribio_y_falso_si_no",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_comandos_seguidos_se_escriben_en_orden_y_una_vez",
+      "caso": "TerminalLista.test_tl3_si_falla_la_terminal_quien_lo_pide_ve_falso_y_la_salida_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "queda_constancia_en_la_salida",
+      "caso": "TerminalLista.test_tl4_la_salida_dice_por_que_y_cuanto_sin_el_comando",
+      "codigo": 0
+    }
+  ],
+  "terminal_lista_corrida": [
+    {
+      "completa": 1,
+      "casos": 22
+    }
+  ]
+}

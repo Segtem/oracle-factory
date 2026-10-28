@@ -82,12 +82,63 @@ class Vista {
     }
 }
 
+// La terminal «Factory» recién creada todavía está arrancando su shell: si se escribe el comando enseguida, la activación
+// del entorno lo pisa con un ^C. Se espera a que avise que está lista (integración de shell) o a que pase el plazo.
+const ESPERA_POR_DEFECTO_MS = 3000;
+let cola = Promise.resolve();  // los pedidos se escriben de a uno y en orden: el segundo ya encuentra la terminal lista
+
+function esperarTerminal(terminal) {
+    const pedido = vscode.workspace.getConfiguration('factory').get('esperaTerminalMs');
+    const ms = typeof pedido === 'number' && Number.isFinite(pedido) && pedido >= 0 ? pedido : ESPERA_POR_DEFECTO_MS;
+    if (ms === 0) return Promise.resolve('plazo');
+    if (terminal.exitStatus !== undefined) return Promise.resolve('cerrada');  // ya cerrada: ningún evento va a avisar
+    return new Promise(listo => {
+        const suscripciones = [];
+        const terminar = motivo => {
+            clearTimeout(reloj);
+            suscripciones.forEach(s => s.dispose());
+            listo(motivo);
+        };
+        const reloj = setTimeout(() => terminar('plazo'), ms);
+        if (typeof vscode.window.onDidChangeTerminalShellIntegration === 'function')
+            suscripciones.push(vscode.window.onDidChangeTerminalShellIntegration(e => { if (e.terminal === terminal) terminar('lista'); }));
+        if (typeof vscode.window.onDidCloseTerminal === 'function')
+            suscripciones.push(vscode.window.onDidCloseTerminal(t => { if (t === terminal) terminar('cerrada'); }));
+    });
+}
+
+async function escribirEnTerminal(comando) {
+    // Si la terminal se cierra mientras arranca, se abre otra una vez; si también se cierra, el pedido falla en voz alta.
+    for (let intento = 0; intento < 2; intento++) {
+        let terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined);
+        let motivo = 'ya existía', espera = 0;
+        if (!terminal) {
+            terminal = vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
+            terminal.show();
+            if (terminal.shellIntegration) motivo = 'integración ya informada';
+            else {
+                const inicio = Date.now();
+                motivo = await esperarTerminal(terminal);
+                espera = Date.now() - inicio;
+            }
+        }
+        if (motivo === 'cerrada' || terminal.exitStatus !== undefined) {  // un cierre puede dejar exitStatus sin definir
+            anotar(`Terminal Factory: se cerró mientras arrancaba (esperó ${espera} ms); no escribí el comando`);
+            continue;
+        }
+        terminal.show();
+        terminal.sendText(comando, false);  // sin Enter: la persona lo lee y lo ejecuta
+        anotar(`Terminal Factory: comando escrito (${motivo}; esperó ${espera} ms)`);  // sin el texto del comando
+        return;
+    }
+    throw new Error('la terminal Factory se cerró dos veces seguidas; no escribí el comando');
+}
+
 function escribirPaso(nodo) {
-    if (!nodo || !nodo.comando) return;
-    const terminal = vscode.window.terminals.find(t => t.name === 'Factory' && t.exitStatus === undefined)
-        || vscode.window.createTerminal({name: 'Factory', cwd: carpeta()});
-    terminal.show();
-    terminal.sendText(nodo.comando, false);  // sin Enter: la persona lo lee y lo ejecuta
+    if (!nodo || !nodo.comando) return Promise.resolve();
+    const hecho = cola.then(() => escribirEnTerminal(nodo.comando));
+    cola = hecho.catch(() => {});  // un pedido que falla lo ve quien lo hizo, pero no traba los siguientes
+    return hecho;
 }
 
 // El tablero de comando: un panel que se arma con `oracle-factory tablero --json` y se rehace cuando cambia un registro.
@@ -147,8 +198,9 @@ function escribirComando(texto, deUnInvitado = false) {
     if (deUnInvitado && (typeof texto !== 'string' || !/^[\p{L}\p{N} ._/:=-]+$/u.test(texto))) return false;
     const raiz = carpeta();
     const comando = raiz && modelo.comandoDe(texto, cli(raiz));
-    if (comando) escribirPaso({comando});
-    return Boolean(comando);
+    // Lo que ve quien lo pide (un invitado de Live Share, el tablero): verdadero si ya se escribió, falso si no se pudo.
+    return comando ? escribirPaso({comando}).then(() => true, e => { anotar(`Terminal Factory: no pude escribir el comando (${e.message})`); return false; })
+        : false;
 }
 
 // Un mensaje del chat: lo guarda la CLI de quien tiene el proyecto, con el nombre que da Live Share (la CLI valida el
@@ -226,7 +278,7 @@ async function mensajeDelTablero(m) {
         await vscode.window.showTextDocument(doc, {preview: true});
     } else if (m.tipo === 'terminal' && typeof m.comando === 'string') {
         if (invitado) await sesion.pedir('terminal', [m.comando]);
-        else escribirComando(m.comando);
+        else await escribirComando(m.comando);
     } else if (m.tipo === 'mensaje' && typeof m.cambio === 'string' && typeof m.texto === 'string' && sesion && sesion.yo()) {
         const ok = invitado ? await sesion.pedir('mensaje', [m.cambio, m.texto, sesion.yo()])
             : await guardarMensaje(m.cambio, m.texto, sesion.yo());
@@ -297,4 +349,4 @@ function activate(context) {
     }
 }
 
-module.exports = {activate, deactivate() {}};
+module.exports = {activate, deactivate() {}, escribirComando};  // escribirComando, para probar lo que ve quien lo pide
