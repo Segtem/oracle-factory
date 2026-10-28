@@ -2,7 +2,7 @@
   "id": "20261028-100820-5n7-causa",
   "titulo": "Que aprobar-spec diga qué línea de qué archivo falta completar",
   "capacidad": "bloqueos",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md",
   "spec_sha256": "71a3d5255fb03c287d0ca7c800003f5cb05bbb5481d5d0294d40e5f767e7f24c",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "8ee69a20e1b0f0d1db6812003aa084f554a9f4abf83c7747d08327ab749c7ebc"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-100820-5n7-causa/candidatos/43d18a3/evidencia/hechos.json",
+    "hechos_sha256": "e51d4c25b46fe5df92f52e5d4a3509826cad75caabf89d6b056ba00d8e2e55df",
+    "informe": ".factory/cambios/20261028-100820-5n7-causa/oracle-veredicto.txt",
+    "informe_sha256": "49ec44ef43cad8c521983e0b0f90e24725c7dbea36a592d6b59092eb88e92e0d",
+    "cuando": "2026-10-28T11:59:31.406038+00:00",
+    "contexto": {
+      "head": "a8d1e9ed6554a16945dedc2535c953ded2fb85cf",
+      "archivos_sha256": "8ee69a20e1b0f0d1db6812003aa084f554a9f4abf83c7747d08327ab749c7ebc"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -495,6 +507,17 @@
       "abiertos": 0,
       "sha256": "2d4d155963beb949f72eaec782d76cd2c460bec43456520baad26ad398634e88",
       "decisiones_sha256": "4f28689d31907ad3e2d908325323a72bf4f4b9c8c6f02d7bc674c480e85e7ba4"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T11:59:31.406053+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "e51d4c25b46fe5df92f52e5d4a3509826cad75caabf89d6b056ba00d8e2e55df"
     }
   ],
   "tipos": {

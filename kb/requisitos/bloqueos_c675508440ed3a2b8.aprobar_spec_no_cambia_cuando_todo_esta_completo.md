@@ -11,7 +11,7 @@ vigente: true
 - Id: `bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo`
 - Vigente: sí
 - Cambio: [[cambios/20261028-100820-5n7-causa]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_bloqueo_causa.aprobar_spec_no_cambia_cuando_todo_esta_completo`, `factory_bloqueo_causa.corrida_completa`
 - Fuente: openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md#aprobar_spec_no_cambia_cuando_todo_esta_completo
 

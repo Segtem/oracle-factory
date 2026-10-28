@@ -91,3 +91,7 @@ Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea
 ### Nota (2026-10-28 11:59:16 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de agy y agy2; la tercera sin hallazgos. 594 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite: solo cambia el bloqueo de aprobar-spec por la marca de pendiente o por un archivo ausente; los demás mensajes de bloqueo de Factory no cambian. Un hallazgo medio de la vuelta 1 (la plantilla real no trae la marca en tasks.md) se resolvió explicando que la spec describe un cambio con marcas en los tres archivos; la plantilla sin tocar tiene su propia prueba.); 0 abiertos derivados; commit 38b96454c81f56838720c22543117b2381bf66ae; informe tareas/20261028-100820-5n7-causa/revisiones/registro-mdvxdkcy/informe.json; decisiones tareas/20261028-100820-5n7-causa/revisiones/registro-mdvxdkcy/decisiones.json.
+
+### Nota (2026-10-28 11:59:31 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-100820-5n7-causa/oracle-veredicto.txt.
