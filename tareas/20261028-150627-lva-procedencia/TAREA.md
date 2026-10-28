@@ -35,3 +35,23 @@ Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: fac
 ### Nota (2026-10-28 17:22:54 UTC)
 
 Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red: factory_procedencia.se_audita_contra_avisos_sin_red, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 17:23:42 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 17:23:42 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 17:23:42 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 17:23:43 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 17:23:43 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable: Brian Hollweg (persona, confirmo, modo confirmacion).
