@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada`
 - Vigente: sí
 - Cambio: [[cambios/20261028-143519-qhd-publicadaa15]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada`, `factory_publicada_a15.corrida_completa`
 - Fuente: openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_publicada
 

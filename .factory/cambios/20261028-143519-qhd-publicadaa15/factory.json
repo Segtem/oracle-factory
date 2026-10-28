@@ -2,7 +2,7 @@
   "id": "20261028-143519-qhd-publicadaa15",
   "titulo": "Declarar publicada la 0.1.0a15 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md",
   "spec_sha256": "d7f985f754eaba62a2d3b5ee2a9159da7495a57d084eaab47f64f666c87969b1",
   "spec_aprobada": {
@@ -41,7 +41,19 @@
       "archivos_sha256": "1c1be62fdfd7fa180946668d6f561fc85652c67d4a0202ac79398e55b78f22e7"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-143519-qhd-publicadaa15/candidatos/9876790/evidencia/hechos.json",
+    "hechos_sha256": "26b1ef5a6b159c91954cf77c17ee4367fcbc27b961e854ee82b36d9e459eb31a",
+    "informe": ".factory/cambios/20261028-143519-qhd-publicadaa15/oracle-veredicto.txt",
+    "informe_sha256": "59b791bfec6a85dbdc5466818f9fd29851f6d861b9fadc0487df95a58c54bf47",
+    "cuando": "2026-10-28T16:04:09.618985+00:00",
+    "contexto": {
+      "head": "8e2e873be8c48307192c774e5f1cb16a65d9167b",
+      "archivos_sha256": "1c1be62fdfd7fa180946668d6f561fc85652c67d4a0202ac79398e55b78f22e7"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -310,6 +322,17 @@
       "abiertos": 0,
       "sha256": "806ffb4562e708bf9a05b767d5a72a8562b23e33d915681dffdcd3b284c3759e",
       "decisiones_sha256": "3887165b7769ed0d5b7a546758ded1b680fd29a9003c5aed3c42c37c50619fd3"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T16:04:09.619002+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "26b1ef5a6b159c91954cf77c17ee4367fcbc27b961e854ee82b36d9e459eb31a"
     }
   ],
   "tipos": {

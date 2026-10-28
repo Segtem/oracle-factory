@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta`
 - Vigente: sí
 - Cambio: [[cambios/20261028-143519-qhd-publicadaa15]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta`, `factory_publicada_a15.corrida_completa`
 - Fuente: openspec/changes/20261028-143519-qhd-publicadaa15/specs/distribucion/spec.md#un_texto_en_preparacion_de_una_version_publicada_se_detecta
 
