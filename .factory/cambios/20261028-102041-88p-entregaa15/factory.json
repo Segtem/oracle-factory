@@ -139,6 +139,45 @@
         "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado",
         "factory_entrega_a15.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T12:23:32.451881+00:00",
+      "requisito": "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado",
+      "medidas": [
+        "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado",
+        "factory_entrega_a15.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T12:23:33.504209+00:00",
+      "requisito": "distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo",
+      "medidas": [
+        "factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo",
+        "factory_entrega_a15.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T12:23:34.555907+00:00",
+      "requisito": "distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites",
+      "medidas": [
+        "factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites",
+        "factory_entrega_a15.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -146,17 +185,30 @@
     "distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites": "funcional",
     "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado": "funcional"
   },
-  "medidas": {
-    "distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-28T12:21:19.894853+00:00",
-      "sha256": "e553f70ea8c807de13f6e933ab2c476e54f6676e8509acb668a942131b9c5a79",
+  "medidas": {},
+  "medidas_pendientes": {
+    "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado": {
+      "sha256": "79d7a9541f0f0692580bd6ac44705642db84cea7aced6c2fdc97876804bf8fab",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T12:23:32.420191+00:00",
       "catalogos": {
-        "factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo": "22f7b09d28a7c38a8dc5042e0e597138d5cacddd58e7a909524be690709478b5",
-        "factory_entrega_a15.corrida_completa": "873654c73bcbe659ec97e8842bea163fc07541b1562d092c1caf8fed309225f3"
+        "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado": "636a9c863e3c25ec833a64a9da8a99bad8238213ae0c1d204de1e92a08bb0efc",
+        "factory_entrega_a15.corrida_completa": "28eca341fced4c729fc21e5d2783470ac9404c5ad114feeb87ae37a3f8b3a24b"
+      },
+      "archivos_catalogo": {
+        "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado": "catalogos/factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado.oracle",
+        "factory_entrega_a15.corrida_completa": "catalogos/factory_entrega_a15.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo": {
+      "sha256": "e553f70ea8c807de13f6e933ab2c476e54f6676e8509acb668a942131b9c5a79",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T12:23:33.472269+00:00",
+      "catalogos": {
+        "factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo": "03ac504e7f8e7fcb916af80226cd2273208801c5875a63dc8dc68893443b73e8",
+        "factory_entrega_a15.corrida_completa": "28eca341fced4c729fc21e5d2783470ac9404c5ad114feeb87ae37a3f8b3a24b"
       },
       "archivos_catalogo": {
         "factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo": "catalogos/factory_entrega_a15.el_wheel_a15_instalado_ofrece_lo_nuevo.oracle",
@@ -164,37 +216,18 @@
       }
     },
     "distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-28T12:21:20.035040+00:00",
       "sha256": "d2219eba7bcfe63726a1c0cfe3805c9f7ed726338a9b0dd9a2c54921719b7145",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T12:23:34.524406+00:00",
       "catalogos": {
         "factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites": "d3d9cb8748312c89c47f023c0bbbab025e208d515d2e757b7a6f7f5295383b78",
-        "factory_entrega_a15.corrida_completa": "873654c73bcbe659ec97e8842bea163fc07541b1562d092c1caf8fed309225f3"
+        "factory_entrega_a15.corrida_completa": "28eca341fced4c729fc21e5d2783470ac9404c5ad114feeb87ae37a3f8b3a24b"
       },
       "archivos_catalogo": {
         "factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites": "catalogos/factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites.oracle",
         "factory_entrega_a15.corrida_completa": "catalogos/factory_entrega_a15.corrida_completa.oracle"
       }
-    },
-    "distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado": {
-      "actor": "Brian Hollweg",
-      "tipo_actor": "persona",
-      "forma": "confirmo",
-      "modo": "confirmacion",
-      "cuando": "2026-10-28T12:21:20.164970+00:00",
-      "sha256": "79d7a9541f0f0692580bd6ac44705642db84cea7aced6c2fdc97876804bf8fab",
-      "catalogos": {
-        "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado": "636a9c863e3c25ec833a64a9da8a99bad8238213ae0c1d204de1e92a08bb0efc",
-        "factory_entrega_a15.corrida_completa": "873654c73bcbe659ec97e8842bea163fc07541b1562d092c1caf8fed309225f3"
-      },
-      "archivos_catalogo": {
-        "factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado": "catalogos/factory_entrega_a15.la_version_a15_es_coherente_y_declara_su_estado.oracle",
-        "factory_entrega_a15.corrida_completa": "catalogos/factory_entrega_a15.corrida_completa.oracle"
-      }
     }
-  },
-  "medidas_pendientes": {}
+  }
 }
