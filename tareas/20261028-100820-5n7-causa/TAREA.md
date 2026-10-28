@@ -27,3 +27,15 @@ Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_u
 ### Nota (2026-10-28 10:11:14 UTC)
 
 Medidas de bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo: factory_bloqueo_causa.aprobar_spec_no_cambia_cuando_todo_esta_completo, factory_bloqueo_causa.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 10:11:49 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 10:11:49 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 10:11:49 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea: Brian Hollweg (persona, confirmo, modo confirmacion).
