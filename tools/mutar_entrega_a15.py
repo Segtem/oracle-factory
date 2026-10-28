@@ -44,7 +44,7 @@ MUTACIONES = [
 CASOS = {
     "ea1": "test_ea1_version_coherente_y_estado_declarado",
     "ea2_origen": "test_ea2_el_origen_y_la_version_instalados_se_verifican",
-    "ea2_novedades": "test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15",
+    "ea2_novedades": "test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
     "ea2_consultas": "test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
     "ea3": "test_ea3_entrega_registra_pruebas_y_limites",
     "integridad_mutaciones": "test_mutaciones_exigen_identidades_y_fuentes_actuales",

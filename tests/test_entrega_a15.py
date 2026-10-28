@@ -118,6 +118,41 @@ class EntregaA15(unittest.TestCase):
         self.assertTrue(res["faltan"])
         self.assertTrue(all(x["quien"] in ("persona", "agente", None) for x in res["faltan"]))
 
+    def test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta(self):
+        bueno = {
+            "ident": "c1",
+            "spec": "# Capability: novedad\n\n## ADDED Requirements\n\n### Requirement: main behaviour\nThe system SHALL TODO: x.\n",
+            "propuesta": "# P\n\n## Why\n\nTODO: y.\n",
+            "bloqueo": "hay que completar y revisar primero: openspec/changes/c1/proposal.md (línea 5: «TODO: y.»; quedan 3 más)",
+            "cuenta": {"valor": {"vigentes": 0, "en_cambios_abiertos": 1}},
+            "filtro": {"tipo": "consulta_no_admitida", "resultados": []},
+            "tablero": {"yo": None, "cambios": [{"id": "c1", "faltan": [{"texto": "t", "humano": "h", "quien": "agente"}]}],
+                        "proyecto": {"actividad": [{"cambio": "c1", "accion": "cambio_creado"}]}},
+        }
+        self.assertTrue(probar_entrega_a15.validar_novedades(bueno)["exitoso"])
+        rotos = {
+            "plantilla en español": {"spec": bueno["spec"].replace("The system SHALL", "El sistema DEBE")},
+            "propuesta en español": {"propuesta": bueno["propuesta"].replace("## Why", "## Por qué")},
+            "sin estructura": {"spec": bueno["spec"].replace("## ADDED Requirements", "")},
+            "bloqueo sin la frase": {"bloqueo": "falta algo"},
+            "bloqueo sin línea": {"bloqueo": "hay que completar y revisar primero: openspec/changes/c1/proposal.md"},
+            "bloqueo con recuento pero sin la línea": {"bloqueo": "hay que completar y revisar primero: el archivo; quedan 3 más"},
+            "bloqueo sin recuento": {"bloqueo": "hay que completar y revisar primero: proposal.md (línea 5: «x»)"},
+            "conteo de specs distinto": {"cuenta": {"valor": {"vigentes": 1, "en_cambios_abiertos": 1}}},
+            "conteo con modelo": {"cuenta": {"valor": {"vigentes": 0, "en_cambios_abiertos": 1}, "modelo_generativo": "x"}},
+            "filtro aceptado": {"filtro": {"tipo": "registro", "resultados": []}},
+            "filtro con pasajes sueltos": {"filtro": {"tipo": "consulta_no_admitida", "resultados": [{"x": 1}]}},
+            "tablero sin yo": {"tablero": {"cambios": bueno["tablero"]["cambios"], "proyecto": bueno["tablero"]["proyecto"]}},
+            "tablero sin faltan": {"tablero": {**bueno["tablero"], "cambios": [{"id": "c1", "faltan": []}]}},
+            "faltan sin quién": {"tablero": {**bueno["tablero"], "cambios": [{"id": "c1", "faltan": [{"texto": "t", "humano": "h"}]}]}},
+            "sin actividad": {"tablero": {**bueno["tablero"], "proyecto": {"actividad": []}}},
+            "actividad de otro cambio": {"tablero": {**bueno["tablero"], "proyecto": {"actividad": [{"cambio": "c2", "accion": "cambio_creado"}]}}},
+        }
+        for nombre, cambio in rotos.items():
+            with self.subTest(nombre):
+                with self.assertRaises(AssertionError):
+                    probar_entrega_a15.validar_novedades({**bueno, **cambio})
+
     def test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel(self):
         tmp_path, _, factory_bin, _ = self.instalado()
         # Proyecto fixture con 2 cerrados archivados, 1 abierto, 1 abandonado

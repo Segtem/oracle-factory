@@ -552,33 +552,41 @@ def probar_novedades(factory_bin: Path, tmp_path: Path) -> dict[str, object]:
     datos["rag"] = {"embeddings": {"proveedor": "ninguno"}, "generacion": {"proveedor": "ninguno"}}
     config.write_text(json.dumps(datos) + "\n")
 
-    # El idioma de la plantilla: un cambio en inglés, con la estructura que exige el formato.
     creado = correr("nuevo", "--capacidad", "novedad", "--idioma", "en", "Probar las novedades").stdout
     ident = next((l.split(": ", 1)[1].strip() for l in creado.splitlines() if l.startswith("Cambio creado: ")), "")
     if not ident:
         raise AssertionError(f"nuevo no dijo el cambio creado: {creado}")
     carpeta = proyecto / "openspec/changes" / ident
-    spec = (carpeta / "specs/novedad/spec.md").read_text(encoding="utf-8")
-    propuesta = (carpeta / "proposal.md").read_text(encoding="utf-8")
+    bloqueo = correr("aprobar-spec", ident, esperado=1)
+    observado = {
+        "ident": ident,
+        "spec": (carpeta / "specs/novedad/spec.md").read_text(encoding="utf-8"),
+        "propuesta": (carpeta / "proposal.md").read_text(encoding="utf-8"),
+        "bloqueo": bloqueo.stdout + bloqueo.stderr,
+        "cuenta": json.loads(correr("preguntar", "--json", "¿Cuántas specs hay?").stdout),
+        "filtro": json.loads(correr("preguntar", "--json", "¿Cuántas specs hay desde ayer?").stdout),
+        "tablero": json.loads(correr("tablero", "--json").stdout),
+    }
+    return validar_novedades(observado)
+
+
+def validar_novedades(o: dict) -> dict[str, object]:
+    """Juzga lo observado en el wheel instalado; falla con AssertionError si falta alguna novedad de 0.1.0a15."""
+    ident, spec, propuesta, texto = o["ident"], o["spec"], o["propuesta"], o["bloqueo"]
+    # El idioma de la plantilla: un cambio en inglés, con la estructura que exige el formato.
     if "The system SHALL" not in spec or "DEBE" in spec or "## ADDED Requirements" not in spec or "## Why" not in propuesta:
         raise AssertionError(f"la plantilla en inglés no salió entera en inglés: {spec} {propuesta}")
-
     # El bloqueo de aprobar-spec nombra la línea que falta completar.
-    bloqueo = correr("aprobar-spec", ident, esperado=1)
-    texto = bloqueo.stdout + bloqueo.stderr
     if "hay que completar y revisar primero" not in texto or "proposal.md (línea " not in texto or "quedan 3 más" not in texto:
         raise AssertionError(f"el bloqueo no nombró la línea pendiente: {texto}")
-
     # preguntar cuenta las specs y rechaza un filtro que no admite.
-    cuenta = json.loads(correr("preguntar", "--json", "¿Cuántas specs hay?").stdout)
+    cuenta, filtro = o["cuenta"], o["filtro"]
     if cuenta.get("valor") != {"vigentes": 0, "en_cambios_abiertos": 1} or cuenta.get("modelo_generativo"):
         raise AssertionError(f"el conteo de specs no es el esperado: {cuenta}")
-    filtro = json.loads(correr("preguntar", "--json", "¿Cuántas specs hay desde ayer?").stdout)
     if filtro.get("tipo") != "consulta_no_admitida" or filtro.get("resultados"):
         raise AssertionError(f"un filtro no admitido debía rechazarse: {filtro}")
-
     # El tablero: quién mira, qué falta con quién lo hace, y la actividad reciente.
-    tablero = json.loads(correr("tablero", "--json").stdout)
+    tablero = o["tablero"]
     [cambio] = [c for c in tablero["cambios"] if c["id"] == ident]
     if "yo" not in tablero or not cambio["faltan"] or not all({"texto", "humano", "quien"} <= set(x) for x in cambio["faltan"]):
         raise AssertionError(f"el tablero no trae yo y faltan: {list(tablero)} {cambio['faltan']}")

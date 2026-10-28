@@ -30,6 +30,7 @@ CONTRACTS = {
     "el_wheel_a15_instalado_ofrece_lo_nuevo": [
         "EntregaA15.test_ea2_el_origen_y_la_version_instalados_se_verifican",
         "EntregaA15.test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a15",
+        "EntregaA15.test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
         "EntregaA15.test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
     ],
     "la_entrega_a15_registra_sus_pruebas_y_sus_limites": [
