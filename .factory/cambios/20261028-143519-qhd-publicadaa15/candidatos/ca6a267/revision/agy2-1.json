@@ -1,0 +1,61 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a15/.factory/local/revisiones/ca6a267-agy2-1",
+  "base": "4df3d688b4cdfb219a5e4c8d92f2dae83b81faf5",
+  "head": "ca6a267a3a46e488a507462be6ca860a47935890",
+  "diff_sha256": "d97d26c20656602d37b28d6e428e3f429dd9655a71d1de2624819f7c9677229d",
+  "context_sha256": "0c67247c2acccb4fff12170ac5546b3b524f5859ce652ba85b372221f63ae5a6",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "docs-al-dia-falsos-positivos-negativos-preparacion-olvidada",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Expresión regular de preparacion_olvidada produce falsos positivos y falsos negativos",
+      "explanation": "La función preparacion_olvidada en tools/docs_al_dia.py presenta deficiencias frente al requisito un_texto_en_preparacion_de_una_version_publicada_se_detecta:\n1. Falsos positivos: Los patrones r\"estado de preparaci[oó]n\" y r\"en preparaci[oó]n para entrega\" no están calificados por la versión actual ({v}). Cualquier texto técnico legítimo que mencione el estado de preparación de un proceso, entorno o cambio (por ejemplo, «El estado de preparación de un cambio se consulta con oracle-factory estado») es reportado erróneamente como divergencia de la versión 0.1.0a15. Además, las reglas simétricas rf\"candidat[oa][^\\n]{{0,60}}{v}\" y rf\"{v}[^\\n]{{0,60}}candidat[oa]\" colisionan con el uso estándar del término «candidato de revisión» o «candidato <hash>» propio del flujo de Factory cuando la versión se menciona en la misma frase (por ejemplo, «El candidato ca6a267 de la versión 0.1.0a15 fue aprobado» o «Para 0.1.0a15 el candidato de revisión se evalúa con Clue»).\n2. Falsos negativos: El patrón rf\"{v}\\s*\\(en preparaci[oó]n\\)\" requiere obligatoriamente paréntesis literales, mientras que rf\"preparaci[oó]n\\s+{v}\" únicamente detecta la palabra «preparación» antepuesta inmediatamente a la versión sin palabras intermedias. Formas naturales y directas de describir la versión en preparación como «0.1.0a15 en preparación», «Versión 0.1.0a15 en preparación», «La versión 0.1.0a15 está en preparación» o «preparación de la 0.1.0a15» no son detectadas, incumpliendo la detección de cualquier texto que describa la versión en preparación.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "side": "head",
+        "start_line": 107,
+        "end_line": 109
+      },
+      "trigger": "Presencia de documentación con frases como «estado de preparación» o «candidato de revisión» junto a la versión (falsos positivos), o descripciones de la versión en preparación sin paréntesis (falsos negativos).",
+      "evidence": "Al evaluar docs_al_dia.problemas() sobre un árbol temporal donde docs/estructura.md contiene «El estado de preparación de un cambio se consulta con oracle-factory estado.», se genera erróneamente: «docs/estructura.md: describe la versión 0.1.0a15 como candidata o en preparación». En contrapartida, un archivo con «Versión 0.1.0a15 en preparación.» no produce divergencia alguna.",
+      "related_requirement": "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Inyectar «El estado de preparación de un cambio se consulta con oracle-factory estado.» en docs/estructura.md y verificar el reporte erróneo en docs_al_dia.problemas(); e inyectar «Versión 0.1.0a15 en preparación.» en README.md comprobando la omisión de detección."
+    },
+    {
+      "id": "test-publicada-a15-otra-version-candidato-sin-version",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_pa2_otra_version_con_la_palabra_candidato_no_cuenta no evalúa ninguna versión en su texto de prueba",
+      "explanation": "El caso de prueba test_pa2_otra_version_con_la_palabra_candidato_no_cuenta en tests/test_publicada_a15.py declara en su identificador verificar que el uso de la palabra «candidato» asociado a otra versión no sea interpretado como divergencia. Sin embargo, el texto inyectado en README.md durante la prueba es «\\nEl candidato de la revisión se prepara aparte.\\n», el cual no incluye ningún identificador de versión (ni 0.1.0a15 ni ninguna versión anterior como 0.1.0a14). De este modo, el test no comprueba el escenario que anuncia su nombre ni valida la ausencia de falsos positivos cuando coexisten números de versión y la palabra «candidato».",
+      "location": {
+        "file": "tests/test_publicada_a15.py",
+        "side": "head",
+        "start_line": 92,
+        "end_line": 97
+      },
+      "trigger": "Ejecución del test unitario tests.test_publicada_a15.PublicadaA15.test_pa2_otra_version_con_la_palabra_candidato_no_cuenta.",
+      "evidence": "En tests/test_publicada_a15.py líneas 92-97, la prueba inyecta: readme.write_text(readme.read_text(encoding='utf-8') + '\\nEl candidato de la revisión se prepara aparte.\\n', encoding='utf-8'), omitiendo cualquier versión.",
+      "related_requirement": "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Inspección de tests/test_publicada_a15.py líneas 92-97 constatando la ausencia de versiones en el texto evaluado."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se verificó la publicación de la versión 0.1.0a15 en PyPI (artefactos wheel y sdist con sus respectivos SHA-256) mediante la API JSON pública de PyPI.",
+    "Se verificó en GitHub el tag v0.1.0a15 y el release correspondiente (marcado como pre-release) comprobando que contiene los mismos activos con idénticos SHA-256 mediante el CLI gh.",
+    "Se ejecutaron las pruebas unitarias indicadas (tests.test_publicada_a15, tests.test_docs y tests.test_entrega_a15.EntregaA15.test_ea1_version_coherente_y_estado_declarado) con resultado 11/11 exitosas.",
+    "Las pruebas se ejecutaron utilizando el intérprete Python del entorno virtual principal (/home/workstation/Dev/factory-publicada-a15/.venv/bin/python) ya que el clon de revisión es de sólo lectura y no posee .venv propio.",
+    "No se corrió la suite completa de pruebas por indicación expresa del pedido de revisión.",
+    "Se realizaron análisis estáticos y pruebas dinámicas de mutación sobre copias temporales aisladas, constatando la detección efectiva de las 7 mutaciones de ea1 de tools/mutar_entrega_a15.py y mutaciones de control de la spec."
+  ]
+}

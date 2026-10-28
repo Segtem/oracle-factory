@@ -98,15 +98,31 @@ def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> lis
             for nombre, texto in todo.items() if afirma.search(texto)]
 
 
+def patron_preparacion(version: str) -> re.Pattern:
+    """Las formas de llamar a una versión candidata o en preparación. Toda forma lleva la versión en la misma frase, para no
+    confundir el «candidato» de una revisión (un hash) ni un «estado de preparación» de otra cosa con la versión publicada."""
+    v = re.escape(version)
+    cerca = r"[^\n.]{0,40}"  # en la misma frase
+    formas = [
+        rf"{v}\s*\(?en preparaci[oó]n",                                          # 0.1.0a15 (en preparación)
+        rf"preparaci[oó]n\s+{v}",                                                # PREPARACIÓN 0.1.0a15
+        rf"candidat[oa]\s+(?:en preparaci[oó]n\s+)?(?:de\s+)?(?:factory\s+)?[`']?(?:oracle-factory\s*(?:==)?\s*)?{v}",  # candidato Factory 0.1.0a15
+        rf"{v}{cerca}\s(?:es|sigue siendo|queda como|como)\s+(?:la\s+|el\s+|una?\s+)?(?:versi[oó]n\s+)?candidat[oa]",  # la 0.1.0a15 es la candidata
+        rf"{v}{cerca}\b(?:est[aá]|queda|sigue)\s+en preparaci[oó]n",             # la 0.1.0a15 está en preparación
+        rf"{v}{cerca}estado de preparaci[oó]n|estado de preparaci[oó]n{cerca}{v}", # Versión 0.1.0a15 y estado de preparación
+        rf"en preparaci[oó]n\s*[:\-–]?\s*{v}",                                   # en preparación: 0.1.0a15
+        rf"cuando se publique\s+(?:la\s+|el\s+)?(?:versi[oó]n\s+)?{v}|{v}{cerca}\bse publicar[aá]\b",  # cuando se publique la 0.1.0a15
+        r"cuando se publique esta versi[oó]n",                                     # frase de instalación a futuro, sin versión
+    ]
+    return re.compile("|".join(formas), re.I)
+
+
 def preparacion_olvidada(raiz: Path, version: str, todo: dict[str, str]) -> list[str]:
     """Cuando las notas ya no marcan la versión como «en preparación», ningún texto puede seguir llamándola candidata."""
     notas = raiz / "NOTAS-DE-RELEASE.md"
     if not notas.is_file() or f"\n# Oracle Factory {version}\n" not in "\n" + notas.read_text(encoding="utf-8"):
         return []
-    v = re.escape(version)
-    resto = [rf"{v}\s*\(en preparaci[oó]n\)", rf"preparaci[oó]n\s+{v}", rf"candidat[oa][^\n]{{0,60}}{v}", rf"{v}[^\n]{{0,60}}candidat[oa]",
-             r"cuando se publique esta versi[oó]n", r"estado de preparaci[oó]n", r"en preparaci[oó]n para entrega"]
-    afirma = re.compile("|".join(resto), re.I)
+    afirma = patron_preparacion(version)
     return [f"{nombre}: describe la versión {version} como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada"
             for nombre, texto in todo.items() if afirma.search(texto)]
 

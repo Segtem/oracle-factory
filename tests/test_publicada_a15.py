@@ -10,10 +10,6 @@ from tools import docs_al_dia
 ROOT = Path(__file__).resolve().parents[1]
 V = "0.1.0a15"
 ARCHIVOS = ("README.md", "docs/colaboracion.md", "site/desde-cero.html", "site/index.html", "site/colaboracion.html", "site/modos.html")
-CANDIDATA = re.compile(rf"(?i){re.escape(V)}\s*\(en preparaci[oó]n\)|preparaci[oó]n\s+{re.escape(V)}|candidat[oa][^\n]{{0,60}}{re.escape(V)}"
-                       rf"|{re.escape(V)}[^\n]{{0,60}}candidat[oa]|cuando se publique esta versi[oó]n|estado de preparaci[oó]n|en preparaci[oó]n para entrega")
-
-
 def copia(tmp: Path) -> Path:
     dest = tmp / "repo"
     dest.mkdir()
@@ -39,7 +35,7 @@ class PublicadaA15(unittest.TestCase):
     def test_pa1_ningun_texto_llama_candidata_a_la_version_publicada(self):
         for nombre in ARCHIVOS:
             texto = (ROOT / nombre).read_text(encoding="utf-8")
-            self.assertIsNone(CANDIDATA.search(texto), f"{nombre}: {CANDIDATA.search(texto)}")
+            self.assertIsNone(docs_al_dia.patron_preparacion(V).search(texto), nombre)
         self.assertEqual(divergencias(ROOT), [])
 
     def test_pa1_el_readme_y_la_guia_dicen_que_esta_publicada(self):
@@ -60,8 +56,12 @@ class PublicadaA15(unittest.TestCase):
     # --- pa2: se detecta lo que la siga llamando candidata ---------------------------------------------------------------
     def test_pa2_un_texto_candidata_con_las_notas_publicadas_se_detecta(self):
         frases = ("Candidato en preparación `oracle-factory==0.1.0a15`, y su wheel.", "La 0.1.0a15 (en preparación) trae el tablero.",
-                  "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión y estado de preparación.",
-                  "PREPARACIÓN 0.1.0a15", "Esta guía describe el candidato Factory 0.1.0a15.", "La versión 0.1.0a15 es la candidata a publicar.", "Esta guía está en preparación para entrega.")
+                  "La 0.1.0a15 en preparación trae el tablero.", "La 0.1.0a15 está en preparación.", "La 0.1.0a15 sigue en preparación.",
+                  "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 0.1.0a15 y estado de preparación.",
+                  "PREPARACIÓN 0.1.0a15", "Esta guía describe el candidato Factory 0.1.0a15.", "Esta guía describe el candidato 0.1.0a15.",
+                  "La versión 0.1.0a15 es la candidata a publicar.", "La 0.1.0a15 es una versión candidata.",
+                  "Estado: en preparación: 0.1.0a15.", "Se instala cuando se publique la 0.1.0a15.", "La 0.1.0a15 se publicará pronto.", "Versión 0.1.0a15 en preparación.",
+                  "Esta guía describe Factory 0.1.0a15 en preparación para entrega.")
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))
             self.assertEqual(divergencias(repo), [])
@@ -71,6 +71,23 @@ class PublicadaA15(unittest.TestCase):
                     (repo / archivo).write_text(original + f"\n<p>{frase}</p>\n", encoding="utf-8")
                     self.assertTrue(any(p.startswith(f"{archivo}: describe la versión {V} como candidata o en preparación") for p in divergencias(repo)),
                                     (archivo, frase))
+                (repo / archivo).write_text(original, encoding="utf-8")
+
+    def test_pa2_el_candidato_de_una_revision_y_otros_estados_de_preparacion_no_son_divergencia(self):
+        legitimas = ("El candidato ca6a267 de la versión 0.1.0a15 fue aprobado.", "El candidato de la revisión de la 0.1.0a15 se prepara aparte.",
+                     "El estado de preparación de un cambio se consulta con oracle-factory estado.", "Un cambio en preparación para entrega no se integra.",
+                     "La 0.1.0a14 estuvo en preparación y hoy está publicada, igual que la 0.1.0a15.", "Cada candidato lleva su evidencia.",
+                     "La 0.1.0a15 corrige el candidato anterior de la guía.", "Preparación de la revisión de la 0.1.0a15.",
+                     "La 0.1.0a15 está publicada. El estado de preparación de un cambio se consulta con estado.",
+                     "Los cambios se integran cuando se publique un cambio de la rama.", "En preparación: la revisión del cambio, no una versión.",
+                     "La 0.1.0a15 trae muchas cosas nuevas del tablero, del idioma y de los bloqueos, y también cambia el estado de preparación de cada cambio.")
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = copia(Path(tmp))
+            for archivo in ("README.md", "docs/colaboracion.md", "site/desde-cero.html"):
+                original = (repo / archivo).read_text(encoding="utf-8")
+                for frase in legitimas:
+                    (repo / archivo).write_text(original + f"\n<p>{frase}</p>\n", encoding="utf-8")
+                    self.assertEqual(divergencias(repo), [], (archivo, frase))
                 (repo / archivo).write_text(original, encoding="utf-8")
 
     def test_pa2_una_version_en_preparacion_no_es_divergencia(self):
@@ -89,12 +106,14 @@ class PublicadaA15(unittest.TestCase):
             (repo / "NOTAS-DE-RELEASE.md").unlink()
             self.assertEqual(divergencias(repo), [])
 
-    def test_pa2_otra_version_con_la_palabra_candidato_no_cuenta(self):
+    def test_pa2_la_palabra_candidato_junto_a_otra_version_no_cuenta(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = copia(Path(tmp))
             readme = repo / "README.md"
-            readme.write_text(readme.read_text(encoding="utf-8") + "\nEl candidato de la revisión se prepara aparte.\n", encoding="utf-8")
-            self.assertEqual(divergencias(repo), [])
+            for frase in ("La 0.1.0a14 fue candidata a publicar antes de la 0.1.0a15.", "Candidato en preparación `oracle-factory==0.1.0a14`.",
+                          "El candidato de la 0.1.0a14 pasó la revisión."):
+                readme.write_text(readme.read_text(encoding="utf-8") + f"\n{frase}\n", encoding="utf-8")
+                self.assertFalse(any("describe la versión" in p for p in docs_al_dia.problemas(repo)), frase)
 
 
 if __name__ == "__main__":

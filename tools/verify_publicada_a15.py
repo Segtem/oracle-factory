@@ -23,9 +23,10 @@ CONTRACTS = {
         'PublicadaA15.test_pa1_la_historia_anterior_se_conserva'],
     'un_texto_en_preparacion_de_una_version_publicada_se_detecta': [
         'PublicadaA15.test_pa2_un_texto_candidata_con_las_notas_publicadas_se_detecta',
+        'PublicadaA15.test_pa2_el_candidato_de_una_revision_y_otros_estados_de_preparacion_no_son_divergencia',
         'PublicadaA15.test_pa2_una_version_en_preparacion_no_es_divergencia',
         'PublicadaA15.test_pa2_sin_notas_la_regla_no_inventa_divergencias',
-        'PublicadaA15.test_pa2_otra_version_con_la_palabra_candidato_no_cuenta'],
+        'PublicadaA15.test_pa2_la_palabra_candidato_junto_a_otra_version_no_cuenta'],
 }
 PREFIX = 'test_publicada_a15.'
 LIMITES = ('Escenarios pa1–pa2 sobre los textos del repositorio (notas, README, documentación y web) y sobre copias temporales para los casos '

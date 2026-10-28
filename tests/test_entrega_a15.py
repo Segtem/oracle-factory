@@ -94,7 +94,7 @@ class EntregaA15(unittest.TestCase):
             self.assertFalse(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
             # e) ...pero un texto que la sigue llamando candidata o en preparación se detecta
             for frase in ("Candidato en preparación `oracle-factory==0.1.0a15`, y su wheel.", "La 0.1.0a15 (en preparación) trae el tablero.",
-                          "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión y estado de preparación.",
+                          "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 0.1.0a15 y estado de preparación.",
                           "PREPARACIÓN 0.1.0a15", "Esta guía describe el candidato Factory 0.1.0a15."):
                 readme.write_text(contenido_original + f"\n{frase}\n", encoding="utf-8")
                 self.assertTrue(any("describe la versión 0.1.0a15 como candidata o en preparación" in p
