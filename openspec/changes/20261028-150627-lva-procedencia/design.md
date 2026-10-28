@@ -1,0 +1,3 @@
+# Design
+
+Un módulo nuevo, `oracle_factory/procedencia.py`, con el subcomando `procedencia` en `cli.py`. Lee el lock (`uv.lock`, TOML) con `tomllib`, los requisitos de `pyproject.toml` y las distribuciones instaladas con `importlib.metadata` del Python que se indique (por defecto el `.venv` del proyecto). Escribe CycloneDX 1.5 en JSON, ordenado y sin marcas de tiempo, para que dos corridas iguales den el mismo archivo y la misma huella. El inventario de un candidato vive en su carpeta y el evento del registro guarda su huella. La búsqueda y la auditoría leen esos archivos; los avisos se leen de un archivo OSV local. Sin red.
