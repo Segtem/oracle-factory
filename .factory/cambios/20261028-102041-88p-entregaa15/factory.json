@@ -477,6 +477,58 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "60f9b2372e6d1932f26bed545c84eb0496d571a819481e7ff5e46162d7ba5b8a"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T14:03:37.721860+00:00",
+      "revisor": "agy",
+      "candidato": "2cbea44",
+      "lanzamiento": "599e81ffb11b"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T14:03:37.748714+00:00",
+      "revisor": "agy2",
+      "candidato": "2cbea44",
+      "lanzamiento": "feaf926ae791"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T14:15:35.163945+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "2cbea44",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "feaf926ae791"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-28T14:16:27.896076+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "2cbea44",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "599e81ffb11b"
     }
   ],
   "tipos": {
