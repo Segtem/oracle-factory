@@ -2,10 +2,20 @@
   "id": "20261028-222656-b2m-clidividido",
   "titulo": "Partir cli.py en módulos para alejarlo del límite de Oracle Clue",
   "capacidad": "cli",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T22:29:07.140028+00:00",
+    "documentos": {
+      "openspec/changes/20261028-222656-b2m-clidividido/proposal.md": "03e8e76fdc2c0af02e0431e7ffbbcd16f52d96785326452bee5b433bbbb37e6f",
+      "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-28T22:26:56.692179+00:00",
       "capacidad": "cli"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T22:29:07.140056+00:00",
+      "documentos": {
+        "openspec/changes/20261028-222656-b2m-clidividido/proposal.md": "03e8e76fdc2c0af02e0431e7ffbbcd16f52d96785326452bee5b433bbbb37e6f",
+        "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
