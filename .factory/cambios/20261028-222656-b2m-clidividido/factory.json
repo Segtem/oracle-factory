@@ -2,7 +2,7 @@
   "id": "20261028-222656-b2m-clidividido",
   "titulo": "Partir cli.py en módulos para alejarlo del límite de Oracle Clue",
   "capacidad": "cli",
-  "fase": "revision_aprobada",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md",
   "spec_sha256": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "a55d49ffe0417db73f260e582482dedec427529d3ebec88e52e08cea7ded483f"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-222656-b2m-clidividido/candidatos/6f59107/evidencia/hechos.json",
+    "hechos_sha256": "41b1afa3efaf48ac193ce61977664d0fc07742e927e18a22ceb20c2fa53a5f98",
+    "informe": ".factory/cambios/20261028-222656-b2m-clidividido/oracle-veredicto.txt",
+    "informe_sha256": "fe87f63e45797cf800412dbb57b7bfbb893f14b7adaeed1bc80e9ce3c3e97c71",
+    "cuando": "2026-10-28T23:42:44.832775+00:00",
+    "contexto": {
+      "head": "c9b373d32fa3a9c4990827423ac46ec2333ce460",
+      "archivos_sha256": "a55d49ffe0417db73f260e582482dedec427529d3ebec88e52e08cea7ded483f"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -313,6 +325,17 @@
       "abiertos": 0,
       "sha256": "4b6b52b54ed9f62fa03f99a577535b70d34dfcbbcab1542e18da56ffefbfa1e8",
       "decisiones_sha256": "36491cf665be82a46f536d921920280a7b99f86574b03ce506368a1d0f9f90ca"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:42:44.832792+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "41b1afa3efaf48ac193ce61977664d0fc07742e927e18a22ceb20c2fa53a5f98"
     }
   ],
   "tipos": {
