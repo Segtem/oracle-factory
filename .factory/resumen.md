@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:f08809f87289919c5d11e76e0cf152d78d3335d4aeae58c8679a30c51674bc6e -->
+<!-- oracle-factory resumen sha256:8d76b7d2008ff5c4bfd5204dc1cf48287c073563983bb607420f44882f5d3a08 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-24 capacidades · 217 requisitos vigentes · 1 cambio abierto
+24 capacidades · 220 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -53,6 +53,9 @@ Spec completa: [openspec/specs/bloqueos/spec.md](../openspec/specs/bloqueos/spec
 | revisar bloqueado dice cómo seguir | funcional | `bloqueos_c48b34e270263f8fb.revisar_bloqueado_dice_como_seguir` | factory_bloqueos.revisar_bloqueado_dice_como_seguir, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
 | revisar el producto de un primer commit | funcional | `bloqueos_c48b34e270263f8fb.revisar_el_producto_de_un_primer_commit` | factory_bloqueos.revisar_el_producto_de_un_primer_commit, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
 | el paquete vacío nombra la salida | funcional | `bloqueos_c48b34e270263f8fb.el_paquete_vacio_nombra_la_salida` | factory_bloqueos.el_paquete_vacio_nombra_la_salida, factory_bloqueos.corrida_completa | verde al cerrar el 2026-10-26 | 20261026-144045-3h6-bloqueos |
+| el_bloqueo_de_aprobar_spec_nombra_la_linea | funcional | `bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea` | factory_bloqueo_causa.el_bloqueo_de_aprobar_spec_nombra_la_linea, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
+| el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo | funcional | `bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo` | factory_bloqueo_causa.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
+| aprobar_spec_no_cambia_cuando_todo_esta_completo | funcional | `bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo` | factory_bloqueo_causa.aprobar_spec_no_cambia_cuando_todo_esta_completo, factory_bloqueo_causa.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-100820-5n7-causa |
 
 ### cli
 
@@ -396,14 +399,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261028-100820-5n7-causa — Que aprobar-spec diga qué línea de qué archivo falta completar
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `bloqueos` · [propuesta](../openspec/changes/20261028-100820-5n7-causa/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1183,6 +1179,17 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para respetar estrictamente la directiva de la consigna.
 - (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se evaluaron múltiples pruebas de mutación manuales en un directorio aislado (scratch/mutaciones) sobre editores/vscode/extension.js y tests/test_terminal_lista.py para verificar la sensibilidad de la suite ante regresiones en plazos por defecto o inválidos, orden de comandos en cola, manejo de terminales cerradas con y sin exitStatus, resolución anticipada y filtrado del comando en la salida.
 - (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): No se evaluó en una instancia viva e interactiva de VS Code con usuario humano ni con el entorno de activación de Python de usuario, lo cual se declara explícitamente fuera de alcance en la propuesta y spec.
+- (20261028-100820-5n7-causa) Evidencia: Escenarios bc1–bc3 en proyectos temporales con git, Linux. Sólo cubre el bloqueo de aprobar-spec por la marca de pendiente de la plantilla o por un archivo que falta; los demás mensajes de bloqueo de Factory no cambian.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null (23 pruebas exitosas en 4.26s: 18 de BloqueoCausa y 5 de Piloto). Se utilizó el intérprete .venv de la raíz del proyecto debido a que el clon local en revisiones/43d18a3-agy-1 no cuenta con un entorno virtual propio.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Alcance de pruebas: no se corrió la suite completa de pruebas ni tools/verify_bloqueo_causa.py (que ejecuta discover de la suite completa), respetando la instrucción expresa de no ejecutar la suite completa.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Integridad del repositorio: no se modificó el checkout de revisión del candidato 43d18a3 ni se alteró la configuración de Git de ningún repositorio.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Pruebas de mutación: se ejecutaron 18 mutaciones manuales sobre la lógica de exigir_plantilla_completa en el directorio de trabajo del revisor contra tests.test_bloqueo_causa. 17 mutaciones fueron eliminadas por las pruebas (corte a 79 y 81 caracteres, elipsis con '...' en lugar de '…', omisión de strip, 'quedan' fijo ante 1 restante, 'queda' fijo ante más de 1 restante, 'falta el archivo' singular fijo ante múltiples faltantes, 'faltan los archivos' plural fijo ante 1 faltante, orden invertido de pendientes/faltan, omisión de ruta_segura, relative_to antes de ruta_segura, omisión de captura de UnicodeDecodeError, selección de última línea con marca, enumeración 0-based de líneas, off-by-one en conteo de resto, estricto en límite de 80 caracteres, pase incondicional). Una mutación sobrevivió: reemplazar is_file() por exists(), al no existir un caso de prueba con directorios con nombres de plantilla, si bien is_file() es más estricto y previene IsADirectoryError.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Verificación de seguridad, robustez y regresiones: se verificó que el hallazgo de la vuelta 2 (invocación de relative_to antes de ruta_segura) fue debidamente corregido en exigir_plantilla_completa (oracle_factory/cli.py:1064-1065) y cuenta con una prueba unitaria específica (test_bc1_una_ruta_fuera_del_proyecto_es_un_error_de_factory_y_no_un_valueerror). Asimismo, se verificaron los cierres de la vuelta 1 (enlaces simbólicos externos y rotos rechazados limpiamente vía ruta_segura, manejo de archivos no UTF-8 emitiendo FactoryError, concordancia de singular/plural, y corte exacto a 80 caracteres). Los catálogos .oracle y la evidencia del candidato coinciden exactamente con los 18 casos de contrato sin líneas de producto sin respaldo.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Ejecución de pruebas autorizadas: se ejecutaron en primer plano exactamente las pruebas requeridas desde la raíz del checkout mediante PYTHONPATH=. /home/workstation/Dev/factory-bloqueo-causa/.venv/bin/python -m unittest tests.test_bloqueo_causa tests.test_cli_piloto </dev/null, resultando 23 pruebas exitosas (18 de BloqueoCausa y 5 de CliPiloto) en 4.18s. Se utilizó el intérprete .venv del repositorio principal debido a que el clon local de revisión no posee un entorno virtual propio. Conforme a las instrucciones, no se ejecutó la suite completa de pruebas ni tools/verify_bloqueo_causa.py directamente.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Verificación del hallazgo de vuelta 2: se verificó en oracle_factory/cli.py (líneas 1064-1066) que exigir_plantilla_completa invoca ruta_segura(archivo) antes de llamar a archivo.relative_to(ROOT). Con ello, cualquier ruta externa al árbol del proyecto o symlink es interceptada y rechazada como FactoryError de dominio en lugar de provocar un ValueError no capturado. Esta corrección está cubierta por el nuevo test test_bc1_una_ruta_fuera_del_proyecto_es_un_error_de_factory_y_no_un_valueerror, integrado al contrato en tools/verify_bloqueo_causa.py y reflejado en el catálogo de métricas.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Verificación de seguridad y casos límite de vueltas anteriores: se confirmó la ausencia de regresiones respecto a la vuelta 1: rechazo de enlaces simbólicos externos y rotos sin lectura previa, captura limpia de UnicodeDecodeError ante archivos no UTF-8 con emisión de FactoryError informativo, concordancia gramatical ('queda 1 más' frente a 'quedan N más', y 'falta el archivo' frente a 'faltan los archivos') y preservación del prefijo 'hay que completar y revisar primero: <ruta>' en mensajes de bloqueo.
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Análisis de mutación sistemático: se ejecutaron 22 mutaciones manuales sobre exigir_plantilla_completa en copias aisladas en el directorio del revisor frente a tests.test_bloqueo_causa. 19 mutaciones fueron eliminadas (KILLED) por las aserciones de la suite: inversión del orden relativo/seguro (reproducción del bug de vuelta 2), omisión de ruta_segura, omisión del bloque try/except UnicodeDecodeError, corte a 79 caracteres, cortes a 79 y 81 caracteres, elipsis '...' en lugar de '…', supresión de strip(), enumeración 0-based de líneas, selección de última línea, off-by-one en conteo de marcas restantes, fijación invariable de 'quedan' o 'queda', omisión de 'más', alternancia singular/plural de 'falta' y 'faltan', inversión del orden de pendientes y faltan en el mensaje compuesto, separador de faltantes y desactivación del bloqueo. Sobrevivieron 3 mutaciones: cut_81_chars (por ausencia de un caso con línea de exactamente 81 caracteres, aunque 80 y 200 están cubiertos), todo_without_colon (al utilizar los tests la marca completa 'TODO:') y exists_instead_of_is_file (al no incluir directorios con nombres de plantilla).
+- (20261028-100820-5n7-causa) agy (gemini-3.8-flash-high): Integridad del repositorio: no se modificó el checkout de revisión del candidato 43d18a3 ni se alteró la configuración de Git de ningún repositorio. Todos los archivos se referencian con rutas relativas.
 
 ### Históricos
 

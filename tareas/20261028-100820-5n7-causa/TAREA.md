@@ -1,6 +1,6 @@
 # Que aprobar-spec diga qué línea de qué archivo falta completar
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -95,3 +95,7 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-28 11:59:31 UTC)
 
 Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-100820-5n7-causa/oracle-veredicto.txt.
+
+### Nota (2026-10-28 12:02:17 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.
