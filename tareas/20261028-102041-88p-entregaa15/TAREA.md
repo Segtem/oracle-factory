@@ -67,3 +67,7 @@ Medidas de distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_
 ### Nota (2026-10-28 13:55:36 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos vueltas de agy y agy2; la segunda sin hallazgos. Suite de 600 pruebas sin omitidas, 24 de 24 mutaciones detectadas y wheel 0.1.0a15 instalado en un entorno nuevo y verificado fuera del checkout, con las novedades. Límite: es una preparación, no una publicación; la 0.1.0a15 figura en preparación hasta que se suba a PyPI, y esa subida la hace Brian con sus credenciales.); 0 abiertos derivados; commit 811372cef21978ad57876b4eeb0dad6163accf8b; informe tareas/20261028-102041-88p-entregaa15/revisiones/registro-tiohrlbx/informe.json; decisiones tareas/20261028-102041-88p-entregaa15/revisiones/registro-tiohrlbx/decisiones.json.
+
+### Nota (2026-10-28 13:55:51 UTC)
+
+Juicio Factory: incompleto/rojo; salida Oracle 1; informe .factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt.
