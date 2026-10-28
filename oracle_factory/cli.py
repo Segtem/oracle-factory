@@ -1058,6 +1058,27 @@ def specs_de_otra_capacidad(carpeta: Path, estado: dict) -> list[str]:
     return sorted(rel for p in (carpeta / "specs").rglob("spec.md") if (rel := p.relative_to(ROOT).as_posix()) != estado["spec"])
 
 
+def exigir_plantilla_completa(archivos) -> None:
+    """Falla, diciendo de cada archivo qué falta, si alguno no existe o todavía tiene la marca de pendiente de la plantilla."""
+    pendientes, faltan = [], []
+    for archivo in archivos:
+        ruta = archivo.relative_to(ROOT)
+        if not archivo.is_file():
+            faltan.append(str(ruta))
+            continue
+        con_marca = [(n, linea.strip()) for n, linea in enumerate(archivo.read_text(encoding="utf-8").splitlines(), 1)
+                     if "TODO:" in linea]
+        if con_marca:
+            n, linea = con_marca[0]
+            linea = linea if len(linea) <= 80 else linea[:80] + "…"
+            resto = len(con_marca) - 1
+            pendientes.append(f"{ruta} (línea {n}: «{linea}»{f'; quedan {resto} más' if resto else ''})")
+    if pendientes or faltan:
+        partes = ([f"hay que completar y revisar primero: {'; '.join(pendientes)}"] if pendientes else []) \
+            + ([f"falta el archivo {', '.join(faltan)}"] if faltan else [])
+        raise FactoryError("; ".join(partes))
+
+
 def aprobar_spec(identificador: str) -> None:
     carpeta, estado = abierto(identificador)
     spec = ROOT / estado["spec"]
@@ -1065,9 +1086,7 @@ def aprobar_spec(identificador: str) -> None:
     if otras:
         raise FactoryError(f"este cambio es de la capacidad {estado['capacidad']} y Factory importa sólo su spec ({estado['spec']}); "
                            f"{', '.join(otras)} no se importaría. Pasá sus requisitos a esa spec o sacala, y aprobá de nuevo")
-    for archivo in (carpeta / "proposal.md", spec, carpeta / "tasks.md"):
-        if not archivo.is_file() or "TODO:" in archivo.read_text(encoding="utf-8"):
-            raise FactoryError(f"hay que completar y revisar primero: {archivo.relative_to(ROOT)}")
+    exigir_plantilla_completa((carpeta / "proposal.md", spec, carpeta / "tasks.md"))
     contenido = spec.read_text(encoding="utf-8")
     if not re.search(r"(?m)^### Requirement:", contenido) or not re.search(r"(?m)^#### Scenario:", contenido):
         raise FactoryError("la spec debe tener al menos un Requirement y un Scenario de OpenSpec")
