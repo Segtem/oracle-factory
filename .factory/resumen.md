@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:76e0daa89a7a4d76a96687cf11928ac1153cbb1bbd3f28cf705490d50ff9e128 -->
+<!-- oracle-factory resumen sha256:bf53143cdac7837cc2f37878d9500e0d20cb9ecf8c3259ea63b708b3dc02d37d -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-24 capacidades · 225 requisitos vigentes · 0 cambios abiertos
+24 capacidades · 225 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -404,7 +404,14 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261028-150627-lva-procedencia — Registrar la procedencia de las dependencias de cada candidato
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `procedencia` · [propuesta](../openspec/changes/20261028-150627-lva-procedencia/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
