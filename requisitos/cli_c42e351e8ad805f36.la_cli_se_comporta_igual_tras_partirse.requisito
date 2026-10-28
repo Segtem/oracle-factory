@@ -1,0 +1,4 @@
+requisito cli_c42e351e8ad805f36.la_cli_se_comporta_igual_tras_partirse:
+    texto "Tipo: funcional El sistema DEBE conservar, tras partir cli.py en módulos, todos los nombres que oracle_factory.cli exportaba con las mismas firmas, la misma ayuda en cada subcomando y el mismo comportamiento ante las pruebas existentes, sin modificarlas."
+    fuente "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md#la_cli_se_comporta_igual_tras_partirse"
+    sin_medir "sin medida todavía; escenarios: «los nombres y las firmas», «la ayuda», «las pruebas existentes»"
