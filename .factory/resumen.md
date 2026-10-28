@@ -1,4 +1,4 @@
-<!-- oracle-factory resumen sha256:878cbfce86fef727f80ad19343d97776b51b58693b419c74c9b219e75957f4ce -->
+<!-- oracle-factory resumen sha256:e28092702a3ed29c6be9e4dd6e4590791e4df7df337c0db1c88d0174036f1f52 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
@@ -403,10 +403,11 @@ Lo que falta se calculó al generar este resumen; un commit posterior puede camb
 
 ### 20261028-102041-88p-entregaa15 — Preparar la distribución 0.1.0a15
 
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `distribucion` · [propuesta](../openspec/changes/20261028-102041-88p-entregaa15/proposal.md)
+Fase `oracle_rojo` · modo `confirmacion` · capacidad `distribucion` · [propuesta](../openspec/changes/20261028-102041-88p-entregaa15/proposal.md)
 
-- revisión humana aprobada y sin hallazgos abiertos
 - veredicto Oracle exitoso con evidencia
+- revision desactualizado respecto del producto
+- oracle desactualizado respecto del producto
 
 ## Cambios abandonados
 
