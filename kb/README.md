@@ -82,6 +82,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261027-220102-yjy-idioma]] — Elegir el idioma de la propuesta y la spec de un cambio nuevo (cerrada)
 - [[cambios/20261027-225048-59a-terminallista]] — Esperar a que la terminal de Factory esté lista antes de escribir un comando (cerrada)
 - [[cambios/20261028-100820-5n7-causa]] — Que aprobar-spec diga qué línea de qué archivo falta completar (cerrada)
+- [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (cerrada)
 
 ## Requisitos
 
@@ -173,6 +174,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado]]
+- [[requisitos/distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo]]
+- [[requisitos/distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites]]
+- [[requisitos/distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.entregar_artefactos_verificables]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto]] (ya no vigente)

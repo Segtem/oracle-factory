@@ -1,0 +1,4 @@
+requisito distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites:
+    texto "Tipo: funcional El sistema DEBE ejecutar la suite y los arneses de instalación aplicables y registrar resultados, versiones, hashes de fuentes y artefactos y límites en evidencia reproducible, detectar una corrida incompleta, una fuente modificada durante la medición o una comprobación fallida, y no crear una publicación ni decidir en nombre de Brian."
+    fuente "openspec/changes/20261028-102041-88p-entregaa15/specs/distribucion/spec.md#la_entrega_a15_registra_sus_pruebas_y_sus_limites"
+    medido_por factory_entrega_a15.la_entrega_a15_registra_sus_pruebas_y_sus_limites, factory_entrega_a15.corrida_completa

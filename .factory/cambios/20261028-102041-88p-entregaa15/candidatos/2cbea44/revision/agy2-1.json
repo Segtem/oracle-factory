@@ -1,0 +1,25 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a15/.factory/local/revisiones/2cbea44-agy2-1",
+  "base": "0db22687cc6eef18a0ac2a41439fdd84510b6caa",
+  "head": "2cbea44102ea6ebe0f7f433c49271f2a100567d2",
+  "diff_sha256": "cb04e598c47640bbc8a6193331dfe167c841ad96fbee2854a5366953767d4e3e",
+  "context_sha256": "95251ba1f22adf24b41d909f3aed957979caa46dd658696aa7d40d9fffbb30a4",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente en 9.2s). Se utilizó el intérprete .venv de la raíz del proyecto principal ya que el clon local de revisión no posee entorno virtual propio.",
+    "Alcance de pruebas: de acuerdo con las instrucciones expresas, no se ejecutó la suite completa de pruebas del repositorio ni tools/verify_entrega_a15.py directamente.",
+    "Integridad del repositorio: no se modificó el checkout de revisión del candidato 2cbea44 (sólo lectura), no se realizaron commits ni se alteró la configuración de Git de ningún repositorio.",
+    "Aislamiento y nombres unívocos de hechos de catálogo (Vuelta 3): se verificó que tools/verify_entrega_a15.py y catalogos/factory_entrega_a15.*.oracle emplean nombres propios para sus hechos (entrega_a15_caso, entrega_a15_suite y entrega_a15_mutacion). Se comprobó frente a los 303 catálogos del repositorio que no subsisten nombres compartidos con catalogos/factory_entrega_a14.* ni con ningún otro catálogo, y que el veredicto de Oracle resulta verde exclusivamente para los tres requisitos de esta entrega (distribucion_c753ee76bc96b08b2.*), quedando las reglas de la entrega anterior sin aplicar.",
+    "Análisis estático y dinámico de mutaciones: se verificaron las 24 mutaciones de tools/mutar_entrega_a15.py, confirmando que cada una posee exactamente una ocurrencia en las fuentes. Se ejecutaron dinámicamente sobre una copia aislada en el directorio de trabajo del revisor contra sus casos de prueba respectivos, constatando que el 100% son detectadas (24 de 24 detectadas, 0 sobrevivientes).",
+    "Verificación de documentación y coherencia de versiones: se constató que pyproject.toml, oracle_factory/__init__.py, README.md, NOTAS-DE-RELEASE.md, las guías en docs/, tests/datos/guias-texto.json y las páginas de site/*.html declaran coherentemente 0.1.0a15. NOTAS-DE-RELEASE.md declara 0.1.0a15 como «en preparación» y 0.1.0a14 como «Publicada», y cada afirmación de las notas fue contrastada contra el código fuente. README.md y la web califican explícitamente las instrucciones de instalación desde PyPI como sujetas a publicación posterior sin prometer disponibilidad anticipada. Se ejecutó tools/docs_al_dia.py sin encontrar discrepancias.",
+    "Comprobación del wheel instalado y validación de novedades: se verificó que tools/probar_entrega_a15.py construye e instala el wheel fuera del checkout en un entorno virtual aislado con Python 3.13, garantiza que la importación provenga estrictamente de site-packages, y comprueba las novedades de la entrega (conteo y listado de specs mediante preguntar, generación en inglés con nuevo --idioma, bloqueo con archivo y línea en aprobar-spec, y presencia de yo, faltan y actividad en el tablero). Se verificó que los chequeos fallan efectivamente ante fallas inducidas en los 18 casos negativos de validar_novedades.",
+    "Sin hallazgos pendientes: las correcciones de vueltas previas (aserción en el bloqueo, listado de specs, detección de afirmación prematura de publicación, actualización de site/index.html y aislamiento de hechos de catálogo) permanecen íntegras y no se detectaron regresiones ni discrepancias con la especificación.",
+    "Archivos excluidos: conforme al paquete de Clue, se excluyeron de la revisión los 35 archivos correspondientes a registros y evidencia interna de Factory (.factory/, kb/ y tareas/)."
+  ],
+  "findings": []
+}

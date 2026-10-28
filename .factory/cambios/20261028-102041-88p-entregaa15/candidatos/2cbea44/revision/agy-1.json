@@ -1,0 +1,23 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a15/.factory/local/revisiones/2cbea44-agy-1",
+  "base": "0db22687cc6eef18a0ac2a41439fdd84510b6caa",
+  "head": "2cbea44102ea6ebe0f7f433c49271f2a100567d2",
+  "diff_sha256": "cb04e598c47640bbc8a6193331dfe167c841ad96fbee2854a5366953767d4e3e",
+  "context_sha256": "73decb20bcdc22b07697be4727ec43ce62d2cb8e898c7013c7950e95db200620",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Ejecución de pruebas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente en 9.3s). Se utilizó el intérprete .venv de la raíz del proyecto principal ya que el clon local en .factory/local/revisiones/2cbea44-agy-1 no cuenta con un entorno virtual propio.",
+    "Alcance de pruebas: conforme a la consigna, no se corrió la suite completa de pruebas del repositorio ni tools/verify_entrega_a15.py directamente.",
+    "Integridad del repositorio: no se modificó el checkout del candidato 2cbea44 (sólo lectura), no se realizaron commits ni se alteró la configuración de Git de ningún repositorio.",
+    "Verificación de hechos y catálogos (Vuelta 3): se verificó exhaustivamente que los hechos emitidos por tools/verify_entrega_a15.py (entrega_a15_caso, entrega_a15_suite, entrega_a15_mutacion) y los catálogos correspondientes (catalogos/factory_entrega_a15.*.oracle) utilicen identificadores propios que no se comparten con catalogos/factory_entrega_a14.* ni con ningún otro catálogo del repositorio. Se comprobó con oracle cobertura que el juicio resulta verde exclusivamente para los tres requisitos de esta entrega (distribucion_c753ee76bc96b08b2.*) y no genera interferencias ni veredictos rojos sobre requisitos de entregas anteriores.",
+    "Análisis de mutaciones: se verificaron las 24 mutaciones declaradas en tools/mutar_entrega_a15.py, confirmando que cada una tiene objetivos sintácticos únicos y que están respaldadas por casos de prueba negativos específicos en tests/test_entrega_a15.py y tests/test_entrega_integridad_a15.py.",
+    "Comprobación de la distribución y novedades: se revisó que el wheel sea verificado en un entorno aislado fuera del checkout (site-packages), que la detección de importación accidental y versión incorrecta esté activa, que las notas de release describan fielmente las novedades de la CLI y el tablero, y que ningún texto afirme prematuramente que 0.1.0a15 está publicada.",
+    "Archivos excluidos: conforme al paquete de Clue, se excluyeron de la revisión los 35 archivos correspondientes a registros y evidencia interna de Factory (.factory, kb/ y tareas/)."
+  ]
+}

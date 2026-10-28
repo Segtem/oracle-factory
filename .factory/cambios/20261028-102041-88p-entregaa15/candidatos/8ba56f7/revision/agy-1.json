@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a15/.factory/local/revisiones/8ba56f7-agy-1",
+  "base": "0db22687cc6eef18a0ac2a41439fdd84510b6caa",
+  "head": "8ba56f7b9be2d4add563efb8a80ec0841940a18c",
+  "diff_sha256": "bb7fbf203e779e3837c51e0c764ad566b365378e898d54284017b475326405ad",
+  "context_sha256": "ff0aa114806f7a756dd3ea41208d6ea8ab66c62c1083e00207c0d8fbbe26c24c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "findings": [],
+  "limitations": [
+    "Ejecución de pruebas autorizadas: se ejecutaron en primer plano y desde la raíz del checkout las pruebas especificadas en la consigna: PYTHONPATH=. /home/workstation/Dev/factory-entrega-a15/.venv/bin/python -m unittest tests.test_entrega_a15 tests.test_entrega_integridad_a15 tests.test_docs </dev/null (11 pruebas pasadas exitosamente en 8.9s). Se utilizó el intérprete .venv de la raíz del proyecto principal ya que el clon local en .factory/local/revisiones/8ba56f7-agy-1 no cuenta con un entorno virtual propio.",
+    "Alcance de pruebas: conforme a la consigna, no se corrió la suite completa de pruebas del repositorio ni tools/verify_entrega_a15.py directamente.",
+    "Integridad del repositorio: no se modificó el checkout del candidato 8ba56f7 (sólo lectura), no se realizaron commits ni se alteró la configuración de Git de ningún repositorio.",
+    "Análisis de mutaciones: se ejecutaron y verificaron dinámicamente sobre una copia aislada en el directorio de trabajo del revisor las 24 mutaciones de tools/mutar_entrega_a15.py contra sus respectivos casos de prueba, comprobando que todas son detectadas (24/24 detectadas, 0 sobrevivientes).",
+    "Verificación de vueltas anteriores: se constató que los cuatro hallazgos de la vuelta 1 (aserción tautológica en test_ea2, listar specs con preguntar en el wheel instalado, detección de afirmación de publicación no verificada en docs_al_dia y actualización de la sección novedades de site/index.html) fueron resueltos satisfactoriamente y sin regresiones.",
+    "Archivos excluidos: conforme al paquete de Clue, se excluyeron de la revisión los 18 archivos correspondientes a registros y evidencia interna de Factory (.factory, kb/ y tareas/)."
+  ]
+}

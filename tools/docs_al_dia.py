@@ -86,6 +86,18 @@ def textos(raiz: Path) -> dict[str, str]:
     return salida
 
 
+def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> list[str]:
+    """Mientras las notas dicen que la versión está en preparación, ningún texto puede decir que ya está publicada."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file() or f"# Oracle Factory {version} (en preparación)" not in notas.read_text(encoding="utf-8"):
+        return []
+    v = re.escape(version)
+    publicada = r"(?:ya (?:está|esta) publicad[ao]|publicad[ao] en (?:PyPI|GitHub)|ya (?:está|esta) en PyPI|disponible en PyPI)"
+    afirma = re.compile(rf"{v}[^\n]{{0,80}}{publicada}|{publicada}[^\n]{{0,80}}{v}", re.I)
+    return [f"{nombre}: afirma que la versión {version} está publicada, pero NOTAS-DE-RELEASE.md la declara en preparación"
+            for nombre, texto in todo.items() if afirma.search(texto)]
+
+
 def problemas(raiz: Path = ROOT) -> list[str]:
     comandos = subcomandos()
     version = tomllib.loads((raiz / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
@@ -98,6 +110,7 @@ def problemas(raiz: Path = ROOT) -> list[str]:
         de_factory = versiones_factory(texto, nombre)
         for v in sorted(de_factory - {version}):
             salida.append(f"{nombre}: nombra la versión {v}; la de pyproject.toml es {version}")
+    salida += publicacion_prematura(raiz, version, todo)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
     for c in sorted(comandos - comandos_documentados(documentado)):
         salida.append(f"el subcomando {c} no aparece en el README ni en docs/")
