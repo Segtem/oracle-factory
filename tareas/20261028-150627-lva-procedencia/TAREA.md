@@ -175,3 +175,11 @@ Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: Bri
 ### Nota (2026-10-28 21:22:29 UTC)
 
 Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 22:09:00 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres vueltas de agy y agy2; la tercera sin hallazgos. 689 pruebas y 80 casos de contrato en verde, más de 100 mutaciones del módulo detectadas. Límites: sólo Python; sin red (los avisos OSV los trae la persona en un archivo); no firma ni verifica firmas; el formato CycloneDX y OSV se comprueba contra los campos que Factory usa, no contra el esquema completo; cli.py quedó a 2 KB del tope de 256000 bytes de Oracle Clue, así que conviene un cambio aparte que lo parta en módulos antes de la próxima mejora grande.); 0 abiertos derivados; commit 7cae4cc2f8be94a30c5d7f0f37b43c643b25c940; informe tareas/20261028-150627-lva-procedencia/revisiones/registro-6hynddoq/informe.json; decisiones tareas/20261028-150627-lva-procedencia/revisiones/registro-6hynddoq/decisiones.json.
+
+### Nota (2026-10-28 22:14:25 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, decidio, modo confirmacion; motivo: Apruebo el candidato b926f91; 0 hallazgos de los revisores; evidencia del candidato: 689 pruebas, 80 casos de contrato; 4 vueltas anteriores registradas.); 0 abiertos derivados; commit 7cae4cc2f8be94a30c5d7f0f37b43c643b25c940; informe tareas/20261028-150627-lva-procedencia/revisiones/registro-5bv1ies3/informe.json; decisiones tareas/20261028-150627-lva-procedencia/revisiones/registro-5bv1ies3/decisiones.json.

@@ -2,7 +2,7 @@
   "id": "20261028-150627-lva-procedencia",
   "titulo": "Registrar la procedencia de las dependencias de cada candidato",
   "capacidad": "procedencia",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md",
   "spec_sha256": "3f2bdca3ea73a8356bf49b0cbdb2a709ce7aab2027f34410a20886d408b51b84",
   "spec_aprobada": {
@@ -23,7 +23,27 @@
     "procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia",
     "procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-150627-lva-procedencia/revisiones/registro-5bv1ies3/informe.json",
+    "sha256": "6ae6ade91dab72e940a2ea4011223e5af318f268817a63caf49ef82a6bd05e89",
+    "decisiones": "tareas/20261028-150627-lva-procedencia/revisiones/registro-5bv1ies3/decisiones.json",
+    "decisiones_sha256": "73c0b72d3d047c6b2927f4371a9c4873fb6ad64328af8b29c86f98e48d87c5e7",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T22:14:25.736234+00:00",
+    "motivo": "Apruebo el candidato b926f91; 0 hallazgos de los revisores; evidencia del candidato: 689 pruebas, 80 casos de contrato; 4 vueltas anteriores registradas.",
+    "origen_motivo": "armado",
+    "contexto": {
+      "head": "7cae4cc2f8be94a30c5d7f0f37b43c643b25c940",
+      "archivos_sha256": "f6092c3b93c42d53dd9ecd88ab510e292c42120a5a8b218bd3f9c23ec816487e"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -753,6 +773,34 @@
       "cuando": "2026-10-28T21:45:32.423147+00:00",
       "decision": "aprobar",
       "candidato": "b926f91"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T22:09:00.032530+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6ae6ade91dab72e940a2ea4011223e5af318f268817a63caf49ef82a6bd05e89",
+      "decisiones_sha256": "909ac73bfd6fd714bd8ec5cfa14243af6a58f3cd3ecbc529e5fe174b4fe82d63"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T22:14:25.736270+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "6ae6ade91dab72e940a2ea4011223e5af318f268817a63caf49ef82a6bd05e89",
+      "decisiones_sha256": "73c0b72d3d047c6b2927f4371a9c4873fb6ad64328af8b29c86f98e48d87c5e7"
     }
   ],
   "tipos": {
@@ -845,14 +893,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 689 pruebas y 80 casos de contrato en verde, más de 100 mutaciones del módulo detectadas. Límites: sólo Python; sin red (los avisos OSV los trae la persona en un archivo); no firma ni verifica firmas; el formato CycloneDX y OSV se comprueba contra los campos que Factory usa, no contra el esquema completo; cli.py quedó a 2 KB del tope de 256000 bytes de Oracle Clue, así que conviene un cambio aparte que lo parta en módulos antes de la próxima mejora grande.",
-      "candidato": "b926f91",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T21:45:32.423132+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }

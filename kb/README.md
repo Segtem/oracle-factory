@@ -84,7 +84,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-100820-5n7-causa]] — Que aprobar-spec diga qué línea de qué archivo falta completar (cerrada)
 - [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (cerrada)
 - [[cambios/20261028-143519-qhd-publicadaa15]] — Declarar publicada la 0.1.0a15 en las notas y los textos (cerrada)
-- [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (requisitos_importados)
+- [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (revision_aprobada)
 
 ## Requisitos
 

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "6ae6ade91dab72e940a2ea4011223e5af318f268817a63caf49ef82a6bd05e89",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 689 pruebas y 80 casos de contrato en verde, más de 100 mutaciones del módulo detectadas. Límites: sólo Python; sin red (los avisos OSV los trae la persona en un archivo); no firma ni verifica firmas; el formato CycloneDX y OSV se comprueba contra los campos que Factory usa, no contra el esquema completo; cli.py quedó a 2 KB del tope de 256000 bytes de Oracle Clue, así que conviene un cambio aparte que lo parta en módulos antes de la próxima mejora grande.",
+  "decisiones": []
+}
