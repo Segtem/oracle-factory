@@ -85,6 +85,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-102041-88p-entregaa15]] — Preparar la distribución 0.1.0a15 (cerrada)
 - [[cambios/20261028-143519-qhd-publicadaa15]] — Declarar publicada la 0.1.0a15 en las notas y los textos (cerrada)
 - [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
+- [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (espera_aprobacion_spec)
 
 ## Requisitos
 

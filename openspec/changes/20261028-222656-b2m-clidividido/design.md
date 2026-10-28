@@ -1,0 +1,3 @@
+# Design
+
+El corte se hace con un guion de una sola vez (no queda en el repositorio) que, con el árbol sintáctico de `cli.py`, mueve por nombre cada definición de los tres grupos a su módulo y reescribe, dentro de lo movido, cada referencia a un nombre definido en `cli` como `cli.NOMBRE`; los módulos importados se copian. `cli.py` re-exporta lo movido con un `from … import …` al final, y los módulos nuevos hacen `from . import cli` y lo leen al usarlo. Esto conserva el efecto de `patch.object(cli, …)` de las pruebas, y la importación circular no es un problema porque nada se usa mientras se importa. Las definiciones con `global` (`main`) y las que se evalúan al importar (decoradores y valores por defecto) quedan en `cli.py`.
