@@ -1,0 +1,65 @@
+{
+  "bloqueo_causa_caso": [
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_una_plantilla_recien_creada_nombra_cada_archivo_pendiente_con_su_linea",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_un_solo_archivo_pendiente_nombra_solo_ese_y_no_dice_que_quedan_mas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_una_linea_larga_se_corta_a_ochenta_caracteres",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_una_linea_de_exactamente_ochenta_caracteres_no_se_corta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_cuenta_las_marcas_que_quedan_y_nombra_la_primera",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_el_texto_de_la_linea_va_sin_sangria",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_en_ingles_tambien",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_nombra_la_linea",
+      "caso": "BloqueoCausa.test_bc1_un_bloqueo_no_registra_ninguna_aprobacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo",
+      "caso": "BloqueoCausa.test_bc2_si_falta_un_archivo_el_mensaje_dice_que_falta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo",
+      "caso": "BloqueoCausa.test_bc2_con_pendientes_y_un_archivo_que_falta_dice_las_dos_cosas",
+      "codigo": 0
+    },
+    {
+      "requisito": "aprobar_spec_no_cambia_cuando_todo_esta_completo",
+      "caso": "BloqueoCausa.test_bc3_con_los_tres_archivos_completos_se_aprueba_como_siempre",
+      "codigo": 0
+    }
+  ],
+  "bloqueo_causa_corrida": [
+    {
+      "completa": 1,
+      "casos": 11
+    }
+  ]
+}
