@@ -1,0 +1,50 @@
+{
+  "publicada_a15_caso": [
+    {
+      "requisito": "los_textos_declaran_publicada_la_version_publicada",
+      "caso": "PublicadaA15.test_pa1_las_notas_declaran_la_version_publicada_con_su_tag_y_su_release",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_textos_declaran_publicada_la_version_publicada",
+      "caso": "PublicadaA15.test_pa1_ningun_texto_llama_candidata_a_la_version_publicada",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_textos_declaran_publicada_la_version_publicada",
+      "caso": "PublicadaA15.test_pa1_el_readme_y_la_guia_dicen_que_esta_publicada",
+      "codigo": 0
+    },
+    {
+      "requisito": "los_textos_declaran_publicada_la_version_publicada",
+      "caso": "PublicadaA15.test_pa1_la_historia_anterior_se_conserva",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "caso": "PublicadaA15.test_pa2_un_texto_candidata_con_las_notas_publicadas_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "caso": "PublicadaA15.test_pa2_una_version_en_preparacion_no_es_divergencia",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "caso": "PublicadaA15.test_pa2_sin_notas_la_regla_no_inventa_divergencias",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "caso": "PublicadaA15.test_pa2_otra_version_con_la_palabra_candidato_no_cuenta",
+      "codigo": 0
+    }
+  ],
+  "publicada_a15_corrida": [
+    {
+      "completa": 1,
+      "casos": 8
+    }
+  ]
+}
