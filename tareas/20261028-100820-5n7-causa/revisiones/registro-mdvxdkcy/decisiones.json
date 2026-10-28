@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "2d4d155963beb949f72eaec782d76cd2c460bec43456520baad26ad398634e88",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 594 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite: solo cambia el bloqueo de aprobar-spec por la marca de pendiente o por un archivo ausente; los demás mensajes de bloqueo de Factory no cambian. Un hallazgo medio de la vuelta 1 (la plantilla real no trae la marca en tasks.md) se resolvió explicando que la spec describe un cambio con marcas en los tres archivos; la plantilla sin tocar tiene su propia prueba.",
+  "decisiones": []
+}

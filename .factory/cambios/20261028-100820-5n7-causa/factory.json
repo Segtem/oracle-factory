@@ -2,7 +2,7 @@
   "id": "20261028-100820-5n7-causa",
   "titulo": "Que aprobar-spec diga qué línea de qué archivo falta completar",
   "capacidad": "bloqueos",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-100820-5n7-causa/specs/bloqueos/spec.md",
   "spec_sha256": "71a3d5255fb03c287d0ca7c800003f5cb05bbb5481d5d0294d40e5f767e7f24c",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo",
     "bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-100820-5n7-causa/revisiones/registro-mdvxdkcy/informe.json",
+    "sha256": "2d4d155963beb949f72eaec782d76cd2c460bec43456520baad26ad398634e88",
+    "decisiones": "tareas/20261028-100820-5n7-causa/revisiones/registro-mdvxdkcy/decisiones.json",
+    "decisiones_sha256": "4f28689d31907ad3e2d908325323a72bf4f4b9c8c6f02d7bc674c480e85e7ba4",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T11:59:16.040167+00:00",
+    "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 594 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite: solo cambia el bloqueo de aprobar-spec por la marca de pendiente o por un archivo ausente; los demás mensajes de bloqueo de Factory no cambian. Un hallazgo medio de la vuelta 1 (la plantilla real no trae la marca en tasks.md) se resolvió explicando que la spec describe un cambio con marcas en los tres archivos; la plantilla sin tocar tiene su propia prueba.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "38b96454c81f56838720c22543117b2381bf66ae",
+      "archivos_sha256": "8ee69a20e1b0f0d1db6812003aa084f554a9f4abf83c7747d08327ab749c7ebc"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -461,6 +481,20 @@
       "cuando": "2026-10-28T11:48:43.141593+00:00",
       "decision": "aprobar",
       "candidato": "43d18a3"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T11:59:16.040200+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2d4d155963beb949f72eaec782d76cd2c460bec43456520baad26ad398634e88",
+      "decisiones_sha256": "4f28689d31907ad3e2d908325323a72bf4f4b9c8c6f02d7bc674c480e85e7ba4"
     }
   ],
   "tipos": {
@@ -519,14 +553,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Tres vueltas de agy y agy2; la tercera sin hallazgos. 594 pruebas y 18 casos de contrato en verde, mutaciones detectadas. Límite: solo cambia el bloqueo de aprobar-spec por la marca de pendiente o por un archivo ausente; los demás mensajes de bloqueo de Factory no cambian. Un hallazgo medio de la vuelta 1 (la plantilla real no trae la marca en tasks.md) se resolvió explicando que la spec describe un cambio con marcas en los tres archivos; la plantilla sin tocar tiene su propia prueba.",
-      "candidato": "43d18a3",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T11:48:43.141581+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
