@@ -2,7 +2,7 @@
   "id": "20261028-222656-b2m-clidividido",
   "titulo": "Partir cli.py en módulos para alejarlo del límite de Oracle Clue",
   "capacidad": "cli",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md",
   "spec_sha256": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo",
     "cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-222656-b2m-clidividido/revisiones/registro-blnvkeit/informe.json",
+    "sha256": "4b6b52b54ed9f62fa03f99a577535b70d34dfcbbcab1542e18da56ffefbfa1e8",
+    "decisiones": "tareas/20261028-222656-b2m-clidividido/revisiones/registro-blnvkeit/decisiones.json",
+    "decisiones_sha256": "36491cf665be82a46f536d921920280a7b99f86574b03ce506368a1d0f9f90ca",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T23:42:33.687623+00:00",
+    "motivo": "Una vuelta de agy y agy2, sin hallazgos. 707 pruebas y 18 casos de contrato en verde, sin modificar ninguna prueba existente. Comprobación propia: las 68 funciones movidas son idénticas al original en el árbol sintáctico, tras quitar el prefijo cli. y la sustitución de sys.modules[__name__]; ninguna función que sigue en cli.py cambió y no se perdió ninguna. cli.py pasó de 253965 a 137054 bytes. Un defecto de importación circular (importar primero un módulo nuevo fallaba) se encontró y corrigió antes de la revisión. Límite: la equivalencia se comprobó por el árbol sintáctico y por las 707 pruebas, no ejecutando cada comando en cada situación; el tope real de Oracle Clue (256000) no se prueba, sólo los topes propios de 160000 y 200000.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "9c04f216e69513b842491c89d471a55dde7ddcb1",
+      "archivos_sha256": "a55d49ffe0417db73f260e582482dedec427529d3ebec88e52e08cea7ded483f"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -279,6 +299,20 @@
       "cuando": "2026-10-28T23:34:24.095100+00:00",
       "decision": "aprobar",
       "candidato": "6f59107"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T23:42:33.687653+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "4b6b52b54ed9f62fa03f99a577535b70d34dfcbbcab1542e18da56ffefbfa1e8",
+      "decisiones_sha256": "36491cf665be82a46f536d921920280a7b99f86574b03ce506368a1d0f9f90ca"
     }
   ],
   "tipos": {
@@ -337,14 +371,5 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {
-    "revision": {
-      "decision": "aprobar",
-      "motivo": "Una vuelta de agy y agy2, sin hallazgos. 707 pruebas y 18 casos de contrato en verde, sin modificar ninguna prueba existente. Comprobación propia: las 68 funciones movidas son idénticas al original en el árbol sintáctico, tras quitar el prefijo cli. y la sustitución de sys.modules[__name__]; ninguna función que sigue en cli.py cambió y no se perdió ninguna. cli.py pasó de 253965 a 137054 bytes. Un defecto de importación circular (importar primero un módulo nuevo fallaba) se encontró y corrigió antes de la revisión. Límite: la equivalencia se comprobó por el árbol sintáctico y por las 707 pruebas, no ejecutando cada comando en cada situación; el tope real de Oracle Clue (256000) no se prueba, sólo los topes propios de 160000 y 200000.",
-      "candidato": "6f59107",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T23:34:24.095089+00:00"
-    }
-  }
+  "motivos_propuestos": {}
 }
