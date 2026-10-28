@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:6b9ad161ba0eb7f2e742f015fdafadfde9082a4d82735e799898509a7a45cd5c -->
+<!-- oracle-factory resumen sha256:af77900fe159e0663855d16e96e86d762722c389097aa57d8c8213cdbb2a60ff -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-24 capacidades · 213 requisitos vigentes · 1 cambio abierto
+24 capacidades · 217 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -209,6 +209,10 @@ Spec completa: [openspec/specs/ide/spec.md](../openspec/specs/ide/spec.md)
 | el invitado ve el tablero de quien comparte | funcional | `ide_c2103597a7eea615c.el_invitado_ve_el_tablero_de_quien_comparte` | factory_liveshare.el_invitado_ve_el_tablero_de_quien_comparte, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
 | el chat queda en el cambio | funcional | `ide_c2103597a7eea615c.el_chat_queda_en_el_cambio` | factory_liveshare.el_chat_queda_en_el_cambio, factory_liveshare.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-005341-liveshare |
 | la sesión de Live Share se maneja desde el tablero | funcional | `ide_c70ed43414440c898.la_sesion_de_live_share_se_maneja_desde_el_tablero` | factory_sesion.la_sesion_de_live_share_se_maneja_desde_el_tablero, factory_sesion.corrida_completa | verde al cerrar el 2026-10-20 | 20261020-141303-sesion |
+| la_terminal_nueva_espera_a_estar_lista | funcional | `ide_c6fe31e596cc9568e.la_terminal_nueva_espera_a_estar_lista` | factory_terminal_lista.la_terminal_nueva_espera_a_estar_lista, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
+| una_terminal_lista_recibe_el_comando_enseguida | funcional | `ide_c6fe31e596cc9568e.una_terminal_lista_recibe_el_comando_enseguida` | factory_terminal_lista.una_terminal_lista_recibe_el_comando_enseguida, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
+| los_comandos_seguidos_se_escriben_en_orden_y_una_vez | funcional | `ide_c6fe31e596cc9568e.los_comandos_seguidos_se_escriben_en_orden_y_una_vez` | factory_terminal_lista.los_comandos_seguidos_se_escriben_en_orden_y_una_vez, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
+| queda_constancia_en_la_salida | funcional | `ide_c6fe31e596cc9568e.queda_constancia_en_la_salida` | factory_terminal_lista.queda_constancia_en_la_salida, factory_terminal_lista.corrida_completa | verde al cerrar el 2026-10-28 | 20261027-225048-59a-terminallista |
 
 ### limpieza
 
@@ -392,14 +396,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261027-225048-59a-terminallista — Esperar a que la terminal de Factory esté lista antes de escribir un comando
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `ide` · [propuesta](../openspec/changes/20261027-225048-59a-terminallista/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1169,6 +1166,16 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Ejecución de pruebas: se ejecutó en primer plano y en modo sólo lectura el comando indicado desde la raíz del checkout: PYTHONPATH=. /home/workstation/Dev/factory-idioma/.venv/bin/python -m unittest tests.test_idioma tests.test_cli_piloto </dev/null (15 pruebas exitosas, 0 fallos). De acuerdo con las instrucciones de la revisión, no se ejecutó la suite completa de pruebas ni tools/verify_idioma.py (que corre descubrimiento completo). Tampoco se modificaron configuraciones de git ni archivos dentro del checkout.
 - (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Pruebas de mutaciones sistemáticas: en una copia de trabajo aislada en el directorio del revisor, se evaluaron 18 mutaciones manuales sobre el código (cambio de idioma por defecto a 'en', omisión de validaciones en config y en CLI, cruce de términos en plantillas SHALL/DEBE y GIVEN/DADO, eliminación de Tipo: funcional o marcas TODO, alteración del mensaje de error, aceptación de mayúsculas, precedencia con operador 'or' que ignoraría cadenas vacías, desplazamiento de validaciones tras tasks new, y falta de traducción de tasks.md y design.md al inglés). Todas las mutaciones fueron detectadas y eliminadas por las pruebas.
 - (20261027-220102-yjy-idioma) agy (gemini-3.8-flash-high): Ausencia de hallazgos: no se encontraron defectos, desviaciones ni pruebas falsamente positivas en el diff del candidato frente a las especificaciones y contratos prometidos; por ende, findings se entrega vacía.
+- (20261027-225048-59a-terminallista) Evidencia: Escenarios tl1–tl4 en node con un vscode falso que decide cuándo avisa la terminal: prueban el orden y el momento de la escritura, no el comportamiento de un shell ni del entorno de Python de VS Code. Que el ^C desaparezca se confirma mirando el botón en un VS Code real.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se ejecutaron exactamente las pruebas requeridas desde la raíz del checkout con el entorno Python del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se ejecutó la verificación del sensor del cambio mediante tools/verify_terminal_lista.py --salida <dir>, confirmando que los 22 casos de contrato pasaron, las fuentes permanecieron estables y se cumplieron las 5 medidas de los catálogos Oracle.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se evaluaron 18 mutaciones manuales exhaustivas en copias aisladas (cubriendo espera inicial, plazo por defecto, plazos inválidos u omitidos, encolamiento secuencial, recuperación de cola rota por error en createTerminal o sendText, respuesta booleana a Live Share, constancia en salida sin comando, cierre con y sin exitStatus, terminal nacida cerrada, reintentos de terminal y disposición de timers y suscripciones); todas fueron detectadas por la suite de pruebas sin supervivencia de mutantes.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se confirmó la subsanación total de los hallazgos de las vueltas 1 y 2 (cierre con exitStatus undefined, terminal nacida cerrada, plazos con clave omitida o inválidos y registro de package.json en verify_terminal_lista.py). No se detectaron nuevos defectos ni regresiones, por lo que la lista de hallazgos queda vacía.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): No se probó en una sesión interactiva real de VS Code con usuario humano ni con el entorno de Python de usuario, lo cual se declara explícitamente fuera del alcance en la propuesta.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se ejecutaron en primer plano las pruebas unitarias requeridas desde la raíz del checkout utilizando el intérprete Python del entorno virtual del proyecto: PYTHONPATH=. /home/workstation/Dev/factory-terminal-lista/.venv/bin/python -m unittest tests.test_terminal_lista tests.test_vscode tests.test_liveshare </dev/null (32 pruebas ejecutadas exitosamente).
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para respetar estrictamente la directiva de la consigna.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): Se evaluaron múltiples pruebas de mutación manuales en un directorio aislado (scratch/mutaciones) sobre editores/vscode/extension.js y tests/test_terminal_lista.py para verificar la sensibilidad de la suite ante regresiones en plazos por defecto o inválidos, orden de comandos en cola, manejo de terminales cerradas con y sin exitStatus, resolución anticipada y filtrado del comando en la salida.
+- (20261027-225048-59a-terminallista) agy (gemini-3.8-flash-high): No se evaluó en una instancia viva e interactiva de VS Code con usuario humano ni con el entorno de activación de Python de usuario, lo cual se declara explícitamente fuera de alcance en la propuesta y spec.
 
 ### Históricos
 

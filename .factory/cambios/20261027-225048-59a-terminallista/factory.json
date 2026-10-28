@@ -2,7 +2,7 @@
   "id": "20261027-225048-59a-terminallista",
   "titulo": "Esperar a que la terminal de Factory esté lista antes de escribir un comando",
   "capacidad": "ide",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261027-225048-59a-terminallista/specs/ide/spec.md",
   "spec_sha256": "4d802c227e7e5f99c83dcb520b6015758f218c06641822d7b97f718dec8a367f",
   "spec_aprobada": {
@@ -611,6 +611,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "b36893bcd0f7ea811d464bd5551ed306af7d80882d2fbdd6e52139726e903cf0"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:40:08.285875+00:00",
+      "oracle": ".factory/cambios/20261027-225048-59a-terminallista/oracle-veredicto.txt",
+      "revision": "tareas/20261027-225048-59a-terminallista/revisiones/registro-yv8i04wd/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T00:40:08.320512+00:00",
+      "capacidad": "ide",
+      "spec": "openspec/specs/ide/spec.md"
     }
   ],
   "tipos": {
@@ -686,5 +706,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T00:40:08.216683+00:00"
+  },
+  "archivo": {
+    "capacidad": "ide",
+    "spec": "openspec/specs/ide/spec.md",
+    "cuando": "2026-10-28T00:40:08.320498+00:00"
+  }
 }
