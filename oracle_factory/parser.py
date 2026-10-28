@@ -1,14 +1,12 @@
 """Construcción del parser de argumentos de oracle-factory.
 
-Lo que necesita de cli.py lo lee de `cli` en el momento de usarlo (`cli.NOMBRE`), no lo copia: así un valor
-cambiado en `cli` (la raíz del proyecto en las pruebas, por ejemplo) vale también acá."""
+No usa nada de cli.py: lo importa cli.py y lo re-exporta."""
 from __future__ import annotations
 
 from pathlib import Path
 import argparse
 import os
 
-from . import cli
 from . import __version__
 from . import modos
 from . import rag as rag_mod

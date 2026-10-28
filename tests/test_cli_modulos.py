@@ -181,8 +181,22 @@ class CliModulos(unittest.TestCase):
         for nombre_modulo in MODULOS:
             fuente = (SOURCE / "oracle_factory" / f"{nombre_modulo}.py").read_text(encoding="utf-8")
             self.assertNotRegex(fuente, r"(?m)^\s*from\s+(?:\.cli|oracle_factory\.cli)\s+import\b", nombre_modulo)
-            if nombre_modulo != "parser":
-                self.assertRegex(fuente, r"(?m)^from \. import cli$", nombre_modulo)
+            if nombre_modulo != "parser":  # el parser no usa nada de cli
+                self.assertRegex(fuente, r"(?m)^from \. import cli\b", nombre_modulo)
+                self.assertEqual(len(re.findall(r"(?m)^from \. import cli\b", fuente)), 1, nombre_modulo)
+
+    def test_cm2_se_puede_importar_primero_cualquiera_de_los_modulos(self):
+        import subprocess
+        for primero in ("cli", *MODULOS):
+            r = subprocess.run([sys.executable, "-c", f"import oracle_factory.{primero}, oracle_factory.cli as c; print(c.revisar.__module__, c.construir_parser.__module__)"],
+                               cwd=SOURCE, capture_output=True, text=True, stdin=subprocess.DEVNULL, env={**os.environ, "PYTHONPATH": str(SOURCE)})
+            self.assertEqual((r.returncode, r.stdout.strip()), (0, "oracle_factory.flujo_revision oracle_factory.parser"), (primero, r.stderr[-400:]))
+
+    def test_cm2_el_import_de_cli_va_al_final_de_cada_modulo_que_lo_usa(self):
+        for nombre_modulo in ("flujo_revision", "flujo_medidas", "lecturas"):
+            fuente = (SOURCE / "oracle_factory" / f"{nombre_modulo}.py").read_text(encoding="utf-8")
+            despues = fuente.split("from . import cli", 1)[1]
+            self.assertEqual(re.findall(r"(?m)^(?:def |class )", despues), [], f"{nombre_modulo}: hay definiciones después del import de cli")
 
     def test_cm2_ningun_modulo_nuevo_se_pasa_al_kb_en_lugar_de_cli(self):
         for nombre_modulo in MODULOS:

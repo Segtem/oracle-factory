@@ -16,7 +16,6 @@ import subprocess
 import sys
 import tempfile
 
-from . import cli
 from . import estructura
 from . import preparacion
 from . import revision as documentos_revision
@@ -789,3 +788,8 @@ def revisar(identificador: str, informe: Path, revisor: str, decision: str, abie
     cli.nota_tarea(identificador, f"Revisión {revisor}: {decision}; registrada por {cli.quien(estado['revision'])}; {abiertos} abiertos; commit {contexto['head']}; informe {destino.relative_to(cli.ROOT)}.")
     print(f"Informe registrado: {destino}")
     cli.siguiente(identificador, estado["fase"])
+
+
+# Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo se usa
+# cuando se llama a una función, no al importar.
+from . import cli  # noqa: E402

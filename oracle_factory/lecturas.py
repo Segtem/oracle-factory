@@ -12,7 +12,6 @@ import shutil
 import subprocess
 import sys
 
-from . import cli
 from . import archivo
 from . import estructura
 from . import kb as kb_mod
@@ -491,3 +490,8 @@ def comando_donde(identificador: str, candidato: str | None) -> None:
         marca = ("no válido" if fila.get("invalida") else "histórico" if fila["gate"] == "histórico"
                  else "existe" if fila["existe"] else "AUSENTE")
         print(f"{fila['gate']:<10} {marca:<9} {fila['ruta']}" + (f"  — {fila['nota']}" if fila["nota"] else ""))
+
+
+# Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo se usa
+# cuando se llama a una función, no al importar.
+from . import cli  # noqa: E402

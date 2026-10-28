@@ -10,7 +10,6 @@ import contextlib
 import json
 import os
 
-from . import cli
 from . import estructura
 from . import modos
 
@@ -401,3 +400,8 @@ def confirmar_medidas(identificador: str) -> None:
                 elegidos.append(rid)
     for rid in elegidos:
         cli.medir(identificador, requisito_id=rid, medidas=list(requisitos[rid].medido_por))
+
+
+# Al final a propósito: `cli` importa este módulo, y así se puede importar cualquiera de los dos primero. Acá `cli` sólo se usa
+# cuando se llama a una función, no al importar.
+from . import cli  # noqa: E402

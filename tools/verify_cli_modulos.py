@@ -30,6 +30,8 @@ CONTRACTS = {
         'CliModulos.test_cm2_ninguna_funcion_movida_usa_un_nombre_de_cli_como_propio',
         'CliModulos.test_cm2_ninguna_funcion_movida_usa_un_nombre_que_no_existe',
         'CliModulos.test_cm2_los_modulos_nuevos_importan_a_cli_entero_y_no_sus_nombres',
+        'CliModulos.test_cm2_se_puede_importar_primero_cualquiera_de_los_modulos',
+        'CliModulos.test_cm2_el_import_de_cli_va_al_final_de_cada_modulo_que_lo_usa',
         'CliModulos.test_cm2_ningun_modulo_nuevo_se_pasa_al_kb_en_lugar_de_cli'],
     'ningun_archivo_fuente_pasa_del_tope': [
         'CliModulos.test_cm3_cli_py_y_los_demas_archivos_estan_bajo_sus_topes',
