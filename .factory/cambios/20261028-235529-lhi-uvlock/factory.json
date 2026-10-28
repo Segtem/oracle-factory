@@ -2,10 +2,20 @@
   "id": "20261028-235529-lhi-uvlock",
   "titulo": "Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala",
   "capacidad": "procedencia",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T23:56:29.442942+00:00",
+    "documentos": {
+      "openspec/changes/20261028-235529-lhi-uvlock/proposal.md": "414a6d1a8f68bed0595fc008c5858b36e08d77f6e20dde50f6225e47a1956917",
+      "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-28T23:55:29.706719+00:00",
       "capacidad": "procedencia"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:56:29.442970+00:00",
+      "documentos": {
+        "openspec/changes/20261028-235529-lhi-uvlock/proposal.md": "414a6d1a8f68bed0595fc008c5858b36e08d77f6e20dde50f6225e47a1956917",
+        "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
