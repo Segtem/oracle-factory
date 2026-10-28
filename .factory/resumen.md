@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:9809cd4102f72b75bf6fd7fd8b9eaed88cc2eea31b0be5b518e77f6cd54a0b94 -->
+<!-- oracle-factory resumen sha256:a257110a05826b347f254ebc0e7da7230855fbe6e2d6a7b181c2de16c9b6086e -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 230 requisitos vigentes · 0 cambios abiertos
+25 capacidades · 230 requisitos vigentes · 1 cambio abierto
 
 ## Lo vigente
 
@@ -416,7 +416,14 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Ninguno.
+Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
+
+### 20261028-222656-b2m-clidividido — Partir cli.py en módulos para alejarlo del límite de Oracle Clue
+
+Fase `requisitos_importados` · modo `confirmacion` · capacidad `cli` · [propuesta](../openspec/changes/20261028-222656-b2m-clidividido/proposal.md)
+
+- revisión humana aprobada y sin hallazgos abiertos
+- veredicto Oracle exitoso con evidencia
 
 ## Cambios abandonados
 
