@@ -3062,25 +3062,6 @@ def comando_buscar(texto: str, maximo: int) -> None:
         print(f"Aviso: {omitidos} archivo(s) omitido(s) por superar {estructura.LIMITE_ARCHIVO // 1_000_000} MB; el texto podría estar ahí.")
 
 
-def inventarios_guardados() -> list[tuple[str, str, dict]]:
-    """[(cambio, candidato, inventario)] de los inventarios de procedencia guardados en las carpetas de candidatos."""
-    base = ROOT / estructura.DIR / "cambios"
-    salida = []
-    if base.is_symlink() or not base.is_dir():
-        return salida
-    for archivo in sorted(base.glob("*/candidatos/*/procedencia/cyclonedx.json")):
-        try:
-            ruta_segura(archivo)
-            bom = json.loads(archivo.read_text(encoding="utf-8"))
-            if not isinstance(bom, dict) or not isinstance(bom.get("components"), list):
-                raise ValueError("no es un inventario CycloneDX")
-        except (FactoryError, OSError, ValueError) as e:
-            print(f"Aviso: no leí el inventario {archivo.relative_to(ROOT)} ({e}).", file=sys.stderr)
-            continue
-        salida.append((archivo.parents[3].name, archivo.parents[1].name, bom))
-    return salida
-
-
 def comando_procedencia(args) -> None:
     """El inventario de las dependencias, quién usó una y la auditoría contra avisos OSV. Todo local, sin red."""
     if args.buscar and args.auditar:
@@ -3092,10 +3073,10 @@ def comando_procedencia(args) -> None:
     if args.avisos and not args.auditar:
         raise FactoryError("--avisos es para --auditar")
     try:
-        if args.buscar:
-            return _procedencia_buscar(args.buscar, args.json)
-        if args.auditar:
-            return _procedencia_auditar(args.avisos, args.json)
+        if args.buscar or args.auditar:
+            print(procedencia_mod.informe_buscar(ROOT, args.buscar, args.json) if args.buscar
+                  else procedencia_mod.informe_auditar(ROOT, args.avisos, args.json), end="")
+            return
         python = procedencia_mod.python_del_proyecto(ROOT, args.python)
         bom, diferencias, confiable = procedencia_mod.inventario(ROOT, python)
     except procedencia_mod.ProcedenciaError as e:
@@ -3132,45 +3113,6 @@ def comando_procedencia(args) -> None:
         print(f"Guardado en {guardado[0]} (sha256 {guardado[1][:16]}…) y registrado en {args.id}.")
     else:
         print("No se guardó (indicá el cambio para guardarlo en su candidato) ni se mostró el CycloneDX (--json).")
-
-
-def _procedencia_buscar(pedido: str, como_json: bool) -> None:
-    nombre, version = procedencia_mod.pedido(pedido)
-    encontrados = procedencia_mod.usados(inventarios_guardados(), nombre, version)
-    if como_json:
-        print(json.dumps([dict(zip(("cambio", "candidato", "paquete", "version"), f)) for f in encontrados], ensure_ascii=False, indent=2))
-        return
-    if not encontrados:
-        print(f"Ningún candidato con inventario guardado usó {pedido.strip()}.")
-        return
-    print(f"{pedido.strip()} figura en {len(encontrados)} inventario(s):")
-    for cambio, candidato, paquete, v in encontrados:
-        print(f"  - {cambio} · candidato {candidato} · {paquete} {v}")
-
-
-def _procedencia_auditar(archivo: str, como_json: bool) -> None:
-    ruta = Path(archivo)
-    if ruta.is_symlink() or not ruta.is_file():
-        raise FactoryError(f"no encuentro el archivo de avisos {archivo}")
-    try:
-        lista = procedencia_mod.avisos(ruta.read_text(encoding="utf-8"), archivo)
-    except UnicodeDecodeError as e:
-        raise FactoryError(f"{archivo} no está en UTF-8: {e}") from e
-    inventarios = inventarios_guardados()
-    resultado = procedencia_mod.auditar(inventarios, lista)
-    if como_json:
-        print(json.dumps({"avisos": len(lista), "inventarios": len(inventarios), **resultado}, ensure_ascii=False, indent=2))
-        return
-    print(f"Auditoría local: {len(lista)} aviso(s) contra {len(inventarios)} inventario(s) guardado(s); sin red.")
-    if not resultado["afectados"] and not resultado["corregidos"] and not resultado["sin_comparar"]:
-        print("No hay candidatos afectados.")
-    for titulo, filas in (("Afectados", resultado["afectados"]), ("Afectados pero corregidos por Lightwell (verificá el aviso)", resultado["corregidos"]),
-                          ("No se pudo comparar la versión con los rangos del aviso", resultado["sin_comparar"])):
-        if filas:
-            print(f"{titulo}:")
-        for f in filas:
-            corregidas = ", ".join(f["corregidas"]) or "sin versión corregida declarada"
-            print(f"  - {f['aviso']}: {f['paquete']} {f['version']} (corregida en: {corregidas}) · {f['cambio']} · candidato {f['candidato']}")
 
 
 def comando_agentes(verificar: bool) -> None:

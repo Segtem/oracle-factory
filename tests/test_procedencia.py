@@ -451,6 +451,19 @@ class Procedencia(unittest.TestCase):
         enlace.symlink_to(fuera)
         self.assertIn('beta figura en 2 inventario(s)', self.correr(buscar='beta'))
 
+    def test_pr4_una_carpeta_de_cambios_enlazada_no_se_lee(self):
+        fuera = Path(self.tmp.name) / 'cambios-de-afuera'
+        destino = fuera / '20260101-000000-uno/candidatos/aaaaaaa/procedencia'
+        destino.mkdir(parents=True)
+        (destino / 'cyclonedx.json').write_text(json.dumps({'components': [{'name': 'alfa', 'version': '1.0'}]}))
+        (self.root / '.factory').mkdir(exist_ok=True)
+        cambios = self.root / '.factory/cambios'
+        if cambios.exists() and not cambios.is_symlink():
+            import shutil
+            shutil.rmtree(cambios)
+        cambios.symlink_to(fuera)
+        self.assertIn('Ningún candidato', self.correr(buscar='alfa'))
+
     # --- pr5: auditar contra avisos OSV, sin red --------------------------------------------------------------------------------
     def avisos(self, contenido, nombre='avisos.json'):
         ruta = self.root / nombre
@@ -476,6 +489,11 @@ class Procedencia(unittest.TestCase):
         r = self.rango({'introduced': '1.0'}, {'fixed': '1.2.4'})
         resultado = json.loads(self.correr(auditar=True, json=True, avisos=self.avisos(self.aviso(**r))))
         self.assertEqual([f['version'] for f in resultado['afectados']], ['1.2.3'])
+
+    def test_pr5_un_aviso_sin_version_corregida_lo_dice(self):
+        self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', '1.2.3')])
+        salida = self.correr(auditar=True, avisos=self.avisos(self.aviso(versions=['1.2.3'])))
+        self.assertIn('(corregida en: sin versión corregida declarada)', salida)
 
     def test_pr5_los_rangos_semver_valen_y_los_git_se_ignoran(self):
         self.inventario('20260101-000000-uno', 'aaaaaaa', [('alfa', '1.2.3'), ('alfa', '1.2.5')])

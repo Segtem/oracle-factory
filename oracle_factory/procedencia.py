@@ -284,6 +284,70 @@ def auditar(inventarios: list[tuple[str, str, dict]], lista: list[dict]) -> dict
             "sin_comparar": sorted(sin_comparar, key=clave_fila)}
 
 
+def sin_enlaces(raiz: Path, ruta: Path) -> None:
+    """Falla si la ruta o alguna carpeta del camino hasta ella es un enlace simbólico."""
+    relativa = ruta.relative_to(raiz)  # sólo se la llama con rutas de adentro
+    actual = raiz
+    for parte in relativa.parts:
+        actual /= parte
+        if actual.is_symlink():
+            raise ProcedenciaError(f"no se siguen enlaces simbólicos: {actual}")
+
+
+def guardados(raiz: Path) -> list[tuple[str, str, dict]]:
+    """[(cambio, candidato, inventario)] de los inventarios guardados en las carpetas de candidatos; los ilegibles se avisan y se saltean."""
+    base = raiz / ".factory" / "cambios"
+    salida = []
+    for archivo in sorted(base.glob("*/candidatos/*/procedencia/cyclonedx.json")):
+        try:
+            sin_enlaces(raiz, archivo)
+            bom = json.loads(archivo.read_text(encoding="utf-8"))
+            if not isinstance(bom, dict) or not isinstance(bom.get("components"), list):
+                raise ValueError("no es un inventario CycloneDX")
+        except (ProcedenciaError, OSError, ValueError) as e:
+            print(f"Aviso: no leí el inventario {archivo.relative_to(raiz)} ({e}).", file=sys.stderr)
+            continue
+        salida.append((archivo.parents[3].name, archivo.parents[1].name, bom))
+    return salida
+
+
+def informe_buscar(raiz: Path, pedido_texto: str, como_json: bool) -> str:
+    nombre, version = pedido(pedido_texto)
+    encontrados = usados(guardados(raiz), nombre, version)
+    if como_json:
+        return json.dumps([dict(zip(("cambio", "candidato", "paquete", "version"), f)) for f in encontrados], ensure_ascii=False, indent=2) + "\n"
+    if not encontrados:
+        return f"Ningún candidato con inventario guardado usó {pedido_texto.strip()}.\n"
+    lineas = [f"{pedido_texto.strip()} figura en {len(encontrados)} inventario(s):"]
+    lineas += [f"  - {cambio} · candidato {candidato} · {paquete} {v}" for cambio, candidato, paquete, v in encontrados]
+    return "\n".join(lineas) + "\n"
+
+
+def informe_auditar(raiz: Path, archivo: str, como_json: bool) -> str:
+    ruta = Path(archivo)
+    if ruta.is_symlink() or not ruta.is_file():
+        raise ProcedenciaError(f"no encuentro el archivo de avisos {archivo}")
+    try:
+        lista = avisos(ruta.read_text(encoding="utf-8"), archivo)
+    except UnicodeDecodeError as e:
+        raise ProcedenciaError(f"{archivo} no está en UTF-8: {e}") from e
+    inventarios = guardados(raiz)
+    resultado = auditar(inventarios, lista)
+    if como_json:
+        return json.dumps({"avisos": len(lista), "inventarios": len(inventarios), **resultado}, ensure_ascii=False, indent=2) + "\n"
+    lineas = [f"Auditoría local: {len(lista)} aviso(s) contra {len(inventarios)} inventario(s) guardado(s); sin red."]
+    if not any(resultado.values()):
+        lineas.append("No hay candidatos afectados.")
+    for titulo, filas in (("Afectados", resultado["afectados"]), ("Afectados pero corregidos por Lightwell (verificá el aviso)", resultado["corregidos"]),
+                          ("No se pudo comparar la versión con los rangos del aviso", resultado["sin_comparar"])):
+        if filas:
+            lineas.append(f"{titulo}:")
+        for f in filas:
+            corregidas = ", ".join(f["corregidas"]) or "sin versión corregida declarada"
+            lineas.append(f"  - {f['aviso']}: {f['paquete']} {f['version']} (corregida en: {corregidas}) · {f['cambio']} · candidato {f['candidato']}")
+    return "\n".join(lineas) + "\n"
+
+
 def python_del_proyecto(raiz: Path, indicado: str | None) -> Path | None:
     """El Python del que se leen las distribuciones: el indicado o el .venv del proyecto; ninguno si no hay."""
     if indicado:

@@ -66,10 +66,12 @@ CONTRACTS = {
         'Procedencia.test_pr4_sin_inventarios_guardados_no_inventa_nada',
         'Procedencia.test_pr4_un_pedido_vacio_y_las_combinaciones_invalidas_se_rechazan',
         'Procedencia.test_pr4_un_inventario_ilegible_se_avisa_y_no_traba_la_busqueda',
-        'Procedencia.test_pr4_un_inventario_enlazado_no_se_lee'],
+        'Procedencia.test_pr4_un_inventario_enlazado_no_se_lee',
+        'Procedencia.test_pr4_una_carpeta_de_cambios_enlazada_no_se_lee'],
     'se_audita_contra_avisos_sin_red': [
         'Procedencia.test_pr5_un_aviso_por_version_exacta_afecta_al_candidato_que_la_uso',
         'Procedencia.test_pr5_un_rango_afecta_antes_de_la_correccion_y_no_desde_ella',
+        'Procedencia.test_pr5_un_aviso_sin_version_corregida_lo_dice',
         'Procedencia.test_pr5_los_rangos_semver_valen_y_los_git_se_ignoran',
         'Procedencia.test_pr5_last_affected_y_varios_tramos',
         'Procedencia.test_pr5_un_evento_introduced_cero_cubre_desde_el_principio',
