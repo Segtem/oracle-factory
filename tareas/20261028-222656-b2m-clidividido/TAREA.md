@@ -39,3 +39,15 @@ Medidas de cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo: Br
 ### Nota (2026-10-28 22:59:23 UTC)
 
 Medidas de cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 23:13:07 UTC)
+
+Medidas de cli_c42e351e8ad805f36.la_cli_se_comporta_igual_tras_partirse propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 23:13:08 UTC)
+
+Medidas de cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 23:13:09 UTC)
+
+Medidas de cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
