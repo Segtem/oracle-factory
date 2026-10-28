@@ -56,6 +56,34 @@
         "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada",
         "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T14:40:32.617990+00:00",
+      "requisito": "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada",
+      "medidas": [
+        "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada",
+        "factory_publicada_a15.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-28T14:40:33.732319+00:00",
+      "requisito": "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "medidas": [
+        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+        "factory_publicada_a15.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -63,5 +91,34 @@
     "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada": {
+      "sha256": "3af2af61cf1a6978f639acbd8b9b6ce23e90e6c070f660abceff83b7fa615c27",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T14:40:32.585201+00:00",
+      "catalogos": {
+        "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada": "ee0161289f237166cc1faa23b6d078a1922d174881e8b43c253308bedea55a30",
+        "factory_publicada_a15.corrida_completa": "82acfec05458be50f81d34a8dff31865daca16b48daae11a05a8a02a9a98f215"
+      },
+      "archivos_catalogo": {
+        "factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada": "catalogos/factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada.oracle",
+        "factory_publicada_a15.corrida_completa": "catalogos/factory_publicada_a15.corrida_completa.oracle"
+      }
+    },
+    "distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta": {
+      "sha256": "1027be35479f2410264b0a4b88a5f595fd22aa6c3c72562d34e17139f5ec402d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-28T14:40:33.699791+00:00",
+      "catalogos": {
+        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "b96fc26ca8e5e31c3945c6b6d778c1d815215aff96425a13114356c50b22f18b",
+        "factory_publicada_a15.corrida_completa": "82acfec05458be50f81d34a8dff31865daca16b48daae11a05a8a02a9a98f215"
+      },
+      "archivos_catalogo": {
+        "factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta": "catalogos/factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta.oracle",
+        "factory_publicada_a15.corrida_completa": "catalogos/factory_publicada_a15.corrida_completa.oracle"
+      }
+    }
+  }
 }

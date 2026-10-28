@@ -15,3 +15,11 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-28 14:37:47 UTC)
 
 Requisitos importados: distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada (funcional), distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-28 14:40:32 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada: factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada, factory_publicada_a15.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 14:40:33 UTC)
+
+Medidas de distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta: factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta, factory_publicada_a15.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
