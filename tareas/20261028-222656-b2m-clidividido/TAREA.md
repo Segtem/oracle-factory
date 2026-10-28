@@ -27,3 +27,15 @@ Medidas de cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo: fa
 ### Nota (2026-10-28 22:53:40 UTC)
 
 Medidas de cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope: factory_cli_modulos.ningun_archivo_fuente_pasa_del_tope, factory_cli_modulos.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 22:59:23 UTC)
+
+Medidas de cli_c42e351e8ad805f36.la_cli_se_comporta_igual_tras_partirse: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 22:59:23 UTC)
+
+Medidas de cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 22:59:23 UTC)
+
+Medidas de cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope: Brian Hollweg (persona, confirmo, modo confirmacion).
