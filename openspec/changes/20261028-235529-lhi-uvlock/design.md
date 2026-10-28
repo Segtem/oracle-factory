@@ -1,0 +1,3 @@
+# Design
+
+El lock se regenera con `uv lock` y se versiona; `.gitignore` deja de nombrarlo. `tests/test_uv_lock.py` usa `oracle_factory.procedencia.inventario` sobre la raíz del repositorio, sin entorno, y compara contra copias temporales con la versión o una dependencia cambiadas. En `procedencia.py`, la rama de «está en el lock y no está instalado» pasa de agregar una diferencia a poner la propiedad `factory:instalado` en el componente (`true`, `false`, o ausente si no se consultó el entorno); las diferencias por versión instalada distinta quedan igual. Las pruebas de procedencia que fijaban el comportamiento anterior se ajustan.
