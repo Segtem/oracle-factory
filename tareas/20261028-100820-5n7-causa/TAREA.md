@@ -39,3 +39,15 @@ Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_u
 ### Nota (2026-10-28 10:11:49 UTC)
 
 Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 10:34:55 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_nombra_la_linea propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 10:34:56 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.el_bloqueo_de_aprobar_spec_dice_si_falta_un_archivo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 10:34:57 UTC)
+
+Medidas de bloqueos_c675508440ed3a2b8.aprobar_spec_no_cambia_cuando_todo_esta_completo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
