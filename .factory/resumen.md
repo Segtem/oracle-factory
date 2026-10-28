@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:a257110a05826b347f254ebc0e7da7230855fbe6e2d6a7b181c2de16c9b6086e -->
+<!-- oracle-factory resumen sha256:c265c30aecb325751b6d3ac055e665a2caa4806cf2c934636987e915034a2610 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 230 requisitos vigentes · 1 cambio abierto
+25 capacidades · 233 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -74,6 +74,9 @@ Spec completa: [openspec/specs/cli/spec.md](../openspec/specs/cli/spec.md)
 | la plantilla de un cambio nuevo trae la forma de OpenSpec | funcional | `cli_c28628c0586fe682a.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec` | factory_piloto.la_plantilla_de_un_cambio_nuevo_trae_la_forma_de_openspec, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
 | medir dice qué medidas reemplaza | funcional | `cli_c28628c0586fe682a.medir_dice_que_medidas_reemplaza` | factory_piloto.medir_dice_que_medidas_reemplaza, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
 | medir --listar separa las medidas del proyecto de las del catálogo base | funcional | `cli_c28628c0586fe682a.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base` | factory_piloto.medir_listar_separa_las_medidas_del_proyecto_de_las_del_catalogo_base, factory_piloto.corrida_completa | verde al cerrar el 2026-10-15 | 20261015-105600-cli-piloto |
+| la_cli_se_comporta_igual_tras_partirse | funcional | `cli_c42e351e8ad805f36.la_cli_se_comporta_igual_tras_partirse` | factory_cli_modulos.la_cli_se_comporta_igual_tras_partirse, factory_cli_modulos.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-222656-b2m-clidividido |
+| lo_movido_lee_a_cli_en_el_momento_de_usarlo | funcional | `cli_c42e351e8ad805f36.lo_movido_lee_a_cli_en_el_momento_de_usarlo` | factory_cli_modulos.lo_movido_lee_a_cli_en_el_momento_de_usarlo, factory_cli_modulos.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-222656-b2m-clidividido |
+| ningun_archivo_fuente_pasa_del_tope | funcional | `cli_c42e351e8ad805f36.ningun_archivo_fuente_pasa_del_tope` | factory_cli_modulos.ningun_archivo_fuente_pasa_del_tope, factory_cli_modulos.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-222656-b2m-clidividido |
 
 ### colaboracion
 
@@ -416,14 +419,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261028-222656-b2m-clidividido — Partir cli.py en módulos para alejarlo del límite de Oracle Clue
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `cli` · [propuesta](../openspec/changes/20261028-222656-b2m-clidividido/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1266,6 +1262,20 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261028-150627-lva-procedencia) agy (gemini-3.8-flash-high): Verificación de correcciones de Vuelta 2 y Vuelta 1: se constató la resolución íntegra y sin regresiones de todos los hallazgos de las revisiones anteriores. En particular, en esta Vuelta 3: (1) avisos() rechaza explícitamente avisos con affected vacío exigiendo «al menos un paquete»; (2) requisitos() valida que «project» sea tabla y «dependencies» sea lista en pyproject.toml emitiendo un ProcedenciaError claro; (3) leer_lock() tolera y saltea de forma segura entradas, source y metadata malformados sin propagar excepciones; (4) docs/procedencia.md explicita que --python se ejecuta en modo aislado (-I -c); y (5) test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal incorpora validaciones exhaustivas para affected vacío/no lista, ranges no lista/nulo, versions nulo y entradas affected no objeto.
 - (20261028-150627-lva-procedencia) agy (gemini-3.8-flash-high): Análisis de mutaciones controladas: se ejecutó una batería de 28 mutaciones sistemáticas sobre una copia de trabajo de oracle_factory/procedencia.py en un entorno aislado dentro del directorio del revisor. Las 28 mutaciones fueron detectadas y eliminadas por la suite de pruebas unitarias (0 mutaciones supervivientes), confirmando la sensibilidad y robustez de los tests frente a alteraciones en cotas de rangos OSV, desempate de eventos, centinela DESDE_SIEMPRE, comprobaciones de enlaces simbólicos, ordenamiento y serialización CycloneDX, normalización PEP 503 y defensas contra formatos malformados.
 - (20261028-150627-lva-procedencia) agy (gemini-3.8-flash-high): Determinismo, seguridad y aislamiento: se comprobó que el inventario CycloneDX 1.5 es estrictamente determinista (claves ordenadas con sort_keys=True, hashes SHA-256 y componentes ordenados alfabéticamente, sin marcas de tiempo ni UUIDs volátiles, y purl con quote(safe='')); que un lock ausente o desactualizado jamás se declara confiable (confiable=False con lista detallada de diferencias); que ninguna ruta lee ni escribe fuera del proyecto gracias a sin_enlaces() y ruta_segura(); que la invocación de --python se ejecuta estrictamente con -I -c, stdin en DEVNULL y timeout de 60s; que la auditoría y búsqueda operan localmente sin conexiones de red y disocian correctamente cambios y candidatos; y que el evento procedencia_registrada es completamente compatible con el tablero de VS Code, resumen, kb y MCP.
+- (20261028-222656-b2m-clidividido) Evidencia: Escenarios cm1–cm3 sobre el código partido, en Linux. Los nombres, las firmas y la ayuda se comparan con lo tomado de cli.py antes de moverlo (tests/datos/nombres-cli.json y ayuda-cli.json); que lo movido lea a cli al usarlo se comprueba con parches y con un análisis del árbol sintáctico, no con una prueba de cada función. No se prueba el tope real de Oracle Clue, sólo los topes propios de 160000 y 200000.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Alcance de la revisión: se revisó el candidato 6f59107 frente a la propuesta y la spec de openspec/changes/20261028-222656-b2m-clidividido/ y los 22 archivos incluidos en el paquete de Oracle Clue (paquete-agy-1.json). Los 12 archivos excluidos (.factory, tareas y kb) no fueron objeto de revisión según lo solicitado.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Sin defectos en el producto: no se encontraron discrepancias con la spec, regresiones de comportamiento, problemas de tipos o firmas, ni defectos en los rangos modificados del diff. Todas las promesas de la propuesta y los tres requisitos (la_cli_se_comporta_igual_tras_partirse, lo_movido_lee_a_cli_en_el_momento_de_usarlo y ningun_archivo_fuente_pasa_del_tope) se cumplen estrictamente en el código.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Fidelidad del refactor contra main (base 8d295dc): se compararon sintácticamente las 68 definiciones extraídas de oracle_factory/cli.py contra sus destinos en parser.py (1), flujo_revision.py (25), flujo_medidas.py (15) y lecturas.py (27). 62 funciones preservan exactamente su AST original reemplazando accesos globales por accesos calificados cli.NOMBRE. En lecturas.py, 6 funciones que invocaban kb_mod pasando sys.modules[__name__] lo reemplazaron correctamente por cli, manteniendo la semántica exacta del módulo monolítico original.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Preservación de la interfaz y aislamiento de imports: cli.py re-exporta las 68 definiciones al final del archivo. La lista completa de 247 símbolos de nombres-cli.json y la ayuda de los 41 subcomandos de ayuda-cli.json coinciden exactamente con lo generado sobre el commit base 8d295dc. Las funciones con decoradores (@contextmanager) y argumentos por defecto no evalúan símbolos de cli en tiempo de importación. Las variables globales mutables (ROOT, CHANGES, AGENTE, _ULTIMA_HORA) permanecen en cli.py y su mutación es vista dinámicamente por los módulos vía cli.NOMBRE.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Seguridad de importaciones circulares: cada uno de los nuevos módulos (flujo_revision.py, flujo_medidas.py, lecturas.py) coloca from . import cli al final absoluto del archivo, y parser.py no importa cli. Se verificaron las 120 permutaciones posibles del orden de importación de [cli, parser, flujo_revision, flujo_medidas, lecturas] en procesos de Python limpios y aislados, resultando todas exitosas sin errores de importación circular ni atributos faltantes.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Verificación de límites de tamaño: oracle_factory/cli.py mide 137.054 bytes (por debajo del límite de 160.000 bytes) y ningún archivo del paquete supera los 54.000 bytes (ampliamente por debajo del tope general de 200.000 bytes y del límite de Clue de 256.000 bytes).
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Pruebas y análisis de mutaciones: se ejecutó en primer plano desde la raíz del checkout el comando exacto indicado: PYTHONPATH=. /home/workstation/Dev/factory-cli-modulos/.venv/bin/python -m unittest tests.test_cli_modulos tests.test_cli_piloto tests.test_docs </dev/null, pasando exitosamente las 25 pruebas en 2.48s. No se ejecutó la suite completa. Se realizaron 9 mutaciones manuales sobre una copia aislada (eliminación de exportaciones, cambio de firmas, alteración de textos de parser, llamadas directas omitiendo cli., importación temprana de cli al inicio del módulo, rebase de topes de tamaño, uso de sys.modules[__name__] e imports específicos desde cli): todas las 9 mutaciones fueron detectadas y rechazadas por test_cli_modulos (0 sobrevivieron).
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se corrieron en primer plano las pruebas solicitadas sobre el checkout del candidato: `PYTHONPATH=. /home/workstation/Dev/factory-cli-modulos/.venv/bin/python -m unittest tests.test_cli_modulos tests.test_cli_piloto tests.test_docs </dev/null` (25 pruebas pasaron satisfactoriamente).
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Siguiendo las instrucciones explícitas del pedido de revisión, no se corrió la suite completa de pruebas del repositorio.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se comprobó la fidelidad de los dorados `tests/datos/nombres-cli.json` y `tests/datos/ayuda-cli.json` generándolos independientemente desde el commit base `8d295dcc` en un entorno temporal aislado, verificando coincidencia exacta al 100%.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se analizó el AST de las 68 funciones movidas y las 133 remanentes en `cli.py`, comprobando que no hubo cambios de comportamiento, que todo acceso a símbolos de `cli` se realiza dinámicamente mediante `cli.NOMBRE`, que los módulos nuevos ubican `from . import cli` al final para garantizar importación circular segura en cualquier orden (comprobado en procesos de Python independientes para cada módulo), y que `sys.modules[__name__]` en lecturas fue adaptado a `cli` para mantener la interoperabilidad con `kb`.
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se verificó que ningún módulo preexistente fuera sobrescrito y que los tamaños de archivo respeten los topes (< 160.000 bytes para `cli.py` con 137.054 bytes y < 200.000 bytes para el resto).
+- (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se ejecutaron 15 mutaciones en una copia aislada confirmando que el conjunto de pruebas detecta alteraciones de contratos y que las pruebas no son circulares.
 
 ### Históricos
 

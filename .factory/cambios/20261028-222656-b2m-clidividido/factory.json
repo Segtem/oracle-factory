@@ -2,7 +2,7 @@
   "id": "20261028-222656-b2m-clidividido",
   "titulo": "Partir cli.py en módulos para alejarlo del límite de Oracle Clue",
   "capacidad": "cli",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261028-222656-b2m-clidividido/specs/cli/spec.md",
   "spec_sha256": "55f074b9e88b9f721f3403fa680c3ab664ed7d1be0a88df4802380f1e2e14a6f",
   "spec_aprobada": {
@@ -336,6 +336,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "41b1afa3efaf48ac193ce61977664d0fc07742e927e18a22ceb20c2fa53a5f98"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:46:27.560538+00:00",
+      "oracle": ".factory/cambios/20261028-222656-b2m-clidividido/oracle-veredicto.txt",
+      "revision": "tareas/20261028-222656-b2m-clidividido/revisiones/registro-blnvkeit/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:46:27.594308+00:00",
+      "capacidad": "cli",
+      "spec": "openspec/specs/cli/spec.md"
     }
   ],
   "tipos": {
@@ -394,5 +414,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T23:46:27.501256+00:00"
+  },
+  "archivo": {
+    "capacidad": "cli",
+    "spec": "openspec/specs/cli/spec.md",
+    "cuando": "2026-10-28T23:46:27.594297+00:00"
+  }
 }
