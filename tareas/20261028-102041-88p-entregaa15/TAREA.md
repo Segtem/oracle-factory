@@ -71,3 +71,15 @@ Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, 
 ### Nota (2026-10-28 13:55:51 UTC)
 
 Juicio Factory: incompleto/rojo; salida Oracle 1; informe .factory/cambios/20261028-102041-88p-entregaa15/oracle-veredicto.txt.
+
+### Nota (2026-10-28 13:56:23 UTC)
+
+Medidas de distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 13:56:25 UTC)
+
+Medidas de distribucion_c753ee76bc96b08b2.el_wheel_a15_instalado_ofrece_lo_nuevo propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 13:56:26 UTC)
+
+Medidas de distribucion_c753ee76bc96b08b2.la_entrega_a15_registra_sus_pruebas_y_sus_limites propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
