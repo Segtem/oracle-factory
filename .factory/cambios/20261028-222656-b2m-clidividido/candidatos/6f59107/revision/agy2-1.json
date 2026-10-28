@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-cli-modulos/.factory/local/revisiones/6f59107-agy2-1",
+  "base": "8d295dcc8ad57cccec5f8c4a8a1130b882fe0b21",
+  "head": "6f59107fff8b3f55c0fb884434f4f55624e85e35",
+  "diff_sha256": "320e31f7c5ef20baa6683dc1d9144ea6c941e66b4e16e3f1aa3ffa5b8f802b8e",
+  "context_sha256": "0c9e13c4a58a4f7aabb3f12259ea6333249bebf9f1b2b4b69fb4c352b17c902e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se corrieron en primer plano las pruebas solicitadas sobre el checkout del candidato: `PYTHONPATH=. /home/workstation/Dev/factory-cli-modulos/.venv/bin/python -m unittest tests.test_cli_modulos tests.test_cli_piloto tests.test_docs </dev/null` (25 pruebas pasaron satisfactoriamente).",
+    "Siguiendo las instrucciones explícitas del pedido de revisión, no se corrió la suite completa de pruebas del repositorio.",
+    "Se comprobó la fidelidad de los dorados `tests/datos/nombres-cli.json` y `tests/datos/ayuda-cli.json` generándolos independientemente desde el commit base `8d295dcc` en un entorno temporal aislado, verificando coincidencia exacta al 100%.",
+    "Se analizó el AST de las 68 funciones movidas y las 133 remanentes en `cli.py`, comprobando que no hubo cambios de comportamiento, que todo acceso a símbolos de `cli` se realiza dinámicamente mediante `cli.NOMBRE`, que los módulos nuevos ubican `from . import cli` al final para garantizar importación circular segura en cualquier orden (comprobado en procesos de Python independientes para cada módulo), y que `sys.modules[__name__]` en lecturas fue adaptado a `cli` para mantener la interoperabilidad con `kb`.",
+    "Se verificó que ningún módulo preexistente fuera sobrescrito y que los tamaños de archivo respeten los topes (< 160.000 bytes para `cli.py` con 137.054 bytes y < 200.000 bytes para el resto).",
+    "Se ejecutaron 15 mutaciones en una copia aislada confirmando que el conjunto de pruebas detecta alteraciones de contratos y que las pruebas no son circulares."
+  ]
+}
