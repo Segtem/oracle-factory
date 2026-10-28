@@ -98,6 +98,19 @@ def publicacion_prematura(raiz: Path, version: str, todo: dict[str, str]) -> lis
             for nombre, texto in todo.items() if afirma.search(texto)]
 
 
+def preparacion_olvidada(raiz: Path, version: str, todo: dict[str, str]) -> list[str]:
+    """Cuando las notas ya no marcan la versión como «en preparación», ningún texto puede seguir llamándola candidata."""
+    notas = raiz / "NOTAS-DE-RELEASE.md"
+    if not notas.is_file() or f"\n# Oracle Factory {version}\n" not in "\n" + notas.read_text(encoding="utf-8"):
+        return []
+    v = re.escape(version)
+    resto = [rf"{v}\s*\(en preparaci[oó]n\)", rf"preparaci[oó]n\s+{v}", rf"candidat[oa][^\n]{{0,60}}{v}", rf"{v}[^\n]{{0,60}}candidat[oa]",
+             r"cuando se publique esta versi[oó]n", r"estado de preparaci[oó]n", r"en preparaci[oó]n para entrega"]
+    afirma = re.compile("|".join(resto), re.I)
+    return [f"{nombre}: describe la versión {version} como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada"
+            for nombre, texto in todo.items() if afirma.search(texto)]
+
+
 def problemas(raiz: Path = ROOT) -> list[str]:
     comandos = subcomandos()
     version = tomllib.loads((raiz / "pyproject.toml").read_text(encoding="utf-8"))["project"]["version"]
@@ -111,6 +124,7 @@ def problemas(raiz: Path = ROOT) -> list[str]:
         for v in sorted(de_factory - {version}):
             salida.append(f"{nombre}: nombra la versión {v}; la de pyproject.toml es {version}")
     salida += publicacion_prematura(raiz, version, todo)
+    salida += preparacion_olvidada(raiz, version, todo)
     documentado = " ".join(t for n, t in todo.items() if n == "README.md" or n.startswith("docs/"))
     for c in sorted(comandos - comandos_documentados(documentado)):
         salida.append(f"el subcomando {c} no aparece en el README ni en docs/")
