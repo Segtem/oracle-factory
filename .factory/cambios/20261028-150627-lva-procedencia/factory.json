@@ -444,6 +444,71 @@
         "factory_procedencia.se_audita_contra_avisos_sin_red",
         "factory_procedencia.corrida_completa"
       ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T20:46:35.131152+00:00",
+      "requisito": "procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene",
+      "medidas": [
+        "factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene",
+        "factory_procedencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T20:46:35.269463+00:00",
+      "requisito": "procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato",
+      "medidas": [
+        "factory_procedencia.el_inventario_queda_en_el_candidato",
+        "factory_procedencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T20:46:35.402244+00:00",
+      "requisito": "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red",
+      "medidas": [
+        "factory_procedencia.se_audita_contra_avisos_sin_red",
+        "factory_procedencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T20:46:35.535115+00:00",
+      "requisito": "procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia",
+      "medidas": [
+        "factory_procedencia.se_busca_quien_uso_una_dependencia",
+        "factory_procedencia.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-28T20:46:35.668064+00:00",
+      "requisito": "procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable",
+      "medidas": [
+        "factory_procedencia.un_lock_desactualizado_se_declara_no_confiable",
+        "factory_procedencia.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -453,13 +518,14 @@
     "procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia": "funcional",
     "procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
+  "medidas": {
     "procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-28T20:46:35.098856+00:00",
       "sha256": "9ecac1204ba5fdbaae74d9eab54ea603a8809c13426fc41d995da3ea3d88b5ca",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T19:47:18.141014+00:00",
       "catalogos": {
         "factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene": "93ab8ab91e422a58aff72ab164aa5499f1af2aaadb8688561d755db95e4342a8",
         "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
@@ -469,25 +535,13 @@
         "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
       }
     },
-    "procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable": {
-      "sha256": "dd53d9bc495e135f258b45e5e1bd2135e5e592312f70ca8c717814f06975515e",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T19:47:19.247280+00:00",
-      "catalogos": {
-        "factory_procedencia.un_lock_desactualizado_se_declara_no_confiable": "ad1034f8bb1779c5072cfbb495bea1b0ebadc88dafd8025e6baea8d75a973e38",
-        "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
-      },
-      "archivos_catalogo": {
-        "factory_procedencia.un_lock_desactualizado_se_declara_no_confiable": "catalogos/factory_procedencia.un_lock_desactualizado_se_declara_no_confiable.oracle",
-        "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
-      }
-    },
     "procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-28T20:46:35.237102+00:00",
       "sha256": "fea0a4bb42abd9b63f910e8500fc7405bc146aa590072c32b92e88abefa55554",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T19:47:20.357037+00:00",
       "catalogos": {
         "factory_procedencia.el_inventario_queda_en_el_candidato": "884e2a8bdee48769c718da5108fe97601e3f212d43e2d40da3bca561b9e114c7",
         "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
@@ -497,11 +551,29 @@
         "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
       }
     },
+    "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-28T20:46:35.369841+00:00",
+      "sha256": "94068593906fa103626f51f0ff722b25c48d638c1be1068f32880d7c3deb9bc8",
+      "catalogos": {
+        "factory_procedencia.se_audita_contra_avisos_sin_red": "7b5e149e3ac6dab7b44893100f8d558eeabf7078b28a43fe1b79b235fb3eddb1",
+        "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
+      },
+      "archivos_catalogo": {
+        "factory_procedencia.se_audita_contra_avisos_sin_red": "catalogos/factory_procedencia.se_audita_contra_avisos_sin_red.oracle",
+        "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
+      }
+    },
     "procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-28T20:46:35.502340+00:00",
       "sha256": "b302203c60e31dbef9d8990c33a27b7b613f5894cdb974e4f148a42623157b95",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T19:47:21.474767+00:00",
       "catalogos": {
         "factory_procedencia.se_busca_quien_uso_una_dependencia": "4f698a4d332e2d4675635b493389660cb47008a41634a7d48d849e8fd6537bd4",
         "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
@@ -511,19 +583,22 @@
         "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
       }
     },
-    "procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red": {
-      "sha256": "94068593906fa103626f51f0ff722b25c48d638c1be1068f32880d7c3deb9bc8",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-28T19:47:22.575787+00:00",
+    "procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-28T20:46:35.635746+00:00",
+      "sha256": "dd53d9bc495e135f258b45e5e1bd2135e5e592312f70ca8c717814f06975515e",
       "catalogos": {
-        "factory_procedencia.se_audita_contra_avisos_sin_red": "7b5e149e3ac6dab7b44893100f8d558eeabf7078b28a43fe1b79b235fb3eddb1",
+        "factory_procedencia.un_lock_desactualizado_se_declara_no_confiable": "ad1034f8bb1779c5072cfbb495bea1b0ebadc88dafd8025e6baea8d75a973e38",
         "factory_procedencia.corrida_completa": "4a01cdfd5d406e476eb46b43d7b8cbbc657327327baaed35b8523f30ca62ef6f"
       },
       "archivos_catalogo": {
-        "factory_procedencia.se_audita_contra_avisos_sin_red": "catalogos/factory_procedencia.se_audita_contra_avisos_sin_red.oracle",
+        "factory_procedencia.un_lock_desactualizado_se_declara_no_confiable": "catalogos/factory_procedencia.un_lock_desactualizado_se_declara_no_confiable.oracle",
         "factory_procedencia.corrida_completa": "catalogos/factory_procedencia.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

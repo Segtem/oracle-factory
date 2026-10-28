@@ -115,3 +115,23 @@ Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia prop
 ### Nota (2026-10-28 19:47:22 UTC)
 
 Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-28 20:46:35 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 20:46:35 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 20:46:35 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 20:46:35 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-28 20:46:35 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable: Brian Hollweg (persona, confirmo, modo confirmacion).
