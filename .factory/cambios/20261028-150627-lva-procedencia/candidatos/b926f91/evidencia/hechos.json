@@ -1,0 +1,410 @@
+{
+  "procedencia_caso": [
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_proyecto_con_lock_lista_cada_componente_con_su_origen_y_sus_hashes",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_una_dependencia_que_no_es_directa_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_proyecto_sin_lock_usa_lo_instalado_y_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_sin_lock_ni_entorno_no_hay_componentes_y_se_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_una_version_corregida_por_lightwell_se_reconoce",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_el_nombre_se_normaliza_en_el_enlace",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_dos_corridas_iguales_dan_el_mismo_inventario_sin_marcas_de_tiempo",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_el_entorno_no_consultado_se_declara",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_lock_ilegible_es_un_error_claro",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_lock_enlazado_no_se_lee",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_la_raiz_virtual_de_un_lock_no_es_un_componente",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_los_hashes_salen_ordenados_aunque_el_lock_los_traiga_desordenados",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_paquete_en_dos_versiones_del_lock_aparece_dos_veces",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_si_la_instalada_no_es_ninguna_de_las_del_lock_se_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_entorno_que_falla_no_se_toma_por_vacio",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_entorno_que_responde_cualquier_cosa_no_se_toma_por_valido",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_python_que_no_existe_no_rompe",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_sin_indicar_python_se_usa_el_venv_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_lock_con_entradas_malformadas_las_saltea_sin_romper",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_lock_donde_package_no_es_una_lista_o_trae_cosas_raras_no_rompe",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_dice_que_hay_y_de_donde_viene",
+      "caso": "Procedencia.test_pr1_un_lock_con_la_raiz_y_su_metadata_malformada_no_rompe",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_todo_coincide_es_confiable_y_sin_diferencias",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_el_lock_difiere_de_lo_que_exige_el_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_el_lock_difiere_de_lo_instalado",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_algo_del_lock_que_no_esta_instalado",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_una_dependencia_directa_que_falta_en_el_lock",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_un_lock_de_otra_version_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_una_especificacion_no_fijada_no_es_una_diferencia",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_sin_pyproject_no_se_puede_declarar_confiable",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_un_pyproject_enlazado_no_se_sigue_y_se_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_un_pyproject_malformado_es_un_error_claro_y_no_un_traceback",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_un_pyproject_con_dependencias_raras_las_saltea_sin_romper",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_los_extras_y_marcadores_de_una_dependencia_no_confunden",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_lock_desactualizado_se_declara_no_confiable",
+      "caso": "Procedencia.test_pr2_el_nombre_se_compara_normalizado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_con_un_cambio_el_inventario_queda_en_su_candidato_y_en_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_un_candidato_nuevo_no_pisa_el_inventario_del_anterior",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_el_mismo_candidato_se_regraba_con_el_mismo_contenido",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_con_json_imprime_exactamente_lo_que_guarda",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_sin_un_cambio_no_se_guarda_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_un_cambio_inexistente_o_cerrado_se_rechaza_sin_escribir",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_un_commit_que_no_cambia_el_producto_no_abre_otro_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_un_cambio_cerrado_se_rechaza_sin_escribir",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_una_carpeta_enlazada_no_deja_escribir_afuera",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_inventario_queda_en_el_candidato",
+      "caso": "Procedencia.test_pr3_una_carpeta_enlazada_a_ninguna_parte_da_un_error_claro",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_un_paquete_y_una_version_lista_solo_a_quien_la_uso",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_sin_version_lista_a_todos_los_que_lo_usaron",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_un_paquete_que_nadie_uso_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_una_version_es_exacta_y_no_un_prefijo",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_el_nombre_se_busca_normalizado",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_la_busqueda_en_json_y_sin_inventarios",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_sin_inventarios_guardados_no_inventa_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_un_pedido_vacio_y_las_combinaciones_invalidas_se_rechazan",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_un_inventario_ilegible_se_avisa_y_no_traba_la_busqueda",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_un_inventario_enlazado_no_se_lee",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_busca_quien_uso_una_dependencia",
+      "caso": "Procedencia.test_pr4_una_carpeta_de_cambios_enlazada_no_se_lee",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_aviso_por_version_exacta_afecta_al_candidato_que_la_uso",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_rango_afecta_antes_de_la_correccion_y_no_desde_ella",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_aviso_sin_version_corregida_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_los_rangos_semver_valen_y_los_git_se_ignoran",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_last_affected_y_varios_tramos",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_evento_introduced_cero_cubre_desde_el_principio",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_una_prerrelease_de_la_version_corregida_sigue_afectada",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_aviso_que_ningun_candidato_uso_no_afecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_otro_ecosistema_no_cuenta_y_el_nombre_se_compara_normalizado",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_los_tres_formatos_de_archivo_se_aceptan",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_una_version_corregida_por_lightwell_se_lista_aparte",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_una_version_que_no_se_puede_comparar_se_dice_y_no_se_da_por_limpia",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_la_salida_en_json_y_el_orden_son_estables",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_archivo_de_avisos_invalido_falla_diciendo_que_esta_mal",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_rango_mal_armado_falla_y_no_se_lee_como_limpio",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_rango_git_bien_formado_se_acepta_y_se_ignora",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_aviso_sin_versiones_ni_rangos_no_se_da_por_limpio",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_introduced_cero_cubre_tambien_las_prerreleases_de_la_serie_cero",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_eventos_en_la_misma_version_se_aplican_en_su_orden_y_no_en_el_del_archivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_evento_limit_no_afecta_la_evaluacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_una_ruta_de_avisos_con_un_directorio_enlazado_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_archivo_que_no_existe_o_enlazado_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_un_archivo_de_avisos_enlazado_fuera_del_proyecto_tambien_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_pr5_la_auditoria_no_usa_la_red",
+      "codigo": 0
+    },
+    {
+      "requisito": "se_audita_contra_avisos_sin_red",
+      "caso": "Procedencia.test_las_versiones_se_ordenan_al_estilo_pep_440",
+      "codigo": 0
+    }
+  ],
+  "procedencia_corrida": [
+    {
+      "completa": 1,
+      "casos": 80
+    }
+  ]
+}
