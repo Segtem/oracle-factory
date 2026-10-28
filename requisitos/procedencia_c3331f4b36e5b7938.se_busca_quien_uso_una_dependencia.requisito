@@ -1,4 +1,4 @@
 requisito procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia:
     texto "Tipo: funcional El sistema DEBE decir, con `procedencia --buscar`, qué candidatos y qué cambios tienen en su inventario guardado un paquete y, si se indica, una versión."
     fuente "openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#se_busca_quien_uso_una_dependencia"
-    sin_medir "sin medida todavía; escenarios: «un paquete y una versión», «un paquete que nadie usó»"
+    medido_por factory_procedencia.se_busca_quien_uso_una_dependencia, factory_procedencia.corrida_completa

@@ -15,3 +15,23 @@ Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec ope
 ### Nota (2026-10-28 15:12:05 UTC)
 
 Requisitos importados: procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene (funcional), procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato (funcional), procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red (funcional), procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia (funcional), procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.
+
+### Nota (2026-10-28 17:22:50 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene: factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 17:22:51 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable: factory_procedencia.un_lock_desactualizado_se_declara_no_confiable, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 17:22:52 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato: factory_procedencia.el_inventario_queda_en_el_candidato, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 17:22:53 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia: factory_procedencia.se_busca_quien_uso_una_dependencia, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-28 17:22:54 UTC)
+
+Medidas de procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red: factory_procedencia.se_audita_contra_avisos_sin_red, factory_procedencia.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.

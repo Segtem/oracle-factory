@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un aviso que afecta a un candidato», «un aviso que no afecta», «un archivo de avisos inválido»
+- Medidas: `factory_procedencia.se_audita_contra_avisos_sin_red`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#se_audita_contra_avisos_sin_red
 
 Tipo: funcional El sistema DEBE cruzar los inventarios guardados con un archivo de avisos en formato OSV, sin acceder a la red, y listar los componentes afectados, sus versiones corregidas y los candidatos y cambios afectados.

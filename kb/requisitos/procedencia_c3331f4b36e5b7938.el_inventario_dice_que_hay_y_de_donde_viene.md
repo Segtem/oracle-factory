@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un proyecto con lock», «un proyecto sin lock», «una versión corregida por Lightwell»
+- Medidas: `factory_procedencia.el_inventario_dice_que_hay_y_de_donde_viene`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#el_inventario_dice_que_hay_y_de_donde_viene
 
 Tipo: funcional El sistema DEBE producir un inventario CycloneDX de las dependencias de Python del proyecto que diga, de cada componente, su nombre, su versión, su enlace pkg:pypi, su índice de origen, los hashes de sus archivos, si la versión está fijada y de dónde sale cada dato.

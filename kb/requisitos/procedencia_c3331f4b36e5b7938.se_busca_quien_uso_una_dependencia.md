@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un paquete y una versión», «un paquete que nadie usó»
+- Medidas: `factory_procedencia.se_busca_quien_uso_una_dependencia`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#se_busca_quien_uso_una_dependencia
 
 Tipo: funcional El sistema DEBE decir, con `procedencia --buscar`, qué candidatos y qué cambios tienen en su inventario guardado un paquete y, si se indica, una versión.

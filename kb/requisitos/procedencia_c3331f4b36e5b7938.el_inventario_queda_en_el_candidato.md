@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-150627-lva-procedencia]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «guardar el inventario de un cambio», «un segundo candidato»
+- Medidas: `factory_procedencia.el_inventario_queda_en_el_candidato`, `factory_procedencia.corrida_completa`
 - Fuente: openspec/changes/20261028-150627-lva-procedencia/specs/procedencia/spec.md#el_inventario_queda_en_el_candidato
 
 Tipo: funcional El sistema DEBE guardar el inventario en la carpeta del candidato de un cambio cuando se indica su identificador, y dejar en el registro un evento con su huella, sin pisar un inventario anterior de otro candidato.
