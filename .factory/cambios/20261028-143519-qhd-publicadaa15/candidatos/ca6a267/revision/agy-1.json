@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a15/.factory/local/revisiones/ca6a267-agy-1",
+  "base": "4df3d688b4cdfb219a5e4c8d92f2dae83b81faf5",
+  "head": "ca6a267a3a46e488a507462be6ca860a47935890",
+  "diff_sha256": "d97d26c20656602d37b28d6e428e3f429dd9655a71d1de2624819f7c9677229d",
+  "context_sha256": "b772a7afc6da4071f9ef0a0c2a2be0ace66a2b029b5d5dd40aa7af887b11f617",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de pruebas unitarias: se ejecutó en primer plano desde la raíz del checkout el comando indicado: PYTHONPATH=. /home/workstation/Dev/factory-publicada-a15/.venv/bin/python -m unittest tests.test_publicada_a15 tests.test_docs tests.test_entrega_a15.EntregaA15.test_ea1_version_coherente_y_estado_declarado </dev/null (11 pruebas exitosas en 1.23s: 8 de PublicadaA15, 2 de Docs y 1 de EntregaA15.test_ea1). Se utilizó el entorno .venv de la raíz del repositorio puesto que el clon aislado en .factory/local/revisiones/ca6a267-agy-1 no cuenta con entorno virtual propio.",
+    "Verificación remota de artefactos: se contrastaron las afirmaciones de publicación contra la API de PyPI (https://pypi.org/pypi/oracle-factory/json), comprobando la disponibilidad de la versión 0.1.0a15 con sdist (oracle_factory-0.1.0a15.tar.gz) y wheel (oracle_factory-0.1.0a15-py3-none-any.whl) con sus SHA-256 exactos, y en GitHub mediante gh release view v0.1.0a15, constatando la existencia del tag v0.1.0a15 y la release marcada como pre-release.",
+    "Juicio de Oracle: se evaluó la evidencia del candidato con oracle juzgar --con .../evidencia/hechos.json --parcial, constatando veredicto verde en las tres medidas del cambio: factory_publicada_a15.corrida_completa (1 == 1), factory_publicada_a15.los_textos_declaran_publicada_la_version_publicada (4 == 4) y factory_publicada_a15.un_texto_en_preparacion_de_una_version_publicada_se_detecta (4 == 4).",
+    "Alcance de pruebas: no se corrió la suite completa de pruebas ni tools/verify_publicada_a15.py (que ejecuta discover sobre toda la carpeta tests), en cumplimiento estricto de las indicaciones recibidas.",
+    "Integridad del repositorio: no se editó el checkout de revisión del candidato ca6a267, no se realizaron commits ni se modificó la configuración de Git de ningún repositorio.",
+    "Análisis de mutaciones: se realizaron 14 mutaciones controladas sobre una copia del árbol en el espacio de trabajo del revisor (sandbox). 9 mutaciones fueron detectadas por las pruebas (desactivar preparacion_olvidada, revertir notas a en preparación, remover viñeta de publicación, revertir textos en README/docs/site, alterar historial previo en notas). 5 mutaciones o variantes sobrevivieron o expusieron fallas de diseño: revertir tests/datos/guias-texto.json no es evaluado por este subconjunto de tests; textos que dicen «0.1.0a15 en preparación» (sin paréntesis) o «cuando se publique la 0.1.0a15» pasan inadvertidos (falsos negativos); y frases con «candidato de revisión de 0.1.0a15» o «estado de preparación» genérico provocan fallas indebidas (falsos positivos)."
+  ],
+  "findings": [
+    {
+      "id": "PUB-01",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Falso positivo en preparacion_olvidada al mencionar un candidato de revisión en el contexto de la versión",
+      "explanation": "En tools/docs_al_dia.py (líneas 107–109), la función preparacion_olvidada busca divergencias mediante las expresiones regulares rf\"candidat[oa][^\\n]{{0,60}}{v}\" y rf\"{v}[^\\n]{{0,60}}candidat[oa]\". En el modelo de dominio de Oracle Factory, «candidato» se refiere primordialmente al commit o árbol de trabajo de un cambio («candidato de revisión», «candidato ca6a267», «candidato integrado»). Si la documentación o el README incluye una frase técnica legítima sobre el flujo de revisión de cambios asociada a la versión actual (por ejemplo: «Para probar el candidato de revisión de la 0.1.0a15 se usa un clon aparte», «El sensor corre sobre el candidato ca6a267 de 0.1.0a15» o «Revisar el candidato de la versión 0.1.0a15»), la regla la clasifica erróneamente como una divergencia: «... describe la versión 0.1.0a15 como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada». La prueba test_pa2_otra_version_con_la_palabra_candidato_no_cuenta en tests/test_publicada_a15.py no detectó este falso positivo porque en su texto de prueba («El candidato de la revisión se prepara aparte.») no incluyó ningún número de versión.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 107,
+        "end_line": 109,
+        "side": "head"
+      },
+      "trigger": "Incluir en README.md, docs/ o site/ una frase legítima sobre el flujo de trabajo de Factory que mencione «candidato de revisión» o «candidato <sha>» a menos de 60 caracteres de la versión actual (por ejemplo: «Para probar el candidato de revisión de la 0.1.0a15 se usa un clon aparte.»).",
+      "evidence": "Se verificó en una copia temporal que al agregar «Para probar el candidato de revisión de la 0.1.0a15 se usa un clon aparte.» a README.md, docs_al_dia.problemas() reporta: «README.md: describe la versión 0.1.0a15 como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada», haciendo fallar los tests unitarios.",
+      "related_requirement": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Ajustar la expresión regular para evitar coincidencias cuando «candidato» califique a la revisión o a un commit de cambio (o exigir que califique explícitamente a la versión, p. ej. «versión candidata» o «candidato en preparación»), y agregar un caso de prueba en tests/test_publicada_a15.py que verifique frases como «El candidato de la revisión de 0.1.0a15 se prepara aparte.»."
+    },
+    {
+      "id": "PUB-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Falsos negativos en preparacion_olvidada ante menciones de versión en preparación sin paréntesis o fórmulas de publicación futura",
+      "explanation": "El requisito un_texto_en_preparacion_de_una_version_publicada_se_detecta exige: «El sistema DEBE detectar, cuando las notas declaran publicada la versión actual, cualquier texto del README, la documentación o la web que la describa como candidata, en preparación o instalable cuando se publique». Sin embargo, las expresiones en tools/docs_al_dia.py (líneas 107–109) sufren de falsos negativos importantes ante expresiones naturales en español:\n1. rf\"{v}\\s*\\(en preparaci[oó]n\\)\" exige paréntesis literales obligatorios; por ende «0.1.0a15 en preparación», «versión 0.1.0a15 en preparación» o «la 0.1.0a15 está en preparación» no son detectadas.\n2. rf\"preparaci[oó]n\\s+{v}\" exige que la palabra «preparación» esté inmediatamente seguida de espacio y la versión, omitiendo «en preparación: 0.1.0a15» o «en preparación de 0.1.0a15».\n3. r\"cuando se publique esta versi[oó]n\" exige exactamente la locución «esta versión», dejando sin detectar «cuando se publique la 0.1.0a15», «cuando se publique la versión 0.1.0a15» o «se podrán usar cuando se publique la 0.1.0a15».\nLas pruebas unitarias y de entrega no detectan estas fallas porque sus casos de prueba están acoplados a las ramas exactas del regex.",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 107,
+        "end_line": 109,
+        "side": "head"
+      },
+      "trigger": "Un texto en README.md, docs/ o la web que describa la versión en preparación sin paréntesis («0.1.0a15 en preparación») o use el nombre de la versión al aludir a su publicación futura («cuando se publique la 0.1.0a15»).",
+      "evidence": "Se mutó README.md en una copia de prueba agregando «La 0.1.0a15 está en preparación.», «0.1.0a15 en preparación.», «Versión 0.1.0a15 en preparación.» y «Los comandos se podrán usar cuando se publique la 0.1.0a15.». En todos los casos, docs_al_dia.problemas() retornó lista vacía y la suite de pruebas unitarias pasó exitosamente con 11 tests en OK.",
+      "related_requirement": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Hacer opcionales los paréntesis en el patrón de versión en preparación (p. ej. rf\"(?:versión\\s+)?{v}[^\\n]{{0,40}}en preparaci[oó]n\") y permitir el nombre de la versión en el patrón de publicación futura (p. ej. rf\"cuando se publique (?:esta versi[oó]n|la (?:versi[oó]n )?{v})\"), agregando pruebas unitarias para estas variantes."
+    },
+    {
+      "id": "PUB-03",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Falso positivo en preparacion_olvidada por patrones de preparación genéricos no anclados a la versión",
+      "explanation": "En tools/docs_al_dia.py (líneas 107–109), los patrones r\"cuando se publique esta versi[oó]n\", r\"estado de preparaci[oó]n\" y r\"en preparaci[oó]n para entrega\" no están vinculados a la versión evaluada ({v}). Si un texto técnico en docs/ o la web describe el ciclo de vida del proyecto o procesos generales empleando términos como «Durante el estado de preparación de un cambio...» o «El flujo incluye un paso en preparación para entrega...», preparacion_olvidada genera una falsa alarma atribuyendo erróneamente que la versión actual se describe en preparación: «describe la versión 0.1.0a15 como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada».",
+      "location": {
+        "file": "tools/docs_al_dia.py",
+        "start_line": 107,
+        "end_line": 109,
+        "side": "head"
+      },
+      "trigger": "Incluir en docs/ o site/ una explicación de la metodología de trabajo que utilice las frases «estado de preparación» o «en preparación para entrega» sin hacer mención alguna a la versión 0.1.0a15.",
+      "evidence": "Al agregar «Durante el estado de preparación de un cambio se revisa la spec.» a docs/colaboracion.md en un entorno de prueba, docs_al_dia.problemas() reporta: «docs/colaboracion.md: describe la versión 0.1.0a15 como candidata o en preparación, pero NOTAS-DE-RELEASE.md la declara publicada».",
+      "related_requirement": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Vincular los patrones de preparación a la versión actual {v} o a un contexto inequívoco de la versión del software en lugar de evaluar frases sueltas no contextualizadas."
+    },
+    {
+      "id": "PUB-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "test_pa2_otra_version_con_la_palabra_candidato_no_cuenta no comprueba otra versión ni el término candidato calificado",
+      "explanation": "El test test_pa2_otra_version_con_la_palabra_candidato_no_cuenta en tests/test_publicada_a15.py (líneas 92–97) declara en su nombre validar que otra versión acompañada de la palabra candidato no cuenta como divergencia. Sin embargo, el texto inyectado en el README de prueba es «El candidato de la revisión se prepara aparte.», omitiendo cualquier identificador de versión (ni la versión previa 0.1.0a14 ni la versión actual 0.1.0a15). Como consecuencia, la prueba no valida el escenario que su nombre promete ni pone a prueba la convivencia de la palabra «candidato» con números de versión en la misma línea.",
+      "location": {
+        "file": "tests/test_publicada_a15.py",
+        "start_line": 92,
+        "end_line": 97,
+        "side": "head"
+      },
+      "trigger": "Inspección del código del test unitario en tests/test_publicada_a15.py.",
+      "evidence": "En tests/test_publicada_a15.py líneas 92–97:\n    def test_pa2_otra_version_con_la_palabra_candidato_no_cuenta(self):\\n        with tempfile.TemporaryDirectory() as tmp:\\n            repo = copia(Path(tmp))\\n            readme = repo / \"README.md\"\\n            readme.write_text(readme.read_text(encoding=\"utf-8\") + \"\\nEl candidato de la revisión se prepara aparte.\\n\", encoding=\"utf-8\")\\n            self.assertEqual(divergencias(repo), [])\nEl texto inyectado carece totalmente de versión, por lo que la prueba no valida lo anunciado.",
+      "related_requirement": "un_texto_en_preparacion_de_una_version_publicada_se_detecta",
+      "status": "pendiente",
+      "verification": "Actualizar la prueba para inyectar textos que efectivamente mencionen otra versión junto a candidato (p. ej. «El candidato de la versión 0.1.0a14 fue evaluado por Codex») y verificar también que «El candidato de la revisión de 0.1.0a15» no sea tomado como divergencia."
+    }
+  ]
+}

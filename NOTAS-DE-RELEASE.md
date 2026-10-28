@@ -1,10 +1,11 @@
-# Oracle Factory 0.1.0a15 (en preparación)
+# Oracle Factory 0.1.0a15
 
 - **El tablero dice qué hacer.** Cada cambio muestra «Qué falta» con una frase en lenguaje común y quién lo hace (vos o un agente); cuando lo que sigue lo corre un agente, dice «Ahora no te toca nada». Si el cambio lo tiene otra persona, la decisión se rotula «LA DECIDE ANA» en vez de «TE NECESITA», y «Actividad reciente» lista los últimos diez eventos de los cambios abiertos. `oracle-factory tablero --json` suma `yo`, `faltan` y `actividad`.
 - **La terminal de Factory espera a estar lista.** Al escribir un comando desde el tablero en una terminal nueva, la extensión espera a que el shell avise (hasta `factory.esperaTerminalMs`, 3000 por defecto). Otra extensión que active el entorno de Python con su propio Enter puede seguir pisando el comando: en ese caso conviene desactivar su activación automática.
 - **`preguntar` cuenta y lista las specs.** «¿Cuántas specs hay?» responde desde el inventario, con las vigentes y las de cambios abiertos; un filtro que no admite (fechas, estados) se rechaza diciéndolo, en vez de devolver pasajes sueltos.
 - **El idioma de la plantilla.** `"idioma": "es"` o `"en"` en `.factory/config.json`, o `nuevo --idioma`, elige en qué idioma se escribe la propuesta, la spec, el diseño y las tareas de un cambio nuevo; ya no se mezclan. Por defecto, español.
 - **Bloqueos que explican su causa.** El próximo paso sin revisor configurado dice qué falta y dónde declararlo; `pedir-revision --base vacio` revisa un producto cuyo código está en el primer commit; y `aprobar-spec` nombra de cada archivo la línea con la marca de pendiente y cuántas quedan, o dice qué archivo falta.
+- **Publicada.** En PyPI como `oracle-factory==0.1.0a15` y en GitHub con su tag `v0.1.0a15` (pre-release); los archivos de PyPI tienen el mismo contenido que el wheel que se comprobó instalado en un entorno nuevo.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
 
 # Oracle Factory 0.1.0a14
