@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «una dependencia afectada», «nada de más sale hacia el servicio», «sin avisos»
+- Medidas: `factory_avisos_osv.la_consulta_a_osv_guarda_avisos_validos_y_audita`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#la_consulta_a_osv_guarda_avisos_validos_y_audita
 
 Tipo: funcional El sistema DEBE consultar OSV, por cada nombre y versión distintos de los inventarios guardados, enviando sólo nombre, versión y ecosistema; guardar los avisos recibidos en un archivo OSV válido, y listar los cambios y candidatos que usaron una versión afectada.

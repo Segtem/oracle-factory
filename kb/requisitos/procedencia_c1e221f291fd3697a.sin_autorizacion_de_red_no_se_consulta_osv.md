@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «sin la bandera de red»
+- Medidas: `factory_avisos_osv.sin_autorizacion_de_red_no_se_consulta_osv`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#sin_autorizacion_de_red_no_se_consulta_osv
 
 Tipo: funcional El sistema DEBE negarse a consultar OSV.dev si la persona no pasó la bandera explícita de red, sin abrir ninguna conexión ni guardar archivo alguno.

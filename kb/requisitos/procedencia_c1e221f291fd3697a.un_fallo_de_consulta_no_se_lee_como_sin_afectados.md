@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el servicio no responde o responde mal», «no hay inventarios guardados»
+- Medidas: `factory_avisos_osv.un_fallo_de_consulta_no_se_lee_como_sin_afectados`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#un_fallo_de_consulta_no_se_lee_como_sin_afectados
 
 Tipo: funcional El sistema DEBE terminar con error, indicando el motivo y sin guardar archivo, ante cualquier fallo de la consulta, y nunca informar «sin afectados» por no haber podido consultar.
