@@ -1,0 +1,90 @@
+{
+  "uv_lock_caso": [
+    {
+      "requisito": "el_lock_de_factory_viaja_con_el_repositorio",
+      "caso": "UvLock.test_ul1_git_no_ignora_el_lock_y_lo_rastrea",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_viaja_con_el_repositorio",
+      "caso": "UvLock.test_ul1_cada_dependencia_del_lock_trae_origen_y_hashes",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_viaja_con_el_repositorio",
+      "caso": "UvLock.test_ul1_todos_los_hashes_del_lock_son_sha256",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_viaja_con_el_repositorio",
+      "caso": "UvLock.test_ul1_el_lock_no_incluye_al_proyecto_como_componente",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_coincide_con_su_pyproject",
+      "caso": "UvLock.test_ul2_el_lock_versionado_coincide_con_el_pyproject",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_coincide_con_su_pyproject",
+      "caso": "UvLock.test_ul2_las_dependencias_directas_de_factory_estan_fijadas_en_el_lock",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_coincide_con_su_pyproject",
+      "caso": "UvLock.test_ul2_la_version_del_proyecto_sin_regenerar_el_lock_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_coincide_con_su_pyproject",
+      "caso": "UvLock.test_ul2_una_dependencia_cambiada_sin_regenerar_el_lock_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_lock_de_factory_coincide_con_su_pyproject",
+      "caso": "UvLock.test_ul2_una_dependencia_nueva_sin_regenerar_el_lock_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_un_paquete_del_lock_que_el_entorno_no_instala_se_marca_y_el_inventario_sigue_confiable",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_un_paquete_instalado_como_el_lock_se_marca_instalado",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_un_paquete_instalado_en_otra_version_sigue_siendo_una_diferencia",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_sin_consultar_el_entorno_no_hay_marca_de_instalado",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_sin_lock_lo_instalado_se_marca_instalado",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_con_dos_versiones_en_el_lock_la_instalada_es_la_unica_marcada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "caso": "UvLockEntorno.test_ul3_lo_instalado_que_no_esta_en_el_lock_no_es_una_diferencia",
+      "codigo": 0
+    }
+  ],
+  "uv_lock_corrida": [
+    {
+      "completa": 1,
+      "casos": 16
+    }
+  ]
+}

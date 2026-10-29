@@ -1,0 +1,41 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-uv-lock/.factory/local/revisiones/7ae0c36-agy2-1",
+  "base": "ebb018865aef365f9f29533552cbd02dd8a6c2db",
+  "head": "7ae0c3602c46dca8fe4406e7a9591f197236de02",
+  "diff_sha256": "85891ba1da6eac309be7a90ac7ed60b386965bdd55ab663e32e7fdf033ee17da",
+  "context_sha256": "ed0eeccbd40a25f0a911f2306a28c029bf3bda8634a35a39df150ddaef3642af",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "hallazgo-test-pr2-renombrado",
+      "kind": "regresion",
+      "severity": "informativa",
+      "confidence": 0.95,
+      "title": "El renombrado del caso de prueba en tests/test_procedencia.py invalida el contrato registrado en tools/verify_procedencia.py",
+      "explanation": "En tests/test_procedencia.py (líneas 235-240), el método test_pr2_algo_del_lock_que_no_esta_instalado fue renombrado a test_pr2_algo_del_lock_que_el_entorno_no_instala_se_marca_y_no_es_una_diferencia para reflejar el nuevo comportamiento esperado por la spec. Sin embargo, tools/verify_procedencia.py mantiene en su diccionario CONTRACTS['un_lock_desactualizado_se_declara_no_confiable'] el nombre exacto anterior ('Procedencia.test_pr2_algo_del_lock_que_no_esta_instalado'). Al ejecutarse tools/verify_procedencia.py, la verificación de contrato falla con 12 de 13 casos observados. Si bien el cambio 20261028-150627-lva-procedencia ya fue cerrado y el cambio actual utiliza su propio verificador tools/verify_uv_lock.py, renombrar el método rompe la reproducibilidad histórica de la herramienta de verificación anterior a menos que se mantenga un alias o se actualice dicho script.",
+      "location": {
+        "file": "tests/test_procedencia.py",
+        "start_line": 235,
+        "end_line": 240,
+        "side": "head"
+      },
+      "trigger": "python tools/verify_procedencia.py --salida /tmp/ev",
+      "evidence": "CONTRACTS en tools/verify_procedencia.py contiene 'Procedencia.test_pr2_algo_del_lock_que_no_esta_instalado'. Al renombrarse el método en tests/test_procedencia.py:235 a test_pr2_algo_del_lock_que_el_entorno_no_instala_se_marca_y_no_es_una_diferencia, verify_procedencia.py no encuentra el caso esperado, complete resulta False y finaliza con código de salida 1.",
+      "related_requirement": "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "status": "pendiente",
+      "verification": "Agregar un alias de compatibilidad en tests/test_procedencia.py (e.g. test_pr2_algo_del_lock_que_no_esta_instalado = test_pr2_algo_del_lock_que_el_entorno_no_instala_se_marca_y_no_es_una_diferencia) o actualizar tools/verify_procedencia.py para reflejar el nuevo nombre si se requiere conservar su ejecución retrocompatible."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias del proyecto (723 pruebas, todas exitosas sin regresiones en el producto).",
+    "Se ejecutaron los 16 casos de contrato de tests/test_uv_lock.py (4 de el_lock_de_factory_viaja_con_el_repositorio, 5 de el_lock_de_factory_coincide_con_su_pyproject y 7 de un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario).",
+    "Se verificó la consistencia y resolución de uv.lock contra pyproject.toml usando uv lock --check --offline.",
+    "Se aplicaron 7 mutaciones a mano sobre copias de oracle_factory/procedencia.py para verificar que tests/test_uv_lock.py mate todas las alteraciones de lógica en factory:instalado y en la tolerancia a paquetes no instalados.",
+    "No se ejecutó la regeneración de uv.lock conectándose a la red externa (PyPI), respetando la política de trabajo sin red del proyecto."
+  ]
+}
