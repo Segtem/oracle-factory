@@ -8,6 +8,7 @@ Este repositorio es Factory mismo, y se desarrolla con Factory: cada cambio va e
   fuentes quietas: no se edita el worktree mientras corre.
 - Una revisión independiente se pide con `oracle-factory --agente NOMBRE pedir-revision ID --a codex` (y `--a agy`).
 - No reescribas la historia publicada de Git ni la configuración de Git de ningún repositorio.
+- Si cambiás la versión o las dependencias de `pyproject.toml`, regenerá y commiteá el `uv.lock` (`uv lock`): una prueba exige que coincidan.
 
 <!-- oracle-factory agentes: inicio (generado por `oracle-factory agentes`; no se edita a mano) -->
 

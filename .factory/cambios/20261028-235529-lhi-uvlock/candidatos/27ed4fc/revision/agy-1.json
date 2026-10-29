@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-uv-lock/.factory/local/revisiones/27ed4fc-agy-1",
+  "base": "ebb018865aef365f9f29533552cbd02dd8a6c2db",
+  "head": "27ed4fc9a80b6096e40a893a7c7196e55a669724",
+  "diff_sha256": "0928cd08b816a6a2046f950fe82a8046bbaf40adc78f974d7205fec9b54b03ea",
+  "context_sha256": "9a69dc8f4c953e872ee6189350e0243e7b150ea66bf951afd885aed601f3d9b9",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias sobre el checkout del candidato (723 pruebas, 10 omitidas, 0 fallas) utilizando .venv/bin/python -m unittest discover -s tests.",
+    "Se ejecutó la herramienta de evidencia del cambio tools/verify_uv_lock.py sobre los 16 casos de contrato de los requisitos ul1–ul3, confirmando 723 pruebas corridas, 16 casos observados sin omisiones ni duplicados, fuentes estables y salida exitosa.",
+    "Se verificó la resolución del hallazgo hallazgo-test-pr2-renombrado de la vuelta agy2-1 sobre 7ae0c36 mediante la ejecución de tools/verify_procedencia.py en el candidato 27ed4fc, confirmando que pasa con 80 casos de contrato y éxito: True tras sincronizar el nombre del caso en CONTRACTS.",
+    "Se evaluó la sensibilidad de las pruebas mediante 8 mutaciones manuales sobre copias locales aisladas (fijar factory:instalado en true, omitir la propiedad factory:instalado, reintroducir falla por paquete no instalado en el entorno, suprimir verificación de versión instalada no coincidente, reincorporar uv.lock a .gitignore, modificar versión en uv.lock, alterar formato/algoritmo de hash, y cambiar origen de dependencia a no HTTPS). En todos los 8 casos las pruebas de tests/test_uv_lock.py fallaron inmediatamente (mutaciones eliminadas).",
+    "No se ejecutó uv lock con acceso a red externa hacia PyPI (fuera de alcance según proposal.md y límites declarados). Se constató estáticamente y por pruebas que el uv.lock versionado coincide con pyproject.toml y que todas sus dependencias cuentan con origen HTTPS y hashes SHA-256.",
+    "Revisión completa sin hallazgos: la implementación en 27ed4fc satisface los escenarios y requisitos funcionales de spec.md, la documentación en AGENTS.md y docs/procedencia.md es coherente, y no se observaron regresiones."
+  ]
+}

@@ -42,7 +42,7 @@ CONTRACTS = {
         'Procedencia.test_pr2_todo_coincide_es_confiable_y_sin_diferencias',
         'Procedencia.test_pr2_el_lock_difiere_de_lo_que_exige_el_proyecto',
         'Procedencia.test_pr2_el_lock_difiere_de_lo_instalado',
-        'Procedencia.test_pr2_algo_del_lock_que_no_esta_instalado',
+        'Procedencia.test_pr2_algo_del_lock_que_el_entorno_no_instala_se_marca_y_no_es_una_diferencia',
         'Procedencia.test_pr2_una_dependencia_directa_que_falta_en_el_lock',
         'Procedencia.test_pr2_un_lock_de_otra_version_del_proyecto',
         'Procedencia.test_pr2_una_especificacion_no_fijada_no_es_una_diferencia',

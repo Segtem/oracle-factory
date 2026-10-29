@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-uv-lock/.factory/local/revisiones/7ae0c36-agy-1",
+  "base": "ebb018865aef365f9f29533552cbd02dd8a6c2db",
+  "head": "7ae0c3602c46dca8fe4406e7a9591f197236de02",
+  "diff_sha256": "85891ba1da6eac309be7a90ac7ed60b386965bdd55ab663e32e7fdf033ee17da",
+  "context_sha256": "75d420911abbf0a14c2dd002d2b107c8b675667e87e146781ae738ec36af1c65",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutó la suite completa de pruebas unitarias del repositorio (723 pruebas, 10 omitidas, 0 fallas) con .venv/bin/python -m unittest discover -s tests.",
+    "Se ejecutaron específicamente tests/test_uv_lock.py (16 pruebas) y tests/test_procedencia.py (80 pruebas), resultando exitosas.",
+    "Se ejecutó el sensor de verificación tools/verify_uv_lock.py sobre los 16 casos de contrato de los requisitos ul1–ul3, confirmando corrida completa, fuentes estables y trazabilidad exitosa.",
+    "Se evaluó la sensibilidad de las pruebas mediante 6 mutaciones manuales sobre copias de procedencia.py (inversión de factory:instalado, omisión de la propiedad, reintroducción de diferencia por paquete no instalado, ignorar versión instalada, descarte de versiones múltiples, y ausencia de lock), verificando que la suite tests/test_uv_lock.py las detecta y elimina todas.",
+    "No se ejecutó `uv lock` con acceso a red externa hacia PyPI (fuera de alcance según proposal.md y límites del sensor). Se verificó que uv.lock coincide con pyproject.toml y que todas sus dependencias declaran origen HTTPS y hashes SHA-256 válidos.",
+    "Revisión completa sin hallazgos: la implementación cumple con todos los escenarios y requisitos funcionales prometidos en spec.md sin regresiones ni inconsistencias detectadas."
+  ]
+}

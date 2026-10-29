@@ -1,0 +1,404 @@
+{
+  "id": "20261028-235529-lhi-uvlock",
+  "titulo": "Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala",
+  "capacidad": "procedencia",
+  "fase": "cerrada",
+  "spec": "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md",
+  "spec_sha256": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-28T23:56:29.442942+00:00",
+    "documentos": {
+      "openspec/changes/20261028-235529-lhi-uvlock/proposal.md": "414a6d1a8f68bed0595fc008c5858b36e08d77f6e20dde50f6225e47a1956917",
+      "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
+    }
+  },
+  "requisitos": [
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
+  ],
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json",
+    "sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
+    "decisiones": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/decisiones.json",
+    "decisiones_sha256": "ea1617c767715752bed3d8a1bdd05cc32d2cfb48ed996e1f105df555a52d4a62",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-29T15:29:19.340183+00:00",
+    "motivo": "Dos rondas con agy y agy2: la primera dejó un hallazgo informativo real (verify_procedencia.py seguía el nombre viejo del caso pr2), corregido y verificado; la segunda, 0 hallazgos en ambos. Suite de 723 pruebas sin fallas ni omisiones y evidencia con éxito.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "27ed4fc9a80b6096e40a893a7c7196e55a669724",
+      "archivos_sha256": "43d7394921e3f63d8096bff8a99205301d89514dc3295aaf56a87ba956653941"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-235529-lhi-uvlock/candidatos/27ed4fc/evidencia/hechos.json",
+    "hechos_sha256": "4408fd74e5ab5c4ca026eafe93542b1464de9e85ec7fb37698a7c6c0156df085",
+    "informe": ".factory/cambios/20261028-235529-lhi-uvlock/oracle-veredicto.txt",
+    "informe_sha256": "b06fddbba6628d7de546e986b344b52dc17ef71572a6a9f8249e59d747b35e06",
+    "cuando": "2026-10-29T15:29:34.313813+00:00",
+    "contexto": {
+      "head": "1c827a450c414b0ee563f65932f0f0c4a44cca20",
+      "archivos_sha256": "43d7394921e3f63d8096bff8a99205301d89514dc3295aaf56a87ba956653941"
+    }
+  },
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:55:29.706719+00:00",
+      "capacidad": "procedencia"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:56:29.442970+00:00",
+      "documentos": {
+        "openspec/changes/20261028-235529-lhi-uvlock/proposal.md": "414a6d1a8f68bed0595fc008c5858b36e08d77f6e20dde50f6225e47a1956917",
+        "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4"
+      }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-28T23:56:40.879921+00:00",
+      "ids": [
+        "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+        "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+        "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
+      ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:45.522880+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:46.719135+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:47.926088+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "medidas": [
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.056839+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject",
+        "factory_uv_lock.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.207089+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio",
+        "factory_uv_lock.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.352238+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "medidas": [
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+        "factory_uv_lock.corrida_completa"
+      ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T00:27:27.982166+00:00",
+      "revisor": "agy",
+      "candidato": "7ae0c36",
+      "lanzamiento": "111942da6cf7"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T00:27:28.018311+00:00",
+      "revisor": "agy2",
+      "candidato": "7ae0c36",
+      "lanzamiento": "15454171005c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T00:47:31.973393+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7ae0c36",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "111942da6cf7"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T00:50:52.929270+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "7ae0c36",
+      "resultado": "ok",
+      "hallazgos": 1,
+      "lanzamiento": "15454171005c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:06:41.264700+00:00",
+      "revisor": "agy2",
+      "candidato": "27ed4fc",
+      "lanzamiento": "3fd982eb3805"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:06:41.290531+00:00",
+      "revisor": "agy",
+      "candidato": "27ed4fc",
+      "lanzamiento": "35c7469bda48"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:30:11.238606+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "27ed4fc",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "35c7469bda48"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:33:09.756793+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "27ed4fc",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3fd982eb3805"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T14:10:00.634224+00:00",
+      "decision": "aprobar",
+      "candidato": "27ed4fc"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T15:29:19.340222+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
+      "decisiones_sha256": "ea1617c767715752bed3d8a1bdd05cc32d2cfb48ed996e1f105df555a52d4a62"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:29:34.313830+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "4408fd74e5ab5c4ca026eafe93542b1464de9e85ec7fb37698a7c6c0156df085"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:34:02.896781+00:00",
+      "oracle": ".factory/cambios/20261028-235529-lhi-uvlock/oracle-veredicto.txt",
+      "revision": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:34:02.930082+00:00",
+      "capacidad": "procedencia",
+      "spec": "openspec/specs/procedencia/spec.md"
+    }
+  ],
+  "tipos": {
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject": "funcional",
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio": "funcional",
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "funcional"
+  },
+  "medidas": {
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.021329+00:00",
+      "sha256": "5b26c57741721a86b841722248defd8e13314a33f4547c202cdf180518c1f82d",
+      "catalogos": {
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject": "737ff27412746b527e2e74b4b959b1cc066f117e74d400c0cd79a73b8a2f8c90",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject": "catalogos/factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    },
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.172086+00:00",
+      "sha256": "76bab2139848f7f267ed3273a78c10815e04109a5b9176270e6a98972bce9ed8",
+      "catalogos": {
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio": "218dbd390584cd22ba217942404bd7907dc3ed7b119acdd736c1365e13b457dd",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio": "catalogos/factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    },
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.316279+00:00",
+      "sha256": "6a886320979cca385978179f9fb379b6cfa12ad98127c6f5a3d80c94305dc40d",
+      "catalogos": {
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "52fdeebec00ee543def8e2efcba1264d93566fafa989cfbf651d5d75df58df52",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "catalogos/factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    }
+  },
+  "medidas_pendientes": {},
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-29T15:34:02.832496+00:00"
+  },
+  "archivo": {
+    "capacidad": "procedencia",
+    "spec": "openspec/specs/procedencia/spec.md",
+    "cuando": "2026-10-29T15:34:02.930071+00:00"
+  }
+}

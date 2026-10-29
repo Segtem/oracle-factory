@@ -86,6 +86,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-143519-qhd-publicadaa15]] — Declarar publicada la 0.1.0a15 en las notas y los textos (cerrada)
 - [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
 - [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
+- [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
 
 ## Requisitos
 
@@ -278,6 +279,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red]]
 - [[requisitos/procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia]]
 - [[requisitos/procedencia_c3331f4b36e5b7938.un_lock_desactualizado_se_declara_no_confiable]]
+- [[requisitos/procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject]]
+- [[requisitos/procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio]]
+- [[requisitos/procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_es_determinista_y_no_cambia_nada_mas]]
 - [[requisitos/resumen_cd337f49861c862e9.el_resumen_muestra_lo_vigente_y_lo_pendiente]]
 - [[requisitos/resumen_cd337f49861c862e9.el_veredicto_es_el_del_cierre_y_lo_dice]]

@@ -131,9 +131,12 @@ def instalados(python: Path | None) -> dict[str, tuple[str, str]] | None:
     return {normal(n): (n, v) for n, v in crudo.items() if isinstance(n, str) and isinstance(v, str)}
 
 
-def _componente(nombre: str, version: str, origen: str, hashes: list[str], fuente: str, exigida: str | None, fijada: bool) -> dict:
+def _componente(nombre: str, version: str, origen: str, hashes: list[str], fuente: str, exigida: str | None, fijada: bool,
+                instalado: bool | None = None) -> dict:
     propiedades = [("factory:origen", origen), ("factory:fuente", fuente), ("factory:directa", "true" if exigida is not None else "false"),
                    ("factory:exigida", exigida or ""), ("factory:fijada", "true" if fijada else "false")]
+    if instalado is not None:  # ausente si no se consultó el entorno
+        propiedades.append(("factory:instalado", "true" if instalado else "false"))
     if corregida(version):
         propiedades.append(("factory:corregida", "lightwell"))
     purl = f"pkg:pypi/{normal(nombre)}@{quote(version, safe='')}"
@@ -155,7 +158,7 @@ def inventario(raiz: Path, python: Path | None = None) -> tuple[dict, list[str],
             if n == normal(proyecto.get("nombre", "")):
                 continue
             exigida = directas[n][1] if n in directas else None
-            componentes.append(_componente(nombre, version, "desconocido", [], "instalado", exigida, False))
+            componentes.append(_componente(nombre, version, "desconocido", [], "instalado", exigida, False, True))
         if puestos is None:
             diferencias.append("no se pudo leer el entorno instalado: no hay ningún componente que listar")
     else:
@@ -170,13 +173,14 @@ def inventario(raiz: Path, python: Path | None = None) -> tuple[dict, list[str],
                 diferencias.append(f"{nombre}: pyproject.toml exige {especificacion} y el lock fija {', '.join(fijadas)}")
         for n, entradas in sorted(paquetes.items()):
             fijadas = [p["version"] for p in entradas]
-            if puestos is not None and n not in puestos:
-                diferencias.append(f"{entradas[0]['nombre']}: está en el lock ({', '.join(fijadas)}) y no está instalado")
-            elif puestos is not None and puestos[n][1] not in fijadas:
+            # Un lock sirve a varios entornos: un paquete que éste no instala (por la versión de Python o el sistema) no es una diferencia;
+            # una versión instalada que el lock no fija, sí.
+            if puestos is not None and n in puestos and puestos[n][1] not in fijadas:
                 diferencias.append(f"{entradas[0]['nombre']}: el lock fija {', '.join(fijadas)} y está instalada la {puestos[n][1]}")
             for p in entradas:
                 exigida = directas[n][1] if n in directas else None
-                componentes.append(_componente(p["nombre"], p["version"], p["origen"], p["hashes"], "uv.lock", exigida, bool(p["hashes"])))
+                puesto = None if puestos is None else (n in puestos and puestos[n][1] == p["version"])
+                componentes.append(_componente(p["nombre"], p["version"], p["origen"], p["hashes"], "uv.lock", exigida, bool(p["hashes"]), puesto))
     componentes.sort(key=lambda c: (normal(c["name"]), c["version"]))
     confiable = not diferencias  # sin lock siempre hay una diferencia
     propiedades = [{"name": "factory:confiable", "value": "true" if confiable else "false"},

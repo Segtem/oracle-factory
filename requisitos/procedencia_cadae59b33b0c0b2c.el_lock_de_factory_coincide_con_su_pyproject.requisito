@@ -1,0 +1,4 @@
+requisito procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject:
+    texto "Tipo: funcional El sistema DEBE hacer fallar una prueba cuando el uv.lock versionado no coincide con el pyproject.toml de Factory, de modo que cambiar la versión o una dependencia sin regenerar el lock se detecte."
+    fuente "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md#el_lock_de_factory_coincide_con_su_pyproject"
+    medido_por factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject, factory_uv_lock.corrida_completa

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:c265c30aecb325751b6d3ac055e665a2caa4806cf2c934636987e915034a2610 -->
+<!-- oracle-factory resumen sha256:dc897c180d5ba70d481567a92e1c9c4072b0ff1a1d72a2f1f08f71073ec521de -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 233 requisitos vigentes · 0 cambios abiertos
+25 capacidades · 236 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -305,6 +305,9 @@ Spec completa: [openspec/specs/procedencia/spec.md](../openspec/specs/procedenci
 | el_inventario_queda_en_el_candidato | funcional | `procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato` | factory_procedencia.el_inventario_queda_en_el_candidato, factory_procedencia.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-150627-lva-procedencia |
 | se_busca_quien_uso_una_dependencia | funcional | `procedencia_c3331f4b36e5b7938.se_busca_quien_uso_una_dependencia` | factory_procedencia.se_busca_quien_uso_una_dependencia, factory_procedencia.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-150627-lva-procedencia |
 | se_audita_contra_avisos_sin_red | funcional | `procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red` | factory_procedencia.se_audita_contra_avisos_sin_red, factory_procedencia.corrida_completa | verde al cerrar el 2026-10-28 | 20261028-150627-lva-procedencia |
+| el_lock_de_factory_viaja_con_el_repositorio | funcional | `procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio` | factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
+| el_lock_de_factory_coincide_con_su_pyproject | funcional | `procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject` | factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
+| un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario | funcional | `procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario` | factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
 
 ### resumen
 
@@ -1276,6 +1279,21 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se analizó el AST de las 68 funciones movidas y las 133 remanentes en `cli.py`, comprobando que no hubo cambios de comportamiento, que todo acceso a símbolos de `cli` se realiza dinámicamente mediante `cli.NOMBRE`, que los módulos nuevos ubican `from . import cli` al final para garantizar importación circular segura en cualquier orden (comprobado en procesos de Python independientes para cada módulo), y que `sys.modules[__name__]` en lecturas fue adaptado a `cli` para mantener la interoperabilidad con `kb`.
 - (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se verificó que ningún módulo preexistente fuera sobrescrito y que los tamaños de archivo respeten los topes (< 160.000 bytes para `cli.py` con 137.054 bytes y < 200.000 bytes para el resto).
 - (20261028-222656-b2m-clidividido) agy (gemini-3.8-flash-high): Se ejecutaron 15 mutaciones en una copia aislada confirmando que el conjunto de pruebas detecta alteraciones de contratos y que las pruebas no son circulares.
+- (20261028-235529-lhi-uvlock) Evidencia: Escenarios ul1–ul3 sobre el uv.lock y el pyproject.toml versionados de Factory, copias temporales con cambios y un «python» de mentira que informa lo instalado, en Linux, sin red. No se comprueba que el lock sea el que `uv lock` produciría hoy (eso necesita la red); sí que coincide con el pyproject.toml y que cada dependencia trae origen y hashes SHA-256.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutó la suite completa de pruebas unitarias sobre el checkout del candidato (723 pruebas, 10 omitidas, 0 fallas) utilizando .venv/bin/python -m unittest discover -s tests.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutó la herramienta de evidencia del cambio tools/verify_uv_lock.py sobre los 16 casos de contrato de los requisitos ul1–ul3, confirmando 723 pruebas corridas, 16 casos observados sin omisiones ni duplicados, fuentes estables y salida exitosa.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se verificó la resolución del hallazgo hallazgo-test-pr2-renombrado de la vuelta agy2-1 sobre 7ae0c36 mediante la ejecución de tools/verify_procedencia.py en el candidato 27ed4fc, confirmando que pasa con 80 casos de contrato y éxito: True tras sincronizar el nombre del caso en CONTRACTS.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se evaluó la sensibilidad de las pruebas mediante 8 mutaciones manuales sobre copias locales aisladas (fijar factory:instalado en true, omitir la propiedad factory:instalado, reintroducir falla por paquete no instalado en el entorno, suprimir verificación de versión instalada no coincidente, reincorporar uv.lock a .gitignore, modificar versión en uv.lock, alterar formato/algoritmo de hash, y cambiar origen de dependencia a no HTTPS). En todos los 8 casos las pruebas de tests/test_uv_lock.py fallaron inmediatamente (mutaciones eliminadas).
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): No se ejecutó uv lock con acceso a red externa hacia PyPI (fuera de alcance según proposal.md y límites declarados). Se constató estáticamente y por pruebas que el uv.lock versionado coincide con pyproject.toml y que todas sus dependencias cuentan con origen HTTPS y hashes SHA-256.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Revisión completa sin hallazgos: la implementación en 27ed4fc satisface los escenarios y requisitos funcionales de spec.md, la documentación en AGENTS.md y docs/procedencia.md es coherente, y no se observaron regresiones.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutó la suite completa de pruebas unitarias del producto (723 pruebas, 10 omitidas, 0 fallas) mediante .venv/bin/python -m unittest discover -s tests.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutaron específicamente tests/test_uv_lock.py (16 pruebas) y tests/test_procedencia.py (80 pruebas), resultando exitosas.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutó tools/verify_procedencia.py confirmando que el hallazgo de la ronda anterior (agy2-1 en 7ae0c36: desajuste de nombre del caso pr2 en CONTRACTS) quedó resuelto en 27ed4fc y el verificador corre con 80 casos exactos y éxito True.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se ejecutó tools/verify_uv_lock.py confirmando la cobertura íntegra de los 16 casos de contrato de los requisitos ul1–ul3, con fuentes estables y trazabilidad completa.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se evaluó la sensibilidad de las pruebas mediante mutaciones in-memory de oracle_factory/procedencia.py (inclusión incondicional de factory:instalado, valores fijos true/false, marcado erróneo sin lock, reintroducción de diferencias para paquetes no instalados en el entorno, e ignorar coincidencia de versión), comprobando que la suite tests/test_uv_lock.py y tests/test_procedencia.py detectan y matan todas las mutaciones.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se probó manualmente oracle-factory procedencia y procedencia --json con y sin entorno consultado, verificando el comportamiento prometido para factory:instalado (true, false para dependencias omitidas como typing-extensions, y ausente si no se consulta el entorno) y factory:confiable.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): No se ejecutó uv lock con acceso a red externa (fuera de alcance según proposal.md y políticas locales sin red). Se validó que uv.lock coincide estrictamente con pyproject.toml y que todas sus dependencias traen origen y hashes SHA-256.
+- (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Revisión completa sin hallazgos: la implementación satisface los escenarios y requisitos de spec.md, no presenta regresiones y resuelve el hallazgo previo.
 
 ### Históricos
 
