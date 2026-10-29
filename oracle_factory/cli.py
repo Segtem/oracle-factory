@@ -32,6 +32,7 @@ from . import preparacion
 from . import trazabilidad as trazabilidad_mod
 from . import modos
 from . import plantillas
+from . import osv as osv_mod
 from . import procedencia as procedencia_mod
 from . import revision as documentos_revision
 from . import tablero as tablero_mod
@@ -1719,7 +1720,19 @@ def comando_buscar(texto: str, maximo: int) -> None:
 
 
 def comando_procedencia(args) -> None:
-    """El inventario de las dependencias, quién usó una y la auditoría contra avisos OSV. Todo local, sin red."""
+    """El inventario de las dependencias, quién usó una y la auditoría contra avisos OSV. Local, salvo --consultar-osv --red."""
+    if args.consultar_osv:
+        if not args.red:
+            raise FactoryError("--consultar-osv se conecta a OSV.dev: autorizalo con --red (sale sólo nombre, versión y ecosistema de cada dependencia)")
+        if args.buscar or args.auditar or args.id or args.avisos:
+            raise FactoryError("--consultar-osv mira todos los inventarios guardados y no se combina con --buscar, --auditar, --avisos ni un cambio")
+        try:
+            print(osv_mod.informe(ROOT, args.osv_url, args.salida, args.json), end="")
+        except procedencia_mod.ProcedenciaError as e:
+            raise FactoryError(str(e)) from e
+        return
+    if args.red or args.salida:
+        raise FactoryError("--red y --salida son para --consultar-osv")
     if args.buscar and args.auditar:
         raise FactoryError("--buscar y --auditar no se combinan; usá uno")
     if (args.buscar or args.auditar) and args.id:
