@@ -11,3 +11,7 @@ OpenSpec: openspec/changes/20261029-164101-xux-avisososv. Modo de trabajo: confi
 ### Nota (2026-10-29 16:42:44 UTC)
 
 Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md; se reiniciaron las validaciones dependientes.
+
+### Nota (2026-10-29 16:43:06 UTC)
+
+Requisitos importados: procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita (funcional), procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv (funcional), procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados (funcional). Los nuevos nacen SIN MEDIR; verificá cobertura antes del juicio.

@@ -87,7 +87,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
 - [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
 - [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
-- [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (spec_aprobada)
+- [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (requisitos_importados)
 
 ## Requisitos
 
@@ -275,6 +275,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/portabilidad_cbe858e976e618573.respetar_los_registros_existentes]]
 - [[requisitos/portabilidad_cbe858e976e618573.sin_rutas_privadas_en_lo_versionado]]
 - [[requisitos/portabilidad_cbe858e976e618573.un_cambio_juzgado_en_una_maquina_se_cierra_desde_otra]]
+- [[requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita]]
+- [[requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv]]
+- [[requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados]]
 - [[requisitos/procedencia_c3331f4b36e5b7938.el_inventario_dice_que_hay_y_de_donde_viene]]
 - [[requisitos/procedencia_c3331f4b36e5b7938.el_inventario_queda_en_el_candidato]]
 - [[requisitos/procedencia_c3331f4b36e5b7938.se_audita_contra_avisos_sin_red]]

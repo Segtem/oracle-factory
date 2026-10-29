@@ -2,7 +2,7 @@
   "id": "20261029-164101-xux-avisososv",
   "titulo": "Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos",
   "capacidad": "procedencia",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md",
   "spec_sha256": "b6a8b69ec36cadfa2f41a05f42f62a05a799651613298424826ea7f96571f34c",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md": "b6a8b69ec36cadfa2f41a05f42f62a05a799651613298424826ea7f96571f34c"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita",
+    "procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv",
+    "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -41,7 +45,26 @@
         "openspec/changes/20261029-164101-xux-avisososv/proposal.md": "53de13efe6e306353f2bbaca91d815ab1d0d4f8ee7b3f5b55467357eed20ff9b",
         "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md": "b6a8b69ec36cadfa2f41a05f42f62a05a799651613298424826ea7f96571f34c"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T16:43:06.841565+00:00",
+      "ids": [
+        "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita",
+        "procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv",
+        "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita": "funcional",
+    "procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv": "funcional",
+    "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
