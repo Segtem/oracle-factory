@@ -1,0 +1,59 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/7769b6b-agy-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "7769b6b37bb7a5412eb5852b187e82f3060f7809",
+  "diff_sha256": "9c234b178e1fce5b6079a2c7c52cdb77a95bf3a8649292c573f420fd1fb32612",
+  "context_sha256": "570cc6370a883cb8c2a50d93de75834af8042c003af284e66e20a371db7cc413",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica realizada sobre el diff del candidato 7769b6b en entorno local aislado.",
+    "Se ejecutaron las pruebas unitarias del cambio (tests/test_avisos_osv.py), el sensor de evidencia (tools/verify_avisos_osv.py) y análisis de mutaciones manuales sobre oracle_factory/osv.py.",
+    "Las pruebas de red y consultas HTTP se realizaron contra servidores locales simulados (127.0.0.1); no se realizaron conexiones externas contra api.osv.dev en internet.",
+    "Se excluyeron de la revisión los 15 archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ],
+  "findings": [
+    {
+      "id": "AO-06",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Omisión de verificación de enlaces simbólicos en directorios ancestros e inexistentes para rutas `--salida` externas",
+      "explanation": "En `oracle_factory/osv.py` (líneas 107-108), la comprobación añadida para mitigar el hallazgo AO-02 evalúa únicamente si el directorio padre inmediato es un enlace simbólico (`elif absoluta.parent.is_symlink():`). Esta validación presenta dos fallas cuando `--salida` apunta fuera del repositorio:\n1) Omisión de ancestros: si la ruta apunta a un subdirectorio dentro de un enlace simbólico (por ejemplo, `--salida /tmp/enlace/sub/avisos.json`, donde `/tmp/enlace -> /tmp/real` y `sub` es un directorio regular dentro de `real`), `absoluta.parent.is_symlink()` devuelve `False` ya que `sub` no es un enlace, ignorando que el ancestro `/tmp/enlace` sí lo es.\n2) Directorios aún no existentes: si el directorio padre no existe previamente (por ejemplo, `--salida /tmp/enlace/nueva_carpeta/avisos.json`), `absoluta.parent.is_symlink()` devuelve `False` por no existir. Como consecuencia, `informe()` no detecta el enlace simbólico, emite peticiones hacia la red y `guardar()` crea `nueva_carpeta` dentro del destino real a través del enlace simbólico.\nEn ambos casos, el sistema abre conexiones a la red y escribe a través de symlinks en el sistema de archivos, eludiendo la restricción de seguridad del proyecto.",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 107,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory procedencia --consultar-osv --red --salida /ruta/con_enlace/subdirectorio/avisos.json` (o con una subcarpeta que aún no exista).",
+      "evidence": "Configurando `/tmp/enlace -> /tmp/real`, al invocar `osv.informe(..., salida='/tmp/enlace/sub/avisos.json')`, la función no detecta el enlace simbólico y emite peticiones hacia el servidor. Con `/tmp/enlace/nueva_carpeta/avisos.json`, `informe()` no falla por enlace y `guardar()` crea `nueva_carpeta` y escribe el archivo dentro de `/tmp/real` a través del symlink.",
+      "related_requirement": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "status": "pendiente",
+      "verification": "Verificar todos los componentes existentes en `absoluta.parents` (e.g. `for p in (absoluta, *absoluta.parents): if p.is_symlink(): raise proc.ProcedenciaError(...)`). Añadir una prueba unitaria con rutas anidadas en `--salida` a través de symlinks y validar que se rechacen antes de abrir conexiones de red."
+    },
+    {
+      "id": "AO-07",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Cobertura incompleta en la prueba de enlaces simbólicos (`test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza`)",
+      "explanation": "El caso de prueba `test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza` en `tests/test_avisos_osv.py` únicamente evalúa un archivo que es hijo directo del enlace simbólico (`enlace / 'avisos.json'`). No comprueba rutas en subdirectorios (`enlace / 'sub' / 'avisos.json'`) ni rutas con carpetas intermedias a crear (`enlace / 'nueva' / 'avisos.json'`). Este ángulo muerto en la suite permitió que la verificación parcial en `osv.py` pasara los tests sin advertir que las rutas anidadas eluden la validación.",
+      "location": {
+        "file": "tests/test_avisos_osv.py",
+        "start_line": 355,
+        "end_line": 367,
+        "side": "head"
+      },
+      "trigger": "Ejecutar la suite de pruebas unitarias sobre una implementación que sólo inspecciona `absoluta.parent.is_symlink()`.",
+      "evidence": "La suite de pruebas reporta éxito total (39 tests OK) a pesar de que cualquier ruta anidada dentro del symlink elude la comprobación de symlinks y conecta a la red.",
+      "related_requirement": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "status": "pendiente",
+      "verification": "Extender `test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza` para incluir aserciones con rutas como `enlace / 'sub' / 'avisos.json'` y `enlace / 'nueva' / 'avisos.json'`, verificando que se rechacen sin realizar peticiones HTTP ni crear directorios."
+    }
+  ]
+}

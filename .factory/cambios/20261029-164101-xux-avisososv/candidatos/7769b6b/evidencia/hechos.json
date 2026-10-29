@@ -1,0 +1,205 @@
+{
+  "avisos_osv_caso": [
+    {
+      "requisito": "sin_autorizacion_de_red_no_se_consulta_osv",
+      "caso": "SinAutorizacion.test_ao1_sin_la_bandera_de_red_no_se_abre_ninguna_conexion_ni_se_crea_archivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_autorizacion_de_red_no_se_consulta_osv",
+      "caso": "SinAutorizacion.test_ao1_sin_la_bandera_tampoco_se_conecta_a_un_servidor_que_no_existe",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_autorizacion_de_red_no_se_consulta_osv",
+      "caso": "SinAutorizacion.test_ao1_la_bandera_de_red_sola_no_consulta_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_autorizacion_de_red_no_se_consulta_osv",
+      "caso": "SinAutorizacion.test_ao1_salida_sin_consultar_es_un_error",
+      "codigo": 0
+    },
+    {
+      "requisito": "sin_autorizacion_de_red_no_se_consulta_osv",
+      "caso": "SinAutorizacion.test_ao1_no_se_combina_con_auditar_buscar_avisos_ni_un_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_una_dependencia_afectada_se_guarda_como_aviso_valido_y_nombra_al_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_sale_solo_nombre_version_y_ecosistema_de_cada_dependencia_distinta_una_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_sin_avisos_dice_cuantas_consulto_y_no_guarda_archivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_sin_avisos_en_json_es_una_auditoria_vacia",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_un_aviso_de_otra_version_se_guarda_y_no_expone_a_nadie",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_la_version_corregida_se_consulta_sin_su_sufijo",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_un_aviso_que_alcanza_a_dos_dependencias_se_baja_una_vez",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_el_identificador_del_aviso_se_escapa_en_la_ruta",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_muchas_dependencias_se_consultan_en_lotes",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_la_salida_indicada_se_respeta_y_la_de_por_omision_no_se_crea",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_con_avisos_el_json_tambien_dice_cuantas_dependencias_se_consultaron",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "caso": "ConsultaGuardaYAudita.test_ao2_el_archivo_guardado_se_audita_despues_con_auditar",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_error_http_en_querybatch",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_error_http_al_bajar_un_aviso_no_deja_archivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_conexion_cortada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_respuesta_que_no_es_json",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_respuesta_demasiado_grande",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_respuesta_que_no_es_utf8",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_querybatch_con_otra_cantidad_de_resultados",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_querybatch_con_avisos_sin_identificador",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_aviso_que_no_es_osv_valido",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_el_servicio_no_esta",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_url_que_no_es_http_se_rechaza_sin_leer_archivos",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_inventarios_sin_dependencias_no_se_dan_por_limpios_ni_se_conecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_redireccion_no_se_sigue_hacia_otro_servidor",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_identificador_de_aviso_vacio_se_rechaza_sin_pedir_la_raiz",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_archivo_de_avisos_de_solo_lectura_no_se_reemplaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_si_no_se_puede_escribir_es_un_error_claro_y_no_queda_nada",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_el_guardado_es_atomico_un_fallo_al_reemplazar_deja_lo_anterior_y_ningun_temporal",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_sin_inventarios_guardados_no_hay_nada_que_consultar_ni_conexion",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_un_fallo_no_toca_un_archivo_de_avisos_anterior",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_no_se_escribe_a_traves_de_un_enlace_simbolico",
+      "codigo": 0
+    },
+    {
+      "requisito": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "caso": "UnFalloNoEsLimpio.test_ao3_una_salida_que_es_una_carpeta_se_rechaza_antes_de_conectar",
+      "codigo": 0
+    }
+  ],
+  "avisos_osv_corrida": [
+    {
+      "completa": 1,
+      "casos": 39
+    }
+  ]
+}

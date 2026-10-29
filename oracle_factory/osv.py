@@ -97,15 +97,16 @@ def guardar(ruta: Path, lista: list[dict]) -> None:
 
 
 def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
+    if not base.startswith(("http://", "https://")):
+        raise proc.ProcedenciaError(f"la URL de OSV debe ser http o https: {base}")  # antes de leer nada del proyecto
     inventarios = proc.guardados(raiz)
     if not inventarios:
         raise proc.ProcedenciaError("no hay inventarios de procedencia guardados: nada que consultar (guardá uno con «procedencia ID»)")
     ruta = Path(salida) if salida else raiz / SALIDA
-    absoluta = ruta.absolute()
-    if absoluta.is_relative_to(raiz):
-        proc.sin_enlaces(raiz, absoluta)  # dentro del proyecto, ningún directorio del camino es un enlace
-    elif absoluta.parent.is_symlink():
-        raise proc.ProcedenciaError(f"no se siguen enlaces simbólicos: {absoluta.parent}")  # fuera, al menos su carpeta
+    absoluta = Path(os.path.normpath(ruta.absolute()))
+    if not absoluta.is_relative_to(raiz):
+        raise proc.ProcedenciaError(f"--salida tiene que quedar dentro del proyecto: {ruta}")
+    proc.sin_enlaces(raiz, absoluta)  # ningún directorio del camino es un enlace
     if ruta.is_symlink() or ruta.is_dir():
         raise proc.ProcedenciaError(f"no escribo los avisos en {ruta}")
     if ruta.exists() and not os.access(ruta, os.W_OK):

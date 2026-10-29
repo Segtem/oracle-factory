@@ -1,0 +1,60 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/7769b6b-agy2-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "7769b6b37bb7a5412eb5852b187e82f3060f7809",
+  "diff_sha256": "9c234b178e1fce5b6079a2c7c52cdb77a95bf3a8649292c573f420fd1fb32612",
+  "context_sha256": "98fbe8f170536066321d92f1abe293291d71f5f437ee7267f8b327b8ecf75929",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica realizada sobre el diff del candidato 7769b6b en entorno local aislado.",
+    "Las pruebas de integración y escenarios de red se ejecutaron contra servidores HTTP locales simulados (127.0.0.1); no se realizaron conexiones externas hacia api.osv.dev en internet.",
+    "Se ejecutaron las 39 pruebas unitarias de contrato del cambio (tests/test_avisos_osv.py) y la suite de trazabilidad (tools/verify_avisos_osv.py).",
+    "Se realizaron análisis de mutación e instrumentación sobre copias locales aisladas para evaluar el comportamiento ante symlinks en ancestros y orden de lectura de archivos.",
+    "Se excluyeron de la revisión los 15 archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ],
+  "findings": [
+    {
+      "id": "AO2-01",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Evasión de verificación de enlaces simbólicos para rutas --salida externas al repositorio con symlink en ancestros superiores",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 107,
+        "end_line": 108,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "explanation": "En oracle_factory/osv.py, la validación de enlaces simbólicos para rutas externas al proyecto (elif absoluta.parent.is_symlink():) inspecciona únicamente el directorio padre inmediato del archivo de salida. Si la ruta especificada en --salida reside dentro de un enlace simbólico ubicado en un nivel superior de la jerarquía de directorios (por ejemplo, --salida /tmp/enlace/sub/avisos.json donde /tmp/enlace es un symlink apuntando a /tmp/real), absoluta.parent apunta a sub (un subdirectorio real dentro del destino del enlace), por lo que absoluta.parent.is_symlink() evalúa como False. Tampoco ruta.is_symlink() lo detecta, ya que evalúa solo el nodo hoja. En consecuencia, el comando efectúa la consulta de red hacia OSV y procede a crear el archivo temporal y reemplazarlo con os.replace dentro del árbol apuntado por el symlink (/tmp/real/sub/avisos.json). Esto deja incompleta la resolución del hallazgo de seguridad AO-02 de la primera ronda y vulnera la política de seguridad del proyecto que exige no operar ni escribir a través de enlaces simbólicos.",
+      "trigger": "Ejecutar oracle-factory procedencia --consultar-osv --red --salida /tmp/enlace_dir/sub/avisos.json donde /tmp/enlace_dir es un enlace simbólico a un directorio real en el sistema de archivos.",
+      "evidence": "Se comprobó dinámicamente: creando un symlink /tmp/enlace -> /tmp/real con un subdirectorio sub, al invocar osv.informe(raiz, base, str(enlace / 'sub' / 'avisos.json'), False) con dependencias afectadas, el comando no levantó ProcedenciaError, se conectó al servicio simulado y creó exitosamente el archivo en /tmp/real/sub/avisos.json.",
+      "verification": "Inspeccionar todos los componentes ancestros de la ruta absoluta (por ejemplo, if any(p.is_symlink() for p in (absoluta, *absoluta.parents)): raise proc.ProcedenciaError(...) o iterando sobre los componentes de la ruta absoluta) para rechazar cualquier symlink en el camino independientemente de la profundidad.",
+      "status": "pendiente"
+    },
+    {
+      "id": "AO2-02",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "La prueba test_ao3_una_url_que_no_es_http_se_rechaza_sin_leer_archivos no valida el acceso al filesystem y oculta que se leen todos los inventarios antes de verificar la URL",
+      "location": {
+        "file": "tests/test_avisos_osv.py",
+        "start_line": 314,
+        "end_line": 318,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "La prueba test_ao3_una_url_que_no_es_http_se_rechaza_sin_leer_archivos promete validar que una URL con esquema no HTTP (como file:///etc/passwd) se rechaza sin leer archivos. Sin embargo, en oracle_factory/osv.py:informe(), la validación de la URL (base.startswith(('http://', 'https://'))) no se ejecuta al inicio del comando sino de forma diferida en consultar() (línea 63). Previamente, informe() ejecuta proc.guardados(raiz) (línea 100), leyendo del disco y parseando con JSON todos los inventarios guardados (cyclonedx.json), además de realizar comprobaciones sobre la ruta de salida y calcular los pares de dependencias. Si el proyecto no tuviera inventarios guardados, la ejecución fallaría por falta de inventarios antes de rechazar el esquema de URL inválido. La prueba no instrumenta ni verifica que no se acceda al sistema de archivos, dando una falsa sensación de cobertura sobre la condición declarada en su nombre.",
+      "trigger": "Ejecutar oracle-factory procedencia --consultar-osv --red --osv-url file:///etc/passwd y monitorear las llamadas a procedencia.guardados.",
+      "evidence": "Al envolver procedencia.guardados con un mock espía durante la ejecución de test_ao3_una_url_que_no_es_http_se_rechaza_sin_leer_archivos, mock_guardados.called resultó True, demostrando que los inventarios del disco son leídos antes de que la URL sea validada y rechazada.",
+      "verification": "Mover la validación del esquema de la URL (base.startswith(('http://', 'https://'))) al principio de osv.informe() antes de invocar proc.guardados(raiz), y actualizar el test para verificar que proc.guardados no sea llamado.",
+      "status": "pendiente"
+    }
+  ]
+}

@@ -352,18 +352,34 @@ class UnFalloNoEsLimpio(Osv):
         self.assertEqual(previo.read_text(), '[{"previo": true}]')
         self.assertEqual(s.pedidos, [])
 
-    def test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza(self):
+    def test_ao3_una_salida_fuera_del_proyecto_se_rechaza_antes_de_conectar(self):
         self.guarda()
         s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
         fuera = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, fuera, True)
         real = fuera / 'real'
         real.mkdir()
-        enlace = fuera / 'enlace'
-        enlace.symlink_to(real)
-        self.falla(s, 'enlaces simbólicos', salida=str(enlace / 'avisos.json'))
+        (fuera / 'enlace').symlink_to(real)
+        for salida in (fuera / 'avisos.json', fuera / 'enlace' / 'avisos.json', fuera / 'enlace' / 'sub' / 'avisos.json',
+                       self.root / '..' / 'afuera.json', '/tmp/otro-avisos.json'):
+            with self.subTest(salida=str(salida)):
+                self.falla(s, 'dentro del proyecto', salida=str(salida))
         self.assertEqual(list(real.iterdir()), [])
         self.assertEqual(s.pedidos, [])
+
+    def test_ao3_una_salida_dentro_del_proyecto_con_un_ancestro_enlazado_se_rechaza(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        fuera = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, fuera, True)
+        (self.root / 'enlace').symlink_to(fuera)
+        self.falla(s, 'enlaces simbólicos', salida=str(self.root / 'enlace' / 'sub' / 'avisos.json'))
+        self.assertEqual(list(fuera.iterdir()), [])
+        self.assertEqual(s.pedidos, [])
+
+    def test_ao3_la_url_invalida_se_rechaza_antes_de_leer_los_inventarios(self):
+        s = self.servicio()  # sin inventarios guardados: si se leyeran primero, el error sería otro
+        self.falla(s, 'http o https', osv_url='ftp://x')
 
     def test_ao3_si_no_se_puede_escribir_es_un_error_claro_y_no_queda_nada(self):
         self.guarda()
