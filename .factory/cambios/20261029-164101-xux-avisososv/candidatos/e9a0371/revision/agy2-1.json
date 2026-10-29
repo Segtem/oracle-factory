@@ -1,0 +1,135 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/e9a0371-agy2-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "e9a03715b192d4f0a3a3cb9477559bd44bd96cab",
+  "diff_sha256": "a83c9f4eff3f7379760196006d5eadfab447cd0528f1093b0e29cf2901060f29",
+  "context_sha256": "6f7a2ff9e40ce25ae0be812968bdfb37ca53b870166352fc13875c35e7d1f62f",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias del cambio (tests/test_avisos_osv.py y tests de procedencia) en el entorno virtual de Factory.",
+    "Se realizaron análisis de mutación sobre copias locales aisladas de oracle_factory/osv.py para comprobar la sensibilidad de las pruebas ante escrituras no atómicas y dependencias vacías.",
+    "No se abrieron conexiones externas contra api.osv.dev en internet; toda la verificación dinámica se ejecutó contra servidores HTTP de prueba en 127.0.0.1.",
+    "No se corrió la totalidad de las pruebas históricas ajenas al cambio (e.g. RAG y migraciones globales) para evitar bloqueos y uso excesivo de recursos."
+  ],
+  "findings": [
+    {
+      "id": "osv-ssrf-redirect",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "SSRF y conexión no autorizada a servicios internos por seguimiento automático de redirecciones en _pedir",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 36,
+        "end_line": 51,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv",
+      "explanation": "La función _pedir invoca urllib.request.urlopen(pedido, timeout=TIEMPO) utilizando la configuración por defecto de urllib, que incluye HTTPRedirectHandler. Al recibir códigos de redirección HTTP (301, 302, 303), urllib sigue automáticamente la redirección hacia el host indicado en el encabezado Location (convirtiendo pedidos POST a GET) y permite emitir solicitudes no autorizadas hacia recursos de red interna o sensibles (como 127.0.0.1, 169.254.169.254 en entornos de nube, o intranets privadas). Esto vulnera la garantía formal del cambio de que 'No consulta la red salvo con --consultar-osv --red, y sólo a OSV.dev' (docs/procedencia.md), permitiendo Server-Side Request Forgery (SSRF).",
+      "trigger": "Un servidor configurado como OSV o un intermediario en la red responde a POST /v1/querybatch o GET /v1/vulns/... con HTTP 302 hacia http://127.0.0.1:8888/internal/secret. urllib.request.urlopen sigue automáticamente la redirección, emite un GET hacia el servicio interno y devuelve su contenido.",
+      "evidence": "Se verificó experimentalmente levantando un servidor OSV simulado que respondió 302 hacia un servidor HTTP interno en loopback. _pedir() siguió la redirección silenciosamente y consumió los datos del servidor interno.",
+      "status": "pendiente",
+      "verification": "Configurar un urllib.request.OpenerDirector o un HTTPRedirectHandler personalizado que desactive el seguimiento automático de redirecciones hacia hosts distintos del autorizado o que rechace redirecciones a IPs privadas/loopback."
+    },
+    {
+      "id": "osv-readonly-file-overwrite",
+      "kind": "seguridad",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Reemplazo atómico en guardar() saltea la protección de archivos de sólo lectura",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 75,
+        "end_line": 86,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "En osv.py:guardar(), los avisos se escriben en un archivo temporal con tempfile.mkstemp y luego se sustituyen con os.replace(temporal, ruta). En sistemas de archivos POSIX, rename/os.replace reemplaza exitosamente un archivo existente aunque tenga permisos de sólo lectura (0o444), alterando además sus permisos a 0o600. En el resto de Oracle Factory (oracle_factory/cli.py:127), existe una salvaguarda explícita contra esto: 'if destino.exists() and not os.access(destino, os.W_OK): raise FactoryError(f\"{destino.relative_to(ROOT)} es de sólo lectura; no lo modifico\")' con el comentario '# el reemplazo atómico saltearía la protección del archivo'. En osv.py se omitió esta comprobación tanto en informe() como en guardar(), permitiendo que archivos existentes de sólo lectura sean destruidos y sobrescritos.",
+      "trigger": "El archivo de salida (por defecto .factory/local/avisos-osv.json o el indicado en --salida) ya existe con permisos 0o444 (sólo lectura). Se ejecuta oracle-factory procedencia --consultar-osv --red y OSV reporta al menos un aviso.",
+      "evidence": "Se preparó un archivo con chmod 444. Al ejecutar guardar(), el archivo fue sobrescrito con el nuevo contenido sin levantar error y con permisos 0o600.",
+      "status": "pendiente",
+      "verification": "Agregar en informe() y guardar() la verificación if ruta.exists() and not os.access(ruta, os.W_OK): raise proc.ProcedenciaError(f'{ruta} es de sólo lectura; no lo modifico')."
+    },
+    {
+      "id": "osv-empty-components-false-clean",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Reporte de 'no hay expuestos' atribuido a OSV cuando los inventarios no contienen dependencias",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 88,
+        "end_line": 105,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "En osv.py:informe(), la validación 'if not inventarios:' sólo detecta la ausencia total de archivos cyclonedx.json. Si existen inventarios guardados pero ninguno declara componentes ('components': []), la función pares(inventarios) retorna una lista vacía. En tal caso, consultar(base, []) devuelve [] sin enviar peticiones a OSV, y el flujo cae en 'if not lista:', emitiendo: 'Consulta a OSV: 0 dependencia(s) distinta(s) de N inventario(s); OSV no declara avisos para ellas: no hay candidatos expuestos.' (y en JSON: avisos: 0, dependencias: 0, afectados: []). Se informa falsamente que OSV declaró que no hay expuestos, cuando en realidad el servicio nunca fue contactado ni consultado. Conforme a la spec, si no hay nada que consultar el comando debe terminar con error indicándolo.",
+      "trigger": "Existe al menos un inventario guardado pero con lista de componentes vacía (por ejemplo {'bomFormat': 'CycloneDX', 'components': []}), y se ejecuta procedencia --consultar-osv --red.",
+      "evidence": "osv.informe() contra una URL deliberadamente no disponible (http://127.0.0.1:9999) devuelve el mensaje 'OSV no declara avisos para ellas: no hay candidatos expuestos.' sin levantar error ni abrir socket.",
+      "status": "pendiente",
+      "verification": "Comprobar tras obtener consultadas: if not consultadas: raise proc.ProcedenciaError('los inventarios guardados no tienen dependencias: nada que consultar')."
+    },
+    {
+      "id": "osv-cli-unhandled-oserror",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "Excepción no controlada (OSError/PermissionError) en comando_procedencia ante fallos del sistema de archivos al guardar",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1729,
+        "end_line": 1733,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "En cli.py:1731, el comando envuelve la llamada a osv_mod.informe capturando exclusivamente procedencia_mod.ProcedenciaError. Si la función guardar() en osv.py falla por permisos en el directorio destino (e.g. PermissionError) o falta de espacio en disco (OSError) al invocar ruta.parent.mkdir() o tempfile.mkstemp(), la excepción se propaga sin atrapar. Esto provoca que la CLI termine con un traceback crudo no controlado en lugar de un mensaje limpio de FactoryError.",
+      "trigger": "Ejecutar procedencia --consultar-osv --red --salida /root/avisos.json (o en un directorio donde el usuario no tenga permisos de escritura) cuando OSV devuelve al menos un aviso.",
+      "evidence": "Al simular un aviso devuelto por OSV con destino en un directorio sin permisos, se produce un 'PermissionError: [Errno 13] Permission denied' que se escapa de cli.comando_procedencia sin ser capturado.",
+      "status": "pendiente",
+      "verification": "Capturar (procedencia_mod.ProcedenciaError, OSError) en cli.py:1731 y convertirlo en FactoryError, o asegurar que osv.guardar capture OSError y lo relance como ProcedenciaError."
+    },
+    {
+      "id": "osv-json-missing-dependencias-key",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Inconsistencia de claves en salida --json: 'dependencias' se omite cuando existen avisos guardados",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 100,
+        "end_line": 108,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "explanation": "En osv.py:informe(), cuando no se encuentran avisos y se pasa --json, el objeto retornado contiene {'avisos': 0, 'inventarios': ..., 'dependencias': len(consultadas), 'afectados': [], ...}. Sin embargo, cuando sí se encuentran avisos, se delega en proc.informe_auditar(raiz, str(ruta), True), el cual retorna {'avisos': len(lista), 'inventarios': len(inventarios), ...} sin incluir la clave 'dependencias'. Esto crea una divergencia en la estructura de datos consumida por herramientas automáticas.",
+      "trigger": "Ejecutar oracle-factory procedencia --consultar-osv --red --json en un escenario con al menos una dependencia afectada.",
+      "evidence": "Al parsear la salida JSON con avisos presentes, la clave 'dependencias' no existe en el diccionario retornado, a diferencia del caso sin avisos donde sí está presente.",
+      "status": "pendiente",
+      "verification": "Incluir 'dependencias': len(consultadas) en el objeto retornado en ambos caminos de ejecución en informe() con --json."
+    },
+    {
+      "id": "osv-test-atomic-write-blindspot",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "La suite de pruebas no verifica la atomicidad de guardar() ni la ausencia de archivos parciales ante fallos de escritura",
+      "location": {
+        "file": "tests/test_avisos_osv.py",
+        "start_line": 259,
+        "end_line": 263,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "El requisito promete que ante fallos 'no deja un archivo de avisos nuevo ni parcial'. Las pruebas en test_avisos_osv.py validan fallos durante la consulta HTTP previa, pero ninguna prueba evalúa qué ocurre si la escritura del archivo en guardar() se interrumpe o falla a mitad de camino. Mediante análisis de mutación, se sustituyó el mecanismo atómico de tempfile y os.replace por una simple escritura directa no atómica (ruta.write_text), y el 100% de las 31 pruebas del cambio continuó pasando sin advertir la regresión.",
+      "trigger": "Modificar la función guardar() en oracle_factory/osv.py para usar escritura directa en lugar de archivo temporal y reemplazo atómico, y correr tests/test_avisos_osv.py.",
+      "evidence": "La mutación sobrevivió intacta: Ran 31 tests in 17.97s, OK.",
+      "status": "pendiente",
+      "verification": "Agregar un test unitario que simule un fallo durante la escritura en guardar() y verifique que no queden archivos parciales ni temporales huérfanos."
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/e9a0371-agy-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "e9a03715b192d4f0a3a3cb9477559bd44bd96cab",
+  "diff_sha256": "a83c9f4eff3f7379760196006d5eadfab447cd0528f1093b0e29cf2901060f29",
+  "context_sha256": "626b0df9b3164a9749afe4c8ce13c2c9c61a2fd7e5ee3e1a9e05fb05cee982bc",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [
+    {
+      "id": "AO-01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Falso resultado de éxito 'sin candidatos expuestos' cuando los inventarios no contienen dependencias",
+      "explanation": "En `oracle_factory/osv.py`, la función `informe()` sólo comprueba si la lista de inventarios guardados está vacía (`if not inventarios:`). Si existen inventarios guardados en el proyecto pero ninguno contiene dependencias válidas (por ejemplo, `components: []`), `pares(inventarios)` devuelve una lista vacía `consultadas = []`. Al invocar `consultar(base, consultadas)`, la función retorna `[]` de inmediato sin consultar la red ni verificar la disponibilidad del servicio. Seguidamente, `informe()` cae en la rama `if not lista:` y reporta erróneamente un estado exitoso: «Consulta a OSV: 0 dependencia(s) distinta(s) de 1 inventario(s); OSV no declara avisos para ellas: no hay candidatos expuestos». Esto infringe el requisito `un_fallo_de_consulta_no_se_lee_como_sin_afectados` y el escenario «no hay inventarios guardados», ya que ante la falta de dependencias no se realiza ninguna consulta pero se asegura falsamente que el servicio no declaró avisos y que el proyecto está limpio.",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 89,
+        "end_line": 105,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory procedencia --consultar-osv --red` en un repositorio donde los inventarios guardados contienen listas vacías de componentes.",
+      "evidence": "Invocando `osv.informe(raiz, 'http://127.0.0.1:9', None, False)` con un inventario guardado con `components: []` hacia un puerto inalcanzable, la función retorna exitosamente 'Consulta a OSV: 0 dependencia(s)... OSV no declara avisos para ellas: no hay candidatos expuestos' sin enviar ninguna petición HTTP ni señalar la ausencia de dependencias.",
+      "related_requirement": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "status": "pendiente",
+      "verification": "Crear un candidato con un archivo CycloneDX con `components: []` y ejecutar el comando con `--consultar-osv --red --osv-url http://127.0.0.1:9`. Comprobar que no falla ni conecta, e informa indebidamente que no hay candidatos expuestos."
+    },
+    {
+      "id": "AO-02",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Omisión de verificación de enlaces simbólicos (`sin_enlaces`) para rutas `--salida` externas al repositorio",
+      "explanation": "En `oracle_factory/osv.py` (líneas 94-97), la validación de enlaces simbólicos mediante `proc.sin_enlaces(raiz, absoluta)` se ejecuta exclusivamente cuando `absoluta.is_relative_to(raiz)`. Si el usuario especifica una ruta fuera de la raíz del repositorio (por ejemplo, `--salida /tmp/enlace_dir/avisos.json` o una ruta relativa como `../enlace_dir/avisos.json`), la verificación de los componentes de la ruta se omite por completo. La comprobación subsiguiente `ruta.is_symlink()` únicamente inspecciona el nodo final (el archivo de destino) y no sus directorios contenedores. En consecuencia, `guardar()` crea el archivo temporal y lo mueve con `os.replace` dentro de directorios que son enlaces simbólicos hacia otras partes del sistema, burlando la política de seguridad del proyecto que prohíbe operar a través de symlinks.",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 94,
+        "end_line": 97,
+        "side": "head"
+      },
+      "trigger": "Ejecutar `oracle-factory procedencia --consultar-osv --red --salida /ruta/con/directorio_symlink/avisos.json`.",
+      "evidence": "Al configurar un enlace simbólico `/tmp/link_dir -> /tmp/real_dir` y pasar `--salida /tmp/link_dir/avisos.json`, `osv.informe` no detecta el enlace simbólico del camino, no levanta `ProcedenciaError` y escribe el archivo en `/tmp/real_dir/avisos.json`.",
+      "related_requirement": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "status": "pendiente",
+      "verification": "Crear un directorio temporal fuera del repositorio con un enlace simbólico hacia él, pasar un archivo dentro del symlink en `--salida` y comprobar que la operación tiene éxito escribiendo a través del symlink en lugar de ser rechazada por `sin_enlaces`."
+    },
+    {
+      "id": "AO-03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Excepciones de sistema de archivos no capturadas al fallar el guardado de `--salida`",
+      "explanation": "En `oracle_factory/osv.py`, `guardar()` invoca `ruta.parent.mkdir()`, `tempfile.mkstemp()` y `os.replace()` sin envolver posibles excepciones del sistema operativo (`PermissionError`, `FileExistsError`, `ReadOnlyFileSystemError`, `ENOSPC`). En `oracle_factory/cli.py`, el bloque `try...except` que envuelve `osv_mod.informe` sólo captura `procedencia_mod.ProcedenciaError`. Por lo tanto, si la ruta especificada en `--salida` reside en un directorio sin permisos de escritura, sobre un sistema de sólo lectura o con disco lleno, la excepción `OSError` se propaga sin control produciendo un traceback de Python en lugar de un `FactoryError` amigable y controlado.",
+      "location": {
+        "file": "oracle_factory/cli.py",
+        "start_line": 1729,
+        "end_line": 1733,
+        "side": "head"
+      },
+      "trigger": "Especificar un argumento `--salida` cuya ruta padre no tenga permisos de escritura o no permita crear archivos.",
+      "evidence": "Al llamar `osv.guardar(Path('/root/no_existe/avisos.json'), [...])`, se eleva `PermissionError` directamente sin ser interceptado ni transformado en `ProcedenciaError` ni `FactoryError`.",
+      "related_requirement": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "status": "pendiente",
+      "verification": "Ejecutar `oracle-factory procedencia --consultar-osv --red --salida /root/avisos.json` con un usuario estándar y observar que la CLI aborta con traceback de `PermissionError` sin capturar."
+    },
+    {
+      "id": "AO-04",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Inconsistencia en el esquema del JSON de salida entre consultas con y sin avisos",
+      "explanation": "En `oracle_factory/osv.py` (líneas 100-108), cuando no se detectan avisos en OSV (`not lista`), la salida con `--json` incluye explícitamente el campo `\"dependencias\": len(consultadas)`. Sin embargo, cuando se detectan y guardan avisos (`lista` con elementos), la respuesta se delega en `proc.informe_auditar(..., True)`, el cual no incluye la clave `\"dependencias\"`. Esta divergencia en las propiedades del objeto devuelto complica el consumo uniforme de la salida JSON por parte de scripts o herramientas automáticas.",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 100,
+        "end_line": 108,
+        "side": "head"
+      },
+      "trigger": "Consultar la salida `--json` de `procedencia --consultar-osv` comparando un caso donde se reporten vulnerabilidades contra uno limpio.",
+      "evidence": "En `test_ao2_sin_avisos_en_json_es_una_auditoria_vacia`, el objeto tiene clave `dependencias`. Cuando hay avisos, `informe_auditar` sólo expone `{'avisos', 'inventarios', 'afectados', 'corregidos', 'sin_comparar'}`.",
+      "related_requirement": "la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "status": "pendiente",
+      "verification": "Ejecutar una consulta con avisos en modo JSON y verificar que la clave `dependencias` está ausente del diccionario resultante."
+    },
+    {
+      "id": "AO-05",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.9,
+      "title": "Falta de validación contra identificadores de aviso vacíos en la respuesta de querybatch",
+      "explanation": "En `oracle_factory/osv.py` (líneas 67-70), la validación de las vulnerabilidades devueltas por `querybatch` verifica `isinstance(v.get('id'), str)`. Si el servidor remoto envía `{\"id\": \"\"}`, la condición evalúa a verdadero. El identificador vacío ingresa en `ids` y luego dispara una petición GET a `f\"{base}/v1/vulns/\"` (solicitando la raíz de la ruta de avisos) en lugar de ser rechazado anticipadamente con el error «OSV respondió con avisos sin identificador».",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 67,
+        "end_line": 71,
+        "side": "head"
+      },
+      "trigger": "Una respuesta de `querybatch` donde un elemento en `vulns` tiene `{\"id\": \"\"}`.",
+      "evidence": "`all(isinstance(v, dict) and isinstance(v.get('id'), str) for v in [{'id': ''}])` devuelve `True`, agregando `''` a la lista de `ids` a descargar individualmente.",
+      "related_requirement": "un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "status": "pendiente",
+      "verification": "Configurar un mock HTTP que responda en `querybatch` con `results: [{\"vulns\": [{\"id\": \"\"}]}]` y verificar que el cliente efectúa una petición GET a `/v1/vulns/` en vez de fallar por identificador inválido."
+    }
+  ],
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica realizada sobre el diff del candidato e9a0371 en entorno local aislado.",
+    "Las pruebas de integración y escenarios de red se ejecutaron contra servidores HTTP locales simulados (mock en 127.0.0.1); no se realizaron conexiones a los servidores reales de api.osv.dev en internet.",
+    "Se excluyeron de la revisión los 7 archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ]
+}

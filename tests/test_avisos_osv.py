@@ -1,5 +1,8 @@
 """La consulta de avisos a OSV: escenarios ao1–ao3, contra un servidor local de mentira (ninguna prueba toca la red)."""
 import json
+import os
+import shutil
+import tempfile
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import sys
@@ -35,8 +38,10 @@ class Servicio:
             def log_message(self, *a):
                 pass
 
-            def responder(self, codigo, cuerpo):
+            def responder(self, codigo, cuerpo, cabeceras=None):
                 self.send_response(codigo)
+                for k, v in (cabeceras or {}).items():
+                    self.send_header(k, v)
                 self.send_header('Content-Type', 'application/json')
                 self.send_header('Content-Length', str(len(cuerpo)))
                 self.end_headers()
@@ -238,6 +243,12 @@ class ConsultaGuardaYAudita(Osv):
         self.assertTrue((self.root / 'otro/avisos.json').is_file())
         self.assertEqual(self.local(), [])
 
+    def test_ao2_con_avisos_el_json_tambien_dice_cuantas_dependencias_se_consultaron(self):
+        self.guarda(componentes=(('alfa', '1.2.3'), ('beta', '2.0')))
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        datos = json.loads(self.correr(s, json=True))
+        self.assertEqual((datos['dependencias'], datos['avisos'], len(datos['afectados'])), (2, 1, 1))
+
     def test_ao2_el_archivo_guardado_se_audita_despues_con_auditar(self):
         self.guarda()
         s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
@@ -305,6 +316,72 @@ class UnFalloNoEsLimpio(Osv):
         s = self.servicio()
         self.falla(s, 'http o https', osv_url='file:///etc/passwd')
         self.assertEqual(s.pedidos, [])
+
+    def test_ao3_inventarios_sin_dependencias_no_se_dan_por_limpios_ni_se_conecta(self):
+        self.guarda(componentes=())
+        s = self.servicio()
+        mensaje = self.falla(s, 'nada que consultar')
+        self.assertNotIn('no hay candidatos expuestos', mensaje)
+        self.assertEqual(s.pedidos, [])
+        self.assertEqual(self.local(), [])
+
+    def test_ao3_una_redireccion_no_se_sigue_hacia_otro_servidor(self):
+        self.guarda()
+        otro = self.servicio()
+        s = self.servicio(batch=(302, b'', {'Location': otro.url + '/v1/querybatch'}))
+        self.falla(s, 'HTTP 302')
+        self.assertEqual(otro.pedidos, [])
+        self.assertEqual(self.local(), [])
+
+    def test_ao3_un_identificador_de_aviso_vacio_se_rechaza_sin_pedir_la_raiz(self):
+        self.guarda()
+        s = self.servicio(batch=(200, json.dumps({'results': [{'vulns': [{'id': ''}]}]}).encode()))
+        self.falla(s, 'sin identificador')
+        self.assertEqual([p for _, p, _ in s.pedidos], ['/v1/querybatch'])
+
+    def test_ao3_un_archivo_de_avisos_de_solo_lectura_no_se_reemplaza(self):
+        self.guarda()
+        previo = self.root / '.factory/local/avisos-osv.json'
+        previo.parent.mkdir(parents=True, exist_ok=True)
+        previo.write_text('[{"previo": true}]')
+        previo.chmod(0o444)
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        if os.access(previo, os.W_OK):
+            self.skipTest('el usuario escribe igual en archivos de sólo lectura')
+        self.falla(s, 'sólo lectura')
+        self.assertEqual(previo.read_text(), '[{"previo": true}]')
+        self.assertEqual(s.pedidos, [])
+
+    def test_ao3_una_salida_fuera_del_proyecto_en_una_carpeta_enlazada_se_rechaza(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        fuera = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, fuera, True)
+        real = fuera / 'real'
+        real.mkdir()
+        enlace = fuera / 'enlace'
+        enlace.symlink_to(real)
+        self.falla(s, 'enlaces simbólicos', salida=str(enlace / 'avisos.json'))
+        self.assertEqual(list(real.iterdir()), [])
+        self.assertEqual(s.pedidos, [])
+
+    def test_ao3_si_no_se_puede_escribir_es_un_error_claro_y_no_queda_nada(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        with mock.patch.object(osv.tempfile, 'mkstemp', side_effect=PermissionError('sin permiso')):
+            self.falla(s, 'no pude guardar')
+        self.assertEqual(self.local(), [])
+
+    def test_ao3_el_guardado_es_atomico_un_fallo_al_reemplazar_deja_lo_anterior_y_ningun_temporal(self):
+        self.guarda()
+        previo = self.root / '.factory/local/avisos-osv.json'
+        previo.parent.mkdir(parents=True, exist_ok=True)
+        previo.write_text('[{"previo": true}]')
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        with mock.patch.object(osv.os, 'replace', side_effect=OSError('disco lleno')):
+            self.falla(s, 'no pude guardar')
+        self.assertEqual(previo.read_text(), '[{"previo": true}]')
+        self.assertEqual(self.local(), ['avisos-osv.json'])
 
     def test_ao3_sin_inventarios_guardados_no_hay_nada_que_consultar_ni_conexion(self):
         s = self.servicio()

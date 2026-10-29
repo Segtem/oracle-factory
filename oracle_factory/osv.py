@@ -33,11 +33,19 @@ def pares(inventarios: list[tuple[str, str, dict]]) -> list[tuple[str, str]]:
     return sorted(vistos.values(), key=lambda p: (proc.normal(p[0]), p[1]))
 
 
+class _SinRedirecciones(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *a, **kw):
+        return None  # una redirección es un error HTTP: no se sigue hacia otro servidor
+
+
+_ABRIR = urllib.request.build_opener(_SinRedirecciones).open
+
+
 def _pedir(url: str, cuerpo: dict | None = None) -> object:
     pedido = urllib.request.Request(url, data=None if cuerpo is None else json.dumps(cuerpo).encode(),
                                     headers={"Content-Type": "application/json", "Accept": "application/json"})
     try:
-        with urllib.request.urlopen(pedido, timeout=TIEMPO) as respuesta:
+        with _ABRIR(pedido, timeout=TIEMPO) as respuesta:
             datos = respuesta.read(TOPE + 1)
         if len(datos) > TOPE:
             raise proc.ProcedenciaError(f"la respuesta de {url} es demasiado grande")
@@ -65,7 +73,7 @@ def consultar(base: str, lista: list[tuple[str, str]]) -> list[dict]:
             raise proc.ProcedenciaError("OSV respondió con algo que no es el resultado esperado de querybatch")
         for r in resultados:
             vulns = r.get("vulns", []) if isinstance(r, dict) else None
-            if not isinstance(vulns, list) or not all(isinstance(v, dict) and isinstance(v.get("id"), str) for v in vulns):
+            if not isinstance(vulns, list) or not all(isinstance(v, dict) and isinstance(v.get("id"), str) and v["id"] for v in vulns):
                 raise proc.ProcedenciaError("OSV respondió con avisos sin identificador")
             ids += [v["id"] for v in vulns]
     completos = [_pedir(f"{base}/v1/vulns/{quote(i, safe='')}") for i in sorted(set(ids))]
@@ -74,15 +82,18 @@ def consultar(base: str, lista: list[tuple[str, str]]) -> list[dict]:
 
 def guardar(ruta: Path, lista: list[dict]) -> None:
     """Escribe los avisos de una vez (archivo temporal y reemplazo), sin dejar nada parcial."""
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporal = tempfile.mkstemp(dir=ruta.parent, prefix=".avisos-osv-")
+    temporal = None
     try:
+        ruta.parent.mkdir(parents=True, exist_ok=True)
+        descriptor, temporal = tempfile.mkstemp(dir=ruta.parent, prefix=".avisos-osv-")
         with os.fdopen(descriptor, "w", encoding="utf-8") as f:
             f.write(json.dumps(lista, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
         os.replace(temporal, ruta)
-    except BaseException:
-        Path(temporal).unlink(missing_ok=True)
-        raise
+    except OSError as e:
+        raise proc.ProcedenciaError(f"no pude guardar los avisos en {ruta} ({type(e).__name__}: {e})") from e
+    finally:
+        if temporal:
+            Path(temporal).unlink(missing_ok=True)
 
 
 def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
@@ -93,9 +104,15 @@ def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
     absoluta = ruta.absolute()
     if absoluta.is_relative_to(raiz):
         proc.sin_enlaces(raiz, absoluta)  # dentro del proyecto, ningún directorio del camino es un enlace
+    elif absoluta.parent.is_symlink():
+        raise proc.ProcedenciaError(f"no se siguen enlaces simbólicos: {absoluta.parent}")  # fuera, al menos su carpeta
     if ruta.is_symlink() or ruta.is_dir():
         raise proc.ProcedenciaError(f"no escribo los avisos en {ruta}")
+    if ruta.exists() and not os.access(ruta, os.W_OK):
+        raise proc.ProcedenciaError(f"{ruta} es de sólo lectura; no lo modifico")  # el reemplazo atómico saltearía la protección
     consultadas = pares(inventarios)
+    if not consultadas:
+        raise proc.ProcedenciaError("los inventarios guardados no tienen dependencias: nada que consultar")
     lista = consultar(base, consultadas)
     if not lista:
         if como_json:
@@ -105,4 +122,7 @@ def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
                 "OSV no declara avisos para ellas: no hay candidatos expuestos.\n")
     guardar(ruta, lista)
     cabecera = f"Consulta a OSV: {len(consultadas)} dependencia(s) distinta(s); {len(lista)} aviso(s) guardado(s) en {ruta}.\n"
-    return proc.informe_auditar(raiz, str(ruta), True) if como_json else cabecera + proc.informe_auditar(raiz, str(ruta), False)
+    if como_json:
+        auditoria = json.loads(proc.informe_auditar(raiz, str(ruta), True))
+        return json.dumps({**auditoria, "dependencias": len(consultadas)}, ensure_ascii=False, indent=2) + "\n"
+    return cabecera + proc.informe_auditar(raiz, str(ruta), False)
