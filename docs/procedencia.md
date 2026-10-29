@@ -25,9 +25,12 @@ Se arma con las dependencias de Python del proyecto: el lock (`uv.lock`), lo que
   (`factory:exigida`);
 - de dónde sale cada dato (`factory:fuente`): `uv.lock`, o `instalado` cuando no hay lock y entonces no hay hashes ni origen
   que se puedan verificar;
+- si el paquete está instalado en el entorno consultado y en esa versión (`factory:instalado`: `true`, `false`, o ausente si no se
+  consultó el entorno);
 - si es una versión corregida por Lightwell (`factory:corregida`): las que llevan el sufijo `+rhlw…` o `.rhlw-…`.
 
-Un paquete que el lock fija en más de una versión aparece una vez por versión. El archivo sale ordenado y sin marcas de tiempo:
+Un paquete que el lock fija en más de una versión aparece una vez por versión. Un paquete que está en el lock y no en el entorno (por ejemplo porque sólo se instala en otra versión de Python o en otro sistema) se marca
+como no instalado, y no hace no confiable el inventario: un lock sirve a varios entornos. El archivo sale ordenado y sin marcas de tiempo:
 dos corridas iguales dan el mismo archivo y la misma huella.
 
 ### Cuándo el inventario no es confiable
@@ -37,10 +40,16 @@ El inventario se declara **no confiable** (`factory:confiable: false`) y lista l
 - no hay `uv.lock`;
 - el lock es de otra versión del proyecto que la de `pyproject.toml`;
 - `pyproject.toml` exige una dependencia que el lock no tiene, o exige una versión fija distinta de la del lock;
-- el lock fija una versión distinta de la instalada, o algo que no está instalado.
+- el entorno tiene instalada una versión que el lock no fija.
 
 Si no se pudo consultar el entorno, el inventario lo dice (`factory:entorno: no consultado`) y se apoya en el lock y en
 `pyproject.toml`. Una especificación no fijada (`>=2`) no es una diferencia: se registra como no fijada.
+
+## El lock de Factory mismo
+
+El `uv.lock` de Factory se versiona (ya no está en el `.gitignore`) y una prueba (`tests/test_uv_lock.py`) exige que coincida con su
+`pyproject.toml`. En cada cambio de versión o de dependencias hay que regenerarlo, con `uv lock`, y commitearlo junto con el cambio:
+si no, la prueba falla diciendo qué difiere.
 
 ## Guardarlo en el candidato
 

@@ -232,9 +232,12 @@ class Procedencia(unittest.TestCase):
         bom = self.bom()
         self.assertEqual((self.confiable(bom), self.diferencias(bom)), ('false', ['alfa: el lock fija 1.2.3 y está instalada la 1.2.4']))
 
-    def test_pr2_algo_del_lock_que_no_esta_instalado(self):
+    def test_pr2_algo_del_lock_que_el_entorno_no_instala_se_marca_y_no_es_una_diferencia(self):
         self.proyecto(instalado={'alfa': '1.2.3'})
-        self.assertEqual(self.diferencias(self.bom()), ['beta: está en el lock (2.0.1) y no está instalado'])
+        bom = self.bom()
+        self.assertEqual((self.confiable(bom), self.diferencias(bom)), ('true', []))
+        self.assertEqual((self.prop(self.componente(bom, 'alfa'), 'factory:instalado'), self.prop(self.componente(bom, 'beta'), 'factory:instalado')),
+                         ('true', 'false'))
 
     def test_pr2_una_dependencia_directa_que_falta_en_el_lock(self):
         self.proyecto(dependencias=('alfa==1.2.3', 'beta>=2', 'gama==3.0'), instalado={'alfa': '1.2.3', 'beta': '2.0.1'})
