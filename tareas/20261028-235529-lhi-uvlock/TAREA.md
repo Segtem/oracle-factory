@@ -1,6 +1,6 @@
 # Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala
 
-- ESTADO: ABIERTA
+- ESTADO: CERRADA
 - PRIORIDAD: 50
 - ETIQUETAS: 
 
@@ -43,3 +43,11 @@ Medidas de procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no
 ### Nota (2026-10-29 15:29:19 UTC)
 
 Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos rondas con agy y agy2: la primera dejó un hallazgo informativo real (verify_procedencia.py seguía el nombre viejo del caso pr2), corregido y verificado; la segunda, 0 hallazgos en ambos. Suite de 723 pruebas sin fallas ni omisiones y evidencia con éxito.); 0 abiertos derivados; commit 27ed4fc9a80b6096e40a893a7c7196e55a669724; informe tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json; decisiones tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/decisiones.json.
+
+### Nota (2026-10-29 15:29:34 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261028-235529-lhi-uvlock/oracle-veredicto.txt.
+
+### Nota (2026-10-29 15:34:02 UTC)
+
+Cierre: Brian Hollweg (persona, decidio, modo confirmacion), tras revisar el informe de código y el veredicto Oracle.

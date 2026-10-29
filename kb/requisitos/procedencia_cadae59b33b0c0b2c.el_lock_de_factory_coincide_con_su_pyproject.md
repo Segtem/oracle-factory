@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject`
 - Vigente: sí
 - Cambio: [[cambios/20261028-235529-lhi-uvlock]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject`, `factory_uv_lock.corrida_completa`
 - Fuente: openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md#el_lock_de_factory_coincide_con_su_pyproject
 

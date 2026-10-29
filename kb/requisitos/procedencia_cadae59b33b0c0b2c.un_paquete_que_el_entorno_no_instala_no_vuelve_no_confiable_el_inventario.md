@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario`
 - Vigente: sí
 - Cambio: [[cambios/20261028-235529-lhi-uvlock]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario`, `factory_uv_lock.corrida_completa`
 - Fuente: openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md#un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario
 

@@ -2,7 +2,7 @@
   "id": "20261028-235529-lhi-uvlock",
   "titulo": "Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala",
   "capacidad": "procedencia",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md",
   "spec_sha256": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "43d7394921e3f63d8096bff8a99205301d89514dc3295aaf56a87ba956653941"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261028-235529-lhi-uvlock/candidatos/27ed4fc/evidencia/hechos.json",
+    "hechos_sha256": "4408fd74e5ab5c4ca026eafe93542b1464de9e85ec7fb37698a7c6c0156df085",
+    "informe": ".factory/cambios/20261028-235529-lhi-uvlock/oracle-veredicto.txt",
+    "informe_sha256": "b06fddbba6628d7de546e986b344b52dc17ef71572a6a9f8249e59d747b35e06",
+    "cuando": "2026-10-29T15:29:34.313813+00:00",
+    "contexto": {
+      "head": "1c827a450c414b0ee563f65932f0f0c4a44cca20",
+      "archivos_sha256": "43d7394921e3f63d8096bff8a99205301d89514dc3295aaf56a87ba956653941"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -287,6 +299,37 @@
       "abiertos": 0,
       "sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
       "decisiones_sha256": "ea1617c767715752bed3d8a1bdd05cc32d2cfb48ed996e1f105df555a52d4a62"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:29:34.313830+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "4408fd74e5ab5c4ca026eafe93542b1464de9e85ec7fb37698a7c6c0156df085"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:34:02.896781+00:00",
+      "oracle": ".factory/cambios/20261028-235529-lhi-uvlock/oracle-veredicto.txt",
+      "revision": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-29T15:34:02.930082+00:00",
+      "capacidad": "procedencia",
+      "spec": "openspec/specs/procedencia/spec.md"
     }
   ],
   "tipos": {
@@ -345,5 +388,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-29T15:34:02.832496+00:00"
+  },
+  "archivo": {
+    "capacidad": "procedencia",
+    "spec": "openspec/specs/procedencia/spec.md",
+    "cuando": "2026-10-29T15:34:02.930071+00:00"
+  }
 }
