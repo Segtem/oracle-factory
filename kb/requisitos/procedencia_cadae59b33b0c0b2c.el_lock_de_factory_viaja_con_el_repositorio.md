@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261028-235529-lhi-uvlock]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el lock está en Git», «origen y hashes de cada dependencia»
+- Medidas: `factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio`, `factory_uv_lock.corrida_completa`
 - Fuente: openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md#el_lock_de_factory_viaja_con_el_repositorio
 
 Tipo: funcional El sistema DEBE tener versionado en Git, y no ignorado, el uv.lock de Factory, con cada dependencia fijada con su índice de origen y los hashes SHA-256 de sus archivos.

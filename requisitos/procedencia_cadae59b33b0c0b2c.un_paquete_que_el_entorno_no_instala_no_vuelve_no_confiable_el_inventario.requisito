@@ -1,4 +1,4 @@
 requisito procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario:
     texto "Tipo: funcional El sistema DEBE marcar como no instalado, sin declarar no confiable el inventario, un paquete que está en el lock y no está instalado en el entorno consultado, y DEBE seguir declarando no confiable una versión instalada distinta de la del lock."
     fuente "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md#un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
-    sin_medir "sin medida todavía; escenarios: «un paquete del lock que el entorno no instala», «un paquete instalado en otra versión», «un paquete instalado como el lock»"
+    medido_por factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario, factory_uv_lock.corrida_completa

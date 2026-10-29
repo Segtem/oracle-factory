@@ -58,6 +58,87 @@
         "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
         "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:45.522880+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:46.719135+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T00:07:47.926088+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "medidas": [
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+        "factory_uv_lock.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.056839+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject",
+        "factory_uv_lock.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.207089+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
+      "medidas": [
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio",
+        "factory_uv_lock.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T00:20:52.352238+00:00",
+      "requisito": "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+      "medidas": [
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario",
+        "factory_uv_lock.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -65,6 +146,55 @@
     "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio": "funcional",
     "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "funcional"
   },
-  "medidas": {},
+  "medidas": {
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.021329+00:00",
+      "sha256": "5b26c57741721a86b841722248defd8e13314a33f4547c202cdf180518c1f82d",
+      "catalogos": {
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject": "737ff27412746b527e2e74b4b959b1cc066f117e74d400c0cd79a73b8a2f8c90",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject": "catalogos/factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    },
+    "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.172086+00:00",
+      "sha256": "76bab2139848f7f267ed3273a78c10815e04109a5b9176270e6a98972bce9ed8",
+      "catalogos": {
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio": "218dbd390584cd22ba217942404bd7907dc3ed7b119acdd736c1365e13b457dd",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio": "catalogos/factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    },
+    "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-29T00:20:52.316279+00:00",
+      "sha256": "6a886320979cca385978179f9fb379b6cfa12ad98127c6f5a3d80c94305dc40d",
+      "catalogos": {
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "52fdeebec00ee543def8e2efcba1264d93566fafa989cfbf651d5d75df58df52",
+        "factory_uv_lock.corrida_completa": "f42cf3d762ea455cb171c66028bda449e80cbf308faa1a62e7aee1bc7c5df558"
+      },
+      "archivos_catalogo": {
+        "factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario": "catalogos/factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario.oracle",
+        "factory_uv_lock.corrida_completa": "catalogos/factory_uv_lock.corrida_completa.oracle"
+      }
+    }
+  },
   "medidas_pendientes": {}
 }
