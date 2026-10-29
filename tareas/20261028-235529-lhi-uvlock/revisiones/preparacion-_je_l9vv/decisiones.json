@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
+  "actor": "Brian Hollweg",
+  "motivo": "Dos rondas con agy y agy2: la primera dejó un hallazgo informativo real (verify_procedencia.py seguía el nombre viejo del caso pr2), corregido y verificado; la segunda, 0 hallazgos en ambos. Suite de 723 pruebas sin fallas ni omisiones y evidencia con éxito.",
+  "decisiones": []
+}

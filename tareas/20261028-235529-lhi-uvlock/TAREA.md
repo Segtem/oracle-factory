@@ -39,3 +39,7 @@ Medidas de procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_reposit
 ### Nota (2026-10-29 00:20:52 UTC)
 
 Medidas de procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-29 15:29:19 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Dos rondas con agy y agy2: la primera dejó un hallazgo informativo real (verify_procedencia.py seguía el nombre viejo del caso pr2), corregido y verificado; la segunda, 0 hallazgos en ambos. Suite de 723 pruebas sin fallas ni omisiones y evidencia con éxito.); 0 abiertos derivados; commit 27ed4fc9a80b6096e40a893a7c7196e55a669724; informe tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json; decisiones tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/decisiones.json.

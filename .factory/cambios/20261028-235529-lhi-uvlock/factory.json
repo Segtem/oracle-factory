@@ -2,7 +2,7 @@
   "id": "20261028-235529-lhi-uvlock",
   "titulo": "Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala",
   "capacidad": "procedencia",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261028-235529-lhi-uvlock/specs/procedencia/spec.md",
   "spec_sha256": "34e92e173fe31087e0363a3262b90b0dc0075efdc0d586099ffc170d4ce07fd4",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio",
     "procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/informe.json",
+    "sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
+    "decisiones": "tareas/20261028-235529-lhi-uvlock/revisiones/registro-kn8xyghe/decisiones.json",
+    "decisiones_sha256": "ea1617c767715752bed3d8a1bdd05cc32d2cfb48ed996e1f105df555a52d4a62",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-29T15:29:19.340183+00:00",
+    "motivo": "Dos rondas con agy y agy2: la primera dejó un hallazgo informativo real (verify_procedencia.py seguía el nombre viejo del caso pr2), corregido y verificado; la segunda, 0 hallazgos en ambos. Suite de 723 pruebas sin fallas ni omisiones y evidencia con éxito.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "27ed4fc9a80b6096e40a893a7c7196e55a669724",
+      "archivos_sha256": "43d7394921e3f63d8096bff8a99205301d89514dc3295aaf56a87ba956653941"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -191,6 +211,82 @@
       "resultado": "ok",
       "hallazgos": 1,
       "lanzamiento": "15454171005c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:06:41.264700+00:00",
+      "revisor": "agy2",
+      "candidato": "27ed4fc",
+      "lanzamiento": "3fd982eb3805"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:06:41.290531+00:00",
+      "revisor": "agy",
+      "candidato": "27ed4fc",
+      "lanzamiento": "35c7469bda48"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:30:11.238606+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "27ed4fc",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "35c7469bda48"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-29T10:33:09.756793+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "27ed4fc",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "3fd982eb3805"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-29T14:10:00.634224+00:00",
+      "decision": "aprobar",
+      "candidato": "27ed4fc"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-29T15:29:19.340222+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "eca6c344b401a1bbea296f81a91e4b4f334905c79796db0a333322855f6db086",
+      "decisiones_sha256": "ea1617c767715752bed3d8a1bdd05cc32d2cfb48ed996e1f105df555a52d4a62"
     }
   ],
   "tipos": {
@@ -248,5 +344,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }
