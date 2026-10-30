@@ -25,8 +25,7 @@ Las guías:
 
 ## Instalación
 
-Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel candidato verificable antes de la publicación remota.
-Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con `uv`:
+Versión publicada en PyPI: `oracle-factory==0.1.0a16`. Con `uv`:
 
 ```bash
 uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a16

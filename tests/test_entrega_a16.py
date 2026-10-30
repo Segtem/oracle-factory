@@ -44,21 +44,22 @@ class EntregaA16(unittest.TestCase):
         problemas = docs_al_dia.problemas(ROOT)
         self.assertEqual(problemas, [], f"Discrepancias detectadas en documentación: {problemas}")
 
-        # 3. La 0.1.0a16 figura en preparación, la 0.1.0a15 publicada, y se conserva el historial
+        # 3. La 0.1.0a16 figura publicada y se conserva el historial de las anteriores
         notas_release = (ROOT / "NOTAS-DE-RELEASE.md").read_text(encoding="utf-8")
-        self.assertTrue(notas_release.startswith("# Oracle Factory 0.1.0a16 (en preparación)\n"))
+        self.assertIn("\n# Oracle Factory 0.1.0a16\n", "\n" + notas_release)
+        self.assertNotIn("0.1.0a16 (en preparación)", notas_release)
+        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a16`", notas_release)
         self.assertIn("\n# Oracle Factory 0.1.0a15\n", "\n" + notas_release)
         self.assertNotIn("0.1.0a15 (en preparación)", notas_release)
-        self.assertIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a15`", notas_release)
-        self.assertNotIn("**Publicada.** En PyPI como `oracle-factory==0.1.0a16`", notas_release)
         self.assertIn("\n# Oracle Factory 0.1.0a14\n", "\n" + notas_release)
         self.assertIn("# Oracle Factory 0.1.0a13", notas_release)
         self.assertIn("# Oracle Factory 0.1.0a12", notas_release)
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertIn("La versión publicada anterior es [0.1.0a15]", readme)
-        self.assertIn("Candidato en preparación `oracle-factory==0.1.0a16`", readme)
-        self.assertNotRegex(readme + (ROOT / "site/index.html").read_text(encoding="utf-8"),
-                            r"(?i)0\.1\.0a16[^\n]{0,40}(ya está|está)\s+publicada|Versión publicada en PyPI: `oracle-factory==0\.1\.0a16`")
+        self.assertIn("Versión publicada en PyPI: `oracle-factory==0.1.0a16`", readme)
+        for texto in (readme, (ROOT / "docs/colaboracion.md").read_text(encoding="utf-8"),
+                      (ROOT / "site/desde-cero.html").read_text(encoding="utf-8"), (ROOT / "site/index.html").read_text(encoding="utf-8")):
+            self.assertNotRegex(texto, r"(?i)0\.1\.0a16\s*\(en preparaci[oó]n\)|candidat[oa] [^\n]{0,60}0\.1\.0a16|cuando se publique esta versi[oó]n")
         uvlock = tomllib.loads((ROOT / "uv.lock").read_text(encoding="utf-8"))
         [propio] = [p for p in uvlock["package"] if p["name"] == "oracle-factory"]
         self.assertEqual(propio["version"], "0.1.0a16")  # el lock viaja con la versión de la entrega
@@ -70,8 +71,8 @@ class EntregaA16(unittest.TestCase):
             notas = repo_tmp / "NOTAS-DE-RELEASE.md"
             contenido_original = readme.read_text(encoding="utf-8")
             notas_originales = notas.read_text(encoding="utf-8")
-            publicada = notas_originales.replace("# Oracle Factory 0.1.0a16 (en preparación)\n", "# Oracle Factory 0.1.0a16\n", 1)
-            self.assertNotEqual(publicada, notas_originales)
+            en_preparacion = notas_originales.replace("# Oracle Factory 0.1.0a16\n", "# Oracle Factory 0.1.0a16 (en preparación)\n", 1)
+            self.assertNotEqual(en_preparacion, notas_originales)
 
             # a) README nombra una versión divergente fuera del historial
             readme.write_text(contenido_original.replace("0.1.0a16", "0.2.0"), encoding="utf-8")
@@ -79,37 +80,31 @@ class EntregaA16(unittest.TestCase):
             self.assertTrue(any("nombra la versión 0.2.0" in p for p in probs), "No se detectó la versión divergente 0.2.0")
 
             # b) mientras las notas dicen «en preparación», un texto que afirma la publicación se detecta
+            notas.write_text(en_preparacion, encoding="utf-8")
             readme.write_text(contenido_original + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
             probs = docs_al_dia.problemas(repo_tmp)
             self.assertTrue(any("afirma que la versión 0.1.0a16 está publicada" in p for p in probs), probs)
             for frase in ("Ya está en PyPI la 0.1.0a16.", "La versión 0.1.0a16, publicada en GitHub.", "0.1.0a16 disponible en PyPI"):
                 readme.write_text(contenido_original + f"\n{frase}\n", encoding="utf-8")
                 self.assertTrue(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)), frase)
-
-            # c) los textos reales de la preparación no son una divergencia mientras las notas la tienen en preparación...
+            # c) los textos reales de la publicación, con las notas devueltas a «en preparación», se señalan como prematuros
             readme.write_text(contenido_original, encoding="utf-8")
-            self.assertEqual(docs_al_dia.problemas(repo_tmp), [])
-            # ...pero con las notas ya publicadas esos mismos textos se señalan como de candidata, en el README y en la guía
-            notas.write_text(publicada, encoding="utf-8")
-            probs = [p for p in docs_al_dia.problemas(repo_tmp) if "describe la versión 0.1.0a16 como candidata o en preparación" in p]
+            probs = [p for p in docs_al_dia.problemas(repo_tmp) if "afirma que la versión" in p]
             self.assertTrue(any(p.startswith("README.md:") for p in probs) and any(p.startswith("site/desde-cero.html:") for p in probs), probs)
 
-            # d) con las notas publicadas y el README en su forma publicada, la afirmación de publicación no es un problema...
-            preparacion = ("Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel candidato verificable antes de la publicación remota.\n"
-                           "Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con `uv`:")
-            self.assertIn(preparacion, contenido_original)
-            publicado = contenido_original.replace(preparacion, "Versión publicada en PyPI: `oracle-factory==0.1.0a16`. Con `uv`:")
-            readme.write_text(publicado + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
-            self.assertEqual([p for p in docs_al_dia.problemas(repo_tmp) if p.startswith("README.md:")], [])  # el README publicado no tiene problemas
+            # d) con las notas publicadas, la afirmación de publicación ya no es un problema...
+            notas.write_text(notas_originales, encoding="utf-8")
+            readme.write_text(contenido_original + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
+            self.assertFalse(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
             # e) ...pero un texto que la sigue llamando candidata o en preparación se detecta
             for frase in ("Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel.", "La 0.1.0a16 (en preparación) trae la procedencia.",
                           "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 0.1.0a16 y estado de preparación.",
                           "PREPARACIÓN 0.1.0a16", "Esta guía describe el candidato Factory 0.1.0a16."):
-                readme.write_text(publicado + f"\n{frase}\n", encoding="utf-8")  # sobre un README ya limpio: cada frase se detecta sola
-                self.assertTrue(any(p.startswith("README.md:") and "describe la versión 0.1.0a16 como candidata o en preparación" in p
+                readme.write_text(contenido_original + f"\n{frase}\n", encoding="utf-8")
+                self.assertTrue(any("describe la versión 0.1.0a16 como candidata o en preparación" in p
                                     for p in docs_al_dia.problemas(repo_tmp)), frase)
             # f) y mientras las notas la tienen en preparación, ese mismo texto no es una divergencia
-            notas.write_text(notas_originales, encoding="utf-8")
+            notas.write_text(en_preparacion, encoding="utf-8")
             readme.write_text(contenido_original + "\nCandidato en preparación `oracle-factory==0.1.0a16`.\n", encoding="utf-8")
             self.assertFalse(any("describe la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
 

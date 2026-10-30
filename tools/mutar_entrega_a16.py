@@ -21,7 +21,7 @@ MUTACIONES = [
     ("version_pyproject_vieja_010a15", "pyproject.toml", 'version = "0.1.0a16"', 'version = "0.1.0a15"', "ea1"),
     ("version_init_vieja_010a15", "oracle_factory/__init__.py", '__version__ = "0.1.0a16"', '__version__ = "0.1.0a15"', "ea1"),
     ("lock_con_otra_version", "uv.lock", 'name = "oracle-factory"\nversion = "0.1.0a16"', 'name = "oracle-factory"\nversion = "0.1.0a15"', "ea1"),
-    ("readme_version_divergente", "README.md", "Candidato en preparación `oracle-factory==0.1.0a16`", "Candidato en preparación `oracle-factory==0.2.0`", "ea1"),
+    ("readme_version_divergente", "README.md", "Versión publicada en PyPI: `oracle-factory==0.1.0a16`", "Versión publicada en PyPI: `oracle-factory==0.2.0`", "ea1"),
     ("origen_checkout_no_rechazado", "tools/probar_entrega_a16.py", "if prohibido_resolved in archivo_path.parents or archivo_path == prohibido_resolved:", "if False:", "ea2_origen"),
     ("wheel_010a15_aceptado", "tools/probar_entrega_a16.py", "if version_mod != version_esperada:", "if False:", "ea2_origen"),
     ("mutaciones_identidades_ignoradas", "tools/verify_entrega_a16.py", "if Counter(m.get('id') for m in filas) != esperadas:", "if False:", "integridad_mutaciones"),
