@@ -21,24 +21,28 @@
     },
     "agy2": {
       "comando": [
+        "env",
+        "AGY_MODEL=gemini-4-argon-high",
         "ask-agy2",
         "{pedido}",
         "{carpeta}",
         "{carpeta}/agy2.md"
       ],
       "proveedor": "agy",
-      "modelo": "gemini-3.8-flash-high",
+      "modelo": "gemini-4-argon-high",
       "tope_minutos": 90
     },
     "agy": {
       "comando": [
+        "env",
+        "AGY_MODEL=gemini-4-argon-high",
         "ask-agy1",
         "{pedido}",
         "{carpeta}",
         "{carpeta}/agy.md"
       ],
       "proveedor": "agy",
-      "modelo": "gemini-3.8-flash-high",
+      "modelo": "gemini-4-argon-high",
       "tope_minutos": 90
     }
   },
