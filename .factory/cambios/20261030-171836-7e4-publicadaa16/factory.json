@@ -2,7 +2,7 @@
   "id": "20261030-171836-7e4-publicadaa16",
   "titulo": "Declarar publicada la 0.1.0a16 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "oracle_verde",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md",
   "spec_sha256": "828edece8cfec69dd982ae0b6b7bdf20b7077c0bccb19e24a8989e6fb7468858",
   "spec_aprobada": {
@@ -229,6 +229,26 @@
       "codigo": 0,
       "codigo_oracle": 0,
       "hechos_sha256": "ec20060b85ab22e303a96d91c087c6742533cb1549dc405b233e75b7e8062e95"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T18:39:23.283109+00:00",
+      "oracle": ".factory/cambios/20261030-171836-7e4-publicadaa16/oracle-veredicto.txt",
+      "revision": "tareas/20261030-171836-7e4-publicadaa16/revisiones/registro-cctglaiz/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T18:39:23.312285+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
     }
   ],
   "tipos": {
@@ -270,5 +290,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T18:39:23.216659+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-10-30T18:39:23.312277+00:00"
+  }
 }

@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:5ff4d19f79f86e32a3cdde2b6c26420e1b0d8c41298731d66a8b211147e3785d -->
+<!-- oracle-factory resumen sha256:e13ae5de38fcb4ab50325ada9357e9503ce6877b7a1c292e2276f5cf6860a6be -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 242 requisitos vigentes · 1 cambio abierto
+25 capacidades · 244 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -160,6 +160,8 @@ Spec completa: [openspec/specs/distribucion/spec.md](../openspec/specs/distribuc
 | la_version_a16_es_coherente_y_declara_su_estado | funcional | `distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado` | factory_entrega_a16.la_version_a16_es_coherente_y_declara_su_estado, factory_entrega_a16.corrida_completa | verde al cerrar el 2026-10-30 | 20261030-100740-f1g-entregaa16 |
 | el_wheel_a16_instalado_ofrece_lo_nuevo | funcional | `distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo` | factory_entrega_a16.el_wheel_a16_instalado_ofrece_lo_nuevo, factory_entrega_a16.corrida_completa | verde al cerrar el 2026-10-30 | 20261030-100740-f1g-entregaa16 |
 | la_entrega_a16_registra_sus_pruebas_y_sus_limites | funcional | `distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites` | factory_entrega_a16.la_entrega_a16_registra_sus_pruebas_y_sus_limites, factory_entrega_a16.corrida_completa | verde al cerrar el 2026-10-30 | 20261030-100740-f1g-entregaa16 |
+| los_textos_declaran_publicada_la_version_a16_publicada | funcional | `distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada` | factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada, factory_publicada_a16.corrida_completa | verde al cerrar el 2026-10-30 | 20261030-171836-7e4-publicadaa16 |
+| un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta | funcional | `distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta` | factory_publicada_a16.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta, factory_publicada_a16.corrida_completa | verde al cerrar el 2026-10-30 | 20261030-171836-7e4-publicadaa16 |
 
 ### estructura
 
@@ -428,14 +430,7 @@ Spec completa: [openspec/specs/web/spec.md](../openspec/specs/web/spec.md)
 
 ## Cambios abiertos
 
-Lo que falta se calculó al generar este resumen; un commit posterior puede cambiarlo.
-
-### 20261030-171836-7e4-publicadaa16 — Declarar publicada la 0.1.0a16 en las notas y los textos
-
-Fase `requisitos_importados` · modo `confirmacion` · capacidad `distribucion` · [propuesta](../openspec/changes/20261030-171836-7e4-publicadaa16/proposal.md)
-
-- revisión humana aprobada y sin hallazgos abiertos
-- veredicto Oracle exitoso con evidencia
+Ninguno.
 
 ## Cambios abandonados
 
@@ -1341,6 +1336,23 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261030-100740-f1g-entregaa16) agy (gemini-3.8-flash-high): Comprobación de coherencia de versiones: 0.1.0a16 declarada en pyproject.toml, uv.lock, oracle_factory/__init__.py, NOTAS-DE-RELEASE.md, README.md, docs/ y site/; sincronización comprobada con uv lock --check; 0.1.0a15 declarada publicada y 0.1.0a16 en preparación.
 - (20261030-100740-f1g-entregaa16) agy (gemini-3.8-flash-high): El checkout del candidato en /home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/071e803-agy2-1 se mantuvo en modo estricto de sólo lectura.
 - (20261030-100740-f1g-entregaa16) agy (gemini-3.8-flash-high): No se realizó publicación en PyPI ni generación de releases en GitHub (acción posterior humana fuera de alcance).
+- (20261030-171836-7e4-publicadaa16) Evidencia: Escenarios pa1–pa2 sobre los textos del repositorio (notas, README, documentación y web) y sobre copias temporales para los casos negativos, en Linux. El estado «publicada» de la 0.1.0a16 se comprobó contra PyPI aparte (mismos SHA-256 del wheel y del sdist); estas pruebas no consultan la red.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Ejecución de la suite completa de pruebas: se ejecutó en primer plano '.venv/bin/python -B -m unittest discover -s tests </dev/null' sobre el candidato 6416c61, completando 227 pruebas exitosas (1 omitida por diseño, 0 fallos).
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Pruebas unitarias específicas: se ejecutaron las suites directamente involucradas en el cambio: 'tests/test_publicada_a16.py' (9 pruebas de los escenarios pa1–pa2), 'tests/test_entrega_a16.py' (8 pruebas de estado y comprobación de distribución) y 'tests/test_docs.py' (2 pruebas de consistencia de documentación y versiones contra la CLI y pyproject.toml), todas resultando exitosas.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Comprobación Playwright de guías web: se ejecutó 'node tests/test_web_guias.cjs' sobre los escenarios 'comparar_con_la_version_anterior', 'recorrer_cada_guia' y 'movimiento_reducido_y_pantalla_chica' con Chromium en Linux, verificando que los textos congelados en 'tests/datos/guias-texto.json' coinciden exactamente con 'site/desde-cero.html' y que no hay desbordes visuales ni roturas de animación.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Consistencia de dependencias: se verificó 'uv lock --check' confirmando que 'uv.lock' y 'pyproject.toml' están estrictamente sincronizados en la versión 0.1.0a16.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Juicio de Oracle: se evaluó la evidencia con 'oracle juzgar --parcial --con .../evidencia/hechos.json', obteniendo veredicto verde en las tres medidas del contrato: 'factory_publicada_a16.corrida_completa' (1 == 1, 9 casos), 'factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada' (4 == 4) y 'factory_publicada_a16.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta' (5 == 5).
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Banco de mutaciones controladas: se ejecutó un banco de 11 mutaciones sobre copias aisladas en el espacio de trabajo del revisor. Las mutaciones que reintroducían 'en preparación' en notas, README, colaboracion.md, desde-cero.html o index.html, las que eliminaban la viñeta de publicación, alteraban el tag v0.1.0a16, o mutilaban el historial de versiones previas (0.1.0a15) fueron detectadas de inmediato por test_publicada_a16 y test_docs. La desincronización de guias-texto.json fue detectada por test_web_guias.cjs.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Inspección de textos y trazabilidad: se verificó exhaustivamente en todos los archivos rastreados por Git la ausencia de menciones obsoletas que califiquen a la 0.1.0a16 como 'en preparación' o 'candidata', o que prometan instalación a futuro. Se comprobó la presencia y correspondencia del tag 'v0.1.0a16' en Git apuntando al commit base ecbea35b1. Se verificó que las secciones históricas (0.1.0a15 hasta 0.1.0a1) en NOTAS-DE-RELEASE.md y README.md se conservan intactas en orden cronológico inverso.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Límites de conectividad y entorno: no se realizaron consultas remotas a la red durante la revisión (PyPI ni GitHub); la veracidad de la publicación en PyPI se contrastó con las notas, el tag local v0.1.0a16 y la evidencia de distribución previa. El checkout de revisión se mantuvo estrictamente en modo sólo lectura sin modificaciones ni commits.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó la publicación efectiva de la versión 0.1.0a16 en PyPI (artefactos wheel y sdist con sus respectivos SHA-256) mediante la API JSON pública de PyPI (https://pypi.org/pypi/oracle-factory/json).
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó en GitHub el tag v0.1.0a16 y la release correspondiente (marcada como pre-release) comprobando que contiene los mismos activos con idénticos SHA-256 mediante 'gh release view v0.1.0a16 -R segtem/oracle-factory'.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se ejecutaron las suites de pruebas unitarias relevantes con el intérprete del entorno virtual principal (/home/workstation/Dev/factory-publicada-a16/.venv/bin/python) en modo sin generación de bytecode (-B / PYTHONDONTWRITEBYTECODE=1) sobre el checkout de sólo lectura: tests.test_publicada_a16 (9 pruebas, todas exitosas), tests.test_entrega_a16 (8 pruebas, todas exitosas), tests.test_docs (2 pruebas, todas exitosas) y tests.test_uv_lock (16 pruebas, todas exitosas).
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se ejecutó la prueba de la web en Node.js ('node tests/test_web_guias.cjs comparar_con_la_version_anterior') validando la sincronización de tests/datos/guias-texto.json con site/desde-cero.html.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se ejecutaron análisis dinámicos de mutación en árboles temporales aislados: 8 mutaciones sobre ea1 (de tools/mutar_entrega_a16.py) y 7 mutaciones sobre pa1/pa2 (NOTAS-DE-RELEASE.md, README.md, site/desde-cero.html, site/index.html), resultando todas detectadas (0 supervivientes).
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó mediante análisis estático que ningún texto de la documentación (README.md, docs/, site/) mantiene frases de 0.1.0a16 como versión en preparación o candidata, y que el historial de versiones anteriores (0.1.0a15, 0.1.0a14, 0.1.0a13, 0.1.0a12) en NOTAS-DE-RELEASE.md y README.md se conservó intacto.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): Se verificó la coherencia exacta entre los casos de contrato en tools/verify_publicada_a16.py (4 para requisito 1, 5 para requisito 2; 9 en total), los catálogos en catalogos/factory_publicada_a16.*.oracle y las definiciones en requisitos/*.requisito.
+- (20261030-171836-7e4-publicadaa16) agy (gemini-3.8-flash-high): No se ejecutó la suite completa de pruebas del repositorio para preservar el estado limpio y de sólo lectura del checkout de revisión.
 
 ### Históricos
 
