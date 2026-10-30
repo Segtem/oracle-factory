@@ -88,7 +88,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
 - [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
 - [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (cerrada)
-- [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (espera_aprobacion_spec)
+- [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (spec_aprobada)
 
 ## Requisitos
 

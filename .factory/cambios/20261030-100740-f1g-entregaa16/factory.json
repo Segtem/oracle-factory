@@ -2,10 +2,20 @@
   "id": "20261030-100740-f1g-entregaa16",
   "titulo": "Preparar la distribución 0.1.0a16",
   "capacidad": "distribucion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T10:08:41.589299+00:00",
+    "documentos": {
+      "openspec/changes/20261030-100740-f1g-entregaa16/proposal.md": "2563bae87868bedf50f2ae1950ae50c384f598caf78c8dca284d5443af2031a5",
+      "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-30T10:07:40.704952+00:00",
       "capacidad": "distribucion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T10:08:41.589329+00:00",
+      "documentos": {
+        "openspec/changes/20261030-100740-f1g-entregaa16/proposal.md": "2563bae87868bedf50f2ae1950ae50c384f598caf78c8dca284d5443af2031a5",
+        "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }

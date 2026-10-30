@@ -7,3 +7,7 @@
 ### Nota (2026-10-30 10:07:40 UTC)
 
 OpenSpec: openspec/changes/20261030-100740-f1g-entregaa16. Modo de trabajo: confirmacion. Estado de factory: espera aceptación de proposal.md y spec.md.
+
+### Nota (2026-10-30 10:08:41 UTC)
+
+Brian Hollweg (persona, decidio, modo confirmacion) aceptó propuesta y spec openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md; se reiniciaron las validaciones dependientes.
