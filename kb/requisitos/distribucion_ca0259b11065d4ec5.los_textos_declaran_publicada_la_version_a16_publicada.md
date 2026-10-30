@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261030-171836-7e4-publicadaa16]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «una versión ya publicada», «la historia anterior se conserva»
+- Medidas: `factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada`, `factory_publicada_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_a16_publicada
 
 Tipo: funcional El sistema DEBE presentar como publicada la versión 0.1.0a16, con su publicación en PyPI, su tag y su release, en las notas de versión, el README, la documentación, la guía y la web, y NO DEBE describirla como candidata, en preparación ni como instalable a futuro.
