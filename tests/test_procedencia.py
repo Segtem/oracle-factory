@@ -46,7 +46,8 @@ class Procedencia(unittest.TestCase):
             self.python.chmod(self.python.stat().st_mode | stat.S_IXUSR)
 
     def correr(self, **kw):
-        args = argparse.Namespace(id=None, python=str(self.python) if self.python else None, json=False, buscar=None, auditar=False, avisos=None)
+        args = argparse.Namespace(id=None, python=str(self.python) if self.python else None, json=False, buscar=None, auditar=False, avisos=None,
+                                  consultar_osv=False, red=False, salida=None, osv_url='https://api.osv.dev')
         for k, v in kw.items():
             setattr(args, k, v)
         self.salida()

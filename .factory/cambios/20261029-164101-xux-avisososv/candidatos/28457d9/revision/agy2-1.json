@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/28457d9-agy2-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "28457d9ce3f09532e9088fb99768e2ff0b49f1cc",
+  "diff_sha256": "0cc2548d716d80104cbc1a757e78690ac6ea5a2356578a8eb1afedba628b7efb",
+  "context_sha256": "93f418a0f888919a7b8d288e359961cce6a2287ad141d4274529bbf84d48d686",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica exhaustiva realizada sobre el diff completo del candidato 28457d9 en entorno local aislado.",
+    "Las consultas de red a OSV se evaluaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); no se realizaron peticiones externas hacia api.osv.dev en internet.",
+    "Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py), las pruebas de interfaz CLI (tests/test_cli_modulos.py), y la suite de pruebas completa de Factory (768 pruebas, 0 fallos, 0 errores).",
+    "Se verificó la corrección de los hallazgos de las rondas anteriores (e9a0371, 7769b6b y 0b79362), confirmando que las vulnerabilidades y regresiones permanecen cerradas: normpath fue eliminado impidiendo evasiones con '..' sobre enlaces simbólicos; las rutas relativas en --salida se resuelven contra la raíz del proyecto; y la escritura en guardar() y auditoría usan consistentemente la ruta absoluta validada.",
+    "Se implementó un arnés de pruebas de mutación con 19 mutaciones manuales en copias aisladas de oracle_factory/osv.py, comprobando que 18 de las 19 mutaciones son eliminadas por la suite de pruebas. La única mutación que no provocó fallo en la suite (M16: omisión de la validación temprana 'if not inventarios:') sobrevive porque la comprobación posterior ('if not consultadas:') también rechaza la ejecución sin red con un mensaje que contiene el mismo substring genérico ('nada que consultar'), garantizando el cumplimiento del requisito y escenario sin conexión.",
+    "Se excluyeron de la revisión los archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ],
+  "findings": []
+}

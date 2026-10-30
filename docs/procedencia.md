@@ -83,10 +83,31 @@ Las versiones corregidas por Lightwell se listan aparte («afectados pero correg
 alcanzaría por su número base, pero que tienen la corrección aplicada. Verificá el aviso en cada caso. Una versión que no se puede
 comparar con los rangos del aviso también se lista aparte, para que no se dé por limpia.
 
+## Bajar los avisos de OSV.dev
+
+```bash
+oracle-factory procedencia --consultar-osv --red
+oracle-factory procedencia --consultar-osv --red --salida avisos.json --json
+```
+
+Consulta la base pública OSV.dev por cada dependencia distinta (nombre y versión) de los inventarios guardados, guarda los avisos
+que encuentra en `.factory/local/avisos-osv.json` (o en `--salida`) y corre enseguida la auditoría de arriba sobre ellos, de modo que
+el resultado dice qué cambios y candidatos usaron una versión afectada. Es lo único de `procedencia` que usa la red, y sólo con
+`--red`: sin esa bandera falla antes de conectarse.
+
+- Hacia OSV.dev salen sólo el nombre, la versión y el ecosistema (PyPI) de cada dependencia, una vez cada una; la versión corregida
+  por Lightwell se consulta sin su sufijo. Nunca salen rutas, identificadores de cambio ni contenido del repositorio.
+- Un fallo (sin conexión, error HTTP, respuesta que no es JSON o un aviso que no es OSV válido) termina con error y no guarda nada:
+  nunca se lee como «sin afectados». Un archivo de avisos anterior no se toca.
+- `--salida` es una ruta del proyecto (una relativa se cuenta desde su raíz, no desde la carpeta donde estés), no admite `..` y ninguna carpeta de
+  su camino puede ser un enlace simbólico; un archivo de sólo lectura no se reemplaza.
+- Si OSV no declara avisos para ninguna dependencia, lo dice y no guarda archivo.
+- Los avisos guardados se pueden volver a auditar sin red con `--auditar --avisos .factory/local/avisos-osv.json`.
+
 ## Qué no hace
 
 - No corrige ni actualiza dependencias: decidir qué corrección aplicar es de una persona, y se registra como cualquier otro
   cambio de Factory.
 - No firma archivos ni verifica firmas.
-- No consulta servicios de avisos por la red.
+- No consulta la red salvo con `--consultar-osv --red`, y sólo a OSV.dev.
 - Sólo Python: no mira npm, Go ni Maven.

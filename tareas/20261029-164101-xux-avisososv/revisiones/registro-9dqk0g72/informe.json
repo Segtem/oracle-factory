@@ -1,0 +1,99 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261029-164101-xux-avisososv",
+  "contexto": {
+    "head": "28457d9ce3f09532e9088fb99768e2ff0b49f1cc",
+    "archivos_sha256": "13641798538bd8e0002e1f0c4ea5db2e1730655a3f7bd3a68f3548bfce062437"
+  },
+  "documentos": {
+    "openspec/changes/20261029-164101-xux-avisososv/proposal.md": "53de13efe6e306353f2bbaca91d815ab1d0d4f8ee7b3f5b55467357eed20ff9b",
+    "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md": "b6a8b69ec36cadfa2f41a05f42f62a05a799651613298424826ea7f96571f34c"
+  },
+  "revisor": "Brian Hollweg",
+  "completa": true,
+  "archivos_revisados": [
+    "catalogos/factory_avisos_osv.corrida_completa.oracle",
+    "catalogos/factory_avisos_osv.la_consulta_a_osv_guarda_avisos_validos_y_audita.oracle",
+    "catalogos/factory_avisos_osv.sin_autorizacion_de_red_no_se_consulta_osv.oracle",
+    "catalogos/factory_avisos_osv.un_fallo_de_consulta_no_se_lee_como_sin_afectados.oracle",
+    "docs/procedencia.md",
+    "openspec/changes/20261029-164101-xux-avisososv/design.md",
+    "openspec/changes/20261029-164101-xux-avisososv/proposal.md",
+    "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md",
+    "openspec/changes/20261029-164101-xux-avisososv/tasks.md",
+    "oracle_factory/cli.py",
+    "oracle_factory/osv.py",
+    "oracle_factory/parser.py",
+    "requisitos/procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita.requisito",
+    "requisitos/procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv.requisito",
+    "requisitos/procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados.requisito",
+    "tests/datos/ayuda-cli.json",
+    "tests/test_avisos_osv.py",
+    "tests/test_procedencia.py",
+    "tools/verify_avisos_osv.py"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 768 pruebas, 45 casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/28457d9/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/28457d9/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/28457d9/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato e9a0371: agy (gemini-3.8-flash-high), 5 hallazgos: AO-01 (alta), AO-02 (alta), AO-03 (media), AO-04 (baja), AO-05 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/e9a0371/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato e9a0371: agy (gemini-3.8-flash-high), 6 hallazgos: osv-ssrf-redirect (alta), osv-readonly-file-overwrite (media), osv-empty-components-false-clean (media), osv-cli-unhandled-oserror (media), osv-json-missing-dependencias-key (baja), osv-test-atomic-write-blindspot (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/e9a0371/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7769b6b: agy (gemini-3.8-flash-high), 2 hallazgos: AO-06 (media), AO-07 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/7769b6b/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 7769b6b: agy (gemini-3.8-flash-high), 2 hallazgos: AO2-01 (alta), AO2-02 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/7769b6b/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0b79362: agy (gemini-3.8-flash-high), 3 hallazgos: AO3-01 (alta), AO3-02 (media), AO3-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/0b79362/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato 0b79362: agy (gemini-3.8-flash-high), 3 hallazgos: AO3-01 (alta), AO3-02 (media), AO3-03 (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/0b79362/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Escenarios ao1–ao3 contra un servidor OSV de mentira en 127.0.0.1: ninguna prueba toca la red. No se comprueba el comportamiento de api.osv.dev real (formato de sus respuestas, límites, caídas); el formato sigue la documentación de querybatch y vulns.",
+    "agy (gemini-3.8-flash-high): Revisión estática y dinámica exhaustiva sobre el diff del candidato 28457d9 en entorno local aislado.",
+    "agy (gemini-3.8-flash-high): Las interacciones de red a OSV se comprobaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); ninguna prueba accedió a internet ni a api.osv.dev en vivo.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py en 26.6s, exitoso), la suite de pruebas completa de Factory (768 pruebas en 337.5s, exitoso) y el generador de evidencia oficial (tools/verify_avisos_osv.py, exitoso con los 45 casos de contrato asociados a corrida_completa y trazabilidad).",
+    "agy (gemini-3.8-flash-high): Se verificaron minuciosamente los arreglos de las rondas anteriores (e9a0371, 7769b6b y 0b79362): normpath fue suprimido completamente, eliminando la vulnerabilidad de escape con '..' tras enlaces simbólicos; --salida prohíbe de forma estricta cualquier componente '..' en ruta.parts; las rutas relativas en --salida se anclan a la raíz del proyecto (ROOT / ruta); y tanto guardar() como la auditoría posterior operan sobre la ruta absoluta debidamente validada sin enlaces simbólicos ni atributos de sólo lectura.",
+    "agy (gemini-3.8-flash-high): Se ejecutó una batería de mutaciones sistemáticas en memoria (20 mutaciones sobre oracle_factory/osv.py): 18 fueron eliminadas por la suite de pruebas. Las dos mutaciones que sobrevivieron fueron analizadas: M9 (usar ruta en vez de absoluta en el mensaje informativo de cabecera) no compromete la lógica de guardado ni auditoría; y M20 (omitir la verificación previa 'if not inventarios:') es inocua debido a la defensa en profundidad proporcionada por la comprobación posterior ('if not consultadas:'), que rechaza igualmente sin red con el mensaje 'nada que consultar'.",
+    "agy (gemini-3.8-flash-high): No se detectaron defectos, regresiones de seguridad ni discrepancias con respecto a la propuesta y la spec. Findings vacía por ausencia de hallazgos abiertos.",
+    "agy (gemini-3.8-flash-high): Revisión estática y dinámica exhaustiva realizada sobre el diff completo del candidato 28457d9 en entorno local aislado.",
+    "agy (gemini-3.8-flash-high): Las consultas de red a OSV se evaluaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); no se realizaron peticiones externas hacia api.osv.dev en internet.",
+    "agy (gemini-3.8-flash-high): Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py), las pruebas de interfaz CLI (tests/test_cli_modulos.py), y la suite de pruebas completa de Factory (768 pruebas, 0 fallos, 0 errores).",
+    "agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos de las rondas anteriores (e9a0371, 7769b6b y 0b79362), confirmando que las vulnerabilidades y regresiones permanecen cerradas: normpath fue eliminado impidiendo evasiones con '..' sobre enlaces simbólicos; las rutas relativas en --salida se resuelven contra la raíz del proyecto; y la escritura en guardar() y auditoría usan consistentemente la ruta absoluta validada.",
+    "agy (gemini-3.8-flash-high): Se implementó un arnés de pruebas de mutación con 19 mutaciones manuales en copias aisladas de oracle_factory/osv.py, comprobando que 18 de las 19 mutaciones son eliminadas por la suite de pruebas. La única mutación que no provocó fallo en la suite (M16: omisión de la validación temprana 'if not inventarios:') sobrevive porque la comprobación posterior ('if not consultadas:') también rechaza la ejecución sin red con un mensaje que contiene el mismo substring genérico ('nada que consultar'), garantizando el cumplimiento del requisito y escenario sin conexión.",
+    "agy (gemini-3.8-flash-high): Se excluyeron de la revisión los archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}
