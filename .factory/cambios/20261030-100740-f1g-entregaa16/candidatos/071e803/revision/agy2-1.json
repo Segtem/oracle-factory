@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/071e803-agy2-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "071e803d1c1ac4a84e31e1d064a77e1aa55699b0",
+  "diff_sha256": "87457f5b6a06ac287554c31625d6c6bc5261ff51989fe9f1ba1517000f97e081",
+  "context_sha256": "7d508851d7e673ef313e289020c82df0fbc3a799693b610f65777cb3fdb33b9a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Verificación completa de las correcciones de la segunda ronda (c1c1426): en tests/test_entrega_a16.py se agregó cls.addClassCleanup(setattr, cls, '_instalado', None) en instalado(), garantizando que el entorno virtual temporal se reconstruya tras el teardown de la clase; el nuevo caso test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye y su mutación entorno_instalado_no_se_reinicia validan este ciclo.",
+    "Verificación del control de trazabilidad en tools/verify_entrega_a16.py: la función trazabilidad_valida(traza) invalida la corrida si algún caso contractual falla, se omite o falta, verificado mediante test_la_trazabilidad_exige_que_cada_caso_haya_salido_bien y la mutación trazabilidad_con_fallas_aceptada; en trazabilidad.json los 8 casos figuran con resultado 'ok'.",
+    "Verificación de la eliminación de fugas de rutas locales del host: tools/verify_entrega_a16.py aplica sin_rutas_locales(mut_datos) al escribir mutaciones.json, confirmando ausencia de rutas absolutas de la máquina en mutaciones.json e instalacion.json.",
+    "Ejecución de la suite completa de pruebas unitarias (764 tests descubiertos con .venv/bin/python -m unittest discover -s tests; 764 ejecutados sin fallos ni errores; 10 tests omitidos por dependencias opcionales de Chromium/Playwright en el worktree aislado).",
+    "Ejecución directa y exhaustiva de tests/test_entrega_a16.py (8 tests ok), tests/test_entrega_integridad_a16.py (6 tests ok) y tests/test_docs.py (2 tests ok).",
+    "Verificación de las 35 mutaciones en tools/mutar_entrega_a16.py: todas tienen ocurrencia única y son detectadas por sus respectivos casos (35/35 detectadas en mutaciones.json).",
+    "Evaluación de coherencia de catálogos y juicio Oracle: catalogos/factory_entrega_a16.*.oracle actualizados a 8 casos totales y umbral de 5 para el_wheel_a16_instalado_ofrece_lo_nuevo; oracle juzgar da veredicto verde en las 4 medidas aplicables sobre hechos.json.",
+    "Comprobación de coherencia de versiones: 0.1.0a16 declarada en pyproject.toml, uv.lock, oracle_factory/__init__.py, NOTAS-DE-RELEASE.md, README.md, docs/ y site/; sincronización comprobada con uv lock --check; 0.1.0a15 declarada publicada y 0.1.0a16 en preparación.",
+    "El checkout del candidato en /home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/071e803-agy2-1 se mantuvo en modo estricto de sólo lectura.",
+    "No se realizó publicación en PyPI ni generación de releases en GitHub (acción posterior humana fuera de alcance)."
+  ],
+  "findings": []
+}

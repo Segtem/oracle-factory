@@ -2,7 +2,7 @@
   "id": "20261030-100740-f1g-entregaa16",
   "titulo": "Preparar la distribución 0.1.0a16",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md",
   "spec_sha256": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites",
     "distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261030-100740-f1g-entregaa16/revisiones/registro-fopj3ovx/informe.json",
+    "sha256": "5749fac1bcc4e36fd4488d924955af24c8c38314c323562d72f74dfe0f91d332",
+    "decisiones": "tareas/20261030-100740-f1g-entregaa16/revisiones/registro-fopj3ovx/decisiones.json",
+    "decisiones_sha256": "c3960a57d77723ef823bb4eb636a3c3b72b917ae4b292f27459a9978a4fe4a5d",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T13:17:43.960602+00:00",
+    "motivo": "Tres rondas con agy y agy2. Las dos primeras dejaron hallazgos reales (evidencia no atada al commit, rutas locales en la evidencia, prueba tautológica, ea3 sin mutaciones, entorno instalado apuntando a una carpeta borrada y trazabilidad con fallas declarada como éxito), todos corregidos con pruebas y mutaciones detectadas; la tercera dio 0 hallazgos en ambos. Suite completa sin fallas, 35 de 35 mutaciones detectadas y evidencia exitosa sin rutas locales. Quedan dos bajas sin cambiar, para decidir: el comando de instalación de desde-cero sin aviso repetido de que no está publicada y las insignias de dos páginas sin «en preparación». Límite declarado: lo nuevo se probó contra un servidor OSV local, no contra api.osv.dev; la versión queda preparada, no publicada.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "071e803d1c1ac4a84e31e1d064a77e1aa55699b0",
+      "archivos_sha256": "dea73c51796afcf0cbbb25b175bcbede562b2b4ffb018f552d9662152c8993f4"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -421,6 +441,82 @@
         "factory_entrega_a16.la_version_a16_es_coherente_y_declara_su_estado",
         "factory_entrega_a16.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T12:46:08.029692+00:00",
+      "revisor": "agy2",
+      "candidato": "071e803",
+      "lanzamiento": "9859cebc52c5"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T12:46:08.060409+00:00",
+      "revisor": "agy",
+      "candidato": "071e803",
+      "lanzamiento": "f2a45a9d3cba"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T13:00:48.073766+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "071e803",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "f2a45a9d3cba"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T13:05:18.963047+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-3.8-flash-high",
+      "candidato": "071e803",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "9859cebc52c5"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-30T13:17:20.795205+00:00",
+      "decision": "aprobar",
+      "candidato": "071e803"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-30T13:17:43.960636+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "5749fac1bcc4e36fd4488d924955af24c8c38314c323562d72f74dfe0f91d332",
+      "decisiones_sha256": "c3960a57d77723ef823bb4eb636a3c3b72b917ae4b292f27459a9978a4fe4a5d"
     }
   ],
   "tipos": {
@@ -478,5 +574,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }

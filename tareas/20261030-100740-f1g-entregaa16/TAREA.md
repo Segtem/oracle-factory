@@ -87,3 +87,7 @@ Medidas de distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_
 ### Nota (2026-10-30 12:38:06 UTC)
 
 Medidas de distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-30 13:17:43 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Tres rondas con agy y agy2. Las dos primeras dejaron hallazgos reales (evidencia no atada al commit, rutas locales en la evidencia, prueba tautológica, ea3 sin mutaciones, entorno instalado apuntando a una carpeta borrada y trazabilidad con fallas declarada como éxito), todos corregidos con pruebas y mutaciones detectadas; la tercera dio 0 hallazgos en ambos. Suite completa sin fallas, 35 de 35 mutaciones detectadas y evidencia exitosa sin rutas locales. Quedan dos bajas sin cambiar, para decidir: el comando de instalación de desde-cero sin aviso repetido de que no está publicada y las insignias de dos páginas sin «en preparación». Límite declarado: lo nuevo se probó contra un servidor OSV local, no contra api.osv.dev; la versión queda preparada, no publicada.); 0 abiertos derivados; commit 071e803d1c1ac4a84e31e1d064a77e1aa55699b0; informe tareas/20261030-100740-f1g-entregaa16/revisiones/registro-fopj3ovx/informe.json; decisiones tareas/20261030-100740-f1g-entregaa16/revisiones/registro-fopj3ovx/decisiones.json.
