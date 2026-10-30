@@ -87,3 +87,15 @@ Medidas de procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_
 ### Nota (2026-10-29 23:59:12 UTC)
 
 Medidas de procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-30 00:51:30 UTC)
+
+Medidas de procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-30 00:51:31 UTC)
+
+Medidas de procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
+
+### Nota (2026-10-30 00:51:32 UTC)
+
+Medidas de procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados propuestas por claude-code (agente, modo confirmacion); no cuentan hasta que una persona las confirme.
