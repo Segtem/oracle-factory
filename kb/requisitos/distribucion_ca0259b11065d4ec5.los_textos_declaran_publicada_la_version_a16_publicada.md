@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada`
 - Vigente: sí
 - Cambio: [[cambios/20261030-171836-7e4-publicadaa16]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada`, `factory_publicada_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md#los_textos_declaran_publicada_la_version_a16_publicada
 

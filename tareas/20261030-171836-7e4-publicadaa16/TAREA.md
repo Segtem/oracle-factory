@@ -31,3 +31,11 @@ Medidas de distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_versi
 ### Nota (2026-10-30 17:24:09 UTC)
 
 Medidas de distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-30 18:38:28 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: agy y agy2 revisaron el candidato 6416c61 sin hallazgos; 773 pruebas, 9 casos de contrato y 35/35 mutaciones detectadas; los textos declaran publicada la 0.1.0a16 (PyPI, tag y release verificados).); 0 abiertos derivados; commit 982d44b9fcdabbb394f8f903bcf98c61a277c69a; informe tareas/20261030-171836-7e4-publicadaa16/revisiones/registro-cctglaiz/informe.json; decisiones tareas/20261030-171836-7e4-publicadaa16/revisiones/registro-cctglaiz/decisiones.json.
+
+### Nota (2026-10-30 18:38:50 UTC)
+
+Juicio Factory: verde; salida Oracle 0; informe .factory/cambios/20261030-171836-7e4-publicadaa16/oracle-veredicto.txt.

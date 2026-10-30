@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta`
 - Vigente: sí
 - Cambio: [[cambios/20261030-171836-7e4-publicadaa16]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_publicada_a16.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta`, `factory_publicada_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md#un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta
 

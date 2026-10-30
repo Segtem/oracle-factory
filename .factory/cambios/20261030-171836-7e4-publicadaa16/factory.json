@@ -2,7 +2,7 @@
   "id": "20261030-171836-7e4-publicadaa16",
   "titulo": "Declarar publicada la 0.1.0a16 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "requisitos_importados",
+  "fase": "oracle_verde",
   "spec": "openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md",
   "spec_sha256": "828edece8cfec69dd982ae0b6b7bdf20b7077c0bccb19e24a8989e6fb7468858",
   "spec_aprobada": {
@@ -20,8 +20,40 @@
     "distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada",
     "distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta"
   ],
-  "revision": null,
-  "oracle": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261030-171836-7e4-publicadaa16/revisiones/registro-cctglaiz/informe.json",
+    "sha256": "987b35f9cbaeb8cd3ad9ff8613930310aea0e21e6d777e03b192368310c2be3d",
+    "decisiones": "tareas/20261030-171836-7e4-publicadaa16/revisiones/registro-cctglaiz/decisiones.json",
+    "decisiones_sha256": "40262b261bfe209f8d448caf00df4ba930a922fd8e27e220e1e205e525d17308",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T18:38:27.979257+00:00",
+    "motivo": "agy y agy2 revisaron el candidato 6416c61 sin hallazgos; 773 pruebas, 9 casos de contrato y 35/35 mutaciones detectadas; los textos declaran publicada la 0.1.0a16 (PyPI, tag y release verificados).",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "982d44b9fcdabbb394f8f903bcf98c61a277c69a",
+      "archivos_sha256": "9345dc238fc2cebe6e28765853f21aa1228ea1c02dcec29fc3ce3989fa1621af"
+    }
+  },
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261030-171836-7e4-publicadaa16/candidatos/6416c61/evidencia/hechos.json",
+    "hechos_sha256": "ec20060b85ab22e303a96d91c087c6742533cb1549dc405b233e75b7e8062e95",
+    "informe": ".factory/cambios/20261030-171836-7e4-publicadaa16/oracle-veredicto.txt",
+    "informe_sha256": "982a01f7683b3c041a9486ea4712551ba0066e2115fcfb407f8c1517e29011fe",
+    "cuando": "2026-10-30T18:38:50.625278+00:00",
+    "contexto": {
+      "head": "982d44b9fcdabbb394f8f903bcf98c61a277c69a",
+      "archivos_sha256": "9345dc238fc2cebe6e28765853f21aa1228ea1c02dcec29fc3ce3989fa1621af"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -162,6 +194,41 @@
       "resultado": "ok",
       "hallazgos": 0,
       "lanzamiento": "11626e877f07"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-30T18:36:10.206925+00:00",
+      "decision": "aprobar",
+      "candidato": "6416c61"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-30T18:38:27.979294+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "987b35f9cbaeb8cd3ad9ff8613930310aea0e21e6d777e03b192368310c2be3d",
+      "decisiones_sha256": "40262b261bfe209f8d448caf00df4ba930a922fd8e27e220e1e205e525d17308"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T18:38:50.625293+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "ec20060b85ab22e303a96d91c087c6742533cb1549dc405b233e75b7e8062e95"
     }
   ],
   "tipos": {
@@ -202,5 +269,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }
