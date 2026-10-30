@@ -94,15 +94,19 @@ class EntregaA16(unittest.TestCase):
             probs = [p for p in docs_al_dia.problemas(repo_tmp) if "describe la versión 0.1.0a16 como candidata o en preparación" in p]
             self.assertTrue(any(p.startswith("README.md:") for p in probs) and any(p.startswith("site/desde-cero.html:") for p in probs), probs)
 
-            # d) con las notas publicadas, la afirmación de publicación ya no es un problema...
-            readme.write_text(contenido_original + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
+            # d) con las notas publicadas y el README en su forma publicada, la afirmación de publicación no es un problema...
+            preparacion = ("Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel candidato verificable antes de la publicación remota.\n"
+                           "Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con `uv`:")
+            self.assertIn(preparacion, contenido_original)
+            publicado = contenido_original.replace(preparacion, "Versión publicada en PyPI: `oracle-factory==0.1.0a16`. Con `uv`:")
+            readme.write_text(publicado + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
             self.assertFalse(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
             # e) ...pero un texto que la sigue llamando candidata o en preparación se detecta
             for frase in ("Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel.", "La 0.1.0a16 (en preparación) trae la procedencia.",
                           "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 0.1.0a16 y estado de preparación.",
                           "PREPARACIÓN 0.1.0a16", "Esta guía describe el candidato Factory 0.1.0a16."):
-                readme.write_text(contenido_original + f"\n{frase}\n", encoding="utf-8")
-                self.assertTrue(any("describe la versión 0.1.0a16 como candidata o en preparación" in p
+                readme.write_text(publicado + f"\n{frase}\n", encoding="utf-8")  # sobre un README ya limpio: cada frase se detecta sola
+                self.assertTrue(any(p.startswith("README.md:") and "describe la versión 0.1.0a16 como candidata o en preparación" in p
                                     for p in docs_al_dia.problemas(repo_tmp)), frase)
             # f) y mientras las notas la tienen en preparación, ese mismo texto no es una divergencia
             notas.write_text(notas_originales, encoding="utf-8")
