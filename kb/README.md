@@ -90,7 +90,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (cerrada)
 - [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (cerrada)
 - [[cambios/20261030-171836-7e4-publicadaa16]] — Declarar publicada la 0.1.0a16 en las notas y los textos (cerrada)
-- [[cambios/20261030-185728-0w1-tests]] — Tests unitarios como práctica del desarrollo: el paso de escribirlos primero (spec_aprobada)
+- [[cambios/20261030-185728-0w1-tests]] — Tests unitarios como práctica del desarrollo: el paso de escribirlos primero (requisitos_importados)
 
 ## Requisitos
 
@@ -182,6 +182,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu]]
 - [[requisitos/decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta]]
 - [[requisitos/decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona]]
+- [[requisitos/desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica]]
+- [[requisitos/desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes]]
+- [[requisitos/desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero]]
 - [[requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo]]
 - [[requisitos/distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado]]

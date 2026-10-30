@@ -1,0 +1,4 @@
+requisito desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero:
+    texto "Tipo: funcional El sistema DEBE incluir, en las tareas de cada cambio nuevo, en español y en inglés, el paso de escribir primero los tests de cada escenario de la spec cuando sea posible y de comprobar que fallan antes de implementar."
+    fuente "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md#paso_de_tests_primero"
+    sin_medir "sin medida todavía; escenarios: «un cambio nuevo en español», «un cambio nuevo en inglés», «el paso no bloquea»"

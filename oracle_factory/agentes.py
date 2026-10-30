@@ -63,7 +63,9 @@ def bloque(modo_por_defecto: str) -> str:
         "Sin `--agente` la acción se registra como de una persona, y no lo sos.",
         "- El próximo paso de un cambio lo dice `oracle-factory estado ID` (o `--json`): seguilo en vez de adivinar.",
         "- Antes de implementar, la spec tiene que estar aprobada por una persona. No edites a mano `.factory/`, "
-        "`tareas/` ni `kb/` generado.", "",
+        "`tareas/` ni `kb/` generado.",
+        "- Los tests unitarios son parte del desarrollo y no suplantan a Oracle: escribilos primero, cuando sea posible, y no "
+        "bloquean nada. Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa (ver `docs/tests.md`).", "",
         "### Las decisiones, según el modo de trabajo", "",
         "Cada decisión tiene su comando. Con `--agente`, según el modo del cambio, el agente la decide, la propone (cuenta "
         "cuando una persona la confirma repitiendo el comando sin `--agente`) o no puede; una persona, desde su terminal, "
