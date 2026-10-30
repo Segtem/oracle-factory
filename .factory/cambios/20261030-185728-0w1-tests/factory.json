@@ -1,0 +1,24 @@
+{
+  "id": "20261030-185728-0w1-tests",
+  "titulo": "Tests unitarios como práctica del desarrollo: el paso de escribirlos primero",
+  "capacidad": "desarrollo",
+  "fase": "espera_aprobacion_spec",
+  "spec": "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md",
+  "spec_sha256": null,
+  "spec_aprobada": null,
+  "requisitos": [],
+  "revision": null,
+  "oracle": null,
+  "modo": "confirmacion",
+  "eventos": [
+    {
+      "accion": "cambio_creado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T18:57:28.932142+00:00",
+      "capacidad": "desarrollo"
+    }
+  ]
+}
