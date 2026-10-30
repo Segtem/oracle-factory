@@ -1,0 +1,8 @@
+medida factory_entrega_a16.corrida_completa:
+    de entrega_a16_suite c
+    donde c.completa == 1 y c.casos == 8
+    resumen contar(1)
+    umbral == 1 segun contrato porque "suite completa, contratos exactos, mutaciones detectadas y fuentes estables sin omisiones ni fallas"
+    requiere entrega_a16_suite
+    ambito universal
+    alcance "integridad local declarada por tools/verify_entrega_a16.py; no reemplaza revisión humana ni decisión de publicación"

@@ -1,0 +1,139 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/ef2ef67-agy2-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "ef2ef67adf5656c74237bd329aa01734ddac35c3",
+  "diff_sha256": "148665989438c02d3f4b64a79c6d86064f577f0839ee9c77278c38b8d8d3714c",
+  "context_sha256": "daa6b6c00a34cb7306c94e04abc1977878c9a82243648563d864d4ebf9a5b5c1",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución completa de la suite de pruebas unitarias (759 tests con discover en Python 3.13 en entorno virtual aislado).",
+    "Ejecución directa de las pruebas de distribución tests/test_entrega_a16.py y tests/test_entrega_integridad_a16.py.",
+    "Comprobación de la web con test_web_guias.cjs (escenario comparar_con_la_version_anterior) en Node.js.",
+    "Comprobación de higiene de rutas relativas con tools/limpiar_rutas.py --verificar.",
+    "Ejecución y verificación de las 28 mutaciones automatizadas en copia de trabajo temporal aislada fuera del checkout.",
+    "Ejecución de mutaciones manuales exploratorias en copia temporal sobre componentes de arneses y detección de divergencias.",
+    "El checkout del candidato ef2ef67 se mantuvo en estricto modo de sólo lectura, sin alterar ningún archivo versionado ni local.",
+    "No se realizó publicación en PyPI ni creación de tags en GitHub, de acuerdo con el alcance de la tarea."
+  ],
+  "findings": [
+    {
+      "id": "F01-evidencia-no-atada-al-commit",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "La evidencia de verify_entrega_a16.py no comprueba que el árbol de trabajo coincida con HEAD",
+      "explanation": "En tools/verify_entrega_a16.py, la función fuentes() obtiene head = git rev-parse HEAD y calcula los hashes SHA-256 de los archivos en el árbol de trabajo actual mediante git ls-files. Luego ejecutar_comprobacion_completa() construye el wheel desde el árbol de trabajo con uv build. Sin embargo, en ningún momento verify_entrega_a16.py o corrida_valida() verifican que el árbol de trabajo esté limpio (por ejemplo, mediante git diff HEAD o git status --porcelain). Si existen modificaciones locales sin commitear en el checkout, el wheel y la evidencia reflejan un código modificado no versionado pero el reporte resultado.json y las fuentes atribuyen la evidencia al commit HEAD ef2ef67adf5656c74237bd329aa01734ddac35c3.",
+      "location": {
+        "file": "tools/verify_entrega_a16.py",
+        "start_line": 51,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Ejecutar tools/verify_entrega_a16.py en un worktree que contenga modificaciones sin commit o cambios en el código de oracle_factory.",
+      "evidence": "tools/verify_entrega_a16.py líneas 51-60 sólo lee 'git rev-parse HEAD' y lista archivos con 'git ls-files --cached --others --exclude-standard', sin comprobar 'git diff HEAD'. uv build construye el wheel a partir del disco. El archivo resultado.json declara como 'origen' el hash de HEAD aunque los artefactos se construyan con código no commiteado.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Verificar tools/verify_entrega_a16.py; comprobar que no existe llamada a git diff ni comprobación de árbol de trabajo limpio antes de atribuir la evidencia al hash de HEAD."
+    },
+    {
+      "id": "F02-prueba-pasa-por-construccion-paso-d",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "Comprobación tautológica en paso d de test_ea1_version_coherente_y_estado_declarado",
+      "explanation": "En tests/test_entrega_a16.py líneas 97-103, el paso d prueba que 'con las notas publicadas y el README en su forma publicada, la afirmación de publicación no es un problema'. Para ello aserta: self.assertFalse(any('afirma que la versión' in p for p in docs_al_dia.problemas(repo_tmp))). Sin embargo, la cadena 'afirma que la versión' es emitida exclusivamente por la función publicacion_prematura() en tools/docs_al_dia.py, la cual retorna [] inmediatamente si NOTAS-DE-RELEASE.md no contiene '(en preparación)'. Dado que notas ya fue modificada a 'publicada' en el paso c, publicacion_prematura() nunca se ejecuta y la aserción pasa por construcción (tautológicamente), incluso si README.md no es reemplazado por 'publicado' o retiene frases de candidata. Además, el test no verifica que README.md esté libre de advertencias de preparacion_olvidada (not any(p.startswith('README.md:') for p in probs)), lo que permitió que en commits previos el test pasara a pesar de que el README seguía describiendo la versión como candidata.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 97,
+        "end_line": 103,
+        "side": "head"
+      },
+      "trigger": "Modificar tests/test_entrega_a16.py para que en el paso d 'publicado = contenido_original' (omitiendo el reemplazo de texto de preparación por texto publicado). Ejecutar el test.",
+      "evidence": "Al mutar tests/test_entrega_a16.py con publicado = contenido_original en el paso d, el test EntregaA16.test_ea1_version_coherente_y_estado_declarado sigue pasando al 100% (Ran 1 test. OK) demostrando que la aserción assertFalse(any('afirma que la versión' in p ...)) es incapaz de detectar si el README fue efectivamente saneado.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Ejecutar tests/test_entrega_a16.py con la mutación indicada en un entorno temporal; observar que la suite pasa sin detectar la falta de reemplazo."
+    },
+    {
+      "id": "F03-omision-caso-ea3-en-mutaciones",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "tools/mutar_entrega_a16.py declara ea3 en CASOS pero no incluye ninguna mutación para ese contrato",
+      "explanation": "En tools/mutar_entrega_a16.py, el diccionario CASOS define 'ea3': 'test_ea3_entrega_registra_pruebas_y_limites', pero la lista MUTACIONES contiene 28 mutaciones y ninguna utiliza el caso 'ea3'. Al generar la línea base (líneas 98-102), el bucle itera sobre {m[4] for m in MUTACIONES}, por lo que el caso ea3 ni siquiera se ejecuta en la línea base ni se evalúa ninguna mutación sobre él. El contrato la_entrega_a16_registra_sus_pruebas_y_sus_limites queda sin ninguna mutación de control, permitiendo que alteraciones en tools/probar_entrega_a16.py (como puentear probar_arneses) sobrevivan inadvertidas.",
+      "location": {
+        "file": "tools/mutar_entrega_a16.py",
+        "start_line": 51,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Inspeccionar las tuplas de MUTACIONES en tools/mutar_entrega_a16.py y contrastar con CASOS; mutar tools/probar_entrega_a16.py en probar_arneses cambiando 'if r1.returncode != 0:' a 'if False:'.",
+      "evidence": "En tools/mutar_entrega_a16.py: len([m for m in MUTACIONES if m[4] == 'ea3']) == 0. Al aplicar la mutación 'if r1.returncode != 0:' -> 'if False:' en probar_arneses, test_ea3_entrega_registra_pruebas_y_limites termina con código 0 y la mutación sobrevive sin ser detectada por ninguna prueba.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Ejecutar python3 -c 'from tools.mutar_entrega_a16 import MUTACIONES; assert any(m[4] == \"ea3\" for m in MUTACIONES)' y observar AssertionError."
+    },
+    {
+      "id": "F04-discrepancia-spec-test-ea3",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.90,
+      "title": "test_ea3 no comprueba el registro de resultados, versiones, hashes de fuentes ni estabilidad exigidos por la spec",
+      "explanation": "El requisito 'la_entrega_a16_registra_sus_pruebas_y_sus_limites' promete que 'El sistema DEBE ejecutar la suite y los arneses de instalación aplicables y registrar resultados, versiones, hashes de fuentes y artefactos y límites en evidencia reproducible, detectar una corrida incompleta, una fuente modificada durante la medición o una comprobación fallida'. Sin embargo, el único test asociado a este requisito en CONTRACTS (tests/test_entrega_a16.py test_ea3_entrega_registra_pruebas_y_limites) sólo invoca probar_entrega_a16.probar_arneses(factory_bin, python_bin) y verifica el returncode 0 de verify_installed y verify_guide. No ejecuta ni valida la generación de resultado.json, instalacion.json o trazabilidad.json, ni verifica que se calculen los hashes de artefactos, versiones o límites, ni evalúa la detección de corridas incompletas o fuentes inestables en el flujo de entrega.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 231,
+        "end_line": 237,
+        "side": "head"
+      },
+      "trigger": "Comparar el texto del requisito distribucion/spec.md#la_entrega_a16_registra_sus_pruebas_y_sus_limites con el código de test_ea3_entrega_registra_pruebas_y_limites.",
+      "evidence": "tests/test_entrega_a16.py líneas 231-237 sólo contiene: res_arneses = probar_entrega_a16.probar_arneses(factory_bin, python_bin); self.assertTrue(res_arneses['exitoso']); self.assertEqual(res_arneses['verify_installed']['returncode'], 0); self.assertEqual(res_arneses['verify_guide']['returncode'], 0). Ninguna aserción cubre hashes, versiones, límites ni estabilidad de fuentes.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Revisar las aserciones de EntregaA16.test_ea3_entrega_registra_pruebas_y_limites frente a las cláusulas DEBE del requisito correspondiente en la spec."
+    },
+    {
+      "id": "F05-incoherencia-notas-release-guias-a15",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Incoherencia en NOTAS-DE-RELEASE.md: afirma que las guías declaran publicada la 0.1.0a15",
+      "explanation": "En NOTAS-DE-RELEASE.md línea 7, en la sección '# Oracle Factory 0.1.0a16 (en preparación)', se afirma: '- **Textos al día.** Las notas y las guías declaran publicada la 0.1.0a15.'. Sin embargo, las guías (site/desde-cero.html, docs/colaboracion.md, site/modos.html, site/colaboracion.html) ya no declaran publicada la 0.1.0a15 sino que fueron actualizadas para describir al candidato 0.1.0a16 (en preparación). La única parte de la documentación que presenta a la 0.1.0a15 como publicada son las notas de release de dicha versión y el historial de versiones en README.md, por lo que afirmar que 'las guías declaran publicada la 0.1.0a15' es incoherente con el estado actual de las guías.",
+      "location": {
+        "file": "NOTAS-DE-RELEASE.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Buscar menciones de 0.1.0a15 en site/ y docs/ y contrastar con la afirmación de la línea 7 de NOTAS-DE-RELEASE.md.",
+      "evidence": "En site/desde-cero.html línea 15: 'Esta guía describe el candidato Factory 0.1.0a16 en preparación para entrega'; en docs/colaboracion.md línea 5: 'Este protocolo usa Factory 0.1.0a16 (en preparación)'. Ninguna guía en docs/ ni en site/ contiene texto declarando a la 0.1.0a15 como publicada.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Ejecutar grep -rn '0.1.0a15' site/ docs/ y observar que ninguna guía describe la 0.1.0a15 como publicada."
+    },
+    {
+      "id": "F06-comando-instalacion-prematuro-guia-desde-cero",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "site/desde-cero.html presenta comando copiable de uv tool install para 0.1.0a16 sin advertir que no está en PyPI",
+      "explanation": "En site/desde-cero.html líneas 19-21 y 23, el 'PASO 01 Instalá las herramientas' ofrece bloques de copia directa para: 'uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a16' y 'uv tool install --python 3.13 oracle-factory==0.1.0a16'. A diferencia de README.md (que advierte explícitamente: 'Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión'), la guía desde-cero.html incita al usuario a ejecutar dicho comando de inmediato asegurando: 'Para esta entrega usamos la versión 0.1.0a16 (en preparación)... En una instalación nueva esperamos Factory 0.1.0a16'. Un usuario que ejecute dicho comando experimentará un fallo de instalación ya que 0.1.0a16 aún no existe en PyPI.",
+      "location": {
+        "file": "site/desde-cero.html",
+        "start_line": 19,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Seguir los bloques 'Copiar' del paso 1 de site/desde-cero.html desde una máquina limpia sin wheel local.",
+      "evidence": "En README.md líneas 28-29 se incluye la aclaración: 'Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con uv:'. En site/desde-cero.html líneas 19-21 falta dicha aclaración en el paso de instalación.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Contrastar el bloque de instalación de README.md (líneas 28-30) con el de site/desde-cero.html (líneas 19-23)."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "5749fac1bcc4e36fd4488d924955af24c8c38314c323562d72f74dfe0f91d332",
+  "actor": "Brian Hollweg",
+  "motivo": "Tres rondas con agy y agy2. Las dos primeras dejaron hallazgos reales (evidencia no atada al commit, rutas locales en la evidencia, prueba tautológica, ea3 sin mutaciones, entorno instalado apuntando a una carpeta borrada y trazabilidad con fallas declarada como éxito), todos corregidos con pruebas y mutaciones detectadas; la tercera dio 0 hallazgos en ambos. Suite completa sin fallas, 35 de 35 mutaciones detectadas y evidencia exitosa sin rutas locales. Quedan dos bajas sin cambiar, para decidir: el comando de instalación de desde-cero sin aviso repetido de que no está publicada y las insignias de dos páginas sin «en preparación». Límite declarado: lo nuevo se probó contra un servidor OSV local, no contra api.osv.dev; la versión queda preparada, no publicada.",
+  "decisiones": []
+}

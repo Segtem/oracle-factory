@@ -1,0 +1,203 @@
+"""Evidencia de la preparación y comprobación de la distribución 0.1.0a16.
+
+Verifica:
+- ea1: la versión de entrega es coherente y declara su estado (metadatos, CLI, docs, web y distinción de publicación).
+- ea2: el wheel instalado ofrece lo nuevo (instalación aislada, origen site-packages, las novedades de la entrega y las consultas de la anterior).
+- ea3: la entrega registra sus pruebas y sus límites (arneses, suite, hashes, trazabilidad y estabilidad de fuentes).
+"""
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+from importlib import metadata
+import io
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from tools.verify_review_guided import Resultado, escribir, sha  # noqa: E402
+from oracle_factory import trazabilidad, cli  # noqa: E402
+
+CAMBIO = "20261030-100740-f1g-entregaa16"
+CONTRACTS = {
+    "la_version_a16_es_coherente_y_declara_su_estado": [
+        "EntregaA16.test_ea1_version_coherente_y_estado_declarado",
+    ],
+    "el_wheel_a16_instalado_ofrece_lo_nuevo": [
+        "EntregaA16.test_ea2_el_origen_y_la_version_instalados_se_verifican",
+        "EntregaA16.test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye",
+        "EntregaA16.test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16",
+        "EntregaA16.test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
+        "EntregaA16.test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
+    ],
+    "la_entrega_a16_registra_sus_pruebas_y_sus_limites": [
+        "EntregaA16.test_ea3_entrega_registra_pruebas_y_limites",
+        "EntregaA16.test_ea3_un_arnes_fallido_no_se_registra_como_exitoso",
+    ],
+}
+PREFIX = "test_entrega_a16."
+LIMITES = (
+    "Comprobación de la distribución 0.1.0a16 fuera del checkout en Linux con Python 3.13; "
+    "wheel instalado en entorno aislado sin resolver módulos del repositorio. "
+    "Conteos desde el registro con fuentes; elaboración simulada con servidor HTTP local fixture "
+    "que rechaza escrituras; las pruebas simuladas no certifican calidad de un modelo real. "
+    "La consulta a OSV se probó contra un servidor local de mentira, no contra api.osv.dev. "
+    "No equivale a una publicación en PyPI ni reemplaza las decisiones humanas de Brian."
+)
+
+
+def fuentes():
+    # Incluye recursos empaquetados, JS, guías y verificadores; excluye registros generados.
+    nombres = subprocess.run(
+        ['git', 'ls-files', '--cached', '--others', '--exclude-standard'], cwd=ROOT,
+        text=True, capture_output=True, check=True).stdout.splitlines()
+    elegidos = [ROOT / n for n in nombres if not n.startswith(
+        ('.factory/', 'kb/', 'tareas/', 'openspec/')) and (ROOT / n).is_file()]
+    head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
+                          text=True, capture_output=True, check=True).stdout.strip()
+    return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
+
+
+def arbol_limpio(raiz=None):
+    """Verdadero si el producto (todo salvo los registros generados) coincide con HEAD: ni cambios ni archivos nuevos sin commitear."""
+    salida = subprocess.run(
+        ['git', 'status', '--porcelain', '--untracked-files=all', '--', '.', ':(exclude).factory', ':(exclude)kb',
+         ':(exclude)tareas', ':(exclude)openspec'], cwd=raiz or ROOT, text=True, capture_output=True, check=True).stdout
+    return salida.strip() == ''
+
+
+def sin_rutas_locales(datos):
+    """El mismo dato sin las rutas de esta máquina (el checkout, el HOME y las carpetas temporales), para que viaje en el repositorio."""
+    texto = json.dumps(datos, ensure_ascii=False)
+    for ruta, marca in ((str(ROOT), '<repo>'), (str(Path.home()), '<home>')):
+        texto = texto.replace(ruta, marca)
+    texto = re.sub(r'/(?:tmp|var/tmp)/[^"\\\s]*', '<tmp>', texto)
+    return json.loads(texto)
+
+
+def trazabilidad_valida(datos):
+    """Cada caso de cada requisito se volvió a correr con traza y salió bien: ni fallas, ni omisiones, ni casos ausentes."""
+    if not isinstance(datos, dict) or not isinstance(datos.get('requisitos'), dict) or not isinstance(datos.get('casos'), dict):
+        return False
+    pedidos = [c for lista in datos['requisitos'].values() for c in lista]
+    return bool(pedidos) and all(isinstance(datos['casos'].get(c), dict) and datos['casos'][c].get('resultado') == 'ok' for c in pedidos)
+
+
+def linea_base_valida(filas):
+    from tools.mutar_entrega_a16 import MUTACIONES, CASOS
+    esperados = Counter({CASOS[m[4]]: 1 for m in MUTACIONES})
+    return (isinstance(filas, list) and Counter(b.get('caso') for b in filas) == esperados
+            and all(type(b.get('codigo')) is int and b['codigo'] == 0 for b in filas))
+
+
+def mutaciones_validas(datos, origen):
+    from tools.mutar_entrega_a16 import MUTACIONES
+    if not isinstance(datos, dict) or datos.get('fuentes') != origen:
+        return False
+    if not linea_base_valida(datos.get('linea_base')):
+        return False
+    filas = datos.get('mutaciones', [])
+    esperadas = Counter(m[0] for m in MUTACIONES)
+    if Counter(m.get('id') for m in filas) != esperadas:
+        return False
+    return datos.get('todas_detectadas') is True and all(
+        m.get('detectada') is True and type(m.get('codigo')) is int and m['codigo'] == 1 for m in filas)
+
+
+def suite_completa(resultado, esperado):
+    return (bool(esperado) and resultado.cantidad == esperado
+            and all(n == 1 for n in esperado.values())
+            and all(resultado.observados.get(n, 1) == 0 for n in esperado)
+            and not resultado.skipped and not resultado.expectedFailures
+            and not resultado.unexpectedSuccesses and resultado.wasSuccessful())
+
+
+def corrida_valida(completa, mutaciones_ok, origen, actual, arneses):
+    return (completa and mutaciones_ok and origen == actual
+            and all(arneses.get(n, {}).get('returncode') == 0
+                    for n in ('verify_installed', 'verify_guide')))
+
+
+def casos_de(suite):
+    for caso in suite:
+        if isinstance(caso, unittest.TestSuite):
+            yield from casos_de(caso)
+        else:
+            yield caso.id()
+
+
+def main(argv=None):
+    from tools import probar_entrega_a16
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--salida', type=Path, required=True)
+    parser.add_argument('--mutaciones', type=Path, required=True)
+    args = parser.parse_args(argv)
+    if not arbol_limpio():
+        parser.error('el producto tiene cambios sin commitear: la evidencia se ata al commit, así que hay que commitear antes')
+    origen = fuentes()
+    mut_datos = json.loads(args.mutaciones.read_text(encoding='utf-8'))
+    mutaciones_ok = mutaciones_validas(mut_datos, origen)
+    if not mutaciones_ok:
+        parser.error('mutaciones incompletas, no detectadas o ajenas a las fuentes actuales')
+    output = args.salida.expanduser().resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    escribir(output / 'mutaciones.json', sin_rutas_locales(mut_datos))
+    stream = io.StringIO()
+    suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
+    esperado = Counter(casos_de(suite))
+    result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
+    (output / 'suite.txt').write_text(stream.getvalue(), encoding='utf-8')
+    completa = suite_completa(result, esperado)
+    esperado_contrato = [PREFIX + n for names in CONTRACTS.values() for n in names]
+    contratos_ok = all(result.cantidad.get(n) == 1 and result.observados.get(n) == 0
+                       for n in esperado_contrato)
+    prueba = {}
+    error = None
+    try:
+        prueba = probar_entrega_a16.ejecutar_comprobacion_completa(output / 'dist')
+    except Exception as exc:
+        error = f'{type(exc).__name__}: {exc}'
+    escribir(output / 'instalacion.json', sin_rutas_locales({'comprobacion': prueba, 'error': error}))
+    actual = fuentes()
+    ok = corrida_valida(completa and contratos_ok, mutaciones_ok and arbol_limpio(), origen, actual, prueba.get('arneses', {}))
+    factory = json.loads((ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text())
+    ids = {r.rsplit('.', 1)[-1]: r for r in factory.get('requisitos', [])}
+    if set(ids) != set(CONTRACTS):
+        ok = False
+    mapa = {ids[s]: [PREFIX + n for n in names] for s, names in CONTRACTS.items() if s in ids}
+    traza = trazabilidad.trazar(ROOT, mapa)
+    escribir(output / 'trazabilidad.json', traza)
+    if not trazabilidad_valida(traza):
+        ok = False
+    hechos = {
+        'entrega_a16_caso': [{'requisito': s, 'caso': n, 'codigo': result.observados.get(PREFIX + n, 1)}
+                         for s, names in CONTRACTS.items() for n in names],
+        'entrega_a16_suite': [{'completa': int(ok), 'casos': len(esperado_contrato)}],
+        'entrega_a16_mutacion': [{'id': m['id'], 'detectada': int(m['detectada'])}
+                             for m in mut_datos['mutaciones']],
+    }
+    escribir(output / 'hechos.json', hechos)
+    archivos = [p for p in output.rglob('*') if p.is_file()]
+    escribir(output / 'resultado.json', {
+        'exitoso': bool(ok), 'tests': result.testsRun, 'tests_esperados': sum(esperado.values()),
+        'casos_exactos_sin_omisiones_duplicados_ni_fallas': completa and contratos_ok,
+        'omitidos': [(c.id(), motivo) for c, motivo in result.skipped],
+        'fuentes_estables': actual == origen, 'origen': origen,
+        'versiones': {**{p: metadata.version(p) for p in
+                        ('oracle-metalenguaje', 'oracle-task', 'oracle-clue')}, 'python': sys.version},
+        'limites': LIMITES,
+        'artefactos_sha256': {p.relative_to(output).as_posix(): sha(p) for p in sorted(archivos)},
+    })
+    print(f'Evidencia: {output}; tests {result.testsRun}/{sum(esperado.values())}; éxito: {bool(ok)}')
+    if error:
+        print(error)
+    return 0 if ok else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

@@ -1,0 +1,109 @@
+{
+  "schema_version": "oracle-factory.revision/v1",
+  "cambio": "20261030-100740-f1g-entregaa16",
+  "contexto": {
+    "head": "071e803d1c1ac4a84e31e1d064a77e1aa55699b0",
+    "archivos_sha256": "dea73c51796afcf0cbbb25b175bcbede562b2b4ffb018f552d9662152c8993f4"
+  },
+  "documentos": {
+    "openspec/changes/20261030-100740-f1g-entregaa16/proposal.md": "2563bae87868bedf50f2ae1950ae50c384f598caf78c8dca284d5443af2031a5",
+    "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c"
+  },
+  "revisor": null,
+  "completa": null,
+  "archivos_revisados": [
+    "NOTAS-DE-RELEASE.md",
+    "README.md",
+    "catalogos/factory_entrega_a16.corrida_completa.oracle",
+    "catalogos/factory_entrega_a16.el_wheel_a16_instalado_ofrece_lo_nuevo.oracle",
+    "catalogos/factory_entrega_a16.la_entrega_a16_registra_sus_pruebas_y_sus_limites.oracle",
+    "catalogos/factory_entrega_a16.la_version_a16_es_coherente_y_declara_su_estado.oracle",
+    "docs/colaboracion.md",
+    "openspec/changes/20261030-100740-f1g-entregaa16/design.md",
+    "openspec/changes/20261030-100740-f1g-entregaa16/proposal.md",
+    "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md",
+    "openspec/changes/20261030-100740-f1g-entregaa16/tasks.md",
+    "oracle_factory/__init__.py",
+    "pyproject.toml",
+    "requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo.requisito",
+    "requisitos/distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites.requisito",
+    "requisitos/distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado.requisito",
+    "site/colaboracion.html",
+    "site/desde-cero.html",
+    "site/index.html",
+    "site/modos.html",
+    "tests/datos/guias-texto.json",
+    "tests/test_docs.py",
+    "tests/test_entrega_a15.py",
+    "tests/test_entrega_a16.py",
+    "tests/test_entrega_integridad_a15.py",
+    "tests/test_entrega_integridad_a16.py",
+    "tests/test_publicada_a15.py",
+    "tools/mutar_entrega_a16.py",
+    "tools/probar_entrega_a16.py",
+    "tools/verify_entrega_a16.py",
+    "uv.lock"
+  ],
+  "comprobaciones": [
+    {
+      "descripcion": "Evidencia del candidato: 764 pruebas, ? casos de contrato",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/evidencia/resultado.json"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/revision/agy-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Revisión de agy (gemini-3.8-flash-high): 0 hallazgos (completo)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/revision/agy2-1.json (validado con oracle-clue)"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ef2ef67: agy (gemini-3.8-flash-high), 8 hallazgos: H01 (alta), H02 (alta), H03 (media), H04 (media), H05 (media), H06 (baja), H07 (baja), H08 (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/ef2ef67/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato ef2ef67: agy (gemini-3.8-flash-high), 6 hallazgos: F01-evidencia-no-atada-al-commit (alta), F02-prueba-pasa-por-construccion-paso-d (media), F03-omision-caso-ea3-en-mutaciones (media), F04-discrepancia-spec-test-ea3 (media), F05-incoherencia-notas-release-guias-a15 (baja), F06-comando-instalacion-prematuro-guia-desde-cero (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/ef2ef67/revision/agy2-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c1c1426: agy (gemini-3.8-flash-high), 3 hallazgos: H01-entrega-retiene-venv-destruido-en-trazabilidad (alta), H02-verify-ignora-fallas-en-trazabilidad (media), H03-fuga-rutas-locales-en-mutaciones-json (baja)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/revision/agy-1.json"
+    },
+    {
+      "descripcion": "Vuelta anterior en el candidato c1c1426: agy (gemini-3.8-flash-high), 3 hallazgos: F01-trazabilidad-contratos-fallan-por-directorio-eliminado (alta), F02-comando-instalacion-prematuro-guia-desde-cero (baja), F03-badge-version-sin-preparacion-en-guias (informativa)",
+      "resultado": "cumple",
+      "evidencia": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/revision/agy2-1.json"
+    }
+  ],
+  "limites": [
+    "Evidencia: Comprobación de la distribución 0.1.0a16 fuera del checkout en Linux con Python 3.13; wheel instalado en entorno aislado sin resolver módulos del repositorio. Conteos desde el registro con fuentes; elaboración simulada con servidor HTTP local fixture que rechaza escrituras; las pruebas simuladas no certifican calidad de un modelo real. La consulta a OSV se probó contra un servidor local de mentira, no contra api.osv.dev. No equivale a una publicación en PyPI ni reemplaza las decisiones humanas de Brian.",
+    "agy (gemini-3.8-flash-high): Verificación de las tres correcciones de la segunda ronda (candidato c1c1426): reconstrucción del virtualenv tras classCleanup mediante cls.addClassCleanup(setattr, cls, '_instalado', None) comprobado por test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye; validación estricta de trazabilidad en verify_entrega_a16.py con trazabilidad_valida(traza); y sustitución exhaustiva de rutas locales en mutaciones.json mediante sin_rutas_locales().",
+    "agy (gemini-3.8-flash-high): Comprobación de la evidencia oficial de 071e803 en .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/evidencia/: resultado.json con veredicto exitoso (764/764 tests), trazabilidad.json con todos los 8 casos de contrato en 'ok', y ausencia total de rutas locales del host o directorios temporales en mutaciones.json e instalacion.json.",
+    "agy (gemini-3.8-flash-high): Ejecución de la suite de pruebas unitarias y de integridad de la distribución (tests/test_entrega_a16.py y tests/test_entrega_integridad_a16.py) en Linux con Python 3.13, resultando 14/14 tests exitosos.",
+    "agy (gemini-3.8-flash-high): Ejecución de los tres escenarios de pruebas de interfaz y guías con Playwright/Node.js (test_web_guias.cjs: recorrer_cada_guia, comparar_con_la_version_anterior y movimiento_reducido_y_pantalla_chica), todos exitosos.",
+    "agy (gemini-3.8-flash-high): Verificación de coherencia del bloqueo uv.lock contra pyproject.toml mediante tests/test_uv_lock.py (16/16 tests exitosos).",
+    "agy (gemini-3.8-flash-high): Evaluación de coherencia documental mediante tools/docs_al_dia.py y tests/test_docs.py (0 problemas detectados; distinción rigurosa de 0.1.0a15 como publicada y 0.1.0a16 como preparada).",
+    "agy (gemini-3.8-flash-high): Inspección del catálogo de Oracle (factory_entrega_a16.*.oracle) y verificación de los umbrales de las 4 medidas (1, 5, 2, 1) frente a los 8 casos de contrato trazados.",
+    "agy (gemini-3.8-flash-high): Revisión estática de las 35 mutaciones en tools/mutar_entrega_a16.py, verificando que todas cuentan con caso de detección y código de falla esperado.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato 071e803 se mantuvo en estricto modo de sólo lectura, sin alterar su árbol de trabajo ni su configuración de Git.",
+    "agy (gemini-3.8-flash-high): No se realizó publicación remota en PyPI ni creación de tags/releases en GitHub, en estricto apego al alcance de la propuesta y a la soberanía de decisión humana de Brian.",
+    "agy (gemini-3.8-flash-high): Verificación completa de las correcciones de la segunda ronda (c1c1426): en tests/test_entrega_a16.py se agregó cls.addClassCleanup(setattr, cls, '_instalado', None) en instalado(), garantizando que el entorno virtual temporal se reconstruya tras el teardown de la clase; el nuevo caso test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye y su mutación entorno_instalado_no_se_reinicia validan este ciclo.",
+    "agy (gemini-3.8-flash-high): Verificación del control de trazabilidad en tools/verify_entrega_a16.py: la función trazabilidad_valida(traza) invalida la corrida si algún caso contractual falla, se omite o falta, verificado mediante test_la_trazabilidad_exige_que_cada_caso_haya_salido_bien y la mutación trazabilidad_con_fallas_aceptada; en trazabilidad.json los 8 casos figuran con resultado 'ok'.",
+    "agy (gemini-3.8-flash-high): Verificación de la eliminación de fugas de rutas locales del host: tools/verify_entrega_a16.py aplica sin_rutas_locales(mut_datos) al escribir mutaciones.json, confirmando ausencia de rutas absolutas de la máquina en mutaciones.json e instalacion.json.",
+    "agy (gemini-3.8-flash-high): Ejecución de la suite completa de pruebas unitarias (764 tests descubiertos con .venv/bin/python -m unittest discover -s tests; 764 ejecutados sin fallos ni errores; 10 tests omitidos por dependencias opcionales de Chromium/Playwright en el worktree aislado).",
+    "agy (gemini-3.8-flash-high): Ejecución directa y exhaustiva de tests/test_entrega_a16.py (8 tests ok), tests/test_entrega_integridad_a16.py (6 tests ok) y tests/test_docs.py (2 tests ok).",
+    "agy (gemini-3.8-flash-high): Verificación de las 35 mutaciones en tools/mutar_entrega_a16.py: todas tienen ocurrencia única y son detectadas por sus respectivos casos (35/35 detectadas en mutaciones.json).",
+    "agy (gemini-3.8-flash-high): Evaluación de coherencia de catálogos y juicio Oracle: catalogos/factory_entrega_a16.*.oracle actualizados a 8 casos totales y umbral de 5 para el_wheel_a16_instalado_ofrece_lo_nuevo; oracle juzgar da veredicto verde en las 4 medidas aplicables sobre hechos.json.",
+    "agy (gemini-3.8-flash-high): Comprobación de coherencia de versiones: 0.1.0a16 declarada en pyproject.toml, uv.lock, oracle_factory/__init__.py, NOTAS-DE-RELEASE.md, README.md, docs/ y site/; sincronización comprobada con uv lock --check; 0.1.0a15 declarada publicada y 0.1.0a16 en preparación.",
+    "agy (gemini-3.8-flash-high): El checkout del candidato en /home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/071e803-agy2-1 se mantuvo en modo estricto de sólo lectura.",
+    "agy (gemini-3.8-flash-high): No se realizó publicación en PyPI ni generación de releases en GitHub (acción posterior humana fuera de alcance)."
+  ],
+  "hallazgos": [],
+  "sin_hallazgos_motivo": "Los revisores no reportaron hallazgos."
+}

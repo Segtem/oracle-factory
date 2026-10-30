@@ -1,15 +1,19 @@
 """Regresiones contra evidencia incompleta o ajena al candidato de entrega."""
 from collections import Counter
 from copy import deepcopy
+import json
+from pathlib import Path
+import subprocess
 from types import SimpleNamespace
+import tempfile
 import unittest
 
-from tools import verify_entrega_a15 as sensor
+from tools import verify_entrega_a16 as sensor
 
 
 class IntegridadEntrega(unittest.TestCase):
     def test_mutaciones_exigen_identidades_y_fuentes_actuales(self):
-        from tools.mutar_entrega_a15 import MUTACIONES, CASOS
+        from tools.mutar_entrega_a16 import MUTACIONES, CASOS
         fuentes = {'head': 'abc', 'sha256': {'a': '1'}}
         filas = [{'id': m[0], 'detectada': True, 'codigo': 1} for m in MUTACIONES]
         datos = {'fuentes': fuentes, 'mutaciones': filas, 'todas_detectadas': True,
@@ -56,3 +60,50 @@ class IntegridadEntrega(unittest.TestCase):
         arneses['verify_guide']['returncode'] = 1
         self.assertFalse(sensor.corrida_valida(True, True, fuentes, fuentes, arneses))
         self.assertFalse(sensor.corrida_valida(True, True, fuentes, fuentes, {}))
+
+    def test_el_arbol_debe_coincidir_con_head_para_atar_la_evidencia_al_commit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            env = {'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_AUTHOR_NAME': 'x', 'GIT_AUTHOR_EMAIL': 'x@x',
+                   'GIT_COMMITTER_NAME': 'x', 'GIT_COMMITTER_EMAIL': 'x@x', 'PATH': __import__('os').environ['PATH']}
+            git = lambda *a: subprocess.run(['git', *a], cwd=raiz, env=env, check=True, capture_output=True)
+            git('init', '-q')
+            (raiz / 'a.py').write_text('x = 1\n')
+            (raiz / '.factory').mkdir()
+            git('add', '-A')
+            git('commit', '-q', '-m', 'base')
+            self.assertTrue(sensor.arbol_limpio(raiz))
+            (raiz / '.factory' / 'registro.json').write_text('{}')  # los registros generados no cuentan
+            (raiz / 'kb').mkdir()
+            (raiz / 'kb' / 'nota.md').write_text('n')
+            self.assertTrue(sensor.arbol_limpio(raiz))
+            (raiz / 'a.py').write_text('x = 2\n')
+            self.assertFalse(sensor.arbol_limpio(raiz))  # un archivo cambiado sin commitear
+            git('checkout', '--', 'a.py')
+            (raiz / 'nuevo.py').write_text('y = 1\n')
+            self.assertFalse(sensor.arbol_limpio(raiz))  # un archivo nuevo sin commitear
+
+    def test_la_evidencia_de_instalacion_no_lleva_rutas_de_esta_maquina(self):
+        raiz, casa = str(sensor.ROOT), str(Path.home())
+        datos = {'cwd': raiz, 'wheel': f'{raiz}/.factory/local/dist/x.whl', 'otro': f'{casa}/Dev/algo', 'tmp': '/tmp/factory-entrega-abc/venv/bin/python',
+                 'lista': [f'cd {raiz}', '/var/tmp/xyz/archivo'], 'sin_rutas': 'texto', 'n': 3}
+        limpio = json.dumps(sensor.sin_rutas_locales(datos), ensure_ascii=False)
+        for ruta in (raiz, casa, '/tmp/factory-entrega', '/var/tmp/xyz'):
+            self.assertNotIn(ruta, limpio)
+        self.assertEqual(sensor.sin_rutas_locales({'sin_rutas': 'texto', 'n': 3}), {'sin_rutas': 'texto', 'n': 3})
+        self.assertIn('<repo>', limpio)
+
+    def test_la_trazabilidad_exige_que_cada_caso_haya_salido_bien(self):
+        bueno = {'requisitos': {'r': ['c1', 'c2']}, 'casos': {'c1': {'resultado': 'ok'}, 'c2': {'resultado': 'ok'}}}
+        self.assertTrue(sensor.trazabilidad_valida(bueno))
+        for nombre, roto in {
+            'una falla': {**bueno, 'casos': {**bueno['casos'], 'c2': {'resultado': 'falla'}}},
+            'una omisión': {**bueno, 'casos': {**bueno['casos'], 'c1': {'resultado': 'omitido'}}},
+            'un caso ausente': {**bueno, 'casos': {'c1': {'resultado': 'ok'}}},
+            'sin requisitos': {'requisitos': {}, 'casos': {}},
+            'forma rara': {'requisitos': [], 'casos': {}},
+        }.items():
+            with self.subTest(nombre):
+                self.assertFalse(sensor.trazabilidad_valida(roto))
+        self.assertFalse(sensor.trazabilidad_valida(None))
+

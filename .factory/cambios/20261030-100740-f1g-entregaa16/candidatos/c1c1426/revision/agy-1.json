@@ -1,0 +1,82 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/c1c1426-agy-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "c1c142636b74b863371088e610b331f407b79f38",
+  "diff_sha256": "175ccacfa03bd5bb529fb37bf6044d4f5cbf2ed2ca083e7b4cdc90ab42d3c5ba",
+  "context_sha256": "455338e876fcd5f878636bf8844100c11c513b4bfd078f4457b08e62543f7a67",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de la suite completa de pruebas unitarias y de integridad en Linux con Python 3.13 sin modificar el checkout del candidato.",
+    "Ejecución y verificación de las pruebas en Chromium/Node.js sobre las guías web (test_web_guias.cjs: recorrer_cada_guia, movimiento_reducido_y_pantalla_chica, comparar_con_la_version_anterior).",
+    "Comprobación de coherencia de bloqueo de dependencias mediante uv lock --check.",
+    "Comprobación de higiene de rutas relativas con tools/limpiar_rutas.py --verificar.",
+    "Evaluación de la cobertura de Oracle (oracle cobertura) y evaluación del juicio con hechos observados (oracle juzgar).",
+    "Análisis de flujo del ciclo de vida del entorno virtual temporal (EntregaA16._instalado y addClassCleanup) y reproducción del fallo en trazabilidad.trazar en entorno aislado.",
+    "El checkout del candidato c1c1426 se mantuvo en estricto modo de sólo lectura, sin alterar su árbol de trabajo ni su configuración de Git.",
+    "No se realizó publicación remota a PyPI ni creación de tags/releases en GitHub, de acuerdo con el alcance especificado en la propuesta."
+  ],
+  "findings": [
+    {
+      "id": "H01-entrega-retiene-venv-destruido-en-trazabilidad",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "EntregaA16.instalado retiene un venv destruido por addClassCleanup, causando que 4 casos de contrato fallen en trazabilidad.json",
+      "explanation": "En tests/test_entrega_a16.py:117-130, el método de clase EntregaA16.instalado construye e instala el wheel en un virtualenv temporal dentro de tempfile.TemporaryDirectory, guardando la tupla en el atributo de clase _instalado y registrando cls.addClassCleanup(tmp.cleanup). Al finalizar la ejecución de la clase EntregaA16 durante la suite general (en tools/verify_entrega_a16.py:144), unittest ejecuta el cleanup de la clase y borra físicamente el directorio temporal. Sin embargo, _instalado no se reinicia a None ni se valida su existencia en disco al ser consultado. Cuando tools/verify_entrega_a16.py:164 ejecuta trazabilidad.trazar(ROOT, mapa) en el mismo intérprete de Python, trazabilidad reejecuta los casos individuales; todos los casos que invocan self.instalado() (test_ea2_el_origen_y_la_version_instalados_se_verifican, test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16, test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel y test_ea3_entrega_registra_pruebas_y_limites) reciben la tupla hacia el directorio ya eliminado y fallan con FileNotFoundError por no hallar el ejecutable oracle-factory. En consecuencia, el archivo de evidencia trazabilidad.json registra 'falla' en 4 de los 7 casos de contrato y sus trazas quedan truncadas sin registrar las líneas efectivas de ejecución.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 120,
+        "end_line": 130,
+        "side": "head"
+      },
+      "trigger": "Ejecución de tools/verify_entrega_a16.py al generar la trazabilidad tras haber ejecutado la suite de unittest en el mismo proceso.",
+      "evidence": "En .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/trazabilidad.json, los casos test_ea2_el_origen_y_la_version_instalados_se_verifican, test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16, test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel y test_ea3_entrega_registra_pruebas_y_limites figuran con 'resultado': 'falla'. Al reproducir la ejecución secuencial en Python, los cuatro casos fallan con FileNotFoundError: [Errno 2] No such file or directory: '/tmp/test-entrega-.../venv/bin/oracle-factory'.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Ejecutar en una sesión de Python la suite EntregaA16 con TestResult y seguidamente loadTestsFromName('test_entrega_a16.EntregaA16.test_ea3_entrega_registra_pruebas_y_limites').run(res): el test falla con FileNotFoundError. Al modificar instalado() para que limpie _instalado en addClassCleanup o verifique tmp_path.exists(), todos los casos pasan con 'ok' en trazabilidad."
+    },
+    {
+      "id": "H02-verify-ignora-fallas-en-trazabilidad",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.95,
+      "title": "tools/verify_entrega_a16.py no comprueba el resultado de trazabilidad.trazar y emite evidencia con veredicto exitoso a pesar de fallas en los casos",
+      "explanation": "En tools/verify_entrega_a16.py:158, la variable ok se calcula como 'ok = corrida_valida(completa and contratos_ok, mutaciones_ok and arbol_limpio(), origen, actual, prueba.get(\"arneses\", {}))' antes de ejecutar la trazabilidad. En la línea 164 se ejecuta 'escribir(output / \"trazabilidad.json\", trazabilidad.trazar(ROOT, mapa))', pero en ningún momento se inspecciona el resultado de trazar() para verificar que ningún caso haya resultado en 'falla' o estado anómalo. Aunque 4 de los 7 casos de contrato fallaron durante la trazabilidad, verify_entrega_a16.py emite resultado.json con 'exitoso': True y finaliza con código 0, generando un conjunto de artefactos de evidencia inconsistentes (hechos.json con código 0 en todos los casos frente a trazabilidad.json con 4 fallas registradas). Esto incumple el escenario de la spec 'una prueba falla o cambia una fuente', el cual estipula que una comprobación fallida impide informar una corrida completa exitosa.",
+      "location": {
+        "file": "tools/verify_entrega_a16.py",
+        "start_line": 158,
+        "end_line": 164,
+        "side": "head"
+      },
+      "trigger": "Ejecución de verify_entrega_a16.py cuando trazabilidad.trazar retorna casos con resultado != 'ok'.",
+      "evidence": "En la evidencia de c1c1426, resultado.json contiene 'exitoso': true y el script termina con returncode 0, mientras que en esa misma corrida trazabilidad.json contiene 'falla' para 4 casos de contrato. Las líneas 158-164 de tools/verify_entrega_a16.py no condicionan 'ok' al resultado de trazar.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Revisar tools/verify_entrega_a16.py:158-187 y constatar que el valor de retorno de trazabilidad.trazar(ROOT, mapa) se escribe directamente en disco sin evaluar sus resultados ni modificar la variable 'ok'."
+    },
+    {
+      "id": "H03-fuga-rutas-locales-en-mutaciones-json",
+      "kind": "bug",
+      "severity": "baja",
+      "confidence": 0.90,
+      "title": "Fuga de rutas locales del host en el archivo de evidencia mutaciones.json",
+      "explanation": "En la primera ronda de revisión se corrigió la fuga de rutas locales en instalacion.json mediante sin_rutas_locales(). Sin embargo, en tools/verify_entrega_a16.py:140 se escribe mutaciones.json como 'escribir(output / \"mutaciones.json\", mut_datos)' sin anonimizar ni sustituir rutas. En tools/mutar_entrega_a16.py:143, cada mutación guarda en el campo 'salida' los últimos 2000 caracteres de stderr de unittest ('\"salida\": corrida.stderr[-2000:]'), los cuales incluyen tracebacks con la ruta absoluta del usuario en el host (/home/workstation/Dev/... y /home/workstation/.local/share/uv/...). En el archivo mutaciones.json del candidato c1c1426 existen 48 ocurrencias de rutas absolutas locales del usuario, exponiendo la estructura interna de directorios del desarrollador en un artefacto de evidencia versionado.",
+      "location": {
+        "file": "tools/verify_entrega_a16.py",
+        "start_line": 140,
+        "end_line": 140,
+        "side": "head"
+      },
+      "trigger": "Inspección de .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/mutaciones.json.",
+      "evidence": "En evidencia/mutaciones.json se constatan 48 apariciones de '/home/workstation' en los campos 'salida' de las mutaciones. tools/verify_entrega_a16.py:140 escribe mut_datos directamente sin aplicar sin_rutas_locales().",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Ejecutar grep -c '/home/workstation' en mutaciones.json de la evidencia del candidato c1c1426: retorna 48."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/c1c1426-agy2-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "c1c142636b74b863371088e610b331f407b79f38",
+  "diff_sha256": "175ccacfa03bd5bb529fb37bf6044d4f5cbf2ed2ca083e7b4cdc90ab42d3c5ba",
+  "context_sha256": "104d6b803726476a1f1822df13d26a9c3e50cbb2830e05c611ca3d0fb5a0d98a",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución completa de la suite de pruebas unitarias (762 tests con discover en Python 3.13; 762 pasaron, 10 omitidos por ausencia de Chromium/Playwright en el worktree aislado).",
+    "Ejecución directa y exhaustiva de tests/test_entrega_a16.py (7 tests ok) y tests/test_entrega_integridad_a16.py (5 tests ok).",
+    "Ejecución de las 33 mutaciones automatizadas de tools/mutar_entrega_a16.py en copia de trabajo temporal aislada fuera del checkout (33/33 detectadas).",
+    "Verificación de árbol limpio (arbol_limpio) y sustitución de rutas locales (sin_rutas_locales) en tools/verify_entrega_a16.py.",
+    "Auditoría y análisis de trazabilidad (oracle_factory/trazabilidad.py y trazabilidad.json) sobre los contratos de entrega.",
+    "Verificación de coherencia de versión 0.1.0a16 en pyproject.toml, uv.lock, oracle_factory/__init__.py, NOTAS-DE-RELEASE.md, README.md, docs/ y site/.",
+    "El checkout candidato en .factory/local/revisiones/c1c1426-agy2-1 se mantuvo en estricto modo de sólo lectura.",
+    "No se realizó publicación remota a PyPI ni creación de tags/releases en GitHub (fuera de alcance)."
+  ],
+  "findings": [
+    {
+      "id": "F01-trazabilidad-contratos-fallan-por-directorio-eliminado",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "Falla espuria de 4 contratos en trazabilidad.json y pérdida de respaldo por no reiniciar _instalado tras el cleanup",
+      "explanation": "En tests/test_entrega_a16.py (líneas 120-128), el método de clase instalado() guarda la tupla con las rutas del entorno virtual temporal en cls._instalado y registra la eliminación del directorio temporal con cls.addClassCleanup(tmp.cleanup). Sin embargo, el callback de cleanup no restablece cls._instalado = None al terminar el ciclo de la clase. Cuando tools/verify_entrega_a16.py ejecuta la suite completa (línea 144), al concluir los tests de EntregaA16 se ejecutan los class cleanups y el directorio temporal es eliminado del disco, pero la variable de clase cls._instalado permanece apuntando a la ruta borrada. Inmediatamente después, en la línea 164, verify_entrega_a16.py invoca oracle_factory.trazabilidad.trazar(ROOT, mapa), el cual carga y corre cada caso contractual individualmente. Cada caso que invoca self.instalado() (test_ea2_el_origen_y_la_version_instalados_se_verifican, test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16, test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel y test_ea3_entrega_registra_pruebas_y_limites) recibe la ruta en caché del directorio ya eliminado y falla con FileNotFoundError al intentar ejecutar oracle-factory. Como consecuencia directa, en el artefacto trazabilidad.json del candidato c1c1426, 4 de los 7 contratos figuran con 'resultado': 'falla', y el reporte de oracle-factory trazabilidad declara sin respaldo la mayor parte de las líneas implementadas en tests/test_entrega_a16.py y tools/probar_entrega_a16.py.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 120,
+        "end_line": 128,
+        "side": "head"
+      },
+      "trigger": "Generar evidencia con tools/verify_entrega_a16.py o ejecutar trazabilidad.trazar() en un proceso donde ya se ejecutó la suite de EntregaA16.",
+      "evidence": "En .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/trazabilidad.json se observa que test_ea2_el_origen_y_la_version_instalados_se_verifican, test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16, test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel y test_ea3_entrega_registra_pruebas_y_limites tienen 'resultado': 'falla'. Al correr oracle-factory trazabilidad 20261030-100740-f1g-entregaa16, se listan esos 4 casos como 'falla' y sus líneas como 'Sin respaldo'.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Ejecutar python3 -c \"import unittest, sys; from pathlib import Path; ROOT = Path('.'); sys.path.insert(0, str(ROOT)); s = unittest.defaultTestLoader.discover('tests', pattern='test_entrega_a16.py'); unittest.TextTestRunner(stream=open('/dev/null','w')).run(s); mod = sys.modules['test_entrega_a16']; print('instalado is None:', mod.EntregaA16._instalado is None, 'exists:', mod.EntregaA16._instalado[0].exists())\" y observar que el directorio fue borrado mientras _instalado sigue apuntando a él."
+    },
+    {
+      "id": "F02-comando-instalacion-prematuro-guia-desde-cero",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "site/desde-cero.html presenta comando copiable de uv tool install para 0.1.0a16 sin advertir que aún no está en PyPI",
+      "explanation": "En site/desde-cero.html líneas 19-21, el 'PASO 01 Instalá las herramientas' ofrece un bloque de código copiable para terminal: 'uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a16'. A diferencia de README.md (líneas 28-29, que advierte explícitamente: 'Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión. Con uv:'), la guía desde-cero.html carece de esa aclaración directa en el paso de instalación, lo que provocará fallos a un usuario que intente copiar y correr el comando antes de que la versión sea efectivamente publicada en PyPI.",
+      "location": {
+        "file": "site/desde-cero.html",
+        "start_line": 19,
+        "end_line": 21,
+        "side": "head"
+      },
+      "trigger": "Ejecutar el comando copiable del Paso 01 en site/desde-cero.html en un equipo limpio antes de la subida a PyPI.",
+      "evidence": "site/desde-cero.html:19-21 presenta el comando con botón 'Copiar' sin la advertencia previa que sí incluye README.md:28-29.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Contrastar el texto y bloque de README.md:28-30 frente al de site/desde-cero.html:19-21."
+    },
+    {
+      "id": "F03-badge-version-sin-preparacion-en-guias",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.8,
+      "title": "Badges de versión en encabezados de guías site/colaboracion.html y site/modos.html omiten '(en preparación)'",
+      "explanation": "En site/colaboracion.html:6 y site/modos.html:6, los badges de versión indican '<span>Factory 0.1.0a16</span>' sin la mención '(en preparación)' que sí se incluyó en docs/colaboracion.md:5 ('Factory 0.1.0a16 (en preparación)'), site/index.html:96 ('PREPARACIÓN 0.1.0a16') y NOTAS-DE-RELEASE.md:1.",
+      "location": {
+        "file": "site/colaboracion.html",
+        "start_line": 6,
+        "end_line": 6,
+        "side": "head"
+      },
+      "trigger": "Inspección de etiquetas y badges en los encabezados de las páginas web en site/.",
+      "evidence": "site/colaboracion.html:6 contiene '<span>Factory 0.1.0a16</span>' a diferencia de docs/colaboracion.md:5.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Comparar site/colaboracion.html:6 con docs/colaboracion.md:5."
+    }
+  ]
+}

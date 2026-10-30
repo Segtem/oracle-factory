@@ -1,0 +1,26 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/071e803-agy-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "071e803d1c1ac4a84e31e1d064a77e1aa55699b0",
+  "diff_sha256": "87457f5b6a06ac287554c31625d6c6bc5261ff51989fe9f1ba1517000f97e081",
+  "context_sha256": "cb96a23c7dc48f09c2e98a3a4dd343594af046be55ff0f3421c7dabf1e907d10",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Verificación de las tres correcciones de la segunda ronda (candidato c1c1426): reconstrucción del virtualenv tras classCleanup mediante cls.addClassCleanup(setattr, cls, '_instalado', None) comprobado por test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye; validación estricta de trazabilidad en verify_entrega_a16.py con trazabilidad_valida(traza); y sustitución exhaustiva de rutas locales en mutaciones.json mediante sin_rutas_locales().",
+    "Comprobación de la evidencia oficial de 071e803 en .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/evidencia/: resultado.json con veredicto exitoso (764/764 tests), trazabilidad.json con todos los 8 casos de contrato en 'ok', y ausencia total de rutas locales del host o directorios temporales en mutaciones.json e instalacion.json.",
+    "Ejecución de la suite de pruebas unitarias y de integridad de la distribución (tests/test_entrega_a16.py y tests/test_entrega_integridad_a16.py) en Linux con Python 3.13, resultando 14/14 tests exitosos.",
+    "Ejecución de los tres escenarios de pruebas de interfaz y guías con Playwright/Node.js (test_web_guias.cjs: recorrer_cada_guia, comparar_con_la_version_anterior y movimiento_reducido_y_pantalla_chica), todos exitosos.",
+    "Verificación de coherencia del bloqueo uv.lock contra pyproject.toml mediante tests/test_uv_lock.py (16/16 tests exitosos).",
+    "Evaluación de coherencia documental mediante tools/docs_al_dia.py y tests/test_docs.py (0 problemas detectados; distinción rigurosa de 0.1.0a15 como publicada y 0.1.0a16 como preparada).",
+    "Inspección del catálogo de Oracle (factory_entrega_a16.*.oracle) y verificación de los umbrales de las 4 medidas (1, 5, 2, 1) frente a los 8 casos de contrato trazados.",
+    "Revisión estática de las 35 mutaciones en tools/mutar_entrega_a16.py, verificando que todas cuentan con caso de detección y código de falla esperado.",
+    "El checkout del candidato 071e803 se mantuvo en estricto modo de sólo lectura, sin alterar su árbol de trabajo ni su configuración de Git.",
+    "No se realizó publicación remota en PyPI ni creación de tags/releases en GitHub, en estricto apego al alcance de la propuesta y a la soberanía de decisión humana de Brian."
+  ],
+  "findings": []
+}
