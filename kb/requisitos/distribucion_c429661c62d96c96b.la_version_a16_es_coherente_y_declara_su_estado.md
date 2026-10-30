@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado`
 - Vigente: sí
 - Cambio: [[cambios/20261030-100740-f1g-entregaa16]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a16.la_version_a16_es_coherente_y_declara_su_estado`, `factory_entrega_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md#la_version_a16_es_coherente_y_declara_su_estado
 

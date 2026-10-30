@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites`
 - Vigente: sí
 - Cambio: [[cambios/20261030-100740-f1g-entregaa16]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a16.la_entrega_a16_registra_sus_pruebas_y_sus_limites`, `factory_entrega_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md#la_entrega_a16_registra_sus_pruebas_y_sus_limites
 

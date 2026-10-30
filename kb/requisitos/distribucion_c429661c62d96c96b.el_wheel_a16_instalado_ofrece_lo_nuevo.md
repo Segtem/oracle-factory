@@ -11,7 +11,7 @@ vigente: true
 - Id: `distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo`
 - Vigente: sí
 - Cambio: [[cambios/20261030-100740-f1g-entregaa16]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_entrega_a16.el_wheel_a16_instalado_ofrece_lo_nuevo`, `factory_entrega_a16.corrida_completa`
 - Fuente: openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md#el_wheel_a16_instalado_ofrece_lo_nuevo
 

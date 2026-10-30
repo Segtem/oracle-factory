@@ -2,7 +2,7 @@
   "id": "20261030-100740-f1g-entregaa16",
   "titulo": "Preparar la distribución 0.1.0a16",
   "capacidad": "distribucion",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261030-100740-f1g-entregaa16/specs/distribucion/spec.md",
   "spec_sha256": "909e15c596f2757c8114b131e8f1866643c685a11728ca9b0977c14dc810de1c",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "dea73c51796afcf0cbbb25b175bcbede562b2b4ffb018f552d9662152c8993f4"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261030-100740-f1g-entregaa16/candidatos/071e803/evidencia/hechos.json",
+    "hechos_sha256": "423235940fb923d1a87fc66bd459ca9dbc660e22ac9fb0c7d12fefb238956e29",
+    "informe": ".factory/cambios/20261030-100740-f1g-entregaa16/oracle-veredicto.txt",
+    "informe_sha256": "ba8eaf7056a214674810ccf32f22c6130a3a305ce62aaf7b583e8997032e20e0",
+    "cuando": "2026-10-30T16:04:07.521890+00:00",
+    "contexto": {
+      "head": "f8605008aaa82749a63d463297ca6f50ea8df187",
+      "archivos_sha256": "dea73c51796afcf0cbbb25b175bcbede562b2b4ffb018f552d9662152c8993f4"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -517,6 +529,37 @@
       "abiertos": 0,
       "sha256": "5749fac1bcc4e36fd4488d924955af24c8c38314c323562d72f74dfe0f91d332",
       "decisiones_sha256": "c3960a57d77723ef823bb4eb636a3c3b72b917ae4b292f27459a9978a4fe4a5d"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T16:04:07.521907+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "423235940fb923d1a87fc66bd459ca9dbc660e22ac9fb0c7d12fefb238956e29"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T16:07:25.317560+00:00",
+      "oracle": ".factory/cambios/20261030-100740-f1g-entregaa16/oracle-veredicto.txt",
+      "revision": "tareas/20261030-100740-f1g-entregaa16/revisiones/registro-fopj3ovx/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T16:07:25.352215+00:00",
+      "capacidad": "distribucion",
+      "spec": "openspec/specs/distribucion/spec.md"
     }
   ],
   "tipos": {
@@ -575,5 +618,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T16:07:25.254595+00:00"
+  },
+  "archivo": {
+    "capacidad": "distribucion",
+    "spec": "openspec/specs/distribucion/spec.md",
+    "cuando": "2026-10-30T16:07:25.352204+00:00"
+  }
 }
