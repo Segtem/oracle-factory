@@ -1,7 +1,11 @@
 """Regresiones contra evidencia incompleta o ajena al candidato de entrega."""
 from collections import Counter
 from copy import deepcopy
+import json
+from pathlib import Path
+import subprocess
 from types import SimpleNamespace
+import tempfile
 import unittest
 
 from tools import verify_entrega_a16 as sensor
@@ -56,3 +60,35 @@ class IntegridadEntrega(unittest.TestCase):
         arneses['verify_guide']['returncode'] = 1
         self.assertFalse(sensor.corrida_valida(True, True, fuentes, fuentes, arneses))
         self.assertFalse(sensor.corrida_valida(True, True, fuentes, fuentes, {}))
+
+    def test_el_arbol_debe_coincidir_con_head_para_atar_la_evidencia_al_commit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raiz = Path(tmp)
+            env = {'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_CONFIG_NOSYSTEM': '1', 'GIT_AUTHOR_NAME': 'x', 'GIT_AUTHOR_EMAIL': 'x@x',
+                   'GIT_COMMITTER_NAME': 'x', 'GIT_COMMITTER_EMAIL': 'x@x', 'PATH': __import__('os').environ['PATH']}
+            git = lambda *a: subprocess.run(['git', *a], cwd=raiz, env=env, check=True, capture_output=True)
+            git('init', '-q')
+            (raiz / 'a.py').write_text('x = 1\n')
+            (raiz / '.factory').mkdir()
+            git('add', '-A')
+            git('commit', '-q', '-m', 'base')
+            self.assertTrue(sensor.arbol_limpio(raiz))
+            (raiz / '.factory' / 'registro.json').write_text('{}')  # los registros generados no cuentan
+            (raiz / 'kb').mkdir()
+            (raiz / 'kb' / 'nota.md').write_text('n')
+            self.assertTrue(sensor.arbol_limpio(raiz))
+            (raiz / 'a.py').write_text('x = 2\n')
+            self.assertFalse(sensor.arbol_limpio(raiz))  # un archivo cambiado sin commitear
+            git('checkout', '--', 'a.py')
+            (raiz / 'nuevo.py').write_text('y = 1\n')
+            self.assertFalse(sensor.arbol_limpio(raiz))  # un archivo nuevo sin commitear
+
+    def test_la_evidencia_de_instalacion_no_lleva_rutas_de_esta_maquina(self):
+        raiz, casa = str(sensor.ROOT), str(Path.home())
+        datos = {'cwd': raiz, 'wheel': f'{raiz}/.factory/local/dist/x.whl', 'otro': f'{casa}/Dev/algo', 'tmp': '/tmp/factory-entrega-abc/venv/bin/python',
+                 'lista': [f'cd {raiz}', '/var/tmp/xyz/archivo'], 'sin_rutas': 'texto', 'n': 3}
+        limpio = json.dumps(sensor.sin_rutas_locales(datos), ensure_ascii=False)
+        for ruta in (raiz, casa, '/tmp/factory-entrega', '/var/tmp/xyz'):
+            self.assertNotIn(ruta, limpio)
+        self.assertEqual(sensor.sin_rutas_locales({'sin_rutas': 'texto', 'n': 3}), {'sin_rutas': 'texto', 'n': 3})
+        self.assertIn('<repo>', limpio)

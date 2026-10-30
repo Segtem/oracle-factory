@@ -13,6 +13,7 @@ from importlib import metadata
 import io
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import unittest
@@ -35,6 +36,7 @@ CONTRACTS = {
     ],
     "la_entrega_a16_registra_sus_pruebas_y_sus_limites": [
         "EntregaA16.test_ea3_entrega_registra_pruebas_y_limites",
+        "EntregaA16.test_ea3_un_arnes_fallido_no_se_registra_como_exitoso",
     ],
 }
 PREFIX = "test_entrega_a16."
@@ -58,6 +60,23 @@ def fuentes():
     head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
                           text=True, capture_output=True, check=True).stdout.strip()
     return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
+
+
+def arbol_limpio(raiz=None):
+    """Verdadero si el producto (todo salvo los registros generados) coincide con HEAD: ni cambios ni archivos nuevos sin commitear."""
+    salida = subprocess.run(
+        ['git', 'status', '--porcelain', '--untracked-files=all', '--', '.', ':(exclude).factory', ':(exclude)kb',
+         ':(exclude)tareas', ':(exclude)openspec'], cwd=raiz or ROOT, text=True, capture_output=True, check=True).stdout
+    return salida.strip() == ''
+
+
+def sin_rutas_locales(datos):
+    """El mismo dato sin las rutas de esta máquina (el checkout, el HOME y las carpetas temporales), para que viaje en el repositorio."""
+    texto = json.dumps(datos, ensure_ascii=False)
+    for ruta, marca in ((str(ROOT), '<repo>'), (str(Path.home()), '<home>')):
+        texto = texto.replace(ruta, marca)
+    texto = re.sub(r'/(?:tmp|var/tmp)/[^"\\\s]*', '<tmp>', texto)
+    return json.loads(texto)
 
 
 def linea_base_valida(filas):
@@ -109,9 +128,12 @@ def main(argv=None):
     parser.add_argument('--salida', type=Path, required=True)
     parser.add_argument('--mutaciones', type=Path, required=True)
     args = parser.parse_args(argv)
+    if not arbol_limpio():
+        parser.error('el producto tiene cambios sin commitear: la evidencia se ata al commit, así que hay que commitear antes')
     origen = fuentes()
     mut_datos = json.loads(args.mutaciones.read_text(encoding='utf-8'))
-    if not mutaciones_validas(mut_datos, origen):
+    mutaciones_ok = mutaciones_validas(mut_datos, origen)
+    if not mutaciones_ok:
         parser.error('mutaciones incompletas, no detectadas o ajenas a las fuentes actuales')
     output = args.salida.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -131,9 +153,9 @@ def main(argv=None):
         prueba = probar_entrega_a16.ejecutar_comprobacion_completa(output / 'dist')
     except Exception as exc:
         error = f'{type(exc).__name__}: {exc}'
-    escribir(output / 'instalacion.json', {'comprobacion': prueba, 'error': error})
+    escribir(output / 'instalacion.json', sin_rutas_locales({'comprobacion': prueba, 'error': error}))
     actual = fuentes()
-    ok = corrida_valida(completa and contratos_ok, True, origen, actual, prueba.get('arneses', {}))
+    ok = corrida_valida(completa and contratos_ok, mutaciones_ok and arbol_limpio(), origen, actual, prueba.get('arneses', {}))
     factory = json.loads((ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text())
     ids = {r.rsplit('.', 1)[-1]: r for r in factory.get('requisitos', [])}
     if set(ids) != set(CONTRACTS):

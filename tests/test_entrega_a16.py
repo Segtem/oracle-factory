@@ -100,7 +100,7 @@ class EntregaA16(unittest.TestCase):
             self.assertIn(preparacion, contenido_original)
             publicado = contenido_original.replace(preparacion, "Versión publicada en PyPI: `oracle-factory==0.1.0a16`. Con `uv`:")
             readme.write_text(publicado + "\nLa 0.1.0a16 ya está publicada en PyPI.\n", encoding="utf-8")
-            self.assertFalse(any("afirma que la versión" in p for p in docs_al_dia.problemas(repo_tmp)))
+            self.assertEqual([p for p in docs_al_dia.problemas(repo_tmp) if p.startswith("README.md:")], [])  # el README publicado no tiene problemas
             # e) ...pero un texto que la sigue llamando candidata o en preparación se detecta
             for frase in ("Candidato en preparación `oracle-factory==0.1.0a16`, y su wheel.", "La 0.1.0a16 (en preparación) trae la procedencia.",
                           "Los comandos de instalación se podrán usar cuando se publique esta versión.", "Versión 0.1.0a16 y estado de preparación.",
@@ -234,6 +234,18 @@ class EntregaA16(unittest.TestCase):
         self.assertTrue(res_arneses["exitoso"])
         self.assertEqual(res_arneses["verify_installed"]["returncode"], 0)
         self.assertEqual(res_arneses["verify_guide"]["returncode"], 0)
+
+    def test_ea3_un_arnes_fallido_no_se_registra_como_exitoso(self):
+        from types import SimpleNamespace
+        from unittest import mock
+        _, _, factory_bin, python_bin = self.instalado()
+        for fallido in ("verify_installed.py", "verify_guide.py"):
+            def ejecutar(argv, **kwargs):
+                roto = any(str(a).endswith(fallido) for a in argv)
+                return SimpleNamespace(returncode=1 if roto else 0, stdout="", stderr="falla simulada")
+            with self.subTest(fallido=fallido), mock.patch.object(probar_entrega_a16, "ejecutar", ejecutar):
+                with self.assertRaisesRegex(AssertionError, f"{fallido} falló"):
+                    probar_entrega_a16.probar_arneses(factory_bin, python_bin)
 
 
 if __name__ == "__main__":

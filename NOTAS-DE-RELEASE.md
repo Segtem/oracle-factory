@@ -4,7 +4,7 @@
 - **Avisos de OSV.dev, con tu permiso.** `procedencia --consultar-osv --red` baja de OSV.dev los avisos de las dependencias de los inventarios guardados, los guarda en `.factory/local/` y audita. Sin `--red` no se conecta; sólo salen nombre, versión y ecosistema, y un fallo nunca se lee como «sin afectados».
 - **El `uv.lock` de Factory viaja con el repositorio** y una prueba exige que coincida con `pyproject.toml`; un paquete del lock que el entorno no instala se marca y no invalida el inventario.
 - **El código de la CLI, en módulos.** `cli.py` se repartió en `parser`, `flujo_revision`, `flujo_medidas` y `lecturas` para alejarlo del límite de tamaño de la revisión; los comandos y su ayuda no cambian.
-- **Textos al día.** Las notas y las guías declaran publicada la 0.1.0a15.
+- **Textos al día.** Las notas declaran publicada la 0.1.0a15, con su tag y su release.
 - Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
 
 # Oracle Factory 0.1.0a15

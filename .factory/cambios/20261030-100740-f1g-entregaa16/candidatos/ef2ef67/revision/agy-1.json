@@ -1,0 +1,175 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-entrega-a16/.factory/local/revisiones/ef2ef67-agy-1",
+  "base": "21a6fa4ae02e774e8eb70cef37a8a0d45d769ba6",
+  "head": "ef2ef67adf5656c74237bd329aa01734ddac35c3",
+  "diff_sha256": "148665989438c02d3f4b64a79c6d86064f577f0839ee9c77278c38b8d8d3714c",
+  "context_sha256": "127564592a86e6675e91b7afc8e21350dd98d907dcbbcd7b95af5390d3a88c4c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se ejecutaron las pruebas unitarias y de integración de entrega (test_entrega_a16.py, test_entrega_integridad_a16.py, test_docs.py) en Linux con Python 3.13 sin modificar el checkout candidato.",
+    "Se verificó la sincronización de versiones en pyproject.toml, oracle_factory/__init__.py, uv.lock, README.md, NOTAS-DE-RELEASE.md, docs/ y site/.",
+    "Se contrastaron los contratos de Oracle (catalogos/ y requisitos/) contra las suites y arneses correspondientes.",
+    "Se evaluaron mutaciones manuales y análisis de flujo en copias locales para determinar detección y supervivencia de fallas.",
+    "No se ejecutó publicación remota a PyPI ni creación de tags o releases en GitHub, en conformidad con el alcance de la propuesta.",
+    "No se realizaron conexiones de red reales a api.osv.dev (verificado con fixture HTTP local de mentira)."
+  ],
+  "findings": [
+    {
+      "id": "H01",
+      "kind": "discrepancia_con_spec",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "El caso de prueba test_ea3_entrega_registra_pruebas_y_limites no comprueba el registro de pruebas, versiones, hashes, límites ni detección de inestabilidad",
+      "explanation": "El requisito 'la_entrega_a16_registra_sus_pruebas_y_sus_limites' promete que el sistema ejecuta la suite y arneses y registra resultados, versiones, hashes de fuentes y artefactos y límites en evidencia reproducible, detectando corridas incompletas o fuentes modificadas. Sin embargo, el único test asignado en CONTRACTS a este requisito es test_ea3_entrega_registra_pruebas_y_limites, el cual únicamente invoca probar_entrega_a16.probar_arneses() (verify_installed.py y verify_guide.py). El test no ejecuta verify_entrega_a16.py, no comprueba la generación de resultado.json, no valida hashes de fuentes o artefactos, no verifica la persistencia de límites ni comprueba la detección de inestabilidad de fuentes o corridas incompletas. La medida de Oracle correspondiente da por cumplido el requisito con una prueba que pasa por construcción sin verificar lo prometido en la spec. Además, en tools/mutar_entrega_a16.py no se incluyó ninguna mutación para el caso 'ea3'.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 231,
+        "end_line": 237,
+        "side": "head"
+      },
+      "trigger": "Evaluación del cumplimiento del requisito la_entrega_a16_registra_sus_pruebas_y_sus_limites por parte del catálogo de Oracle.",
+      "evidence": "tests/test_entrega_a16.py:231-237: 'def test_ea3_entrega_registra_pruebas_y_limites(self): ... res_arneses = probar_entrega_a16.probar_arneses(factory_bin, python_bin); self.assertTrue(res_arneses[\"exitoso\"]); self.assertEqual(res_arneses[\"verify_installed\"][\"returncode\"], 0); self.assertEqual(res_arneses[\"verify_guide\"][\"returncode\"], 0)'. No hay aserciones sobre resultado.json, hashes ni límites.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Mutar LIMITES o eliminar la generación de resultado.json en tools/verify_entrega_a16.py y ejecutar tests.test_entrega_a16.EntregaA16.test_ea3_entrega_registra_pruebas_y_limites: el test continúa pasando exitosamente."
+    },
+    {
+      "id": "H02",
+      "kind": "bug",
+      "severity": "alta",
+      "confidence": 0.95,
+      "title": "La evidencia y los artefactos construidos no están atados al commit de Git sino al estado del árbol de trabajo",
+      "explanation": "En tools/verify_entrega_a16.py, la función fuentes() toma el commit 'head' ejecutando 'git rev-parse HEAD', pero lee y calcula los hashes SHA-256 de los archivos directamente desde el sistema de archivos del árbol de trabajo usando 'git ls-files --cached --others --exclude-standard', sin comprobar que el árbol esté limpio respecto a HEAD (por ejemplo con 'git diff --quiet HEAD' o 'git status --porcelain'). A su vez, probar_entrega_a16.construir_artefactos ejecuta 'uv build' sobre el directorio de trabajo (ROOT). Si el árbol de trabajo contiene modificaciones o archivos nuevos sin commitear, el wheel y los hashes corresponden al estado sucio local, pero la evidencia en resultado.json reporta falsamente estar atada al commit HEAD. La evidencia no queda unívocamente vinculada a un commit reproducible de Git.",
+      "location": {
+        "file": "tools/verify_entrega_a16.py",
+        "start_line": 53,
+        "end_line": 60,
+        "side": "head"
+      },
+      "trigger": "Generar evidencia con cambios no commiteados o archivos untracked presentes en el checkout.",
+      "evidence": "tools/verify_entrega_a16.py:53-60: 'nombres = subprocess.run([\"git\", \"ls-files\", \"--cached\", \"--others\", \"--exclude-standard\"]...); head = subprocess.run([\"git\", \"rev-parse\", \"HEAD\"]...).stdout.strip(); return {\"head\": head, \"sha256\": ...}'. No se valida que 'git status --porcelain' esté vacío ni que el contenido provenga del commit.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Modificar un archivo rastreado sin commitear en el worktree y ejecutar tools/verify_entrega_a16.py: resultado.json registrará el hash HEAD del commit anterior mientras los sha256 y el wheel reflejarán el contenido no commiteado."
+    },
+    {
+      "id": "H03",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "Fuga de rutas locales del host y directorios temporales en el archivo de evidencia instalacion.json",
+      "explanation": "Durante la comprobación de entrega, tools/probar_entrega_a16.py registra en COMANDOS los comandos ejecutados con su directorio de trabajo (cwd) y argumentos mediante rutas absolutas locales del host (e.g. /home/workstation/Dev/... y /tmp/factory-entrega-...). Asimismo, los campos artefactos[\"wheel\"], artefactos[\"sdist\"], origen[\"archivo_modulo\"] y origen[\"ejecutable\"] guardan rutas absolutas locales del sistema. Este diccionario completo se escribe directamente en instalacion.json sin relativizar ni anonimizar rutas, exponiendo nombres de usuario y jerarquía de carpetas privadas en un artefacto de evidencia que debe ser compartido y reproducible.",
+      "location": {
+        "file": "tools/probar_entrega_a16.py",
+        "start_line": 35,
+        "end_line": 37,
+        "side": "head"
+      },
+      "trigger": "Ejecución de probar_entrega_a16.ejecutar_comprobacion_completa() y volcado de resultados a instalacion.json.",
+      "evidence": "tools/probar_entrega_a16.py:35-37: 'COMANDOS.append({\"comando\": [str(a) for a in argv], \"cwd\": str(kwargs.get(\"cwd\", Path.cwd())), ...})'. En instalacion.json del candidato ef2ef67 se observan rutas absolutas como '/home/workstation/Dev/factory-entrega-a16/...' y '/tmp/factory-entrega-92vfle2x/...'.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Inspeccionar el archivo instalacion.json generado en la carpeta de evidencia del candidato y comprobar la presencia de rutas absolutas del host."
+    },
+    {
+      "id": "H04",
+      "kind": "discrepancia_con_spec",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El caso de contrato test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta valida diccionarios sintéticos sin ejercitar el wheel instalado",
+      "explanation": "El requisito 'el_wheel_a16_instalado_ofrece_lo_nuevo' exige comprobar que el wheel instalado en un entorno nuevo fuera del checkout ofrece las novedades de la entrega. La medida factory_entrega_a16.el_wheel_a16_instalado_ofrece_lo_nuevo en catalogos/ exige 4 casos. Uno de los 4 casos (test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta) no utiliza el wheel instalado: genera un diccionario en memoria 'bueno' y 20 variaciones 'rotos' y comprueba que la función auxiliar validar_novedades() lance AssertionError. La prueba pasa por construcción propia sobre mocks estáticos en memoria, computando en el contrato de Oracle sin aportar evidencia sobre el paquete instalado.",
+      "location": {
+        "file": "tests/test_entrega_a16.py",
+        "start_line": 168,
+        "end_line": 181,
+        "side": "head"
+      },
+      "trigger": "Ejecución de la suite de pruebas bajo el contrato de medición del wheel instalado.",
+      "evidence": "tests/test_entrega_a16.py:168-181: 'bueno = {\"ident\": \"c1\", \"inventario\": ...}; self.assertTrue(probar_entrega_a16.validar_novedades(bueno)[\"exitoso\"])'. No se ejecuta ningún subproceso ni se interactúa con el entorno virtual creado para el wheel.",
+      "related_requirement": "el_wheel_a16_instalado_ofrece_lo_nuevo",
+      "status": "pendiente",
+      "verification": "Revisar las líneas 168-208 de tests/test_entrega_a16.py y verificar que en ningún momento se invoca el ejecutable ni los módulos del wheel instalado."
+    },
+    {
+      "id": "H05",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 0.9,
+      "title": "El parámetro mutaciones_ok en la comprobación de corrida válida de verify_entrega_a16.py está hardcodeado a True",
+      "explanation": "En tools/verify_entrega_a16.py:136, la llamada a corrida_valida se realiza como: 'ok = corrida_valida(completa and contratos_ok, True, origen, actual, prueba.get(\"arneses\", {}))'. La función corrida_valida tiene como segundo parámetro mutaciones_ok (línea 92: 'def corrida_valida(completa, mutaciones_ok, origen, actual, arneses): return (completa and mutaciones_ok and origen == actual ...)'). Al pasar el literal 'True', se anula la verificación del parámetro mutaciones_ok en esa función de decisión, desacoplándola del resultado real de las mutaciones.",
+      "location": {
+        "file": "tools/verify_entrega_a16.py",
+        "start_line": 136,
+        "end_line": 136,
+        "side": "head"
+      },
+      "trigger": "Cálculo de la validez de la corrida en tools/verify_entrega_a16.py:136.",
+      "evidence": "tools/verify_entrega_a16.py:136: 'ok = corrida_valida(completa and contratos_ok, True, origen, actual, prueba.get(\"arneses\", {}))'.",
+      "related_requirement": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "status": "pendiente",
+      "verification": "Comparar la definición de corrida_valida en la línea 92 con la llamada en la línea 136 de tools/verify_entrega_a16.py."
+    },
+    {
+      "id": "H06",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Incoherencia textual en NOTAS-DE-RELEASE.md: afirma que las guías declaran publicada la 0.1.0a15 cuando fueron cambiadas a 0.1.0a16 en preparación",
+      "explanation": "En NOTAS-DE-RELEASE.md, en la sección de la versión 0.1.0a16 (línea 7), se afirma: '- **Textos al día.** Las notas y las guías declaran publicada la 0.1.0a15.'. Sin embargo, en esta entrega las guías (site/desde-cero.html, site/colaboracion.html y docs/colaboracion.md) fueron migradas para describir Factory 0.1.0a16 (en preparación), por lo que ya no presentan la 0.1.0a15 como la versión publicada descripta en las guías.",
+      "location": {
+        "file": "NOTAS-DE-RELEASE.md",
+        "start_line": 7,
+        "end_line": 7,
+        "side": "head"
+      },
+      "trigger": "Lectura comparativa entre NOTAS-DE-RELEASE.md y site/desde-cero.html.",
+      "evidence": "NOTAS-DE-RELEASE.md:7: '- **Textos al día.** Las notas y las guías declaran publicada la 0.1.0a15.' frente a site/desde-cero.html:15 ('Esta guía describe el candidato Factory 0.1.0a16 en preparación para entrega...').",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Verificar que site/desde-cero.html:15 y site/colaboracion.html:6 describen Factory 0.1.0a16 y no presentan la 0.1.0a15 como versión de la guía."
+    },
+    {
+      "id": "H07",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.85,
+      "title": "La guía desde-cero.html prescribe comandos de instalación desde PyPI con oracle-factory==0.1.0a16 sin advertir que aún no está publicada",
+      "explanation": "En site/desde-cero.html (líneas 19-23), el Paso 01 indica instalar el kit con: 'uv tool install --python 3.13 --with-executables-from ... oracle-factory==0.1.0a16' y 'uv tool install --python 3.13 oracle-factory==0.1.0a16'. A diferencia de README.md (que advierte: 'Los comandos de instalación desde PyPI que siguen se podrán usar cuando se publique esta versión'), el paso a paso ejecutable de la guía no incluye esa advertencia en el bloque de código, induciendo a error al lector que intente reproducir la instalación antes de la publicación remota.",
+      "location": {
+        "file": "site/desde-cero.html",
+        "start_line": 19,
+        "end_line": 23,
+        "side": "head"
+      },
+      "trigger": "Ejecución del comando del Paso 01 en site/desde-cero.html en un entorno sin wheel local.",
+      "evidence": "site/desde-cero.html:20: 'uv tool install --python 3.13 --with-executables-from oracle-metalenguaje,oracle-task,oracle-clue oracle-factory==0.1.0a16' frente a README.md:28-29.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Ejecutar el comando de instalación de site/desde-cero.html:20 sin acceso a un wheel preconstruido; el comando falla porque 0.1.0a16 no existe en PyPI."
+    },
+    {
+      "id": "H08",
+      "kind": "discrepancia_con_spec",
+      "severity": "informativa",
+      "confidence": 0.85,
+      "title": "Badges de versión en site/colaboracion.html y site/modos.html omiten la condición de 'en preparación'",
+      "explanation": "En site/colaboracion.html:6 y site/modos.html:6, el badge de encabezado indica '<span>Factory 0.1.0a16</span>' sin la aclaración '(en preparación)' que sí se incorporó en docs/colaboracion.md:5 ('Factory 0.1.0a16 (en preparación)'), site/index.html:96 ('PREPARACIÓN 0.1.0a16') y NOTAS-DE-RELEASE.md:1.",
+      "location": {
+        "file": "site/colaboracion.html",
+        "start_line": 6,
+        "end_line": 6,
+        "side": "head"
+      },
+      "trigger": "Visualización de las páginas de guías en site/.",
+      "evidence": "site/colaboracion.html:6: '<div class=\"guide-badges\"><span>Factory 0.1.0a16</span>...</div>'.",
+      "related_requirement": "la_version_a16_es_coherente_y_declara_su_estado",
+      "status": "pendiente",
+      "verification": "Comparar el badge de site/colaboracion.html:6 con el texto de docs/colaboracion.md:5."
+    }
+  ]
+}
