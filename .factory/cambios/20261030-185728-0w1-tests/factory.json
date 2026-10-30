@@ -2,10 +2,20 @@
   "id": "20261030-185728-0w1-tests",
   "titulo": "Tests unitarios como práctica del desarrollo: el paso de escribirlos primero",
   "capacidad": "desarrollo",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "bc7325e685b68d6e792f9105c6b277963196af8351a2a15ca81f38c8caf2fe19",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T18:58:18.074097+00:00",
+    "documentos": {
+      "openspec/changes/20261030-185728-0w1-tests/proposal.md": "ef3b6f63dea074fe7c2744f7cd3b63bc55a5015b677b212137c27e79de0400a5",
+      "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md": "bc7325e685b68d6e792f9105c6b277963196af8351a2a15ca81f38c8caf2fe19"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-30T18:57:28.932142+00:00",
       "capacidad": "desarrollo"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T18:58:18.074121+00:00",
+      "documentos": {
+        "openspec/changes/20261030-185728-0w1-tests/proposal.md": "ef3b6f63dea074fe7c2744f7cd3b63bc55a5015b677b212137c27e79de0400a5",
+        "openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md": "bc7325e685b68d6e792f9105c6b277963196af8351a2a15ca81f38c8caf2fe19"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
