@@ -52,7 +52,7 @@ wheels = [
 
 [[package]]
 name = "oracle-factory"
-version = "0.1.0a15"
+version = "0.1.0a16"
 source = { editable = "." }
 dependencies = [
     { name = "oracle-clue" },

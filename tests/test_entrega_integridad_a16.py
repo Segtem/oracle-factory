@@ -4,12 +4,12 @@ from copy import deepcopy
 from types import SimpleNamespace
 import unittest
 
-from tools import verify_entrega_a15 as sensor
+from tools import verify_entrega_a16 as sensor
 
 
 class IntegridadEntrega(unittest.TestCase):
     def test_mutaciones_exigen_identidades_y_fuentes_actuales(self):
-        from tools.mutar_entrega_a15 import MUTACIONES, CASOS
+        from tools.mutar_entrega_a16 import MUTACIONES, CASOS
         fuentes = {'head': 'abc', 'sha256': {'a': '1'}}
         filas = [{'id': m[0], 'detectada': True, 'codigo': 1} for m in MUTACIONES]
         datos = {'fuentes': fuentes, 'mutaciones': filas, 'todas_detectadas': True,

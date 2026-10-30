@@ -1,3 +1,12 @@
+# Oracle Factory 0.1.0a16 (en preparación)
+
+- **Procedencia de las dependencias.** `oracle-factory procedencia ID` guarda en el candidato un inventario CycloneDX de las dependencias de Python (del `uv.lock`, con origen y hashes, y de lo instalado); `--buscar` dice qué cambios y candidatos usaron una dependencia y `--auditar --avisos` los cruza con un archivo de avisos OSV. Reconoce las versiones corregidas por Lightwell (sufijo `rhlw`).
+- **Avisos de OSV.dev, con tu permiso.** `procedencia --consultar-osv --red` baja de OSV.dev los avisos de las dependencias de los inventarios guardados, los guarda en `.factory/local/` y audita. Sin `--red` no se conecta; sólo salen nombre, versión y ecosistema, y un fallo nunca se lee como «sin afectados».
+- **El `uv.lock` de Factory viaja con el repositorio** y una prueba exige que coincida con `pyproject.toml`; un paquete del lock que el entorno no instala se marca y no invalida el inventario.
+- **El código de la CLI, en módulos.** `cli.py` se repartió en `parser`, `flujo_revision`, `flujo_medidas` y `lecturas` para alejarlo del límite de tamaño de la revisión; los comandos y su ayuda no cambian.
+- **Textos al día.** Las notas y las guías declaran publicada la 0.1.0a15.
+- Factory usa Oracle 0.39.0, Oracle Task 0.2.0 y Oracle Clue 0.1.0a2. Python >=3.11. Verificado en Linux. La extensión de VS Code sigue en 0.5.0 y se arma con `python3 editores/vscode/empaquetar.py`.
+
 # Oracle Factory 0.1.0a15
 
 - **El tablero dice qué hacer.** Cada cambio muestra «Qué falta» con una frase en lenguaje común y quién lo hace (vos o un agente); cuando lo que sigue lo corre un agente, dice «Ahora no te toca nada». Si el cambio lo tiene otra persona, la decisión se rotula «LA DECIDE ANA» en vez de «TE NECESITA», y «Actividad reciente» lista los últimos diez eventos de los cambios abiertos. `oracle-factory tablero --json` suma `yo`, `faltan` y `actividad`.
