@@ -2,10 +2,20 @@
   "id": "20261030-171836-7e4-publicadaa16",
   "titulo": "Declarar publicada la 0.1.0a16 en las notas y los textos",
   "capacidad": "distribucion",
-  "fase": "espera_aprobacion_spec",
+  "fase": "spec_aprobada",
   "spec": "openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md",
-  "spec_sha256": null,
-  "spec_aprobada": null,
+  "spec_sha256": "828edece8cfec69dd982ae0b6b7bdf20b7077c0bccb19e24a8989e6fb7468858",
+  "spec_aprobada": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T17:19:24.171997+00:00",
+    "documentos": {
+      "openspec/changes/20261030-171836-7e4-publicadaa16/proposal.md": "b54cc2002b730d016f9fa6e069a4e84e5f299d69b6c51d16051c0d47ba7c9758",
+      "openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md": "828edece8cfec69dd982ae0b6b7bdf20b7077c0bccb19e24a8989e6fb7468858"
+    }
+  },
   "requisitos": [],
   "revision": null,
   "oracle": null,
@@ -19,6 +29,19 @@
       "forma": "decidio",
       "cuando": "2026-10-30T17:18:36.972110+00:00",
       "capacidad": "distribucion"
+    },
+    {
+      "accion": "spec_aprobada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T17:19:24.172024+00:00",
+      "documentos": {
+        "openspec/changes/20261030-171836-7e4-publicadaa16/proposal.md": "b54cc2002b730d016f9fa6e069a4e84e5f299d69b6c51d16051c0d47ba7c9758",
+        "openspec/changes/20261030-171836-7e4-publicadaa16/specs/distribucion/spec.md": "828edece8cfec69dd982ae0b6b7bdf20b7077c0bccb19e24a8989e6fb7468858"
+      }
     }
-  ]
+  ],
+  "tipos": {}
 }
