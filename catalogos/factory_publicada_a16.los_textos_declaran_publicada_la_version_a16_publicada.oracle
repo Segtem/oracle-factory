@@ -1,0 +1,8 @@
+medida factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada:
+    de publicada_a16_caso c
+    donde c.requisito == "los_textos_declaran_publicada_la_version_a16_publicada" y c.codigo == 0
+    resumen contar(1)
+    umbral == 4 segun contrato porque "deben pasar los 4 casos enumerados para este requisito en tools/verify_publicada_a16.py; asociar junto a corrida_completa"
+    requiere publicada_a16_caso
+    ambito universal
+    alcance "escenarios pa1 sobre los textos del repositorio y copias temporales, Linux"

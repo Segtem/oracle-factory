@@ -89,6 +89,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
 - [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (cerrada)
 - [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (cerrada)
+- [[cambios/20261030-171836-7e4-publicadaa16]] — Declarar publicada la 0.1.0a16 en las notas y los textos (cerrada)
 
 ## Requisitos
 
@@ -191,6 +192,8 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/distribucion_c753ee76bc96b08b2.la_version_a15_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribucion_c9b5b7b98ede93100.los_textos_declaran_publicada_la_version_publicada]]
 - [[requisitos/distribucion_c9b5b7b98ede93100.un_texto_en_preparacion_de_una_version_publicada_se_detecta]]
+- [[requisitos/distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada]]
+- [[requisitos/distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta]]
 - [[requisitos/distribution_c01af4be8811ed3bb.conservar_el_flujo_humano_instalado]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.entregar_artefactos_verificables]] (ya no vigente)
 - [[requisitos/distribution_c01af4be8811ed3bb.instalar_y_seleccionar_proyecto]] (ya no vigente)

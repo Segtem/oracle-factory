@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a16/.factory/local/revisiones/6416c61-agy2-1",
+  "base": "ecbea35b1a05bc697898c082c97a875d8b39a076",
+  "head": "6416c61c7dc408a478aab4329fbaa2200604f8cf",
+  "diff_sha256": "1162ef37fe0675158016562be3f2ed9a58e6f75cbc8c643d06f281fd2a02ee2a",
+  "context_sha256": "7672688d87153e4608a2f01a7cfe5f0a00b0ab987c8da9f4c61f095df1008c7e",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se verificó la publicación efectiva de la versión 0.1.0a16 en PyPI (artefactos wheel y sdist con sus respectivos SHA-256) mediante la API JSON pública de PyPI (https://pypi.org/pypi/oracle-factory/json).",
+    "Se verificó en GitHub el tag v0.1.0a16 y la release correspondiente (marcada como pre-release) comprobando que contiene los mismos activos con idénticos SHA-256 mediante 'gh release view v0.1.0a16 -R segtem/oracle-factory'.",
+    "Se ejecutaron las suites de pruebas unitarias relevantes con el intérprete del entorno virtual principal (/home/workstation/Dev/factory-publicada-a16/.venv/bin/python) en modo sin generación de bytecode (-B / PYTHONDONTWRITEBYTECODE=1) sobre el checkout de sólo lectura: tests.test_publicada_a16 (9 pruebas, todas exitosas), tests.test_entrega_a16 (8 pruebas, todas exitosas), tests.test_docs (2 pruebas, todas exitosas) y tests.test_uv_lock (16 pruebas, todas exitosas).",
+    "Se ejecutó la prueba de la web en Node.js ('node tests/test_web_guias.cjs comparar_con_la_version_anterior') validando la sincronización de tests/datos/guias-texto.json con site/desde-cero.html.",
+    "Se ejecutaron análisis dinámicos de mutación en árboles temporales aislados: 8 mutaciones sobre ea1 (de tools/mutar_entrega_a16.py) y 7 mutaciones sobre pa1/pa2 (NOTAS-DE-RELEASE.md, README.md, site/desde-cero.html, site/index.html), resultando todas detectadas (0 supervivientes).",
+    "Se verificó mediante análisis estático que ningún texto de la documentación (README.md, docs/, site/) mantiene frases de 0.1.0a16 como versión en preparación o candidata, y que el historial de versiones anteriores (0.1.0a15, 0.1.0a14, 0.1.0a13, 0.1.0a12) en NOTAS-DE-RELEASE.md y README.md se conservó intacto.",
+    "Se verificó la coherencia exacta entre los casos de contrato en tools/verify_publicada_a16.py (4 para requisito 1, 5 para requisito 2; 9 en total), los catálogos en catalogos/factory_publicada_a16.*.oracle y las definiciones en requisitos/*.requisito.",
+    "No se ejecutó la suite completa de pruebas del repositorio para preservar el estado limpio y de sólo lectura del checkout de revisión."
+  ]
+}

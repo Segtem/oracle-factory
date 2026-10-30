@@ -1,0 +1,7 @@
+{
+  "schema_version": "oracle-factory.decisiones-revision/v1",
+  "informe_sha256": "987b35f9cbaeb8cd3ad9ff8613930310aea0e21e6d777e03b192368310c2be3d",
+  "actor": "Brian Hollweg",
+  "motivo": "agy y agy2 revisaron el candidato 6416c61 sin hallazgos; 773 pruebas, 9 casos de contrato y 35/35 mutaciones detectadas; los textos declaran publicada la 0.1.0a16 (PyPI, tag y release verificados).",
+  "decisiones": []
+}

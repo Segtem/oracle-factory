@@ -1,0 +1,24 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-publicada-a16/.factory/local/revisiones/6416c61-agy-1",
+  "base": "ecbea35b1a05bc697898c082c97a875d8b39a076",
+  "head": "6416c61c7dc408a478aab4329fbaa2200604f8cf",
+  "diff_sha256": "1162ef37fe0675158016562be3f2ed9a58e6f75cbc8c643d06f281fd2a02ee2a",
+  "context_sha256": "08975be6f041a2c855ee0a6dcffc854f1bd76a7c11ce9231567c430630572c77",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Ejecución de la suite completa de pruebas: se ejecutó en primer plano '.venv/bin/python -B -m unittest discover -s tests </dev/null' sobre el candidato 6416c61, completando 227 pruebas exitosas (1 omitida por diseño, 0 fallos).",
+    "Pruebas unitarias específicas: se ejecutaron las suites directamente involucradas en el cambio: 'tests/test_publicada_a16.py' (9 pruebas de los escenarios pa1–pa2), 'tests/test_entrega_a16.py' (8 pruebas de estado y comprobación de distribución) y 'tests/test_docs.py' (2 pruebas de consistencia de documentación y versiones contra la CLI y pyproject.toml), todas resultando exitosas.",
+    "Comprobación Playwright de guías web: se ejecutó 'node tests/test_web_guias.cjs' sobre los escenarios 'comparar_con_la_version_anterior', 'recorrer_cada_guia' y 'movimiento_reducido_y_pantalla_chica' con Chromium en Linux, verificando que los textos congelados en 'tests/datos/guias-texto.json' coinciden exactamente con 'site/desde-cero.html' y que no hay desbordes visuales ni roturas de animación.",
+    "Consistencia de dependencias: se verificó 'uv lock --check' confirmando que 'uv.lock' y 'pyproject.toml' están estrictamente sincronizados en la versión 0.1.0a16.",
+    "Juicio de Oracle: se evaluó la evidencia con 'oracle juzgar --parcial --con .../evidencia/hechos.json', obteniendo veredicto verde en las tres medidas del contrato: 'factory_publicada_a16.corrida_completa' (1 == 1, 9 casos), 'factory_publicada_a16.los_textos_declaran_publicada_la_version_a16_publicada' (4 == 4) y 'factory_publicada_a16.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta' (5 == 5).",
+    "Banco de mutaciones controladas: se ejecutó un banco de 11 mutaciones sobre copias aisladas en el espacio de trabajo del revisor. Las mutaciones que reintroducían 'en preparación' en notas, README, colaboracion.md, desde-cero.html o index.html, las que eliminaban la viñeta de publicación, alteraban el tag v0.1.0a16, o mutilaban el historial de versiones previas (0.1.0a15) fueron detectadas de inmediato por test_publicada_a16 y test_docs. La desincronización de guias-texto.json fue detectada por test_web_guias.cjs.",
+    "Inspección de textos y trazabilidad: se verificó exhaustivamente en todos los archivos rastreados por Git la ausencia de menciones obsoletas que califiquen a la 0.1.0a16 como 'en preparación' o 'candidata', o que prometan instalación a futuro. Se comprobó la presencia y correspondencia del tag 'v0.1.0a16' en Git apuntando al commit base ecbea35b1. Se verificó que las secciones históricas (0.1.0a15 hasta 0.1.0a1) en NOTAS-DE-RELEASE.md y README.md se conservan intactas en orden cronológico inverso.",
+    "Límites de conectividad y entorno: no se realizaron consultas remotas a la red durante la revisión (PyPI ni GitHub); la veracidad de la publicación en PyPI se contrastó con las notas, el tag local v0.1.0a16 y la evidencia de distribución previa. El checkout de revisión se mantuvo estrictamente en modo sólo lectura sin modificaciones ni commits."
+  ],
+  "findings": []
+}

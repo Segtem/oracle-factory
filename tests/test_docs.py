@@ -97,7 +97,7 @@ class Docs(unittest.TestCase):
         self.assertIn('site/modos.html: nombra «oracle-factory fantasma», que no es un subcomando', lista)  # el texto sin etiquetas
         # Otra versión de Factory (no la de Clue, ni la del historial), en el README y en una página de la web.
         tmp = self.copia()
-        self.cambiar(tmp, 'README.md', 'Candidato en preparación `oracle-factory==0.1.0a16`,', 'Candidato en preparación `oracle-factory==0.1.0a9`,')
+        self.cambiar(tmp, 'README.md', 'oracle-factory==0.1.0a16`. Con', 'oracle-factory==0.1.0a9`. Con')
         self.cambiar(tmp, 'site/desde-cero.html', 'Usá la 0.1.0a16', 'Usá la 0.1.0a7')
         lista = docs_al_dia.problemas(tmp)
         self.assertIn('README.md: nombra la versión 0.1.0a9; la de pyproject.toml es 0.1.0a16', lista)
@@ -122,11 +122,11 @@ class Docs(unittest.TestCase):
         for version in ('0.1.0', '0.2.0', '1.0.0', '2.0.0rc1'):
             with self.subTest(version=version):
                 tmp = self.copia()
-                self.cambiar(tmp, 'README.md', 'Candidato en preparación `oracle-factory==0.1.0a16`,', f'Candidato en preparación `oracle-factory=={version}`,')
+                self.cambiar(tmp, 'README.md', 'oracle-factory==0.1.0a16`. Con', f'oracle-factory=={version}`. Con')
                 self.assertIn(f'README.md: nombra la versión {version}; la de pyproject.toml es 0.1.0a16', docs_al_dia.problemas(tmp))
         tmp = self.copia()
         self.cambiar(tmp, 'pyproject.toml', 'version = "0.1.0a16"', 'version = "0.2.0"')
-        self.cambiar(tmp, 'README.md', 'Candidato en preparación `oracle-factory==0.1.0a16`,', 'Candidato en preparación `oracle-factory==0.3.0`,')
+        self.cambiar(tmp, 'README.md', 'oracle-factory==0.1.0a16`. Con', 'oracle-factory==0.3.0`. Con')
         self.assertIn('README.md: nombra la versión 0.3.0; la de pyproject.toml es 0.2.0', docs_al_dia.problemas(tmp))
         # Un nombre corto, con mayúsculas o con opciones globales válidas no debe escaparse.
         for comando, nombre in (('X', 'X'), ('x', 'x'), ('v2', 'v2'), ('test_cmd', 'test_cmd'),
