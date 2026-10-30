@@ -99,7 +99,8 @@ el resultado dice qué cambios y candidatos usaron una versión afectada. Es lo 
   por Lightwell se consulta sin su sufijo. Nunca salen rutas, identificadores de cambio ni contenido del repositorio.
 - Un fallo (sin conexión, error HTTP, respuesta que no es JSON o un aviso que no es OSV válido) termina con error y no guarda nada:
   nunca se lee como «sin afectados». Un archivo de avisos anterior no se toca.
-- `--salida` tiene que quedar dentro del proyecto y ninguna carpeta de su camino puede ser un enlace simbólico; un archivo de sólo lectura no se reemplaza.
+- `--salida` es una ruta del proyecto (una relativa se cuenta desde su raíz, no desde la carpeta donde estés), no admite `..` y ninguna carpeta de
+  su camino puede ser un enlace simbólico; un archivo de sólo lectura no se reemplaza.
 - Si OSV no declara avisos para ninguna dependencia, lo dice y no guarda archivo.
 - Los avisos guardados se pueden volver a auditar sin red con `--auditar --avisos .factory/local/avisos-osv.json`.
 

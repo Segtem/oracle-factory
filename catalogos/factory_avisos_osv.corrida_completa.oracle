@@ -1,6 +1,6 @@
 medida factory_avisos_osv.corrida_completa:
     de avisos_osv_corrida c
-    donde c.completa == 1 y c.casos == 41
+    donde c.completa == 1 y c.casos == 45
     resumen contar(1)
     umbral == 1 segun contrato porque "el sensor exige los casos exactos sin omisiones, duplicados ni fallas y fuentes estables"
     requiere avisos_osv_corrida

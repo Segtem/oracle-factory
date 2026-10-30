@@ -377,6 +377,65 @@ class UnFalloNoEsLimpio(Osv):
         self.assertEqual(list(fuera.iterdir()), [])
         self.assertEqual(s.pedidos, [])
 
+    def test_ao3_un_punto_punto_despues_de_un_enlace_no_esconde_el_enlace(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        fuera = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, fuera, True)
+        (fuera / 'dentro').mkdir()
+        (self.root / 'enlace').symlink_to(fuera / 'dentro')
+        for salida in ('enlace/../avisos.json', str(self.root / 'enlace' / '..' / 'avisos.json'), 'otro/../avisos.json'):
+            with self.subTest(salida=salida):
+                self.falla(s, 'sin «..»', salida=salida)
+        self.assertEqual(list(fuera.iterdir()), [fuera / 'dentro'])
+        self.assertEqual(list((fuera / 'dentro').iterdir()), [])
+        self.assertEqual(s.pedidos, [])
+
+    def test_ao2_una_salida_relativa_es_del_proyecto_aunque_se_corra_desde_otra_carpeta(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        otra = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, otra, True)
+        anterior = os.getcwd()
+        os.chdir(otra)
+        self.addCleanup(os.chdir, anterior)
+        for salida in ('avisos.json', 'sub/avisos.json'):
+            with self.subTest(salida=salida):
+                texto = self.correr(s, salida=salida)
+                self.assertTrue((self.root / salida).is_file())
+                self.assertIn('GHSA-aaaa: alfa 1.2.3', texto)
+        datos = json.loads(self.correr(s, salida='en_json.json', json=True))
+        self.assertEqual(len(datos['afectados']), 1)  # la auditoría lee el archivo del proyecto, no uno del directorio actual
+        self.assertEqual(list(otra.iterdir()), [])
+
+    def test_ao3_una_salida_relativa_que_es_carpeta_o_enlace_se_rechaza_desde_otra_carpeta(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        (self.root / 'carpeta').mkdir()
+        (self.root / 'enlace.json').symlink_to(self.root / 'destino.json')
+        otra = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, otra, True)
+        anterior = os.getcwd()
+        os.chdir(otra)
+        self.addCleanup(os.chdir, anterior)
+        for salida, texto in (('carpeta', 'no escribo'), ('enlace.json', 'enlaces simbólicos')):
+            with self.subTest(salida=salida):
+                self.falla(s, texto, salida=salida)
+        self.assertFalse((self.root / 'destino.json').exists())
+        self.assertEqual(s.pedidos, [])
+
+    def test_ao2_la_salida_por_omision_tambien_es_del_proyecto_aunque_se_corra_desde_otra_carpeta(self):
+        self.guarda()
+        s = self.servicio(avisos=[aviso()], por_dependencia={('alfa', '1.2.3'): ['GHSA-aaaa']})
+        otra = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, otra, True)
+        anterior = os.getcwd()
+        os.chdir(otra)
+        self.addCleanup(os.chdir, anterior)
+        self.correr(s)
+        self.assertEqual(self.local(), ['avisos-osv.json'])
+        self.assertEqual(list(otra.iterdir()), [])
+
     def test_ao3_la_url_invalida_se_rechaza_antes_de_leer_los_inventarios(self):
         s = self.servicio()  # sin inventarios guardados: si se leyeran primero, el error sería otro
         self.falla(s, 'http o https', osv_url='ftp://x')

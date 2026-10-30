@@ -102,14 +102,14 @@ def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
     inventarios = proc.guardados(raiz)
     if not inventarios:
         raise proc.ProcedenciaError("no hay inventarios de procedencia guardados: nada que consultar (guardá uno con «procedencia ID»)")
-    ruta = Path(salida) if salida else raiz / SALIDA
-    absoluta = Path(os.path.normpath(ruta.absolute()))
-    if not absoluta.is_relative_to(raiz):
-        raise proc.ProcedenciaError(f"--salida tiene que quedar dentro del proyecto: {ruta}")
+    ruta = Path(salida) if salida else SALIDA
+    absoluta = ruta if ruta.is_absolute() else raiz / ruta  # una ruta relativa es del proyecto, no del directorio actual
+    if ".." in ruta.parts or not absoluta.is_relative_to(raiz):  # sin «..»: normalizarla a ciegas esconde enlaces
+        raise proc.ProcedenciaError(f"--salida tiene que quedar dentro del proyecto, sin «..»: {ruta}")
     proc.sin_enlaces(raiz, absoluta)  # ningún directorio del camino es un enlace
-    if ruta.is_symlink() or ruta.is_dir():
+    if absoluta.is_symlink() or absoluta.is_dir():
         raise proc.ProcedenciaError(f"no escribo los avisos en {ruta}")
-    if ruta.exists() and not os.access(ruta, os.W_OK):
+    if absoluta.exists() and not os.access(absoluta, os.W_OK):
         raise proc.ProcedenciaError(f"{ruta} es de sólo lectura; no lo modifico")  # el reemplazo atómico saltearía la protección
     consultadas = pares(inventarios)
     if not consultadas:
@@ -121,9 +121,9 @@ def informe(raiz: Path, base: str, salida: str | None, como_json: bool) -> str:
                                "corregidos": [], "sin_comparar": []}, ensure_ascii=False, indent=2) + "\n"
         return (f"Consulta a OSV: {len(consultadas)} dependencia(s) distinta(s) de {len(inventarios)} inventario(s); "
                 "OSV no declara avisos para ellas: no hay candidatos expuestos.\n")
-    guardar(ruta, lista)
-    cabecera = f"Consulta a OSV: {len(consultadas)} dependencia(s) distinta(s); {len(lista)} aviso(s) guardado(s) en {ruta}.\n"
+    guardar(absoluta, lista)
+    cabecera = f"Consulta a OSV: {len(consultadas)} dependencia(s) distinta(s); {len(lista)} aviso(s) guardado(s) en {absoluta}.\n"
     if como_json:
-        auditoria = json.loads(proc.informe_auditar(raiz, str(ruta), True))
+        auditoria = json.loads(proc.informe_auditar(raiz, str(absoluta), True))
         return json.dumps({**auditoria, "dependencias": len(consultadas)}, ensure_ascii=False, indent=2) + "\n"
-    return cabecera + proc.informe_auditar(raiz, str(ruta), False)
+    return cabecera + proc.informe_auditar(raiz, str(absoluta), False)

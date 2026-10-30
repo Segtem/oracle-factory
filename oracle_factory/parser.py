@@ -93,7 +93,7 @@ def construir_parser() -> argparse.ArgumentParser:
     q.add_argument('--avisos', metavar='ARCHIVO', help='archivo de avisos en formato OSV, para --auditar')
     q.add_argument('--consultar-osv', action='store_true', help='bajar de OSV.dev los avisos de las dependencias de los inventarios guardados y auditar (necesita --red)')
     q.add_argument('--red', action='store_true', help='autorizar la conexión a OSV.dev (sale sólo nombre, versión y ecosistema de cada dependencia)')
-    q.add_argument('--salida', metavar='ARCHIVO', help='dónde guardar los avisos de --consultar-osv, dentro del proyecto (por defecto .factory/local/avisos-osv.json)')
+    q.add_argument('--salida', metavar='ARCHIVO', help='dónde guardar los avisos de --consultar-osv, dentro del proyecto, sin «..» (por defecto .factory/local/avisos-osv.json)')
     q.add_argument('--osv-url', metavar='URL', default='https://api.osv.dev', help=argparse.SUPPRESS)
     q = sub.add_parser('buscar', help='buscar un texto en propuestas, specs, requisitos, tareas y registros (sólo lectura)')
     q.add_argument('texto'); q.add_argument('--max', type=int, default=200, dest='maximo', help='máximo de líneas a mostrar')

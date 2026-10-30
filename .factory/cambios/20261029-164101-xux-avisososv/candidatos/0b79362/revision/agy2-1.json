@@ -1,0 +1,79 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/0b79362-agy2-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "0b79362db6a190f6e9ca5703e9c16cac8a7be833",
+  "diff_sha256": "cc1114c9d14f307048f0a650436605136ec79c7328628f3d4c0885ce92583c4c",
+  "context_sha256": "9594a8b80ae1e6041f98943d89c9e922289ee88cbd8b56c6a8497cdb3125c625",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica realizada sobre el diff del candidato 0b79362 en entorno local aislado.",
+    "Las consultas de red a OSV se evaluaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); no se realizaron peticiones externas hacia api.osv.dev en internet.",
+    "Se ejecutaron las 41 pruebas unitarias del cambio (tests/test_avisos_osv.py), la suite completa de Factory (764 pruebas) y el sensor de evidencia (tools/verify_avisos_osv.py).",
+    "Se implementó un arnés de mutaciones manuales (9 mutaciones) sobre copias de oracle_factory/osv.py para medir la sensibilidad de la suite de pruebas y evaluar qué mutaciones sobreviven.",
+    "Se excluyeron de la revisión los 23 archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue."
+  ],
+  "findings": [
+    {
+      "id": "AO3-01",
+      "kind": "seguridad",
+      "severity": "alta",
+      "confidence": 1.0,
+      "title": "Evasión de validación de symlinks y escritura arbitraria en --salida mediante componentes «..» sobre enlaces simbólicos",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 106,
+        "end_line": 111,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "En oracle_factory/osv.py (líneas 106-111 y 124), la verificación de enlaces simbólicos para la ruta especificada en --salida aplica os.path.normpath sobre ruta.absolute() antes de comprobar enlaces y posteriormente utiliza la ruta no normalizada para persistir el archivo. Esta implementación presenta dos vulnerabilidades críticas encadenadas:\n1) Evasión de la comprobación previa a la conexión: os.path.normpath realiza una simplificación puramente sintáctica sobre la cadena de texto, colapsando cualquier segmento 'directorio/..' sin verificar el sistema de archivos real. Si --salida contiene un enlace simbólico seguido de un componente '..' (por ejemplo, --salida enlace/../avisos.json donde enlace es un symlink a un directorio fuera del repositorio), normpath elimina el componente enlace de absoluta. En consecuencia, proc.sin_enlaces(raiz, absoluta) inspecciona una ruta donde el symlink ya no figura, y absoluta.is_relative_to(raiz) evalúa como True. El comando procede de inmediato a emitir peticiones de red hacia el servidor OSV. Si OSV no reporta avisos para las dependencias, el comando termina con código 0 e informa que no hay candidatos expuestos, omitiendo por completo el rechazo de la salida con symlinks y abriendo conexiones no autorizadas.\n2) Escritura de archivos fuera del repositorio a través de symlinks: si el servidor reporta avisos, la función guardar(ruta, lista) recibe ruta (la ruta original no normalizada que preserva el componente enlace/..) en lugar de absoluta. En sistemas de archivos POSIX, el kernel resuelve el enlace simbólico hacia su destino externo y luego aplica '..', por lo que guardar() crea el archivo temporal y lo reemplaza con os.replace fuera del árbol del repositorio. Aunque la posterior llamada a proc.informe_auditar(raiz, str(ruta), ...) detecta tardíamente el enlace y levanta ProcedenciaError, para entonces las consultas a la red ya se ejecutaron y el archivo ya fue escrito en una ubicación arbitraria fuera del proyecto.",
+      "trigger": "Configurar un enlace simbólico dentro del proyecto apuntando hacia un directorio externo (por ejemplo raiz/enlace -> /tmp/fuera/sub) y ejecutar: oracle-factory procedencia --consultar-osv --red --salida enlace/../avisos.json.",
+      "evidence": "Comprobado dinámicamente con un servidor HTTP local simulado:\na) Con dependencias sin avisos: osv.informe(raiz, url, str(raiz / 'enlace' / '..' / 'avisos.json'), False) emite peticiones a querybatch, no levanta excepción y finaliza exitosamente con código 0.\nb) Con dependencias afectadas: el comando emite peticiones hacia querybatch y vulns, y guardar() crea exitosamente el archivo avisos.json en /tmp/fuera/avisos.json a través del enlace simbólico antes de fallar tardíamente durante la auditoría.",
+      "verification": "No emplear normpath para suprimir segmentos '..' antes de auditar los componentes de la ruta en el sistema de archivos; validar que cada uno de los componentes de la ruta física y sus ancestros reales no sean enlaces simbólicos antes de iniciar la conexión de red, y asegurar que guardar() nunca opere sobre rutas no normalizadas ni fuera del proyecto. Agregar casos en tests/test_avisos_osv.py que incluyan rutas con '..' tras un enlace simbólico.",
+      "status": "pendiente"
+    },
+    {
+      "id": "AO3-02",
+      "kind": "bug",
+      "severity": "media",
+      "confidence": 1.0,
+      "title": "Resolución errónea de rutas relativas en --salida respecto a cwd en lugar de la raíz del proyecto",
+      "location": {
+        "file": "oracle_factory/osv.py",
+        "start_line": 105,
+        "end_line": 108,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados",
+      "explanation": "En oracle_factory/osv.py (líneas 105-108), cuando --salida no es None, se define ruta = Path(salida). Al no cualificarlo contra raiz, Path(salida).absolute() resuelve la ruta relativa respecto del directorio de trabajo actual del proceso (os.getcwd()) y no respecto a raiz (el directorio raíz del proyecto):\n1) Si un usuario o herramienta invoca oracle-factory con la opción global --proyecto /ruta/repo desde un directorio de trabajo externo (por ejemplo desde /tmp o su home) y especifica una ruta relativa dentro del proyecto, como la ruta por defecto --salida .factory/local/avisos-osv.json o --salida avisos.json, ruta.absolute() se resuelve en /tmp/.factory/local/avisos-osv.json. Al comprobar if not absoluta.is_relative_to(raiz), la condición falla y el comando aborta con «ProcedenciaError: --salida tiene que quedar dentro del proyecto: .factory/local/avisos-osv.json», impidiendo usar rutas relativas en --salida al operar con --proyecto.\n2) Si se ejecuta el comando desde un subdirectorio del proyecto (como tests/), una ruta relativa como --salida avisos.json se resuelve y se guarda dentro de tests/avisos.json en lugar de la raíz del proyecto. Esto contrasta con otros comandos de Factory (como oracle-factory resumen --salida), que anclan explícitamente las rutas relativas a la raíz del proyecto (ROOT / salida).",
+      "trigger": "Situar la terminal en un directorio externo al repositorio (por ejemplo cd /tmp) y ejecutar: oracle-factory --proyecto /ruta/al/proyecto procedencia --consultar-osv --red --salida .factory/local/avisos-osv.json.",
+      "evidence": "Al ejecutar osv.informe(raiz, url, '.factory/local/avisos-osv.json', False) habiendo cambiado previamente os.chdir() a un directorio fuera de raiz, la llamada falló con «ProcedenciaError: --salida tiene que quedar dentro del proyecto: .factory/local/avisos-osv.json». En cambio, al invocarlo con salida=None, ruta toma raiz / SALIDA y opera correctamente.",
+      "verification": "Resolver las rutas relativas de --salida explícitamente contra raiz (por ejemplo: ruta = (raiz / salida) if (salida and not Path(salida).is_absolute()) else (Path(salida) if salida else raiz / SALIDA)). Incorporar una prueba unitaria ejecutando informe() con rutas relativas cuando os.getcwd() difiere de raiz.",
+      "status": "pendiente"
+    },
+    {
+      "id": "AO3-03",
+      "kind": "discrepancia_con_spec",
+      "severity": "baja",
+      "confidence": 0.95,
+      "title": "Brecha de cobertura en la suite de pruebas unitarias sobre la variable de escritura en guardar() (mutación M9)",
+      "location": {
+        "file": "tests/test_avisos_osv.py",
+        "start_line": 355,
+        "end_line": 379,
+        "side": "head"
+      },
+      "related_requirement": "procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita",
+      "explanation": "Las pruebas test_ao3_una_salida_fuera_del_proyecto_se_rechaza_antes_de_conectar y test_ao3_una_salida_dentro_del_proyecto_con_un_ancestro_enlazado_se_rechaza añadidas en tests/test_avisos_osv.py sólo evalúan rutas estáticas o casos donde ruta y absoluta coinciden en valor.\nAl realizar el análisis sistemático de mutaciones en osv.py, la mutación M9 (reemplazar guardar(ruta, lista) por guardar(absoluta, lista)) sobrevivió pasando las 41 pruebas unitarias de la suite con éxito. Esta falta de aserciones sobre la concordancia entre la ruta validada y la ruta persistida impidió que la suite detectara la discrepancia que habilita el escape de symlinks reportado en AO3-01.",
+      "trigger": "Ejecutar la suite tests/test_avisos_osv.py sobre una versión de osv.py que persiste sobre absoluta en lugar de ruta, o que no valida rutas con '..' tras symlinks.",
+      "evidence": "La mutación M9 ejecutó los 41 tests de test_avisos_osv.py resultando en código de salida 0 sin detectar fallo alguno.",
+      "verification": "Extender test_ao3_una_salida_dentro_del_proyecto_con_un_ancestro_enlazado_se_rechaza para incluir rutas con segmentos '..' tras un enlace simbólico (e.g. self.root / 'enlace' / '..' / 'avisos.json'), verificando que se rechacen antes de abrir conexiones de red y sin crear archivos en ningún directorio.",
+      "status": "pendiente"
+    }
+  ]
+}
