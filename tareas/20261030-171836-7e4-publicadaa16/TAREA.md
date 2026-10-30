@@ -23,3 +23,11 @@ Medidas de distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_versi
 ### Nota (2026-10-30 17:22:22 UTC)
 
 Medidas de distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta: factory_publicada_a16.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta, factory_publicada_a16.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-30 17:24:08 UTC)
+
+Medidas de distribucion_ca0259b11065d4ec5.los_textos_declaran_publicada_la_version_a16_publicada: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-30 17:24:09 UTC)
+
+Medidas de distribucion_ca0259b11065d4ec5.un_texto_en_preparacion_de_la_version_a16_publicada_se_detecta: Brian Hollweg (persona, confirmo, modo confirmacion).
