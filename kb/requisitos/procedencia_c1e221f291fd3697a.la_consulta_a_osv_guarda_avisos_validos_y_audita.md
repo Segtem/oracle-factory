@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita`
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_avisos_osv.la_consulta_a_osv_guarda_avisos_validos_y_audita`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#la_consulta_a_osv_guarda_avisos_validos_y_audita
 

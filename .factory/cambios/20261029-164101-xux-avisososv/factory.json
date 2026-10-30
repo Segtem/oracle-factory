@@ -2,7 +2,7 @@
   "id": "20261029-164101-xux-avisososv",
   "titulo": "Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos",
   "capacidad": "procedencia",
-  "fase": "revision_aprobada",
+  "fase": "cerrada",
   "spec": "openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md",
   "spec_sha256": "b6a8b69ec36cadfa2f41a05f42f62a05a799651613298424826ea7f96571f34c",
   "spec_aprobada": {
@@ -42,7 +42,19 @@
       "archivos_sha256": "13641798538bd8e0002e1f0c4ea5db2e1730655a3f7bd3a68f3548bfce062437"
     }
   },
-  "oracle": null,
+  "oracle": {
+    "codigo": 0,
+    "codigo_oracle": 0,
+    "hechos": ".factory/cambios/20261029-164101-xux-avisososv/candidatos/28457d9/evidencia/hechos.json",
+    "hechos_sha256": "635e06b6fe4462edfc3a1ffc7bba5b2c67a245e0a6aa9e5d7003adfb584239e6",
+    "informe": ".factory/cambios/20261029-164101-xux-avisososv/oracle-veredicto.txt",
+    "informe_sha256": "9707d43ca8eb08d241fa40cb1cc75706375b72e6eac47786e85560fe8e52f69b",
+    "cuando": "2026-10-30T09:57:13.577726+00:00",
+    "contexto": {
+      "head": "39351d24b55d3062884f55e200bb53a1dfec4573",
+      "archivos_sha256": "13641798538bd8e0002e1f0c4ea5db2e1730655a3f7bd3a68f3548bfce062437"
+    }
+  },
   "modo": "confirmacion",
   "eventos": [
     {
@@ -625,6 +637,37 @@
       "abiertos": 0,
       "sha256": "5995b586131b7d6be0f28475aef0a9fd5b37471f2b09ba39399f2ca1c542272a",
       "decisiones_sha256": "65167f62949c28e496b79cf631f4dcfe6f096fa6ce9e3880bf35342b1260cdd6"
+    },
+    {
+      "accion": "oracle_ejecutado",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T09:57:13.577742+00:00",
+      "codigo": 0,
+      "codigo_oracle": 0,
+      "hechos_sha256": "635e06b6fe4462edfc3a1ffc7bba5b2c67a245e0a6aa9e5d7003adfb584239e6"
+    },
+    {
+      "accion": "cierre",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T09:59:08.498416+00:00",
+      "oracle": ".factory/cambios/20261029-164101-xux-avisososv/oracle-veredicto.txt",
+      "revision": "tareas/20261029-164101-xux-avisososv/revisiones/registro-9dqk0g72/informe.json"
+    },
+    {
+      "accion": "archivado",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-30T09:59:08.531491+00:00",
+      "capacidad": "procedencia",
+      "spec": "openspec/specs/procedencia/spec.md"
     }
   ],
   "tipos": {
@@ -683,5 +726,17 @@
     }
   },
   "medidas_pendientes": {},
-  "motivos_propuestos": {}
+  "motivos_propuestos": {},
+  "cierre": {
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "decidio",
+    "modo": "confirmacion",
+    "cuando": "2026-10-30T09:59:08.436885+00:00"
+  },
+  "archivo": {
+    "capacidad": "procedencia",
+    "spec": "openspec/specs/procedencia/spec.md",
+    "cuando": "2026-10-30T09:59:08.531481+00:00"
+  }
 }

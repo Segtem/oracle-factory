@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv`
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_avisos_osv.sin_autorizacion_de_red_no_se_consulta_osv`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#sin_autorizacion_de_red_no_se_consulta_osv
 

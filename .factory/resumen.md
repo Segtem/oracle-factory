@@ -1,9 +1,9 @@
-<!-- oracle-factory resumen sha256:dc897c180d5ba70d481567a92e1c9c4072b0ff1a1d72a2f1f08f71073ec521de -->
+<!-- oracle-factory resumen sha256:bc5b9f8b480ef6a45b80131f304095046d01d7d8251da1763004946bff778712 -->
 # Estado actual
 
 Generado por `oracle-factory resumen` a partir de los registros; no se edita a mano. `oracle-factory resumen --verificar` dice si quedó viejo.
 
-25 capacidades · 236 requisitos vigentes · 0 cambios abiertos
+25 capacidades · 239 requisitos vigentes · 0 cambios abiertos
 
 ## Lo vigente
 
@@ -308,6 +308,9 @@ Spec completa: [openspec/specs/procedencia/spec.md](../openspec/specs/procedenci
 | el_lock_de_factory_viaja_con_el_repositorio | funcional | `procedencia_cadae59b33b0c0b2c.el_lock_de_factory_viaja_con_el_repositorio` | factory_uv_lock.el_lock_de_factory_viaja_con_el_repositorio, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
 | el_lock_de_factory_coincide_con_su_pyproject | funcional | `procedencia_cadae59b33b0c0b2c.el_lock_de_factory_coincide_con_su_pyproject` | factory_uv_lock.el_lock_de_factory_coincide_con_su_pyproject, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
 | un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario | funcional | `procedencia_cadae59b33b0c0b2c.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario` | factory_uv_lock.un_paquete_que_el_entorno_no_instala_no_vuelve_no_confiable_el_inventario, factory_uv_lock.corrida_completa | verde al cerrar el 2026-10-29 | 20261028-235529-lhi-uvlock |
+| sin_autorizacion_de_red_no_se_consulta_osv | funcional | `procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_osv` | factory_avisos_osv.sin_autorizacion_de_red_no_se_consulta_osv, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
+| la_consulta_a_osv_guarda_avisos_validos_y_audita | funcional | `procedencia_c1e221f291fd3697a.la_consulta_a_osv_guarda_avisos_validos_y_audita` | factory_avisos_osv.la_consulta_a_osv_guarda_avisos_validos_y_audita, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
+| un_fallo_de_consulta_no_se_lee_como_sin_afectados | funcional | `procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados` | factory_avisos_osv.un_fallo_de_consulta_no_se_lee_como_sin_afectados, factory_avisos_osv.corrida_completa | verde al cerrar el 2026-10-30 | 20261029-164101-xux-avisososv |
 
 ### resumen
 
@@ -1294,6 +1297,19 @@ No se van a terminar; sus requisitos salieron de `requisitos/` y siguen en Git.
 - (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Se probó manualmente oracle-factory procedencia y procedencia --json con y sin entorno consultado, verificando el comportamiento prometido para factory:instalado (true, false para dependencias omitidas como typing-extensions, y ausente si no se consulta el entorno) y factory:confiable.
 - (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): No se ejecutó uv lock con acceso a red externa (fuera de alcance según proposal.md y políticas locales sin red). Se validó que uv.lock coincide estrictamente con pyproject.toml y que todas sus dependencias traen origen y hashes SHA-256.
 - (20261028-235529-lhi-uvlock) agy (gemini-3.8-flash-high): Revisión completa sin hallazgos: la implementación satisface los escenarios y requisitos de spec.md, no presenta regresiones y resuelve el hallazgo previo.
+- (20261029-164101-xux-avisososv) Evidencia: Escenarios ao1–ao3 contra un servidor OSV de mentira en 127.0.0.1: ninguna prueba toca la red. No se comprueba el comportamiento de api.osv.dev real (formato de sus respuestas, límites, caídas); el formato sigue la documentación de querybatch y vulns.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Revisión estática y dinámica exhaustiva sobre el diff del candidato 28457d9 en entorno local aislado.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Las interacciones de red a OSV se comprobaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); ninguna prueba accedió a internet ni a api.osv.dev en vivo.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py en 26.6s, exitoso), la suite de pruebas completa de Factory (768 pruebas en 337.5s, exitoso) y el generador de evidencia oficial (tools/verify_avisos_osv.py, exitoso con los 45 casos de contrato asociados a corrida_completa y trazabilidad).
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se verificaron minuciosamente los arreglos de las rondas anteriores (e9a0371, 7769b6b y 0b79362): normpath fue suprimido completamente, eliminando la vulnerabilidad de escape con '..' tras enlaces simbólicos; --salida prohíbe de forma estricta cualquier componente '..' en ruta.parts; las rutas relativas en --salida se anclan a la raíz del proyecto (ROOT / ruta); y tanto guardar() como la auditoría posterior operan sobre la ruta absoluta debidamente validada sin enlaces simbólicos ni atributos de sólo lectura.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se ejecutó una batería de mutaciones sistemáticas en memoria (20 mutaciones sobre oracle_factory/osv.py): 18 fueron eliminadas por la suite de pruebas. Las dos mutaciones que sobrevivieron fueron analizadas: M9 (usar ruta en vez de absoluta en el mensaje informativo de cabecera) no compromete la lógica de guardado ni auditoría; y M20 (omitir la verificación previa 'if not inventarios:') es inocua debido a la defensa en profundidad proporcionada por la comprobación posterior ('if not consultadas:'), que rechaza igualmente sin red con el mensaje 'nada que consultar'.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): No se detectaron defectos, regresiones de seguridad ni discrepancias con respecto a la propuesta y la spec. Findings vacía por ausencia de hallazgos abiertos.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Revisión estática y dinámica exhaustiva realizada sobre el diff completo del candidato 28457d9 en entorno local aislado.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Las consultas de red a OSV se evaluaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); no se realizaron peticiones externas hacia api.osv.dev en internet.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py), las pruebas de interfaz CLI (tests/test_cli_modulos.py), y la suite de pruebas completa de Factory (768 pruebas, 0 fallos, 0 errores).
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se verificó la corrección de los hallazgos de las rondas anteriores (e9a0371, 7769b6b y 0b79362), confirmando que las vulnerabilidades y regresiones permanecen cerradas: normpath fue eliminado impidiendo evasiones con '..' sobre enlaces simbólicos; las rutas relativas en --salida se resuelven contra la raíz del proyecto; y la escritura en guardar() y auditoría usan consistentemente la ruta absoluta validada.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se implementó un arnés de pruebas de mutación con 19 mutaciones manuales en copias aisladas de oracle_factory/osv.py, comprobando que 18 de las 19 mutaciones son eliminadas por la suite de pruebas. La única mutación que no provocó fallo en la suite (M16: omisión de la validación temprana 'if not inventarios:') sobrevive porque la comprobación posterior ('if not consultadas:') también rechaza la ejecución sin red con un mensaje que contiene el mismo substring genérico ('nada que consultar'), garantizando el cumplimiento del requisito y escenario sin conexión.
+- (20261029-164101-xux-avisososv) agy (gemini-3.8-flash-high): Se excluyeron de la revisión los archivos de registros y evidencia interna de Factory especificados en las exclusiones del paquete clue.
 
 ### Históricos
 

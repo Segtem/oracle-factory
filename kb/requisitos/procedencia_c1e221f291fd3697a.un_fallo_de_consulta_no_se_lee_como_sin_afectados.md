@@ -11,7 +11,7 @@ vigente: true
 - Id: `procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados`
 - Vigente: sí
 - Cambio: [[cambios/20261029-164101-xux-avisososv]]
-- Veredicto: sin juicio
+- Veredicto: cumple
 - Medidas: `factory_avisos_osv.un_fallo_de_consulta_no_se_lee_como_sin_afectados`, `factory_avisos_osv.corrida_completa`
 - Fuente: openspec/changes/20261029-164101-xux-avisososv/specs/procedencia/spec.md#un_fallo_de_consulta_no_se_lee_como_sin_afectados
 
