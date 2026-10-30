@@ -269,6 +269,28 @@
         "factory_entrega_a16.la_version_a16_es_coherente_y_declara_su_estado",
         "factory_entrega_a16.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T11:17:25.994689+00:00",
+      "revisor": "agy2",
+      "candidato": "c519400",
+      "lanzamiento": "93c5c4e75b35"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-30T11:17:26.020731+00:00",
+      "revisor": "agy",
+      "candidato": "c519400",
+      "lanzamiento": "d2cb12c16a4b"
     }
   ],
   "tipos": {
