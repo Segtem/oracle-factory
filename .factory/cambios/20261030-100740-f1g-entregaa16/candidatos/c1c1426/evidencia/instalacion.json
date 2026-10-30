@@ -1,0 +1,528 @@
+{
+  "comprobacion": {
+    "version": "0.1.0a16",
+    "comandos": [
+      {
+        "comando": [
+          "uv",
+          "build",
+          "--wheel",
+          "--sdist",
+          "--out-dir",
+          "<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "",
+        "stderr": "Building source distribution...\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning sdist\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning check\ncreating oracle_factory-0.1.0a16\ncreating oracle_factory-0.1.0a16/docs\ncreating oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncreating oracle_factory-0.1.0a16/examples/notas\ncreating oracle_factory-0.1.0a16/examples/notas/catalogos\ncreating oracle_factory-0.1.0a16/oracle_factory\ncreating oracle_factory-0.1.0a16/oracle_factory.egg-info\ncreating oracle_factory-0.1.0a16/oracle_factory/data\ncreating oracle_factory-0.1.0a16/oracle_factory/data/notas\ncreating oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncreating oracle_factory-0.1.0a16/site\ncreating oracle_factory-0.1.0a16/tests\ncreating oracle_factory-0.1.0a16/tools\ncopying files to oracle_factory-0.1.0a16...\ncopying MANIFEST.in -> oracle_factory-0.1.0a16\ncopying NOTAS-DE-RELEASE.md -> oracle_factory-0.1.0a16\ncopying README.md -> oracle_factory-0.1.0a16\ncopying fabrica.py -> oracle_factory-0.1.0a16\ncopying pyproject.toml -> oracle_factory-0.1.0a16\ncopying docs/agentes.md -> oracle_factory-0.1.0a16/docs\ncopying docs/colaboracion.md -> oracle_factory-0.1.0a16/docs\ncopying docs/conocimiento.md -> oracle_factory-0.1.0a16/docs\ncopying docs/estructura.md -> oracle_factory-0.1.0a16/docs\ncopying docs/modos.md -> oracle_factory-0.1.0a16/docs\ncopying docs/procedencia.md -> oracle_factory-0.1.0a16/docs\ncopying docs/revision-guiada.md -> oracle_factory-0.1.0a16/docs\ncopying docs/tablero.md -> oracle_factory-0.1.0a16/docs\ncopying docs/trazabilidad.md -> oracle_factory-0.1.0a16/docs\ncopying docs/plantillas/colaboracion/integracion.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/piloto.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/relevo.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/reparto.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying examples/notas/README.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/notas.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/proposal.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/sensor.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/spec.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/test_notas.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/catalogos/notas.casos_ejecutados.oracle -> oracle_factory-0.1.0a16/examples/notas/catalogos\ncopying examples/notas/catalogos/notas.resultados.oracle -> oracle_factory-0.1.0a16/examples/notas/catalogos\ncopying oracle_factory/__init__.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/agentes.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/archivo.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/cli.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/consultas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/estructura.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/flujo_medidas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/flujo_revision.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/generacion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/kb.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/lecturas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/mcp.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/migracion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/modos.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/osv.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/parser.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/plantillas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/prep.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/preparacion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/procedencia.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/rag.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/resumen.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/revision.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/revisores.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/tablero.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/trazabilidad.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/unir.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory.egg-info/PKG-INFO -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/SOURCES.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/dependency_links.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/entry_points.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/requires.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/top_level.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory/data/pedido_revision.md -> oracle_factory-0.1.0a16/oracle_factory/data\ncopying oracle_factory/data/notas/README.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/notas.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/proposal.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/sensor.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/spec.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/test_notas.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle -> oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncopying oracle_factory/data/notas/catalogos/notas.resultados.oracle -> oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncopying site/colaboracion.html -> oracle_factory-0.1.0a16/site\ncopying site/desde-cero.html -> oracle_factory-0.1.0a16/site\ncopying site/factory.js -> oracle_factory-0.1.0a16/site\ncopying site/favicon.svg -> oracle_factory-0.1.0a16/site\ncopying site/guide.js -> oracle_factory-0.1.0a16/site\ncopying site/index.html -> oracle_factory-0.1.0a16/site\ncopying site/juego.js -> oracle_factory-0.1.0a16/site\ncopying site/modos.html -> oracle_factory-0.1.0a16/site\ncopying site/pixel.js -> oracle_factory-0.1.0a16/site\ncopying site/style.css -> oracle_factory-0.1.0a16/site\ncopying site/viva.js -> oracle_factory-0.1.0a16/site\ncopying tests/liveshare_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/porque_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/sesion_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/tablero_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/terminal_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_abandonar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_agentes.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_aislar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_archivo.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_autoproduccion.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_avisos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_avisos_osv.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueo_causa.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueo_registro.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_catalogo_confirmado.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_humana.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_json.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_modulos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_piloto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_clones.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_clue_dependencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_collaboration_sensor.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_commits.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_decisiones.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_distribution.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_docs.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_a16.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_integridad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_integridad_a16.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estado_alternativas.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estructura.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estructura2.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_evidencia_fuera.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_factory.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_guided.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_hechos_varios.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_higiene.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_hora.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_idioma.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_informe_no_texto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_integration.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_juego.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_kb.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_limpieza.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_liveshare.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_mcp.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_modos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_modos_web.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_oracle_en_carpeta.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_paquete_producto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_portabilidad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_preguntar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_procedencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_quien.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_rag.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_rag_specs.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_resumen.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_review_guided.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revisar_cancelada.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revision_simultanea.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revisores.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_ruta_vigente.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_sesion.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_severidad_ausente.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_site.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_bloqueos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_equipo.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_quien_hace.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_terminal_lista.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_trazabilidad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tutorial.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_unir.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_uv_lock.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vigencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vscode.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vueltas.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_guias.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_guias.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_viva.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_viva.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_workflow.py -> oracle_factory-0.1.0a16/tests\ncopying tests/texto_guias.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/vscode_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tools/banco.py -> oracle_factory-0.1.0a16/tools\ncopying tools/docs_al_dia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/limpiar_rutas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_preguntar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/piloto_real.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/tamanos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/terminal.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_abandonar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_agentes.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_aislar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_archivo.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_autoproduccion.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_avisos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_avisos_osv.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_banco.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueo_causa.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueo_registro.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_catalogo_confirmado.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_json.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_modulos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_piloto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_clones.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_clue.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_collaboration.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_commits.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_contracts.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_decisiones.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_docs.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_docs_web_modos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_donde_ausente.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_donde_no_valido.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estado_revisar_medios.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estructura.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estructura2.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_evidencia_fuera.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_guide.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_hechos_varios.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_higiene.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_hora.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_idioma.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_informe_no_texto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_installed.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_kb.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_limpieza.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_liveshare.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_maquinas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_mcp.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_modos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_oracle_en_carpeta.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_paquete_producto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_portabilidad.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_preguntar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_procedencia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_publicada_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_quien.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_rag.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_rag_specs.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_resumen.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_review_guided.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revisar_cancelada.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revision_simultanea.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revisores.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_ruta.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_sesion.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_severidad_ausente.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_bloqueos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_equipo.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_quien_hace.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_terminal_lista.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_trazabilidad.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_unir.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_uv_lock.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vigencia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vscode.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vueltas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web_guias.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web_viva.py -> oracle_factory-0.1.0a16/tools\nWriting oracle_factory-0.1.0a16/setup.cfg\nCreating tar archive\nremoving 'oracle_factory-0.1.0a16' (and everything under it)\nBuilding wheel...\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning bdist_wheel\nrunning build\nrunning build_py\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nwarning: build_py: byte-compiling is disabled, skipping.\n\ninstalling to build/bdist.linux-x86_64/wheel\nrunning install\nrunning install_lib\ncreating build/bdist.linux-x86_64/wheel\ncreating build/bdist.linux-x86_64/wheel/oracle_factory\ncopying build/lib/oracle_factory/agentes.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/archivo.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/cli.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/consultas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/estructura.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/flujo_medidas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/flujo_revision.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/generacion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/kb.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/lecturas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/mcp.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/migracion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/modos.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/osv.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/parser.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/plantillas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/prep.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/preparacion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/procedencia.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/rag.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/resumen.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/revision.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/revisores.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/tablero.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/trazabilidad.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/unir.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/notas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/sensor.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/test_notas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/README.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/proposal.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/spec.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/notas/catalogos/notas.resultados.oracle -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/pedido_revision.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data\ncopying build/lib/oracle_factory/__init__.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\nwarning: install_lib: byte-compiling is disabled, skipping.\n\nrunning install_egg_info\nCopying oracle_factory.egg-info to build/bdist.linux-x86_64/wheel/./oracle_factory-0.1.0a16-py3.13.egg-info\nrunning install_scripts\ncreating build/bdist.linux-x86_64/wheel/oracle_factory-0.1.0a16.dist-info/WHEEL\ncreating '<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/.tmp-bpbbrb1f/oracle_factory-0.1.0a16-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it\nadding 'oracle_factory/__init__.py'\nadding 'oracle_factory/agentes.py'\nadding 'oracle_factory/archivo.py'\nadding 'oracle_factory/cli.py'\nadding 'oracle_factory/consultas.py'\nadding 'oracle_factory/estructura.py'\nadding 'oracle_factory/flujo_medidas.py'\nadding 'oracle_factory/flujo_revision.py'\nadding 'oracle_factory/generacion.py'\nadding 'oracle_factory/kb.py'\nadding 'oracle_factory/lecturas.py'\nadding 'oracle_factory/mcp.py'\nadding 'oracle_factory/migracion.py'\nadding 'oracle_factory/modos.py'\nadding 'oracle_factory/osv.py'\nadding 'oracle_factory/parser.py'\nadding 'oracle_factory/plantillas.py'\nadding 'oracle_factory/prep.py'\nadding 'oracle_factory/preparacion.py'\nadding 'oracle_factory/procedencia.py'\nadding 'oracle_factory/rag.py'\nadding 'oracle_factory/resumen.py'\nadding 'oracle_factory/revision.py'\nadding 'oracle_factory/revisores.py'\nadding 'oracle_factory/tablero.py'\nadding 'oracle_factory/trazabilidad.py'\nadding 'oracle_factory/unir.py'\nadding 'oracle_factory/data/pedido_revision.md'\nadding 'oracle_factory/data/notas/README.md'\nadding 'oracle_factory/data/notas/notas.py'\nadding 'oracle_factory/data/notas/proposal.md'\nadding 'oracle_factory/data/notas/sensor.py'\nadding 'oracle_factory/data/notas/spec.md'\nadding 'oracle_factory/data/notas/test_notas.py'\nadding 'oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle'\nadding 'oracle_factory/data/notas/catalogos/notas.resultados.oracle'\nadding 'oracle_factory-0.1.0a16.dist-info/METADATA'\nadding 'oracle_factory-0.1.0a16.dist-info/WHEEL'\nadding 'oracle_factory-0.1.0a16.dist-info/entry_points.txt'\nadding 'oracle_factory-0.1.0a16.dist-info/top_level.txt'\nadding 'oracle_factory-0.1.0a16.dist-info/RECORD'\nremoving build/bdist.linux-x86_64/wheel\nSuccessfully built .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16.tar.gz\nSuccessfully built .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16-py3-none-any.whl\n"
+      },
+      {
+        "comando": [
+          "uv",
+          "venv",
+          "<tmp>",
+          "--python",
+          "3.13"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "",
+        "stderr": "Using CPython 3.13.16\nCreating virtual environment at: <tmp>\nActivate with: source <tmp>\n"
+      },
+      {
+        "comando": [
+          "uv",
+          "pip",
+          "install",
+          "--python",
+          "<tmp>",
+          "<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16-py3-none-any.whl"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "",
+        "stderr": "Using Python 3.13.16 environment at: <tmp>\nResolved 9 packages in 186ms\nPrepared 1 package in 6ms\nInstalled 9 packages in 2ms\n + attrs==26.1.0\n + jsonschema==4.26.0\n + jsonschema-specifications==2025.9.1\n + oracle-clue==0.1.0a2\n + oracle-factory==0.1.0a16 (from file://<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16-py3-none-any.whl)\n + oracle-metalenguaje==0.39.0\n + oracle-task==0.2.0\n + referencing==0.37.0\n + rpds-py==2026.9.1\n"
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "-c",
+          "import oracle_factory; print(oracle_factory.__file__); print(oracle_factory.__version__)"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "<tmp>\n0.1.0a16\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--version"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "oracle-factory 0.1.0a16\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "git",
+          "init",
+          "-q"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": null,
+        "stderr": null
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "init"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "Factory inicializada en <tmp> No se crearon commits ni aprobaciones.\nAcuerdos: <tmp> tareas: <tmp> proyecto Oracle: <tmp>\nCarpeta propia de Factory: <tmp> (versionada, salvo local/, que Git ignora).\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nHook de commits en <tmp> (prepare-commit-msg, commit-msg): un commit hecho con un solo cambio abierto lleva «Cambio: ID».\nGuía para agentes en AGENTS.md (CLAUDE.md la incluye con @AGENTS.md): quién decide qué, los comandos de una persona y de un agente, y cómo consultar el proyecto.\nAl integrar, el registro de un cambio editado en dos ramas se une con Factory (sin perder eventos) y lo generado se rehace después del merge (.gitattributes, post-merge y post-commit).\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "preguntar",
+          "--json",
+          "¿Cuántos cambios cerrados hay?"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"esquema\": \"oracle-factory.preguntar/2\",\n  \"pregunta\": \"¿Cuántos cambios cerrados hay?\",\n  \"modo\": \"registro\",\n  \"modelo\": null,\n  \"modelo_generativo\": null,\n  \"proveedor_generativo\": null,\n  \"modelo_embeddings\": null,\n  \"aviso\": null,\n  \"embeddings_pedidos\": 0,\n  \"por_revisar\": [],\n  \"fuera_por_no_vigentes\": 0,\n  \"resultados\": [],\n  \"fuentes\": [\n    {\n      \"ruta\": \"registro\",\n      \"cita\": \"registro:{\\\"estado\\\": \\\"cerrados\\\", \\\"operacion\\\": \\\"contar\\\"}\",\n      \"texto\": \"Cantidad de cambios cerrados: 2.\\n{\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"cerrados\\\"}, \\\"cantidad\\\": 2}\",\n      \"archivos\": [\n        \".factory/cambios/20261020-100000-aaa-cerrado1/factory.json\",\n        \".factory/cambios/20261021-110000-bbb-cerrado2/factory.json\",\n        \".factory/cambios/20261022-120000-ccc-abierto/factory.json\",\n        \".factory/cambios/20261023-130000-ddd-abandonado/factory.json\"\n      ],\n      \"inventario_sha256\": \"399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f\",\n      \"directorio\": \"openspec/changes\",\n      \"directorio_existe\": true,\n      \"criterio\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"cerrados\"\n      },\n      \"valor\": 2,\n      \"agregados\": {}\n    }\n  ],\n  \"herramientas\": [],\n  \"limites\": {\n    \"registro\": {\n      \"pagina_predeterminada\": 5,\n      \"pagina_maxima\": 10,\n      \"operaciones\": [\n        \"contar\",\n        \"listar\",\n        \"agrupar\",\n        \"detalle\"\n      ],\n      \"estados\": [\n        \"todos\",\n        \"abiertos\",\n        \"cerrados\",\n        \"abandonados\"\n      ]\n    },\n    \"generacion\": {\n      \"usada\": false,\n      \"max_llamadas\": 0,\n      \"segundos\": 0,\n      \"max_peticiones_modelo\": 0,\n      \"contexto_bytes\": 64000,\n      \"respuesta_bytes\": 262144,\n      \"reserva_cierre_bytes\": 8000,\n      \"pensamiento\": \"predeterminado\",\n      \"resultado_herramienta_bytes\": 24000,\n      \"fuentes\": 24,\n      \"caracteres_por_fuente\": 6000,\n      \"referencias_por_fuente\": 10,\n      \"correcciones_de_formato\": 1\n    }\n  },\n  \"max_pasajes\": 8,\n  \"tipo\": \"registro\",\n  \"respuesta\": \"Hay 2 cambios cerrados.\",\n  \"valor\": 2,\n  \"ids\": [\n    \"20261020-100000-aaa-cerrado1\",\n    \"20261021-110000-bbb-cerrado2\"\n  ],\n  \"filtro\": \"cerrados\",\n  \"criterio\": {\n    \"operacion\": \"contar\",\n    \"estado\": \"cerrados\"\n  }\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "preguntar",
+          "--json",
+          "¿Cuántos cambios abiertos hay?"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"esquema\": \"oracle-factory.preguntar/2\",\n  \"pregunta\": \"¿Cuántos cambios abiertos hay?\",\n  \"modo\": \"registro\",\n  \"modelo\": null,\n  \"modelo_generativo\": null,\n  \"proveedor_generativo\": null,\n  \"modelo_embeddings\": null,\n  \"aviso\": null,\n  \"embeddings_pedidos\": 0,\n  \"por_revisar\": [],\n  \"fuera_por_no_vigentes\": 0,\n  \"resultados\": [],\n  \"fuentes\": [\n    {\n      \"ruta\": \"registro\",\n      \"cita\": \"registro:{\\\"estado\\\": \\\"abiertos\\\", \\\"operacion\\\": \\\"contar\\\"}\",\n      \"texto\": \"Cantidad de cambios abiertos: 1.\\n{\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"abiertos\\\"}, \\\"cantidad\\\": 1}\",\n      \"archivos\": [\n        \".factory/cambios/20261020-100000-aaa-cerrado1/factory.json\",\n        \".factory/cambios/20261021-110000-bbb-cerrado2/factory.json\",\n        \".factory/cambios/20261022-120000-ccc-abierto/factory.json\",\n        \".factory/cambios/20261023-130000-ddd-abandonado/factory.json\"\n      ],\n      \"inventario_sha256\": \"399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f\",\n      \"directorio\": \"openspec/changes\",\n      \"directorio_existe\": true,\n      \"criterio\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"abiertos\"\n      },\n      \"valor\": 1,\n      \"agregados\": {}\n    }\n  ],\n  \"herramientas\": [],\n  \"limites\": {\n    \"registro\": {\n      \"pagina_predeterminada\": 5,\n      \"pagina_maxima\": 10,\n      \"operaciones\": [\n        \"contar\",\n        \"listar\",\n        \"agrupar\",\n        \"detalle\"\n      ],\n      \"estados\": [\n        \"todos\",\n        \"abiertos\",\n        \"cerrados\",\n        \"abandonados\"\n      ]\n    },\n    \"generacion\": {\n      \"usada\": false,\n      \"max_llamadas\": 0,\n      \"segundos\": 0,\n      \"max_peticiones_modelo\": 0,\n      \"contexto_bytes\": 64000,\n      \"respuesta_bytes\": 262144,\n      \"reserva_cierre_bytes\": 8000,\n      \"pensamiento\": \"predeterminado\",\n      \"resultado_herramienta_bytes\": 24000,\n      \"fuentes\": 24,\n      \"caracteres_por_fuente\": 6000,\n      \"referencias_por_fuente\": 10,\n      \"correcciones_de_formato\": 1\n    }\n  },\n  \"max_pasajes\": 8,\n  \"tipo\": \"registro\",\n  \"respuesta\": \"Hay 1 cambios abiertos.\",\n  \"valor\": 1,\n  \"ids\": [\n    \"20261022-120000-ccc-abierto\"\n  ],\n  \"filtro\": \"abiertos\",\n  \"criterio\": {\n    \"operacion\": \"contar\",\n    \"estado\": \"abiertos\"\n  }\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "preguntar",
+          "--json",
+          "¿Cuántos cambios abandonados hay?"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"esquema\": \"oracle-factory.preguntar/2\",\n  \"pregunta\": \"¿Cuántos cambios abandonados hay?\",\n  \"modo\": \"registro\",\n  \"modelo\": null,\n  \"modelo_generativo\": null,\n  \"proveedor_generativo\": null,\n  \"modelo_embeddings\": null,\n  \"aviso\": null,\n  \"embeddings_pedidos\": 0,\n  \"por_revisar\": [],\n  \"fuera_por_no_vigentes\": 0,\n  \"resultados\": [],\n  \"fuentes\": [\n    {\n      \"ruta\": \"registro\",\n      \"cita\": \"registro:{\\\"estado\\\": \\\"abandonados\\\", \\\"operacion\\\": \\\"contar\\\"}\",\n      \"texto\": \"Cantidad de cambios abandonados: 1.\\n{\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"abandonados\\\"}, \\\"cantidad\\\": 1}\",\n      \"archivos\": [\n        \".factory/cambios/20261020-100000-aaa-cerrado1/factory.json\",\n        \".factory/cambios/20261021-110000-bbb-cerrado2/factory.json\",\n        \".factory/cambios/20261022-120000-ccc-abierto/factory.json\",\n        \".factory/cambios/20261023-130000-ddd-abandonado/factory.json\"\n      ],\n      \"inventario_sha256\": \"399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f\",\n      \"directorio\": \"openspec/changes\",\n      \"directorio_existe\": true,\n      \"criterio\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"abandonados\"\n      },\n      \"valor\": 1,\n      \"agregados\": {}\n    }\n  ],\n  \"herramientas\": [],\n  \"limites\": {\n    \"registro\": {\n      \"pagina_predeterminada\": 5,\n      \"pagina_maxima\": 10,\n      \"operaciones\": [\n        \"contar\",\n        \"listar\",\n        \"agrupar\",\n        \"detalle\"\n      ],\n      \"estados\": [\n        \"todos\",\n        \"abiertos\",\n        \"cerrados\",\n        \"abandonados\"\n      ]\n    },\n    \"generacion\": {\n      \"usada\": false,\n      \"max_llamadas\": 0,\n      \"segundos\": 0,\n      \"max_peticiones_modelo\": 0,\n      \"contexto_bytes\": 64000,\n      \"respuesta_bytes\": 262144,\n      \"reserva_cierre_bytes\": 8000,\n      \"pensamiento\": \"predeterminado\",\n      \"resultado_herramienta_bytes\": 24000,\n      \"fuentes\": 24,\n      \"caracteres_por_fuente\": 6000,\n      \"referencias_por_fuente\": 10,\n      \"correcciones_de_formato\": 1\n    }\n  },\n  \"max_pasajes\": 8,\n  \"tipo\": \"registro\",\n  \"respuesta\": \"Hay 1 cambios abandonados.\",\n  \"valor\": 1,\n  \"ids\": [\n    \"20261023-130000-ddd-abandonado\"\n  ],\n  \"filtro\": \"abandonados\",\n  \"criterio\": {\n    \"operacion\": \"contar\",\n    \"estado\": \"abandonados\"\n  }\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "preguntar",
+          "--json",
+          "¿Cuántos cambios hay en total?"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"esquema\": \"oracle-factory.preguntar/2\",\n  \"pregunta\": \"¿Cuántos cambios hay en total?\",\n  \"modo\": \"registro\",\n  \"modelo\": null,\n  \"modelo_generativo\": null,\n  \"proveedor_generativo\": null,\n  \"modelo_embeddings\": null,\n  \"aviso\": null,\n  \"embeddings_pedidos\": 0,\n  \"por_revisar\": [],\n  \"fuera_por_no_vigentes\": 0,\n  \"resultados\": [],\n  \"fuentes\": [\n    {\n      \"ruta\": \"registro\",\n      \"cita\": \"registro:{\\\"estado\\\": \\\"todos\\\", \\\"operacion\\\": \\\"contar\\\"}\",\n      \"texto\": \"Cantidad de cambios todos: 4.\\n{\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"todos\\\"}, \\\"cantidad\\\": 4}\",\n      \"archivos\": [\n        \".factory/cambios/20261020-100000-aaa-cerrado1/factory.json\",\n        \".factory/cambios/20261021-110000-bbb-cerrado2/factory.json\",\n        \".factory/cambios/20261022-120000-ccc-abierto/factory.json\",\n        \".factory/cambios/20261023-130000-ddd-abandonado/factory.json\"\n      ],\n      \"inventario_sha256\": \"399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f\",\n      \"directorio\": \"openspec/changes\",\n      \"directorio_existe\": true,\n      \"criterio\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"todos\"\n      },\n      \"valor\": 4,\n      \"agregados\": {}\n    }\n  ],\n  \"herramientas\": [],\n  \"limites\": {\n    \"registro\": {\n      \"pagina_predeterminada\": 5,\n      \"pagina_maxima\": 10,\n      \"operaciones\": [\n        \"contar\",\n        \"listar\",\n        \"agrupar\",\n        \"detalle\"\n      ],\n      \"estados\": [\n        \"todos\",\n        \"abiertos\",\n        \"cerrados\",\n        \"abandonados\"\n      ]\n    },\n    \"generacion\": {\n      \"usada\": false,\n      \"max_llamadas\": 0,\n      \"segundos\": 0,\n      \"max_peticiones_modelo\": 0,\n      \"contexto_bytes\": 64000,\n      \"respuesta_bytes\": 262144,\n      \"reserva_cierre_bytes\": 8000,\n      \"pensamiento\": \"predeterminado\",\n      \"resultado_herramienta_bytes\": 24000,\n      \"fuentes\": 24,\n      \"caracteres_por_fuente\": 6000,\n      \"referencias_por_fuente\": 10,\n      \"correcciones_de_formato\": 1\n    }\n  },\n  \"max_pasajes\": 8,\n  \"tipo\": \"registro\",\n  \"respuesta\": \"Hay 4 cambios en total.\",\n  \"valor\": 4,\n  \"ids\": [\n    \"20261020-100000-aaa-cerrado1\",\n    \"20261021-110000-bbb-cerrado2\",\n    \"20261022-120000-ccc-abierto\",\n    \"20261023-130000-ddd-abandonado\"\n  ],\n  \"filtro\": \"todos\",\n  \"criterio\": {\n    \"operacion\": \"contar\",\n    \"estado\": \"todos\"\n  }\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "preguntar",
+          "--json",
+          "¿Qué reglas establecen acuerdos y cuántos cambios cerrados hay?"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"esquema\": \"oracle-factory.preguntar/2\",\n  \"pregunta\": \"¿Qué reglas establecen acuerdos y cuántos cambios cerrados hay?\",\n  \"modo\": \"lexico\",\n  \"modelo\": null,\n  \"modelo_generativo\": \"fixture-model\",\n  \"proveedor_generativo\": \"openai\",\n  \"modelo_embeddings\": null,\n  \"aviso\": \"sin embeddings (el proyecto apagó los embeddings (rag.embeddings.proveedor: ninguno)): la búsqueda es sólo léxica y por el grafo\",\n  \"embeddings_pedidos\": 0,\n  \"por_revisar\": [],\n  \"fuera_por_no_vigentes\": 3,\n  \"resultados\": [\n    {\n      \"cita\": \"docs/reglas.md#Reglas del proyecto\",\n      \"ruta\": \"docs/reglas.md\",\n      \"seccion\": \"Reglas del proyecto\",\n      \"cambio\": null,\n      \"puntaje\": 0.016393,\n      \"similitud_semantica\": 0.0,\n      \"aportes\": {\n        \"lexico\": 0.016393,\n        \"semantico\": 0.0,\n        \"grafo\": 0.0\n      },\n      \"texto\": \"Reglas del proyecto\\nLas reglas establecen acuerdos y revisiones para cada entrega.\"\n    }\n  ],\n  \"fuentes\": [\n    {\n      \"ruta\": \"docs/reglas.md\",\n      \"cita\": \"docs/reglas.md#Reglas del proyecto\",\n      \"texto\": \"Reglas del proyecto Las reglas establecen acuerdos y revisiones para cada entrega.\",\n      \"clase\": \"guia\",\n      \"uso\": \"Guía del proyecto; distinguir instrucciones de sus ejemplos.\",\n      \"normalizacion\": \"markdown_estructural_y_espacios\",\n      \"texto_truncado\": false,\n      \"id\": \"S1\"\n    },\n    {\n      \"ruta\": \"registro\",\n      \"cita\": \"registro:{\\\"estado\\\": \\\"cerrados\\\", \\\"operacion\\\": \\\"contar\\\"}\",\n      \"texto\": \"Cantidad de cambios cerrados: 2. {\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"cerrados\\\"}, \\\"cantidad\\\": 2}\",\n      \"archivos\": [\n        \".factory/cambios/20261020-100000-aaa-cerrado1/factory.json\",\n        \".factory/cambios/20261021-110000-bbb-cerrado2/factory.json\",\n        \".factory/cambios/20261022-120000-ccc-abierto/factory.json\",\n        \".factory/cambios/20261023-130000-ddd-abandonado/factory.json\"\n      ],\n      \"inventario_sha256\": \"399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f\",\n      \"directorio\": \"openspec/changes\",\n      \"directorio_existe\": true,\n      \"criterio\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"cerrados\"\n      },\n      \"valor\": 2,\n      \"agregados\": {},\n      \"clase\": \"registro\",\n      \"uso\": \"Datos calculados del registro actual.\",\n      \"normalizacion\": \"markdown_estructural_y_espacios\",\n      \"texto_truncado\": false,\n      \"id\": \"S2\"\n    }\n  ],\n  \"herramientas\": [\n    {\n      \"herramienta\": \"registro\",\n      \"argumentos\": {\n        \"operacion\": \"contar\",\n        \"estado\": \"cerrados\"\n      },\n      \"exitoso\": true\n    },\n    {\n      \"herramienta\": \"escribir\",\n      \"exitoso\": false\n    }\n  ],\n  \"limites\": {\n    \"registro\": {\n      \"pagina_predeterminada\": 5,\n      \"pagina_maxima\": 10,\n      \"operaciones\": [\n        \"contar\",\n        \"listar\",\n        \"agrupar\",\n        \"detalle\"\n      ],\n      \"estados\": [\n        \"todos\",\n        \"abiertos\",\n        \"cerrados\",\n        \"abandonados\"\n      ]\n    },\n    \"generacion\": {\n      \"usada\": true,\n      \"max_llamadas\": 4,\n      \"segundos\": 15,\n      \"max_peticiones_modelo\": 6,\n      \"contexto_bytes\": 64000,\n      \"respuesta_bytes\": 262144,\n      \"reserva_cierre_bytes\": 8000,\n      \"pensamiento\": \"predeterminado\",\n      \"resultado_herramienta_bytes\": 24000,\n      \"fuentes\": 24,\n      \"caracteres_por_fuente\": 6000,\n      \"referencias_por_fuente\": 10,\n      \"correcciones_de_formato\": 1\n    }\n  },\n  \"max_pasajes\": 8,\n  \"tipo\": \"respuesta_elaborada\",\n  \"respuesta\": \"Hay 2 cambios cerrados en el registro. [S2]\\n\\nLas reglas establecen acuerdos y revisiones para cada entrega. [S1]\",\n  \"afirmaciones\": [\n    {\n      \"texto\": \"Hay 2 cambios cerrados en el registro.\",\n      \"inferencia\": false,\n      \"alcance\": \"actual\",\n      \"citas\": [\n        {\n          \"fuente\": \"S2\",\n          \"texto\": \"Cantidad de cambios cerrados: 2. {\\\"criterio\\\": {\\\"operacion\\\": \\\"contar\\\", \\\"estado\\\": \\\"cerrados\\\"}, \\\"cantidad\\\": 2}\",\n          \"fragmento\": \"S2.F1\"\n        }\n      ]\n    },\n    {\n      \"texto\": \"Las reglas establecen acuerdos y revisiones para cada entrega.\",\n      \"inferencia\": false,\n      \"alcance\": \"actual\",\n      \"citas\": [\n        {\n          \"fuente\": \"S1\",\n          \"texto\": \"Reglas del proyecto Las reglas establecen acuerdos y revisiones para cada entrega.\",\n          \"fragmento\": \"S1.F1\"\n        }\n      ]\n    }\n  ],\n  \"validacion_citas\": \"Identidad y pertenencia textual verificadas; no certifica la inferencia semántica.\",\n  \"formato_corregido\": false\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "git",
+          "init",
+          "-q"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": null,
+        "stderr": null
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "init"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "Factory inicializada en <tmp> No se crearon commits ni aprobaciones.\nAcuerdos: <tmp> tareas: <tmp> proyecto Oracle: <tmp>\nCarpeta propia de Factory: <tmp> (versionada, salvo local/, que Git ignora).\nConservé la configuración existente. .gitignore excluye salidas temporales y bytecode de Python.\nSi el proyecto todavía no usa Git, ejecutá git init desde esta carpeta; Factory no crea commits.\nHook de commits en <tmp> (prepare-commit-msg, commit-msg): un commit hecho con un solo cambio abierto lleva «Cambio: ID».\nGuía para agentes en AGENTS.md (CLAUDE.md la incluye con @AGENTS.md): quién decide qué, los comandos de una persona y de un agente, y cómo consultar el proyecto.\nAl integrar, el registro de un cambio editado en dos ramas se une con Factory (sin perder eventos) y lo generado se rehace después del merge (.gitattributes, post-merge y post-commit).\nPróximo paso: oracle-factory nuevo --con-ejemplo notas \"Comprobar el título de una nota\"\nPara recuperar cambios existentes: oracle-factory listar\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "nuevo",
+          "--capacidad",
+          "novedad",
+          "Probar las novedades"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "Cambio creado: 20261030-112533-4oq-novedad\nModo de trabajo: confirmacion\nTarea: <tmp>\nPropuesta/spec/tasks: <tmp>\nCompletá los TODO antes de pedir aceptación.\nPróximo paso humano: revisar <tmp> y <tmp>\nPróximo paso: oracle-factory aprobar-spec 20261030-112533-4oq-novedad\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "git",
+          "add",
+          "-A"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": null,
+        "stderr": null
+      },
+      {
+        "comando": [
+          "git",
+          "commit",
+          "-q",
+          "-m",
+          "base",
+          "--no-verify"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": null,
+        "stderr": null
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "procedencia",
+          "20261030-112533-4oq-novedad",
+          "--json"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "{\n  \"bomFormat\": \"CycloneDX\",\n  \"components\": [\n    {\n      \"bom-ref\": \"pkg:pypi/alfa@1.2.3\",\n      \"hashes\": [\n        {\n          \"alg\": \"SHA-256\",\n          \"content\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n        },\n        {\n          \"alg\": \"SHA-256\",\n          \"content\": \"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"\n        }\n      ],\n      \"name\": \"alfa\",\n      \"properties\": [\n        {\n          \"name\": \"factory:origen\",\n          \"value\": \"https://pypi.org/simple\"\n        },\n        {\n          \"name\": \"factory:fuente\",\n          \"value\": \"uv.lock\"\n        },\n        {\n          \"name\": \"factory:directa\",\n          \"value\": \"true\"\n        },\n        {\n          \"name\": \"factory:exigida\",\n          \"value\": \"==1.2.3\"\n        },\n        {\n          \"name\": \"factory:fijada\",\n          \"value\": \"true\"\n        }\n      ],\n      \"purl\": \"pkg:pypi/alfa@1.2.3\",\n      \"type\": \"library\",\n      \"version\": \"1.2.3\"\n    }\n  ],\n  \"metadata\": {\n    \"component\": {\n      \"name\": \"demo\",\n      \"type\": \"application\",\n      \"version\": \"1.0.0\"\n    },\n    \"properties\": [\n      {\n        \"name\": \"factory:confiable\",\n        \"value\": \"true\"\n      },\n      {\n        \"name\": \"factory:entorno\",\n        \"value\": \"no consultado\"\n      }\n    ]\n  },\n  \"specVersion\": \"1.5\",\n  \"version\": 1\n}\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "procedencia",
+          "--buscar",
+          "alfa==1.2.3"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "alfa==1.2.3 figura en 1 inventario(s):\n  - 20261030-112533-4oq-novedad · candidato 45a883a · alfa 1.2.3\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "procedencia",
+          "--auditar",
+          "--avisos",
+          "<tmp>"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "Auditoría local: 1 aviso(s) contra 1 inventario(s) guardado(s); sin red.\nAfectados:\n  - GHSA-prueba-0001: alfa 1.2.3 (corregida en: 1.2.4) · 20261030-112533-4oq-novedad · candidato 45a883a\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "procedencia",
+          "--consultar-osv",
+          "--osv-url",
+          "http://127.0.0.1:35029"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 1,
+        "stdout": "",
+        "stderr": "FACTORY BLOQUEADA: --consultar-osv se conecta a OSV.dev: autorizalo con --red (sale sólo nombre, versión y ecosistema de cada dependencia)\n"
+      },
+      {
+        "comando": [
+          "<tmp>",
+          "--agente",
+          "codex",
+          "--proyecto",
+          "<tmp>",
+          "procedencia",
+          "--consultar-osv",
+          "--red",
+          "--osv-url",
+          "http://127.0.0.1:35029"
+        ],
+        "cwd": "<tmp>",
+        "codigo": 0,
+        "stdout": "Consulta a OSV: 1 dependencia(s) distinta(s); 1 aviso(s) guardado(s) en <tmp>\nAuditoría local: 1 aviso(s) contra 1 inventario(s) guardado(s); sin red.\nAfectados:\n  - GHSA-prueba-0001: alfa 1.2.3 (corregida en: 1.2.4) · 20261030-112533-4oq-novedad · candidato 45a883a\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<repo>/.venv/bin/python",
+          "<repo>/tools/verify_installed.py",
+          "--factory",
+          "<tmp>",
+          "--python",
+          "<tmp>"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "OK: wheel instalado, dependencias aisladas, inicio guiado, listado, medidas, importación, revisión, juicio y cierre fixture.\n",
+        "stderr": ""
+      },
+      {
+        "comando": [
+          "<repo>/.venv/bin/python",
+          "<repo>/tools/verify_guide.py",
+          "--factory",
+          "<tmp>"
+        ],
+        "cwd": "<repo>",
+        "codigo": 0,
+        "stdout": "OK: 23 comandos extraídos del HTML, wheel instalado y cierre de fixture desde carpeta vacía.\n",
+        "stderr": ""
+      }
+    ],
+    "construccion": {
+      "stdout": "",
+      "stderr": "Building source distribution...\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning sdist\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning check\ncreating oracle_factory-0.1.0a16\ncreating oracle_factory-0.1.0a16/docs\ncreating oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncreating oracle_factory-0.1.0a16/examples/notas\ncreating oracle_factory-0.1.0a16/examples/notas/catalogos\ncreating oracle_factory-0.1.0a16/oracle_factory\ncreating oracle_factory-0.1.0a16/oracle_factory.egg-info\ncreating oracle_factory-0.1.0a16/oracle_factory/data\ncreating oracle_factory-0.1.0a16/oracle_factory/data/notas\ncreating oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncreating oracle_factory-0.1.0a16/site\ncreating oracle_factory-0.1.0a16/tests\ncreating oracle_factory-0.1.0a16/tools\ncopying files to oracle_factory-0.1.0a16...\ncopying MANIFEST.in -> oracle_factory-0.1.0a16\ncopying NOTAS-DE-RELEASE.md -> oracle_factory-0.1.0a16\ncopying README.md -> oracle_factory-0.1.0a16\ncopying fabrica.py -> oracle_factory-0.1.0a16\ncopying pyproject.toml -> oracle_factory-0.1.0a16\ncopying docs/agentes.md -> oracle_factory-0.1.0a16/docs\ncopying docs/colaboracion.md -> oracle_factory-0.1.0a16/docs\ncopying docs/conocimiento.md -> oracle_factory-0.1.0a16/docs\ncopying docs/estructura.md -> oracle_factory-0.1.0a16/docs\ncopying docs/modos.md -> oracle_factory-0.1.0a16/docs\ncopying docs/procedencia.md -> oracle_factory-0.1.0a16/docs\ncopying docs/revision-guiada.md -> oracle_factory-0.1.0a16/docs\ncopying docs/tablero.md -> oracle_factory-0.1.0a16/docs\ncopying docs/trazabilidad.md -> oracle_factory-0.1.0a16/docs\ncopying docs/plantillas/colaboracion/integracion.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/piloto.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/relevo.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying docs/plantillas/colaboracion/reparto.md -> oracle_factory-0.1.0a16/docs/plantillas/colaboracion\ncopying examples/notas/README.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/notas.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/proposal.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/sensor.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/spec.md -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/test_notas.py -> oracle_factory-0.1.0a16/examples/notas\ncopying examples/notas/catalogos/notas.casos_ejecutados.oracle -> oracle_factory-0.1.0a16/examples/notas/catalogos\ncopying examples/notas/catalogos/notas.resultados.oracle -> oracle_factory-0.1.0a16/examples/notas/catalogos\ncopying oracle_factory/__init__.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/agentes.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/archivo.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/cli.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/consultas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/estructura.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/flujo_medidas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/flujo_revision.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/generacion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/kb.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/lecturas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/mcp.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/migracion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/modos.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/osv.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/parser.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/plantillas.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/prep.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/preparacion.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/procedencia.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/rag.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/resumen.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/revision.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/revisores.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/tablero.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/trazabilidad.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory/unir.py -> oracle_factory-0.1.0a16/oracle_factory\ncopying oracle_factory.egg-info/PKG-INFO -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/SOURCES.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/dependency_links.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/entry_points.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/requires.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory.egg-info/top_level.txt -> oracle_factory-0.1.0a16/oracle_factory.egg-info\ncopying oracle_factory/data/pedido_revision.md -> oracle_factory-0.1.0a16/oracle_factory/data\ncopying oracle_factory/data/notas/README.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/notas.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/proposal.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/sensor.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/spec.md -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/test_notas.py -> oracle_factory-0.1.0a16/oracle_factory/data/notas\ncopying oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle -> oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncopying oracle_factory/data/notas/catalogos/notas.resultados.oracle -> oracle_factory-0.1.0a16/oracle_factory/data/notas/catalogos\ncopying site/colaboracion.html -> oracle_factory-0.1.0a16/site\ncopying site/desde-cero.html -> oracle_factory-0.1.0a16/site\ncopying site/factory.js -> oracle_factory-0.1.0a16/site\ncopying site/favicon.svg -> oracle_factory-0.1.0a16/site\ncopying site/guide.js -> oracle_factory-0.1.0a16/site\ncopying site/index.html -> oracle_factory-0.1.0a16/site\ncopying site/juego.js -> oracle_factory-0.1.0a16/site\ncopying site/modos.html -> oracle_factory-0.1.0a16/site\ncopying site/pixel.js -> oracle_factory-0.1.0a16/site\ncopying site/style.css -> oracle_factory-0.1.0a16/site\ncopying site/viva.js -> oracle_factory-0.1.0a16/site\ncopying tests/liveshare_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/porque_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/sesion_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/tablero_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/terminal_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_abandonar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_agentes.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_aislar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_archivo.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_autoproduccion.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_avisos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_avisos_osv.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueo_causa.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueo_registro.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_bloqueos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_catalogo_confirmado.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_humana.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_json.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_modulos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_cli_piloto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_clones.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_clue_dependencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_collaboration_sensor.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_commits.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_decisiones.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_distribution.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_docs.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_a16.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_integridad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_entrega_integridad_a16.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estado_alternativas.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estructura.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_estructura2.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_evidencia_fuera.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_factory.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_guided.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_hechos_varios.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_higiene.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_hora.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_idioma.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_informe_no_texto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_integration.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_juego.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_kb.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_limpieza.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_liveshare.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_mcp.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_modos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_modos_web.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_oracle_en_carpeta.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_paquete_producto.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_portabilidad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_preguntar.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_procedencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_quien.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_rag.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_rag_specs.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_resumen.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_review_guided.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revisar_cancelada.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revision_simultanea.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_revisores.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_ruta_vigente.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_sesion.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_severidad_ausente.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_site.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_bloqueos.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_equipo.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tablero_quien_hace.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_terminal_lista.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_trazabilidad.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_tutorial.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_unir.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_uv_lock.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vigencia.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vscode.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_vueltas.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_guias.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_guias.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_viva.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/test_web_viva.py -> oracle_factory-0.1.0a16/tests\ncopying tests/test_workflow.py -> oracle_factory-0.1.0a16/tests\ncopying tests/texto_guias.cjs -> oracle_factory-0.1.0a16/tests\ncopying tests/vscode_en_node.cjs -> oracle_factory-0.1.0a16/tests\ncopying tools/banco.py -> oracle_factory-0.1.0a16/tools\ncopying tools/docs_al_dia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/limpiar_rutas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/mutar_preguntar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/piloto_real.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/probar_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/tamanos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/terminal.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_abandonar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_agentes.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_aislar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_archivo.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_autoproduccion.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_avisos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_avisos_osv.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_banco.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueo_causa.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueo_registro.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_bloqueos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_catalogo_confirmado.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_json.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_modulos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_cli_piloto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_clones.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_clue.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_collaboration.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_commits.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_contracts.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_decisiones.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_docs.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_docs_web_modos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_donde_ausente.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_donde_no_valido.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a14.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_entrega_a16.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estado_revisar_medios.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estructura.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_estructura2.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_evidencia_fuera.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_guide.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_hechos_varios.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_higiene.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_hora.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_idioma.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_informe_no_texto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_installed.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_kb.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_limpieza.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_liveshare.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_maquinas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_mcp.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_modos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_oracle_en_carpeta.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_paquete_producto.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_portabilidad.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_preguntar.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_procedencia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_publicada_a15.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_quien.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_rag.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_rag_specs.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_resumen.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_review_guided.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revisar_cancelada.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revision_simultanea.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_revisores.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_ruta.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_sesion.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_severidad_ausente.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_bloqueos.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_equipo.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_tablero_quien_hace.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_terminal_lista.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_trazabilidad.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_unir.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_uv_lock.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vigencia.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vscode.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_vueltas.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web_guias.py -> oracle_factory-0.1.0a16/tools\ncopying tools/verify_web_viva.py -> oracle_factory-0.1.0a16/tools\nWriting oracle_factory-0.1.0a16/setup.cfg\nCreating tar archive\nremoving 'oracle_factory-0.1.0a16' (and everything under it)\nBuilding wheel...\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nrunning bdist_wheel\nrunning build\nrunning build_py\nrunning egg_info\nwriting oracle_factory.egg-info/PKG-INFO\nwriting dependency_links to oracle_factory.egg-info/dependency_links.txt\nwriting entry points to oracle_factory.egg-info/entry_points.txt\nwriting requirements to oracle_factory.egg-info/requires.txt\nwriting top-level names to oracle_factory.egg-info/top_level.txt\nreading manifest file 'oracle_factory.egg-info/SOURCES.txt'\nreading manifest template 'MANIFEST.in'\nwriting manifest file 'oracle_factory.egg-info/SOURCES.txt'\nwarning: build_py: byte-compiling is disabled, skipping.\n\ninstalling to build/bdist.linux-x86_64/wheel\nrunning install\nrunning install_lib\ncreating build/bdist.linux-x86_64/wheel\ncreating build/bdist.linux-x86_64/wheel/oracle_factory\ncopying build/lib/oracle_factory/agentes.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/archivo.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/cli.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/consultas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/estructura.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/flujo_medidas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/flujo_revision.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/generacion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/kb.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/lecturas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/mcp.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/migracion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/modos.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/osv.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/parser.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/plantillas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/prep.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/preparacion.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/procedencia.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/rag.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/resumen.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/revision.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/revisores.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/tablero.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/trazabilidad.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncopying build/lib/oracle_factory/unir.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/notas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/sensor.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/test_notas.py -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/README.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/proposal.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncopying build/lib/oracle_factory/data/notas/spec.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas\ncreating build/bdist.linux-x86_64/wheel/oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/notas/catalogos/notas.resultados.oracle -> build/bdist.linux-x86_64/wheel/./oracle_factory/data/notas/catalogos\ncopying build/lib/oracle_factory/data/pedido_revision.md -> build/bdist.linux-x86_64/wheel/./oracle_factory/data\ncopying build/lib/oracle_factory/__init__.py -> build/bdist.linux-x86_64/wheel/./oracle_factory\nwarning: install_lib: byte-compiling is disabled, skipping.\n\nrunning install_egg_info\nCopying oracle_factory.egg-info to build/bdist.linux-x86_64/wheel/./oracle_factory-0.1.0a16-py3.13.egg-info\nrunning install_scripts\ncreating build/bdist.linux-x86_64/wheel/oracle_factory-0.1.0a16.dist-info/WHEEL\ncreating '<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/.tmp-bpbbrb1f/oracle_factory-0.1.0a16-py3-none-any.whl' and adding 'build/bdist.linux-x86_64/wheel' to it\nadding 'oracle_factory/__init__.py'\nadding 'oracle_factory/agentes.py'\nadding 'oracle_factory/archivo.py'\nadding 'oracle_factory/cli.py'\nadding 'oracle_factory/consultas.py'\nadding 'oracle_factory/estructura.py'\nadding 'oracle_factory/flujo_medidas.py'\nadding 'oracle_factory/flujo_revision.py'\nadding 'oracle_factory/generacion.py'\nadding 'oracle_factory/kb.py'\nadding 'oracle_factory/lecturas.py'\nadding 'oracle_factory/mcp.py'\nadding 'oracle_factory/migracion.py'\nadding 'oracle_factory/modos.py'\nadding 'oracle_factory/osv.py'\nadding 'oracle_factory/parser.py'\nadding 'oracle_factory/plantillas.py'\nadding 'oracle_factory/prep.py'\nadding 'oracle_factory/preparacion.py'\nadding 'oracle_factory/procedencia.py'\nadding 'oracle_factory/rag.py'\nadding 'oracle_factory/resumen.py'\nadding 'oracle_factory/revision.py'\nadding 'oracle_factory/revisores.py'\nadding 'oracle_factory/tablero.py'\nadding 'oracle_factory/trazabilidad.py'\nadding 'oracle_factory/unir.py'\nadding 'oracle_factory/data/pedido_revision.md'\nadding 'oracle_factory/data/notas/README.md'\nadding 'oracle_factory/data/notas/notas.py'\nadding 'oracle_factory/data/notas/proposal.md'\nadding 'oracle_factory/data/notas/sensor.py'\nadding 'oracle_factory/data/notas/spec.md'\nadding 'oracle_factory/data/notas/test_notas.py'\nadding 'oracle_factory/data/notas/catalogos/notas.casos_ejecutados.oracle'\nadding 'oracle_factory/data/notas/catalogos/notas.resultados.oracle'\nadding 'oracle_factory-0.1.0a16.dist-info/METADATA'\nadding 'oracle_factory-0.1.0a16.dist-info/WHEEL'\nadding 'oracle_factory-0.1.0a16.dist-info/entry_points.txt'\nadding 'oracle_factory-0.1.0a16.dist-info/top_level.txt'\nadding 'oracle_factory-0.1.0a16.dist-info/RECORD'\nremoving build/bdist.linux-x86_64/wheel\nSuccessfully built .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16.tar.gz\nSuccessfully built .factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16-py3-none-any.whl\n"
+    },
+    "configuracion": {
+      "embeddings": "ninguno",
+      "generacion": "servidor HTTP fixture local"
+    },
+    "artefactos": {
+      "wheel": "<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16-py3-none-any.whl",
+      "wheel_sha256": "f31ba02c56c011edea262f7d3b8a3cd1d95c9ffd309751b421f00b7f8603e784",
+      "sdist": "<repo>/.factory/cambios/20261030-100740-f1g-entregaa16/candidatos/c1c1426/evidencia/dist/oracle_factory-0.1.0a16.tar.gz",
+      "sdist_sha256": "97f8acd3330f11a075677813e77699e462a31637651cbd68ecb8d5b6b42a1c6b"
+    },
+    "origen": {
+      "archivo_modulo": "<tmp>",
+      "version_modulo": "0.1.0a16",
+      "salida_cli": "oracle-factory 0.1.0a16",
+      "ejecutable": "<tmp>"
+    },
+    "conteo_registro": {
+      "casos": [
+        {
+          "pregunta": "¿Cuántos cambios cerrados hay?",
+          "filtro": "cerrados",
+          "esperado": 2,
+          "observado": 2,
+          "fuentes": [
+            "registro:{\"estado\": \"cerrados\", \"operacion\": \"contar\"}"
+          ]
+        },
+        {
+          "pregunta": "¿Cuántos cambios abiertos hay?",
+          "filtro": "abiertos",
+          "esperado": 1,
+          "observado": 1,
+          "fuentes": [
+            "registro:{\"estado\": \"abiertos\", \"operacion\": \"contar\"}"
+          ]
+        },
+        {
+          "pregunta": "¿Cuántos cambios abandonados hay?",
+          "filtro": "abandonados",
+          "esperado": 1,
+          "observado": 1,
+          "fuentes": [
+            "registro:{\"estado\": \"abandonados\", \"operacion\": \"contar\"}"
+          ]
+        },
+        {
+          "pregunta": "¿Cuántos cambios hay en total?",
+          "filtro": "todos",
+          "esperado": 4,
+          "observado": 4,
+          "fuentes": [
+            "registro:{\"estado\": \"todos\", \"operacion\": \"contar\"}"
+          ]
+        }
+      ],
+      "exitoso": true
+    },
+    "elaboracion_fixture": {
+      "exitoso": true,
+      "fuentes": [
+        {
+          "ruta": "docs/reglas.md",
+          "cita": "docs/reglas.md#Reglas del proyecto",
+          "texto": "Reglas del proyecto Las reglas establecen acuerdos y revisiones para cada entrega.",
+          "clase": "guia",
+          "uso": "Guía del proyecto; distinguir instrucciones de sus ejemplos.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S1"
+        },
+        {
+          "ruta": "registro",
+          "cita": "registro:{\"estado\": \"cerrados\", \"operacion\": \"contar\"}",
+          "texto": "Cantidad de cambios cerrados: 2. {\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 2}",
+          "archivos": [
+            ".factory/cambios/20261020-100000-aaa-cerrado1/factory.json",
+            ".factory/cambios/20261021-110000-bbb-cerrado2/factory.json",
+            ".factory/cambios/20261022-120000-ccc-abierto/factory.json",
+            ".factory/cambios/20261023-130000-ddd-abandonado/factory.json"
+          ],
+          "inventario_sha256": "399adf5220ad8399d8a431502b013e6e7e4dea2106901a42bfa95dae62fc5e5f",
+          "directorio": "openspec/changes",
+          "directorio_existe": true,
+          "criterio": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "valor": 2,
+          "agregados": {},
+          "clase": "registro",
+          "uso": "Datos calculados del registro actual.",
+          "normalizacion": "markdown_estructural_y_espacios",
+          "texto_truncado": false,
+          "id": "S2"
+        }
+      ],
+      "registros_intactos": true,
+      "simulado": true,
+      "rechazo_escritura": true,
+      "trazas": [
+        {
+          "herramienta": "registro",
+          "argumentos": {
+            "operacion": "contar",
+            "estado": "cerrados"
+          },
+          "exitoso": true
+        },
+        {
+          "herramienta": "escribir",
+          "exitoso": false
+        }
+      ],
+      "respuesta": "Hay 2 cambios cerrados en el registro. [S2]\n\nLas reglas establecen acuerdos y revisiones para cada entrega. [S1]",
+      "afirmaciones": [
+        {
+          "texto": "Hay 2 cambios cerrados en el registro.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S2",
+              "texto": "Cantidad de cambios cerrados: 2. {\"criterio\": {\"operacion\": \"contar\", \"estado\": \"cerrados\"}, \"cantidad\": 2}",
+              "fragmento": "S2.F1"
+            }
+          ]
+        },
+        {
+          "texto": "Las reglas establecen acuerdos y revisiones para cada entrega.",
+          "inferencia": false,
+          "alcance": "actual",
+          "citas": [
+            {
+              "fuente": "S1",
+              "texto": "Reglas del proyecto Las reglas establecen acuerdos y revisiones para cada entrega.",
+              "fragmento": "S1.F1"
+            }
+          ]
+        }
+      ]
+    },
+    "novedades": {
+      "exitoso": true,
+      "cambio": "20261030-112533-4oq-novedad",
+      "componentes": [
+        "alfa 1.2.3"
+      ],
+      "inventario_guardado": ".factory/cambios/20261030-112533-4oq-novedad/candidatos/45a883a/procedencia/cyclonedx.json",
+      "aviso": "GHSA-prueba-0001",
+      "sin_red_rechazada": true,
+      "consultas": [
+        {
+          "package": {
+            "name": "alfa",
+            "ecosystem": "PyPI"
+          },
+          "version": "1.2.3"
+        }
+      ]
+    },
+    "arneses": {
+      "verify_installed": {
+        "returncode": 0,
+        "stdout": "OK: wheel instalado, dependencias aisladas, inicio guiado, listado, medidas, importación, revisión, juicio y cierre fixture."
+      },
+      "verify_guide": {
+        "returncode": 0,
+        "stdout": "OK: 23 comandos extraídos del HTML, wheel instalado y cierre de fixture desde carpeta vacía."
+      },
+      "exitoso": true
+    },
+    "exitoso": true
+  },
+  "error": null
+}

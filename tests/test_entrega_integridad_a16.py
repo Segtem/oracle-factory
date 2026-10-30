@@ -92,3 +92,18 @@ class IntegridadEntrega(unittest.TestCase):
             self.assertNotIn(ruta, limpio)
         self.assertEqual(sensor.sin_rutas_locales({'sin_rutas': 'texto', 'n': 3}), {'sin_rutas': 'texto', 'n': 3})
         self.assertIn('<repo>', limpio)
+
+    def test_la_trazabilidad_exige_que_cada_caso_haya_salido_bien(self):
+        bueno = {'requisitos': {'r': ['c1', 'c2']}, 'casos': {'c1': {'resultado': 'ok'}, 'c2': {'resultado': 'ok'}}}
+        self.assertTrue(sensor.trazabilidad_valida(bueno))
+        for nombre, roto in {
+            'una falla': {**bueno, 'casos': {**bueno['casos'], 'c2': {'resultado': 'falla'}}},
+            'una omisión': {**bueno, 'casos': {**bueno['casos'], 'c1': {'resultado': 'omitido'}}},
+            'un caso ausente': {**bueno, 'casos': {'c1': {'resultado': 'ok'}}},
+            'sin requisitos': {'requisitos': {}, 'casos': {}},
+            'forma rara': {'requisitos': [], 'casos': {}},
+        }.items():
+            with self.subTest(nombre):
+                self.assertFalse(sensor.trazabilidad_valida(roto))
+        self.assertFalse(sensor.trazabilidad_valida(None))
+

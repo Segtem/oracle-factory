@@ -122,12 +122,24 @@ class EntregaA16(unittest.TestCase):
         if cls._instalado is None:
             tmp = tempfile.TemporaryDirectory(prefix="test-entrega-")
             cls.addClassCleanup(tmp.cleanup)
+            cls.addClassCleanup(setattr, cls, "_instalado", None)  # tras la limpieza, quien lo pida de nuevo lo reconstruye
             tmp_path = Path(tmp.name)
             venv_dir = tmp_path / "venv"
             wheel = probar_entrega_a16.construir_artefactos(tmp_path / "dist")["wheel"]
             factory_bin, python_bin = probar_entrega_a16.crear_entorno_aislado(venv_dir, wheel)
             cls._instalado = (tmp_path, venv_dir, factory_bin, python_bin)
         return cls._instalado
+
+    def test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye(self):
+        """La trazabilidad vuelve a correr los casos en el mismo intérprete, después de la limpieza de la clase."""
+        cls = type(self)
+        carpeta = cls.instalado()[0]
+        cls.doClassCleanups()
+        self.assertFalse(carpeta.exists())
+        self.assertIsNone(cls._instalado)
+        nueva = cls.instalado()[0]
+        self.assertTrue(nueva.exists())
+        self.assertNotEqual(nueva, carpeta)
 
     def test_ea2_el_origen_y_la_version_instalados_se_verifican(self):
         tmp_path, venv_dir, factory_bin, python_bin = self.instalado()

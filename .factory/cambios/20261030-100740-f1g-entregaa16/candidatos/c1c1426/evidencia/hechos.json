@@ -1,0 +1,179 @@
+{
+  "entrega_a16_caso": [
+    {
+      "requisito": "la_version_a16_es_coherente_y_declara_su_estado",
+      "caso": "EntregaA16.test_ea1_version_coherente_y_estado_declarado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a16_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA16.test_ea2_el_origen_y_la_version_instalados_se_verifican",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a16_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA16.test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a16_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA16.test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_wheel_a16_instalado_ofrece_lo_nuevo",
+      "caso": "EntregaA16.test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "caso": "EntregaA16.test_ea3_entrega_registra_pruebas_y_limites",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_entrega_a16_registra_sus_pruebas_y_sus_limites",
+      "caso": "EntregaA16.test_ea3_un_arnes_fallido_no_se_registra_como_exitoso",
+      "codigo": 0
+    }
+  ],
+  "entrega_a16_suite": [
+    {
+      "completa": 1,
+      "casos": 7
+    }
+  ],
+  "entrega_a16_mutacion": [
+    {
+      "id": "version_pyproject_vieja_010a15",
+      "detectada": 1
+    },
+    {
+      "id": "version_init_vieja_010a15",
+      "detectada": 1
+    },
+    {
+      "id": "lock_con_otra_version",
+      "detectada": 1
+    },
+    {
+      "id": "readme_version_divergente",
+      "detectada": 1
+    },
+    {
+      "id": "origen_checkout_no_rechazado",
+      "detectada": 1
+    },
+    {
+      "id": "wheel_010a15_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_identidades_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutaciones_fuentes_ignoradas",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_viva_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "mutacion_codigo_cero_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "suite_parcial_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "suite_omitida_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "fuentes_inestables_aceptadas",
+      "detectada": 1
+    },
+    {
+      "id": "arnes_fallido_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "linea_base_fallida_aceptada",
+      "detectada": 1
+    },
+    {
+      "id": "simulacion_oculta",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_inventario_no_cyclonedx_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_inventario_sin_guardar_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_busqueda_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_auditoria_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_consulta_sin_bandera_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_consulta_con_red_ignorada",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_avisos_guardados_ignorados",
+      "detectada": 1
+    },
+    {
+      "id": "novedad_consultas_de_mas_aceptadas",
+      "detectada": 1
+    },
+    {
+      "id": "arnes_de_instalacion_fallido_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "arnes_de_guia_fallido_ignorado",
+      "detectada": 1
+    },
+    {
+      "id": "arbol_sucio_aceptado",
+      "detectada": 1
+    },
+    {
+      "id": "rutas_del_checkout_en_la_evidencia",
+      "detectada": 1
+    },
+    {
+      "id": "rutas_temporales_en_la_evidencia",
+      "detectada": 1
+    },
+    {
+      "id": "publicacion_prematura_no_detectada",
+      "detectada": 1
+    },
+    {
+      "id": "publicacion_prematura_sin_notas",
+      "detectada": 1
+    },
+    {
+      "id": "preparacion_olvidada_no_detectada",
+      "detectada": 1
+    },
+    {
+      "id": "preparacion_olvidada_sin_patron_cuando_se_publique",
+      "detectada": 1
+    }
+  ]
+}

@@ -30,6 +30,7 @@ CONTRACTS = {
     ],
     "el_wheel_a16_instalado_ofrece_lo_nuevo": [
         "EntregaA16.test_ea2_el_origen_y_la_version_instalados_se_verifican",
+        "EntregaA16.test_ea2_tras_la_limpieza_el_entorno_instalado_se_reconstruye",
         "EntregaA16.test_ea2_el_wheel_instalado_ofrece_las_novedades_de_a16",
         "EntregaA16.test_ea2_la_validacion_de_las_novedades_rechaza_cada_novedad_que_falta",
         "EntregaA16.test_ea2_las_consultas_de_la_entrega_anterior_siguen_en_el_wheel",
@@ -77,6 +78,14 @@ def sin_rutas_locales(datos):
         texto = texto.replace(ruta, marca)
     texto = re.sub(r'/(?:tmp|var/tmp)/[^"\\\s]*', '<tmp>', texto)
     return json.loads(texto)
+
+
+def trazabilidad_valida(datos):
+    """Cada caso de cada requisito se volvió a correr con traza y salió bien: ni fallas, ni omisiones, ni casos ausentes."""
+    if not isinstance(datos, dict) or not isinstance(datos.get('requisitos'), dict) or not isinstance(datos.get('casos'), dict):
+        return False
+    pedidos = [c for lista in datos['requisitos'].values() for c in lista]
+    return bool(pedidos) and all(isinstance(datos['casos'].get(c), dict) and datos['casos'][c].get('resultado') == 'ok' for c in pedidos)
 
 
 def linea_base_valida(filas):
@@ -137,7 +146,7 @@ def main(argv=None):
         parser.error('mutaciones incompletas, no detectadas o ajenas a las fuentes actuales')
     output = args.salida.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=False)
-    escribir(output / 'mutaciones.json', mut_datos)
+    escribir(output / 'mutaciones.json', sin_rutas_locales(mut_datos))
     stream = io.StringIO()
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
     esperado = Counter(casos_de(suite))
@@ -161,7 +170,10 @@ def main(argv=None):
     if set(ids) != set(CONTRACTS):
         ok = False
     mapa = {ids[s]: [PREFIX + n for n in names] for s, names in CONTRACTS.items() if s in ids}
-    escribir(output / 'trazabilidad.json', trazabilidad.trazar(ROOT, mapa))
+    traza = trazabilidad.trazar(ROOT, mapa)
+    escribir(output / 'trazabilidad.json', traza)
+    if not trazabilidad_valida(traza):
+        ok = False
     hechos = {
         'entrega_a16_caso': [{'requisito': s, 'caso': n, 'codigo': result.observados.get(PREFIX + n, 1)}
                          for s, names in CONTRACTS.items() for n in names],
