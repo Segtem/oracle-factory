@@ -1,0 +1,22 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-avisos-osv/.factory/local/revisiones/28457d9-agy-1",
+  "base": "ac931274c277ad0079b2624915ef94c837279c23",
+  "head": "28457d9ce3f09532e9088fb99768e2ff0b49f1cc",
+  "diff_sha256": "0cc2548d716d80104cbc1a757e78690ac6ea5a2356578a8eb1afedba628b7efb",
+  "context_sha256": "80797d8dca9be7b9a3998456ac38c8907622d764fad3e313d29de76602084a5c",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-3.8-flash-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Revisión estática y dinámica exhaustiva sobre el diff del candidato 28457d9 en entorno local aislado.",
+    "Las interacciones de red a OSV se comprobaron exclusivamente contra servidores HTTP locales simulados (127.0.0.1); ninguna prueba accedió a internet ni a api.osv.dev en vivo.",
+    "Se ejecutaron las 45 pruebas unitarias del cambio (tests/test_avisos_osv.py en 26.6s, exitoso), la suite de pruebas completa de Factory (768 pruebas en 337.5s, exitoso) y el generador de evidencia oficial (tools/verify_avisos_osv.py, exitoso con los 45 casos de contrato asociados a corrida_completa y trazabilidad).",
+    "Se verificaron minuciosamente los arreglos de las rondas anteriores (e9a0371, 7769b6b y 0b79362): normpath fue suprimido completamente, eliminando la vulnerabilidad de escape con '..' tras enlaces simbólicos; --salida prohíbe de forma estricta cualquier componente '..' en ruta.parts; las rutas relativas en --salida se anclan a la raíz del proyecto (ROOT / ruta); y tanto guardar() como la auditoría posterior operan sobre la ruta absoluta debidamente validada sin enlaces simbólicos ni atributos de sólo lectura.",
+    "Se ejecutó una batería de mutaciones sistemáticas en memoria (20 mutaciones sobre oracle_factory/osv.py): 18 fueron eliminadas por la suite de pruebas. Las dos mutaciones que sobrevivieron fueron analizadas: M9 (usar ruta en vez de absoluta en el mensaje informativo de cabecera) no compromete la lógica de guardado ni auditoría; y M20 (omitir la verificación previa 'if not inventarios:') es inocua debido a la defensa en profundidad proporcionada por la comprobación posterior ('if not consultadas:'), que rechaza igualmente sin red con el mensaje 'nada que consultar'.",
+    "No se detectaron defectos, regresiones de seguridad ni discrepancias con respecto a la propuesta y la spec. Findings vacía por ausencia de hallazgos abiertos."
+  ],
+  "findings": []
+}

@@ -111,3 +111,7 @@ Medidas de procedencia_c1e221f291fd3697a.sin_autorizacion_de_red_no_se_consulta_
 ### Nota (2026-10-30 01:02:48 UTC)
 
 Medidas de procedencia_c1e221f291fd3697a.un_fallo_de_consulta_no_se_lee_como_sin_afectados: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-30 09:57:01 UTC)
+
+Revisión guiada Brian Hollweg: aprobar; registrada por Brian Hollweg (persona, confirmo, modo confirmacion; motivo: Cuatro rondas con agy y agy2. Las tres primeras dejaron hallazgos reales (redirecciones HTTP, inventarios sin dependencias, errores de escritura, archivo de sólo lectura, id vacío, enlaces simbólicos y rutas de --salida, rutas relativas), todos corregidos con pruebas y mutaciones detectadas; la cuarta dio 0 hallazgos en ambos. Suite completa sin fallas y evidencia con éxito. Límite declarado: no se probó contra api.osv.dev real.); 0 abiertos derivados; commit 28457d9ce3f09532e9088fb99768e2ff0b49f1cc; informe tareas/20261029-164101-xux-avisososv/revisiones/registro-9dqk0g72/informe.json; decisiones tareas/20261029-164101-xux-avisososv/revisiones/registro-9dqk0g72/decisiones.json.

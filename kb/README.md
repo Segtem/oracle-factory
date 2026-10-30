@@ -87,7 +87,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-150627-lva-procedencia]] — Registrar la procedencia de las dependencias de cada candidato (cerrada)
 - [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
 - [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
-- [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (requisitos_importados)
+- [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (revision_aprobada)
 
 ## Requisitos
 
