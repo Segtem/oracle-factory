@@ -88,7 +88,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261028-222656-b2m-clidividido]] — Partir cli.py en módulos para alejarlo del límite de Oracle Clue (cerrada)
 - [[cambios/20261028-235529-lhi-uvlock]] — Rastrear el uv.lock de Factory y no dar por no confiable un paquete que el entorno no instala (cerrada)
 - [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (cerrada)
-- [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (spec_aprobada)
+- [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (requisitos_importados)
 
 ## Requisitos
 
@@ -180,6 +180,9 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[requisitos/decisiones_c59754a250f5b3593.las_confirmaciones_son_un_menu]]
 - [[requisitos/decisiones_c59754a250f5b3593.revisar_guia_la_revision_de_punta_a_punta]]
 - [[requisitos/decisiones_c59754a250f5b3593.sin_terminal_no_hay_decision_de_persona]]
+- [[requisitos/distribucion_c429661c62d96c96b.el_wheel_a16_instalado_ofrece_lo_nuevo]]
+- [[requisitos/distribucion_c429661c62d96c96b.la_entrega_a16_registra_sus_pruebas_y_sus_limites]]
+- [[requisitos/distribucion_c429661c62d96c96b.la_version_a16_es_coherente_y_declara_su_estado]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_distribucion_instalada_ofrece_las_consultas_del_proyecto]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_entrega_registra_sus_pruebas_y_sus_limites]]
 - [[requisitos/distribucion_c477fe3fb3e543879.la_version_de_entrega_es_coherente_y_declara_su_estado]]
