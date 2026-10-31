@@ -100,6 +100,45 @@
         "factory_pruebas_practica.corrida_completa"
       ],
       "sin_medir": ""
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-31T01:43:59.735267+00:00",
+      "requisito": "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "medidas": [
+        "factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+        "factory_pruebas_practica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-31T01:43:59.898248+00:00",
+      "requisito": "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+      "medidas": [
+        "factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+        "factory_pruebas_practica.corrida_completa"
+      ]
+    },
+    {
+      "accion": "medidas_confirmadas",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-31T01:44:00.055298+00:00",
+      "requisito": "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "medidas": [
+        "factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+        "factory_pruebas_practica.corrida_completa"
+      ]
     }
   ],
   "tipos": {
@@ -107,27 +146,14 @@
     "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "funcional",
     "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas": "funcional"
   },
-  "medidas": {},
-  "medidas_pendientes": {
-    "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": {
-      "sha256": "f1ecdf42768aea46ce1596b20c18c17c4f46badf02c0d2741a21800cf7ff6ff6",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-31T01:43:17.692158+00:00",
-      "catalogos": {
-        "factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "1c400f0630c95f1d31c537e1d10b4cb32e48ac0012d99789464802c857d847cd",
-        "factory_pruebas_practica.corrida_completa": "a8c9b5ebcb1abf628e77247f386f11d0475fb1cc3ef658f083583d9562355fc5"
-      },
-      "archivos_catalogo": {
-        "factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "catalogos/factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas.oracle",
-        "factory_pruebas_practica.corrida_completa": "catalogos/factory_pruebas_practica.corrida_completa.oracle"
-      }
-    },
+  "medidas": {
     "practicas_c185a6b4ec26306ce.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-31T01:43:59.698262+00:00",
       "sha256": "de47462ca2cac598a80dcd3634de05e5dae199ab1b96d513cc13c87a5610cfe2",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-31T01:43:19.127460+00:00",
       "catalogos": {
         "factory_pruebas_practica.el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear": "ba0db68e2023ef851996f624b9e0033dd35d34ecc893ec36efadb673e1daf28e",
         "factory_pruebas_practica.corrida_completa": "a8c9b5ebcb1abf628e77247f386f11d0475fb1cc3ef658f083583d9562355fc5"
@@ -137,11 +163,29 @@
         "factory_pruebas_practica.corrida_completa": "catalogos/factory_pruebas_practica.corrida_completa.oracle"
       }
     },
+    "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-31T01:43:59.859754+00:00",
+      "sha256": "f1ecdf42768aea46ce1596b20c18c17c4f46badf02c0d2741a21800cf7ff6ff6",
+      "catalogos": {
+        "factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "1c400f0630c95f1d31c537e1d10b4cb32e48ac0012d99789464802c857d847cd",
+        "factory_pruebas_practica.corrida_completa": "a8c9b5ebcb1abf628e77247f386f11d0475fb1cc3ef658f083583d9562355fc5"
+      },
+      "archivos_catalogo": {
+        "factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas": "catalogos/factory_pruebas_practica.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas.oracle",
+        "factory_pruebas_practica.corrida_completa": "catalogos/factory_pruebas_practica.corrida_completa.oracle"
+      }
+    },
     "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas": {
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "forma": "confirmo",
+      "modo": "confirmacion",
+      "cuando": "2026-10-31T01:44:00.017829+00:00",
       "sha256": "9a4ecfff087a4faaec8395d4b970e9740dadc9e99f1e3852f986ead7f88cad2d",
-      "actor": "claude-code",
-      "tipo_actor": "agente",
-      "cuando": "2026-10-31T01:43:20.489701+00:00",
       "catalogos": {
         "factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas": "ce00e8916e78969aadbecf3cc4bf55eb3b82611bca354d856f4a8b211546b22f",
         "factory_pruebas_practica.corrida_completa": "a8c9b5ebcb1abf628e77247f386f11d0475fb1cc3ef658f083583d9562355fc5"
@@ -151,5 +195,6 @@
         "factory_pruebas_practica.corrida_completa": "catalogos/factory_pruebas_practica.corrida_completa.oracle"
       }
     }
-  }
+  },
+  "medidas_pendientes": {}
 }

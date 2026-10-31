@@ -25,6 +25,9 @@ capacidad: "practicas"
 - 2026-10-31 01:17 · Cambio creado · claude-code (agente)
 - 2026-10-31 01:36 · Spec aprobada · Brian Hollweg (persona)
 - 2026-10-31 01:37 · Requisitos importados · claude-code (agente)
+- 2026-10-31 01:43 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-10-31 01:43 · Medidas confirmadas · Brian Hollweg (persona)
+- 2026-10-31 01:44 · Medidas confirmadas · Brian Hollweg (persona)
 
 ## Riesgos aceptados
 
