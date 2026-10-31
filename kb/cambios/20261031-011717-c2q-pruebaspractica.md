@@ -43,6 +43,7 @@ capacidad: "practicas"
 
 - `b160cda` pruebas-practica: registrar la confirmación de medidas por Brian (deducido)
 - `8104329` pruebas-practica: registrar la confirmación de medidas por Brian (deducido)
+- `8d1350a` pruebas-practica: registrar la confirmación de medidas por Brian (deducido)
 - Todos, también los que se deducen al integrarlo o los posteriores a la última decisión: `oracle-factory log 20261031-011717-c2q-pruebaspractica`.
 
 ## Mensajes

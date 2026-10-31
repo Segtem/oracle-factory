@@ -432,9 +432,12 @@ class Pruebas(unittest.TestCase):
         texto = spec(('hacer uno', ['#42 sin errores.', 'Pruebas: no aplica']))
         with self.assertRaisesRegex(pruebas.PruebasInvalidas, 'necesita un motivo'):
             pruebas.excepciones(texto)
-        for encabezado in ('# Otro título', '## Otra sección', '#### Scenario: x', '###'):
-            with self.subTest(encabezado=encabezado):
+        for encabezado in ('# Otro título', '## Otra sección', '### Otro', '#### Scenario: x'):  # lo que cierra un requisito en Oracle
+            with self.subTest(cierra=encabezado):
                 self.assertEqual(pruebas.excepciones(spec(('hacer uno', [encabezado, 'Pruebas: no aplica']))), {})
+        for no_encabezado in ('#### Nota', '##### Detalle', '###### Ref', '###', '#42', '#sin espacio'):  # lo que Oracle no toma por encabezado
+            with self.subTest(no_cierra=no_encabezado), self.assertRaisesRegex(pruebas.PruebasInvalidas, 'necesita un motivo'):
+                pruebas.excepciones(spec(('hacer uno', [no_encabezado, 'Pruebas: no aplica'])))
 
     def test_pp3_el_reconocimiento_ignora_mayusculas_sangria_y_raya_mediana(self):
         for linea in ('pruebas: NO APLICA — motivo', '   Pruebas: no aplica — motivo', 'Pruebas: no aplica – motivo',
@@ -466,6 +469,99 @@ class Pruebas(unittest.TestCase):
             return original(ruta, *a, **kw)
         with patch.object(Path, 'read_text', falla):
             self.assertTrue(pruebas.datos(self.root, ident, f.leer(ident)[1], SHA)['sin_trazabilidad'])
+
+    # --- tercera ronda -------------------------------------------------------------------------------------------------------
+    def test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado(self):
+        ident = self.cambio(('hacer uno', []))
+        base = f.leer(ident)[1]
+        for valor in (5, 'si', ['x'], True, {'documentos': 'no'}, {'documentos': 7}, {'documentos': None}):
+            with self.subTest(spec_aprobada=valor):
+                estado = json.loads(json.dumps(base))
+                estado['spec_aprobada'] = valor
+                datos = pruebas.datos(self.root, ident, estado, SHA, {'a': 'b'})
+                self.assertEqual(datos['excepciones'], {})
+
+    def test_pp3_cambiar_la_propuesta_despues_de_aprobar_deja_sin_vigencia_las_excepciones(self):
+        ident = self.cambio(('hacer uno', []))
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica — motivo'])))
+        uno = f.leer(ident)[1]['requisitos'][0]
+        self.assertEqual(self.estado(ident)[1]['pruebas']['excepciones'], {uno: 'motivo'})
+        propuesta = self.root / 'openspec/changes' / ident / 'proposal.md'
+        propuesta.write_text(propuesta.read_text() + '\nUn cambio posterior.\n')
+        datos = self.estado(ident)[1]['pruebas']
+        self.assertEqual(datos['excepciones'], {})
+        self.assertIn('no tiene una aprobación vigente', ' '.join(datos['invalidas']))
+
+    def test_pp3_sin_documentos_para_comparar_las_excepciones_no_cuentan(self):
+        ident = self.cambio(('hacer uno', []))
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica — motivo'])))
+        estado = f.leer(ident)[1]
+        self.assertEqual(pruebas.datos(self.root, ident, estado, SHA, None)['excepciones'], {})
+        self.assertEqual(pruebas.datos(self.root, ident, estado, SHA, {})['excepciones'], {})
+        self.assertNotEqual(pruebas.datos(self.root, ident, estado, SHA, f.documentos(*f.leer(ident)))['excepciones'], {})
+
+    def test_pp3_la_ausencia_de_documentos_en_los_dos_lados_no_cuenta_como_aprobacion(self):
+        ident = self.cambio(('hacer uno', []))
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica — motivo'])))
+        base = f.leer(ident)[1]
+        for aprobacion, documentos in (({'documentos': None}, None), ({'documentos': {}}, {}), ({}, None), ({'documentos': {}}, None)):
+            with self.subTest(aprobacion=aprobacion, documentos=documentos):
+                estado = json.loads(json.dumps(base))
+                estado['spec_aprobada'] = aprobacion
+                self.assertEqual(pruebas.datos(self.root, ident, estado, SHA, documentos)['excepciones'], {})
+
+    def test_pp3_una_spec_que_todavia_no_se_aprobo_lo_dice_sin_decir_que_cambio(self):
+        ident = f.nuevo('Nueva', 'demo')
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(spec(('hacer uno', ['Pruebas: no aplica — motivo'])), encoding='utf-8')
+        datos = pruebas.datos(self.root, ident, f.leer(ident)[1], None, f.documentos(carpeta, estado))
+        self.assertEqual(datos['excepciones'], {})
+        self.assertIn('todavía no se aprobó', ' '.join(datos['invalidas']))
+
+    def test_pp3_las_excepciones_aprobadas_se_ven_antes_de_importar_por_el_nombre_del_requisito(self):
+        ident = f.nuevo('Antes de importar', 'demo')
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(spec(('hacer uno', ['Pruebas: no aplica — motivo'])), encoding='utf-8')
+        (carpeta / 'proposal.md').write_text('# Antes de importar\n\nFixture.\n', encoding='utf-8')
+        with self.escribe('1'):
+            f.aprobar_spec(ident)
+        self.assertEqual(f.leer(ident)[1]['requisitos'], [])
+        texto, datos = self.estado(ident)
+        self.assertEqual(datos['pruebas']['excepciones'], {'hacer_uno': 'motivo'})
+        self.assertIn('Pruebas: hacer_uno no aplica — motivo', texto)
+
+    def test_pp2_un_identificador_con_forma_rara_no_arma_rutas(self):
+        ident = self.cambio(('hacer uno', []))
+        estado = f.leer(ident)[1]
+        for raro in ('../../..', '../x', 'sin-forma', '', None, 7):
+            with self.subTest(identificador=raro):
+                self.assertIsNone(pruebas.datos(self.root, raro, estado, SHA))
+
+    def test_pp2_un_candidato_demasiado_corto_o_largo_no_arma_rutas(self):
+        ident = self.cambio(('hacer uno', []))
+        estado = f.leer(ident)[1]
+        for candidato in ('abc', 'a' * 41, '', 'ab c'):
+            with self.subTest(candidato=candidato):
+                self.assertIsNone(pruebas.datos(self.root, ident, estado, candidato))
+        self.assertIsNotNone(pruebas.datos(self.root, ident, estado, 'abcd'))
+        self.assertIsNotNone(pruebas.datos(self.root, ident, estado, 'a' * 40))
+
+    def test_pp3_un_motivo_que_empieza_con_guiones_conserva_su_texto(self):
+        self.assertEqual(pruebas.excepciones(spec(('hacer uno', ['Pruebas: no aplica — --help es texto fijo']))),
+                         {'hacer_uno': '--help es texto fijo'})
+        self.assertEqual(pruebas.excepciones(spec(('hacer uno', ['Pruebas: no aplica — -n y -v']))), {'hacer_uno': '-n y -v'})
+
+    def test_pp3_las_secciones_delta_se_leen_en_cualquier_mayuscula_y_renamed_no_retira(self):
+        base = spec(('hacer uno', ['Pruebas: no aplica — motivo']))
+        for seccion in ('added', 'Modified', 'RENAMED'):
+            with self.subTest(seccion=seccion):
+                self.assertEqual(pruebas.excepciones(base.replace('ADDED', seccion)), {'hacer_uno': 'motivo'})
+        self.assertEqual(pruebas.excepciones(base.replace('ADDED', 'removed')), {})
+
+    def test_pp3_el_primer_error_es_el_que_se_informa(self):
+        texto = spec(('hacer uno', ['Pruebas: no aplica']), ('hacer dos', ['Pruebas: sí']))
+        with self.assertRaisesRegex(pruebas.PruebasInvalidas, 'hacer_uno'):
+            pruebas.excepciones(texto)
 
 
 class Analisis(unittest.TestCase):

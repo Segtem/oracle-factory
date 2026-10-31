@@ -360,7 +360,7 @@ def datos_estado(identificador: str) -> dict:
 
     pendientes_medidas = estado.get("medidas_pendientes") or {}
     candidato = None if abandonado else cli.candidato_vigente(identificador)
-    prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato)
+    prueba = cli.pruebas_mod.datos(cli.ROOT, identificador, estado, candidato, cli.documentos_o_nada(carpeta, estado))
     return {
         "esquema": cli.ESQUEMA_ESTADO, "id": estado["id"], "titulo": estado.get("titulo", ""), "fase": estado.get("fase"),
         "modo": cli.modo_de(estado), "capacidad": estado.get("capacidad"),

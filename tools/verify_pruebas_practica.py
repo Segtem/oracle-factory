@@ -34,6 +34,8 @@ CONTRACTS = {
         'Pruebas.test_pp2_un_cambio_abandonado_no_avisa',
         'Pruebas.test_pp2_un_candidato_con_forma_rara_no_arma_rutas',
         'Pruebas.test_pp2_una_trazabilidad_que_no_se_puede_leer_cuenta_como_sin_trazabilidad',
+        'Pruebas.test_pp2_un_identificador_con_forma_rara_no_arma_rutas',
+        'Pruebas.test_pp2_un_candidato_demasiado_corto_o_largo_no_arma_rutas',
         'Analisis.test_el_analisis_de_requisitos_con_y_sin_casos',
         'Analisis.test_un_caso_de_solo_espacios_no_cuenta_como_caso',
         'Analisis.test_un_caso_vacio_o_no_texto_no_cuenta_como_caso'],
@@ -70,7 +72,16 @@ CONTRACTS = {
         'Pruebas.test_pp3_un_numeral_en_la_descripcion_no_cierra_la_cabecera_del_requisito',
         'Pruebas.test_pp3_el_reconocimiento_ignora_mayusculas_sangria_y_raya_mediana',
         'Pruebas.test_pp3_las_excepciones_se_muestran_ordenadas',
-        'Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe'],
+        'Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_no_rompe',
+        'Pruebas.test_pp3_un_registro_con_spec_aprobada_rara_no_rompe_el_estado',
+        'Pruebas.test_pp3_cambiar_la_propuesta_despues_de_aprobar_deja_sin_vigencia_las_excepciones',
+        'Pruebas.test_pp3_sin_documentos_para_comparar_las_excepciones_no_cuentan',
+        'Pruebas.test_pp3_la_ausencia_de_documentos_en_los_dos_lados_no_cuenta_como_aprobacion',
+        'Pruebas.test_pp3_una_spec_que_todavia_no_se_aprobo_lo_dice_sin_decir_que_cambio',
+        'Pruebas.test_pp3_las_excepciones_aprobadas_se_ven_antes_de_importar_por_el_nombre_del_requisito',
+        'Pruebas.test_pp3_un_motivo_que_empieza_con_guiones_conserva_su_texto',
+        'Pruebas.test_pp3_las_secciones_delta_se_leen_en_cualquier_mayuscula_y_renamed_no_retira',
+        'Pruebas.test_pp3_el_primer_error_es_el_que_se_informa'],
 }
 PREFIX = 'test_pruebas_practica.'
 LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente '
@@ -78,12 +89,12 @@ LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad
            'el estado avisa de las que faltan.')
 
 
-def fuentes():
+def fuentes(salida=None):
     # Todo lo versionado o nuevo del producto (código, pruebas, datos de referencia, catálogos, docs); sin los registros generados.
     nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
                              text=True, capture_output=True, check=True).stdout.split('\0')  # -z: nombres no ASCII sin comillas
     elegidos = [ROOT / n for n in nombres if n and not n.startswith(('.factory/', 'kb/', 'tareas/', 'openspec/changes/'))
-                and (ROOT / n).is_file()]
+                and (ROOT / n).is_file() and not (salida and (ROOT / n).is_relative_to(salida))]  # la evidencia no es producto
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
     return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
 
@@ -95,7 +106,7 @@ def main(argv=None):
     versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task', 'oracle-clue')}
     output = args.salida.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=False)
-    origen = fuentes()
+    origen = fuentes(output)
     stream = io.StringIO()
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
     result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
@@ -107,10 +118,11 @@ def main(argv=None):
     (output / 'suite.txt').write_text(stream.getvalue(), encoding='utf-8')
     # Los mismos casos, otra vez y trazados: requisito → casos → líneas ejecutadas (oracle-factory trazabilidad lo cruza).
     ids = {r.rsplit('.', 1)[-1]: r for r in json.loads((ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text())['requisitos']}
-    escribir(output / 'trazabilidad.json', trazabilidad.trazar(ROOT, {ids[s]: [PREFIX + n for n in names]
-                                                                     for s, names in CONTRACTS.items()}))
-    stable = fuentes() == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
-    ok = result.wasSuccessful() and complete and stable
+    traza = trazabilidad.trazar(ROOT, {ids[s]: [PREFIX + n for n in names] for s, names in CONTRACTS.items()})
+    escribir(output / 'trazabilidad.json', traza)
+    trazada = all(c.get('resultado') == 'ok' for c in traza['casos'].values()) and len(traza['casos']) == len(expected)
+    stable = fuentes(output) == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
+    ok = result.wasSuccessful() and complete and stable and trazada
     escribir(output / 'hechos.json', {'pruebas_practica_caso': rows, 'pruebas_practica_corrida': [{'completa': int(ok), 'casos': len(expected)}]})
     escribir(output / 'resultado.json', {'exitoso': ok, 'tests': result.testsRun, 'casos_contrato': len(expected),
              'casos_exactos_sin_omisiones_duplicados_ni_fallas': complete, 'fuentes_estables': stable, 'origen': origen,

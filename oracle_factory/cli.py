@@ -493,6 +493,14 @@ def documentos(carpeta: Path, estado: dict) -> dict[str, str]:
             for p in (carpeta / "proposal.md", ROOT / estado["spec"])}
 
 
+def documentos_o_nada(carpeta: Path, estado: dict) -> dict | None:
+    """Las huellas actuales de la propuesta y la spec, o None si no se pueden leer (para mostrar, sin fallar)."""
+    try:
+        return documentos(carpeta, estado)
+    except (OSError, KeyError, TypeError, ValueError):
+        return None
+
+
 def exigir_spec(carpeta: Path, estado: dict) -> None:
     aprobacion = estado.get("spec_aprobada") or {}
     if not aprobacion:
@@ -1843,7 +1851,7 @@ def mostrar(identificador: str) -> None:
         print(linea + ".")
     print(linea_commits(commits_del_cambio(identificador, estado)) + ".")
     print(linea_quien(quien_del_cambio(estado)) + ".")
-    prueba = pruebas_mod.datos(ROOT, identificador, estado, candidato_vigente(identificador))
+    prueba = pruebas_mod.datos(ROOT, identificador, estado, candidato_vigente(identificador), documentos_o_nada(carpeta, estado))
     for aviso in (avisos_head(estado) + aviso_revision(estado) + aviso_lanzamientos(estado) + aviso_sin_autor(estado)
                   + aviso_sin_medir(identificador, estado) + aviso_notas(identificador, estado) + aviso_union(identificador, estado)
                   + pruebas_mod.avisos(prueba)):
