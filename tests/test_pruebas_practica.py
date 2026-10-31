@@ -1,6 +1,5 @@
 """Las pruebas como práctica de desarrollo, sin bloquear: escenarios pp1–pp3, en proyectos temporales."""
-import contextlib
-import io
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -37,6 +36,13 @@ class Pruebas(unittest.TestCase):
         """Los ids de los requisitos con esos nombres (f.leer los da ordenados por id, no por orden de la spec)."""
         por_slug = {r.split('.', 1)[1]: r for r in f.leer(ident)[1]['requisitos']}
         return [por_slug[x] for x in slugs]
+
+    def reescribir_spec_aprobada(self, ident, texto):
+        """Cambia la spec y deja su huella como la aprobada, como si así se hubiera aprobado."""
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(texto, encoding='utf-8')
+        estado['spec_sha256'] = hashlib.sha256(texto.encode('utf-8')).hexdigest()
+        f.guardar(carpeta, estado)
 
     def trazabilidad(self, ident, por_requisito):
         """El trazabilidad.json que dejaría el sensor del candidato SHA: {rid: [casos]}."""
@@ -208,7 +214,7 @@ class Pruebas(unittest.TestCase):
         ident = self.cambio(('hacer uno', []))
         uno = f.leer(ident)[1]['requisitos'][0]
         carpeta, estado = f.leer(ident)
-        (self.root / estado['spec']).write_text(spec(('hacer uno', ['Pruebas: no aplica'])), encoding='utf-8')
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica'])))
         self.trazabilidad(ident, {uno: []})
         texto, datos = self.estado(ident)
         self.assertEqual(datos['pruebas']['excepciones'], {})
@@ -238,6 +244,123 @@ class Pruebas(unittest.TestCase):
         self.assertEqual(pruebas.excepciones(spec(('hacer uno', []))), {})
         self.assertEqual(pruebas.excepciones(''), {})
 
+    # --- las revisiones: lo que el aviso no debía callar ni inventar ---------------------------------------------------------
+    def test_pp3_una_excepcion_mal_escrita_se_avisa_aunque_todavia_no_haya_candidato(self):
+        ident = self.cambio(('hacer uno', []))
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica'])))
+        texto, datos = self.estado(ident, candidato=None)
+        self.assertEqual(datos['pruebas']['sin_casos'], [])
+        self.assertFalse(datos['pruebas']['sin_trazabilidad'])
+        self.assertIn('necesita un motivo', ' '.join(datos['pruebas']['invalidas']))
+        self.assertTrue(any('necesita un motivo' in l for l in texto.splitlines()))
+
+    def test_pp3_una_linea_mala_no_borra_las_excepciones_buenas_de_los_otros_requisitos(self):
+        ident = self.cambio(('hacer uno', []), ('hacer dos', []))
+        uno, dos = self.ids(ident, 'hacer_uno', 'hacer_dos')
+        self.reescribir_spec_aprobada(ident, spec(('hacer uno', ['Pruebas: no aplica — es ayuda']), ('hacer dos', ['Pruebas: no aplica'])))
+        self.trazabilidad(ident, {uno: [], dos: []})
+        datos = self.estado(ident)[1]['pruebas']
+        self.assertEqual(datos['excepciones'], {uno: 'es ayuda'})
+        self.assertEqual(datos['sin_casos'], [dos])
+        self.assertEqual(len(datos['invalidas']), 1)
+
+    def test_pp3_lo_escrito_en_la_spec_despues_de_aprobarla_no_cuenta_como_aceptado(self):
+        ident = self.cambio(('hacer uno', []))
+        uno = f.leer(ident)[1]['requisitos'][0]
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(spec(('hacer uno', ['Pruebas: no aplica — pretexto'])), encoding='utf-8')
+        self.trazabilidad(ident, {uno: []})
+        datos = self.estado(ident)[1]['pruebas']
+        self.assertEqual(datos['excepciones'], {})
+        self.assertEqual(datos['sin_casos'], [uno])
+        self.assertIn('cambió desde su aprobación', ' '.join(datos['invalidas']))
+
+    def test_pp3_una_spec_sin_excepciones_cambiada_despues_de_aprobarla_no_avisa_de_excepciones(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).write_text(spec(('hacer uno', []), ('otro', [])), encoding='utf-8')
+        self.assertEqual(self.estado(ident)[1]['pruebas']['invalidas'], [])
+
+    def test_pp3_la_spec_que_es_un_enlace_simbolico_no_se_sigue(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, estado = f.leer(ident)
+        ruta = self.root / estado['spec']
+        fuera = self.root / 'fuera.md'
+        fuera.write_text(spec(('hacer uno', ['Pruebas: no aplica — desde afuera'])), encoding='utf-8')
+        ruta.unlink()
+        ruta.symlink_to(fuera)
+        datos = self.estado(ident)[1]['pruebas']
+        self.assertEqual(datos['excepciones'], {})
+        self.assertIn('enlaces simbólicos', ' '.join(datos['invalidas']))
+
+    def test_pp3_una_spec_que_falta_se_avisa_y_no_rompe_el_estado(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, estado = f.leer(ident)
+        (self.root / estado['spec']).unlink()
+        datos = self.estado(ident)[1]['pruebas']
+        self.assertIn('no pude leer la spec', ' '.join(datos['invalidas']))
+
+    def test_pp3_valores_raros_en_el_registro_no_rompen_el_estado(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, base = f.leer(ident)
+        for campo, valor in (('spec', None), ('spec', 7), ('spec', ['x']), ('spec', 'a\x00b'), ('requisitos', 'texto'),
+                             ('requisitos', [1, 2]), ('requisitos', {'a': 1})):
+            with self.subTest(campo=campo, valor=valor):
+                estado = json.loads(json.dumps(base))
+                estado[campo] = valor
+                resultado = pruebas.datos(self.root, ident, estado, SHA)  # lo que importa: no cae
+                if campo == 'requisitos':
+                    self.assertIsNone(resultado)
+                else:
+                    self.assertIn('no pude leer la spec', ' '.join(resultado['invalidas']))
+
+    def test_pp2_una_carpeta_de_evidencia_enlazada_no_se_sigue(self):
+        ident = self.cambio(('hacer uno', []))
+        uno = f.leer(ident)[1]['requisitos'][0]
+        real = self.root / 'real'
+        real.mkdir()
+        (real / 'trazabilidad.json').write_text(json.dumps({'esquema': 'oracle-factory.trazabilidad-casos/1',
+                                                            'requisitos': {uno: ['test_x.A.test_uno']}, 'casos': {}}))
+        destino = estructura.ruta_canonica(self.root, ident, 'evidencia', SHA)
+        destino.parent.mkdir(parents=True)
+        destino.symlink_to(real)
+        self.assertTrue(self.estado(ident)[1]['pruebas']['sin_trazabilidad'])
+
+    def test_pp2_un_cambio_abandonado_no_avisa(self):
+        ident = self.cambio(('hacer uno', []))
+        carpeta, estado = f.leer(ident)
+        estado['fase'] = 'abandonada'
+        f.guardar(carpeta, estado)
+        self.assertIsNone(pruebas.datos(self.root, ident, f.leer(ident)[1], SHA))
+
+    def test_pp3_un_motivo_hecho_de_guiones_no_es_un_motivo(self):
+        for linea in ('Pruebas: no aplica - -', 'Pruebas: no aplica — —', 'Pruebas: no aplica — - —'):
+            with self.subTest(linea=linea), self.assertRaisesRegex(pruebas.PruebasInvalidas, 'necesita un motivo'):
+                pruebas.excepciones(spec(('hacer uno', [linea])))
+
+    def test_pp3_declarar_dos_veces_pruebas_en_un_requisito_se_rechaza(self):
+        with self.assertRaisesRegex(pruebas.PruebasInvalidas, 'declarada dos veces'):
+            pruebas.excepciones(spec(('hacer uno', ['Pruebas: no aplica — uno', 'Pruebas: no aplica — dos'])))
+
+    def test_pp3_el_ejemplo_dentro_de_un_bloque_de_codigo_no_cuenta(self):
+        texto = spec(('hacer uno', ['```markdown', 'Pruebas: no aplica — ejemplo', '```', 'Pruebas: no aplica — el de verdad']))
+        self.assertEqual(pruebas.excepciones(texto), {'hacer_uno': 'el de verdad'})
+        sin_motivo = spec(('hacer uno', ['```', 'Pruebas: no aplica', '```']))
+        self.assertEqual(pruebas.excepciones(sin_motivo), {})  # un ejemplo mal escrito dentro del bloque tampoco rechaza
+
+    def test_pp3_la_viñeta_con_asterisco_y_con_guion_se_leen_igual(self):
+        for marca in ('-', '*'):
+            with self.subTest(marca=marca):
+                self.assertEqual(pruebas.excepciones(spec(('hacer uno', [f'{marca} Pruebas: no aplica — motivo']))), {'hacer_uno': 'motivo'})
+
+    def test_pp3_una_seccion_modified_tambien_puede_declarar_la_excepcion(self):
+        texto = spec(('hacer uno', ['Pruebas: no aplica — motivo'])).replace('ADDED', 'MODIFIED')
+        self.assertEqual(pruebas.excepciones(texto), {'hacer_uno': 'motivo'})
+
+    def test_pp3_el_motivo_conserva_su_texto_con_guiones_y_espacios_internos(self):
+        self.assertEqual(pruebas.excepciones(spec(('hacer uno', ['Pruebas: no aplica —  es una prueba - a mano  ']))),
+                         {'hacer_uno': 'es una prueba - a mano'})
+
 
 class Analisis(unittest.TestCase):
     """El núcleo puro: qué requisitos quedan sin casos."""
@@ -249,6 +372,10 @@ class Analisis(unittest.TestCase):
         self.assertEqual(pruebas.analizar(['d.a'], None, {})['sin_trazabilidad'], True)
         self.assertEqual(pruebas.analizar(['d.a', 'd.b'], trazas, {'d.b': 'motivo'})['sin_casos'], [])
         self.assertEqual(pruebas.analizar(['d.b'], trazas, {'d.b': 'motivo'})['excepciones'], {'d.b': 'motivo'})
+
+    def test_un_caso_de_solo_espacios_no_cuenta_como_caso(self):
+        trazas = {'esquema': 'oracle-factory.trazabilidad-casos/1', 'requisitos': {'d.a': ['   ', '\t']}, 'casos': {}}
+        self.assertEqual(pruebas.analizar(['d.a'], trazas, {})['sin_casos'], ['d.a'])
 
     def test_un_caso_vacio_o_no_texto_no_cuenta_como_caso(self):
         trazas = {'esquema': 'oracle-factory.trazabilidad-casos/1', 'requisitos': {'d.a': [''], 'd.b': [None], 'd.c': 'x'}, 'casos': {}}

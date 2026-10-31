@@ -30,7 +30,10 @@ CONTRACTS = {
         'Pruebas.test_pp2_con_casos_en_todos_no_hay_aviso_de_pruebas',
         'Pruebas.test_pp2_sin_candidato_todavia_no_hay_nada_que_avisar',
         'Pruebas.test_pp2_un_cambio_sin_requisitos_importados_o_cerrado_no_avisa',
+        'Pruebas.test_pp2_una_carpeta_de_evidencia_enlazada_no_se_sigue',
+        'Pruebas.test_pp2_un_cambio_abandonado_no_avisa',
         'Analisis.test_el_analisis_de_requisitos_con_y_sin_casos',
+        'Analisis.test_un_caso_de_solo_espacios_no_cuenta_como_caso',
         'Analisis.test_un_caso_vacio_o_no_texto_no_cuenta_como_caso'],
     'una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas': [
         'Pruebas.test_pp3_una_excepcion_con_motivo_se_muestra_y_ese_requisito_no_avisa',
@@ -42,7 +45,20 @@ CONTRACTS = {
         'Pruebas.test_pp3_la_linea_pruebas_solo_cuenta_en_la_cabecera_del_requisito_no_en_los_escenarios',
         'Pruebas.test_pp3_la_excepcion_se_asocia_al_requisito_por_su_nombre_y_no_a_otro',
         'Pruebas.test_pp3_lo_que_la_spec_retira_no_lleva_excepcion',
-        'Pruebas.test_pp3_sin_excepciones_la_spec_se_lee_como_siempre'],
+        'Pruebas.test_pp3_sin_excepciones_la_spec_se_lee_como_siempre',
+        'Pruebas.test_pp3_una_excepcion_mal_escrita_se_avisa_aunque_todavia_no_haya_candidato',
+        'Pruebas.test_pp3_una_linea_mala_no_borra_las_excepciones_buenas_de_los_otros_requisitos',
+        'Pruebas.test_pp3_lo_escrito_en_la_spec_despues_de_aprobarla_no_cuenta_como_aceptado',
+        'Pruebas.test_pp3_una_spec_sin_excepciones_cambiada_despues_de_aprobarla_no_avisa_de_excepciones',
+        'Pruebas.test_pp3_la_spec_que_es_un_enlace_simbolico_no_se_sigue',
+        'Pruebas.test_pp3_una_spec_que_falta_se_avisa_y_no_rompe_el_estado',
+        'Pruebas.test_pp3_valores_raros_en_el_registro_no_rompen_el_estado',
+        'Pruebas.test_pp3_un_motivo_hecho_de_guiones_no_es_un_motivo',
+        'Pruebas.test_pp3_declarar_dos_veces_pruebas_en_un_requisito_se_rechaza',
+        'Pruebas.test_pp3_el_ejemplo_dentro_de_un_bloque_de_codigo_no_cuenta',
+        'Pruebas.test_pp3_la_viñeta_con_asterisco_y_con_guion_se_leen_igual',
+        'Pruebas.test_pp3_una_seccion_modified_tambien_puede_declarar_la_excepcion',
+        'Pruebas.test_pp3_el_motivo_conserva_su_texto_con_guiones_y_espacios_internos'],
 }
 PREFIX = 'test_pruebas_practica.'
 LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad que dejaría el sensor escrita a mano y el candidato vigente '
@@ -51,11 +67,12 @@ LIMITES = ('Escenarios pp1–pp3 sobre proyectos temporales, con la trazabilidad
 
 
 def fuentes():
-    files = [ROOT / 'fabrica.py', ROOT / 'pyproject.toml', Path(__file__), *ROOT.glob('oracle_factory/*.py'),
-             *ROOT.glob('tests/*.py'), ROOT / 'oracle_factory/pruebas.py', ROOT / 'docs/trazabilidad.md',
-             *ROOT.glob('catalogos/factory_pruebas_practica.*.oracle')]
+    # Todo lo versionado o nuevo del producto (código, pruebas, datos de referencia, catálogos, docs); sin los registros generados.
+    nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '--cached', '--others', '--exclude-standard'],
+                             text=True, capture_output=True, check=True).stdout.splitlines()
+    elegidos = [ROOT / n for n in nombres if not n.startswith(('.factory/', 'kb/', 'tareas/', 'openspec/')) and (ROOT / n).is_file()]
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
-    return {'head': head, 'sha256': {str(p.relative_to(ROOT)): sha(p) for p in sorted(set(files))}}
+    return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
 
 
 def main(argv=None):
@@ -72,8 +89,6 @@ def main(argv=None):
     expected = [PREFIX + name for names in CONTRACTS.values() for name in names]
     observed = {name: count for name, count in result.cantidad.items() if name in expected}
     complete = observed == Counter(expected) and all(result.observados.get(name, 1) == 0 for name in expected)
-    stable = fuentes() == origen
-    ok = result.wasSuccessful() and complete and stable
     rows = [{'requisito': suffix, 'caso': name, 'codigo': result.observados.get(PREFIX + name, 1)}
             for suffix, names in CONTRACTS.items() for name in names]
     (output / 'suite.txt').write_text(stream.getvalue(), encoding='utf-8')
@@ -81,6 +96,8 @@ def main(argv=None):
     ids = {r.rsplit('.', 1)[-1]: r for r in json.loads((ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text())['requisitos']}
     escribir(output / 'trazabilidad.json', trazabilidad.trazar(ROOT, {ids[s]: [PREFIX + n for n in names]
                                                                      for s, names in CONTRACTS.items()}))
+    stable = fuentes() == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
+    ok = result.wasSuccessful() and complete and stable
     escribir(output / 'hechos.json', {'pruebas_practica_caso': rows, 'pruebas_practica_corrida': [{'completa': int(ok), 'casos': len(expected)}]})
     escribir(output / 'resultado.json', {'exitoso': ok, 'tests': result.testsRun, 'casos_contrato': len(expected),
              'casos_exactos_sin_omisiones_duplicados_ni_fallas': complete, 'fuentes_estables': stable, 'origen': origen,
