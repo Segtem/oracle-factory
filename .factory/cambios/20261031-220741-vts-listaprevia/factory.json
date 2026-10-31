@@ -2,7 +2,7 @@
   "id": "20261031-220741-vts-listaprevia",
   "titulo": "Una lista previa a la revisión con las clases de problema que más rondas cuestan",
   "capacidad": "practicas",
-  "fase": "spec_aprobada",
+  "fase": "requisitos_importados",
   "spec": "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md",
   "spec_sha256": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e",
   "spec_aprobada": {
@@ -16,7 +16,11 @@
       "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
     }
   },
-  "requisitos": [],
+  "requisitos": [
+    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa",
+    "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
+    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear"
+  ],
   "revision": null,
   "oracle": null,
   "modo": "confirmacion",
@@ -53,7 +57,26 @@
         "openspec/changes/20261031-220741-vts-listaprevia/proposal.md": "b4d9b63ed8bc74391485872f7141bea95b27d7a625e28ab51cf932ebb7df0e61",
         "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md": "d62f56208c8431132dcd02ff75df0a687f9aea26f5dabe43794b318ae97f021e"
       }
+    },
+    {
+      "accion": "requisitos_importados",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "decidio",
+      "cuando": "2026-10-31T22:25:13.319353+00:00",
+      "ids": [
+        "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa",
+        "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente",
+        "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear"
+      ]
     }
   ],
-  "tipos": {}
+  "tipos": {
+    "practicas_c728beae6c9b6fedb.la_guia_para_agentes_nombra_la_lista_previa": "funcional",
+    "practicas_c728beae6c9b6fedb.la_lista_previa_tiene_una_sola_fuente": "funcional",
+    "practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear": "funcional"
+  },
+  "medidas": {},
+  "medidas_pendientes": {}
 }
