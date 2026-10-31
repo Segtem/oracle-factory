@@ -27,3 +27,15 @@ Medidas de desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes: factory_test
 ### Nota (2026-10-31 18:05:57 UTC)
 
 Medidas de desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica: factory_tests_unitarios.documento_de_la_practica, factory_tests_unitarios.corrida_completa; propuestas por claude-code (agente, propuso, modo confirmacion). SIN MEDIR: sin límite adicional declarado. Revisión y juicio anteriores invalidados; no se declara cumplimiento ni aprobación de pertinencia.
+
+### Nota (2026-10-31 18:08:18 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 18:08:18 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes: Brian Hollweg (persona, confirmo, modo confirmacion).
+
+### Nota (2026-10-31 18:08:18 UTC)
+
+Medidas de desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero: Brian Hollweg (persona, confirmo, modo confirmacion).
