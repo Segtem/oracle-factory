@@ -16,7 +16,7 @@ Los tests unitarios no suplantan a Oracle ni a las mutaciones: que pasen no prue
 
 Las tareas de cada cambio nuevo traen el paso «escribir primero los tests de cada escenario de la spec, cuando sea posible, y comprobar que fallan antes de implementar». Que fallen primero es la comprobación: un test que nunca falló no prueba nada. El paso no bloquea: `importar`, `medir`, `revisar`, `juzgar` y `cerrar` no lo miran.
 
-Cuando no es posible (un cambio sólo de texto, un sensor que sólo corre en el motor), se deja dicho en la tarea o en el mensaje del cambio y se sigue.
+Cuando no es posible (un cambio sólo de texto, un sensor que sólo corre en el motor), se declara en la spec, en la cabecera del requisito, con la línea `Pruebas: no aplica — motivo`; como la spec la aprueba una persona, aprobarla es aprobar el motivo (ver [la trazabilidad](trazabilidad.md)). `oracle-factory estado ID` avisa, sin bloquear nada, de los requisitos que no tienen ningún caso de prueba en la trazabilidad del candidato y de los que lo declararon con su motivo.
 
 ## La guarda: un test que ya existía
 
@@ -30,6 +30,6 @@ Un agente que puede editar los tests puede aflojarlos hasta que pasen. Por eso: 
 - arXiv 2510.09907: pruebas basadas en propiedades con agentes.
 - ImpossibleBench y EvilGenie: agentes que modifican o esquivan los tests para que pasen.
 
-## Qué viene
+## Qué falta
 
-Quedan para cambios aparte, cada uno con su decisión: avisar cuando un requisito no tiene caso asociado, declarar una excepción «sin tests» confirmada por una persona, mostrar las líneas sin caso al revisor y una vista del tablero para entrar al código creado.
+Quedan para cambios aparte, cada uno con su decisión: mostrar al revisor las líneas cambiadas que ningún caso ejecuta, avisar cuando se editan tests que ya existían, y una vista del tablero para entrar al código creado.

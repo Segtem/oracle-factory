@@ -1,0 +1,50 @@
+{
+  "tests_unitarios_caso": [
+    {
+      "requisito": "paso_de_tests_primero",
+      "caso": "PasoDeTests.test_tu1_un_cambio_nuevo_en_espanol",
+      "codigo": 0
+    },
+    {
+      "requisito": "paso_de_tests_primero",
+      "caso": "PasoDeTests.test_tu1_un_cambio_nuevo_en_ingles",
+      "codigo": 0
+    },
+    {
+      "requisito": "paso_de_tests_primero",
+      "caso": "PasoDeTests.test_tu1_la_plantilla_de_cada_idioma_lo_trae",
+      "codigo": 0
+    },
+    {
+      "requisito": "paso_de_tests_primero",
+      "caso": "PasoDeTests.test_tu1_el_paso_no_bloquea",
+      "codigo": 0
+    },
+    {
+      "requisito": "guia_de_tests_para_agentes",
+      "caso": "GuiaDeTests.test_tu2_la_guia_generada_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "guia_de_tests_para_agentes",
+      "caso": "GuiaDeTests.test_tu2_una_guia_vieja_se_detecta",
+      "codigo": 0
+    },
+    {
+      "requisito": "documento_de_la_practica",
+      "caso": "DocumentoDeTests.test_tu3_explica_las_tres_capas_y_cita_las_fuentes",
+      "codigo": 0
+    },
+    {
+      "requisito": "documento_de_la_practica",
+      "caso": "DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla",
+      "codigo": 0
+    }
+  ],
+  "tests_unitarios_corrida": [
+    {
+      "completa": 1,
+      "casos": 8
+    }
+  ]
+}

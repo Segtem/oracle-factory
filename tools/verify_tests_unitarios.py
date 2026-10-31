@@ -20,25 +20,30 @@ CONTRACTS = {
         'PasoDeTests.test_tu1_un_cambio_nuevo_en_espanol',
         'PasoDeTests.test_tu1_un_cambio_nuevo_en_ingles',
         'PasoDeTests.test_tu1_la_plantilla_de_cada_idioma_lo_trae',
-        'PasoDeTests.test_tu1_el_paso_no_bloquea'],
+        'PasoDeTests.test_tu1_el_paso_no_bloquea',
+        'PasoDeTests.test_tu1_la_aprobacion_solo_se_niega_por_la_marca_de_pendiente_no_por_el_paso'],
     'guia_de_tests_para_agentes': [
         'GuiaDeTests.test_tu2_la_guia_generada_lo_dice',
         'GuiaDeTests.test_tu2_una_guia_vieja_se_detecta'],
     'documento_de_la_practica': [
         'DocumentoDeTests.test_tu3_explica_las_tres_capas_y_cita_las_fuentes',
-        'DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla'],
+        'DocumentoDeTests.test_tu3_dice_lo_mismo_que_la_plantilla',
+        'DocumentoDeTests.test_tu3_dice_que_hacer_cuando_no_se_puede_y_nombra_la_excepcion_de_la_spec',
+        'DocumentoDeTests.test_tu3_no_dice_que_falta_lo_que_ya_existe'],
 }
 PREFIX = 'test_tests_unitarios.'
 LIMITES = ('Escenarios tu1–tu3 en proyectos temporales (la plantilla y la guía se generan de verdad) y sobre docs/tests.md, en Linux. '
            'Comprueban que el paso y la guarda están dichos; no miden si un agente de verdad escribe los tests primero: eso es práctica, no gate.')
 
 
-def fuentes():
-    files = [ROOT / 'fabrica.py', ROOT / 'pyproject.toml', Path(__file__), *ROOT.glob('oracle_factory/*.py'),
-             *ROOT.glob('tests/*.py'), *ROOT.glob('docs/*.md'), ROOT / 'AGENTS.md',
-             *ROOT.glob('catalogos/factory_tests_unitarios.*.oracle')]
+def fuentes(salida=None):
+    # Todo lo versionado o nuevo del producto (código, pruebas, datos de referencia, catálogos, docs); sin los registros generados.
+    nombres = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '-z', '--cached', '--others', '--exclude-standard'],
+                             text=True, capture_output=True, check=True).stdout.split('\0')
+    elegidos = [ROOT / n for n in nombres if n and not n.startswith(('.factory/', 'kb/', 'tareas/'))
+                and (ROOT / n).is_file() and not (salida and (ROOT / n).is_relative_to(salida))]  # la evidencia no es producto
     head = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True, capture_output=True, check=True).stdout.strip()
-    return {'head': head, 'sha256': {str(p.relative_to(ROOT)): sha(p) for p in sorted(set(files))}}
+    return {'head': head, 'sha256': {p.relative_to(ROOT).as_posix(): sha(p) for p in sorted(elegidos)}}
 
 
 def main(argv=None):
@@ -48,22 +53,23 @@ def main(argv=None):
     versions = {p: metadata.version(p) for p in ('oracle-metalenguaje', 'oracle-task', 'oracle-clue')}
     output = args.salida.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=False)
-    origen = fuentes()
+    origen = fuentes(output)
     stream = io.StringIO()
     suite = unittest.defaultTestLoader.discover(str(ROOT / 'tests'))
     result = unittest.TextTestRunner(stream=stream, verbosity=2, resultclass=Resultado).run(suite)
     expected = [PREFIX + name for names in CONTRACTS.values() for name in names]
-    observed = {name: count for name, count in result.cantidad.items() if name in expected}
+    observed = {name: count for name, count in result.cantidad.items() if name.startswith(PREFIX)}
     complete = observed == Counter(expected) and all(result.observados.get(name, 1) == 0 for name in expected)
-    stable = fuentes() == origen
-    ok = result.wasSuccessful() and complete and stable
     rows = [{'requisito': suffix, 'caso': name, 'codigo': result.observados.get(PREFIX + name, 1)}
             for suffix, names in CONTRACTS.items() for name in names]
     (output / 'suite.txt').write_text(stream.getvalue(), encoding='utf-8')
     # Los mismos casos, otra vez y trazados: requisito → casos → líneas ejecutadas (oracle-factory trazabilidad lo cruza).
     ids = {r.rsplit('.', 1)[-1]: r for r in json.loads((ROOT / '.factory/cambios' / CAMBIO / 'factory.json').read_text())['requisitos']}
-    escribir(output / 'trazabilidad.json', trazabilidad.trazar(ROOT, {ids[s]: [PREFIX + n for n in names]
-                                                                     for s, names in CONTRACTS.items()}))
+    traza = trazabilidad.trazar(ROOT, {ids[s]: [PREFIX + n for n in names] for s, names in CONTRACTS.items()})
+    escribir(output / 'trazabilidad.json', traza)
+    trazada = all(c.get('resultado') == 'ok' for c in traza['casos'].values()) and len(traza['casos']) == len(expected)
+    stable = fuentes(output) == origen  # después de la segunda corrida, la trazada: ahí también tienen que seguir quietas
+    ok = result.wasSuccessful() and complete and stable and trazada
     escribir(output / 'hechos.json', {'tests_unitarios_caso': rows, 'tests_unitarios_corrida': [{'completa': int(ok), 'casos': len(expected)}]})
     escribir(output / 'resultado.json', {'exitoso': ok, 'tests': result.testsRun, 'casos_contrato': len(expected),
              'casos_exactos_sin_omisiones_duplicados_ni_fallas': complete, 'fuentes_estables': stable, 'origen': origen,

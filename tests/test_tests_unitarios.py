@@ -16,7 +16,7 @@ PASO = {'es': 'Agente: escribir primero los tests de cada escenario de la spec, 
 IMPLEMENTAR = {'es': 'Agente: implementar', 'en': 'Agent: implement'}
 GUIA = ('Los tests unitarios son parte del desarrollo y no suplantan a Oracle',
         'Un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa')
-FUENTES = ('2402.13521', '2608.17177')
+FUENTES = ('2402.13521', '2608.17177', '2501.12862', '2510.09907', 'ImpossibleBench', 'EvilGenie')
 
 
 def tareas(root, ident):
@@ -24,7 +24,8 @@ def tareas(root, ident):
 
 
 class PasoDeTests(unittest.TestCase):
-    setUp, git, salida = _archivo.Archivo.setUp, _archivo.Archivo.git, _archivo.Archivo.salida
+    setUp, git, salida, escribe, cambio_cerrado = (_archivo.Archivo.setUp, _archivo.Archivo.git, _archivo.Archivo.salida,
+                                                   _archivo.Archivo.escribe, _archivo.Archivo.cambio_cerrado)
 
     def declarar(self, idioma):
         ruta = self.root / '.factory/config.json'
@@ -50,11 +51,20 @@ class PasoDeTests(unittest.TestCase):
             self.comprobar(plantillas.TEXTOS[idioma]['tareas'], idioma)
 
     def test_tu1_el_paso_no_bloquea(self):
+        # El recorrido completo (aprobar, importar, medir, revisar, juzgar y cerrar) con el paso sin marcar en tasks.md.
+        ident = self.cambio_cerrado()
+        texto = tareas(self.root, ident)
+        self.assertIn('- [ ] ' + PASO['es'], texto)  # el paso quedó sin marcar...
+        self.assertEqual(f.leer(ident)[1]['fase'], 'cerrada')  # ...y ningún comando se negó por él
+
+    def test_tu1_la_aprobacion_solo_se_niega_por_la_marca_de_pendiente_no_por_el_paso(self):
         ident = f.nuevo('Algo nuevo', 'algo')
         carpeta = self.root / 'openspec/changes' / ident
         self.assertNotIn('TODO:', tareas(self.root, ident))
-        # Sólo la marca de pendiente frena la aprobación: tasks.md con el paso sin marcar pasa la comprobación.
         f.exigir_plantilla_completa([carpeta / 'tasks.md'])
+        (carpeta / 'tasks.md').write_text(tareas(self.root, ident) + '- [ ] Agente: TODO: algo\n', encoding='utf-8')
+        with self.assertRaises(f.FactoryError):
+            f.exigir_plantilla_completa([carpeta / 'tasks.md'])
 
 
 class GuiaDeTests(unittest.TestCase):
@@ -62,9 +72,13 @@ class GuiaDeTests(unittest.TestCase):
 
     # --- tu2: la guía para agentes -------------------------------------------------------------------------------------
     def test_tu2_la_guia_generada_lo_dice(self):
-        texto = agentes.bloque('confirmacion')
-        for frase in GUIA:
+        # La guía que escribe `oracle-factory agentes` de verdad en AGENTS.md, no sólo el bloque en memoria.
+        self.correr('init')
+        self.assertEqual(self.correr('agentes').returncode, 0)
+        texto = (self.root / 'AGENTS.md').read_text(encoding='utf-8')
+        for frase in (*GUIA, 'escribilos primero, cuando sea posible'):
             self.assertIn(frase, texto)
+        self.assertIn(GUIA[0], agentes.bloque('confirmacion'))
 
     def test_tu2_una_guia_vieja_se_detecta(self):
         self.correr('init')
@@ -91,9 +105,23 @@ class DocumentoDeTests(unittest.TestCase):
         self.assertIn(GUIA[1].lower(), self.texto.lower())
 
     def test_tu3_dice_lo_mismo_que_la_plantilla(self):
+        # Lo que dice la plantilla de verdad, en los dos idiomas, y lo que dice el documento
+        self.assertIn('cuando sea posible', plantillas.TEXTOS['es']['tareas'])
+        self.assertIn('when possible', plantillas.TEXTOS['en']['tareas'])
         self.assertIn('cuando sea posible', self.texto)
         self.assertIn('no bloquea', self.texto)
-        self.assertIn('cuando sea posible', PASO['es'])
+        self.assertIn('`importar`, `medir`, `revisar`, `juzgar` y `cerrar` no lo miran', self.texto)
+
+    def test_tu3_dice_que_hacer_cuando_no_se_puede_y_nombra_la_excepcion_de_la_spec(self):
+        self.assertIn('Pruebas: no aplica — motivo', self.texto)
+        self.assertIn('estado', self.texto)
+
+    def test_tu3_no_dice_que_falta_lo_que_ya_existe(self):
+        # El aviso de requisitos sin casos y la excepción de la spec ya existen: no figuran como pendientes.
+        pendiente = self.texto[self.texto.index('## Qué falta'):]
+        self.assertNotIn('avisar cuando un requisito no tiene caso asociado', pendiente)
+        self.assertNotIn('excepción «sin tests»', pendiente)
+        self.assertIn('ningún caso ejecuta', pendiente)
 
 
 if __name__ == '__main__':
