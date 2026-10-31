@@ -1,0 +1,19 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/014c0cd-agy2-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "014c0cda83f41512cfa0933abd55b36befb74844",
+  "diff_sha256": "82482da4e4a46c64e2d246a8cdc81c74f8d273ef5056ec60ad6cd7b873b938ae",
+  "context_sha256": "091715c735f1d62e166e9a8eedd56dd041467e796b2d3a69e6f4e9ae98a0ea9b",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md y specs/practicas/spec.md, y se comprobaron los arreglos de las cuatro vueltas anteriores (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1): validación previa de rutas y enlaces en cli.documentos_o_nada con pruebas.exigir_dentro y omisión de cambios cerrados/abandonados, delimitadores de encabezados y viñeta con los espacios exactos del importador de OpenSpec de Oracle, verificación isinstance(candidato, str) antes de CANDIDATO.fullmatch, e inclusión de openspec/changes/ en tools/verify_pruebas_practica.py. Los 39 archivos excluidos fuera de producto (.factory, kb generado y tareas) no se revisaron.",
+    "Sobre copias aisladas en la carpeta del revisor (sin modificar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni tocar la configuración de Git de ningún repositorio) se ejecutaron las 71 pruebas de tests/test_pruebas_practica.py (71 OK, en test_pp.log) y 28 mutaciones manuales sobre oracle_factory/pruebas.py, cli.py y lecturas.py (mutar.py / mutar.log: 28/28 matadas, 0 sobrevivientes), además de verificar la evidencia generada para 014c0cd (844 pruebas, 71 casos de contrato, trazabilidad completa).",
+    "Sin hallazgos abiertos en esta quinta ronda."
+  ],
+  "findings": []
+}

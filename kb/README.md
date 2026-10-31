@@ -90,7 +90,7 @@ Las notas de personas van en `notas/` y declaran sus `fuentes:`; `oracle-factory
 - [[cambios/20261029-164101-xux-avisososv]] — Bajar avisos OSV de las dependencias de Factory y marcar qué candidatos quedan expuestos (cerrada)
 - [[cambios/20261030-100740-f1g-entregaa16]] — Preparar la distribución 0.1.0a16 (cerrada)
 - [[cambios/20261030-171836-7e4-publicadaa16]] — Declarar publicada la 0.1.0a16 en las notas y los textos (cerrada)
-- [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (requisitos_importados)
+- [[cambios/20261031-011717-c2q-pruebaspractica]] — Pedir las pruebas como práctica de desarrollo, sin bloquear (revision_aprobada)
 
 ## Requisitos
 

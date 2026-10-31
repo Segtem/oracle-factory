@@ -1,0 +1,20 @@
+{
+  "schema_version": "oracle-clue.review/v1",
+  "repo": "/home/workstation/Dev/factory-pruebas-practica/.factory/local/revisiones/014c0cd-agy-1",
+  "base": "ae8c617ad0fb67e1631a23c424e0923556e5fc62",
+  "head": "014c0cda83f41512cfa0933abd55b36befb74844",
+  "diff_sha256": "82482da4e4a46c64e2d246a8cdc81c74f8d273ef5056ec60ad6cd7b873b938ae",
+  "context_sha256": "3232c3ba09159c7ec7fbb73eb1dc6f9cc91bb5e3c8818880309277f72a4d1ee2",
+  "provider": {
+    "name": "agy",
+    "model": "gemini-4-argon-high"
+  },
+  "findings": [],
+  "review_status": "completo",
+  "limitations": [
+    "Se revisaron los 20 archivos de producto incluidos en el paquete de Oracle Clue contra proposal.md, design.md, tasks.md, specs/practicas/spec.md y los ocho informes de las cuatro rondas previas (b160cda, 8104329, 8d1350a y a5a4cc4, agy-1 y agy2-1), comprobando el cierre sin regresiones de todos los arreglos de la cuarta ronda (documentos_o_nada valida propuesta y spec con exigir_dentro antes de leer y omite cambios cerrados o abandonados; delimitadores de encabezados y viñetas exactos al importador OpenSpec de Oracle; validación isinstance(candidato, str); inclusión de openspec/changes/ en tools/verify_pruebas_practica.py; precisión de nombres en las pruebas de pruebas.datos). Los 39 archivos fuera del paquete (.factory, kb generado y tareas) no se revisaron, y la fragilidad preexistente de otras partes de estado ante un factory.json corrupto quedó fuera de alcance según las indicaciones.",
+    "Sobre copias aisladas en la carpeta del revisor (sin editar ni generar bytecode en el checkout de sólo lectura del candidato 014c0cd ni modificar la configuración de Git de ningún repositorio) se ejecutaron: tests/test_pruebas_practica.py (71 pruebas OK, en test_pp.log), el sensor completo «tools/verify_pruebas_practica.py --salida .../evidencia_verify» (844 pruebas OK, 71 casos de contrato, éxito: True, fuentes estables incluyendo openspec/changes/, 0 líneas cambiadas sin respaldo en oracle_factory/{pruebas,cli,lecturas,plantillas}.py, en verify.log), el juicio de Oracle sobre hechos.json (las 4 medidas en verde: corrida_completa 1==1, pp1 3==3, pp2 20==20, pp3 48==48) y «oracle-factory agentes --verificar».",
+    "Se evaluaron 35 mutaciones manuales sobre copias aisladas de oracle_factory/{pruebas,cli,lecturas}.py contra tests/test_pruebas_practica.py (mutar.py / mutar.log): 31 mutaciones matadas (incluidas las 4 sobrevivientes de la cuarta ronda) y 4 micro-mutaciones equivalentes o de casos marginales sobrevivientes sin defecto funcional: M09 (quitar '+' en [—–-]+ de NO_APLICA cuando no hay separadores de varios guiones contiguos), M12 (quitar RENAMED de la sección delta cuando no sigue a una sección REMOVED), M15 (quitar la raya mediana '–' del filtro de motivo de puros guiones) y M19 (omitir la rama de ruta relativa en exigir_dentro porque los llamadores siempre pasan rutas bajo ROOT).",
+    "Sin hallazgos abiertos: todas las promesas y escenarios de la spec (la_plantilla_de_tareas_pide_escribir_primero_las_pruebas, el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear y una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas) se cumplen."
+  ]
+}

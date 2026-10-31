@@ -2,7 +2,7 @@
   "id": "20261031-011717-c2q-pruebaspractica",
   "titulo": "Pedir las pruebas como práctica de desarrollo, sin bloquear",
   "capacidad": "practicas",
-  "fase": "requisitos_importados",
+  "fase": "revision_aprobada",
   "spec": "openspec/changes/20261031-011717-c2q-pruebaspractica/specs/practicas/spec.md",
   "spec_sha256": "a1960a76bed57e569d438ab89ad930a2f0bbfa34342d69e5e3614ee88727caba",
   "spec_aprobada": {
@@ -21,7 +21,27 @@
     "practicas_c185a6b4ec26306ce.la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
     "practicas_c185a6b4ec26306ce.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas"
   ],
-  "revision": null,
+  "revision": {
+    "formato": "guiado",
+    "revisor": "Brian Hollweg",
+    "decision": "aprobar",
+    "hallazgos_abiertos": 0,
+    "informe": "tareas/20261031-011717-c2q-pruebaspractica/revisiones/registro-cw48wxfh/informe.json",
+    "sha256": "2ad9899a8f5c0673ddad01380554b8ffe791d96154ca1372ff049a636da5272f",
+    "decisiones": "tareas/20261031-011717-c2q-pruebaspractica/revisiones/registro-cw48wxfh/decisiones.json",
+    "decisiones_sha256": "165335957d8a24d6c764318965b6402458a19b5b3ed9cf77c847b7b2ae257c47",
+    "actor": "Brian Hollweg",
+    "tipo_actor": "persona",
+    "forma": "confirmo",
+    "modo": "confirmacion",
+    "cuando": "2026-10-31T17:55:43.891431+00:00",
+    "motivo": "Cinco rondas con agy y agy2. Las cuatro primeras dejaron hallazgos reales (excepciones sin motivo sin candidato, líneas malas que borraban las buenas, vigencia de la aprobación, rutas con «..» y enlaces, cabecera del requisito como el importador de Oracle, motivos con guiones, lectura anticipada de huellas, verificador), todos corregidos con pruebas y mutaciones detectadas; la quinta dio 0 hallazgos en ambos. Suite completa sin fallas y evidencia con éxito (71 casos de contrato). Fuera de alcance, declarado: un factory.json corrupto sigue rompiendo otras partes de estado, como antes.",
+    "origen_motivo": "agente",
+    "contexto": {
+      "head": "014c0cda83f41512cfa0933abd55b36befb74844",
+      "archivos_sha256": "7e1fc119cfe5e79c983a0988014f7f45c4f164e5be6c125e6cad30eee72df579"
+    }
+  },
   "oracle": null,
   "modo": "confirmacion",
   "eventos": [
@@ -659,6 +679,82 @@
         "factory_pruebas_practica.una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
         "factory_pruebas_practica.corrida_completa"
       ]
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T15:17:57.158695+00:00",
+      "revisor": "agy",
+      "candidato": "014c0cd",
+      "lanzamiento": "7be7398bb72c"
+    },
+    {
+      "accion": "revision_lanzada",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T15:17:57.186778+00:00",
+      "revisor": "agy2",
+      "candidato": "014c0cd",
+      "lanzamiento": "8bff17d9ec0c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T15:28:40.332991+00:00",
+      "revisor": "agy2",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "014c0cd",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "8bff17d9ec0c"
+    },
+    {
+      "accion": "revision_pedida",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "registro",
+      "cuando": "2026-10-31T15:41:14.411327+00:00",
+      "revisor": "agy",
+      "proveedor": "agy",
+      "modelo": "gemini-4-argon-high",
+      "candidato": "014c0cd",
+      "resultado": "ok",
+      "hallazgos": 0,
+      "lanzamiento": "7be7398bb72c"
+    },
+    {
+      "accion": "revision_propuesta",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-31T17:53:41.360361+00:00",
+      "decision": "aprobar",
+      "candidato": "014c0cd"
+    },
+    {
+      "accion": "revision_registrada",
+      "actor": "Brian Hollweg",
+      "tipo_actor": "persona",
+      "modo": "confirmacion",
+      "forma": "confirmo",
+      "cuando": "2026-10-31T17:55:43.891464+00:00",
+      "formato": "guiado",
+      "revisor": "Brian Hollweg",
+      "decision": "aprobar",
+      "abiertos": 0,
+      "sha256": "2ad9899a8f5c0673ddad01380554b8ffe791d96154ca1372ff049a636da5272f",
+      "decisiones_sha256": "165335957d8a24d6c764318965b6402458a19b5b3ed9cf77c847b7b2ae257c47"
     }
   ],
   "tipos": {
@@ -716,5 +812,6 @@
       }
     }
   },
-  "medidas_pendientes": {}
+  "medidas_pendientes": {},
+  "motivos_propuestos": {}
 }

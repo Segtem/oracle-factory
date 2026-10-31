@@ -1,0 +1,365 @@
+{
+  "pruebas_practica_caso": [
+    {
+      "requisito": "la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+      "caso": "Pruebas.test_pp1_un_cambio_nuevo_en_espanol_pide_las_pruebas_antes_de_implementar",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+      "caso": "Pruebas.test_pp1_un_cambio_nuevo_en_ingles_pide_las_pruebas_antes_de_implementar",
+      "codigo": 0
+    },
+    {
+      "requisito": "la_plantilla_de_tareas_pide_escribir_primero_las_pruebas",
+      "caso": "Pruebas.test_pp1_el_paso_nuevo_no_cambia_los_demas_pasos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_requisito_sin_casos_se_nombra_y_el_otro_no",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_requisito_ausente_de_la_trazabilidad_tambien_cuenta_como_sin_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_candidato_sin_trazabilidad_lo_dice",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_una_trazabilidad_ilegible_cuenta_como_sin_trazabilidad_y_no_rompe_el_estado",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_una_trazabilidad_de_otro_esquema_no_se_toma_por_valida",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_una_trazabilidad_que_es_un_enlace_simbolico_no_se_sigue",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_con_casos_en_todos_no_hay_aviso_de_pruebas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_sin_candidato_todavia_no_hay_nada_que_avisar",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_cambio_sin_requisitos_importados_o_cerrado_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_una_carpeta_de_evidencia_enlazada_no_se_sigue",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_cambio_abandonado_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_candidato_con_forma_rara_no_arma_rutas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_una_trazabilidad_que_no_se_puede_leer_cuenta_como_sin_trazabilidad",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_identificador_con_forma_rara_no_arma_rutas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_candidato_demasiado_corto_o_largo_no_arma_rutas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_un_candidato_que_no_es_texto_no_arma_rutas",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Pruebas.test_pp2_el_analisis_no_comparte_el_diccionario_de_excepciones_con_quien_lo_llama",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Analisis.test_el_analisis_de_requisitos_con_y_sin_casos",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Analisis.test_un_caso_de_solo_espacios_no_cuenta_como_caso",
+      "codigo": 0
+    },
+    {
+      "requisito": "el_estado_avisa_de_los_requisitos_sin_pruebas_sin_bloquear",
+      "caso": "Analisis.test_un_caso_vacio_o_no_texto_no_cuenta_como_caso",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_con_motivo_se_muestra_y_ese_requisito_no_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_excepcion_tambien_vale_sin_trazabilidad",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_sin_motivo_se_rechaza_al_aprobar_la_spec_y_no_se_modifica_el_registro",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_sin_motivo_tambien_se_rechaza_al_importar",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_sin_motivo_que_llego_al_estado_no_exceptua_y_se_avisa",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_valor_desconocido_de_pruebas_se_rechaza_en_vez_de_ignorarse",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_linea_pruebas_solo_cuenta_en_la_cabecera_del_requisito_no_en_los_escenarios",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_excepcion_se_asocia_al_requisito_por_su_nombre_y_no_a_otro",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_lo_que_la_spec_retira_no_lleva_excepcion",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_sin_excepciones_la_spec_se_lee_como_siempre",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_mal_escrita_se_avisa_aunque_todavia_no_haya_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_linea_mala_no_borra_las_excepciones_buenas_de_los_otros_requisitos",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_lo_escrito_en_la_spec_despues_de_aprobarla_no_cuenta_como_aceptado",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_spec_sin_excepciones_cambiada_despues_de_aprobarla_no_avisa_de_excepciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_spec_que_es_un_enlace_simbolico_no_se_sigue",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_spec_que_falta_se_avisa_y_no_rompe_el_estado",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_valores_raros_en_el_registro_no_hacen_caer_a_pruebas_datos",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_motivo_hecho_de_guiones_no_es_un_motivo",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_declarar_dos_veces_pruebas_en_un_requisito_se_rechaza",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_el_ejemplo_dentro_de_un_bloque_de_codigo_no_cuenta",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_bloque_de_codigo_con_sangria_tambien_se_ignora",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_viñeta_con_asterisco_y_con_guion_se_leen_igual",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_seccion_modified_tambien_puede_declarar_la_excepcion",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_el_motivo_conserva_su_texto_con_guiones_y_espacios_internos",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_ruta_de_la_spec_no_puede_salir_del_proyecto",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_aprobacion_invalidada_no_deja_vigentes_las_excepciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_valida_se_muestra_aunque_todavia_no_haya_candidato",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_excepcion_mal_escrita_se_avisa_antes_de_importar",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_requisito_con_varias_lineas_pruebas_queda_sin_excepcion",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_numeral_en_la_descripcion_no_cierra_la_cabecera_del_requisito",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_el_reconocimiento_ignora_mayusculas_sangria_y_raya_mediana",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_excepciones_se_muestran_ordenadas",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_registro_sin_la_clave_spec_se_avisa_y_pruebas_datos_no_cae",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_spec_aprobada_rara_no_hace_caer_a_pruebas_datos",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_cambiar_la_propuesta_despues_de_aprobar_deja_sin_vigencia_las_excepciones",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_sin_documentos_para_comparar_las_excepciones_no_cuentan",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_ausencia_de_documentos_en_los_dos_lados_no_cuenta_como_aprobacion",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_spec_que_todavia_no_se_aprobo_lo_dice_sin_decir_que_cambio",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_excepciones_aprobadas_se_ven_antes_de_importar_por_el_nombre_del_requisito",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_un_motivo_que_empieza_con_guiones_conserva_su_texto",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_secciones_delta_se_leen_en_cualquier_mayuscula_y_renamed_no_retira",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_el_primer_error_es_el_que_se_informa",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_huellas_no_se_leen_si_las_rutas_salen_del_proyecto_o_son_enlaces",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_huellas_con_una_spec_que_no_es_ruta_devuelven_nada_y_no_caen",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_las_huellas_de_un_cambio_normal_se_leen",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_los_encabezados_se_leen_con_los_espacios_exactos_del_importador_de_oracle",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_la_vineta_necesita_un_espacio_como_en_oracle",
+      "codigo": 0
+    },
+    {
+      "requisito": "una_excepcion_declarada_en_la_spec_explica_por_que_no_hay_pruebas",
+      "caso": "Pruebas.test_pp3_una_spec_sin_aprobacion_con_solo_una_linea_mala_tambien_lo_dice",
+      "codigo": 0
+    }
+  ],
+  "pruebas_practica_corrida": [
+    {
+      "completa": 1,
+      "casos": 71
+    }
+  ]
+}
