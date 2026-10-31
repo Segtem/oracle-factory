@@ -1,4 +1,4 @@
 requisito practicas_c728beae6c9b6fedb.pedir_revision_muestra_la_lista_previa_sin_bloquear:
     texto "Tipo: funcional El sistema DEBE mostrar la lista previa a la revisión cuando se pide una revisión, antes de lanzar al revisor, sin cambiar el pedido que recibe el revisor ni impedir que la revisión se pida."
     fuente "openspec/changes/20261031-220741-vts-listaprevia/specs/practicas/spec.md#pedir_revision_muestra_la_lista_previa_sin_bloquear"
-    sin_medir "sin medida todavía; escenarios: «se pide una revisión», «el pedido no cambia»"
+    medido_por factory_lista_previa.pedir_revision_muestra_la_lista_previa_sin_bloquear, factory_lista_previa.corrida_completa
