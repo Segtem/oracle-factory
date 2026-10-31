@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261030-185728-0w1-tests]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «un cambio nuevo en español», «un cambio nuevo en inglés», «el paso no bloquea»
+- Medidas: `factory_tests_unitarios.paso_de_tests_primero`, `factory_tests_unitarios.corrida_completa`
 - Fuente: openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md#paso_de_tests_primero
 
 Tipo: funcional El sistema DEBE incluir, en las tareas de cada cambio nuevo, en español y en inglés, el paso de escribir primero los tests de cada escenario de la spec cuando sea posible y de comprobar que fallan antes de implementar.

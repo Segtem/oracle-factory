@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261030-185728-0w1-tests]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «la guía generada», «la guía vigente»
+- Medidas: `factory_tests_unitarios.guia_de_tests_para_agentes`, `factory_tests_unitarios.corrida_completa`
 - Fuente: openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md#guia_de_tests_para_agentes
 
 Tipo: funcional El sistema DEBE decir en la guía para agentes que los tests unitarios son parte del desarrollo y no suplantan a Oracle, y que un test que ya existía no se edita para que pase sin dejarlo dicho a quien revisa.

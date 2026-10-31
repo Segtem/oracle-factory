@@ -12,8 +12,7 @@ vigente: true
 - Vigente: sí
 - Cambio: [[cambios/20261030-185728-0w1-tests]]
 - Veredicto: sin juicio
-- Medidas: ninguna
-- Sin medir: sin medida todavía; escenarios: «el documento existe y cita», «el documento no se contradice con la práctica»
+- Medidas: `factory_tests_unitarios.documento_de_la_practica`, `factory_tests_unitarios.corrida_completa`
 - Fuente: openspec/changes/20261030-185728-0w1-tests/specs/desarrollo/spec.md#documento_de_la_practica
 
 Tipo: funcional El sistema DEBE tener un documento `docs/tests.md` que explique la práctica de los tests unitarios frente a Oracle y las mutaciones, cuándo escribirlos primero, qué hacer cuando no se puede y la guarda sobre tests existentes, con sus fuentes.

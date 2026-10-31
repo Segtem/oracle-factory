@@ -58,6 +58,48 @@
         "desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes",
         "desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero"
       ]
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-31T18:05:55.002786+00:00",
+      "requisito": "desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero",
+      "medidas": [
+        "factory_tests_unitarios.paso_de_tests_primero",
+        "factory_tests_unitarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-31T18:05:56.319664+00:00",
+      "requisito": "desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes",
+      "medidas": [
+        "factory_tests_unitarios.guia_de_tests_para_agentes",
+        "factory_tests_unitarios.corrida_completa"
+      ],
+      "sin_medir": ""
+    },
+    {
+      "accion": "medidas_propuestas",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "modo": "confirmacion",
+      "forma": "propuso",
+      "cuando": "2026-10-31T18:05:57.623902+00:00",
+      "requisito": "desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica",
+      "medidas": [
+        "factory_tests_unitarios.documento_de_la_practica",
+        "factory_tests_unitarios.corrida_completa"
+      ],
+      "sin_medir": ""
     }
   ],
   "tipos": {
@@ -66,5 +108,48 @@
     "desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero": "funcional"
   },
   "medidas": {},
-  "medidas_pendientes": {}
+  "medidas_pendientes": {
+    "desarrollo_cb4e5e98f60cb24f1.paso_de_tests_primero": {
+      "sha256": "28a18b054169916278fb071baa2ceb466919ddd19977fd15bc518426516d0044",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-31T18:05:54.965468+00:00",
+      "catalogos": {
+        "factory_tests_unitarios.paso_de_tests_primero": "c1a5a1fca6b15d7733b548872738ec31554076040bb719ef0426c5b4cb6dec36",
+        "factory_tests_unitarios.corrida_completa": "0a03f388766177df32ec11daed6a14cbba6e1c66ea1826902982fef1b9e32ff9"
+      },
+      "archivos_catalogo": {
+        "factory_tests_unitarios.paso_de_tests_primero": "catalogos/factory_tests_unitarios.paso_de_tests_primero.oracle",
+        "factory_tests_unitarios.corrida_completa": "catalogos/factory_tests_unitarios.corrida_completa.oracle"
+      }
+    },
+    "desarrollo_cb4e5e98f60cb24f1.guia_de_tests_para_agentes": {
+      "sha256": "cb94e2f479fe09ed5a4ea77863f27293a1be607c53fd296db15a509711ad9d1d",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-31T18:05:56.283070+00:00",
+      "catalogos": {
+        "factory_tests_unitarios.guia_de_tests_para_agentes": "d9ffbb912efc93416245188157c3614e74cfe5252b16ed153cc29f9fb0b482e3",
+        "factory_tests_unitarios.corrida_completa": "0a03f388766177df32ec11daed6a14cbba6e1c66ea1826902982fef1b9e32ff9"
+      },
+      "archivos_catalogo": {
+        "factory_tests_unitarios.guia_de_tests_para_agentes": "catalogos/factory_tests_unitarios.guia_de_tests_para_agentes.oracle",
+        "factory_tests_unitarios.corrida_completa": "catalogos/factory_tests_unitarios.corrida_completa.oracle"
+      }
+    },
+    "desarrollo_cb4e5e98f60cb24f1.documento_de_la_practica": {
+      "sha256": "cf6b218ce9109b8c47ff2ce9c8fdc2860f3bca698d27026ac7f4fcaac29ebae5",
+      "actor": "claude-code",
+      "tipo_actor": "agente",
+      "cuando": "2026-10-31T18:05:57.586372+00:00",
+      "catalogos": {
+        "factory_tests_unitarios.documento_de_la_practica": "d9d176d62723cfa82cd6eb73e86adcf32978ac81f0bc374f5761fbe9d954449d",
+        "factory_tests_unitarios.corrida_completa": "0a03f388766177df32ec11daed6a14cbba6e1c66ea1826902982fef1b9e32ff9"
+      },
+      "archivos_catalogo": {
+        "factory_tests_unitarios.documento_de_la_practica": "catalogos/factory_tests_unitarios.documento_de_la_practica.oracle",
+        "factory_tests_unitarios.corrida_completa": "catalogos/factory_tests_unitarios.corrida_completa.oracle"
+      }
+    }
+  }
 }
