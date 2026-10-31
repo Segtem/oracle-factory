@@ -1,6 +1,7 @@
 """La lista previa a la revisión: escenarios lp1–lp3, con un revisor de prueba y la CLI de verdad."""
 import contextlib
 import io
+import json
 from pathlib import Path
 import re
 import sys
@@ -67,6 +68,50 @@ class PedirRevision(unittest.TestCase):
         self.assertEqual(con.replace('prueba-1', 'prueba-N'), sin.replace('prueba-2', 'prueba-N'))
 
 
+    def test_lp1_lo_impreso_se_vacia_antes_de_esperar_al_revisor(self):
+        """El revisor tarda minutos: con la salida a un pipe, la lista tiene que haber salido antes de que él termine."""
+        from oracle_factory import revisores as revisores_mod
+        from unittest.mock import patch
+        self.preparar('ok')
+        vaciados = []
+
+        class Salida(io.StringIO):
+            def flush(self):
+                vaciados.append(self.getvalue())
+                super().flush()
+        salida = Salida()
+        original = revisores_mod.ejecutar_revisor
+
+        def espera(*a, **kw):
+            visto = vaciados[-1] if vaciados else ''
+            self.assertIn(lista_previa.ITEMS[-1][1], visto)  # ya se había vaciado la lista...
+            self.assertIn('Comando: ', visto)  # ...y también el anuncio del revisor
+            return original(*a, **kw)
+        with contextlib.redirect_stdout(salida), patch.object(revisores_mod, 'ejecutar_revisor', espera):
+            f.pedir_revision(self.ident, 'prueba', base=self.base)
+
+    def test_lp1_la_lista_no_viaja_en_ningun_argumento_del_revisor(self):
+        from oracle_factory import revisores as revisores_mod
+        from unittest.mock import patch
+        self.preparar('ok')
+        config = json.loads((self.root / '.factory/config.json').read_text())
+        revisor = config['revisores']['prueba']
+        revisor['comando'] = revisor['comando'] + ['{pedido}', '{pedido_archivo}']  # el revisor de verdad recibe el pedido por acá
+        (self.root / '.factory/config.json').write_text(json.dumps(config))
+        argumentos = []
+        original = revisores_mod.ejecutar_revisor
+
+        def capturar(argv, *a, **kw):
+            argumentos.extend(argv)
+            return original(argv, *a, **kw)
+        with contextlib.redirect_stdout(io.StringIO()), patch.object(revisores_mod, 'ejecutar_revisor', capturar):
+            f.pedir_revision(self.ident, 'prueba', base=self.base)
+        self.assertGreater(len(argumentos), 4)
+        for argumento in argumentos:
+            for _, pregunta in lista_previa.ITEMS:
+                self.assertNotIn(pregunta, argumento)
+
+
 class FuenteUnica(unittest.TestCase):
     documento = (SOURCE / 'docs/lista-previa.md').read_text(encoding='utf-8') if (SOURCE / 'docs/lista-previa.md').is_file() else ''
 
@@ -95,6 +140,34 @@ class FuenteUnica(unittest.TestCase):
             lista_previa.comprobar_documento(self.documento, nueva)
         self.assertIn('nueva', str(e.exception))
         self.assertIn('Revisaste algo que el documento todavía no dice', str(e.exception))
+
+    def test_lp2_una_pregunta_de_mas_en_el_documento_o_otro_orden_tambien_fallan(self):
+        doc = self.documento
+        primera = f'1. {lista_previa.ITEMS[0][1]}'
+        casos = {
+            'una pregunta de más': doc.replace('## Las preguntas\n\n', '## Las preguntas\n\n0. ¿Una pregunta que el código no tiene y que el documento agregó por su cuenta?\n'),
+            'otra pregunta distinta': doc.replace(lista_previa.ITEMS[2][1], '¿Una pregunta cambiada en el documento que ya no es la del código, aunque se le parezca?'),
+            'otro orden': doc.replace(primera, '1. ' + lista_previa.ITEMS[1][1], 1).replace(f'2. {lista_previa.ITEMS[1][1]}', f'2. {lista_previa.ITEMS[0][1]}', 1),
+            'numeración salteada': doc.replace('\n3. ', '\n7. ', 1),
+        }
+        for nombre, roto in casos.items():
+            with self.subTest(nombre), self.assertRaises(lista_previa.ListaPreviaInvalida):
+                lista_previa.comprobar_documento(roto)
+        # y el error dice qué sobra, no sólo que algo no coincide
+        with self.assertRaises(lista_previa.ListaPreviaInvalida) as e:
+            lista_previa.comprobar_documento(casos['una pregunta de más'])
+        self.assertIn('sobran', str(e.exception))
+        self.assertIn('Una pregunta que el código no tiene', str(e.exception))
+        with self.assertRaises(lista_previa.ListaPreviaInvalida) as e:
+            lista_previa.comprobar_documento(casos['otro orden'])
+        self.assertIn('otro orden', str(e.exception))
+
+    def test_lp2_las_preguntas_solo_cuentan_dentro_de_la_seccion_las_preguntas(self):
+        fuera = 'Intro\n\n' + '\n'.join(f'{i}. {p}' for i, (_, p) in enumerate(lista_previa.ITEMS, 1)) + '\n\n## Las preguntas\n\n(vacía)\n'
+        with self.assertRaises(lista_previa.ListaPreviaInvalida):
+            lista_previa.comprobar_documento(fuera)
+        otra_seccion = self.documento + '\n## Otra\n\n10. ¿Algo numerado fuera de la sección de las preguntas, que no debe contar?\n'
+        lista_previa.comprobar_documento(otra_seccion)  # lo de otra sección no cuenta
 
     def test_lp2_varias_preguntas_faltantes_se_nombran_todas_y_un_documento_vacio_falla(self):
         with self.assertRaises(lista_previa.ListaPreviaInvalida) as e:
